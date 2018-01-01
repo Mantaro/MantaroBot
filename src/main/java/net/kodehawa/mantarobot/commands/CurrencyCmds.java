@@ -18,7 +18,11 @@ package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
+import com.rethinkdb.model.OptArgs;
+import com.rethinkdb.net.Connection;
+import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -43,12 +47,15 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 @Module
@@ -595,6 +602,66 @@ public class CurrencyCmds {
                 return helpEmbed(event, "Open loot crates")
                         .setDescription("**Yep. It's really that simple**.\n" +
                                 "You need a crate key to open a loot crate. Loot crates are acquired rarely from the loot command.")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    @SuppressWarnings("unchecked")
+    public void rank(CommandRegistry registry) {
+        registry.register("rank", new SimpleCommand(Category.CURRENCY) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+
+                Member m = Utils.findMember(event, event.getMember(), content);
+                if(m == null)
+                    return;
+                User user = m.getUser();
+
+                long moneyRank, levelRank, reputationRank, streakRank;
+                long count;
+                try(Connection conn = Utils.newDbConnection()) {
+                    moneyRank = ((Cursor<Long>) r.table("players").orderBy()
+                            .optArg("index", r.desc("money"))
+                            .offsetsOf(player -> player.g("id").eq(user.getId() + ":g"))
+                            .run(conn, OptArgs.of("read_mode", "outdated"))).next() + 1;
+
+                    levelRank = ((Cursor<Long>) r.table("players").orderBy()
+                            .optArg("index", r.desc("level"))
+                            .offsetsOf(player -> player.g("id").eq(user.getId() + ":g"))
+                            .run(conn, OptArgs.of("read_mode", "outdated"))).next() + 1;
+
+                    reputationRank = ((Cursor<Long>) r.table("players").orderBy()
+                            .optArg("index", r.desc("reputation"))
+                            .offsetsOf(player -> player.g("id").eq(user.getId() + ":g"))
+                            .run(conn, OptArgs.of("read_mode", "outdated"))).next() + 1;
+
+                    streakRank = ((Cursor<Long>) r.table("players").orderBy()
+                            .optArg("index", r.desc("userDailyStreak"))
+                            .offsetsOf(player -> player.g("id").eq(user.getId() + ":g"))
+                            .run(conn, OptArgs.of("read_mode", "outdated"))).next() + 1;
+
+                    count = r.table("players").count().run(conn);
+                }
+
+                event.getChannel().sendMessage(new EmbedBuilder()
+                        .setTitle(user.getName() + "'s Leaderboard Ranks")
+                        .setDescription(
+                                EmoteReference.BLUE_SMALL_MARKER + "**Money rank:** " + moneyRank + "/" + count + "\n" +
+                                EmoteReference.BLUE_SMALL_MARKER + "**Level rank:** " + levelRank + "/" + count + "\n" +
+                                EmoteReference.BLUE_SMALL_MARKER + "**Streak rank:** " + streakRank + "/" + count + "\n" +
+                                EmoteReference.BLUE_SMALL_MARKER + "**Reputation rank:** " + reputationRank + "/" + count
+                        )
+                        .setThumbnail(user.getEffectiveAvatarUrl())
+                        .setColor(Color.PINK)
+                        .build()).queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Rank command")
+                        .setDescription("**Shows your ranks someone else's ranks (Position in the leaderboard)")
                         .build();
             }
         });
