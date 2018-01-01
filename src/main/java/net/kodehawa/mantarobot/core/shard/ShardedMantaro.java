@@ -109,8 +109,7 @@ public class ShardedMantaro {
      * Starts building all the necessary Shards to start this bot instance.
      * After finishing loading all the necessary shards, this will call {@link ShardedMantaro#startPostLoadProcedure(long)} and set everything so the bot
      * will be functioning completely (sends {@link PostLoadEvent}, marks the core as ready, starts posting stats to most popular discord bot lists,
-     * starts the birthday checker, starts the ShardWatcherThread both on all the started shards and finally it starts the
-     * {@link net.kodehawa.mantarobot.core.shard.jda.reconnect.LazyReconnectQueue} instance so stale shards will start reconnecting.
+     * starts the birthday checker and starts the ShardWatcherThread both on all the started shards.
      */
     public void shard() {
         try {
@@ -144,7 +143,6 @@ public class ShardedMantaro {
         MantaroBot bot = MantaroBot.getInstance();
 
         //Start the reconnect queue.
-        MantaroShard.getReconnectQueue().ready();
         bot.getCore().markAsReady();
 
         System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
