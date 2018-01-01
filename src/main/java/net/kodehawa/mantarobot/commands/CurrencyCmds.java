@@ -646,7 +646,7 @@ public class CurrencyCmds {
                 }
 
                 event.getChannel().sendMessage(new EmbedBuilder()
-                        .setTitle(user.getName() + "'s Leaderboard Ranks")
+                        .setTitle(user.getName() + "'s Leaderboard Rank")
                         .setDescription(
                                 EmoteReference.BLUE_SMALL_MARKER + "**Money rank:** " + moneyRank + "/" + count + "\n" +
                                 EmoteReference.BLUE_SMALL_MARKER + "**Level rank:** " + levelRank + "/" + count + "\n" +

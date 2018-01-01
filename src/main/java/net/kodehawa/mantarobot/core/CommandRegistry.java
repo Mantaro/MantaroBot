@@ -36,10 +36,7 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 public class CommandRegistry {
@@ -121,6 +118,7 @@ public class CommandRegistry {
 
         long end = System.currentTimeMillis();
         MantaroBot.getInstance().getStatsClient().increment("commands");
+        log.debug("Command invoked: {}, by {}#{} with timestamp {}", cmdname, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
         cmd.run(event, cmdname, content);
 
         if(cmd.category() != null && cmd.category().name() != null && !cmd.category().name().isEmpty()) {

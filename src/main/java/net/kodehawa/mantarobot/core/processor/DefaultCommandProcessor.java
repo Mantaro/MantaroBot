@@ -69,7 +69,6 @@ public class DefaultCommandProcessor implements ICommandProcessor {
         }
 
         REGISTRY.process(event, cmdName, content);
-        log.debug("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
 
         long end = System.currentTimeMillis();
         MantaroBot.getInstance().getStatsClient().histogram("command_query_time", end - start);
