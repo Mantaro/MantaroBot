@@ -317,7 +317,7 @@ public class PlayerCmds {
                 AtomicInteger counter = new AtomicInteger();
 
                 String toShow = (r.nextInt(5) == 0 ? "**You can get a free badge for " +
-                        "[up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!** (It might take some minutes to process)\n" : "") +
+                        "[up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!** (It might take some minutes to process)\n\n" : "") +
                         badges.stream().map(badge -> String.format("**%d.-** %s\n*%4s*", counter.incrementAndGet(), badge, badge.description)
                 ).collect(Collectors.joining("\n"));
 

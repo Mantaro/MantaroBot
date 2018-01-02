@@ -34,7 +34,9 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -49,6 +51,7 @@ import java.util.stream.Collectors;
 public class FunCmds {
 
     private final Random r = new Random();
+    private final Config config = MantaroData.config().get();
 
     @Subscribe
     public void coinflip(CommandRegistry cr) {
@@ -106,6 +109,7 @@ public class FunCmds {
                     return;
                 }
 
+                DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                 User proposing = event.getAuthor();
                 User proposedTo = event.getMessage().getMentionedUsers().get(0);
                 Player proposingPlayer = MantaroData.db().getPlayer(proposing);
@@ -147,50 +151,63 @@ public class FunCmds {
                 event.getChannel().sendMessage(String.format("%s%s, type with **yes** or **no** to the marriage proposal from %s.", EmoteReference.MEGA,
                         proposedTo.getName(), event.getAuthor().getName())).queue();
                 InteractiveOperations.createOverriding(event.getChannel(), 120, (ie) -> {
-                            if(!ie.getAuthor().getId().equals(proposedTo.getId()))
-                                return Operation.IGNORED;
+                    if(!ie.getAuthor().getId().equals(proposedTo.getId()))
+                        return Operation.IGNORED;
 
-                            if(ie.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
-                                Player proposed = MantaroData.db().getPlayer(proposedTo);
-                                Player author = MantaroData.db().getPlayer(proposing);
-                                Inventory authorInventory = author.getInventory();
+                    //Replace prefix because people seem to think you have to add the prefix before saying yes.
+                    String message = ie.getMessage().getContentRaw();
+                    for(String s : config.prefix) {
+                        if(message.toLowerCase().startsWith(s)) {
+                            message = message.substring(s.length());
+                        }
+                    }
 
-                                if(authorInventory.getAmount(Items.RING) < 2) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry with less than two rings on your inventory!").queue();
-                                    return Operation.COMPLETED;
-                                }
+                    String guildCustomPrefix = dbGuild.getData().getGuildCustomPrefix();
+                    if(guildCustomPrefix != null && !guildCustomPrefix.isEmpty() && message.toLowerCase().startsWith(guildCustomPrefix)) {
+                        message = message.substring(guildCustomPrefix.length());
+                    }
 
-                                proposed.getData().setMarriedWith(proposing.getId());
-                                proposed.getData().setMarriedSince(System.currentTimeMillis());
-                                proposed.getData().addBadgeIfAbsent(Badge.MARRIED);
+                    if(message.equalsIgnoreCase("yes")) {
+                        Player proposed = MantaroData.db().getPlayer(proposedTo);
+                        Player author = MantaroData.db().getPlayer(proposing);
+                        Inventory authorInventory = author.getInventory();
 
-                                author.getData().setMarriedWith(proposedTo.getId());
-                                author.getData().setMarriedSince(System.currentTimeMillis());
-                                author.getData().addBadgeIfAbsent(Badge.MARRIED);
+                        if(authorInventory.getAmount(Items.RING) < 2) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry with less than two rings on your inventory!").queue();
+                            return Operation.COMPLETED;
+                        }
 
-                                Inventory proposedInventory = proposed.getInventory();
+                        proposed.getData().setMarriedWith(proposing.getId());
+                        proposed.getData().setMarriedSince(System.currentTimeMillis());
+                        proposed.getData().addBadgeIfAbsent(Badge.MARRIED);
 
-                                authorInventory.process(new ItemStack(Items.RING, -1));
+                        author.getData().setMarriedWith(proposedTo.getId());
+                        author.getData().setMarriedSince(System.currentTimeMillis());
+                        author.getData().addBadgeIfAbsent(Badge.MARRIED);
 
-                                if(proposedInventory.getAmount(Items.RING) < 5000) {
-                                    proposedInventory.process(new ItemStack(Items.RING, 1));
-                                }
+                        Inventory proposedInventory = proposed.getInventory();
 
-                                ie.getChannel().sendMessage(String.format("%s%s accepted the proposal of %s!", EmoteReference.POPPER, ie.getAuthor().getName(), proposing.getName())).queue();
-                                proposed.saveAsync();
-                                author.saveAsync();
+                        authorInventory.process(new ItemStack(Items.RING, -1));
 
-                                TextChannelGround.of(event).dropItemWithChance(Items.LOVE_LETTER, 2);
-                                return Operation.COMPLETED;
-                            }
+                        if(proposedInventory.getAmount(Items.RING) < 5000) {
+                            proposedInventory.process(new ItemStack(Items.RING, 1));
+                        }
 
-                            if(ie.getMessage().getContentRaw().equalsIgnoreCase("no")) {
-                                ie.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal from " + proposing.getName()).queue();
-                                return Operation.COMPLETED;
-                            }
+                        ie.getChannel().sendMessage(String.format("%s%s accepted the proposal of %s!", EmoteReference.POPPER, ie.getAuthor().getName(), proposing.getName())).queue();
+                        proposed.saveAsync();
+                        author.saveAsync();
 
-                            return Operation.IGNORED;
-                        });
+                        TextChannelGround.of(event).dropItemWithChance(Items.LOVE_LETTER, 2);
+                        return Operation.COMPLETED;
+                    }
+
+                    if(message.equalsIgnoreCase("no")) {
+                        ie.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal from " + proposing.getName()).queue();
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                });
             }
 
             @Override

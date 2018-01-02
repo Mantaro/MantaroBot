@@ -288,7 +288,8 @@ public class InfoCmds {
                     EmbedBuilder embed = baseEmbed(event, "Mantaro Help")
                             .setColor(Color.PINK)
                             .setDescription("Command list. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n" +
-                                    "If you have issues or inquiries while using Mantaro, please join the [support server](https://is.gd/mantaroguild)" +
+                                    "If you have issues or inquiries while using Mantaro, please join the [support server](https://is.gd/mantaroguild)\n" +
+                                    "[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)\n" +
                                     (guildData.getDisabledCommands().isEmpty() ? "" : "\nOnly showing non-disabled commands. Total disabled commands: " + guildData.getDisabledCommands().size()) +
                                     (guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()) == null || guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).isEmpty() ?
                                             "" : "\nOnly showing non-disabled commands. Total channel-specific disabled commands: " + guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).size()))

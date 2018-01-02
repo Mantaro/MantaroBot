@@ -607,7 +607,8 @@ public class CurrencyCmds {
         });
     }
 
-    @Subscribe
+    //TODO find an efficient way to do this that doesn't require a shit ton of db reads.
+    //@Subscribe
     @SuppressWarnings("unchecked")
     public void rank(CommandRegistry registry) {
         registry.register("rank", new SimpleCommand(Category.CURRENCY) {

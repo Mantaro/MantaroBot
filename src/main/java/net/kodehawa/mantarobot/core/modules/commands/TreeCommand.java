@@ -48,8 +48,11 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
         }
 
         Command command = subCommands.get(args[0]);
-        if(command == null) command = defaultTrigger(event, commandName, args[0]);
-        if(command == null) return; //Use SimpleTreeCommand then?
+        if(command == null)
+            command = defaultTrigger(event, commandName, args[0]);
+        if(command == null)
+            return; //Use SimpleTreeCommand then?
+
         if(!predicate.test(event)) return;
 
         command.run(event, commandName + " " + args[0], args[1]);
