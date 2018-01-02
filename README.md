@@ -2,8 +2,8 @@
 <html>
     <header>
         <img align="right" src="https://i.imgur.com/SWDen2V.png" height="220" width="220">
-        <h1>MantaroBot</h1>
-        <p><b>Currency, Anime, Music, Moderation, Games, osu! and everything you might want in a customizable and stable Discord:tm: bot</b></p>
+        <h1>Mantaro</h1>
+        <p><b>Complete and configurable music, currency and games multipurpose Discord bot!</b></p>
     </header>
     <body>
         <hr>
@@ -17,6 +17,7 @@
             <li>AniList API</li>
             <li>OpenWeatherMap API.</li>
             <li>Wolke's Weeb API (For most of the action commands).</li>
+            <li>etc...</li>
         </ul>
         <p><b>We will not help you with the process of obtaining said api keys!</b></p>
         <br>
@@ -59,6 +60,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see http://www.gnu.org/licenses/
         </code>
         <br>
-        <a href="https://github.com/Kodehawa/MantaroBot/blob/development/LICENSE">The full licence can be found here.</a>
+        <a href="https://github.com/Kodehawa/MantaroBot/blob/development/LICENSE">The full license can be found here.</a>
     </body>
 </html>
