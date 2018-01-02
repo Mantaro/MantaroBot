@@ -653,7 +653,6 @@ public class CurrencyCmds {
                                 EmoteReference.BLUE_SMALL_MARKER + "**Streak rank:** " + streakRank + "/" + count + "\n" +
                                 EmoteReference.BLUE_SMALL_MARKER + "**Reputation rank:** " + reputationRank + "/" + count
                         )
-                        .setThumbnail(user.getEffectiveAvatarUrl())
                         .setColor(Color.PINK)
                         .build()).queue();
             }

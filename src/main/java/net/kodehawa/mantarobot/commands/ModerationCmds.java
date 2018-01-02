@@ -60,7 +60,7 @@ public class ModerationCmds {
                 String reason = content;
 
                 if(!guild.getMember(author).hasPermission(Permission.BAN_MEMBERS)) {
-                    channel.sendMessage(EmoteReference.ERROR2 + "Cannot softban: You don't have the Ban Members permission.").queue();
+                    channel.sendMessage(EmoteReference.ERROR2 + "Cannot soft ban: You don't have the Ban Members permission.").queue();
                     return;
                 }
 
@@ -140,7 +140,7 @@ public class ModerationCmds {
                                 } else {
                                     channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while softbanning [%s]: <%s>: %s",
                                             member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
-                                    log.warn("Unexpected error while softbanning someone.", error);
+                                    log.warn("Unexpected error while soft banning someone.", error);
                                 }
                             });
                 });
@@ -151,7 +151,7 @@ public class ModerationCmds {
                 return helpEmbed(event, "Softban")
                         .setDescription("**Softban the mentioned user and clears their messages from the past week. (You need Ban " +
                                 "Members)**")
-                        .addField("Summarizing", "A softban is a ban & instant unban, normally used to clear " +
+                        .addField("Summarizing", "A soft ban is a ban & instant unban, normally used to clear " +
                                 "the user's messages but **without banning the person permanently**.", false)
                         .build();
             }

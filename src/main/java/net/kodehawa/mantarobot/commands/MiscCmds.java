@@ -238,10 +238,13 @@ public class MiscCmds {
         }.addSubCommand("reverse", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(
-                        new MessageBuilder().append(new StringBuilder(content).reverse().toString())
-                                .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE).build()
-                ).queue();
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't provide anything to reverse!").queue();
+                    return;
+                }
+
+                new MessageBuilder().append(new StringBuilder(content).reverse().toString()).stripMentions(event.getGuild(), Message.MentionType.EVERYONE,
+                        Message.MentionType.HERE).sendTo(event.getChannel()).queue();
             }
         }).addSubCommand("rndcolor", new SubCommand() {
             @Override

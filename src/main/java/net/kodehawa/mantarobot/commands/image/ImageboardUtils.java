@@ -58,7 +58,7 @@ public class ImageboardUtils {
 
         final Rating finalRating = rating;
 
-        if(!nsfwCheck(event, false, false, finalRating)) {
+        if(!nsfwCheck(event, nsfwOnly, false, finalRating)) {
             channel.sendMessage(EmoteReference.ERROR + "Cannot send a NSFW image in a non-nsfw channel :(").queue();
             return;
         }
@@ -210,14 +210,11 @@ public class ImageboardUtils {
     }
 
     public static boolean nsfwCheck(GuildMessageReceivedEvent event, boolean isGlobal, boolean sendMessage, Rating rating) {
-        if(event.getChannel().isNSFW()) return true;
+        if(event.getChannel().isNSFW())
+            return true;
 
-        String nsfwChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildUnsafeChannels().stream()
-                .filter(channel -> channel.equals(event.getChannel().getId())).findFirst().orElse(null);
         Rating finalRating = rating == null ? Rating.SAFE : rating;
-        boolean trigger = !isGlobal ? ((finalRating.equals(Rating.SAFE) || (nsfwChannel == null)) ?
-                finalRating.equals(Rating.SAFE) : nsfwChannel.equals(event.getChannel().getId())) :
-                nsfwChannel != null && nsfwChannel.equals(event.getChannel().getId());
+        boolean trigger = finalRating.equals(Rating.SAFE) && !isGlobal;
 
         if(!trigger) {
             if(sendMessage) {

@@ -144,7 +144,7 @@ public class FunCmds {
                     return;
                 }
 
-                event.getChannel().sendMessage(String.format("%s%s, respond with **yes** or **no** to the marriage proposal from %s.", EmoteReference.MEGA,
+                event.getChannel().sendMessage(String.format("%s%s, type with **yes** or **no** to the marriage proposal from %s.", EmoteReference.MEGA,
                         proposedTo.getName(), event.getAuthor().getName())).queue();
                 InteractiveOperations.createOverriding(event.getChannel(), 120, (ie) -> {
                             if(!ie.getAuthor().getId().equals(proposedTo.getId()))

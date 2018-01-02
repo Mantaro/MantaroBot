@@ -99,7 +99,7 @@ public class CommandListener implements EventListener {
         if(event instanceof GuildMessageReceivedEvent) {
             GuildMessageReceivedEvent msg = (GuildMessageReceivedEvent) event;
             //Inserts a cached message into the cache. This only holds the id and the content, and is way lighter than saving the entire jda object.
-            messageCache.put(msg.getMessage().getId(), Optional.of(new CachedMessage(msg.getAuthor().getIdLong(), msg.getMessage().getContentRaw())));
+            messageCache.put(msg.getMessage().getId(), Optional.of(new CachedMessage(msg.getAuthor().getIdLong(), msg.getMessage().getContentDisplay())));
 
             //Ignore myself and bots.
             if(msg.getAuthor().isBot() || msg.getAuthor().equals(msg.getJDA().getSelfUser()))

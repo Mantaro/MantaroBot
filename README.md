@@ -44,12 +44,8 @@
         </ul>
         <hr>
         <p>Give credit where credit is due. If you wish to use our code in a project, <b>please</b> credit us, and take your time to read our full license. We don't mind you using Mantaro code, <b>as it is</b> open-source for a reason, as long as you don't blatantly copy it or refrain from crediting us.</p>
-        <h2>Demo (outdated)</h2>
-        <img align="center" src="http://i.imgur.com/QgPQE8J.png" height="500" width="1000">
-        <hr>
-        <h2>Licence</h2>
+        <h2>License</h2>
         <p>Copyright (C) 2016-2018 <b>David Alejandro Rubio Escares</b>/<b>Kodehawa</b></p>
-        <pre>
         <code>
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -62,7 +58,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see http://www.gnu.org/licenses/
         </code>
-        </pre>
+        <br>
         <a href="https://github.com/Kodehawa/MantaroBot/blob/development/LICENSE">The full licence can be found here.</a>
     </body>
 </html>
