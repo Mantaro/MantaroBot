@@ -117,7 +117,7 @@ public class AudioCmdUtils {
                         .addField("Repeat / Pause", "`" + (musicManager.getTrackScheduler().getRepeatMode() == null ? "false" : musicManager.getTrackScheduler().getRepeatMode())
                                 + " / " + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()) + "`", true)
                         .addField("Playing in", vch == null ? "No channel :<" : "`" + vch.getName() + "`", true)
-                        .setFooter("Total pages: " + total + " -> Use ~>queue <page> to change pages. Currently in page " + page, guild.getIconUrl());
+                        .setFooter("Total pages: " + total + (total == 1 ? "" : " -> Use ~>queue <page> to change pages") + ". Currently in page " + page, guild.getIconUrl());
                 event.getChannel().sendMessage(builder.setDescription(line).build()).queue();
             }
             return;
@@ -142,7 +142,7 @@ public class AudioCmdUtils {
                     .addField("Repeat / Pause", "`" + (musicManager.getTrackScheduler().getRepeatMode() == null ? "false" : musicManager.getTrackScheduler().getRepeatMode())
                             + " / " + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()) + "`", true)
                     .addField("Playing in", vch == null ? "No channel :<" : "`" + vch.getName() + "`", true)
-                    .setFooter("Total pages: " + total + " -> React to change pages. Currently in page " + p, guild.getIconUrl());
+                    .setFooter("Total pages: " + total + (total == 1 ? "" : " -> React to change pages") + ". Currently in page " + p, guild.getIconUrl());
             return builder;
         }, lines);
     }

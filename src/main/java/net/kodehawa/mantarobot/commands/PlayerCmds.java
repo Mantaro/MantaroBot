@@ -37,6 +37,7 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
@@ -45,6 +46,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -314,17 +316,17 @@ public class PlayerCmds {
                 Collections.sort(badges);
                 AtomicInteger counter = new AtomicInteger();
 
-                String toShow = badges.stream().map(
-                        badge -> String.format("**%d.-** %s\n*%4s*", counter.incrementAndGet(), badge, badge.description)
+                String toShow = (r.nextInt(5) == 0 ? "**You can get a free badge for " +
+                        "[up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!** (It might take some minutes to process)\n" : "") +
+                        badges.stream().map(badge -> String.format("**%d.-** %s\n*%4s*", counter.incrementAndGet(), badge, badge.description)
                 ).collect(Collectors.joining("\n"));
 
                 if(toShow.isEmpty()) toShow = "No badges to show (yet!)";
-
-                applyBadge(event.getChannel(), badges.isEmpty() ? null : badges.get(0), toLookup, new EmbedBuilder()
-                        .setAuthor(toLookup.getName() + "'s badges", null, toLookup.getEffectiveAvatarUrl())
-                        .setDescription((r.nextInt(5) == 0 ? "You can get a free badge for " +
-                                "(up-voting Mantaro on discordbots.org)[https://discordbots.org/bot/mantaro]!\nIt might take up to 10 minutes to process.\n" : "") + toShow)
-                        .setThumbnail(toLookup.getEffectiveAvatarUrl()));
+                List<String> parts = DiscordUtils.divideString(1500, toShow);
+                DiscordUtils.list(event, 30, false, (current, max) -> new EmbedBuilder()
+                        .setAuthor(toLookup.getName() + "'s badges", null, null)
+                        .setColor(event.getMember().getColor() == null ? Color.PINK : event.getMember().getColor())
+                        .setThumbnail(toLookup.getEffectiveAvatarUrl()), parts);
             }
 
             @Override
@@ -342,6 +344,7 @@ public class PlayerCmds {
             channel.sendMessage(builder.build()).queue();
             return;
         }
+
         Message message = new MessageBuilder().setEmbed(builder.setThumbnail("attachment://avatar.png").build()).build();
         byte[] bytes;
         try {

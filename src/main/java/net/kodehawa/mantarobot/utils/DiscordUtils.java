@@ -27,7 +27,10 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -80,7 +83,9 @@ public class DiscordUtils {
     }
 
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
-        if(parts.length == 0) return null;
+        if(parts.length == 0)
+            return null;
+
         List<MessageEmbed> embeds = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
 
@@ -111,11 +116,18 @@ public class DiscordUtils {
             }
             sb.append(s).append('\n');
         }
+
         if(sb.length() > 0) {
             EmbedBuilder eb = supplier.apply(embeds.size() + 1, total);
             eb.setDescription(sb.toString());
             embeds.add(eb.build());
         }
+
+        if(embeds.size() == 1) {
+            event.getChannel().sendMessage(embeds.get(0)).queue();
+            return null;
+        }
+
         AtomicInteger index = new AtomicInteger();
         Message m = event.getChannel().sendMessage(embeds.get(0)).complete();
 
@@ -142,8 +154,13 @@ public class DiscordUtils {
         }, "\u2b05", "\u27a1");
     }
 
+    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
+        return list(event, timeoutSeconds, canEveryoneUse, supplier, parts.toArray(new String[]{}));
+    }
+
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
-        if(parts.size() == 0) return null;
+        if(parts.size() == 0)
+            return null;
 
         if(parts.size() == 1) {
             event.getChannel().sendMessage(parts.get(0)).queue();
