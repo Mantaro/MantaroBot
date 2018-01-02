@@ -48,6 +48,7 @@ import okhttp3.ResponseBody;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -297,6 +298,7 @@ public class PlayerCmds {
 
     @Subscribe
     public void badges(CommandRegistry cr) {
+        final Random r = new Random();
         cr.register("badges", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -320,7 +322,8 @@ public class PlayerCmds {
 
                 applyBadge(event.getChannel(), badges.isEmpty() ? null : badges.get(0), toLookup, new EmbedBuilder()
                         .setAuthor(toLookup.getName() + "'s badges", null, toLookup.getEffectiveAvatarUrl())
-                        .setDescription(toShow)
+                        .setDescription((r.nextInt(5) == 0 ? "You can get a free badge for " +
+                                "(up-voting Mantaro on discordbots.org)[https://discordbots.org/bot/mantaro]!\nIt might take up to 10 minutes to process.\n" : "") + toShow)
                         .setThumbnail(toLookup.getEffectiveAvatarUrl()));
             }
 
