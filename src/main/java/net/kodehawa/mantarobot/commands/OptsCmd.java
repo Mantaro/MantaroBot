@@ -109,8 +109,7 @@ public class OptsCmd {
                                         .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
                                         .addField("Type", option.getType().toString(), false);
                                 event.getChannel().sendMessage(builder.build()).queue();
-                            } catch(IndexOutOfBoundsException ignored) {
-                            }
+                            } catch(IndexOutOfBoundsException ignored) {}
                             return;
                         }
                     }
@@ -138,8 +137,7 @@ public class OptsCmd {
                             if(p.getData().addBadgeIfAbsent(Badge.DID_THIS_WORK)) {
                                 p.saveAsync();
                             }
-                        } catch(IndexOutOfBoundsException ignored) {
-                        }
+                        } catch(IndexOutOfBoundsException ignored) { }
                         return;
                     }
                 }

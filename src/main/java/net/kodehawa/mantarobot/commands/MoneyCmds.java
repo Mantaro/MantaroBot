@@ -828,7 +828,7 @@ public class MoneyCmds {
                 Player player = MantaroData.db().getPlayer(user);
 
                 if(!player.getInventory().containsItem(Items.BROM_PICKAXE)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have any pickaxe to mine!").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have any pick to mine!").queue();
                     return;
                 }
 
@@ -880,6 +880,7 @@ public class MoneyCmds {
                         player.saveAsync();
                     }
                 }
+
                 event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you had!").queue();
             } else {
                 event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\n" +
@@ -891,6 +892,7 @@ public class MoneyCmds {
 
             event.getChannel().sendMessage(String.format("\uD83C\uDFB2 Sadly, you lost %s credits! \uD83D\uDE26", player.getMoney() == 0 ? "all of your " + oldMoney : i)).queue();
         }
+
         player.setLocked(false);
         player.saveAsync();
     }

@@ -57,7 +57,12 @@ public class GameCmds {
 
     @Subscribe
     public void game(CommandRegistry cr) {
-        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 6, true);
+        final NewRateLimiter rateLimiter = new NewRateLimiter(Executors.newSingleThreadScheduledExecutor(), 4, 6, TimeUnit.SECONDS, 450, true) {
+            @Override
+            protected void onSpamDetected(String key, int times) {
+                log.warn("[Game] Spam detected for {} ({} times)!", key, times);
+            }
+        };
 
         SimpleTreeCommand gameCommand = (SimpleTreeCommand) cr.register("game", new SimpleTreeCommand(Category.GAMES) {
             @Override
@@ -91,7 +96,7 @@ public class GameCmds {
             }
         }));
 
-        gameCommand.setPredicate(event -> Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event));
+        gameCommand.setPredicate(event -> Utils.handleDefaultNewRatelimit(rateLimiter, event.getAuthor(), event));
         gameCommand.createSubCommandAlias("pokemon", "pokémon");
         gameCommand.createSubCommandAlias("number", "guessthatnumber");
 
@@ -203,8 +208,7 @@ public class GameCmds {
     @Subscribe
     public void trivia(CommandRegistry cr) {
         cr.register("trivia", new SimpleCommand(Category.GAMES) {
-            final NewRateLimiter rateLimiter = new NewRateLimiter(
-                    Executors.newSingleThreadScheduledExecutor(), 3, 7, TimeUnit.SECONDS, 350, true) {
+            final NewRateLimiter rateLimiter = new NewRateLimiter(Executors.newSingleThreadScheduledExecutor(), 3, 7, TimeUnit.SECONDS, 350, true) {
                 @Override
                 protected void onSpamDetected(String key, int times) {
                     log.warn("[Trivia] Spam detected for {} ({} times)!", key, times);
@@ -242,7 +246,8 @@ public class GameCmds {
     }
 
     private void startMultipleGames(LinkedList<Game> games, GuildMessageReceivedEvent event) {
-        if(checkRunning(event)) return;
+        if(checkRunning(event))
+            return;
 
         List<String> players = new ArrayList<>();
         players.add(event.getAuthor().getId());
@@ -296,6 +301,7 @@ public class GameCmds {
                         b.append(user.getEffectiveName()).append(" ");
                     })
             );
+
             event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with all users with the specfied role: " + b.toString()).queue();
         }
 

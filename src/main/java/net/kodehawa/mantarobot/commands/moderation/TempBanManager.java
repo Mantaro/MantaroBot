@@ -44,7 +44,6 @@ public class TempBanManager {
     }
 
     public void removeTempban(String id) {
-
         if(UNBANS.containsKey(id)) {
             UNBANS.remove(id);
             unbansUpdated = true;
@@ -64,8 +63,7 @@ public class TempBanManager {
                             wait();
                             unbansUpdated = false;
                         }
-                    } catch(InterruptedException ignored) {
-                    }
+                    } catch(InterruptedException ignored) {}
                 }
 
                 //noinspection OptionalGetWithoutIsPresent
@@ -78,8 +76,7 @@ public class TempBanManager {
                             wait(timeout);
                         }
                     }
-                } catch(InterruptedException ignored) {
-                }
+                } catch(InterruptedException ignored) {}
 
                 if(!unbansUpdated) {
                     String[] params = unbanFirstEntry.getKey().split(":");

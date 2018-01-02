@@ -36,14 +36,20 @@ public class ModLog {
         Player player = db.getPlayer(author);
         PlayerData playerData = player.getData();
         EmbedBuilder embedBuilder = new EmbedBuilder();
+
         embedBuilder.addField("Responsible Moderator", author.getEffectiveName(), true);
-        if(target != null) embedBuilder.addField("Member", target.getName(), true);
+
+        if(target != null)
+            embedBuilder.addField("Member", target.getName(), true);
+
         embedBuilder.addField("Reason", reason, false);
+
         if(target != null) {
             embedBuilder.setThumbnail(target.getEffectiveAvatarUrl());
         } else {
             embedBuilder.setThumbnail(author.getUser().getEffectiveAvatarUrl());
         }
+
         switch(action) {
             case BAN:
                 embedBuilder.setAuthor("Ban | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());

@@ -309,7 +309,8 @@ public class MusicCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Forceplay Command")
-                        .addField("Description", "Play the first song I find in your search. This connects to the voice channel the user that triggers it it's connected to, *only* if there is" +
+                        .addField("Description", "**This command doesn't put the song at the start of the queue, for that use `~>playnow`!**\n" +
+                                "Play the first song I find in your search. This connects to the voice channel the user that triggers it it's connected to, *only* if there is" +
                                 " no song playing currently and Mantaro isn't bound to any channel. Basically this works as a join command on the first song.", false)
                         .addField("Usage", "~>forceplay <song url> (playlists and song names are also acceptable)", false)
                         .addField("Tip", "If you do ~>forceplay <search term> I'll search youtube (default), " +
@@ -909,7 +910,7 @@ public class MusicCmds {
     /**
      * This only fires on manual stop!
      *
-     * @param event wha
+     * @param event event context of what guild to use to stop it
      */
     private void stop(GuildMessageReceivedEvent event) {
         GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());

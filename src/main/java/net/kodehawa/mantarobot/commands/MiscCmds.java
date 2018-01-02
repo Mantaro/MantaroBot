@@ -239,7 +239,7 @@ public class MiscCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't provide anything to reverse!").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't provide any message to reverse!").queue();
                     return;
                 }
 
@@ -249,7 +249,7 @@ public class MiscCmds {
         }).addSubCommand("rndcolor", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(String.format(EmoteReference.TALKING + "Your random color is %s", randomColor())).queue();
+                event.getChannel().sendMessage(String.format(EmoteReference.TALKING + "The random color is %s", randomColor())).queue();
             }
         }));
 

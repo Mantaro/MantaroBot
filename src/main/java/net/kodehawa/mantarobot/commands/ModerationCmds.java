@@ -135,11 +135,11 @@ public class ModerationCmds {
                             },
                             error -> {
                                 if(error instanceof PermissionException) {
-                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Error softbanning [%s]: (No permission provided: %s)",
+                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Error softbanning %s: (No permission provided: %s)",
                                             member.getEffectiveName(), ((PermissionException) error).getPermission())).queue();
                                 } else {
-                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while softbanning [%s]: <%s>: %s",
-                                            member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
+                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while softbanning %s",
+                                            member.getEffectiveName())).queue();
                                     log.warn("Unexpected error while soft banning someone.", error);
                                 }
                             });
@@ -231,8 +231,8 @@ public class ModerationCmds {
                                     channel.sendMessage(String.format("%sError banning %s: (I need the permission %s)",
                                             EmoteReference.ERROR, user.getName(), ((PermissionException) error).getPermission())).queue();
                                 } else {
-                                    channel.sendMessage(String.format("%sI encountered an unknown error while banning %s: <%s>: %s",
-                                            EmoteReference.ERROR, member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
+                                    channel.sendMessage(String.format("%sI encountered an unknown error while banning %s",
+                                            EmoteReference.ERROR, member.getEffectiveName())).queue();
                                     log.warn("Encountered an unexpected error while trying to ban someone.", error);
                                 }
                             });
@@ -325,11 +325,10 @@ public class ModerationCmds {
                             },
                             error -> {
                                 if(error instanceof PermissionException) {
-                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Error kicking [%s]: (No permission provided: %s)",
+                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Error kicking %s: (No permission provided: %s)",
                                             member.getEffectiveName(), ((PermissionException) error).getPermission().getName())).queue();
                                 } else {
-                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while kicking [%s]: <%s>: %s",
-                                            member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
+                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while attempting to kick %s", member.getEffectiveName())).queue();
                                     log.warn("Unexpected error while kicking someone.", error);
                                 }
                             });
@@ -415,7 +414,7 @@ public class ModerationCmds {
                                         channel.sendMessage(String.format("%sError banning %s: (I need the permission %s)",
                                                 EmoteReference.ERROR, user.getName(), ((PermissionException) error).getPermission())).queue();
                                     } else {
-                                        channel.sendMessage(String.format("%sI encountered an unknown error while banning %s: <%s>: %s", EmoteReference.ERROR, user.getName(), error.getClass().getSimpleName(), error.getMessage())).queue();
+                                        channel.sendMessage(String.format("%sI encountered an unknown error while banning %s", EmoteReference.ERROR, user.getName())).queue();
                                         log.warn("Encountered an unexpected error while trying to ban someone.", error);
                                     }
                                 })
