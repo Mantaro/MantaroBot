@@ -104,11 +104,11 @@ public class CommandRegistry {
             return false;
         }
 
-        if(data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), wew -> new ArrayList<>()).contains(cmd.category())) {
+        if(data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), command -> new ArrayList<>()).contains(cmd.category())) {
             return false;
         }
 
-        if(cmd instanceof AliasCommand && data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), wew -> new ArrayList<>()).contains(((AliasCommand) cmd).parentCategory())) {
+        if(cmd instanceof AliasCommand && data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), command -> new ArrayList<>()).contains(((AliasCommand) cmd).parentCategory())) {
             return false;
         }
 
