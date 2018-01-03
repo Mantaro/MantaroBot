@@ -84,11 +84,11 @@ public class CommandRegistry {
             return false;
         }
 
-        if(data.getDisabledChannels().contains(event.getChannel().getId()) && cmd.category() != Category.MODERATION) {
+        if(data.getDisabledChannels().contains(event.getChannel().getId()) && (cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() != Category.MODERATION : cmd.category() != Category.MODERATION)) {
             return false;
         }
 
-        if(conf.isPremiumBot() && cmd.category() == Category.CURRENCY) {
+        if(conf.isPremiumBot() && (cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() == Category.CURRENCY : cmd.category() == Category.CURRENCY)) {
             return false;
         }
 
