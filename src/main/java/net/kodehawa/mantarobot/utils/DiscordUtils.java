@@ -26,6 +26,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -62,6 +63,7 @@ public class DiscordUtils {
                 return Operation.IGNORED;
 
             //Replace prefix because people seem to think you have to add the prefix before literally everything.
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             String message = e.getMessage().getContentRaw();
             for(String s : config.prefix) {
                 if(message.toLowerCase().startsWith(s)) {
@@ -69,9 +71,15 @@ public class DiscordUtils {
                 }
             }
 
+            String guildCustomPrefix = dbGuild.getData().getGuildCustomPrefix();
+            if(guildCustomPrefix != null && !guildCustomPrefix.isEmpty() && message.toLowerCase().startsWith(guildCustomPrefix)) {
+                message = message.substring(guildCustomPrefix.length());
+            } //End of prefix replacing
+
             try {
                 int choose = Integer.parseInt(message);
-                if(choose < 1 || choose > max) return Operation.IGNORED;
+                if(choose < 1 || choose > max)
+                    return Operation.IGNORED;
                 valueConsumer.accept(choose);
 
                 return Operation.COMPLETED;
