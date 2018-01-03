@@ -28,10 +28,20 @@ import net.kodehawa.mantarobot.options.core.Option;
 public class AliasCommand implements Command {
     private final Command command;
     private final String commandName;
+    private final String originalName;
 
-    public AliasCommand(String commandName, Command command) {
+    public AliasCommand(String commandName, String originalName, Command command) {
         this.commandName = commandName;
         this.command = command;
+        this.originalName = originalName;
+    }
+
+    public Category parentCategory() {
+        return command.category();
+    }
+
+    public String parentName() {
+        return originalName;
     }
 
     @Override

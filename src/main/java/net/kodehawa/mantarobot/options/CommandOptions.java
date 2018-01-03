@@ -327,38 +327,37 @@ public class CommandOptions extends OptionHandler {
                     Category toDisable = Category.lookupFromString(args[0]);
 
                     String channelName = args[1];
+                    Consumer<TextChannel> consumer = selectedChannel -> {
+                        if(toDisable == null) {
+                            AtomicInteger at = new AtomicInteger();
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
+                                    + "```md\n" + Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
+                            return;
+                        }
 
-                    TextChannel selectedChannel;
-                    List<TextChannel> channels = event.getGuild().getTextChannelsByName(channelName, true);
-                    if(channels.isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "No channel called " + channelName + " was found. Try again with the correct name.").queue();
-                        return;
+                        guildData.getChannelSpecificDisabledCategories().computeIfAbsent(selectedChannel.getId(), uwu -> new ArrayList<>());
+
+                        if(guildData.getChannelSpecificDisabledCategories().get(selectedChannel.getId()).contains(toDisable)) {
+                            event.getChannel().sendMessage(EmoteReference.WARNING + "This category is already disabled.").queue();
+                            return;
+                        }
+
+                        if(toDisable.toString().equals("Moderation")) {
+                            event.getChannel().sendMessage(EmoteReference.WARNING + "You cannot disable moderation since it contains this command.").queue();
+                            return;
+                        }
+
+                        guildData.getChannelSpecificDisabledCategories().get(selectedChannel.getId()).add(toDisable);
+                        dbGuild.save();
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Disabled category `" + toDisable.toString() + "` on channel " + selectedChannel.getAsMention()).queue();
+                    };
+
+                    TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
+
+                    if (channel != null) {
+                        consumer.accept(channel);
                     }
 
-                    selectedChannel = channels.get(0);
-
-                    if(toDisable == null) {
-                        AtomicInteger at = new AtomicInteger();
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
-                                + "```md\n" + Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
-                        return;
-                    }
-
-                    guildData.getChannelSpecificDisabledCategories().computeIfAbsent(selectedChannel.getId(), uwu -> new ArrayList<>());
-
-                    if(guildData.getChannelSpecificDisabledCategories().get(selectedChannel.getId()).contains(toDisable)) {
-                        event.getChannel().sendMessage(EmoteReference.WARNING + "This category is already disabled.").queue();
-                        return;
-                    }
-
-                    if(toDisable.toString().equals("Moderation")) {
-                        event.getChannel().sendMessage(EmoteReference.WARNING + "You cannot disable moderation since it contains this command.").queue();
-                        return;
-                    }
-
-                    guildData.getChannelSpecificDisabledCategories().get(selectedChannel.getId()).add(toDisable);
-                    dbGuild.save();
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Disabled category `" + toDisable.toString() + "` on channel " + selectedChannel.getAsMention()).queue();
 
                 });
 
@@ -375,36 +374,36 @@ public class CommandOptions extends OptionHandler {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
                     Category toEnable = Category.lookupFromString(args[0]);
-                    String where = args[1];
-                    List<TextChannel> channels = event.getGuild().getTextChannelsByName(where, true);
-                    TextChannel selectedChannel;
-                    if(channels.isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "No channel called " + where + " was found. Try again with the correct name.").queue();
-                        return;
-                    }
+                    String channelName = args[1];
 
-                    selectedChannel = channels.get(0);
+                    Consumer<TextChannel> consumer = selectedChannel -> {
+                        if(toEnable == null) {
+                            AtomicInteger at = new AtomicInteger();
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
+                                    + "```md\n" + Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
+                            return;
+                        }
 
-                    if(toEnable == null) {
-                        AtomicInteger at = new AtomicInteger();
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
-                                + "```md\n" + Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
-                        return;
-                    }
+                        if(selectedChannel == null) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid channel!").queue();
+                            return;
+                        }
 
-                    if(selectedChannel == null) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid channel!").queue();
-                        return;
-                    }
+                        List l = guildData.getChannelSpecificDisabledCategories().computeIfAbsent(selectedChannel.getId(), uwu -> new ArrayList<>());
+                        if(l.isEmpty() || !l.contains(toEnable)) {
+                            event.getChannel().sendMessage(EmoteReference.THINKING + "This category wasn't enabled?").queue();
+                            return;
+                        }
+                        guildData.getChannelSpecificDisabledCategories().get(selectedChannel.getId()).remove(toEnable);
+                        dbGuild.save();
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Enabled category `" + toEnable.toString() + "` on channel " + selectedChannel.getAsMention()).queue();
+                    };
 
-                    List l = guildData.getChannelSpecificDisabledCategories().computeIfAbsent(selectedChannel.getId(), uwu -> new ArrayList<>());
-                    if(l.isEmpty() || !l.contains(toEnable)) {
-                        event.getChannel().sendMessage(EmoteReference.THINKING + "This category wasn't enabled?").queue();
-                        return;
+                    TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
+
+                    if (channel != null) {
+                        consumer.accept(channel);
                     }
-                    guildData.getChannelSpecificDisabledCategories().get(selectedChannel.getId()).remove(toEnable);
-                    dbGuild.save();
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Enabled category `" + toEnable.toString() + "` on channel " + selectedChannel.getAsMention()).queue();
                 });//endregion
         //endregion
     }

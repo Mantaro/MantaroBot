@@ -82,4 +82,5 @@ public class GuildData {
     private String logJoinChannel = null;
     private String logLeaveChannel = null;
     private List<LocalExperienceData> localPlayerExperience = new ArrayList<>();
+    private Set<String> linkProtectionAllowedUsers = new HashSet<>();
 }

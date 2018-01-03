@@ -80,6 +80,10 @@ public class CommandRegistry {
             return false;
         }
 
+        if(disabledCommands != null && cmd instanceof AliasCommand && disabledCommands.contains(((AliasCommand) cmd).getOriginalName())) {
+            return false;
+        }
+
         if(data.getDisabledUsers().contains(event.getAuthor().getId()) && !isAdmin(event.getMember())) {
             return false;
         }
@@ -96,7 +100,15 @@ public class CommandRegistry {
             return false;
         }
 
+        if(cmd instanceof AliasCommand && data.getDisabledCategories().contains(((AliasCommand) cmd).parentCategory())) {
+            return false;
+        }
+
         if(data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), wew -> new ArrayList<>()).contains(cmd.category())) {
+            return false;
+        }
+
+        if(cmd instanceof AliasCommand && data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), wew -> new ArrayList<>()).contains(((AliasCommand) cmd).parentCategory())) {
             return false;
         }
 
@@ -143,7 +155,7 @@ public class CommandRegistry {
             log.error(command + " isn't in the command map...");
         }
 
-        register(alias, new AliasCommand(alias, commands.get(command)));
+        register(alias, new AliasCommand(alias, command, commands.get(command)));
     }
 
     public void addSubCommandTo(TreeCommand command, String name, SubCommand subCommand) {

@@ -31,11 +31,12 @@ import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
-import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.List;
 import java.util.concurrent.Future;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Option
@@ -57,46 +58,46 @@ public class GeneralOptions extends OptionHandler {
                         "You need the user mention.\n" +
                         "Example: ~>opts modlog blacklist @user",
                 "Prevents an user from appearing in modlogs", event -> {
-                    List<User> mentioned = event.getMessage().getMentionedUsers();
-                    if(mentioned.isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally blacklist from mod logs.**").queue();
-                        return;
-                    }
+            List<User> mentioned = event.getMessage().getMentionedUsers();
+            if(mentioned.isEmpty()) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally blacklist from mod logs.**").queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
-                    String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
+            List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
+            String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
 
-                    guildData.getModlogBlacklistedPeople().addAll(toBlackList);
-                    dbGuild.save();
+            guildData.getModlogBlacklistedPeople().addAll(toBlackList);
+            dbGuild.save();
 
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally blacklisted users from mod-log: **" + blacklisted + "**").queue();
-                });
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally blacklisted users from mod-log: **" + blacklisted + "**").queue();
+        });
 
         registerOption("modlog:whitelist", "Modlog whitelist",
                 "Allows an user from appearing in modlogs.\n" +
                         "You need the user mention.\n" +
                         "Example: ~>opts modlog whitelist @user",
                 "Allows an user from appearing in modlogs (everyone by default)", event -> {
-                    List<User> mentioned = event.getMessage().getMentionedUsers();
-                    if(mentioned.isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally whitelist from mod logs.**").queue();
-                        return;
-                    }
+            List<User> mentioned = event.getMessage().getMentionedUsers();
+            if(mentioned.isEmpty()) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally whitelist from mod logs.**").queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    List<String> toUnBlacklist = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
-                    String unBlacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
+            List<String> toUnBlacklist = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
+            String unBlacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
 
-                    guildData.getModlogBlacklistedPeople().removeAll(toUnBlacklist);
-                    dbGuild.save();
+            guildData.getModlogBlacklistedPeople().removeAll(toUnBlacklist);
+            dbGuild.save();
 
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally un-blacklisted users from mod-log: **" + unBlacklisted + "**").queue();
-                });
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally un-blacklisted users from mod-log: **" + unBlacklisted + "**").queue();
+        });
 
         registerOption("linkprotection:toggle", "Link-protection toggle", "Toggles anti-link protection.", event -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
@@ -113,78 +114,102 @@ public class GeneralOptions extends OptionHandler {
                         "You need the channel name.\n" +
                         "Example: ~>opts linkprotection channel allow promote-here",
                 "Allows the posting of invites on a channel.", (event, args) -> {
-                    if(args.length == 0) {
-                        OptsCmd.onHelp(event);
-                        return;
-                    }
+            if(args.length == 0) {
+                OptsCmd.onHelp(event);
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    String channelName = args[0];
-                    List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
-                            .filter(textChannel -> textChannel.getName().contains(channelName))
-                            .collect(Collectors.toList());
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            String channelName = args[0];
 
-                    if(textChannels.isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
-                    }
+            Consumer<TextChannel> consumer = tc -> {
+                guildData.getLinkProtectionAllowedChannels().add(tc.getId());
+                dbGuild.save();
+                event.getChannel().sendMessage(EmoteReference.OK + tc.getAsMention() + " can now be used to send discord invites.").queue();
+            };
 
-                    if(textChannels.size() <= 1) {
-                        guildData.getLinkProtectionAllowedChannels().add(textChannels.get(0).getId());
-                        dbGuild.save();
-                        event.getChannel().sendMessage(EmoteReference.CORRECT + textChannels.get(0).getAsMention() + " can now be used to post discord invites.").queue();
-                        return;
-                    }
+            TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
 
-                    DiscordUtils.selectList(event, textChannels,
-                            textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
-                            s -> OptsCmd.getOpts().baseEmbed(event, "Select the Channel:").setDescription(s).build(),
-                            textChannel -> {
-                                guildData.getLinkProtectionAllowedChannels().add(textChannel.getId());
-                                dbGuild.save();
-                                event.getChannel().sendMessage(EmoteReference.OK + textChannel.getAsMention() + " can now be used to send discord invites.").queue();
-                            }
-                    );
-                });
+            if (channel != null) {
+                consumer.accept(channel);
+            }
+        });
 
         registerOption("linkprotection:channel:disallow", "Link-protection channel disallow",
                 "Disallows the posting of invites on a channel.\n" +
                         "You need the channel name.\n" +
                         "Example: ~>opts linkprotection channel disallow general",
                 "Disallows the posting of invites on a channel (every channel by default)", (event, args) -> {
-                    if(args.length == 0) {
-                        OptsCmd.onHelp(event);
-                        return;
-                    }
+            if(args.length == 0) {
+                OptsCmd.onHelp(event);
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    String channelName = args[0];
-                    List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
-                            .filter(textChannel -> textChannel.getName().contains(channelName))
-                            .collect(Collectors.toList());
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            String channelName = args[0];
 
-                    if(textChannels.isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
-                    }
+            Consumer<TextChannel> consumer = tc -> {
+                guildData.getLinkProtectionAllowedChannels().remove(tc.getId());
+                dbGuild.save();
+                event.getChannel().sendMessage(EmoteReference.OK + tc.getAsMention() + " cannot longer be used to send discord invites.").queue();
+            };
 
-                    if(textChannels.size() <= 1) {
-                        guildData.getLinkProtectionAllowedChannels().remove(textChannels.get(0).getId());
-                        dbGuild.save();
-                        event.getChannel().sendMessage(EmoteReference.CORRECT + textChannels.get(0).getAsMention() + " cannot longer be used to post discord invites.").queue();
-                        return;
-                    }
+            TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
 
-                    DiscordUtils.selectList(event, textChannels,
-                            textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
-                            s -> OptsCmd.getOpts().baseEmbed(event, "Select the Channel:").setDescription(s).build(),
-                            textChannel -> {
-                                guildData.getLinkProtectionAllowedChannels().remove(textChannel.getId());
-                                dbGuild.save();
-                                event.getChannel().sendMessage(EmoteReference.OK + textChannel.getAsMention() + " cannot longer be used to send discord invites.").queue();
-                            }
-                    );
-                });
+            if (channel != null) {
+                consumer.accept(channel);
+            }
+        });
+
+        registerOption("linkprotection:user:allow", "Link-protection user whitelist", "Allows an user to post invites.\n" +
+                "You need to mention the user.", "Allows an user to post invites.", (event, args) -> {
+            if(args.length == 0) {
+                OptsCmd.onHelp(event);
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            if(event.getMessage().getMentionedUsers().isEmpty()) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention the user to whitelist from posting invites!").queue();
+                return;
+            }
+
+            User toWhiteList = event.getMessage().getMentionedUsers().get(0);
+            guildData.getLinkProtectionAllowedUsers().add(toWhiteList.getId());
+            dbGuild.save();
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully whitelisted " + toWhiteList.getName() + "#" + toWhiteList.getDiscriminator() + " from posting discord invites.").queue();
+        });
+
+        registerOption("linkprotection:user:disallow", "Link-protection user blacklist", "Disallows an user to post invites.\n" +
+                "You need to mention the user. (This is the default behaviour)", "Allows an user to post invites (This is the default behaviour)", (event, args) -> {
+            if(args.length == 0) {
+                OptsCmd.onHelp(event);
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            if(event.getMessage().getMentionedUsers().isEmpty()) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention the user to blacklist from posting invites!").queue();
+                return;
+            }
+
+            User toBlackList = event.getMessage().getMentionedUsers().get(0);
+
+            if(!guildData.getLinkProtectionAllowedUsers().contains(toBlackList.getId())) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "This user isn't in the invite posting whitelist!").queue();
+                return;
+            }
+
+            guildData.getLinkProtectionAllowedUsers().remove(toBlackList.getId());
+            dbGuild.save();
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully blacklisted " + toBlackList.getName() + "#" + toBlackList.getDiscriminator() + " from posting discord invites.").queue();
+        });
 
         registerOption("imageboard:tags:blacklist:add", "Blacklist imageboard tags", "Blacklists the specified imageboard tag from being looked up.",
                 "Blacklist imageboard tags", (event, args) -> {
@@ -206,20 +231,20 @@ public class GeneralOptions extends OptionHandler {
 
         registerOption("imageboard:tags:blacklist:remove", "Un-blacklist imageboard tags", "Un-blacklist the specified imageboard tag from being looked up.",
                 "Un-blacklist imageboard tags", (event, args) -> {
-                    if(args.length == 0) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify at least a tag to un-blacklist!").queue();
-                        return;
-                    }
+            if(args.length == 0) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify at least a tag to un-blacklist!").queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    for(String tag : args) {
-                        guildData.getBlackListedImageTags().remove(tag.toLowerCase());
-                    }
+            for(String tag : args) {
+                guildData.getBlackListedImageTags().remove(tag.toLowerCase());
+            }
 
-                    dbGuild.saveAsync();
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully un-blacklisted " + String.join(" ,", args) + " from image search.").queue();
+            dbGuild.saveAsync();
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully un-blacklisted " + String.join(" ,", args) + " from image search.").queue();
         });
     }
 

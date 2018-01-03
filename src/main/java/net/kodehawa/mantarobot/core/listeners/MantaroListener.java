@@ -454,12 +454,15 @@ public class MantaroListener implements EventListener {
     }
 
     private void onMessage(GuildMessageReceivedEvent event) {
+        if(event.getAuthor().isFake())
+            return;
+
         //Moderation features
         DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
         GuildData guildData = dbGuild.getData();
 
         //link protection
-        if(guildData.isLinkProtection() && !guildData.getLinkProtectionAllowedChannels().contains(event.getChannel().getId())) {
+        if(guildData.isLinkProtection() && !guildData.getLinkProtectionAllowedChannels().contains(event.getChannel().getId()) && !guildData.getLinkProtectionAllowedUsers().contains(event.getAuthor().getId())) {
             if(event.getMember() != null && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)
                     && hasInvite(event.getJDA(), event.getGuild(), event.getMessage().getContentRaw())) {
                 Member bot = event.getGuild().getSelfMember();
