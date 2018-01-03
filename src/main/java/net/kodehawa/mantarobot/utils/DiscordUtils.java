@@ -24,6 +24,8 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -38,6 +40,8 @@ import java.util.function.Function;
 import java.util.function.IntConsumer;
 
 public class DiscordUtils {
+    private static final Config config = MantaroData.config().get();
+
     public static <T> Pair<String, Integer> embedList(List<T> list, Function<T, String> toString) {
         StringBuilder b = new StringBuilder();
         for(int i = 0; i < list.size(); i++) {
@@ -54,10 +58,19 @@ public class DiscordUtils {
 
     public static Future<Void> selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer) {
         return InteractiveOperations.createOverriding(event.getChannel(), 30, (e) -> {
-            if(!e.getAuthor().equals(event.getAuthor())) return Operation.IGNORED;
+            if(!e.getAuthor().equals(event.getAuthor()))
+                return Operation.IGNORED;
+
+            //Replace prefix because people seem to think you have to add the prefix before literally everything.
+            String message = e.getMessage().getContentRaw();
+            for(String s : config.prefix) {
+                if(message.toLowerCase().startsWith(s)) {
+                    message = message.substring(s.length());
+                }
+            }
 
             try {
-                int choose = Integer.parseInt(e.getMessage().getContentRaw());
+                int choose = Integer.parseInt(message);
                 if(choose < 1 || choose > max) return Operation.IGNORED;
                 valueConsumer.accept(choose);
 
