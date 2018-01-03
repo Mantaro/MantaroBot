@@ -50,7 +50,7 @@ public class OptsCmd {
     public static Command optsCmd;
 
     public static void onHelp(GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage("Hey, if you're lost, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.").queue();
+        event.getChannel().sendMessage("Hey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.").queue();
     }
 
     public static SimpleCommand getOpts() {
@@ -62,6 +62,11 @@ public class OptsCmd {
         registry.register("opts", optsCmd = new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                if(args.length == 0) {
+                    OptsCmd.onHelp(event);
+                    return;
+                }
+
                 if(args.length == 1 && args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("ls")) {
                     StringBuilder builder = new StringBuilder();
 

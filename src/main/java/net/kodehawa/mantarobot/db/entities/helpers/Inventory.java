@@ -97,6 +97,7 @@ public class Inventory {
         inventory = serialize(inv);
     }
 
+
     public static class Resolver {
         public static Map<Integer, Integer> serialize(List<ItemStack> list) {
             Map<Integer, Integer> collect = list.stream().filter(stack -> stack.getAmount() != 0).collect(Collectors.toMap(stack -> Items.idOf(stack.getItem()), ItemStack::getAmount, Integer::sum));
