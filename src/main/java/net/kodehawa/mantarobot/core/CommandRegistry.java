@@ -56,6 +56,8 @@ public class CommandRegistry {
         return commands;
     }
 
+    //BEWARE OF INSTANCEOF CALLS
+    //I know there are better approaches to this, THIS IS JUST A WORKAROUND, DON'T TRY TO REPLICATE THIS.
     public boolean process(GuildMessageReceivedEvent event, String cmdname, String content) {
         long start = System.currentTimeMillis();
         Command cmd = commands.get(cmdname);
