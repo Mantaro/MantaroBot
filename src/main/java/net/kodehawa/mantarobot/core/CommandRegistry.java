@@ -71,16 +71,12 @@ public class CommandRegistry {
         DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
         GuildData data = dbg.getData();
 
-        if(data.getDisabledCommands().contains(cmdname)) {
+        if(data.getDisabledCommands().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdname)) {
             return false;
         }
 
-        List<String> disabledCommands = data.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
-        if(disabledCommands != null && disabledCommands.contains(cmdname)) {
-            return false;
-        }
-
-        if(disabledCommands != null && cmd instanceof AliasCommand && disabledCommands.contains(((AliasCommand) cmd).getOriginalName())) {
+        List<String> channelDisabledCommands = data.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
+        if(channelDisabledCommands != null && channelDisabledCommands.contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdname)) {
             return false;
         }
 
@@ -96,19 +92,12 @@ public class CommandRegistry {
             return false;
         }
 
-        if(data.getDisabledCategories().contains(cmd.category())) {
+        if(data.getDisabledCategories().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) {
             return false;
         }
 
-        if(cmd instanceof AliasCommand && data.getDisabledCategories().contains(((AliasCommand) cmd).parentCategory())) {
-            return false;
-        }
-
-        if(data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), command -> new ArrayList<>()).contains(cmd.category())) {
-            return false;
-        }
-
-        if(cmd instanceof AliasCommand && data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), command -> new ArrayList<>()).contains(((AliasCommand) cmd).parentCategory())) {
+        if(data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), command ->
+                new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) {
             return false;
         }
 
