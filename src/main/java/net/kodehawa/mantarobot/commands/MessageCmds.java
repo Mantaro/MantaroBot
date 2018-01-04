@@ -87,7 +87,7 @@ public class MessageCmds {
                     return;
                 }
 
-                if(content.startsWith("noprune")) {
+                if(content.startsWith("nopins")) {
                     channel.getHistory().retrievePast(100).queue(
                             messageHistory -> {
                                 messageHistory = messageHistory.stream().filter(message -> !message.isPinned()).collect(Collectors.toList());
