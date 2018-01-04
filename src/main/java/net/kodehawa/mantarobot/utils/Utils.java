@@ -287,7 +287,7 @@ public class Utils {
     public static Member findMember(GuildMessageReceivedEvent event, Member first, String content) {
         List<Member> found = FinderUtil.findMembers(content, event.getGuild());
         if(found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any member with that name :(").queue();
             return null;
         }
 
@@ -309,7 +309,7 @@ public class Utils {
     public static Role findRole(GuildMessageReceivedEvent event, String content) {
         List<Role> found = FinderUtil.findRoles(content, event.getGuild());
         if(found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any role with that name :(").queue();
             return null;
         }
 
@@ -330,7 +330,7 @@ public class Utils {
     public static TextChannel findChannel(GuildMessageReceivedEvent event, String content) {
         List<TextChannel> found = FinderUtil.findTextChannels(content, event.getGuild());
         if(found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any text channel with that name :(").queue();
             return null;
         }
 
@@ -351,7 +351,7 @@ public class Utils {
     public static TextChannel findChannelSelect(GuildMessageReceivedEvent event, String content, Consumer<TextChannel> consumer) {
         List<TextChannel> found = FinderUtil.findTextChannels(content, event.getGuild());
         if(found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any text channel with that name :(").queue();
             return null;
         }
 
@@ -377,7 +377,7 @@ public class Utils {
     public static VoiceChannel findVoiceChannelSelect(GuildMessageReceivedEvent event, String content, Consumer<VoiceChannel> consumer) {
         List<VoiceChannel> found = FinderUtil.findVoiceChannels(content, event.getGuild());
         if(found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any voice channel with that name :(").queue();
             return null;
         }
 
