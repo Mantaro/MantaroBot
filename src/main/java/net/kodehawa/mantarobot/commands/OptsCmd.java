@@ -37,7 +37,10 @@ import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
@@ -50,7 +53,8 @@ public class OptsCmd {
     public static Command optsCmd;
 
     public static void onHelp(GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage("Hey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.").queue();
+        event.getChannel().sendMessage(EmoteReference.HEART + "Hey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\n" +
+                "Only administrators, people with Manage Server or people with the Bot Commander role can use this command!").queue();
     }
 
     public static SimpleCommand getOpts() {

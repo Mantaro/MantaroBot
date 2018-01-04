@@ -695,7 +695,7 @@ public class InfoCmds {
 
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setColor(event.getMember().getColor())
-                        .setAuthor(String.format("Role info for %s", r.getName()), null, event.getAuthor().getEffectiveAvatarUrl())
+                        .setAuthor(String.format("Role info for %s", r.getName()), null, event.getGuild().getIconUrl())
                         .setDescription(s)
                         .addField("Permissions: [" + r.getPermissions().size() + "]" ,
                                 r.getPermissions().size() == 0 ? "None" : r.getPermissions().stream().map(Permission::getName).collect(Collectors.joining(", ")) + ".",

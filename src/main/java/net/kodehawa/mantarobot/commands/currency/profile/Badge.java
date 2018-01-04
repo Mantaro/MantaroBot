@@ -115,8 +115,7 @@ public enum Badge {
 
     /**
      * Represents an user badge.
-     * A badge is a "recognition" of an user achievements or contributions to Mantaro's code or just achievements inside
-     * Mantaro itself.
+     * A badge is a "recognition" of an user achievements or contributions to Mantaro's code or just achievements inside Mantaro itself.
      * The enum ordinal represents the order of which the badges will be displayed. The first badge will display on the
      * profile title itself, the rest (including the one on the title) will display on the "badges" version.
      *
