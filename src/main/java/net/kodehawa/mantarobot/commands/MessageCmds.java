@@ -87,6 +87,32 @@ public class MessageCmds {
                     return;
                 }
 
+                if(content.startsWith("noprune")) {
+                    channel.getHistory().retrievePast(100).queue(
+                            messageHistory -> {
+                                messageHistory = messageHistory.stream().filter(message -> !message.isPinned()).collect(Collectors.toList());
+
+                                if(messageHistory.isEmpty()) {
+                                    event.getChannel().sendMessage(EmoteReference.ERROR + "There are no non-pinned messages here...").queue();
+                                    return;
+                                }
+
+                                if(messageHistory.size() < 3) {
+                                    event.getChannel().sendMessage(EmoteReference.ERROR + "Too few messages to prune!").queue();
+                                    return;
+                                }
+
+                                prune(event, messageHistory);
+                            },
+                            error -> {
+                                channel.sendMessage(String.format("%sUnknown error while retrieving the history to prune the messages<%s>: %s",
+                                        EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
+                                error.printStackTrace();
+                            }
+                    );
+                    return;
+                }
+
                 if(!event.getMessage().getMentionedUsers().isEmpty()) {
                     List<Long> users = new ArrayList<>();
                     for(User user : event.getMessage().getMentionedUsers()) {

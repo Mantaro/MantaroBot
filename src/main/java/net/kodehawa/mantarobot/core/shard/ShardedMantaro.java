@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.core.shard;
 
 import br.com.brjdevs.java.utils.async.Async;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.github.natanbc.discordbotsapi.PostingException;
 import gnu.trove.impl.unmodifiable.TUnmodifiableLongSet;
@@ -41,11 +42,15 @@ import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
 
@@ -70,6 +75,7 @@ public class ShardedMantaro {
     private final int totalShards;
     @Getter
     private TUnmodifiableLongSet discordBotsUpvoters = new TUnmodifiableLongSet(new TLongHashSet());
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token, ICommandProcessor commandProcessor) {
         int shardAmount = totalShards;
@@ -179,11 +185,26 @@ public class ShardedMantaro {
             Async.task("discordbots.org upvotes task", () -> {
                 if(config.dbotsorgToken == null) return;
                 try {
-                    long[] upvoters = discordBotsAPI.getUpvoterIds();
+                    Request request = new Request.Builder()
+                            .url("https://discordbots.org/api/bots/213466096718708737/votes?onlyids=1")
+                            .addHeader("Authorization", config.dbotsorgToken)
+                            .build();
+
+                    Response r = Utils.httpClient.newCall(request).execute();
+
+                    ResponseBody body = r.body();
+                    if(body == null)
+                        return;
+
+                    @SuppressWarnings("unchecked") //It's definitely String.
+                    List<String> upvoters = objectMapper.readValue(body.string(), List.class);
+                    List<Long> upvotersLong = upvoters.stream().map(Long::parseLong).distinct().collect(Collectors.toList());
                     TLongSet set = new TLongHashSet();
-                    set.addAll(upvoters);
+                    set.addAll(upvotersLong);
                     discordBotsUpvoters = new TUnmodifiableLongSet(set);
-                } catch(PostingException e) { }
+
+                    r.close();
+                } catch(Exception ignored) {}
             }, 5, TimeUnit.MINUTES);
         } else {
             log.warn("discordbots.org token not set in config, cannot start posting stats!");
