@@ -63,11 +63,7 @@ public class CommandRegistry {
         Command cmd = commands.get(cmdname);
 
         if(cmd == null) {
-            cmd = commands.get(cmdname.toLowerCase());
-
-            if(cmd == null) {
-                return false;
-            }
+            return false;
         }
 
         if(MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) {
