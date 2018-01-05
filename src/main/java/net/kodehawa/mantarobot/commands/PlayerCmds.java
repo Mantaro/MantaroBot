@@ -316,8 +316,12 @@ public class PlayerCmds {
                 Collections.sort(badges);
                 AtomicInteger counter = new AtomicInteger();
 
-                String toShow = "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n" + (r.nextInt(5) == 0 ? "**You can get a free badge for " +
-                        "[up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!** (It might take some minutes to process)\n\n" : "") +
+                //Show the message that tells the person that they can get a free badge for upvoting mantaro one out of 3 times they use this command.
+                //The message stops appearing when they upvote.
+                String toShow = "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n" +
+                        ((r.nextInt(3) == 0 && !MantaroBot.getInstance().getShardedMantaro().getDiscordBotsUpvoters().contains(event.getAuthor().getIdLong())) ?
+                                "**You can get a free badge for [up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!**" +
+                                        " (It might take some minutes to process)\n\n" : "") +
                         badges.stream().map(badge -> String.format("**%d.-** %s\n*%4s*", counter.incrementAndGet(), badge, badge.description)
                 ).collect(Collectors.joining("\n"));
 
