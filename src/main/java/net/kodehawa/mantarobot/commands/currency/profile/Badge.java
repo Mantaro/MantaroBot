@@ -84,10 +84,13 @@ public enum Badge {
     GAMBLER("Gambler", "\uD83D\uDCB0", "Gambled their life away.", 91, 92),
 
     //Used one of the many NSFW image commands at least once.
-    LEWDIE("Lewdie", "\uD83D\uDC40", "Used a lewd command", 91, 92),
+    LEWDIE("Lewdie", "\uD83D\uDC40", "Used a lewd command.", 91, 92),
 
     //Marry to someone.
-    MARRIED("Married", "\uD83D\uDC8D", "Find your loved one", 91, 92),
+    MARRIED("Married", "\uD83D\uDC8D", "Find your loved one.", 91, 92),
+
+    //Get your marriage proposal turned down.
+    DENIED("Denied", "\u26d4", "Get your marriage proposal turned down :(.", 91, 92),
 
     //TODO do this for once
     //Queued more than 3000 songs.

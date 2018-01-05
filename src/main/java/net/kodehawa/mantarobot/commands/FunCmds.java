@@ -203,6 +203,8 @@ public class FunCmds {
 
                     if(message.equalsIgnoreCase("no")) {
                         ie.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal from " + proposing.getName()).queue();
+                        proposingPlayer.getData().addBadgeIfAbsent(Badge.DENIED);
+                        proposingPlayer.saveAsync();
                         return Operation.COMPLETED;
                     }
 
