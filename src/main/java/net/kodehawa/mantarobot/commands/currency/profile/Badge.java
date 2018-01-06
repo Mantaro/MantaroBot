@@ -179,7 +179,12 @@ public enum Badge {
      */
     public static Badge lookupFromString(String name) {
         for(Badge b : Badge.values()) {
+            //field name search
             if(b.name().equalsIgnoreCase(name)) {
+                return b;
+            }
+            //show name search
+            if(b.display.equalsIgnoreCase(name)) {
                 return b;
             }
         }

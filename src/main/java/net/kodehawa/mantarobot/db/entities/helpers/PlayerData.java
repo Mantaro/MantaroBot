@@ -39,6 +39,8 @@ public class PlayerData {
     private Long marriedSince = null;
     private String marriedWith = null;
     private long moneyOnBank = 0;
+    //null = most important badge shows.
+    private Badge mainBadge = null;
 
     @Transient
     public boolean isMarried() {

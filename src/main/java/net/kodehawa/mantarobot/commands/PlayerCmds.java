@@ -30,7 +30,11 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -130,164 +134,101 @@ public class PlayerCmds {
 
     @Subscribe
     public void profile(CommandRegistry cr) {
-        cr.register("profile", new SimpleCommand(Category.CURRENCY) {
+        ITreeCommand profileCommand = (TreeCommand) cr.register("profile", new TreeCommand(Category.CURRENCY) {
             @Override
-            public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                Player player = MantaroData.db().getPlayer(event.getMember());
-                DBUser dbUser = MantaroData.db().getUser(event.getMember());
-                User author = event.getAuthor();
+            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+                return new SubCommand() {
+                    @Override
+                    protected void call(GuildMessageReceivedEvent event, String content) {
+                        User author = event.getAuthor();
+                        Player player = MantaroData.db().getPlayer(author);
 
-                if(args.length > 0 && args[0].equals("timezone")) {
-                    if(args.length < 2) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the timezone.").queue();
-                        return;
-                    }
+                        UserData user = MantaroData.db().getUser(event.getMember()).getData();
+                        Member member = event.getMember();
 
-                    if(args[1].equalsIgnoreCase("reset")) {
-                        dbUser.getData().setTimezone(null);
-                        dbUser.saveAsync();
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Reset timezone.").queue();
-                        return;
-                    }
+                        List<Member> found = FinderUtil.findMembers(content, event.getGuild());
 
-                    if(args[1].length() > 5) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Input is too long...").queue();
-                        return;
-                    }
-
-                    try {
-                        UtilsCmds.dateGMT(event.getGuild(), args[1]);
-                    } catch(Exception e) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid timezone.").queue();
-                        return;
-                    }
-
-                    dbUser.getData().setTimezone(args[1]);
-                    dbUser.saveAsync();
-                    event.getChannel().sendMessage(String.format("%sSaved timezone, your profile timezone is now: **%s**", EmoteReference.CORRECT, args[1])).queue();
-                    return;
-                }
-
-                if(args.length > 0 && args[0].equals("description")) {
-                    if(args.length == 1) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR +
-                                "You need to provide an argument! (set or remove)\n" +
-                                "for example, ~>profile description set Hi there!").queue();
-                        return;
-                    }
-
-                    if(args[1].equals("set")) {
-                        int MAX_LENGTH = 300;
-                        if(MantaroData.db().getUser(author).isPremium())
-                            MAX_LENGTH = 500;
-
-                        String content1 = SPLIT_PATTERN.split(content, 3)[2];
-
-                        if(content1.length() > MAX_LENGTH) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR +
-                                    "The description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`")
-                                    .queue();
+                        if(found.isEmpty() && !content.isEmpty()) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "Didn't find any member with your search criteria :(").queue();
                             return;
                         }
 
-                        player.getData().setDescription(content1);
-                        event.getChannel().sendMessage(EmoteReference.POPPER + "Set description to: **" + content1 + "**\n" +
-                                "Check your shiny new profile with `~>profile`").queue();
-                        player.save();
-                        return;
-                    }
+                        if(found.size() > 1 && !content.isEmpty()) {
+                            event.getChannel().sendMessage(EmoteReference.THINKING + "Too many members found, maybe refine your search? (ex. use name#discriminator)\n" +
+                                    "**Members found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
+                            return;
+                        }
 
-                    if(args[1].equals("clear")) {
-                        player.getData().setDescription(null);
-                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully cleared description.").queue();
-                        player.save();
-                        return;
-                    }
-                }
+                        if(found.size() == 1 && !content.isEmpty()) {
+                            author = found.get(0).getUser();
+                            member = found.get(0);
 
-                UserData user = MantaroData.db().getUser(event.getMember()).getData();
-                Member member = event.getMember();
+                            if(author.isBot()) {
+                                event.getChannel().sendMessage(EmoteReference.ERROR + "Bots don't have profiles.").queue();
+                                return;
+                            }
 
-                List<Member> found = FinderUtil.findMembers(content, event.getGuild());
+                            user = MantaroData.db().getUser(author).getData();
+                            player = MantaroData.db().getPlayer(member);
+                        }
 
-                if(found.isEmpty() && !content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Didn't find any member with your search criteria :(").queue();
-                    return;
-                }
-
-                if(found.size() > 1 && !content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "Too many members found, maybe refine your search? (ex. use name#discriminator)\n" +
-                            "**Members found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
-                    return;
-                }
-
-                if(found.size() == 1 && !content.isEmpty()) {
-                    author = found.get(0).getUser();
-                    member = found.get(0);
-
-                    if(author.isBot()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Bots don't have profiles.").queue();
-                        return;
-                    }
-
-                    user = MantaroData.db().getUser(author).getData();
-                    player = MantaroData.db().getPlayer(member);
-                }
-
-                User marriedTo = (player.getData().getMarriedWith() == null || player.getData().getMarriedWith().isEmpty()) ? null :
+                        User marriedTo = (player.getData().getMarriedWith() == null || player.getData().getMarriedWith().isEmpty()) ? null :
                                 MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
 
-                PlayerData playerData = player.getData();
-                Inventory inv = player.getInventory();
-                boolean saveAfter = false;
+                        PlayerData playerData = player.getData();
+                        Inventory inv = player.getInventory();
+                        boolean saveAfter = false;
 
-                //start of badge assigning
-                if(player.getMoney() > 7526527671L && playerData.addBadgeIfAbsent(Badge.ALTERNATIVE_WORLD))
-                    saveAfter = true;
-                if(MantaroData.config().get().isOwner(author) && playerData.addBadgeIfAbsent(Badge.DEVELOPER))
-                    saveAfter = true;
-                if(inv.asList().stream().anyMatch(stack -> stack.getAmount() == 5000) && playerData.addBadgeIfAbsent(Badge.SHOPPER))
-                    saveAfter = true;
-                if(inv.asList().stream().anyMatch(stack -> stack.getItem().equals(Items.CHRISTMAS_TREE_SPECIAL) || stack.getItem().equals(Items.BELL_SPECIAL)) && playerData.addBadgeIfAbsent(Badge.CHRISTMAS))
-                    saveAfter = true;
-                if(MantaroBot.getInstance().getShardedMantaro().getDiscordBotsUpvoters().contains(author.getIdLong()) && playerData.addBadgeIfAbsent(Badge.UPVOTER))
-                    saveAfter = true;
-                if(player.getLevel() >= 10 && playerData.addBadgeIfAbsent(Badge.WALKER))
-                    saveAfter = true;
-                if(player.getLevel() >= 50 && playerData.addBadgeIfAbsent(Badge.RUNNER))
-                    saveAfter = true;
-                if(player.getLevel() >= 100 && playerData.addBadgeIfAbsent(Badge.FAST_RUNNER))
-                    saveAfter = true;
-                if(player.getLevel() >= 150 && playerData.addBadgeIfAbsent(Badge.MARATHON_RUNNER))
-                    saveAfter = true;
-                if(player.getLevel() >= 200 && playerData.addBadgeIfAbsent(Badge.MARATHON_WINNER))
-                    saveAfter = true;
+                        //start of badge assigning
+                        if(player.getMoney() > 7526527671L && playerData.addBadgeIfAbsent(Badge.ALTERNATIVE_WORLD))
+                            saveAfter = true;
+                        if(MantaroData.config().get().isOwner(author) && playerData.addBadgeIfAbsent(Badge.DEVELOPER))
+                            saveAfter = true;
+                        if(inv.asList().stream().anyMatch(stack -> stack.getAmount() == 5000) && playerData.addBadgeIfAbsent(Badge.SHOPPER))
+                            saveAfter = true;
+                        if(inv.asList().stream().anyMatch(stack -> stack.getItem().equals(Items.CHRISTMAS_TREE_SPECIAL) || stack.getItem().equals(Items.BELL_SPECIAL)) && playerData.addBadgeIfAbsent(Badge.CHRISTMAS))
+                            saveAfter = true;
+                        if(MantaroBot.getInstance().getShardedMantaro().getDiscordBotsUpvoters().contains(author.getIdLong()) && playerData.addBadgeIfAbsent(Badge.UPVOTER))
+                            saveAfter = true;
+                        if(player.getLevel() >= 10 && playerData.addBadgeIfAbsent(Badge.WALKER))
+                            saveAfter = true;
+                        if(player.getLevel() >= 50 && playerData.addBadgeIfAbsent(Badge.RUNNER))
+                            saveAfter = true;
+                        if(player.getLevel() >= 100 && playerData.addBadgeIfAbsent(Badge.FAST_RUNNER))
+                            saveAfter = true;
+                        if(player.getLevel() >= 150 && playerData.addBadgeIfAbsent(Badge.MARATHON_RUNNER))
+                            saveAfter = true;
+                        if(player.getLevel() >= 200 && playerData.addBadgeIfAbsent(Badge.MARATHON_WINNER))
+                            saveAfter = true;
 
-                if(saveAfter)
-                    player.saveAsync();
-                //end of badge assigning
+                        if(saveAfter)
+                            player.saveAsync();
+                        //end of badge assigning
 
-                List<Badge> badges = playerData.getBadges();
-                Collections.sort(badges);
-                String displayBadges = badges.stream().map(Badge::getUnicode).limit(5).collect(Collectors.joining("  "));
+                        List<Badge> badges = playerData.getBadges();
+                        Collections.sort(badges);
+                        String displayBadges = badges.stream().map(Badge::getUnicode).limit(5).collect(Collectors.joining("  "));
 
-                applyBadge(event.getChannel(), badges.isEmpty() ? null : badges.get(0), author, baseEmbed(event, (marriedTo == null || !player.getInventory().containsItem(Items.RING) ? "" :
-                        EmoteReference.RING) + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
-                        .setThumbnail(author.getEffectiveAvatarUrl())
-                        .setDescription((badges.isEmpty() ? "" : String.format("**%s**\n", badges.get(0)))
-                                + (player.getData().getDescription() == null ? "No description set" : player.getData().getDescription()))
-                        .addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), true)
-                        .addField(EmoteReference.ZAP + "Level", player.getLevel() + " (Experience: " + player.getData().getExperience() +
-                                ")", true)
-                        .addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), true)
-                        .addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) :
-                                "Not specified.", true)
-                        .addField(EmoteReference.HEART + "Married with", marriedTo == null ? "Nobody." : marriedTo.getName() + "#" +
-                                marriedTo.getDiscriminator(), false)
-                        .addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(inv.asList()), false)
-                        .addField(EmoteReference.HEART + "Badges", displayBadges.isEmpty() ? "No badges (yet!)" : displayBadges, false)
-                        .setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set." : user.getTimezone()) + " | " +
-                                "Requested by " + event.getAuthor().getName(), null));
+                        applyBadge(event.getChannel(),
+                                badges.isEmpty() ? null : (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()), author,
+                                baseEmbed(event, (marriedTo == null || !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING) + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
+                                .setThumbnail(author.getEffectiveAvatarUrl())
+                                .setDescription((badges.isEmpty() ? "" : String.format("**%s**\n", (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge())))
+                                        + (player.getData().getDescription() == null ? "No description set" : player.getData().getDescription()))
+                                .addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), true)
+                                .addField(EmoteReference.ZAP + "Level", player.getLevel() + " (Experience: " + player.getData().getExperience() +
+                                        ")", true)
+                                .addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), true)
+                                .addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) :
+                                        "Not specified.", true)
+                                .addField(EmoteReference.HEART + "Married with", marriedTo == null ? "Nobody." : marriedTo.getName() + "#" +
+                                        marriedTo.getDiscriminator(), false)
+                                .addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(inv.asList()), false)
+                                .addField(EmoteReference.HEART + "Badges", displayBadges.isEmpty() ? "No badges (yet!)" : displayBadges, false)
+                                .setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set." : user.getTimezone()) + " | " +
+                                        "Requested by " + event.getAuthor().getName(), null));
+                    }
+                };
             }
 
             @Override
@@ -298,8 +239,126 @@ public class PlayerCmds {
                                 "To change your description do `~>profile description set <description>`\n" +
                                 "To clear it, just do `~>profile description clear`\n" +
                                 "To set your timezone do `~>profile timezone <timezone>`\n" +
+                                "To set your display badge use `~>profile displaybadge` and `~>profile displaybadge reset` to reset it." +
                                 "**The profile only shows the 5 most important badges!**", false)
                         .build();
+            }
+        });
+
+
+        profileCommand.addSubCommand("timezone", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
+                String[] args = content.split(" ");
+
+                if(args.length < 1) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the timezone.").queue();
+                    return;
+                }
+
+                if(args[0].equalsIgnoreCase("reset")) {
+                    dbUser.getData().setTimezone(null);
+                    dbUser.saveAsync();
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Reset timezone.").queue();
+                    return;
+                }
+
+                if(args[0].length() > 5) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Input is too long...").queue();
+                    return;
+                }
+
+                try {
+                    UtilsCmds.dateGMT(event.getGuild(), args[1]);
+                } catch(Exception e) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid timezone.").queue();
+                    return;
+                }
+
+                dbUser.getData().setTimezone(args[1]);
+                dbUser.saveAsync();
+                event.getChannel().sendMessage(String.format("%sSaved timezone, your profile timezone is now: **%s**", EmoteReference.CORRECT, args[1])).queue();
+            }
+        });
+
+        profileCommand.addSubCommand("description", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                String[] args = content.split(" ");
+                User author = event.getAuthor();
+                Player player = MantaroData.db().getPlayer(author);
+
+                if(args.length == 0) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR +
+                            "You need to provide an argument! (set or remove)\n" +
+                            "for example, ~>profile description set Hi there!").queue();
+                    return;
+                }
+
+                if(args[0].equals("set")) {
+                    int MAX_LENGTH = 300;
+
+                    if(MantaroData.db().getUser(author).isPremium())
+                        MAX_LENGTH = 500;
+
+                    String content1 = SPLIT_PATTERN.split(content, 2)[1];
+
+                    if(content1.length() > MAX_LENGTH) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR +
+                                "The description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`").queue();
+                        return;
+                    }
+
+                    player.getData().setDescription(content1);
+                    event.getChannel().sendMessage(EmoteReference.POPPER + "Set description to: **" + content1 + "**\n" +
+                            "Check your shiny new profile with `~>profile`").queue();
+                    player.save();
+                    return;
+                }
+
+                if(args[1].equals("clear")) {
+                    player.getData().setDescription(null);
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully cleared description.").queue();
+                    player.save();
+                }
+            }
+        });
+
+        profileCommand.addSubCommand("displaybadge", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                String[] args = content.split(" ");
+                if(args.length == 0) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify your main badge!").queue();
+                    return;
+                }
+
+                Player player = MantaroData.db().getPlayer(event.getAuthor());
+                PlayerData data = player.getData();
+
+                if(args[0].equalsIgnoreCase("reset")) {
+                    data.setMainBadge(null);
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Your display badge is now the most important one.").queue();
+                    player.saveAsync();
+                    return;
+                }
+
+                Badge badge = Badge.lookupFromString(content);
+
+                if(badge == null) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "There's no such badge...").queue();
+                    return;
+                }
+
+                if(!data.getBadges().contains(badge)) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have that badge").queue();
+                    return;
+                }
+
+                data.setMainBadge(badge);
+                player.saveAsync();
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "Your display badge is now: **" + badge.display + "**").queue();
             }
         });
     }
