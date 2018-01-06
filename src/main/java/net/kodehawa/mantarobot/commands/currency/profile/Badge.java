@@ -111,10 +111,9 @@ public enum Badge {
     DENIED("Denied", "\u26d4", "Get your marriage proposal turned down :(.", 91, 92),
 
     //Buy something from the market.
-    BUYER("Buyer", "\uD83D\uDECD", "Get your marriage proposal turned down :(.", 91, 92),
+    BUYER("Buyer", "\uD83D\uDECD", "Buy something from the market.", 91, 92),
 
-    //TODO do this for once
-    //Queued more than 3000 songs.
+    //Queued more than 3000 songs. Won't do.
     DJ("DJ", "\uD83C\uDFB6", "Too many songs.", 91, 92);
 
     //What does the fox say?

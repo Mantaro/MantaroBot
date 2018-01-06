@@ -340,6 +340,7 @@ public class CurrencyCmds {
 
                     if(player.removeMoney(itemToBuy.getValue() * itemNumber)) {
                         player.getInventory().process(new ItemStack(itemToBuy, itemNumber));
+                        player.getData().addBadgeIfAbsent(Badge.BUYER);
                         player.saveAsync();
 
                         event.getChannel().sendMessage(String.format("%sBought %d %s for %d credits successfully. You now have %d credits.",
