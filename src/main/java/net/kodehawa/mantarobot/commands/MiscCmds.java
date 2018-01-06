@@ -63,12 +63,17 @@ public class MiscCmds {
     private final Random rand = new Random();
 
     protected static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
-        Map<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
+        DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+        Map<String, String> autoroles = dbGuild.getData().getAutoroles();
 
         if(autoroles.containsKey(autoroleName)) {
             Role role = event.getGuild().getRoleById(autoroles.get(autoroleName));
             if(role == null) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "The role that this autorole corresponded to has been deleted").queue();
+
+                //delete the non-existent autorole.
+                dbGuild.getData().getAutoroles().remove(autoroleName);
+                dbGuild.saveAsync();
             } else {
                 if(event.getMember().getRoles().stream().filter(r1 -> r1.getId().equals(role.getId())).collect(Collectors.toList()).size() > 0) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You already have this role, silly!").queue();
@@ -90,13 +95,18 @@ public class MiscCmds {
     }
 
     protected static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event) {
-        Map<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
+        DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+        Map<String, String> autoroles = dbGuild.getData().getAutoroles();
 
         if(autoroles.containsKey(autoroleName)) {
             Role role = event.getGuild().getRoleById(autoroles.get(autoroleName));
             if(role == null) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "The role that this autorole corresponded " +
                         "to has been deleted").queue();
+
+                //delete the non-existent autorole.
+                dbGuild.getData().getAutoroles().remove(autoroleName);
+                dbGuild.saveAsync();
             } else {
                 if(!(event.getMember().getRoles().stream().filter(r1 -> r1.getId().equals(role.getId())).collect(Collectors.toList()).size() > 0)) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have this role, silly!").queue();
