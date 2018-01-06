@@ -71,6 +71,9 @@ public enum Badge {
     //Win more than 100 games
     GAMER("Gamer", "\uD83D\uDD79", "Win 100 games.", 91, 92),
 
+    //Get extremely lucky with slots.
+    LUCKY_SEVEN("Lucky 7", "\uD83C\uDFB0", "Get more than 175 million in credits from slots.", 92, 92),
+
     //Claim daily more than 100 days in a row.
     BIG_CLAIMER("Big Claimer", "\uD83C\uDF8A", "Claim daily more than 100 days in a row.", 91, 92),
 
@@ -106,6 +109,9 @@ public enum Badge {
 
     //Get your marriage proposal turned down.
     DENIED("Denied", "\u26d4", "Get your marriage proposal turned down :(.", 91, 92),
+
+    //Buy something from the market.
+    BUYER("Buyer", "\uD83D\uDECD", "Get your marriage proposal turned down :(.", 91, 92),
 
     //TODO do this for once
     //Queued more than 3000 songs.

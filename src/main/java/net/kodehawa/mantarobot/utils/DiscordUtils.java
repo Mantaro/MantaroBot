@@ -23,6 +23,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -175,8 +176,88 @@ public class DiscordUtils {
         }, "\u2b05", "\u27a1");
     }
 
+    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
+        if(parts.length == 0)
+            return null;
+
+        List<MessageEmbed> embeds = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+
+        int total;
+        {
+            int t = 0;
+            int c = 0;
+            for(String s : parts) {
+                if(s.length() + c + 1 > MessageEmbed.TEXT_MAX_LENGTH) {
+                    t++;
+                    c = 0;
+                }
+                c += s.length() + 1;
+            }
+            if(c > 0) t++;
+            total = t;
+        }
+
+        for(String s : parts) {
+            int l = s.length() + 1;
+            if(l > MessageEmbed.TEXT_MAX_LENGTH)
+                throw new IllegalArgumentException("Length for one of the pages is greater than the maximum");
+            if(sb.length() + l > MessageEmbed.TEXT_MAX_LENGTH) {
+                EmbedBuilder eb = supplier.apply(embeds.size() + 1, total);
+                eb.setDescription(sb.toString());
+                embeds.add(eb.build());
+                sb = new StringBuilder();
+            }
+            sb.append(s).append('\n');
+        }
+
+        if(sb.length() > 0) {
+            EmbedBuilder eb = supplier.apply(embeds.size() + 1, total);
+            eb.setDescription(sb.toString());
+            embeds.add(eb.build());
+        }
+
+        if(embeds.size() == 1) {
+            event.getChannel().sendMessage(embeds.get(0)).queue();
+            return null;
+        }
+
+        AtomicInteger index = new AtomicInteger();
+        Message m = event.getChannel().sendMessage(embeds.get(0)).complete();
+
+        return InteractiveOperations.createOverriding(event.getChannel(), timeoutSeconds, e -> {
+            if(!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong())
+                return Operation.IGNORED;
+            if(e.getChannel().getMessageById(m.getIdLong()) == null)
+                return Operation.IGNORED;
+
+            if(e.getMessage().getContentRaw().equals("&p <<") || e.getMessage().getContentRaw().equals("&page <<")) {
+                if(index.get() == 0)
+                    return Operation.IGNORED;
+
+                m.editMessage(embeds.get(index.decrementAndGet())).queue();
+            } else if(e.getMessage().getContentRaw().equals("&p >>") || e.getMessage().getContentRaw().equals("&page >>")) {
+                if(index.get() + 1 >= embeds.size())
+                    return Operation.IGNORED;
+
+                m.editMessage(embeds.get(index.incrementAndGet())).queue();
+            }
+
+            if(e.getMessage().getContentRaw().equals("&cancel")) {
+                m.delete().queue();
+                return Operation.COMPLETED;
+            }
+
+            return Operation.IGNORED;
+        });
+    }
+
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
         return list(event, timeoutSeconds, canEveryoneUse, supplier, parts.toArray(new String[]{}));
+    }
+
+    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
+        return listText(event, timeoutSeconds, canEveryoneUse, supplier, parts.toArray(new String[]{}));
     }
 
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {

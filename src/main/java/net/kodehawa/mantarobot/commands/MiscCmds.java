@@ -21,6 +21,7 @@ import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.Role;
@@ -37,6 +38,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -166,7 +168,11 @@ public class MiscCmds {
 
                 StringBuilder stringBuilder = new StringBuilder();
                 if(content.equals("list") || content.equals("ls")) {
-                    EmbedBuilder embed = baseEmbed(event, "Autoroles list");
+                    EmbedBuilder embed = null;
+                    boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                    if(!hasReactionPerms)
+                        stringBuilder.append("Use &page >> and &page << to change pages and &cancel to end\n");
+
                     if(autoroles.size() > 0) {
                         autoroles.forEach((name, roleId) -> {
                             Role role = event.getGuild().getRoleById(roleId);
@@ -175,9 +181,21 @@ public class MiscCmds {
                             }
                         });
 
-                        embed.setDescription(checkString(stringBuilder.toString()));
-                    } else embed.setDescription("There aren't any autoroles setup in this server!");
-                    event.getChannel().sendMessage(embed.build()).queue();
+                        List<String> parts = DiscordUtils.divideString(1000, stringBuilder);
+                        if(hasReactionPerms) {
+                            DiscordUtils.list(event, 30, false, (current, max) -> baseEmbed(event, "Autoroles list"), parts);
+                        } else {
+                            DiscordUtils.listText(event, 30, false, (current, max) -> baseEmbed(event, "Autoroles list"), parts);
+                        }
+                    } else {
+                        embed = baseEmbed(event, "Autoroles list");
+                        embed.setDescription("There aren't any autoroles setup in this server!");
+                    }
+
+                    if(embed != null) {
+                        event.getChannel().sendMessage(embed.build()).queue();
+                    }
+
                     return;
                 }
 
