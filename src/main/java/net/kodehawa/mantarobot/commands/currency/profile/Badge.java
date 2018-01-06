@@ -47,6 +47,9 @@ public enum Badge {
     //Have more than 8 billion credits.
     ALTERNATIVE_WORLD("Isekai", "\uD83C\uDF0E", "Have more than 8 billion credits at any given time.", 92, 92),
 
+    //Self-explanatory. (Description)
+    MARATHON_WINNER("Marathon Winner", "\uD83C\uDFC5", "Get to level 200 in Mantaro.", 91, 92),
+
     //Get a loot crate.
     LUCKY("Lucky", "\uD83C\uDF40", "Be lucky enough to loot a loot crate.", 92, 92),
 
@@ -58,6 +61,12 @@ public enum Badge {
 
     //Open a loot crate.
     THE_SECRET("The Secret", "\uD83D\uDCBC", "Open a loot crate.", 92, 92),
+
+    //Self-explanatory. (Description)
+    MARATHON_RUNNER("Marathon Runner", "\uD83C\uDF96", "Get to level 150 in Mantaro.", 91, 92),
+
+    //Self-explanatory. (Description)
+    FAST_RUNNER("Fast Runner", "\uD83D\uDEA9", "Get to level 100 in Mantaro.", 91, 92),
 
     //Win more than 100 games
     GAMER("Gamer", "\uD83D\uDD79", "Win 100 games.", 91, 92),
@@ -77,6 +86,9 @@ public enum Badge {
     //Mine a diamond.
     MINER("Miner", "\u26cf", "Find a diamond while mining.", 91, 92),
 
+    //Self-explanatory. (Description)
+    RUNNER("Runner", "\uD83D\uDCCD", "Get to level 50 in Mantaro.", 91, 92),
+
     //Use opts properly
     DID_THIS_WORK("Configurator", "\u2699", "Use any `~>opts` configuration successfully.", 91, 92),
 
@@ -88,6 +100,9 @@ public enum Badge {
 
     //Marry to someone.
     MARRIED("Married", "\uD83D\uDC8D", "Find your loved one.", 91, 92),
+
+    //Self-explanatory. (Description)
+    WALKER("Walker", "\uD83C\uDFF7", "Get to level 10 in Mantaro.", 91, 92),
 
     //Get your marriage proposal turned down.
     DENIED("Denied", "\u26d4", "Get your marriage proposal turned down :(.", 91, 92),

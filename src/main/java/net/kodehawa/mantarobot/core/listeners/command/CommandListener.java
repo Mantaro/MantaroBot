@@ -44,6 +44,7 @@ import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import org.redisson.client.RedisException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -145,7 +146,6 @@ public class CommandListener implements EventListener {
                         //Apply some black magic.
                         if(data.getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2)) {
                             player.setLevel(player.getLevel() + 1);
-
                             //Check if the member is not null, just to be sure it happened in-between.
                             if(player.getLevel() > 1 && event.getGuild().getMemberById(player.getUserId()) != null) {
                                 if(guildData.isEnabledLevelUpMessages()) {
@@ -211,6 +211,10 @@ public class CommandListener implements EventListener {
             //So much just went wrong...
             e.printStackTrace();
             SentryHelper.captureExceptionContext("Something seems to have broken in the db! Check this out!", e, this.getClass(), "Database");
+        } catch (RedisException e) {
+            //So much just went wrong but on another side of the db...
+            e.printStackTrace();
+            SentryHelper.captureExceptionContext("Something seems to have broken in the db! Check this out!", e, this.getClass(), "Redis Database");
         } catch(Exception e) {
             String id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessage(

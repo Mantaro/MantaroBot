@@ -246,15 +246,25 @@ public class PlayerCmds {
                 boolean saveAfter = false;
 
                 //start of badge assigning
-                if(player.getMoney() > 7526527671L && player.getData().addBadgeIfAbsent(Badge.ALTERNATIVE_WORLD))
+                if(player.getMoney() > 7526527671L && playerData.addBadgeIfAbsent(Badge.ALTERNATIVE_WORLD))
                     saveAfter = true;
-                if(MantaroData.config().get().isOwner(author) && player.getData().addBadgeIfAbsent(Badge.DEVELOPER))
+                if(MantaroData.config().get().isOwner(author) && playerData.addBadgeIfAbsent(Badge.DEVELOPER))
                     saveAfter = true;
-                if(inv.asList().stream().anyMatch(stack -> stack.getAmount() == 5000) && player.getData().addBadgeIfAbsent(Badge.SHOPPER))
+                if(inv.asList().stream().anyMatch(stack -> stack.getAmount() == 5000) && playerData.addBadgeIfAbsent(Badge.SHOPPER))
                     saveAfter = true;
-                if(inv.asList().stream().anyMatch(stack -> stack.getItem().equals(Items.CHRISTMAS_TREE_SPECIAL) || stack.getItem().equals(Items.BELL_SPECIAL)) && player.getData().addBadgeIfAbsent(Badge.CHRISTMAS))
+                if(inv.asList().stream().anyMatch(stack -> stack.getItem().equals(Items.CHRISTMAS_TREE_SPECIAL) || stack.getItem().equals(Items.BELL_SPECIAL)) && playerData.addBadgeIfAbsent(Badge.CHRISTMAS))
                     saveAfter = true;
-                if(MantaroBot.getInstance().getShardedMantaro().getDiscordBotsUpvoters().contains(author.getIdLong()) && player.getData().addBadgeIfAbsent(Badge.UPVOTER))
+                if(MantaroBot.getInstance().getShardedMantaro().getDiscordBotsUpvoters().contains(author.getIdLong()) && playerData.addBadgeIfAbsent(Badge.UPVOTER))
+                    saveAfter = true;
+                if(player.getLevel() >= 10 && playerData.addBadgeIfAbsent(Badge.WALKER))
+                    saveAfter = true;
+                if(player.getLevel() >= 50 && playerData.addBadgeIfAbsent(Badge.RUNNER))
+                    saveAfter = true;
+                if(player.getLevel() >= 100 && playerData.addBadgeIfAbsent(Badge.FAST_RUNNER))
+                    saveAfter = true;
+                if(player.getLevel() >= 150 && playerData.addBadgeIfAbsent(Badge.MARATHON_RUNNER))
+                    saveAfter = true;
+                if(player.getLevel() >= 200 && playerData.addBadgeIfAbsent(Badge.MARATHON_WINNER))
                     saveAfter = true;
 
                 if(saveAfter)
