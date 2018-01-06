@@ -178,7 +178,9 @@ public class PlayerCmds {
 
                     if(args[1].equals("set")) {
                         int MAX_LENGTH = 300;
-                        if(MantaroData.db().getUser(author).isPremium()) MAX_LENGTH = 500;
+                        if(MantaroData.db().getUser(author).isPremium())
+                            MAX_LENGTH = 500;
+
                         String content1 = SPLIT_PATTERN.split(content, 3)[2];
 
                         if(content1.length() > MAX_LENGTH) {
@@ -209,13 +211,13 @@ public class PlayerCmds {
                 List<Member> found = FinderUtil.findMembers(content, event.getGuild());
 
                 if(found.isEmpty() && !content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Didn't find any member with your search criteria :(").queue();
                     return;
                 }
 
                 if(found.size() > 1 && !content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
-                            "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
+                    event.getChannel().sendMessage(EmoteReference.THINKING + "Too many members found, maybe refine your search? (ex. use name#discriminator)\n" +
+                            "**Members found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
                     return;
                 }
 
@@ -232,14 +234,8 @@ public class PlayerCmds {
                     player = MantaroData.db().getPlayer(member);
                 }
 
-                User marriedTo = player.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
-
-                //Yes, two different things
-                if(player.getData().getMarriedWith() != null && marriedTo == null) {
-                    player.getData().setMarriedWith(null);
-                    player.getData().setMarriedSince(null);
-                    player.saveAsync();
-                }
+                User marriedTo = (player.getData().getMarriedWith() == null || player.getData().getMarriedWith().isEmpty()) ? null :
+                                MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
 
                 PlayerData playerData = player.getData();
                 Inventory inv = player.getInventory();

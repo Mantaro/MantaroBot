@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -124,6 +125,11 @@ public class CommandListener implements EventListener {
                     //Only run experience if the user is not rate limited (clears every 30 seconds)
                     if(random.nextInt(15) > 7 && !event.getAuthor().isBot() && experienceRatelimiter.process(event.getAuthor())) {
                         if(event.getMember() == null)
+                            return;
+
+                        //Don't run the experience handler on this channel if there's an InteractiveOperation running as there might be issues with
+                        //some nasty race conditions involving player save.
+                        if(InteractiveOperations.get(event.getChannel()) != null)
                             return;
 
                         Player player = MantaroData.db().getPlayer(event.getAuthor());

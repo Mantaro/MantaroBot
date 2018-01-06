@@ -194,8 +194,8 @@ public class FunCmds {
                         }
 
                         ie.getChannel().sendMessage(String.format("%s%s accepted the proposal of %s!", EmoteReference.POPPER, ie.getAuthor().getName(), proposing.getName())).queue();
-                        proposed.saveAsync();
-                        author.saveAsync();
+                        proposed.save();
+                        author.save();
 
                         TextChannelGround.of(event).dropItemWithChance(Items.LOVE_LETTER, 2);
                         return Operation.COMPLETED;
