@@ -41,6 +41,7 @@ public class PlayerData {
     private long moneyOnBank = 0;
     //null = most important badge shows.
     private Badge mainBadge = null;
+    private long marketUsed;
 
     @Transient
     public boolean isMarried() {

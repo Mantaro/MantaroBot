@@ -286,6 +286,7 @@ public class CurrencyCmds {
                     long amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
                     player.getInventory().process(new ItemStack(toSell, many));
                     player.addMoney(amount);
+                    player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
                     event.getChannel().sendMessage(String.format("%sYou sold %d **%s** and gained %d credits!", EmoteReference.CORRECT, Math.abs(many), toSell.getName(), amount)).queue();
 
                     player.saveAsync();
@@ -341,6 +342,7 @@ public class CurrencyCmds {
                     if(player.removeMoney(itemToBuy.getValue() * itemNumber)) {
                         player.getInventory().process(new ItemStack(itemToBuy, itemNumber));
                         player.getData().addBadgeIfAbsent(Badge.BUYER);
+                        player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
                         player.saveAsync();
 
                         event.getChannel().sendMessage(String.format("%sBought %d %s for %d credits successfully. You now have %d credits.",

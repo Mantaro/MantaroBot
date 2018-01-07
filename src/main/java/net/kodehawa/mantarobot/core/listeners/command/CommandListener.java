@@ -29,6 +29,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
@@ -223,6 +224,7 @@ public class CommandListener implements EventListener {
             SentryHelper.captureExceptionContext("Something seems to have broken in the db! Check this out!", e, this.getClass(), "Redis Database");
         } catch(Exception e) {
             String id = Snow64.toSnow64(event.getMessage().getIdLong());
+            Player player = MantaroData.db().getPlayer(event.getAuthor());
             event.getChannel().sendMessage(
                     String.format("%s%s\n(Error ID: `%s`)\n" +
                                     "If you want, join our **support guild** (Link on `~>about`), or check out our GitHub page (/Mantaro/MantaroBot). " +
@@ -230,6 +232,8 @@ public class CommandListener implements EventListener {
                             EmoteReference.ERROR, boomQuotes[rand.nextInt(boomQuotes.length)], id)
             ).queue();
 
+            player.getData().addBadgeIfAbsent(Badge.FIRE);
+            player.saveAsync();
             SentryHelper.captureException(String.format("Unexpected Exception on Command: %s | (Error ID: ``%s``)", event.getMessage().getContentRaw(), id), e, this.getClass());
             log.error("Error happened with id: {} (Error ID: {})", event.getMessage().getContentRaw(), id, e);
         }

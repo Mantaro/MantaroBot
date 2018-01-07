@@ -200,6 +200,8 @@ public class PlayerCmds {
                             saveAfter = true;
                         if(player.getLevel() >= 200 && playerData.addBadgeIfAbsent(Badge.MARATHON_WINNER))
                             saveAfter = true;
+                        if(playerData.getMarketUsed() > 1000 && playerData.addBadgeIfAbsent(Badge.COMPULSIVE_BUYER))
+                            saveAfter = true;
 
                         if(saveAfter)
                             player.saveAsync();
@@ -391,7 +393,7 @@ public class PlayerCmds {
                 ).collect(Collectors.joining("\n"));
 
                 if(toShow.isEmpty()) toShow = "No badges to show (yet!)";
-                List<String> parts = DiscordUtils.divideString(1000, toShow);
+                List<String> parts = DiscordUtils.divideString(850, toShow);
                 DiscordUtils.list(event, 30, false, (current, max) -> new EmbedBuilder()
                         .setAuthor(toLookup.getName() + "'s badges", null, null)
                         .setColor(event.getMember().getColor() == null ? Color.PINK : event.getMember().getColor())

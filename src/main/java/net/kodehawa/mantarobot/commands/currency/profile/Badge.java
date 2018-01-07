@@ -95,8 +95,14 @@ public enum Badge {
     //Use opts properly
     DID_THIS_WORK("Configurator", "\u2699", "Use any `~>opts` configuration successfully.", 91, 92),
 
+    //Use market more than 1000 times.
+    COMPULSIVE_BUYER("Compulsive Buyer", "\uD83D\uDCD1", "Succesfully use market buy or sell more than 1000 times.", 91, 92),
+
     //Gamble more than Integer.MAX_VALUE.
     GAMBLER("Gambler", "\uD83D\uDCB0", "Gambled their life away.", 91, 92),
+
+    //Get an unexpected exception.
+    FIRE("Fire", "\uD83D\uDD25", "Ouch, ouch, someone please extinguish it!", 91, 92),
 
     //Used one of the many NSFW image commands at least once.
     LEWDIE("Lewdie", "\uD83D\uDC40", "Used a lewd command.", 91, 92),
@@ -183,6 +189,7 @@ public enum Badge {
             if(b.name().equalsIgnoreCase(name)) {
                 return b;
             }
+
             //show name search
             if(b.display.equalsIgnoreCase(name)) {
                 return b;
