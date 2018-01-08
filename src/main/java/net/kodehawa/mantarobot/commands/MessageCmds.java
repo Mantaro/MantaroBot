@@ -88,7 +88,19 @@ public class MessageCmds {
                 }
 
                 if(content.startsWith("nopins")) {
-                    channel.getHistory().retrievePast(100).queue(
+                    int i = 100;
+                    if(args.length > 1) {
+                        try {
+                            i = Integer.parseInt(args[1]);
+                            if(i < 3)
+                                i = 3;
+                        } catch(Exception e) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid number of messages to delete!").queue();
+                            return;
+                        }
+                    }
+
+                    channel.getHistory().retrievePast(Math.min(i, 100)).queue(
                             messageHistory -> {
                                 messageHistory = messageHistory.stream().filter(message -> !message.isPinned()).collect(Collectors.toList());
 

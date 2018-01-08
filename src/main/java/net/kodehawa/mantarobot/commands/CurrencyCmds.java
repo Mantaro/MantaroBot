@@ -174,7 +174,8 @@ public class CurrencyCmds {
                                 "To sell do `~>market sell all` to sell all your items or `~>market sell <item emoji>` to sell the " +
                                 "specified item. " +
                                 "**You'll get the sell value of the item on coins to spend.**\n" +
-                                "You can check the value of a single item using `~>market price <item emoji>`", false)
+                                "You can check the value of a single item using `~>market price <item emoji>`\n " +
+                                "Use `~>inventory -calculate` to check how much is your inventory worth.", false)
                         .addField("To know", "If you don't have enough money you cannot buy the items.\n" +
                                 "Note: Don't use the item id, it's just for aesthetic reasons, the internal IDs are different than the ones shown here!", false)
                         .addField("Information", "To buy and sell multiple items you need to do `~>market <buy/sell> <amount> <item>`",

@@ -237,12 +237,12 @@ public class PlayerCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Profile command.")
                         .setDescription("**Retrieves your current user profile.**")
-                        .addField("Usage", "To retrieve your profile, `~>profile`\n" +
-                                "To change your description do `~>profile description set <description>`\n" +
-                                "To clear it, just do `~>profile description clear`\n" +
-                                "To set your timezone do `~>profile timezone <timezone>`\n" +
-                                "To set your display badge use `~>profile displaybadge` and `~>profile displaybadge reset` to reset it." +
-                                "**The profile only shows the 5 most important badges!**", false)
+                        .addField("Usage", "- To retrieve your profile, `~>profile`\n" +
+                                "- To change your description do `~>profile description set <description>`\n" +
+                                "  -- To clear it, just do `~>profile description clear`\n" +
+                                "- To set your timezone do `~>profile timezone <timezone>`\n" +
+                                "- To set your display badge use `~>profile displaybadge` and `~>profile displaybadge reset` to reset it.\n" +
+                                "**The profile only shows the 5 most important badges!.** Use `~>badges` to get a complete list.", false)
                         .build();
             }
         });
@@ -349,12 +349,14 @@ public class PlayerCmds {
                 Badge badge = Badge.lookupFromString(content);
 
                 if(badge == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "There's no such badge...").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "There's no such badge...\n" +
+                            "Your available badges: " + player.getData().getBadges().stream().map(Badge::getDisplay).collect(Collectors.joining(", "))).queue();
                     return;
                 }
 
                 if(!data.getBadges().contains(badge)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have that badge").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have that badge.\n" +
+                            "Your available badges: " + player.getData().getBadges().stream().map(Badge::getDisplay).collect(Collectors.joining(", "))).queue();
                     return;
                 }
 
@@ -393,7 +395,7 @@ public class PlayerCmds {
                 ).collect(Collectors.joining("\n"));
 
                 if(toShow.isEmpty()) toShow = "No badges to show (yet!)";
-                List<String> parts = DiscordUtils.divideString(850, toShow);
+                List<String> parts = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH, toShow);
                 DiscordUtils.list(event, 30, false, (current, max) -> new EmbedBuilder()
                         .setAuthor(toLookup.getName() + "'s badges", null, null)
                         .setColor(event.getMember().getColor() == null ? Color.PINK : event.getMember().getColor())

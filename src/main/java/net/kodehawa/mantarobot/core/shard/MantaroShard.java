@@ -52,7 +52,6 @@ import javax.security.auth.login.LoginException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Objects;
-import java.util.Random;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -67,8 +66,6 @@ import static net.kodehawa.mantarobot.utils.Utils.pretty;
  * This also handles posting stats to dbots/dbots.org/carbonitex. Because uh... no other class was fit for it.
  */
 public class MantaroShard implements JDA {
-    //Random stuff that gets in Mantaro's status that I wonder if anyone reads.
-    private static final Random RANDOM = new Random();
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static SessionController sessionController = new SessionControllerAdapter();
     private final Logger log;

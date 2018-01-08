@@ -191,7 +191,7 @@ public class MiscCmds {
                             }
                         });
 
-                        List<String> parts = DiscordUtils.divideString(1000, stringBuilder);
+                        List<String> parts = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH, stringBuilder);
                         if(hasReactionPerms) {
                             DiscordUtils.list(event, 30, false, (current, max) -> baseEmbed(event, "Autoroles list"), parts);
                         } else {

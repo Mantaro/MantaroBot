@@ -232,8 +232,9 @@ public class CommandListener implements EventListener {
                             EmoteReference.ERROR, boomQuotes[rand.nextInt(boomQuotes.length)], id)
             ).queue();
 
-            player.getData().addBadgeIfAbsent(Badge.FIRE);
-            player.saveAsync();
+            if(player.getData().addBadgeIfAbsent(Badge.FIRE))
+                player.saveAsync();
+
             SentryHelper.captureException(String.format("Unexpected Exception on Command: %s | (Error ID: ``%s``)", event.getMessage().getContentRaw(), id), e, this.getClass());
             log.error("Error happened with id: {} (Error ID: {})", event.getMessage().getContentRaw(), id, e);
         }
