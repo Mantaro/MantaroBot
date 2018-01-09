@@ -66,7 +66,12 @@ public class KaiperScriptLexer extends Lexer<Token> {
             } else {
                 char c2 = advance();
                 if (c2 == '$') {
-                    break;
+                    char c3 = advance();
+                    if (c3 == 'k') {
+                        break;
+                    } else {
+                        sb.append(c).append(c2).append(c3);
+                    }
                 } else {
                     sb.append(c).append(c2);
                 }

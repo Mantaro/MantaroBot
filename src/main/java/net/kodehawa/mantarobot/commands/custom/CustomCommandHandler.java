@@ -50,7 +50,7 @@ public class CustomCommandHandler {
                 String code = value.trim();
                 if (code.isEmpty()) return;
 
-                if (!code.startsWith("<$")) code = "<$ " + code;
+                if (!code.startsWith("<$k")) code = "<$k " + code;
 
                 SafeEmbed[] embed = new SafeEmbed[1];
                 String result = new KaiperScriptExecutor(code)
@@ -89,6 +89,10 @@ public class CustomCommandHandler {
             } catch (LimitReachedException e) {
                 event.getChannel().sendMessage("**Error**: " + e.getMessage()).queue();
             }
+        });
+
+        specialHandlers.put("text", (event, value, args) -> {
+            event.getChannel().sendMessage(value).queue();
         });
 
         specialHandlers.put("play", (event, value, args) -> {
@@ -170,7 +174,7 @@ public class CustomCommandHandler {
     }
 
     private boolean processResponse() {
-        if (response.startsWith("k:")) {
+        if (response.startsWith("k:") || response.startsWith("text:")) {
             return true;
         }
 
