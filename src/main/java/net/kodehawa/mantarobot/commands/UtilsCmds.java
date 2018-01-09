@@ -435,21 +435,18 @@ public class UtilsCmds {
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 try {
                     content = content.replace("UTC", "GMT").toUpperCase();
-
                     DBUser user = MantaroData.db().getUser(event.getMember());
-                    if(user.getData().getTimezone() != null && args.length == 0) {
-                        event.getChannel().sendMessage(
-                                EmoteReference.MEGA + "It's " + dateGMT(event.getGuild(), user.getData().getTimezone()) +
-                                        " in the " + user.getData().getTimezone() + " " +
-                                        "timezone").queue();
+                    String timezone = user.getData().getTimezone() != null ? user.getData().getTimezone() : content;
+
+                    if(!Utils.isValidTimeZone(timezone)) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid timezone!").queue();
                         return;
                     }
-                    event.getChannel().sendMessage(
-                            String.format("%sIt's %s in the %s timezone", EmoteReference.MEGA, dateGMT(event.getGuild(), content), content)).queue();
+
+                    event.getChannel().sendMessage(String.format("%sIt's %s in the %s timezone", EmoteReference.MEGA, dateGMT(event.getGuild(), timezone), timezone)).queue();
 
                 } catch(Exception e) {
-                    event.getChannel().sendMessage(
-                            EmoteReference.ERROR + "Error while retrieving timezone or it's not valid").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Error while retrieving timezone or it's not valid").queue();
                 }
             }
 

@@ -595,4 +595,18 @@ public class Utils {
 
         return contentReplaced;
     }
+
+    public static boolean isValidTimeZone(final String timeZone) {
+        final String DEFAULT_GMT_TIMEZONE = "GMT";
+        if (timeZone.equals(DEFAULT_GMT_TIMEZONE)) {
+            return true;
+        } else {
+            String id = TimeZone.getTimeZone(timeZone).getID();
+            if (!id.equals(DEFAULT_GMT_TIMEZONE)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

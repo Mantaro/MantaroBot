@@ -259,28 +259,30 @@ public class PlayerCmds {
                     return;
                 }
 
-                if(args[0].equalsIgnoreCase("reset")) {
+                String timezone = args[0];
+
+                if(timezone.equalsIgnoreCase("reset")) {
                     dbUser.getData().setTimezone(null);
                     dbUser.saveAsync();
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Reset timezone.").queue();
                     return;
                 }
 
-                if(args[0].length() > 5) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Input is too long...").queue();
+                if(!Utils.isValidTimeZone(timezone)) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid timezone.").queue();
                     return;
                 }
 
                 try {
-                    UtilsCmds.dateGMT(event.getGuild(), args[1]);
+                    UtilsCmds.dateGMT(event.getGuild(),timezone);
                 } catch(Exception e) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid timezone.").queue();
                     return;
                 }
 
-                dbUser.getData().setTimezone(args[1]);
+                dbUser.getData().setTimezone(timezone);
                 dbUser.saveAsync();
-                event.getChannel().sendMessage(String.format("%sSaved timezone, your profile timezone is now: **%s**", EmoteReference.CORRECT, args[1])).queue();
+                event.getChannel().sendMessage(String.format("%sSaved timezone, your profile timezone is now: **%s**", EmoteReference.CORRECT, timezone)).queue();
             }
         });
 
