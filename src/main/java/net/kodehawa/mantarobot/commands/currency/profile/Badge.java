@@ -113,6 +113,9 @@ public enum Badge {
     //Self-explanatory. (Description)
     WALKER("Walker", "\uD83C\uDFF7", "Get to level 10 in Mantaro.", 91, 92),
 
+    //Divorce.
+    HEART_BROKEN("Heart Broken", "\u26d4", "Ouch, was good while it lasted.", 91, 92),
+
     //Get your marriage proposal turned down.
     DENIED("Denied", "\u26d4", "Get your marriage proposal turned down :(.", 91, 92),
 
