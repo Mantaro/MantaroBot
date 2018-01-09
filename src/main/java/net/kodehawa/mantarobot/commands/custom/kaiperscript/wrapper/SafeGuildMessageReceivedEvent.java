@@ -10,6 +10,7 @@ public class SafeGuildMessageReceivedEvent {
     private final SafeUser author;
     private final SafeMember me;
     private final SafeGuild guild;
+    private final SafeMentions mentions;
     private final SafeMessage message;
 
     public SafeGuildMessageReceivedEvent(GuildMessageReceivedEvent event) {
@@ -19,6 +20,7 @@ public class SafeGuildMessageReceivedEvent {
         this.guild = new SafeGuild(event.getGuild(), channel);
         this.message = new SafeMessage(event.getMessage());
         this.me = new SafeMember(event.getGuild().getSelfMember());
+        this.mentions = new SafeMentions(event.getMessage().getMentionedMembers());
     }
 
     @Override
