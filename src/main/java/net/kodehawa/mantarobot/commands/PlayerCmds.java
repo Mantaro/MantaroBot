@@ -177,9 +177,12 @@ public class PlayerCmds {
 
                         PlayerData playerData = player.getData();
                         Inventory inv = player.getInventory();
-                        boolean saveAfter = false;
 
                         //start of badge assigning
+                        Guild mh = MantaroBot.getInstance().getGuildById("213468583252983809");
+                        Member mhMember = mh == null ? null : mh.getMember(event.getAuthor());
+                        boolean saveAfter = false;
+
                         if(player.getMoney() > 7526527671L && playerData.addBadgeIfAbsent(Badge.ALTERNATIVE_WORLD))
                             saveAfter = true;
                         if(MantaroData.config().get().isOwner(author) && playerData.addBadgeIfAbsent(Badge.DEVELOPER))
@@ -201,6 +204,9 @@ public class PlayerCmds {
                         if(player.getLevel() >= 200 && playerData.addBadgeIfAbsent(Badge.MARATHON_WINNER))
                             saveAfter = true;
                         if(playerData.getMarketUsed() > 1000 && playerData.addBadgeIfAbsent(Badge.COMPULSIVE_BUYER))
+                            saveAfter = true;
+                        if(mhMember != null && mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 290257037072531466L || r.getIdLong() == 290902183300431872L) &&
+                                playerData.addBadgeIfAbsent(Badge.DONATOR))
                             saveAfter = true;
 
                         if(saveAfter)
