@@ -215,7 +215,7 @@ public class PlayerCmds {
                                 badges.isEmpty() ? null : (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()), author,
                                 baseEmbed(event, (marriedTo == null || !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING) + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
                                 .setThumbnail(author.getEffectiveAvatarUrl())
-                                .setDescription((badges.isEmpty() ? "" : String.format("**%s**\n", (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge())))
+                                .setDescription((player.getData().isShowBadge() ? (badges.isEmpty() ? "" : String.format("**%s**\n", (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()))) : "")
                                         + (player.getData().getDescription() == null ? "No description set" : player.getData().getDescription()))
                                 .addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), true)
                                 .addField(EmoteReference.ZAP + "Level", player.getLevel() + " (Experience: " + player.getData().getExperience() +
@@ -242,6 +242,7 @@ public class PlayerCmds {
                                 "  -- To clear it, just do `~>profile description clear`\n" +
                                 "- To set your timezone do `~>profile timezone <timezone>`\n" +
                                 "- To set your display badge use `~>profile displaybadge` and `~>profile displaybadge reset` to reset it.\n" +
+                                "  -- You can also use `~>profile displaybadge none` to display no badge on your profile.\n" +
                                 "**The profile only shows the 5 most important badges!.** Use `~>badges` to get a complete list.", false)
                         .build();
             }
@@ -341,8 +342,16 @@ public class PlayerCmds {
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
                 PlayerData data = player.getData();
 
+                if(args[0].equalsIgnoreCase("none")) {
+                    data.setShowBadge(false);
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "No badge will show on the top of your profile now!").queue();
+                    player.saveAsync();
+                    return;
+                }
+
                 if(args[0].equalsIgnoreCase("reset")) {
                     data.setMainBadge(null);
+                    data.setShowBadge(true);
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Your display badge is now the most important one.").queue();
                     player.saveAsync();
                     return;
@@ -362,6 +371,7 @@ public class PlayerCmds {
                     return;
                 }
 
+                data.setShowBadge(true);
                 data.setMainBadge(badge);
                 player.saveAsync();
                 event.getChannel().sendMessage(EmoteReference.CORRECT + "Your display badge is now: **" + badge.display + "**").queue();
@@ -394,7 +404,7 @@ public class PlayerCmds {
                         String toShow = "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n" +
                                 "Use `~>badges info <badge name>` to get more information about a badge.\n" +
                                 ((r.nextInt(3) == 0 && !playerData.hasBadge(Badge.UPVOTER) ? "**You can get a free badge for " +
-                                        "[up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!** (It might take some minutes to process)\n\n" : ""))
+                                        "[up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!** (It might take some minutes to process)\n\n" : "\n"))
                                 + badges.stream().map(badge -> String.format("**%s:** *%s*", badge, badge.description)).collect(Collectors.joining("\n"));
 
                         if(toShow.isEmpty()) toShow = "No badges to show (yet!)";

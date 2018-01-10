@@ -42,6 +42,7 @@ public class PlayerData {
     //null = most important badge shows.
     private Badge mainBadge = null;
     private long marketUsed;
+    private boolean showBadge = true;
 
     @Transient
     public boolean isMarried() {
