@@ -22,7 +22,6 @@ import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -51,7 +50,6 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -171,10 +169,10 @@ public class CurrencyCmds {
                         .setDescription("**List current items for buying and selling.**")
                         .addField("Buying and selling", "To buy do ~>market buy <item emoji>. It will subtract the value from your money" +
                                 " and give you the item.\n" +
-                                "To sell do `~>market sell all` to sell all your items or `~>market sell <item emoji>` to sell the " +
-                                "specified item. " +
+                                "To sell do `~>market sell all` to sell all your items or `~>market sell <item emoji>` to sell the specified item. " +
                                 "**You'll get the sell value of the item on coins to spend.**\n" +
-                                "You can check the value of a single item using `~>market price <item emoji>`\n " +
+                                "You can check the value of a single item using `~>market price <item emoji>`\n" +
+                                "You can send an item to the trash using `~>market dump <amount> <item emoji>`\n" +
                                 "Use `~>inventory -calculate` to check how much is your inventory worth.", false)
                         .addField("To know", "If you don't have enough money you cannot buy the items.\n" +
                                 "Note: Don't use the item id, it's just for aesthetic reasons, the internal IDs are different than the ones shown here!", false)
@@ -196,6 +194,51 @@ public class CurrencyCmds {
 
             return true;
         });
+
+        marketCommand.addSubCommand("dump", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                String[] args = content.split(" ");
+                String itemName = content;
+                int itemNumber = 1;
+                boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
+                if(isMassive) {
+                    try {
+                        itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
+                        itemName = itemName.replace(args[0], "").trim();
+                    } catch (NumberFormatException e) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to buy.").queue();
+                        return;
+                    } catch (Exception e) {
+                        onHelp(event);
+                        return;
+                    }
+                }
+
+                Item item = Items.fromAny(itemName).orElse(null);
+
+                if(item == null) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot check the dump a non-existent item!").queue();
+                    return;
+                }
+
+                Player player = MantaroData.db().getPlayer(event.getAuthor());
+
+                if(!player.getInventory().containsItem(item)) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot dump an item you don't have!").queue();
+                    return;
+                }
+
+                if(player.getInventory().getAmount(item) < itemNumber) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot dump more items than what you have.").queue();
+                    return;
+                }
+
+                player.getInventory().process(new ItemStack(item, -itemNumber));
+                player.saveAsync();
+                event.getChannel().sendMessage(String.format("%sSent %dx **%s %s** to the trash!", EmoteReference.CORRECT, itemNumber, item.getEmoji(), item.getName())).queue();
+            }
+        }).createSubCommandAlias("dump", "trash");
 
         marketCommand.addSubCommand("price", new SubCommand() {
             @Override
