@@ -207,7 +207,7 @@ public class CurrencyCmds {
                         itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
                         itemName = itemName.replace(args[0], "").trim();
                     } catch (NumberFormatException e) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to buy.").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to dump.").queue();
                         return;
                     } catch (Exception e) {
                         onHelp(event);
