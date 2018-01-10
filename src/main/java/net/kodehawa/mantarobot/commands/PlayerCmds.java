@@ -372,44 +372,80 @@ public class PlayerCmds {
     @Subscribe
     public void badges(CommandRegistry cr) {
         final Random r = new Random();
-        cr.register("badges", new SimpleCommand(Category.CURRENCY) {
+        ITreeCommand badgeCommand = (ITreeCommand) cr.register("badges", new TreeCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                Member member = Utils.findMember(event, event.getMember(), content);
-                if(member == null) return;
+            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+                return new SubCommand() {
+                    @Override
+                    protected void call(GuildMessageReceivedEvent event, String content) {
+                        Member member = Utils.findMember(event, event.getMember(), content);
+                        if(member == null) return;
 
-                User toLookup = member.getUser();
+                        User toLookup = member.getUser();
 
-                Player player = MantaroData.db().getPlayer(toLookup);
-                PlayerData playerData = player.getData();
+                        Player player = MantaroData.db().getPlayer(toLookup);
+                        PlayerData playerData = player.getData();
 
-                List<Badge> badges = playerData.getBadges();
-                Collections.sort(badges);
-                AtomicInteger counter = new AtomicInteger();
+                        List<Badge> badges = playerData.getBadges();
+                        Collections.sort(badges);
 
-                //Show the message that tells the person that they can get a free badge for upvoting mantaro one out of 3 times they use this command.
-                //The message stops appearing when they upvote.
-                String toShow = "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n" +
-                        ((r.nextInt(3) == 0 && !MantaroBot.getInstance().getShardedMantaro().getDiscordBotsUpvoters().contains(event.getAuthor().getIdLong())) ?
+                        //Show the message that tells the person that they can get a free badge for upvoting mantaro one out of 3 times they use this command.
+                        //The message stops appearing when they upvote.
+                        String toShow = "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n" +
+                                "Use `~>badges info <badge name>` to get more information about a badge.\n" + ((r.nextInt(3) == 0 &&
+                                !MantaroBot.getInstance().getShardedMantaro().getDiscordBotsUpvoters().contains(event.getAuthor().getIdLong())) ?
                                 "**You can get a free badge for [up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!**" +
-                                        " (It might take some minutes to process)\n\n" : "") +
-                        badges.stream().map(badge -> String.format("**%d.-** %s\n*%4s*", counter.incrementAndGet(), badge, badge.description)
-                ).collect(Collectors.joining("\n"));
+                                        " (It might take some minutes to process)\n\n" : "")
+                                + badges.stream().map(badge -> String.format("**%s:** *%s*", badge, badge.description)).collect(Collectors.joining("\n"));
 
-                if(toShow.isEmpty()) toShow = "No badges to show (yet!)";
-                List<String> parts = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH, toShow);
-                DiscordUtils.list(event, 30, false, (current, max) -> new EmbedBuilder()
-                        .setAuthor(toLookup.getName() + "'s badges", null, null)
-                        .setColor(event.getMember().getColor() == null ? Color.PINK : event.getMember().getColor())
-                        .setThumbnail(toLookup.getEffectiveAvatarUrl()), parts);
+                        if(toShow.isEmpty()) toShow = "No badges to show (yet!)";
+                        List<String> parts = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH, toShow);
+                        DiscordUtils.list(event, 30, false, (current, max) -> new EmbedBuilder()
+                                .setAuthor("Badges achieved by " + toLookup.getName())
+                                .setColor(event.getMember().getColor() == null ? Color.PINK : event.getMember().getColor())
+                                .setThumbnail(toLookup.getEffectiveAvatarUrl()), parts);
+                    }
+                };
             }
 
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Badge list")
                         .setDescription("**Shows your (or another person)'s badges**\n" +
-                                "If you want to check out the badges of another person just mention them.")
+                                "If you want to check out the badges of another person just mention them.\n" +
+                                "`~>badges info <name>` - Shows info about a badge.")
                         .build();
+            }
+        });
+
+        badgeCommand.addSubCommand("info", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a badge to see the info of.").queue();
+                    return;
+                }
+
+                Badge badge = Badge.lookupFromString(content);
+                if(badge == null) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "There's no such badge...").queue();
+                    return;
+                }
+
+                Player p = MantaroData.db().getPlayer(event.getAuthor());
+                Message message = new MessageBuilder().setEmbed(new EmbedBuilder()
+                        .setAuthor("Badge information for " + badge.display)
+                        .setDescription(String.join("\n",
+                                EmoteReference.BLUE_SMALL_MARKER + "**Name:** " + badge.display,
+                                EmoteReference.BLUE_SMALL_MARKER + "**Description:** " + badge.description,
+                                EmoteReference.BLUE_SMALL_MARKER + "**Achieved:** " + p.getData().getBadges().stream().anyMatch(b -> b == badge))
+                        )
+                        .setThumbnail("attachment://icon.png")
+                        .setColor(Color.CYAN)
+                        .build()
+                ).build();
+
+                event.getChannel().sendFile(badge.icon, "icon.png", message).queue();
             }
         });
     }

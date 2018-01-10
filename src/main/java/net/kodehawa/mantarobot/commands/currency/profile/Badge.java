@@ -230,7 +230,7 @@ public enum Badge {
      */
     @Override
     public String toString() {
-        return display + (unicode == null ? "" : " " + unicode);
+        return (unicode == null ? "" : " " + unicode + " ") + display ;
     }
 
     //need this to get access to a logger in the constructor
