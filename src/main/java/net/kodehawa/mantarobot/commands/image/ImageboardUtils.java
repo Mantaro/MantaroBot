@@ -109,7 +109,7 @@ public class ImageboardUtils {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
                                     "number or another search.").queue();
                         }
-                    });
+                    }, failure -> event.getChannel().sendMessage(EmoteReference.SAD + "There was an error while looking for an image...").queue());
                 } catch(Exception exception) {
                     if(exception instanceof NumberFormatException)
                         channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help " + imageboard).queue(
@@ -168,13 +168,15 @@ public class ImageboardUtils {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
                                     "number or another search.").queue();
                         }
-                    });
+                    }, failure -> event.getChannel().sendMessage(EmoteReference.SAD + "There was an error while looking for this tag...").queue());
+                } catch (NumberFormatException numberEx) {
+                    channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help " + imageboard).queue(
+                            message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
+                    );
                 } catch(Exception exception) {
-                    if(exception instanceof NumberFormatException)
-                        channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help " + imageboard).queue(
-                                message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                        );
+                    event.getChannel().sendMessage(EmoteReference.SAD + "There was an error while looking for this tag...").queue();
                 }
+
                 break;
             case RANDOM:
                 api.get(page, queryRating).async(requestedImages -> {
@@ -204,7 +206,7 @@ public class ImageboardUtils {
                     } catch(Exception e) {
                         event.getChannel().sendMessage(EmoteReference.SAD + "There was an unknown error while looking for a random image...").queue();
                     }
-                });
+                }, failure -> event.getChannel().sendMessage(EmoteReference.SAD + "There was an error while looking for a random image...").queue());
                 break;
         }
     }
