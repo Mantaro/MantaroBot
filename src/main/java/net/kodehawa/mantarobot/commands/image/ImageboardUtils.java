@@ -110,11 +110,12 @@ public class ImageboardUtils {
                                     "number or another search.").queue();
                         }
                     }, failure -> event.getChannel().sendMessage(EmoteReference.SAD + "There was an error while looking for an image...").queue());
-                } catch(Exception exception) {
-                    if(exception instanceof NumberFormatException)
-                        channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help " + imageboard).queue(
-                                message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                        );
+                } catch(NumberFormatException ne) {
+                    channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help " + imageboard).queue(
+                            message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
+                    );
+                } catch (Exception e) {
+                    event.getChannel().sendMessage(EmoteReference.SAD + "There was an error while looking an image...").queue();
                 }
                 break;
             case TAGS:
