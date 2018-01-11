@@ -770,6 +770,7 @@ public class MoneyCmds {
                     if(i > 1 && i % 3 == 0) {
                         builder.append("\n");
                     }
+
                     builder.append(emotes[random.nextInt(emotes.length)]);
                 }
 
