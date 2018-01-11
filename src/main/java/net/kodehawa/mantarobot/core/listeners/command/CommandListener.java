@@ -62,7 +62,7 @@ public class CommandListener implements EventListener {
     //Message cache of 35000 cached messages. If it reaches 35000 it will delete the first one stored, and continue being 35000
     @Getter
     private static final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(35000).build();
-    private static final RateLimiter experienceRatelimiter = new RateLimiter(TimeUnit.SECONDS, 30);
+    private static final RateLimiter experienceRatelimiter = new RateLimiter(TimeUnit.SECONDS, 18);
     //Commands ran this session.
     private static int commandTotal = 0;
     private final String[] boomQuotes = {

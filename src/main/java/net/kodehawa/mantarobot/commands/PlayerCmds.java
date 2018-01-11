@@ -205,8 +205,7 @@ public class PlayerCmds {
                             saveAfter = true;
                         if(playerData.getMarketUsed() > 1000 && playerData.addBadgeIfAbsent(Badge.COMPULSIVE_BUYER))
                             saveAfter = true;
-                        if(mhMember != null && mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 290257037072531466L || r.getIdLong() == 290902183300431872L) &&
-                                playerData.addBadgeIfAbsent(Badge.DONATOR))
+                        if(mhMember != null && mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 290257037072531466L || r.getIdLong() == 290902183300431872L) && playerData.addBadgeIfAbsent(Badge.DONATOR))
                             saveAfter = true;
                         if(mhMember != null && mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 292803391330058241L) && playerData.addBadgeIfAbsent(Badge.HELPER))
                             saveAfter = true;
