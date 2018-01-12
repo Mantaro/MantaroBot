@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import com.jagrosh.jdautilities.utils.FinderUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -52,9 +53,8 @@ import okhttp3.ResponseBody;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -395,6 +395,8 @@ public class PlayerCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, String content) {
+                        Map<String, Optional<String>> t = StringUtils.parse(content.split(" "));
+                        content = Utils.replaceArguments(t, content, "brief");
                         Member member = Utils.findMember(event, event.getMember(), content);
                         if(member == null) return;
 
@@ -402,6 +404,11 @@ public class PlayerCmds {
 
                         Player player = MantaroData.db().getPlayer(toLookup);
                         PlayerData playerData = player.getData();
+
+                        if(t.containsKey("brief")) {
+                            event.getChannel().sendMessage(String.format("**%s's badges:**\n%s", member.getEffectiveName(), playerData.getBadges().stream().map(b -> "*" + b.display + "*").collect(Collectors.joining(", ")))).queue();
+                            return;
+                        }
 
                         List<Badge> badges = playerData.getBadges();
                         Collections.sort(badges);
@@ -429,7 +436,8 @@ public class PlayerCmds {
                 return helpEmbed(event, "Badge list")
                         .setDescription("**Shows your (or another person)'s badges**\n" +
                                 "If you want to check out the badges of another person just mention them.\n" +
-                                "`~>badges info <name>` - Shows info about a badge.")
+                                "`~>badges info <name>` - Shows info about a badge.\n" +
+                                "You can use `~>badges -brief` to get a brief versions of the badge showcase.")
                         .build();
             }
         });

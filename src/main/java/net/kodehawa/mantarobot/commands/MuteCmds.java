@@ -167,8 +167,7 @@ public class MuteCmds {
                             .queue();
 
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Added mute role to **" +m.getEffectiveName() +
-                            (time > 0 ? "** for around " + Utils.getHumanizedTime(time - System.currentTimeMillis()) : "**"))
-                            .queue();
+                            (time > 0 ? "** for around " + Utils.getHumanizedTime(time - System.currentTimeMillis()) : "**")).queue();
 
                     dbg.getData().setCases(dbg.getData().getCases() + 1);
                     dbg.saveAsync();
