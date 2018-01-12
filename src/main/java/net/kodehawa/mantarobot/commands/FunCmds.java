@@ -255,12 +255,12 @@ public class FunCmds {
                 marriedWith.getData().setMarriedWith(null);
                 marriedWith.getData().setMarriedSince(0L);
                 marriedWith.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
-                marriedWith.saveAsync();
+                marriedWith.save();
 
                 divorcee.getData().setMarriedWith(null);
                 divorcee.getData().setMarriedSince(0L);
                 divorcee.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
-                divorcee.saveAsync();
+                divorcee.save();
 
                 event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. That's nice I guess.").queue();
             }
