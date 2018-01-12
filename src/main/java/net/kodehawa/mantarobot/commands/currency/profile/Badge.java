@@ -81,7 +81,7 @@ public enum Badge {
     CLAIMER("Claimer", "\uD83C\uDF89", "Claim daily more than 10 days in a row.", 91, 92),
 
     //Participated on the christmas 2017 event
-    CHRISTMAS("Christmas Spirit", "\uD83C\uDF85", "Participated on the christmas 2017 event!", 91, 92),
+    CHRISTMAS("Christmas Spirit", "\uD83C\uDF85", "Participated in the christmas 2017 event!", 91, 92),
 
     //Use a mod action with mantaro
     POWER_USER("Power User", "\uD83D\uDD27", "Do mod stuff with Mantaro.", 91, 92),
