@@ -245,8 +245,7 @@ public class FunCmds {
                     divorcee.getData().setMarriedWith(null);
                     divorcee.getData().setMarriedSince(0L);
                     divorcee.saveAsync();
-                    event.getChannel().sendMessage(
-                            EmoteReference.CORRECT + "Now you're single. That's nice I guess.").queue();
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. That's nice I guess.").queue();
                     return;
                 }
 

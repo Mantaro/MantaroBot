@@ -83,4 +83,6 @@ public class GuildData {
     private String logLeaveChannel = null;
     private List<LocalExperienceData> localPlayerExperience = new ArrayList<>();
     private Set<String> linkProtectionAllowedUsers = new HashSet<>();
+    private HashMap<String, List<Category>> roleSpecificDisabledCategories = new HashMap<>();
+    private HashMap<String, List<String>> roleSpecificDisabledCommands = new HashMap<>();
 }

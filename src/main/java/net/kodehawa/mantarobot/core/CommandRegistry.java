@@ -107,6 +107,16 @@ public class CommandRegistry {
             return false;
         }
 
+        HashMap<String, List<String>> roleSpecificDisabledCommands = data.getRoleSpecificDisabledCommands();
+        if(event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdname)) && !isAdmin(event.getMember())) {
+            return false;
+        }
+
+        HashMap<String, List<Category>> roleSpecificDisabledCategories = data.getRoleSpecificDisabledCategories();
+        if(event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCategories.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) && !isAdmin(event.getMember())) {
+            return false;
+        }
+
         //If we are in the patreon bot, deny all requests from unknown guilds.
         if(conf.isPremiumBot() && !conf.isOwner(event.getAuthor()) && !dbg.isPremium()) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like you're trying to use the Patreon bot when this guild is **not** marked as premium. " +

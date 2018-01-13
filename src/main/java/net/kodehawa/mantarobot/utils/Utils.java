@@ -327,6 +327,32 @@ public class Utils {
         return event.getMember().getRoles().get(0);
     }
 
+    public static Role findRoleSelect(GuildMessageReceivedEvent event, String content, Consumer<Role> consumer) {
+        List<Role> found = FinderUtil.findRoles(content, event.getGuild());
+        if(found.isEmpty() && !content.isEmpty()) {
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any roles with that name :(").queue();
+            return null;
+        }
+
+        if(found.size() > 1 && !content.isEmpty()) {
+            event.getChannel().sendMessage(String.format("%sToo roles found, maybe refine your search?\n**Roles found:** %s",
+                    EmoteReference.THINKING, found.stream().map(Role::getName).collect(Collectors.joining(", ")))).queue();
+
+            return null;
+        }
+
+        if(found.size() == 1) {
+            return found.get(0);
+        } else {
+            DiscordUtils.selectList(event, found,
+                    role -> String.format("%s (ID: %s)", role.getName(), role.getId()),
+                    s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Role:").setDescription(s).build(), consumer
+            );
+        }
+
+        return null;
+    }
+
     public static TextChannel findChannel(GuildMessageReceivedEvent event, String content) {
         List<TextChannel> found = FinderUtil.findTextChannels(content, event.getGuild());
         if(found.isEmpty() && !content.isEmpty()) {
