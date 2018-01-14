@@ -19,6 +19,8 @@ package net.kodehawa.mantarobot.commands;
 import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -287,7 +289,8 @@ public class FunCmds {
                 int waifuRate = r.nextInt(100);
                 if(content.equalsIgnoreCase("mantaro")) waifuRate = 100;
 
-                event.getChannel().sendMessage(String.format("%sI rate %s with a **%d/100**", EmoteReference.THINKING, content, waifuRate)).queue();
+                new MessageBuilder().setContent(String.format("%sI rate %s with a **%d/100**", EmoteReference.THINKING, content, waifuRate))
+                        .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE).sendTo(event.getChannel()).queue();
             }
 
             @Override
