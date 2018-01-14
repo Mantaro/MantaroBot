@@ -48,7 +48,7 @@ public class WeebAPIRequester {
 
         String r = request(RANDOM_IMAGE, Utils.urlEncodeUTF8(queryParams));
         if(r == null)
-            return null;
+            return Pair.of(null, null);
 
         JSONObject object = new JSONObject(r);
         return Pair.of(object.getString("url"), object.getString("id"));
