@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.action;
 
+import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -27,6 +28,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+@Slf4j
 public class WeebAPIRequester {
     private final String ALL_TAGS = "/tags";
     private final String ALL_TYPES = "/types";
@@ -109,6 +111,7 @@ public class WeebAPIRequester {
             r1.close();
             return response;
         } catch(Exception ex) {
+            log.error("Error getting image from weeb.sh", ex);
             return null;
         }
     }

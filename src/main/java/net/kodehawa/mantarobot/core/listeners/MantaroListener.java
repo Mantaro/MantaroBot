@@ -510,6 +510,8 @@ public class MantaroListener implements EventListener {
                             event.getGuild().getController().addSingleRoleToMember(event.getMember(), toAssign)
                                     .reason("Autorole assigner.")
                                     .queue(s -> log.debug("Successfully added a new role to " + event.getMember()));
+
+                            MantaroBot.getInstance().getStatsClient().increment("join_autorole");
                         }
                     }
                 } catch(Exception ignored) { }
@@ -532,6 +534,7 @@ public class MantaroListener implements EventListener {
             String joinChannel = data.getLogJoinLeaveChannel() == null ? data.getLogJoinChannel() : data.getLogJoinLeaveChannel();
             String joinMessage = data.getJoinMessage();
             sendJoinLeaveMessage(event, joinMessage, joinChannel);
+            MantaroBot.getInstance().getStatsClient().increment("join_messages");
         } catch (Exception e) {
             SentryHelper.captureExceptionContext("Failed to send join message!", e, MantaroListener.class, "Join Handler");
         }
@@ -565,6 +568,7 @@ public class MantaroListener implements EventListener {
             String leaveChannel = data.getLogJoinLeaveChannel() == null ? data.getLogLeaveChannel() : data.getLogJoinLeaveChannel();
             String leaveMessage = data.getLeaveMessage();
             sendJoinLeaveMessage(event, leaveMessage, leaveChannel);
+            MantaroBot.getInstance().getStatsClient().increment("leave_messages");
         } catch (Exception e) {
             SentryHelper.captureExceptionContext("Failed to send leave message!", e, MantaroListener.class, "Join Handler");
         }
