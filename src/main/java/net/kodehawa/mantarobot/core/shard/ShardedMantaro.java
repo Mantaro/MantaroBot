@@ -220,9 +220,9 @@ public class ShardedMantaro {
 
                     Request request = new Request.Builder()
                             .url("https://bots.discord.pw/api/bots/213466096718708737/stats")
+                            .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                             .addHeader("Authorization", dbotsToken)
                             .addHeader("Content-Type", "application/json")
-                            .header("User-Agent", MantaroInfo.USER_AGENT)
                             .post(body)
                             .build();
                     Utils.httpClient.newCall(request).execute().close();
