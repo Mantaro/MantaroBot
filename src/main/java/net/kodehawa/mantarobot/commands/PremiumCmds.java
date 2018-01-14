@@ -212,7 +212,7 @@ public class PremiumCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 if(args.length < 2) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a scope and an id (example: master 1558674582032875529)").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a scope and an id (example: guild 1558674582032875529)").queue();
                     return;
                 }
 

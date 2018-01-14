@@ -155,9 +155,9 @@ public class CurrencyCmds {
                         boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
 
                         if(hasReactionPerms) {
-                            DiscordUtils.list(event, 45, false, embed, splitFields);
+                            DiscordUtils.list(event, 120, false, embed, splitFields);
                         } else {
-                            DiscordUtils.listText(event, 45, false, embed, splitFields);
+                            DiscordUtils.listText(event, 120, false, embed, splitFields);
                         }
                     }
                 };
