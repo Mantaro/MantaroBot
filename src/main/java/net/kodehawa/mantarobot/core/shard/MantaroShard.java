@@ -40,9 +40,6 @@ import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
-import okhttp3.MediaType;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -66,7 +63,6 @@ import static net.kodehawa.mantarobot.utils.Utils.pretty;
  * This also handles posting stats to dbots/dbots.org/carbonitex. Because uh... no other class was fit for it.
  */
 public class MantaroShard implements JDA {
-    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static SessionController sessionController = new SessionControllerAdapter();
     private final Logger log;
     private static final VoiceChannelListener VOICE_CHANNEL_LISTENER = new VoiceChannelListener();
@@ -198,36 +194,6 @@ public class MantaroShard implements JDA {
 
         executorService.scheduleWithFixedDelay(() -> birthdayTask.handle(shardId),
                 millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
-    }
-
-    /**
-     * Handles updating the server count to most of the popular bot lists.
-     */
-    public void updateServerCount() {
-        Config config = config().get();
-
-        String dbotsToken = config.dbotsToken;
-
-        if(dbotsToken != null) {
-            Async.task("Dbots update Thread", () -> {
-                try {
-                    int count = jda.getGuilds().size();
-                    RequestBody body = RequestBody.create(
-                            JSON,
-                            new JSONObject().put("server_count", count).put("shard_id", getId()).put("shard_count", totalShards).toString()
-                    );
-
-                    Request request = new Request.Builder()
-                            .url("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
-                            .addHeader("Authorization", dbotsToken)
-                            .addHeader("Content-Type", "application/json")
-                            .post(body)
-                            .build();
-                    Utils.httpClient.newCall(request).execute().close();
-                    log.debug("Updated server count ({}) for bots.discord.pw on Shard {}", count, shardId);
-                } catch(Exception ignored) { }
-            }, 1, TimeUnit.HOURS);
-        }
     }
 
     /**

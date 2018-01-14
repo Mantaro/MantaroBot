@@ -28,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
@@ -40,9 +41,7 @@ import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -63,6 +62,7 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
 @Slf4j
 public class ShardedMantaro {
 
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final Carbonitex carbonitex = new Carbonitex();
     private final Config config = MantaroData.config().get();
     private final DiscordBotsAPI discordBotsAPI = new DiscordBotsAPI(MantaroData.config().get().dbotsorgToken);
@@ -210,9 +210,28 @@ public class ShardedMantaro {
             log.warn("discordbots.org token not set in config, cannot start posting stats!");
         }
 
+        String dbotsToken = config.dbotsToken;
+
+        if(dbotsToken != null) {
+            Async.task("bots.discord.pw update Thread", () -> {
+                try {
+                    long count = MantaroBot.getInstance().getGuildCache().size();
+                    RequestBody body = RequestBody.create(JSON, new JSONObject().put("server_count", count).toString());
+
+                    Request request = new Request.Builder()
+                            .url("https://bots.discord.pw/api/bots/213466096718708737/stats")
+                            .addHeader("Authorization", dbotsToken)
+                            .addHeader("Content-Type", "application/json")
+                            .header("User-Agent", MantaroInfo.USER_AGENT)
+                            .post(body)
+                            .build();
+                    Utils.httpClient.newCall(request).execute().close();
+                    log.debug("Updated server count for bots.discord.pw");
+                } catch(Exception ignored) { }
+            }, 1, TimeUnit.HOURS);
+        }
 
         for(MantaroShard shard : getShards()) {
-            shard.updateServerCount();
             shard.updateStatus();
         }
     }
