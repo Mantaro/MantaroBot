@@ -302,7 +302,7 @@ public class GameCmds {
                     })
             );
 
-            event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with all users with the specfied role: " + b.toString()).queue();
+            event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with all users with the specified role: " + b.toString()).queue();
         }
 
         if(!event.getMessage().getMentionedUsers().isEmpty()) {

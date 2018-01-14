@@ -194,7 +194,7 @@ public class FunCmds {
                             proposedInventory.process(new ItemStack(Items.RING, 1));
                         }
 
-                        ie.getChannel().sendMessage(String.format("%s%s accepted the proposal of %s!", EmoteReference.POPPER, ie.getAuthor().getName(), proposing.getName())).queue();
+                        ie.getChannel().sendMessage(String.format("%s`%s` accepted the proposal of `%s`!", EmoteReference.POPPER, ie.getAuthor().getName(), proposing.getName())).queue();
                         proposed.save();
                         author.save();
 
@@ -203,7 +203,7 @@ public class FunCmds {
                     }
 
                     if(message.equalsIgnoreCase("no")) {
-                        ie.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal from " + proposing.getName()).queue();
+                        ie.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal from `" + proposing.getName() + "`").queue();
                         proposingPlayer.getData().addBadgeIfAbsent(Badge.DENIED);
                         proposingPlayer.saveAsync();
                         return Operation.COMPLETED;
