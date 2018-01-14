@@ -36,21 +36,27 @@ public class DefaultCommandProcessor implements ICommandProcessor {
 
     @Override
     public boolean run(GuildMessageReceivedEvent event) {
+        //When did we start processing this command?...
         long start = System.currentTimeMillis();
+        //The command executed, in raw form.
         String rawCmd = event.getMessage().getContentRaw();
+        //Mantaro prefixes.
         String[] prefix = MantaroData.config().get().prefix;
+        //Guild-specific prefix.
         String customPrefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
-
+        //What prefix did this person use.
         String usedPrefix = null;
+        //Lower-case raw cmd check, only used for prefix checking.
+        String lowerRawCmd = rawCmd.toLowerCase();
 
         for(String s : prefix) {
-            if(rawCmd.toLowerCase().startsWith(s)) usedPrefix = s;
+            if(lowerRawCmd.startsWith(s)) usedPrefix = s;
         }
 
-        if(usedPrefix != null && rawCmd.toLowerCase().startsWith(usedPrefix.toLowerCase())) {
+        if(usedPrefix != null && lowerRawCmd.startsWith(usedPrefix.toLowerCase())) {
             rawCmd = rawCmd.substring(usedPrefix.length());
         }
-        else if(customPrefix != null && rawCmd.toLowerCase().startsWith(customPrefix.toLowerCase())) {
+        else if(customPrefix != null && lowerRawCmd.startsWith(customPrefix.toLowerCase())) {
             rawCmd = rawCmd.substring(customPrefix.length());
         }
         else if(usedPrefix == null) {
