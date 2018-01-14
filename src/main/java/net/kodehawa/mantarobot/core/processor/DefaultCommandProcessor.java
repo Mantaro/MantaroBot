@@ -47,10 +47,10 @@ public class DefaultCommandProcessor implements ICommandProcessor {
             if(rawCmd.toLowerCase().startsWith(s)) usedPrefix = s;
         }
 
-        if(usedPrefix != null && rawCmd.startsWith(usedPrefix)) {
+        if(usedPrefix != null && rawCmd.toLowerCase().startsWith(usedPrefix.toLowerCase())) {
             rawCmd = rawCmd.substring(usedPrefix.length());
         }
-        else if(customPrefix != null && rawCmd.startsWith(customPrefix)) {
+        else if(customPrefix != null && rawCmd.toLowerCase().startsWith(customPrefix.toLowerCase())) {
             rawCmd = rawCmd.substring(customPrefix.length());
         }
         else if(usedPrefix == null) {
