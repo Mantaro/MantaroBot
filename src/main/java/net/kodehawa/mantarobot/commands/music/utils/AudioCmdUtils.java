@@ -49,9 +49,17 @@ public class AudioCmdUtils {
         Guild guild = event.getGuild();
 
         if(toSend.isEmpty()) {
+
             event.getChannel().sendMessage(new EmbedBuilder()
                     .setAuthor("Queue for server " + guild.getName(), null, guild.getIconUrl())
-                    .setColor(Color.CYAN).setDescription("Nothing here, just dust. Why don't you queue some songs?")
+                    .setColor(Color.CYAN).setDescription("Nothing here, just dust. Why don't you queue some songs?\n" +
+                            "If you think there are songs here but they don't appear, try using `~>queue 1`.\n" +
+                            "**If there is a song playing and you didn't add more songs, then there is actually just dust here. You can queue more songs as you desire!**")
+                    .addField("Currently playing", musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null ?
+                            "**[" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title
+                                    + "](" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().uri +
+                                    ")** (" + Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length) + ")" :
+                            "Nothing or title/duration not found", false)
                     .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png").build()).queue();
             return;
         }

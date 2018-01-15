@@ -233,7 +233,7 @@ public class PlayerCmds {
                                 .addField(EmoteReference.HEART + "Married with", marriedTo == null ? "Nobody." : marriedTo.getName() + "#" +
                                         marriedTo.getDiscriminator(), false)
                                 .addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(inv.asList()), false)
-                                .addField(EmoteReference.HEART + "Badges", displayBadges.isEmpty() ? "No badges (yet!)" : displayBadges, false)
+                                .addField(EmoteReference.HEART + "Top 5 Badges", displayBadges.isEmpty() ? "No badges (yet!)" : displayBadges, false)
                                 .setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set." : user.getTimezone()) + " | " +
                                         "Requested by " + event.getAuthor().getName(), null));
                     }
