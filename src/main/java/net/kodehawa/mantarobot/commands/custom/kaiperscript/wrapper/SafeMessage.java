@@ -2,20 +2,20 @@ package net.kodehawa.mantarobot.commands.custom.kaiperscript.wrapper;
 
 import net.dv8tion.jda.core.entities.Message;
 
-class SafeMessage extends SafeISnowflake<Message> {
+class SafeMessage extends SafeJDAObject<Message> {
     SafeMessage(Message message) {
         super(message);
     }
 
     public String getDisplay() {
-        return snowflake.getContentDisplay();
+        return object.getContentDisplay();
     }
 
     public String getRaw() {
-        return snowflake.getContentRaw();
+        return object.getContentRaw();
     }
 
     public String getStripped() {
-        return snowflake.getContentStripped();
+        return object.getContentStripped();
     }
 }

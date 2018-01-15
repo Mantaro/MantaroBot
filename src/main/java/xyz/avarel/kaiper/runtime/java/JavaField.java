@@ -69,21 +69,18 @@ public class JavaField extends JavaObject implements Obj {
     @Override
     public Type getType() {
         Object field = getField();
-        if (JavaUtils.hasKaiperTypeEquivalent(field)) {
-            return JavaUtils.mapJavaToKaiperType(field).getType();
-        }
-
-        return type;
+        return JavaUtils.mapJavaToKaiperType(field).getType();
     }
 
     @Override
     public Object toJava() {
         Object field = getField();
-        if (JavaUtils.hasKaiperTypeEquivalent(field)) {
-            return JavaUtils.mapJavaToKaiperType(field).toJava();
+
+        if (field instanceof Obj) {
+            return ((Obj) field).toJava();
         }
 
-        return getField();
+        return field;
     }
 
     @Override

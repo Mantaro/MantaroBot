@@ -2,25 +2,25 @@ package net.kodehawa.mantarobot.commands.custom.kaiperscript.wrapper;
 
 import net.dv8tion.jda.core.entities.TextChannel;
 
-class SafeChannel extends SafeISnowflake<TextChannel> {
+class SafeChannel extends SafeJDAObject<TextChannel> {
 
     SafeChannel(TextChannel channel) {
         super(channel);
     }
 
     public String getTopic() {
-        return snowflake.getTopic();
+        return object.getTopic();
     }
 
-    public boolean isNSFW() {
-        return snowflake.isNSFW();
+    public boolean getIsNSFW() {
+        return object.isNSFW();
     }
 
     public String getName() {
-        return snowflake.getName();
+        return object.getName();
     }
 
     public String getMention() {
-        return snowflake.getAsMention();
+        return object.getAsMention();
     }
 }

@@ -7,7 +7,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 public class SafeGuildMessageReceivedEvent {
     private final GuildMessageReceivedEvent event;
     private final SafeChannel channel;
-    private final SafeUser author;
+    private final SafeMember author;
     private final SafeMember me;
     private final SafeGuild guild;
     private final SafeMentions mentions;

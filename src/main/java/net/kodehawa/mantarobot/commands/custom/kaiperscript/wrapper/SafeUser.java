@@ -2,28 +2,28 @@ package net.kodehawa.mantarobot.commands.custom.kaiperscript.wrapper;
 
 import net.dv8tion.jda.core.entities.User;
 
-class SafeUser extends SafeISnowflake<User> {
+class SafeUser extends SafeJDAObject<User> {
     SafeUser(User user) {
         super(user);
     }
 
     public String getName() {
-        return snowflake.getName();
+        return object.getName();
     }
 
     public String getDiscriminator() {
-        return snowflake.getDiscriminator();
+        return object.getDiscriminator();
     }
 
     public String getAvatar() {
-        return snowflake.getEffectiveAvatarUrl();
+        return object.getEffectiveAvatarUrl();
     }
 
-    public boolean isBot() {
-        return snowflake.isBot();
+    public boolean getIsBot() {
+        return object.isBot();
     }
 
     public String getMention() {
-        return snowflake.getAsMention();
+        return object.getAsMention();
     }
 }

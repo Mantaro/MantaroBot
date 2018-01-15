@@ -37,7 +37,7 @@ class SafeMember extends SafeUser {
         return member.getEffectiveName();
     }
 
-    public boolean isOwner() {
+    public boolean getIsOwner() {
         return member.isOwner();
     }
 

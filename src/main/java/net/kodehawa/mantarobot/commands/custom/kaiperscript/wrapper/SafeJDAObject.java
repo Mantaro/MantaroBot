@@ -4,27 +4,27 @@ import net.dv8tion.jda.core.entities.ISnowflake;
 
 import java.time.OffsetDateTime;
 
-class SafeISnowflake<T extends ISnowflake> {
-    protected final T snowflake;
+class SafeJDAObject<T extends ISnowflake> {
+    final T object;
 
-    SafeISnowflake(T snowflake) {
-        this.snowflake = snowflake;
+    SafeJDAObject(T object) {
+        this.object = object;
     }
 
     public String getId() {
-        return snowflake.getId();
+        return object.getId();
     }
 
     public long getIdLong() {
-        return snowflake.getIdLong();
+        return object.getIdLong();
     }
 
     public OffsetDateTime getCreationTime() {
-        return snowflake.getCreationTime();
+        return object.getCreationTime();
     }
 
     @Override
     public String toString() {
-        return snowflake.toString();
+        return object.toString();
     }
 }
