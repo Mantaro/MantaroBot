@@ -182,8 +182,9 @@ public class AudioLoader implements AudioLoadResultHandler {
                 s -> new EmbedBuilder().setColor(Color.CYAN).setAuthor("Song selection. Type the song number to continue.", "https://i.imgur.com/sFDpUZy.png")
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                         .setDescription(s)
-                        .setFooter("This timeouts in 30 seconds.", null).build(),
-                selected -> loadSingle(selected, false)
+                        .setFooter("This timeouts in 30 seconds. Type &cancel to cancel.", null).build(),
+                selected -> loadSingle(selected, false),
+                onCancelled -> event.getGuild().getAudioManager().closeAudioConnection()
         );
 
         MantaroBot.getInstance().getStatsClient().increment("tracks_searched");

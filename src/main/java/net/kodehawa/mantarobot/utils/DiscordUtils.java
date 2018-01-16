@@ -58,7 +58,7 @@ public class DiscordUtils {
     }
 
 
-    public static Future<Void> selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer) {
+    public static Future<Void> selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer, Consumer<Void> cancelConsumer) {
         return InteractiveOperations.createOverriding(event.getChannel(), 30, (e) -> {
             if(!e.getAuthor().equals(event.getAuthor()))
                 return Operation.IGNORED;
@@ -66,6 +66,13 @@ public class DiscordUtils {
             //Replace prefix because people seem to think you have to add the prefix before literally everything.
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             String message = e.getMessage().getContentRaw();
+
+            if(message.equalsIgnoreCase("&cancel")) {
+                e.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled operation.").queue();
+                cancelConsumer.accept(null);
+                return Operation.COMPLETED;
+            }
+
             for(String s : config.prefix) {
                 if(message.toLowerCase().startsWith(s)) {
                     message = message.substring(s.length());
@@ -90,18 +97,30 @@ public class DiscordUtils {
         });
     }
 
-    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
+    public static Future<Void> selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer) {
+        return selectInt(event, max, valueConsumer, (o) -> {});
+    }
+
+    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
         Pair<String, Integer> r = embedList(list, toString);
         event.getChannel().sendMessage(toEmbed.apply(r.getLeft())).queue();
 
-        return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list.get(i - 1)));
+        return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list.get(i - 1)), cancelConsumer);
     }
 
-    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, T[] list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
+    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, T[] list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
         Pair<String, Integer> r = embedList(Arrays.asList(list), toString);
         event.getChannel().sendMessage(toEmbed.apply(r.getLeft())).queue();
 
-        return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list[i - 1]));
+        return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list[i - 1]), cancelConsumer);
+    }
+
+    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
+        return selectList(event, list, toString, toEmbed, valueConsumer, (o) -> {});
+    }
+
+    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, T[] list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
+        return selectList(event, list, toString, toEmbed, valueConsumer, (o) -> {});
     }
 
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
