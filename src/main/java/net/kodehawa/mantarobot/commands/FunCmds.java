@@ -287,7 +287,7 @@ public class FunCmds {
                     return;
                 }
 
-                int waifuRate = r.nextInt(100);
+                int waifuRate = content.replaceAll("\\s+", " ").replaceAll("<@!?(\\d+)>", "<@$1>").chars().sum() % 101;
                 if(content.equalsIgnoreCase("mantaro")) waifuRate = 100;
 
                 new MessageBuilder().setContent(String.format("%sI rate %s with a **%d/100**", EmoteReference.THINKING, content, waifuRate))
