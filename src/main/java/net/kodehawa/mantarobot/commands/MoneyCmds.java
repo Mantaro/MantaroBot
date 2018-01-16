@@ -238,7 +238,7 @@ public class MoneyCmds {
 
                 if(player.getMoney() > GAMBLE_ABSOLUTE_MAX_MONEY) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You have too much money! Maybe transfer or buy items? Now you can also use `~>slots`" +
-                            " for all your gambling needs! Thanks for not breaking the local bank.").queue();
+                            " for all your gambling needs! Thanks for not breaking the local bank. *(Gamble limit: " + GAMBLE_ABSOLUTE_MAX_MONEY + ")*").queue();
                     return;
                 }
 

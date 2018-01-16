@@ -179,10 +179,10 @@ public class AudioLoader implements AudioLoadResultHandler {
         List<AudioTrack> list = playlist.getTracks();
         DiscordUtils.selectList(event, list.subList(0, Math.min(5, list.size())),
                 track -> String.format("**[%s](%s)** (%s)", track.getInfo().title, track.getInfo().uri, Utils.getDurationMinutes(track.getInfo().length)),
-                s -> new EmbedBuilder().setColor(Color.CYAN).setTitle("Song selection. Type the song number to continue.", null)
+                s -> new EmbedBuilder().setColor(Color.CYAN).setAuthor("Song selection. Type the song number to continue.", "https://i.imgur.com/sFDpUZy.png")
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                         .setDescription(s)
-                        .setFooter("This timeouts in 10 seconds.", null).build(),
+                        .setFooter("This timeouts in 30 seconds.", null).build(),
                 selected -> loadSingle(selected, false)
         );
 
