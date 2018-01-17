@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,12 +16,16 @@
 
 package net.kodehawa.mantarobot.commands.interaction.polls;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
@@ -33,6 +37,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,24 +48,29 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Poll extends Lobby {
-
+    @JsonIgnore
     private static final Map<String, Poll> runningPolls = new HashMap<>();
-    private final GuildMessageReceivedEvent event;
-    private final String[] options;
-    private final long timeout;
-    private boolean isCompilant = true;
-    private String name = "";
+    @JsonIgnore
     private Future<Void> runningPoll;
 
-    public Poll(GuildMessageReceivedEvent event, String name, long timeout, String... options) {
-        super(event.getGuild().getId(), event.getChannel().getId());
-        this.event = event;
+    private final String id;
+    private final long timeout;
+    private boolean isCompliant = true;
+    private String name = "";
+    private String owner = "";
+    private final String[] options;
+
+    public Poll(@JsonProperty("id") String id, @JsonProperty("guildId") String guildId, @JsonProperty("channelId") String channelId, @JsonProperty("ownerId") String ownerId,
+                @JsonProperty("name") String name, @JsonProperty("timeout") long timeout, @JsonProperty("options") String... options) {
+        super(guildId, channelId);
+        this.id = id;
         this.options = options;
         this.timeout = timeout;
         this.name = name;
+        this.owner = ownerId;
 
         if(options.length > 9 || options.length < 2 || timeout > 2820000 || timeout < 30000) {
-            isCompilant = false;
+            isCompliant = false;
         }
     }
 
@@ -74,7 +84,7 @@ public class Poll extends Lobby {
 
     public void startPoll() {
         try {
-            if(!isCompilant) {
+            if(!isCompliant) {
                 getChannel().sendMessage(EmoteReference.WARNING +
                         "This poll cannot build. " +
                         "**Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\n" +
@@ -88,18 +98,18 @@ public class Poll extends Lobby {
                 return;
             }
 
-            if(!event.getGuild().getSelfMember().hasPermission(getChannel(), Permission.MESSAGE_ADD_REACTION)) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like I cannot add reactions here...").queue();
+            if(!getGuild().getSelfMember().hasPermission(getChannel(), Permission.MESSAGE_ADD_REACTION)) {
+                getChannel().sendMessage(EmoteReference.ERROR + "Seems like I cannot add reactions here...").queue();
                 getRunningPolls().remove(getChannel().getId());
                 return;
             }
 
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            DBGuild dbGuild = MantaroData.db().getGuild(getGuild());
             GuildData data = dbGuild.getData();
             AtomicInteger at = new AtomicInteger();
 
             data.setRanPolls(data.getRanPolls() + 1L);
-            dbGuild.save();
+            dbGuild.saveAsync();
 
             String toShow = Stream.of(options).map(opt -> String.format("#%01d.- %s", at.incrementAndGet(), opt)).collect(Collectors.joining("\n"));
 
@@ -107,20 +117,22 @@ public class Poll extends Lobby {
                 toShow = "This was too long to show, so I pasted it: " + Utils.paste(toShow);
             }
 
+            User author = MantaroBot.getInstance().getUserById(owner);
+
             EmbedBuilder builder = new EmbedBuilder().setAuthor(String.format("Poll #%1d created by %s",
-                    data.getRanPolls(), event.getAuthor().getName()), null, event.getAuthor().getAvatarUrl())
+                    data.getRanPolls(), author.getName()), null, author.getAvatarUrl())
                     .setDescription("**Poll started. React to the number to vote.**\n*" + name + "*\n" +
                             "Type &cancelpoll to cancel a running poll.")
                     .addField("Options", "```md\n" + toShow + "```", false)
-                    .setColor(event.getMember().getColor())
+                    .setColor(Color.CYAN)
                     .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
-                    .setFooter("You have " + Utils.getHumanizedTime(timeout) + " to vote.", event.getAuthor().getAvatarUrl());
+                    .setFooter("You have " + Utils.getHumanizedTime(timeout) + " to vote.", author.getAvatarUrl());
 
 
             getChannel().sendMessage(builder.build()).queue(this::createPoll);
 
-            InteractiveOperations.create(getChannel(), timeout, e -> {
-                if(e.getAuthor().getId().equals(event.getAuthor().getId())) {
+            InteractiveOperations.createOverriding(getChannel(), timeout, e -> {
+                if(e.getAuthor().getId().equals(owner)) {
                     if(e.getMessage().getContentRaw().equalsIgnoreCase("&cancelpoll")) {
                         runningPoll.cancel(true);
                         return Operation.COMPLETED;
@@ -140,12 +152,16 @@ public class Poll extends Lobby {
     }
 
     private String[] reactions(int options) {
-        if(options < 2) throw new IllegalArgumentException("You need to add a minimum of 2 options.");
-        if(options > 9) throw new IllegalArgumentException("The maximum amount of options is 9.");
+        if(options < 2)
+            throw new IllegalArgumentException("You need to add a minimum of 2 options.");
+        if(options > 9)
+            throw new IllegalArgumentException("The maximum amount of options is 9.");
+
         String[] r = new String[options];
         for(int i = 0; i < options; i++) {
             r[i] = (char) ('\u0031' + i) + "\u20e3";
         }
+
         return r;
     }
 
@@ -165,7 +181,7 @@ public class Poll extends Lobby {
 
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                         .setTitle("Poll results")
-                        .setDescription("**Showing results for the poll started by " + event.getAuthor().getName() + "** with name: *" + name + "*")
+                        .setDescription("**Showing results for the poll started by " + MantaroBot.getInstance().getUserById(owner).getName() + "** with name: *" + name + "*")
                         .setFooter("Thanks for your vote", null);
 
                 AtomicInteger react = new AtomicInteger(0);

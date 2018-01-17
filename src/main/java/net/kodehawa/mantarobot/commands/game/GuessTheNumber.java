@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -76,7 +76,7 @@ public class GuessTheNumber extends Game<Object> {
                         return Operation.COMPLETED;
                     }
 
-                    int parsedAnswer = 0;
+                    int parsedAnswer;
 
                     try {
                         parsedAnswer = Integer.parseInt(e.getMessage().getContentRaw());
@@ -93,7 +93,7 @@ public class GuessTheNumber extends Game<Object> {
                         player.getData().setGamesWon(player.getData().getGamesWon() + 1);
 
                         if(player.getData().getGamesWon() == 100)
-                            player.getData().addBadge(Badge.GAMER);
+                            player.getData().addBadgeIfAbsent(Badge.GAMER);
 
                         player.save();
 

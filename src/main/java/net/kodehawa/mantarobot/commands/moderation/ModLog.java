@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,14 +36,20 @@ public class ModLog {
         Player player = db.getPlayer(author);
         PlayerData playerData = player.getData();
         EmbedBuilder embedBuilder = new EmbedBuilder();
+
         embedBuilder.addField("Responsible Moderator", author.getEffectiveName(), true);
-        if(target != null) embedBuilder.addField("Member", target.getName(), true);
+
+        if(target != null)
+            embedBuilder.addField("Member", target.getName(), true);
+
         embedBuilder.addField("Reason", reason, false);
+
         if(target != null) {
             embedBuilder.setThumbnail(target.getEffectiveAvatarUrl());
         } else {
             embedBuilder.setThumbnail(author.getUser().getEffectiveAvatarUrl());
         }
+
         switch(action) {
             case BAN:
                 embedBuilder.setAuthor("Ban | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
@@ -71,7 +77,7 @@ public class ModLog {
         }
 
         if(!playerData.hasBadge(Badge.POWER_USER)) {
-            playerData.addBadge(Badge.POWER_USER);
+            playerData.addBadgeIfAbsent(Badge.POWER_USER);
             player.saveAsync();
         }
 

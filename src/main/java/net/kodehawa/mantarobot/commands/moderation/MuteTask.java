@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,7 +49,6 @@ public class MuteTask {
 
                     Guild guild = MantaroBot.getInstance().getGuildById(guildId);
                     DBGuild dbGuild = MantaroData.db().getGuild(guildId);
-                    if(dbGuild == null) continue;
                     GuildData guildData = dbGuild.getData();
 
                     if(guild == null) {
@@ -84,10 +83,8 @@ public class MuteTask {
                             ModLog.log(guild.getSelfMember(), MantaroBot.getInstance().getUserById(id), "Mute timeout expired", ModLog.ModAction.UNMUTE, guildData.getCases());
                         }
                     }
-                } catch(Exception ignored) {
-                }
+                } catch(Exception ignored) {}
             }
-        } catch(Exception ignored) {
-        }
+        } catch(Exception ignored) {}
     }
 }

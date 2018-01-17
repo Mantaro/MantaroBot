@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -82,4 +82,7 @@ public class GuildData {
     private String logJoinChannel = null;
     private String logLeaveChannel = null;
     private List<LocalExperienceData> localPlayerExperience = new ArrayList<>();
+    private Set<String> linkProtectionAllowedUsers = new HashSet<>();
+    private HashMap<String, List<Category>> roleSpecificDisabledCategories = new HashMap<>();
+    private HashMap<String, List<String>> roleSpecificDisabledCommands = new HashMap<>();
 }

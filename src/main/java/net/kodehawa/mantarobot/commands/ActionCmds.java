@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,72 +45,76 @@ public class ActionCmds {
         //pat();
         cr.register("pat", new ImageActionCmd(
                 "Pat", "Pats the specified user.", Color.PINK,
-                "pat.gif", EmoteReference.TALKING + "%s you have been patted by %s", "pat", "Aww, I see you are lonely, take a pat <3"
+                "pat", EmoteReference.TALKING + "%s you have been patted by %s", "pat", "Aww, I see you are lonely, take a pat <3"
         ));
 
         //hug();
         cr.register("hug", new ImageActionCmd(
                 "Hug", "Hugs the specified user.", Color.PINK,
-                "hug.gif", EmoteReference.TALKING + "%s you have been hugged by %s", "hug", "Aww, I see you are lonely, take a hug <3"
+                "hug", EmoteReference.TALKING + "%s you have been hugged by %s", "hug", "Aww, I see you are lonely, take a hug <3"
         ));
 
         //kiss();
         cr.register("kiss", new ImageActionCmd(
                 "Kiss", "Kisses the specified user.", Color.PINK,
-                "kiss.gif", EmoteReference.TALKING + "%s you have been kissed by %s", "kiss", "Aww, I see you are lonely, *kisses*"
+                "kiss", EmoteReference.TALKING + "%s you have been kissed by %s", "kiss", "Aww, I see you are lonely, *kisses*"
         ));
 
         //poke();
         cr.register("poke", new ImageActionCmd(
                 "Poke", "Pokes the specified user.", Color.PINK,
-                "poke.gif", EmoteReference.TALKING + "%s you have been poked by %s :eyes:", "poke", "Aww, I see you are lonely, *pokes you*"
+                "poke", EmoteReference.TALKING + "%s you have been poked by %s :eyes:", "poke", "Aww, I see you are lonely, *pokes you*"
         ));
 
         //slap();
         cr.register("slap", new ImageActionCmd(
                 "Slap", "Slaps the specified user ;).", Color.PINK,
-                "slap.gif", EmoteReference.TALKING + "%s you have been slapped by %s!", "slap", "Hmm, why do you want this? Uh, I guess... *slaps you*"
+                "slap", EmoteReference.TALKING + "%s you have been slapped by %s!", "slap", "Hmm, why do you want this? Uh, I guess... *slaps you*"
         ));
 
         //bite();
         cr.register("bite", new ImageActionCmd(
                 "Bite", "Bites the specified user.", Color.PINK,
-                "bite.gif", EmoteReference.TALKING + "%s you have been bitten by %s :eyes:", "bite", "*bites you*"
+                "bite", EmoteReference.TALKING + "%s you have been bitten by %s :eyes:", "bite", "*bites you*"
         ));
 
         //tickle();
         cr.register("tickle", new ImageActionCmd(
                 "Tickle", "Tickles the specified user.", Color.PINK,
-                "tickle.gif", EmoteReference.JOY + "%s you have been tickled by %s", "tickle", "*tickles you*"
+                "tickle", EmoteReference.JOY + "%s you have been tickled by %s", "tickle", "*tickles you*"
         ));
 
         //highfive();
         cr.register("highfive", new ImageActionCmd(
                 "Highfive", "Highfives with the specified user.", Color.PINK,
-                "highfive.gif", EmoteReference.TALKING + "%s highfives %s :heart:", "highfive", "*highfives*", true
+                "highfive", EmoteReference.TALKING + "%s highfives %s :heart:", "highfive", "*highfives*", true
         ));
 
         //pout();
         cr.register("pout", new ImageActionCmd(
                 "Pout", "Pouts at the specified user.", Color.PINK,
-                "pout.gif", EmoteReference.TALKING + "%s pouts at %s *hmph*", "pout", "*pouts, hmph*", true
+                "pout", EmoteReference.TALKING + "%s pouts at %s *hmph*", "pout", "*pouts, hmph*", true
         ));
 
         //teehee()
         cr.register("teehee", new ImageActionCmd("Teehee", "Teehee~", Color.PINK,
-                "teehee.gif", EmoteReference.EYES + "%s is teasing %s", "teehee", "*teases you*", true));
+                "teehee", EmoteReference.EYES + "%s is teasing %s", "teehee", "*teases you*", true));
 
         //smile()
         cr.register("smile", new ImageActionCmd("Smile", "Smiles at someone", Color.PINK,
-                "smile.gif", EmoteReference.TALKING + "%s is smiling at %s :heart:", "smile", "*smiles at you*", true));
+                "smile", EmoteReference.TALKING + "%s is smiling at %s :heart:", "smile", "*smiles at you*", true));
 
         //stare()
         cr.register("stare", new ImageActionCmd("Stare", "Stares at someone", Color.PINK,
-                "stare.gif", EmoteReference.EYES + "%s is staring at %s", "stare", "*stares you*", true));
+                "stare", EmoteReference.EYES + "%s is staring at %s", "stare", "*stares you*", true));
+
+        //holdhands()
+        cr.register("holdhands", new ImageActionCmd("Hold Hands", "Hold someone's hands", Color.PINK,
+                "holdhands", EmoteReference.HEART + "%s is holding %s's hand", "handholding", "*holds your hand*", true));
 
         //cuddle()
         cr.register("cuddle", new ImageActionCmd("Cuddle", "Cuddles someone", Color.PINK,
-                "cuddle.gif", EmoteReference.HEART + "%s you have been cuddled by %s", "cuddle", "*cuddles you*"));
+                "cuddle", EmoteReference.HEART + "%s you have been cuddled by %s", "cuddle", "*cuddles you*"));
 
         //greet();
         cr.register("greet", new TextActionCmd(
@@ -127,11 +131,11 @@ public class ActionCmds {
         //nuzzle()
         cr.register("nuzzle", new ImageActionCmd(
                 "Nuzzle Command", "Nuzzles the specified user.", Color.PINK,
-                "nuzzle.gif", EmoteReference.TALKING + "%s is nuzzling %s", NUZZLE.get(), "*nuzzles you*", true
+                "nuzzle", EmoteReference.TALKING + "%s is nuzzling %s", NUZZLE.get(), "*nuzzles you*", true
         ));
 
         //bloodsuck()
-        cr.register("bloodsuck", new ImageActionCmd("Bloodsuck command", "Sucks the blood of an user", Color.PINK, "bloodsuck.gif",
+        cr.register("bloodsuck", new ImageActionCmd("Bloodsuck command", "Sucks the blood of an user", Color.PINK, "bloodsuck",
                 EmoteReference.TALKING + "%s is sucking the blood of %s!", BLOODSUCK.get(), "J-Just how am I meant to? Oh well.. *sucks your blood*", true));
 
         //lewd()

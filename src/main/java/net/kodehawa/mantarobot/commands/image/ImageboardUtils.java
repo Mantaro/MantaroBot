@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,8 +23,11 @@ import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.lib.imageboards.entities.BoardImage;
 import net.kodehawa.lib.imageboards.entities.Rating;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.List;
@@ -38,7 +41,9 @@ public class ImageboardUtils {
     public static void getImage(ImageBoard<?> api, ImageRequestType type, boolean nsfwOnly, String imageboard, String[] args, String content, GuildMessageReceivedEvent event) {
         Rating rating = Rating.SAFE;
         boolean needRating = args.length >= 3;
-        TextChannel channel = event.getChannel();
+        final TextChannel channel = event.getChannel();
+        final Player player = MantaroData.db().getPlayer(event.getAuthor());
+        final PlayerData playerData = player.getData();
 
         if(needRating && !nsfwOnly)
             rating = Rating.lookupFromString(args[2]);
@@ -47,13 +52,13 @@ public class ImageboardUtils {
             rating = Rating.EXPLICIT;
 
         if(rating == null) {
-            channel.sendMessage(EmoteReference.ERROR + "You provided an invalid rating (Avaliable types: questionable, explicit, safe)!").queue();
+            channel.sendMessage(EmoteReference.ERROR + "You provided an invalid rating (Available types: questionable, explicit, safe)!").queue();
             return;
         }
 
         final Rating finalRating = rating;
 
-        if(!nsfwCheck(event, false, false, finalRating)) {
+        if(!nsfwCheck(event, nsfwOnly, false, finalRating)) {
             channel.sendMessage(EmoteReference.ERROR + "Cannot send a NSFW image in a non-nsfw channel :(").queue();
             return;
         }
@@ -93,18 +98,24 @@ public class ImageboardUtils {
                             }
 
                             imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, image.getRating(), imageboard, channel);
-                            if(image.getRating().equals(Rating.EXPLICIT))
+                            if(image.getRating().equals(Rating.EXPLICIT)) {
+                                if(playerData.addBadgeIfAbsent(Badge.LEWDIE)) {
+                                    player.saveAsync();
+                                }
+
                                 TextChannelGround.of(event).dropItemWithChance(13, 3);
+                            }
                         } catch(Exception e) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
                                     "number or another search.").queue();
                         }
-                    });
-                } catch(Exception exception) {
-                    if(exception instanceof NumberFormatException)
-                        channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help " + imageboard).queue(
-                                message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                        );
+                    }, failure -> event.getChannel().sendMessage(EmoteReference.SAD + "There was an error while looking for an image...").queue());
+                } catch(NumberFormatException ne) {
+                    channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help " + imageboard).queue(
+                            message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
+                    );
+                } catch (Exception e) {
+                    event.getChannel().sendMessage(EmoteReference.SAD + "There was an error while looking an image...").queue();
                 }
                 break;
             case TAGS:
@@ -147,19 +158,26 @@ public class ImageboardUtils {
                             }
 
                             imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), imageTags, image.getRating(), imageboard, channel);
-                            if(image.getRating().equals(Rating.EXPLICIT))
+                            if(image.getRating().equals(Rating.EXPLICIT)) {
+                                if(playerData.addBadgeIfAbsent(Badge.LEWDIE)) {
+                                    player.saveAsync();
+                                }
+
                                 TextChannelGround.of(event).dropItemWithChance(13, 3);
+                            }
                         } catch(Exception e) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
                                     "number or another search.").queue();
                         }
-                    });
+                    }, failure -> event.getChannel().sendMessage(EmoteReference.SAD + "There was an error while looking for this tag...").queue());
+                } catch (NumberFormatException numberEx) {
+                    channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help " + imageboard).queue(
+                            message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
+                    );
                 } catch(Exception exception) {
-                    if(exception instanceof NumberFormatException)
-                        channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help " + imageboard).queue(
-                                message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                        );
+                    event.getChannel().sendMessage(EmoteReference.SAD + "There was an error while looking for this tag...").queue();
                 }
+
                 break;
             case RANDOM:
                 api.get(page, queryRating).async(requestedImages -> {
@@ -179,25 +197,27 @@ public class ImageboardUtils {
                         BoardImage image = filter.get(number);
                         String tags = image.getTags().stream().collect(Collectors.joining(", "));
                         imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, image.getRating(), imageboard, channel);
-                        if(image.getRating().equals(Rating.EXPLICIT))
+                        if(image.getRating().equals(Rating.EXPLICIT)) {
+                            if(playerData.addBadgeIfAbsent(Badge.LEWDIE)) {
+                                player.saveAsync();
+                            }
+
                             TextChannelGround.of(event).dropItemWithChance(13, 3);
+                        }
                     } catch(Exception e) {
                         event.getChannel().sendMessage(EmoteReference.SAD + "There was an unknown error while looking for a random image...").queue();
                     }
-                });
+                }, failure -> event.getChannel().sendMessage(EmoteReference.SAD + "There was an error while looking for a random image...").queue());
                 break;
         }
     }
 
     public static boolean nsfwCheck(GuildMessageReceivedEvent event, boolean isGlobal, boolean sendMessage, Rating rating) {
-        if(event.getChannel().isNSFW()) return true;
+        if(event.getChannel().isNSFW())
+            return true;
 
-        String nsfwChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildUnsafeChannels().stream()
-                .filter(channel -> channel.equals(event.getChannel().getId())).findFirst().orElse(null);
         Rating finalRating = rating == null ? Rating.SAFE : rating;
-        boolean trigger = !isGlobal ? ((finalRating.equals(Rating.SAFE) || (nsfwChannel == null)) ?
-                finalRating.equals(Rating.SAFE) : nsfwChannel.equals(event.getChannel().getId())) :
-                nsfwChannel != null && nsfwChannel.equals(event.getChannel().getId());
+        boolean trigger = finalRating.equals(Rating.SAFE) && !isGlobal;
 
         if(!trigger) {
             if(sendMessage) {

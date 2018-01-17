@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,7 +73,7 @@ public class OwnerCmd {
                     if(args[1].equals("add")) {
                         if(MantaroBot.getInstance().getGuildById(args[2]) == null) return;
                         obj.getBlackListedGuilds().add(args[2]);
-                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + event.getJDA().getGuildById(args[2])).queue();
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + MantaroBot.getInstance().getGuildById(args[2])).queue();
                         obj.saveAsync();
                     } else if(args[1].equals("remove")) {
                         if(!obj.getBlackListedGuilds().contains(args[2])) return;
@@ -88,14 +88,12 @@ public class OwnerCmd {
                     if(args[1].equals("add")) {
                         if(MantaroBot.getInstance().getUserById(args[2]) == null) return;
                         obj.getBlackListedUsers().add(args[2]);
-                        event.getChannel().sendMessage(
-                                EmoteReference.CORRECT + "Blacklisted User: " + event.getJDA().getUserById(args[2]))
-                                .queue();
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + MantaroBot.getInstance().getUserById(args[2])).queue();
                         obj.saveAsync();
                     } else if(args[1].equals("remove")) {
                         if(!obj.getBlackListedUsers().contains(args[2])) return;
                         obj.getBlackListedUsers().remove(args[2]);
-                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + MantaroBot.getInstance().getUserById(args[2])).queue();
                         obj.saveAsync();
                     }
                 }
@@ -138,7 +136,7 @@ public class OwnerCmd {
 
                 for(User u : users) {
                     Player p = MantaroData.db().getPlayer(u);
-                    p.getData().addBadge(badge);
+                    p.getData().addBadgeIfAbsent(badge);
                     p.saveAsync();
                 }
 
@@ -182,7 +180,7 @@ public class OwnerCmd {
                 }
 
                 event.getChannel().sendMessage(
-                        EmoteReference.CORRECT + "Removed badge " + badge + " from " + users.stream().map(User::getName).collect(Collectors.joining(" ,"))
+                        String.format("%sRemoved badge %s from %s", EmoteReference.CORRECT, badge, users.stream().map(User::getName).collect(Collectors.joining(" ,")))
                 ).queue();
             }
 

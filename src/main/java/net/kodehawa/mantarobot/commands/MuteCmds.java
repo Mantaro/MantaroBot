@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,14 +27,15 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.options.Option;
-import net.kodehawa.mantarobot.options.OptionType;
+import net.kodehawa.mantarobot.options.core.Option;
+import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.StringUtils;
@@ -53,7 +54,7 @@ public class MuteCmds {
 
     @Subscribe
     public void mute(CommandRegistry registry) {
-        registry.register("mute", new SimpleCommand(Category.MODERATION) {
+        Command mute = registry.register("mute", new SimpleCommand(Category.MODERATION) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 
@@ -161,9 +162,13 @@ public class MuteCmds {
                     }
 
                     final DBGuild dbg = db.getGuild(event.getGuild());
-                    event.getGuild().getController().addSingleRoleToMember(m, mutedRole).reason(String.format("Muted by %#s for %s: %s", event.getAuthor(), Utils.formatDuration(time), finalReason)).queue();
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Added mute role to **" +
-                            m.getEffectiveName() + (time > 0 ? "** for around " + Utils.getHumanizedTime(time - System.currentTimeMillis()) : "**")).queue();
+                    event.getGuild().getController().addSingleRoleToMember(m, mutedRole)
+                            .reason(String.format("Muted by %#s for %s: %s", event.getAuthor(), Utils.formatDuration(time - System.currentTimeMillis()), finalReason))
+                            .queue();
+
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Added mute role to **" +m.getEffectiveName() +
+                            (time > 0 ? "** for around " + Utils.getHumanizedTime(time - System.currentTimeMillis()) : "**")).queue();
+
                     dbg.getData().setCases(dbg.getData().getCases() + 1);
                     dbg.saveAsync();
                     ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.MUTE, dbg.getData().getCases());
@@ -182,7 +187,9 @@ public class MuteCmds {
                                 "d (days), s (second), m (minutes), h (hour). **For example -time 1d1h will mute for one day and one hour.**", false)
                         .build();
             }
-        }).addOption("defaultmutetimeout:set", new Option("Default mute timeout",
+        });
+
+        mute.addOption("defaultmutetimeout:set", new Option("Default mute timeout",
                 "Sets the default mute timeout for ~>mute.\n" +
                         "This command will set the timeout of ~>mute to a fixed value **unless you specify another time in the command**\n" +
                         "**Example:** `~>opts defaultmutetimeout set 1m20s`\n" +
@@ -218,8 +225,10 @@ public class MuteCmds {
                     dbGuild.save();
 
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully set mod action timeout to `" + args[0] + "` (" + timeoutToSet + "ms)").queue();
-                })).setShortDescription("Sets the default timeout for the ~>mute command"))
-                .addOption("defaultmutetimeout:reset", new Option("Default mute timeout reset",
+                })).setShortDescription("Sets the default timeout for the ~>mute command"));
+
+
+                mute.addOption("defaultmutetimeout:reset", new Option("Default mute timeout reset",
                         "Resets the default mute timeout which was set previously with `defaultmusictimeout set`", OptionType.GUILD)
                         .setAction((event -> {
                             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
@@ -229,8 +238,9 @@ public class MuteCmds {
                             dbGuild.save();
 
                             event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset timeout.").queue();
-                        })).setShortDescription("Resets the default mute timeout."))
-                .addOption("muterole:set", new Option("Mute role set",
+                        })).setShortDescription("Resets the default mute timeout."));
+
+                mute.addOption("muterole:set", new Option("Mute role set",
                         "Sets this guilds mute role to apply on the ~>mute command.\n" +
                                 "To use this command you need to specify a role name. *In case the name contains spaces, the name should" +
                                 " be wrapped in quotation marks", OptionType.COMMAND)
@@ -262,8 +272,9 @@ public class MuteCmds {
                                             event.getChannel().sendMessage(EmoteReference.OK + "Set mute role to **" + roleName + "**").queue();
                                         });
                             }
-                        }).setShortDescription("Sets this guilds mute role to apply on the ~>mute command"))
-                .addOption("muterole:unbind", new Option("Mute Role unbind", "Resets the current value set for the mute role", OptionType.GENERAL)
+                        }).setShortDescription("Sets this guilds mute role to apply on the ~>mute command"));
+
+                mute.addOption("muterole:unbind", new Option("Mute Role unbind", "Resets the current value set for the mute role", OptionType.GENERAL)
                         .setAction(event -> {
                             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                             GuildData guildData = dbGuild.getData();
@@ -333,7 +344,10 @@ public class MuteCmds {
                     }
 
                     if(m.getRoles().contains(mutedRole)) {
-                        event.getGuild().getController().removeSingleRoleFromMember(m, mutedRole).reason(String.format("Unmuted by %#s: %s", event.getAuthor(), finalReason)).queue();
+                        event.getGuild().getController().removeSingleRoleFromMember(m, mutedRole)
+                                .reason(String.format("Unmuted by %#s: %s", event.getAuthor(), finalReason))
+                                .queue();
+
                         event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed mute role from **" + m.getEffectiveName() + "**").queue();
                         dbg.getData().setCases(dbg.getData().getCases() + 1);
                         dbg.saveAsync();

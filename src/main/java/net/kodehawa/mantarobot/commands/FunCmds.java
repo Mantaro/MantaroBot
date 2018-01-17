@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,8 @@ package net.kodehawa.mantarobot.commands;
 import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -26,6 +28,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -33,7 +36,9 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -48,6 +53,7 @@ import java.util.stream.Collectors;
 public class FunCmds {
 
     private final Random r = new Random();
+    private final Config config = MantaroData.config().get();
 
     @Subscribe
     public void coinflip(CommandRegistry cr) {
@@ -61,7 +67,7 @@ public class FunCmds {
                         times = Integer.parseInt(args[0]);
                         if(times > 1000) {
                             event.getChannel().sendMessage(
-                                    EmoteReference.ERROR + "Whoa there! The limit is 1,000 coin flips").queue();
+                                    EmoteReference.ERROR + "Hold in there! The limit is 1,000 coin flips").queue();
                             return;
                         }
                     } catch(NumberFormatException nfe) {
@@ -100,11 +106,11 @@ public class FunCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Mention the user you want to marry.")
-                            .queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Mention the user you want to marry.").queue();
                     return;
                 }
 
+                DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                 User proposing = event.getAuthor();
                 User proposedTo = event.getMessage().getMentionedUsers().get(0);
                 Player proposingPlayer = MantaroData.db().getPlayer(proposing);
@@ -143,55 +149,69 @@ public class FunCmds {
                     return;
                 }
 
-                if(InteractiveOperations.create(
-                        event.getChannel(), 120,
-                        (ie) -> {
-                            if(!ie.getAuthor().getId().equals(proposedTo.getId()))
-                                return Operation.IGNORED;
+                event.getChannel().sendMessage(String.format("%s%s, type with **yes** or **no** to the marriage proposal from %s.\n" +
+                                "%sThis times out in 120 seconds.", EmoteReference.MEGA,
+                        proposedTo.getName(), event.getAuthor().getName(), EmoteReference.STOPWATCH)).queue();
+                InteractiveOperations.createOverriding(event.getChannel(), 120, (ie) -> {
+                    if(!ie.getAuthor().getId().equals(proposedTo.getId()))
+                        return Operation.IGNORED;
 
-                            if(ie.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
-                                Player proposed = MantaroData.db().getPlayer(proposedTo);
-                                Player author = MantaroData.db().getPlayer(proposing);
-                                Inventory authorInventory = author.getInventory();
-
-                                if(authorInventory.getAmount(Items.RING) < 2) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry with less than two rings on your inventory!").queue();
-                                    return Operation.COMPLETED;
-                                }
-
-                                proposed.getData().setMarriedWith(proposing.getId());
-                                author.getData().setMarriedWith(proposedTo.getId());
-
-                                Inventory proposedInventory = proposed.getInventory();
-
-                                authorInventory.process(new ItemStack(Items.RING, -1));
-
-                                if(proposedInventory.getAmount(Items.RING) < 5000) {
-                                    proposedInventory.process(new ItemStack(Items.RING, 1));
-                                }
-
-                                ie.getChannel().sendMessage(String.format("%s%s accepted the proposal of %s!", EmoteReference.POPPER, ie.getAuthor().getName(), proposing.getName())).queue();
-                                proposed.saveAsync();
-                                author.saveAsync();
-
-                                TextChannelGround.of(event).dropItemWithChance(Items.LOVE_LETTER, 2);
-                                return Operation.COMPLETED;
-                            }
-
-                            if(ie.getMessage().getContentRaw().equalsIgnoreCase("no")) {
-                                ie.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal from " + proposing.getName()).queue();
-                                return Operation.COMPLETED;
-                            }
-
-                            return Operation.IGNORED;
+                    //Replace prefix because people seem to think you have to add the prefix before saying yes.
+                    String message = ie.getMessage().getContentRaw();
+                    for(String s : config.prefix) {
+                        if(message.toLowerCase().startsWith(s)) {
+                            message = message.substring(s.length());
                         }
-                ) != null) {
-                    event.getChannel().sendMessage(String.format("%s%s, respond with **yes** or **no** to the marriage proposal from %s.", EmoteReference.MEGA, proposedTo
-                            .getName(), event.getAuthor().getName())).queue();
+                    }
 
-                } else {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Another Interactive Operation is already running here").queue();
-                }
+                    String guildCustomPrefix = dbGuild.getData().getGuildCustomPrefix();
+                    if(guildCustomPrefix != null && !guildCustomPrefix.isEmpty() && message.toLowerCase().startsWith(guildCustomPrefix)) {
+                        message = message.substring(guildCustomPrefix.length());
+                    }
+
+                    if(message.equalsIgnoreCase("yes")) {
+                        Player proposed = MantaroData.db().getPlayer(proposedTo);
+                        Player author = MantaroData.db().getPlayer(proposing);
+                        Inventory authorInventory = author.getInventory();
+
+                        if(authorInventory.getAmount(Items.RING) < 2) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry with less than two rings on your inventory!").queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        proposed.getData().setMarriedWith(proposing.getId());
+                        proposed.getData().setMarriedSince(System.currentTimeMillis());
+                        proposed.getData().addBadgeIfAbsent(Badge.MARRIED);
+
+                        author.getData().setMarriedWith(proposedTo.getId());
+                        author.getData().setMarriedSince(System.currentTimeMillis());
+                        author.getData().addBadgeIfAbsent(Badge.MARRIED);
+
+                        Inventory proposedInventory = proposed.getInventory();
+
+                        authorInventory.process(new ItemStack(Items.RING, -1));
+
+                        if(proposedInventory.getAmount(Items.RING) < 5000) {
+                            proposedInventory.process(new ItemStack(Items.RING, 1));
+                        }
+
+                        ie.getChannel().sendMessage(String.format("%s`%s` accepted the proposal of `%s`!", EmoteReference.POPPER, ie.getAuthor().getName(), proposing.getName())).queue();
+                        proposed.save();
+                        author.save();
+
+                        TextChannelGround.of(event).dropItemWithChance(Items.LOVE_LETTER, 2);
+                        return Operation.COMPLETED;
+                    }
+
+                    if(message.equalsIgnoreCase("no")) {
+                        ie.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal from `" + proposing.getName() + "`").queue();
+                        proposingPlayer.getData().addBadgeIfAbsent(Badge.DENIED);
+                        proposingPlayer.saveAsync();
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                });
             }
 
             @Override
@@ -228,8 +248,7 @@ public class FunCmds {
                     divorcee.getData().setMarriedWith(null);
                     divorcee.getData().setMarriedSince(0L);
                     divorcee.saveAsync();
-                    event.getChannel().sendMessage(
-                            EmoteReference.CORRECT + "Now you're single. That's nice I guess.").queue();
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. That's nice I guess.").queue();
                     return;
                 }
 
@@ -237,11 +256,13 @@ public class FunCmds {
 
                 marriedWith.getData().setMarriedWith(null);
                 marriedWith.getData().setMarriedSince(0L);
-                marriedWith.saveAsync();
+                marriedWith.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
+                marriedWith.save();
 
                 divorcee.getData().setMarriedWith(null);
                 divorcee.getData().setMarriedSince(0L);
-                divorcee.saveAsync();
+                divorcee.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
+                divorcee.save();
 
                 event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. That's nice I guess.").queue();
             }
@@ -266,10 +287,11 @@ public class FunCmds {
                     return;
                 }
 
-                int waifuRate = r.nextInt(100);
+                int waifuRate = content.replaceAll("\\s+", " ").replaceAll("<@!?(\\d+)>", "<@$1>").chars().sum() % 101;
                 if(content.equalsIgnoreCase("mantaro")) waifuRate = 100;
 
-                event.getChannel().sendMessage(String.format("%sI rate %s with a **%d/100**", EmoteReference.THINKING, content, waifuRate)).queue();
+                new MessageBuilder().setContent(String.format("%sI rate %s with a **%d/100**", EmoteReference.THINKING, content, waifuRate))
+                        .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE).sendTo(event.getChannel()).queue();
             }
 
             @Override

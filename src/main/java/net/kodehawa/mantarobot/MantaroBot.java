@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,8 +20,6 @@ import br.com.brjdevs.java.utils.async.Async;
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
-import gnu.trove.impl.unmodifiable.TUnmodifiableLongSet;
-import gnu.trove.set.hash.TLongHashSet;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
@@ -41,9 +39,14 @@ import net.kodehawa.mantarobot.log.LogFilter;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
+import net.kodehawa.mantarobot.utils.Utils;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 
 import javax.annotation.Nonnull;
+import java.net.ConnectException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -56,16 +59,30 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static net.kodehawa.mantarobot.utils.ShutdownCodes.API_HANDSHAKE_FAILURE;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.REBOOT_FAILURE;
 
 @Slf4j
 public class MantaroBot extends ShardedJDA {
-    public static int cwport;
     @Getter
     private static MantaroBot instance;
     @Getter
     private static TempBanManager tempBanManager;
+    @Getter
+    private final MantaroAudioManager audioManager;
+    @Getter
+    private final MantaroCore core;
+    @Getter
+    private final DiscordBotsAPI discordBotsAPI;
+    @Getter
+    private final ShardedMantaro shardedMantaro;
+    @Getter
+    private final StatsDClient statsClient;
+    @Getter
+    private BirthdayCacher birthdayCacher;
+    @Getter
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
 
     //just in case
     static {
@@ -81,27 +98,29 @@ public class MantaroBot extends ShardedJDA {
         log.info("Filtering all logs below " + LogFilter.LEVEL);
     }
 
-    @Getter
-    private final MantaroAudioManager audioManager;
-    @Getter
-    private final MantaroCore core;
-    @Getter
-    private final DiscordBotsAPI discordBotsAPI;
-    private final MuteTask muteTask = new MuteTask();
-    @Getter
-    private final ShardedMantaro shardedMantaro;
-    @Getter
-    private final StatsDClient statsClient;
-    @Getter
-    private BirthdayCacher birthdayCacher;
-    @Getter
-    private TUnmodifiableLongSet discordBotsUpvoters = new TUnmodifiableLongSet(new TLongHashSet());
-    @Getter
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
-
     private MantaroBot() throws Exception {
         instance = this;
         Config config = MantaroData.config().get();
+
+        if(config.needApi) {
+            try {
+                Request request = new Request.Builder()
+                        .url(config.apiTwoUrl + "/mantaroapi/ping")
+                        .build();
+                Response httpResponse = Utils.httpClient.newCall(request).execute();
+
+                if(httpResponse.code() != 200) {
+                    log.error("Cannot connect to the API! Wrong status code..." );
+                    System.exit(API_HANDSHAKE_FAILURE);
+                }
+
+                httpResponse.close();
+            } catch (ConnectException e) {
+                log.error("Cannot connect to the API! Exiting...", e);
+                System.exit(API_HANDSHAKE_FAILURE);
+            }
+        }
+
         core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
         discordBotsAPI = new DiscordBotsAPI(config.dbotsorgToken);
 
@@ -129,10 +148,11 @@ public class MantaroBot extends ShardedJDA {
         MantaroData.config().save();
 
         LogUtils.log("Startup",
-                String.format("Loaded %d commands in %d seconds.\n" +
+                String.format("Partially loaded %d commands in %d seconds.\n" +
                         "Shards are still waking up!", DefaultCommandProcessor.REGISTRY.commands().size(), (end - start) / 1000));
 
         birthdayCacher = new BirthdayCacher();
+        final MuteTask muteTask = new MuteTask();
         Async.task("Mute Handler", muteTask::handle, 1, TimeUnit.MINUTES);
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -106,7 +106,7 @@ public class AnimeCmds {
                             s -> baseEmbed(event, "Type the number of the anime you want to select.")
                                     .setDescription(s)
                                     .setThumbnail("https://anilist.co/img/logo_al.png")
-                                    .setFooter("Information provided by Anilist.", event.getAuthor().getAvatarUrl())
+                                    .setFooter("Information provided by Anilist. Type &cancel to cancel.", event.getAuthor().getAvatarUrl())
                                     .build(),
                             anime -> animeData(event, anime));
                 } catch (JsonSyntaxException jsonException) {
@@ -160,7 +160,7 @@ public class AnimeCmds {
                             s -> baseEmbed(event, "Type the number of the character you want to select.")
                                     .setDescription(s)
                                     .setThumbnail("https://anilist.co/img/logo_al.png")
-                                    .setFooter("Information provided by Anilist.", event.getAuthor().getAvatarUrl())
+                                    .setFooter("Information provided by Anilist. Type &cancel to cancel.", event.getAuthor().getAvatarUrl())
                                     .build(),
                             character1 -> characterData(event, character1));
                 }  catch (JsonSyntaxException jsonException) {

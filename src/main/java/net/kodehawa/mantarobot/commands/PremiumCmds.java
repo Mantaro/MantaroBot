@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -101,7 +101,7 @@ public class PremiumCmds {
                     }
 
                     if(event.getAuthor().getId().equals(key.getOwner())) {
-                        player.getData().addBadge(Badge.DONATOR);
+                        player.getData().addBadgeIfAbsent(Badge.DONATOR);
                         player.saveAsync();
                     }
 
@@ -174,7 +174,7 @@ public class PremiumCmds {
                             PremiumKey currentKey = MantaroData.db().getPremiumKey(dbGuild.getData().getPremiumKey());
                             User owner = MantaroBot.getInstance().getUserById(currentKey.getOwner());
                             if(owner == null)
-                                owner = event.getAuthor();
+                                owner = event.getGuild().getOwner().getUser();
 
                             embedBuilder.setDescription("**Premium guild! <3**")
                                     .addField("Expires in", currentKey.validFor() + " days", false)
@@ -212,7 +212,7 @@ public class PremiumCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 if(args.length < 2) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a scope and an id (example: master 1558674582032875529)").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a scope and an id (example: guild 1558674582032875529)").queue();
                     return;
                 }
 

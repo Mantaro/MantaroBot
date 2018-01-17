@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +44,6 @@ public class TempBanManager {
     }
 
     public void removeTempban(String id) {
-
         if(UNBANS.containsKey(id)) {
             UNBANS.remove(id);
             unbansUpdated = true;
@@ -64,8 +63,7 @@ public class TempBanManager {
                             wait();
                             unbansUpdated = false;
                         }
-                    } catch(InterruptedException ignored) {
-                    }
+                    } catch(InterruptedException ignored) {}
                 }
 
                 //noinspection OptionalGetWithoutIsPresent
@@ -78,8 +76,7 @@ public class TempBanManager {
                             wait(timeout);
                         }
                     }
-                } catch(InterruptedException ignored) {
-                }
+                } catch(InterruptedException ignored) {}
 
                 if(!unbansUpdated) {
                     String[] params = unbanFirstEntry.getKey().split(":");

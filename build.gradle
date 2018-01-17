@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
+ *
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Mantaro.  If not, see http://www.gnu.org/licenses/
+ */
+
 /* Mantaro's build.gradle */
 //Imports
 import org.apache.tools.ant.filters.ReplaceTokens
@@ -21,7 +37,7 @@ plugins {
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 
 //Use an unified versioning system
-def ver = new Version(major: 4, minor: 8, revision: 1)
+def ver = new Version(major: 4, minor: 8, revision: 4)
 version ver.toString()
 
 //We are going to use Java 8
@@ -37,12 +53,8 @@ repositories {
 	mavenLocal()
 }
 
-tasks.withType(JavaCompile) {
-	options.compilerArgs << "-Xlint:deprecation"
-}
-
 dependencies {
-	compile 'net.dv8tion:JDA:3.3.1_315'
+	compile 'net.dv8tion:JDA:3.5.0_327'
 	compile 'com.sedmelluq:lavaplayer:1.2.45'
 	compile 'com.sedmelluq:jda-nas:1.0.6'
 
@@ -78,7 +90,7 @@ dependencies {
 
     compile fileTree(dir: 'lib', include: '*.jar')
     compile 'net.kodehawa:imageboard-api:2.0.3_2'
-	compile 'com.github.natanbc:discordbots-api:1.2'
+	compile 'com.github.natanbc:discordbots-api:1.4.2'
 
     compileOnly "org.projectlombok:lombok:1.16.16"
 	compile 'com.datadoghq:java-dogstatsd-client:2.3'
@@ -91,6 +103,11 @@ dependencies {
 
 task wrapper(type: Wrapper) {
 	gradleVersion = '3.2'
+}
+
+tasks.withType(JavaCompile) {
+	options.compilerArgs << "-Xlint:deprecation"
+	options.encoding = 'UTF-8'
 }
 
 //Task for the versioning system
@@ -109,10 +126,6 @@ compileJava {
 	classpath = sourceSets.main.compileClasspath
 	options.encoding = 'UTF-8'
 	dependsOn prepareSource
-}
-
-tasks.withType(JavaCompile) {
-	options.encoding = 'UTF-8'
 }
 
 build.dependsOn shadowJar

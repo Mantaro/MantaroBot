@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,16 +16,19 @@
 
 package net.kodehawa.mantarobot.commands.action;
 
+import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
+@Slf4j
 public class WeebAPIRequester {
     private final String ALL_TAGS = "/tags";
     private final String ALL_TYPES = "/types";
@@ -34,7 +37,7 @@ public class WeebAPIRequester {
     private final String RANDOM_IMAGE = "/random";
     private final OkHttpClient httpClient = new OkHttpClient();
 
-    public String getRandomImageByType(String type, boolean nsfw, String filetype) {
+    public Pair<String, String> getRandomImageByType(String type, boolean nsfw, String filetype) {
         HashMap<String, Object> queryParams = new HashMap<>();
         queryParams.put("type", type);
         if(nsfw)
@@ -47,9 +50,10 @@ public class WeebAPIRequester {
 
         String r = request(RANDOM_IMAGE, Utils.urlEncodeUTF8(queryParams));
         if(r == null)
-            return null;
+            return Pair.of(null, null);
 
-        return new JSONObject(r).getString("url");
+        JSONObject object = new JSONObject(r);
+        return Pair.of(object.getString("url"), object.getString("id"));
     }
 
     public String getRandomImageByTags(String tags, boolean nsfw, String filetype) {
@@ -107,6 +111,7 @@ public class WeebAPIRequester {
             r1.close();
             return response;
         } catch(Exception ex) {
+            log.error("Error getting image from weeb.sh", ex);
             return null;
         }
     }

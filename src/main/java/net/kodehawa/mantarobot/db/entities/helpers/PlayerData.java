@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +39,10 @@ public class PlayerData {
     private Long marriedSince = null;
     private String marriedWith = null;
     private long moneyOnBank = 0;
+    //null = most important badge shows.
+    private Badge mainBadge = null;
+    private long marketUsed;
+    private boolean showBadge = true;
 
     @Transient
     public boolean isMarried() {
@@ -47,7 +51,7 @@ public class PlayerData {
 
     @Transient
     public String marryDate() {
-        if(getMarriedSince() == null) return null;
+        if(getMarriedSince() == null || getMarriedSince() == 0) return null;
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         final Date date = new Date(getMarriedSince());
         return sdf.format(date);
@@ -55,7 +59,7 @@ public class PlayerData {
 
     @Transient
     public String anniversary() {
-        if(getMarriedSince() == null) return null;
+        if(getMarriedSince() == null || getMarriedSince() == 0) return null;
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         Calendar cal = new GregorianCalendar();
         cal.setTime(new Date(getMarriedSince()));
@@ -69,7 +73,7 @@ public class PlayerData {
     }
 
     @Transient
-    public boolean addBadge(Badge b) {
+    public boolean addBadgeIfAbsent(Badge b) {
         if(hasBadge(b)) {
             return false;
         }

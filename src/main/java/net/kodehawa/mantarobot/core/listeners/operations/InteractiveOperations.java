@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,15 +36,27 @@ public class InteractiveOperations {
     //The listener used to check interactive operations.
     private static final EventListener LISTENER = new InteractiveListener();
 
+    //The ExpiringMap used to store the RunningOperation instances.
+    //This map has a variable per-key expiration, usually set on the create methods.
     private static final ExpiringMap<Long, RunningOperation> OPERATIONS = ExpiringMap.<Long, RunningOperation>builder()
             .asyncExpirationListener((key, value) -> ((RunningOperation) value).operation.onExpire())
             .variableExpiration()
             .build();
 
+    /**
+     * Returns a Future<Void> representing the current RunningOperation instance on the specified channel.
+     * @param channel The MessageChannel to check.
+     * @return Future<Void> or null if there's none.
+     */
     public static Future<Void> get(MessageChannel channel) {
         return get(channel.getIdLong());
     }
 
+    /**
+     * Returns a Future<Void> representing the current RunningOperation instance on the specified channel.
+     * @param channelId The ID of the channel to check.
+     * @return Future<Void> or null if there's none.
+     */
     public static Future<Void> get(long channelId) {
         RunningOperation o = OPERATIONS.get(channelId);
 
@@ -186,6 +198,9 @@ public class InteractiveOperations {
         return LISTENER;
     }
 
+    /**
+     * This class listens for all RunningOperation instances. Basically handles the operation run and termination procedures.
+     */
     public static class InteractiveListener implements EventListener {
         @Override
         public void onEvent(Event e) {

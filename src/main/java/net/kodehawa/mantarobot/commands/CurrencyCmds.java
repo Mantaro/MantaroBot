@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,11 @@ package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
+import com.rethinkdb.model.OptArgs;
+import com.rethinkdb.net.Connection;
+import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -26,6 +30,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -36,16 +41,19 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 @Module
@@ -68,7 +76,7 @@ public class CurrencyCmds {
                 Player player = MantaroData.db().getPlayer(member);
 
                 if(t.containsKey("brief")) {
-                    event.getChannel().sendMessage("**" + member.getEffectiveName() + "'s inventory:** " + ItemStack.toString(player.getInventory().asList())).queue();
+                    event.getChannel().sendMessage(String.format("**%s's inventory:** %s", member.getEffectiveName(), ItemStack.toString(player.getInventory().asList()))).queue();
                     return;
                 }
 
@@ -84,19 +92,27 @@ public class CurrencyCmds {
 
                 EmbedBuilder builder = baseEmbed(event, member.getEffectiveName() + "'s Inventory", member.getUser().getEffectiveAvatarUrl());
                 List<ItemStack> list = player.getInventory().asList();
+                List<MessageEmbed.Field> fields = new LinkedList<>();
                 if(list.isEmpty())
                     builder.setDescription("There is only dust here.");
                 else
                     player.getInventory().asList().forEach(stack -> {
                         long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
                         long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
-                        builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String
+                        fields.add(new MessageEmbed.Field(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String
                                         .format("**Price**: \uD83D\uDCE5 %d \uD83D\uDCE4 %d\n%s", buyValue, sellValue, stack.getItem()
                                                 .getDesc())
-                                , false);
+                                , false));
                     });
 
-                event.getChannel().sendMessage(builder.build()).queue();
+                List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(18, fields);
+                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+
+                if(hasReactionPerms) {
+                    DiscordUtils.list(event, 45, false, builder, splitFields);
+                } else {
+                    DiscordUtils.listText(event, 45, false, builder, splitFields);
+                }
             }
 
             @Override
@@ -113,7 +129,7 @@ public class CurrencyCmds {
 
     @Subscribe
     public void market(CommandRegistry cr) {
-        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 8);
 
         TreeCommand marketCommand = (TreeCommand) cr.register("market", new TreeCommand(Category.CURRENCY) {
             @Override
@@ -121,24 +137,28 @@ public class CurrencyCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, String content) {
-                        EmbedBuilder embed = baseEmbed(event, EmoteReference.MARKET + "Mantaro Market");
-                        StringBuilder items = new StringBuilder();
-                        StringBuilder prices = new StringBuilder();
-                        AtomicInteger atomicInteger = new AtomicInteger();
+                        EmbedBuilder embed = baseEmbed(event, "Mantaro's Market")
+                                .setThumbnail("https://png.icons8.com/metro/540/shopping-cart.png");
+                        List<MessageEmbed.Field> fields = new LinkedList<>();
                         Stream.of(Items.ALL).forEach(item -> {
                             if(!item.isHidden()) {
                                 String buyValue = item.isBuyable() ? String.format("$%d", item.getValue()) : "N/A";
                                 String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
 
-                                items.append(String.format("**%02d.-** %s *%s*    ", atomicInteger.incrementAndGet(), item.getEmoji(), item.getName())).append("\n");
-                                prices.append(String.format("%s **%s, %s**", "\uD83D\uDCB2", buyValue, sellValue)).append("\n");
+                                fields.add(new MessageEmbed.Field(String.format("%s %s", item.getEmoji(), item.getName()),
+                                        EmoteReference.BUY + buyValue + " " + EmoteReference.SELL + sellValue, true)
+                                );
                             }
                         });
 
-                        event.getChannel().sendMessage(
-                                embed.addField("Items", items.toString(), true)
-                                        .addField("Value (Buy/Sell)", prices.toString(), true)
-                                        .build()).queue();
+                        List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(8, fields);
+                        boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+
+                        if(hasReactionPerms) {
+                            DiscordUtils.list(event, 120, false, embed, splitFields);
+                        } else {
+                            DiscordUtils.listText(event, 120, false, embed, splitFields);
+                        }
                     }
                 };
             }
@@ -147,12 +167,13 @@ public class CurrencyCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Mantaro's market")
                         .setDescription("**List current items for buying and selling.**")
-                        .addField("Buying and selling", "To buy do ~>market buy <item emoji>. It will substract the value from your money" +
+                        .addField("Buying and selling", "To buy do ~>market buy <item emoji>. It will subtract the value from your money" +
                                 " and give you the item.\n" +
-                                "To sell do `~>market sell all` to sell all your items or `~>market sell <item emoji>` to sell the " +
-                                "specified item. " +
+                                "To sell do `~>market sell all` to sell all your items or `~>market sell <item emoji>` to sell the specified item. " +
                                 "**You'll get the sell value of the item on coins to spend.**\n" +
-                                "You can check the value of a single item using `~>market price <item emoji>`", false)
+                                "You can check the value of a single item using `~>market price <item emoji>`\n" +
+                                "You can send an item to the trash using `~>market dump <amount> <item emoji>`\n" +
+                                "Use `~>inventory -calculate` to check how much is your inventory worth.", false)
                         .addField("To know", "If you don't have enough money you cannot buy the items.\n" +
                                 "Note: Don't use the item id, it's just for aesthetic reasons, the internal IDs are different than the ones shown here!", false)
                         .addField("Information", "To buy and sell multiple items you need to do `~>market <buy/sell> <amount> <item>`",
@@ -173,6 +194,51 @@ public class CurrencyCmds {
 
             return true;
         });
+
+        marketCommand.addSubCommand("dump", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                String[] args = content.split(" ");
+                String itemName = content;
+                int itemNumber = 1;
+                boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
+                if(isMassive) {
+                    try {
+                        itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
+                        itemName = itemName.replace(args[0], "").trim();
+                    } catch (NumberFormatException e) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to dump.").queue();
+                        return;
+                    } catch (Exception e) {
+                        onHelp(event);
+                        return;
+                    }
+                }
+
+                Item item = Items.fromAny(itemName).orElse(null);
+
+                if(item == null) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot check the dump a non-existent item!").queue();
+                    return;
+                }
+
+                Player player = MantaroData.db().getPlayer(event.getAuthor());
+
+                if(!player.getInventory().containsItem(item)) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot dump an item you don't have!").queue();
+                    return;
+                }
+
+                if(player.getInventory().getAmount(item) < itemNumber) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot dump more items than what you have.").queue();
+                    return;
+                }
+
+                player.getInventory().process(new ItemStack(item, -itemNumber));
+                player.saveAsync();
+                event.getChannel().sendMessage(String.format("%sSent %dx **%s %s** to the trash!", EmoteReference.CORRECT, itemNumber, item.getEmoji(), item.getName())).queue();
+            }
+        }).createSubCommandAlias("dump", "trash");
 
         marketCommand.addSubCommand("price", new SubCommand() {
             @Override
@@ -206,13 +272,13 @@ public class CurrencyCmds {
             protected void call(GuildMessageReceivedEvent event, String content) {
                 Player player = MantaroData.db().getPlayer(event.getMember());
                 String[] args = content.split(" ");
-                String itemName = content.replace(args[0] + " ", "");
+                String itemName = content;
                 int itemNumber = 1;
                 boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
                 if(isMassive) {
                     try {
                         itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
-                        itemName = itemName.replace(args[1] + " ", "");
+                        itemName = itemName.replace(args[0], "").trim();
                     } catch (NumberFormatException e) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to buy.").queue();
                         return;
@@ -264,6 +330,7 @@ public class CurrencyCmds {
                     long amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
                     player.getInventory().process(new ItemStack(toSell, many));
                     player.addMoney(amount);
+                    player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
                     event.getChannel().sendMessage(String.format("%sYou sold %d **%s** and gained %d credits!", EmoteReference.CORRECT, Math.abs(many), toSell.getName(), amount)).queue();
 
                     player.saveAsync();
@@ -278,13 +345,13 @@ public class CurrencyCmds {
             protected void call(GuildMessageReceivedEvent event, String content) {
                 Player player = MantaroData.db().getPlayer(event.getMember());
                 String[] args = content.split(" ");
-                String itemName = content.replace(args[0] + " ", "");
+                String itemName = content;
                 int itemNumber = 1;
                 boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
                 if(isMassive) {
                     try {
                         itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
-                        itemName = itemName.replace(args[1] + " ", "");
+                        itemName = itemName.replace(args[0], "").trim();
                     } catch (Exception e) {
                         if (e instanceof NumberFormatException) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to buy.").queue();
@@ -318,6 +385,8 @@ public class CurrencyCmds {
 
                     if(player.removeMoney(itemToBuy.getValue() * itemNumber)) {
                         player.getInventory().process(new ItemStack(itemToBuy, itemNumber));
+                        player.getData().addBadgeIfAbsent(Badge.BUYER);
+                        player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
                         player.saveAsync();
 
                         event.getChannel().sendMessage(String.format("%sBought %d %s for %d credits successfully. You now have %d credits.",
@@ -492,7 +561,7 @@ public class CurrencyCmds {
                 }
 
                 if(toSend > TRANSFER_LIMIT) {
-                    event.getChannel().sendMessage(String.format("%sYou cannot transfer this much money. (Limit: %d)", EmoteReference.ERROR, TRANSFER_LIMIT)).queue();
+                    event.getChannel().sendMessage(String.format("%sYou cannot transfer this much money. (Limit: %d credits)", EmoteReference.ERROR, TRANSFER_LIMIT)).queue();
                     return;
                 }
 
@@ -540,7 +609,8 @@ public class CurrencyCmds {
                         .addField("Usage", "`~>transfer <@user> <money>` - **Transfers money to x player**", false)
                         .addField("Parameters", "`@user` - user to send money to\n" +
                                 "`money` - money to transfer.", false)
-                        .addField("Important", "You cannot send more money than what you already have", false)
+                        .addField("Important", "You cannot send more money than what you already have\n" +
+                                "The maximum amount you can transfer at once is " + TRANSFER_LIMIT + " credits.", false)
                         .build();
             }
         });
@@ -563,6 +633,7 @@ public class CurrencyCmds {
 
                         inventory.process(new ItemStack(Items.LOOT_CRATE_KEY, -1));
                         inventory.process(new ItemStack(Items.LOOT_CRATE, -1));
+                        player.getData().addBadgeIfAbsent(Badge.THE_SECRET);
                         player.save();
                         openLootBox(event, true);
                     } else {
@@ -578,6 +649,66 @@ public class CurrencyCmds {
                 return helpEmbed(event, "Open loot crates")
                         .setDescription("**Yep. It's really that simple**.\n" +
                                 "You need a crate key to open a loot crate. Loot crates are acquired rarely from the loot command.")
+                        .build();
+            }
+        });
+    }
+
+    //TODO find an efficient way to do this that doesn't require a shit ton of db reads.
+    //@Subscribe
+    @SuppressWarnings("unchecked")
+    public void rank(CommandRegistry registry) {
+        registry.register("rank", new SimpleCommand(Category.CURRENCY) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+
+                Member m = Utils.findMember(event, event.getMember(), content);
+                if(m == null)
+                    return;
+                User user = m.getUser();
+
+                long moneyRank, levelRank, reputationRank, streakRank;
+                long count;
+                try(Connection conn = Utils.newDbConnection()) {
+                    moneyRank = ((Cursor<Long>) r.table("players").orderBy()
+                            .optArg("index", r.desc("money"))
+                            .offsetsOf(player -> player.g("id").eq(user.getId() + ":g"))
+                            .run(conn, OptArgs.of("read_mode", "outdated"))).next() + 1;
+
+                    levelRank = ((Cursor<Long>) r.table("players").orderBy()
+                            .optArg("index", r.desc("level"))
+                            .offsetsOf(player -> player.g("id").eq(user.getId() + ":g"))
+                            .run(conn, OptArgs.of("read_mode", "outdated"))).next() + 1;
+
+                    reputationRank = ((Cursor<Long>) r.table("players").orderBy()
+                            .optArg("index", r.desc("reputation"))
+                            .offsetsOf(player -> player.g("id").eq(user.getId() + ":g"))
+                            .run(conn, OptArgs.of("read_mode", "outdated"))).next() + 1;
+
+                    streakRank = ((Cursor<Long>) r.table("players").orderBy()
+                            .optArg("index", r.desc("userDailyStreak"))
+                            .offsetsOf(player -> player.g("id").eq(user.getId() + ":g"))
+                            .run(conn, OptArgs.of("read_mode", "outdated"))).next() + 1;
+
+                    count = r.table("players").count().run(conn);
+                }
+
+                event.getChannel().sendMessage(new EmbedBuilder()
+                        .setTitle(user.getName() + "'s Leaderboard Rank")
+                        .setDescription(
+                                EmoteReference.BLUE_SMALL_MARKER + "**Money rank:** " + moneyRank + "/" + count + "\n" +
+                                EmoteReference.BLUE_SMALL_MARKER + "**Level rank:** " + levelRank + "/" + count + "\n" +
+                                EmoteReference.BLUE_SMALL_MARKER + "**Streak rank:** " + streakRank + "/" + count + "\n" +
+                                EmoteReference.BLUE_SMALL_MARKER + "**Reputation rank:** " + reputationRank + "/" + count
+                        )
+                        .setColor(Color.PINK)
+                        .build()).queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Rank command")
+                        .setDescription("**Shows your ranks someone else's ranks (Position in the leaderboard)")
                         .build();
             }
         });

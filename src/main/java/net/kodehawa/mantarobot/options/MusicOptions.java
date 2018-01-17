@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.options.opts;
+package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
@@ -23,14 +23,14 @@ import net.kodehawa.mantarobot.commands.OptsCmd;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.options.OptionType;
 import net.kodehawa.mantarobot.options.annotations.Option;
+import net.kodehawa.mantarobot.options.core.OptionHandler;
+import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
-import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.function.Consumer;
 
 @Option
 @Slf4j
@@ -91,47 +91,16 @@ public class MusicOptions extends OptionHandler {
 
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
+                    Consumer<VoiceChannel> consumer = voiceChannel -> {
+                        guildData.setMusicChannel(voiceChannel.getId());
+                        dbGuild.save();
+                        event.getChannel().sendMessage(EmoteReference.OK + "Music Channel set to: " + voiceChannel.getName()).queue();
+                    };
 
-                    VoiceChannel channel = null;
+                    VoiceChannel channel = Utils.findVoiceChannelSelect(event, channelName, consumer);
 
-                    try {
-                        channel = event.getGuild().getVoiceChannelById(channelName);
-                    } catch(Exception ignored) {
-                    }
-
-                    if(channel == null) {
-                        try {
-                            List<VoiceChannel> voiceChannels = event.getGuild().getVoiceChannels().stream()
-                                    .filter(voiceChannel -> voiceChannel.getName().contains(channelName))
-                                    .collect(Collectors.toList());
-
-                            if(voiceChannels.size() == 0) {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't find a voice channel matching that" +
-                                        " name or id").queue();
-                            } else if(voiceChannels.size() == 1) {
-                                channel = voiceChannels.get(0);
-                                guildData.setMusicChannel(channel.getId());
-                                dbGuild.save();
-                                event.getChannel().sendMessage(EmoteReference.OK + "Music Channel set to: " + channel.getName())
-                                        .queue();
-                            } else {
-                                DiscordUtils.selectList(event, voiceChannels,
-                                        voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
-                                        s -> OptsCmd.getOpts().baseEmbed(event, "Select the Channel:").setDescription(s).build(),
-                                        voiceChannel -> {
-                                            guildData.setMusicChannel(voiceChannel.getId());
-                                            dbGuild.save();
-                                            event.getChannel().sendMessage(EmoteReference.OK + "Music Channel set to: " +
-                                                    voiceChannel.getName()).queue();
-                                        }
-                                );
-                            }
-                        } catch(Exception ex) {
-                            log.warn("Error while setting voice channel", ex);
-                            event.getChannel().sendMessage("I couldn't set the voice channel " + EmoteReference.SAD + " - try again " +
-                                    "in a few minutes " +
-                                    "-> " + ex.getClass().getSimpleName()).queue();
-                        }
+                    if (channel != null) {
+                        consumer.accept(channel);
                     }
                 });
 
@@ -165,7 +134,7 @@ public class MusicOptions extends OptionHandler {
                     }
                 });
 
-        registerOption("music:clear", "Music clear settings", "Clears the specific music channel.", (event) -> {
+        registerOption("music:channnel:clear", "Music channel clear", "Clears the specific music channel.", (event) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             guildData.setMusicChannel(null);

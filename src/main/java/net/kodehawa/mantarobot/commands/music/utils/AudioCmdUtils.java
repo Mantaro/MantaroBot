@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,11 +47,19 @@ public class AudioCmdUtils {
     public static void embedForQueue(int page, GuildMessageReceivedEvent event, GuildMusicManager musicManager) {
         String toSend = AudioUtils.getQueueList(musicManager.getTrackScheduler().getQueue());
         Guild guild = event.getGuild();
+        String nowPlaying = musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null ?
+                "**[" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title
+                        + "](" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().uri +
+                        ")** (" + Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length) + ")" :
+                "Nothing or title/duration not found";
 
         if(toSend.isEmpty()) {
             event.getChannel().sendMessage(new EmbedBuilder()
                     .setAuthor("Queue for server " + guild.getName(), null, guild.getIconUrl())
-                    .setColor(Color.CYAN).setDescription("Nothing here, just dust. Why don't you queue some songs?")
+                    .setColor(Color.CYAN).setDescription("Nothing here, just dust. Why don't you queue some songs?\n" +
+                            "If you think there are songs here but they don't appear, try using `~>queue 1`.\n\n" +
+                            "**If there is a song playing and you didn't add more songs, then there is actually just dust here. You can queue more songs as you desire!**")
+                    .addField("Currently playing", nowPlaying, false)
                     .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png").build()).queue();
             return;
         }
@@ -96,7 +104,9 @@ public class AudioCmdUtils {
             if(line == null || page > total) {
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setAuthor("Queue for server " + guild.getName(), null, guild.getIconUrl())
-                        .setColor(Color.CYAN).setDescription("Nothing here, just dust. Why don't you go back some pages?")
+                        .setColor(Color.CYAN).setDescription("Nothing here, just dust. Why don't you go back some pages?\n" +
+                                "If you think there are songs here but they don't appear, try using `~>queue 1`.")
+                        .addField("Currently playing", nowPlaying, false)
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png").build()).queue();
             } else {
                 long length = musicManager.getTrackScheduler().getQueue().stream().mapToLong(value -> value.getInfo().length).sum();
@@ -104,11 +114,6 @@ public class AudioCmdUtils {
                         .setAuthor("Queue for server " + guild.getName(), null, guild.getIconUrl())
                         .setColor(Color.CYAN);
 
-                String nowPlaying = musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null ?
-                        "**[" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title
-                                + "](" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().uri +
-                                ")** (" + Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length) + ")" :
-                        "Nothing or title/duration not found";
                 VoiceChannel vch = guild.getSelfMember().getVoiceState().getChannel();
                 builder.addField("Currently playing", nowPlaying, false)
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
@@ -117,7 +122,7 @@ public class AudioCmdUtils {
                         .addField("Repeat / Pause", "`" + (musicManager.getTrackScheduler().getRepeatMode() == null ? "false" : musicManager.getTrackScheduler().getRepeatMode())
                                 + " / " + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()) + "`", true)
                         .addField("Playing in", vch == null ? "No channel :<" : "`" + vch.getName() + "`", true)
-                        .setFooter("Total pages: " + total + " -> Use ~>queue <page> to change pages. Currently in page " + page, guild.getIconUrl());
+                        .setFooter("Total pages: " + total + (total == 1 ? "" : " -> Use ~>queue <page> to change pages") + ". Currently in page " + page, guild.getIconUrl());
                 event.getChannel().sendMessage(builder.setDescription(line).build()).queue();
             }
             return;
@@ -129,11 +134,6 @@ public class AudioCmdUtils {
                     .setAuthor("Queue for server " + guild.getName(), null, guild.getIconUrl())
                     .setColor(Color.CYAN);
 
-            String nowPlaying = musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null ?
-                    "**[" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title
-                            + "](" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().uri +
-                            ")** (" + Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length) + ")" :
-                    "Nothing or title/duration not found";
             VoiceChannel vch = guild.getSelfMember().getVoiceState().getChannel();
             builder.addField("Currently playing", nowPlaying, false)
                     .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
@@ -142,7 +142,7 @@ public class AudioCmdUtils {
                     .addField("Repeat / Pause", "`" + (musicManager.getTrackScheduler().getRepeatMode() == null ? "false" : musicManager.getTrackScheduler().getRepeatMode())
                             + " / " + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()) + "`", true)
                     .addField("Playing in", vch == null ? "No channel :<" : "`" + vch.getName() + "`", true)
-                    .setFooter("Total pages: " + total + " -> React to change pages. Currently in page " + p, guild.getIconUrl());
+                    .setFooter("Total pages: " + total + (total == 1 ? "" : " -> React to change pages") + ". Currently in page " + p, guild.getIconUrl());
             return builder;
         }, lines);
     }

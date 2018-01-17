@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ public enum Badge {
     //Self-explanatory.
     DEVELOPER("Developer", "\uD83D\uDEE0", "Currently a developer of Mantaro.", 91, 92),
 
-    //Contributed in any way to mantaro's development.
+    //Contributed in any way to Mantaro's development.
     CONTRIBUTOR("Contributor", "\u2b50", "Contributed to Mantaro's Development.", 92, 91),
 
     //Because lars asked for it.
@@ -47,33 +47,82 @@ public enum Badge {
     //Have more than 8 billion credits.
     ALTERNATIVE_WORLD("Isekai", "\uD83C\uDF0E", "Have more than 8 billion credits at any given time.", 92, 92),
 
+    //Self-explanatory. (Description)
+    MARATHON_WINNER("Marathon Winner", "\uD83C\uDFC5", "Get to level 200 in Mantaro.", 91, 92),
+
     //Get a loot crate.
     LUCKY("Lucky", "\uD83C\uDF40", "Be lucky enough to loot a loot crate.", 92, 92),
+
+    //Upvote Mantaro on discordbots.org.
+    UPVOTER("Upvoter", "\u2b06", "Upvote Mantaro on discordbots.org.", 92, 92),
 
     //Have more than 5000 items stacked.
     SHOPPER("Shopper", "\uD83D\uDED2", "Have more than 5000 items of any kind.", 91, 92),
 
+    //Open a loot crate.
+    THE_SECRET("The Secret", "\uD83D\uDCBC", "Open a loot crate.", 92, 92),
+
+    //Self-explanatory. (Description)
+    MARATHON_RUNNER("Marathon Runner", "\uD83C\uDF96", "Get to level 150 in Mantaro.", 91, 92),
+
+    //Self-explanatory. (Description)
+    FAST_RUNNER("Fast Runner", "\uD83D\uDEA9", "Get to level 100 in Mantaro.", 91, 92),
+
     //Win more than 100 games
     GAMER("Gamer", "\uD83D\uDD79", "Win 100 games.", 91, 92),
+
+    //Get extremely lucky with slots.
+    LUCKY_SEVEN("Lucky 7", "\uD83C\uDFB0", "Get more than 175 million in credits from slots.", 92, 92),
+
+    //Claim daily more than 100 days in a row.
+    BIG_CLAIMER("Big Claimer", "\uD83C\uDF8A", "Claim daily more than 100 days in a row.", 91, 92),
 
     //Claim daily more than 10 days in a row.
     CLAIMER("Claimer", "\uD83C\uDF89", "Claim daily more than 10 days in a row.", 91, 92),
 
+    //Participated on the christmas 2017 event
+    CHRISTMAS("Christmas Spirit", "\uD83C\uDF85", "Participated in the christmas 2017 event!", 91, 92),
+
     //Use a mod action with mantaro
     POWER_USER("Power User", "\uD83D\uDD27", "Do mod stuff with Mantaro.", 91, 92),
 
+    //Mine a diamond.
+    MINER("Miner", "\u26cf", "Find a diamond while mining.", 91, 92),
+
+    //Self-explanatory. (Description)
+    RUNNER("Runner", "\uD83D\uDCCD", "Get to level 50 in Mantaro.", 91, 92),
+
     //Use opts properly
-    DID_THIS_WORK("Configurator", "\u26cf", "Use any `~>opts` configuration successfully.", 91, 92),
+    DID_THIS_WORK("Configurator", "\u2699", "Use any `~>opts` configuration successfully.", 91, 92),
+
+    //Use market more than 1000 times.
+    COMPULSIVE_BUYER("Compulsive Buyer", "\uD83D\uDCD1", "Succesfully use market buy or sell more than 1000 times.", 91, 92),
 
     //Gamble more than Integer.MAX_VALUE.
     GAMBLER("Gambler", "\uD83D\uDCB0", "Gambled their life away.", 91, 92),
 
-    //TODO do this
-    //Used one of the many NSFW commands at least once.
-    LEWDIE("Lewdie", "\uD83D\uDC40", "Used a lewd command", 91, 92),
+    //Get an unexpected exception.
+    FIRE("Fire", "\uD83D\uDD25", "Ouch, ouch, someone please extinguish it!", 91, 92),
 
-    //TODO do this for once
-    //Queued more than 3000 songs.
+    //Used one of the many NSFW image commands at least once.
+    LEWDIE("Lewdie", "\uD83D\uDC40", "Used a lewd command.", 91, 92),
+
+    //Marry to someone.
+    MARRIED("Married", "\uD83D\uDC8D", "Find your loved one.", 91, 92),
+
+    //Self-explanatory. (Description)
+    WALKER("Walker", "\uD83C\uDFF7", "Get to level 10 in Mantaro.", 91, 92),
+
+    //Divorce.
+    HEART_BROKEN("Heart Broken", "\uD83D\uDC94", "Ouch, was good while it lasted.", 91, 92),
+
+    //Get your marriage proposal turned down.
+    DENIED("Denied", "\u26d4", "Get your marriage proposal turned down :(.", 91, 92),
+
+    //Buy something from the market.
+    BUYER("Buyer", "\uD83D\uDECD", "Buy something from the market.", 91, 92),
+
+    //Queued more than 3000 songs. Won't do.
     DJ("DJ", "\uD83C\uDFB6", "Too many songs.", 91, 92);
 
     //What does the fox say?
@@ -98,8 +147,7 @@ public enum Badge {
 
     /**
      * Represents an user badge.
-     * A badge is a "recognition" of an user achievements or contributions to Mantaro's code or just achievements inside
-     * Mantaro itself.
+     * A badge is a "recognition" of an user achievements or contributions to Mantaro's code or just achievements inside Mantaro itself.
      * The enum ordinal represents the order of which the badges will be displayed. The first badge will display on the
      * profile title itself, the rest (including the one on the title) will display on the "badges" version.
      *
@@ -140,7 +188,13 @@ public enum Badge {
      */
     public static Badge lookupFromString(String name) {
         for(Badge b : Badge.values()) {
+            //field name search
             if(b.name().equalsIgnoreCase(name)) {
+                return b;
+            }
+
+            //show name search
+            if(b.display.equalsIgnoreCase(name)) {
                 return b;
             }
         }
@@ -176,7 +230,7 @@ public enum Badge {
      */
     @Override
     public String toString() {
-        return display + (unicode == null ? "" : " " + unicode);
+        return (unicode == null ? "" : " " + unicode + " ") + display ;
     }
 
     //need this to get access to a logger in the constructor

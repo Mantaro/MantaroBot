@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+  ~ Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
   ~
   ~ Mantaro is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -25,14 +25,14 @@
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>[%d{HH:mm:ss}] [%t/%level] [%logger{0}]: %msg%n</pattern>
+            <pattern>[%d{HH:mm:ss}] [%t/%level] [%logger{0}] %X{jda.shard}: %msg%n</pattern>
         </encoder>
     </appender>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="net.kodehawa.mantarobot.log.LogFilter"/>
         <encoder>
-            <pattern>[%d{HH:mm:ss}] [%t] [%level] [%logger{0}] %msg%n</pattern>
+            <pattern>[%d{HH:mm:ss}] [%t] [%level] [%logger{0}] %X{jda.shard}: %msg%n</pattern>
         </encoder>
     </appender>
 
