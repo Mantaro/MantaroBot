@@ -183,8 +183,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                         .setDescription(s)
                         .setFooter("This timeouts in 30 seconds. Type &cancel to cancel.", null).build(),
-                selected -> loadSingle(selected, false),
-                onCancelled -> event.getGuild().getAudioManager().closeAudioConnection()
+                selected -> loadSingle(selected, false)
         );
 
         MantaroBot.getInstance().getStatsClient().increment("tracks_searched");

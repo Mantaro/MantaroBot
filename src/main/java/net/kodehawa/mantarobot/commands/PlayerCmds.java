@@ -395,7 +395,7 @@ public class PlayerCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, String content) {
-                        Map<String, Optional<String>> t = StringUtils.parse(content.split(" "));
+                        Map<String, Optional<String>> t = StringUtils.parse(content.isEmpty() ? new String[]{} : content.split("\\s+"));
                         content = Utils.replaceArguments(t, content, "brief");
                         Member member = Utils.findMember(event, event.getMember(), content);
                         if(member == null) return;
@@ -405,7 +405,7 @@ public class PlayerCmds {
                         Player player = MantaroData.db().getPlayer(toLookup);
                         PlayerData playerData = player.getData();
 
-                        if(t.containsKey("brief")) {
+                        if(!t.isEmpty() && t.containsKey("brief")) {
                             event.getChannel().sendMessage(String.format("**%s's badges:**\n%s", member.getEffectiveName(), playerData.getBadges().stream().map(b -> "*" + b.display + "*").collect(Collectors.joining(", ")))).queue();
                             return;
                         }
