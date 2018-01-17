@@ -180,7 +180,7 @@ public class PlayerCmds {
 
                         //start of badge assigning
                         Guild mh = MantaroBot.getInstance().getGuildById("213468583252983809");
-                        Member mhMember = mh == null ? null : mh.getMember(event.getAuthor());
+                        Member mhMember = mh == null ? null : mh.getMemberById(member.getUser().getId());
                         boolean saveAfter = false;
 
                         if(player.getMoney() > 7526527671L && playerData.addBadgeIfAbsent(Badge.ALTERNATIVE_WORLD))

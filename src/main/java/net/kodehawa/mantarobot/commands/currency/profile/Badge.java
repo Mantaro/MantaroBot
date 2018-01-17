@@ -36,10 +36,10 @@ public enum Badge {
     COMMUNITY_ADMIN("Community Admin", "\uD83D\uDEE1", "Helps to maintain the Mantaro Hub community.", 92, 93),
 
     //Is a helper, owo.
-    HELPER("Helper", "\uD83D\uDC9A", "Helps to maintain the support influx on Mantaro Hub.", 92, 94),
+    HELPER_2("Helper", "\uD83D\uDC9A", "Helps to maintain the support influx on Mantaro Hub.", 92, 94),
 
     //Self-explanatory.
-    DONATOR("Donator", "\u2764", "Actively helps on keeping Mantaro alive <3", 92, 94),
+    DONATOR_2("Donator", "\u2764", "Actively helps on keeping Mantaro alive <3", 92, 94),
 
     //Helps find important bugs.
     BUG_HUNTER("Bug Hunter", "\uD83D\uDC1B", "Has reported one or more important bugs with details.", 92, 94),
@@ -123,7 +123,13 @@ public enum Badge {
     BUYER("Buyer", "\uD83D\uDECD", "Buy something from the market.", 91, 92),
 
     //Queued more than 3000 songs. Won't do.
-    DJ("DJ", "\uD83C\uDFB6", "Too many songs.", 91, 92);
+    DJ("DJ", "\uD83C\uDFB6", "Too many songs.", 91, 92),
+
+    //Is a helper, owo.
+    HELPER("Bugged", "\uD83D\uDC9A", "Get a bugged badge. (Helper)", 92, 94),
+
+    //Self-explanatory.
+    DONATOR("Bugged 2", "\u2764", "Get a bugged badge. (Donator)", 92, 94);
 
     //What does the fox say?
     @Getter
