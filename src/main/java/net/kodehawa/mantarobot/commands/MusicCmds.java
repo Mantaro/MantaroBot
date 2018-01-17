@@ -72,7 +72,8 @@ public class MusicCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Force skip")
-                        .setDescription("Well, administrators should be able to forceskip, shouldn't they?")
+                        .setDescription("Well, administrators should be able to forceskip, shouldn't they?\n" +
+                                "`~>skip` has the same effect if you're a DJ.")
                         .build();
             }
         });

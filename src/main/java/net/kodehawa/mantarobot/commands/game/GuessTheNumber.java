@@ -76,7 +76,7 @@ public class GuessTheNumber extends Game<Object> {
                         return Operation.COMPLETED;
                     }
 
-                    int parsedAnswer = 0;
+                    int parsedAnswer;
 
                     try {
                         parsedAnswer = Integer.parseInt(e.getMessage().getContentRaw());
