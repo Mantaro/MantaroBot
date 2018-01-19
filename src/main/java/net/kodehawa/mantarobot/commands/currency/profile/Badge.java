@@ -126,10 +126,10 @@ public enum Badge {
     DJ("DJ", "\uD83C\uDFB6", "Too many songs.", 91, 92),
 
     //Is a helper, owo.
-    HELPER("Bugged", "\uD83D\uDC9A", "Get a bugged badge. (Helper)", 92, 94),
+    HELPER("Bugged", "\uD83D\uDC1B", "Get a bugged badge. (Helper)", 92, 94),
 
     //Self-explanatory.
-    DONATOR("Bugged 2", "\u2764", "Get a bugged badge. (Donator)", 92, 94);
+    DONATOR("Bugged 2", "\uD83D\uDC1B", "Get a bugged badge. (Donator)", 92, 94);
 
     //What does the fox say?
     @Getter

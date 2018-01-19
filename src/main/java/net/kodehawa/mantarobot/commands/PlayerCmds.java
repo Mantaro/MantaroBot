@@ -140,11 +140,11 @@ public class PlayerCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, String content) {
-                        User author = event.getAuthor();
-                        Player player = MantaroData.db().getPlayer(author);
+                        User userLooked = event.getAuthor();
+                        Player player = MantaroData.db().getPlayer(userLooked);
 
                         UserData user = MantaroData.db().getUser(event.getMember()).getData();
-                        Member member = event.getMember();
+                        Member memberLooked = event.getMember();
 
                         List<Member> found = FinderUtil.findMembers(content, event.getGuild());
 
@@ -160,16 +160,16 @@ public class PlayerCmds {
                         }
 
                         if(found.size() == 1 && !content.isEmpty()) {
-                            author = found.get(0).getUser();
-                            member = found.get(0);
+                            userLooked = found.get(0).getUser();
+                            memberLooked = found.get(0);
 
-                            if(author.isBot()) {
+                            if(userLooked.isBot()) {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "Bots don't have profiles.").queue();
                                 return;
                             }
 
-                            user = MantaroData.db().getUser(author).getData();
-                            player = MantaroData.db().getPlayer(member);
+                            user = MantaroData.db().getUser(userLooked).getData();
+                            player = MantaroData.db().getPlayer(memberLooked);
                         }
 
                         User marriedTo = (player.getData().getMarriedWith() == null || player.getData().getMarriedWith().isEmpty()) ? null :
@@ -180,18 +180,18 @@ public class PlayerCmds {
 
                         //start of badge assigning
                         Guild mh = MantaroBot.getInstance().getGuildById("213468583252983809");
-                        Member mhMember = mh == null ? null : mh.getMemberById(member.getUser().getId());
+                        Member mhMember = mh == null ? null : mh.getMemberById(memberLooked.getUser().getId());
                         boolean saveAfter = false;
 
                         if(player.getMoney() > 7526527671L && playerData.addBadgeIfAbsent(Badge.ALTERNATIVE_WORLD))
                             saveAfter = true;
-                        if(MantaroData.config().get().isOwner(author) && playerData.addBadgeIfAbsent(Badge.DEVELOPER))
+                        if(MantaroData.config().get().isOwner(userLooked) && playerData.addBadgeIfAbsent(Badge.DEVELOPER))
                             saveAfter = true;
                         if(inv.asList().stream().anyMatch(stack -> stack.getAmount() == 5000) && playerData.addBadgeIfAbsent(Badge.SHOPPER))
                             saveAfter = true;
                         if(inv.asList().stream().anyMatch(stack -> stack.getItem().equals(Items.CHRISTMAS_TREE_SPECIAL) || stack.getItem().equals(Items.BELL_SPECIAL)) && playerData.addBadgeIfAbsent(Badge.CHRISTMAS))
                             saveAfter = true;
-                        if(MantaroBot.getInstance().getShardedMantaro().getDiscordBotsUpvoters().contains(author.getIdLong()) && playerData.addBadgeIfAbsent(Badge.UPVOTER))
+                        if(MantaroBot.getInstance().getShardedMantaro().getDiscordBotsUpvoters().contains(userLooked.getIdLong()) && playerData.addBadgeIfAbsent(Badge.UPVOTER))
                             saveAfter = true;
                         if(player.getLevel() >= 10 && playerData.addBadgeIfAbsent(Badge.WALKER))
                             saveAfter = true;
@@ -219,9 +219,9 @@ public class PlayerCmds {
                         String displayBadges = badges.stream().map(Badge::getUnicode).limit(5).collect(Collectors.joining("  "));
 
                         applyBadge(event.getChannel(),
-                                badges.isEmpty() ? null : (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()), author,
-                                baseEmbed(event, (marriedTo == null || !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING) + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
-                                .setThumbnail(author.getEffectiveAvatarUrl())
+                                badges.isEmpty() ? null : (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()), userLooked,
+                                baseEmbed(event, (marriedTo == null || !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING) + memberLooked.getEffectiveName() + "'s Profile", userLooked.getEffectiveAvatarUrl())
+                                .setThumbnail(userLooked.getEffectiveAvatarUrl())
                                 .setDescription((player.getData().isShowBadge() ? (badges.isEmpty() ? "" : String.format("**%s**\n", (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()))) : "")
                                         + (player.getData().getDescription() == null ? "No description set" : player.getData().getDescription()))
                                 .addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), true)
