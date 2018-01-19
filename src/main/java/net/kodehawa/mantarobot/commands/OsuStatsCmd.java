@@ -17,10 +17,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import com.osu.api.ciyfhx.Mod;
-import com.osu.api.ciyfhx.OsuClient;
-import com.osu.api.ciyfhx.User;
-import com.osu.api.ciyfhx.UserScore;
+import com.osu.api.ciyfhx.*;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -136,12 +133,13 @@ public class OsuStatsCmd {
                         modsBuilder.append(OsuMod.get(mod).getAbbreviation());
                     }
 
-                    mods1 = "Mods: " + modsBuilder.toString();
+                    mods1 = modsBuilder.toString();
                     modsBuilder = new StringBuilder();
                 }
 
-                sb.append(String.format("# %s -> %s\n | ####### | [%dpp] | Rank: %s -> Max Combo: %d",
-                        userScore.getBeatMap().getTitle().replace("'", ""), mods1,
+                BeatMap map = userScore.getBeatMap();
+                sb.append(String.format("# %s [%s] -> %s (%.2f*) \n | ####### | [%dpp] | Rank: %s -> Max Combo: %d",
+                        map.getTitle().replace("'", ""), map.getVersion(), (mods1.isEmpty() ? "No mod" : mods1), map.getDifficultyRating(),
                         (int) userScore.getPP(), userScore.getRank(), userScore.getMaxCombo()))
                         .append("\n");
 
