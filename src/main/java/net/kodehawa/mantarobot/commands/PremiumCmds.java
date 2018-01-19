@@ -145,8 +145,17 @@ public class PremiumCmds {
                     if(dbUser.getData().getPremiumKey() != null) {
                         PremiumKey currentKey = MantaroData.db().getPremiumKey(MantaroData.db().getUser(event.getAuthor()).getData().getPremiumKey());
                         User owner = MantaroBot.getInstance().getUserById(currentKey.getOwner());
-                        if(owner == null)
+                        boolean marked = false;
+                        if(owner == null) {
+                            marked = true;
                             owner = event.getAuthor();
+                        }
+
+                        if(!marked) {
+                            Player p = MantaroData.db().getPlayer(owner);
+                            if(p.getData().addBadgeIfAbsent(Badge.DONATOR_2))
+                                p.saveAsync();
+                        }
 
                         embedBuilder.setDescription("**Premium user! <3**")
                                 .addField("Expires in", currentKey.validFor() + " days", false)

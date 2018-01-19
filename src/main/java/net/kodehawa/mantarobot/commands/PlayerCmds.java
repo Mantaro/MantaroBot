@@ -56,7 +56,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
@@ -204,8 +203,6 @@ public class PlayerCmds {
                         if(player.getLevel() >= 200 && playerData.addBadgeIfAbsent(Badge.MARATHON_WINNER))
                             saveAfter = true;
                         if(playerData.getMarketUsed() > 1000 && playerData.addBadgeIfAbsent(Badge.COMPULSIVE_BUYER))
-                            saveAfter = true;
-                        if(mhMember != null && mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 290257037072531466L || r.getIdLong() == 290902183300431872L) && playerData.addBadgeIfAbsent(Badge.DONATOR_2))
                             saveAfter = true;
                         if(mhMember != null && mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 292803391330058241L) && playerData.addBadgeIfAbsent(Badge.HELPER_2))
                             saveAfter = true;
