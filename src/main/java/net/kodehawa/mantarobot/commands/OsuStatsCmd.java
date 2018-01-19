@@ -144,6 +144,8 @@ public class OsuStatsCmd {
                         userScore.getBeatMap().getTitle().replace("'", ""), mods1,
                         (int) userScore.getPP(), userScore.getRank(), userScore.getMaxCombo()))
                         .append("\n");
+
+                mods1 = "";
             }
 
             finalResponse = String.format("**Best osu! scores for: %s**\n```md\n%s```", osuUser.getUsername(), sb.toString());
@@ -184,6 +186,8 @@ public class OsuStatsCmd {
                 recent.add(
                         String.format("# %s -> %s\n | (★%s) - %s | Date: %s -> Max Combo: %d\n", u.getBeatMap().getTitle().replace("'", ""), mods1,
                                 df.format(u.getBeatMap().getDifficultyRating()), u.getBeatMap().getCreator(), u.getDate(), u.getMaxCombo()));
+
+                mods1 = "";
             }
 
             recent.forEach(sb::append);
