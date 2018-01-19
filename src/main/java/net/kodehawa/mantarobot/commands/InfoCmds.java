@@ -43,6 +43,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
 import java.awt.*;
 import java.lang.management.ManagementFactory;
@@ -669,6 +670,28 @@ public class InfoCmds {
                         .build();
             }
         });
+    }
+
+    @Subscribe
+    public void tips(CommandRegistry cr) {
+        final List<String> tips = new SimpleFileDataManager("assets/mantaro/texts/tips.txt").get();
+        final Random r = new Random();
+
+        cr.register("tips", new SimpleCommand(Category.INFO) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                event.getChannel().sendMessage(EmoteReference.TALKING + "Tip: " + tips.get(r.nextInt(tips.size()))).queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Tips Command")
+                        .setDescription("**Shows tips about the bot!**")
+                        .build();
+            }
+        });
+
+        cr.registerAlias("tips", "bottips");
     }
 
     @Subscribe

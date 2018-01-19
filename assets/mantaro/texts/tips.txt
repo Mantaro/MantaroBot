@@ -1,0 +1,73 @@
+Did you know that you can provide an argument to help to get extended command about a command? Try `~>help anime`!
+You can provide the `-brief` argument to inventory and badges to see a mobile-friendly version of them.
+You can see the amount of games you've won by using `~>game wins`
+Did you know you can start multiple games of the same type at once? Try `~>game multiple trivia 6` or `~>game multiple pokemon 4`!
+Did you know that you can start multiple games at once? Try `~>game lobby trivia, pokemon, trivia, character`!
+You can mute someone for a set amount of time if you provide the `-time` flag to mute.
+Premium gives a bunch of new features, reduced ratelimits and unlimited music! Check https://www.patreon.com/mantaro
+If you're lost, you can always check the wiki.
+Options can be very confusing at the start, but you can always read the wiki to understand them better. Mantaro is very configurable!
+Profile only shows the top 5 badges. To see all of your badges use `~>badges`.
+The Anime commands pull information from AniList, not MAL.
+The Imageboard commands have the option to either send a random image, search by tag or by number, check them out!
+If the embed of a response Mantaro sends has no image, try reloading your client (Ctrl+R).
+Currency has a lot of ways to gain money. Make sure to check all of them!
+You can disable commands for specific channels, roles or users. Check the wiki for more info!
+You can disable categories for specific channels, roles or users. Check the wiki for more info!
+Custom commands can be created by anyone by default. Use `~>opts admincustom true` to change this.
+The kick and ban commands require the person issuing the commands to have the Kick Members and Ban Members permissions, respectively.
+The love and ratewaifu commands use modulo operations to determine the percentage, don't feel bad if it's low!
+You can check how Mantaro is doing by using `~>status`
+On most commands, you can mention the user or use their username to get their info (for example `~>profile Lars`). This doesn't apply to action commands, where you always have to ping the user.
+Custom commands can be quite versatile, including modifiers, logic (if statements), and embeds!
+Welcome and Leave messages are quite versatile in Mantaro, allowing even for embeds to be sent! Check the wiki for more info (~>wiki usermessage).
+The gain in most currency commands is random. The exceptions are gamble and slots. Gamble uses an algorithm to determine the win chance, and slots has a 25% raw chance of winning, with an added random one.
+You can end a game lobby by using `endlobby`.
+You can end a game session by using `end`.
+You can place a song at the start of the queue by using `~>playnow`
+Did you know that Mantaro can repeat an entire playlist? Check out `~>repeat queue`
+Some commands (administration commands) can only be used with people with a Bot Commander role, or the Manage Server permission.
+You can marry people in Mantaro! Check `~>help marry`
+Having fun is all that counts! If you see yourself mad at something currency-related, take a break from the currency stuff for a bit.
+You can report bugs on the official support server or the github page!
+Did you know that Mantaro is always on development? You can suggest stuff at any time and the chances of it being added soon are quite high!
+Items can be trashed using `~>market dump`.
+You can give items to other players using `~>transferitems`. This command doesn't follow the same argument order than transfer, so check out its help!
+Loot crates can be obtained on `~>loot` with a 1/100th chance.
+You can change Mantaro's prefix if you find it too complicated! Use `~>opts prefix set` (Example: `~>opts prefix set !`)
+The birthday assigner won't do anything unless your server owner configures it!
+If you set your birthday on the same day that the assigner runs, it probably won't be picked up. Wait 2 days before it's saved.
+Pickaxes break when doing `~>mine`! Buy a lot of them to be sure.
+`~>daily` has a streak, the higher it goes, the more money you get from it, so use it daily!
+You can pat and hug (and a bunch of RP-alike stuff) other people using Mantaro! Check the action commands for more help.
+If you don't know how to use music or are lost while using it, check out `~>music`, that pulls up a guide on how to use music!
+If the join autorole isn't working, check role hierarchy!
+Did you know that the maximum amount of items of one kind you can have is 5000?
+You can get badges by just using the bot! Using some commands grants some badges. Check `~>wiki badges` for more info.
+If you have an issue regarding music playback or bot response time, is always nice to provide the `~>shard` when reporting it.
+You can have unlimited playlist and music length by pledging on patreon.
+Server premium is only bound to the server it's on, not to all servers.
+User premium is only bound to the person that has it, but it's avaliable on all servers the person uses the bot on.
+Experience is earnable by talking! Bot commands don't grant XP.
+You can set your profile description by using `~>profile description set`!
+Collectable items cannot be bought. They're items that drop from using commands.
+You can check the birthdays (of the current month) of your server members by using `~>birthday month`.
+Normal skip works as forceskip for people with the DJ role.
+Some commands are case-sensitive. Try spelling them all lowercase first.
+Birthday format is dd/mm/yyyy (Example: 25/01/1999).
+If the queue shows empty but you're sure you have more songs, try `~>queue 1`.
+The link protection doesn't delete invite links that point to the server it's ran at (for example if you post a invite to Mantaro Hub *inside* Mantaro Hub, it won't delete it, as it's not an external server)
+`~>opts check data` is great for debugging issues with your configuration.
+Did you know I wrote all of this tips by hand at 3AM? ~Kodehawa
+Both serverinfo and userinfo show the ID of the server and the user in question. That's useful when asked for the ID! (Discord IDs aren't sensitive information!)
+Did you know that the bot is completely free and open-source? Check out <https://github.com/Mantaro/MantaroBot>!
+Did you know that Mantaro changes the splash of its status every 10 minutes? Check it out, you might like it!
+The pokemon game of Mantaro has 850+ pokemons, including evolutions and forms.
+We have a public stats commands! Check `~>help stats` for more info.
+You can check your current premium status with `~>vipinfo`. The guild's vip status can be checked using `~>vipinfo guild`!
+Use the `~>wiki` command for quick access to Mantaro's wiki page!
+The music player will leave after it's left alone or the queue is over, but you can queue more music!
+Restarts reset all ratelimits, meaning you can daily more than once a day if a restart is done on that day and you did daily before the restart!
+Mantaro has three global prefixes: `~>`, `->` and `mantaro `. The last one is case-insensitive, so you can do `Mantaro ping` or `mantaro ping`, for example.
+The standard is for all custom commands to be lowercase, but you can make them with all kind of different casing.
+If you see some UI inconsistency on Mantaro, don't be afraid to report it!

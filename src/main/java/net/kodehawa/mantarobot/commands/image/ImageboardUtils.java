@@ -259,7 +259,7 @@ public class ImageboardUtils {
                 .addField("Width", width, true)
                 .addField("Height", height, true)
                 .addField("Tags", "`" + (tags == null ? "None" : tags) + "`", false)
-                .setFooter("If the image doesn't load, click the title.", null);
+                .setFooter("If the image doesn't load, click the title." + (imageboard.equals("rule34") ? " If you don't like the content on this command, you can use ~>yandere" : ""), null);
 
         channel.sendMessage(builder.build()).queue();
     }

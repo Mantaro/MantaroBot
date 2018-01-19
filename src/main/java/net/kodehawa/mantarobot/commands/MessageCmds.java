@@ -199,7 +199,8 @@ public class MessageCmds {
                         .addField("Usage", "`~>prune <x>/<@user>` - **Prunes messages**", false)
                         .addField("Parameters", "x = **number of messages to delete**", false)
                         .addField("Important", "You need to provide *at least* 5 messages. I'd say better 10 or more.\n" +
-                                "You can use `~>prune bot` to remove all bot messages and bot calls.", false)
+                                "You can use `~>prune bot` to remove all bot messages and bot calls.\n" +
+                                "You can use `~>prune nopins` to avoid pruning pinned messages.", false)
                         .build();
             }
 
