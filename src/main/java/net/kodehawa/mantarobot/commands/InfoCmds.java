@@ -99,9 +99,7 @@ public class InfoCmds {
                                 .addField("Shards", String.valueOf(MantaroBot.getInstance().getShardedMantaro().getTotalShards()), true)
                                 .addField("Threads", String.format("%,d", Thread.activeCount()), true)
                                 .addField("Servers", String.format("%,d", guilds.size()), true)
-                                .addField("Users (Online/Unique)", String.format("%,d/%,d", guilds.stream().flatMap(g -> g.getMembers().stream()).filter(
-                                        m -> m.getOnlineStatus() != OnlineStatus.OFFLINE).mapToLong(u -> u.getUser().getIdLong()).distinct().count(),
-                                        users.stream().mapToLong(ISnowflake::getIdLong).distinct().count()), true)
+                                .addField("Users (Unique)", String.format("%,d", users.stream().mapToLong(ISnowflake::getIdLong).distinct().count()), true)
                                 .addField("Text Channels", String.format("%,d", textChannels.size()), true)
                                 .addField("Voice Channels", String.format("%,d", voiceChannels.size()), true)
                                 .setFooter(String.format("Invite link: http://is.gd/mantaro (Commands this session: %,d | Current shard: %d)", CommandListener.getCommandTotalInt(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())
