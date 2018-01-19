@@ -81,13 +81,13 @@ public class DebugCmds {
                         + "Users: " + String.format("%,d", users.size()) + "\n"
                         + "Shards: " + MantaroBot.getInstance().getShardedMantaro().getTotalShards() + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId()) + ")" + "\n"
                         + "Threads: " + String.format("%,d", Thread.activeCount()) + "\n"
-                        + "Executed Commands: " + CommandListener.getCommandTotal() + "\n"
-                        + "Logs: " + MantaroListener.getLogTotal() + "\n"
+                        + "Executed Commands: " + String.format("%,d", CommandListener.getCommandTotalInt()) + "\n"
+                        + "Logs: " + String.format("%,d", MantaroListener.getLogTotalInt()) + "\n"
                         + "Memory: " + String.format("%,dMB/%,dMB", (int)(getTotalMemory() - getFreeMemory()), (int)getMaxMemory()) + "\n"
                         + "Music Connections: " + (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count() + "\n"
                         + "Active Connections: " + (int) vc.stream().filter(voiceChannel ->
                         voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember()) && voiceChannel.getMembers().size() > 1).count() + "\n"
-                        + "Queue Size: " + MantaroBot.getInstance().getAudioManager().getTotalQueueSize()
+                        + "Queue Size: " + String.format("%,d", MantaroBot.getInstance().getAudioManager().getTotalQueueSize())
                         + "```").queue();
             }
 
@@ -263,8 +263,8 @@ public class DebugCmds {
                         ,
                         Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()), MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION, ping,
                         bot.getShardList().stream().filter(Objects::nonNull).map(shard -> shard.getId() + ": " + shard.getPing() + "ms").collect(Collectors.joining(", ")),
-                        dead, zeroVoiceConnections, reconnecting, connecting, high, bot.getGuildCache().size(),
-                        bot.getUserCache().size(), bot.getShardList().size()));
+                        dead, zeroVoiceConnections, reconnecting, connecting, high, String.format("%,d", bot.getGuildCache().size()),
+                        String.format("%,d", bot.getUserCache().size()), bot.getShardList().size()));
 
                 event.getChannel().sendMessage(new MessageBuilder()
                         .append(EmoteReference.OK)

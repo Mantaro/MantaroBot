@@ -332,6 +332,12 @@ public class ImageCmds {
         cr.register("yandere", new SimpleCommand(Category.IMAGE) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                if(!event.getChannel().isNSFW()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Yande.re command can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\n" +
+                            "You can try using `~>konachan` instead!").queue();
+                    return;
+                }
+
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":

@@ -106,6 +106,10 @@ public class MantaroListener implements EventListener {
         return String.valueOf(logTotal);
     }
 
+    public static int getLogTotalInt() {
+        return logTotal;
+    }
+
     private static boolean hasInvite(JDA jda, Guild guild, String message) {
         if(THIRD_PARTY_INVITE.matcher(message).find())
             return true;
@@ -243,7 +247,7 @@ public class MantaroListener implements EventListener {
 
     /**
      * Handles automatic deliver of patreon keys. Should only deliver keys when
-     * - An user was already in the guild and got the "Patreon" role assigned by the Patreon bot
+     * - An user was already in the guild or just joined and got the "Patreon" role assigned by the Patreon bot
      * - The user hasn't re-joined to get the role re-assigned
      * - The user hasn't received any keys
      * - The user pledged, obviously
@@ -271,7 +275,7 @@ public class MantaroListener implements EventListener {
                                         "or want to enable the patreon bot (>$4 donation) you need to contact Kodehawa to deliver your keys.\n" +
                                         "To apply this key, run the following command in any channel `~>activatekey " +
                                         PremiumKey.generatePremiumKey(user.getId(), PremiumKey.Type.USER).getId() + "`\n" +
-                                        "Thanks you soo much for donating and helping to keep mantaro alive! :heart:").queue(sent -> {
+                                        "Thanks you soo much for donating and helping to keep Mantaro alive! :heart:").queue(sent -> {
                                             dbUser.getData().setHasReceivedFirstKey(true);
                                             dbUser.saveAsync();
                                         }

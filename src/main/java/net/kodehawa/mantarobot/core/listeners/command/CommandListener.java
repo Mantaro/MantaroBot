@@ -87,6 +87,10 @@ public class CommandListener implements EventListener {
         return String.valueOf(commandTotal);
     }
 
+    public static int getCommandTotalInt() {
+        return commandTotal;
+    }
+
     @Override
     public void onEvent(Event event) {
         if(event instanceof ShardMonitorEvent) {

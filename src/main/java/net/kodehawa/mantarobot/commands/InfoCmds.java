@@ -104,7 +104,7 @@ public class InfoCmds {
                                         users.stream().mapToLong(ISnowflake::getIdLong).distinct().count()), true)
                                 .addField("Text Channels", String.format("%,d", textChannels.size()), true)
                                 .addField("Voice Channels", String.format("%,d", voiceChannels.size()), true)
-                                .setFooter(String.format("Invite link: http://is.gd/mantaro (Commands this session: %s | Current shard: %d)", CommandListener.getCommandTotal(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())
+                                .setFooter(String.format("Invite link: http://is.gd/mantaro (Commands this session: %,d | Current shard: %d)", CommandListener.getCommandTotalInt(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                                 .build()).queue();
                     }
                 };
