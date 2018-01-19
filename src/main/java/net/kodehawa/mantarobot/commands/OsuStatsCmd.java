@@ -152,7 +152,6 @@ public class OsuStatsCmd {
         }
         catch(Exception e) {
             finalResponse = EmoteReference.ERROR + "Uh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)";
-            SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
         }
 
         return finalResponse;
@@ -195,7 +194,6 @@ public class OsuStatsCmd {
             finalMessage = EmoteReference.ERROR + "No results found.";
         } catch(Exception e) {
             finalMessage = EmoteReference.ERROR + "Uh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)";
-            SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
         }
 
         return finalMessage;
