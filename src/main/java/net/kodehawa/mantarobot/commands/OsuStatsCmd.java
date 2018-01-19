@@ -148,7 +148,7 @@ public class OsuStatsCmd {
                 mods1 = "";
             }
 
-            finalResponse = String.format("**Best osu! scores for: %s**\n```md\n%s```", osuUser.getUsername(), sb.toString());
+            finalResponse = String.format("**10 best osu! scores for: %s**\n```md\n%s```", osuUser.getUsername(), sb.toString());
         } catch (JSONException jx) {
             finalResponse = EmoteReference.ERROR + "No results found.";
         }
@@ -191,7 +191,7 @@ public class OsuStatsCmd {
             }
 
             recent.forEach(sb::append);
-            finalMessage = String.format("**Recent osu! scores for: %s**\n```md\n%s```", hey.getUsername(), sb.toString());
+            finalMessage = String.format("**10 most recent osu! scores for: %s**\n```md\n%s```", hey.getUsername(), sb.toString());
 
         } catch (JSONException jx) {
             finalMessage = EmoteReference.ERROR + "No results found.";
