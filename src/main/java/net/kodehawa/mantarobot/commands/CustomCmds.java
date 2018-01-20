@@ -484,10 +484,8 @@ public class CustomCmds {
                         return;
                     }
 
-                    if(DefaultCommandProcessor.REGISTRY.commands().containsKey(value) && !DefaultCommandProcessor.REGISTRY.commands()
-                            .get(value).equals(customCommand)) {
-                        event.getChannel().sendMessage(
-                                EmoteReference.ERROR + "A command already exists with this name!").queue();
+                    if(DefaultCommandProcessor.REGISTRY.commands().containsKey(value) && !DefaultCommandProcessor.REGISTRY.commands().get(value).equals(customCommand)) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "A command already exists with this name!").queue();
                         return;
                     }
 

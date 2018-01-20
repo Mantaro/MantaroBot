@@ -21,6 +21,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
@@ -64,6 +65,16 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
     @Override
     public ITreeCommand addSubCommand(String name, SubCommand command) {
         subCommands.put(name, command);
+        return this;
+    }
+
+    public TreeCommand addSubCommand(String name, BiConsumer<GuildMessageReceivedEvent, String> command) {
+        subCommands.put(name, new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                command.accept(event, content);
+            }
+        });
         return this;
     }
 

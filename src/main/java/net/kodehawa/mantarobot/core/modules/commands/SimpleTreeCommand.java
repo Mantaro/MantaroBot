@@ -22,6 +22,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
@@ -85,6 +86,16 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
 
     public SimpleTreeCommand addSubCommand(String name, SubCommand command) {
         subCommands.put(name, command);
+        return this;
+    }
+
+    public SimpleTreeCommand addSubCommand(String name, BiConsumer<GuildMessageReceivedEvent, String> command) {
+        subCommands.put(name, new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                command.accept(event, content);
+            }
+        });
         return this;
     }
 

@@ -638,67 +638,16 @@ public class UtilsCmds {
                         .setDescription("**Shows a bunch of things related to mantaro's wiki.**\n" +
                                 "Avaliable subcommands: `opts`, `custom`, `faq`, `commands`, `modifiers`, `tos`, `usermessage`, `premium`, `items`")
                         .build();
-            }
-        }.addSubCommand("opts", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation on `~>opts` and general bot options " +
-                        "please visit:** https://github.com/Mantaro/MantaroBot/wiki/Configuration").queue();
-            }
-        }).addSubCommand("custom", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation on custom commands please visit:** " +
-                        "https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands").queue();
-            }
-        }).addSubCommand("modifiers", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation in custom commands modifiers please visit:** " +
-                        "https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-Modifiers").queue();
-            }
-        }).addSubCommand("commands", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation on commands and usage please visit:**" +
-                        " https://github.com/Mantaro/MantaroBot/wiki/Command-reference-and-documentation").queue();
-            }
-        }).addSubCommand("faq", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's FAQ please visit:**" +
-                        " https://github.com/Mantaro/MantaroBot/wiki/FAQ").queue();
-            }
-        }).addSubCommand("badges", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's badge documentation please visit:**" +
-                        " https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation").queue();
-            }
-        }).addSubCommand("tos", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's ToS please visit:**" +
-                        " https://github.com/Mantaro/MantaroBot/wiki/Terms-of-Service").queue();
-            }
-        }).addSubCommand("usermessage", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's Welcome and Leave message tutorial please visit:**" +
-                        " https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial").queue();
-            }
-        }).addSubCommand("premium", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.OK + "**To see what Mantaro's Premium features offer please visit:**" +
-                        " https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks").queue();
-            }
-        }).addSubCommand("items", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.OK + "**For a list of all collectable (non-purchaseable) items please visit:**" +
-                        " https://github.com/Mantaro/MantaroBot/wiki/Collectable-Items").queue();
-            }
-        }));
+            } //addSubCommand meme incoming...
+        }.addSubCommand("opts", (event, s) -> event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation on `~>opts` and general bot options please visit:** https://github.com/Mantaro/MantaroBot/wiki/Configuration").queue())
+        .addSubCommand("custom", (event, s) -> event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation on custom commands please visit:** https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands").queue())
+        .addSubCommand("modifiers", (event, s) -> event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation in custom commands modifiers please visit:** https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-Modifiers").queue())
+        .addSubCommand("commands", (event, s) -> event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation on commands and usage please visit:** https://github.com/Mantaro/MantaroBot/wiki/Command-reference-and-documentation").queue())
+        .addSubCommand("faq", (event, s) -> event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's FAQ please visit:** https://github.com/Mantaro/MantaroBot/wiki/FAQ").queue())
+        .addSubCommand("badges", (event, s) -> event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's badge documentation please visit:** https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation").queue())
+        .addSubCommand("tos", (event, s) -> event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's ToS please visit:** https://github.com/Mantaro/MantaroBot/wiki/Terms-of-Service").queue())
+        .addSubCommand("usermessage", (event, s) -> event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's Welcome and Leave message tutorial please visit:** https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial").queue())
+        .addSubCommand("premium", (event, s) -> event.getChannel().sendMessage(EmoteReference.OK + "**To see what Mantaro's Premium features offer please visit:** https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks").queue())
+        .addSubCommand("items", (event, s) -> event.getChannel().sendMessage(EmoteReference.OK + "**For a list of all collectable (non-purchaseable) items please visit:** https://github.com/Mantaro/MantaroBot/wiki/Collectable-Items").queue()));
     }
 }
