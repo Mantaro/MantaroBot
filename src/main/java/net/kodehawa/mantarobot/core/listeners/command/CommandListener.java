@@ -59,9 +59,9 @@ import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
 
 @Slf4j
 public class CommandListener implements EventListener {
-    //Message cache of 35000 cached messages. If it reaches 35000 it will delete the first one stored, and continue being 35000
+    //Message cache of 65000 cached messages. If it reaches 65000 it will delete the first one stored, and continue being 65000
     @Getter
-    private static final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(35000).build();
+    private static final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(65000).build();
     private static final RateLimiter experienceRatelimiter = new RateLimiter(TimeUnit.SECONDS, 18);
     //Commands ran this session.
     private static int commandTotal = 0;
