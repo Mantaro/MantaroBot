@@ -173,34 +173,6 @@ public class CommandListener implements EventListener {
 
                         //This time, actually remember to save the player so you don't have to restart 102 shards to fix it.
                         player.saveAsync();
-
-                        // ---------- LOCAL EXPERIENCE CHECK ---------- //
-                        //TODO enable in 4.9, maybe improve?
-
-                        /*LocalExperienceData localPlayer = null;
-                        List<LocalExperienceData> players = guildData.getLocalPlayerExperience();
-
-                        for(LocalExperienceData localData : players) {
-                            if(localData.getUserId().equals(event.getAuthor().getId())) {
-                                localPlayer = localData;
-                            }
-                        }
-
-                        if(localPlayer == null) {
-                            localPlayer = new LocalExperienceData(event.getAuthor().getId());
-                            players.add(localPlayer);
-                        }
-
-                        if(localPlayer.getLevel() == 0)
-                            localPlayer.setLevel(1);
-
-                        localPlayer.setExperience(localPlayer.getExperience() + Math.round(random.nextInt(5)));
-                        if(localPlayer.getExperience() > (localPlayer.getLevel() * Math.log10(localPlayer.getLevel()) * 1000) + (50 * localPlayer.getLevel() / 2)) {
-                            localPlayer.setLevel(player.getLevel() + 1);
-                        }
-
-                        //Save local player.
-                        dbGuild.saveAsync();*/
                     }
                 } catch(Exception ignored) { }
             }
