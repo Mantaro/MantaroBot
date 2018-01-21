@@ -29,6 +29,8 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
@@ -38,6 +40,7 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import javax.script.ScriptEngine;
@@ -106,6 +109,67 @@ public class OwnerCmd {
                         .addField("Examples", "~>blacklist user add/remove 293884638101897216\n" +
                                 "~>blacklist guild add/remove 305408763915927552", false)
                         .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void transferPlayer(CommandRegistry cr) {
+        cr.register("transferplayer", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                List<User> mentionedUsers = event.getMessage().getMentionedUsers();
+                if(mentionedUsers.size() < 2) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention the 2 players to transfer!").queue();
+                    return;
+                }
+
+                event.getChannel().sendMessage(EmoteReference.WARNING + "You're about to transfer all the player information from " + mentionedUsers.get(0) + " to " + mentionedUsers.get(1) + " are you sure you want to continue?").queue();
+                InteractiveOperations.createOverriding(event.getChannel(), 30, e -> {
+                    if(e.getAuthor().getIdLong() != event.getAuthor().getIdLong()) {
+                        return Operation.IGNORED;
+                    }
+
+                    if(e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
+                        Player transferred = MantaroData.db().getPlayer(mentionedUsers.get(0));
+                        Player transferTo = MantaroData.db().getPlayer(mentionedUsers.get(1));
+
+                        transferTo.setMoney(transferred.getMoney());
+                        transferTo.setLevel(transferred.getLevel());
+                        transferTo.setReputation(transferred.getReputation());
+
+                        PlayerData transferredData = transferred.getData();
+                        PlayerData transferToData = transferTo.getData();
+
+                        transferToData.setExperience(transferredData.getExperience());
+                        transferToData.setBadges(transferredData.getBadges());
+                        transferToData.setShowBadge(transferredData.isShowBadge());
+                        transferToData.setMarketUsed(transferredData.getMarketUsed());
+                        transferToData.setMainBadge(transferredData.getMainBadge());
+                        transferToData.setGamesWon(transferredData.getGamesWon());
+
+
+                        transferTo.save();
+                        Player reset = Player.of(mentionedUsers.get(0));
+                        reset.save();
+
+                        e.getChannel().sendMessage(EmoteReference.CORRECT + "Transfer from " + mentionedUsers.get(0) + " to " + mentionedUsers.get(1) + " completed.").queue();
+
+                        return Operation.COMPLETED;
+                    }
+
+                    if(e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
+                        e.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled.").queue();
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                });
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return null;
             }
         });
     }
