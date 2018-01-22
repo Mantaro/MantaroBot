@@ -29,6 +29,7 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
+import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -620,28 +621,9 @@ public class CurrencyCmds {
     @Subscribe
     public void lootcrate(CommandRegistry registry) {
         registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
-
-            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 1);
-
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                Player player = MantaroData.db().getPlayer(event.getAuthor());
-                Inventory inventory = player.getInventory();
-                if(inventory.containsItem(Items.LOOT_CRATE)) {
-                    if(inventory.containsItem(Items.LOOT_CRATE_KEY)) {
-                        if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
-
-                        inventory.process(new ItemStack(Items.LOOT_CRATE_KEY, -1));
-                        inventory.process(new ItemStack(Items.LOOT_CRATE, -1));
-                        player.getData().addBadgeIfAbsent(Badge.THE_SECRET);
-                        player.save();
-                        openLootBox(event, true);
-                    } else {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate key to open a crate. It's locked!").queue();
-                    }
-                } else {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate! How else would you use your key >.>").queue();
-                }
+                Items.LOOT_CRATE.getAction().test(event);
             }
 
             @Override
@@ -654,119 +636,44 @@ public class CurrencyCmds {
         });
     }
 
-    //TODO find an efficient way to do this that doesn't require a shit ton of db reads.
-    //@Subscribe
-    @SuppressWarnings("unchecked")
-    public void rank(CommandRegistry registry) {
-        registry.register("rank", new SimpleCommand(Category.CURRENCY) {
+    @Subscribe
+    public void useItem(CommandRegistry cr) {
+        cr.register("useitem", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-
-                Member m = Utils.findMember(event, event.getMember(), content);
-                if(m == null)
+                if(args.length < 1) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify what item to use!").queue();
                     return;
-                User user = m.getUser();
-
-                long moneyRank, levelRank, reputationRank, streakRank;
-                long count;
-                try(Connection conn = Utils.newDbConnection()) {
-                    moneyRank = ((Cursor<Long>) r.table("players").orderBy()
-                            .optArg("index", r.desc("money"))
-                            .offsetsOf(player -> player.g("id").eq(user.getId() + ":g"))
-                            .run(conn, OptArgs.of("read_mode", "outdated"))).next() + 1;
-
-                    levelRank = ((Cursor<Long>) r.table("players").orderBy()
-                            .optArg("index", r.desc("level"))
-                            .offsetsOf(player -> player.g("id").eq(user.getId() + ":g"))
-                            .run(conn, OptArgs.of("read_mode", "outdated"))).next() + 1;
-
-                    reputationRank = ((Cursor<Long>) r.table("players").orderBy()
-                            .optArg("index", r.desc("reputation"))
-                            .offsetsOf(player -> player.g("id").eq(user.getId() + ":g"))
-                            .run(conn, OptArgs.of("read_mode", "outdated"))).next() + 1;
-
-                    streakRank = ((Cursor<Long>) r.table("players").orderBy()
-                            .optArg("index", r.desc("userDailyStreak"))
-                            .offsetsOf(player -> player.g("id").eq(user.getId() + ":g"))
-                            .run(conn, OptArgs.of("read_mode", "outdated"))).next() + 1;
-
-                    count = r.table("players").count().run(conn);
                 }
 
-                event.getChannel().sendMessage(new EmbedBuilder()
-                        .setTitle(user.getName() + "'s Leaderboard Rank")
-                        .setDescription(
-                                EmoteReference.BLUE_SMALL_MARKER + "**Money rank:** " + moneyRank + "/" + count + "\n" +
-                                EmoteReference.BLUE_SMALL_MARKER + "**Level rank:** " + levelRank + "/" + count + "\n" +
-                                EmoteReference.BLUE_SMALL_MARKER + "**Streak rank:** " + streakRank + "/" + count + "\n" +
-                                EmoteReference.BLUE_SMALL_MARKER + "**Reputation rank:** " + reputationRank + "/" + count
-                        )
-                        .setColor(Color.PINK)
-                        .build()).queue();
+                Item item = Items.fromAnyNoId(content).orElse(null);
+                Player p = MantaroData.db().getPlayer(event.getAuthor());
+                if(item == null) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "There's no such item...").queue();
+                    return;
+                }
+
+                if(item.getItemType() != ItemType.INTERACTIVE) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot interact with this item...").queue();
+                    return;
+                }
+
+                if(item.getAction() == null) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "This item has been marked as interactive, but has no action set...").queue();
+                    return;
+                }
+
+                if(item.getAction().test(event)) {
+                    p.getInventory().process(new ItemStack(item, -1));
+                    p.save();
+                }
             }
 
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Rank command")
-                        .setDescription("**Shows your ranks someone else's ranks (Position in the leaderboard)")
-                        .build();
+                //TODO
+                return null;
             }
         });
-    }
-
-    private void openLootBox(GuildMessageReceivedEvent event, boolean special) {
-        List<Item> toAdd = new ArrayList<>();
-        int amtItems = random.nextInt(3) + 3;
-        List<Item> items = new ArrayList<>();
-        items.addAll(Arrays.asList(Items.ALL));
-        items.removeIf(item -> item.isHidden() || !item.isBuyable() || !item.isSellable());
-        items.sort((o1, o2) -> {
-            if(o1.getValue() > o2.getValue())
-                return 1;
-            if(o1.getValue() == o2.getValue())
-                return 0;
-
-            return -1;
-        });
-
-        if(!special) {
-            for(Item i : Items.ALL) if(i.isHidden() || !i.isBuyable() || i.isSellable()) items.add(i);
-        }
-        for(int i = 0; i < amtItems; i++)
-            toAdd.add(selectReverseWeighted(items));
-
-        Player player = MantaroData.db().getPlayer(event.getMember());
-        ArrayList<ItemStack> ita = new ArrayList<>();
-
-        toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
-
-        boolean overflow = player.getInventory().merge(ita);
-        player.saveAsync();
-
-        event.getChannel().sendMessage(String.format("%s**You won:** %s%s",
-                EmoteReference.LOOT_CRATE.getDiscordNotation(), toAdd.stream().map(Item::toString).collect(Collectors.joining(", ")),
-                overflow ? ". But you already had too much, so you decided to throw away the excess" : "")).queue();
-    }
-
-    private Item selectReverseWeighted(List<Item> items) {
-        Map<Integer, Item> weights = new HashMap<>();
-        int weightedTotal = 0;
-
-        for(int i = 0; i < items.size(); i++) {
-            int t = items.size() - i;
-            weightedTotal += t;
-            weights.put(t, items.get(i));
-        }
-
-        final int[] selected = {
-                random.nextInt(weightedTotal)
-        };
-
-        for(Map.Entry<Integer, Item> i : weights.entrySet()) {
-            if((selected[0] -= i.getKey()) <= 0) {
-                return i.getValue();
-            }
-        }
-        return null;
     }
 }

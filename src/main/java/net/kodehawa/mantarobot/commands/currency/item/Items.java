@@ -16,111 +16,141 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
+import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
+
+@Slf4j
 public class Items {
     public static final Item HEADPHONES, BAN_HAMMER, KICK_BOOT, FLOPPY_DISK, MY_MATHS, PING_RACKET,
             LOADED_DICE, FORGOTTEN_MUSIC, CC_PENCIL, OVERFLOWED_BAG, BROM_PICKAXE, POTION_HEALTH, POTION_STAMINA, LEWD_MAGAZINE, RING,
             LOOT_CRATE_KEY,
             BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
             NECKLACE, ROSE,
-            DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS;
+            DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE;
 
+    private static final Random r = new Random();
+    private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.HOURS, 1);
+
+    //Some interactive items don't remove themselves because the useitem command will remove them. The ones that don't depend on useitem will remove themselves.
+    //Check setItemAction
     public static final Item[] ALL = {
-            HEADPHONES = new Item("\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music. Should be worth " +
-                    "something, tho.", 5, true, false),
-            BAN_HAMMER = new Item("\uD83D\uDD28",
-                    "Ban Hammer", "Left by an admin. +INF Dmg", 15, false),
-            KICK_BOOT = new Item("\uD83D\uDC62",
-                    "Kick Boot", "Left by an admin. +INF Knockback", 12, false),
-            FLOPPY_DISK = new Item("\uD83D\uDCBE",
-                    "Floppy Disk", "Might have some games.", 13, false),
-            MY_MATHS = new Item("\uD83D\uDCDD",
-                    "My Maths", "\"Oh, I forgot my maths.\"", 11, false),
-            PING_RACKET = new Item("\uD83C\uDFD3",
-                    "Ping Racket", "I won the game of ping-pong with Discord by a few milliseconds.", 15, false),
-            LOADED_DICE = new Item("\uD83C\uDFB2",
-                    "Loaded Die", "Stolen from `~>roll` command", 60, false),
-            FORGOTTEN_MUSIC = new Item("\uD83C\uDFB5",
-                    "Forgotten Music", "Never downloaded. Probably has been copyrighted.", 15, false),
-            CC_PENCIL = new Item("\u270f",
-                    "Pencil", "We have plenty of those!", 15, false),
-            OVERFLOWED_BAG = new Item("\uD83D\uDCB0",
-                    "Moneybag", "What else?.", 95, true),
-            BROM_PICKAXE = new Item("\u26cf",
-                    "Brom's Pickaxe", "That guy liked Minecraft way too much.", 75, true),
-            POTION_HEALTH = new Item(EmoteReference.POTION1.getUnicode(),
-                    "Milk", "Good boy.", 45, true),
-            POTION_STAMINA = new Item(EmoteReference.POTION2.getUnicode(),
-                    "Alcohol", "Hmm. I wonder what this is good for.", 45, true),
-            LEWD_MAGAZINE = new Item(EmoteReference.MAGAZINE.getUnicode(),
-                    "Lewd Magazine", "Too many lewd commands.", 45, true),
-            RING = new Item(EmoteReference.RING.getUnicode(),
-                    "Marriage Ring", "Basically what makes your marriage official", 60, true),
-            LOVE_LETTER = new Item(EmoteReference.LOVE_LETTER.getUnicode(),
-                    "Love Letter", "A letter from your beloved one.", 45, false),
-            LOOT_CRATE_KEY = new Item(EmoteReference.KEY.getUnicode(),
-                    "Crate Key", "Used to open loot boxes with `~>opencrate`", 58, true),
-            CLOTHES = new Item(EmoteReference.CLOTHES.getUnicode(),
-                    "Clothes", "Basically what you wear.", 15, true),
-            DIAMOND = new Item(EmoteReference.DIAMOND.getUnicode(),
-                    "Diamond", "Basically a better way of saving your money. It's shiny too.", 350, true),
-            DRESS = new Item(EmoteReference.DRESS.getUnicode(),
-                    "Wedding Dress", "Isn't it cute?", 75, true),
-            NECKLACE = new Item(EmoteReference.NECKLACE.getUnicode(),
-                    "Necklace", "Looks nice.", 17, true),
-            TUXEDO = new Item(EmoteReference.TUXEDO.getUnicode(),
-                    "Tuxedo", "What you wear when you're going to get married with a girl.", 24, true),
-            SHOES = new Item(EmoteReference.SHOES.getUnicode(),
-                    "Shoes", "Cause walking barefoot is just nasty.", 9, true),
-            ROSE = new Item(EmoteReference.ROSE.getUnicode(),
-                    "Rose", "The embodiment of your love.", 53, true),
-            CHOCOLATE = new Item(EmoteReference.CHOCOLATE.getUnicode(),
-                    "Chocolate", "Yummy.", 45, true),
-            COOKIES = new Item(EmoteReference.COOKIE.getUnicode(),
-                    "Cookie", "Delicious.", 48, true),
+            HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music. Should be worth something, tho.", 5, true, false),
+            BAN_HAMMER = new Item(ItemType.COLLECTABLE, "\uD83D\uDD28", "Ban Hammer", "Left by an admin. +INF Dmg", 15, false),
+            KICK_BOOT = new Item(ItemType.COLLECTABLE, "\uD83D\uDC62", "Kick Boot", "Left by an admin. +INF Knockback", 12, false),
+            FLOPPY_DISK = new Item(ItemType.COLLECTABLE, "\uD83D\uDCBE", "Floppy Disk", "Might have some games.", 13, false),
+            MY_MATHS = new Item(ItemType.COLLECTABLE, "\uD83D\uDCDD", "My Maths", "\"Oh, I forgot my maths.\"", 11, false),
+            PING_RACKET = new Item(ItemType.COLLECTABLE, "\uD83C\uDFD3", "Ping Racket", "I won the game of ping-pong with Discord by a few milliseconds.", 15, false),
+            LOADED_DICE = new Item(ItemType.COLLECTABLE, "\uD83C\uDFB2", "Loaded Die", "Stolen from `~>roll` command", 60, false),
+            FORGOTTEN_MUSIC = new Item(ItemType.COLLECTABLE, "\uD83C\uDFB5", "Forgotten Music", "Never downloaded. Probably has been copyrighted.", 15, false),
+            CC_PENCIL = new Item(ItemType.COLLECTABLE, "\u270f", "Pencil", "We have plenty of those!", 15, false),
+            OVERFLOWED_BAG = new Item(ItemType.COLLECTABLE, "\uD83D\uDCB0","Moneybag", "What else?.", 95, true),
+            BROM_PICKAXE = new Item(ItemType.INTERACTIVE, "\u26cf","Brom's Pickaxe", "That guy liked Minecraft way too much. (`~>mine` tool)", 75, true),
+            POTION_HEALTH = new Item(ItemType.INTERACTIVE, EmoteReference.POTION1.getUnicode(),"Milk", "Clears all potion effects.", 45, true),
+            POTION_STAMINA = new Item(ItemType.INTERACTIVE, EmoteReference.POTION2.getUnicode(),"Energy Beverage", "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.", 45, true),
+            LEWD_MAGAZINE = new Item(ItemType.COMMON, EmoteReference.MAGAZINE.getUnicode(),"Lewd Magazine", "Too many lewd commands.", 45, true),
+            RING = new Item(ItemType.COMMON, EmoteReference.RING.getUnicode(),"Marriage Ring", "Basically what makes your marriage official", 60, true),
+            LOVE_LETTER = new Item(ItemType.COLLECTABLE, EmoteReference.LOVE_LETTER.getUnicode(),"Love Letter", "A letter from your beloved one.", 45, false),
+            LOOT_CRATE_KEY = new Item(ItemType.COMMON, EmoteReference.KEY.getUnicode(),"Crate Key", "Used to open loot boxes with `~>opencrate` or `~>useitem loot crate`", 58, true),
+            CLOTHES = new Item(ItemType.COMMON, EmoteReference.CLOTHES.getUnicode(),"Clothes", "Basically what you wear.", 15, true),
+            DIAMOND = new Item(ItemType.COMMON, EmoteReference.DIAMOND.getUnicode(),"Diamond", "Basically a better way of saving your money. It's shiny too.", 350, true),
+            DRESS = new Item(ItemType.COMMON, EmoteReference.DRESS.getUnicode(),"Wedding Dress", "Isn't it cute?", 75, true),
+            NECKLACE = new Item(ItemType.COMMON, EmoteReference.NECKLACE.getUnicode(),"Necklace", "Looks nice.", 17, true),
+            TUXEDO = new Item(ItemType.COMMON, EmoteReference.TUXEDO.getUnicode(),"Tuxedo", "What you wear when you're going to get married with a girl.", 24, true),
+            SHOES = new Item(ItemType.COMMON, EmoteReference.SHOES.getUnicode(),"Shoes", "Cause walking barefoot is just nasty.", 9, true),
+            ROSE = new Item(ItemType.COMMON, EmoteReference.ROSE.getUnicode(),"Rose", "The embodiment of your love.", 53, true),
+            CHOCOLATE = new Item(ItemType.COMMON, EmoteReference.CHOCOLATE.getUnicode(),"Chocolate", "Yummy.", 45, true),
+            COOKIES = new Item(ItemType.COMMON, EmoteReference.COOKIE.getUnicode(),"Cookie", "Delicious.", 48, true),
 
             // ---------------------------------- LEFT OVERS FROM CURRENCY V1 STARTS HERE ----------------------------------
             //CANNOT REMOVE BECAUSE WE WERE MEME ENOUGH TO FUCKING SAVE THEM BY THEIR IDS
-            LOADED_DICE_2 = new Item("\uD83C\uDFB2",
-                    "Special Loaded Die", "Even more loaded. `Leftover from Currency version 1. No longer obtainable.`"),
-            BOOSTER = new Item(EmoteReference.RUNNER.getUnicode(),
-                    "Booster", "Used to give you some kind of boost, now its broken. `Leftover from Currency version 1. No longer obtainable.`"),
-            BERSERK = new Item(EmoteReference.CROSSED_SWORD.getUnicode(),
-                    "Berserk", "Currency Berserker? Anyone? `Leftover from Currency version 1. No longer obtainable.`"),
-            COMPANION = new Item(EmoteReference.DOG.getUnicode(),
-                    "Companion", "Aw, such a cute dog. `Leftover from Currency version 1. No longer obtainable.`"),
-            RING_2 = new Item("\uD83D\uDC5A",
-                    "Special Ring", "It's so special, it's not even a ring. `Leftover from Currency version 1. No longer obtainable.`"),
-            ENHANCER = new Item(EmoteReference.MAG.getUnicode(),
-                    "Enchancer", "A broken enchanter, I wonder if it could be fixed? `Leftover from Currency version 1. No longer obtainable.`"),
-            STAR = new Item(EmoteReference.STAR.getUnicode(),
-                    "Prize", "Pretty much, huh? `Leftover from Currency version 1. No longer obtainable.`", 0, false, false, true),
+            LOADED_DICE_2 = new Item("\uD83C\uDFB2","Special Loaded Die", "Even more loaded. `Leftover from Currency version 1. No longer obtainable.`"),
+            BOOSTER = new Item(EmoteReference.RUNNER.getUnicode(),"Booster", "Used to give you some kind of boost, now it's broken. `Leftover from Currency version 1. No longer obtainable.`"),
+            BERSERK = new Item(EmoteReference.CROSSED_SWORD.getUnicode(),"Berserk", "Currency Berserker? Anyone? `Leftover from Currency version 1. No longer obtainable.`"),
+            COMPANION = new Item(EmoteReference.DOG.getUnicode(),"Companion", "Aw, such a cute dog. `Leftover from Currency version 1. No longer obtainable.`"),
+            RING_2 = new Item("\uD83D\uDC5A","Special Ring", "It's so special, it's not even a ring. `Leftover from Currency version 1. No longer obtainable.`"),
+            ENHANCER = new Item(EmoteReference.MAG.getUnicode(),"Enchancer", "A broken enchanter, I wonder if it could be fixed? `Leftover from Currency version 1. No longer obtainable.`"),
+            STAR = new Item(ItemType.COLLECTABLE, EmoteReference.STAR.getUnicode(),"Prize", "Pretty much, huh? `Leftover from Currency version 1. No longer obtainable.`", 0, false, false, true),
             // ---------------------------------- LEFT OVERS FROM CURRENCY V1 END HERE ----------------------------------
 
-            LOOT_CRATE = new Item(EmoteReference.LOOT_CRATE.getDiscordNotation(),
-                    "Loot Crate", "You can use this along with a loot key to open a loot crate! `~>opencrate`", 0, false, false, true),
-            STAR_2 = new Item(EmoteReference.STAR.getUnicode(),
-                    "Prize 2", "In the first place, how did you get so much money?", 500, true, false, true),
-            SLOT_COIN = new Item("\uD83C\uDF9F",
-                    "Slot ticket", "Gives you extra chance in slots, also works as bulk storage.", 65, true, true),
-            HOUSE = new Item(EmoteReference.HOUSE.getUnicode(),
-                    "House", "Cozy place to live in.", 5000, true, true),
-            CAR = new Item("\uD83D\uDE97",
-                    "Car", "To move around.", 1000, true, true),
+            LOOT_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Loot Crate", "You can use this along with a loot key to open a loot crate! `~>opencrate`", 0, false, false, true, Items::openLootCrate),
+            STAR_2 = new Item(ItemType.COMMON, EmoteReference.STAR.getUnicode(),"Prize 2", "In the first place, how did you get so much money?", 500, true, false, true),
+            SLOT_COIN = new Item(ItemType.COMMON, "\uD83C\uDF9F","Slot ticket", "Gives you extra chance in slots, also works as bulk storage.", 65, true, true),
+            HOUSE = new Item(ItemType.COMMON, EmoteReference.HOUSE.getUnicode(),"House", "Cozy place to live in.", 5000, true, true),
+            CAR = new Item(ItemType.COMMON, "\uD83D\uDE97","Car", "To move around.", 1000, true, true),
 
             // ---------------------------------- CHRISTMAS 2017 EVENT STARTS HERE ----------------------------------
-            BELL_SPECIAL = new Item("\uD83D\uDD14", "Christmas bell",
-                    "Christmas event 2017 reward. Gives you a cozy christmas feeling on your tree.", 0, false, false, true),
-            CHRISTMAS_TREE_SPECIAL = new Item("\uD83C\uDF84", "Christmas tree",
-                    "Christmas event 2017 reward. Who doesn't like a christmas tree?.", 0, false, false, true),
+            BELL_SPECIAL = new Item(ItemType.RARE, "\uD83D\uDD14", "Christmas bell","Christmas event 2017 reward. Gives you a cozy christmas feeling on your tree.", 0, false, false, true),
+            CHRISTMAS_TREE_SPECIAL = new Item(ItemType.RARE, "\uD83C\uDF84", "Christmas tree","Christmas event 2017 reward. Who doesn't like a christmas tree?.", 0, false, false, true),
             // ---------------------------------- CHRISTMAS 2017 EVENT ENDS HERE ----------------------------------
-            PANTS = new Item("\uD83D\uDC56", "Pants", "Basically what you wear on your legs... hopefully.", 20, true)
+            PANTS = new Item(ItemType.COMMON, "\uD83D\uDC56", "Pants", "Basically what you wear on your legs... hopefully.", 20, true),
+            POTION_HASTE = new Item(ItemType.RARE, EmoteReference.POTION1.getUnicode(),"Haste Potion", "Allows you to have 50% less ratelimit effect on some commands for 5 minutes.", 45, true),
     };
+
+    public static void setItemActions() {
+        log.info("Registering item actions...");
+        BROM_PICKAXE.setAction(event -> {
+            Player p = MantaroData.db().getPlayer(event.getAuthor());
+            Inventory playerInventory = p.getInventory();
+            boolean hasStaminaPotion = p.getData().getActivePotion() != null && fromId(p.getData().getActivePotion().getPotion()) == POTION_STAMINA;
+            if(r.nextInt(100) > (hasStaminaPotion ? 85 : 75)) { //35% chance for the pick to break on usage (25% with stamina).
+                if(hasStaminaPotion) {
+                    PotionEffect staminaPotion = p.getData().getActivePotion();
+                    //counter starts at 0
+                    if(staminaPotion.getTimesUsed() >= 4) {
+                        p.getData().setActivePotion(null);
+                        p.save();
+                    } else {
+                        staminaPotion.setTimesUsed(staminaPotion.getTimesUsed() + 1);
+                        p.save();
+                    }
+                }
+
+                event.getChannel().sendMessage(EmoteReference.SAD + "One of your picks broke while mining.").queue();
+                playerInventory.process(new ItemStack(BROM_PICKAXE, -1));
+                p.save();
+                return false;
+            } else {
+                return true;
+            }
+        });
+
+        POTION_HEALTH.setAction(event -> {
+            Player p = MantaroData.db().getPlayer(event.getAuthor());
+            p.getData().setActivePotion(null);
+            event.getChannel().sendMessage(EmoteReference.POPPER + "Cleared potion effects.").queue();
+            p.save();
+            return true;
+        });
+
+        POTION_STAMINA.setAction(event -> {
+            Player p = MantaroData.db().getPlayer(event.getAuthor());
+            p.getData().setActivePotion(new PotionEffect(idOf(POTION_STAMINA), System.currentTimeMillis(), ItemType.PotionType.PLAYER));
+            event.getChannel().sendMessage(EmoteReference.POPPER + "Activated stamina for 5 mining sessions.").queue();
+            p.save();
+            return true;
+        });
+
+        POTION_HASTE.setAction(event -> {
+            Player p = MantaroData.db().getPlayer(event.getAuthor());
+            p.getData().setActivePotion(new PotionEffect(idOf(POTION_HASTE), System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
+            event.getChannel().sendMessage(EmoteReference.POPPER + "Activated Haste for 2 minutes.").queue();
+            p.save();
+            return true;
+        });
+    }
 
     public static Optional<Item> fromAny(String any) {
         try {
@@ -166,5 +196,82 @@ public class Items {
 
     public static int idOf(Item item) {
         return Arrays.asList(ALL).indexOf(item);
+    }
+
+    private static boolean openLootCrate(GuildMessageReceivedEvent event) {
+        Player player = MantaroData.db().getPlayer(event.getAuthor());
+        Inventory inventory = player.getInventory();
+        if(inventory.containsItem(Items.LOOT_CRATE)) {
+            if(inventory.containsItem(Items.LOOT_CRATE_KEY)) {
+                if(!handleDefaultRatelimit(lootCrateRatelimiter, event.getAuthor(), event))
+                    return false;
+
+                inventory.process(new ItemStack(Items.LOOT_CRATE_KEY, -1));
+                inventory.process(new ItemStack(Items.LOOT_CRATE, -1));
+                player.getData().addBadgeIfAbsent(Badge.THE_SECRET);
+                player.save();
+                openLootBox(event, true);
+                return true;
+            } else {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate key to open a crate. It's locked!").queue();
+                return false;
+            }
+        } else {
+            event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate! How else would you use your key >.>").queue();
+            return false;
+        }
+    }
+
+    private static void openLootBox(GuildMessageReceivedEvent event, boolean special) {
+        List<Item> toAdd = new ArrayList<>();
+        int amtItems = r.nextInt(3) + 3;
+        List<Item> items = new ArrayList<>();
+        items.addAll(Arrays.asList(Items.ALL));
+        items.removeIf(item -> item.isHidden() || !item.isBuyable() || !item.isSellable());
+        items.sort((o1, o2) -> {
+            if(o1.getValue() > o2.getValue())
+                return 1;
+            if(o1.getValue() == o2.getValue())
+                return 0;
+
+            return -1;
+        });
+
+        if(!special) {
+            for(Item i : Items.ALL) if(i.isHidden() || !i.isBuyable() || i.isSellable()) items.add(i);
+        }
+        for(int i = 0; i < amtItems; i++)
+            toAdd.add(selectReverseWeighted(items));
+
+        Player player = MantaroData.db().getPlayer(event.getMember());
+        ArrayList<ItemStack> ita = new ArrayList<>();
+
+        toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
+
+        boolean overflow = player.getInventory().merge(ita);
+        player.saveAsync();
+
+        event.getChannel().sendMessage(String.format("%s**You won:** %s%s",
+                EmoteReference.LOOT_CRATE.getDiscordNotation(), toAdd.stream().map(Item::toString).collect(Collectors.joining(", ")),
+                overflow ? ". But you already had too much, so you decided to throw away the excess" : "")).queue();
+    }
+
+    private static Item selectReverseWeighted(List<Item> items) {
+        Map<Integer, Item> weights = new HashMap<>();
+        int weightedTotal = 0;
+
+        for(int i = 0; i < items.size(); i++) {
+            int t = items.size() - i;
+            weightedTotal += t;
+            weights.put(t, items.get(i));
+        }
+
+        final int[] selected = { r.nextInt(weightedTotal) };
+        for(Map.Entry<Integer, Item> i : weights.entrySet()) {
+            if((selected[0] -= i.getKey()) <= 0) {
+                return i.getValue();
+            }
+        }
+        return null;
     }
 }

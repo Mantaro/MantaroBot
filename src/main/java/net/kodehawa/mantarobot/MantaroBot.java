@@ -24,6 +24,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
+import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.moderation.MuteTask;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
@@ -142,6 +143,8 @@ public class MantaroBot extends ShardedJDA {
         shardedMantaro = core.getShardedInstance();
         audioManager = new MantaroAudioManager();
         tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
+        Items.setItemActions();
+
         long end = System.currentTimeMillis();
 
         System.out.println("Finished loading basic components. Current status: " + MantaroCore.getLoadState());

@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.db.entities.helpers;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 
 import java.beans.Transient;
@@ -43,6 +44,7 @@ public class PlayerData {
     private Badge mainBadge = null;
     private long marketUsed;
     private boolean showBadge = true;
+    private PotionEffect activePotion;
 
     @Transient
     public boolean isMarried() {

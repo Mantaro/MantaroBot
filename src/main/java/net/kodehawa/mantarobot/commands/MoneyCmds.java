@@ -628,40 +628,6 @@ public class MoneyCmds {
             }
         });
 
-        //TODO enable in 4.9
-        /*
-        leaderboards.addSubCommand("localxp", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                List<Map> l;
-
-                try(Connection conn = Utils.newDbConnection()) {
-                    l = r.table("guilds")
-                            .get(event.getGuild().getId())
-                            .getField("data")
-                            .getField("localPlayerExperience")
-                            .run(conn, OptArgs.of("read_mode", "outdated"));
-                }
-
-                l.sort(Comparator.<Map>comparingLong(o -> (long) o.get("experience")).reversed());
-
-                event.getChannel().sendMessage(
-                        baseEmbed(event,
-                                "Local level leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
-                        ).setDescription(l.stream()
-                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("userId").toString()), map.get("level").toString() +
-                                        "\n - Experience: **" + map.get("experience") + "**\n"))
-                                .map(p -> String.format("%s**%s** - %s", EmoteReference.MARKER,
-                                        p == null ? "User left guild" : p.getKey().getName() + "#" + p.getKey().getDiscriminator(), p.getValue()))
-                                .collect(Collectors.joining("\n"))
-                        ).build()
-                ).queue();
-            }
-        });
-
-        leaderboards.createSubCommandAlias("localxp", "local");
-        */
-
         leaderboards.createSubCommandAlias("rep", "reputation");
         leaderboards.createSubCommandAlias("lvl", "level");
         leaderboards.createSubCommandAlias("streak", "daily");
@@ -839,13 +805,7 @@ public class MoneyCmds {
                 }
 
                 if(!handleDefaultRatelimit(rateLimiter, user, event)) return;
-
-                if(r.nextInt(100) > 75) { //35% chance of it breaking the pick.
-                    event.getChannel().sendMessage(EmoteReference.SAD + "One of your picks broke while mining.").queue();
-                    player.getInventory().process(new ItemStack(Items.BROM_PICKAXE, -1));
-                    player.saveAsync();
-                    return;
-                }
+                if(!Items.BROM_PICKAXE.getAction().test(event)) return;
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
                 String message = EmoteReference.PICK + "You mined minerals worth **$" + money + " credits!**";

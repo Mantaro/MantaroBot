@@ -17,7 +17,13 @@
 package net.kodehawa.mantarobot.commands.currency.item;
 
 import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
+import java.util.function.Predicate;
+
+@Slf4j
 public class Item {
     protected final long value;
     private final boolean buyable;
@@ -27,12 +33,17 @@ public class Item {
     private final long maxSize;
     private final boolean sellable;
     private long price;
+    @Getter
+    @Setter
+    private Predicate<GuildMessageReceivedEvent> action;
+    @Getter
+    private ItemType itemType;
 
-    public Item(String emoji, String name, String desc, long value) {
-        this(emoji, name, desc, value, true, true, false, 100);
+    public Item(ItemType type, String emoji, String name, String desc, long value) {
+        this(type, emoji, name, desc, value, true, true, false, 100, null);
     }
 
-    public Item(String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize) {
+    public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize, Predicate<GuildMessageReceivedEvent> action) {
         this.emoji = emoji;
         this.name = name;
         this.desc = desc;
@@ -42,18 +53,33 @@ public class Item {
         this.buyable = buyable;
         this.maxSize = maxSize;
         this.hidden = hidden;
+        this.action = action;
+        this.itemType = type;
+        log.debug("Registered item {}: {}", name, this.toVerboseString());
     }
 
-    public Item(String emoji, String name, String desc, long value, boolean sellable, boolean buyable) {
-        this(emoji, name, desc, value, sellable, buyable, false, 100);
+    public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable) {
+        this(type, emoji, name, desc, value, sellable, buyable, false, 100, null);
     }
 
-    public Item(String emoji, String name, String desc, long value, boolean buyable) {
-        this(emoji, name, desc, value, true, buyable, false, 100);
+    public Item(ItemType type, String emoji, String name, String desc, long value, boolean buyable) {
+        this(type, emoji, name, desc, value, true, buyable, false, 100, null);
     }
 
-    public Item(String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden) {
-        this(emoji, name, desc, value, sellable, buyable, hidden, 100);
+    public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden) {
+        this(type, emoji, name, desc, value, sellable, buyable, hidden, 100, null);
+    }
+
+    public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, Predicate<GuildMessageReceivedEvent> action) {
+        this(type, emoji, name, desc, value, sellable, buyable, false, 100, action);
+    }
+
+    public Item(ItemType type, String emoji, String name, String desc, long value, boolean buyable, Predicate<GuildMessageReceivedEvent> action) {
+        this(type, emoji, name, desc, value, true, buyable, false, 100, action);
+    }
+
+    public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden, Predicate<GuildMessageReceivedEvent> action) {
+        this(type, emoji, name, desc, value, sellable, buyable, hidden, 100, action);
     }
 
     /**
@@ -65,12 +91,16 @@ public class Item {
      * @param desc  A short description, normally used in inventory.
      */
     public Item(String emoji, String name, String desc) {
-        this(emoji, name, desc, 0, false, false, true, 100);
+        this(ItemType.COLLECTABLE, emoji, name, desc, 0, false, false, true, 100, null);
     }
 
     @Override
     public String toString() {
         return "**" + name + "** ($" + value + ")";
+    }
+
+    public String toVerboseString() {
+        return String.format("Item{name:%s, type:%s, value:%s, buyable:%s, sellable:%s}", name, itemType, value, buyable, sellable);
     }
 
     public String getDesc() {
