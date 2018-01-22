@@ -647,7 +647,6 @@ public class CurrencyCmds {
                 }
 
                 Item item = Items.fromAnyNoId(content).orElse(null);
-                Player p = MantaroData.db().getPlayer(event.getAuthor());
                 if(item == null) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "There's no such item...").queue();
                     return;
@@ -664,6 +663,7 @@ public class CurrencyCmds {
                 }
 
                 if(item.getAction().test(event)) {
+                    Player p = MantaroData.db().getPlayer(event.getAuthor());
                     p.getInventory().process(new ItemStack(item, -1));
                     p.save();
                 }
