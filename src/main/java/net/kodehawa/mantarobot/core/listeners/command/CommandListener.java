@@ -76,6 +76,7 @@ public class CommandListener implements EventListener {
     private final Random random = new Random();
     private final MantaroShard shard;
     private final int shardId;
+    private long lastMessageReceivedAt;
 
     public CommandListener(int shardId, MantaroShard shard, ICommandProcessor processor) {
         this.shardId = shardId;
@@ -91,19 +92,27 @@ public class CommandListener implements EventListener {
         return commandTotal;
     }
 
+    private long getLastMessageDiff() {
+        return System.currentTimeMillis() - lastMessageReceivedAt;
+    }
+
     @Override
     public void onEvent(Event event) {
         if(event instanceof ShardMonitorEvent) {
             if(MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 30000)
                 return;
 
+            //Stopped receiving message events?
+            if(getLastMessageDiff() > 100000)
+                return;
+
             //Hey, this listener is alive! (This won't pass if somehow this is blocked)
             ((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.COMMAND_LISTENER);
-
             return;
         }
 
         if(event instanceof GuildMessageReceivedEvent) {
+            lastMessageReceivedAt = System.currentTimeMillis();
             GuildMessageReceivedEvent msg = (GuildMessageReceivedEvent) event;
             //Inserts a cached message into the cache. This only holds the id and the content, and is way lighter than saving the entire jda object.
             messageCache.put(msg.getMessage().getId(), Optional.of(new CachedMessage(msg.getAuthor().getIdLong(), msg.getMessage().getContentDisplay())));
