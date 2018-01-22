@@ -311,17 +311,20 @@ public class MiscCmds {
                 Map<String, Optional<String>> opts = StringUtils.parse(args);
                 PollBuilder builder = Poll.builder();
                 if(!opts.containsKey("time") || !opts.get("time").isPresent()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-time` argument or it was empty!").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-time` argument or it was empty!\n" +
+                            "Example: `~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
                     return;
                 }
 
                 if(!opts.containsKey("options") || !opts.get("options").isPresent()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-options` argument or it was empty!").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-options` argument or it was empty!\n" +
+                            "Example: ~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
                     return;
                 }
 
                 if(!opts.containsKey("name") || !opts.get("name").isPresent()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-name` argument or it was empty!").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-name` argument or it was empty!\n" +
+                            "Example: ~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
                     return;
                 }
 
@@ -349,6 +352,7 @@ public class MiscCmds {
                                 "`-time` The time the operation is gonna take. The format is as follows `1m29s` for 1 minute and 21 seconds. Maximum poll runtime is 45 minutes.\n" +
                                 "`-name` The name of the poll for reference.", false)
                         .addField("Considerations", "To cancel the running poll type &cancelpoll. Only the person who started it or an Admin can cancel it.", false)
+                        .addField("Example", "~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"", false)
                         .build();
             }
         });

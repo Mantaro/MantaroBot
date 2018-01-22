@@ -63,14 +63,29 @@ public class Player implements ManagedObject {
         this.inventory.replaceWith(unserialize(inventory));
     }
 
+    /**
+     * The Player.of methods are for resetting players or creating new ones when they don't exist.
+     * @param user The user to create or reset.
+     * @return The new Player.
+     */
     public static Player of(User user) {
         return of(user.getId());
     }
 
+    /**
+     * The Player.of methods are for resetting players or creating new ones when they don't exist.
+     * @param member The user to create or reset.
+     * @return The new Player.
+     */
     public static Player of(Member member) {
         return of(member.getUser());
     }
 
+    /**
+     * The Player.of methods are for resetting players or creating new ones when they don't exist.
+     * @param userId The user to create or reset.
+     * @return The new Player.
+     */
     public static Player of(String userId) {
         return new Player(userId + ":g", 0L, 0L, 0L, new HashMap<>(), new PlayerData());
     }
