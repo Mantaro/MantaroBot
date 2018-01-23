@@ -182,6 +182,6 @@ public class TradeCmd {
     @Data
     private class TradeSession {
         private List<Long> users;
-        private long channel;
+        private Map<Long, TradeItem> tradeItemMap;
     }
 }
