@@ -40,6 +40,7 @@ import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.Webscale;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -64,7 +65,7 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.REBOOT_FAILURE;
 
 @Slf4j
-public class MantaroBot extends ShardedJDA {
+public class MantaroBot extends ShardedJDA implements Webscale<MantaroBot> {
     @Getter
     private static MantaroBot instance;
     @Getter
@@ -83,6 +84,8 @@ public class MantaroBot extends ShardedJDA {
     private BirthdayCacher birthdayCacher;
     @Getter
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
+    @Getter
+    private boolean webscale = false;
 
     //just in case
     static {
@@ -250,5 +253,11 @@ public class MantaroBot extends ShardedJDA {
     public void restartAll() {
         log.warn("Restarting bot...");
         System.exit(REBOOT_FAILURE);
+    }
+    
+    @Override
+    public void webscale() {
+        webscale = true;
+        LogUtils.log("WEBSCALE", "Mantaro is now webscale!");
     }
 }
