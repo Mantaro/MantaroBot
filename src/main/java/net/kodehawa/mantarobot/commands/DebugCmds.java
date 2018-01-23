@@ -78,6 +78,7 @@ public class DebugCmds {
                         + "Shard Info: " + event.getJDA().getShardInfo()
                         + "\n\n --------- Mantaro Information --------- \n\n"
                         + "Webscale: " + MantaroBot.getInstance().isWebscale() + "\n"
+                        + "Quantum: " + MantaroBot.getInstance().isQuantum() + "\n"
                         + "Guilds: " + String.format("%,d", guilds.size()) + "\n"
                         + "Users: " + String.format("%,d", users.size()) + "\n"
                         + "Shards: " + MantaroBot.getInstance().getShardedMantaro().getTotalShards() + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId()) + ")" + "\n"
@@ -117,7 +118,24 @@ public class DebugCmds {
             }
         });
     }
-
+    
+    @Subscribe
+    public void quantum(CommandRegistry cr) {
+        cr.register("quantum", new SimpleCommand(Category.INFO) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                event.getChannel().sendMessage("Is Mantaro quantum?: " + MantaroBot.getInstance().isWebscale()).queue();
+            }
+            
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Quantum")
+                        .setDescription("**Tells you if Mantaro is quantum**")
+                        .build();
+            }
+        });
+    }
+    
     @Subscribe
     public void shard(CommandRegistry cr) {
         cr.register("shard", new SimpleCommand(Category.INFO) {

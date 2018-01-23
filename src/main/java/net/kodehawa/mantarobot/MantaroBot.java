@@ -37,10 +37,7 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogFilter;
 import net.kodehawa.mantarobot.log.LogUtils;
-import net.kodehawa.mantarobot.utils.CompactPrintStream;
-import net.kodehawa.mantarobot.utils.SentryHelper;
-import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.Webscale;
+import net.kodehawa.mantarobot.utils.*;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -65,7 +62,7 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.REBOOT_FAILURE;
 
 @Slf4j
-public class MantaroBot extends ShardedJDA implements Webscale<MantaroBot> {
+public class MantaroBot extends ShardedJDA implements Webscale<MantaroBot>, Quantum<MantaroBot> {
     @Getter
     private static MantaroBot instance;
     @Getter
