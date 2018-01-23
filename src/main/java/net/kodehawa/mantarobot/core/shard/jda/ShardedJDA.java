@@ -25,6 +25,7 @@ import net.dv8tion.jda.core.utils.cache.CacheView;
 import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Quantum;
 
 import java.util.Collection;
 import java.util.List;
@@ -33,7 +34,7 @@ import java.util.stream.Collectors;
 
 import static net.dv8tion.jda.core.utils.cache.CacheView.allSnowflakes;
 
-public abstract class ShardedJDA implements UnifiedJDA {
+public abstract class ShardedJDA implements UnifiedJDA, Quantum<ShardedJDA> {
 
     @Override
     public long getPing() {
