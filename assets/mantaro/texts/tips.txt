@@ -9,6 +9,7 @@ If you're lost, you can always check the wiki.
 Options can be very confusing at the start, but you can always read the wiki to understand them better. Mantaro is very configurable!
 Profile only shows the top 5 badges. To see all of your badges use `~>badges`.
 The Anime commands pull information from AniList, not MAL.
+You can see how Mantaro is performing by typing `~>ping`
 The Imageboard commands have the option to either send a random image, search by tag or by number, check them out!
 If the embed of a response Mantaro sends has no image, try reloading your client (Ctrl+R).
 Currency has a lot of ways to gain money. Make sure to check all of them!
