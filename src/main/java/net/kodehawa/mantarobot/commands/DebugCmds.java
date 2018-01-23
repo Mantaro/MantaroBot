@@ -77,6 +77,7 @@ public class DebugCmds {
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
                         + "Shard Info: " + event.getJDA().getShardInfo()
                         + "\n\n --------- Mantaro Information --------- \n\n"
+                        + "Webscale: " + MantaroBot.getInstance().isWebscale() + "\n"
                         + "Guilds: " + String.format("%,d", guilds.size()) + "\n"
                         + "Users: " + String.format("%,d", users.size()) + "\n"
                         + "Shards: " + MantaroBot.getInstance().getShardedMantaro().getTotalShards() + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId()) + ")" + "\n"
@@ -95,6 +96,23 @@ public class DebugCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return baseEmbed(event, "Info")
                         .setDescription("**Gets the bot technical information**")
+                        .build();
+            }
+        });
+    }
+    
+    @Subscribe
+    public void webscale(CommandRegistry cr) {
+        cr.register("webscale", new SimpleCommand(Category.INFO) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                event.getChannel().sendMessage("Is Mantaro webscale?: " + MantaroBot.getInstance().isWebscale()).queue();
+            }
+            
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Webscale")
+                        .setDescription("**Tells you if Mantaro is webscale**")
                         .build();
             }
         });
