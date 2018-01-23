@@ -22,6 +22,7 @@ import lombok.Data;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -88,9 +89,8 @@ public class TradeCmd {
 
                         long offerLong = 0;
 
-                        if(offer.startsWith("$")) {
+                        if(offer.matches("([0-9])+")) {
                             isMoneyOffer = true;
-                            offer = offer.substring(1);
                             try {
                                 offerLong = Long.parseLong(offer);
                             } catch (NumberFormatException e) {
@@ -128,8 +128,6 @@ public class TradeCmd {
                             tradeItemMap.put(traderUser.getIdLong(), new TradeItem(0, toAdd));
                         }
 
-                        trader.setLocked(true);
-                        tradedWith.setLocked(true);
                         //Lock for 6 minutes.
                         trader.getData().setLockedUntil(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(6));
                         tradedWith.getData().setLockedUntil(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(6));
@@ -145,12 +143,18 @@ public class TradeCmd {
 
                             String message = e.getMessage().getContentRaw();
                             if (message.equalsIgnoreCase("yes")) {
-                                e.getChannel().sendMessage(String.format("%sTrade session started between %s#%s and %s#%s", EmoteReference.MEGA, traderUser.getName(), traderUser.getDiscriminator(), tradedWithUser.getName(), tradedWithUser.getDiscriminator())).queue();
+                                e.getChannel().sendMessage(String.format("%sTrade session started between %s#%s and %s#%s\n" +
+                                        "%sInitial offer: %s", EmoteReference.MEGA, traderUser.getName(), traderUser.getDiscriminator(), tradedWithUser.getName(), tradedWithUser.getDiscriminator(), EmoteReference.CREDITCARD, tradeItemMap.entrySet().stream().map((s) -> s.getValue().amount + " credits and " + s.getValue().items.size() + " items."))).queue();
                                 //TODO start new operation.
+                                List<Long> users = new ArrayList<>();
+                                users.add(tradedWithUser.getIdLong());
+                                users.add(traderUser.getIdLong());
+                                currentSessions.put(event.getChannel().getIdLong(), new TradeSession(users, tradeItemMap));
+
                                 return Operation.COMPLETED;
                             } else if (message.equalsIgnoreCase("no")) {
-                                trader.setLocked(false);
-                                tradedWith.setLocked(false);
+                                trader.getData().setLockedUntil(System.currentTimeMillis());
+                                tradedWith.getData().setLockedUntil(System.currentTimeMillis());
                                 trader.save();
                                 tradedWith.save();
                                 e.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled trade.").queue();
@@ -167,6 +171,47 @@ public class TradeCmd {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return null;
+            }
+        });
+
+        tradeCommand.setPredicate(event -> {
+            TradeSession currentSession = currentSessions.get(event.getChannel().getIdLong());
+            if(currentSession == null) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't any trading session active on this channel").queue();
+                return false;
+            }
+
+            if(currentSession.getUsers().stream().noneMatch(p -> p.equals(event.getAuthor().getIdLong()))) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "You aren't a member of this trading session!").queue();
+                return false;
+            }
+
+            return true;
+        });
+
+        tradeCommand.addSubCommand("additem", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                TradeSession currentSession = currentSessions.get(event.getChannel().getIdLong());
+                Item item = Items.fromAnyNoId(content).orElse(null);
+                if(item == null) {
+                    //insert message here
+                    return;
+                }
+
+                User tradedWithUser = currentSession.getUsers().stream()
+                        .filter(u -> !u.equals(event.getAuthor().getIdLong()))
+                        .map(id -> MantaroBot.getInstance().getUserById(id))
+                        .findFirst()
+                        .orElse(null);
+
+                if(tradedWithUser == null) {
+                    //stop the operation and unlock players
+                    return;
+                }
+
+                Player trader = MantaroData.db().getPlayer(event.getAuthor());
+                Player tradedWith = MantaroData.db().getPlayer(tradedWithUser);
             }
         });
     }
