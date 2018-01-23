@@ -26,6 +26,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -225,8 +226,7 @@ public class Items {
     private static void openLootBox(GuildMessageReceivedEvent event, boolean special) {
         List<Item> toAdd = new ArrayList<>();
         int amtItems = r.nextInt(3) + 3;
-        List<Item> items = new ArrayList<>();
-        items.addAll(Arrays.asList(Items.ALL));
+        List<Item> items = new ArrayList<>(Arrays.asList(Items.ALL));
         items.removeIf(item -> item.isHidden() || !item.isBuyable() || !item.isSellable());
         items.sort((o1, o2) -> {
             if(o1.getValue() > o2.getValue())
@@ -272,6 +272,43 @@ public class Items {
                 return i.getValue();
             }
         }
+        return null;
+    }
+
+    //TODO finish implementing this i have to sleep now
+    private static List<Item> selectItems(int amount, ItemType.LootboxType type) {
+        List<Item> all = Arrays.stream(Items.ALL).filter(i->i.isBuyable() || i.isSellable()).collect(Collectors.toList());
+
+        List<Item> common = all.stream()
+                .filter(i->i.getItemType() == ItemType.COMMON)
+                .sorted(Comparator.comparingLong(i->i.value))
+                .collect(Collectors.toList());
+        List<Item> rare = all.stream()
+                .filter(i->i.getItemType() == ItemType.RARE)
+                .sorted(Comparator.comparingLong(i->i.value))
+                .collect(Collectors.toList());
+        List<Item> premium = all.stream()
+                .filter(i->i.getItemType() == ItemType.PREMIUM)
+                .sorted(Comparator.comparingLong(i->i.value))
+                .collect(Collectors.toList());
+
+        int numCommon = 0, numRare = 0, numPremium = 0;
+
+        switch(type) {
+            case COMMON: {
+                numCommon = amount;
+            } break;
+            case RARE: {
+                numRare = amount;
+            } break;
+            case PREMIUM: {
+
+            } break;
+            case EPIC: {
+
+            } break;
+        }
+
         return null;
     }
 }
