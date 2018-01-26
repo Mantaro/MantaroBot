@@ -206,6 +206,9 @@ public class PlayerCmds {
                             saveAfter = true;
                         if(mhMember != null && mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 292803391330058241L) && playerData.addBadgeIfAbsent(Badge.HELPER_2))
                             saveAfter = true;
+                        if(mhMember != null && mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 290257037072531466L || r.getIdLong() == 290902183300431872L) && playerData.addBadgeIfAbsent(Badge.DONATOR_2))
+                            saveAfter = true;
+
 
                         if(saveAfter)
                             player.saveAsync();

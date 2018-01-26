@@ -137,6 +137,7 @@ public class OwnerCmd {
                         transferTo.setMoney(transferred.getMoney());
                         transferTo.setLevel(transferred.getLevel());
                         transferTo.setReputation(transferred.getReputation());
+                        transferTo.getInventory().merge(transferred.getInventory().asList());
 
                         PlayerData transferredData = transferred.getData();
                         PlayerData transferToData = transferTo.getData();
