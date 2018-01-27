@@ -35,7 +35,7 @@
         </filter>
         <file>debuglogs/mantaro.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/mantaro.%d{yyyyMMdd}.log</fileNamePattern>
+            <fileNamePattern>debuglogs/mantaro.%d{yyyyMMdd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
