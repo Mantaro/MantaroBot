@@ -29,6 +29,20 @@
         </encoder>
     </appender>
 
+    <appender name="FILEDEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <file>debuglogs/mantaro.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/mantaro.%d{yyyyMMdd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{HH:mm:ss}] [%t/%level] [%logger{0}] %X{jda.shard}: %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="net.kodehawa.mantarobot.log.LogFilter"/>
         <encoder>
@@ -39,5 +53,6 @@
     <root level="TRACE"> <!--Leave it as trace so we can enable trace logging in LogFilter if needed without changing this file-->
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
+        <appender-ref ref="FILEDEBUG"/>
     </root>
 </configuration>
