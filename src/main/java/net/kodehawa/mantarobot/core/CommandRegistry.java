@@ -154,6 +154,7 @@ public class CommandRegistry {
 
     public Command register(String name, Command command) {
         commands.putIfAbsent(name, command);
+        log.debug("Registered command " + name);
         return command;
     }
 
