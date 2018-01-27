@@ -143,7 +143,7 @@ public class CommandListener implements EventListener {
 
                         //Don't run the experience handler on this channel if there's an InteractiveOperation running as there might be issues with
                         //some nasty race conditions involving player save.
-                        if(InteractiveOperations.get(event.getChannel()) != null)
+                        if(InteractiveOperations.get(event.getChannel()).size() > 0)
                             return;
 
                         Player player = MantaroData.db().getPlayer(event.getAuthor());

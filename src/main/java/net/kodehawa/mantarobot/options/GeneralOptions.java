@@ -48,8 +48,8 @@ public class GeneralOptions extends OptionHandler {
         registerOption("lobby:reset", "Lobby reset", "Fixes stuck game/poll/operations session.", event -> {
             GameLobby.LOBBYS.remove(event.getChannel());
             Poll.getRunningPolls().remove(event.getChannel().getId());
-            Future<Void> stuck = InteractiveOperations.get(event.getChannel());
-            if(stuck != null) stuck.cancel(true);
+            List<Future<Void>> stuck = InteractiveOperations.get(event.getChannel());
+            if(stuck.size() > 0) stuck.forEach(f->f.cancel(true));
             event.getChannel().sendMessage(EmoteReference.CORRECT + "Reset the lobby correctly.").queue();
         });
 

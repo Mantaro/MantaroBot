@@ -24,9 +24,10 @@ import net.jodah.expiringmap.ExpiringMap;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 /**
  * Utility class to create, get or use a {@link InteractiveOperation}.
@@ -36,19 +37,30 @@ public class InteractiveOperations {
     //The listener used to check interactive operations.
     private static final EventListener LISTENER = new InteractiveListener();
 
-    //The ExpiringMap used to store the RunningOperation instances.
-    //This map has a variable per-key expiration, usually set on the create methods.
-    private static final ExpiringMap<Long, RunningOperation> OPERATIONS = ExpiringMap.<Long, RunningOperation>builder()
-            .asyncExpirationListener((key, value) -> ((RunningOperation) value).operation.onExpire())
-            .variableExpiration()
-            .build();
+    private static final ConcurrentHashMap<Long, List<RunningOperation>> OPS = new ConcurrentHashMap<>();
+
+    static {
+        ScheduledExecutorService s = Executors.newScheduledThreadPool(10, r->{
+            Thread t = new Thread(r);
+            t.setDaemon(true);
+            t.setName("InteractiveOperations-Timeout-Processor");
+            return t;
+        });
+
+        s.scheduleAtFixedRate(()->{
+            OPS.values().removeIf(list->{
+                list.removeIf(RunningOperation::isTimedOut);
+                return list.isEmpty();
+            });
+        }, 1, 1, TimeUnit.SECONDS);
+    }
 
     /**
      * Returns a Future<Void> representing the current RunningOperation instance on the specified channel.
      * @param channel The MessageChannel to check.
      * @return Future<Void> or null if there's none.
      */
-    public static Future<Void> get(MessageChannel channel) {
+    public static List<Future<Void>> get(MessageChannel channel) {
         return get(channel.getIdLong());
     }
 
@@ -57,50 +69,10 @@ public class InteractiveOperations {
      * @param channelId The ID of the channel to check.
      * @return Future<Void> or null if there's none.
      */
-    public static Future<Void> get(long channelId) {
-        RunningOperation o = OPERATIONS.get(channelId);
+    public static List<Future<Void>> get(long channelId) {
+        List<RunningOperation> l = OPS.get(channelId);
 
-        return o == null ? null : o.future;
-    }
-
-    /**
-     * Creates a new {@link InteractiveOperation} or gets an already running Operation if there is one.
-     * If a running on is found, the return type is the running Operation.
-     *
-     * @param channelId      The id of the {@link net.dv8tion.jda.core.entities.TextChannel} we want this Operation to run on.
-     * @param timeoutSeconds How much seconds until it stops listening to us.
-     * @param operation      The {@link InteractiveOperation} itself.
-     * @return The uncompleted {@link Future<Void>} of this InteractiveOperation.
-     */
-    public static Future<Void> createOrGet(MessageChannel channel, long timeoutSeconds, InteractiveOperation operation) {
-        return createOrGet(channel.getIdLong(), timeoutSeconds, operation);
-    }
-
-    /**
-     * Creates a new {@link InteractiveOperation} or gets an already running Operation if there is one.
-     * If a running on is found, the return type is the running Operation.
-     *
-     * @param channelId      The id of the {@link net.dv8tion.jda.core.entities.TextChannel} we want this Operation to run on.
-     * @param timeoutSeconds How much seconds until it stops listening to us.
-     * @param operation      The {@link InteractiveOperation} itself.
-     * @return The uncompleted {@link Future<Void>} of this InteractiveOperation.
-     */
-    public static Future<Void> createOrGet(long channelId, long timeoutSeconds, InteractiveOperation operation) {
-        if(timeoutSeconds < 1)
-            throw new IllegalArgumentException("Timeout is less than 1 second");
-
-        if(operation == null)
-            throw new IllegalArgumentException("Operation cannot be null");
-
-        RunningOperation o = OPERATIONS.get(channelId);
-
-        if(o != null)
-            return o.future;
-
-        o = new RunningOperation(operation, new OperationFuture(channelId));
-        OPERATIONS.put(channelId, o, timeoutSeconds, TimeUnit.SECONDS);
-
-        return o.future;
+        return l == null ? Collections.emptyList() : l.stream().map(o->o.future).collect(Collectors.toList());
     }
 
     /**
@@ -134,13 +106,10 @@ public class InteractiveOperations {
         if(operation == null)
             throw new IllegalArgumentException("Operation cannot be null");
 
-        RunningOperation o = OPERATIONS.get(channelId);
+        List<RunningOperation> l = OPS.computeIfAbsent(channelId, ignored->new CopyOnWriteArrayList<>());
 
-        if(o != null)
-            return null;
-
-        o = new RunningOperation(operation, new OperationFuture(channelId));
-        OPERATIONS.put(channelId, o, timeoutSeconds, TimeUnit.SECONDS);
+        RunningOperation o = new RunningOperation(operation, channelId, timeoutSeconds * 1000);
+        l.add(o);
 
         return o.future;
     }
@@ -156,6 +125,7 @@ public class InteractiveOperations {
      * @param operation      The {@link InteractiveOperation} itself.
      * @return The uncompleted {@link Future<Void>} of this InteractiveOperation.
      */
+    @Deprecated
     public static Future<Void> createOverriding(MessageChannel channel, long timeoutSeconds, InteractiveOperation operation) {
         return createOverriding(channel.getIdLong(), timeoutSeconds, operation);
     }
@@ -171,24 +141,9 @@ public class InteractiveOperations {
      * @param operation      The {@link InteractiveOperation} itself.
      * @return The uncompleted {@link Future<Void>} of this InteractiveOperation.
      */
+    @Deprecated
     public static Future<Void> createOverriding(long channelId, long timeoutSeconds, InteractiveOperation operation) {
-        if(timeoutSeconds < 1)
-            throw new IllegalArgumentException("Timeout is less than 1 second");
-
-        if(operation == null)
-            throw new IllegalArgumentException("Operation cannot be null");
-
-        RunningOperation o = new RunningOperation(operation, new OperationFuture(channelId));
-        RunningOperation running = OPERATIONS.get(channelId);
-
-        if(running != null) {
-            running.operation.onExpire();
-            running.future.cancel(true);
-        }
-
-        OPERATIONS.put(channelId, o, timeoutSeconds, TimeUnit.SECONDS);
-
-        return o.future;
+        return create(channelId, timeoutSeconds, operation);
     }
 
     /**
@@ -214,51 +169,66 @@ public class InteractiveOperations {
                 return;
 
             long channelId = event.getChannel().getIdLong();
-            RunningOperation o = OPERATIONS.get(channelId);
+            List<RunningOperation> l = OPS.get(channelId);
 
-            if(o == null)
+            if(l == null || l.isEmpty())
                 return;
 
-            //Forward this to the class handling this.
-            int i = o.operation.run(event);
-
-            if(i == Operation.COMPLETED) {
-                //We finished this Operation. We can remove it from the map and move on.
-                OPERATIONS.remove(channelId);
-                o.future.complete(null);
-            } else if(i == Operation.RESET_TIMEOUT) {
-                //Reset the expiration of this Operation. Use with caution!
-                OPERATIONS.resetExpiration(channelId);
-            }
+            l.removeIf(o->{
+                int i = o.operation.run(event);
+                if(i == Operation.COMPLETED) {
+                    o.future.complete(null);
+                    return true;
+                }
+                if(i == Operation.RESET_TIMEOUT) {
+                    o.resetTimeout();
+                }
+                return false;
+            });
         }
     }
 
     //Represents an eventually-running Operation.
-    private static class RunningOperation {
+    private static final class RunningOperation {
         final OperationFuture future;
         final InteractiveOperation operation;
+        final long timeout;
+        long timeoutTime;
 
-        RunningOperation(InteractiveOperation operation, OperationFuture future) {
+        //timeout (argument) is in millis, field is in nanos
+        RunningOperation(InteractiveOperation operation, long channelId, long timeout) {
             this.operation = operation;
-            this.future = future;
+            this.future = new OperationFuture(channelId, this);
+            this.timeout = timeout * 1_000_000;
+            resetTimeout();
+        }
+
+        boolean isTimedOut() {
+            return timeoutTime - System.nanoTime() < 0;
+        }
+
+        void resetTimeout() {
+            timeoutTime = System.nanoTime() + timeout;
         }
     }
 
-    private static class OperationFuture extends CompletableFuture<Void> {
+    private static final class OperationFuture extends CompletableFuture<Void> {
         private final long id;
+        private final RunningOperation operation;
 
-        OperationFuture(long id) {
+        OperationFuture(long id, RunningOperation operation) {
             this.id = id;
+            this.operation = operation;
         }
 
         @Override
         public boolean cancel(boolean mayInterruptIfRunning) {
-            RunningOperation o = OPERATIONS.remove(id);
+            List<RunningOperation> l = OPS.get(id);
 
-            if(o == null)
+            if(l == null || !l.remove(operation))
                 return false;
 
-            o.operation.onCancel();
+            operation.operation.onCancel();
             return true;
         }
     }
