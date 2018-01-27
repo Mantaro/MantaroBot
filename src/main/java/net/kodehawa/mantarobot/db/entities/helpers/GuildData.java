@@ -85,4 +85,5 @@ public class GuildData {
     private Set<String> linkProtectionAllowedUsers = new HashSet<>();
     private HashMap<String, List<Category>> roleSpecificDisabledCategories = new HashMap<>();
     private HashMap<String, List<String>> roleSpecificDisabledCommands = new HashMap<>();
+    private String lang = "en_US";
 }
