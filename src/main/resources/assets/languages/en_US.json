@@ -2,9 +2,15 @@
   "general": {
     "invalid_number": "%1$sThat is not a valid number!",
     "requested_by": "Requested by %1$s.",
-    "operation_timed_out": "%1$sThe time to answer this operation has ran out."
+    "operation_timed_out": "%1$sThe time to answer this operation has ran out.",
+    "too_many_users_found": "%1$sToo many users found, maybe refine your search? (ex. use name#discriminator)\n**Users found:** %2$s",
+    "search_no_result": "%1$sYour search yielded no results :("
   },
   "commands": {
+    "balance": {
+      "external_balance": "%1$s's balance is **$%2$s.**",
+      "own_balance": "Your balance is **$%1$s.**"
+    },
     "daily": {
       "errors": {
         "bot": "%1$sYou cannot transfer your daily to a bot!",
@@ -18,11 +24,11 @@
         "bonus": "\nYou won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)",
         "given": {
           "up": "Streak up! Current streak: `%1$dx`.\n*The streak was applied to your profile!*",
-          "given_bonus": "%1$s won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)"
+          "bonus": "%1$s won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)"
         }
       },
-      "given_credits": "I gave your **$%1$s** daily credits to %2$s\n\n",
-      "credits": "You got **$%1$s** daily credits.\n\n"
+      "given_credits": "%1$sI gave your **$%2$s** daily credits to %3$s\n\n%4$s",
+      "credits": "%1$sYou got **$%2$s** daily credits.\n\n%3$s"
     },
     "gamble": {
       "no_credits": "%1$sYou're broke. Search for some credits first!",
@@ -35,9 +41,11 @@
       "win": "%1$sCongrats, you won %2$d credits and got to keep what you had!",
       "win_overflow": "%1$sCongrats, you won %2$d credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.",
       "lose": "%1$sSadly, you lost %2$s credits! %3$s",
-      "lose_all": "all of your"
+      "lose_all": "all of your",
+      "credits": "credits"
     },
     "loot": {
+      "player_locked": "%1$sYou cannot loot now.",
       "item_overflow": "But you already had too many items, so you decided to throw away the excess.",
       "with_item": {
         "found": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits!** %4$s",
@@ -50,6 +58,15 @@
       },
       "dust": "Digging through messages, you found nothing but dust",
       "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
+    },
+    "mine": {
+      "no_pick": "%1$sYou don't have any pick to mine!",
+      "success": "%1$sYou mined minerals worth **$%2$s credits!**",
+      "diamond": {
+        "overflow": "\nHuh, you found a diamond while mining, but you already had too much, so we sold it for you!",
+        "success": "\nHuh! You got lucky and found a diamond while mining, check your inventory!"
+      },
+      "pick_broke": "%1$sOne of your picks broke while mining."
     },
     "slots": {
       "errors" : {
@@ -75,14 +92,6 @@
       "inner": {
         "experience": "Experience"
       }
-    }
-  },
-  "mine": {
-    "no_pick": "%1$sYou don't have any pick to mine!",
-    "successful": "%1$sYou mined minerals worth **$%2$s credits!**",
-    "diamond": {
-      "overflow": "\nHuh, you found a diamond while mining, but you already had too much, so we sold it for you!",
-      "success": "\nHuh! You got lucky and found a diamond while mining, check your inventory!"
     }
   },
   "discord_permissions": {

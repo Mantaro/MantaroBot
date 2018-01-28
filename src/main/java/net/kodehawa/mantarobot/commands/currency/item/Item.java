@@ -20,8 +20,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
-import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 
 @Slf4j
 public class Item {
@@ -35,7 +36,7 @@ public class Item {
     private long price;
     @Getter
     @Setter
-    private Predicate<GuildMessageReceivedEvent> action;
+    private BiPredicate<GuildMessageReceivedEvent, I18nContext> action;
     @Getter
     private ItemType itemType;
 
@@ -43,7 +44,7 @@ public class Item {
         this(type, emoji, name, desc, value, true, true, false, 100, null);
     }
 
-    public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize, Predicate<GuildMessageReceivedEvent> action) {
+    public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize, BiPredicate<GuildMessageReceivedEvent, I18nContext> action) {
         this.emoji = emoji;
         this.name = name;
         this.desc = desc;
@@ -70,15 +71,15 @@ public class Item {
         this(type, emoji, name, desc, value, sellable, buyable, hidden, 100, null);
     }
 
-    public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, Predicate<GuildMessageReceivedEvent> action) {
+    public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, BiPredicate<GuildMessageReceivedEvent, I18nContext> action) {
         this(type, emoji, name, desc, value, sellable, buyable, false, 100, action);
     }
 
-    public Item(ItemType type, String emoji, String name, String desc, long value, boolean buyable, Predicate<GuildMessageReceivedEvent> action) {
+    public Item(ItemType type, String emoji, String name, String desc, long value, boolean buyable, BiPredicate<GuildMessageReceivedEvent, I18nContext> action) {
         this(type, emoji, name, desc, value, true, buyable, false, 100, action);
     }
 
-    public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden, Predicate<GuildMessageReceivedEvent> action) {
+    public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden, BiPredicate<GuildMessageReceivedEvent, I18nContext> action) {
         this(type, emoji, name, desc, value, sellable, buyable, hidden, 100, action);
     }
 

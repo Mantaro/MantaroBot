@@ -624,7 +624,7 @@ public class CurrencyCmds {
         registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Items.LOOT_CRATE.getAction().test(event);
+                Items.LOOT_CRATE.getAction().test(event, languageContext);
             }
 
             @Override
@@ -663,7 +663,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(item.getAction().test(event)) {
+                if(item.getAction().test(event, languageContext)) {
                     Player p = MantaroData.db().getPlayer(event.getAuthor());
                     p.getInventory().process(new ItemStack(item, -1));
                     p.save();

@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands.currency.item;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
@@ -26,7 +27,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -102,7 +102,7 @@ public class Items {
 
     public static void setItemActions() {
         log.info("Registering item actions...");
-        BROM_PICKAXE.setAction(event -> {
+        BROM_PICKAXE.setAction((event, lang) -> {
             Player p = MantaroData.db().getPlayer(event.getAuthor());
             Inventory playerInventory = p.getInventory();
             boolean hasStaminaPotion = p.getData().getActivePotion() != null && fromId(p.getData().getActivePotion().getPotion()) == POTION_STAMINA;
@@ -119,7 +119,7 @@ public class Items {
                     }
                 }
 
-                event.getChannel().sendMessage(EmoteReference.SAD + "One of your picks broke while mining.").queue();
+                event.getChannel().sendMessageFormat(lang.get("commands.mine.pick_broke"), EmoteReference.SAD).queue();
                 playerInventory.process(new ItemStack(BROM_PICKAXE, -1));
                 p.save();
                 return false;
@@ -128,7 +128,7 @@ public class Items {
             }
         });
 
-        POTION_HEALTH.setAction(event -> {
+        POTION_HEALTH.setAction((event, lang) -> {
             Player p = MantaroData.db().getPlayer(event.getAuthor());
             p.getData().setActivePotion(null);
             event.getChannel().sendMessage(EmoteReference.POPPER + "Cleared potion effects.").queue();
@@ -136,7 +136,7 @@ public class Items {
             return true;
         });
 
-        POTION_STAMINA.setAction(event -> {
+        POTION_STAMINA.setAction((event, lang) -> {
             Player p = MantaroData.db().getPlayer(event.getAuthor());
             p.getData().setActivePotion(new PotionEffect(idOf(POTION_STAMINA), System.currentTimeMillis(), ItemType.PotionType.PLAYER));
             event.getChannel().sendMessage(EmoteReference.POPPER + "Activated stamina for 5 mining sessions.").queue();
@@ -144,7 +144,7 @@ public class Items {
             return true;
         });
 
-        POTION_HASTE.setAction(event -> {
+        POTION_HASTE.setAction((event, lang) -> {
             Player p = MantaroData.db().getPlayer(event.getAuthor());
             p.getData().setActivePotion(new PotionEffect(idOf(POTION_HASTE), System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
             event.getChannel().sendMessage(EmoteReference.POPPER + "Activated Haste for 2 minutes.").queue();
@@ -199,7 +199,7 @@ public class Items {
         return Arrays.asList(ALL).indexOf(item);
     }
 
-    private static boolean openLootCrate(GuildMessageReceivedEvent event) {
+    private static boolean openLootCrate(GuildMessageReceivedEvent event, I18nContext lang) {
         Player player = MantaroData.db().getPlayer(event.getAuthor());
         Inventory inventory = player.getInventory();
         if(inventory.containsItem(Items.LOOT_CRATE)) {

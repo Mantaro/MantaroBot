@@ -48,9 +48,11 @@ public class I18n {
             throw new IllegalArgumentException("Key " + Arrays.stream(parts).collect(Collectors.joining(".")) + " is not a string");
         }
         Object maybeMap = map.get(parts[index]);
+        System.out.println(maybeMap);
+        System.out.println(maybeMap.getClass());
         if(maybeMap instanceof Map) {
             @SuppressWarnings("unchecked")
-            Map<String, ?> map2 = (Map<String, ?>)maybeMap;
+            Map<String, ?> map2 = (Map<String, ?>) maybeMap;
             return get(map2, parts, index + 1);
         }
         throw new IllegalArgumentException("Key " + Arrays.stream(parts).collect(Collectors.joining(".")) + " is not a map");

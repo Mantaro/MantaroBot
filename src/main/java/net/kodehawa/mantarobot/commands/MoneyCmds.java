@@ -25,6 +25,7 @@ import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -95,15 +96,14 @@ public class MoneyCmds {
                     mentionedUser = event.getMessage().getMentionedUsers().get(0);
 
                 if(mentionedUser != null && mentionedUser.isBot()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer your daily to a bot!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "daily.bot"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 Player player = mentionedUser != null ? MantaroData.db().getPlayer(event.getGuild().getMember(mentionedUser)) : MantaroData.db().getPlayer(event.getMember());
 
                 if(player.isLocked()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + (mentionedUser != null ? "That user cannot receive daily credits now." :
-                            "You cannot get daily credits now.")).queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + (mentionedUser != null ? languageContext.withRoot("commands", "daily.receipt_locked") : languageContext.withRoot("commands", "daily.own_locked"))).queue();
                     return;
                 }
 
@@ -117,12 +117,12 @@ public class MoneyCmds {
                 if(playerId.equals(event.getAuthor().getId())) {
                     if(System.currentTimeMillis() - playerData.getLastDailyAt() < TimeUnit.HOURS.toMillis(50)) {
                         playerData.setDailyStreak(playerData.getDailyStreak() + 1);
-                        streak = "Streak up! Current streak: `" + playerData.getDailyStreak() + "x`";
+                        streak = String.format(languageContext.withRoot("commands", "daily.streak.up"), playerData.getDailyStreak());
                     } else {
                         if(playerData.getDailyStreak() == 0) {
-                            streak = "First time claiming daily, have fun! (Come back for your streak tomorrow!)";
+                            streak = languageContext.withRoot("commands", "daily.streak.first_time");
                         } else {
-                            streak = String.format("2+ days have passed since your last daily, so your streak got reset :(\nOld streak: `%dx`", playerData.getDailyStreak());
+                            streak = String.format(languageContext.withRoot("commands", "daily.streak.lost_streak"), playerData.getDailyStreak());
                         }
 
                         playerData.setDailyStreak(1);
@@ -133,7 +133,7 @@ public class MoneyCmds {
                         if(playerData.getDailyStreak() > 15)
                             bonus += Math.min(700, Math.floor(150 * playerData.getDailyStreak() / 15));
 
-                        streak += "\nYou won a bonus of $" + bonus + " for claiming your daily for 5 days in a row or more! (Included on the money shown!)";
+                        streak += String.format(languageContext.withRoot("commands", "daily.streak.bonus"), bonus);
                         money += bonus;
                     }
 
@@ -150,12 +150,12 @@ public class MoneyCmds {
 
                     if(System.currentTimeMillis() - authorPlayerData.getLastDailyAt() < TimeUnit.HOURS.toMillis(50)) {
                         authorPlayerData.setDailyStreak(authorPlayerData.getDailyStreak() + 1);
-                        streak = String.format("Streak up! Current streak: `%dx`.\n*The streak was applied to your profile!*", authorPlayerData.getDailyStreak());
+                        streak = String.format(languageContext.withRoot("commands", "daily.streak.given.up"), authorPlayerData.getDailyStreak());
                     } else {
                         if(authorPlayerData.getDailyStreak() == 0) {
-                            streak = "First time claiming daily, have fun! (Come back for your streak tomorrow!)";
+                            streak = languageContext.withRoot("commands", "daily.streak.first_time");
                         } else {
-                            streak = String.format("2+ days have passed since your last daily, so your streak got reset :(\nOld streak: `%dx`", authorPlayerData.getDailyStreak());
+                            streak = String.format(languageContext.withRoot("commands", "daily.streak.lost_streak"), authorPlayerData.getDailyStreak());
                         }
 
                         authorPlayerData.setDailyStreak(1);
@@ -167,7 +167,7 @@ public class MoneyCmds {
                         if(authorPlayerData.getDailyStreak() > 15)
                             bonus += Math.min(700, Math.floor(150 * authorPlayerData.getDailyStreak() / 15));
 
-                        streak += "\n" + (mentionedUser == null ? "You" : mentionedUser.getName()) + " won a bonus of $" + bonus + " for claiming your daily for 5 days in a row or more! (Included on the money shown!)";
+                        streak += String.format(languageContext.withRoot("commands", "daily.streak.given.bonus"), (mentionedUser == null ? "You" : mentionedUser.getName()), bonus);
                         money += bonus;
                     }
 
@@ -196,8 +196,7 @@ public class MoneyCmds {
                     playerData.setLastDailyAt(System.currentTimeMillis());
                     player.save();
 
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "I gave your **$" + money + "** daily credits to " +
-                            mentionedUser.getName() + "\n\n" + streak).queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "daily.given_credits"), EmoteReference.CORRECT, money, mentionedUser.getName(), streak).queue();
                     return;
                 }
 
@@ -205,7 +204,7 @@ public class MoneyCmds {
                 playerData.setLastDailyAt(System.currentTimeMillis());
                 player.save();
 
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "You got **$" + money + "** daily credits.\n\n" + streak).queue();
+                event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "daily.credits"), EmoteReference.CORRECT, money, streak).queue();
             }
 
             @Override
@@ -233,13 +232,12 @@ public class MoneyCmds {
                 if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 if(player.getMoney() <= 0) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "You're broke. Search for some credits first!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.no_credits"), EmoteReference.SAD).queue();
                     return;
                 }
 
                 if(player.getMoney() > GAMBLE_ABSOLUTE_MAX_MONEY) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You have too much money! Maybe transfer or buy items? Now you can also use `~>slots`" +
-                            " for all your gambling needs! Thanks for not breaking the local bank. *(Gamble limit: " + GAMBLE_ABSOLUTE_MAX_MONEY + ")*").queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.too_much_credits"), EmoteReference.ERROR2, GAMBLE_ABSOLUTE_MAX_MONEY).queue();
                     return;
                 }
 
@@ -274,14 +272,13 @@ public class MoneyCmds {
                             break;
                     }
                 } catch(NumberFormatException e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "Please type a valid number less than or equal to your current balance or" +
-                            " `all` to gamble all your credits.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.invalid_money_or_modifier"), EmoteReference.ERROR2).queue();
                     return;
                 } catch(UnsupportedOperationException e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "Please type a value within your balance.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.not_enough_money"), EmoteReference.ERROR2).queue();
                     return;
                 } catch(ParseException e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "Please type a valid percentage value.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.invalid_percentage"), EmoteReference.ERROR2).queue();
                     return;
                 }
 
@@ -295,8 +292,7 @@ public class MoneyCmds {
                 if(i >= Integer.MAX_VALUE / 4) {
                     player.setLocked(true);
                     player.save();
-                    event.getChannel().sendMessage(String.format("%sYou're about to bet **%d** credits (which seems to be a lot). " +
-                            "Are you sure? Type **yes** to continue and **no** otherwise.", EmoteReference.WARNING, i)).queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.confirmation_message"), EmoteReference.WARNING, i).queue();
                     InteractiveOperations.create(event.getChannel(), 30, new InteractiveOperation() {
                         @Override
                         public int run(GuildMessageReceivedEvent e) {
@@ -317,8 +313,7 @@ public class MoneyCmds {
 
                         @Override
                         public void onExpire() {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Time to complete the operation has ran out.")
-                                    .queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("general.operation_timed_out"), EmoteReference.ERROR2).queue();
                             player.setLocked(false);
                             player.saveAsync();
                         }
@@ -350,9 +345,10 @@ public class MoneyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Player player = MantaroData.db().getPlayer(event.getMember());
+                TextChannel channel = event.getChannel();
 
                 if(player.isLocked()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot loot now.").queue();
+                    channel.sendMessageFormat(languageContext.withRoot("commands", "loot.player_locked"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -381,44 +377,43 @@ public class MoneyCmds {
                     moneyFound = moneyFound + random.nextInt(moneyFound);
                 }
 
+
                 if(!loot.isEmpty()) {
                     String s = ItemStack.toString(ItemStack.reduce(loot));
                     String overflow;
 
                     if(player.getInventory().merge(loot))
-                        overflow = "But you already had too many items, so you decided to throw away the excess.";
+                        overflow = languageContext.withRoot("commands", "loot.item_overflow");
                     else
                         overflow = "";
 
                     if(moneyFound != 0) {
                         if(player.addMoney(moneyFound)) {
-                            event.getChannel().sendMessage(String.format("%sDigging through messages, you found %s, along with **$%d credits!** %s",
-                                    EmoteReference.POPPER, s, moneyFound, overflow)).queue();
+                            channel.sendMessageFormat(languageContext.withRoot("commands", "loot.with_item.found"),
+                                    EmoteReference.POPPER, s, moneyFound, overflow).queue();
                         } else {
-                            event.getChannel().sendMessage(String.format("%sDigging through messages, you found %s, along with **$%d credits.** " +
-                                    "%sBut you already had too many credits.", EmoteReference.POPPER, s, moneyFound, overflow)).queue();
+                            channel.sendMessageFormat(languageContext.withRoot("commands", "loot.with_item.found_but_overflow"),
+                                    EmoteReference.POPPER, s, moneyFound, overflow).queue();
                         }
                     } else {
-                        event.getChannel().sendMessage(EmoteReference.MEGA + "Digging through messages, you found " + s + ". " + overflow).queue();
+                        channel.sendMessageFormat(languageContext.withRoot("commands", "loot.with_item.found_only_item_but_overflow"), EmoteReference.MEGA, s, overflow).queue();
                     }
 
                 } else {
                     if(moneyFound != 0) {
                         if(player.addMoney(moneyFound)) {
-                            event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found **$" + moneyFound +
-                                    " credits!**").queue();
+                            channel.sendMessageFormat(languageContext.withRoot("commands", "loot.without_item.found"), EmoteReference.POPPER, moneyFound).queue();
                         } else {
-                            event.getChannel().sendMessage(String.format("%sDigging through messages, you found **$%d credits.** " +
-                                    "But you already had too many credits.", EmoteReference.POPPER, moneyFound)).queue();
+                            channel.sendMessageFormat(languageContext.withRoot("commands", "loot.without_item.found_but_overflow"), EmoteReference.POPPER, moneyFound).queue();
                         }
                     } else {
-                        String msg = "Digging through messages, you found nothing but dust";
+                        String msg = languageContext.withRoot("commands", "loot.dust");
 
                         if(r.nextInt(100) > 93) {
-                            msg += "\n" +
-                                    "Seems like you've got so much dust here... You might want to clean this up before it gets too messy!";
+                            msg += languageContext.withRoot("commands", "loot.easter");
                         }
-                        event.getChannel().sendMessage(EmoteReference.SAD + msg).queue();
+
+                        channel.sendMessage(EmoteReference.SAD + msg).queue();
                     }
                 }
 
@@ -446,16 +441,15 @@ public class MoneyCmds {
                 boolean isExternal = false;
                 List<Member> found = FinderUtil.findMembers(content, event.getGuild());
                 if(found.isEmpty() && !content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("general.search_no_result"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(found.size() > 1 && !content.isEmpty()) {
-                    event.getChannel().sendMessage(String.format("%sToo many users found, maybe refine your search? (ex. use name#discriminator)\n" +
-                            "**Users found:** %s",
+                    event.getChannel().sendMessageFormat(languageContext.get("general.too_many_users_found"),
                             EmoteReference.THINKING, found.stream()
                                     .map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator())
-                                    .collect(Collectors.joining(", ")))).queue();
+                                    .collect(Collectors.joining(", "))).queue();
                     return;
                 }
 
@@ -466,7 +460,9 @@ public class MoneyCmds {
 
                 long balance = MantaroData.db().getPlayer(user).getMoney();
 
-                event.getChannel().sendMessage(EmoteReference.DIAMOND + (isExternal ? user.getName() + "'s balance is: **$" : "Your balance is: **$") + balance + "**").queue();
+                event.getChannel().sendMessage(EmoteReference.DIAMOND + (isExternal ?
+                        String.format(languageContext.withRoot("commands", "balance.external_balance"), user.getName(), balance) :
+                        String.format(languageContext.withRoot("commands", "balance.own_balance"), balance))).queue();
             }
 
             @Override
@@ -505,8 +501,7 @@ public class MoneyCmds {
                         c1.close();
 
                         event.getChannel().sendMessage(
-                                baseEmbed(event,
-                                        "Money leaderboard (Top 10)", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                                baseEmbed(event, languageContext.get("commands.leaderboard.money"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                                 ).setDescription(c.stream()
                                         .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
                                         .filter(p -> Objects.nonNull(p.getKey()))
@@ -552,10 +547,10 @@ public class MoneyCmds {
                 m.close();
 
                 event.getChannel().sendMessage(
-                        baseEmbed(event,"Level leaderboard (Top 10)", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                        baseEmbed(event, languageContext.get("commands.leaderboard.level"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                         ).setDescription(c.stream()
                                 .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString() +
-                                        "\n - Experience: **" + ((Map)map.get("data")).get("experience") + "**"))
+                                        "\n -" + languageContext.get("commands.leaderboard.inner.experience")  + ":** " + ((Map)map.get("data")).get("experience") + "**"))
                                 .filter(p -> Objects.nonNull(p.getKey()))
                                 .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
                                         .getKey().getDiscriminator(), p.getValue()))
@@ -584,8 +579,7 @@ public class MoneyCmds {
                 m.close();
 
                 event.getChannel().sendMessage(
-                        baseEmbed(event,
-                                "Reputation leaderboard (Top 10)", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                        baseEmbed(event, languageContext.get("commands.leaderboard.reputation"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                         ).setDescription(c.stream()
                                 .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("reputation").toString()))
                                 .filter(p -> Objects.nonNull(p.getKey()))
@@ -616,8 +610,7 @@ public class MoneyCmds {
                 m.close();
 
                 event.getChannel().sendMessage(
-                        baseEmbed(event,
-                                "Daily streak leaderboard (Top 10)", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                        baseEmbed(event, languageContext.get("commands.leaderboard.daily"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                         ).setDescription(c.stream()
                                 .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), ((HashMap)(map.get("data"))).get("dailyStrike").toString()))
                                 .filter(p -> Objects.nonNull(p.getKey()))
@@ -664,25 +657,25 @@ public class MoneyCmds {
 
                 if(opts.containsKey("amount") && opts.get("amount").isPresent()) {
                     if(!coinSelect) {
-                        event.getChannel().sendMessage(String.format(languageContext.withRoot("commands", "slots.errors.amount_not_ticket"), EmoteReference.ERROR)).queue();
+                        event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "slots.errors.amount_not_ticket"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     String amount = opts.get("amount").get();
 
                     if(amount.isEmpty()) {
-                        event.getChannel().sendMessage(String.format(languageContext.withRoot("commands", "slots.errors.no_amount"), EmoteReference.ERROR)).queue();
+                        event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "slots.errors.no_amount"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     try {
                         amountN = Integer.parseUnsignedInt(amount);
                     } catch (NumberFormatException e) {
-                        event.getChannel().sendMessage(String.format(languageContext.get("general.invalid_number"), EmoteReference.ERROR)).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("general.invalid_number"), EmoteReference.ERROR).queue();
                     }
 
                    if(player.getInventory().getAmount(Items.SLOT_COIN) < amountN) {
-                        event.getChannel().sendMessage(String.format(languageContext.withRoot("commands", "slots.errors.not_enough_tickets"), EmoteReference.ERROR)).queue();
+                        event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "slots.errors.not_enough_tickets"), EmoteReference.ERROR).queue();
                         return;
                    }
 
@@ -694,23 +687,23 @@ public class MoneyCmds {
                         money = Math.abs(Integer.parseInt(args[0]));
 
                         if(money < 25) {
-                            event.getChannel().sendMessage(String.format(languageContext.withRoot("commands", "slots.errors.below_minimum"), EmoteReference.ERROR)).queue();
+                            event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "slots.errors.below_minimum"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         if(money > SLOTS_MAX_MONEY) {
-                            event.getChannel().sendMessage(String.format(languageContext.withRoot("commands", "slots.errors.too_much_money"), EmoteReference.WARNING)).queue();
+                            event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "slots.errors.too_much_money"), EmoteReference.WARNING).queue();
                             return;
                         }
                     } catch(NumberFormatException e) {
-                        event.getChannel().sendMessage(String.format(languageContext.get("general.invalid_number"), EmoteReference.ERROR)).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("general.invalid_number"), EmoteReference.ERROR).queue();
                         return;
                     }
                 }
 
 
                 if(player.getMoney() < money && !coinSelect) {
-                    event.getChannel().sendMessage(String.format(languageContext.withRoot("commands", "slots.errors.not_enough_money"), EmoteReference.SAD)).queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "slots.errors.not_enough_money"), EmoteReference.SAD).queue();
                     return;
                 }
 
@@ -722,7 +715,7 @@ public class MoneyCmds {
                         player.saveAsync();
                         slotsChance = slotsChance + 10;
                     } else {
-                        event.getChannel().sendMessage(String.format(languageContext.withRoot("commands", "slots.errors.no_tickets"), EmoteReference.SAD)).queue();
+                        event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "slots.errors.no_tickets"), EmoteReference.SAD).queue();
                         return;
                     }
                 } else {
@@ -801,23 +794,24 @@ public class MoneyCmds {
                 Player player = MantaroData.db().getPlayer(user);
 
                 if(!player.getInventory().containsItem(Items.BROM_PICKAXE)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have any pick to mine!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "mine.no_pick"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(!handleDefaultRatelimit(rateLimiter, user, event)) return;
-                if(!Items.BROM_PICKAXE.getAction().test(event)) return;
+                if(!Items.BROM_PICKAXE.getAction().test(event, languageContext)) return;
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
-                String message = EmoteReference.PICK + "You mined minerals worth **$" + money + " credits!**";
+                //TODO this key doesn't work?
+                String message = String.format(languageContext.get("commands.mine.success"), EmoteReference.PICK, money);
 
                 if(r.nextInt(400) > 350) {
                     if(player.getInventory().getAmount(Items.DIAMOND) == 5000) {
-                        message += "\nHuh, you found a diamond while mining, but you already had too much, so we sold it for you!";
+                        message += languageContext.withRoot("commands", "mine.diamond.overflow");
                         money += Items.DIAMOND.getValue() * 0.9;
                     } else {
                         player.getInventory().process(new ItemStack(Items.DIAMOND, 1));
-                        message += "\nHuh! You got lucky and found a diamond while mining, check your inventory!";
+                        message += languageContext.withRoot("commands", "mine.diamond.success");
                     }
 
                     player.getData().addBadgeIfAbsent(Badge.MINER);
@@ -831,7 +825,7 @@ public class MoneyCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Mine command")
-                        .setDescription("**Mines minerals to gain some credits. A bit ore lucrative than loot, but needs pickaxes.**\n" +
+                        .setDescription("**Mines minerals to gain some credits. A bit more lucrative than loot, but needs pickaxes.**\n" +
                                 "Has a random chance of finding diamonds.")
                         .build();
             }
@@ -848,16 +842,15 @@ public class MoneyCmds {
                     }
                 }
 
-                event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you had!").queue();
+                event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.win"), EmoteReference.DICE, gains).queue();
             } else {
-                event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\n" +
-                        "Congratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
+                event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.win_overflow"), EmoteReference.DICE, gains).queue();
             }
         } else {
             long oldMoney = player.getMoney();
             player.setMoney(Math.max(0, player.getMoney() - i));
 
-            event.getChannel().sendMessage(String.format("%sSadly, you lost %s credits! %s", EmoteReference.DICE, player.getMoney() == 0 ? "all of your " + oldMoney : i, EmoteReference.SAD)).queue();
+            event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.lose"), EmoteReference.DICE, (player.getMoney() == 0 ? languageContext.withRoot("commands", "gamble.lose_all") + " " + oldMoney : i), EmoteReference.SAD).queue();
         }
 
         player.setLocked(false);
