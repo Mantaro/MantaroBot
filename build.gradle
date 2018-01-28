@@ -54,12 +54,12 @@ repositories {
 }
 
 dependencies {
-	compile 'net.dv8tion:JDA:3.5.0_329'
+	compile 'net.dv8tion:JDA:3.5.0_331'
 	compile 'com.sedmelluq:lavaplayer:1.2.45'
 	compile 'com.sedmelluq:jda-nas:1.0.6'
 
-	compile 'org.reflections:reflections:0.9.9'
-	compile 'ch.qos.logback:logback-classic:0.9.26'
+	compile 'org.reflections:reflections:0.9.11'
+	compile 'ch.qos.logback:logback-classic:1.2.3'
 
 	compile 'org.apache-extras.beanshell:bsh:2.0b6'
 
@@ -69,12 +69,12 @@ dependencies {
 	compile 'br.com.brjdevs:network:1.0.0_2'
 	compile 'br.com.brjdevs:trove-utils:1.0.0_4'
 
-	compile 'com.google.guava:guava:22.0'
-	compile 'com.google.code.gson:gson:2.8.0'
-	compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.1'
+	compile 'com.google.guava:guava:23.6-jre'
+	compile 'com.google.code.gson:gson:2.8.2'
+	compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.4'
 
 	compile 'com.rethinkdb:rethinkdb-driver:2.3.3'
-	compile 'org.redisson:redisson:3.5.3'
+	compile 'org.redisson:redisson:3.5.3' //don't update this one unless needed, it just threw deprecation warnings everywhere.
 	compile 'io.sentry:sentry:1.2.0'
 
 	compile 'net.jodah:expiringmap:0.5.8'
@@ -84,8 +84,8 @@ dependencies {
     compile 'net.kodehawa:imageboard-api:2.0.3_2'
 	compile 'com.github.natanbc:discordbots-api:1.4.2'
 
-    compileOnly "org.projectlombok:lombok:1.16.16"
-	compile 'com.datadoghq:java-dogstatsd-client:2.3'
+    compileOnly "org.projectlombok:lombok:1.16.20"
+	compile 'com.datadoghq:java-dogstatsd-client:2.5'
 
 	compile 'com.github.natanbc:java-eval:1.0'
 
