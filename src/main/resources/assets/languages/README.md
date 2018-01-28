@@ -24,7 +24,7 @@
     - When editing please use an actual code Editor to edit and not notepad. We suggest [IntelliJ](https://www.jetbrains.com/idea/) or [VSCode](https://code.visualstudio.com/).
 
  - Replace all english sentences with the coresponding translation.
-   - DO NOT replace anything that looks like %\<x> they are used for formatting (i.e The number of won credits in slots, etc.).
+   - DO NOT replace anything that looks like %\<x> or $%\<x> they are used for formatting, you may move them arround to accomodate for grammar in your Language (i.e The number of won credits in slots, etc.).
    - If you need a percentage sign place it as %%, not %.
    - Optionaly you can add yourself to the bottom of this table while translating.
 
