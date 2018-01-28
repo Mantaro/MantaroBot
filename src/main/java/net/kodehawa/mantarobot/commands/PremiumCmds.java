@@ -28,6 +28,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
@@ -45,7 +46,7 @@ public class PremiumCmds {
     public void comprevip(CommandRegistry cr) {
         cr.register("activatekey", new SimpleCommand(Category.UTILS) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(!(args.length == 0) && args[0].equalsIgnoreCase("check")) {
                     PremiumKey currentKey = MantaroData.db().getPremiumKey(MantaroData.db().getUser(event.getAuthor()).getData().getPremiumKey());
 
@@ -130,7 +131,7 @@ public class PremiumCmds {
     public void checkpremium(CommandRegistry cr) {
         cr.register("vipstatus", new SimpleCommand(Category.INFO) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 EmbedBuilder embedBuilder = new EmbedBuilder();
 
                 if(args.length == 0) {
@@ -219,7 +220,7 @@ public class PremiumCmds {
     public void createkey(CommandRegistry cr) {
         cr.register("createkey", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length < 2) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a scope and an id (example: guild 1558674582032875529)").queue();
                     return;

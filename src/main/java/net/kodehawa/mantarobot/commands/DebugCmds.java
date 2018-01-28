@@ -37,6 +37,7 @@ import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
@@ -61,7 +62,7 @@ public class DebugCmds {
     public void info(CommandRegistry cr) {
         cr.register("info", new SimpleCommand(Category.INFO) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 SnowflakeCacheView<Guild> guilds = MantaroBot.getInstance().getGuildCache();
                 SnowflakeCacheView<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannelCache();
                 SnowflakeCacheView<User> users = MantaroBot.getInstance().getUserCache();
@@ -104,7 +105,7 @@ public class DebugCmds {
     public void shard(CommandRegistry cr) {
         cr.register("shard", new SimpleCommand(Category.INFO) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 event.getChannel().sendMessage("I'm in shard " + (event.getJDA().getShardInfo() == null ? 0 : event.getJDA().getShardInfo().getShardId()) + "!").queue();
             }
 
@@ -129,7 +130,7 @@ public class DebugCmds {
 
         cr.register("ping", new SimpleCommand(Category.INFO) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 long start = System.currentTimeMillis();
@@ -153,7 +154,7 @@ public class DebugCmds {
     public void shardinfo(CommandRegistry cr) {
         cr.register("shardinfo", new SimpleCommand(Category.INFO) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 StringBuilder builder = new StringBuilder();
                 int connecting = 0;
                 for(MantaroShard shard : MantaroBot.getInstance().getShardList()) {
@@ -207,7 +208,7 @@ public class DebugCmds {
     public void debug(CommandRegistry cr) {
         cr.register("status", new SimpleCommand(Category.INFO) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 MantaroBot bot = MantaroBot.getInstance();
                 long ping = bot.getPing();
                 List<MantaroShard> shards = bot.getShardList();

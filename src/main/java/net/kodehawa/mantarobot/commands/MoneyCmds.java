@@ -42,6 +42,7 @@ import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
@@ -85,7 +86,7 @@ public class MoneyCmds {
         Random r = new Random();
         cr.register("daily", new SimpleCommand(Category.CURRENCY) {
             @Override
-            public void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 long money = 150L;
                 User mentionedUser = null;
                 List<User> mentioned = event.getMessage().getMentionedUsers();
@@ -164,7 +165,7 @@ public class MoneyCmds {
                         int bonus = 150;
 
                         if(authorPlayerData.getDailyStreak() > 15)
-                            bonus += Math.min(700, Math.floor(150 * authorPlayerData.getDailyStreak() / 15));;
+                            bonus += Math.min(700, Math.floor(150 * authorPlayerData.getDailyStreak() / 15));
 
                         streak += "\n" + (mentionedUser == null ? "You" : mentionedUser.getName()) + " won a bonus of $" + bonus + " for claiming your daily for 5 days in a row or more! (Included on the money shown!)";
                         money += bonus;
@@ -226,7 +227,7 @@ public class MoneyCmds {
             SecureRandom r = new SecureRandom();
 
             @Override
-            public void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Player player = MantaroData.db().getPlayer(event.getMember());
 
                 if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
@@ -301,7 +302,7 @@ public class MoneyCmds {
                         public int run(GuildMessageReceivedEvent e) {
                             if(e.getAuthor().getId().equals(user.getId())) {
                                 if(e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
-                                    proceedGamble(event, player, finalLuck, random, i, finalGains);
+                                    proceedGamble(event, languageContext, player, finalLuck, random, i, finalGains);
                                     return COMPLETED;
                                 } else if(e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
                                     e.getChannel().sendMessage(EmoteReference.ZAP + "Cancelled bet.").queue();
@@ -325,7 +326,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                proceedGamble(event, player, luck, random, i, gains);
+                proceedGamble(event, languageContext, player, luck, random, i, gains);
             }
 
             @Override
@@ -347,7 +348,7 @@ public class MoneyCmds {
             final Random r = new Random();
 
             @Override
-            public void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Player player = MantaroData.db().getPlayer(event.getMember());
 
                 if(player.isLocked()) {
@@ -385,7 +386,7 @@ public class MoneyCmds {
                     String overflow;
 
                     if(player.getInventory().merge(loot))
-                        overflow = "But you already had too many items, so you decided to throw away the excess. ";
+                        overflow = "But you already had too many items, so you decided to throw away the excess.";
                     else
                         overflow = "";
 
@@ -440,7 +441,7 @@ public class MoneyCmds {
     public void balance(CommandRegistry cr) {
         cr.register("balance", new SimpleCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 User user = event.getAuthor();
                 boolean isExternal = false;
                 List<Member> found = FinderUtil.findMembers(content, event.getGuild());
@@ -490,7 +491,7 @@ public class MoneyCmds {
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(GuildMessageReceivedEvent event, String content) {
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                         if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
                             return;
 
@@ -532,7 +533,7 @@ public class MoneyCmds {
 
         leaderboards.addSubCommand("lvl", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
                     return;
 
@@ -566,7 +567,7 @@ public class MoneyCmds {
 
         leaderboards.addSubCommand("rep", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Cursor<Map> m;
 
                 try(Connection conn = Utils.newDbConnection()) {
@@ -598,7 +599,7 @@ public class MoneyCmds {
 
         leaderboards.addSubCommand("streak", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Cursor<Map> m;
 
                 try(Connection conn = Utils.newDbConnection()) {
@@ -648,7 +649,7 @@ public class MoneyCmds {
 
         cr.register("slots", new SimpleCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Map<String, Optional<String>> opts = StringUtils.parse(args);
                 long money = 50;
                 int slotsChance = 25; //25% raw chance of winning, completely random chance of winning on the other random iteration
@@ -663,25 +664,25 @@ public class MoneyCmds {
 
                 if(opts.containsKey("amount") && opts.get("amount").isPresent()) {
                     if(!coinSelect) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot specify how many tickets you're gonna use if you're not using tickets!").queue();
+                        event.getChannel().sendMessage(String.format(languageContext.withRoot("commands", "slots.errors.amount_not_ticket"), EmoteReference.ERROR)).queue();
                         return;
                     }
 
                     String amount = opts.get("amount").get();
 
                     if(amount.isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't specify the amount!").queue();
+                        event.getChannel().sendMessage(String.format(languageContext.withRoot("commands", "slots.errors.no_amount"), EmoteReference.ERROR)).queue();
                         return;
                     }
 
                     try {
                         amountN = Integer.parseUnsignedInt(amount);
                     } catch (NumberFormatException e) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "That is not a valid number!").queue();
+                        event.getChannel().sendMessage(String.format(languageContext.get("general.invalid_number"), EmoteReference.ERROR)).queue();
                     }
 
                    if(player.getInventory().getAmount(Items.SLOT_COIN) < amountN) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have enough slots tickets!").queue();
+                        event.getChannel().sendMessage(String.format(languageContext.withRoot("commands", "slots.errors.not_enough_tickets"), EmoteReference.ERROR)).queue();
                         return;
                    }
 
@@ -693,23 +694,23 @@ public class MoneyCmds {
                         money = Math.abs(Integer.parseInt(args[0]));
 
                         if(money < 25) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "The minimum amount is 25!").queue();
+                            event.getChannel().sendMessage(String.format(languageContext.withRoot("commands", "slots.errors.below_minimum"), EmoteReference.ERROR)).queue();
                             return;
                         }
 
                         if(money > SLOTS_MAX_MONEY) {
-                            event.getChannel().sendMessage(EmoteReference.WARNING + "This machine cannot dispense that much money!").queue();
+                            event.getChannel().sendMessage(String.format(languageContext.withRoot("commands", "slots.errors.too_much_money"), EmoteReference.WARNING)).queue();
                             return;
                         }
                     } catch(NumberFormatException e) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a number!").queue();
+                        event.getChannel().sendMessage(String.format(languageContext.get("general.invalid_number"), EmoteReference.ERROR)).queue();
                         return;
                     }
                 }
 
 
                 if(player.getMoney() < money && !coinSelect) {
-                    event.getChannel().sendMessage(EmoteReference.SAD + "You don't have enough money to play the slots machine!").queue();
+                    event.getChannel().sendMessage(String.format(languageContext.withRoot("commands", "slots.errors.not_enough_money"), EmoteReference.SAD)).queue();
                     return;
                 }
 
@@ -721,7 +722,7 @@ public class MoneyCmds {
                         player.saveAsync();
                         slotsChance = slotsChance + 10;
                     } else {
-                        event.getChannel().sendMessage(EmoteReference.SAD + "You wanted to use tickets but you don't have any :<").queue();
+                        event.getChannel().sendMessage(String.format(languageContext.withRoot("commands", "slots.errors.no_tickets"), EmoteReference.SAD)).queue();
                         return;
                     }
                 } else {
@@ -729,7 +730,7 @@ public class MoneyCmds {
                     player.saveAsync();
                 }
 
-                StringBuilder message = new StringBuilder(String.format("%s**You used %s and rolled the slot machine!**\n\n", EmoteReference.DICE, coinSelect ? amountN +" slot ticket(s)" : money + " credits"));
+                StringBuilder message = new StringBuilder(String.format(languageContext.withRoot("commands", "slots.roll"), EmoteReference.DICE, coinSelect ? amountN + " " + languageContext.get("commands.slots.tickets") : money + " " + languageContext.get("commands.slots.credits")));
                 StringBuilder builder = new StringBuilder();
 
                 for(int i = 0; i < 9; i++) {
@@ -757,7 +758,7 @@ public class MoneyCmds {
                 toSend = String.join("\n", rows);
 
                 if(isWin) {
-                    message.append(toSend).append("\n\n").append(String.format("And you won **%d** credits and got to keep what you bet (%d credits)! Lucky! ", gains, money)).append(EmoteReference.POPPER);
+                    message.append(toSend).append("\n\n").append(String.format(languageContext.withRoot("commands", "slots.win"), gains, money)).append(EmoteReference.POPPER);
                     player.addMoney(gains + money);
 
                     if((gains + money) > SLOTS_MAX_MONEY) {
@@ -766,7 +767,7 @@ public class MoneyCmds {
 
                     player.saveAsync();
                 } else {
-                    message.append(toSend).append("\n\n").append("And you lost ").append(EmoteReference.SAD).append("\n").append("I hope you do better next time!");
+                    message.append(toSend).append("\n\n").append(String.format(languageContext.withRoot("commands", "slots.lose"), EmoteReference.SAD));
                 }
 
                 message.append("\n");
@@ -795,7 +796,7 @@ public class MoneyCmds {
             final Random r = new Random();
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 User user = event.getAuthor();
                 Player player = MantaroData.db().getPlayer(user);
 
@@ -837,7 +838,7 @@ public class MoneyCmds {
         });
     }
 
-    private void proceedGamble(GuildMessageReceivedEvent event, Player player, int luck, Random r, long i, long gains) {
+    private void proceedGamble(GuildMessageReceivedEvent event, I18nContext languageContext, Player player, int luck, Random r, long i, long gains) {
         if(luck > r.nextInt(140)) {
             if(player.addMoney(gains)) {
                 if(gains > Integer.MAX_VALUE) {
@@ -856,7 +857,7 @@ public class MoneyCmds {
             long oldMoney = player.getMoney();
             player.setMoney(Math.max(0, player.getMoney() - i));
 
-            event.getChannel().sendMessage(String.format("\uD83C\uDFB2 Sadly, you lost %s credits! \uD83D\uDE26", player.getMoney() == 0 ? "all of your " + oldMoney : i)).queue();
+            event.getChannel().sendMessage(String.format("%sSadly, you lost %s credits! %s", EmoteReference.DICE, player.getMoney() == 0 ? "all of your " + oldMoney : i, EmoteReference.SAD)).queue();
         }
 
         player.setLocked(false);

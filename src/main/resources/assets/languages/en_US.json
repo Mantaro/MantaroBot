@@ -1,3 +1,120 @@
 {
-
+  "general": {
+    "invalid_number": "%1$sThat is not a valid number!",
+    "requested_by": "Requested by %1$s.",
+    "operation_timed_out": "%1$sThe time to answer this operation has ran out."
+  },
+  "commands": {
+    "daily": {
+      "errors": {
+        "bot": "%1$sYou cannot transfer your daily to a bot!",
+        "receipt_locked": "That user cannot receive daily credits now.",
+        "own_locked": "You cannot receive your daily now."
+      },
+      "streak": {
+        "up": "Streak up! Current streak: `%1$sx`",
+        "first_time": "First time claiming daily, have fun! (Come back for your streak tomorrow!)",
+        "lost_streak": "2+ days have passed since your last daily, so your streak got reset :(\nOld streak: `%1$dx`",
+        "bonus": "\nYou won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)",
+        "given": {
+          "up": "Streak up! Current streak: `%1$dx`.\n*The streak was applied to your profile!*",
+          "given_bonus": "%1$s won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)"
+        }
+      },
+      "given_credits": "I gave your **$%1$s** daily credits to %2$s\n\n",
+      "credits": "You got **$%1$s** daily credits.\n\n"
+    },
+    "gamble": {
+      "no_credits": "%1$sYou're broke. Search for some credits first!",
+      "too_much_money": "You have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs! Thanks for not breaking the local bank. *(Gamble limit: %1$d credits)*",
+      "invalid_money_or_modifier": "%1$sPlease type a valid number less than or equal to your current balance or `all` to gamble all your credits.",
+      "not_enough_money": "%1$sPlease type a value within your balance.",
+      "invalid_percentage": "%1$sPlease type a valid percentage value.",
+      "confirmation_message": "%1$sYou're about to bet **%2$d** credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.",
+      "cancelled_bet": "%1$sCancelled bet.",
+      "win": "%1$sCongrats, you won %2$d credits and got to keep what you had!",
+      "win_overflow": "%1$sCongrats, you won %2$d credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.",
+      "lose": "%1$sSadly, you lost %2$s credits! %3$s",
+      "lose_all": "all of your"
+    },
+    "loot": {
+      "item_overflow": "But you already had too many items, so you decided to throw away the excess.",
+      "with_item": {
+        "found": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits!** %4$s",
+        "found_but_overflow": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits.**%sBut you already had too many credits.",
+        "found_only_item_but_overflow": "%1$sDigging through messages, you found %2$s. %3$s"
+      },
+      "without_item": {
+        "found": "%1$sDigging through messages, you found **$%2$s credits!**",
+        "found_but_overflow_no_item": "%1$sDigging through messages, you found **$%2$d credits.** But you already had too many credits."
+      },
+      "dust": "Digging through messages, you found nothing but dust",
+      "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
+    },
+    "slots": {
+      "errors" : {
+        "amount_not_ticket": "%1$sYou cannot specify how many tickets you're gonna use if you're not using tickets!",
+        "not_enough_tickets": "%1$sYou don't have enough slots tickets!",
+        "too_much_money": "%1$sThis machine cannot dispense that much money!",
+        "not_enough_money": "%1$sYou don't have enough money to play the slots machine!",
+        "below_minimum": "%1$sThe minimum amount is 25!",
+        "no_tickets": "%1$sYou wanted to use tickets but you don't have any :<",
+        "no_amount": "%1$sYou didn't specify the amount!"
+      },
+      "roll": "%1$s**You used %2$s and rolled the slot machine!**\n",
+      "win": "And you won **%1$d** credits and got to keep what you bet (%2$d credits)! Lucky!",
+      "lose": "And you lost %1$s\nI hope you do better next time!",
+      "tickets": "slots ticket(s)",
+      "credits": "credits"
+    },
+    "leaderboard": {
+      "money": "Money Leaderboard (Top 10)",
+      "reputation": "Reputation Leaderboard (Top 10)",
+      "daily": "Daily Streak Leaderboard (Top 10)",
+      "level": "Level leaderboard (Top 10)",
+      "inner": {
+        "experience": "Experience"
+      }
+    }
+  },
+  "mine": {
+    "no_pick": "%1$sYou don't have any pick to mine!",
+    "successful": "%1$sYou mined minerals worth **$%2$s credits!**",
+    "diamond": {
+      "overflow": "\nHuh, you found a diamond while mining, but you already had too much, so we sold it for you!",
+      "success": "\nHuh! You got lucky and found a diamond while mining, check your inventory!"
+    }
+  },
+  "discord_permissions": {
+    "create_instant_invite": "Create Instant Invite",
+    "kick_members": "Kick Members",
+    "ban_members": "Ban Members",
+    "administrator": "Administrator",
+    "manage_channel": "Manage Channels",
+    "manage_server": "Manage Server",
+    "message_add_reaction": "Add Reactions",
+    "view_audit_logs": "View Audit Logs",
+    "view_channel": "Read Text Channels & See Voice Channels",
+    "message_read": "Read Messages",
+    "message_write": "Send Messages",
+    "message_tts": "Send TTS Messages",
+    "message_manage": "Manage Messages",
+    "message_embed_links": "Embed Links",
+    "message_attach_files": "Attach Files",
+    "message_history": "Read History",
+    "message_mention_everyone": "Mention Everyone",
+    "message_ext_emoji": "Use External Emojis",
+    "voice_connect": "Connect",
+    "voice_speak": "Speak",
+    "voice_mute_others": "Mute Members",
+    "voice_deaf_others": "Deafen Members",
+    "voice_move_others": "Move Members",
+    "voice_use_vad": "Use Voice Activity",
+    "nickname_change": "Change Nickname",
+    "nickname_manage": "Manage Nicknames",
+    "manage_roles": "Manage Roles",
+    "manage_permissions": "Manage Permissions",
+    "manage_webhooks": "Manage Webhooks",
+    "manage_emotes": "Manage Emojis"
+  }
 }

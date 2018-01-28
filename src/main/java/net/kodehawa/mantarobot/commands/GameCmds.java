@@ -33,6 +33,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -81,17 +82,17 @@ public class GameCmds {
             }
         }.addSubCommand("character", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 startGame(new Character(), event);
             }
         }).addSubCommand("pokemon", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 startGame(new Pokemon(), event);
             }
         }).addSubCommand("number", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 startGame(new GuessTheNumber(), event);
             }
         }));
@@ -102,7 +103,7 @@ public class GameCmds {
 
         gameCommand.addSubCommand("wins", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Member member = Utils.findMember(event, event.getMember(), content);
                 if(member == null)
                     return;
@@ -113,7 +114,7 @@ public class GameCmds {
 
         gameCommand.addSubCommand("lobby", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(content.isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't specify anything to play!").queue();
                     return;
@@ -156,7 +157,7 @@ public class GameCmds {
 
         gameCommand.addSubCommand("multiple", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] values = SPLIT_PATTERN.split(content, 2);
                 if(values.length < 2) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the game and the number of times to run it").queue();
@@ -216,7 +217,7 @@ public class GameCmds {
             };
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(!Utils.handleDefaultNewRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 String difficulty = null;

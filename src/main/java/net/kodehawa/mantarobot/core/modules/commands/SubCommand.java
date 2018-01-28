@@ -20,6 +20,8 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.AssistedCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.InnerCommand;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.I18n;
 
 public abstract class SubCommand implements InnerCommand, AssistedCommand {
     private CommandPermission permission = null;
@@ -30,7 +32,7 @@ public abstract class SubCommand implements InnerCommand, AssistedCommand {
         this.permission = permission;
     }
 
-    protected abstract void call(GuildMessageReceivedEvent event, String content);
+    protected abstract void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content);
 
     @Override
     public CommandPermission permission() {
@@ -38,7 +40,7 @@ public abstract class SubCommand implements InnerCommand, AssistedCommand {
     }
 
     @Override
-    public void run(GuildMessageReceivedEvent event, String commandName, String content) {
-        call(event, content);
+    public void run(GuildMessageReceivedEvent event, I18nContext languageContext, String commandName, String content) {
+        call(event, languageContext, content);
     }
 }

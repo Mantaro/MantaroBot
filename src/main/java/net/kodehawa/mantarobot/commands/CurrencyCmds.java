@@ -39,6 +39,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
@@ -66,7 +67,7 @@ public class CurrencyCmds {
     public void inventory(CommandRegistry cr) {
         cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
             @Override
-            public void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Map<String, Optional<String>> t = StringUtils.parse(args);
                 content = Utils.replaceArguments(t, content, "brief", "calculate");
                 Member member = Utils.findMember(event, event.getMember(), content);
@@ -137,7 +138,7 @@ public class CurrencyCmds {
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(GuildMessageReceivedEvent event, String content) {
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                         EmbedBuilder embed = baseEmbed(event, "Mantaro's Market")
                                 .setThumbnail("https://png.icons8.com/metro/540/shopping-cart.png");
                         List<MessageEmbed.Field> fields = new LinkedList<>();
@@ -198,7 +199,7 @@ public class CurrencyCmds {
 
         marketCommand.addSubCommand("dump", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = content.split(" ");
                 String itemName = content;
                 int itemNumber = 1;
@@ -243,7 +244,7 @@ public class CurrencyCmds {
 
         marketCommand.addSubCommand("price", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = content.split(" ");
                 String itemName = content.replace(args[0] + " ", "");
                 Item item = Items.fromAny(itemName).orElse(null);
@@ -270,7 +271,7 @@ public class CurrencyCmds {
 
         marketCommand.addSubCommand("sell", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Player player = MantaroData.db().getPlayer(event.getMember());
                 String[] args = content.split(" ");
                 String itemName = content;
@@ -343,7 +344,7 @@ public class CurrencyCmds {
 
         marketCommand.addSubCommand("buy", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Player player = MantaroData.db().getPlayer(event.getMember());
                 String[] args = content.split(" ");
                 String itemName = content;
@@ -409,7 +410,7 @@ public class CurrencyCmds {
             RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 10);
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length < 2) {
                     onError(event);
                     return;
@@ -526,7 +527,7 @@ public class CurrencyCmds {
             RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 10);
 
             @Override
-            public void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention one user.").queue();
                     return;
@@ -622,7 +623,7 @@ public class CurrencyCmds {
     public void lootcrate(CommandRegistry registry) {
         registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Items.LOOT_CRATE.getAction().test(event);
             }
 
@@ -640,7 +641,7 @@ public class CurrencyCmds {
     public void useItem(CommandRegistry cr) {
         cr.register("useitem", new SimpleCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length < 1) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify what item to use!").queue();
                     return;

@@ -36,6 +36,7 @@ import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -75,7 +76,7 @@ public class InfoCmds {
             public Command defaultTrigger(GuildMessageReceivedEvent event, String thisCommand, String attemptedSubCommand) {
                 return new SubCommand() {
                     @Override
-                    protected void call(GuildMessageReceivedEvent event, String content) {
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                         SnowflakeCacheView<Guild> guilds = MantaroBot.getInstance().getGuildCache();
                         SnowflakeCacheView<User> users = MantaroBot.getInstance().getUserCache();
                         SnowflakeCacheView<TextChannel> textChannels = MantaroBot.getInstance().getTextChannelCache();
@@ -123,7 +124,7 @@ public class InfoCmds {
 
         aboutCommand.addSubCommand("patreon", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Guild mantaroGuild = MantaroBot.getInstance().getGuildById("213468583252983809");
                 String donators = mantaroGuild.getMembers().stream().filter(member -> member.getRoles().stream().filter(role ->
                                 role.getName().equals("Patron")).collect(Collectors.toList()).size() > 0).map(Member::getUser)
@@ -150,7 +151,7 @@ public class InfoCmds {
 
         aboutCommand.addSubCommand("credits", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 EmbedBuilder builder = new EmbedBuilder();
                 builder.setAuthor("Credits.", null, event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                         .setColor(Color.BLUE)
@@ -175,7 +176,7 @@ public class InfoCmds {
     public void donate(CommandRegistry cr) {
         cr.register("donate", new SimpleCommand(Category.INFO) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 event.getChannel().sendMessage(EmoteReference.HEART + "Oh hi! If you are interested in donating, please check the links below. " +
                         "Running Mantaro takes time and money, and every dollar is highly appreciated!\n\n" +
                         "**Donation methods:**\n" +
@@ -197,7 +198,7 @@ public class InfoCmds {
     public void avatar(CommandRegistry cr) {
         cr.register("avatar", new SimpleCommand(Category.INFO) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Member member = Utils.findMember(event, event.getMember(), content);
                 if(member == null)
                     return;
@@ -223,7 +224,7 @@ public class InfoCmds {
     public void guildinfo(CommandRegistry cr) {
         cr.register("serverinfo", new SimpleCommand(Category.INFO) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Guild guild = event.getGuild();
                 TextChannel channel = event.getChannel();
 
@@ -277,7 +278,7 @@ public class InfoCmds {
 
         cr.register("help", new SimpleCommand(Category.INFO) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(content.isEmpty()) {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     String defaultPrefix = MantaroData.config().get().prefix[0], guildPrefix = dbGuild.getData().getGuildCustomPrefix();
@@ -342,7 +343,7 @@ public class InfoCmds {
     public void invite(CommandRegistry cr) {
         cr.register("invite", new SimpleCommand(Category.INFO) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 event.getChannel().sendMessage(new EmbedBuilder().setAuthor("Mantaro's Invite URL.", null, event.getJDA().getSelfUser().getAvatarUrl())
                         .addField("Invite URL", "http://is.gd/mantaro", false)
                         .addField("Support Server", "https://discordapp.com/invite/cMTmuPa", false)
@@ -369,7 +370,7 @@ public class InfoCmds {
             public Command defaultTrigger(GuildMessageReceivedEvent event, String currentCommand, String attemptedCommand) {
                 return new SubCommand() {
                     @Override
-                    protected void call(GuildMessageReceivedEvent event, String content) {
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                         if(content.isEmpty()) {
                             event.getChannel().sendMessage(EmoteReference.MEGA + "**[Stats]** Y-Yeah... gathering them, hold on for a bit...").queue(message -> {
                                 GuildStatsManager.MILESTONE = (((int) (MantaroBot.getInstance().getGuildCache().size() + 99) / 100) * 100) + 100;
@@ -434,7 +435,7 @@ public class InfoCmds {
 
         statsCommand.addSubCommand("usage", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setAuthor("Mantaro's usage information", null, "https://puu.sh/sMsVC/576856f52b.png")
                         .setDescription("Hardware and usage information.")
@@ -453,7 +454,7 @@ public class InfoCmds {
 
         statsCommand.addSubCommand("server", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 TextChannelGround.of(event).dropItemWithChance(4, 5);
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                         .setAuthor("Mantaro's server usage information", null, "https://puu.sh/sMsVC/576856f52b.png")
@@ -468,7 +469,7 @@ public class InfoCmds {
 
         statsCommand.addSubCommand("cmds", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = content.split(" ");
                 if(args.length > 0) {
                     String what = args[0];
@@ -506,7 +507,7 @@ public class InfoCmds {
 
         statsCommand.addSubCommand("guilds", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = content.split(" ");
                 if(args.length > 0) {
                     String what = args[0];
@@ -545,7 +546,7 @@ public class InfoCmds {
 
         statsCommand.addSubCommand("category", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = content.split(" ");
                 if(args.length > 0) {
                     String what = args[0];
@@ -583,7 +584,7 @@ public class InfoCmds {
 
         statsCommand.addSubCommand("custom", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 event.getChannel().sendMessage(
                         customCommandStatsManager.fillEmbed(CustomCommandStatsManager.TOTAL_CUSTOM_CMDS, baseEmbed(event, "CCS Stats | Total")
                         ).build()).queue();
@@ -592,7 +593,7 @@ public class InfoCmds {
 
         statsCommand.addSubCommand("game", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 event.getChannel().sendMessage(baseEmbed(event, "Game Stats").setDescription(gameStatsManager.resume(GameStatsManager.TOTAL_GAMES)).build()).queue();
             }
         });
@@ -602,7 +603,7 @@ public class InfoCmds {
     public void social(CommandRegistry cr) {
         cr.register("social", new SimpleCommand(Category.INFO) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 event.getChannel().sendMessage(EmoteReference.HEART + "O-Oh, I see you're interested on seeing my social networks!\n\n" +
                         "W-Well, here we go!\n" +
                         "**- Website:** <https://mantaro.site>\n" +
@@ -625,7 +626,7 @@ public class InfoCmds {
     public void userinfo(CommandRegistry cr) {
         cr.register("userinfo", new SimpleCommand(Category.INFO) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Member member = Utils.findMember(event, event.getMember(), content);
                 if(member == null) return;
 
@@ -679,7 +680,7 @@ public class InfoCmds {
 
         cr.register("tips", new SimpleCommand(Category.INFO) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 event.getChannel().sendMessage(EmoteReference.TALKING + "Tip: " + tips.get(r.nextInt(tips.size()))).queue();
             }
 
@@ -698,7 +699,7 @@ public class InfoCmds {
     public void roleinfo(CommandRegistry cr) {
         cr.register("roleinfo", new SimpleCommand(Category.INFO) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Role r = Utils.findRole(event, content);
                 if(r == null)
                     return;

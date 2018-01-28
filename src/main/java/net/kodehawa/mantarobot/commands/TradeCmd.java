@@ -33,6 +33,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -59,7 +60,7 @@ public class TradeCmd {
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(final GuildMessageReceivedEvent event, final String content) {
+                    protected void call(final GuildMessageReceivedEvent event, I18nContext languageContext, final String content) {
                         if(content.length() < 2) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention the user to start the trade with, and the initial offer.").queue();
                             return;
@@ -191,7 +192,7 @@ public class TradeCmd {
 
         tradeCommand.addSubCommand("additem", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 TradeSession currentSession = currentSessions.get(event.getChannel().getIdLong());
                 Item item = Items.fromAnyNoId(content).orElse(null);
                 if(item == null) {

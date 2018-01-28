@@ -39,6 +39,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
@@ -89,7 +90,7 @@ public class UtilsCmds {
     public void birthday(CommandRegistry registry) {
         registry.register("birthday", new SimpleCommand(Category.UTILS) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
                 DBUser user = MantaroData.db().getUser(event.getAuthor());
                 if(content.isEmpty()) {
@@ -212,7 +213,7 @@ public class UtilsCmds {
     public void choose(CommandRegistry registry) {
         registry.register("choose", new SimpleCommand(Category.UTILS) {
             @Override
-            public void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length < 1) {
                     onHelp(event);
                     return;
@@ -240,7 +241,7 @@ public class UtilsCmds {
     public void dictionary(CommandRegistry registry) {
         registry.register("dictionary", new SimpleCommand(Category.UTILS) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length == 0) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a word.").queue();
                     return;
@@ -318,7 +319,7 @@ public class UtilsCmds {
     public void remindme(CommandRegistry registry) {
         registry.register("remindme", new SimpleCommand(Category.UTILS) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(content.isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "What could I remind you of if you don't give me what to remind you? " +
                             "Oh! Lemme remind you of setting a reminder!").queue();
@@ -432,7 +433,7 @@ public class UtilsCmds {
     public void time(CommandRegistry registry) {
         registry.register("time", new SimpleCommand(Category.UTILS) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 try {
                     content = content.replace("UTC", "GMT").toUpperCase();
                     DBUser user = MantaroData.db().getUser(event.getMember());
@@ -472,7 +473,7 @@ public class UtilsCmds {
     public void urban(CommandRegistry registry) {
         registry.register("urban", new SimpleCommand(Category.UTILS) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 String commandArguments[] = content.split("->");
                 EmbedBuilder embed = new EmbedBuilder();
 
@@ -551,7 +552,7 @@ public class UtilsCmds {
     public void weather(CommandRegistry registry) {
         registry.register("weather", new SimpleCommand(Category.UTILS) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(content.isEmpty()) {
                     onError(event);
                     return;
@@ -626,7 +627,7 @@ public class UtilsCmds {
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(GuildMessageReceivedEvent event, String content) {
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                         event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation please visit:** https://github.com/Mantaro/MantaroBot/wiki/Home").queue();
                     }
                 };

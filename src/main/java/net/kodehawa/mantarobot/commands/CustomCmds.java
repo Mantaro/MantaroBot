@@ -41,6 +41,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.AbstractCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.CustomCommand;
@@ -92,7 +93,7 @@ public class CustomCmds {
         }
 
         @Override
-        public void run(GuildMessageReceivedEvent event, String cmdName, String ignored) {
+        public void run(GuildMessageReceivedEvent event, I18nContext languageContext, String cmdName, String ignored) {
             try {
                 handle(cmdName, event);
             } catch(Exception e) {
@@ -110,7 +111,7 @@ public class CustomCmds {
 
         cr.register("custom", new SimpleCommand(Category.UTILS) {
             @Override
-            public void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length < 1) {
                     onHelp(event);
                     return;

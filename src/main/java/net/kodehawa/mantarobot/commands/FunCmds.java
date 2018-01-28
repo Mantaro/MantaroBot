@@ -36,6 +36,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -59,7 +60,7 @@ public class FunCmds {
     public void coinflip(CommandRegistry cr) {
         cr.register("coinflip", new SimpleCommand(Category.FUN) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 int times;
                 if(args.length == 0 || content.length() == 0) times = 1;
                 else {
@@ -104,7 +105,7 @@ public class FunCmds {
     public void marry(CommandRegistry cr) {
         cr.register("marry", new SimpleCommand(Category.FUN) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Mention the user you want to marry.").queue();
                     return;
@@ -232,7 +233,7 @@ public class FunCmds {
     public void divorce(CommandRegistry cr) {
         cr.register("divorce", new SimpleCommand(Category.FUN) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Player divorcee = MantaroData.db().getPlayer(event.getMember());
 
                 if(divorcee.getData().getMarriedWith() == null) {
@@ -280,7 +281,7 @@ public class FunCmds {
     public void ratewaifu(CommandRegistry cr) {
         cr.register("ratewaifu", new SimpleCommand(Category.FUN) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
 
                 if(args.length == 0) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Give me a waifu to rate!").queue();
@@ -311,7 +312,7 @@ public class FunCmds {
 
         registry.register("roll", new SimpleCommand(Category.FUN) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
                     return;
 
@@ -359,7 +360,7 @@ public class FunCmds {
     public void love(CommandRegistry registry) {
         registry.register("love", new SimpleCommand(Category.FUN) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 List<User> mentioned = event.getMessage().getMentionedUsers();
                 String result;
 

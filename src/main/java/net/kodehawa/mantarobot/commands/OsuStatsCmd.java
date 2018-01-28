@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -68,7 +69,7 @@ public class OsuStatsCmd {
 
         osuCommand.addSubCommand("best", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from osu! server...").queue(sentMessage -> {
                     Future<String> task = pool.submit(() -> best(content));
                     try {
@@ -87,7 +88,7 @@ public class OsuStatsCmd {
 
         osuCommand.addSubCommand("recent", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from server...").queue(sentMessage -> {
                     Future<String> task = pool.submit(() -> recent(content));
                     try {
@@ -104,7 +105,7 @@ public class OsuStatsCmd {
 
         osuCommand.addSubCommand("user", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 event.getChannel().sendMessage(user(content)).queue();
             }
         });

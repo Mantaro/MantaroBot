@@ -36,6 +36,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
@@ -130,7 +131,7 @@ public class MiscCmds {
     public void eightBall(CommandRegistry cr) {
         cr.register("8ball", new SimpleCommand(Category.MISC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(content.isEmpty()) {
                     onError(event);
                     return;
@@ -168,7 +169,7 @@ public class MiscCmds {
     public void iam(CommandRegistry cr) {
         cr.register("iam", new SimpleCommand(Category.MISC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                 Map<String, String> autoroles = dbGuild.getData().getAutoroles();
                 if(args.length == 0 || content.length() == 0) {
@@ -227,7 +228,7 @@ public class MiscCmds {
     public void iamnot(CommandRegistry cr) {
         cr.register("iamnot", new SimpleCommand(Category.MISC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length == 0 || content.length() == 0) {
                     onHelp(event);
                     return;
@@ -265,7 +266,7 @@ public class MiscCmds {
             }
         }.addSubCommand("reverse", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(content.isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't provide any message to reverse!").queue();
                     return;
@@ -276,7 +277,7 @@ public class MiscCmds {
             }
         }).addSubCommand("rndcolor", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 event.getChannel().sendMessage(String.format(EmoteReference.TALKING + "The random color is %s", randomColor())).queue();
             }
         }));
@@ -288,7 +289,7 @@ public class MiscCmds {
     public void randomFact(CommandRegistry cr) {
         cr.register("randomfact", new SimpleCommand(Category.MISC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 event.getChannel().sendMessage(EmoteReference.TALKING + facts.get().get(rand.nextInt(facts.get().size() - 1))).queue();
             }
 
@@ -307,7 +308,7 @@ public class MiscCmds {
     public void createPoll(CommandRegistry registry) {
         registry.register("createpoll", new SimpleCommand(Category.MISC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Map<String, Optional<String>> opts = StringUtils.parse(args);
                 PollBuilder builder = Poll.builder();
                 if(!opts.containsKey("time") || !opts.get("time").isPresent()) {

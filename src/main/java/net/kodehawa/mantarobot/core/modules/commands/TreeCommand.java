@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.core.modules.commands;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.*;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +42,7 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
     }
 
     @Override
-    public void run(GuildMessageReceivedEvent event, String commandName, String content) {
+    public void run(GuildMessageReceivedEvent event, I18nContext languageContext, String commandName, String content) {
         String[] args = splitArgs(content, 2);
 
         if(subCommands.isEmpty()) {
@@ -59,7 +60,7 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
 
         if(!predicate.test(event)) return;
 
-        command.run(event, commandName + (isDefault ? "" : " " + args[0]), isDefault ? content : args[1]);
+        command.run(event, languageContext, commandName + (isDefault ? "" : " " + args[0]), isDefault ? content : args[1]);
     }
 
     @Override
@@ -71,7 +72,7 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
     public TreeCommand addSubCommand(String name, BiConsumer<GuildMessageReceivedEvent, String> command) {
         subCommands.put(name, new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 command.accept(event, content);
             }
         });

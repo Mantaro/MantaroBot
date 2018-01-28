@@ -35,6 +35,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
@@ -70,7 +71,7 @@ public class OwnerCmd {
     public void blacklist(CommandRegistry cr) {
         cr.register("blacklist", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 MantaroObj obj = MantaroData.db().getMantaroData();
                 if(args[0].equals("guild")) {
                     if(args[1].equals("add")) {
@@ -117,7 +118,7 @@ public class OwnerCmd {
     public void transferPlayer(CommandRegistry cr) {
         cr.register("transferplayer", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 List<User> mentionedUsers = event.getMessage().getMentionedUsers();
                 if(mentionedUsers.size() < 2) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention the 2 players to transfer!").queue();
@@ -179,7 +180,7 @@ public class OwnerCmd {
     public void badge(CommandRegistry cr) {
         cr.register("addbadge", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to give me an user to apply the badge to!").queue();
                     return;
@@ -218,7 +219,7 @@ public class OwnerCmd {
 
         cr.register("removebadge", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to give me an user to remove the badge from!").queue();
                     return;
@@ -350,7 +351,7 @@ public class OwnerCmd {
 
         cr.register("eval", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Evaluator evaluator = evals.get(args[0]);
                 if(evaluator == null) {
                     onHelp(event);
@@ -407,7 +408,7 @@ public class OwnerCmd {
             }
 
             @Override
-            public void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length < 1) {
                     onHelp(event);
                     return;

@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import okhttp3.OkHttpClient;
@@ -64,7 +65,7 @@ public class ImageCmds {
             final OkHttpClient httpClient = new OkHttpClient();
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 try {
                     Request r = new Request.Builder()
                             .url("http://random.cat/meow")
@@ -99,7 +100,7 @@ public class ImageCmds {
             final WeebAPIRequester requester = new WeebAPIRequester();
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 boolean nsfw = args.length > 0 && args[0].equalsIgnoreCase("nsfw");
 
                 if(nsfw && !nsfwCheck(event, true, true, null))
@@ -135,7 +136,7 @@ public class ImageCmds {
     public void e621(CommandRegistry cr) {
         cr.register("e621", new SimpleCommand(Category.IMAGE) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
@@ -174,7 +175,7 @@ public class ImageCmds {
     public void kona(CommandRegistry cr) {
         cr.register("konachan", new SimpleCommand(Category.IMAGE) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
@@ -214,7 +215,7 @@ public class ImageCmds {
     public void safebooru(CommandRegistry cr) {
         cr.register("safebooru", new SimpleCommand(Category.IMAGE) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
@@ -252,7 +253,7 @@ public class ImageCmds {
     public void danbooru(CommandRegistry cr) {
         cr.register("danbooru", new SimpleCommand(Category.IMAGE) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
@@ -292,7 +293,7 @@ public class ImageCmds {
     public void rule34(CommandRegistry cr) {
         cr.register("rule34", new SimpleCommand(Category.IMAGE) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
@@ -331,7 +332,7 @@ public class ImageCmds {
     public void yandere(CommandRegistry cr) {
         cr.register("yandere", new SimpleCommand(Category.IMAGE) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(!event.getChannel().isNSFW()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Yande.re command can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\n" +
                             "You can try using `~>konachan` instead!").queue();

@@ -22,6 +22,8 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
@@ -85,7 +87,7 @@ public class ImageCmd extends NoArgsCommand {
     }
 
     @Override
-    protected void call(GuildMessageReceivedEvent event, String content) {
+    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
         String random;
         String id = "";
         if(images.size() == 1) {

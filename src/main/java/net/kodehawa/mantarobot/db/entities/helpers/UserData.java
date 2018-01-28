@@ -25,4 +25,5 @@ public class UserData {
     private String premiumKey;
     private int reminderN;
     private String timezone;
+    private String lang;
 }

@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -56,7 +57,7 @@ public class MuteCmds {
     public void mute(CommandRegistry registry) {
         Command mute = registry.register("mute", new SimpleCommand(Category.MODERATION) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
 
                 if(!event.getMember().hasPermission(Permission.KICK_MEMBERS) || !event.getMember().hasPermission(Permission.BAN_MEMBERS)) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to have either ban or kick members permission to mute!").queue();
@@ -288,7 +289,7 @@ public class MuteCmds {
     public void unmute(CommandRegistry commandRegistry) {
         commandRegistry.register("unmute", new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
 
                 if(!event.getMember().hasPermission(Permission.KICK_MEMBERS) || !event.getMember().hasPermission(Permission.KICK_MEMBERS)) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to have either ban or kick members permission to un-mute!").queue();

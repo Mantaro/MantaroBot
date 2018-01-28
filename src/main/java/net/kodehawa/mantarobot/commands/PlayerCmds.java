@@ -36,6 +36,7 @@ import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -71,7 +72,7 @@ public class PlayerCmds {
             final RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 12);
 
             @Override
-            public void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 long rl = rateLimiter.tryAgainIn(event.getMember());
                 User user;
 
@@ -138,7 +139,7 @@ public class PlayerCmds {
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(GuildMessageReceivedEvent event, String content) {
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                         User userLooked = event.getAuthor();
                         Player player = MantaroData.db().getPlayer(userLooked);
 
@@ -255,7 +256,7 @@ public class PlayerCmds {
 
         profileCommand.addSubCommand("timezone", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
                 String[] args = content.split(" ");
 
@@ -293,7 +294,7 @@ public class PlayerCmds {
 
         profileCommand.addSubCommand("description", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = content.split(" ");
                 User author = event.getAuthor();
                 Player player = MantaroData.db().getPlayer(author);
@@ -336,7 +337,7 @@ public class PlayerCmds {
 
         profileCommand.addSubCommand("displaybadge", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = content.split(" ");
                 if(args.length == 0) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify your main badge!").queue();
@@ -391,7 +392,7 @@ public class PlayerCmds {
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(GuildMessageReceivedEvent event, String content) {
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                         Map<String, Optional<String>> t = StringUtils.parse(content.isEmpty() ? new String[]{} : content.split("\\s+"));
                         content = Utils.replaceArguments(t, content, "brief");
                         Member member = Utils.findMember(event, event.getMember(), content);
@@ -441,7 +442,7 @@ public class PlayerCmds {
 
         badgeCommand.addSubCommand("info", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(content.isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a badge to see the info of.").queue();
                     return;

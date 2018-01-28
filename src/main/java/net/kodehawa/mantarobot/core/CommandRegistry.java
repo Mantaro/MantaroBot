@@ -30,10 +30,12 @@ import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
@@ -77,6 +79,7 @@ public class CommandRegistry {
         }
 
         DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
+        UserData userData = MantaroData.db().getUser(event.getAuthor()).getData();
         GuildData data = dbg.getData();
 
         if(data.getDisabledCommands().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) {
@@ -138,7 +141,7 @@ public class CommandRegistry {
         long end = System.currentTimeMillis();
         MantaroBot.getInstance().getStatsClient().increment("commands");
         log.debug("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
-        cmd.run(event, cmdName, content);
+        cmd.run(event, new I18nContext(data, userData), cmdName, content);
 
         if(cmd.category() != null && cmd.category().name() != null && !cmd.category().name().isEmpty()) {
             MantaroBot.getInstance().getStatsClient().increment("command", "name:" + cmdName);

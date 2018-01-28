@@ -20,6 +20,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.AbstractCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 public abstract class NoArgsCommand extends AbstractCommand {
     public NoArgsCommand(Category category) {
@@ -30,10 +31,10 @@ public abstract class NoArgsCommand extends AbstractCommand {
         super(category, permission);
     }
 
-    protected abstract void call(GuildMessageReceivedEvent event, String content);
+    protected abstract void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content);
 
     @Override
-    public void run(GuildMessageReceivedEvent event, String commandName, String content) {
-        call(event, content);
+    public void run(GuildMessageReceivedEvent event, I18nContext languageContext, String commandName, String content) {
+        call(event, languageContext, content);
     }
 }

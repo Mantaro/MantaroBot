@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
@@ -85,7 +86,7 @@ public class AnimeCmds {
     public void anime(CommandRegistry cr) {
         cr.register("anime", new SimpleCommand(Category.FUN) {
             @Override
-            public void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 try {
                     if(content.isEmpty()) {
                         onHelp(event);
@@ -138,7 +139,7 @@ public class AnimeCmds {
     public void character(CommandRegistry cr) {
         cr.register("character", new SimpleCommand(Category.FUN) {
             @Override
-            public void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 try {
                     if(content.isEmpty()) {
                         onHelp(event);

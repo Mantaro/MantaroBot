@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.StringUtils;
@@ -52,7 +53,7 @@ public class ModerationCmds {
     public void softban(CommandRegistry cr) {
         cr.register("softban", new SimpleCommand(Category.MODERATION) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Guild guild = event.getGuild();
                 User author = event.getAuthor();
                 TextChannel channel = event.getChannel();
@@ -163,7 +164,7 @@ public class ModerationCmds {
     public void ban(CommandRegistry cr) {
         cr.register("ban", new SimpleCommand(Category.MODERATION) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Guild guild = event.getGuild();
                 User author = event.getAuthor();
                 TextChannel channel = event.getChannel();
@@ -253,7 +254,7 @@ public class ModerationCmds {
     public void kick(CommandRegistry cr) {
         cr.register("kick", new SimpleCommand(Category.MODERATION) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Guild guild = event.getGuild();
                 User author = event.getAuthor();
                 TextChannel channel = event.getChannel();
@@ -349,7 +350,7 @@ public class ModerationCmds {
     public void tempban(CommandRegistry cr) {
         cr.register("tempban", new SimpleCommand(Category.MODERATION) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 String reason = content;
                 Guild guild = event.getGuild();
                 User author = event.getAuthor();
