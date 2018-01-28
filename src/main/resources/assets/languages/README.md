@@ -30,7 +30,7 @@
 
  - Once done save the file and go back to your Github desktop client.
 
- - You'll see changes made. UNTICK everything thats not your langauge file
+ - You'll see changes made. UNTICK everything thats not your langauge file (or the README incase you edited the table below)
 
  - Give the commit a name and hit commit to.
 
