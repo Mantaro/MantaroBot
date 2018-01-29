@@ -1,4 +1,4 @@
-
+# Translations are not open yet. The system will be finished and then we will take translations Pull Requests as of now they will be all marked as invalid
 # How to contribute to Translating
 
  - Create a Github account
