@@ -112,7 +112,8 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
     }
 
     public DynamicModifiers set(String key, String value) {
-        if (!containsKey(key)) set(key, value);
+        if (!containsKey(key))
+            put(key, value);
 
         return this;
     }

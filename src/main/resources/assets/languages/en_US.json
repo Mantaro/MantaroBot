@@ -4,9 +4,24 @@
     "requested_by": "Requested by %1$s.",
     "operation_timed_out": "%1$sThe time to answer this operation has ran out.",
     "too_many_users_found": "%1$sToo many users found, maybe refine your search? (ex. use name#discriminator)\n**Users found:** %2$s",
-    "search_no_result": "%1$sYour search yielded no results :("
+    "search_no_result": "%1$sYour search yielded no results :(",
+    "unknown": "Unknown"
   },
   "commands": {
+    "avatar": {
+      "result": "%1$sAvatar for: **%2$s**\n%3$s"
+    },
+    "serverinfo": {
+      "header": "Server Information",
+      "description": "Server information for %1$s",
+      "users": "Users (Online/Unique)",
+      "creation_date": "Creation Date",
+      "channels": "Voice/Text Channels",
+      "owner": "Owner",
+      "region": "Region",
+      "roles": "Roles (%1$d)",
+      "id_show": "Server ID: %1$s"
+    },
     "anime": {
       "selection_start": "Type the number of the anime you want to select.",
       "information_footer": "Information provided by Anilist. Type &cancel to cancel.",
