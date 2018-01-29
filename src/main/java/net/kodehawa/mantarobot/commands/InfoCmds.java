@@ -177,12 +177,9 @@ public class InfoCmds {
         cr.register("donate", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                event.getChannel().sendMessage(EmoteReference.HEART + "Oh hi! If you are interested in donating, please check the links below. " +
-                        "Running Mantaro takes time and money, and every dollar is highly appreciated!\n\n" +
-                        "**Donation methods:**\n" +
-                        "**- Patreon:** <http://patreon.com/mantaro>\n" +
-                        "**- Paypal:** <http://paypal.me/mantarobot>")
-                        .queue();
+                event.getChannel().sendMessageFormat(
+                        languageContext.get("commands.donate.beg"), EmoteReference.HEART, languageContext.get("commands.donate.methods")
+                ).queue();
             }
 
             @Override
@@ -237,17 +234,23 @@ public class InfoCmds {
                     roles = roles.substring(0, 1024 - 4) + "...";
 
                 channel.sendMessage(new EmbedBuilder()
-                        .setAuthor("Server Information", null, guild.getIconUrl())
+                        .setAuthor(languageContext.get("commands.serverinfo.header"), null, guild.getIconUrl())
                         .setColor(guild.getOwner().getColor() == null ? Color.ORANGE : guild.getOwner().getColor())
-                        .setDescription("Server information for " + guild.getName())
+                        .setDescription(String.format(languageContext.get("commands.serverinfo.description"), guild.getName()))
                         .setThumbnail(guild.getIconUrl())
-                        .addField("Users (Online/Unique)", (int) guild.getMembers().stream().filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() + "/" + guild.getMembers().size(), true)
-                        .addField("Creation Date", guild.getCreationTime().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), true)
-                        .addField("Voice/Text Channels", guild.getVoiceChannels().size() + "/" + guild.getTextChannels().size(), true)
-                        .addField("Owner", guild.getOwner().getUser().getName() + "#" + guild.getOwner().getUser().getDiscriminator(), true)
-                        .addField("Region", guild.getRegion() == null ? "Unknown." : guild.getRegion().getName(), true)
-                        .addField("Roles (" + guild.getRoles().size() + ")", roles, false)
-                        .setFooter("Server ID: " + String.valueOf(guild.getId()), null)
+                        .addField(languageContext.get("commands.serverinfo.users"),
+                                (int) guild.getMembers().stream().filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() + "/" + guild.getMembers().size(), true)
+                        .addField(languageContext.get("commands.serverinfo.created"),
+                                guild.getCreationTime().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), true)
+                        .addField(languageContext.get("commands.serverinfo.channels"),
+                                guild.getVoiceChannels().size() + "/" + guild.getTextChannels().size(), true)
+                        .addField(languageContext.get("commands.serverinfo.owner"),
+                                guild.getOwner().getUser().getName() + "#" + guild.getOwner().getUser().getDiscriminator(), true)
+                        .addField(languageContext.get("commands.serverinfo.region"),
+                                guild.getRegion() == null ? languageContext.get("general.unknown") : guild.getRegion().getName(), true)
+                        .addField(String.format(languageContext.get("commands.serverinfo.roles"),
+                                guild.getRoles().size()), roles, false)
+                        .setFooter(String.format(languageContext.get("commands.serverinfo.id_show"), guild.getId()), null)
                         .build()
                 ).queue();
             }
@@ -640,23 +643,32 @@ public class InfoCmds {
                     roles = roles.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 4) + "...";
 
                 String s = String.join("\n",
-                        BLUE_SMALL_MARKER + "**User ID:** " + user.getId(),
-                        BLUE_SMALL_MARKER + "**Join Date:** " + member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", ""),
-                        BLUE_SMALL_MARKER + "**Account Created:** " + user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", ""),
-                        BLUE_SMALL_MARKER + "**Account Age:** " + TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getCreationTime().toInstant().toEpochMilli()) + " days",
-                        BLUE_SMALL_MARKER + "**Mutual Guilds:** " + MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).size(),
-                        BLUE_SMALL_MARKER + "**Voice Channel:** " + (member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : "None"),
-                        BLUE_SMALL_MARKER + "**Playing Now:** " + (member.getGame() == null ? "Nothing" : member.getGame().getName()),
-                        BLUE_SMALL_MARKER + "**Color:** " + (member.getColor() == null ? "Default" : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()),
-                        BLUE_SMALL_MARKER + "**Status:** " + Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase())
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.id") + ":** " +
+                                user.getId(),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.join_date") + ":** "  +
+                                member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", ""),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.created") + ":** " +
+                                user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", ""),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.account_age") + ":** " +
+                                TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getCreationTime().toInstant().toEpochMilli()) + " " + languageContext.get("general.days"),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.mutual_guilds") + ":** " +
+                                MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).size(),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.vc") + ":** " +
+                                (member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : languageContext.get("general.none")),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.playing_now") + ":** " +
+                                (member.getGame() == null ? languageContext.get("commands.userinfo.nothing") : member.getGame().getName()),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.color") + ":** " +
+                                (member.getColor() == null ? languageContext.get("commands.userinfo.default") : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.status") + ":** " +
+                                Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase())
                 );
 
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setColor(member.getColor())
-                        .setAuthor(String.format("User info for %s#%s", user.getName(), user.getDiscriminator()), null, event.getAuthor().getEffectiveAvatarUrl())
+                        .setAuthor(String.format(languageContext.get("commands.userinfo.header"), user.getName(), user.getDiscriminator()), null, event.getAuthor().getEffectiveAvatarUrl())
                         .setThumbnail(user.getEffectiveAvatarUrl())
                         .setDescription(s)
-                        .addField("Roles: [" + String.valueOf(member.getRoles().size()) + "]", roles + ".", true)
+                        .addField(String.format(languageContext.get("commands.userinfo.header"), member.getRoles().size()), roles + ".", true)
                         .build()
                 ).queue();
             }
@@ -705,22 +717,30 @@ public class InfoCmds {
                     return;
 
                 String s = String.join("\n",
-                        BLUE_SMALL_MARKER + "**Role ID:** " + r.getId(),
-                        BLUE_SMALL_MARKER + "**Role Created:** " + r.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", ""),
-                        BLUE_SMALL_MARKER + "**Role Age:** " + TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - r.getCreationTime().toInstant().toEpochMilli()) + " days",
-                        BLUE_SMALL_MARKER + "**Color:** " + (r.getColor() == null ? "None" : ("#" +  Integer.toHexString(r.getColor().getRGB()))),
-                        BLUE_SMALL_MARKER + "**Members:** " + event.getGuild().getMembers().stream().filter(member -> member.getRoles().contains(r)).count(),
-                        BLUE_SMALL_MARKER + "**Position:** " + r.getPosition(),
-                        BLUE_SMALL_MARKER + "**Managed:** " + r.isManaged(),
-                        BLUE_SMALL_MARKER + "**Hoisted:** " + r.isHoisted()
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.id") + ":** " +
+                                r.getId(),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.created") + ":** " +
+                                r.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", ""),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.age") + ":** " +
+                                TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - r.getCreationTime().toInstant().toEpochMilli()) + " " + languageContext.get("general.days"),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.color") + ":** " +
+                                (r.getColor() == null ? languageContext.get("general.none") : ("#" +  Integer.toHexString(r.getColor().getRGB()))),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.members") + ":** " +
+                                event.getGuild().getMembers().stream().filter(member -> member.getRoles().contains(r)).count(),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.position") + ":** " +
+                                r.getPosition(),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.managed") + ":** " +
+                                r.isManaged(),
+                        BLUE_SMALL_MARKER +"**" + languageContext.get("commands.roleinfo.hoisted") + ":** " +
+                                r.isHoisted()
                 );
 
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setColor(event.getMember().getColor())
-                        .setAuthor(String.format("Role info for %s", r.getName()), null, event.getGuild().getIconUrl())
+                        .setAuthor(String.format(languageContext.get("commands.roleinfo.header"), r.getName()), null, event.getGuild().getIconUrl())
                         .setDescription(s)
-                        .addField("Permissions: [" + r.getPermissions().size() + "]" ,
-                                r.getPermissions().size() == 0 ? "None" : r.getPermissions().stream().map(Permission::getName).collect(Collectors.joining(", ")) + ".",
+                        .addField(String.format(languageContext.get("commands.roleinfo.permissions"), r.getPermissions().size()),
+                                r.getPermissions().size() == 0 ? languageContext.get("general.none") : r.getPermissions().stream().map(Permission::getName).collect(Collectors.joining(", ")) + ".",
                                 false
                         )
                         .build()
