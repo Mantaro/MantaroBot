@@ -98,25 +98,25 @@ public class AnimeCmds {
                     AnimeData[] type = AnimeData.fromJson(json);
 
                     if(type.length == 1) {
-                        animeData(event, type[0]);
+                        animeData(event, languageContext, type[0]);
                         return;
                     }
 
                     DiscordUtils.selectList(event, type, anime -> String.format("**[%s (%s)](%s)**",
                             anime.getTitleEnglish(), anime.getTitleJapanese(), "http://anilist.co/anime/" + anime.getId()),
-                            s -> baseEmbed(event, "Type the number of the anime you want to select.")
+                            s -> baseEmbed(event, languageContext.withRoot("commands", "anime.selection_start"))
                                     .setDescription(s)
                                     .setThumbnail("https://anilist.co/img/logo_al.png")
-                                    .setFooter("Information provided by Anilist. Type &cancel to cancel.", event.getAuthor().getAvatarUrl())
+                                    .setFooter(languageContext.withRoot("commands", "anime.information_footer"), event.getAuthor().getAvatarUrl())
                                     .build(),
-                            anime -> animeData(event, anime));
+                            anime -> animeData(event, languageContext, anime));
                 } catch (JsonSyntaxException jsonException) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "No results found...").queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
                 } catch (NullPointerException nullException) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "We got a wrong API result for this specific search. Maybe try another one?").queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.malformed_results"), EmoteReference.ERROR).queue();
                 } catch (Exception exception) {
-                    event.getChannel().sendMessage(String.format("%s**I swear I didn't drop your favorite anime!**\n We received a ``%s`` while trying to process the command.",
-                            EmoteReference.ERROR, exception.getClass().getSimpleName())).queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.error"),
+                            EmoteReference.ERROR, exception.getClass().getSimpleName()).queue();
                 }
             }
 
@@ -151,26 +151,26 @@ public class AnimeCmds {
                     CharacterData[] character = CharacterData.fromJson(json);
 
                     if(character.length == 1) {
-                        characterData(event, character[0]);
+                        characterData(event, languageContext, character[0]);
                         return;
                     }
 
                     DiscordUtils.selectList(event, character, character1 -> String.format("**[%s %s](%s)**",
                             character1.getLastName() == null ? "" : character1.getLastName(), character1.getFirstName(),
                             "http://anilist.co/character/" + character1.getId()),
-                            s -> baseEmbed(event, "Type the number of the character you want to select.")
+                            s -> baseEmbed(event, languageContext.withRoot("commands", "character.information_footer"))
                                     .setDescription(s)
                                     .setThumbnail("https://anilist.co/img/logo_al.png")
-                                    .setFooter("Information provided by Anilist. Type &cancel to cancel.", event.getAuthor().getAvatarUrl())
+                                    .setFooter(languageContext.withRoot("commands", "anime.information_footer"), event.getAuthor().getAvatarUrl())
                                     .build(),
-                            character1 -> characterData(event, character1));
-                }  catch (JsonSyntaxException jsonException) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "No results found...").queue();
+                            character1 -> characterData(event, languageContext, character1));
+                } catch (JsonSyntaxException jsonException) {
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
                 } catch (NullPointerException nullException) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "We got a wrong API result for this specific search. Maybe try another one?").queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.malformed_results"), EmoteReference.ERROR).queue();
                 } catch (Exception exception) {
-                    event.getChannel().sendMessage(String.format("%s**I swear I didn't d-drop your waifu, please forgive me!**\nI got ``%s`` while trying to process this command.",
-                            EmoteReference.ERROR, exception.getClass().getSimpleName())).queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "character.error"),
+                            EmoteReference.ERROR, exception.getClass().getSimpleName()).queue();
                 }
             }
 
@@ -189,7 +189,7 @@ public class AnimeCmds {
         cr.registerAlias("character", "char");
     }
 
-    private void animeData(GuildMessageReceivedEvent event, AnimeData type) {
+    private void animeData(GuildMessageReceivedEvent event, I18nContext lang, AnimeData type) {
         String ANIME_TITLE = type.getTitleEnglish();
         String RELEASE_DATE = StringUtils.substringBefore(type.getStartDate(), "T");
         String END_DATE = StringUtils.substringBefore(type.getEndDate(), "T");
@@ -207,36 +207,36 @@ public class AnimeCmds {
         //Start building the embedded message.
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(Color.LIGHT_GRAY)
-                .setAuthor("Anime information for " + ANIME_TITLE, "http://anilist.co/anime/"
+                .setAuthor(String.format(lang.get("commands.anime.information_header"), ANIME_TITLE), "http://anilist.co/anime/"
                         + type.getId(), type.getSmallImageUrl())
-                .setFooter("Information provided by AniList", null)
+                .setFooter(lang.get("commands.anime.information_notice"), null)
                 .setThumbnail(IMAGE_URL)
                 .setDescription(ANIME_DESCRIPTION.length() <= 1024 ? ANIME_DESCRIPTION : ANIME_DESCRIPTION.substring(0, 1020) + "...")
-                .addField("Release date: ", "`" + RELEASE_DATE + "`", true)
-                .addField("End date: ", "`" + (END_DATE == null || END_DATE.equals("null") ? "Airing" : END_DATE) + "`", true)
-                .addField("Average score: ", "`" + AVERAGE_SCORE + "/100" + "`", true)
-                .addField("Type", "`" + TYPE + "`", true)
-                .addField("Episodes", "`" + EPISODES + "`", true)
-                .addField("Episode Duration", "`" + DURATION + " minutes." + "`", true)
-                .addField("Genres", "`" + GENRES + "`", false);
+                .addField(lang.get("commands.anime.release_date"), "`" + RELEASE_DATE + "`", true)
+                .addField(lang.get("commands.anime.end_date"), "`" + (END_DATE == null || END_DATE.equals("null") ? lang.get("commands.anime.airing") : END_DATE) + "`", true)
+                .addField(lang.get("commands.anime.average_score"), "`" + AVERAGE_SCORE + "/100" + "`", true)
+                .addField(lang.get("commands.anime.type"), "`" + TYPE + "`", true)
+                .addField(lang.get("commands.anime.episodes"), "`" + EPISODES + "`", true)
+                .addField(lang.get("commands.anime.episode_duration"), "`" + DURATION + " " + lang.get("commands.anime.minutes") + "." + "`", true)
+                .addField(lang.get("commands.anime.genres"), "`" + GENRES + "`", false);
         event.getChannel().sendMessage(embed.build()).queue();
     }
 
-    private void characterData(GuildMessageReceivedEvent event, CharacterData character) {
+    private void characterData(GuildMessageReceivedEvent event, I18nContext lang, CharacterData character) {
         String JAP_NAME = character.getJapaneseName() == null ? "" : "\n(" + character.getJapaneseName() + ")";
         String CHAR_NAME = character.getFirstName() + (character.getLastName() == null ? "" : " " + character.getLastName()) + JAP_NAME;
-        String ALIASES = character.getNameAlt() == null ? "No aliases" : "Also known as: " + character.getNameAlt();
+        String ALIASES = character.getNameAlt() == null ? lang.get("commands.character.no_aliases") : lang.get("commands.character.alias_start") + " " + character.getNameAlt();
         String IMAGE_URL = character.getMedImageUrl();
-        String CHAR_DESCRIPTION = character.getInfo().isEmpty() ? "No info."
+        String CHAR_DESCRIPTION = character.getInfo().isEmpty() ? lang.get("commands.character.no_info")
                 : character.getInfo().length() <= 1024 ? character.getInfo() : character.getInfo().substring(0, 1020 - 1) + "...";
 
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(Color.LIGHT_GRAY)
                 .setThumbnail(IMAGE_URL)
-                .setAuthor("Information for " + CHAR_NAME, "http://anilist.co/character/" + character.getId(), IMAGE_URL)
+                .setAuthor(String.format(lang.get("commands.character.information_header"), CHAR_NAME), "http://anilist.co/character/" + character.getId(), IMAGE_URL)
                 .setDescription(ALIASES)
-                .addField("Information", CHAR_DESCRIPTION, true)
-                .setFooter("Information provided by AniList", null);
+                .addField(lang.get("commands.character.information"), CHAR_DESCRIPTION, true)
+                .setFooter(lang.get("commands.anime.information_notice"), null);
 
         event.getChannel().sendMessage(embed.build()).queue();
     }

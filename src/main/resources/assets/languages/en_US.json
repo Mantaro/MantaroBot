@@ -7,6 +7,33 @@
     "search_no_result": "%1$sYour search yielded no results :("
   },
   "commands": {
+    "anime": {
+      "selection_start": "Type the number of the anime you want to select.",
+      "information_footer": "Information provided by Anilist. Type &cancel to cancel.",
+      "no_results": "%1$sNo results found...",
+      "malformed_result": "%1$sWe got a wrong API result for this specific search. Maybe try another one?",
+      "error": "%1$s**I swear I didn't drop your favorite anime!**\nWe received a ``%2$s`` while trying to process the command.",
+      "information_header": "Anime information for %1$s",
+      "information_notice": "Information provided by AniList.",
+      "airing": "Airing",
+      "release_date": "Release date",
+      "end_date": "End date",
+      "average_score": "Average score",
+      "type": "Type",
+      "episodes": "Episodes",
+      "episode_duration": "Episode Duration",
+      "genres": "Genres",
+      "minutes": "minutes"
+    },
+    "character": {
+      "selection_start": "Type the number of the character you want to select.",
+      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got ``%2$s`` while trying to process this command.",
+      "information_header": "Character information for %1$s",
+      "information": "Information",
+      "no_aliases": "No aliases",
+      "alias_start": "Also known as:",
+      "no_info": "No info."
+    },
     "balance": {
       "external_balance": "%1$s's balance is **$%2$s.**",
       "own_balance": "Your balance is **$%1$s.**"
