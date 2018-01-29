@@ -63,7 +63,7 @@ public class MiscCmds {
     private final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
     private final Random rand = new Random();
 
-    protected static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
+    public static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
         DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
         Map<String, String> autoroles = dbGuild.getData().getAutoroles();
 
@@ -95,7 +95,7 @@ public class MiscCmds {
         }
     }
 
-    protected static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event) {
+    public static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event) {
         DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
         Map<String, String> autoroles = dbGuild.getData().getAutoroles();
 

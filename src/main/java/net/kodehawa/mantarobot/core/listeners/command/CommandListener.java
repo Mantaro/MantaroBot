@@ -31,6 +31,7 @@ import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
+import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -53,9 +54,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-
-import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
-import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
 
 @Slf4j
 public class CommandListener implements EventListener {
@@ -232,11 +230,11 @@ public class CommandListener implements EventListener {
             return;
         }
 
-        if(message.contains("$(")) {
-            Map<String, String> dynamicMap = new HashMap<>();
-            map("event", dynamicMap, event);
-            dynamicMap.put("level", level);
-            message = dynamicResolve(message, dynamicMap);
+        if (message.contains("$(")) {
+            message = new DynamicModifiers()
+                    .mapEvent("event", event)
+                    .set("level", level)
+                    .resolve(message);
         }
 
         int c = message.indexOf(':');

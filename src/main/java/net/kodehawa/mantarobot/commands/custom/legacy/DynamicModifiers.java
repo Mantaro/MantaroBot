@@ -96,10 +96,10 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
 
     public DynamicModifiers mapMessage(String prefix, Message message) {
         return this
-            .set(prefix, splitArgs(message.getRawContent(), 2)[1])
-            .set(prefix, "raw", splitArgs(message.getRawContent(), 2)[1])
-            .set(prefix, "textual", splitArgs(message.getContent(), 2)[1])
-            .set(prefix, "stripped", splitArgs(message.getStrippedContent(), 2)[1]);
+            .set(prefix, splitArgs(message.getContentRaw(), 2)[1])
+            .set(prefix, "raw", splitArgs(message.getContentRaw(), 2)[1])
+            .set(prefix, "textual", splitArgs(message.getContentDisplay(), 2)[1])
+            .set(prefix, "stripped", splitArgs(message.getContentStripped(), 2)[1]);
     }
 
     public DynamicModifiers mapChannel(String prefix, TextChannel channel) {

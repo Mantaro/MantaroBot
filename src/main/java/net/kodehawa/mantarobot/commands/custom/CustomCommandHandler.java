@@ -66,7 +66,7 @@ public class CustomCommandHandler {
                                         embed[0] = new SafeEmbed();
                                         wrap = new JavaObject(embed[0]);
                                     }
-                                    return wrap;
+                                        return wrap;
                                 }
                             })
                             .declare("args", Str.of(args))

@@ -65,6 +65,14 @@ dependencies {
 
 	compile 'us.monoid.web:resty:0.3.2'
 
+	//Custom Commands 2.0 Support
+	compile 'xyz.avarel.kaiper:Kaiper-Interpreter:1.1.0'
+	//meme bc Kaiper got trolled by Bintray
+	compile 'xyz.avarel.kaiper:Kaiper-AST:1.1.0'
+	compile 'xyz.avarel.kaiper:Kaiper-Runtime-Lib:1.1.0'
+	compile 'xyz.avarel.kaiper:Kaiper-Common:1.1.0'
+	//(will be fixed in next version)
+
 	compile 'br.com.brjdevs:utils:1.0.0_15'
 	compile 'br.com.brjdevs:network:1.0.0_2'
 	compile 'br.com.brjdevs:trove-utils:1.0.0_4'

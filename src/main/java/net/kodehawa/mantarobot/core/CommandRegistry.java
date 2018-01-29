@@ -69,7 +69,7 @@ public class CommandRegistry {
             command = commands.get(cmdName.toLowerCase());
 
             if(command == null) {
-                CustomCmds.handle(cmdName, event, args);
+                CustomCmds.handle(cmdName, event, content);
                 return false;
             }
         }

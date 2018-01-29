@@ -70,7 +70,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static net.kodehawa.mantarobot.utils.Utils.map;
 
 @Slf4j
 public class MantaroListener implements EventListener {
@@ -595,12 +594,6 @@ public class MantaroListener implements EventListener {
                         .mapEvent("event", event)
                         .resolve(message);
             }
-
-//            if(message.contains("$(")) {
-//                Map<String, String> dynamicMap = new HashMap<>();
-//                map("event", dynamicMap, event);
-//                message = dynamicResolve(message, dynamicMap);
-//            }
 
             int c = message.indexOf(':');
             if(c != -1) {
