@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,21 +36,27 @@ public class DefaultCommandProcessor implements ICommandProcessor {
 
     @Override
     public boolean run(GuildMessageReceivedEvent event) {
+        //When did we start processing this command?...
         long start = System.currentTimeMillis();
+        //The command executed, in raw form.
         String rawCmd = event.getMessage().getContentRaw();
+        //Mantaro prefixes.
         String[] prefix = MantaroData.config().get().prefix;
+        //Guild-specific prefix.
         String customPrefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
-
+        //What prefix did this person use.
         String usedPrefix = null;
+        //Lower-case raw cmd check, only used for prefix checking.
+        String lowerRawCmd = rawCmd.toLowerCase();
 
         for(String s : prefix) {
-            if(rawCmd.startsWith(s)) usedPrefix = s;
+            if(lowerRawCmd.startsWith(s)) usedPrefix = s;
         }
 
-        if(usedPrefix != null && rawCmd.startsWith(usedPrefix)) {
+        if(usedPrefix != null && lowerRawCmd.startsWith(usedPrefix.toLowerCase())) {
             rawCmd = rawCmd.substring(usedPrefix.length());
         }
-        else if(customPrefix != null && rawCmd.startsWith(customPrefix)) {
+        else if(customPrefix != null && lowerRawCmd.startsWith(customPrefix.toLowerCase())) {
             rawCmd = rawCmd.substring(customPrefix.length());
         }
         else if(usedPrefix == null) {
@@ -69,7 +75,6 @@ public class DefaultCommandProcessor implements ICommandProcessor {
         }
 
         REGISTRY.process(event, cmdName, content);
-        log.debug("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
 
         long end = System.currentTimeMillis();
         MantaroBot.getInstance().getStatsClient().histogram("command_query_time", end - start);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,7 +60,7 @@ public class ModerationCmds {
                 String reason = content;
 
                 if(!guild.getMember(author).hasPermission(Permission.BAN_MEMBERS)) {
-                    channel.sendMessage(EmoteReference.ERROR2 + "Cannot softban: You don't have the Ban Members permission.").queue();
+                    channel.sendMessage(EmoteReference.ERROR2 + "Cannot soft ban: You don't have the Ban Members permission.").queue();
                     return;
                 }
 
@@ -135,12 +135,12 @@ public class ModerationCmds {
                             },
                             error -> {
                                 if(error instanceof PermissionException) {
-                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Error softbanning [%s]: (No permission provided: %s)",
+                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Error softbanning %s: (No permission provided: %s)",
                                             member.getEffectiveName(), ((PermissionException) error).getPermission())).queue();
                                 } else {
-                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while softbanning [%s]: <%s>: %s",
-                                            member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
-                                    log.warn("Unexpected error while softbanning someone.", error);
+                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while softbanning %s",
+                                            member.getEffectiveName())).queue();
+                                    log.warn("Unexpected error while soft banning someone.", error);
                                 }
                             });
                 });
@@ -151,7 +151,7 @@ public class ModerationCmds {
                 return helpEmbed(event, "Softban")
                         .setDescription("**Softban the mentioned user and clears their messages from the past week. (You need Ban " +
                                 "Members)**")
-                        .addField("Summarizing", "A softban is a ban & instant unban, normally used to clear " +
+                        .addField("Summarizing", "A soft ban is a ban & instant unban, normally used to clear " +
                                 "the user's messages but **without banning the person permanently**.", false)
                         .build();
             }
@@ -231,8 +231,8 @@ public class ModerationCmds {
                                     channel.sendMessage(String.format("%sError banning %s: (I need the permission %s)",
                                             EmoteReference.ERROR, user.getName(), ((PermissionException) error).getPermission())).queue();
                                 } else {
-                                    channel.sendMessage(String.format("%sI encountered an unknown error while banning %s: <%s>: %s",
-                                            EmoteReference.ERROR, member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
+                                    channel.sendMessage(String.format("%sI encountered an unknown error while banning %s",
+                                            EmoteReference.ERROR, member.getEffectiveName())).queue();
                                     log.warn("Encountered an unexpected error while trying to ban someone.", error);
                                 }
                             });
@@ -304,8 +304,8 @@ public class ModerationCmds {
 
                     //If one of them is in a higher hierarchy than the bot, cannot kick.
                     if(!selfMember.canInteract(member)) {
-                        channel.sendMessage(EmoteReference.ERROR2 + "Cannot kick member: " + member.getEffectiveName() + ", they are " +
-                                "higher or the same " + "hierarchy than I am!").queue();
+                        channel.sendMessage(String.format("%sCannot kick member: %s, they are higher or the same hierarchy than I am!",
+                                EmoteReference.ERROR2, member.getEffectiveName())).queue();
                         return;
                     }
                     final DBGuild db = MantaroData.db().getGuild(event.getGuild());
@@ -325,11 +325,10 @@ public class ModerationCmds {
                             },
                             error -> {
                                 if(error instanceof PermissionException) {
-                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Error kicking [%s]: (No permission provided: %s)",
+                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Error kicking %s: (No permission provided: %s)",
                                             member.getEffectiveName(), ((PermissionException) error).getPermission().getName())).queue();
                                 } else {
-                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while kicking [%s]: <%s>: %s",
-                                            member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
+                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while attempting to kick %s", member.getEffectiveName())).queue();
                                     log.warn("Unexpected error while kicking someone.", error);
                                 }
                             });
@@ -392,7 +391,7 @@ public class ModerationCmds {
 
                 final DBGuild db = MantaroData.db().getGuild(event.getGuild());
                 long l = Utils.parseTime(time);
-                String finalReason = String.format("Tempbanned by %#s: %s", event.getAuthor(), reason);
+                String finalReason = String.format("Temporally banned by %#s: %s", event.getAuthor(), reason);
                 String sTime = StringUtils.parseTime(l);
                 receivedMessage.getMentionedUsers().forEach(user ->
                         guild.getController().ban(user, 7).queue(
@@ -415,7 +414,7 @@ public class ModerationCmds {
                                         channel.sendMessage(String.format("%sError banning %s: (I need the permission %s)",
                                                 EmoteReference.ERROR, user.getName(), ((PermissionException) error).getPermission())).queue();
                                     } else {
-                                        channel.sendMessage(String.format("%sI encountered an unknown error while banning %s: <%s>: %s", EmoteReference.ERROR, user.getName(), error.getClass().getSimpleName(), error.getMessage())).queue();
+                                        channel.sendMessage(String.format("%sI encountered an unknown error while banning %s", EmoteReference.ERROR, user.getName())).queue();
                                         log.warn("Encountered an unexpected error while trying to ban someone.", error);
                                     }
                                 })

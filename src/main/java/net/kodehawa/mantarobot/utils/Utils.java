@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,14 +21,15 @@ import com.jagrosh.jdautilities.utils.FinderUtil;
 import com.rethinkdb.net.Connection;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.NewRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import okhttp3.*;
 import org.json.JSONObject;
@@ -51,6 +52,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static com.rethinkdb.RethinkDB.r;
+import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 
 @Slf4j
 public class Utils {
@@ -198,8 +200,7 @@ public class Utils {
             r.close();
             return "https://hastebin.com/" + response.getString("key");
         } catch(Exception e) {
-            e.printStackTrace();
-            return "Pastebin is unavailable right now";
+            return "cannot post data to hastebin";
         }
     }
 
@@ -286,13 +287,15 @@ public class Utils {
     public static Member findMember(GuildMessageReceivedEvent event, Member first, String content) {
         List<Member> found = FinderUtil.findMembers(content, event.getGuild());
         if(found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any member with that name :(").queue();
             return null;
         }
 
         if(found.size() > 1 && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
-                    "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
+            event.getChannel().sendMessage(String.format("%sToo many users found, maybe refine your search? (ex. use name#discriminator)\n**Users found:** %s",
+                    EmoteReference.THINKING, found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))))
+                    .queue();
+
             return null;
         }
 
@@ -301,6 +304,126 @@ public class Utils {
         }
 
         return first;
+    }
+
+    public static Role findRole(GuildMessageReceivedEvent event, String content) {
+        List<Role> found = FinderUtil.findRoles(content, event.getGuild());
+        if(found.isEmpty() && !content.isEmpty()) {
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any role with that name :(").queue();
+            return null;
+        }
+
+        if(found.size() > 1 && !content.isEmpty()) {
+            event.getChannel().sendMessage(String.format("%sToo many roles found, maybe refine your search?\n**Roles found:** %s",
+                    EmoteReference.THINKING, found.stream().map(Role::getName).collect(Collectors.joining(", ")))).queue();
+
+            return null;
+        }
+
+        if(found.size() == 1) {
+            return found.get(0);
+        }
+
+        return event.getMember().getRoles().get(0);
+    }
+
+    public static Role findRoleSelect(GuildMessageReceivedEvent event, String content, Consumer<Role> consumer) {
+        List<Role> found = FinderUtil.findRoles(content, event.getGuild());
+        if(found.isEmpty() && !content.isEmpty()) {
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any roles with that name :(").queue();
+            return null;
+        }
+
+        if(found.size() > 1 && !content.isEmpty()) {
+            event.getChannel().sendMessage(String.format("%sToo roles found, maybe refine your search?\n**Roles found:** %s",
+                    EmoteReference.THINKING, found.stream().map(Role::getName).collect(Collectors.joining(", ")))).queue();
+
+            return null;
+        }
+
+        if(found.size() == 1) {
+            return found.get(0);
+        } else {
+            DiscordUtils.selectList(event, found,
+                    role -> String.format("%s (ID: %s)", role.getName(), role.getId()),
+                    s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Role:").setDescription(s).build(), consumer
+            );
+        }
+
+        return null;
+    }
+
+    public static TextChannel findChannel(GuildMessageReceivedEvent event, String content) {
+        List<TextChannel> found = FinderUtil.findTextChannels(content, event.getGuild());
+        if(found.isEmpty() && !content.isEmpty()) {
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any text channel with that name :(").queue();
+            return null;
+        }
+
+        if(found.size() > 1 && !content.isEmpty()) {
+            event.getChannel().sendMessage(String.format("%sToo many channels found, maybe refine your search?\n**Text Channel found:** %s",
+                    EmoteReference.THINKING, found.stream().map(TextChannel::getName).collect(Collectors.joining(", ")))).queue();
+
+            return null;
+        }
+
+        if(found.size() == 1) {
+            return found.get(0);
+        }
+
+        return null;
+    }
+
+    public static TextChannel findChannelSelect(GuildMessageReceivedEvent event, String content, Consumer<TextChannel> consumer) {
+        List<TextChannel> found = FinderUtil.findTextChannels(content, event.getGuild());
+        if(found.isEmpty() && !content.isEmpty()) {
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any text channel with that name :(").queue();
+            return null;
+        }
+
+        if(found.size() > 1 && !content.isEmpty()) {
+            event.getChannel().sendMessage(String.format("%sToo many channels found, maybe refine your search?\n**Text Channel found:** %s",
+                    EmoteReference.THINKING, found.stream().map(TextChannel::getName).collect(Collectors.joining(", ")))).queue();
+
+            return null;
+        }
+
+        if(found.size() == 1) {
+            return found.get(0);
+        } else {
+            DiscordUtils.selectList(event, found,
+                    textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
+                    s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:").setDescription(s).build(), consumer
+            );
+        }
+
+        return null;
+    }
+
+    public static VoiceChannel findVoiceChannelSelect(GuildMessageReceivedEvent event, String content, Consumer<VoiceChannel> consumer) {
+        List<VoiceChannel> found = FinderUtil.findVoiceChannels(content, event.getGuild());
+        if(found.isEmpty() && !content.isEmpty()) {
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any voice channel with that name :(").queue();
+            return null;
+        }
+
+        if(found.size() > 1 && !content.isEmpty()) {
+            event.getChannel().sendMessage(String.format("%sToo many channels found, maybe refine your search?\n**Voice Channels found:** %s",
+                    EmoteReference.THINKING, found.stream().map(VoiceChannel::getName).collect(Collectors.joining(", ")))).queue();
+
+            return null;
+        }
+
+        if(found.size() == 1) {
+            return found.get(0);
+        } else {
+            DiscordUtils.selectList(event, found,
+                    voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
+                    s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:").setDescription(s).build(), consumer
+            );
+        }
+
+        return null;
     }
 
     public static String pretty(int number) {
@@ -468,6 +591,21 @@ public class Utils {
         return true;
     }
 
+    public static boolean handleDefaultNewRatelimit(NewRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event) {
+        if(!rateLimiter.test(u.getId())) {
+            event.getChannel().sendMessage(
+                    String.format("%s%s (Ratelimited)\n **You'll be able to use this command again in %s.**",
+                            EmoteReference.STOPWATCH, ratelimitQuotes[random.nextInt(ratelimitQuotes.length)], Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor())))
+            ).queue();
+
+            MantaroBot.getInstance().getStatsClient().increment("ratelimits");
+
+            return false;
+        }
+
+        return true;
+    }
+
     public static String replaceArguments(Map<String, Optional<String>> args, String content, String... toReplace) {
         if(args == null || args.isEmpty()) {
             return content;
@@ -482,5 +620,19 @@ public class Utils {
         }
 
         return contentReplaced;
+    }
+
+    public static boolean isValidTimeZone(final String timeZone) {
+        final String DEFAULT_GMT_TIMEZONE = "GMT";
+        if (timeZone.equals(DEFAULT_GMT_TIMEZONE)) {
+            return true;
+        } else {
+            String id = TimeZone.getTimeZone(timeZone).getID();
+            if (!id.equals(DEFAULT_GMT_TIMEZONE)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,6 +53,9 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.security.SecureRandom;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -126,16 +129,20 @@ public class MoneyCmds {
 
                     if(playerData.getDailyStreak() > 5) {
                         int bonus = 150;
-                        if(playerData.getDailyStreak() > 15) bonus += Math.max(850, Math.floor(150 * playerData.getDailyStreak() / 15));
+                        if(playerData.getDailyStreak() > 15)
+                            bonus += Math.min(700, Math.floor(150 * playerData.getDailyStreak() / 15));
 
                         streak += "\nYou won a bonus of $" + bonus + " for claiming your daily for 5 days in a row or more! (Included on the money shown!)";
                         money += bonus;
                     }
 
                     if(playerData.getDailyStreak() > 10) {
-                        playerData.addBadge(Badge.CLAIMER);
+                        playerData.addBadgeIfAbsent(Badge.CLAIMER);
                     }
 
+                    if(playerData.getDailyStreak() > 100) {
+                        playerData.addBadgeIfAbsent(Badge.BIG_CLAIMER);
+                    }
                 } else {
                     Player authorPlayer = MantaroData.db().getPlayer(event.getAuthor());
                     PlayerData authorPlayerData = authorPlayer.getData();
@@ -156,14 +163,19 @@ public class MoneyCmds {
                     if(authorPlayerData.getDailyStreak() > 5) {
                         int bonus = 150;
 
-                        if(authorPlayerData.getDailyStreak() > 15) bonus += 150;
+                        if(authorPlayerData.getDailyStreak() > 15)
+                            bonus += Math.min(700, Math.floor(150 * authorPlayerData.getDailyStreak() / 15));;
 
                         streak += "\n" + (mentionedUser == null ? "You" : mentionedUser.getName()) + " won a bonus of $" + bonus + " for claiming your daily for 5 days in a row or more! (Included on the money shown!)";
                         money += bonus;
                     }
 
                     if(authorPlayerData.getDailyStreak() > 10) {
-                        authorPlayerData.addBadge(Badge.CLAIMER);
+                        authorPlayerData.addBadgeIfAbsent(Badge.CLAIMER);
+                    }
+
+                    if(authorPlayerData.getDailyStreak() > 100) {
+                        playerData.addBadgeIfAbsent(Badge.BIG_CLAIMER);
                     }
 
                     authorPlayerData.setLastDailyAt(System.currentTimeMillis());
@@ -171,13 +183,11 @@ public class MoneyCmds {
                 }
 
                 if(mentionedUser != null && !mentionedUser.getId().equals(event.getAuthor().getId())) {
-                    money = money + r.nextInt(10);
-
-                    if(player.getInventory().containsItem(Items.COMPANION)) money = Math.round(money + (money * 0.10));
+                    money = money + r.nextInt(90);
 
                     if(mentionedUser.getId().equals(player.getData().getMarriedWith())) {
                         if(player.getInventory().containsItem(Items.RING)) {
-                            money = money + r.nextInt(50);
+                            money = money + r.nextInt(70);
                         }
                     }
 
@@ -228,7 +238,7 @@ public class MoneyCmds {
 
                 if(player.getMoney() > GAMBLE_ABSOLUTE_MAX_MONEY) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You have too much money! Maybe transfer or buy items? Now you can also use `~>slots`" +
-                            " for all your gambling needs! Thanks for not breaking the local bank.").queue();
+                            " for all your gambling needs! Thanks for not breaking the local bank. *(Gamble limit: " + GAMBLE_ABSOLUTE_MAX_MONEY + ")*").queue();
                     return;
                 }
 
@@ -333,7 +343,8 @@ public class MoneyCmds {
     public void loot(CommandRegistry cr) {
         cr.register("loot", new SimpleCommand(Category.CURRENCY) {
             final RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 5, true);
-            Random r = new Random();
+            final ZoneId zoneId = ZoneId.systemDefault();
+            final Random r = new Random();
 
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -344,13 +355,22 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                    return;
 
+                LocalDate today = LocalDate.now(zoneId);
+                LocalDate eventStart = today.withMonth(Month.DECEMBER.getValue()).withDayOfMonth(23);
+                LocalDate eventStop = eventStart.plusDays(3); //Up to the 25th
                 TextChannelGround ground = TextChannelGround.of(event);
 
-                if(r.nextInt(125) == 0) { //1 in 125 chance of it dropping a loot crate.
+                if(today.isEqual(eventStart) || (today.isAfter(eventStart) && today.isBefore(eventStop))) {
+                    ground.dropItemWithChance(Items.CHRISTMAS_TREE_SPECIAL, 4);
+                    ground.dropItemWithChance(Items.BELL_SPECIAL, 4);
+                }
+
+                if(r.nextInt(100) == 0) { //1 in 100 chance of it dropping a loot crate.
                     ground.dropItem(Items.LOOT_CRATE);
-                    if(player.getData().addBadge(Badge.LUCKY)) player.saveAsync();
+                    if(player.getData().addBadgeIfAbsent(Badge.LUCKY)) player.saveAsync();
                 }
 
                 List<ItemStack> loot = ground.collectItems();
@@ -485,7 +505,7 @@ public class MoneyCmds {
 
                         event.getChannel().sendMessage(
                                 baseEmbed(event,
-                                        "Money leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                                        "Money leaderboard (Top 10)", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                                 ).setDescription(c.stream()
                                         .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
                                         .filter(p -> Objects.nonNull(p.getKey()))
@@ -504,7 +524,8 @@ public class MoneyCmds {
                         .setDescription("**Returns the leaderboard.**")
                         .addField("Usage", "`~>leaderboard` - **Returns the money leaderboard.**\n" +
                                 "`~>leaderboard rep` - **Returns the reputation leaderboard.**\n" +
-                                "`~>leaderboard lvl` - **Returns the level leaderboard.**", false)
+                                "`~>leaderboard lvl` - **Returns the level leaderboard.**\n" +
+                                "~>leaderboard streak - **Returns the daily streak leaderboard.", false)
                         .build();
             }
         });
@@ -522,7 +543,7 @@ public class MoneyCmds {
                             .optArg("index", r.desc("level"))
                             .filter(player -> player.g("id").match(pattern))
                             .map(player -> player.pluck("id", "level", r.hashMap("data", "experience")))
-                            .limit(15)
+                            .limit(10)
                             .run(conn, OptArgs.of("read_mode", "outdated"));
                 }
 
@@ -530,10 +551,10 @@ public class MoneyCmds {
                 m.close();
 
                 event.getChannel().sendMessage(
-                        baseEmbed(event,"Level leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                        baseEmbed(event,"Level leaderboard (Top 10)", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                         ).setDescription(c.stream()
                                 .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString() +
-                                        "\n - Experience: **" + ((Map)map.get("data")).get("experience") + "**\n"))
+                                        "\n - Experience: **" + ((Map)map.get("data")).get("experience") + "**"))
                                 .filter(p -> Objects.nonNull(p.getKey()))
                                 .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
                                         .getKey().getDiscriminator(), p.getValue()))
@@ -554,7 +575,7 @@ public class MoneyCmds {
                             .optArg("index", r.desc("reputation"))
                             .filter(player -> player.g("id").match(pattern))
                             .map(player -> player.pluck("id", "reputation"))
-                            .limit(15)
+                            .limit(10)
                             .run(conn, OptArgs.of("read_mode", "outdated"));
                 }
 
@@ -563,7 +584,7 @@ public class MoneyCmds {
 
                 event.getChannel().sendMessage(
                         baseEmbed(event,
-                                "Reputation leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                                "Reputation leaderboard (Top 10)", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                         ).setDescription(c.stream()
                                 .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("reputation").toString()))
                                 .filter(p -> Objects.nonNull(p.getKey()))
@@ -586,7 +607,7 @@ public class MoneyCmds {
                             .optArg("index", r.desc("userDailyStreak"))
                             .filter(player -> player.g("id").match(pattern))
                             .map(player -> player.pluck("id", r.hashMap("data", "dailyStrike")))
-                            .limit(15)
+                            .limit(10)
                             .run(conn, OptArgs.of("read_mode", "outdated"));
                 }
 
@@ -595,7 +616,7 @@ public class MoneyCmds {
 
                 event.getChannel().sendMessage(
                         baseEmbed(event,
-                                "Daily streak leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                                "Daily streak leaderboard (Top 10)", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                         ).setDescription(c.stream()
                                 .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), ((HashMap)(map.get("data"))).get("dailyStrike").toString()))
                                 .filter(p -> Objects.nonNull(p.getKey()))
@@ -607,6 +628,8 @@ public class MoneyCmds {
             }
         });
 
+        //TODO enable in 4.9
+        /*
         leaderboards.addSubCommand("localxp", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
@@ -636,10 +659,12 @@ public class MoneyCmds {
             }
         });
 
+        leaderboards.createSubCommandAlias("localxp", "local");
+        */
+
         leaderboards.createSubCommandAlias("rep", "reputation");
         leaderboards.createSubCommandAlias("lvl", "level");
         leaderboards.createSubCommandAlias("streak", "daily");
-        leaderboards.createSubCommandAlias("localxp", "local");
 
         cr.registerAlias("leaderboard", "richest");
     }
@@ -745,6 +770,7 @@ public class MoneyCmds {
                     if(i > 1 && i % 3 == 0) {
                         builder.append("\n");
                     }
+
                     builder.append(emotes[random.nextInt(emotes.length)]);
                 }
 
@@ -767,6 +793,11 @@ public class MoneyCmds {
                 if(isWin) {
                     message.append(toSend).append("\n\n").append(String.format("And you won **%d** credits and got to keep what you bet (%d credits)! Lucky! ", gains, money)).append(EmoteReference.POPPER);
                     player.addMoney(gains + money);
+
+                    if((gains + money) > SLOTS_MAX_MONEY) {
+                        player.getData().addBadgeIfAbsent(Badge.LUCKY_SEVEN);
+                    }
+
                     player.saveAsync();
                 } else {
                     message.append(toSend).append("\n\n").append("And you lost ").append(EmoteReference.SAD).append("\n").append("I hope you do better next time!");
@@ -784,7 +815,8 @@ public class MoneyCmds {
                                 "You can use the `-useticket` argument to use a slot ticket (slightly bigger chance)", false)
                         .addField("Usage", "`~>slots` - Default one, 50 coins.\n" +
                                 "`~>slots <credits>` - Puts x credits on the slot machine. Max of " + SLOTS_MAX_MONEY + " coins.\n" +
-                                "`~>slots -useticket` - Rolls the slot machine with one slot coin.", false)
+                                "`~>slots -useticket` - Rolls the slot machine with one slot coin.\n" +
+                                "You can specify the amount of tickets to use using `-amount` (for example `~>slots -useticket -amount 10`)", false)
                         .build();
             }
         });
@@ -802,7 +834,7 @@ public class MoneyCmds {
                 Player player = MantaroData.db().getPlayer(user);
 
                 if(!player.getInventory().containsItem(Items.BROM_PICKAXE)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have any pickaxe to mine!").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have any pick to mine!").queue();
                     return;
                 }
 
@@ -816,7 +848,7 @@ public class MoneyCmds {
                 }
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
-                String message = EmoteReference.PICK + "You mined minerals worth **$" + money + " credits**!";
+                String message = EmoteReference.PICK + "You mined minerals worth **$" + money + " credits!**";
 
                 if(r.nextInt(400) > 350) {
                     if(player.getInventory().getAmount(Items.DIAMOND) == 5000) {
@@ -826,6 +858,8 @@ public class MoneyCmds {
                         player.getInventory().process(new ItemStack(Items.DIAMOND, 1));
                         message += "\nHuh! You got lucky and found a diamond while mining, check your inventory!";
                     }
+
+                    player.getData().addBadgeIfAbsent(Badge.MINER);
                 }
 
                 event.getChannel().sendMessage(message).queue();
@@ -848,10 +882,11 @@ public class MoneyCmds {
             if(player.addMoney(gains)) {
                 if(gains > Integer.MAX_VALUE) {
                     if(!player.getData().hasBadge(Badge.GAMBLER)) {
-                        player.getData().addBadge(Badge.GAMBLER);
+                        player.getData().addBadgeIfAbsent(Badge.GAMBLER);
                         player.saveAsync();
                     }
                 }
+
                 event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you had!").queue();
             } else {
                 event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\n" +
@@ -863,6 +898,7 @@ public class MoneyCmds {
 
             event.getChannel().sendMessage(String.format("\uD83C\uDFB2 Sadly, you lost %s credits! \uD83D\uDE26", player.getMoney() == 0 ? "all of your " + oldMoney : i)).queue();
         }
+
         player.setLocked(false);
         player.saveAsync();
     }
@@ -871,7 +907,7 @@ public class MoneyCmds {
         try(Connection conn = Utils.newDbConnection()) {
             return template.filter(player -> player.g("id").match(pattern))
                     .map(player -> player.pluck("id", "money"))
-                    .limit(15)
+                    .limit(10)
                     .run(conn, OptArgs.of("read_mode", "outdated"));
         }
     }

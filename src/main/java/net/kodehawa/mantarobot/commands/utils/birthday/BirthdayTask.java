@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -64,7 +64,14 @@ public class BirthdayTask {
                     TextChannel channel = guild.getTextChannelById(tempData.getBirthdayChannel());
 
                     if(channel != null && birthdayRole != null) {
-                        if(!guild.getSelfMember().canInteract(birthdayRole)) continue;
+                        if(!guild.getSelfMember().canInteract(birthdayRole))
+                            continue; //Go to next guild...
+                        if(tempData.getGuildAutoRole() != null && birthdayRole.getId().equals(tempData.getGuildAutoRole()))
+                            continue;
+                        if(birthdayRole.isPublicRole())
+                            continue;
+                        if(birthdayRole.isManaged())
+                            continue;
 
                         Map<String, String> guildMap = cached.entrySet().stream().filter(map -> guild.getMemberById(map.getKey()) != null)
                                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -75,7 +82,7 @@ public class BirthdayTask {
 
                             if(birthday == null) {
                                 log.debug("Birthday is null? Continuing to next iteration...");
-                                continue; //shouldnt happen
+                                continue; //shouldn't happen
                             }
                             //else start the assigning
 
@@ -84,7 +91,9 @@ public class BirthdayTask {
                                 log.debug("Assigning birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                 if(!member.getRoles().contains(birthdayRole)) {
                                     try {
-                                        guild.getController().addSingleRoleToMember(member, birthdayRole).queue(s -> {
+                                        guild.getController().addSingleRoleToMember(member, birthdayRole)
+                                                .reason("Birthday assigner. If you see this happening for every member of your server, or in unintended ways, please do ~>opts birthday disable")
+                                                .queue(s -> {
                                                     channel.sendMessage(String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
                                                             member.getEffectiveName())).queue();
                                                     MantaroBot.getInstance().getStatsClient().increment("birthdays_logged");
@@ -102,7 +111,9 @@ public class BirthdayTask {
                                 if(member.getRoles().contains(birthdayRole)) {
                                     try {
                                         log.debug("Removing birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
-                                        guild.getController().removeRolesFromMember(member, birthdayRole).queue();
+                                        guild.getController().removeRolesFromMember(member, birthdayRole)
+                                                .reason("Birthday assigner. If you see this happening for every member of your server, or in unintended ways, please do ~>opts birthday disable")
+                                                .queue();
                                         r++;
                                         //Something went boom, ignore and continue
                                     } catch(Exception e) {

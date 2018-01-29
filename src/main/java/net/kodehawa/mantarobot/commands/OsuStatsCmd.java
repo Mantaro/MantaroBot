@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -54,19 +55,21 @@ public class OsuStatsCmd {
 
     @Subscribe
     public void osustats(CommandRegistry cr) {
-        cr.register("osustats", new SimpleTreeCommand(Category.GAMES) {
+        ITreeCommand osuCommand = (SimpleTreeCommand) cr.register("osustats", new SimpleTreeCommand(Category.GAMES) {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "osu! command")
-                        .setDescription("**Retrieves information from the osu!API**.")
-                        .addField("Usage", "`~>osustats best <player>` - **Retrieves best scores of the user specified in the specified gamemode**.\n"
-                                        + "`~>osustats recent <player>` - **Retrieves recent scores of the user specified in the specified gamemode.**\n"
-                                        + "`~>osustats user <player>` - **Retrieves information about a osu! player**.\n"
+                        .setDescription("**Retrieves information from osu! (Players and scores)**.")
+                        .addField("Usage", "`~>osu best <player>` - **Retrieves best scores of the user specified in the specified game mode**.\n"
+                                        + "`~>osu recent <player>` - **Retrieves recent scores of the user specified in the specified game mode.**\n"
+                                        + "`~>osu user <player>` - **Retrieves information about a osu! player**.\n"
                                 , false)
                         .addField("Parameters", "`player` - **The osu! player to look info for.**", false)
                         .build();
             }
-        }.addSubCommand("best", new SubCommand() {
+        });
+
+        osuCommand.addSubCommand("best", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from osu! server...").queue(sentMessage -> {
@@ -83,7 +86,9 @@ public class OsuStatsCmd {
                     }
                 });
             }
-        }).addSubCommand("recent", new SubCommand() {
+        });
+
+        osuCommand.addSubCommand("recent", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from server...").queue(sentMessage -> {
@@ -98,12 +103,14 @@ public class OsuStatsCmd {
                     }
                 });
             }
-        }).addSubCommand("user", new SubCommand() {
+        });
+
+        osuCommand.addSubCommand("user", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 event.getChannel().sendMessage(user(content)).queue();
             }
-        }));
+        });
 
         cr.registerAlias("osustats", "osu");
     }
@@ -130,7 +137,7 @@ public class OsuStatsCmd {
                     }
 
                     mods1 = "Mods: " + modsBuilder.toString();
-                    modsBuilder.setLength(0);
+                    modsBuilder = new StringBuilder();
                 }
 
                 sb.append(String.format("# %s -> %s\n | ####### | [%dpp] | Rank: %s -> Max Combo: %d",
@@ -139,7 +146,7 @@ public class OsuStatsCmd {
                         .append("\n");
             }
 
-            finalResponse = String.format("```md\n**Best osu! scores for: %s**\n%s```", osuUser.getUsername(), sb.toString());
+            finalResponse = String.format("**Best osu! scores for: %s**\n```md\n%s```", osuUser.getUsername(), sb.toString());
         } catch (JSONException jx) {
             finalResponse = EmoteReference.ERROR + "No results found.";
         }
@@ -180,12 +187,11 @@ public class OsuStatsCmd {
             }
 
             recent.forEach(sb::append);
-            finalMessage = String.format("```md\n**Recent osu! scores for: %s**\n%s```", hey.getUsername(), sb.toString());
+            finalMessage = String.format("**Recent osu! scores for: %s**\n```md\n%s```", hey.getUsername(), sb.toString());
 
         } catch (JSONException jx) {
             finalMessage = EmoteReference.ERROR + "No results found.";
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             finalMessage = EmoteReference.ERROR + "Uh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)";
             SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
         }

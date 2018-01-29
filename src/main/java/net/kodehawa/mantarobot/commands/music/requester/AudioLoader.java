@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -67,8 +67,11 @@ public class AudioLoader implements AudioLoadResultHandler {
     @Override
     public void playlistLoaded(AudioPlaylist playlist) {
         if(playlist.isSearchResult()) {
-            if(!skipSelection) onSearch(playlist);
-            else loadSingle(playlist.getTracks().get(0), false);
+            if(!skipSelection)
+                onSearch(playlist);
+            else
+                loadSingle(playlist.getTracks().get(0), false);
+
             return;
         }
 
@@ -176,10 +179,10 @@ public class AudioLoader implements AudioLoadResultHandler {
         List<AudioTrack> list = playlist.getTracks();
         DiscordUtils.selectList(event, list.subList(0, Math.min(5, list.size())),
                 track -> String.format("**[%s](%s)** (%s)", track.getInfo().title, track.getInfo().uri, Utils.getDurationMinutes(track.getInfo().length)),
-                s -> new EmbedBuilder().setColor(Color.CYAN).setTitle("Song selection. Type the song number to continue.", null)
+                s -> new EmbedBuilder().setColor(Color.CYAN).setAuthor("Song selection. Type the song number to continue.", "https://i.imgur.com/sFDpUZy.png")
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                         .setDescription(s)
-                        .setFooter("This timeouts in 10 seconds.", null).build(),
+                        .setFooter("This timeouts in 30 seconds. Type &cancel to cancel.", null).build(),
                 selected -> loadSingle(selected, false)
         );
 

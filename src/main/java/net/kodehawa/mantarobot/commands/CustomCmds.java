@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -118,10 +118,83 @@ public class CustomCmds {
                     return;
                 }
 
-                if(db().getGuild(event.getGuild()).getData().isCustomAdminLock() && !CommandPermission.ADMIN.test(
-                        event.getMember())) {
-                    event.getChannel().sendMessage("This guild only accepts custom commands from administrators.")
-                            .queue();
+                if(action.equals("view")) {
+                    if(args.length < 2) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the command and the response number!").queue();
+                        return;
+                    }
+
+                    String cmd = args[1];
+                    CustomCommand command = db().getCustomCommand(event.getGuild(), cmd);
+
+                    if(command == null) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't a custom command with that name here!").queue();
+                        return;
+                    }
+
+                    int number;
+
+                    try {
+                        number = Integer.parseInt(args[2]) - 1;
+                    } catch(NumberFormatException e) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a number...").queue();
+                        return;
+                    }
+
+                    if(command.getValues().size() < number) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "This commands has less responses than the number you specified...").queue();
+                        return;
+                    }
+
+                    event.getChannel().sendMessage(String.format("**Response `%d` for custom command `%s`:** \n```\n%s```", (number + 1),
+                            command.getName(), command.getValues().get(number))).queue();
+
+                    return;
+                }
+
+                if(action.equals("raw")) {
+                    if(args.length < 2) {
+                        onHelp(event);
+                        return;
+                    }
+
+                    String cmd = args[1];
+                    if(!NAME_PATTERN.matcher(cmd).matches()) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
+                        return;
+                    }
+
+                    CustomCommand custom = db().getCustomCommand(event.getGuild(), cmd);
+                    if(custom == null) {
+                        event.getChannel().sendMessage(
+                                EmoteReference.ERROR2 + "There's no Custom Command ``" + cmd + "`` in this Guild.").queue();
+                        return;
+                    }
+
+                    Pair<String, Integer> pair = DiscordUtils.embedList(custom.getValues(), Object::toString);
+
+                    String pasted = null;
+
+                    if(pair.getRight() < custom.getValues().size()) {
+                        AtomicInteger i = new AtomicInteger();
+                        pasted = Utils.paste(custom.getValues().stream().map(s -> i.incrementAndGet() + s).collect(Collectors.joining("\n")));
+                    }
+
+                    EmbedBuilder embed = baseEmbed(event, "Command \"" + cmd + "\":")
+                            .setDescription(pair.getLeft())
+                            .setFooter(
+                                    "(Showing " + pair.getRight() + " responses of " + custom.getValues().size() + ")", null);
+
+                    if(pasted != null && pasted.contains("hastebin.com")) {
+                        embed.addField("Pasted content", pasted, false);
+                    }
+
+                    event.getChannel().sendMessage(embed.build()).queue();
+                    return;
+                }
+
+                if(db().getGuild(event.getGuild()).getData().isCustomAdminLock() && !CommandPermission.ADMIN.test(event.getMember())) {
+                    event.getChannel().sendMessage("This guild only accepts custom command creation, edits, imports and eval from administrators.").queue();
                     return;
                 }
 
@@ -144,6 +217,7 @@ public class CustomCmds {
                             .queue();
                     return;
                 }
+
 
                 if(args.length < 2) {
                     onHelp(event);
@@ -235,39 +309,6 @@ public class CustomCmds {
                     return;
                 }
 
-                if(action.equals("view")) {
-                    if(args.length < 2) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the command and the response number!").queue();
-                        return;
-                    }
-
-                    CustomCommand command = db().getCustomCommand(event.getGuild(), cmd);
-
-                    if(command == null) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't a custom command with that name here!").queue();
-                        return;
-                    }
-
-                    int number;
-
-                    try {
-                        number = Integer.parseInt(args[2]) - 1;
-                    } catch(NumberFormatException e) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a number...").queue();
-                        return;
-                    }
-
-                    if(command.getValues().size() < number) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "This commands has less responses than the number you specified...").queue();
-                        return;
-                    }
-
-                    event.getChannel().sendMessage(String.format("**Response `%d` for custom command `%s`:** \n```\n%s```", (number + 1),
-                            command.getName(), command.getValues().get(number))).queue();
-
-                    return;
-                }
-
                 if(action.equals("eval")) {
                     try {
                         new CustomCommandHandler(event, cmd).handle();
@@ -305,41 +346,6 @@ public class CustomCmds {
                     event.getChannel().sendMessage(EmoteReference.PENCIL + "Removed Custom Command ``" + cmd + "``!")
                             .queue();
 
-                    return;
-                }
-
-                if(action.equals("raw")) {
-                    if(!NAME_PATTERN.matcher(cmd).matches()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
-                        return;
-                    }
-
-                    CustomCommand custom = db().getCustomCommand(event.getGuild(), cmd);
-                    if(custom == null) {
-                        event.getChannel().sendMessage(
-                                EmoteReference.ERROR2 + "There's no Custom Command ``" + cmd + "`` in this Guild.").queue();
-                        return;
-                    }
-
-                    Pair<String, Integer> pair = DiscordUtils.embedList(custom.getValues(), Object::toString);
-
-                    String pasted = null;
-
-                    if(pair.getRight() < custom.getValues().size()) {
-                        AtomicInteger i = new AtomicInteger();
-                        pasted = Utils.paste(custom.getValues().stream().map(s -> i.incrementAndGet() + s).collect(Collectors.joining("\n")));
-                    }
-
-                    EmbedBuilder embed = baseEmbed(event, "Command \"" + cmd + "\":")
-                            .setDescription(pair.getLeft())
-                            .setFooter(
-                                    "(Showing " + pair.getRight() + " responses of " + custom.getValues().size() + ")", null);
-
-                    if(pasted != null && pasted.contains("hastebin.com")) {
-                        embed.addField("Pasted content", pasted, false);
-                    }
-
-                    event.getChannel().sendMessage(embed.build()).queue();
                     return;
                 }
 
@@ -555,7 +561,8 @@ public class CustomCmds {
                                         "`~>custom view <name> <response number>` - **Views the content of one response**\n" +
                                         "`~>custom rename <previous name> <new name>` - **Renames a custom command**",
                                 false
-                        ).build();
+                        )
+                        .addField("Considerations", "If you wish to dissallow normal people from making custom commands, run `~>opts admincustom true`", false).build();
             }
         });
     }

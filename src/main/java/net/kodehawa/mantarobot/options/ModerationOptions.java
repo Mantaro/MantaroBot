@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.options.opts;
+package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.entities.Guild;
@@ -26,13 +26,16 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.options.OptionType;
 import net.kodehawa.mantarobot.options.annotations.Option;
+import net.kodehawa.mantarobot.options.core.OptionHandler;
+import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
@@ -108,7 +111,7 @@ public class ModerationOptions extends OptionHandler {
         //region logs
         //region enable
         registerOption("logs:enable", "Enable logs",
-                "Enables logs. You need to use the channel name, *not* the mention.\n" +
+                "Enables logs. You need to use the channel name.\n" +
                         "**Example:** `~>opts logs enable mod-logs`",
                 "Enables logs.", (event, args) -> {
                     if(args.length < 1) {
@@ -117,15 +120,21 @@ public class ModerationOptions extends OptionHandler {
                     }
 
                     String logChannel = args[0];
-                    boolean isId = args[0].matches("^[0-9]*$");
-                    String id = isId ? logChannel : event.getGuild().getTextChannelsByName(logChannel, true).get(0).getId();
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
-                    guildData.setGuildLogChannel(id);
-                    dbGuild.saveAsync();
-                    event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Message logging has been enabled with " +
-                                    "parameters -> ``Channel #%s (%s)``",
-                            logChannel, id)).queue();
+
+                    Consumer<TextChannel> consumer = textChannel -> {
+                        guildData.setGuildLogChannel(textChannel.getId());
+                        dbGuild.saveAsync();
+                        event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Message logging has been enabled with parameters -> ``Channel #%s (%s)``",
+                                textChannel.getName(), textChannel.getId())).queue();
+                    };
+
+                    TextChannel channel = Utils.findChannelSelect(event, logChannel, consumer);
+
+                    if (channel != null) {
+                        consumer.accept(channel);
+                    }
                 });
 
         registerOption("logs:exclude", "Exclude log channel.",

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -96,6 +96,7 @@ public class Inventory {
     public void replaceWith(List<ItemStack> inv) {
         inventory = serialize(inv);
     }
+
 
     public static class Resolver {
         public static Map<Integer, Integer> serialize(List<ItemStack> list) {

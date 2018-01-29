@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,11 +37,13 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.NewRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -55,7 +57,12 @@ public class GameCmds {
 
     @Subscribe
     public void game(CommandRegistry cr) {
-        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
+        final NewRateLimiter rateLimiter = new NewRateLimiter(Executors.newSingleThreadScheduledExecutor(), 4, 6, TimeUnit.SECONDS, 450, true) {
+            @Override
+            protected void onSpamDetected(String key, int times) {
+                log.warn("[Game] Spam detected for {} ({} times)!", key, times);
+            }
+        };
 
         SimpleTreeCommand gameCommand = (SimpleTreeCommand) cr.register("game", new SimpleTreeCommand(Category.GAMES) {
             @Override
@@ -87,7 +94,13 @@ public class GameCmds {
             protected void call(GuildMessageReceivedEvent event, String content) {
                 startGame(new GuessTheNumber(), event);
             }
-        }).addSubCommand("wins", new SubCommand() {
+        }));
+
+        gameCommand.setPredicate(event -> Utils.handleDefaultNewRatelimit(rateLimiter, event.getAuthor(), event));
+        gameCommand.createSubCommandAlias("pokemon", "pokémon");
+        gameCommand.createSubCommandAlias("number", "guessthatnumber");
+
+        gameCommand.addSubCommand("wins", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 Member member = Utils.findMember(event, event.getMember(), content);
@@ -96,12 +109,7 @@ public class GameCmds {
 
                 event.getChannel().sendMessage(EmoteReference.POPPER + member.getEffectiveName() + " has won " + MantaroData.db().getPlayer(member).getData().getGamesWon() + " games").queue();
             }
-        }).createSubCommandAlias("pokemon", "pokémon")
-                .createSubCommandAlias("number", "guessthatnumber"));
-
-        gameCommand.setPredicate(event -> Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event));
-        gameCommand.createSubCommandAlias("pokemon", "pokémon");
-        gameCommand.createSubCommandAlias("number", "guessthatnumber");
+        });
 
         gameCommand.addSubCommand("lobby", new SubCommand() {
             @Override
@@ -200,11 +208,16 @@ public class GameCmds {
     @Subscribe
     public void trivia(CommandRegistry cr) {
         cr.register("trivia", new SimpleCommand(Category.GAMES) {
-            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
+            final NewRateLimiter rateLimiter = new NewRateLimiter(Executors.newSingleThreadScheduledExecutor(), 3, 7, TimeUnit.SECONDS, 350, true) {
+                @Override
+                protected void onSpamDetected(String key, int times) {
+                    log.warn("[Trivia] Spam detected for {} ({} times)!", key, times);
+                }
+            };
 
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+                if(!Utils.handleDefaultNewRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 String difficulty = null;
 
@@ -233,7 +246,8 @@ public class GameCmds {
     }
 
     private void startMultipleGames(LinkedList<Game> games, GuildMessageReceivedEvent event) {
-        if(checkRunning(event)) return;
+        if(checkRunning(event))
+            return;
 
         List<String> players = new ArrayList<>();
         players.add(event.getAuthor().getId());
@@ -287,7 +301,8 @@ public class GameCmds {
                         b.append(user.getEffectiveName()).append(" ");
                     })
             );
-            event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with all users with the specfied role: " + b.toString()).queue();
+
+            event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with all users with the specified role: " + b.toString()).queue();
         }
 
         if(!event.getMessage().getMentionedUsers().isEmpty()) {

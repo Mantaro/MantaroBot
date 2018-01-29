@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -128,7 +128,8 @@ public class UtilsCmds {
                             }
 
                             if(guildCurrentBirthdays.isEmpty()) {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "There are no birthdays for this month here :(").queue();
+                                event.getChannel().sendMessage(EmoteReference.ERROR + "There are no birthdays for this month here :(\n" +
+                                        EmoteReference.WARNING + "If you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)").queue();
                                 return;
                             }
 
@@ -434,21 +435,18 @@ public class UtilsCmds {
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 try {
                     content = content.replace("UTC", "GMT").toUpperCase();
-
                     DBUser user = MantaroData.db().getUser(event.getMember());
-                    if(user.getData().getTimezone() != null && args.length == 0) {
-                        event.getChannel().sendMessage(
-                                EmoteReference.MEGA + "It's " + dateGMT(event.getGuild(), user.getData().getTimezone()) +
-                                        " in the " + user.getData().getTimezone() + " " +
-                                        "timezone").queue();
+                    String timezone = user.getData().getTimezone() != null ? user.getData().getTimezone() : content;
+
+                    if(!Utils.isValidTimeZone(timezone)) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid timezone!").queue();
                         return;
                     }
-                    event.getChannel().sendMessage(
-                            String.format("%sIt's %s in the %s timezone", EmoteReference.MEGA, dateGMT(event.getGuild(), content), content)).queue();
+
+                    event.getChannel().sendMessage(String.format("%sIt's %s in the %s timezone", EmoteReference.MEGA, dateGMT(event.getGuild(), timezone), timezone)).queue();
 
                 } catch(Exception e) {
-                    event.getChannel().sendMessage(
-                            EmoteReference.ERROR + "Error while retrieving timezone or it's not valid").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Error while retrieving timezone or it's not valid").queue();
                 }
             }
 
@@ -475,65 +473,63 @@ public class UtilsCmds {
         registry.register("urban", new SimpleCommand(Category.UTILS) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                String beheadedSplit[] = content.split("->");
+                String commandArguments[] = content.split("->");
                 EmbedBuilder embed = new EmbedBuilder();
 
                 if(!content.isEmpty()) {
                     String url = null;
+
                     try {
-                        url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(
-                                beheadedSplit[0], "UTF-8");
-                    } catch(UnsupportedEncodingException ignored) {
-                    }
+                        url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(commandArguments[0], "UTF-8");
+                    } catch(UnsupportedEncodingException ignored) { }
 
                     String json = Utils.wgetResty(url, event);
                     UrbanData data = GsonDataManager.GSON_PRETTY.fromJson(json, UrbanData.class);
 
                     //This shouldn't happen, but it fucking happened.
-                    if(beheadedSplit.length < 1) {
+                    if(commandArguments.length < 1) {
+                        return;
+                    } else if (commandArguments.length > 2) {
+                        onHelp(event);
                         return;
                     }
 
-                    if(data == null || data.list.isEmpty()) {
+                    if(data == null || data.getList() == null || data.getList().isEmpty()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "No results.").queue();
                         return;
                     }
 
-                    switch(beheadedSplit.length) {
-                        case 1:
-                            UrbanData.List urbanData = data.list.get(0);
-                            embed.setAuthor(
-                                    "Urban Dictionary definition for " + content, data.list.get(0).permalink, null)
-                                    .setDescription("Main definition.")
-                                    .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
-                                    .setColor(Color.GREEN)
-                                    .addField("Definition", urbanData.definition.length() > 1000 ? urbanData.definition.substring(0, 1000) + "..." : urbanData.definition, false)
-                                    .addField("Example", urbanData.example.length() > 1000 ? urbanData.example.substring(0, 1000) + "..." : urbanData.example, false)
-                                    .addField(":thumbsup:", urbanData.thumbs_up, true)
-                                    .addField(":thumbsdown:", urbanData.thumbs_down, true)
-                                    .setFooter("Information by Urban Dictionary", null);
-                            event.getChannel().sendMessage(embed.build()).queue();
-                            break;
-                        case 2:
-                            int definitionNumber = Integer.parseInt(beheadedSplit[1]) - 1;
-                            UrbanData.List urbanData2 = data.list.get(definitionNumber);
-                            String definition = urbanData2.definition;
-                            embed.setAuthor(
-                                    "Urban Dictionary definition for " + beheadedSplit[0], urbanData2.permalink, null)
-                                    .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
-                                    .setDescription("Definition " + String.valueOf(definitionNumber + 1))
-                                    .setColor(Color.GREEN)
-                                    .addField("Definition", definition.length() > 1000 ? definition.substring(0, 1000) + "..." : definition, false)
-                                    .addField("Example", urbanData2.example.length() > 1000 ? urbanData2.example.substring(0, 1000) + "..." : urbanData2.example, false)
-                                    .addField(":thumbsup:", urbanData2.thumbs_up, true)
-                                    .addField(":thumbsdown:", urbanData2.thumbs_down, true)
-                                    .setFooter("Information by Urban Dictionary", null);
-                            event.getChannel().sendMessage(embed.build()).queue();
-                            break;
-                        default:
-                            onHelp(event);
-                            break;
+                    if(commandArguments.length > 1) {
+                        int definitionNumber = Integer.parseInt(commandArguments[1]) - 1;
+                        UrbanData.List urbanData = data.getList().get(definitionNumber);
+                        String definition = urbanData.getDefinition();
+                        embed.setAuthor(
+                                "Urban Dictionary definition for " + commandArguments[0], urbanData.getPermalink(), null)
+                                .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
+                                .setDescription("Definition " + String.valueOf(definitionNumber + 1))
+                                .setColor(Color.GREEN)
+                                .addField("Definition", definition.length() > 1000 ? definition.substring(0, 1000) + "..." : definition, false)
+                                .addField("Example", urbanData.getExample().length() > 1000 ? urbanData.getExample().substring(0, 1000) + "..." : urbanData.getExample(), false)
+                                .addField(":thumbsup:", urbanData.thumbs_up, true)
+                                .addField(":thumbsdown:", urbanData.thumbs_down, true)
+                                .setFooter("Information by Urban Dictionary", null);
+                        event.getChannel().sendMessage(embed.build()).queue();
+                    } else {
+                        UrbanData.List urbanData = data.getList().get(0);
+                        embed.setAuthor(
+                                "Urban Dictionary definition for " + content, data.getList().get(0).getPermalink(), null)
+                                .setDescription("Main definition.")
+                                .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
+                                .setColor(Color.GREEN)
+                                .addField("Definition", urbanData.getDefinition().length() > 1000 ? urbanData.getDefinition().substring(0, 1000) + "..." : urbanData.getDefinition(), false)
+                                .addField("Example", urbanData.getExample().length() > 1000 ? urbanData.getExample().substring(0, 1000) + "..." : urbanData.getExample(), false)
+                                .addField(":thumbsup:", urbanData.thumbs_up, true)
+                                .addField(":thumbsdown:", urbanData.thumbs_down, true)
+                                .setFooter("Information by Urban Dictionary", null);
+                        event.getChannel().sendMessage(embed.build()).queue();
                     }
+                } else {
+                    onHelp(event);
                 }
             }
 
@@ -591,7 +587,7 @@ public class UtilsCmds {
 
                     embed.setColor(Color.CYAN)
                             .setTitle(":flag_" + countryCode.toLowerCase() + ":" + " Forecast information for " + content, null)
-                            .setDescription(status + " (" + cloudiness + "% cloudiness)")
+                            .setDescription(status + " (" + cloudiness + "% clouds)")
                             .addField(":thermometer: Temperature", String.format("%d°C | %d°F", finalTemperatureCelsius.intValue(), finalTemperatureFahrenheit.intValue()), true)
                             .addField(":droplet: Humidity", humidity + "%", true)
                             .addBlankField(true)
@@ -640,7 +636,7 @@ public class UtilsCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Wiki command")
                         .setDescription("**Shows a bunch of things related to mantaro's wiki.**\n" +
-                                "Avaliable subcommands: `opts`, `custom`, `faq`, `commands`, `modifiers` `tos` `usermessage` `premium`")
+                                "Avaliable subcommands: `opts`, `custom`, `faq`, `commands`, `modifiers`, `tos`, `usermessage`, `premium`, `items`")
                         .build();
             }
         }.addSubCommand("opts", new SubCommand() {
@@ -696,6 +692,12 @@ public class UtilsCmds {
             protected void call(GuildMessageReceivedEvent event, String content) {
                 event.getChannel().sendMessage(EmoteReference.OK + "**To see what Mantaro's Premium features offer please visit:**" +
                         " https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks").queue();
+            }
+        }).addSubCommand("items", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                event.getChannel().sendMessage(EmoteReference.OK + "**For a list of all collectable (non-purchaseable) items please visit:**" +
+                        " https://github.com/Mantaro/MantaroBot/wiki/Collectable-Items").queue();
             }
         }));
     }

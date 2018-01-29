@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,10 +17,18 @@
 package net.kodehawa.mantarobot.core.shard;
 
 import br.com.brjdevs.java.utils.async.Async;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
+import com.github.natanbc.discordbotsapi.PostingException;
+import gnu.trove.impl.unmodifiable.TUnmodifiableLongSet;
+import gnu.trove.set.TLongSet;
+import gnu.trove.set.hash.TLongHashSet;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
@@ -33,13 +41,15 @@ import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
 
@@ -47,14 +57,14 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
  * Represents a Sharded bot.
  * This class will still be used whether we have zero or a billion shards tho, but Mantaro is more optimized to run with shards.
  * It holds all the necessary info for the bot to correctly function in a sharded enviroment, while also providing access to {@link ICommandProcessor} and
- * other extermely important stuff.
+ * other extremely important stuff.
  */
 @Slf4j
 public class ShardedMantaro {
 
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final Carbonitex carbonitex = new Carbonitex();
     private final Config config = MantaroData.config().get();
-    //Natan's DBL API sender instance.
     private final DiscordBotsAPI discordBotsAPI = new DiscordBotsAPI(MantaroData.config().get().dbotsorgToken);
     @Getter
     private final List<MantaroEventManager> managers = new ArrayList<>();
@@ -63,6 +73,9 @@ public class ShardedMantaro {
     private final MantaroShard[] shards;
     @Getter
     private final int totalShards;
+    @Getter
+    private TUnmodifiableLongSet discordBotsUpvoters = new TUnmodifiableLongSet(new TLongHashSet());
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token, ICommandProcessor commandProcessor) {
         int shardAmount = totalShards;
@@ -102,8 +115,7 @@ public class ShardedMantaro {
      * Starts building all the necessary Shards to start this bot instance.
      * After finishing loading all the necessary shards, this will call {@link ShardedMantaro#startPostLoadProcedure(long)} and set everything so the bot
      * will be functioning completely (sends {@link PostLoadEvent}, marks the core as ready, starts posting stats to most popular discord bot lists,
-     * starts the birthday checker, starts the ShardWatcherThread both on all the started shards and finally it starts the
-     * {@link net.kodehawa.mantarobot.core.shard.jda.reconnect.LazyReconnectQueue} instance so stale shards will start reconnecting.
+     * starts the birthday checker and starts the ShardWatcherThread both on all the started shards.
      */
     public void shard() {
         try {
@@ -137,22 +149,29 @@ public class ShardedMantaro {
         MantaroBot bot = MantaroBot.getInstance();
 
         //Start the reconnect queue.
-        MantaroShard.getReconnectQueue().ready();
         bot.getCore().markAsReady();
 
         System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
         LogUtils.shard(String.format("Loaded all %d shards in %d seconds.", totalShards, (end - start) / 1000));
-        log.info("Loaded all shards succesfully... Starting ShardWatcher! Status: {}", MantaroCore.getLoadState());
+        log.info("Loaded all shards successfully... Starting ShardWatcher! Status: {}", MantaroCore.getLoadState());
 
         Async.thread("ShardWatcherThread", new ShardWatcher());
         bot.getCore().getShardEventBus().post(new PostLoadEvent());
 
         startUpdaters();
         bot.startCheckingBirthdays();
+
+        Async.task(() -> {
+            try {
+                SnowflakeCacheView<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannelCache();
+                MantaroBot.getInstance().getStatsClient().gauge("music_players", vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count());
+            } catch (Exception ignored) {} //Avoid the scheduled task to unexpectedly end on exception (probably ConcurrentModificationException but let's just catch all errors)
+        }, 20, TimeUnit.SECONDS);
     }
 
     private void startUpdaters() {
         Async.task("Carbonitex post task", carbonitex::handle, 30, TimeUnit.MINUTES);
+
         if(config.dbotsorgToken != null) {
             Async.task("dbots.org update thread", () -> {
                 try {
@@ -160,15 +179,59 @@ public class ShardedMantaro {
                     int[] shards = MantaroBot.getInstance().getShardList().stream().mapToInt(shard -> (int) shard.getGuildCache().size()).toArray();
                     discordBotsAPI.postStats(shards);
                     log.debug("Updated server count ({}) for discordbots.org", count);
-                } catch(Exception ignored) {
-                }
+                } catch(Exception ignored) {}
             }, 1, TimeUnit.HOURS);
+
+            Async.task("discordbots.org upvotes task", () -> {
+                if(config.dbotsorgToken == null) return;
+                try {
+                    Request request = new Request.Builder()
+                            .url("https://discordbots.org/api/bots/213466096718708737/votes?onlyids=1")
+                            .addHeader("Authorization", config.dbotsorgToken)
+                            .build();
+
+                    Response r = Utils.httpClient.newCall(request).execute();
+
+                    ResponseBody body = r.body();
+                    if(body == null)
+                        return;
+
+                    @SuppressWarnings("unchecked") //It's definitely String.
+                    List<String> upvoters = objectMapper.readValue(body.string(), List.class);
+                    List<Long> upvotersLong = upvoters.stream().map(Long::parseLong).distinct().collect(Collectors.toList());
+                    TLongSet set = new TLongHashSet();
+                    set.addAll(upvotersLong);
+                    discordBotsUpvoters = new TUnmodifiableLongSet(set);
+
+                    r.close();
+                } catch(Exception ignored) {}
+            }, 5, TimeUnit.MINUTES);
         } else {
             log.warn("discordbots.org token not set in config, cannot start posting stats!");
         }
 
+        String dbotsToken = config.dbotsToken;
+
+        if(dbotsToken != null) {
+            Async.task("bots.discord.pw update Thread", () -> {
+                try {
+                    long count = MantaroBot.getInstance().getGuildCache().size();
+                    RequestBody body = RequestBody.create(JSON, new JSONObject().put("server_count", count).toString());
+
+                    Request request = new Request.Builder()
+                            .url("https://bots.discord.pw/api/bots/213466096718708737/stats")
+                            .addHeader("User-Agent", MantaroInfo.USER_AGENT)
+                            .addHeader("Authorization", dbotsToken)
+                            .addHeader("Content-Type", "application/json")
+                            .post(body)
+                            .build();
+                    Utils.httpClient.newCall(request).execute().close();
+                    log.debug("Updated server count for bots.discord.pw");
+                } catch(Exception ignored) { }
+            }, 1, TimeUnit.HOURS);
+        }
+
         for(MantaroShard shard : getShards()) {
-            shard.updateServerCount();
             shard.updateStatus();
         }
     }

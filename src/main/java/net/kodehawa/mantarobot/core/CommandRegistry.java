@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,10 +37,7 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 public class CommandRegistry {
@@ -60,14 +57,23 @@ public class CommandRegistry {
         return commands;
     }
 
+    //BEWARE OF INSTANCEOF CALLS
+    //I know there are better approaches to this, THIS IS JUST A WORKAROUND, DON'T TRY TO REPLICATE THIS.
     public boolean process(GuildMessageReceivedEvent event, String cmdName, String args) {
         long start = System.currentTimeMillis();
-        Command cmd = commands.get(cmdName);
+        Command command = commands.get(cmdName);
 
-        if(cmd == null) {
-            CustomCmds.handle(cmdName, event, args);
-            return false;
+        if(command == null) {
+            command = commands.get(cmdName.toLowerCase());
+
+            if(command == null) {
+                CustomCmds.handle(cmdName, event, args);
+                return false;
+            }
         }
+
+        //Variable used in lambda expression should be final or effectively final...
+        final Command cmd = command;
 
         if(MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) {
             return false;
@@ -76,12 +82,12 @@ public class CommandRegistry {
         DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
         GuildData data = dbg.getData();
 
-        if(data.getDisabledCommands().contains(cmdName)) {
+        if(data.getDisabledCommands().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) {
             return false;
         }
 
-        List<String> disabledCommands = data.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
-        if(disabledCommands != null && disabledCommands.contains(cmdName)) {
+        List<String> channelDisabledCommands = data.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
+        if(channelDisabledCommands != null && channelDisabledCommands.contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) {
             return false;
         }
 
@@ -89,23 +95,34 @@ public class CommandRegistry {
             return false;
         }
 
-        if(data.getDisabledChannels().contains(event.getChannel().getId()) && cmd.category() != Category.MODERATION) {
+        if(data.getDisabledChannels().contains(event.getChannel().getId()) && (cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() != Category.MODERATION : cmd.category() != Category.MODERATION)) {
             return false;
         }
 
-        if(conf.isPremiumBot() && cmd.category() == Category.CURRENCY) {
+        if(conf.isPremiumBot() && (cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() == Category.CURRENCY : cmd.category() == Category.CURRENCY)) {
             return false;
         }
 
-        if(data.getDisabledCategories().contains(cmd.category())) {
+        if(data.getDisabledCategories().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) {
             return false;
         }
 
-        if(data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), wew -> new ArrayList<>()).contains(cmd.category())) {
+        if(data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), c ->
+                new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) {
             return false;
         }
 
         if(!data.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream().anyMatch(r -> data.getDisabledRoles().contains(r.getId())) && !isAdmin(event.getMember())) {
+            return false;
+        }
+
+        HashMap<String, List<String>> roleSpecificDisabledCommands = data.getRoleSpecificDisabledCommands();
+        if(event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) && !isAdmin(event.getMember())) {
+            return false;
+        }
+
+        HashMap<String, List<Category>> roleSpecificDisabledCategories = data.getRoleSpecificDisabledCategories();
+        if(event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCategories.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) && !isAdmin(event.getMember())) {
             return false;
         }
 
@@ -123,11 +140,12 @@ public class CommandRegistry {
 
         long end = System.currentTimeMillis();
         MantaroBot.getInstance().getStatsClient().increment("commands");
+        log.debug("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
         cmd.run(event, cmdName, args);
 
         if(cmd.category() != null && cmd.category().name() != null && !cmd.category().name().isEmpty()) {
-            MantaroBot.getInstance().getStatsClient().increment("command_" + cmdName);
-            MantaroBot.getInstance().getStatsClient().increment("category_" + cmd.category().name().toLowerCase());
+            MantaroBot.getInstance().getStatsClient().increment("command", "name:" + cmdName);
+            MantaroBot.getInstance().getStatsClient().increment("category", "name:" + cmd.category().name().toLowerCase());
             CommandStatsManager.log(cmdName);
             CategoryStatsManager.log(cmd.category().name().toLowerCase());
         }
@@ -147,7 +165,7 @@ public class CommandRegistry {
             log.error(command + " isn't in the command map...");
         }
 
-        register(alias, new AliasCommand(alias, commands.get(command)));
+        register(alias, new AliasCommand(alias, command, commands.get(command)));
     }
 
     public void addSubCommandTo(TreeCommand command, String name, SubCommand subCommand) {

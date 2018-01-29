@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONObject;
 
 import java.awt.*;
@@ -47,8 +48,8 @@ public class ImageCmds {
 
     private final URLCache CACHE = new URLCache(20);
     private final String[] catResponses = {
-            "Aww, take a cat.", "%mention%, are you sad? ;w;, take a cat!", "You should all have a cat in your life, but a image will do.",
-            "Am I cute yet?", "%mention%, I think you should have a cat."
+            "Aww, here, take a cat.", "%mention%, are you sad? ;w; take a cat!", "You should all have a cat in your life, but an image will do.",
+            "Am I cute yet?", "I think you should have a cat, %mention%."
     };
     private final ImageBoard<DanbooruImage> danbooru = DefaultImageBoards.DANBOORU;
     private final ImageBoard<FurryImage> e621 = DefaultImageBoards.E621;
@@ -105,14 +106,15 @@ public class ImageCmds {
                     return;
 
                 try {
-                    String image = requester.getRandomImageByType("neko", nsfw, null);
+                    Pair<String, String> result = requester.getRandomImageByType("neko", nsfw, null);
+                    String image = result.getKey();
 
                     if(image == null) {
                         event.getChannel().sendMessage("Unable to get image.").queue();
                         return;
                     }
 
-                    event.getChannel().sendFile(CACHE.getInput(image), "catgirl.png", null).queue();
+                    event.getChannel().sendFile(CACHE.getInput(image), "catgirl-" + result.getValue() + ".png", null).queue();
                 } catch(Exception e) {
                     event.getChannel().sendMessage("Unable to get image.").queue();
                 }
@@ -122,8 +124,8 @@ public class ImageCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Catgirl command")
                         .setDescription("**Sends catgirl images**")
-                        .addField("Usage", "`~>catgirl` - **Returns catgirl images.**" +
-                                "\n`~>catgirl nsfw` - **Returns lewd or questionable catgirl images.**", false)
+                        .addField("Usage", "`~>catgirl` - **Sends a catgirl image.**" +
+                                "\n`~>catgirl nsfw` - **Sends a lewd or questionable catgirl image.**", false)
                         .build();
             }
         });
@@ -157,12 +159,12 @@ public class ImageCmds {
                         .setColor(Color.PINK)
                         .setDescription("**Retrieves images from the e621 (furry) image board.**")
                         .addField("Usage",
-                                "`~>e621 get <imagenumber>` - **Gets an image based in parameters.**\n"
-                                        + "`~>e621 tags <tag> <imagenumber>` - **Gets an image based in the specified tag and parameters.**", false)
+                                "`~>e621` - **Gets you a completely random image.**\n"
+                                        + "`~>e621 get <imagenumber>` - **Gets you an image with the specified parameters.**\n"
+                                        + "`~>e621 tags <tag>` - **Gets you an image with the respective tag and specified parameters.**\n\n"
+                                        + "**WARNING**: This command can be only used in NSFW channels!", false)
                         .addField("Parameters",
-                                "`page` - **Can be any value from 1 to the e621 maximum page. Probably around 4000.**\n"
-                                        + "`imagenumber` - **(OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.**\n"
-                                        + "`tag` - **Any valid image tag. For example animal_ears or original.**", false)
+                                "`tag` - **Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)**\n", false)
                         .build();
             }
         });
@@ -196,12 +198,13 @@ public class ImageCmds {
                         .setColor(Color.PINK)
                         .setDescription("**Retrieves images from the Konachan image board.**")
                         .addField("Usage",
-                                "`~>konachan get <page> <imagenumber>` - **Gets an image based in parameters.**\n"
-                                        + "`~>konachan tags <tag> <imagenumber>` - **Gets an image based in the specified tag and parameters.**\n", false)
+                                "`~>konachan` - **Gets you a completely random image.**\n"
+                                        + "`~>konachan get <imagenumber> <rating>` - **Gets you an image with the specified parameters.**\n"
+                                        + "`~>konachan tags <tag> <rating>` - **Gets you an image with the respective tag and specified parameters.**\n\n"
+                                        + "**WARNING**: If the rating is explicit/questionable this command can be only used in NSFW channels! (Unless rating has been specified as safe or not specified at all)", false)
                         .addField("Parameters",
-                                "`page` - **Can be any value from 1 to the Konachan maximum page. Probably around 4000.**\n"
-                                        + "`imagenumber` - **(OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.**\n"
-                                        + "`tag` - **Any valid image tag. For example animal_ears or original.**", false)
+                                "`tag` - **Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)**\n"
+                                        + "`rating` - **(OPTIONAL) Can be either safe, questionable or explicit, depends on the type of image you want to get.**", false)
                         .build();
             }
         });
@@ -235,12 +238,11 @@ public class ImageCmds {
                         .setColor(Color.PINK)
                         .setDescription("**Retrieves images from the Safebooru image board.**")
                         .addField("Usage",
-                                "`~>safebooru get <page> <imagenumber>` - **Gets an image based in parameters.**\n"
-                                        + "`~>safebooru tags <tag> <imagenumber>` - **Gets an image based in the specified tag and parameters.**\n", false)
+                                "`~>safebooru` - **Gets you a completely random image.**\n"
+                                        + "`~>safebooru get <imagenumber>` - **Gets you an image with the specified parameters.**\n"
+                                        + "`~>safebooru tags <tag>` - **Gets you an image with the respective tag and specified parameters.**\n\n", false)
                         .addField("Parameters",
-                                "`page` - **Can be any value from 1 to the Safebooru maximum page. Probably around 4000.**\n"
-                                        + "`imagenumber` - **(OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.**\n"
-                                        + "`tag` - **Any valid image tag. For example animal_ears or original.**", false)
+                                "`tag` - **Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)**\n", false)
                         .build();
             }
         });
@@ -274,12 +276,13 @@ public class ImageCmds {
                         .setColor(Color.PINK)
                         .setDescription("**Retrieves images from the danbooru image board.**")
                         .addField("Usage",
-                                "`~>danbooru get <page> <imagenumber>` - **Gets an image based in parameters.**\n"
-                                        + "`~>danbooru tags <tag> <imagenumber>` - **Gets an image based in the specified tag and parameters.**\n", false)
+                                "`~>danbooru` - **Gets you a completely random image.**\n"
+                                        + "`~>danbooru get <imagenumber> <rating>` - **Gets you an image with the specified parameters.**\n"
+                                        + "`~>danbooru tags <tag> <rating>` - **Gets you an image with the respective tag and specified parameters.**\n\n"
+                                        + "**WARNING**: If rating is explicit/questionable, the command can be only used in NSFW channels! (Unless rating has been specified as safe or not specified at all)", false)
                         .addField("Parameters",
-                                "`page` - **Can be any value from 1 to the danbooru maximum page. Probably around 4000.**\n"
-                                        + "`imagenumber` - **(OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.**\n"
-                                        + "`tag` - **Any valid image tag. For example animal_ears or original.**", false)
+                                "`tag` - **Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)**\n"
+                                        + "`rating` - **(OPTIONAL) Can be either safe, questionable or explicit, depends on the type of image you want to get.**", false)
                         .build();
             }
         });
@@ -312,11 +315,13 @@ public class ImageCmds {
                 return helpEmbed(event, "rule34.xxx commmand")
                         .setColor(Color.PINK)
                         .setDescription("**Retrieves images from the rule34 (hentai) image board.**")
-                        .addField("Usage", "`~>rule34 get <imagenumber>` - **Gets an image based in parameters.**\n"
-                                + "`~>rule34 tags <tag> <imagenumber>` - **Gets an image based in the specified tag and parameters.**\n", false)
-                        .addField("Parameters", "`page` - **Can be any value from 1 to the rule34 maximum page. Probably around 4000.**\n"
-                                + "`imagenumber` - **(OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.**\n"
-                                + "`tag` - **Any valid image tag. For example animal_ears or original.**", false)
+                        .addField("Usage",
+                                "`~>rule34` - **Gets you a completely random image.**\n"
+                                        + "`~>rule34 get <imagenumber>` - **Gets you an image with the specified parameters.**\n"
+                                        + "`~>rule34 tags <tag>` - **Gets you an image with the respective tag and specified parameters.**\n\n"
+                                        + "**WARNING**: This command can be only used in NSFW channels!", false)
+                        .addField("Parameters",
+                                "`tag` - **Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)**\n", false)
                         .build();
             }
         });
@@ -352,12 +357,11 @@ public class ImageCmds {
                                 + "but tags can be set to safe if you so desire.**")
                         .addField("Usage",
                                 "`~>yandere` - **Gets you a completely random image.**\n"
-                                        + "`~>yandere get <page> <rating> <imagenumber>` - **Gets you an image with the specified parameters.**\n"
-                                        + "`~>yandere tags <tag> <rating> <imagenumber>` - **Gets you an image with the respective tag and specified parameters.**\n\n"
+                                        + "`~>yandere get <imagenumber> <rating>` - **Gets you an image with the specified parameters.**\n"
+                                        + "`~>yandere tags <tag> <rating>` - **Gets you an image with the respective tag and specified parameters.**\n\n"
                                         + "**WARNING**: This command can be only used in NSFW channels! (Unless rating has been specified as safe or not specified at all)", false)
                         .addField("Parameters",
-                                "`imagenumber` - **(OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.**\n"
-                                        + "`tag` - **Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)**\n"
+                                    "`tag` - **Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)**\n"
                                         + "`rating` - **(OPTIONAL) Can be either safe, questionable or explicit, depends on the type of image you want to get.**", false)
                         .build();
             }

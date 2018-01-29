@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,11 +48,17 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
         }
 
         Command command = subCommands.get(args[0]);
-        if(command == null) command = defaultTrigger(event, commandName, args[0]);
-        if(command == null) return; //Use SimpleTreeCommand then?
+        boolean isDefault = false;
+        if(command == null) {
+            command = defaultTrigger(event, commandName, content);
+            isDefault = true;
+        }
+        if(command == null)
+            return; //Use SimpleTreeCommand then?
+
         if(!predicate.test(event)) return;
 
-        command.run(event, commandName + " " + args[0], args[1]);
+        command.run(event, commandName + (isDefault ? "" : " " + args[0]), isDefault ? content : args[1]);
     }
 
     @Override

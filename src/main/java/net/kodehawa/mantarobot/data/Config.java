@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -71,6 +71,8 @@ public class Config {
     public String weatherAppId;
     public String webhookUrl;
     public String weebapiKey;
+    public String apiTwoUrl = "http://127.0.0.1:5874";
+    public boolean needApi = true;
 
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());

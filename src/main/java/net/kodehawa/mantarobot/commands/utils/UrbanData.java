@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,22 +16,22 @@
 
 package net.kodehawa.mantarobot.commands.utils;
 
+import lombok.Data;
+
 import java.util.ArrayList;
 
+@Data
 public class UrbanData {
 
     public final ArrayList<List> list = null;
-    public String result_type = null;
-    public ArrayList<String> tags = null;
 
+    @Data
     public class List {
-        public String author = null;
-        public String current_vote = null;
-        public Integer defid = null;
-        public String definition = null;
-        public String example = null;
-        public String permalink = null;
-        public String thumbs_down = null;
-        public String thumbs_up = null;
+        public String author;
+        public String definition;
+        public String example;
+        public String permalink;
+        public String thumbs_down;
+        public String thumbs_up;
     }
 }

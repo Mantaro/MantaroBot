@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ public class MessageCmds {
                 }
 
                 if(!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot prune on this server since I don't have Manage Messages permission.").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot prune on this server since I don't have the Manage Messages permission.").queue();
                     return;
                 }
 
@@ -68,6 +68,44 @@ public class MessageCmds {
 
                                 if(messageHistory.isEmpty()) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages from bots or bot calls here.").queue();
+                                    return;
+                                }
+
+                                if(messageHistory.size() < 3) {
+                                    event.getChannel().sendMessage(EmoteReference.ERROR + "Too few messages to prune!").queue();
+                                    return;
+                                }
+
+                                prune(event, messageHistory);
+                            },
+                            error -> {
+                                channel.sendMessage(String.format("%sUnknown error while retrieving the history to prune the messages<%s>: %s",
+                                        EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
+                                error.printStackTrace();
+                            }
+                    );
+                    return;
+                }
+
+                if(content.startsWith("nopins")) {
+                    int i = 100;
+                    if(args.length > 1) {
+                        try {
+                            i = Integer.parseInt(args[1]);
+                            if(i < 3)
+                                i = 3;
+                        } catch(Exception e) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid number of messages to delete!").queue();
+                            return;
+                        }
+                    }
+
+                    channel.getHistory().retrievePast(Math.min(i, 100)).queue(
+                            messageHistory -> {
+                                messageHistory = messageHistory.stream().filter(message -> !message.isPinned()).collect(Collectors.toList());
+
+                                if(messageHistory.isEmpty()) {
+                                    event.getChannel().sendMessage(EmoteReference.ERROR + "There are no non-pinned messages here...").queue();
                                     return;
                                 }
 

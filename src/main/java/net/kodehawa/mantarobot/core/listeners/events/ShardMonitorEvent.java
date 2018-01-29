@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,6 +59,7 @@ public class ShardMonitorEvent extends Event implements MantaroEvent {
 
     @Override
     public void onPropagation() {
+        log.debug("Sent event to check if shards are alive!");
     }
 
     private class ShardListeners {

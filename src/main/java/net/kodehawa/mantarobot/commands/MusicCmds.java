@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -72,7 +72,8 @@ public class MusicCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Force skip")
-                        .setDescription("Well, administrators should be able to forceskip, shouldn't they?")
+                        .setDescription("Well, administrators should be able to forceskip, shouldn't they?\n" +
+                                "`~>skip` has the same effect if you're a DJ.")
                         .build();
             }
         });
@@ -309,7 +310,8 @@ public class MusicCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Forceplay Command")
-                        .addField("Description", "Play the first song I find in your search. This connects to the voice channel the user that triggers it it's connected to, *only* if there is" +
+                        .addField("Description", "**This command doesn't put the song at the start of the queue, for that use `~>playnow`!**\n" +
+                                "Play the first song I find in your search. This connects to the voice channel the user that triggers it it's connected to, *only* if there is" +
                                 " no song playing currently and Mantaro isn't bound to any channel. Basically this works as a join command on the first song.", false)
                         .addField("Usage", "~>forceplay <song url> (playlists and song names are also acceptable)", false)
                         .addField("Tip", "If you do ~>forceplay <search term> I'll search youtube (default), " +
@@ -671,12 +673,8 @@ public class MusicCmds {
                 if(next == null) {
                     event.getChannel().sendMessage(EmoteReference.TALKING + "Ow, there isn't any song next").queue();
                 } else {
-                    EmbedBuilder builder = new EmbedBuilder().setAuthor("Next Song in Queue", null, event.getGuild().getIconUrl())
-                            .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
-                            .setDescription("**[" + next.getInfo().title + "](" + next.getInfo().uri + ")**")
-                            .setFooter("Enjoy the music! <3", event.getAuthor().getAvatarUrl());
-
-                    event.getChannel().sendMessage(builder.build()).queue();
+                    event.getChannel().sendMessage(EmoteReference.MEGA + "Next song in queue: **" + next.getInfo().title + "** (" + Utils.getDurationMinutes(next.getDuration()) + ")" +
+                            " | *Total songs in queue: " + scheduler.getQueue().size() + "*").queue();
                 }
             }
 
@@ -913,7 +911,7 @@ public class MusicCmds {
     /**
      * This only fires on manual stop!
      *
-     * @param event wha
+     * @param event event context of what guild to use to stop it
      */
     private void stop(GuildMessageReceivedEvent event) {
         GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());

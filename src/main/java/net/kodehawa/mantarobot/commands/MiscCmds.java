@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@ import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.Role;
@@ -37,6 +38,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -58,23 +60,28 @@ import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 public class MiscCmds {
     private final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
     private final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
-    private final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
     private final Random rand = new Random();
 
-    public static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
-        Map<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
+    protected static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
+        DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+        Map<String, String> autoroles = dbGuild.getData().getAutoroles();
 
         if(autoroles.containsKey(autoroleName)) {
             Role role = event.getGuild().getRoleById(autoroles.get(autoroleName));
             if(role == null) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "The role that this autorole corresponded to has been deleted").queue();
+
+                //delete the non-existent autorole.
+                dbGuild.getData().getAutoroles().remove(autoroleName);
+                dbGuild.saveAsync();
             } else {
                 if(event.getMember().getRoles().stream().filter(r1 -> r1.getId().equals(role.getId())).collect(Collectors.toList()).size() > 0) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You already have this role, silly!").queue();
                     return;
                 }
                 try {
-                    event.getGuild().getController().addRolesToMember(event.getMember(), role)
+                    event.getGuild().getController().addSingleRoleToMember(event.getMember(), role)
+                            .reason("Auto-assignable roles assigner (~>iam)")
                             .queue(aVoid -> event.getChannel().sendMessage(String.format("%s%s, you've been given the **%s** role",
                                     EmoteReference.OK, event.getMember().getEffectiveName(), role.getName())).queue());
                 } catch(PermissionException pex) {
@@ -87,14 +94,19 @@ public class MiscCmds {
         }
     }
 
-    public static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event) {
-        Map<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
+    protected static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event) {
+        DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+        Map<String, String> autoroles = dbGuild.getData().getAutoroles();
 
         if(autoroles.containsKey(autoroleName)) {
             Role role = event.getGuild().getRoleById(autoroles.get(autoroleName));
             if(role == null) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "The role that this autorole corresponded " +
                         "to has been deleted").queue();
+
+                //delete the non-existent autorole.
+                dbGuild.getData().getAutoroles().remove(autoroleName);
+                dbGuild.saveAsync();
             } else {
                 if(!(event.getMember().getRoles().stream().filter(r1 -> r1.getId().equals(role.getId())).collect(Collectors.toList()).size() > 0)) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have this role, silly!").queue();
@@ -166,22 +178,34 @@ public class MiscCmds {
 
                 StringBuilder stringBuilder = new StringBuilder();
                 if(content.equals("list") || content.equals("ls")) {
-                    EmbedBuilder embed = baseEmbed(event, "Autorole list");
+                    EmbedBuilder embed = null;
+                    boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                    if(!hasReactionPerms)
+                        stringBuilder.append("Use &page >> and &page << to change pages and &cancel to end\n");
+
                     if(autoroles.size() > 0) {
                         autoroles.forEach((name, roleId) -> {
                             Role role = event.getGuild().getRoleById(roleId);
                             if(role != null) {
                                 stringBuilder.append("\nAutorole name: ").append(name).append(" | Gives role **").append(role.getName()).append("**");
-                            } else {
-                                dbGuild.getData().getAutoroles().remove(name);
                             }
                         });
 
-                        dbGuild.saveAsync();
+                        List<String> parts = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH, stringBuilder);
+                        if(hasReactionPerms) {
+                            DiscordUtils.list(event, 30, false, (current, max) -> baseEmbed(event, "Autoroles list"), parts);
+                        } else {
+                            DiscordUtils.listText(event, 30, false, (current, max) -> baseEmbed(event, "Autoroles list"), parts);
+                        }
+                    } else {
+                        embed = baseEmbed(event, "Autoroles list");
+                        embed.setDescription("There aren't any autoroles setup in this server!");
+                    }
 
-                        embed.setDescription(checkString(stringBuilder.toString()));
-                    } else embed.setDescription("There aren't any autoroles setup in this server!");
-                    event.getChannel().sendMessage(embed.build()).queue();
+                    if(embed != null) {
+                        event.getChannel().sendMessage(embed.build()).queue();
+                    }
+
                     return;
                 }
 
@@ -232,7 +256,6 @@ public class MiscCmds {
                         .setDescription("**Miscellaneous funny/useful commands.**")
                         .addField("Usage",
                                 "`~>misc reverse <sentence>` - **Reverses any given sentence.**\n"
-                                        + "`~>misc noble` - **Random Lost Pause quote.**\n"
                                         + "`~>misc rndcolor` - **Gives you a random hex color.**\n"
                                 , false)
                         .addField("Parameter Explanation",
@@ -243,20 +266,18 @@ public class MiscCmds {
         }.addSubCommand("reverse", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(
-                        new MessageBuilder().append(new StringBuilder(content).reverse().toString())
-                                .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE).build()
-                ).queue();
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't provide any message to reverse!").queue();
+                    return;
+                }
+
+                new MessageBuilder().append(new StringBuilder(content).reverse().toString()).stripMentions(event.getGuild(), Message.MentionType.EVERYONE,
+                        Message.MentionType.HERE).sendTo(event.getChannel()).queue();
             }
         }).addSubCommand("rndcolor", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(String.format(EmoteReference.TALKING + "Your random color is %s", randomColor())).queue();
-            }
-        }).addSubCommand("noble", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(String.format("%s%s -Noble", EmoteReference.TALKING, noble.get().get(rand.nextInt(noble.get().size() - 1)))).queue();
+                event.getChannel().sendMessage(String.format(EmoteReference.TALKING + "The random color is %s", randomColor())).queue();
             }
         }));
 
@@ -325,7 +346,7 @@ public class MiscCmds {
                         .setDescription("**Creates a poll**")
                         .addField("Usage", "`~>poll [-options <options>] [-time <time>] [-name <name>]`", false)
                         .addField("Parameters", "`-options` The options to add. Minimum is 2 and maximum is 9. For instance: `Pizza,Spaghetti,Pasta,\"Spiral Nudels\"` (Enclose options with multiple words in double quotes).\n" +
-                                "`-time` The time the operation is gonna take. The format is as follows `1ms29s` for 1 minute and 21 seconds. Maximum poll runtime is 45 minutes.\n" +
+                                "`-time` The time the operation is gonna take. The format is as follows `1m29s` for 1 minute and 21 seconds. Maximum poll runtime is 45 minutes.\n" +
                                 "`-name` The name of the poll for reference.", false)
                         .addField("Considerations", "To cancel the running poll type &cancelpoll. Only the person who started it or an Admin can cancel it.", false)
                         .build();

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -137,8 +137,6 @@ public class MantaroListener implements EventListener {
 
         if(event instanceof GuildMemberJoinEvent) {
             shard.getThreadPool().execute(() -> onUserJoin((GuildMemberJoinEvent) event));
-            //handleNewPatron((GuildMemberJoinEvent) event);
-
             return;
         }
 
@@ -306,6 +304,7 @@ public class MantaroListener implements EventListener {
 
             if(logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
+                if(tc == null) return;
                 CachedMessage deletedMessage = CommandListener.getMessageCache().get(event.getMessageId(), Optional::empty).orElse(null);
 
                 if(deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel) && !deletedMessage.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
@@ -336,6 +335,7 @@ public class MantaroListener implements EventListener {
 
             if(logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
+                if(tc == null) return;
                 User author = event.getAuthor();
                 CachedMessage editedMessage = CommandListener.getMessageCache().get(event.getMessage().getId(), Optional::empty).orElse(null);
 
@@ -350,8 +350,8 @@ public class MantaroListener implements EventListener {
                     }
 
                     tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` Message created by **%s#%s** in channel **%s** was modified.\n```diff\n-%s\n+%s```",
-                            hour, author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContentRaw().replace("```", ""))).queue();
-                    CommandListener.getMessageCache().put(event.getMessage().getId(), Optional.of(new CachedMessage(event.getAuthor().getIdLong(), event.getMessage().getContentRaw())));
+                            hour, author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContentDisplay().replace("```", ""))).queue();
+                    CommandListener.getMessageCache().put(event.getMessage().getId(), Optional.of(new CachedMessage(event.getAuthor().getIdLong(), event.getMessage().getContentDisplay())));
                     logTotal++;
                 }
             }
@@ -373,7 +373,7 @@ public class MantaroListener implements EventListener {
                     .withDate(new Date()).build());
         }
 
-        log.info(String.format("`Shard #%d`: Changed from `%s` to `%s`", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
+        log.info(String.format("Shard #%d: Changed from %s to %s", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
     }
 
     private void logUnban(GuildUnbanEvent event) {
@@ -389,7 +389,7 @@ public class MantaroListener implements EventListener {
             }
         } catch(Exception e) {
             if(!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-                log.warn("Unexpected error while logging a edit.", e);
+                log.warn("Unexpected error while logging an unban.", e);
             }
         }
     }
@@ -409,6 +409,10 @@ public class MantaroListener implements EventListener {
     }
 
     private void onJoin(GuildJoinEvent event) {
+        if(event.getGuild() == null) {
+            log.info("Got a guild join event with null guild? Shard {}", shardId);
+        }
+
         try {
             if(MantaroData.db().getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
                     || MantaroData.db().getMantaroData().getBlackListedUsers().contains(
@@ -446,12 +450,16 @@ public class MantaroListener implements EventListener {
     }
 
     private void onMessage(GuildMessageReceivedEvent event) {
+        if(event.getAuthor().isFake())
+            return;
+
         //Moderation features
         DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
         GuildData guildData = dbGuild.getData();
 
         //link protection
-        if(guildData.isLinkProtection() && !guildData.getLinkProtectionAllowedChannels().contains(event.getChannel().getId())) {
+        if(guildData.isLinkProtection() && !guildData.getLinkProtectionAllowedChannels().contains(event.getChannel().getId()) &&
+                !guildData.getLinkProtectionAllowedUsers().contains(event.getAuthor().getId())) {
             if(event.getMember() != null && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)
                     && hasInvite(event.getJDA(), event.getGuild(), event.getMessage().getContentRaw())) {
                 Member bot = event.getGuild().getSelfMember();
@@ -480,49 +488,60 @@ public class MantaroListener implements EventListener {
     }
 
     private void onUserJoin(GuildMemberJoinEvent event) {
+        DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
+        GuildData data = dbg.getData();
+
         try {
             String role = MantaroData.db().getGuild(event.getGuild()).getData().getGuildAutoRole();
-            DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
-            GuildData data = dbg.getData();
 
             String hour = df.format(new Date(System.currentTimeMillis()));
             if(role != null) {
                 try {
                     if(!(event.getMember().getUser().isBot() && data.isIgnoreBotsAutoRole())) {
-                        if(event.getGuild().getRoleById(role) != null) {
-                            event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s ->
-                                    log.debug("Successfully added a new role to " + event.getMember()));
+                        Role toAssign = event.getGuild().getRoleById(role);
+                        if(toAssign != null) {
+                            if(!event.getGuild().getSelfMember().canInteract(toAssign))
+                                return;
+
+                            event.getGuild().getController().addSingleRoleToMember(event.getMember(), toAssign)
+                                    .reason("Autorole assigner.")
+                                    .queue(s -> log.debug("Successfully added a new role to " + event.getMember()));
+
+                            MantaroBot.getInstance().getStatsClient().increment("join_autorole");
                         }
                     }
-                } catch(Exception e) {
-                    MantaroData.db().getGuild(event.getGuild()).getData().setGuildAutoRole(null);
-                    MantaroData.db().getGuild(event.getGuild()).saveAsync();
-                }
+                } catch(Exception ignored) { }
             }
 
             String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
             if(logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-                if(tc.canTalk()) {
+                if(tc != null && tc.canTalk()) {
                     tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(User #%d | ID: %s)`", hour, event.getMember().getEffectiveName(), event.getMember().getUser().getDiscriminator(), event.getGuild().getName(), event.getGuild().getMembers().size(), event.getUser().getId())).queue();
                 }
+
                 logTotal++;
             }
+        } catch(Exception e) {
+            SentryHelper.captureExceptionContext("Failed to process join message!", e, MantaroListener.class, "Join Handler");
+        }
 
+        try {
             String joinChannel = data.getLogJoinLeaveChannel() == null ? data.getLogJoinChannel() : data.getLogJoinLeaveChannel();
             String joinMessage = data.getJoinMessage();
-
             sendJoinLeaveMessage(event, joinMessage, joinChannel);
-        } catch(Exception e) {
+            MantaroBot.getInstance().getStatsClient().increment("join_messages");
+        } catch (Exception e) {
             SentryHelper.captureExceptionContext("Failed to send join message!", e, MantaroListener.class, "Join Handler");
         }
     }
 
     private void onUserLeave(GuildMemberLeaveEvent event) {
+        DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
+        GuildData data = dbg.getData();
+
         try {
             String hour = df.format(new Date(System.currentTimeMillis()));
-            DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
-            GuildData data = dbg.getData();
 
             if(event.getMember().getUser().isBot() && data.isIgnoreBotsWelcomeMessage()) {
                 return;
@@ -531,18 +550,22 @@ public class MantaroListener implements EventListener {
             String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
             if(logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-                if(tc.canTalk()) {
-                    tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "#" + event.getMember().getUser().getDiscriminator() + "` just left `" + event.getGuild().getName() + "` `(User #" + event.getGuild().getMembers().size() + ")`").queue();
+                if(tc != null && tc.canTalk()) {
+                    tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just left `%s` `(User #%d)`", hour, event.getMember().getEffectiveName(), event.getMember().getUser().getDiscriminator(), event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
                 }
 
                 logTotal++;
             }
+        } catch(Exception e) {
+            SentryHelper.captureExceptionContext("Failed to process leave message!", e, MantaroListener.class, "Join Handler");
+        }
 
+        try {
             String leaveChannel = data.getLogJoinLeaveChannel() == null ? data.getLogLeaveChannel() : data.getLogJoinLeaveChannel();
             String leaveMessage = data.getLeaveMessage();
-
             sendJoinLeaveMessage(event, leaveMessage, leaveChannel);
-        } catch(Exception e) {
+            MantaroBot.getInstance().getStatsClient().increment("leave_messages");
+        } catch (Exception e) {
             SentryHelper.captureExceptionContext("Failed to send leave message!", e, MantaroListener.class, "Join Handler");
         }
     }
@@ -555,10 +578,20 @@ public class MantaroListener implements EventListener {
                 return;
             }
 
+            if(!tc.canTalk()) {
+                return;
+            }
+
             if (message.contains("$(")) {
                 message = new DynamicModifiers()
-                    .mapEvent("event", event)
-                    .resolve(message);
+                        .mapEvent("event", event)
+                        .resolve(message);
+            }
+
+            if(message.contains("$(")) {
+                Map<String, String> dynamicMap = new HashMap<>();
+                map("event", dynamicMap, event);
+                message = dynamicResolve(message, dynamicMap);
             }
 
             int c = message.indexOf(':');
@@ -580,9 +613,7 @@ public class MantaroListener implements EventListener {
                 }
             }
 
-            if(tc.canTalk()) {
-                tc.sendMessage(message).queue();
-            }
+            tc.sendMessage(message).queue();
         }
     }
 }

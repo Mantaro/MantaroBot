@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands.music.listener;
 
 import net.dv8tion.jda.core.entities.GuildVoiceState;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceJoinEvent;
@@ -79,7 +80,10 @@ public class VoiceChannelListener implements EventListener {
             if(event.isMuted()) {
                 TrackScheduler scheduler = gmm.getTrackScheduler();
                 if(scheduler.getCurrentTrack() != null && scheduler.getRequestedChannelParsed() != null) {
-                    scheduler.getRequestedChannelParsed().sendMessage(EmoteReference.SAD + "Pausing player because I got muted :(").queue();
+                    TextChannel tc = scheduler.getRequestedChannelParsed();
+                    if(tc.canTalk()) {
+                        tc.sendMessage(EmoteReference.SAD + "Pausing player because I got muted :(").queue();
+                    }
                     gmm.getAudioPlayer().setPaused(true);
                 }
             } else {
@@ -101,7 +105,10 @@ public class VoiceChannelListener implements EventListener {
                 TrackScheduler scheduler = gmm.getTrackScheduler();
                 if(scheduler.getCurrentTrack() != null) {
                     if(gmm.isAwaitingDeath()) {
-                        scheduler.getRequestedChannelParsed().sendMessage(EmoteReference.POPPER + "Resuming playback because someone joined!").queue();
+                        TextChannel tc = scheduler.getRequestedChannelParsed();
+                        if(tc.canTalk()) {
+                            tc.sendMessage(EmoteReference.POPPER + "Resuming playback because someone joined!").queue();
+                        }
                     }
                 }
 
@@ -120,11 +127,13 @@ public class VoiceChannelListener implements EventListener {
             if(gmm != null) {
                 TrackScheduler scheduler = gmm.getTrackScheduler();
                 if(scheduler != null && scheduler.getCurrentTrack() != null && scheduler.getRequestedChannelParsed() != null) {
-                    scheduler.getRequestedChannelParsed()
-                            .sendMessage(EmoteReference.THINKING + "I'll leave **" + vc.getName() + "** in 2 minutes because I was left all alone :<")
-                            .queue(
-                                    m -> m.delete().queueAfter(30, TimeUnit.SECONDS)
-                            );
+                    TextChannel tc = scheduler.getRequestedChannelParsed();
+                    if(tc.canTalk()) {
+                        tc.sendMessage(EmoteReference.THINKING + "I'll leave **" + vc.getName() + "** in 2 minutes because I was left all alone :<")
+                                .queue(
+                                        m -> m.delete().queueAfter(30, TimeUnit.SECONDS)
+                                );
+                    }
                 }
 
                 gmm.setAwaitingDeath(true);

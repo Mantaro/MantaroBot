@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
@@ -39,6 +40,7 @@ import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -67,7 +69,7 @@ public class InfoCmds {
 
     @Subscribe
     public void about(CommandRegistry cr) {
-        cr.register("about", new TreeCommand(Category.INFO) {
+        TreeCommand aboutCommand = (TreeCommand) cr.register("about", new TreeCommand(Category.INFO) {
             @Override
             public Command defaultTrigger(GuildMessageReceivedEvent event, String thisCommand, String attemptedSubCommand) {
                 return new SubCommand() {
@@ -95,13 +97,13 @@ public class InfoCmds {
                                 .addField("MantaroBot Version", MantaroInfo.VERSION, false)
                                 .addField("Uptime", Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()), false)
                                 .addField("Shards", String.valueOf(MantaroBot.getInstance().getShardedMantaro().getTotalShards()), true)
-                                .addField("Threads", String.valueOf(Thread.activeCount()), true)
-                                .addField("Servers", String.valueOf(guilds.size()), true)
-                                .addField("Users (Online/Unique)", guilds.stream().flatMap(
-                                        g -> g.getMembers().stream()).filter(m -> !m.getOnlineStatus().equals(OnlineStatus.OFFLINE)
-                                ).distinct().count() + "/" + users.stream().distinct().count(), true)
-                                .addField("Text Channels", String.valueOf(textChannels.size()), true)
-                                .addField("Voice Channels", String.valueOf(voiceChannels.size()), true)
+                                .addField("Threads", String.format("%,d", Thread.activeCount()), true)
+                                .addField("Servers", String.format("%,d", guilds.size()), true)
+                                .addField("Users (Online/Unique)", String.format("%,d/%,d", guilds.stream().flatMap(g -> g.getMembers().stream()).filter(
+                                        m -> m.getOnlineStatus() != OnlineStatus.OFFLINE).mapToLong(u -> u.getUser().getIdLong()).distinct().count(),
+                                        users.stream().mapToLong(ISnowflake::getIdLong).distinct().count()), true)
+                                .addField("Text Channels", String.format("%,d", textChannels.size()), true)
+                                .addField("Voice Channels", String.format("%,d", voiceChannels.size()), true)
                                 .setFooter(String.format("Invite link: http://is.gd/mantaro (Commands this session: %s | Current shard: %d)", CommandListener.getCommandTotal(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                                 .build()).queue();
                     }
@@ -118,23 +120,36 @@ public class InfoCmds {
                         .setColor(Color.PINK)
                         .build();
             }
-        }.addSubCommand("patreon", new SubCommand() {
+        });
+
+        aboutCommand.addSubCommand("patreon", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                EmbedBuilder builder = new EmbedBuilder();
                 Guild mantaroGuild = MantaroBot.getInstance().getGuildById("213468583252983809");
                 String donators = mantaroGuild.getMembers().stream().filter(member -> member.getRoles().stream().filter(role ->
-                        role.getName().equals("Patron")).collect(Collectors.toList()).size() > 0).map(member ->
-                        String.format("%s#%s", member.getUser().getName(), member.getUser().getDiscriminator()))
-                        .collect(Collectors.joining(", "));
-                builder.setAuthor("Our Patreon supporters", null, event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                        .setDescription(donators)
-                        .setColor(Color.PINK)
-                        .addField("Special Mentions", "**MrLar#8117** $1075 donation. <3\n", false)
-                        .setFooter("Much thanks for helping make Mantaro better!", event.getJDA().getSelfUser().getEffectiveAvatarUrl());
-                event.getChannel().sendMessage(builder.build()).queue();
+                                role.getName().equals("Patron")).collect(Collectors.toList()).size() > 0).map(Member::getUser)
+                                .map(user -> String.format("%s#%s", user.getName(), user.getDiscriminator()))
+                                .collect(Collectors.joining("\n"));
+
+                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                List<String> donatorList = DiscordUtils.divideString(300, donators);
+                List<String> messages = new LinkedList<>();
+                for(String s1 : donatorList) {
+                    messages.add("**Mantaro's Patreon Pledgers**\n" + (hasReactionPerms ? "Use the arrow reactions to change pages. " :
+                            "Use &page >> and &page << to change pages and &cancel to end") + String.format("```%s```", s1));
+                }
+
+                messages.add("Thanks to **MrLar#8117** for a $1025 donation and many other people who has donated once via paypal.");
+
+                if(hasReactionPerms) {
+                    DiscordUtils.list(event, 45, false, messages);
+                } else {
+                    DiscordUtils.listText(event, 45, false, messages);
+                }
             }
-        }).addSubCommand("credits", new SubCommand() {
+        });
+
+        aboutCommand.addSubCommand("credits", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 EmbedBuilder builder = new EmbedBuilder();
@@ -154,7 +169,7 @@ public class InfoCmds {
                         .setFooter("Much thanks to everyone above for helping make Mantaro better!", event.getJDA().getSelfUser().getEffectiveAvatarUrl());
                 event.getChannel().sendMessage(builder.build()).queue();
             }
-        }));
+        });
     }
 
     @Subscribe
@@ -185,7 +200,9 @@ public class InfoCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 Member member = Utils.findMember(event, event.getMember(), content);
-                if(member == null) return;
+                if(member == null)
+                    return;
+
                 User u = member.getUser();
 
                 event.getChannel().sendMessage(String.format(EmoteReference.OK + "Avatar for: **%s**\n%s", u.getName(), u.getEffectiveAvatarUrl())).queue();
@@ -271,7 +288,8 @@ public class InfoCmds {
                     EmbedBuilder embed = baseEmbed(event, "Mantaro Help")
                             .setColor(Color.PINK)
                             .setDescription("Command list. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n" +
-                                    "If you have issues or inquiries while using Mantaro, please join the [support server](https://is.gd/mantaroguild)" +
+                                    "If you have issues or inquiries while using Mantaro, please join the [support server](https://is.gd/mantaroguild)\n" +
+                                    "[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)\n" +
                                     (guildData.getDisabledCommands().isEmpty() ? "" : "\nOnly showing non-disabled commands. Total disabled commands: " + guildData.getDisabledCommands().size()) +
                                     (guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()) == null || guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).isEmpty() ?
                                             "" : "\nOnly showing non-disabled commands. Total channel-specific disabled commands: " + guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).size()))
@@ -291,9 +309,12 @@ public class InfoCmds {
 
                     if(command != null) {
                         final MessageEmbed help = command.help(event);
-                        Optional.ofNullable(help).ifPresent((help1) -> event.getChannel().sendMessage(help1).queue());
-                        if(help == null)
+                        
+                        if(help != null) {
+                            event.getChannel().sendMessage(help).queue();
+                        } else {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "There's no extended help set for this command.").queue();
+                        }
                     } else {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "A command with this name doesn't exist").queue();
                     }
@@ -393,7 +414,7 @@ public class InfoCmds {
                                                 .setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuildCache().size())
                                                         , event.getJDA().getSelfUser().getAvatarUrl())
                                                 .build()
-                                ).queue();
+                                ).override(true).queue();
                                 TextChannelGround.of(event).dropItemWithChance(4, 5);
                             });
                         } else {
@@ -635,7 +656,7 @@ public class InfoCmds {
                         .setAuthor(String.format("User info for %s#%s", user.getName(), user.getDiscriminator()), null, event.getAuthor().getEffectiveAvatarUrl())
                         .setThumbnail(user.getEffectiveAvatarUrl())
                         .setDescription(s)
-                        .addField("Roles: [" + String.valueOf(member.getRoles().size()) + "]", roles, true)
+                        .addField("Roles: [" + String.valueOf(member.getRoles().size()) + "]", roles + ".", true)
                         .build()
                 ).queue();
             }
@@ -647,6 +668,50 @@ public class InfoCmds {
                         .addField("Usage:",
                                 "`~>userinfo @user (or user#disciminator, or nickname)` - **Get information about the specific user.**" +
                                         "\n`~>userinfo` - **Get information about yourself!**", false)
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void roleinfo(CommandRegistry cr) {
+        cr.register("roleinfo", new SimpleCommand(Category.INFO) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                Role r = Utils.findRole(event, content);
+                if(r == null)
+                    return;
+
+                String s = String.join("\n",
+                        BLUE_SMALL_MARKER + "**Role ID:** " + r.getId(),
+                        BLUE_SMALL_MARKER + "**Role Created:** " + r.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", ""),
+                        BLUE_SMALL_MARKER + "**Role Age:** " + TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - r.getCreationTime().toInstant().toEpochMilli()) + " days",
+                        BLUE_SMALL_MARKER + "**Color:** " + (r.getColor() == null ? "None" : ("#" +  Integer.toHexString(r.getColor().getRGB()))),
+                        BLUE_SMALL_MARKER + "**Members:** " + event.getGuild().getMembers().stream().filter(member -> member.getRoles().contains(r)).count(),
+                        BLUE_SMALL_MARKER + "**Position:** " + r.getPosition(),
+                        BLUE_SMALL_MARKER + "**Managed:** " + r.isManaged(),
+                        BLUE_SMALL_MARKER + "**Hoisted:** " + r.isHoisted()
+                );
+
+                event.getChannel().sendMessage(new EmbedBuilder()
+                        .setColor(event.getMember().getColor())
+                        .setAuthor(String.format("Role info for %s", r.getName()), null, event.getGuild().getIconUrl())
+                        .setDescription(s)
+                        .addField("Permissions: [" + r.getPermissions().size() + "]" ,
+                                r.getPermissions().size() == 0 ? "None" : r.getPermissions().stream().map(Permission::getName).collect(Collectors.joining(", ")) + ".",
+                                false
+                        )
+                        .build()
+                ).queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "User Info Command")
+                        .setDescription("**See information about specific users.**")
+                        .addField("Usage:",
+                                "`~>roleinfo role` - **Get information about the specific role.**" +
+                                        "\n`~>roleinfo` - **Get information about top role!**", false)
                         .build();
             }
         });

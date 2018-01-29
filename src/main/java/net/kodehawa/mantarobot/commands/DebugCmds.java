@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -72,18 +72,18 @@ public class DebugCmds {
                         + "Bot Version: " + MantaroInfo.VERSION + "\n"
                         + "JDA Version: " + JDAInfo.VERSION + "\n"
                         + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
-                        + "API Responses: " + MantaroBot.getInstance().getResponseTotal() + "\n"
+                        + "API Responses: " + String.format("%,d", MantaroBot.getInstance().getResponseTotal()) + "\n"
                         + "CPU Usage: " + String.format("%.2f", getVpsCPUUsage()) + "%" + "\n"
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
                         + "Shard Info: " + event.getJDA().getShardInfo()
                         + "\n\n --------- Mantaro Information --------- \n\n"
-                        + "Guilds: " + guilds.size() + "\n"
-                        + "Users: " + users.size() + "\n"
+                        + "Guilds: " + String.format("%,d", guilds.size()) + "\n"
+                        + "Users: " + String.format("%,d", users.size()) + "\n"
                         + "Shards: " + MantaroBot.getInstance().getShardedMantaro().getTotalShards() + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId()) + ")" + "\n"
-                        + "Threads: " + Thread.activeCount() + "\n"
+                        + "Threads: " + String.format("%,d", Thread.activeCount()) + "\n"
                         + "Executed Commands: " + CommandListener.getCommandTotal() + "\n"
                         + "Logs: " + MantaroListener.getLogTotal() + "\n"
-                        + "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
+                        + "Memory: " + String.format("%,dMB/%,dMB", (int)(getTotalMemory() - getFreeMemory()), (int)getMaxMemory()) + "\n"
                         + "Music Connections: " + (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count() + "\n"
                         + "Active Connections: " + (int) vc.stream().filter(voiceChannel ->
                         voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember()) && voiceChannel.getMembers().size() > 1).count() + "\n"

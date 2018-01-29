@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,9 +24,10 @@ import lombok.experimental.Delegate;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.ShardedRateLimiter;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import net.dv8tion.jda.core.utils.SessionController;
+import net.dv8tion.jda.core.utils.SessionControllerAdapter;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
@@ -36,27 +37,21 @@ import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
-import net.kodehawa.mantarobot.core.shard.jda.reconnect.LazyReconnectQueue;
 import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.data.DataManager;
-import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
-import okhttp3.MediaType;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Calendar;
 import java.util.Objects;
-import java.util.Random;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static net.kodehawa.mantarobot.data.MantaroData.config;
 import static net.kodehawa.mantarobot.utils.Utils.pretty;
 
@@ -68,36 +63,28 @@ import static net.kodehawa.mantarobot.utils.Utils.pretty;
  * This also handles posting stats to dbots/dbots.org/carbonitex. Because uh... no other class was fit for it.
  */
 public class MantaroShard implements JDA {
-    //Random stuff that gets in Mantaro's status that I wonder if anyone reads.
-    public static final DataManager<List<String>> SPLASHES = new SimpleFileDataManager("assets/mantaro/texts/splashes.txt");
+    private static SessionController sessionController = new SessionControllerAdapter();
+    private final Logger log;
+    private static final VoiceChannelListener VOICE_CHANNEL_LISTENER = new VoiceChannelListener();
+    private final CommandListener commandListener;
+    private final MantaroListener mantaroListener;
+    private final int shardId;
+    private final int totalShards;
+    private BirthdayTask birthdayTask = new BirthdayTask();
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
+    private static final Config config = MantaroData.config().get();
 
-    public static final VoiceChannelListener VOICE_CHANNEL_LISTENER = new VoiceChannelListener();
-
-    private static final Random RANDOM = new Random();
-    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    @Getter
-    //A instance of a ReconnectQueue that accounts for startup reconnects, avoiding OP2 spam on Shard reconnection during the startup procedure.
-    private static LazyReconnectQueue reconnectQueue = new LazyReconnectQueue();
-    //A RateLimiter that keeps track of global ratelimits between shards.
-    private static ShardedRateLimiter shardedRateLimiter = new ShardedRateLimiter();
-
-    static {
-        if(SPLASHES.get().removeIf(s -> s == null || s.isEmpty())) SPLASHES.save();
-    }
+    //Christmas date
+    private static final Calendar christmas = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.DECEMBER, 25).build();
+    //New year date
+    private static final Calendar newYear = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.JANUARY, 1).build();
 
     @Getter
     public final MantaroEventManager manager;
-    private final CommandListener commandListener;
-    private final Logger log;
-    private final MantaroListener mantaroListener;
-    private final int shardId;
     @Getter
     private final ExecutorService threadPool;
     @Getter
     private final ExecutorService commandPool;
-    private final int totalShards;
-    private BirthdayTask birthdayTask = new BirthdayTask();
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
     @Delegate
     private JDA jda;
 
@@ -170,13 +157,17 @@ public class MantaroShard implements JDA {
                 .setCorePoolSize(18)
                 .setAudioSendFactory(new NativeAudioSendFactory())
                 .setEventManager(manager)
-                .setShardedRateLimiter(shardedRateLimiter)
-                .setReconnectQueue(reconnectQueue)
+                .setSessionController(sessionController)
+                .setBulkDeleteSplittingEnabled(false)
+                .useSharding(shardId, totalShards)
                 .setGame(Game.playing("Hold on to your seatbelts!"));
 
-        if(totalShards > 1) jdaBuilder.useSharding(shardId, totalShards);
-        jda = jdaBuilder.buildBlocking(Status.AWAITING_LOGIN_CONFIRMATION);
-        if(totalShards > 1) Thread.sleep(5000);
+        if(shardId < getTotalShards() - 1) {
+            jda = jdaBuilder.buildAsync();
+        } else {
+            //Block until all shards start up properly.
+            jda = jdaBuilder.buildBlocking();
+        }
 
         //Assume everything is alright~
         addListeners();
@@ -206,45 +197,21 @@ public class MantaroShard implements JDA {
     }
 
     /**
-     * Handles updating the server count to most of the popular bot lists.
-     */
-    public void updateServerCount() {
-        Config config = config().get();
-
-        String dbotsToken = config.dbotsToken;
-
-        if(dbotsToken != null) {
-            Async.task("Dbots update Thread", () -> {
-                try {
-                    int count = jda.getGuilds().size();
-                    RequestBody body = RequestBody.create(
-                            JSON,
-                            new JSONObject().put("server_count", count).put("shard_id", getId()).put("shard_count", totalShards).toString()
-                    );
-
-                    Request request = new Request.Builder()
-                            .url("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
-                            .addHeader("Authorization", dbotsToken)
-                            .addHeader("Content-Type", "application/json")
-                            .post(body)
-                            .build();
-                    Utils.httpClient.newCall(request).execute().close();
-                    log.debug("Updated server count ({}) for bots.discord.pw on Shard {}", count, shardId);
-                } catch(Exception ignored) {
-                }
-            }, 1, TimeUnit.HOURS);
-        } else {
-            log.warn("bots.discord.pw token not set in config, cannot start posting stats!");
-        }
-    }
-
-    /**
      * Updates Mantaro's "splash".
      * Splashes are random gags like "now seen in theaters!" that show on Mantaro's status.
-     * This has been on Mantaro since at least a year, so it's part of its "personality" as a bot.
+     * This has been on Mantaro since 2016, so it's part of its "personality" as a bot.
      */
     public void updateStatus() {
         Runnable changeStatus = () -> {
+            //insert $CURRENT_YEAR meme here
+            if(DateUtils.isSameDay(christmas, Calendar.getInstance())) {
+                getJDA().getPresence().setGame(Game.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], "Merry Christmas!", getId())));
+                return;
+            } else if (DateUtils.isSameDay(newYear, Calendar.getInstance())) {
+                getJDA().getPresence().setGame(Game.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], "Happy New Year!", getId())));
+                return;
+            }
+
             AtomicInteger users = new AtomicInteger(0), guilds = new AtomicInteger(0);
             if(MantaroBot.getInstance() != null) {
                 Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).filter(Objects::nonNull).map(MantaroShard::getJDA).forEach(jda -> {
@@ -252,7 +219,7 @@ public class MantaroShard implements JDA {
                     guilds.addAndGet((int) jda.getGuildCache().size());
                 });
             }
-            String newStatus = random(SPLASHES.get(), RANDOM)
+            String newStatus = new JSONObject(Utils.wgetResty(config.apiTwoUrl + "/mantaroapi/splashes/random", null)).getString("splash")
                     .replace("%ramgb%", String.valueOf(((long) (Runtime.getRuntime().maxMemory() * 1.2D)) >> 30L))
                     .replace("%usercount%", users.toString())
                     .replace("%guildcount%", guilds.toString())

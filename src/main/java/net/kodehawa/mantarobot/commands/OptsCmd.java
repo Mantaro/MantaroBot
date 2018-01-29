@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,9 +18,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -28,17 +26,21 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.options.Option;
-import net.kodehawa.mantarobot.options.OptionType;
+import net.kodehawa.mantarobot.options.core.Option;
+import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
@@ -48,10 +50,11 @@ import static net.kodehawa.mantarobot.utils.Utils.mapObjects;
 
 @Module
 public class OptsCmd {
-    public static net.kodehawa.mantarobot.core.modules.commands.base.Command optsCmd;
+    public static Command optsCmd;
 
     public static void onHelp(GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage(optsCmd.help(event)).queue();
+        event.getChannel().sendMessage(EmoteReference.HEART + "Hey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\n" +
+                "Only administrators, people with Manage Server or people with the Bot Commander role can use this command!").queue();
     }
 
     public static SimpleCommand getOpts() {
@@ -63,6 +66,11 @@ public class OptsCmd {
         registry.register("opts", optsCmd = new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                if(args.length == 0) {
+                    OptsCmd.onHelp(event);
+                    return;
+                }
+
                 if(args.length == 1 && args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("ls")) {
                     StringBuilder builder = new StringBuilder();
 
@@ -110,8 +118,7 @@ public class OptsCmd {
                                         .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
                                         .addField("Type", option.getType().toString(), false);
                                 event.getChannel().sendMessage(builder.build()).queue();
-                            } catch(IndexOutOfBoundsException ignored) {
-                            }
+                            } catch(IndexOutOfBoundsException ignored) {}
                             return;
                         }
                     }
@@ -136,11 +143,10 @@ public class OptsCmd {
                             else a = new String[0];
                             callable.accept(event, a);
                             Player p = MantaroData.db().getPlayer(event.getAuthor());
-                            if(p.getData().addBadge(Badge.DID_THIS_WORK)) {
+                            if(p.getData().addBadgeIfAbsent(Badge.DID_THIS_WORK)) {
                                 p.saveAsync();
                             }
-                        } catch(IndexOutOfBoundsException ignored) {
-                        }
+                        } catch(IndexOutOfBoundsException ignored) { }
                         return;
                     }
                 }
@@ -199,36 +205,37 @@ public class OptsCmd {
                         }
                     }
 
-                    Queue<Message> toSend = new MessageBuilder().append(show.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+                    List<String> toSend = DiscordUtils.divideString(1600, show);
                     toSend.forEach(message -> event.getChannel().sendMessage(message).queue());
                 }).setShortDescription("Checks the data values you have set on this server.")
         ).addOption("reset:all", new Option("Options reset.",
                 "Resets all options set on this server.", OptionType.GENERAL)
-                .setAction(event -> {
-                    //Temporary stuff.
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData temp = MantaroData.db().getGuild(event.getGuild()).getData();
+            .setAction(event -> {
+                //Temporary stuff.
+                DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                GuildData temp = MantaroData.db().getGuild(event.getGuild()).getData();
 
-                    //The persistent data we wish to maintain.
-                    String premiumKey = temp.getPremiumKey();
-                    long quoteLastId = temp.getQuoteLastId();
-                    long ranPolls = temp.getQuoteLastId();
-                    String gameTimeoutExpectedAt = temp.getGameTimeoutExpectedAt();
-                    long cases = temp.getCases();
+                //The persistent data we wish to maintain.
+                String premiumKey = temp.getPremiumKey();
+                long quoteLastId = temp.getQuoteLastId();
+                long ranPolls = temp.getQuoteLastId();
+                String gameTimeoutExpectedAt = temp.getGameTimeoutExpectedAt();
+                long cases = temp.getCases();
 
-                    //Assign everything all over again
-                    DBGuild newDbGuild = DBGuild.of(dbGuild.getId(), dbGuild.getPremiumUntil());
-                    GuildData newTmp = newDbGuild.getData();
-                    newTmp.setGameTimeoutExpectedAt(gameTimeoutExpectedAt);
-                    newTmp.setRanPolls(ranPolls);
-                    newTmp.setCases(cases);
-                    newTmp.setPremiumKey(premiumKey);
-                    newTmp.setQuoteLastId(quoteLastId);
+                //Assign everything all over again
+                DBGuild newDbGuild = DBGuild.of(dbGuild.getId(), dbGuild.getPremiumUntil());
+                GuildData newTmp = newDbGuild.getData();
+                newTmp.setGameTimeoutExpectedAt(gameTimeoutExpectedAt);
+                newTmp.setRanPolls(ranPolls);
+                newTmp.setCases(cases);
+                newTmp.setPremiumKey(premiumKey);
+                newTmp.setQuoteLastId(quoteLastId);
 
-                    //weee
-                    newDbGuild.saveAsync();
+                //weee
+                newDbGuild.saveAsync();
 
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly reset your options!").queue();
-                }));
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly reset your options!").queue();
+            }
+        ));
     }
 }
