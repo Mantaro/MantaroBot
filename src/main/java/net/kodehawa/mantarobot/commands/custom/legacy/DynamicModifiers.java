@@ -46,7 +46,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
         for (String key : iterate(GETTER_MODIFIER, string)) {
             if (dejaVu.contains(key)) continue;
             String mapKey = key.substring(2, key.length() - 1);
-            string = string.replace(key, getOrDefault(mapKey, mapKey));
+            string = string.replace(key, getOrDefault(mapKey, mapKey).replaceAll("[^\\\\]\\\\[^\\\\]","\\\\"));
             if (!string.contains("$(")) break;
             dejaVu.add(key);
         }

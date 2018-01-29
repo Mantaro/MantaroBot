@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.CustomCmds;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
@@ -59,11 +60,12 @@ public class CommandRegistry {
         return commands;
     }
 
-    public boolean process(GuildMessageReceivedEvent event, String cmdname, String content) {
+    public boolean process(GuildMessageReceivedEvent event, String cmdName, String args) {
         long start = System.currentTimeMillis();
-        Command cmd = commands.get(cmdname);
+        Command cmd = commands.get(cmdName);
 
         if(cmd == null) {
+            CustomCmds.handle(cmdName, event, args);
             return false;
         }
 
@@ -74,12 +76,12 @@ public class CommandRegistry {
         DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
         GuildData data = dbg.getData();
 
-        if(data.getDisabledCommands().contains(cmdname)) {
+        if(data.getDisabledCommands().contains(cmdName)) {
             return false;
         }
 
         List<String> disabledCommands = data.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
-        if(disabledCommands != null && disabledCommands.contains(cmdname)) {
+        if(disabledCommands != null && disabledCommands.contains(cmdName)) {
             return false;
         }
 
@@ -121,12 +123,12 @@ public class CommandRegistry {
 
         long end = System.currentTimeMillis();
         MantaroBot.getInstance().getStatsClient().increment("commands");
-        cmd.run(event, cmdname, content);
+        cmd.run(event, cmdName, args);
 
         if(cmd.category() != null && cmd.category().name() != null && !cmd.category().name().isEmpty()) {
-            MantaroBot.getInstance().getStatsClient().increment("command_" + cmdname);
+            MantaroBot.getInstance().getStatsClient().increment("command_" + cmdName);
             MantaroBot.getInstance().getStatsClient().increment("category_" + cmd.category().name().toLowerCase());
-            CommandStatsManager.log(cmdname);
+            CommandStatsManager.log(cmdName);
             CategoryStatsManager.log(cmd.category().name().toLowerCase());
         }
 
