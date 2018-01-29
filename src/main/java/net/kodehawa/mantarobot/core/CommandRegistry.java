@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.CustomCmds;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
@@ -67,8 +68,10 @@ public class CommandRegistry {
         if(command == null) {
             command = commands.get(cmdName.toLowerCase());
 
-            if(command == null)
+            if(command == null) {
+                CustomCmds.handle(cmdName, event, args);
                 return false;
+            }
         }
 
         //Variable used in lambda expression should be final or effectively final...
