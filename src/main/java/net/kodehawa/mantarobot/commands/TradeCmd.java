@@ -138,7 +138,7 @@ public class TradeCmd {
                         event.getChannel().sendMessage(String.format("%sTrade session about to start between %s#%s and %s#%s\n%s%s, are you sure? Reply with yes within 30 seconds to continue, no to cancel.",
                                 EmoteReference.MEGA, traderUser.getName(), traderUser.getDiscriminator(), tradedWithUser.getName(), tradedWithUser.getDiscriminator(),
                                 EmoteReference.STOPWATCH, tradedWithUser.getName())).queue();
-                        InteractiveOperations.createOverriding(event.getChannel(), 30, e -> {
+                        InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(),30, e -> {
                             if (e.getAuthor().getIdLong() != tradedWithUser.getIdLong())
                                 return Operation.IGNORED;
 

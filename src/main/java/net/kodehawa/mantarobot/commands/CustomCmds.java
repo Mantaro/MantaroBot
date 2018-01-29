@@ -258,7 +258,7 @@ public class CustomCmds {
 
                     List<String> responses = new ArrayList<>();
                     boolean created = InteractiveOperations.create(
-                            event.getChannel(), 60, e -> {
+                            event.getChannel(), event.getAuthor().getIdLong(),60, e -> {
                                 if(!e.getAuthor().equals(event.getAuthor())) return Operation.IGNORED;
 
                                 String c = e.getMessage().getContentRaw();

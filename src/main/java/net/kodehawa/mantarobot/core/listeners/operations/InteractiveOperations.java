@@ -80,13 +80,13 @@ public class InteractiveOperations {
      * This method will not make a new {@link InteractiveOperation} if there's already another one running.
      * You can check the return type to give a response to the user.
      *
-     * @param channelId      The id of the {@link net.dv8tion.jda.core.entities.TextChannel} we want this Operation to run on.
+     * @param channel      The id of the {@link net.dv8tion.jda.core.entities.TextChannel} we want this Operation to run on.
      * @param timeoutSeconds How much seconds until it stops listening to us.
      * @param operation      The {@link InteractiveOperation} itself.
      * @return The uncompleted {@link Future<Void>} of this InteractiveOperation.
      */
-    public static Future<Void> create(MessageChannel channel, long timeoutSeconds, InteractiveOperation operation) {
-        return create(channel.getIdLong(), timeoutSeconds, operation);
+    public static Future<Void> create(MessageChannel channel, long userId, long timeoutSeconds, InteractiveOperation operation) {
+        return create(channel.getIdLong(), userId, timeoutSeconds, operation);
     }
 
     /**
@@ -99,7 +99,7 @@ public class InteractiveOperations {
      * @param operation      The {@link InteractiveOperation} itself.
      * @return The uncompleted {@link Future<Void>} of this InteractiveOperation.
      */
-    public static Future<Void> create(long channelId, long timeoutSeconds, InteractiveOperation operation) {
+    public static Future<Void> create(long channelId, long userId, long timeoutSeconds, InteractiveOperation operation) {
         if(timeoutSeconds < 1)
             throw new IllegalArgumentException("Timeout is less than 1 second");
 
@@ -108,42 +108,18 @@ public class InteractiveOperations {
 
         List<RunningOperation> l = OPS.computeIfAbsent(channelId, ignored->new CopyOnWriteArrayList<>());
 
-        RunningOperation o = new RunningOperation(operation, channelId, timeoutSeconds * 1000);
+        RunningOperation current = l.stream().filter(op -> op.userId == userId).findFirst().orElse(null);
+        if(current != null) {
+            //Always override old player operation.
+            current.future.cancel(true);
+            l.remove(current);
+        }
+
+        RunningOperation o = new RunningOperation(operation, userId, channelId, timeoutSeconds * 1000);
         l.add(o);
+        OPS.put(channelId, l);
 
         return o.future;
-    }
-
-    /**
-     * Creates a new {@link InteractiveOperation} on the specified {@link net.dv8tion.jda.core.entities.TextChannel} id provided.
-     * This method does NOT take into account if there is already a running operation. Useful for when we want to override the existing one.
-     * An InteractiveOperation is an Operation that listens for upcoming messages. It can be used for all kind of stuff, like listening if someone says "yes" or "no" to
-     * an specific question.
-     *
-     * @param channelId      The id of the {@link net.dv8tion.jda.core.entities.TextChannel} we want this Operation to run on.
-     * @param timeoutSeconds How much seconds until it stops listening to us.
-     * @param operation      The {@link InteractiveOperation} itself.
-     * @return The uncompleted {@link Future<Void>} of this InteractiveOperation.
-     */
-    @Deprecated
-    public static Future<Void> createOverriding(MessageChannel channel, long timeoutSeconds, InteractiveOperation operation) {
-        return createOverriding(channel.getIdLong(), timeoutSeconds, operation);
-    }
-
-    /**
-     * Creates a new {@link InteractiveOperation} on the specified {@link net.dv8tion.jda.core.entities.TextChannel} id provided.
-     * This method does NOT take into account if there is already a running operation. Useful for when we want to override the existing one.
-     * An InteractiveOperation is an Operation that listens for upcoming messages. It can be used for all kind of stuff, like listening if someone says "yes" or "no" to
-     * an specific question.
-     *
-     * @param channelId      The id of the {@link net.dv8tion.jda.core.entities.TextChannel} we want this Operation to run on.
-     * @param timeoutSeconds How much seconds until it stops listening to us.
-     * @param operation      The {@link InteractiveOperation} itself.
-     * @return The uncompleted {@link Future<Void>} of this InteractiveOperation.
-     */
-    @Deprecated
-    public static Future<Void> createOverriding(long channelId, long timeoutSeconds, InteractiveOperation operation) {
-        return create(channelId, timeoutSeconds, operation);
     }
 
     /**
@@ -175,15 +151,20 @@ public class InteractiveOperations {
                 return;
 
             l.removeIf(o->{
-                int i = o.operation.run(event);
-                if(i == Operation.COMPLETED) {
-                    o.future.complete(null);
-                    return true;
+                try {
+                    int i = o.operation.run(event);
+                    if(i == Operation.COMPLETED) {
+                        o.future.complete(null);
+                        return true;
+                    }
+                    if(i == Operation.RESET_TIMEOUT) {
+                        o.resetTimeout();
+                    }
+                    return false;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    return false;
                 }
-                if(i == Operation.RESET_TIMEOUT) {
-                    o.resetTimeout();
-                }
-                return false;
             });
         }
     }
@@ -194,12 +175,14 @@ public class InteractiveOperations {
         final InteractiveOperation operation;
         final long timeout;
         long timeoutTime;
+        long userId;
 
         //timeout (argument) is in millis, field is in nanos
-        RunningOperation(InteractiveOperation operation, long channelId, long timeout) {
+        RunningOperation(InteractiveOperation operation, long userId, long channelId, long timeout) {
             this.operation = operation;
             this.future = new OperationFuture(channelId, this);
             this.timeout = timeout * 1_000_000;
+            this.userId = userId;
             resetTimeout();
         }
 

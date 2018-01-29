@@ -293,7 +293,7 @@ public class MoneyCmds {
                     player.setLocked(true);
                     player.save();
                     event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.confirmation_message"), EmoteReference.WARNING, i).queue();
-                    InteractiveOperations.create(event.getChannel(), 30, new InteractiveOperation() {
+                    InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(),30, new InteractiveOperation() {
                         @Override
                         public int run(GuildMessageReceivedEvent e) {
                             if(e.getAuthor().getId().equals(user.getId())) {

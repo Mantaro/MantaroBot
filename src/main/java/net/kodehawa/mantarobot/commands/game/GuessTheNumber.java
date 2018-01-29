@@ -43,7 +43,7 @@ public class GuessTheNumber extends Game<Object> {
     @Override
     public void call(GameLobby lobby, List<String> players) {
         //This class is not using Game<T>#callDefault due to it being custom/way too different from the default ones (aka give hints/etc)
-        InteractiveOperations.createOverriding(lobby.getChannel(), 30, new InteractiveOperation() {
+        InteractiveOperations.create(lobby.getChannel(), Long.parseLong(lobby.getPlayers().get(0)), 30, new InteractiveOperation() {
             @Override
             public int run(GuildMessageReceivedEvent e) {
                 if(!e.getChannel().getId().equals(lobby.getChannel().getId())) {

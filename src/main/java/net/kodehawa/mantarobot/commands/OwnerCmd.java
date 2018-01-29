@@ -126,7 +126,7 @@ public class OwnerCmd {
                 }
 
                 event.getChannel().sendMessage(EmoteReference.WARNING + "You're about to transfer all the player information from " + mentionedUsers.get(0) + " to " + mentionedUsers.get(1) + " are you sure you want to continue?").queue();
-                InteractiveOperations.createOverriding(event.getChannel(), 30, e -> {
+                InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 30, e -> {
                     if(e.getAuthor().getIdLong() != event.getAuthor().getIdLong()) {
                         return Operation.IGNORED;
                     }

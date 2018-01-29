@@ -59,7 +59,7 @@ public class DiscordUtils {
 
 
     public static Future<Void> selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer, Consumer<Void> cancelConsumer) {
-        return InteractiveOperations.createOverriding(event.getChannel(), 30, (e) -> {
+        return InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 30, (e) -> {
             if(!e.getAuthor().equals(event.getAuthor()))
                 return Operation.IGNORED;
 
@@ -244,7 +244,7 @@ public class DiscordUtils {
         AtomicInteger index = new AtomicInteger();
         Message m = event.getChannel().sendMessage(embeds.get(0)).complete();
 
-        return InteractiveOperations.createOverriding(event.getChannel(), timeoutSeconds, e -> {
+        return InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
             if(!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong())
                 return Operation.IGNORED;
             if(e.getChannel().getMessageById(m.getIdLong()) == null)
@@ -384,6 +384,7 @@ public class DiscordUtils {
             base.addField(f);
         }
 
+
         base.setDescription("**Total pages: " + parts.size() + ".**\nUse **&p>>** and **&p <<** to move across pages.\n**Reference " +
                 EmoteReference.BUY + " Buy " + EmoteReference.SELL + " Sell.**");
 
@@ -395,7 +396,7 @@ public class DiscordUtils {
         AtomicInteger index = new AtomicInteger();
         Message m = event.getChannel().sendMessage(base.build()).complete();
 
-        return InteractiveOperations.createOverriding(event.getChannel(), timeoutSeconds, e -> {
+        return InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
             if(!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong())
                 return Operation.IGNORED;
             if(e.getChannel().getMessageById(m.getIdLong()) == null)
@@ -438,7 +439,7 @@ public class DiscordUtils {
         AtomicInteger index = new AtomicInteger();
         Message m = event.getChannel().sendMessage(parts.get(0)).complete();
 
-        return InteractiveOperations.createOverriding(event.getChannel(), timeoutSeconds, e -> {
+        return InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
             if(!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong())
                 return Operation.IGNORED;
             if(e.getChannel().getMessageById(m.getIdLong()) == null)

@@ -52,7 +52,7 @@ public class Character extends ImageGame {
 
     @Override
     public void call(GameLobby lobby, List<String> players) {
-        InteractiveOperations.createOverriding(lobby.getChannel(), 60, new InteractiveOperation() {
+        InteractiveOperations.create(lobby.getChannel(), Long.parseLong(lobby.getPlayers().get(0)), 60, new InteractiveOperation() {
             @Override
             public int run(GuildMessageReceivedEvent e) {
                 return callDefault(e, lobby, players, characterNameL, getAttempts(), maxAttempts, 0);

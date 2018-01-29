@@ -153,7 +153,7 @@ public class FunCmds {
                 event.getChannel().sendMessage(String.format("%s%s, type with **yes** or **no** to the marriage proposal from %s.\n" +
                                 "%sThis times out in 120 seconds.", EmoteReference.MEGA,
                         proposedTo.getName(), event.getAuthor().getName(), EmoteReference.STOPWATCH)).queue();
-                InteractiveOperations.createOverriding(event.getChannel(), 120, (ie) -> {
+                InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 120, (ie) -> {
                     if(!ie.getAuthor().getId().equals(proposedTo.getId()))
                         return Operation.IGNORED;
 

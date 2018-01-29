@@ -131,7 +131,7 @@ public class Poll extends Lobby {
 
             getChannel().sendMessage(builder.build()).queue(this::createPoll);
 
-            InteractiveOperations.createOverriding(getChannel(), timeout, e -> {
+            InteractiveOperations.create(getChannel(), Long.parseLong(owner), timeout, e -> {
                 if(e.getAuthor().getId().equals(owner)) {
                     if(e.getMessage().getContentRaw().equalsIgnoreCase("&cancelpoll")) {
                         runningPoll.cancel(true);

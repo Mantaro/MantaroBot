@@ -93,7 +93,7 @@ public class GuildOptions extends OptionHandler {
                                 "**This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!\n" +
                                 "If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.\n\n" +
                                 "Type **yes** if you agree to set the role " + roleObj.getName() + " as a birthday role, and **no** to cancel. This timeouts in 45 seconds.").queue();
-                        InteractiveOperations.createOverriding(event.getChannel(), 45, interactiveEvent -> {
+                        InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 45, interactiveEvent -> {
                             String content = interactiveEvent.getMessage().getContentRaw();
                             if (content.equalsIgnoreCase("yes")) {
                                 String roleId = roleObj.getId();
