@@ -41,6 +41,7 @@
  ![](https://i.imgur.com/HROt9B4.png)
 
  - Make sure you are making a pull request from your Fork 4.9 to MantaroBot 4.9.
+![](https://desii.is-a-good-waifu.com/659de7.gif)
 
  - Give the Pull request a reasonable name.
 
