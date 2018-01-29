@@ -56,4 +56,5 @@ You may add yourself to this table while making a translation.
 | Spanish (CL) | Kodehawa#3457 ([@Kodehawa](https://github.com/Kodehawa)) |
 | Portuguese (BR) | Natan#1337 ([@Natanbc](https://github.com/natanbc)) |
 | French (FR) | Desiree#0611 ([@Desiiii](https://github.com/Desiiii)) |
-| German (DE) | MrLar#0611 ([@MrLar](https://github.com/MrLar))
+| German (DE) | MrLar#0611 ([@MrLar](https://github.com/MrLar)) |
+| Indonesian (ID) | slime0k#1171 ([@slime0k](https://github.com/slime0k))
