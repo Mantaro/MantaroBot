@@ -24,6 +24,7 @@ import net.kodehawa.mantarobot.commands.OptsCmd;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -50,6 +51,28 @@ public class GuildOptions extends OptionHandler {
 
     @Subscribe
     public void onRegistry(OptionRegistryEvent e) {
+        //region opts language
+        registerOption("language:set", "Sets the language of this guild", "Sets the language of this guild. Languages use a language code (example en_US or de_DE).\n" +
+                "**Example:** `~>opts language set es_CL`", "Sets the language of this guild", ((event, args) -> {
+            if(args.length < 1) {
+                OptsCmd.onHelp(event);
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            String language = args[0];
+
+            if(!I18n.isValidLanguage(language)) {
+                event.getChannel().sendMessageFormat("%s`%s` is not a valid language or it's not yet supported by Mantaro.", EmoteReference.ERROR2, language).queue();
+                return;
+            }
+
+            guildData.setLang(language);
+            dbGuild.save();
+            event.getChannel().sendMessageFormat("%sSuccessfully set the language of this server to `%s`", EmoteReference.CORRECT, language).queue();
+        }));
+        //endregion
         //region opts birthday
         registerOption("birthday:enable", "Birthday Monitoring enable",
                 "Enables birthday monitoring. You need the channel **name** and the role name (it assigns that role on birthday)\n" +

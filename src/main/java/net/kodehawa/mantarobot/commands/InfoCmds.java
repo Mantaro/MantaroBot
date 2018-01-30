@@ -84,27 +84,26 @@ public class InfoCmds {
 
                         event.getChannel().sendMessage(new EmbedBuilder()
                                 .setColor(Color.PINK)
-                                .setAuthor("About Mantaro", "http://is.gd/mantaro", event.getJDA().getSelfUser().getEffectiveAvatarUrl())
+                                .setAuthor(languageContext.get("commands.about.title"), "http://is.gd/mantaro", event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                                 .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                                .setDescription("Hello, I'm **MantaroBot**! I'm here to make your life a little easier. To get started, type `~>help`!\n" +
-                                        "Some of my features include:\n" +
-                                        "\u2713 **Moderation made easy** (``Mass kick/ban, prune commands, logs and more!``)\n" +
-                                        "\u2713 **Funny and useful commands**, see `~>help anime` or `~>help hug` for examples.\n" +
-                                        "\u2713 **First quality music**, check out `~>help play` for example!.\n" +
-                                        "\u2713 **[Support server](https://discordapp.com/invite/cMTmuPa)! |" +
-                                        " [Support Mantaro development!](https://www.patreon.com/mantaro)**\n\n" +
-                                        EmoteReference.POPPER + "Check ~>about credits!" + (MantaroData.config().get().isPremiumBot() ?
+                                .setDescription(languageContext.get("commands.about.description.1") + "\n" +
+                                        languageContext.get("commands.about.description.2") + "\n" +
+                                        "\u2713 " + languageContext.get("commands.about.description.3") + "\n" +
+                                        "\u2713 " + languageContext.get("commands.about.description.4") + "\n" +
+                                        "\u2713 " + languageContext.get("commands.about.description.5") + "\n" +
+                                        "\u2713 " + languageContext.get("commands.about.description.support") + "\n\n" +
+                                        String.format(languageContext.get("commands.about.description.credits"), EmoteReference.POPPER) + (MantaroData.config().get().isPremiumBot() ?
                                         "\nRunning a Patreon Bot instance, thanks you for your support! \u2764" : "")
                                 )
-                                .addField("MantaroBot Version", MantaroInfo.VERSION, false)
-                                .addField("Uptime", Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()), false)
-                                .addField("Shards", String.valueOf(MantaroBot.getInstance().getShardedMantaro().getTotalShards()), true)
-                                .addField("Threads", String.format("%,d", Thread.activeCount()), true)
-                                .addField("Servers", String.format("%,d", guilds.size()), true)
-                                .addField("Users (Unique)", String.format("%,d", users.stream().mapToLong(ISnowflake::getIdLong).distinct().count()), true)
-                                .addField("Text Channels", String.format("%,d", textChannels.size()), true)
-                                .addField("Voice Channels", String.format("%,d", voiceChannels.size()), true)
-                                .setFooter(String.format("Invite link: http://is.gd/mantaro (Commands this session: %,d | Current shard: %d)", CommandListener.getCommandTotalInt(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())
+                                .addField(languageContext.get("commands.about.version"), MantaroInfo.VERSION, false)
+                                .addField(languageContext.get("commands.about.uptime"), Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()), false)
+                                .addField(languageContext.get("commands.about.shards"), String.valueOf(MantaroBot.getInstance().getShardedMantaro().getTotalShards()), true)
+                                .addField(languageContext.get("commands.about.threads"), String.format("%,d", Thread.activeCount()), true)
+                                .addField(languageContext.get("commands.about.guilds"), String.format("%,d", guilds.size()), true)
+                                .addField(languageContext.get("commands.about.users"), String.format("%,d", users.stream().mapToLong(ISnowflake::getIdLong).distinct().count()), true)
+                                .addField(languageContext.get("commands.about.tc"), String.format("%,d", textChannels.size()), true)
+                                .addField(languageContext.get("commands.about.vc"), String.format("%,d", voiceChannels.size()), true)
+                                .setFooter(String.format(languageContext.get("commands.about.invite"), CommandListener.getCommandTotalInt(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                                 .build()).queue();
                     }
                 };
@@ -135,10 +134,15 @@ public class InfoCmds {
                 List<String> donatorList = DiscordUtils.divideString(300, donators);
                 List<String> messages = new LinkedList<>();
                 for(String s1 : donatorList) {
-                    messages.add("**Mantaro's Patreon Pledgers**\n" + (hasReactionPerms ? "Use the arrow reactions to change pages. " :
-                            "Use &page >> and &page << to change pages and &cancel to end") + String.format("```%s```", s1));
+                    messages.add(languageContext.get("commands.about.patreon.header") + "\n" +
+                            (hasReactionPerms ?
+                                languageContext.get("commands.about.patreon.arrow_react") + " " :
+                                languageContext.get("commands.about.patreon.text_menu")
+                            )
+                            + String.format("```%s```", s1));
                 }
 
+                //won't translate this
                 messages.add("Thanks to **MrLar#8117** for a $1025 donation and many other people who has donated once via paypal.");
 
                 if(hasReactionPerms) {
@@ -154,19 +158,18 @@ public class InfoCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 EmbedBuilder builder = new EmbedBuilder();
                 builder.setAuthor("Credits.", null, event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                        .setColor(Color.BLUE)
+                        .setColor(Color.LIGHT_GRAY)
                         .setDescription(
                                 String.join("\n",
-                                        "**Main developer**: Kodehawa#3457",
-                                        "**Developer**: AdrianTodt#0722",
-                                        "**Developer**: Natan#1289",
-                                        "**Documentation**: MrLar#8117 & Yuvira#7832",
-                                        "**Community Admin**: MrLar#8117",
-                                        "**Grammar Nazi**: Desiree#3658"
+                                        "**" + languageContext.get("commands.about.credits.main_dev") + "**: Kodehawa#3457",
+                                        "**" + languageContext.get("commands.about.credits.dev") + "**: AdrianTodt#0722",
+                                        "**" + languageContext.get("commands.about.credits.dev") + "**:  Natan#1289",
+                                        "**" + languageContext.get("commands.about.credits.docs") + "**:  MrLar#8117 & Yuvira#7832",
+                                        "**" + languageContext.get("commands.about.credits.community_admin") + "**:  MrLar#8117"
                                 ))
                         .addField("Special mentions",
-                                "Thanks to bots.discord.pw, Carbonitex and discordbots.org for helping us with increasing the bot's visibility.", false)
-                        .setFooter("Much thanks to everyone above for helping make Mantaro better!", event.getJDA().getSelfUser().getEffectiveAvatarUrl());
+                                languageContext.get("commands.about.credits.special_mentions"), false)
+                        .setFooter(languageContext.get("commands.about.credits.thank_note"), event.getJDA().getSelfUser().getEffectiveAvatarUrl());
                 event.getChannel().sendMessage(builder.build()).queue();
             }
         });
@@ -178,7 +181,7 @@ public class InfoCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 event.getChannel().sendMessageFormat(
-                        languageContext.get("commands.donate.beg"), EmoteReference.HEART, languageContext.get("commands.donate.methods")
+                        languageContext.get("commands.donate.beg"), EmoteReference.HEART, String.format(languageContext.get("commands.donate.methods"), "https://patreon.com/mantaro", "https://paypal.me/mantarobot")
                 ).queue();
             }
 
@@ -288,22 +291,29 @@ public class InfoCmds {
                     String prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
                     GuildData guildData = dbGuild.getData();
 
-                    EmbedBuilder embed = baseEmbed(event, "Mantaro Help")
+                    EmbedBuilder embed = baseEmbed(event, languageContext.get("commands.help.title"))
                             .setColor(Color.PINK)
-                            .setDescription("Command list. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n" +
-                                    "If you have issues or inquiries while using Mantaro, please join the [support server](https://is.gd/mantaroguild)\n" +
-                                    "[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)\n" +
-                                    (guildData.getDisabledCommands().isEmpty() ? "" : "\nOnly showing non-disabled commands. Total disabled commands: " + guildData.getDisabledCommands().size()) +
-                                    (guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()) == null || guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).isEmpty() ?
-                                            "" : "\nOnly showing non-disabled commands. Total channel-specific disabled commands: " + guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).size()))
-                            .setFooter(String.format("To check command usage, type %shelp <command> // -> Commands: " +
-                                            DefaultCommandProcessor.REGISTRY.commands().values().stream().filter(c -> c.category() != null).count()
-                                    , prefix), null);
+                            .setDescription(languageContext.get("commands.help.base") +
+                                    languageContext.get("commands.help.support") + languageContext.get("commands.help.patreon") +
+                                    //LISP simulator 2018
+                                    (guildData.getDisabledCommands().isEmpty() ? "" : "\n" +
+                                            String.format(languageContext.get("commands.help.disabled_commands"), guildData.getDisabledCommands().size())
+                                    ) +
+                                    (guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()) == null ||
+                                            guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).isEmpty() ?
+                                            "" : "\n" + String.format(languageContext.get("commands.help.channel_specific_disabled_commands"),
+                                            guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).size())
+                                    )
+                            )
+                            .setFooter(String.format(languageContext.get("commands.help.footer"), prefix,
+                                    DefaultCommandProcessor.REGISTRY.commands().values().stream().filter(c -> c.category() != null).count()), null);
 
                     Arrays.stream(Category.values())
                             .filter(c -> c != Category.CURRENCY || !MantaroData.config().get().isPremiumBot())
                             .filter(c -> c != Category.OWNER || CommandPermission.OWNER.test(event.getMember()))
-                            .forEach(c -> embed.addField(c + " Commands:", forType(event.getChannel(), guildData, c), false));
+                            .forEach(c -> embed.addField(c + " " + languageContext.get("commands.help.commands") +":",
+                                    forType(event.getChannel(), guildData, c), false)
+                            );
 
                     event.getChannel().sendMessage(embed.build()).queue();
 
@@ -316,10 +326,10 @@ public class InfoCmds {
                         if(help != null) {
                             event.getChannel().sendMessage(help).queue();
                         } else {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "There's no extended help set for this command.").queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.help.extended.no_help"), EmoteReference.ERROR).queue();
                         }
                     } else {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "A command with this name doesn't exist").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.help.extended.not_found"), EmoteReference.ERROR).queue();
                     }
                 }
             }
@@ -348,14 +358,14 @@ public class InfoCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 event.getChannel().sendMessage(new EmbedBuilder().setAuthor("Mantaro's Invite URL.", null, event.getJDA().getSelfUser().getAvatarUrl())
-                        .addField("Invite URL", "http://is.gd/mantaro", false)
-                        .addField("Support Server", "https://discordapp.com/invite/cMTmuPa", false)
-                        .addField("Patreon URL", "http://patreon.com/mantaro", false)
-                        .setDescription("Here are some useful links! " +
-                                "**If you have any questions about the bot, feel free to join the support guild and ask**!." +
-                                "\nWe provided a patreon link in case you would like to help Mantaro keep running by donating [and getting perks by doing so!]. " +
-                                "Thanks you in advance for using the bot! **<3 from the developers**")
-                        .setFooter("We hope you have fun with the bot.", event.getJDA().getSelfUser().getAvatarUrl())
+                        .addField(languageContext.get("commands.invite.url"), "http://is.gd/mantaro", false)
+                        .addField(languageContext.get("commands.invite.server"), "https://discordapp.com/invite/cMTmuPa", false)
+                        .addField(languageContext.get("commands.invite.patreon"), "http://patreon.com/mantaro", false)
+                        .setDescription(languageContext.get("commands.invite.description.1") + " " +
+                                languageContext.get("commands.invite.description.2") + "\n" +
+                                languageContext.get("commands.invite.description.3") + " " +
+                                languageContext.get("commands.invite.description.4"))
+                        .setFooter(languageContext.get("commands.invite.footer"), event.getJDA().getSelfUser().getAvatarUrl())
                         .build()).queue();
             }
 
@@ -399,22 +409,22 @@ public class InfoCmds {
                                 message.editMessage(
                                         new EmbedBuilder()
                                                 .setColor(Color.PINK)
-                                                .setAuthor("Mantaro Statistics", "https://github.com/Kodehawa/MantaroBot/", event.getJDA().getSelfUser().getAvatarUrl())
+                                                .setAuthor(languageContext.get("commands.stats.header"), "https://github.com/Kodehawa/MantaroBot/", event.getJDA().getSelfUser().getAvatarUrl())
                                                 .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                                                .setDescription("Well... I did my math!")
-                                                .addField("Users per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", usersPerGuild.getMin(), usersPerGuild.getAverage(), usersPerGuild.getMax()), true)
-                                                .addField("Online Users per Server", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", onlineUsersPerGuild.getMin(), onlineUsersPerGuild.getAverage(), onlineUsersPerGuild.getMax()), true)
-                                                .addField("Online Users per Users per Server", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", onlineUsersPerUserPerGuild.getMin(), onlineUsersPerUserPerGuild.getAverage(), onlineUsersPerUserPerGuild.getMax()), true)
-                                                .addField("Text Channels per Server", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", textChannelsPerGuild.getMin(), textChannelsPerGuild.getAverage(), textChannelsPerGuild.getMax()), true)
-                                                .addField("Voice Channels per Server", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", voiceChannelsPerGuild.getMin(), voiceChannelsPerGuild.getAverage(), voiceChannelsPerGuild.getMax()), true)
-                                                .addField("Music Listeners per Users per Server", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerUsersPerGuilds.getMin(), listeningUsersPerUsersPerGuilds.getAverage(), listeningUsersPerUsersPerGuilds.getMax()), true)
-                                                .addField("Music Listeners per Online Users per Server", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerOnlineUsersPerGuilds.getMin(), listeningUsersPerOnlineUsersPerGuilds.getAverage(), listeningUsersPerOnlineUsersPerGuilds.getMax()), true)
-                                                .addField("Music Connections per Server", String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", musicConnectionsPerServer, musicConnections), true)
-                                                .addField("Total queue size", Long.toString(MantaroBot.getInstance().getAudioManager().getTotalQueueSize()), true)
-                                                .addField("Total commands (including custom)", String.valueOf(DefaultCommandProcessor.REGISTRY.commands().size()), true)
-                                                .addField("Exclusiveness in Total Servers", Math.round(exclusivenessPercent) + "% (" + exclusiveness + ")", false)
-                                                .addField("Big Servers", String.valueOf(bigGuilds), true)
-                                                .setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuildCache().size())
+                                                .setDescription(languageContext.get("commands.stats.description"))
+                                                .addField(languageContext.get("commands.stats.user_guild"), String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", usersPerGuild.getMin(), usersPerGuild.getAverage(), usersPerGuild.getMax()), true)
+                                                .addField(languageContext.get("commands.stats.online_user_guild"), String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", onlineUsersPerGuild.getMin(), onlineUsersPerGuild.getAverage(), onlineUsersPerGuild.getMax()), true)
+                                                .addField(languageContext.get("commands.stats.online_users_users_guild"), String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", onlineUsersPerUserPerGuild.getMin(), onlineUsersPerUserPerGuild.getAverage(), onlineUsersPerUserPerGuild.getMax()), true)
+                                                .addField(languageContext.get("commands.stats.tc_server"), String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", textChannelsPerGuild.getMin(), textChannelsPerGuild.getAverage(), textChannelsPerGuild.getMax()), true)
+                                                .addField(languageContext.get("commands.stats.vc_server"), String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", voiceChannelsPerGuild.getMin(), voiceChannelsPerGuild.getAverage(), voiceChannelsPerGuild.getMax()), true)
+                                                .addField(languageContext.get("commands.stats.music_user_server"), String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerUsersPerGuilds.getMin(), listeningUsersPerUsersPerGuilds.getAverage(), listeningUsersPerUsersPerGuilds.getMax()), true)
+                                                .addField(languageContext.get("commands.stats.music_online_user_server"), String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerOnlineUsersPerGuilds.getMin(), listeningUsersPerOnlineUsersPerGuilds.getAverage(), listeningUsersPerOnlineUsersPerGuilds.getMax()), true)
+                                                .addField(languageContext.get("commands.stats.music_server"), String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", musicConnectionsPerServer, musicConnections), true)
+                                                .addField(languageContext.get("commands.stats.queue_size"), Long.toString(MantaroBot.getInstance().getAudioManager().getTotalQueueSize()), true)
+                                                .addField(languageContext.get("commands.stats.commands"), String.valueOf(DefaultCommandProcessor.REGISTRY.commands().size()), true)
+                                                .addField(languageContext.get("commands.stats.exclusiveness"), Math.round(exclusivenessPercent) + "% (" + exclusiveness + ")", false)
+                                                .addField(languageContext.get("commands.stats.big_servers"), String.valueOf(bigGuilds), true)
+                                                .setFooter(String.format(languageContext.get("commands.stats.milestone"), GuildStatsManager.MILESTONE, (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuildCache().size()))
                                                         , event.getJDA().getSelfUser().getAvatarUrl())
                                                 .build()
                                 ).override(true).queue();
@@ -440,15 +450,15 @@ public class InfoCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 event.getChannel().sendMessage(new EmbedBuilder()
-                        .setAuthor("Mantaro's usage information", null, "https://puu.sh/sMsVC/576856f52b.png")
-                        .setDescription("Hardware and usage information.")
-                        .setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
-                        .addField("Threads:", getThreadCount() + " Threads", true)
-                        .addField("Memory Usage:", getTotalMemory() - getFreeMemory() + "MB/" + getMaxMemory() + "MB", true)
-                        .addField("CPU Cores:", getAvailableProcessors() + " Cores", true)
-                        .addField("CPU Usage:", String.format("%.2f", getVpsCPUUsage()) + "%", true)
-                        .addField("Assigned Memory:", getTotalMemory() + "MB", true)
-                        .addField("Remaining from assigned:", getFreeMemory() + "MB", true)
+                        .setAuthor(languageContext.get("commands.stats.usage.header"), null, event.getJDA().getSelfUser().getAvatarUrl())
+                        .setDescription(languageContext.get("commands.stats.usage.description"))
+                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                        .addField(languageContext.get("commands.stats.usage.threads"), getThreadCount() + " Threads", true)
+                        .addField(languageContext.get("commands.stats.usage.memory_usage"), getTotalMemory() - getFreeMemory() + "MB/" + getMaxMemory() + "MB", true)
+                        .addField(languageContext.get("commands.stats.usage.cores"), getAvailableProcessors() + " Cores", true)
+                        .addField(languageContext.get("commands.stats.usage.cpu_usage"), String.format("%.2f", getVpsCPUUsage()) + "%", true)
+                        .addField(languageContext.get("commands.stats.usage.assigned_memory"), getTotalMemory() + "MB", true)
+                        .addField(languageContext.get("commands.stats.usage.assigned_remaining"), getFreeMemory() + "MB", true)
                         .build()
                 ).queue();
                 TextChannelGround.of(event).dropItemWithChance(4, 5);
@@ -460,10 +470,10 @@ public class InfoCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 TextChannelGround.of(event).dropItemWithChance(4, 5);
                 EmbedBuilder embedBuilder = new EmbedBuilder()
-                        .setAuthor("Mantaro's server usage information", null, "https://puu.sh/sMsVC/576856f52b.png")
-                        .setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
-                        .addField("CPU Usage", String.format("%.2f", getVpsCPUUsage()) + "%", true)
-                        .addField("RAM (TOTAL/FREE/USED)", String.format("%.2f", getVpsMaxMemory()) + "GB/" + String.format("%.2f", getVpsFreeMemory())
+                        .setAuthor(languageContext.get("commands.stats.server.header"), null, event.getJDA().getSelfUser().getAvatarUrl())
+                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                        .addField(languageContext.get("commands.stats.server.cpu_usage"), String.format("%.2f", getVpsCPUUsage()) + "%", true)
+                        .addField(languageContext.get("commands.stats.server.rem"), String.format("%.2f", getVpsMaxMemory()) + "GB/" + String.format("%.2f", getVpsFreeMemory())
                                 + "GB/" + String.format("%.2f", getVpsUsedMemory()) + "GB", false);
 
                 event.getChannel().sendMessage(embedBuilder.build()).queue();
@@ -499,10 +509,10 @@ public class InfoCmds {
 
                 //Default
                 event.getChannel().sendMessage(baseEmbed(event, "Command Stats")
-                        .addField("Now", commandStatsManager.resume(CommandStatsManager.MINUTE_CMDS), false)
-                        .addField("Hourly", commandStatsManager.resume(CommandStatsManager.HOUR_CMDS), false)
-                        .addField("Daily", commandStatsManager.resume(CommandStatsManager.DAY_CMDS), false)
-                        .addField("Total", commandStatsManager.resume(CommandStatsManager.TOTAL_CMDS), false)
+                        .addField(languageContext.get("general.now"), commandStatsManager.resume(CommandStatsManager.MINUTE_CMDS), false)
+                        .addField(languageContext.get("general.hourly"), commandStatsManager.resume(CommandStatsManager.HOUR_CMDS), false)
+                        .addField(languageContext.get("general.daily"), commandStatsManager.resume(CommandStatsManager.DAY_CMDS), false)
+                        .addField(languageContext.get("general.total"), commandStatsManager.resume(CommandStatsManager.TOTAL_CMDS), false)
                         .build()
                 ).queue();
             }
@@ -537,10 +547,10 @@ public class InfoCmds {
 
                 //Default
                 event.getChannel().sendMessage(baseEmbed(event, "Guild Stats")
-                        .addField("Now", guildStatsManager.resume(GuildStatsManager.MINUTE_EVENTS), false)
-                        .addField("Hourly", guildStatsManager.resume(GuildStatsManager.HOUR_EVENTS), false)
-                        .addField("Daily", guildStatsManager.resume(GuildStatsManager.DAY_EVENTS), false)
-                        .addField("Total", guildStatsManager.resume(GuildStatsManager.TOTAL_EVENTS), false)
+                        .addField(languageContext.get("general.now"), guildStatsManager.resume(GuildStatsManager.MINUTE_EVENTS), false)
+                        .addField(languageContext.get("general.hourly"), guildStatsManager.resume(GuildStatsManager.HOUR_EVENTS), false)
+                        .addField(languageContext.get("general.daily"), guildStatsManager.resume(GuildStatsManager.DAY_EVENTS), false)
+                        .addField(languageContext.get("general.total"), guildStatsManager.resume(GuildStatsManager.TOTAL_EVENTS), false)
                         .setFooter("Guilds: " + MantaroBot.getInstance().getGuildCache().size(), null)
                         .build()
                 ).queue();
@@ -576,10 +586,10 @@ public class InfoCmds {
 
                 //Default
                 event.getChannel().sendMessage(baseEmbed(event, "Category Stats")
-                        .addField("Now", categoryStatsManager.resume(CategoryStatsManager.MINUTE_CATS), false)
-                        .addField("Hourly", categoryStatsManager.resume(CategoryStatsManager.HOUR_CATS), false)
-                        .addField("Daily", categoryStatsManager.resume(CategoryStatsManager.DAY_CATS), false)
-                        .addField("Total", categoryStatsManager.resume(CategoryStatsManager.TOTAL_CATS), false)
+                        .addField(languageContext.get("general.now"), categoryStatsManager.resume(CategoryStatsManager.MINUTE_CATS), false)
+                        .addField(languageContext.get("general.hourly"), categoryStatsManager.resume(CategoryStatsManager.HOUR_CATS), false)
+                        .addField(languageContext.get("general.daily"), categoryStatsManager.resume(CategoryStatsManager.DAY_CATS), false)
+                        .addField(languageContext.get("general.total"), categoryStatsManager.resume(CategoryStatsManager.TOTAL_CATS), false)
                         .build()
                 ).queue();
             }
@@ -607,12 +617,12 @@ public class InfoCmds {
         cr.register("social", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                event.getChannel().sendMessage(EmoteReference.HEART + "O-Oh, I see you're interested on seeing my social networks!\n\n" +
-                        "W-Well, here we go!\n" +
-                        "**- Website:** <https://mantaro.site>\n" +
+                event.getChannel().sendMessage(String.format(languageContext.get("commands.social.header"), EmoteReference.HEART) +
+                        languageContext.get("commands.social.description.1") + "\n" +
+                        String.format(languageContext.get("commands.social.description.2"), "https://mantaro.site") + "\n" +
                         "**- Patreon:** <https://www.patreon.com/mantaro>\n" +
                         "**- Twitter:** <https://twitter.com/mantarodiscord>\n\n" +
-                        "**If you like Mantaro, please upvote on** <https://discordbots.org/bot/mantaro> **and/or consider donating on Patreon or Paypal! Thanks you~**\n").queue();
+                        languageContext.get("commands.social.note") +"\n").queue();
             }
 
             @Override
@@ -655,7 +665,7 @@ public class InfoCmds {
                                 MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).size(),
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.vc") + ":** " +
                                 (member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : languageContext.get("general.none")),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.playing_now") + ":** " +
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.playing") + ":** " +
                                 (member.getGame() == null ? languageContext.get("commands.userinfo.nothing") : member.getGame().getName()),
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.color") + ":** " +
                                 (member.getColor() == null ? languageContext.get("commands.userinfo.default") : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()),
@@ -668,7 +678,7 @@ public class InfoCmds {
                         .setAuthor(String.format(languageContext.get("commands.userinfo.header"), user.getName(), user.getDiscriminator()), null, event.getAuthor().getEffectiveAvatarUrl())
                         .setThumbnail(user.getEffectiveAvatarUrl())
                         .setDescription(s)
-                        .addField(String.format(languageContext.get("commands.userinfo.header"), member.getRoles().size()), roles + ".", true)
+                        .addField(String.format(languageContext.get("commands.userinfo.roles"), member.getRoles().size()), roles + ".", true)
                         .build()
                 ).queue();
             }
@@ -686,6 +696,7 @@ public class InfoCmds {
     }
 
     @Subscribe
+    //no need to translate this
     public void tips(CommandRegistry cr) {
         final List<String> tips = new SimpleFileDataManager("assets/mantaro/texts/tips.txt").get();
         final Random r = new Random();

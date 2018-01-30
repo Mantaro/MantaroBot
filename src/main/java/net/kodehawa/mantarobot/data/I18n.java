@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.data;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.guild.GenericGuildEvent;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
@@ -91,8 +92,17 @@ public class I18n {
         return getForLanguage(lang);
     }
 
+    public static I18n ofUser(String userId) {
+        String lang = MantaroData.db().getUser(userId).getData().getLang();
+        return getForLanguage(lang);
+    }
+
     public static I18n of(Guild guild) {
         return of(guild.getId());
+    }
+
+    public static I18n ofUser(User user) {
+        return of(user.getId());
     }
 
     public static I18n of(GenericGuildEvent event) {

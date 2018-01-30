@@ -7,9 +7,100 @@
     "search_no_result": "%1$sYour search yielded no results :(",
     "unknown": "Unknown",
     "days": "days",
-    "none": "None"
+    "none": "None",
+    "now": "Now",
+    "hourly": "Hourly",
+    "daily": "Daily",
+    "total": "Total"
   },
   "commands": {
+    "about": {
+      "title": "About Mantaro",
+      "description": {
+        "1": "Hello, I'm **MantaroBot**! I'm here to make your life a little easier. To get started, type `~>help`!",
+        "2": "Some of my features include:",
+        "3": "**Moderation made easy** (`Mass kick/ban, prune commands, logs and more!`)",
+        "4": "**Funny and useful commands**, see `~>help anime` or `~>help hug` for examples.",
+        "5": "**First quality music**, check out `~>music`!.",
+        "support": "**[Support server](https://discordapp.com/invite/cMTmuPa)! | [Support Mantaro development!](https://www.patreon.com/mantaro)**",
+        "credits": "%1$sCheck ~>about credits!"
+      },
+      "patreon": {
+        "header": "**Mantaro's Patreon Pledgers**",
+        "arrow_react": "Use the arrow reactions to change pages.",
+        "text_menu": "Use &page >> and &page << to change pages and &cancel to end"
+      },
+      "credits": {
+        "main_dev": "Main developer",
+        "dev": "Developer",
+        "docs": "Documentation",
+        "translators": "Translators",
+        "community_admin": "Community Admin",
+        "special_mentions": "Thanks to bots.discord.pw, Carbonitex and discordbots.org for helping us with increasing the bot's visibility.",
+        "thank_note": "Much thanks to everyone above for helping make Mantaro better!"
+      },
+      "version": "MantaroBot Version",
+      "uptime": "Uptime",
+      "shards": "Shards",
+      "threads": "Threads",
+      "guilds": "Servers",
+      "users": "Users (Unique)",
+      "tc": "Text Channels",
+      "vc": "Voice Channels",
+      "invite": "Invite link: http://is.gd/mantaro (Commands this session: %1$,d | Current shard: %2$d)"
+    },
+    "invite": {
+      "url": "Invite URL",
+      "server": "Support Server",
+      "patreon": "Patreon URL",
+      "description" : {
+        "1": "Here are some useful links!",
+        "2": "**If you have any questions about the bot, feel free to join the support guild and ask**!.",
+        "3": "We provided a patreon link in case you would like to help Mantaro keep running by donating [and getting perks by doing so!].",
+        "4": "Thanks you in advance for using the bot! **<3 from the developers**"
+      },
+      "footer": "We hope you have fun with the bot."
+    },
+    "stats": {
+      "header": "Mantaro Statistics",
+      "description": "Well... I did my math!",
+      "usage": {
+        "header": "Mantaro's usage information",
+        "description": "Hardware and usage information.",
+        "threads": "Threads",
+        "memory_usage": "Memory Usage",
+        "cores": "CPU Cores",
+        "cpu_usage": "CPU Usage",
+        "assigned_mem": "Assigned Memory",
+        "assigned_remaining": "Remaining from assigned"
+      },
+      "server": {
+        "header": "Mantaro's server usage information",
+        "cpu_usage": "CPU Usage",
+        "rem": "RAM (TOTAL/FREE/USED)"
+      },
+      "users_guild": "Users per Guild",
+      "online_users_guild": "Online Users per Guild",
+      "online_users_users_guild": "Online Users per Users per Server",
+      "tc_server": "Text Channels per Server",
+      "vc_server": "Voice Channels per Server",
+      "music_user_server": "Music Listeners per Users per Server",
+      "music_online_user_server": "Music Listeners per Online Users per Server",
+      "music_server": "Music Connections per Server",
+      "queue_size": "Total queue size",
+      "commands": "Total commands (including custom)",
+      "exclusiveness": "Exclusiveness in Total Servers",
+      "big_servers": "Big Servers",
+      "milestone": "! Guilds to next milestone (%1$s): %2$s"
+    },
+    "social": {
+      "header": "%1$sO-Oh, I see you're interested on seeing my social networks!\n\n",
+      "description": {
+        "1": "W-Well, here we go!",
+        "2": "**- Website:** <%1$s>"
+      },
+      "note": "**If you like Mantaro, please upvote on** <https://discordbots.org/bot/mantaro> **and/or consider donating on Patreon or Paypal! Thanks you~**"
+    },
     "avatar": {
       "result": "%1$sAvatar for: **%2$s**\n%3$s"
     },
@@ -56,9 +147,10 @@
       "methods": "**Donation Methods**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
     },
     "help": {
+      "title": "Mantaro Help",
       "base": "Command list. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
       "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://is.gd/mantaroguild)\n",
-      "patreon": "[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)\n",
+      "patreon": "[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)",
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
       "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
       "footer": "To check command usage, type %1$shelp <command> // -> Commands: %2$s",
