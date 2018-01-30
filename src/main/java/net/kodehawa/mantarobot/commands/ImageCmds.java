@@ -103,7 +103,7 @@ public class ImageCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 boolean nsfw = args.length > 0 && args[0].equalsIgnoreCase("nsfw");
 
-                if(nsfw && !nsfwCheck(event, true, true, null))
+                if(nsfw && !nsfwCheck(event, languageContext, true, true, null))
                     return;
 
                 try {
@@ -140,13 +140,13 @@ public class ImageCmds {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
-                        getImage(e621, ImageRequestType.GET, true, "e621", args, content, event);
+                        getImage(e621, ImageRequestType.GET, true, "e621", args, content, event, languageContext);
                         break;
                     case "tags":
-                        getImage(e621, ImageRequestType.TAGS, true, "e621", args, content, event);
+                        getImage(e621, ImageRequestType.TAGS, true, "e621", args, content, event, languageContext);
                         break;
                     case "":
-                        getImage(e621, ImageRequestType.RANDOM, true, "e621", args, content, event);
+                        getImage(e621, ImageRequestType.RANDOM, true, "e621", args, content, event, languageContext);
                         break;
                     default:
                         onHelp(event);
@@ -179,13 +179,13 @@ public class ImageCmds {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
-                        getImage(konachan, ImageRequestType.GET, false, "konachan", args, content, event);
+                        getImage(konachan, ImageRequestType.GET, false, "konachan", args, content, event, languageContext);
                         break;
                     case "tags":
-                        getImage(konachan, ImageRequestType.TAGS, false, "konachan", args, content, event);
+                        getImage(konachan, ImageRequestType.TAGS, false, "konachan", args, content, event, languageContext);
                         break;
                     case "":
-                        getImage(konachan, ImageRequestType.RANDOM, false, "konachan", args, content, event);
+                        getImage(konachan, ImageRequestType.RANDOM, false, "konachan", args, content, event, languageContext);
                         break;
                     default:
                         onHelp(event);
@@ -219,13 +219,13 @@ public class ImageCmds {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
-                        getImage(safebooru, ImageRequestType.GET, false, "safebooru", args, content, event);
+                        getImage(safebooru, ImageRequestType.GET, false, "safebooru", args, content, event, languageContext);
                         break;
                     case "tags":
-                        getImage(safebooru, ImageRequestType.TAGS, false, "safebooru", args, content, event);
+                        getImage(safebooru, ImageRequestType.TAGS, false, "safebooru", args, content, event, languageContext);
                         break;
                     case "":
-                        getImage(safebooru, ImageRequestType.RANDOM, false, "safebooru", args, content, event);
+                        getImage(safebooru, ImageRequestType.RANDOM, false, "safebooru", args, content, event, languageContext);
                         break;
                     default:
                         onHelp(event);
@@ -257,13 +257,13 @@ public class ImageCmds {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
-                        getImage(danbooru, ImageRequestType.GET, false, "danbooru", args, content, event);
+                        getImage(danbooru, ImageRequestType.GET, false, "danbooru", args, content, event, languageContext);
                         break;
                     case "tags":
-                        getImage(danbooru, ImageRequestType.TAGS, false, "danbooru", args, content, event);
+                        getImage(danbooru, ImageRequestType.TAGS, false, "danbooru", args, content, event, languageContext);
                         break;
                     case "":
-                        getImage(danbooru, ImageRequestType.RANDOM, false, "danbooru", args, content, event);
+                        getImage(danbooru, ImageRequestType.RANDOM, false, "danbooru", args, content, event, languageContext);
                         break;
                     default:
                         onHelp(event);
@@ -297,13 +297,13 @@ public class ImageCmds {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
-                        getImage(rule34, ImageRequestType.GET, true, "rule34", args, content, event);
+                        getImage(rule34, ImageRequestType.GET, true, "rule34", args, content, event, languageContext);
                         break;
                     case "tags":
-                        getImage(rule34, ImageRequestType.TAGS, true, "rule34", args, content, event);
+                        getImage(rule34, ImageRequestType.TAGS, true, "rule34", args, content, event, languageContext);
                         break;
                     case "":
-                        getImage(rule34, ImageRequestType.RANDOM, true, "rule34", args, content, event);
+                        getImage(rule34, ImageRequestType.RANDOM, true, "rule34", args, content, event, languageContext);
                         break;
                     default:
                         onHelp(event);
@@ -334,21 +334,20 @@ public class ImageCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(!event.getChannel().isNSFW()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Yande.re command can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\n" +
-                            "You can try using `~>konachan` instead!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.imageboard.yandere_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
-                        getImage(yandere, ImageRequestType.GET, false, "yandere", args, content, event);
+                        getImage(yandere, ImageRequestType.GET, false, "yandere", args, content, event, languageContext);
                         break;
                     case "tags":
-                        getImage(yandere, ImageRequestType.TAGS, false, "yandere", args, content, event);
+                        getImage(yandere, ImageRequestType.TAGS, false, "yandere", args, content, event, languageContext);
                         break;
                     case "":
-                        getImage(yandere, ImageRequestType.RANDOM, false, "yandere", args, content, event);
+                        getImage(yandere, ImageRequestType.RANDOM, false, "yandere", args, content, event, languageContext);
                         break;
                     default:
                         onHelp(event);

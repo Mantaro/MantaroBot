@@ -24,6 +24,7 @@ import net.kodehawa.lib.imageboards.entities.BoardImage;
 import net.kodehawa.lib.imageboards.entities.Rating;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -38,7 +39,8 @@ import java.util.stream.Collectors;
 public class ImageboardUtils {
     private static final Random r = new Random();
 
-    public static void getImage(ImageBoard<?> api, ImageRequestType type, boolean nsfwOnly, String imageboard, String[] args, String content, GuildMessageReceivedEvent event) {
+    @SuppressWarnings("unchecked")
+    public static void getImage(ImageBoard<?> api, ImageRequestType type, boolean nsfwOnly, String imageboard, String[] args, String content, GuildMessageReceivedEvent event, I18nContext languageContext) {
         Rating rating = Rating.SAFE;
         boolean needRating = args.length >= 3;
         final TextChannel channel = event.getChannel();
@@ -52,14 +54,14 @@ public class ImageboardUtils {
             rating = Rating.EXPLICIT;
 
         if(rating == null) {
-            channel.sendMessage(EmoteReference.ERROR + "You provided an invalid rating (Available types: questionable, explicit, safe)!").queue();
+            channel.sendMessageFormat(languageContext.get("commands.imageboard.invalid_rating"), EmoteReference.ERROR).queue();
             return;
         }
 
         final Rating finalRating = rating;
 
-        if(!nsfwCheck(event, nsfwOnly, false, finalRating)) {
-            channel.sendMessage(EmoteReference.ERROR + "Cannot send a NSFW image in a non-nsfw channel :(").queue();
+        if(!nsfwCheck(event, languageContext, nsfwOnly, false, finalRating)) {
+            channel.sendMessageFormat(languageContext.get("commands.imageboard.nsfw_no_nsfw"), EmoteReference.ERROR).queue();
             return;
         }
 
@@ -72,7 +74,7 @@ public class ImageboardUtils {
                     String arguments = content.replace("get ", "");
                     String[] argumentsSplit = arguments.split(" ");
                     api.get(page, queryRating).async(requestedImages -> {
-                        if(isListNull(requestedImages, event)) return;
+                        if(isListNull(requestedImages, languageContext, event)) return;
 
                         try {
                             int number;
@@ -81,7 +83,7 @@ public class ImageboardUtils {
                                 images = requestedImages.stream().filter(data -> data.getRating().equals(finalRating)).collect(Collectors.toList());
 
                             if(images.isEmpty()) {
-                                channel.sendMessage(EmoteReference.SAD + "There are no images matching your search criteria...").queue();
+                                channel.sendMessageFormat(languageContext.get("commands.imageboard.no_images"), EmoteReference.SAD).queue();
                                 return;
                             }
 
@@ -93,11 +95,11 @@ public class ImageboardUtils {
 
                             BoardImage image = images.get(number);
                             String tags = image.getTags().stream().collect(Collectors.joining(", "));
-                            if(foundMinorTags(event, tags, image.getRating())) {
+                            if(foundMinorTags(event, languageContext, tags, image.getRating())) {
                                 return;
                             }
 
-                            imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, image.getRating(), imageboard, channel);
+                            imageEmbed(languageContext, image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, image.getRating(), imageboard, channel);
                             if(image.getRating().equals(Rating.EXPLICIT)) {
                                 if(playerData.addBadgeIfAbsent(Badge.LEWDIE)) {
                                     player.saveAsync();
@@ -106,16 +108,15 @@ public class ImageboardUtils {
                                 TextChannelGround.of(event).dropItemWithChance(13, 3);
                             }
                         } catch(Exception e) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
-                                    "number or another search.").queue();
+                            channel.sendMessageFormat(languageContext.get("commands.imageboard.no_results"), EmoteReference.SAD).queue();
                         }
-                    }, failure -> event.getChannel().sendMessage(EmoteReference.SAD + "There was an error while looking for an image...").queue());
+                    }, failure -> channel.sendMessageFormat(languageContext.get("commands.imageboard.error"), EmoteReference.SAD).queue());
                 } catch(NumberFormatException ne) {
-                    channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help " + imageboard).queue(
+                    channel.sendMessageFormat(languageContext.get("commands.imageboard.wrong_argument"), EmoteReference.ERROR, imageboard).queue(
                             message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
                     );
                 } catch (Exception e) {
-                    event.getChannel().sendMessage(EmoteReference.SAD + "There was an error while looking an image...").queue();
+                    channel.sendMessageFormat(languageContext.get("commands.imageboard.error"), EmoteReference.SAD).queue();
                 }
                 break;
             case TAGS:
@@ -126,13 +127,13 @@ public class ImageboardUtils {
 
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     if(dbGuild.getData().getBlackListedImageTags().contains(tags.toLowerCase())) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "This image tag has been blacklisted here by an administrator.").queue();
+                        channel.sendMessageFormat(languageContext.get("commands.imageboard.blacklisted_tag"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     api.search(tags, queryRating).async(requestedImages -> {
                         //account for this
-                        if(isListNull(requestedImages, event)) return;
+                        if(isListNull(requestedImages, languageContext, event)) return;
 
                         try {
                             List<BoardImage> filter = (List<BoardImage>) requestedImages;
@@ -140,7 +141,7 @@ public class ImageboardUtils {
                                 filter = requestedImages.stream().filter(data -> data.getRating().equals(finalRating)).collect(Collectors.toList());
 
                             if(filter.isEmpty()) {
-                                channel.sendMessage(EmoteReference.SAD + "There are no images matching your search criteria...").queue();
+                                channel.sendMessageFormat(languageContext.get("commands.imageboard.no_images"), EmoteReference.SAD).queue();
                                 return;
                             }
 
@@ -153,11 +154,11 @@ public class ImageboardUtils {
                             BoardImage image = filter.get(number);
                             String imageTags = image.getTags().stream().collect(Collectors.joining(", "));
 
-                            if(foundMinorTags(event, imageTags, image.getRating())) {
+                            if(foundMinorTags(event, languageContext, imageTags, image.getRating())) {
                                 return;
                             }
 
-                            imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), imageTags, image.getRating(), imageboard, channel);
+                            imageEmbed(languageContext, image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), imageTags, image.getRating(), imageboard, channel);
                             if(image.getRating().equals(Rating.EXPLICIT)) {
                                 if(playerData.addBadgeIfAbsent(Badge.LEWDIE)) {
                                     player.saveAsync();
@@ -166,37 +167,36 @@ public class ImageboardUtils {
                                 TextChannelGround.of(event).dropItemWithChance(13, 3);
                             }
                         } catch(Exception e) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
-                                    "number or another search.").queue();
+                            channel.sendMessageFormat(languageContext.get("commands.imageboard.no_results"), EmoteReference.SAD).queue();
                         }
-                    }, failure -> event.getChannel().sendMessage(EmoteReference.SAD + "There was an error while looking for this tag...").queue());
+                    }, failure -> channel.sendMessageFormat(languageContext.get("commands.imageboard.error_tag"), EmoteReference.SAD).queue());
                 } catch (NumberFormatException numberEx) {
-                    channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help " + imageboard).queue(
+                    channel.sendMessageFormat(languageContext.get("commands.imageboard.wrong_argument"), EmoteReference.ERROR, imageboard).queue(
                             message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
                     );
                 } catch(Exception exception) {
-                    event.getChannel().sendMessage(EmoteReference.SAD + "There was an error while looking for this tag...").queue();
+                    channel.sendMessageFormat(languageContext.get("commands.imageboard.error_tag"), EmoteReference.SAD).queue();
                 }
 
                 break;
             case RANDOM:
                 api.get(page, queryRating).async(requestedImages -> {
                     try {
-                        if(isListNull(requestedImages, event)) return;
+                        if(isListNull(requestedImages, languageContext, event)) return;
 
                         List<BoardImage> filter = (List<BoardImage>) requestedImages;
                         if(!nsfwOnly)
                             filter = requestedImages.stream().filter(data -> data.getRating().equals(finalRating)).collect(Collectors.toList());
 
                         if(filter.isEmpty()) {
-                            channel.sendMessage(EmoteReference.SAD + "There are no images matching your search criteria...").queue();
+                            channel.sendMessageFormat(languageContext.get("commands.imageboard.no_images"), EmoteReference.SAD).queue();
                             return;
                         }
 
                         int number = r.nextInt(filter.size());
                         BoardImage image = filter.get(number);
                         String tags = image.getTags().stream().collect(Collectors.joining(", "));
-                        imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, image.getRating(), imageboard, channel);
+                        imageEmbed(languageContext, image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, image.getRating(), imageboard, channel);
                         if(image.getRating().equals(Rating.EXPLICIT)) {
                             if(playerData.addBadgeIfAbsent(Badge.LEWDIE)) {
                                 player.saveAsync();
@@ -205,14 +205,14 @@ public class ImageboardUtils {
                             TextChannelGround.of(event).dropItemWithChance(13, 3);
                         }
                     } catch(Exception e) {
-                        event.getChannel().sendMessage(EmoteReference.SAD + "There was an unknown error while looking for a random image...").queue();
+                        channel.sendMessageFormat(languageContext.get("commands.imageboard.error_random"), EmoteReference.SAD).queue();
                     }
-                }, failure -> event.getChannel().sendMessage(EmoteReference.SAD + "There was an error while looking for a random image...").queue());
+                }, failure -> channel.sendMessageFormat(languageContext.get("commands.imageboard.error_random"), EmoteReference.SAD).queue());
                 break;
         }
     }
 
-    public static boolean nsfwCheck(GuildMessageReceivedEvent event, boolean isGlobal, boolean sendMessage, Rating rating) {
+    public static boolean nsfwCheck(GuildMessageReceivedEvent event, I18nContext languageContext, boolean isGlobal, boolean sendMessage, Rating rating) {
         if(event.getChannel().isNSFW())
             return true;
 
@@ -221,8 +221,7 @@ public class ImageboardUtils {
 
         if(!trigger) {
             if(sendMessage) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "Not on a NSFW channel. Cannot send lewd images.\n" +
-                        "**Reminder:** You can set this channel as NSFW by going to the channel settings and checking \"Set this Channel as NSFW\".").queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.imageboard.non_nsfw_channel"), EmoteReference.ERROR ).queue();
             }
             return false;
         }
@@ -230,36 +229,35 @@ public class ImageboardUtils {
         return true;
     }
 
-    private static boolean foundMinorTags(GuildMessageReceivedEvent event, String tags, Rating rating) {
+    private static boolean foundMinorTags(GuildMessageReceivedEvent event, I18nContext languageContext, String tags, Rating rating) {
         boolean trigger = (tags.contains("loli") || tags.contains("shota") || tags.contains("lolicon") || tags.contains("shotacon")) && !rating.equals(Rating.SAFE);
 
         if(!trigger) {
             return false;
         }
 
-        event.getChannel().sendMessage(EmoteReference.WARNING + "Sadly we cannot display images that allegedly contain `loli` or `shota` lewd/NSFW content because discord" +
-                " prohibits it. (Filter ran: Image contains a loli or shota tag and it's NSFW)").queue();
+        event.getChannel().sendMessageFormat(languageContext.get("commands.imageboard.loli_content_disallow"), EmoteReference.WARNING).queue();
         return true;
     }
 
-    private static boolean isListNull(List<?> l, GuildMessageReceivedEvent event) {
+    private static boolean isListNull(List<?> l, I18nContext languageContext, GuildMessageReceivedEvent event) {
         if(l == null) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Oops... something went wrong when searching... (If you used a tag, the tag might not exist)").queue();
+            event.getChannel().sendMessageFormat(languageContext.get("commands.imageboard.null_image_notice"), EmoteReference.ERROR).queue();
             return true;
         }
 
         return false;
     }
 
-    private static void imageEmbed(String url, String width, String height, String tags, Rating rating, String imageboard, TextChannel channel) {
+    private static void imageEmbed(I18nContext languageContext, String url, String width, String height, String tags, Rating rating, String imageboard, TextChannel channel) {
         EmbedBuilder builder = new EmbedBuilder();
-        builder.setAuthor("Found image", url, null)
+        builder.setAuthor(languageContext.get("commands.imageboard.found_image"), url, null)
                 .setImage(url)
-                .setDescription("Rating: **" + rating.getLongName() + "**, Imageboard: **" + imageboard + "**")
-                .addField("Width", width, true)
-                .addField("Height", height, true)
-                .addField("Tags", "`" + (tags == null ? "None" : tags) + "`", false)
-                .setFooter("If the image doesn't load, click the title." + (imageboard.equals("rule34") ? " If you don't like the content on this command, you can use ~>yandere" : ""), null);
+                .setDescription(String.format(languageContext.get("commands.imageboard.description_image"), rating.getLongName(), imageboard))
+                .addField(languageContext.get("commands.imageboard.width"), width, true)
+                .addField(languageContext.get("commands.imageboard.height"), height, true)
+                .addField(languageContext.get("commands.imageboard.tags"), "`" + (tags == null ? "None" : tags) + "`", false)
+                .setFooter(languageContext.get("commands.imageboard.load_notice") + (imageboard.equals("rule34") ? " " + languageContext.get("commands.imageboard.rule34_notice") : ""), null);
 
         channel.sendMessage(builder.build()).queue();
     }

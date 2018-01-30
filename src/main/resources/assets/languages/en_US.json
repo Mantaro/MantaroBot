@@ -14,6 +14,28 @@
     "total": "Total"
   },
   "commands": {
+    "imageboard": {
+      "invalid_rating": "%1$sYou provided an invalid rating (Available types: questionable, explicit, safe)!",
+      "nsfw_no_nsfw": "%1$sCannot send a NSFW image in a non-nsfw channel :(",
+      "no_images": "%1$sThere are no images matching your search criteria...",
+      "no_results": "%1$s**There aren't any more images or no results found**! Please try with a lower number or another search.",
+      "error": "%1$sThere was an error while looking for an image...",
+      "wrong_argument": "%1$sWrong argument type. Check ~>help %2$s",
+      "blacklisted_tag": "%1$sThis image tag has been blacklisted here by an administrator.",
+      "error_tag": "%1$sThere was an error while looking for this tag...",
+      "error_random": "%1$sThere was an error while looking for a random image...",
+      "non_nsfw_channel": "%1$sNot on an NSFW channel. Cannot send lewd images.\n**Reminder:** You can set this channel as NSFW by going to the channel settings and checking \"Set this Channel as NSFW\".",
+      "loli_content_disallow": "%1$sSadly we cannot display images that allegedly contain `loli` or `shota` lewd/NSFW content because discord prohibits it. (Filter ran: Image contains a loli or shota tag and it's NSFW)",
+      "null_list_notice": "%1$sOops... something went wrong when searching... (If you used a tag, the tag might not exist)",
+      "found_image": "Found image",
+      "description_image": "Rating: **%1$s**, Imageboard: **%2$s**",
+      "width": "Width",
+      "height": "Height",
+      "tags": "Tags",
+      "load_notice": "If the image doesn't load, click the title.",
+      "rule34_notice": "If you don't like the content on this command, you can use ~>yandere",
+      "yandere_nsfw_notice": "%1$sYande.re command can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!"
+    },
     "about": {
       "title": "About Mantaro",
       "description": {
