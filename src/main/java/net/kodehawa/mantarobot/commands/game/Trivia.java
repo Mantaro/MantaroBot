@@ -24,6 +24,7 @@ import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
@@ -50,11 +51,12 @@ public class Trivia extends Game<String> {
 
     @Override
     public boolean onStart(GameLobby lobby) {
+        final I18nContext languageContext = lobby.getLanguageContext();
         try {
             String json = Utils.wget(OTDB_URL + (difficulty == null ? "" : "&difficulty=" + difficulty), null);
 
             if(json == null) {
-                lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while starting trivia. Seemingly Open Trivia DB is having trouble.").queue();
+                lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.trivia.fetch_error"), EmoteReference.ERROR).queue();
                 return false;
             }
 
@@ -91,16 +93,16 @@ public class Trivia extends Game<String> {
             eb.setAuthor("Trivia Game", null, lobby.getEvent().getAuthor().getAvatarUrl())
                     .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
                     .setDescription("**" + qu + "**")
-                    .addField("Possibilities", sb.toString(), false)
-                    .addField("Difficulty", "`" + Utils.capitalize(diff) + "`", true)
-                    .addField("Category", "`" + category + "`", true)
-                    .setFooter("This times out in 60 seconds. (Type end to end the trivia)", lobby.getEvent().getAuthor().getAvatarUrl());
+                    .addField(languageContext.get("commands.game.trivia.possibilities"), sb.toString(), false)
+                    .addField(languageContext.get("commands.game.trivia.difficulty"), "`" + Utils.capitalize(diff) + "`", true)
+                    .addField(languageContext.get("commands.game.trivia.category"), "`" + category + "`", true)
+                    .setFooter(languageContext.get("commands.game.end_footer"), lobby.getEvent().getAuthor().getAvatarUrl());
 
             lobby.getChannel().sendMessage(eb.build()).queue();
 
             return true;
         } catch(Exception e) {
-            lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while starting trivia.").queue();
+            lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.error"), EmoteReference.ERROR).queue();
             log.warn("Error while starting a trivia game", e);
             return false;
         }
@@ -119,7 +121,7 @@ public class Trivia extends Game<String> {
                 if(lobby.getChannel() == null)
                     return;
 
-                lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! The answer was: " + expectedAnswer.get(0)).queue();
+                lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby_timed_out"), EmoteReference.ERROR, expectedAnswer.get(0)).queue();
                 GameLobby.LOBBYS.remove(lobby.getChannel());
             }
 

@@ -14,7 +14,7 @@
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.commands.game;
+package net.kodehawa.mantarobot.commands.game.core;
 
 import lombok.Data;
 

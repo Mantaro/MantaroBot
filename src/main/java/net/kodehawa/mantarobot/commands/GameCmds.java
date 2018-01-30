@@ -83,17 +83,17 @@ public class GameCmds {
         }.addSubCommand("character", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                startGame(new Character(), event);
+                startGame(new Character(), event, languageContext);
             }
         }).addSubCommand("pokemon", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                startGame(new Pokemon(), event);
+                startGame(new Pokemon(), event, languageContext);
             }
         }).addSubCommand("number", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                startGame(new GuessTheNumber(), event);
+                startGame(new GuessTheNumber(), event, languageContext);
             }
         }));
 
@@ -108,7 +108,7 @@ public class GameCmds {
                 if(member == null)
                     return;
 
-                event.getChannel().sendMessage(EmoteReference.POPPER + member.getEffectiveName() + " has won " + MantaroData.db().getPlayer(member).getData().getGamesWon() + " games").queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.game.won"), EmoteReference.POPPER, member.getEffectiveName(), MantaroData.db().getPlayer(member).getData().getGamesWon()).queue();
             }
         });
 
@@ -116,7 +116,7 @@ public class GameCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't specify anything to play!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.nothing_specified"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -124,7 +124,7 @@ public class GameCmds {
                 String[] split = mentionPattern.matcher(content).replaceAll("").split(", ");
 
                 if(split.length < 1 || split.length == 1) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify two games at least!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.not_enough_games"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -147,11 +147,11 @@ public class GameCmds {
                 }
 
                 if(gameList.isEmpty() || gameList.size() == 1) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify two games at least (Valid games: character, pokemon, number, trivia)!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.invalid_selection"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                startMultipleGames(gameList, event);
+                startMultipleGames(gameList, event, languageContext);
             }
         });
 
@@ -160,7 +160,7 @@ public class GameCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] values = SPLIT_PATTERN.split(content, 2);
                 if(values.length < 2) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the game and the number of times to run it").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.multiple.invalid"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -169,12 +169,12 @@ public class GameCmds {
                 try {
                     number = Integer.parseInt(values[1]);
                 } catch(Exception e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid number of times!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.multiple.invalid_times"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(number > 10) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You can only start a maximum of 10 games of the same type at a time!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.multiple.too_many_games"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -197,11 +197,11 @@ public class GameCmds {
                 }
 
                 if(gameList.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a valid game! (Valid games: character, pokemon, number, trivia)").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.multiple.invalid"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                startMultipleGames(gameList, event);
+                startMultipleGames(gameList, event, languageContext);
             }
         });
     }
@@ -227,11 +227,11 @@ public class GameCmds {
                 }
 
                 if(difficulty != null && !(difficulty.equals("easy") || difficulty.equals("hard") || difficulty.equals("medium"))) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong difficulty specified! (Supported: easy, medium and hard)").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.trivia.wrong_diff"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                startGame(new Trivia(difficulty), event);
+                startGame(new Trivia(difficulty), event, languageContext);
             }
 
             @Override
@@ -246,8 +246,8 @@ public class GameCmds {
         });
     }
 
-    private void startMultipleGames(LinkedList<Game> games, GuildMessageReceivedEvent event) {
-        if(checkRunning(event))
+    private void startMultipleGames(LinkedList<Game> games, GuildMessageReceivedEvent event, I18nContext languageContext) {
+        if(checkRunning(event, languageContext))
             return;
 
         List<String> players = new ArrayList<>();
@@ -262,7 +262,7 @@ public class GameCmds {
                         b.append(user.getEffectiveName()).append(" ");
                     })
             );
-            event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP lobby with all users with the specfied role: " + b.toString()).queue();
+            event.getChannel().sendMessageFormat(languageContext.get("commands.game.started_mp_role"), EmoteReference.MEGA, b.toString()).queue();
         }
 
         if(!event.getMessage().getMentionedUsers().isEmpty()) {
@@ -274,18 +274,17 @@ public class GameCmds {
             });
 
             if(players.size() > 1) {
-                event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP lobby with users: " + builder.toString()).queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.game.started_mp_user"), EmoteReference.MEGA, builder.toString()).queue();
             }
         }
 
-        event.getChannel().sendMessage(EmoteReference.CORRECT + "Started a new lobby! **Games: " + games.stream().map(Game::name).collect(Collectors.joining(", ")) + "**\n" +
-                "You can type `endlobby` to end all games and finish the lobby.").queue();
-        GameLobby lobby = new GameLobby(event, players, games);
+        event.getChannel().sendMessageFormat(languageContext.get("commands.game.lobby_started"), EmoteReference.CORRECT, games.stream().map(Game::name).collect(Collectors.joining(", "))).queue();
+        GameLobby lobby = new GameLobby(event, languageContext, players, games);
         lobby.startFirstGame();
     }
 
-    private void startGame(Game game, GuildMessageReceivedEvent event) {
-        if(checkRunning(event)) return;
+    private void startGame(Game game, GuildMessageReceivedEvent event, I18nContext languageContext) {
+        if(checkRunning(event, languageContext)) return;
 
         LinkedList<Game> list = new LinkedList<>();
         list.add(game);
@@ -303,7 +302,7 @@ public class GameCmds {
                     })
             );
 
-            event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with all users with the specified role: " + b.toString()).queue();
+            event.getChannel().sendMessageFormat(languageContext.get("commands.game.started_mp_role"), EmoteReference.MEGA, b.toString()).queue();
         }
 
         if(!event.getMessage().getMentionedUsers().isEmpty()) {
@@ -315,23 +314,23 @@ public class GameCmds {
             });
 
             if(players.size() > 1) {
-                event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with users: " + builder.toString()).queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.game.started_mp_user"), EmoteReference.MEGA, builder.toString()).queue();
             }
         }
 
-        GameLobby lobby = new GameLobby(event, players, list);
+        GameLobby lobby = new GameLobby(event, languageContext, players, list);
         lobby.startFirstGame();
     }
 
-    private boolean checkRunning(GuildMessageReceivedEvent event) {
+    private boolean checkRunning(GuildMessageReceivedEvent event, I18nContext languageContext) {
         if(GameLobby.LOBBYS.containsKey(event.getChannel())) {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             if(dbGuild.getData().getGameTimeoutExpectedAt() != null &&
                     (Long.parseLong(dbGuild.getData().getGameTimeoutExpectedAt()) > System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(75))) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!").queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.game.game_timeout_drop"), EmoteReference.ERROR).queue();
                 return false;
             } else {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot start a new game lobby when there is a game currently running.").queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.game.other_lobby_running"), EmoteReference.ERROR).queue();
                 return true;
             }
         }

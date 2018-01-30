@@ -26,6 +26,7 @@ import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -56,6 +57,8 @@ public class GuessTheNumber extends Game<Object> {
                     }
                 }
 
+                final I18nContext languageContext = lobby.getLanguageContext();
+
                 if(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix() != null &&
                         e.getMessage().getContentRaw().startsWith(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix())) {
                     return Operation.IGNORED;
@@ -63,14 +66,14 @@ public class GuessTheNumber extends Game<Object> {
 
                 if(players.contains(e.getAuthor().getId())) {
                     if(e.getMessage().getContentRaw().equalsIgnoreCase("end")) {
-                        lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game. The number was: " + number).queue();
+                        lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.number.ended_game"), EmoteReference.CORRECT, number).queue();
                         lobby.startNextGame();
                         GameLobby.LOBBYS.remove(lobby.getChannel());
                         return Operation.COMPLETED;
                     }
 
                     if(e.getMessage().getContentRaw().equalsIgnoreCase("endlobby")) {
-                        lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended lobby correctly! Thanks for playing!").queue();
+                        lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.lobby.ended_lobby"), EmoteReference.CORRECT).queue();
                         lobby.getGamesToPlay().clear();
                         lobby.startNextGame();
                         return Operation.COMPLETED;
@@ -81,7 +84,7 @@ public class GuessTheNumber extends Game<Object> {
                     try {
                         parsedAnswer = Integer.parseInt(e.getMessage().getContentRaw());
                     } catch(NumberFormatException ex) {
-                        lobby.getChannel().sendMessage(EmoteReference.ERROR + "That's not even a number...").queue();
+                        lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.number.nan"), EmoteReference.ERROR).queue();
                         attempts = attempts + 1;
                         return Operation.IGNORED;
                     }
@@ -98,20 +101,23 @@ public class GuessTheNumber extends Game<Object> {
                         player.save();
 
                         TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
-                        lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $" + gains + " credits by answering correctly!").queue();
+                        lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.lobby.won_game"), EmoteReference.MEGA, e.getMember().getEffectiveName(), gains).queue();
                         lobby.startNextGame();
                         return Operation.COMPLETED;
                     }
 
                     if(attempts >= maxAttempts) {
-                        lobby.getChannel().sendMessage(EmoteReference.ERROR + "Already used all attempts, ending game. The number was: " + number).queue();
+                        lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.number.all_attempts_used"), EmoteReference.ERROR, number).queue();
                         lobby.startNextGame(); //This should take care of removing the lobby, actually.
                         return Operation.COMPLETED;
                     }
 
 
-                    lobby.getChannel().sendMessage(EmoteReference.ERROR + "That's not it, you have " + (maxAttempts - attempts) + " attempts remaning.\n" +
-                            "Hint: The number is " + (parsedAnswer < number ? "higher" : "lower") + " than your input number.").queue();
+                    lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.lobby.incorrect_answer") + "\n" +
+                            String.format(languageContext.get("commands.game.number.hint"),
+                                (parsedAnswer < number ? languageContext.get("commands.game.number.higher") : languageContext.get("commands.game.number.lower"))
+                            ), EmoteReference.ERROR, (maxAttempts - attempts)
+                    ).queue();
                     attempts = attempts + 1;
                     return Operation.IGNORED;
                 }
@@ -124,7 +130,7 @@ public class GuessTheNumber extends Game<Object> {
                 if(lobby.getChannel() == null)
                     return;
 
-                lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! The number was: " + number).queue();
+                lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby_timed_out"), EmoteReference.ERROR, number).queue();
                 GameLobby.LOBBYS.remove(lobby.getChannel());
             }
 
@@ -139,7 +145,7 @@ public class GuessTheNumber extends Game<Object> {
     public boolean onStart(GameLobby lobby) {
         GameStatsManager.log(name());
         number = r.nextInt(150);
-        lobby.getChannel().sendMessage(EmoteReference.THINKING + "Guess the number! **You have 5 attempts and 30 seconds. The number is between 0 and 150**").queue();
+        lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.number.start"), EmoteReference.THINKING).queue();
         return true;
     }
 

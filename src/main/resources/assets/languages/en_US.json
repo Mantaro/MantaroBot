@@ -14,6 +14,54 @@
     "total": "Total"
   },
   "commands": {
+    "game": {
+      "won_games": "%1$s%2$s has won **%3$s games**!",
+      "nothing_specified": "%1$sYou didn't specify anything to play!",
+      "not_enough_games": "%1$sYou need to specify two games at least!",
+      "invalid_selection": "%1$sYou need to specify two games at least (Valid games: character, pokemon, number, trivia)!",
+      "multiple": {
+        "invalid": "%1$sYou need to specify the game and the number of times to run it",
+        "invalid_times": "%1$sInvalid number of times!",
+        "too_many_games": "%1$sYou can only start a maximum of 10 games of the same type at a time!"
+      },
+      "trivia": {
+        "wrong_diff": "%1$sWrong difficulty specified! (Supported: easy, medium and hard)",
+        "fetch_error": "%1$sError while starting trivia. Seemingly Open Trivia DB is having trouble.",
+        "possibilities": "Possibilities",
+        "difficulty": "Difficulty",
+        "category": "Category"
+      },
+      "number": {
+        "start": "%1$sGuess the number! **You have 5 attempts and 30 seconds. The number is between 0 and 150**",
+        "nan": "%1$sThat's not even a number...",
+        "ended_game": "%1$sEnded game. The number was: %2$d",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. The number was: %2$d",
+        "hint": "Hint: The number is %1$s than your input number.",
+        "higher": "higher",
+        "lower": "lower"
+      },
+      "pokemon": {
+        "header": "Who's that pokemon?",
+        "footer": "You have 5 attempts and 75 seconds. (Type end to end the game)"
+      },
+      "started_mp_role": "%1$sStarted a MP lobby with all users with the specfied role: %2$s",
+      "started_mp_user": "%1$sStarted a MP lobby with users: %2$s",
+      "lobby_started": "%1$sStarted a new lobby! **Games: %2$s**\nYou can type `endlobby` to end all games and finish the lobby.",
+      "game_timeout_drop": "%1$sSeems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!",
+      "other_lobby_running": "%1$sCannot start a new game lobby when there is a game currently running.",
+      "lobby": {
+        "ended_game": "%1$sEnded game. Possible answers were: %2$s",
+        "ended_lobby": "%1$sEnded lobby correctly! Thanks for playing!",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Possible answers were: %2$s",
+        "incorrect_answer": "%1$sThat's not it, you have %2$d attempts remaning.",
+        "won_game": "%1$s**%2$s** just won $%3$d credits by answering correctly!"
+      },
+      "lobby_time_out": "%1$sThe time ran out! The correct answer is: %2$s",
+      "end_footer": "You have 10 attempts and 60 seconds. (Type end to end the game)",
+      "error": "%1$sError while setting up a game.",
+      "character_load_error": "%1$sReport this in the official server please. Failed to setup game for pre-saved character: %2$s",
+      "character_start": "Guess the character"
+    },
     "prune": {
       "no_messages_specified": "%1$sYou specified no messages to prune.",
       "no_permissions": "%1$sI cannot prune on this server since I don't have the Manage Messages permission.",
@@ -317,6 +365,9 @@
         "experience": "Experience"
       }
     }
+  },
+  "options": {
+    "options": "Mantaro Options"
   },
   "discord_permissions": {
     "create_instant_invite": "Create Instant Invite",

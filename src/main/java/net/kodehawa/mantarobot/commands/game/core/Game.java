@@ -60,14 +60,13 @@ public abstract class Game<T> {
 
         if(players.contains(e.getAuthor().getId())) {
             if(e.getMessage().getContentRaw().equalsIgnoreCase("end")) {
-                lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game. Possible answers were: " + expectedAnswer.stream()
-                        .map(String::valueOf).collect(Collectors.joining(", "))).queue();
+                lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.ended_game"), EmoteReference.CORRECT, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(", "))).queue();
                 lobby.startNextGame();
                 return Operation.COMPLETED;
             }
 
             if(e.getMessage().getContentRaw().equalsIgnoreCase("endlobby")) {
-                lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended lobby correctly! Thanks for playing!").queue();
+                lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.ended_lobby"),EmoteReference.CORRECT).queue();
                 lobby.getGamesToPlay().clear();
                 lobby.startNextGame();
                 return Operation.COMPLETED;
@@ -85,19 +84,18 @@ public abstract class Game<T> {
                 player.save();
 
                 TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
-                lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " just won $" + gains + " credits by answering correctly!").queue();
+                lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.won_game"), EmoteReference.MEGA, e.getMember().getEffectiveName(), gains).queue();
                 lobby.startNextGame();
                 return Operation.COMPLETED;
             }
 
             if(attempts >= maxAttempts) {
-                lobby.getChannel().sendMessage(EmoteReference.ERROR + "Already used all attempts, ending game. Possible answers were: " + expectedAnswer.stream()
-                        .map(String::valueOf).collect(Collectors.joining(" ,"))).queue();
+                lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.all_attempts_used"), EmoteReference.ERROR, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(" ,"))).queue();
                 lobby.startNextGame(); //This should take care of removing the lobby, actually.
                 return Operation.COMPLETED;
             }
 
-            lobby.getChannel().sendMessage(EmoteReference.ERROR + "That's not it, you have " + (maxAttempts - attempts) + " attempts remaning.").queue();
+            lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.incorrect_answer"), EmoteReference.ERROR, (maxAttempts - attempts)).queue();
             setAttempts(getAttempts() + 1);
             return Operation.IGNORED;
         }

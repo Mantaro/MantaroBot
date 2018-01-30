@@ -20,9 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.game.core.ImageGame;
+import net.kodehawa.mantarobot.commands.game.core.PokemonGameData;
 import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -54,7 +56,7 @@ public class Pokemon extends ImageGame {
                 if(lobby.getChannel() == null)
                     return;
 
-                lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Possible answers were: " + String.join(", ", expectedAnswer)).queue();
+                lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby_timed_out"), EmoteReference.ERROR, String.join(", ", expectedAnswer)).queue();
                 GameLobby.LOBBYS.remove(lobby.getChannel());
             }
 
@@ -66,17 +68,19 @@ public class Pokemon extends ImageGame {
     }
 
     public boolean onStart(GameLobby lobby) {
+        final I18nContext languageContext = lobby.getLanguageContext();
+
         try {
             GameStatsManager.log(name());
             PokemonGameData data = GsonDataManager.GSON_PRETTY.fromJson(Utils.wgetResty(config.apiTwoUrl + "/mantaroapi/pokemon/random", null), PokemonGameData.class);
             expectedAnswer = data.getNames();
             sendEmbedImage(lobby.getChannel(), data.getImage(), eb ->
-                    eb.setTitle("Who's that pokemon?", null)
-                    .setFooter("You have 5 attempts and 75 seconds. (Type end to end the game)", null)
+                    eb.setTitle(languageContext.get("commands.game.pokemon.header"), null)
+                    .setFooter(languageContext.get("commands.game.pokemon.footer"), null)
             ).queue();
             return true;
         } catch(Exception e) {
-            lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while setting up a game.").queue();
+            lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.error"), EmoteReference.ERROR).queue();
             log.warn("Exception while setting up a game", e);
             return false;
         }

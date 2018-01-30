@@ -21,6 +21,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 
@@ -46,12 +47,15 @@ public class GameLobby extends Lobby {
     Guild guild;
     @Getter
     List<String> players;
+    @Getter
+    I18nContext languageContext;
 
-    public GameLobby(GuildMessageReceivedEvent event, List<String> players, LinkedList<Game> games) {
+    public GameLobby(GuildMessageReceivedEvent event, I18nContext languageContext, List<String> players, LinkedList<Game> games) {
         super(event.getGuild().getId(), event.getChannel().getId());
         this.guild = event.getGuild();
         this.event = event;
         this.players = players;
+        this.languageContext = languageContext;
         this.gamesToPlay = games;
     }
 

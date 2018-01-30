@@ -28,6 +28,7 @@ import net.kodehawa.mantarobot.commands.game.core.ImageGame;
 import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -63,7 +64,7 @@ public class Character extends ImageGame {
                 if(lobby.getChannel() == null)
                     return;
 
-                lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Correct answer was " + String.join(" ,", characterNameL)).queue();
+                lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby_timed_out"), EmoteReference.ERROR, String.join(" ,", characterNameL)).queue();
                 GameLobby.LOBBYS.remove(lobby.getChannel());
             }
 
@@ -76,32 +77,34 @@ public class Character extends ImageGame {
 
     @Override
     public boolean onStart(GameLobby lobby) {
+        final I18nContext languageContext = lobby.getLanguageContext();
         try {
             GameStatsManager.log(name());
+
             characterNameL = new ArrayList<>();
             characterName = CollectionUtils.random(NAMES.get());
-            String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(characterName, "UTF-8"),
-                    authToken);
+            String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(characterName, "UTF-8"), authToken);
             String json = Utils.wget(url, null);
+
             CharacterData character = CharacterData.fromJsonFirst(json);
             String imageUrl = character.getMedImageUrl();
-            //Allow for replying with only the first name.
+
+            //Allow for replying with only the first name of the character.
             if(characterName.contains(" ") && !characterName.contains("Sailor")) {
                 characterNameL.add(characterName.split(" ")[0]);
             }
+
             characterNameL.add(characterName);
             sendEmbedImage(lobby.getChannel(), imageUrl, eb -> eb
-                    .setTitle("Guess the character", null)
-                    .setFooter("You have 10 attempts and 60 seconds. (Type end to end the game)", null)
+                    .setTitle(languageContext.get("commands.game.character_start"), null)
+                    .setFooter(languageContext.get("commands.game.end_footer"), null)
             ).queue();
             return true;
+        } catch (JsonSyntaxException ex) {
+            lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.character_load_error"), EmoteReference.WARNING, characterName).queue();
+            return false;
         } catch(Exception e) {
-            if(e instanceof JsonSyntaxException) {
-                lobby.getChannel().sendMessage(EmoteReference.WARNING + "Report this in the official server please. Failed to setup game for pre-saved character: " + characterName).queue();
-                return false;
-            }
-
-            lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while setting up a game.").queue();
+            lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.error"), EmoteReference.ERROR).queue();
             log.warn("Exception while setting up a game", e);
             return false;
         }
