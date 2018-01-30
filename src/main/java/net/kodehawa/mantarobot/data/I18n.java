@@ -3,27 +3,39 @@ package net.kodehawa.mantarobot.data;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.guild.GenericGuildEvent;
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
+import java.io.File;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class I18n {
-    //TODO maybe automate this
-    private static final String[] LANGUAGES = {"en_US"};
-
+    private static final List<String> LANGUAGES = new ArrayList<>();
     private static final ThreadLocal<String> ROOT = new ThreadLocal<>();
-
     private static final Map<String, I18n> LANGUAGE_MAP;
-
     private final Map<String, ?> map;
 
     static {
         Map<String, I18n> m = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
+        try {
+            List<String> files = IOUtils.readLines(I18n.class.getResourceAsStream("/assets/languages/"), Charsets.UTF_8);
+            System.out.println(files);
+            for(String fileName : files) {
+                if(!fileName.endsWith(".json"))
+                    continue;
+
+                String extension = fileName.substring(fileName.lastIndexOf("."));
+                fileName = fileName.replace(extension, "");
+                LANGUAGES.add(fileName);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         for(String s : LANGUAGES) {
             InputStream is = I18n.class.getResourceAsStream("/assets/languages/" + s + ".json");
             try {
