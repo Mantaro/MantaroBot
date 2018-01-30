@@ -4,10 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.guild.GenericGuildEvent;
 import org.apache.commons.io.Charsets;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,7 +21,6 @@ public class I18n {
         ObjectMapper mapper = new ObjectMapper();
         try {
             List<String> files = IOUtils.readLines(I18n.class.getResourceAsStream("/assets/languages/"), Charsets.UTF_8);
-            System.out.println(files);
             for(String fileName : files) {
                 if(!fileName.endsWith(".json"))
                     continue;
