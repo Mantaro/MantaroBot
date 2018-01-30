@@ -14,7 +14,29 @@
     "total": "Total"
   },
   "commands": {
+    "prune": {
+      "no_messages_specified": "%1$sYou specified no messages to prune.",
+      "no_permissions": "%1$sI cannot prune on this server since I don't have the Manage Messages permission.",
+      "bot_no_messages": "%1$sThere are no messages from bots or bot calls here.",
+      "no_pins_no_messages": "%1$sThere are no non-pinned messages here...",
+      "mention_no_messages": "%1$sThere are no messages from users which you mentioned here.",
+      "too_few_messages": "%1$sToo few messages to prune!",
+      "error_retrieving": "%1$sUnknown error while retrieving the history to prune the messages<%2$s>: %3$s",
+      "invalid_number": "%1$sPlease specify a valid number.",
+      "not_valid": "%1$sThat's not a valid number of messages to delete!",
+      "less_than_five": "%1$sYou need to provide at least 5 messages.",
+      "messages_too_old": "%1$sThere are no messages newer than 2 weeks old, discord won't let me delete them.",
+      "success": "%1$sSuccessfully pruned %2$s messages from this channel!",
+      "lack_perms": "%1$sLack of permission while pruning messages (No permission provided: %2$s)",
+      "error_deleting": "%1$sUnknown error while pruning messages <%2$s>: %3$s"
+    },
     "imageboard": {
+      "catgirl": {
+        "error": "Unable to get image."
+      },
+      "cat": {
+        "error": "%1$sError retrieving cute cat images :("
+      },
       "invalid_rating": "%1$sYou provided an invalid rating (Available types: questionable, explicit, safe)!",
       "nsfw_no_nsfw": "%1$sCannot send a NSFW image in a non-nsfw channel :(",
       "no_images": "%1$sThere are no images matching your search criteria...",

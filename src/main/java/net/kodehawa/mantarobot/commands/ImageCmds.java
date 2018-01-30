@@ -80,7 +80,7 @@ public class ImageCmds {
                                     CollectionUtils.random(catResponses).replace("%mention%", event.getAuthor().getName())
                             ).build()).queue();
                 } catch(Exception e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Error retrieving cute cat images :<").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.imageboard.cat.error"), EmoteReference.ERROR).queue();
                 }
             }
 
@@ -111,13 +111,13 @@ public class ImageCmds {
                     String image = result.getKey();
 
                     if(image == null) {
-                        event.getChannel().sendMessage("Unable to get image.").queue();
+                        event.getChannel().sendMessage(languageContext.get("commands.imageboard.catgirl.error")).queue();
                         return;
                     }
 
                     event.getChannel().sendFile(CACHE.getInput(image), "catgirl-" + result.getValue() + ".png", null).queue();
                 } catch(Exception e) {
-                    event.getChannel().sendMessage("Unable to get image.").queue();
+                    event.getChannel().sendMessage(languageContext.get("commands.imageboard.catgirl.error")).queue();
                 }
             }
 

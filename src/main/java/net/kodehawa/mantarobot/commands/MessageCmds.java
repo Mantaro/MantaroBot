@@ -51,12 +51,12 @@ public class MessageCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 TextChannel channel = event.getChannel();
                 if(content.isEmpty()) {
-                    channel.sendMessage(EmoteReference.ERROR + "You specified no messages to prune.").queue();
+                    channel.sendMessageFormat(languageContext.get("commands.prune.no_messages_specified"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot prune on this server since I don't have the Manage Messages permission.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.no_permissions"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -68,19 +68,19 @@ public class MessageCmds {
                                         message.getContentRaw().startsWith(prefix == null ? "~>" : prefix)).collect(Collectors.toList());
 
                                 if(messageHistory.isEmpty()) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages from bots or bot calls here.").queue();
+                                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.bots_no_messages"), EmoteReference.ERROR).queue();
                                     return;
                                 }
 
                                 if(messageHistory.size() < 3) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "Too few messages to prune!").queue();
+                                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.too_few_messages"), EmoteReference.ERROR).queue();
                                     return;
                                 }
 
-                                prune(event, messageHistory);
+                                prune(event, languageContext, messageHistory);
                             },
                             error -> {
-                                channel.sendMessage(String.format("%sUnknown error while retrieving the history to prune the messages<%s>: %s",
+                                channel.sendMessage(String.format(languageContext.get("commands.prune.error_retrieving"),
                                         EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
                                 error.printStackTrace();
                             }
@@ -96,7 +96,7 @@ public class MessageCmds {
                             if(i < 3)
                                 i = 3;
                         } catch(Exception e) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid number of messages to delete!").queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.prune.not_valid"), EmoteReference.ERROR).queue();
                             return;
                         }
                     }
@@ -106,19 +106,19 @@ public class MessageCmds {
                                 messageHistory = messageHistory.stream().filter(message -> !message.isPinned()).collect(Collectors.toList());
 
                                 if(messageHistory.isEmpty()) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "There are no non-pinned messages here...").queue();
+                                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.no_pins_no_messages"), EmoteReference.ERROR).queue();
                                     return;
                                 }
 
                                 if(messageHistory.size() < 3) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "Too few messages to prune!").queue();
+                                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.too_few_messages"), EmoteReference.ERROR).queue();
                                     return;
                                 }
 
-                                prune(event, messageHistory);
+                                prune(event, languageContext, messageHistory);
                             },
                             error -> {
-                                channel.sendMessage(String.format("%sUnknown error while retrieving the history to prune the messages<%s>: %s",
+                                channel.sendMessage(String.format(languageContext.get("commands.prune.error_retrieving"),
                                         EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
                                 error.printStackTrace();
                             }
@@ -139,7 +139,7 @@ public class MessageCmds {
                             i = Integer.parseInt(args[1]);
                             if(i < 3) i = 3;
                         } catch(Exception e) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a number!").queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.prune.not_valid"), EmoteReference.ERROR).queue();
                         }
                     }
 
@@ -148,22 +148,20 @@ public class MessageCmds {
                                 messageHistory = messageHistory.stream().filter(message -> users.contains(message.getAuthor().getIdLong())).collect(Collectors.toList());
 
                                 if(messageHistory.isEmpty()) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages from users which you mentioned " +
-                                            "here.").queue();
+                                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.mention_no_messages"), EmoteReference.ERROR).queue();
                                     return;
                                 }
 
                                 if(messageHistory.size() < 3) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "Too few messages to prune!").queue();
+                                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.too_few_messages"), EmoteReference.ERROR).queue();
                                     return;
                                 }
 
-                                prune(event, messageHistory);
+                                prune(event, languageContext, messageHistory);
                             },
                             error -> {
-                                channel.sendMessage(EmoteReference.ERROR + "Unknown error while retrieving the history to prune the messages"
-                                        + "<"
-                                        + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+                                channel.sendMessage(String.format(languageContext.get("commands.prune.error_retrieving"),
+                                        EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
                                 error.printStackTrace();
                             });
                     return;
@@ -173,21 +171,20 @@ public class MessageCmds {
                 try {
                     i = Integer.parseInt(content);
                 } catch(Exception e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Please specify a valid number.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.invalid_number"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(i < 5) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide at least 5 messages.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.less_than_five"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 channel.getHistory().retrievePast(Math.min(i, 100)).queue(
-                        messageHistory -> prune(event, messageHistory),
+                        messageHistory -> prune(event, languageContext, messageHistory),
                         error -> {
-                            channel.sendMessage(EmoteReference.ERROR + "Unknown error while retrieving the history to prune the messages"
-                                    + "<"
-                                    + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+                            channel.sendMessage(String.format(languageContext.get("commands.prune.error_retrieving"),
+                                    EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
                             error.printStackTrace();
                         }
                 );
@@ -208,7 +205,7 @@ public class MessageCmds {
         });
     }
 
-    private void prune(GuildMessageReceivedEvent event, List<Message> messageHistory) {
+    private void prune(GuildMessageReceivedEvent event, I18nContext languageContext, List<Message> messageHistory) {
         messageHistory = messageHistory.stream().filter(message -> !message.getCreationTime()
                 .isBefore(OffsetDateTime.now().minusWeeks(2)))
                 .collect(Collectors.toList());
@@ -216,20 +213,20 @@ public class MessageCmds {
         TextChannel channel = event.getChannel();
 
         if(messageHistory.isEmpty()) {
-            channel.sendMessage(EmoteReference.ERROR + "There are no messages newer than 2 weeks old, discord won't let me delete them.").queue();
+            channel.sendMessageFormat(languageContext.get("commands.prune.messages_too_old"), EmoteReference.ERROR).queue();
             return;
         }
 
         final int size = messageHistory.size();
 
         if(messageHistory.size() < 3) {
-            channel.sendMessage(EmoteReference.ERROR + "Too few messages to prune!").queue();
+            channel.sendMessageFormat(languageContext.get("commands.prune.too_few_messages"), EmoteReference.ERROR).queue();
             return;
         }
 
         channel.deleteMessages(messageHistory).queue(
                 success -> {
-                    channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " messages from this channel!")
+                    channel.sendMessageFormat(languageContext.get("commands.prune.success"), EmoteReference.PENCIL, size)
                             .queue(message -> message.delete().queueAfter(15, TimeUnit.SECONDS));
                     DBGuild db = MantaroData.db().getGuild(event.getGuild());
                     db.getData().setCases(db.getData().getCases() + 1);
@@ -239,10 +236,10 @@ public class MessageCmds {
                 error -> {
                     if(error instanceof PermissionException) {
                         PermissionException pe = (PermissionException) error;
-                        channel.sendMessage(String.format("%sLack of permission while pruning messages(No permission provided: %s)",
+                        channel.sendMessage(String.format(languageContext.get("commands.prune.lack_perms"),
                                 EmoteReference.ERROR, pe.getPermission())).queue();
                     } else {
-                        channel.sendMessage(String.format("%sUnknown error while pruning messages<%s>: %s",
+                        channel.sendMessage(String.format(languageContext.get("commands.prune.error_deleting"),
                                 EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
                         error.printStackTrace();
                     }
