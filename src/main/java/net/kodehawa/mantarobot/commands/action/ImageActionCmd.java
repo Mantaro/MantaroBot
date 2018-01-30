@@ -49,38 +49,42 @@ public class ImageActionCmd extends NoArgsCommand {
     private List<String> images;
     private boolean swapNames = false;
     private String type;
+    private EmoteReference emoji;
 
-    public ImageActionCmd(String name, String desc, Color color, String imageName, String format, List<String> images, String lonelyLine, boolean swap) {
+    public ImageActionCmd(String name, String desc, Color color, String imageName, EmoteReference emoji, String format, List<String> images, String lonelyLine, boolean swap) {
         super(Category.ACTION);
         this.name = name;
         this.desc = desc;
         this.color = color;
         this.imageName = imageName;
         this.format = format;
+        this.emoji = emoji;
         this.images = images;
         this.lonelyLine = lonelyLine;
         this.swapNames = swap;
     }
 
-    public ImageActionCmd(String name, String desc, Color color, String imageName, String format, String type, String lonelyLine) {
+    public ImageActionCmd(String name, String desc, Color color, String imageName, EmoteReference emoji, String format, String type, String lonelyLine) {
         super(Category.ACTION);
         this.name = name;
         this.desc = desc;
         this.color = color;
         this.imageName = imageName;
         this.format = format;
+        this.emoji = emoji;
         this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, "gif").getKey());
         this.lonelyLine = lonelyLine;
         this.type = type;
     }
 
-    public ImageActionCmd(String name, String desc, Color color, String imageName, String format, String type, String lonelyLine, boolean swap) {
+    public ImageActionCmd(String name, String desc, Color color, String imageName, EmoteReference emoji, String format, String type, String lonelyLine, boolean swap) {
         super(Category.ACTION);
         this.name = name;
         this.desc = desc;
         this.color = color;
         this.imageName = imageName;
         this.format = format;
+        this.emoji = emoji;
         this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, "gif").getKey());
         this.lonelyLine = lonelyLine;
         this.swapNames = swap;
@@ -98,7 +102,7 @@ public class ImageActionCmd extends NoArgsCommand {
                 id = result.getValue();
 
                 if(image == null) {
-                    event.getChannel().sendMessage(EmoteReference.SAD + "We got an error while retrieving the next gif for this action...").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.action.error_retrieving"), EmoteReference.SAD).queue();
                     return;
                 }
 
@@ -111,23 +115,23 @@ public class ImageActionCmd extends NoArgsCommand {
 
         try {
             if(event.getMessage().getMentionedUsers().isEmpty()) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention a user").queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.action.no_mention"), EmoteReference.ERROR).queue();
                 return;
             }
 
             MessageBuilder toSend = new MessageBuilder()
-                    .append(String.format(format, "**" + noMentions(event) + "**", "**" + event.getMember().getEffectiveName() + "**"))
+                    .append(String.format(emoji + languageContext.get(format), "**" + noMentions(event) + "**", "**" + event.getMember().getEffectiveName() + "**"))
                     .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE);
 
 
             if(swapNames) {
                 toSend = new MessageBuilder()
-                        .append(String.format(format, "**" + event.getMember().getEffectiveName() + "**", "**" + noMentions(event) + "**")
+                        .append(String.format(emoji + languageContext.get(format), "**" + event.getMember().getEffectiveName() + "**", "**" + noMentions(event) + "**")
                         ).stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE);
             }
 
             if(isLonely(event)) {
-                toSend = new MessageBuilder().append("**").append(lonelyLine).append("**");
+                toSend = new MessageBuilder().append("**").append(languageContext.get(lonelyLine)).append("**");
             }
 
             event.getChannel().sendFile(
@@ -136,7 +140,7 @@ public class ImageActionCmd extends NoArgsCommand {
                     toSend.build()
             ).queue();
         } catch(Exception e) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "S-Sorry, but I dropped the image. Probably I don't have permissions to send it.").queue();
+            event.getChannel().sendMessageFormat(languageContext.get("commands.action.permission_or_unexpected_error"), EmoteReference.ERROR).queue();
         }
     }
 

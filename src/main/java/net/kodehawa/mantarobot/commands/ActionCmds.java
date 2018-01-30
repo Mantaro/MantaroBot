@@ -45,76 +45,76 @@ public class ActionCmds {
         //pat();
         cr.register("pat", new ImageActionCmd(
                 "Pat", "Pats the specified user.", Color.PINK,
-                "pat", EmoteReference.TALKING + "%s you have been patted by %s", "pat", "Aww, I see you are lonely, take a pat <3"
+                "pat", EmoteReference.TALKING, "commands.action.pat", "pat", "commands.action.lonely.pat"
         ));
 
         //hug();
         cr.register("hug", new ImageActionCmd(
                 "Hug", "Hugs the specified user.", Color.PINK,
-                "hug", EmoteReference.TALKING + "%s you have been hugged by %s", "hug", "Aww, I see you are lonely, take a hug <3"
+                "hug", EmoteReference.TALKING, "commands.action.hug", "hug", "commands.action.lonely.hug"
         ));
 
         //kiss();
         cr.register("kiss", new ImageActionCmd(
                 "Kiss", "Kisses the specified user.", Color.PINK,
-                "kiss", EmoteReference.TALKING + "%s you have been kissed by %s", "kiss", "Aww, I see you are lonely, *kisses*"
+                "kiss", EmoteReference.TALKING, "commands.action.kiss", "kiss", "commands.action.lonely.kiss"
         ));
 
         //poke();
         cr.register("poke", new ImageActionCmd(
                 "Poke", "Pokes the specified user.", Color.PINK,
-                "poke", EmoteReference.TALKING + "%s you have been poked by %s :eyes:", "poke", "Aww, I see you are lonely, *pokes you*"
+                "poke", EmoteReference.TALKING, "commands.action.poke", "poke", "commands.action.lonely.poke"
         ));
 
         //slap();
         cr.register("slap", new ImageActionCmd(
                 "Slap", "Slaps the specified user ;).", Color.PINK,
-                "slap", EmoteReference.TALKING + "%s you have been slapped by %s!", "slap", "Hmm, why do you want this? Uh, I guess... *slaps you*"
+                "slap", EmoteReference.TALKING, "commands.action.slap", "slap", "commands.action.lonely.slap"
         ));
 
         //bite();
         cr.register("bite", new ImageActionCmd(
                 "Bite", "Bites the specified user.", Color.PINK,
-                "bite", EmoteReference.TALKING + "%s you have been bitten by %s :eyes:", "bite", "*bites you*"
+                "bite", EmoteReference.TALKING, "commands.action.bite", "bite", "commands.action.lonely.bite"
         ));
 
         //tickle();
         cr.register("tickle", new ImageActionCmd(
                 "Tickle", "Tickles the specified user.", Color.PINK,
-                "tickle", EmoteReference.JOY + "%s you have been tickled by %s", "tickle", "*tickles you*"
+                "tickle", EmoteReference.JOY, "commands.action.tickle", "tickle", "commands.action.lonely.tickle"
         ));
 
         //highfive();
         cr.register("highfive", new ImageActionCmd(
                 "Highfive", "Highfives with the specified user.", Color.PINK,
-                "highfive", EmoteReference.TALKING + "%s highfives %s :heart:", "highfive", "*highfives*", true
+                "highfive", EmoteReference.TALKING, "commands.action.highfive", "highfive", "commands.action.lonely.highfive", true
         ));
 
         //pout();
         cr.register("pout", new ImageActionCmd(
                 "Pout", "Pouts at the specified user.", Color.PINK,
-                "pout", EmoteReference.TALKING + "%s pouts at %s *hmph*", "pout", "*pouts, hmph*", true
+                "pout", EmoteReference.TALKING, "commands.action.pout", "pout", "commands.action.lonely.pout", true
         ));
 
         //teehee()
         cr.register("teehee", new ImageActionCmd("Teehee", "Teehee~", Color.PINK,
-                "teehee", EmoteReference.EYES + "%s is teasing %s", "teehee", "*teases you*", true));
+                "teehee", EmoteReference.EYES, "commands.action.teehee", "teehee", "commands.action.lonely.teehee", true));
 
         //smile()
         cr.register("smile", new ImageActionCmd("Smile", "Smiles at someone", Color.PINK,
-                "smile", EmoteReference.TALKING + "%s is smiling at %s :heart:", "smile", "*smiles at you*", true));
+                "smile", EmoteReference.TALKING, "commands.action.smile", "smile", "commands.action.lonely.smile", true));
 
         //stare()
         cr.register("stare", new ImageActionCmd("Stare", "Stares at someone", Color.PINK,
-                "stare", EmoteReference.EYES + "%s is staring at %s", "stare", "*stares you*", true));
+                "stare", EmoteReference.EYES, "commands.action.smile", "stare", "commands.action.lonely.stare", true));
 
         //holdhands()
         cr.register("holdhands", new ImageActionCmd("Hold Hands", "Hold someone's hands", Color.PINK,
-                "holdhands", EmoteReference.HEART + "%s is holding %s's hand", "handholding", "*holds your hand*", true));
+                "holdhands", EmoteReference.HEART, "commands.action.holdhands", "handholding", "commands.action.lonely.holdhands", true));
 
         //cuddle()
         cr.register("cuddle", new ImageActionCmd("Cuddle", "Cuddles someone", Color.PINK,
-                "cuddle", EmoteReference.HEART + "%s you have been cuddled by %s", "cuddle", "*cuddles you*"));
+                "cuddle", EmoteReference.HEART, "commands.action.cuddle", "cuddle", "commands.action.lonely.cuddle"));
 
         //greet();
         cr.register("greet", new TextActionCmd(
@@ -131,25 +131,25 @@ public class ActionCmds {
         //nuzzle()
         cr.register("nuzzle", new ImageActionCmd(
                 "Nuzzle Command", "Nuzzles the specified user.", Color.PINK,
-                "nuzzle", EmoteReference.TALKING + "%s is nuzzling %s", NUZZLE.get(), "*nuzzles you*", true
+                "nuzzle", EmoteReference.TALKING, "commands.action.nuzzle", NUZZLE.get(), "commands.action.lonely.nuzzle", true
         ));
 
         //bloodsuck()
         cr.register("bloodsuck", new ImageActionCmd("Bloodsuck command", "Sucks the blood of an user", Color.PINK, "bloodsuck",
-                EmoteReference.TALKING + "%s is sucking the blood of %s!", BLOODSUCK.get(), "J-Just how am I meant to? Oh well.. *sucks your blood*", true));
+                EmoteReference.TALKING, "commands.action.bloodsuck", BLOODSUCK.get(), "commands.action.lonely.bloodsuck", true));
 
         //lewd()
-        cr.register("lewd", new ImageCmd("Lewd", "T-Too lewd!", "lewd", "lewd", "Y-You lewdie!"));
+        cr.register("lewd", new ImageCmd("Lewd", "T-Too lewd!", "lewd", "lewd", "commands.action.lewd"));
 
         //meow()
-        cr.register("meow", new ImageCmd("Meow", "Meows at the specified user.", "meow", MEOW.get(), "Meow."));
+        cr.register("meow", new ImageCmd("Meow", "Meows at the specified user.", "meow", MEOW.get(), "commands.action.meow"));
         cr.registerAlias("meow", "mew");
 
         //nom()
-        cr.register("nom", new ImageCmd("Nom", "*nom nom*", "nom", "nom", "Yummy."));
+        cr.register("nom", new ImageCmd("Nom", "*nom nom*", "nom", "nom", "commands.action.nom"));
 
         //facedesk()
         cr.register("facedesk", new ImageCmd("Facedesk", "When it's just too much to handle.", "facedesk", "banghead",
-                "*facedesks*", true));
+                "commands.action.facedesk", true));
     }
 }

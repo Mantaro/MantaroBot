@@ -114,7 +114,7 @@ public class ImageCmd extends NoArgsCommand {
             if(!names.isEmpty()) builder.append("**").append(names).append("**, ");
         }
 
-        builder.append(toSend);
+        builder.append(languageContext.get(toSend));
         event.getChannel().sendFile(
                 CACHE.getInput(random),
                 imageName + "-" + id + "." + extension,
