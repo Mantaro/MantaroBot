@@ -70,14 +70,14 @@ public class OsuStatsCmd {
         osuCommand.addSubCommand("best", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from osu! server...").queue(sentMessage -> {
-                    Future<String> task = pool.submit(() -> best(content));
+                event.getChannel().sendMessageFormat(languageContext.get("commands.osustats.retrieving_info"), EmoteReference.STOPWATCH).queue(sentMessage -> {
+                    Future<String> task = pool.submit(() -> best(content, languageContext));
                     try {
                         sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
                     } catch(Exception e) {
                         if(e instanceof TimeoutException) {
                             task.cancel(true);
-                            sentMessage.editMessage(EmoteReference.ERROR + "The osu! api seems to be taking a nap. Maybe try again later?").queue();
+                            sentMessage.editMessage(String.format(languageContext.get("commands.osustats.timeout"), EmoteReference.ERROR)).queue();
                         } else {
                             SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
                         }
@@ -89,14 +89,14 @@ public class OsuStatsCmd {
         osuCommand.addSubCommand("recent", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from server...").queue(sentMessage -> {
-                    Future<String> task = pool.submit(() -> recent(content));
+                event.getChannel().sendMessageFormat(languageContext.get("commands.osustats.retrieving_info"), EmoteReference.STOPWATCH).queue(sentMessage -> {
+                    Future<String> task = pool.submit(() -> recent(content, languageContext));
                     try {
                         sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
                     } catch(Exception e) {
                         if(e instanceof TimeoutException) {
                             task.cancel(true);
-                            sentMessage.editMessage(EmoteReference.ERROR + "The osu! api seems to be taking a nap. Maybe try again later?").queue();
+                            sentMessage.editMessage(String.format(languageContext.get("commands.osustats.timeout"), EmoteReference.ERROR)).queue();
                         } else log.warn("Exception thrown while fetching data", e);
                     }
                 });
@@ -106,14 +106,14 @@ public class OsuStatsCmd {
         osuCommand.addSubCommand("user", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                event.getChannel().sendMessage(user(content)).queue();
+                event.getChannel().sendMessage(user(content, languageContext)).queue();
             }
         });
 
         cr.registerAlias("osustats", "osu");
     }
 
-    private String best(String content) {
+    private String best(String content, I18nContext languageContext) {
         String finalResponse;
         try {
             long start = System.currentTimeMillis();
@@ -139,7 +139,7 @@ public class OsuStatsCmd {
                 }
 
                 BeatMap map = userScore.getBeatMap();
-                sb.append(String.format("# %s [%s] -> %s (%.2f*) \n | ####### | [%dpp] | Rank: %s -> Max Combo: %d",
+                sb.append(String.format(languageContext.get("commands.osustats.best_format"),
                         map.getTitle().replace("'", ""), map.getVersion(), (mods1.isEmpty() ? "No mod" : mods1), map.getDifficultyRating(),
                         (int) userScore.getPP(), userScore.getRank(), userScore.getMaxCombo()))
                         .append("\n");
@@ -147,18 +147,17 @@ public class OsuStatsCmd {
                 mods1 = "";
             }
 
-            finalResponse = String.format("**10 best osu! scores for: %s**\n```md\n%s```", osuUser.getUsername(), sb.toString());
+            finalResponse = String.format(languageContext.get("commands.osustats.best"), osuUser.getUsername(), sb.toString());
         } catch (JSONException jx) {
-            finalResponse = EmoteReference.ERROR + "No results found.";
-        }
-        catch(Exception e) {
-            finalResponse = EmoteReference.ERROR + "Uh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)";
+            finalResponse = String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);
+        } catch(Exception e) {
+            finalResponse = String.format(languageContext.get("commands.osustats.error"), EmoteReference.ERROR);
         }
 
         return finalResponse;
     }
 
-    private String recent(String content) {
+    private String recent(String content, I18nContext languageContext) {
         String finalMessage;
         try {
             String beheaded1 = content.replace("recent ", "");
@@ -182,25 +181,25 @@ public class OsuStatsCmd {
                 }
 
                 recent.add(
-                        String.format("# %s -> %s\n | (★%s) - %s | Date: %s -> Max Combo: %d\n", u.getBeatMap().getTitle().replace("'", ""), mods1,
+                        String.format(languageContext.get("commands.osustats.recent_format"), u.getBeatMap().getTitle().replace("'", ""), mods1,
                                 df.format(u.getBeatMap().getDifficultyRating()), u.getBeatMap().getCreator(), u.getDate(), u.getMaxCombo()));
 
                 mods1 = "";
             }
 
             recent.forEach(sb::append);
-            finalMessage = String.format("**10 most recent osu! scores for: %s**\n```md\n%s```", hey.getUsername(), sb.toString());
+            finalMessage = String.format(languageContext.get("commands.osustats.recent"), hey.getUsername(), sb.toString());
 
         } catch (JSONException jx) {
-            finalMessage = EmoteReference.ERROR + "No results found.";
+            finalMessage = String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);
         } catch(Exception e) {
-            finalMessage = EmoteReference.ERROR + "Uh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)";
+            finalMessage = String.format(languageContext.get("commands.osustats.error"), EmoteReference.ERROR);
         }
 
         return finalMessage;
     }
 
-    private MessageEmbed user(String content) {
+    private MessageEmbed user(String content, I18nContext languageContext) {
         MessageEmbed finalMessage;
         try {
             long start = System.currentTimeMillis();
@@ -215,14 +214,14 @@ public class OsuStatsCmd {
             DecimalFormat df = new DecimalFormat("####0"); //For everything else
             long end = System.currentTimeMillis() - start;
             EmbedBuilder builder = new EmbedBuilder();
-            builder.setAuthor("osu! statistics for " + osuClientUser.getUsername(), "https://osu.ppy.sh/" + osuClientUser.getUserID(), "https://a.ppy.sh/" + osuClientUser.getUserID())
+            builder.setAuthor(String.format(languageContext.get("commands.osustats.user.header"), osuClientUser.getUsername()), "https://osu.ppy.sh/" + osuClientUser.getUserID(), "https://a.ppy.sh/" + osuClientUser.getUserID())
                     .setColor(Color.GRAY)
-                    .addField("Rank", "#" + df.format(osuClientUser.getPPRank()), true)
-                    .addField(":flag_" + osuClientUser.getCountry().toLowerCase() + ": Country Rank", "#" + df.format(osuClientUser.getPPCountryRank()), true)
+                    .addField(languageContext.get("commands.osustats.user.rank"), "#" + df.format(osuClientUser.getPPRank()), true)
+                    .addField(String.format(":flag_%s: %s", osuClientUser.getCountry().toLowerCase(), languageContext.get("commands.osustats.user.country_rank")), "#" + df.format(osuClientUser.getPPCountryRank()), true)
                     .addField("PP", df.format(osuClientUser.getPPRaw()) + "pp", true)
-                    .addField("Accuracy", dfa.format(osuClientUser.getAccuracy()) + "%", true)
-                    .addField("Level", df.format(osuClientUser.getLevel()), true)
-                    .addField("Ranked Score", df.format(osuClientUser.getRankedScore()), true)
+                    .addField(languageContext.get("commands.osustats.user.acc"), dfa.format(osuClientUser.getAccuracy()) + "%", true)
+                    .addField(languageContext.get("commands.osustats.user.level"), df.format(osuClientUser.getLevel()), true)
+                    .addField(languageContext.get("commands.osustats.user.ranked"), df.format(osuClientUser.getRankedScore()), true)
                     .addField("SS", df.format(osuClientUser.getCountRankSS()), true)
                     .addField("S", df.format(osuClientUser.getCountRankS()), true)
                     .addField("A", df.format(osuClientUser.getCountRankA()), true)
@@ -232,7 +231,7 @@ public class OsuStatsCmd {
             EmbedBuilder builder = new EmbedBuilder();
             builder.setTitle("Error.", null)
                     .setColor(Color.RED)
-                    .addField("Description", "Uh-oh... seems like I just received scramble soup as a response... (" + e.getMessage() + ")", false);
+                    .addField(languageContext.get("general.description"), String.format(languageContext.get("commands.osustats.user.error_detailed"), e.getMessage()), false);
             finalMessage = builder.build();
         }
 
