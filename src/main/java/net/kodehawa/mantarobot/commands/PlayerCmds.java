@@ -149,13 +149,12 @@ public class PlayerCmds {
                         List<Member> found = FinderUtil.findMembers(content, event.getGuild());
 
                         if(found.isEmpty() && !content.isEmpty()) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Didn't find any member with your search criteria :(").queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("general.find_members_failure"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         if(found.size() > 1 && !content.isEmpty()) {
-                            event.getChannel().sendMessage(EmoteReference.THINKING + "Too many members found, maybe refine your search? (ex. use name#discriminator)\n" +
-                                    "**Members found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("general.too_many_members"), EmoteReference.THINKING, found.stream().map(m -> String.format("%s#%s", m.getUser().getName(), m.getUser().getDiscriminator())).collect(Collectors.joining(", "))).queue();
                             return;
                         }
 
@@ -164,7 +163,7 @@ public class PlayerCmds {
                             memberLooked = found.get(0);
 
                             if(userLooked.isBot()) {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "Bots don't have profiles.").queue();
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.profile.bot_notice"), EmoteReference.ERROR).queue();
                                 return;
                             }
 
@@ -172,8 +171,7 @@ public class PlayerCmds {
                             player = MantaroData.db().getPlayer(memberLooked);
                         }
 
-                        User marriedTo = (player.getData().getMarriedWith() == null || player.getData().getMarriedWith().isEmpty()) ? null :
-                                MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
+                        User marriedTo = (player.getData().getMarriedWith() == null || player.getData().getMarriedWith().isEmpty()) ? null : MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
 
                         PlayerData playerData = player.getData();
                         Inventory inv = player.getInventory();
@@ -218,22 +216,44 @@ public class PlayerCmds {
 
                         applyBadge(event.getChannel(),
                                 badges.isEmpty() ? null : (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()), userLooked,
-                                baseEmbed(event, (marriedTo == null || !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING) + memberLooked.getEffectiveName() + "'s Profile", userLooked.getEffectiveAvatarUrl())
+                                baseEmbed(event,
+                                        (marriedTo == null || !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING
+                                        ) + String.format(languageContext.get("commands.profile.header"), memberLooked.getEffectiveName()), userLooked.getEffectiveAvatarUrl()
+                                )
                                 .setThumbnail(userLooked.getEffectiveAvatarUrl())
-                                .setDescription((player.getData().isShowBadge() ? (badges.isEmpty() ? "" : String.format("**%s**\n", (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()))) : "")
-                                        + (player.getData().getDescription() == null ? "No description set" : player.getData().getDescription()))
-                                .addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), true)
-                                .addField(EmoteReference.ZAP + "Level", player.getLevel() + " (Experience: " + player.getData().getExperience() +
-                                        ")", true)
-                                .addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), true)
-                                .addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) :
-                                        "Not specified.", true)
-                                .addField(EmoteReference.HEART + "Married with", marriedTo == null ? "Nobody." : marriedTo.getName() + "#" +
-                                        marriedTo.getDiscriminator(), false)
-                                .addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(inv.asList()), false)
-                                .addField(EmoteReference.HEART + "Top 5 Badges", displayBadges.isEmpty() ? "No badges (yet!)" : displayBadges, false)
-                                .setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set." : user.getTimezone()) + " | " +
-                                        "Requested by " + event.getAuthor().getName(), null));
+                                .setDescription(
+                                        (player.getData().isShowBadge() ? (badges.isEmpty() ?
+                                                "" : String.format("**%s**\n", (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()))) : ""
+                                        ) +
+                                        (player.getData().getDescription() == null ?
+                                                languageContext.get("commands.profile.no_desc") : player.getData().getDescription()
+                                        )
+                                )
+                                .addField(EmoteReference.DOLLAR + languageContext.get("commands.profile.credits"),
+                                        "$ " + player.getMoney(), true
+                                )
+                                .addField(EmoteReference.ZAP + languageContext.get("commands.profile.level"),
+                                        String.format("%d (%s: %d)", player.getLevel(), languageContext.get("commands.profile.experience"), player.getData().getExperience()), true
+                                )
+                                .addField(EmoteReference.REP + languageContext.get("commands.profile.rep"),
+                                        String.valueOf(player.getReputation()), true
+                                )
+                                .addField(EmoteReference.POPPER + languageContext.get("commands.profile.birthday"),
+                                        user.getBirthday() != null ? user.getBirthday().substring(0, 5) : languageContext.get("commands.profile.not_specified"), true
+                                )
+                                .addField(EmoteReference.HEART + languageContext.get("commands.profile.married"),
+                                        marriedTo == null ? languageContext.get("commands.profile.nobody") : String.format("%s#%s", marriedTo.getName(), marriedTo.getDiscriminator()), false
+                                )
+                                .addField(EmoteReference.POUCH + languageContext.get("commands.profile.inventory"),
+                                        ItemStack.toString(inv.asList()), false
+                                )
+                                .addField(EmoteReference.HEART + languageContext.get("commands.profile.badges"),
+                                        displayBadges.isEmpty() ? languageContext.get("commands.profile.no_badges") : displayBadges, false
+                                )
+                                .setFooter(String.format("%s | %s", String.format(languageContext.get("commands.profile.timezone_user"),
+                                        (user.getTimezone() == null ? languageContext.get("commands.profile.no_timezone") : user.getTimezone())), String.format(languageContext.get("general.requested_by"), event.getAuthor().getName())), null
+                                )
+                        );
                     }
                 };
             }
@@ -301,8 +321,7 @@ public class PlayerCmds {
 
                 if(args.length == 0) {
                     event.getChannel().sendMessage(EmoteReference.ERROR +
-                            "You need to provide an argument! (set or remove)\n" +
-                            "for example, ~>profile description set Hi there!").queue();
+                            "You need to provide an argument! (set or remove)\nfor example, ~>profile description set Hi there!").queue();
                     return;
                 }
 
@@ -321,8 +340,7 @@ public class PlayerCmds {
                     }
 
                     player.getData().setDescription(content1);
-                    event.getChannel().sendMessage(EmoteReference.POPPER + "Set description to: **" + content1 + "**\n" +
-                            "Check your shiny new profile with `~>profile`").queue();
+                    event.getChannel().sendMessage(EmoteReference.POPPER + "Set description to: **" + content1 + "**\nCheck your shiny new profile with `~>profile`").queue();
                     player.save();
                     return;
                 }
@@ -404,7 +422,11 @@ public class PlayerCmds {
                         PlayerData playerData = player.getData();
 
                         if(!t.isEmpty() && t.containsKey("brief")) {
-                            event.getChannel().sendMessage(String.format("**%s's badges:**\n%s", member.getEffectiveName(), playerData.getBadges().stream().map(b -> "*" + b.display + "*").collect(Collectors.joining(", ")))).queue();
+                            event.getChannel().sendMessageFormat(
+                                    languageContext.get("commands.badges.brief_success"), member.getEffectiveName(),
+                                    playerData.getBadges().stream().map(b -> "*" + b.display + "*").collect(Collectors.joining(", "))
+                            ).queue();
+
                             return;
                         }
 
@@ -413,16 +435,14 @@ public class PlayerCmds {
 
                         //Show the message that tells the person that they can get a free badge for upvoting mantaro one out of 3 times they use this command.
                         //The message stops appearing when they upvote.
-                        String toShow = "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n" +
-                                "Use `~>badges info <badge name>` to get more information about a badge.\n" +
-                                ((r.nextInt(3) == 0 && !playerData.hasBadge(Badge.UPVOTER) ? "**You can get a free badge for " +
-                                        "[up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!** (It might take some minutes to process)\n\n" : "\n"))
+                        String toShow = languageContext.get("commands.badges.profile_notice") + languageContext.get("commands.badges.info_notice") +
+                                ((r.nextInt(3) == 0 && !playerData.hasBadge(Badge.UPVOTER) ? languageContext.get("commands.badges.upvote_notice") : "\n"))
                                 + badges.stream().map(badge -> String.format("**%s:** *%s*", badge, badge.description)).collect(Collectors.joining("\n"));
 
-                        if(toShow.isEmpty()) toShow = "No badges to show (yet!)";
+                        if(toShow.isEmpty()) toShow = languageContext.get("commands.badges.no_badges");
                         List<String> parts = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH, toShow);
                         DiscordUtils.list(event, 30, false, (current, max) -> new EmbedBuilder()
-                                .setAuthor("Badges achieved by " + toLookup.getName())
+                                .setAuthor(String.format(languageContext.get("commands.badges.header"), toLookup.getName()))
                                 .setColor(event.getMember().getColor() == null ? Color.PINK : event.getMember().getColor())
                                 .setThumbnail(toLookup.getEffectiveAvatarUrl()), parts);
                     }
@@ -444,23 +464,23 @@ public class PlayerCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a badge to see the info of.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.badges.info.not_specified"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 Badge badge = Badge.lookupFromString(content);
                 if(badge == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "There's no such badge...").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.badges.info.not_found"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 Player p = MantaroData.db().getPlayer(event.getAuthor());
                 Message message = new MessageBuilder().setEmbed(new EmbedBuilder()
-                        .setAuthor("Badge information for " + badge.display)
+                        .setAuthor(String.format(languageContext.get("commands.badges.info.header"), badge.display))
                         .setDescription(String.join("\n",
-                                EmoteReference.BLUE_SMALL_MARKER + "**Name:** " + badge.display,
-                                EmoteReference.BLUE_SMALL_MARKER + "**Description:** " + badge.description,
-                                EmoteReference.BLUE_SMALL_MARKER + "**Achieved:** " + p.getData().getBadges().stream().anyMatch(b -> b == badge))
+                                EmoteReference.BLUE_SMALL_MARKER + "**" + languageContext.get("general.name") + ":** " + badge.display,
+                                EmoteReference.BLUE_SMALL_MARKER + "**" + languageContext.get("general.description") + ":** " + badge.description,
+                                EmoteReference.BLUE_SMALL_MARKER + "**" + languageContext.get("commands.badges.info.achieved") + ":** " + p.getData().getBadges().stream().anyMatch(b -> b == badge))
                         )
                         .setThumbnail("attachment://icon.png")
                         .setColor(Color.CYAN)
