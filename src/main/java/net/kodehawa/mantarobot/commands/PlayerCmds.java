@@ -281,7 +281,7 @@ public class PlayerCmds {
                 String[] args = content.split(" ");
 
                 if(args.length < 1) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the timezone.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.timezone.not_specified"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -290,25 +290,25 @@ public class PlayerCmds {
                 if(timezone.equalsIgnoreCase("reset")) {
                     dbUser.getData().setTimezone(null);
                     dbUser.saveAsync();
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Reset timezone.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.timezone.reset_success"), EmoteReference.CORRECT).queue();
                     return;
                 }
 
                 if(!Utils.isValidTimeZone(timezone)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid timezone.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.timezone.invalid"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 try {
                     UtilsCmds.dateGMT(event.getGuild(),timezone);
                 } catch(Exception e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid timezone.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.timezone.invalid"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 dbUser.getData().setTimezone(timezone);
                 dbUser.saveAsync();
-                event.getChannel().sendMessage(String.format("%sSaved timezone, your profile timezone is now: **%s**", EmoteReference.CORRECT, timezone)).queue();
+                event.getChannel().sendMessage(String.format(languageContext.get("commands.profile.timezone.success"), EmoteReference.CORRECT, timezone)).queue();
             }
         });
 
@@ -320,8 +320,7 @@ public class PlayerCmds {
                 Player player = MantaroData.db().getPlayer(author);
 
                 if(args.length == 0) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR +
-                            "You need to provide an argument! (set or remove)\nfor example, ~>profile description set Hi there!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.description.no_argument"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -334,20 +333,19 @@ public class PlayerCmds {
                     String content1 = SPLIT_PATTERN.split(content, 2)[1];
 
                     if(content1.length() > MAX_LENGTH) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR +
-                                "The description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.profile.description.too_long"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     player.getData().setDescription(content1);
-                    event.getChannel().sendMessage(EmoteReference.POPPER + "Set description to: **" + content1 + "**\nCheck your shiny new profile with `~>profile`").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.description.success"), EmoteReference.POPPER, content1).queue();
                     player.save();
                     return;
                 }
 
                 if(args[1].equals("clear")) {
                     player.getData().setDescription(null);
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully cleared description.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.description.clear_success"), EmoteReference.CORRECT).queue();
                     player.save();
                 }
             }
@@ -358,7 +356,7 @@ public class PlayerCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = content.split(" ");
                 if(args.length == 0) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify your main badge!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.displaybadge.not_specified"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -367,7 +365,7 @@ public class PlayerCmds {
 
                 if(args[0].equalsIgnoreCase("none")) {
                     data.setShowBadge(false);
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "No badge will show on the top of your profile now!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.displaybadge.reset_success"), EmoteReference.CORRECT).queue();
                     player.saveAsync();
                     return;
                 }
@@ -375,7 +373,7 @@ public class PlayerCmds {
                 if(args[0].equalsIgnoreCase("reset")) {
                     data.setMainBadge(null);
                     data.setShowBadge(true);
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Your display badge is now the most important one.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.displaybadge.important_sucess"), EmoteReference.CORRECT).queue();
                     player.saveAsync();
                     return;
                 }
@@ -383,21 +381,19 @@ public class PlayerCmds {
                 Badge badge = Badge.lookupFromString(content);
 
                 if(badge == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "There's no such badge...\n" +
-                            "Your available badges: " + player.getData().getBadges().stream().map(Badge::getDisplay).collect(Collectors.joining(", "))).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.displaybadge.no_such_badge"), EmoteReference.ERROR, player.getData().getBadges().stream().map(Badge::getDisplay).collect(Collectors.joining(", "))).queue();
                     return;
                 }
 
                 if(!data.getBadges().contains(badge)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have that badge.\n" +
-                            "Your available badges: " + player.getData().getBadges().stream().map(Badge::getDisplay).collect(Collectors.joining(", "))).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.displaybadge.player_missing_badge"), EmoteReference.ERROR, player.getData().getBadges().stream().map(Badge::getDisplay).collect(Collectors.joining(", "))).queue();
                     return;
                 }
 
                 data.setShowBadge(true);
                 data.setMainBadge(badge);
                 player.saveAsync();
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "Your display badge is now: **" + badge.display + "**").queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.profile.displaybadge.success"), EmoteReference.CORRECT, badge.display).queue();
             }
         });
     }
