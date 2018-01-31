@@ -64,19 +64,6 @@ public class CommandRegistry {
     public boolean process(GuildMessageReceivedEvent event, String cmdName, String content) {
         long start = System.currentTimeMillis();
         Command command = commands.get(cmdName);
-
-        if(command == null) {
-            command = commands.get(cmdName.toLowerCase());
-
-            if(command == null) {
-                CustomCmds.handle(cmdName, event, content);
-                return false;
-            }
-        }
-
-        //Variable used in lambda expression should be final or effectively final...
-        final Command cmd = command;
-
         if(MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) {
             return false;
         }
@@ -84,6 +71,19 @@ public class CommandRegistry {
         DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
         UserData userData = MantaroData.db().getUser(event.getAuthor()).getData();
         GuildData data = dbg.getData();
+
+        if(command == null) {
+            command = commands.get(cmdName.toLowerCase());
+
+            if(command == null) {
+                CustomCmds.handle(cmdName, event, new I18nContext(data, userData), content);
+                return false;
+            }
+        }
+
+        //Variable used in lambda expression should be final or effectively final...
+        final Command cmd = command;
+
 
         if(data.getDisabledCommands().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) {
             return false;

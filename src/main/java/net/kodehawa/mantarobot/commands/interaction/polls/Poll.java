@@ -31,6 +31,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ReactionOperation;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -59,15 +60,18 @@ public class Poll extends Lobby {
     private String name = "";
     private String owner = "";
     private final String[] options;
+    private final I18nContext languageContext;
 
+    //TODO exclude languageContext from the json
     public Poll(@JsonProperty("id") String id, @JsonProperty("guildId") String guildId, @JsonProperty("channelId") String channelId, @JsonProperty("ownerId") String ownerId,
-                @JsonProperty("name") String name, @JsonProperty("timeout") long timeout, @JsonProperty("options") String... options) {
+                @JsonProperty("name") String name, @JsonProperty("timeout") long timeout, I18nContext languageContext, @JsonProperty("options") String... options) {
         super(guildId, channelId);
         this.id = id;
         this.options = options;
         this.timeout = timeout;
         this.name = name;
         this.owner = ownerId;
+        this.languageContext = languageContext;
 
         if(options.length > 9 || options.length < 2 || timeout > 2820000 || timeout < 30000) {
             isCompliant = false;
@@ -129,7 +133,7 @@ public class Poll extends Lobby {
                     .setFooter("You have " + Utils.getHumanizedTime(timeout) + " to vote.", author.getAvatarUrl());
 
 
-            getChannel().sendMessage(builder.build()).queue(this::createPoll);
+            getChannel().sendMessage(builder.build()).queue(message -> createPoll(message, languageContext));
 
             InteractiveOperations.create(getChannel(), Long.parseLong(owner), timeout, e -> {
                 if(e.getAuthor().getId().equals(owner)) {
@@ -165,7 +169,7 @@ public class Poll extends Lobby {
         return r;
     }
 
-    private Future<Void> createPoll(Message message) {
+    private Future<Void> createPoll(Message message, I18nContext languageContext) {
         runningPoll = ReactionOperations.create(message, TimeUnit.MILLISECONDS.toSeconds(timeout), new ReactionOperation() {
             @Override
             public int add(MessageReactionAddEvent e) {

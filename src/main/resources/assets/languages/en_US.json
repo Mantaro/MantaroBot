@@ -25,6 +25,35 @@
     "too_many_members": "%1$sToo many members found, maybe refine your search? (ex. use name#discriminator)\n%**Members found:** 2$s"
   },
   "commands": {
+    "8ball": {
+      "error": "%1$sI ran into an error while fetching 8ball results."
+    },
+    "iam": {
+      "list": {
+        "name": "\nAutorole name: ",
+        "role": " | Gives role **",
+        "header": "Autoroles list",
+        "no_autoroles": "There aren't any autoroles setup in this server!"
+      },
+      "deleted_role": "%1$sThe role that this autorole corresponded to has been deleted",
+      "already_assigned": "%1$sYou already have this role, silly!",
+      "success": "%1$s%2$s, you've been given the **%3$s** role",
+      "error": "%1$sI couldn't take from you **%2$s. Make sure that I have permission to add roles and that my role is above **%2$s**",
+      "no_role": "%1$sThere isn't an autorole with the name `%2$s`!"
+    },
+    "iamnot": {
+      "not_assigned": "%1$sYou don't have this role, silly!",
+      "success": "%s%s, you've lost the **%s** role"
+    },
+    "misc": {
+      "reverse_missing": "%1$sYou didn't provide any message to reverse!",
+      "random_color": "%1$sThe random color is %2$s"
+    },
+    "poll": {
+      "missing_time": "%1$sYou didn't include either the `-time` argument or it was empty!\n%2$s",
+      "missing_opts": "%sYou didn't include either the `-options` argument or it was empty!\n%2$s",
+      "missing_name": "%sYou didn't include either the `-name` argument or it was empty!\n%2$s"
+    },
     "osustats": {
       "user": {
         "header": "osu! statistics for %1$s",

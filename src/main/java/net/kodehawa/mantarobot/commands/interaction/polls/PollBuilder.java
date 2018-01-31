@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands.interaction.polls;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import org.junit.Assert;
 
 import java.util.UUID;
@@ -26,6 +27,7 @@ public class PollBuilder {
     private String name = "";
     private String[] options;
     private long timeout;
+    private I18nContext languageContext;
 
     public PollBuilder setEvent(GuildMessageReceivedEvent event) {
         this.event = event;
@@ -47,6 +49,11 @@ public class PollBuilder {
         return this;
     }
 
+    public PollBuilder setLanguage(I18nContext languageContext) {
+        this.languageContext = languageContext;
+        return this;
+    }
+
     public Poll build() {
         if(options == null)
             throw new IllegalArgumentException("Cannot create a poll with null options");
@@ -54,7 +61,9 @@ public class PollBuilder {
             throw new IllegalArgumentException("Cannot create a poll with null event");
         if(timeout == 0)
             throw new IllegalArgumentException("Cannot create a poll without a timeout");
+        if(languageContext == null)
+            throw new IllegalArgumentException("Cannot create a poll without a language context!");
 
-        return new Poll(UUID.randomUUID().toString(), event.getGuild().getId(), event.getChannel().getId(), event.getAuthor().getId(), name, timeout, options);
+        return new Poll(UUID.randomUUID().toString(), event.getGuild().getId(), event.getChannel().getId(), event.getAuthor().getId(), name, timeout, languageContext, options);
     }
 }

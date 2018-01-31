@@ -66,7 +66,7 @@ public class CustomCmds {
             INVALID_CHARACTERS_PATTERN = Pattern.compile("[^a-zA-Z0-9_]"),
             NAME_WILDCARD_PATTERN = Pattern.compile("[a-zA-Z0-9_*]+");
 
-    public static boolean handle(String cmdName, GuildMessageReceivedEvent event, String args) {
+    public static boolean handle(String cmdName, GuildMessageReceivedEvent event, I18nContext lang, String args) {
         List<String> values = customCommands.get(event.getGuild().getId() + ":" + cmdName);
         if(values == null) return false;
 
@@ -74,7 +74,7 @@ public class CustomCmds {
 
         String response = random(values).replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere");
         try {
-            new CustomCommandHandler(event, response, args).handle();
+            new CustomCommandHandler(event, lang, response, args).handle();
         } catch (Exception e) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "Error while running custom command... please check the response content and length (cannot be more than 2000 chars).").queue();
         }
@@ -312,7 +312,7 @@ public class CustomCmds {
 
                 if(action.equals("eval")) {
                     try {
-                        new CustomCommandHandler(event, cmd).handle();
+                        new CustomCommandHandler(event, languageContext, cmd).handle();
                     } catch (Exception e) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "There was an error while evaluating your command!" +
                                 (e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")")).queue();

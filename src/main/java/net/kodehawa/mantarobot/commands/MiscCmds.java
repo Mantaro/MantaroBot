@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.Role;
@@ -63,67 +64,63 @@ public class MiscCmds {
     private final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
     private final Random rand = new Random();
 
-    public static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
+    public static void iamFunction(String autoroleName, GuildMessageReceivedEvent event, I18nContext languageContext) {
         DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
         Map<String, String> autoroles = dbGuild.getData().getAutoroles();
 
         if(autoroles.containsKey(autoroleName)) {
             Role role = event.getGuild().getRoleById(autoroles.get(autoroleName));
             if(role == null) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "The role that this autorole corresponded to has been deleted").queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.iam.deleted_role"), EmoteReference.ERROR).queue();
 
                 //delete the non-existent autorole.
                 dbGuild.getData().getAutoroles().remove(autoroleName);
                 dbGuild.saveAsync();
             } else {
                 if(event.getMember().getRoles().stream().filter(r1 -> r1.getId().equals(role.getId())).collect(Collectors.toList()).size() > 0) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You already have this role, silly!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.iam.already_assigned"), EmoteReference.ERROR).queue();
                     return;
                 }
                 try {
                     event.getGuild().getController().addSingleRoleToMember(event.getMember(), role)
+                            //don't translate the reason!
                             .reason("Auto-assignable roles assigner (~>iam)")
-                            .queue(aVoid -> event.getChannel().sendMessage(String.format("%s%s, you've been given the **%s** role",
-                                    EmoteReference.OK, event.getMember().getEffectiveName(), role.getName())).queue());
+                            .queue(aVoid -> event.getChannel().sendMessageFormat(languageContext.get("commands.iam.success"), EmoteReference.OK, event.getMember().getEffectiveName(), role.getName()).queue());
                 } catch(PermissionException pex) {
-                    event.getChannel().sendMessage(String.format("%sI couldn't take from you **%s. Make sure that I have permission to add roles and that my role is above **%s**", EmoteReference.ERROR, role.getName(), role.getName()))
-                            .queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.iam.error"), EmoteReference.ERROR, role.getName()).queue();
                 }
             }
         } else {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't an autorole with the name ``" + autoroleName + "``!").queue();
+            event.getChannel().sendMessageFormat(languageContext.get("commands.iam.no_role"), EmoteReference.ERROR, autoroleName).queue();
         }
     }
 
-    public static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event) {
+    public static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event, I18nContext languageContext) {
         DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
         Map<String, String> autoroles = dbGuild.getData().getAutoroles();
 
         if(autoroles.containsKey(autoroleName)) {
             Role role = event.getGuild().getRoleById(autoroles.get(autoroleName));
             if(role == null) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "The role that this autorole corresponded " +
-                        "to has been deleted").queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.iam.deleted_role"), EmoteReference.ERROR).queue();
 
                 //delete the non-existent autorole.
                 dbGuild.getData().getAutoroles().remove(autoroleName);
                 dbGuild.saveAsync();
             } else {
                 if(!(event.getMember().getRoles().stream().filter(r1 -> r1.getId().equals(role.getId())).collect(Collectors.toList()).size() > 0)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have this role, silly!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.iamnot.not_assigned"), EmoteReference.ERROR).queue();
                     return;
                 }
                 try {
                     event.getGuild().getController().removeRolesFromMember(event.getMember(), role)
-                            .queue(aVoid -> event.getChannel().sendMessage(EmoteReference.OK + event.getMember().getEffectiveName() + ", you've " +
-                                    "lost the **" + role.getName() + "** role").queue());
+                            .queue(aVoid -> event.getChannel().sendMessageFormat(languageContext.get("commands.iamnot.sucess"), EmoteReference.OK, event.getMember().getEffectiveName(), role.getName()).queue());
                 } catch(PermissionException pex) {
-                    event.getChannel().sendMessage(String.format("%sI couldn't give you **%s. Make sure that I have permission to add roles and that my role is above **%s**",
-                            EmoteReference.ERROR, role.getName(), role.getName())).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.iam.error"), EmoteReference.ERROR, role.getName()).queue();
                 }
             }
         } else {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't an autorole with the name ``" + autoroleName + "``!").queue();
+            event.getChannel().sendMessageFormat(languageContext.get("commands.iam.no_role"), EmoteReference.ERROR, autoroleName).queue();
         }
     }
 
@@ -144,7 +141,7 @@ public class MiscCmds {
                     String json = Utils.wgetResty(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded), event);
                     answer = new JSONObject(json).getJSONObject("magic").getString("answer");
                 } catch(Exception exception) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I ran into an error while fetching 8ball results.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.8ball.error"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -182,25 +179,25 @@ public class MiscCmds {
                     EmbedBuilder embed = null;
                     boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
                     if(!hasReactionPerms)
-                        stringBuilder.append("Use &page >> and &page << to change pages and &cancel to end\n");
+                        stringBuilder.append(languageContext.get("general.text_menu")).append("\n");
 
                     if(autoroles.size() > 0) {
                         autoroles.forEach((name, roleId) -> {
                             Role role = event.getGuild().getRoleById(roleId);
                             if(role != null) {
-                                stringBuilder.append("\nAutorole name: ").append(name).append(" | Gives role **").append(role.getName()).append("**");
+                                stringBuilder.append(languageContext.get("commands.iam.list.name")).append(name).append(languageContext.get("commands.iam.list.role")).append(role.getName()).append("**");
                             }
                         });
 
                         List<String> parts = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH, stringBuilder);
                         if(hasReactionPerms) {
-                            DiscordUtils.list(event, 30, false, (current, max) -> baseEmbed(event, "Autoroles list"), parts);
+                            DiscordUtils.list(event, 30, false, (current, max) -> baseEmbed(event, languageContext.get("commands.iam.list.header")), parts);
                         } else {
-                            DiscordUtils.listText(event, 30, false, (current, max) -> baseEmbed(event, "Autoroles list"), parts);
+                            DiscordUtils.listText(event, 30, false, (current, max) -> baseEmbed(event, languageContext.get("commands.iam.list.header")), parts);
                         }
                     } else {
-                        embed = baseEmbed(event, "Autoroles list");
-                        embed.setDescription("There aren't any autoroles setup in this server!");
+                        embed = baseEmbed(event, languageContext.get("commands.iam.list.header"));
+                        embed.setDescription(languageContext.get("commands.iam.list.no_autoroles"));
                     }
 
                     if(embed != null) {
@@ -210,7 +207,7 @@ public class MiscCmds {
                     return;
                 }
 
-                iamFunction(content.trim().replace("\"", ""), event);
+                iamFunction(content.trim().replace("\"", ""), event, languageContext);
             }
 
             @Override
@@ -234,7 +231,7 @@ public class MiscCmds {
                     return;
                 }
 
-                iamnotFunction(content.trim().replace("\"", ""), event);
+                iamnotFunction(content.trim().replace("\"", ""), event, languageContext);
             }
 
             @Override
@@ -268,7 +265,7 @@ public class MiscCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't provide any message to reverse!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.misc.reverse_missing"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -278,7 +275,7 @@ public class MiscCmds {
         }).addSubCommand("rndcolor", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                event.getChannel().sendMessage(String.format(EmoteReference.TALKING + "The random color is %s", randomColor())).queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.misc.random_color"), EmoteReference.TALKING, randomColor()).queue();
             }
         }));
 
@@ -312,20 +309,17 @@ public class MiscCmds {
                 Map<String, Optional<String>> opts = StringUtils.parse(args);
                 PollBuilder builder = Poll.builder();
                 if(!opts.containsKey("time") || !opts.get("time").isPresent()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-time` argument or it was empty!\n" +
-                            "Example: `~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.poll.missing_time"), EmoteReference.ERROR, "Example: `~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
                     return;
                 }
 
                 if(!opts.containsKey("options") || !opts.get("options").isPresent()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-options` argument or it was empty!\n" +
-                            "Example: ~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.poll.missing_opts"), EmoteReference.ERROR, "Example: ~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
                     return;
                 }
 
                 if(!opts.containsKey("name") || !opts.get("name").isPresent()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-name` argument or it was empty!\n" +
-                            "Example: ~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.poll.missing_name"), EmoteReference.ERROR, "Example: ~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
                     return;
                 }
 
@@ -340,6 +334,7 @@ public class MiscCmds {
                 builder.setEvent(event)
                         .setTimeout(timeout)
                         .setOptions(options)
+                        .setLanguage(languageContext)
                         .build()
                         .startPoll();
             }

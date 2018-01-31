@@ -12,6 +12,7 @@ import net.kodehawa.mantarobot.commands.custom.kaiperscript.wrapper.SafeEmbed;
 import net.kodehawa.mantarobot.commands.custom.kaiperscript.wrapper.SafeGuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.custom.legacy.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import xyz.avarel.kaiper.interpreter.GlobalVisitorSettings;
@@ -27,7 +28,7 @@ import java.util.Map;
 
 public class CustomCommandHandler {
     private interface Func {
-        void handle(GuildMessageReceivedEvent event, String value, String args);
+        void handle(GuildMessageReceivedEvent event, I18nContext lang, String value, String args);
     }
 
     private static final Map<String, Func> specialHandlers = new LinkedHashMap<>();
@@ -42,7 +43,7 @@ public class CustomCommandHandler {
         GlobalVisitorSettings.RECURSION_DEPTH_LIMIT = 100;
 
         // Special handlers
-        specialHandlers.put("k", (event, value, args) -> {
+        specialHandlers.put("k", (event, lang, value, args) -> {
             //FIXME on NEXT KAIPER UPDATE:
             //LimitReachedException will be replaced by VisitorException
 
@@ -91,11 +92,11 @@ public class CustomCommandHandler {
             }
         });
 
-        specialHandlers.put("text", (event, value, args) -> {
+        specialHandlers.put("text", (event, lang, value, args) -> {
             event.getChannel().sendMessage(value).queue();
         });
 
-        specialHandlers.put("play", (event, value, args) -> {
+        specialHandlers.put("play", (event, lang, value, args) -> {
             try {
                 new URL(value);
             } catch (Exception ignored) {
@@ -107,7 +108,7 @@ public class CustomCommandHandler {
                 .loadAndPlay(event, value, false, false);
         });
 
-        specialHandlers.put("embed", (event, value, args) -> {
+        specialHandlers.put("embed", (event, lang, value, args) -> {
             try {
                 EmbedJSON embed = GsonDataManager.gson(false)
                     .fromJson('{' + value + '}', EmbedJSON.class);
@@ -125,7 +126,7 @@ public class CustomCommandHandler {
             }
         });
 
-        specialHandlers.put("img", (event, value, args) -> {
+        specialHandlers.put("img", (event, lang, value, args) -> {
             try {
                 if (!EmbedBuilder.URL_PATTERN.asPredicate().test(value)) {
                     event.getChannel().sendMessage(
@@ -144,26 +145,28 @@ public class CustomCommandHandler {
         specialHandlers.put("image", specialHandlers.get("img"));
         specialHandlers.put("imgembed", specialHandlers.get("img"));
 
-        specialHandlers.put("iam", (event, value, args) -> {
-            MiscCmds.iamFunction(value, event);
+        specialHandlers.put("iam", (event, lang, value, args) -> {
+            MiscCmds.iamFunction(value, event, lang);
         });
 
-        specialHandlers.put("iamnot", (event, value, args) -> {
-            MiscCmds.iamnotFunction(value, event);
+        specialHandlers.put("iamnot", (event, lang, value, args) -> {
+            MiscCmds.iamnotFunction(value, event, lang);
         });
     }
 
     private final String args;
     private final GuildMessageReceivedEvent event;
+    private final I18nContext langContext;
     private String response;
 
-    public CustomCommandHandler(GuildMessageReceivedEvent event, String response) {
-        this(event, response, "");
+    public CustomCommandHandler(GuildMessageReceivedEvent event, I18nContext lang, String response) {
+        this(event, lang, response, "");
     }
 
-    public CustomCommandHandler(GuildMessageReceivedEvent event, String response, String args) {
+    public CustomCommandHandler(GuildMessageReceivedEvent event, I18nContext lang, String response, String args) {
         this.event = event;
         this.response = response;
+        this.langContext = lang;
         this.args = args;
     }
 
@@ -221,7 +224,7 @@ public class CustomCommandHandler {
         Func func = specialHandlers.get(prefix);
         if (func == null) return false;
 
-        func.handle(event, value, args);
+        func.handle(event, langContext, value, args);
 
         return true;
     }
