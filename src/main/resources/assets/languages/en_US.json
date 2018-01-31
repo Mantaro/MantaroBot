@@ -21,10 +21,19 @@
     "definition": "Definition",
     "name": "Name",
     "description": "Description",
+    "options": "Options",
     "find_members_failure": "%1$sDidn't find any member with your search criteria :(",
     "too_many_members": "%1$sToo many members found, maybe refine your search? (ex. use name#discriminator)\n%**Members found:** 2$s"
   },
   "commands": {
+    "opts": {
+      "note": "%1$sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
+      "list": {
+        "header": "**Mantaro's Options List**\n%1$s*All options must be prefixed with `~>opts` when running them*\n%2$s"
+      },
+      "option_not_found": "%1$sInvalid option help name.",
+      "invalid_args": "%1$sInvalid option or arguments."
+    },
     "8ball": {
       "error": "%1$sI ran into an error while fetching 8ball results."
     },
@@ -50,9 +59,21 @@
       "random_color": "%1$sThe random color is %2$s"
     },
     "poll": {
-      "missing_time": "%1$sYou didn't include either the `-time` argument or it was empty!\n%2$s",
-      "missing_opts": "%sYou didn't include either the `-options` argument or it was empty!\n%2$s",
-      "missing_name": "%sYou didn't include either the `-name` argument or it was empty!\n%2$s"
+      "missing": "%1$sYou didn't include either the %2$s argument or it was empty!\n%3$s",
+      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3`. For spaced stuff use quotation marks at the start and end of the sentence.",
+      "other_poll_running": "%1$sThere seems to be another poll running here...",
+      "no_reaction_perms": "%1$sSeems like I cannot add reactions here...",
+      "too_long": "This was too long to show, so I pasted it: %1$s",
+      "header": "Poll #%1$d created by %2$s",
+      "success": "**Poll started. React to the number to vote.**\n*%1$s*\nType &cancelpoll to cancel a running poll.",
+      "time": "You have %1$s to vote.",
+      "error": "%1$sAn unknown error has occurred while setting up a poll. Maybe try again?",
+      "result_header": "Poll results",
+      "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
+      "vote_results": "+Registered %1$d votes for option %2$s",
+      "thank_note": "Thanks for your vote",
+      "results": "Results",
+      "cancelled": "%1$sCancelled poll"
     },
     "osustats": {
       "user": {
@@ -613,7 +634,16 @@
     }
   },
   "options": {
-    "options": "Mantaro Options"
+    "options": "Mantaro Options",
+    "check:data": {
+      "retrieve_failure": "%1$sCannot retrieve values. Weird thing...",
+      "header": "Options set for server **%1$s%**",
+      "null_set": "is not set to anything.",
+      "set_to": "is set to:"
+    },
+    "reset:all": {
+      "success": "%1$sCorrectly reset your options!"
+    }
   },
   "discord_permissions": {
     "create_instant_invite": "Create Instant Invite",

@@ -89,21 +89,18 @@ public class Poll extends Lobby {
     public void startPoll() {
         try {
             if(!isCompliant) {
-                getChannel().sendMessage(EmoteReference.WARNING +
-                        "This poll cannot build. " +
-                        "**Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\n" +
-                        "Options are separated with a comma, for example `1,2,3`. For spaced stuff use quotation marks at the start and end of the sentence.").queue();
+                getChannel().sendMessageFormat(languageContext.get("commands.poll.invalid"), EmoteReference.WARNING).queue();
                 getRunningPolls().remove(getChannel().getId());
                 return;
             }
 
             if(isPollAlreadyRunning(getChannel())) {
-                getChannel().sendMessage(EmoteReference.WARNING + "There seems to be another poll running here...").queue();
+                getChannel().sendMessageFormat(languageContext.get("commands.poll.other_poll_running"), EmoteReference.WARNING).queue();
                 return;
             }
 
             if(!getGuild().getSelfMember().hasPermission(getChannel(), Permission.MESSAGE_ADD_REACTION)) {
-                getChannel().sendMessage(EmoteReference.ERROR + "Seems like I cannot add reactions here...").queue();
+                getChannel().sendMessageFormat(languageContext.get("commands.poll.no_reaction_perms"), EmoteReference.ERROR).queue();
                 getRunningPolls().remove(getChannel().getId());
                 return;
             }
@@ -118,19 +115,18 @@ public class Poll extends Lobby {
             String toShow = Stream.of(options).map(opt -> String.format("#%01d.- %s", at.incrementAndGet(), opt)).collect(Collectors.joining("\n"));
 
             if(toShow.length() > 1014) {
-                toShow = "This was too long to show, so I pasted it: " + Utils.paste(toShow);
+                toShow = String.format(languageContext.get("commands.poll.too_long"), Utils.paste(toShow));
             }
 
             User author = MantaroBot.getInstance().getUserById(owner);
 
-            EmbedBuilder builder = new EmbedBuilder().setAuthor(String.format("Poll #%1d created by %s",
+            EmbedBuilder builder = new EmbedBuilder().setAuthor(String.format(languageContext.get("commands.poll.header"),
                     data.getRanPolls(), author.getName()), null, author.getAvatarUrl())
-                    .setDescription("**Poll started. React to the number to vote.**\n*" + name + "*\n" +
-                            "Type &cancelpoll to cancel a running poll.")
-                    .addField("Options", "```md\n" + toShow + "```", false)
+                    .setDescription(String.format(languageContext.get("commands.poll.description"), name))
+                    .addField(languageContext.get("general.options"), "```md\n" + toShow + "```", false)
                     .setColor(Color.CYAN)
                     .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
-                    .setFooter("You have " + Utils.getHumanizedTime(timeout) + " to vote.", author.getAvatarUrl());
+                    .setFooter(String.format(languageContext.get("commands.poll.time"), Utils.getHumanizedTime(timeout)), author.getAvatarUrl());
 
 
             getChannel().sendMessage(builder.build()).queue(message -> createPoll(message, languageContext));
@@ -147,7 +143,7 @@ public class Poll extends Lobby {
 
             runningPolls.put(getChannel().getId(), this);
         } catch(Exception e) {
-            getChannel().sendMessage(EmoteReference.ERROR + "An unknown error has occurred while setting up a poll. Maybe try again?").queue();
+            getChannel().sendMessageFormat(languageContext.get("commands.poll.error"), EmoteReference.ERROR).queue();
         }
     }
 
@@ -184,25 +180,25 @@ public class Poll extends Lobby {
                     return;
 
                 EmbedBuilder embedBuilder = new EmbedBuilder()
-                        .setTitle("Poll results")
-                        .setDescription("**Showing results for the poll started by " + MantaroBot.getInstance().getUserById(owner).getName() + "** with name: *" + name + "*")
-                        .setFooter("Thanks for your vote", null);
+                        .setTitle(languageContext.get("commands.poll.result_header"))
+                        .setDescription(String.format(languageContext.get("commands.poll.result_screen"), MantaroBot.getInstance().getUserById(owner).getName(), name))
+                        .setFooter(languageContext.get("commands.poll.thank_note"), null);
 
                 AtomicInteger react = new AtomicInteger(0);
                 AtomicInteger counter = new AtomicInteger(0);
                 String votes = new ArrayList<>(getChannel().getMessageById(message.getIdLong()).complete().getReactions()).stream()
                         .filter(r -> react.getAndIncrement() <= options.length)
-                        .map(r -> "+Registered " + (r.getCount() - 1) + " votes for option " + options[counter.getAndIncrement()])
+                        .map(r -> String.format(languageContext.get("commands.poll.vote_results"), r.getCount() - 1, options[counter.getAndIncrement()]))
                         .collect(Collectors.joining("\n"));
 
-                embedBuilder.addField("Results", "```diff\n" + votes + "```", false);
+                embedBuilder.addField(languageContext.get("commands.poll.result"), "```diff\n" + votes + "```", false);
                 getChannel().sendMessage(embedBuilder.build()).queue();
                 getRunningPolls().remove(getChannel().getId());
             }
 
             @Override
             public void onCancel() {
-                getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled poll").queue();
+                getChannel().sendMessageFormat(languageContext.get("commands.poll.cancelled"), EmoteReference.CORRECT).queue();
                 onExpire();
             }
 

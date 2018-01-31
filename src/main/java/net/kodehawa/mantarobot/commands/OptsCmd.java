@@ -54,8 +54,7 @@ public class OptsCmd {
     public static Command optsCmd;
 
     public static void onHelp(GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage(EmoteReference.HEART + "Hey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\n" +
-                "Only administrators, people with Manage Server or people with the Bot Commander role can use this command!").queue();
+        event.getChannel().sendMessage(String.format("%sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!", EmoteReference.HEART)).queue();
     }
 
     public static SimpleCommand getOpts() {
@@ -83,9 +82,8 @@ public class OptsCmd {
                     List<String> messages = new LinkedList<>();
                     boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
                     for(String s1 : m) {
-                        messages.add("**Mantaro's Options List**\n" + (hasReactionPerms ? "Use the arrow reactions to change pages. " :
-                                "Use &page >> and &page << to change pages and &cancel to end") +
-                                "*All options must be prefixed with `~>opts` when running them*\n" + String.format("```prolog\n%s```", s1));
+                        messages.add(String.format(languageContext.get("commands.opts.list.header"),
+                                hasReactionPerms ? languageContext.get("general.text_menu") + " " : languageContext.get("general.arrow_react"), String.format("```prolog\n%s```", s1)));
                     }
 
                     if(hasReactionPerms) {
@@ -123,7 +121,7 @@ public class OptsCmd {
                             return;
                         }
                     }
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid option help name.").queue(
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.opts.option_not_found"), EmoteReference.ERROR).queue(
                             message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
                     );
 
@@ -152,7 +150,7 @@ public class OptsCmd {
                     }
                 }
 
-                event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid option or arguments.").queue(
+                event.getChannel().sendMessageFormat(languageContext.get("commands.opts.invalid_args"), EmoteReference.ERROR).queue(
                         message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
                 );
                 event.getChannel().sendMessage(help(event)).queue();
@@ -162,10 +160,11 @@ public class OptsCmd {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Options and Configurations Command")
                         .setDescription("**This command allows you to change Mantaro settings for this server.**\n" +
-                                "All values set are local rather than global, meaning that they will only effect this server.")
-                        .addField("Usage", "The command is so big that we moved the description to the wiki. [Click here](https://github.com/Mantaro/MantaroBot/wiki/Configuration) to go to the Wiki Article.", false)
+                                "All values set are local rather than global, meaning that they will only effect this server.\n" +
+                                "%sHey, if you're lost or want help on using opts, check https://github.com/Mantaro/MantaroBot/wiki/Configuration for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!")
                         .build();
             }
+            //TODO: translate options after translating all commands. This two down here are already included in the translation file
         }).addOption("check:data", new Option("Data check.",
                 "Checks the data values you have set on this server. **THIS IS NOT USER-FRIENDLY**", OptionType.GENERAL)
                 .setAction(event -> {
@@ -175,7 +174,7 @@ public class OptsCmd {
                     Map<String, Object> fieldMap = mapObjects(guildData);
 
                     if(fieldMap == null) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot retrieve values. Weird thing...").queue();
+                        event.getChannel().sendMessage(String.format("%sCannot retrieve values. Weird thing...", EmoteReference.ERROR)).queue();
                         return;
                     }
 
@@ -235,7 +234,7 @@ public class OptsCmd {
                 //weee
                 newDbGuild.saveAsync();
 
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly reset your options!").queue();
+                event.getChannel().sendMessage(String.format("%sCorrectly reset your options!", EmoteReference.CORRECT)).queue();
             }
         ));
     }

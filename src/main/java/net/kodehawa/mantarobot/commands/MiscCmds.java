@@ -309,17 +309,17 @@ public class MiscCmds {
                 Map<String, Optional<String>> opts = StringUtils.parse(args);
                 PollBuilder builder = Poll.builder();
                 if(!opts.containsKey("time") || !opts.get("time").isPresent()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.poll.missing_time"), EmoteReference.ERROR, "Example: `~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.poll.missing"), EmoteReference.ERROR, "`-time`", "Example: `~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
                     return;
                 }
 
                 if(!opts.containsKey("options") || !opts.get("options").isPresent()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.poll.missing_opts"), EmoteReference.ERROR, "Example: ~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.poll.missing"), EmoteReference.ERROR, "`-options`", "Example: ~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
                     return;
                 }
 
                 if(!opts.containsKey("name") || !opts.get("name").isPresent()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.poll.missing_name"), EmoteReference.ERROR, "Example: ~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.poll.missing"), EmoteReference.ERROR, "`-name`", "Example: ~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
                     return;
                 }
 
