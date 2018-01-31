@@ -77,16 +77,16 @@ public class PlayerCmds {
                 User user;
 
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention or put the name of at least one user.\n" +
-                            (rl > 0 ? "**You'll be able to use this command again in " +
-                                    Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
-                                    "You can rep someone now.")).queue();
+                    event.getChannel().sendMessage(String.format(languageContext.get("commands.rep.no_mentions"), EmoteReference.ERROR) +
+                            (rl > 0 ? String.format(
+                                    String.format(languageContext.get("commands.rep.cooldown.wait"), Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())))
+                            ) : languageContext.get("commands.rep.cooldown.pass"))).queue();
                     return;
                 }
 
                 List<User> mentioned = event.getMessage().getMentionedUsers();
                 if(!mentioned.isEmpty() && mentioned.size() > 1) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You can only give reputation to one person!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.rep.more_than_one"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -96,18 +96,18 @@ public class PlayerCmds {
                 user = member.getUser();
 
                 if(user.isBot()) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep a bot.\n" +
-                            (rl > 0 ? "**You'll be able to use this command again in " +
-                                    Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
-                                    "You can rep someone now.")).queue();
+                    event.getChannel().sendMessage(String.format(languageContext.get("commands.rep.rep_bot"), EmoteReference.THINKING) +
+                            (rl > 0 ? String.format(
+                                    String.format(languageContext.get("commands.rep.cooldown.wait"), Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())))
+                            ) : languageContext.get("commands.rep.cooldown.pass"))).queue();
                     return;
                 }
 
                 if(user.equals(event.getAuthor())) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep yourself.\n" +
-                            (rl > 0 ? "**You'll be able to use this command again in " +
-                                    Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
-                                    "You can rep someone now.")).queue();
+                    event.getChannel().sendMessage(String.format(languageContext.get("commands.rep.rep_yourself"), EmoteReference.THINKING) +
+                            (rl > 0 ? String.format(
+                                    String.format(languageContext.get("commands.rep.cooldown.wait"), Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())))
+                            ) : languageContext.get("commands.rep.cooldown.pass"))).queue();
                     return;
                 }
 
@@ -115,7 +115,7 @@ public class PlayerCmds {
                 Player player = MantaroData.db().getPlayer(user);
                 player.addReputation(1L);
                 player.save();
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "Added reputation to **" + member.getEffectiveName() + "**").queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.rep.success"), EmoteReference.CORRECT,  member.getEffectiveName()).queue();
             }
 
             @Override

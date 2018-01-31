@@ -335,7 +335,8 @@ public class Utils {
         }
 
         if(found.size() > 1 && !content.isEmpty()) {
-            event.getChannel().sendMessage(String.format("%sToo roles found, maybe refine your search?\n**Roles found:** %s",
+            event.getChannel().sendMessage(String.format("%sToo many roles found, maybe refine your search?\n**Roles found:** %s\n" +
+                            "If the role you're trying to search contain spaces, wrap it in quotes `\"like this\"`",
                     EmoteReference.THINKING, found.stream().map(Role::getName).collect(Collectors.joining(", ")))).queue();
 
             return null;

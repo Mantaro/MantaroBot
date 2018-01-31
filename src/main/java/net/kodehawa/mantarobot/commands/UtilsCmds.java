@@ -101,7 +101,7 @@ public class UtilsCmds {
                 if(content.startsWith("remove")) {
                     user.getData().setBirthday(null);
                     user.save();
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly reset birthday date.")
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.reset"), EmoteReference.CORRECT)
                             .queue();
                     return;
                 }
@@ -112,7 +112,7 @@ public class UtilsCmds {
                     try {
                         if(cacher != null) {
                             if(cacher.cachedBirthdays.isEmpty()) {
-                                event.getChannel().sendMessage(EmoteReference.SAD + "Things seems a bit empty here...").queue();
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.no_global_birthdays"), EmoteReference.SAD).queue();
                                 return;
                             }
 
@@ -129,8 +129,7 @@ public class UtilsCmds {
                             }
 
                             if(guildCurrentBirthdays.isEmpty()) {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "There are no birthdays for this month here :(\n" +
-                                        EmoteReference.WARNING + "If you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)").queue();
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.no_guild_month_birthdays"), EmoteReference.ERROR).queue();
                                 return;
                             }
 
@@ -144,10 +143,9 @@ public class UtilsCmds {
                             boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
 
                             for(String s1 : parts) {
-                                messages.add("**" + event.getGuild().getName() + "'s Birthdays for " +
-                                        Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH)) + "**\n" +
-                                        (parts.size() > 1 ? (hasReactionPerms ? "Use the arrow reactions to change pages. " :
-                                                "Use &page >> and &page << to change pages and &cancel to end") : "") +
+                                messages.add(String.format(languageContext.get("commands.birthday.header"), event.getGuild().getName(), Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH))) +
+                                        (parts.size() > 1 ? (hasReactionPerms ? languageContext.get("general.arrow_react") :
+                                                languageContext.get("general.text_menu")) : "") +
                                         String.format("```diff\n%s```", s1));
                             }
 
@@ -157,10 +155,10 @@ public class UtilsCmds {
                                 DiscordUtils.listText(event, 45, false, messages);
                             }
                         } else {
-                            event.getChannel().sendMessage(EmoteReference.SAD + "Birthday cacher doesn't seem to be running :(").queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.cache_not_running"), EmoteReference.SAD).queue();
                         }
                     } catch(Exception e) {
-                        event.getChannel().sendMessage(EmoteReference.SAD + "Something went wrong while getting birthdays :(").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.error"), EmoteReference.SAD).queue();
                     }
 
                     return;
@@ -171,24 +169,20 @@ public class UtilsCmds {
                     String bd;
                     bd = content.replace("/", "-");
                     String[] parts = bd.split("-");
-                    if(Integer.parseInt(parts[0]) > 31 || Integer.parseInt(parts[1]) > 12 || Integer.parseInt(
-                            parts[2]) > 3000) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid date.").queue();
+                    if(Integer.parseInt(parts[0]) > 31 || Integer.parseInt(parts[1]) > 12 || Integer.parseInt(parts[2]) > 3000) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.invalid_date"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     bd1 = format1.parse(bd);
                 } catch(Exception e) {
-                    Optional.ofNullable(args[0]).ifPresent((s -> event.getChannel().sendMessage(
-                            "\u274C" + args[0] + " is either not a " +
-                                    "valid date or not parseable. Please try with the correct formatting. Remember to include the year, although you can put any year and it won't affect anything.")
-                            .queue()));
+                    Optional.ofNullable(args[0]).ifPresent((s -> event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.error_date"), "\u274C", args[0]).queue()));
                     return;
                 }
 
                 user.getData().setBirthday(format1.format(bd1));
                 user.save();
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "Added birthdate.").queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.added_birthdate"), EmoteReference.CORRECT).queue();
             }
 
             @Override
@@ -219,7 +213,7 @@ public class UtilsCmds {
                     return;
                 }
 
-                event.getChannel().sendMessage("I choose ``" + random(args) + "``").queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.choose.success"), EmoteReference.EYES, random(args)).queue();
             }
 
             @Override
@@ -285,21 +279,21 @@ public class UtilsCmds {
                                     .getString("text");
                         }
                     } catch(Exception e) {
-                        example = "Not found";
+                        example = languageContext.get("general.not_found");
                     }
 
                 } catch(Exception e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "No results.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("general.no_results"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 EmbedBuilder eb = new EmbedBuilder();
                 eb.setAuthor("Definition for " + word, null, event.getAuthor().getAvatarUrl())
                         .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wikt_dynamic_dictionary_logo.svg/1000px-Wikt_dynamic_dictionary_logo.svg.png")
-                        .addField("Definition", "**" + definition + "**", false)
-                        .addField("Example", "**" + example + "**", false)
+                        .addField(languageContext.get("general.definition"), "**" + definition + "**", false)
+                        .addField(languageContext.get("general.example"), "**" + example + "**", false)
                         .setDescription(
-                                String.format("**Part of speech:** `%s`\n" + "**Headword:** `%s`\n", part_of_speech, headword));
+                                String.format(languageContext.get("commands.dictionary.description"), part_of_speech, headword));
 
                 event.getChannel().sendMessage(eb.build()).queue();
             }
@@ -321,8 +315,7 @@ public class UtilsCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "What could I remind you of if you don't give me what to remind you? " +
-                            "Oh! Lemme remind you of setting a reminder!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.nothing_specified"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -330,7 +323,7 @@ public class UtilsCmds {
                     List<Reminder> reminders = Reminder.CURRENT_REMINDERS.get(event.getAuthor().getId());
 
                     if(reminders == null || reminders.isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You have no reminders set!").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_reminders"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -353,26 +346,26 @@ public class UtilsCmds {
                         List<Reminder> reminders = Reminder.CURRENT_REMINDERS.get(event.getAuthor().getId());
 
                         if(reminders.isEmpty()) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "You have no reminders set!").queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_reminders"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         if(reminders.size() == 1) {
                             reminders.get(0).cancel();
-                            event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder.").queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.cancel.success"), EmoteReference.CORRECT).queue();
                         } else {
                             DiscordUtils.selectList(event, reminders,
                                     (r) -> String.format("%s, Due in: %s", r.reminder, Utils.getHumanizedTime(r.time - System.currentTimeMillis())),
-                                    r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle("Select the reminder you want to cancel.", null)
+                                    r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle(languageContext.get("commands.remindme.cancel.select"), null)
                                             .setDescription(r1)
-                                            .setFooter("This timeouts in 10 seconds.", null).build(),
+                                            .setFooter(String.format(languageContext.get("general.timeout"), 10), null).build(),
                                     sr -> {
                                         sr.cancel();
                                         event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder").queue();
                                     });
                         }
                     } catch(Exception e) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You have no reminders set!").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_reminders"), EmoteReference.ERROR).queue();
                     }
 
                     return;
@@ -382,12 +375,12 @@ public class UtilsCmds {
                 Map<String, Optional<String>> t = StringUtils.parse(args);
 
                 if(!t.containsKey("time")) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't give me a `-time` argument! (Example: `-time 1h`)").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_time"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(!t.get("time").isPresent()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't give me a `-time` argument! (Example: `-time 1h`)").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_time"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -396,16 +389,16 @@ public class UtilsCmds {
                 long time = Utils.parseTime(t.get("time").get());
 
                 if(time < 10000) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "That's too little time!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.too_little_time"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(System.currentTimeMillis() + time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(90)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Too long (Maximum: 3 months)...").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.too_long"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                event.getChannel().sendMessage(String.format("%sI'll remind you of **%s** in %s", EmoteReference.CORRECT, toRemind, Utils.getHumanizedTime(time))).queue();
+                event.getChannel().sendMessage(String.format(languageContext.get("commands.remindme.success"), EmoteReference.CORRECT, toRemind, Utils.getHumanizedTime(time))).queue();
 
                 //TODO save to db
                 new Reminder.Builder()
@@ -437,17 +430,17 @@ public class UtilsCmds {
                 try {
                     content = content.replace("UTC", "GMT").toUpperCase();
                     DBUser user = MantaroData.db().getUser(event.getMember());
-                    String timezone = user.getData().getTimezone() != null ? user.getData().getTimezone() : content;
+                    String timezone = user.getData().getTimezone() != null ? (content.isEmpty() ? user.getData().getTimezone() : content) : content;
 
                     if(!Utils.isValidTimeZone(timezone)) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid timezone!").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.time.invalid_timezone"), EmoteReference.ERROR).queue();
                         return;
                     }
 
-                    event.getChannel().sendMessage(String.format("%sIt's %s in the %s timezone", EmoteReference.MEGA, dateGMT(event.getGuild(), timezone), timezone)).queue();
+                    event.getChannel().sendMessage(String.format(languageContext.get("commands.time.success"), EmoteReference.MEGA, dateGMT(event.getGuild(), timezone), timezone)).queue();
 
                 } catch(Exception e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Error while retrieving timezone or it's not valid").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.time.error"), EmoteReference.ERROR).queue();
                 }
             }
 
@@ -496,7 +489,7 @@ public class UtilsCmds {
                     }
 
                     if(data == null || data.getList() == null || data.getList().isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "No results.").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + languageContext.get("general.no_results")).queue();
                         return;
                     }
 
@@ -505,28 +498,28 @@ public class UtilsCmds {
                         UrbanData.List urbanData = data.getList().get(definitionNumber);
                         String definition = urbanData.getDefinition();
                         embed.setAuthor(
-                                "Urban Dictionary definition for " + commandArguments[0], urbanData.getPermalink(), null)
+                                String.format(languageContext.get("commands.urban.header"), commandArguments[0]), urbanData.getPermalink(), null)
                                 .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
-                                .setDescription("Definition " + String.valueOf(definitionNumber + 1))
+                                .setDescription(languageContext.get("general.definition") + " " + String.valueOf(definitionNumber + 1))
                                 .setColor(Color.GREEN)
-                                .addField("Definition", definition.length() > 1000 ? definition.substring(0, 1000) + "..." : definition, false)
-                                .addField("Example", urbanData.getExample().length() > 1000 ? urbanData.getExample().substring(0, 1000) + "..." : urbanData.getExample(), false)
+                                .addField(languageContext.get("general.definition"), definition.length() > 1000 ? definition.substring(0, 1000) + "..." : definition, false)
+                                .addField(languageContext.get("general.example"), urbanData.getExample().length() > 1000 ? urbanData.getExample().substring(0, 1000) + "..." : urbanData.getExample(), false)
                                 .addField(":thumbsup:", urbanData.thumbs_up, true)
                                 .addField(":thumbsdown:", urbanData.thumbs_down, true)
-                                .setFooter("Information by Urban Dictionary", null);
+                                .setFooter(languageContext.get("commands.urban.footer"), null);
                         event.getChannel().sendMessage(embed.build()).queue();
                     } else {
                         UrbanData.List urbanData = data.getList().get(0);
                         embed.setAuthor(
-                                "Urban Dictionary definition for " + content, data.getList().get(0).getPermalink(), null)
-                                .setDescription("Main definition.")
+                                String.format(languageContext.get("commands.urban.header"), content), data.getList().get(0).getPermalink(), null)
+                                .setDescription(languageContext.get("commands.urban.main_def"))
                                 .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
                                 .setColor(Color.GREEN)
-                                .addField("Definition", urbanData.getDefinition().length() > 1000 ? urbanData.getDefinition().substring(0, 1000) + "..." : urbanData.getDefinition(), false)
-                                .addField("Example", urbanData.getExample().length() > 1000 ? urbanData.getExample().substring(0, 1000) + "..." : urbanData.getExample(), false)
+                                .addField(languageContext.get("general.definition"), urbanData.getDefinition().length() > 1000 ? urbanData.getDefinition().substring(0, 1000) + "..." : urbanData.getDefinition(), false)
+                                .addField(languageContext.get("general.example"), urbanData.getExample().length() > 1000 ? urbanData.getExample().substring(0, 1000) + "..." : urbanData.getExample(), false)
                                 .addField(":thumbsup:", urbanData.thumbs_up, true)
                                 .addField(":thumbsdown:", urbanData.thumbs_down, true)
-                                .setFooter("Information by Urban Dictionary", null);
+                                .setFooter(languageContext.get("commands.urban.footer"), null);
                         event.getChannel().sendMessage(embed.build()).queue();
                     }
                 } else {
@@ -587,20 +580,19 @@ public class UtilsCmds {
                     long end = System.currentTimeMillis() - start;
 
                     embed.setColor(Color.CYAN)
-                            .setTitle(":flag_" + countryCode.toLowerCase() + ":" + " Forecast information for " + content, null)
+                            .setTitle(String.format(languageContext.get("commands.weather.header"), ":flag_" + countryCode.toLowerCase() + ":", content), null)
                             .setDescription(status + " (" + cloudiness + "% clouds)")
-                            .addField(":thermometer: Temperature", String.format("%d°C | %d°F", finalTemperatureCelsius.intValue(), finalTemperatureFahrenheit.intValue()), true)
-                            .addField(":droplet: Humidity", humidity + "%", true)
-                            .addBlankField(true)
-                            .addField(":wind_blowing_face: Wind Speed", String.format("%dkm/h | %dmph", finalWindSpeedMetric.intValue(), finalWindSpeedImperial.intValue()), true)
-                            .addField("Pressure", pressure + "hPA", true)
-                            .addBlankField(true)
-                            .setFooter("Information provided by OpenWeatherMap (Process time: " + end + "ms)", null);
+                            .addField(":thermometer: " + languageContext.get("commands.weather.temperature"), String.format("%d°C | %d°F", finalTemperatureCelsius.intValue(), finalTemperatureFahrenheit.intValue()), true)
+                            .addField(":droplet: " + languageContext.get("commands.weather.humidity"), humidity + "%", true)
+                            .addField(":wind_blowing_face: " + languageContext.get("commands.weather.wind_speed"), String.format("%dkm/h | %dmph", finalWindSpeedMetric.intValue(), finalWindSpeedImperial.intValue()), true)
+                            .addField(":wind_chime: " + languageContext.get("commands.weather.pressure"), pressure + "hPA", true)
+                            .setFooter(String.format(languageContext.get("commands.weather.footer"), end), null)
+                            .setThumbnail("https://cdn2.iconfinder.com/data/icons/lovely-weather-icons/32/Thermometer-50-512.png");
                     event.getChannel().sendMessage(embed.build()).queue();
                 } catch (NullPointerException npe) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Error while fetching results. (Not found?)").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.weather.error"), EmoteReference.ERROR).queue();
                 } catch (Exception e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Error while fetching results. (Not found?)").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.weather.error"), EmoteReference.ERROR).queue();
                     log.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
                 }
             }
@@ -620,6 +612,7 @@ public class UtilsCmds {
         });
     }
 
+    //Won't translate
     @Subscribe
     public void wiki(CommandRegistry registry) {
         registry.register("wiki", new TreeCommand(Category.UTILS) {

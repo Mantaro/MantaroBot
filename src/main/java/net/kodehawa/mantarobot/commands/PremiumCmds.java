@@ -51,23 +51,22 @@ public class PremiumCmds {
                     PremiumKey currentKey = MantaroData.db().getPremiumKey(MantaroData.db().getUser(event.getAuthor()).getData().getPremiumKey());
 
                     if(currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()) { //Should always be enabled...
-                        event.getChannel().sendMessage(EmoteReference.EYES + "Your key is valid for " + currentKey.validFor() + " more days :heart:").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.check.key_valid_for"), EmoteReference.EYES, currentKey.validFor()).queue();
                     } else {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have a key enabled... If you're a premium from the old system you should " +
-                                "still have your rewards, though!").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.check.no_key_found"), EmoteReference.ERROR).queue();
                     }
                     return;
                 }
 
                 if(args.length < 1) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot enable a premium key if you don't give me one!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.no_key_provided"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 PremiumKey key = MantaroData.db().getPremiumKey(args[0]);
 
                 if(key == null || (key.isEnabled() && !(key.getParsedType().equals(PremiumKey.Type.MASTER)))) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You provided an invalid or already enabled key!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.invalid_key"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -79,12 +78,12 @@ public class PremiumCmds {
                     PremiumKey currentKey = MantaroData.db().getPremiumKey(guild.getData().getPremiumKey());
 
                     if(currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()) { //Should always be enabled...
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "This server already has a premium subscription!").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.guild_already_premium"), EmoteReference.POPPER).queue();
                         return;
                     }
 
                     key.activate(180);
-                    event.getChannel().sendMessage(EmoteReference.POPPER + "This server is now **Premium** :heart: (For: " + key.getDurationDays() + " days)").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.guild_successful"), EmoteReference.POPPER, key.getDurationDays()).queue();
                     guild.getData().setPremiumKey(key.getId());
                     guild.saveAsync();
                     return;
@@ -97,7 +96,7 @@ public class PremiumCmds {
                     PremiumKey currentUserKey = MantaroData.db().getPremiumKey(user.getData().getPremiumKey());
 
                     if(currentUserKey != null && currentUserKey.isEnabled() && currentTimeMillis() < currentUserKey.getExpiration()) { //Should always be enabled...
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You're already premium :heart:!").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.user_already_premium"), EmoteReference.POPPER).queue();
                         return;
                     }
 
@@ -107,13 +106,10 @@ public class PremiumCmds {
                     }
 
                     key.activate(event.getAuthor().getId().equals(key.getOwner()) ? 365 : 180);
-                    event.getChannel().sendMessage(EmoteReference.POPPER + "You're now **Premium** :heart: (For: " + key.getDurationDays() + " days)").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.user_successful"), EmoteReference.POPPER, key.getDurationDays()).queue();
                     user.getData().setPremiumKey(key.getId());
                     user.saveAsync();
-                    return;
                 }
-
-                event.getChannel().sendMessage(EmoteReference.ERROR + "This shouldn't happen...").queue();
             }
 
             @Override
@@ -137,11 +133,11 @@ public class PremiumCmds {
                 if(args.length == 0) {
                     DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
                     if(!dbUser.isPremium()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You aren't premium :c").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.vipstatus.user.not_premium"), EmoteReference.ERROR).queue();
                         return;
                     }
 
-                    embedBuilder.setAuthor("Your Premium Status", null, event.getAuthor().getEffectiveAvatarUrl());
+                    embedBuilder.setAuthor(languageContext.get("commands.vipstatus.user.header"), null, event.getAuthor().getEffectiveAvatarUrl());
 
                     if(dbUser.getData().getPremiumKey() != null) {
                         PremiumKey currentKey = MantaroData.db().getPremiumKey(MantaroData.db().getUser(event.getAuthor()).getData().getPremiumKey());
@@ -158,27 +154,27 @@ public class PremiumCmds {
                                 p.saveAsync();
                         }
 
-                        embedBuilder.setDescription("**Premium user! <3**")
-                                .addField("Expires in", currentKey.validFor() + " days", false)
-                                .addField("Key total duration", currentKey.getDurationDays() + " days", false)
-                                .addField("Key owner", owner.getName() + "#" + owner.getDiscriminator(), false);
+                        embedBuilder.setDescription(languageContext.get("commands.vipstatus.user.premium"))
+                                .addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " " + languageContext.get("general.days"), false)
+                                .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " " + languageContext.get("general.days"), false)
+                                .addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), false);
                     } else {
-                        embedBuilder.setDescription("**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**")
-                                .addField("Valid for",
+                        embedBuilder.setDescription(languageContext.get("commands.vipstatus.user.old_system"))
+                                .addField(languageContext.get("commands.vipstatus.valid_for_old"),
                                         Math.max(0, TimeUnit.MILLISECONDS.toDays(dbUser.getPremiumUntil() - currentTimeMillis())) + " days more", false);
                     }
 
-                    embedBuilder.setFooter("Thanks you for your support <3", null);
+                    embedBuilder.setFooter(languageContext.get("commands.vipstatus.thank_note"), null);
                     event.getChannel().sendMessage(embedBuilder.build()).queue();
                 } else {
                     if(args[0].equals("guild")) {
                         DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                         if(!dbGuild.isPremium()) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "This guild isn't premium :c").queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.vipstatus.guild.not_premium"), EmoteReference.ERROR).queue();
                             return;
                         }
 
-                        embedBuilder.setAuthor(event.getGuild().getName() + "'s Premium Status", null, event.getAuthor().getEffectiveAvatarUrl());
+                        embedBuilder.setAuthor(String.format(languageContext.get("commands.vipstatus.guild.header"), event.getGuild().getName()), null, event.getAuthor().getEffectiveAvatarUrl());
 
                         if(dbGuild.getData().getPremiumKey() != null) {
                             PremiumKey currentKey = MantaroData.db().getPremiumKey(dbGuild.getData().getPremiumKey());
@@ -186,22 +182,25 @@ public class PremiumCmds {
                             if(owner == null)
                                 owner = event.getGuild().getOwner().getUser();
 
-                            embedBuilder.setDescription("**Premium guild! <3**")
-                                    .addField("Expires in", currentKey.validFor() + " days", false)
-                                    .addField("Key total duration", currentKey.getDurationDays() + " days", false)
-                                    .addField("Key owner", owner.getName() + "#" + owner.getDiscriminator(), false);
+                            embedBuilder.setDescription(languageContext.get("commands.vipstatus.guild.premium"))
+                                    .addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " days", false)
+                                    .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " days", false)
+                                    .addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), false);
                         } else {
-                            embedBuilder.setDescription("**Premium guild under the old system! Don't worry tho, you're premium and your benefits will work properly!**")
-                                    .addField("Valid for",
-                                            Math.max(0, TimeUnit.MILLISECONDS.toDays(dbGuild.getPremiumUntil() - currentTimeMillis())) + " days more", false);
+                            embedBuilder.setDescription(languageContext.get("commands.vipstatus.guild.old_system"))
+                                    .addField(languageContext.get("commands.vipstatus.valid_for_old"),
+                                            String.format(languageContext.get("commands.vipstatus.old_days_more"),
+                                                    Math.max(0, TimeUnit.MILLISECONDS.toDays(dbGuild.getPremiumUntil() - currentTimeMillis()))
+                                            ), false
+                                    );
                         }
 
-                        embedBuilder.setFooter("Thanks you for your support <3", null);
+                        embedBuilder.setFooter(languageContext.get("commands.vipstatus.thank_note"), null);
                         event.getChannel().sendMessage(embedBuilder.build()).queue();
                         return;
                     }
 
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong arguments...").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.vipstatus.wrong_args"), EmoteReference.ERROR).queue();
                 }
             }
 
@@ -216,6 +215,7 @@ public class PremiumCmds {
         });
     }
 
+    //Won't translate this. Owner command.
     @Subscribe
     public void createkey(CommandRegistry cr) {
         cr.register("createkey", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {

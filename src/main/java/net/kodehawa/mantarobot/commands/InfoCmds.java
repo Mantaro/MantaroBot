@@ -136,8 +136,8 @@ public class InfoCmds {
                 for(String s1 : donatorList) {
                     messages.add(languageContext.get("commands.about.patreon.header") + "\n" +
                             (hasReactionPerms ?
-                                languageContext.get("commands.about.patreon.arrow_react") + " " :
-                                languageContext.get("commands.about.patreon.text_menu")
+                                languageContext.get("general.arrow_react") + " " :
+                                languageContext.get("general.text_menu")
                             )
                             + String.format("```%s```", s1));
                 }
