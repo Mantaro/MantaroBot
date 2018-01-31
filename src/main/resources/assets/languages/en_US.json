@@ -47,6 +47,7 @@
       "success": "%1$sI choose `%2$s`"
     },
     "dictionary": {
+      "no_word": "%1$s You need to specify a word.",
       "header": "Definition for %1$s",
       "description": "**Part of speech:** `%1$s`\n**Headword:** `%2$s`"
     },

@@ -237,7 +237,7 @@ public class UtilsCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length == 0) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a word.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.dictionary.no_word"), EmoteReference.ERROR).queue();
                     return;
                 }
 
