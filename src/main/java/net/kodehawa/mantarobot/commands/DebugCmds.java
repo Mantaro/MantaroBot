@@ -136,7 +136,10 @@ public class DebugCmds {
                 long start = System.currentTimeMillis();
                 event.getChannel().sendTyping().queue(v -> {
                     long ping = System.currentTimeMillis() - start;
-                    event.getChannel().sendMessage(EmoteReference.MEGA + "*" + pingQuotes[r.nextInt(pingQuotes.length)] + "* - My ping: " + ping + " ms (" + ratePing(ping) + ")  `Websocket:" + event.getJDA().getPing() + "ms`").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.ping.text"),
+                            EmoteReference.MEGA, pingQuotes[r.nextInt(pingQuotes.length)], ping, ratePing(ping, languageContext), event.getJDA().getPing()
+                    ).queue();
+
                     TextChannelGround.of(event).dropItemWithChance(5, 5);
                 });
             }
@@ -284,7 +287,8 @@ public class DebugCmds {
         });
     }
 
-    private String ratePing(long ping) {
+    //TODO translate this pain
+    private String ratePing(long ping, I18nContext languageContext) {
         if(ping == 69) return "l-lewd! <:MantaroGasm:318869352851963904>";
         if(ping <= 1) return "supersonic speed! :upside_down:"; //just in case...
         if(ping <= 10) return "faster than Sonic! :smiley:";

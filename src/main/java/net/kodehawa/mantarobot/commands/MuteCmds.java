@@ -167,8 +167,7 @@ public class MuteCmds {
                             .reason(String.format("Muted by %#s for %s: %s", event.getAuthor(), Utils.formatDuration(time - System.currentTimeMillis()), finalReason))
                             .queue();
 
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Added mute role to **" +m.getEffectiveName() +
-                            (time > 0 ? "** for around " + Utils.getHumanizedTime(time - System.currentTimeMillis()) : "**")).queue();
+                    event.getChannel().sendMessage(String.format("%sAdded mute role to **%s%s", EmoteReference.CORRECT, m.getEffectiveName(), time > 0 ? "** for around " + Utils.getHumanizedTime(time - System.currentTimeMillis()) : "**")).queue();
 
                     dbg.getData().setCases(dbg.getData().getCases() + 1);
                     dbg.saveAsync();
@@ -349,7 +348,7 @@ public class MuteCmds {
                                 .reason(String.format("Unmuted by %#s: %s", event.getAuthor(), finalReason))
                                 .queue();
 
-                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed mute role from **" + m.getEffectiveName() + "**").queue();
+                        event.getChannel().sendMessage(String.format("%sRemoved mute role from **%s**", EmoteReference.CORRECT, m.getEffectiveName())).queue();
                         dbg.getData().setCases(dbg.getData().getCases() + 1);
                         dbg.saveAsync();
                         ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.UNMUTE, db.getGuild(event.getGuild()).getData().getCases());

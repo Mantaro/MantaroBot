@@ -34,6 +34,32 @@
     "mention_user_required": "%1$sYou need to mention one user."
   },
   "commands": {
+    "mute": {
+      "no_permissions": "%1$sYou need to have either ban or kick members permission to mute!",
+      "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`"
+      "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent!",
+      "no_mentions": "%1$sYou need to mention at least one user to mute.",
+      "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server!",
+      "no_time": "%1$sYou didn't specify any time!",
+      "time_not_specified": "%1$sYou wanted time but didn't specify for how long!",
+      "negative_time_notice": "%1$sYou cannot mute someone for negative time!",
+      "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
+      "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to unmute them.",
+      "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
+      "user_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
+      "success": "%1$sAdded mute role to **%2$s%3$s"
+    },
+    "unmute": {
+      "no_mentions": "%1$sYou need to mention at least one user to un-mute.",
+      "success": "%1$sRemoved mute role from **%2$s**",
+      "no_role_assigned": "%1$sThis user doesn't have the mute role assigned to them."
+    },
+    "ping": {
+      "quotes": {
+
+      },
+      "text": "%1$s*%2$s* - My ping: %3$d ms (%4$s) `Websocket:%5$dms`"
+    },
     "love": {
       "no_mention": "%1$sYou need to mention at least 1 user.",
       "not_ideal": "Try again next time...",
@@ -102,7 +128,7 @@
         "non_existent": "%1$sYou cannot sell a non-existent item.",
         "no_sell_price": "%1$sYou cannot sell an item that cannot be sold.",
         "no_item_player": "%1$sYou cannot sell an item you don't have.",
-        "more_items_than_player": "%1$sYou cannot sell more items than what you have."
+        "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
         "success": "%1$sYou sold %2$d **%3$s** and gained %4$d credits!"
       },
       "buy": {
