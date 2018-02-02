@@ -67,13 +67,11 @@ public class FunCmds {
                     try {
                         times = Integer.parseInt(args[0]);
                         if(times > 1000) {
-                            event.getChannel().sendMessage(
-                                    EmoteReference.ERROR + "Hold in there! The limit is 1,000 coin flips").queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.coinflip.over_limit"), EmoteReference.ERROR).queue();
                             return;
                         }
                     } catch(NumberFormatException nfe) {
-                        event.getChannel().sendMessage(
-                                EmoteReference.ERROR + "You need to specify an Integer for the amount of repetitions").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.coinflip.no_repetitions"), EmoteReference.ERROR).queue();
                         return;
                     }
                 }
@@ -87,8 +85,7 @@ public class FunCmds {
                 });
 
                 String flips = times == 1 ? "time" : "times";
-                event.getChannel().sendMessage(
-                        String.format("%s Your result from **%d** %s yielded **%d** heads and **%d** tails", EmoteReference.PENNY, times, flips, heads[0], tails[0])).queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.coinflip.success"), EmoteReference.PENNY, times, flips, heads[0], tails[0]).queue();
             }
 
             @Override
@@ -103,11 +100,11 @@ public class FunCmds {
 
     @Subscribe
     public void marry(CommandRegistry cr) {
-        cr.register("marry", new SimpleCommand(Category.FUN) {
+            cr.register("marry", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Mention the user you want to marry.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.no_mention"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -121,38 +118,37 @@ public class FunCmds {
                 Inventory playerInventory = proposingPlayer.getInventory();
 
                 if(proposedTo.getId().equals(event.getAuthor().getId())) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry yourself, as much as you may want to.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.marry_yourself_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(proposedTo.isBot()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry a bot.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.marry_bot_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(proposingMarriedWith != null && proposingMarriedWith.getId().equals(proposedTo.getId())) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You're married with them already, aww.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.already_married_receipt"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(proposingMarriedWith != null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You're married already.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.already_married"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(proposedPlayer.getData().isMarried()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "That user is married already.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.receipt_married"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(!playerInventory.containsItem(Items.RING) || playerInventory.getAmount(Items.RING) < 2) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot propose without two marriage rings! You can buy them by doing `~>market buy 2 ring` and then try proposing again <3").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.no_ring"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                event.getChannel().sendMessage(String.format("%s%s, type with **yes** or **no** to the marriage proposal from %s.\n" +
-                                "%sThis times out in 120 seconds.", EmoteReference.MEGA,
-                        proposedTo.getName(), event.getAuthor().getName(), EmoteReference.STOPWATCH)).queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.marry.confirmation"), EmoteReference.MEGA,
+                        proposedTo.getName(), event.getAuthor().getName(), EmoteReference.STOPWATCH).queue();
                 InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 120, (ie) -> {
                     if(!ie.getAuthor().getId().equals(proposedTo.getId()))
                         return Operation.IGNORED;
@@ -176,7 +172,7 @@ public class FunCmds {
                         Inventory authorInventory = author.getInventory();
 
                         if(authorInventory.getAmount(Items.RING) < 2) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry with less than two rings on your inventory!").queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.ring_check_fail"), EmoteReference.ERROR).queue();
                             return Operation.COMPLETED;
                         }
 
@@ -196,7 +192,7 @@ public class FunCmds {
                             proposedInventory.process(new ItemStack(Items.RING, 1));
                         }
 
-                        ie.getChannel().sendMessage(String.format("%s`%s` accepted the proposal of `%s`!", EmoteReference.POPPER, ie.getAuthor().getName(), proposing.getName())).queue();
+                        ie.getChannel().sendMessageFormat(languageContext.get("commands.marry.accepted"), EmoteReference.POPPER, ie.getAuthor().getName(), proposing.getName()).queue();
                         proposed.save();
                         author.save();
 
@@ -205,7 +201,7 @@ public class FunCmds {
                     }
 
                     if(message.equalsIgnoreCase("no")) {
-                        ie.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal from `" + proposing.getName() + "`").queue();
+                        ie.getChannel().sendMessageFormat(languageContext.get("commands.marry.denied"), EmoteReference.CORRECT, proposing.getName()).queue();
                         proposingPlayer.getData().addBadgeIfAbsent(Badge.DENIED);
                         proposingPlayer.saveAsync();
                         return Operation.COMPLETED;
@@ -237,9 +233,7 @@ public class FunCmds {
                 Player divorcee = MantaroData.db().getPlayer(event.getMember());
 
                 if(divorcee.getData().getMarriedWith() == null) {
-                    event.getChannel().sendMessage(
-                            EmoteReference.ERROR + "You aren't married with anyone, why don't you find that special someone?")
-                            .queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.divorce.not_married"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -248,8 +242,9 @@ public class FunCmds {
                 if(userMarriedWith == null) {
                     divorcee.getData().setMarriedWith(null);
                     divorcee.getData().setMarriedSince(0L);
+                    divorcee.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
                     divorcee.saveAsync();
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. That's nice I guess.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.divorce.success"), EmoteReference.CORRECT).queue();
                     return;
                 }
 
@@ -265,7 +260,7 @@ public class FunCmds {
                 divorcee.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
                 divorcee.save();
 
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. That's nice I guess.").queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.divorce.success"), EmoteReference.CORRECT).queue();
             }
 
             @Override
@@ -284,14 +279,14 @@ public class FunCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
 
                 if(args.length == 0) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Give me a waifu to rate!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.love.nothing_specified"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 int waifuRate = content.replaceAll("\\s+", " ").replaceAll("<@!?(\\d+)>", "<@$1>").chars().sum() % 101;
                 if(content.equalsIgnoreCase("mantaro")) waifuRate = 100;
 
-                new MessageBuilder().setContent(String.format("%sI rate %s with a **%d/100**", EmoteReference.THINKING, content, waifuRate))
+                new MessageBuilder().setContent(String.format(languageContext.get("commands.ratewaifu.success"), EmoteReference.THINKING, content, waifuRate))
                         .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE).sendTo(event.getChannel()).queue();
             }
 
@@ -336,9 +331,7 @@ public class FunCmds {
                 }
 
                 if(amount >= 100) amount = 100;
-                event.getChannel().sendMessage(
-                        String.format("%sYou got **%d**%s", EmoteReference.DICE, diceRoll(size, amount), amount == 1 ? "!" : (", doing **" + amount + "** rolls."))
-                ).queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.roll.success"), EmoteReference.DICE, diceRoll(size, amount), amount == 1 ? "!" : (String.format("\nDoing **%d** rolls.", amount))).queue();
 
                 TextChannelGround.of(event.getChannel()).dropItemWithChance(Items.LOADED_DICE, 5);
             }
@@ -365,7 +358,7 @@ public class FunCmds {
                 String result;
 
                 if(mentioned.size() < 1) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least 1 user.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.love.no_mention"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -389,24 +382,24 @@ public class FunCmds {
                 int percentage = (int)(ids[0] == ids[1] ? 101 : (ids[0] + ids[1]) % 101L);
 
                 if(percentage < 45) {
-                    result = "Try again next time...";
+                    result = languageContext.get("commands.love.not_ideal");
                 } else if(percentage < 75) {
-                    result = "Good enough!";
+                    result = languageContext.get("commands.love.decent");
                 } else if(percentage < 100) {
-                    result = "Good match!";
+                    result = languageContext.get("commands.love.nice");
                 } else {
-                    result = "Perfect match!";
+                    result = languageContext.get("commands.love.perfect");
                     if(percentage == 101) {
-                        result = "You're a special creature and you should love yourself more than anyone <3";
+                        result = languageContext.get("commands.love.yourself_note");
                     }
                 }
 
                 MessageEmbed loveEmbed = new EmbedBuilder()
-                        .setAuthor("\u2764 Love Meter \u2764", null, event.getAuthor().getEffectiveAvatarUrl())
+                        .setAuthor("\u2764 " + languageContext.get("commands.love.header") + " \u2764", null, event.getAuthor().getEffectiveAvatarUrl())
                         .setThumbnail("http://www.hey.fr/fun/emoji/twitter/en/twitter/469-emoji_twitter_sparkling_heart.png")
                         .setDescription("\n**" + toDisplay + "**\n\n" +
                                 percentage + "% ||  " + CommandStatsManager.bar(percentage, 40) + "  **||** \n\n" +
-                                "**Result:** `"
+                                "**" + languageContext.get("commands.love.result") + "** `"
                                 + result + "`")
                         .setColor(event.getMember().getColor())
                         .build();

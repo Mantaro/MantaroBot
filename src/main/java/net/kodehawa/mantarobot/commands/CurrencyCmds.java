@@ -61,7 +61,6 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 @Module
 public class CurrencyCmds {
     private final int TRANSFER_LIMIT = Integer.MAX_VALUE / 3; //around 715m
-    private final Random random = new Random();
 
     @Subscribe
     public void inventory(CommandRegistry cr) {
@@ -78,7 +77,7 @@ public class CurrencyCmds {
                 Player player = MantaroData.db().getPlayer(member);
 
                 if(t.containsKey("brief")) {
-                    event.getChannel().sendMessage(String.format("**%s's inventory:** %s", member.getEffectiveName(), ItemStack.toString(player.getInventory().asList()))).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.inventory.brief"), member.getEffectiveName(), ItemStack.toString(player.getInventory().asList())).queue();
                     return;
                 }
 
@@ -88,22 +87,22 @@ public class CurrencyCmds {
                             .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
                             .sum();
 
-                    event.getChannel().sendMessage(String.format("%sYou will get **%d credits** if you sell all of your items!", EmoteReference.DIAMOND, all)).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.inventory.calculate"), EmoteReference.DIAMOND, all).queue();
                     return;
                 }
 
-                EmbedBuilder builder = baseEmbed(event, member.getEffectiveName() + "'s Inventory", member.getUser().getEffectiveAvatarUrl());
+                EmbedBuilder builder = baseEmbed(event, String.format(languageContext.get("commands.inventory.header"), member.getEffectiveName()), member.getUser().getEffectiveAvatarUrl());
                 List<ItemStack> list = player.getInventory().asList();
                 List<MessageEmbed.Field> fields = new LinkedList<>();
                 if(list.isEmpty())
-                    builder.setDescription("There is only dust here.");
+                    builder.setDescription(languageContext.get("general.dust"));
                 else
                     player.getInventory().asList().forEach(stack -> {
                         long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
                         long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
-                        fields.add(new MessageEmbed.Field(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String
-                                        .format("**Price**: \uD83D\uDCE5 %d \uD83D\uDCE4 %d\n%s", buyValue, sellValue, stack.getItem()
-                                                .getDesc())
+                        fields.add(new MessageEmbed.Field(String.format("%s %s x %d", stack.getItem().getEmoji(), stack.getItem().getName(), stack.getAmount()),
+                                String.format(languageContext.get("commands.inventory.format"), buyValue, sellValue, stack.getItem().getDesc()
+                                )
                                 , false));
                     });
 
@@ -139,7 +138,7 @@ public class CurrencyCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        EmbedBuilder embed = baseEmbed(event, "Mantaro's Market")
+                        EmbedBuilder embed = baseEmbed(event, languageContext.get("commands.market.header"))
                                 .setThumbnail("https://png.icons8.com/metro/540/shopping-cart.png");
                         List<MessageEmbed.Field> fields = new LinkedList<>();
                         Stream.of(Items.ALL).forEach(item -> {
@@ -209,7 +208,7 @@ public class CurrencyCmds {
                         itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
                         itemName = itemName.replace(args[0], "").trim();
                     } catch (NumberFormatException e) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to dump.").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.invalid"), EmoteReference.ERROR).queue();
                         return;
                     } catch (Exception e) {
                         onHelp(event);
@@ -220,25 +219,26 @@ public class CurrencyCmds {
                 Item item = Items.fromAny(itemName).orElse(null);
 
                 if(item == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot check the dump a non-existent item!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.non_existent"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
 
                 if(!player.getInventory().containsItem(item)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot dump an item you don't have!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.player_no_item"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(player.getInventory().getAmount(item) < itemNumber) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot dump more items than what you have.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.more_items_than_player"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 player.getInventory().process(new ItemStack(item, -itemNumber));
                 player.saveAsync();
-                event.getChannel().sendMessage(String.format("%sSent %dx **%s %s** to the trash!", EmoteReference.CORRECT, itemNumber, item.getEmoji(), item.getName())).queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.success"),
+                        EmoteReference.CORRECT, itemNumber, item.getEmoji(), item.getName()).queue();
             }
         }).createSubCommandAlias("dump", "trash");
 
@@ -250,22 +250,23 @@ public class CurrencyCmds {
                 Item item = Items.fromAny(itemName).orElse(null);
 
                 if(item == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot check the price of a non-existent item!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.price.non_existent"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(!item.isBuyable() && !item.isSellable()) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "This item is not available neither for sell or buy (could be an exclusive collectible)").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.price.no_price"), EmoteReference.THINKING).queue();
                     return;
                 }
 
                 if(!item.isBuyable()) {
-                    event.getChannel().sendMessage(EmoteReference.EYES + "This is a collectible item. (Sell value: " + ((int) (item.getValue() * 0.9)) + " credits)").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.price.collectible"),
+                            EmoteReference.EYES, (int)(item.getValue() * 0.9)).queue();
                     return;
                 }
 
-                event.getChannel().sendMessage(String.format("%sThe market value of %s**%s** is %s credits to buy it and you can get %s credits if you sell it.",
-                        EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), (int) (item.getValue() * 0.9))).queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.market.price.success"),
+                        EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), (int) (item.getValue() * 0.9)).queue();
             }
         });
 
@@ -282,7 +283,7 @@ public class CurrencyCmds {
                         itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
                         itemName = itemName.replace(args[0], "").trim();
                     } catch (NumberFormatException e) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to buy.").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.invalid"), EmoteReference.ERROR).queue();
                         return;
                     } catch (Exception e) {
                         onHelp(event);
@@ -300,7 +301,7 @@ public class CurrencyCmds {
                         player.getInventory().clearOnlySellables();
                         player.addMoney(all);
 
-                        event.getChannel().sendMessage(String.format("%sYou sold all your inventory items and gained %d credits!", EmoteReference.MONEY, all)).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.all.success"), EmoteReference.MONEY, all).queue();
 
                         player.saveAsync();
                         return;
@@ -309,22 +310,22 @@ public class CurrencyCmds {
                     Item toSell = Items.fromAny(itemName).orElse(null);
 
                     if(toSell == null) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell a non-existant item.").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.non_existent"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(!toSell.isSellable()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell an item that cannot be sold.").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.no_sell_price"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(player.getInventory().getAmount(toSell) < 1) {
-                        event.getChannel().sendMessage(EmoteReference.STOP + "You cannot sell an item you don't have.").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.no_item_player"), EmoteReference.STOP).queue();
                         return;
                     }
 
                     if(player.getInventory().getAmount(toSell) < itemNumber) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell more items than what you have.").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.more_items_than_player"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -333,11 +334,12 @@ public class CurrencyCmds {
                     player.getInventory().process(new ItemStack(toSell, many));
                     player.addMoney(amount);
                     player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
-                    event.getChannel().sendMessage(String.format("%sYou sold %d **%s** and gained %d credits!", EmoteReference.CORRECT, Math.abs(many), toSell.getName(), amount)).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.success"),
+                            EmoteReference.CORRECT, Math.abs(many), toSell.getName(), amount).queue();
 
                     player.saveAsync();
                 } catch(Exception e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid syntax.").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + languageContext.get("general.invalid_syntax")).queue();
                 }
             }
         });
@@ -356,7 +358,7 @@ public class CurrencyCmds {
                         itemName = itemName.replace(args[0], "").trim();
                     } catch (Exception e) {
                         if (e instanceof NumberFormatException) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to buy.").queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.invalid"), EmoteReference.ERROR).queue();
                         } else {
                             onHelp(event);
                             return;
@@ -367,21 +369,20 @@ public class CurrencyCmds {
                 Item itemToBuy = Items.fromAnyNoId(itemName).orElse(null);
 
                 if(itemToBuy == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an unexistant item.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.non_existent"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 try {
                     if(!itemToBuy.isBuyable()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an item that cannot be bought.")
-                                .queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.no_buy_price"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     ItemStack stack = player.getInventory().getStackOf(itemToBuy);
                     if(stack != null && !stack.canJoin(new ItemStack(itemToBuy, itemNumber))) {
                         //assume overflow
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy more of that object!").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.item_limit_reached"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -391,14 +392,14 @@ public class CurrencyCmds {
                         player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
                         player.saveAsync();
 
-                        event.getChannel().sendMessage(String.format("%sBought %d %s for %d credits successfully. You now have %d credits.",
-                                EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber, player.getMoney())).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.success"),
+                                EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber, player.getMoney()).queue();
 
                     } else {
-                        event.getChannel().sendMessage(EmoteReference.STOP + "You don't have enough money to buy this item.").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.not_enough_money"), EmoteReference.STOP).queue();
                     }
                 } catch(Exception e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid syntax.").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + languageContext.get("general.invalid_syntax")).queue();
                 }
             }
         });
@@ -418,18 +419,18 @@ public class CurrencyCmds {
 
                 List<User> mentionedUsers = event.getMessage().getMentionedUsers();
                 if(mentionedUsers.size() == 0) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention a user").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("general.mention_user_required"), EmoteReference.ERROR).queue();
                 }
                 else {
                     User giveTo = mentionedUsers.get(0);
 
                     if(event.getAuthor().getId().equals(giveTo.getId())) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer items to yourself!").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.transfer_yourself_note"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(giveTo.isBot()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer items to a bot.").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.bot_notice"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -438,34 +439,34 @@ public class CurrencyCmds {
 
                     Item item = Items.fromAny(args[1]).orElse(null);
                     if(item == null) {
-                        event.getChannel().sendMessage("There isn't an item associated with this emoji.").queue();
+                        event.getChannel().sendMessage(languageContext.get("general.item_lookup.no_item_emoji")).queue();
                     } else {
                         Player player = MantaroData.db().getPlayer(event.getAuthor());
                         Player giveToPlayer = MantaroData.db().getPlayer(giveTo);
 
                         if(player.isLocked()) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer items now.").queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.locked_notice"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         if(args.length == 2) {
                             if(player.getInventory().containsItem(item)) {
                                 if(item.isHidden()) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer this item!").queue();
+                                    event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.hidden_item"), EmoteReference.ERROR).queue();
                                     return;
                                 }
 
                                 if(giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() >= 5000) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "This player has the maximum possible amount of this item (5000).").queue();
+                                    event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.overflow"), EmoteReference.ERROR).queue();
                                     return;
                                 }
 
                                 player.getInventory().process(new ItemStack(item, -1));
                                 giveToPlayer.getInventory().process(new ItemStack(item, 1));
-                                event.getChannel().sendMessage(String.format("%s%s gave 1 **%s** to %s", EmoteReference.OK, event.getMember().getEffectiveName(),
-                                        item.getName(), event.getGuild().getMember(giveTo).getEffectiveName())).queue();
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.success"), EmoteReference.OK, event.getMember().getEffectiveName(),
+                                        item.getName(), event.getGuild().getMember(giveTo).getEffectiveName()).queue();
                             } else {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have any of these items in your inventory").queue();
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.multiple_items_error"), EmoteReference.ERROR).queue();
                             }
 
                             player.saveAsync();
@@ -477,25 +478,25 @@ public class CurrencyCmds {
                             int amount = Math.abs(Integer.parseInt(args[2]));
                             if(player.getInventory().containsItem(item) && player.getInventory().getAmount(item) >= amount) {
                                 if(item.isHidden()) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer this item!").queue();
+                                    event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.hidden_item"), EmoteReference.ERROR).queue();
                                     return;
                                 }
 
                                 if(giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() + amount > 5000) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "This player would exceed the maximum possible amount of this item (5000).").queue();
+                                    event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.overflow"), EmoteReference.ERROR).queue();
                                     return;
                                 }
 
                                 player.getInventory().process(new ItemStack(item, amount * -1));
                                 giveToPlayer.getInventory().process(new ItemStack(item, amount));
 
-                                event.getChannel().sendMessage(String.format("%s%s gave %d **%s** to %s", EmoteReference.OK,
-                                        event.getMember().getEffectiveName(), amount, item.getName(), event.getGuild().getMember(giveTo).getEffectiveName())).queue();
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.success"), EmoteReference.OK,
+                                        event.getMember().getEffectiveName(), amount, item.getName(), event.getGuild().getMember(giveTo).getEffectiveName()).queue();
                             } else {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have enough of this item to do that").queue();
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.error"), EmoteReference.ERROR).queue();
                             }
                         } catch(NumberFormatException nfe) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid number provided").queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("general.invalid_number"), EmoteReference.ERROR).queue();
                         }
 
                         player.saveAsync();
@@ -529,19 +530,19 @@ public class CurrencyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention one user.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("general.mention_user_required"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 User giveTo = event.getMessage().getMentionedUsers().get(0);
 
                 if(giveTo.equals(event.getAuthor())) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot transfer money to yourself.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.transfer_yourself_note"), EmoteReference.THINKING).queue();
                     return;
                 }
 
                 if(giveTo.isBot()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money to a bot.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.bot_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -553,17 +554,18 @@ public class CurrencyCmds {
                     //Convert negative values to absolute.
                     toSend = Math.abs(Long.parseLong(args[1]));
                 } catch(Exception e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the amount.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.no_amount"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(toSend == 0) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer no money :P").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.no_money_specified_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(toSend > TRANSFER_LIMIT) {
-                    event.getChannel().sendMessage(String.format("%sYou cannot transfer this much money. (Limit: %d credits)", EmoteReference.ERROR, TRANSFER_LIMIT)).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.over_transfer_limit"),
+                            EmoteReference.ERROR, TRANSFER_LIMIT).queue();
                     return;
                 }
 
@@ -571,22 +573,22 @@ public class CurrencyCmds {
                 Player toTransfer = MantaroData.db().getPlayer(event.getGuild().getMember(giveTo));
 
                 if(transferPlayer.isLocked()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money now.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.own_locked_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(transferPlayer.getMoney() < toSend) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money you don't have.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.no_money_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(toTransfer.isLocked()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "That user cannot receive money now.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.receipt_locked_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(toTransfer.getMoney() > (long) TRANSFER_LIMIT * 20) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "This user already has too much money...").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.receipt_over_limit"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -594,13 +596,13 @@ public class CurrencyCmds {
                     transferPlayer.removeMoney(toSend);
                     transferPlayer.saveAsync();
 
-                    event.getChannel().sendMessage(String.format("%sTransferred **%d** to *%s* successfully.", EmoteReference.CORRECT, toSend,
-                            event.getMessage().getMentionedUsers().get(0).getName())).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.success"), EmoteReference.CORRECT, toSend,
+                            event.getMessage().getMentionedUsers().get(0).getName()).queue();
 
                     toTransfer.saveAsync();
                     rl.process(toTransfer.getUserId());
                 } else {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot send money to this player.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.receipt_overflow_notice"), EmoteReference.ERROR).queue();
                 }
             }
 
@@ -643,23 +645,23 @@ public class CurrencyCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length < 1) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify what item to use!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_items_specified"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 Item item = Items.fromAnyNoId(content).orElse(null);
                 if(item == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "There's no such item...").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("general.item_lookup.not_found"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(item.getItemType() != ItemType.INTERACTIVE) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot interact with this item...").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.not_interactive"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(item.getAction() == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "This item has been marked as interactive, but has no action set...").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.interactive_no_action"), EmoteReference.ERROR).queue();
                     return;
                 }
 
