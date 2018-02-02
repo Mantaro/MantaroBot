@@ -36,7 +36,7 @@
   "commands": {
     "mute": {
       "no_permissions": "%1$sYou need to have either ban or kick members permission to mute!",
-      "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`"
+      "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`",
       "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent!",
       "no_mentions": "%1$sYou need to mention at least one user to mute.",
       "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server!",
