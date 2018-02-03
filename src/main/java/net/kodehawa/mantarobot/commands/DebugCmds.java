@@ -136,10 +136,7 @@ public class DebugCmds {
                 long start = System.currentTimeMillis();
                 event.getChannel().sendTyping().queue(v -> {
                     long ping = System.currentTimeMillis() - start;
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.ping.text"),
-                            EmoteReference.MEGA, pingQuotes[r.nextInt(pingQuotes.length)], ping, ratePing(ping, languageContext), event.getJDA().getPing()
-                    ).queue();
-
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.ping.text"), EmoteReference.MEGA, pingQuotes[r.nextInt(pingQuotes.length)], ping, ratePing(ping, languageContext), event.getJDA().getPing()).queue();
                     TextChannelGround.of(event).dropItemWithChance(5, 5);
                 });
             }
@@ -287,23 +284,37 @@ public class DebugCmds {
         });
     }
 
-    //TODO translate this pain
     private String ratePing(long ping, I18nContext languageContext) {
-        if(ping == 69) return "l-lewd! <:MantaroGasm:318869352851963904>";
-        if(ping <= 1) return "supersonic speed! :upside_down:"; //just in case...
-        if(ping <= 10) return "faster than Sonic! :smiley:";
-        if(ping <= 100) return "great! :smiley:";
-        if(ping <= 200) return "nice! :slight_smile:";
-        if(ping <= 300) return "decent. :neutral_face:";
-        if(ping <= 400) return "average... :confused:";
-        if(ping <= 500) return "slightly slow. :slight_frown:";
-        if(ping <= 600) return "kinda slow.. :frowning2:";
-        if(ping <= 700) return "slow.. :worried:";
-        if(ping <= 800) return "too slow. :disappointed:";
-        if(ping <= 900) return "bad. :sob: (helpme)";
-        if(ping <= 1600) return "#BlameDiscord. :angry:";
-        if(ping <= 10000) return "this makes no sense :thinking: #BlameSteven";
-        return "slow af. :dizzy_face: ";
+        if(ping == 69)
+            return languageContext.get("commands.ping.quotes.69");
+        if(ping <= 1)
+            return languageContext.get("commands.ping.quotes.1"); //just in case...
+        if(ping <= 10)
+            return languageContext.get("commands.ping.quotes.10");
+        if(ping <= 100)
+            return languageContext.get("commands.ping.quotes.100");
+        if(ping <= 200)
+            return languageContext.get("commands.ping.quotes.200");
+        if(ping <= 300)
+            return languageContext.get("commands.ping.quotes.300");
+        if(ping <= 400)
+            return languageContext.get("commands.ping.quotes.400");
+        if(ping <= 500)
+            return languageContext.get("commands.ping.quotes.500");
+        if(ping <= 600)
+            return languageContext.get("commands.ping.quotes.600");
+        if(ping <= 700)
+            return languageContext.get("commands.ping.quotes.700");
+        if(ping <= 800)
+            return languageContext.get("commands.ping.quotes.800");
+        if(ping <= 900)
+            return languageContext.get("commands.ping.quotes.900");
+        if(ping <= 1600)
+            return languageContext.get("commands.ping.quotes.1600");
+        if(ping <= 10000)
+            return languageContext.get("commands.ping.quotes.10000");
+
+        return languageContext.get("commands.ping.quotes.default");
     }
 
     @Subscribe

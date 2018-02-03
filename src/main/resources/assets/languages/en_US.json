@@ -58,7 +58,21 @@
     },
     "ping": {
       "quotes": {
-
+        "1": "supersonic speed! :upside_down:",
+        "10": "faster than Sonic! :smiley:",
+        "69": "l-lewd! <:MantaroGasm:318869352851963904>",
+        "100": "great! :smiley:",
+        "200": "nice! :slight_smile:",
+        "300": "decent. :neutral_face:",
+        "400": "average... :confused:",
+        "500": "slightly slow. :slight_frown:",
+        "600": "kinda slow.. :frowning2:",
+        "700": "slow.. :worried:",
+        "800": "too slow. :disappointed:",
+        "900": "bad. :sob: (helpme)",
+        "1600": "#BlameDiscord. :angry:",
+        "10000": "this makes no sense :thinking: #BlameSteven",
+        "default": "slow af. :dizzy_face:"
       },
       "text": "%1$s*%2$s* - My ping: %3$d ms (%4$s) `Websocket:%5$dms`"
     },
