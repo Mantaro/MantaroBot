@@ -60,7 +60,7 @@ public class MuteCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
 
                 if(!event.getMember().hasPermission(Permission.KICK_MEMBERS) || !event.getMember().hasPermission(Permission.BAN_MEMBERS)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to have either ban or kick members permission to mute!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_permissions"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -71,14 +71,14 @@ public class MuteCmds {
                 Map<String, Optional<String>> opts = br.com.brjdevs.java.utils.texts.StringUtils.parse(args);
 
                 if(guildData.getMutedRole() == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "The mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_mute_role"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 Role mutedRole = event.getGuild().getRoleById(guildData.getMutedRole());
 
                 if(mutedRole == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "The previously configured mute role on this server is now non-existent!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.null_mute_role"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -87,12 +87,12 @@ public class MuteCmds {
                 }
 
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least one user to mute.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_mentions"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MANAGE_ROLES)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I don't have permissions to administrate roles on this server!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_manage_roles"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -107,7 +107,7 @@ public class MuteCmds {
 
                     if(opts.containsKey("time")) {
                         if(!opts.get("time").isPresent() || opts.get("time").get().isEmpty()) {
-                            event.getChannel().sendMessage(EmoteReference.WARNING + "You wanted time but didn't specify for how long!").queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.mute.time_not_specified"), EmoteReference.WARNING).queue();
                             return;
                         }
 
@@ -116,14 +116,14 @@ public class MuteCmds {
                         if(time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
                             //smh smh smfh god fuck rethinkdb just
                             //dont
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Too long...").queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.mute.time_too_long"), EmoteReference.ERROR).queue();
                             //yeah why am I doing this
                             //smh
                             return;
                         }
 
                         if(time < 0) {
-                            event.getChannel().sendMessage("You cannot mute someone for negative time!").queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.mute.negative_time_notice"), EmoteReference.ERROR).queue();
                             return;
                         }
 
@@ -133,7 +133,7 @@ public class MuteCmds {
                     } else {
                         if(time > 0) {
                             if(time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "The default mute timeout length is too long (Maximum: 10 days)...").queue();
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.mute.default_time_too_long"), EmoteReference.ERROR).queue();
                                 return;
                             }
 
@@ -141,24 +141,24 @@ public class MuteCmds {
                             data.save();
                             dbGuild.save();
                         } else {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't specify any time!").queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_time"), EmoteReference.ERROR).queue();
                             return;
                         }
                     }
 
 
                     if(m.getRoles().contains(mutedRole)) {
-                        event.getChannel().sendMessage(EmoteReference.WARNING + "This user already has a mute role assigned. Please do `~>unmute` to unmute them.").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.already_muted"), EmoteReference.WARNING).queue();
                         return;
                     }
 
                     if(!event.getGuild().getSelfMember().canInteract(m)) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.self_hierarchy_error"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(!event.getMember().canInteract(m)) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.user_hierarchy_error"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -167,7 +167,7 @@ public class MuteCmds {
                             .reason(String.format("Muted by %#s for %s: %s", event.getAuthor(), Utils.formatDuration(time - System.currentTimeMillis()), finalReason))
                             .queue();
 
-                    event.getChannel().sendMessage(String.format("%sAdded mute role to **%s%s", EmoteReference.CORRECT, m.getEffectiveName(), time > 0 ? "** for around " + Utils.getHumanizedTime(time - System.currentTimeMillis()) : "**")).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.success"), EmoteReference.CORRECT, m.getEffectiveName(), Utils.getHumanizedTime(time - System.currentTimeMillis())).queue();
 
                     dbg.getData().setCases(dbg.getData().getCases() + 1);
                     dbg.saveAsync();
@@ -291,7 +291,7 @@ public class MuteCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
 
                 if(!event.getMember().hasPermission(Permission.KICK_MEMBERS) || !event.getMember().hasPermission(Permission.KICK_MEMBERS)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to have either ban or kick members permission to un-mute!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.unmute.no_permissions"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -301,14 +301,14 @@ public class MuteCmds {
                 String reason = "Not specified";
 
                 if(guildData.getMutedRole() == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "The mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_mute_role"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 Role mutedRole = event.getGuild().getRoleById(guildData.getMutedRole());
 
                 if(mutedRole == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "The previously configured mute role on this server is now non-existent!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.null_mute_role"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -317,12 +317,12 @@ public class MuteCmds {
                 }
 
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least one user to un-mute.").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.unmute.no_mentions"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MANAGE_ROLES)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I don't have permissions to administer roles on this server!").queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_manage_roles"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -334,12 +334,12 @@ public class MuteCmds {
 
                     guildData.getMutedTimelyUsers().remove(user.getIdLong());
                     if(!event.getGuild().getSelfMember().canInteract(m)) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot remove a mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.self_hierarchy_error"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(!event.getMember().canInteract(m)) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot remove a mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.user_hierarchy_error"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -348,12 +348,12 @@ public class MuteCmds {
                                 .reason(String.format("Unmuted by %#s: %s", event.getAuthor(), finalReason))
                                 .queue();
 
-                        event.getChannel().sendMessage(String.format("%sRemoved mute role from **%s**", EmoteReference.CORRECT, m.getEffectiveName())).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.unmute.success"), EmoteReference.CORRECT, m.getEffectiveName()).queue();
                         dbg.getData().setCases(dbg.getData().getCases() + 1);
                         dbg.saveAsync();
                         ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.UNMUTE, db.getGuild(event.getGuild()).getData().getCases());
                     } else {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "This user doesn't have the mute role assigned to them.").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.unmute.no_role_assigned"), EmoteReference.ERROR).queue();
                     }
                 });
             }
