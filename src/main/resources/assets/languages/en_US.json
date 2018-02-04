@@ -48,7 +48,7 @@
       "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to unmute them.",
       "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
       "user_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
-      "success": "%1$sAdded mute role to **%2$s%3$s** for around %4$s",
+      "success": "%1$sAdded mute role to **%2$s%3$s** for around %4$s"
     },
     "unmute": {
       "no_permissions": "%1$sYou need to have either ban or kick members permission to un-mute!",

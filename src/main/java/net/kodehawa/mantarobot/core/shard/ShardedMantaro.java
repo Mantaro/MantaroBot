@@ -43,6 +43,7 @@ import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import okhttp3.*;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -102,6 +103,8 @@ public class ShardedMantaro {
             JSONObject shardObject = new JSONObject(response.body().string());
             response.close();
             return shardObject.getInt("shards");
+        } catch(JSONException e) {
+            log.error("Unable to fetch shard count, using default value (1)");
         } catch(Exception e) {
             SentryHelper.captureExceptionContext(
                     "Exception thrown when trying to get shard count, discord isn't responding?", e, MantaroBot.class, "Shard Count Fetcher"
