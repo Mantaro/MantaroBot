@@ -76,7 +76,7 @@ public class CustomCmds {
         try {
             new CustomCommandHandler(event, lang, response, args).handle();
         } catch (Exception e) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Error while running custom command... please check the response content and length (cannot be more than 2000 chars).").queue();
+            event.getChannel().sendMessage(String.format("%sError while running custom command... please check the response content and length (cannot be more than 2000 chars).", EmoteReference.ERROR)).queue();
         }
 
         return true;
@@ -259,20 +259,19 @@ public class CustomCmds {
                                     }
 
                                     if(cmd.length() >= 100) {
-                                        event.getChannel().sendMessage(EmoteReference.ERROR + "Name is too long.")
+                                        event.getChannel().sendMessage(String.format("%sName is too long.", EmoteReference.ERROR))
                                                 .queue();
                                         return Operation.RESET_TIMEOUT;
                                     }
 
                                     if(DefaultCommandProcessor.REGISTRY.commands().containsKey(saveTo)) {
-                                        event.getChannel().sendMessage(
-                                                EmoteReference.ERROR + "A command already exists with this name!").queue();
+                                        event.getChannel().sendMessage(String.format("%sA command already exists with this name!", EmoteReference.ERROR)).queue();
                                         return Operation.RESET_TIMEOUT;
                                     }
 
                                     if(responses.isEmpty()) {
                                         event.getChannel().sendMessage(
-                                                EmoteReference.ERROR + "No responses were added. Stopping creation without saving...")
+                                                String.format("%sNo responses were added. Stopping creation without saving...", EmoteReference.ERROR))
                                                 .queue();
                                     } else {
                                         CustomCommand custom = CustomCommand.of(event.getGuild().getId(), cmd, responses);
@@ -284,7 +283,7 @@ public class CustomCmds {
                                         customCommands.put(custom.getId(), custom.getValues());
 
                                         event.getChannel().sendMessage(
-                                                EmoteReference.CORRECT + "Saved to command ``" + cmd + "``!").queue();
+                                                String.format("%sSaved to command ``%s``!", EmoteReference.CORRECT, cmd)).queue();
 
                                         //easter egg :D
                                         TextChannelGround.of(event).dropItemWithChance(8, 2);
@@ -299,11 +298,12 @@ public class CustomCmds {
 
                     if(created) {
                         event.getChannel().sendMessage(
-                                EmoteReference.PENCIL + "Started **\"Creation of Custom Command ``" + cmd + "``\"**!\nSend ``&~>stop`` to stop creation **without saving**.\nSend ``&~>save`` to stop creation an **save the new Command**. Send any text beginning with ``&`` to be added to the Command Responses.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.")
+                                String.format("%sStarted **\"Creation of Custom Command ``%s``\"**!\nSend ``&~>stop`` to stop creation **without saving**.\nSend ``&~>save`` to stop creation an **save the new Command**. Send any text beginning with ``&`` to be added to the Command Responses.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.", EmoteReference.PENCIL, cmd))
                                 .queue();
                     } else {
+                        //impossible as per 5.0?
                         event.getChannel().sendMessage(
-                                EmoteReference.ERROR + "There's already an Interactive Operation happening on this channel.")
+                                String.format("%sThere's already an Interactive Operation happening on this channel.", EmoteReference.ERROR))
                                 .queue();
                     }
 
@@ -314,8 +314,7 @@ public class CustomCmds {
                     try {
                         new CustomCommandHandler(event, languageContext, cmd).handle();
                     } catch (Exception e) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "There was an error while evaluating your command!" +
-                                (e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")")).queue();
+                        event.getChannel().sendMessage(String.format("%sThere was an error while evaluating your command!%s", EmoteReference.ERROR, e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")")).queue();
                     }
 
                     return;
@@ -344,7 +343,7 @@ public class CustomCmds {
                     if(customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
                         DefaultCommandProcessor.REGISTRY.commands().remove(cmd);
 
-                    event.getChannel().sendMessage(EmoteReference.PENCIL + "Removed Custom Command ``" + cmd + "``!")
+                    event.getChannel().sendMessage(String.format("%sRemoved Custom Command ``%s``!", EmoteReference.PENCIL, cmd))
                             .queue();
 
                     return;
@@ -369,14 +368,13 @@ public class CustomCmds {
                             .collect(Collectors.toList());
 
                     if(filtered.size() == 0) {
-                        event.getChannel().sendMessage(
-                                EmoteReference.ERROR + "There are no custom commands matching your search query.").queue();
+                        event.getChannel().sendMessage(String.format("%sThere are no custom commands matching your search query.", EmoteReference.ERROR)).queue();
                         return;
                     }
 
                     DiscordUtils.selectList(
                             event, filtered,
-                            pair -> "``" + pair.getValue().getName() + "`` - Guild: ``" + pair.getKey() + "``",
+                            pair -> String.format("`%s` - Guild: `%s`", pair.getValue().getName(), pair.getKey()),
                             s -> baseEmbed(event, "Select the Command:").setDescription(s)
                                     .setFooter(
                                             "(You can only select custom commands from guilds that you are a member of)",
@@ -394,7 +392,7 @@ public class CustomCmds {
                                 customCommands.put(custom.getId(), custom.getValues());
 
                                 event.getChannel().sendMessage(String
-                                        .format("Imported custom command ``%s`` from guild `%s` with responses ``%s``", cmdName,
+                                        .format("Imported custom command `%s` from guild `%s` with responses `%s`", cmdName,
                                                 pair.getKey().getName(), String.join("``, ``", responses)
                                         )).queue();
 
@@ -427,18 +425,18 @@ public class CustomCmds {
                     try {
                         where = Math.abs(Integer.parseInt(vals[0]));
                     } catch(NumberFormatException e) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a correct number to change!").queue();
+                        event.getChannel().sendMessage(String.format("%sYou need to specify a correct number to change!", EmoteReference.ERROR)).queue();
                         return;
                     }
 
                     List<String> values = custom.getValues();
                     if(where - 1 > values.size()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot edit a non-existent index!").queue();
+                        event.getChannel().sendMessage(String.format("%sYou cannot edit a non-existent index!", EmoteReference.ERROR)).queue();
                         return;
                     }
 
                     if(vals[1].isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot edit to an empty response!").queue();
+                        event.getChannel().sendMessage(String.format("%sCannot edit to an empty response!", EmoteReference.ERROR)).queue();
                         return;
                     }
 
@@ -447,7 +445,7 @@ public class CustomCmds {
                     custom.saveAsync();
                     customCommands.put(custom.getId(), custom.getValues());
 
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Edited response **#" + where + "** of the command `" + custom.getName() + "` correctly!").queue();
+                    event.getChannel().sendMessage(String.format("%sEdited response **#%d** of the command `%s` correctly!", EmoteReference.CORRECT, where, custom.getName())).queue();
                     return;
                 }
 
@@ -458,16 +456,14 @@ public class CustomCmds {
                     }
 
                     if(DefaultCommandProcessor.REGISTRY.commands().containsKey(value)) {
-                        event.getChannel().sendMessage(
-                                EmoteReference.ERROR + "A command already exists with this name!").queue();
+                        event.getChannel().sendMessage(String.format("%sA command already exists with this name!", EmoteReference.ERROR)).queue();
                         return;
                     }
 
                     CustomCommand oldCustom = db().getCustomCommand(event.getGuild(), cmd);
 
                     if(oldCustom == null) {
-                        event.getChannel().sendMessage(
-                                EmoteReference.ERROR2 + "There's no Custom Command ``" + cmd + "`` in this Guild.").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR2 + "There's no Custom Command ``" + cmd + "`` in this Guild.").queue();
                         return;
                     }
 
@@ -485,8 +481,7 @@ public class CustomCmds {
                     if(customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
                         DefaultCommandProcessor.REGISTRY.commands().remove(cmd);
 
-                    event.getChannel().sendMessage(
-                            EmoteReference.CORRECT + "Renamed command ``" + cmd + "`` to ``" + value + "``!").queue();
+                    event.getChannel().sendMessage(String.format("%sRenamed command ``%s`` to ``%s``!", EmoteReference.CORRECT, cmd, value)).queue();
 
                     //easter egg :D
                     TextChannelGround.of(event).dropItemWithChance(8, 2);
@@ -527,7 +522,7 @@ public class CustomCmds {
                     //reflect at local
                     customCommands.put(custom.getId(), custom.getValues());
 
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved to command ``" + cmd + "``!")
+                    event.getChannel().sendMessage(String.format("%sSaved to command ``%s``!", EmoteReference.CORRECT, cmd))
                             .queue();
 
                     //easter egg :D

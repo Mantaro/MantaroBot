@@ -37,6 +37,7 @@
   },
   "commands": {
     "custom": {
+      "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
       "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
       "ls": {
         "header": "Commands for this guild"
@@ -56,9 +57,38 @@
         "success": "%1$sCleared **%2$d Custom Commands**!"
       },
       "make": {
+        "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
         "cancel": "%1$sCommand Creation canceled.",
-
+        "no_responses_added": "%1$sNo responses were added. Stopping creation without saving...",
+        "success": "%1$sSaved to command `%2$s`!"
       },
+      "eval": {
+        "error": "%1$sThere was an error while evaluating your command!%2$s"
+      },
+      "remove": {
+        "success": "%2$sRemoved Custom Command `%1$s`!"
+      },
+      "import": {
+        "not_found": "%1$sThere are no custom commands matching your search query.",
+        "header": "`%1$s` - Guild: `%2$s`",
+        "selection": "Select the Command:",
+        "note": "(You can only select custom commands from guilds that you are a member of)",
+        "success": "Imported custom command `%1$s` from guild `%2$s` with responses `%3$s`"
+      },
+      "edit": {
+        "invalid_number": "%1$sYou need to specify a correct number to change!",
+        "no_index": "%1$sYou cannot edit a non-existent index!",
+        "empty_response": "%1$sCannot edit to an empty response!",
+        "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly!"
+      },
+      "rename": {
+        "success": "%1$sRenamed command `%2$s` to `%3$s`!"
+      },
+      "add": {
+        "success": "%1$sSaved to command `%2$s`!"
+      },
+      "already_exists": "%1$sA command already exists with this name!",
+      "name_too_long": "%1$sName is too long.",
       "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just dust.",
       "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.",
       "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild."
