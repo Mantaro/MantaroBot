@@ -84,8 +84,7 @@ public class FunCmds {
                     else tails[0]++;
                 });
 
-                String flips = times == 1 ? "time" : "times";
-                event.getChannel().sendMessageFormat(languageContext.get("commands.coinflip.success"), EmoteReference.PENNY, times, flips, heads[0], tails[0]).queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.coinflip.success"), EmoteReference.PENNY, times, heads[0], tails[0]).queue();
             }
 
             @Override

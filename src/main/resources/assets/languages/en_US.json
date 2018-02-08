@@ -37,6 +37,97 @@
     "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel."
   },
   "commands": {
+    "music_general": {
+      "not_playing": "%1$sI'm not currently playing anything",
+      "dj_only": "%1$sYou need to be a DJ to use this command!",
+      "enjoy_note": "Enjoy the music! <3",
+      "no_player": "%1$sThere seems to be no player here...",
+      "not_connected": "%1%sYou aren't connected to the voice channel I'm currently playing in! (If you believe this is an error, please report it on the support server)"
+    },
+    "forceskip": {
+      "success": "%1$sAn admin or Bot Commander decided to skip this song."
+    },
+    "np": {
+      "no_track": "%1$sThere either isn't track playing or we cannot seem to find it, try playing a song",
+      "header": "Now Playing"
+    },
+    "pause": {
+      "paused": "Player paused.",
+      "unpaused": "Player unpaused."
+    },
+    "rewind": {
+      "negative": "%1$sPositive integers only",
+      "before_beggining": "%1$sYou can't skip to before the beginning of a song",
+      "success": "%1$sRewound song to: %2$s."
+    },
+    "restartsong": {
+      "success": "%1$sRestarted current song."
+    },
+    "skipahead": {
+      "past_duration": "%1$sYou can't skip past the duration of a song",
+      "success": "%1$sSkipped ahead to %2$s."
+    },
+    "move": {
+      "attempt": "%1$sI will try to move to the channel you're in",
+      "error_moving": "%1$sFailed to switch voice channels.",
+      "cannot_connect": "%1$sCannot connect: I either don't have permission to talk or to move channels.",
+      "non_existent_channel": "%1$sI can't move to a non-existent channel!",
+      "success": "%1$sMoved bot to channel `%2$s`",
+      "vc_not_found": "%1$sVoice channel not found or you didn't specify one!"
+    },
+    "shard": {
+      "info": "I'm in shard %1$d!"
+    },
+    "queue": {
+      "clear": {
+        "header": "%1$sThe server DJ has decided to clear the queue!",
+        "success": "%1$sRemoved **%2$d songs** from the queue.",
+        "error": "%1$sEither you're not connected to the VC or you're not the DJ."
+      }
+    },
+    "repeat": {
+      "queue_cancel": "%1$sContinuing with the current queue.",
+      "queue_repeat": "%1$sRepeating the current queue.",
+      "song_cancel": "%1$sContinuing with the normal queue.",
+      "song_repeat": "%1$sRepeating the current song."
+    },
+    "nextsong": {
+      "no_song_next": "%1$sOw, there isn't any song next",
+      "format": "%1$sNext song in queue: **%2$s** (%3$s) | *Total songs in queue: %4$d*"
+    },
+    "shuffle": {
+      "success": "%1$sRandomized the order of the current queue."
+    },
+    "skip": {
+      "dj_skip": "%1$sThe DJ has decided to skip!",
+      "vote": {
+        "submit": "%1$s**Your vote has been submitted!** You need %2$d more vote(s) to skip!",
+        "remove": "%1$s**Your vote has been removed!** You need %2$d more vote(s) to skip!"
+      },
+      "success": "%1$sReached the required amount of votes, skipping song...",
+      "no_track": "%1$sThere seems to be no track to skip, so I cannot do anything..."
+    },
+    "removetrack": {
+      "invalid_range": "%1$s`%2$s` is not a valid range!",
+      "no_track": "%1$sThere isn't a queued track at the position `%2$d`!",
+      "invalid_number": "(%1$s`%2$s`) One of the ranges is not a valid number!",
+      "invalid_number_range": "%1$s`%2$s` is not a valid number or range!",
+      "success": "%1$sRemoved **%2$d** track(s) from the queue."
+    },
+    "stop": {
+      "dj_stop": "%1$sThe server DJ has decided to stop!",
+      "vote": {
+        "submit": "%1$s**Your vote has been submitted!** You need %2$d more vote(s) to stop!",
+        "remove": "%1$s**Your vote has been removed!** You need %2$d more vote(s) to stop!"
+      },
+      "success": "%1$sReached the required amount of votes, stopping player...",
+      "no_player": "%1$sThere seems to be no player to stop, so I cannot do anything...",
+      "cleanup": "%1$sRemoved **%2$d songs** from the queue."
+    },
+    "volume": {
+      "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
+      "success": "%1$sVolume set to %2$d\n\n%3$s"
+    },
     "custom": {
       "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
       "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
@@ -175,7 +266,7 @@
     "coinflip": {
       "over_limit": "%1$sHold in there! The limit is 1,000 coin flips",
       "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions",
-      "success": "%1$s Your result from **%2$d** %s yielded **%3$d** heads and **%4$d** tails"
+      "success": "%1$s Your result from **%2$d** time(s) yielded **%3$d** heads and **%4$d** tails"
     },
     "inventory": {
       "brief": "**%1$s's inventory:** %2$s",

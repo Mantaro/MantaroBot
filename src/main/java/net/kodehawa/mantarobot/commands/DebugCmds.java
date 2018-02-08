@@ -106,7 +106,7 @@ public class DebugCmds {
         cr.register("shard", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                event.getChannel().sendMessage("I'm in shard " + (event.getJDA().getShardInfo() == null ? 0 : event.getJDA().getShardInfo().getShardId()) + "!").queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.shard.info"), event.getJDA().getShardInfo() == null ? 0 : event.getJDA().getShardInfo().getShardId()).queue();
             }
 
             @Override
