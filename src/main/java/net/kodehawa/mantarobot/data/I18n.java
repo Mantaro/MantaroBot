@@ -32,6 +32,7 @@ public class I18n {
     private static final ThreadLocal<String> ROOT = new ThreadLocal<>();
     private static final Map<String, I18n> LANGUAGE_MAP;
     private final Map<String, ?> map;
+    private final String language;
 
     static {
         Map<String, I18n> m = new HashMap<>();
@@ -55,7 +56,7 @@ public class I18n {
             try {
                 @SuppressWarnings("unchecked")
                 Map<String, ?> map = (Map<String, ?>)mapper.readValue(is, Map.class);
-                m.put(s, new I18n(map));
+                m.put(s, new I18n(map, s));
             } catch(Exception e) {
                 throw new Error("Unable to initialize I18n", e);
             }
@@ -63,23 +64,30 @@ public class I18n {
         LANGUAGE_MAP = Collections.unmodifiableMap(m);
     }
 
-    private I18n(Map<String, ?> map) {
+    private I18n(Map<String, ?> map, String language) {
         this.map = map;
+        this.language = language;
     }
 
-    private String get(Map<String, ?> map, String[] parts, int index) {
-        if(parts.length - 1 == index) {
-            Object o = map.get(parts[parts.length - 1]);
-            if(o instanceof String) return (String)o;
-            throw new IllegalArgumentException("Key " + Arrays.stream(parts).collect(Collectors.joining(".")) + " is not a string");
+    @SuppressWarnings("unchecked")
+    private String get(Map<String, ?> map, String[] parts) {
+        int index = 0;
+        while(index != parts.length - 1) {
+            Object maybeMap = map.get(parts[index]);
+            if(maybeMap instanceof Map) {
+                map = (Map<String, ?>)maybeMap;
+                index++;
+            } else {
+                if(language.equals("en_US")) throw new IllegalArgumentException("Missing key " + Arrays.stream(parts).collect(Collectors.joining(".")));
+                return get(LANGUAGE_MAP.get("en_US").map, parts);
+            }
         }
-        Object maybeMap = map.get(parts[index]);
-        if(maybeMap instanceof Map) {
-            @SuppressWarnings("unchecked")
-            Map<String, ?> map2 = (Map<String, ?>) maybeMap;
-            return get(map2, parts, index + 1);
+        Object maybeString = map.get(parts[index]);
+        if(maybeString instanceof String) {
+            return (String)maybeString;
         }
-        throw new IllegalArgumentException("Key " + Arrays.stream(parts).collect(Collectors.joining(".")) + " is not a map");
+        if(language.equals("en_US")) throw new IllegalArgumentException("Missing key " + Arrays.stream(parts).collect(Collectors.joining(".")));
+        return get(LANGUAGE_MAP.get("en_US").map, parts);
     }
 
     public String get(String query) {
@@ -90,7 +98,7 @@ public class I18n {
         } else {
             actualQuery = root + "." + query;
         }
-        return get(map, actualQuery.split("\\."), 0);
+        return get(map, actualQuery.split("\\."));
     }
 
     public String withRoot(String root, String query) {
