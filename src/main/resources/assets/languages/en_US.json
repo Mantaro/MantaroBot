@@ -37,6 +37,20 @@
     "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel."
   },
   "commands": {
+    "music_usage": {
+      "1": "*How to use music in Mantaro?*",
+      "2": "- To **queue songs from youtube or soundcloud** use `~>play` For example: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
+      "3": "- To **search for a song on youtube** use `~>play <search term>` (without the leading < and >) For example: `~>play see you again` (You need to select the number, just *type the number* after the selection box pops up!)",
+      "4": "- To **search for a song on soundcloud** use `~>play soundcloud <search term>` For example `~>play soundcloud hot milk`",
+      "5": "- To **check the queue** you just type `~>queue`",
+      "6": "- To **remove a track from the queue** you just need to use `~>removetrack` It takes as an argument the position the song is queued at (you can check in on queue)",
+      "7": "- To **pause or unpause** just use `~>pause`",
+      "8": "- To **stop the music and unbind the player** use `~>stop`",
+      "9": "- To **shuffle the queue** just use `~>shuffle`",
+      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeat queue`. Using `~>repeat` while repeat is on, turns it off\n",
+      "11": "For more info please use `~>help <command name>` (without the <> and replace command name with the name of the command you want)",
+      "12": "Enjoy your music and thanks for using Mantaro!"
+    },
     "music_general": {
       "not_playing": "%1$sI'm not currently playing anything",
       "dj_only": "%1$sYou need to be a DJ to use this command!",
