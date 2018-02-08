@@ -92,9 +92,7 @@ public class CustomCommandHandler {
             }
         });
 
-        specialHandlers.put("text", (event, lang, value, args) -> {
-            event.getChannel().sendMessage(value).queue();
-        });
+        specialHandlers.put("text", (event, lang, value, args) -> event.getChannel().sendMessage(value).queue());
 
         specialHandlers.put("play", (event, lang, value, args) -> {
             try {
@@ -105,7 +103,7 @@ public class CustomCommandHandler {
 
             MantaroBot.getInstance()
                 .getAudioManager()
-                .loadAndPlay(event, value, false, false);
+                .loadAndPlay(event, value, false, false, lang);
         });
 
         specialHandlers.put("embed", (event, lang, value, args) -> {
@@ -115,43 +113,35 @@ public class CustomCommandHandler {
                 event.getChannel().sendMessage(embed.gen(event.getMember())).queue();
             } catch (IllegalArgumentException invalid) {
                 if (invalid.getMessage().contains("URL must be a valid http or https url")) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "This command contains an invalid image, please fix...").queue();
+                    event.getChannel().sendMessageFormat(lang.get("commands.custom.invalid_image"), EmoteReference.ERROR2).queue();
                 } else {
-                    event.getChannel().sendMessage(
-                        EmoteReference.ERROR2 + "The string ``{" + value + "}`` isn't valid, or the output is longer than 2000 characters."
-                    ).queue();
+                    event.getChannel().sendMessageFormat(lang.get("commands.custom.invalid_string"), EmoteReference.ERROR2, value).queue();
                 }
             } catch (Exception ignored) {
-                event.getChannel().sendMessage(EmoteReference.ERROR2 + "The string ``{" + value + "}`` isn't a valid JSON.").queue();
+                event.getChannel().sendMessageFormat(lang.get("commands.custom.invalid_json"), EmoteReference.ERROR2, value).queue();
             }
         });
 
         specialHandlers.put("img", (event, lang, value, args) -> {
             try {
                 if (!EmbedBuilder.URL_PATTERN.asPredicate().test(value)) {
-                    event.getChannel().sendMessage(
-                        EmoteReference.ERROR2 + "The string ``" + value + "`` isn't a valid link."
-                    ).queue();
+                    event.getChannel().sendMessageFormat(lang.get("commands.custom.invalid_link"), EmoteReference.ERROR2, value).queue();
                     return;
                 }
 
                 event.getChannel().sendMessage(new EmbedBuilder().setImage(value).setColor(event.getMember().getColor()).build()).queue();
 
             } catch (IllegalArgumentException invalid) {
-                event.getChannel().sendMessage(EmoteReference.ERROR2 + "This command contains an invalid image, please fix...").queue();
+                event.getChannel().sendMessageFormat(lang.get("commands.custom.invalid_image"), EmoteReference.ERROR2).queue();
             }
         });
 
         specialHandlers.put("image", specialHandlers.get("img"));
         specialHandlers.put("imgembed", specialHandlers.get("img"));
 
-        specialHandlers.put("iam", (event, lang, value, args) -> {
-            MiscCmds.iamFunction(value, event, lang);
-        });
+        specialHandlers.put("iam", (event, lang, value, args) -> MiscCmds.iamFunction(value, event, lang));
 
-        specialHandlers.put("iamnot", (event, lang, value, args) -> {
-            MiscCmds.iamnotFunction(value, event, lang);
-        });
+        specialHandlers.put("iamnot", (event, lang, value, args) -> MiscCmds.iamnotFunction(value, event, lang));
     }
 
     private final String args;

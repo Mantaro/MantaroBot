@@ -63,7 +63,7 @@
       "queue": {
         "no_track_found_np": "Nothing or title/duration not found",
         "header": "Queue for server %1$s",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`.\n\n",
+        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`.",
         "nothing_playing_2": "**If there is a song playing and you didn't add more songs, then there is actually just dust here. You can queue more songs as you desire!**",
         "np": "Currently playing",
         "page_overflow": "Nothing here, just dust. Why don't you go back some pages?",
@@ -75,7 +75,8 @@
         "footer": "Total pages: %1$d%2$s. Currently in page %3$d",
         "multiple_pages": " -> Use ~>queue <page> to change pages",
         "page_react": " -> React to change pages",
-        "no_channel": "No channel :("
+        "no_channel": "No channel :(",
+        "songs": "song(s)"
       },
       "connect": {
         "success": "%1$sConnected to channel **%2$s**!",
@@ -237,7 +238,11 @@
       "name_too_long": "%1$sName is too long.",
       "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just dust.",
       "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.",
-      "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild."
+      "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
+      "invalid_image": "%1$sThis command contains an invalid image, please fix...",
+      "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
+      "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
+      "invalid_link": "%1$sThe string `%2$s` isn't a valid link."
     },
     "mute": {
       "no_permissions": "%1$sYou need to have either ban or kick members permission to mute!",
