@@ -61,19 +61,19 @@ public class ModerationCmds {
                 String reason = content;
 
                 if(!guild.getMember(author).hasPermission(Permission.BAN_MEMBERS)) {
-                    channel.sendMessage(EmoteReference.ERROR2 + "Cannot soft ban: You don't have the Ban Members permission.").queue();
-                    return;
-                }
-
-                if(receivedMessage.getMentionedUsers().isEmpty()) {
-                    channel.sendMessage(EmoteReference.ERROR + "You must mention 1 or more users to be soft-banned!").queue();
+                    channel.sendMessage(String.format("%sCannot soft ban: You don't have the Ban Members permission.", EmoteReference.ERROR2)).queue();
                     return;
                 }
 
                 Member selfMember = guild.getSelfMember();
 
                 if(!selfMember.hasPermission(Permission.BAN_MEMBERS)) {
-                    channel.sendMessage(EmoteReference.ERROR2 + "Sorry! I don't have permission to ban members in this server!").queue();
+                    channel.sendMessage(String.format("%sSorry! I don't have permission to ban members in this server!", EmoteReference.ERROR2)).queue();
+                    return;
+                }
+
+                if(receivedMessage.getMentionedUsers().isEmpty()) {
+                    channel.sendMessage(String.format("%sYou must mention 1 or more users to be soft-banned!", EmoteReference.ERROR)).queue();
                     return;
                 }
 
@@ -89,13 +89,13 @@ public class ModerationCmds {
 
                 receivedMessage.getMentionedUsers().forEach(user -> {
                     if(!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot softban an user in a higher hierarchy than you")
+                        event.getChannel().sendMessage(String.format("%sYou cannot softban an user in a higher hierarchy than you", EmoteReference.ERROR))
                                 .queue();
                         return;
                     }
 
                     if(event.getAuthor().getId().equals(user.getId())) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Why are you trying to soft-ban yourself?").queue();
+                        event.getChannel().sendMessage(String.format("%sWhy are you trying to soft-ban yourself?", EmoteReference.ERROR)).queue();
                         return;
                     }
 
@@ -104,8 +104,7 @@ public class ModerationCmds {
 
                     //If one of them is in a higher hierarchy than the bot, cannot ban.
                     if(!selfMember.canInteract(member)) {
-                        channel.sendMessage(EmoteReference.ERROR2 + "Cannot softban member: " + member.getEffectiveName() + ", they are " +
-                                "higher or the same " + "hierarchy than I am!").queue();
+                        channel.sendMessage(String.format("%sCannot softban member: %s, they are higher or the same hierarchy than I am!", EmoteReference.ERROR2, member.getEffectiveName())).queue();
                         return;
                     }
                     final DBGuild db = MantaroData.db().getGuild(event.getGuild());

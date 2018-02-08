@@ -40,6 +40,20 @@
     "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**"
   },
   "commands": {
+    "softban": {
+      "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
+      "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server!",
+      "no_mention": "%1$sYou must mention 1 or more users to be soft-banned!",
+      "hierarchy_conflict": "%1$sYou cannot softban an user in a higher hierarchy than you",
+      "yourself_note": "%1$sWhy are you trying to soft-ban yourself?",
+      "self_hierarchy_conflict": "%1$sCannot softban member: %2$s, they are higher or the same hierarchy than I am!",
+      "success": "%1$s%2$s. **(%3$s got softbanned)**",
+      "error": "%1$sError unbanning [%2$s]: (No permission provided: %3$s)",
+      "unknown_error": "%1$sUnknown error while unbanning [%2$s]: <%3$s>: %4$s"
+    },
+    "ban": {
+
+    },
     "music_usage": {
       "1": "*How to use music in Mantaro?*",
       "2": "- To **queue songs from youtube or soundcloud** use `~>play` For example: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
@@ -59,7 +73,7 @@
       "dj_only": "%1$sYou need to be a DJ to use this command!",
       "enjoy_note": "Enjoy the music! <3",
       "no_player": "%1$sThere seems to be no player here...",
-      "not_connected": "%1%sYou aren't connected to the voice channel I'm currently playing in! (If you believe this is an error, please report it on the support server)",
+      "not_connected": "%1$sYou aren't connected to the voice channel I'm currently playing in! (If you believe this is an error, please report it on the support server)",
       "np_message": "%1$s Now playing **%2$s** (%3$s) on **%4$s** | %5$s",
       "track_error": "%1$sSomething went wrong while playing this track! Sorry for the inconveniences, I'll try to play the next one available if there is one.",
       "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it.\n%2$s",
@@ -84,7 +98,7 @@
       "connect": {
         "success": "%1$sConnected to channel **%2$s**!",
         "full_channel": "%1$sI can't connect to that channel because it is full!",
-        "non_existent_channel": "%sWe received a non-existent channel as response. If you set a voice channel and then deleted it, that might be the cause.\n We reset your music channel for you, try to play the music again.",
+        "non_existent_channel": "%1$sWe received a non-existent channel as response. If you set a voice channel and then deleted it, that might be the cause.\n We reset your music channel for you, try to play the music again.",
         "user_no_vc": "%1$s**Please join a voice channel!**",
         "missing_permissions_connect": "%1$sI cannot connect to this channel due to the lack of permission (%2$s).",
         "missing_permission_speak": "%1$sI cannot speak in this channel due to the lack of permission (%2$s).",
@@ -99,7 +113,7 @@
         "leave": "%1$sI decided to leave **%2$s** because I was left all alone :("
       },
       "loader": {
-        "over_limit": "%1$sThe queue you added had more than %d songs, so we added songs until this limit and ignored the rest.",
+        "over_limit": "%1$sThe queue you added had more than %2$d songs, so we added songs until this limit and ignored the rest.",
         "loaded_playlist": "%1$sAdded **%2$d songs** to queue on playlist: **%3$s** *(%4$s)*",
         "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`~>play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.",
         "error_loading": "%1$sError while fetching music: %2$s",
@@ -210,8 +224,8 @@
         "success": "**Response `%1$d` for custom command `%2$s`:** \n```\n%3$s```"
       },
       "raw": {
-        "header": "Command \"%s\":",
-        "amount": "(Showing %d responses of %d)",
+        "header": "Command \"%1$s\":",
+        "amount": "(Showing %1$d responses of %2$d)",
         "pasted": "Pasted content"
       },
       "clear": {
@@ -335,7 +349,7 @@
     },
     "roll": {
       "success": "%1$sYou got **%2$d**%3$s",
-      "amount": "Doing **%d** rolls."
+      "amount": "Doing **%1$d** rolls."
     },
     "coinflip": {
       "over_limit": "%1$sHold in there! The limit is 1,000 coin flips",
@@ -438,7 +452,7 @@
     },
     "iamnot": {
       "not_assigned": "%1$sYou don't have this role, silly!",
-      "success": "%s%s, you've lost the **%s** role"
+      "success": "%1$s%2$s, you've lost the **%3$s** role"
     },
     "misc": {
       "reverse_missing": "%1$sYou didn't provide any message to reverse!",
@@ -473,10 +487,10 @@
       "retrieving_info": "%1$sRetrieving information from osu! server...",
       "timeout": "%1$sThe osu! api seems to be taking a nap. Maybe try again later?",
       "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rank: %6$s -> Max Combo: %7$d",
-      "best": "**10 best osu! scores for: %s**\n```md\n%s```",
-      "error": "%sUh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)",
+      "best": "**10 best osu! scores for: %1$s**\n```md\n%2$s```",
+      "error": "%1$sUh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)",
       "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Date: %5$s -> Max Combo: %5$d\n",
-      "recent": "**10 most recent osu! scores for: %s**\n```md\n%s```",
+      "recent": "**10 most recent osu! scores for: %1$s**\n```md\n%2$s```",
       "error_detailed": "Uh-oh... seems like I just received scramble soup as a response... (%1$s)"
     },
     "profile": {
@@ -974,7 +988,7 @@
       "item_overflow": "But you already had too many items, so you decided to throw away the excess.",
       "with_item": {
         "found": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits!** %4$s",
-        "found_but_overflow": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits.**%sBut you already had too many credits.",
+        "found_but_overflow": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits.**%4$sBut you already had too many credits.",
         "found_only_item_but_overflow": "%1$sDigging through messages, you found %2$s. %3$s"
       },
       "without_item": {
