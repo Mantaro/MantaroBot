@@ -490,7 +490,7 @@ public class MusicCmds {
                     return;
                 }
 
-                embedForQueue(page, event, musicManager);
+                embedForQueue(page, event, musicManager, languageContext);
                 TextChannelGround.of(event).dropItemWithChance(0, 10);
             }
 
