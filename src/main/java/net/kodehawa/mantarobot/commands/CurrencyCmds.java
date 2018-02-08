@@ -92,22 +92,29 @@ public class CurrencyCmds {
                 List<MessageEmbed.Field> fields = new LinkedList<>();
                 if(list.isEmpty())
                     builder.setDescription(languageContext.get("general.dust"));
-                else
+                else {
                     player.getInventory().asList().forEach(stack -> {
                         long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
                         long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
                         fields.add(new MessageEmbed.Field(String.format("%s %s x %d", stack.getItem().getEmoji(), stack.getItem().getName(), stack.getAmount()),
-                                String.format(languageContext.get("commands.inventory.format"), buyValue, sellValue, stack.getItem().getDesc()
-                                )
-                                , false));
+                                String.format(languageContext.get("commands.inventory.format"), buyValue, sellValue, stack.getItem().getDesc()), false));
                     });
+                }
 
                 List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(18, fields);
                 boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
 
                 if(hasReactionPerms) {
-                    DiscordUtils.list(event, 45, false, builder, splitFields, languageContext);
+                    if(builder.getDescriptionBuilder().length() == 0) {
+                        builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
+                                String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)));
+                    }
+                    DiscordUtils.list(event, 45, false, builder, splitFields);
                 } else {
+                    if(builder.getDescriptionBuilder().length() == 0) {
+                        builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
+                                String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)));
+                    }
                     DiscordUtils.listText(event, 45, false, builder, splitFields);
                 }
             }
@@ -152,8 +159,12 @@ public class CurrencyCmds {
                         boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
 
                         if(hasReactionPerms) {
-                            DiscordUtils.list(event, 120, false, embed, splitFields, languageContext);
+                            embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
+                                    String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)));
+                            DiscordUtils.list(event, 120, false, embed, splitFields);
                         } else {
+                            embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
+                                    String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)));
                             DiscordUtils.listText(event, 120, false, embed, splitFields);
                         }
                     }

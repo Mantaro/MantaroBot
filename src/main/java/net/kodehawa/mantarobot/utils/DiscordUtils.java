@@ -23,9 +23,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
-import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -324,7 +322,7 @@ public class DiscordUtils {
         }, "\u2b05", "\u27a1", "\u274c");
     }
 
-    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, EmbedBuilder base, List<List<MessageEmbed.Field>> parts, I18nContext language) {
+    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
         if(parts.size() == 0)
             return null;
 
@@ -336,9 +334,6 @@ public class DiscordUtils {
             event.getChannel().sendMessage(base.build()).queue();
             return null;
         }
-
-        //TODO move elsewhere
-        base.setDescription(String.format(language.get("general.buy_sell_paged_react"), parts.size(), String.format(language.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)));
 
         AtomicInteger index = new AtomicInteger();
         Message m = event.getChannel().sendMessage(base.build()).complete();
@@ -376,16 +371,13 @@ public class DiscordUtils {
         }, "\u2b05", "\u27a1");
     }
 
-    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, EmbedBuilder base, List<List<MessageEmbed.Field>> parts, I18nContext language) {
+    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
         if(parts.size() == 0)
             return null;
 
         for(MessageEmbed.Field f : parts.get(0)) {
             base.addField(f);
         }
-
-
-        base.setDescription(String.format(language.get("general.buy_sell_paged_text"), parts.size(), String.format(language.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)));
 
         if(parts.size() == 1) {
             event.getChannel().sendMessage(base.build()).queue();
