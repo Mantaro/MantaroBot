@@ -30,6 +30,7 @@ import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
+import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -59,12 +60,15 @@ public class TrackScheduler extends AudioEventAdapter {
     @Setter
     private long requestedChannel;
 
+    private final I18n language;
+
     public TrackScheduler(AudioPlayer player, String guildId) {
         this.audioPlayer = player;
         this.queue = new ConcurrentLinkedDeque<>();
         this.guildId = guildId;
         this.voteSkips = new ArrayList<>();
         this.voteStop = new ArrayList<>();
+        this.language = I18n.of(guildId);
     }
 
     public void queue(AudioTrack track, boolean addFirst) {
@@ -117,7 +121,6 @@ public class TrackScheduler extends AudioEventAdapter {
                 if(getCurrentTrack().getUserData() != null) {
                     user = MantaroBot.getInstance().getUserById(String.valueOf(getCurrentTrack().getUserData()));
                 }
-
                 //Avoid massive spam of "now playing..." when repeating songs.
                 if(lastMessageSentAt == 0 || lastMessageSentAt + 10000 < System.currentTimeMillis()) {
                     getRequestedChannelParsed().sendMessage(
@@ -146,8 +149,7 @@ public class TrackScheduler extends AudioEventAdapter {
     @Override
     public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
         if(getRequestedChannelParsed() != null && getRequestedChannelParsed().canTalk()) {
-            getRequestedChannelParsed().sendMessage(EmoteReference.SAD +
-                    "Something went wrong while playing this track! Sorry for the inconveniences, I'll try to play the next one available if there is one.").queue();
+            getRequestedChannelParsed().sendMessage(EmoteReference.SAD + "Something went wrong while playing this track! Sorry for the inconveniences, I'll try to play the next one available if there is one.").queue();
         }
     }
 

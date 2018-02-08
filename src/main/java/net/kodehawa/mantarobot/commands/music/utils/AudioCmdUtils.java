@@ -24,6 +24,7 @@ import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -39,12 +40,12 @@ public class AudioCmdUtils {
     private final static String BLOCK_ACTIVE = "\uD83D\uDD18";
     private static final int TOTAL_BLOCKS = 10;
 
-    public static void closeAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager) {
+    public static void closeAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager, I18nContext lang) {
         audioManager.closeAudioConnection();
         event.getChannel().sendMessage(EmoteReference.CORRECT + "Closed audio connection.").queue();
     }
 
-    public static void embedForQueue(int page, GuildMessageReceivedEvent event, GuildMusicManager musicManager) {
+    public static void embedForQueue(int page, GuildMessageReceivedEvent event, GuildMusicManager musicManager, I18nContext lang) {
         String toSend = AudioUtils.getQueueList(musicManager.getTrackScheduler().getQueue());
         Guild guild = event.getGuild();
         String nowPlaying = musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null ?
@@ -147,7 +148,7 @@ public class AudioCmdUtils {
         }, lines);
     }
 
-    public static void openAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager, VoiceChannel userChannel) {
+    public static void openAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager, VoiceChannel userChannel, I18nContext lang) {
         if(userChannel.getUserLimit() <= userChannel.getMembers().size() && userChannel.getUserLimit() > 0 && !event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_CHANNEL)) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "I can't connect to that channel because it is full!").queue();
             return;
@@ -164,7 +165,7 @@ public class AudioCmdUtils {
         }
     }
 
-    public static boolean connectToVoiceChannel(GuildMessageReceivedEvent event) {
+    public static boolean connectToVoiceChannel(GuildMessageReceivedEvent event, I18nContext lang) {
         VoiceChannel userChannel = event.getMember().getVoiceState().getChannel();
 
         if(userChannel == null) {
@@ -214,7 +215,7 @@ public class AudioCmdUtils {
         }
 
         if(!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
-            openAudioConnection(event, audioManager, userChannel);
+            openAudioConnection(event, audioManager, userChannel, lang);
         }
 
         return true;

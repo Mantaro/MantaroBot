@@ -103,7 +103,7 @@ public class MusicCmds {
 
                         if(vc != guild.getMember(event.getJDA().getSelfUser()).getVoiceState().getChannel()) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.move.attempt"), EmoteReference.THINKING).queue();
-                            AudioCmdUtils.openAudioConnection(event, am, vc);
+                            AudioCmdUtils.openAudioConnection(event, am, vc, languageContext);
                             return;
                         }
 
@@ -124,7 +124,7 @@ public class MusicCmds {
                     VoiceChannel vc = event.getGuild().getVoiceChannelsByName(content, true).get(0);
                     AudioManager am = event.getGuild().getAudioManager();
 
-                    AudioCmdUtils.openAudioConnection(event, am, vc);
+                    AudioCmdUtils.openAudioConnection(event, am, vc, languageContext);
                     event.getChannel().sendMessageFormat(languageContext.get("commands.move.success"), EmoteReference.OK, vc.getName()).queue();
                 } catch(IndexOutOfBoundsException e) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.move.vc_not_found"), EmoteReference.ERROR).queue();
@@ -168,7 +168,7 @@ public class MusicCmds {
                         else content = "ytsearch: " + content;
                     }
 
-                    MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content, false, true);
+                    MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content, false, true, languageContext);
                     TextChannelGround.of(event).dropItemWithChance(0, 5);
                 } else {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.dj_only"), EmoteReference.ERROR).queue();
@@ -264,7 +264,7 @@ public class MusicCmds {
                     else content = "ytsearch: " + content;
                 }
 
-                MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content, false, false);
+                MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content, false, false, languageContext);
                 TextChannelGround.of(event).dropItemWithChance(0, 5);
             }
 
@@ -301,7 +301,7 @@ public class MusicCmds {
                     else content = "ytsearch: " + content;
                 }
 
-                MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content, true, false);
+                MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content, true, false, languageContext);
                 TextChannelGround.of(event).dropItemWithChance(0, 5);
             }
 

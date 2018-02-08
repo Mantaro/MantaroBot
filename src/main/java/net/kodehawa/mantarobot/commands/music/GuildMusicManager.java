@@ -24,6 +24,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.handlers.AudioPlayerSendHandler;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
+import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.concurrent.ScheduledFuture;
@@ -50,6 +51,7 @@ public class GuildMusicManager {
 
         if(guild == null) return;
 
+        I18n language = I18n.of(guild);
         isAwaitingDeath = false;
         trackScheduler.getQueue().clear();
         if(trackScheduler.getRequestedChannelParsed() != null) {

@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.concurrent.TimeUnit;
 
+//TODO find a good way to translate this?
 public class VoiceChannelListener implements EventListener {
     private static boolean validate(GuildVoiceState state) {
         return state == null || !state.inVoiceChannel();
