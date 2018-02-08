@@ -33,7 +33,8 @@
     },
     "mention_user_required": "%1$sYou need to mention one user.",
     "invalid_character": "%1$sThat is not an allowed character.",
-    "invalid_action": "You cannot do that, silly."
+    "invalid_action": "You cannot do that, silly.",
+    "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel."
   },
   "commands": {
     "custom": {

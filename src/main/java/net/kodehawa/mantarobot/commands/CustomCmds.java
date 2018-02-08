@@ -178,13 +178,12 @@ public class CustomCmds {
                         pasted = Utils.paste(custom.getValues().stream().map(s -> i.incrementAndGet() + s).collect(Collectors.joining("\n")));
                     }
 
-                    EmbedBuilder embed = baseEmbed(event, String.format("Command \"%s\":", cmd))
+                    EmbedBuilder embed = baseEmbed(event, String.format(languageContext.get("commands.custom.raw.header"), cmd))
                             .setDescription(pair.getLeft())
-                            .setFooter(
-                                    String.format("(Showing %d responses of %d)", pair.getRight(), custom.getValues().size()), null);
+                            .setFooter(String.format(languageContext.get("commands.custom.raw.amount"), pair.getRight(), custom.getValues().size()), null);
 
                     if(pasted != null && pasted.contains("hastebin.com")) {
-                        embed.addField("Pasted content", pasted, false);
+                        embed.addField(languageContext.get("commands.custom.raw.pasted"), pasted, false);
                     }
 
                     event.getChannel().sendMessage(embed.build()).queue();
@@ -192,27 +191,25 @@ public class CustomCmds {
                 }
 
                 if(db().getGuild(event.getGuild()).getData().isCustomAdminLock() && !CommandPermission.ADMIN.test(event.getMember())) {
-                    event.getChannel().sendMessage("This guild only accepts custom command creation, edits, imports and eval from administrators.").queue();
+                    event.getChannel().sendMessage(languageContext.get("commands.custom.admin_only")).queue();
                     return;
                 }
 
                 if(action.equals("clear")) {
                     if(!CommandPermission.ADMIN.test(event.getMember())) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot do that, silly.").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("general.invalid_action"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     List<CustomCommand> customCommands = db().getCustomCommands(event.getGuild());
 
                     if(customCommands.isEmpty()) {
-                        event.getChannel().sendMessage(
-                                EmoteReference.ERROR + "There's no Custom Commands registered in this Guild, just dust.").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.no_cc"), EmoteReference.ERROR).queue();
                     }
                     int size = customCommands.size();
                     customCommands.forEach(CustomCommand::deleteAsync);
                     customCommands.forEach(c -> CustomCmds.customCommands.remove(c.getId()));
-                    event.getChannel().sendMessage(String.format("%sCleared **%d Custom Commands**!", EmoteReference.PENCIL, size))
-                            .queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.clear.success"), EmoteReference.PENCIL, size).queue();
                     return;
                 }
 
@@ -240,8 +237,7 @@ public class CustomCmds {
                                 c = c.substring(1);
 
                                 if(c.startsWith("~>cancel") || c.startsWith("~>stop")) {
-                                    event.getChannel().sendMessage(String.format("%sCommand Creation canceled.", EmoteReference.CORRECT))
-                                            .queue();
+                                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.make.cancel"), EmoteReference.CORRECT).queue();
                                     return Operation.COMPLETED;
                                 }
 
@@ -250,26 +246,22 @@ public class CustomCmds {
                                     String saveTo = !arg.isEmpty() ? arg : cmd;
 
                                     if(!NAME_PATTERN.matcher(cmd).matches()) {
-                                        event.getChannel().sendMessage(String.format("%sNot allowed character.", EmoteReference.ERROR))
-                                                .queue();
+                                        event.getChannel().sendMessageFormat(languageContext.get("general.invalid_character"), EmoteReference.ERROR).queue();
                                         return Operation.RESET_TIMEOUT;
                                     }
 
                                     if(cmd.length() >= 100) {
-                                        event.getChannel().sendMessage(String.format("%sName is too long.", EmoteReference.ERROR))
-                                                .queue();
+                                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.name_too_long"), EmoteReference.ERROR).queue();
                                         return Operation.RESET_TIMEOUT;
                                     }
 
                                     if(DefaultCommandProcessor.REGISTRY.commands().containsKey(saveTo)) {
-                                        event.getChannel().sendMessage(String.format("%sA command already exists with this name!", EmoteReference.ERROR)).queue();
+                                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.already_exists"), EmoteReference.ERROR).queue();
                                         return Operation.RESET_TIMEOUT;
                                     }
 
                                     if(responses.isEmpty()) {
-                                        event.getChannel().sendMessage(
-                                                String.format("%sNo responses were added. Stopping creation without saving...", EmoteReference.ERROR))
-                                                .queue();
+                                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.make.no_responses_added"), EmoteReference.ERROR).queue();
                                     } else {
                                         CustomCommand custom = CustomCommand.of(event.getGuild().getId(), cmd, responses);
 
@@ -279,8 +271,7 @@ public class CustomCmds {
                                         //reflect at local
                                         customCommands.put(custom.getId(), custom.getValues());
 
-                                        event.getChannel().sendMessage(
-                                                String.format("%sSaved to command ``%s``!", EmoteReference.CORRECT, cmd)).queue();
+                                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.make.success"), EmoteReference.CORRECT, cmd).queue();
 
                                         //easter egg :D
                                         TextChannelGround.of(event).dropItemWithChance(8, 2);
@@ -294,14 +285,9 @@ public class CustomCmds {
                             }) != null;
 
                     if(created) {
-                        event.getChannel().sendMessage(
-                                String.format("%sStarted **\"Creation of Custom Command ``%s``\"**!\nSend ``&~>stop`` to stop creation **without saving**.\nSend ``&~>save`` to stop creation an **save the new Command**. Send any text beginning with ``&`` to be added to the Command Responses.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.", EmoteReference.PENCIL, cmd))
-                                .queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.make.start_text"), EmoteReference.PENCIL, cmd).queue();
                     } else {
-                        //impossible as per 5.0?
-                        event.getChannel().sendMessage(
-                                String.format("%sThere's already an Interactive Operation happening on this channel.", EmoteReference.ERROR))
-                                .queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("general.interactive_running"), EmoteReference.ERROR).queue();
                     }
 
                     return;
@@ -311,7 +297,7 @@ public class CustomCmds {
                     try {
                         new CustomCommandHandler(event, languageContext, cmd).handle();
                     } catch (Exception e) {
-                        event.getChannel().sendMessage(String.format("%sThere was an error while evaluating your command!%s", EmoteReference.ERROR, e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")")).queue();
+                        event.getChannel().sendMessage(String.format(languageContext.get("commands.custom.eval.error"), EmoteReference.ERROR, e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")")).queue();
                     }
 
                     return;
@@ -363,16 +349,16 @@ public class CustomCmds {
                             .collect(Collectors.toList());
 
                     if(filtered.size() == 0) {
-                        event.getChannel().sendMessage(String.format("%sThere are no custom commands matching your search query.", EmoteReference.ERROR)).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.import.not_found"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     DiscordUtils.selectList(
                             event, filtered,
-                            pair -> String.format("`%s` - Guild: `%s`", pair.getValue().getName(), pair.getKey()),
-                            s -> baseEmbed(event, "Select the Command:").setDescription(s)
+                            pair -> String.format(languageContext.get("commands.custom.import.header"), pair.getValue().getName(), pair.getKey()),
+                            s -> baseEmbed(event, languageContext.get("commands.custom.import.selection")).setDescription(s)
                                     .setFooter(
-                                            "(You can only select custom commands from guilds that you are a member of)",
+                                            languageContext.get("commands.custom.import.note"),
                                             null
                                     ).build(),
                             pair -> {
@@ -386,10 +372,9 @@ public class CustomCmds {
                                 //reflect at local
                                 customCommands.put(custom.getId(), custom.getValues());
 
-                                event.getChannel().sendMessage(String
-                                        .format("Imported custom command `%s` from guild `%s` with responses `%s`", cmdName,
-                                                pair.getKey().getName(), String.join("``, ``", responses)
-                                        )).queue();
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.custom.import.success"),
+                                        cmdName, pair.getKey().getName(), String.join("``, ``", responses)
+                                ).queue();
 
                                 //easter egg :D
                                 TextChannelGround.of(event).dropItemWithChance(8, 2);
@@ -419,18 +404,18 @@ public class CustomCmds {
                     try {
                         where = Math.abs(Integer.parseInt(vals[0]));
                     } catch(NumberFormatException e) {
-                        event.getChannel().sendMessage(String.format("%sYou need to specify a correct number to change!", EmoteReference.ERROR)).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.edit.invalid_number"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     List<String> values = custom.getValues();
                     if(where - 1 > values.size()) {
-                        event.getChannel().sendMessage(String.format("%sYou cannot edit a non-existent index!", EmoteReference.ERROR)).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.edit.no_index"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(vals[1].isEmpty()) {
-                        event.getChannel().sendMessage(String.format("%sCannot edit to an empty response!", EmoteReference.ERROR)).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.edit.empty_response"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -439,7 +424,7 @@ public class CustomCmds {
                     custom.saveAsync();
                     customCommands.put(custom.getId(), custom.getValues());
 
-                    event.getChannel().sendMessage(String.format("%sEdited response **#%d** of the command `%s` correctly!", EmoteReference.CORRECT, where, custom.getName())).queue();
+                    event.getChannel().sendMessage(String.format(languageContext.get("commands.custom.edit.success"), EmoteReference.CORRECT, where, custom.getName())).queue();
                     return;
                 }
 
@@ -450,7 +435,7 @@ public class CustomCmds {
                     }
 
                     if(DefaultCommandProcessor.REGISTRY.commands().containsKey(value)) {
-                        event.getChannel().sendMessage(String.format("%sA command already exists with this name!", EmoteReference.ERROR)).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.already_exists"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -475,7 +460,7 @@ public class CustomCmds {
                     if(customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
                         DefaultCommandProcessor.REGISTRY.commands().remove(cmd);
 
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.rename.success"), EmoteReference.CORRECT, cmd, value).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.rename.success"), EmoteReference.CORRECT, cmd, value).queue();
 
                     //easter egg :D
                     TextChannelGround.of(event).dropItemWithChance(8, 2);
@@ -484,18 +469,17 @@ public class CustomCmds {
 
                 if(action.equals("add") || action.equals("new")) {
                     if(!NAME_PATTERN.matcher(cmd).matches()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.character_not_allowed"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(cmd.length() >= 100) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Name is too long.")
-                                .queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.name_too_long"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(DefaultCommandProcessor.REGISTRY.commands().containsKey(cmd)) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "A command already exists with this name!").queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.already_exists"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -560,7 +544,7 @@ public class CustomCmds {
         Async.thread(() -> db().getCustomCommands().forEach(custom -> {
             if(!NAME_PATTERN.matcher(custom.getName()).matches()) {
                 String newName = INVALID_CHARACTERS_PATTERN.matcher(custom.getName()).replaceAll("_");
-                log.info("Custom Command with Invalid Characters '%s' found. Replacing with '%'", custom.getName());
+                log.info("Custom Command with Invalid Characters '%s' found. Replacing with '_'", custom.getName());
 
                 custom.deleteAsync();
                 custom = CustomCommand.of(custom.getGuildId(), newName, custom.getValues());
