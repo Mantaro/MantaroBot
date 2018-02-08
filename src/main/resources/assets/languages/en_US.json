@@ -34,7 +34,10 @@
     "mention_user_required": "%1$sYou need to mention one user.",
     "invalid_character": "%1$sThat is not an allowed character.",
     "invalid_action": "You cannot do that, silly.",
-    "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel."
+    "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel.",
+    "buy_sell_paged_react": "**Total pages: %1$d.**\nUse the message reactions to move between pages.\n%2$s",
+    "buy_sell_paged_text": "**Total pages: %1$d.**\nUse **&p>>** and **&p <<** to move across pages.\n%2$s",
+    "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**"
   },
   "commands": {
     "music_usage": {

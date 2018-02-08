@@ -18,9 +18,6 @@ package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
-import com.rethinkdb.model.OptArgs;
-import com.rethinkdb.net.Connection;
-import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
@@ -42,23 +39,22 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
-import java.awt.*;
-import java.util.*;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 @Module
+@SuppressWarnings("unused")
 public class CurrencyCmds {
     private final int TRANSFER_LIMIT = Integer.MAX_VALUE / 3; //around 715m
 
@@ -110,7 +106,7 @@ public class CurrencyCmds {
                 boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
 
                 if(hasReactionPerms) {
-                    DiscordUtils.list(event, 45, false, builder, splitFields);
+                    DiscordUtils.list(event, 45, false, builder, splitFields, languageContext);
                 } else {
                     DiscordUtils.listText(event, 45, false, builder, splitFields);
                 }
@@ -156,7 +152,7 @@ public class CurrencyCmds {
                         boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
 
                         if(hasReactionPerms) {
-                            DiscordUtils.list(event, 120, false, embed, splitFields);
+                            DiscordUtils.list(event, 120, false, embed, splitFields, languageContext);
                         } else {
                             DiscordUtils.listText(event, 120, false, embed, splitFields);
                         }
