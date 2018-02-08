@@ -42,7 +42,7 @@ public class AudioCmdUtils {
 
     public static void closeAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager, I18nContext lang) {
         audioManager.closeAudioConnection();
-        event.getChannel().sendMessage(EmoteReference.CORRECT + "Closed audio connection.").queue();
+        event.getChannel().sendMessageFormat(lang.get("commands.music_general.closed_connection"), EmoteReference.CORRECT).queue();
     }
 
     public static void embedForQueue(int page, GuildMessageReceivedEvent event, GuildMusicManager musicManager, I18nContext lang) {
@@ -56,7 +56,7 @@ public class AudioCmdUtils {
 
         if(toSend.isEmpty()) {
             event.getChannel().sendMessage(new EmbedBuilder()
-                    .setAuthor("Queue for server " + guild.getName(), null, guild.getIconUrl())
+                    .setAuthor(String.format("Queue for server %s", guild.getName()), null, guild.getIconUrl())
                     .setColor(Color.CYAN).setDescription("Nothing here, just dust. Why don't you queue some songs?\n" +
                             "If you think there are songs here but they don't appear, try using `~>queue 1`.\n\n" +
                             "**If there is a song playing and you didn't add more songs, then there is actually just dust here. You can queue more songs as you desire!**")
@@ -104,7 +104,7 @@ public class AudioCmdUtils {
             }
             if(line == null || page > total) {
                 event.getChannel().sendMessage(new EmbedBuilder()
-                        .setAuthor("Queue for server " + guild.getName(), null, guild.getIconUrl())
+                        .setAuthor(String.format("Queue for server %s", guild.getName()), null, guild.getIconUrl())
                         .setColor(Color.CYAN).setDescription("Nothing here, just dust. Why don't you go back some pages?\n" +
                                 "If you think there are songs here but they don't appear, try using `~>queue 1`.")
                         .addField("Currently playing", nowPlaying, false)
@@ -112,7 +112,7 @@ public class AudioCmdUtils {
             } else {
                 long length = musicManager.getTrackScheduler().getQueue().stream().mapToLong(value -> value.getInfo().length).sum();
                 EmbedBuilder builder = new EmbedBuilder()
-                        .setAuthor("Queue for server " + guild.getName(), null, guild.getIconUrl())
+                        .setAuthor(String.format("Queue for server %s", guild.getName()), null, guild.getIconUrl())
                         .setColor(Color.CYAN);
 
                 VoiceChannel vch = guild.getSelfMember().getVoiceState().getChannel();
@@ -123,7 +123,7 @@ public class AudioCmdUtils {
                         .addField("Repeat / Pause", "`" + (musicManager.getTrackScheduler().getRepeatMode() == null ? "false" : musicManager.getTrackScheduler().getRepeatMode())
                                 + " / " + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()) + "`", true)
                         .addField("Playing in", vch == null ? "No channel :<" : "`" + vch.getName() + "`", true)
-                        .setFooter("Total pages: " + total + (total == 1 ? "" : " -> Use ~>queue <page> to change pages") + ". Currently in page " + page, guild.getIconUrl());
+                        .setFooter(String.format("Total pages: %d%s. Currently in page %d", total, total == 1 ? "" : " -> Use ~>queue <page> to change pages", page), guild.getIconUrl());
                 event.getChannel().sendMessage(builder.setDescription(line).build()).queue();
             }
             return;
@@ -143,23 +143,22 @@ public class AudioCmdUtils {
                     .addField("Repeat / Pause", "`" + (musicManager.getTrackScheduler().getRepeatMode() == null ? "false" : musicManager.getTrackScheduler().getRepeatMode())
                             + " / " + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()) + "`", true)
                     .addField("Playing in", vch == null ? "No channel :<" : "`" + vch.getName() + "`", true)
-                    .setFooter("Total pages: " + total + (total == 1 ? "" : " -> React to change pages") + ". Currently in page " + p, guild.getIconUrl());
+                    .setFooter(String.format("Total pages: %d%s. Currently in page %d", total, total == 1 ? "" : " -> React to change pages", p), guild.getIconUrl());
             return builder;
         }, lines);
     }
 
     public static void openAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager, VoiceChannel userChannel, I18nContext lang) {
         if(userChannel.getUserLimit() <= userChannel.getMembers().size() && userChannel.getUserLimit() > 0 && !event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_CHANNEL)) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "I can't connect to that channel because it is full!").queue();
+            event.getChannel().sendMessage(String.format("%sI can't connect to that channel because it is full!", EmoteReference.ERROR)).queue();
             return;
         }
 
         try {
             audioManager.openAudioConnection(userChannel);
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Connected to channel **" + userChannel.getName() + "**!").queue();
+            event.getChannel().sendMessage(String.format("%sConnected to channel **%s**!", EmoteReference.CORRECT, userChannel.getName())).queue();
         } catch(NullPointerException e) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "We received a non-existent channel as response. If you set a voice channel and then deleted it, that might be the cause." +
-                    "\n We reset your music channel for you, try to play the music again.").queue();
+            event.getChannel().sendMessage(String.format("%sWe received a non-existent channel as response. If you set a voice channel and then deleted it, that might be the cause.\n We reset your music channel for you, try to play the music again.", EmoteReference.ERROR)).queue();
             MantaroData.db().getGuild(event.getGuild()).getData().setMusicChannel(null);
             MantaroData.db().getGuild(event.getGuild()).saveAsync();
         }
@@ -174,12 +173,12 @@ public class AudioCmdUtils {
         }
 
         if(!event.getGuild().getSelfMember().hasPermission(userChannel, Permission.VOICE_CONNECT)) {
-            event.getChannel().sendMessage(":heavy_multiplication_x: I cannot connect to this channel due to the lack of permission.").queue();
+            event.getChannel().sendMessage(":heavy_multiplication_x: I cannot connect to this channel due to the lack of permission (%s).").queue();
             return false;
         }
 
         if(!event.getGuild().getSelfMember().hasPermission(userChannel, Permission.VOICE_SPEAK)) {
-            event.getChannel().sendMessage(":heavy_multiplication_x: I cannot speak in this channel due to the lack of permission.").queue();
+            event.getChannel().sendMessage(":heavy_multiplication_x: I cannot speak in this channel due to the lack of permission (%s).").queue();
             return false;
         }
 
@@ -192,25 +191,25 @@ public class AudioCmdUtils {
 
         if(guildMusicChannel != null) {
             if(!userChannel.equals(guildMusicChannel)) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "I can only play music on channel **" + guildMusicChannel.getName() + "**!").queue();
+                event.getChannel().sendMessage(String.format("%sI can only play music on channel **%s**!", EmoteReference.ERROR, guildMusicChannel.getName())).queue();
                 return false;
             }
 
             if(!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
                 audioManager.openAudioConnection(userChannel);
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "Connected to channel **" + userChannel.getName() + "**!").queue();
+                event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.success"), EmoteReference.CORRECT, userChannel.getName()).queue();
             }
 
             return true;
         }
 
         if(audioManager.isConnected() && !audioManager.getConnectedChannel().equals(userChannel)) {
-            event.getChannel().sendMessage(String.format(EmoteReference.WARNING + "I'm already connected on channel **%s**! (Use the `move` command to move me to another channel)", audioManager.getConnectedChannel().getName())).queue();
+            event.getChannel().sendMessage(String.format("%sI'm already connected on channel **%s**! (Use the `move` command to move me to another channel)", EmoteReference.WARNING, audioManager.getConnectedChannel().getName())).queue();
             return false;
         }
 
         if(audioManager.isAttemptingToConnect() && !audioManager.getQueuedAudioConnection().equals(userChannel)) {
-            event.getChannel().sendMessage(String.format(EmoteReference.ERROR + "I'm already trying to connect to channel **%s**! (Use the `move` command to move me to another channel)", audioManager.getQueuedAudioConnection().getName())).queue();
+            event.getChannel().sendMessage(String.format("%sI'm already trying to connect to channel **%s**! (Use the `move` command to move me to another channel)", EmoteReference.ERROR, audioManager.getQueuedAudioConnection().getName())).queue();
             return false;
         }
 

@@ -51,23 +51,25 @@ public class GuildMusicManager {
 
         if(guild == null) return;
 
-        I18n language = I18n.of(guild);
         isAwaitingDeath = false;
         trackScheduler.getQueue().clear();
         if(trackScheduler.getRequestedChannelParsed() != null) {
-            trackScheduler.getRequestedChannelParsed().sendMessage(EmoteReference.SAD + "I decided to leave **" + guild.getSelfMember().getVoiceState().getChannel().getName() + "** " +
-                    "because I was left all alone :<").queue();
+            trackScheduler.getRequestedChannelParsed().sendMessageFormat(trackScheduler.getLanguage().get("commands.music_general.listener.leave"),
+                    EmoteReference.SAD, guild.getSelfMember().getVoiceState().getChannel().getName()
+            ).queue();
         }
         trackScheduler.nextTrack(true, true);
     }
 
     public void scheduleLeave() {
-        if(leaveTask != null) return;
+        if(leaveTask != null)
+            return;
         leaveTask = MantaroBot.getInstance().getExecutorService().schedule(this::leave, 2, TimeUnit.MINUTES);
     }
 
     public void cancelLeave() {
-        if(leaveTask == null) return;
+        if(leaveTask == null)
+            return;
         leaveTask.cancel(true);
         leaveTask = null;
     }

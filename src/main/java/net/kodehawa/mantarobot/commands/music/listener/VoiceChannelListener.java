@@ -32,7 +32,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.concurrent.TimeUnit;
 
-//TODO find a good way to translate this?
 public class VoiceChannelListener implements EventListener {
     private static boolean validate(GuildVoiceState state) {
         return state == null || !state.inVoiceChannel();
@@ -83,7 +82,7 @@ public class VoiceChannelListener implements EventListener {
                 if(scheduler.getCurrentTrack() != null && scheduler.getRequestedChannelParsed() != null) {
                     TextChannel tc = scheduler.getRequestedChannelParsed();
                     if(tc.canTalk()) {
-                        tc.sendMessage(EmoteReference.SAD + "Pausing player because I got muted :(").queue();
+                        tc.sendMessageFormat(scheduler.getLanguage().get("commands.music_general.listener.paused"), EmoteReference.SAD).queue();
                     }
                     gmm.getAudioPlayer().setPaused(true);
                 }
@@ -108,7 +107,7 @@ public class VoiceChannelListener implements EventListener {
                     if(gmm.isAwaitingDeath()) {
                         TextChannel tc = scheduler.getRequestedChannelParsed();
                         if(tc.canTalk()) {
-                            tc.sendMessage(EmoteReference.POPPER + "Resuming playback because someone joined!").queue();
+                            tc.sendMessageFormat(scheduler.getLanguage().get("commands.music_general.listener.resume"), EmoteReference.POPPER).queue();
                         }
                     }
                 }
@@ -130,10 +129,9 @@ public class VoiceChannelListener implements EventListener {
                 if(scheduler != null && scheduler.getCurrentTrack() != null && scheduler.getRequestedChannelParsed() != null) {
                     TextChannel tc = scheduler.getRequestedChannelParsed();
                     if(tc.canTalk()) {
-                        tc.sendMessage(EmoteReference.THINKING + "I'll leave **" + vc.getName() + "** in 2 minutes because I was left all alone :<")
-                                .queue(
-                                        m -> m.delete().queueAfter(30, TimeUnit.SECONDS)
-                                );
+                        tc.sendMessageFormat(scheduler.getLanguage().get("commands.music_general.listener.left_alone"), EmoteReference.THINKING, vc.getName()).queue(
+                                m -> m.delete().queueAfter(30, TimeUnit.SECONDS)
+                        );
                     }
                 }
 

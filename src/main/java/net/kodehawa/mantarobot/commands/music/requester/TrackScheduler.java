@@ -52,6 +52,7 @@ public class TrackScheduler extends AudioEventAdapter {
     @Getter
     private final List<String> voteStop;
     private long lastMessageSentAt;
+    private long lastErrorSentAt;
     @Getter
     private AudioTrack previousTrack, currentTrack;
     @Getter
@@ -59,7 +60,7 @@ public class TrackScheduler extends AudioEventAdapter {
     private Repeat repeatMode;
     @Setter
     private long requestedChannel;
-
+    @Getter
     private final I18n language;
 
     public TrackScheduler(AudioPlayer player, String guildId) {
@@ -68,6 +69,8 @@ public class TrackScheduler extends AudioEventAdapter {
         this.guildId = guildId;
         this.voteSkips = new ArrayList<>();
         this.voteStop = new ArrayList<>();
+
+        //Only take guild language settings into consideration for announcement messages.
         this.language = I18n.of(guildId);
     }
 
@@ -124,9 +127,9 @@ public class TrackScheduler extends AudioEventAdapter {
                 //Avoid massive spam of "now playing..." when repeating songs.
                 if(lastMessageSentAt == 0 || lastMessageSentAt + 10000 < System.currentTimeMillis()) {
                     getRequestedChannelParsed().sendMessage(
-                            new MessageBuilder().append(String.format("\uD83D\uDCE3 Now playing **%s** (%s) on **%s** | %s",
-                                    title, AudioUtils.getLength(trackLength), voiceChannel.getName(), user != null ?
-                                            String.format("Requested by **%s#%s**", user.getName(), user.getDiscriminator()) : ""))
+                            new MessageBuilder().append(String.format(language.get("commands.music_general.np_message"),
+                                    "\uD83D\uDCE3", title, AudioUtils.getLength(trackLength), voiceChannel.getName(), user != null ?
+                                            String.format(language.get("general.requested_by"), String.format("**%s#%s**", user.getName(), user.getDiscriminator())) : ""))
                                     .stripMentions(getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
                                     .build()
                     ).queue(message -> {
@@ -149,7 +152,12 @@ public class TrackScheduler extends AudioEventAdapter {
     @Override
     public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
         if(getRequestedChannelParsed() != null && getRequestedChannelParsed().canTalk()) {
-            getRequestedChannelParsed().sendMessage(EmoteReference.SAD + "Something went wrong while playing this track! Sorry for the inconveniences, I'll try to play the next one available if there is one.").queue();
+            //Avoid massive spam of when song error in mass.
+            if(lastErrorSentAt == 0 || lastErrorSentAt + 10000 < System.currentTimeMillis()) {
+                getRequestedChannelParsed().sendMessageFormat(
+                        language.get("commands.music_general.track_error"), EmoteReference.SAD
+                ).queue(success -> lastErrorSentAt = System.currentTimeMillis());
+            }
         }
     }
 
@@ -207,9 +215,10 @@ public class TrackScheduler extends AudioEventAdapter {
         try {
             TextChannel ch = getRequestedChannelParsed();
             if(ch != null && ch.canTalk()) {
-                ch.sendMessage(EmoteReference.MEGA + "Finished playing current queue! I hope you enjoyed it.\n" +
-                        (premium ? "" : ":heart: Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)"))
-                        .queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
+                ch.sendMessageFormat(
+                        language.get("commands.music_general.queue_finished"),
+                        EmoteReference.MEGA, premium ? "" : String.format(language.get("commands.music_general.premium_beg"), EmoteReference.HEART)
+                ).queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             }
         } catch(Exception ignored) {
         }
