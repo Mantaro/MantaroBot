@@ -29,8 +29,8 @@
    + Keep the translation clean.
    + Don't remove or "translate" anything remotely like %1$s, %2$s or %\<number\>$s. [More info](https://docs.oracle.com/javase/9/docs/api/java/util/Formattable.html)
    + Don't change the formatting marks (\*\*, \*, etc). If a word is \*\*like this\*\* translate it \*\*como esto\*\*, for example.
-   + We're gonna review translation files before going to production.
-   + If you're unsure what a parameter is, you can try using the command or MrLar 🌺#0611 or Kodehawa#3457.
+   + We're gonna review translation files before going to production, so no worries if something happens to go wrong we will point it out and assist you.
+   + If you're unsure what a parameter is, you can try using the command or contact MrLar 🌺#0611 or Kodehawa#3457.
    + For languages that are read backwards (compared to english), the %\<number\>$s-alike parameters can be moved to accomodate your language reading. You can contact MrLar 🌺#0611 or Kodehawa#3457 on Discord if you're lost.
    
 
