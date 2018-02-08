@@ -29,6 +29,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
+import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
@@ -51,12 +52,14 @@ public class AudioLoader implements AudioLoadResultHandler {
     private final boolean insertFirst;
     private final GuildMusicManager musicManager;
     private final boolean skipSelection;
+    private final I18n language;
 
     public AudioLoader(GuildMusicManager musicManager, GuildMessageReceivedEvent event, boolean skipSelection, boolean insertFirst) {
         this.musicManager = musicManager;
         this.event = event;
         this.skipSelection = skipSelection;
         this.insertFirst = insertFirst;
+        this.language = I18n.of(event.getGuild());
     }
 
     @Override
@@ -67,10 +70,12 @@ public class AudioLoader implements AudioLoadResultHandler {
     @Override
     public void playlistLoaded(AudioPlaylist playlist) {
         if(playlist.isSearchResult()) {
-            if(!skipSelection)
+            if(!skipSelection) {
                 onSearch(playlist);
-            else
+            }
+            else {
                 loadSingle(playlist.getTracks().get(0), false);
+            }
 
             return;
         }
@@ -84,14 +89,12 @@ public class AudioLoader implements AudioLoadResultHandler {
                     if(i < guildData.getMusicQueueSizeLimit()) {
                         loadSingle(track, true);
                     } else {
-                        event.getChannel().sendMessage(String.format(":warning: The queue you added had more than %d songs, so we added songs until this limit and ignored the rest.", guildData.getMusicQueueSizeLimit())).queue();
+                        event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.over_limit"), EmoteReference.WARNING, guildData.getMusicQueueSizeLimit()).queue();
                         break;
                     }
                 } else {
                     if(i > MAX_QUEUE_LENGTH && !dbGuild.isPremium()) {
-                        event.getChannel().sendMessage(":warning: The queue you added had more than " + MAX_QUEUE_LENGTH +
-                                " songs, so we added songs until this limit and ignored the rest.").queue();
-
+                        event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.over_limit"), EmoteReference.WARNING, MAX_QUEUE_LENGTH).queue();
                         break; //stop adding songs
                     } else {
                         loadSingle(track, true);
@@ -101,28 +104,24 @@ public class AudioLoader implements AudioLoadResultHandler {
                 i++;
             }
 
-            event.getChannel().sendMessage(String.format(
-                    "%sAdded **%d songs** to queue on playlist: **%s** *(%s)*",
+            event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.loaded_playlist"),
                     EmoteReference.CORRECT, i, playlist.getName(), Utils.getDurationMinutes(playlist.getTracks().stream().mapToLong(temp -> temp.getInfo().length).sum())
-            )).queue();
+            ).queue();
         } catch(Exception e) {
-            SentryHelper.captureExceptionContext(
-                    "Cannot load playlist. I guess something broke pretty hard. Please check", e, this.getClass(), "Music Loader"
-            );
+            SentryHelper.captureExceptionContext("Cannot load playlist. I guess something broke pretty hard. Please check", e, this.getClass(), "Music Loader");
         }
     }
 
     @Override
     public void noMatches() {
-        event.getChannel().sendMessage(EmoteReference.ERROR + "The search yielded no results. If this appears for *all songs* you try to search for, you might want to use" +
-                "`~>play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.").queue();
+        event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.no_matches"), EmoteReference.ERROR).queue();
     }
 
 
     @Override
     public void loadFailed(FriendlyException exception) {
         if(!exception.severity.equals(FriendlyException.Severity.FAULT)) {
-            event.getChannel().sendMessage("\u274C Error while fetching music: " + exception.getMessage()).queue();
+            event.getChannel().sendMessage(String.format(language.get("commands.music_general.loader.error_fetching"), EmoteReference.ERROR, exception.getMessage())).queue();
         } else {
             MantaroBot.getInstance().getStatsClient().increment("tracks_hard_failed");
         }
@@ -144,20 +143,22 @@ public class AudioLoader implements AudioLoadResultHandler {
 
         if(musicManager.getTrackScheduler().getQueue().size() > queueLimit && !dbUser.isPremium() && !dbGuild.isPremium()) {
             if(!silent)
-                event.getChannel().sendMessage(String.format(":warning: Could not queue %s: Surpassed queue song limit!", title)).queue(
-                        message -> message.delete().queueAfter(30, TimeUnit.SECONDS)
-                );
+                event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.over_queue_limit"),
+                        EmoteReference.WARNING, title, queueLimit
+                ).queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             return;
         }
 
         if(audioTrack.getInfo().length > MAX_SONG_LENGTH && !dbUser.isPremium() && !dbGuild.isPremium()) {
-            event.getChannel().sendMessage(String.format(":warning: Could not queue %s: Track is longer than 32 minutes! (%s)", title, AudioUtils.getLength(length))).queue();
+            event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.over_32_minutes"),
+                    EmoteReference.WARNING, title, AudioUtils.getLength(length)
+            ).queue();
             return;
         }
 
         //Comparing if the URLs are the same to be 100% sure they're just not spamming the same url over and over again.
         if(musicManager.getTrackScheduler().getQueue().stream().filter(track -> track.getInfo().uri.equals(audioTrack.getInfo().uri)).count() > fqSize && !silent) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + String.format("**Surpassed fair queue level of %d (Too many songs which are exactly equal)**", fqSize + 1)).queue();
+            event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.fair_queue_limit_reached"), EmoteReference.ERROR, fqSize + 1).queue();
             return;
         }
 
@@ -165,11 +166,10 @@ public class AudioLoader implements AudioLoadResultHandler {
         musicManager.getTrackScheduler().setRequestedChannel(event.getChannel().getIdLong());
 
         if(!silent) {
-            event.getChannel().sendMessage(new MessageBuilder().append(
-                    String.format("\uD83D\uDCE3 Added to queue -> **%s** **(%s)**", title, AudioUtils.getLength(length)))
+            new MessageBuilder().append(
+                    String.format(language.get("commands.music_general.loader.loaded_song"), EmoteReference.CORRECT, title, AudioUtils.getLength(length)))
                     .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
-                    .build()
-            ).queue();
+                    .sendTo(event.getChannel()).queue();
         }
 
         MantaroBot.getInstance().getStatsClient().increment("tracks_loaded");
@@ -179,10 +179,10 @@ public class AudioLoader implements AudioLoadResultHandler {
         List<AudioTrack> list = playlist.getTracks();
         DiscordUtils.selectList(event, list.subList(0, Math.min(5, list.size())),
                 track -> String.format("**[%s](%s)** (%s)", track.getInfo().title, track.getInfo().uri, Utils.getDurationMinutes(track.getInfo().length)),
-                s -> new EmbedBuilder().setColor(Color.CYAN).setAuthor("Song selection. Type the song number to continue.", "https://i.imgur.com/sFDpUZy.png")
+                s -> new EmbedBuilder().setColor(Color.CYAN).setAuthor(language.get("commands.music_general.loader.selection_text"), "https://i.imgur.com/sFDpUZy.png")
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                         .setDescription(s)
-                        .setFooter("This timeouts in 30 seconds. Type &cancel to cancel.", null).build(),
+                        .setFooter(language.get("commands.music_general.loader.timeout_text"), null).build(),
                 selected -> loadSingle(selected, false)
         );
 

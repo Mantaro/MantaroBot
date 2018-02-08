@@ -70,7 +70,7 @@ public class I18n {
     }
 
     @SuppressWarnings("unchecked")
-    private String get(Map<String, ?> map, String[] parts) {
+    private String get(Map<String, ?> map, String[] parts, boolean recursion) {
         int index = 0;
         while(index != parts.length - 1) {
             Object maybeMap = map.get(parts[index]);
@@ -79,15 +79,17 @@ public class I18n {
                 index++;
             } else {
                 if(language.equals("en_US")) throw new IllegalArgumentException("Missing key " + Arrays.stream(parts).collect(Collectors.joining(".")));
-                return get(LANGUAGE_MAP.get("en_US").map, parts);
+                return get(LANGUAGE_MAP.get("en_US").map, parts, true);
             }
         }
         Object maybeString = map.get(parts[index]);
         if(maybeString instanceof String) {
             return (String)maybeString;
         }
-        if(language.equals("en_US")) throw new IllegalArgumentException("Missing key " + Arrays.stream(parts).collect(Collectors.joining(".")));
-        return get(LANGUAGE_MAP.get("en_US").map, parts);
+        if(language.equals("en_US") || recursion)
+            throw new IllegalArgumentException("Missing key " + Arrays.stream(parts).collect(Collectors.joining(".")));
+
+        return get(LANGUAGE_MAP.get("en_US").map, parts, true);
     }
 
     public String get(String query) {
@@ -98,7 +100,7 @@ public class I18n {
         } else {
             actualQuery = root + "." + query;
         }
-        return get(map, actualQuery.split("\\."));
+        return get(map, actualQuery.split("\\."), false);
     }
 
     public String withRoot(String root, String query) {

@@ -120,8 +120,8 @@ public class AudioCmdUtils {
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                         .addField(lang.get("commands.music_general.queue.total_queue_time"),
                                 String.format("`%s`", Utils.getReadableTime(length)), true)
-                        .addField(lang.get("commands.music_general.queue.queue_size"),
-                                String.format("`%d %s`", trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.song")), true)
+                        .addField(lang.get("commands.music_general.queue.total_size"),
+                                String.format("`%d %s`", trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.songs")), true)
                         .addField(lang.get("commands.music_general.queue.togglers"),
                                 String.format("`%s / %s`", trackScheduler.getRepeatMode() == null ? "false" : trackScheduler.getRepeatMode(), String.valueOf(trackScheduler.getAudioPlayer().isPaused())), true)
                         .addField(lang.get("commands.music_general.queue.playing_in"),
@@ -143,8 +143,8 @@ public class AudioCmdUtils {
                     .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                     .addField(lang.get("commands.music_general.queue.total_queue_time"),
                             String.format("`%s`", Utils.getReadableTime(length)), true)
-                    .addField(lang.get("commands.music_general.queue.queue_size"),
-                            String.format("`%d %s`", trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.song")), true)
+                    .addField(lang.get("commands.music_general.queue.total_size"),
+                            String.format("`%d %s`", trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.songs")), true)
                     .addField(lang.get("commands.music_general.queue.togglers"),
                             String.format("`%s / %s`", trackScheduler.getRepeatMode() == null ? "false" :
                                     trackScheduler.getRepeatMode(), String.valueOf(trackScheduler.getAudioPlayer().isPaused())), true)

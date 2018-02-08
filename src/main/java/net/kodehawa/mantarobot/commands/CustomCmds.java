@@ -213,15 +213,14 @@ public class CustomCmds {
                     return;
                 }
 
-
-                if(args.length < 2) {
-                    onHelp(event);
-                    return;
-                }
-
                 String cmd = args[1];
 
                 if(action.equals("make")) {
+                    if(args.length < 2) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.make.no_name_specified"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
                     if(!NAME_PATTERN.matcher(cmd).matches()) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.custom.character_not_allowed"), EmoteReference.ERROR).queue();
                         return;
@@ -290,6 +289,11 @@ public class CustomCmds {
                         event.getChannel().sendMessageFormat(languageContext.get("general.interactive_running"), EmoteReference.ERROR).queue();
                     }
 
+                    return;
+                }
+
+                if(args.length < 2) {
+                    onHelp(event);
                     return;
                 }
 

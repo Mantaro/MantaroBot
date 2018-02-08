@@ -95,6 +95,18 @@
         "left_alone": "%1$sI'll leave **%2$s** in 2 minutes because I was left all alone :(",
         "leave": "%1$sI decided to leave **%2$s** because I was left all alone :("
       },
+      "loader": {
+        "over_limit": "%1$sThe queue you added had more than %d songs, so we added songs until this limit and ignored the rest.",
+        "loaded_playlist": "%1$sAdded **%2$d songs** to queue on playlist: **%3$s** *(%4$s)*",
+        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`~>play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.",
+        "error_loading": "%1$sError while fetching music: %2$s",
+        "over_queue_limit": "%1$sCould not queue %2$s: Surpassed queue song limit (%3$s)!",
+        "over_32_minutes": "%1$sCould not queue %2$s: Track is longer than 32 minutes! (%3$s)",
+        "fair_queue_limit_reached": "%1$s**Surpassed fair queue level of %2$d (Too many songs which are exactly equal)**",
+        "loaded_song": "%1$sAdded to queue -> **%2$s** **(%3$s)**",
+        "selection_text": "Song selection. Type the song number to continue.",
+        "timeout_text": "This timeouts in 30 seconds. Type &cancel to cancel."
+      },
       "premium_beg": "%1$sConsider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)",
       "closed_connection": "%1$sClosed audio connection."
     },
@@ -206,7 +218,8 @@
         "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
         "cancel": "%1$sCommand Creation canceled.",
         "no_responses_added": "%1$sNo responses were added. Stopping creation without saving...",
-        "success": "%1$sSaved to command `%2$s`!"
+        "success": "%1$sSaved to command `%2$s`!",
+        "no_name_specified": "%1$sYou didn't specify the name of the custom command to create!"
       },
       "eval": {
         "error": "%1$sThere was an error while evaluating your command!%2$s"
