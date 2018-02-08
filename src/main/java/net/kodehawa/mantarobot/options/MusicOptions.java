@@ -134,7 +134,7 @@ public class MusicOptions extends OptionHandler {
                     }
                 });
 
-        registerOption("music:channnel:clear", "Music channel clear", "Clears the specific music channel.", (event) -> {
+        registerOption("music:clearchannel", "Music channel clear", "Clears the specific music channel.", (event) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             guildData.setMusicChannel(null);
