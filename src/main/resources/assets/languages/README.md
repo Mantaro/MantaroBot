@@ -2,7 +2,7 @@
 # How to contribute to Translating
 
  - Create a Github account
-   - We would prefer you to also join [Mantaro Hub](https://discord.gg/ppKeqqh) and contact one of the Admins/Developers.
+   - We would prefer you to also join [Mantaro Hub](https://discord.gg/ppKeqqh) and contact either MrLar 🌺#0611 or Kodehawa#3457.
 
  - Fork Mantaro's Repository.
 
@@ -23,10 +23,16 @@
  - When creating a new translation, copy the en_US.json and rename the copy to your language (i.e German (Germany) would be de_DE.json) otherwise edit the file you want to contribute to.
     - When editing please use an actual code Editor to edit and not notepad. We suggest [IntelliJ](https://www.jetbrains.com/idea/) or [VSCode](https://code.visualstudio.com/).
 
- - Replace all english sentences with the coresponding translation.
-   - DO NOT replace anything that looks like %\<x> or $%\<x> they are used for formatting, you may move them arround to accomodate for grammar in your Language (i.e The number of won credits in slots, etc.).
-   - If you need a percentage sign place it as %%, not %.
-   - Optionaly you can add yourself to the bottom of this table while translating.
+ - Replace all english sentences with the coresponding translation. Follow the guide below while translating.
+   + Keep the overall feeling of the bot consistent with the english version.
+   + Don't "paste old translations" into your translation file. All new translations will be added *at the top of the category*, which means you can just paste from en_US the missing ones until the one you have. (and at the bottom of the command in the case of new command strings)
+   + Keep the translation clean.
+   + Don't remove or "translate" anything remotely like %1$s, %2$s or %\<number\>$s. [More info](https://docs.oracle.com/javase/9/docs/api/java/util/Formattable.html)
+   + Don't change the formatting marks (\*\*, \*, etc). If a word is \*\*like this\*\* translate it \*\*como esto\*\*, for example.
+   + We're gonna review translation files before going to production, so no worries if something happens to go wrong we will point it out and assist you.
+   + If you're unsure what a parameter is, you can try using the command or contact MrLar 🌺#0611 or Kodehawa#3457.
+   + For languages that are read backwards (compared to english), the %\<number\>$s-alike parameters can be moved to accomodate your language reading. You can contact MrLar 🌺#0611 or Kodehawa#3457 on Discord if you're lost.
+   
 
  - Once done, save the file and go back to your Github desktop client.
 
@@ -56,5 +62,5 @@ You may add yourself to this table while making a translation.
 |:--------:|:-----|
 | Spanish (CL) | Kodehawa#3457 ([@Kodehawa](https://github.com/Kodehawa)) |
 | Portuguese (BR) | Natan#1337 ([@Natanbc](https://github.com/natanbc)) |
-| French (FR) | Desiree#0611 ([@Desiiii](https://github.com/Desiiii)) |
-| German (DE) | MrLar#0611 ([@MrLar](https://github.com/MrLar))
+| French (FR) | Desiree 🌺#0611 ([@Desiiii](https://github.com/Desiiii)) |
+| German (DE) | MrLar 🌺#0611 ([@MrLar](https://github.com/MrLar))
