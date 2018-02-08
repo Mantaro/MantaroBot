@@ -45,7 +45,7 @@
       "view": {
         "invalid": "%1$sYou need to specify the command and the response number!",
         "not_found": "%1$sThere isn't a custom command with that name here!",
-        "invalid_number": "%1$sThis command has less responses than the number you specified...",
+        "less_than_specified": "%1$sThis command has less responses than the number you specified...",
         "success": "**Response `%1$d` for custom command `%2$s`:** \n```\n%3$s```"
       },
       "raw": {
@@ -87,6 +87,7 @@
       "add": {
         "success": "%1$sSaved to command `%2$s`!"
       },
+      "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
       "already_exists": "%1$sA command already exists with this name!",
       "name_too_long": "%1$sName is too long.",
       "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just dust.",
