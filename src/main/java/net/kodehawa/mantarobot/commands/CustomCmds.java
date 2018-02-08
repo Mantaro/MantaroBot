@@ -168,7 +168,7 @@ public class CustomCmds {
                     CustomCommand custom = db().getCustomCommand(event.getGuild(), cmd);
                     if(custom == null) {
                         event.getChannel().sendMessage(
-                                EmoteReference.ERROR2 + "There's no Custom Command ``" + cmd + "`` in this Guild.").queue();
+                                String.format("%sThere's no Custom Command ``%s`` in this Guild.", EmoteReference.ERROR2, cmd)).queue();
                         return;
                     }
 
@@ -181,10 +181,10 @@ public class CustomCmds {
                         pasted = Utils.paste(custom.getValues().stream().map(s -> i.incrementAndGet() + s).collect(Collectors.joining("\n")));
                     }
 
-                    EmbedBuilder embed = baseEmbed(event, "Command \"" + cmd + "\":")
+                    EmbedBuilder embed = baseEmbed(event, String.format("Command \"%s\":", cmd))
                             .setDescription(pair.getLeft())
                             .setFooter(
-                                    "(Showing " + pair.getRight() + " responses of " + custom.getValues().size() + ")", null);
+                                    String.format("(Showing %d responses of %d)", pair.getRight(), custom.getValues().size()), null);
 
                     if(pasted != null && pasted.contains("hastebin.com")) {
                         embed.addField("Pasted content", pasted, false);
@@ -214,7 +214,7 @@ public class CustomCmds {
                     int size = customCommands.size();
                     customCommands.forEach(CustomCommand::deleteAsync);
                     customCommands.forEach(c -> CustomCmds.customCommands.remove(c.getId()));
-                    event.getChannel().sendMessage(EmoteReference.PENCIL + "Cleared **" + size + " Custom Commands**!")
+                    event.getChannel().sendMessage(String.format("%sCleared **%d Custom Commands**!", EmoteReference.PENCIL, size))
                             .queue();
                     return;
                 }
@@ -243,7 +243,7 @@ public class CustomCmds {
                                 c = c.substring(1);
 
                                 if(c.startsWith("~>cancel") || c.startsWith("~>stop")) {
-                                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Command Creation canceled.")
+                                    event.getChannel().sendMessage(String.format("%sCommand Creation canceled.", EmoteReference.CORRECT))
                                             .queue();
                                     return Operation.COMPLETED;
                                 }
@@ -253,7 +253,7 @@ public class CustomCmds {
                                     String saveTo = !arg.isEmpty() ? arg : cmd;
 
                                     if(!NAME_PATTERN.matcher(cmd).matches()) {
-                                        event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.")
+                                        event.getChannel().sendMessage(String.format("%sNot allowed character.", EmoteReference.ERROR))
                                                 .queue();
                                         return Operation.RESET_TIMEOUT;
                                     }

@@ -31,9 +31,38 @@
       "no_item_name": "There isn't an item associated with this name.",
       "not_found": "Couldn't find any related items with your search."
     },
-    "mention_user_required": "%1$sYou need to mention one user."
+    "mention_user_required": "%1$sYou need to mention one user.",
+    "invalid_character": "%1$sThat is not an allowed character.",
+    "invalid_action": "You cannot do that, silly."
   },
   "commands": {
+    "custom": {
+      "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
+      "ls": {
+        "header": "Commands for this guild"
+      },
+      "view": {
+        "invalid": "%1$sYou need to specify the command and the response number!",
+        "not_found": "%1$sThere isn't a custom command with that name here!",
+        "invalid_number": "%1$sThis command has less responses than the number you specified...",
+        "success": "**Response `%1$d` for custom command `%2$s`:** \n```\n%3$s```"
+      },
+      "raw": {
+        "header": "Command \"%s\":",
+        "amount": "(Showing %d responses of %d)",
+        "pasted": "Pasted content"
+      },
+      "clear": {
+        "success": "%1$sCleared **%2$d Custom Commands**!"
+      },
+      "make": {
+        "cancel": "%1$sCommand Creation canceled.",
+
+      },
+      "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just dust.",
+      "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.",
+      "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild."
+    },
     "mute": {
       "no_permissions": "%1$sYou need to have either ban or kick members permission to mute!",
       "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`",
