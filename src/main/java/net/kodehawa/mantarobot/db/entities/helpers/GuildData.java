@@ -86,5 +86,5 @@ public class GuildData {
     private HashMap<String, List<Category>> roleSpecificDisabledCategories = new HashMap<>();
     private HashMap<String, List<String>> roleSpecificDisabledCommands = new HashMap<>();
     private String lang = "en_US";
-    private boolean stopVote = true;
+    private boolean musicVote = true;
 }

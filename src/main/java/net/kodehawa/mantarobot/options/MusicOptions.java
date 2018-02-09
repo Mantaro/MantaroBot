@@ -142,12 +142,12 @@ public class MusicOptions extends OptionHandler {
             event.getChannel().sendMessage(EmoteReference.CORRECT + "I can play music on all channels now").queue();
         });
 
-        registerOption("music:stopvote:toggle", "Stop-voting toggle", "Toggles stop voting.", event -> {
+        registerOption("music:vote:toggle", "Vote toggle", "Toggles voting.", event -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
-            guildData.setStopVote(!guildData.isStopVote());
+            guildData.setMusicVote(!guildData.isMusicVote());
             dbGuild.save();
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Stop-voting is now set to " + guildData.isStopVote()).queue();
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Voting (to stop/skip) is now set to " + guildData.isMusicVote()).queue();
         });
     }
 

@@ -737,20 +737,27 @@ public class MusicCmds {
                         return;
                     }
 
-                    List<String> voteSkips = scheduler.getVoteSkips();
-                    int requiredVotes = scheduler.getRequiredVotes();
-                    if(voteSkips.contains(event.getAuthor().getId())) {
-                        voteSkips.remove(event.getAuthor().getId());
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.skip.vote.remove"), EmoteReference.CORRECT, requiredVotes - voteSkips.size()).queue();
-                    } else {
-                        voteSkips.add(event.getAuthor().getId());
-                        if(voteSkips.size() >= requiredVotes) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.skip.success"), EmoteReference.CORRECT).queue();
-                            scheduler.nextTrack(true, true);
-                            return;
-                        }
+                    GuildData guildData = MantaroData.db().getGuild(event.getGuild()).getData();
 
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.skip.vote.submit"), EmoteReference.OK, requiredVotes - voteSkips.size()).queue();
+                    if(!guildData.isMusicVote()) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.skip.success"), EmoteReference.CORRECT).queue();
+                        scheduler.nextTrack(true, true);
+                    } else {
+                        List<String> voteSkips = scheduler.getVoteSkips();
+                        int requiredVotes = scheduler.getRequiredVotes();
+                        if(voteSkips.contains(event.getAuthor().getId())) {
+                            voteSkips.remove(event.getAuthor().getId());
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.skip.vote.remove"), EmoteReference.CORRECT, requiredVotes - voteSkips.size()).queue();
+                        } else {
+                            voteSkips.add(event.getAuthor().getId());
+                            if(voteSkips.size() >= requiredVotes) {
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.skip.success"), EmoteReference.CORRECT).queue();
+                                scheduler.nextTrack(true, true);
+                                return;
+                            }
+
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.skip.vote.submit"), EmoteReference.OK, requiredVotes - voteSkips.size()).queue();
+                        }
                     }
 
                     TextChannelGround.of(event).dropItemWithChance(0, 10);
@@ -786,7 +793,7 @@ public class MusicCmds {
 
                     GuildData guildData = MantaroData.db().getGuild(event.getGuild()).getData();
 
-                    if(!guildData.isStopVote()) {
+                    if(!guildData.isMusicVote()) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.stop.success"), EmoteReference.CORRECT).queue();
                         stop(event, languageContext);
                     } else {
