@@ -36,17 +36,15 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 @Slf4j
 public class Items {
     public static final Item HEADPHONES, BAN_HAMMER, KICK_BOOT, FLOPPY_DISK, MY_MATHS, PING_RACKET,
-            LOADED_DICE, FORGOTTEN_MUSIC, CC_PENCIL, OVERFLOWED_BAG, BROM_PICKAXE, POTION_HEALTH, POTION_STAMINA, LEWD_MAGAZINE, RING,
+            LOADED_DICE, FORGOTTEN_MUSIC, CC_PENCIL, OVERFLOWED_BAG, BROM_PICKAXE, MILK, ALCOHOL, LEWD_MAGAZINE, RING,
             LOOT_CRATE_KEY,
             BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
             NECKLACE, ROSE,
-            DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE;
+            DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_HEALTH, POTION_STAMINA;
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.HOURS, 1);
 
-    //Some interactive items don't remove themselves because the useitem command will remove them. The ones that don't depend on useitem will remove themselves.
-    //Check setItemAction
     public static final Item[] ALL = {
             HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music. Should be worth something, tho.", 5, true, false),
             BAN_HAMMER = new Item(ItemType.COLLECTABLE, "\uD83D\uDD28", "Ban Hammer", "Left by an admin. +INF Dmg", 15, false),
@@ -59,8 +57,8 @@ public class Items {
             CC_PENCIL = new Item(ItemType.COLLECTABLE, "\u270f", "Pencil", "We have plenty of those!", 15, false),
             OVERFLOWED_BAG = new Item(ItemType.COLLECTABLE, "\uD83D\uDCB0","Moneybag", "What else?.", 95, true),
             BROM_PICKAXE = new Item(ItemType.INTERACTIVE, "\u26cf","Brom's Pickaxe", "That guy liked Minecraft way too much. (`~>mine` tool)", 75, true),
-            POTION_HEALTH = new Item(ItemType.INTERACTIVE, EmoteReference.POTION1.getUnicode(),"Milk", "Clears all potion effects.", 45, true),
-            POTION_STAMINA = new Item(ItemType.INTERACTIVE, EmoteReference.POTION2.getUnicode(),"Energy Beverage", "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.", 45, true),
+            MILK = new Item(ItemType.COMMON, EmoteReference.POTION1.getUnicode(),"Milk", "Maybe it's okay to have some.", 45, true),
+            ALCOHOL = new Item(ItemType.COMMON, EmoteReference.POTION2.getUnicode(),"Alcohol", "Does really weird stuff in big quantities.", 45, true),
             LEWD_MAGAZINE = new Item(ItemType.COMMON, EmoteReference.MAGAZINE.getUnicode(),"Lewd Magazine", "Too many lewd commands.", 45, true),
             RING = new Item(ItemType.COMMON, EmoteReference.RING.getUnicode(),"Marriage Ring", "Basically what makes your marriage official", 60, true),
             LOVE_LETTER = new Item(ItemType.COLLECTABLE, EmoteReference.LOVE_LETTER.getUnicode(),"Love Letter", "A letter from your beloved one.", 45, false),
@@ -74,7 +72,6 @@ public class Items {
             ROSE = new Item(ItemType.COMMON, EmoteReference.ROSE.getUnicode(),"Rose", "The embodiment of your love.", 53, true),
             CHOCOLATE = new Item(ItemType.COMMON, EmoteReference.CHOCOLATE.getUnicode(),"Chocolate", "Yummy.", 45, true),
             COOKIES = new Item(ItemType.COMMON, EmoteReference.COOKIE.getUnicode(),"Cookie", "Delicious.", 48, true),
-
             // ---------------------------------- LEFT OVERS FROM CURRENCY V1 STARTS HERE ----------------------------------
             //CANNOT REMOVE BECAUSE WE WERE MEME ENOUGH TO FUCKING SAVE THEM BY THEIR IDS
             LOADED_DICE_2 = new Item("\uD83C\uDFB2","Special Loaded Die", "Even more loaded. `Leftover from Currency version 1. No longer obtainable.`"),
@@ -85,21 +82,23 @@ public class Items {
             ENHANCER = new Item(EmoteReference.MAG.getUnicode(),"Enchancer", "A broken enchanter, I wonder if it could be fixed? `Leftover from Currency version 1. No longer obtainable.`"),
             STAR = new Item(ItemType.COLLECTABLE, EmoteReference.STAR.getUnicode(),"Prize", "Pretty much, huh? `Leftover from Currency version 1. No longer obtainable.`", 0, false, false, true),
             // ---------------------------------- LEFT OVERS FROM CURRENCY V1 END HERE ----------------------------------
-
             LOOT_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Loot Crate", "You can use this along with a loot key to open a loot crate! `~>opencrate`", 0, false, false, true, Items::openLootCrate),
             STAR_2 = new Item(ItemType.COMMON, EmoteReference.STAR.getUnicode(),"Prize 2", "In the first place, how did you get so much money?", 500, true, false, true),
             SLOT_COIN = new Item(ItemType.COMMON, "\uD83C\uDF9F","Slot ticket", "Gives you extra chance in slots, also works as bulk storage.", 65, true, true),
             HOUSE = new Item(ItemType.COMMON, EmoteReference.HOUSE.getUnicode(),"House", "Cozy place to live in.", 5000, true, true),
             CAR = new Item(ItemType.COMMON, "\uD83D\uDE97","Car", "To move around.", 1000, true, true),
-
             // ---------------------------------- CHRISTMAS 2017 EVENT STARTS HERE ----------------------------------
             BELL_SPECIAL = new Item(ItemType.RARE, "\uD83D\uDD14", "Christmas bell","Christmas event 2017 reward. Gives you a cozy christmas feeling on your tree.", 0, false, false, true),
             CHRISTMAS_TREE_SPECIAL = new Item(ItemType.RARE, "\uD83C\uDF84", "Christmas tree","Christmas event 2017 reward. Who doesn't like a christmas tree?.", 0, false, false, true),
             // ---------------------------------- CHRISTMAS 2017 EVENT ENDS HERE ----------------------------------
+            // ---------------------------------- 5.0 ITEMS START HERE ----------------------------------
             PANTS = new Item(ItemType.COMMON, "\uD83D\uDC56", "Pants", "Basically what you wear on your legs... hopefully.", 20, true),
             POTION_HASTE = new Item(ItemType.RARE, EmoteReference.POTION1.getUnicode(),"Haste Potion", "Allows you to have 50% less ratelimit effect on some commands for 5 minutes.", 45, true),
+            POTION_HEALTH = new Item(ItemType.INTERACTIVE, EmoteReference.POTION1.getUnicode(),"Milk Potion", "Clears all potion effects.", 45, true),
+            POTION_STAMINA = new Item(ItemType.INTERACTIVE, EmoteReference.POTION2.getUnicode(),"Energy Beverage", "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.", 45, true),
     };
 
+    //Some interactive items don't remove themselves because the useitem command will remove them. The ones that don't depend on useitem will remove themselves.
     public static void setItemActions() {
         log.info("Registering item actions...");
         BROM_PICKAXE.setAction((event, lang) -> {
