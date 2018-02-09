@@ -387,7 +387,7 @@ public class CurrencyCmds {
                     }
 
                     ItemStack stack = player.getInventory().getStackOf(itemToBuy);
-                    if(stack != null && !stack.canJoin(new ItemStack(itemToBuy, itemNumber))) {
+                    if((stack != null && !stack.canJoin(new ItemStack(itemToBuy, itemNumber))) || itemNumber > 5000) {
                         //assume overflow
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.item_limit_reached"), EmoteReference.ERROR).queue();
                         return;
