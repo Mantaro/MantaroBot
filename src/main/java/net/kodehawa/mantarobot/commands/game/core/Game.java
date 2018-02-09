@@ -80,6 +80,9 @@ public abstract class Game<T> {
                 if(player.getData().getGamesWon() == 100)
                     player.getData().addBadgeIfAbsent(Badge.GAMER);
 
+                if(player.getData().getGamesWon() == 1000)
+                    player.getData().addBadgeIfAbsent(Badge.ADDICTED_GAMER);
+
                 player.getData().setGamesWon(player.getData().getGamesWon() + 1);
                 player.save();
 

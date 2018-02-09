@@ -340,6 +340,7 @@ public class PlayerCmds {
 
                     player.getData().setDescription(content1);
                     event.getChannel().sendMessageFormat(languageContext.get("commands.profile.description.success"), EmoteReference.POPPER, content1).queue();
+                    player.getData().addBadgeIfAbsent(Badge.WRITER);
                     player.save();
                     return;
                 }

@@ -50,6 +50,9 @@ public enum Badge {
     //Self-explanatory. (Description)
     MARATHON_WINNER("Marathon Winner", "\uD83C\uDFC5", "Get to level 200 in Mantaro.", 91, 92),
 
+    //Win more than 1000 games
+    ADDICTED_GAMER("Addicted Gamer", "\uD83C\uDFAE", "Win 1000 games.", 91, 92),
+
     //Get a loot crate.
     LUCKY("Lucky", "\uD83C\uDF40", "Be lucky enough to loot a loot crate.", 92, 92),
 
@@ -96,7 +99,7 @@ public enum Badge {
     DID_THIS_WORK("Configurator", "\u2699", "Use any `~>opts` configuration successfully.", 91, 92),
 
     //Use market more than 1000 times.
-    COMPULSIVE_BUYER("Compulsive Buyer", "\uD83D\uDCD1", "Succesfully use market buy or sell more than 1000 times.", 91, 92),
+    COMPULSIVE_BUYER("Compulsive Buyer", "\uD83D\uDDDE", "Succesfully use market buy or sell more than 1000 times.", 91, 92),
 
     //Gamble more than Integer.MAX_VALUE.
     GAMBLER("Gambler", "\uD83D\uDCB0", "Gambled their life away.", 91, 92),
@@ -115,6 +118,9 @@ public enum Badge {
 
     //Divorce.
     HEART_BROKEN("Heart Broken", "\uD83D\uDC94", "Ouch, was good while it lasted.", 91, 92),
+
+    //Self-explanatory.
+    WRITER("Writer", "\uD83D\uDCF0", "Set a profile description.", 91, 92),
 
     //Get your marriage proposal turned down.
     DENIED("Denied", "\u26d4", "Get your marriage proposal turned down :(.", 91, 92),
