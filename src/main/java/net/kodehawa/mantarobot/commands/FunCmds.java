@@ -51,6 +51,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Module
+@SuppressWarnings("unused")
 public class FunCmds {
 
     private final Random r = new Random();

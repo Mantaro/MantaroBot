@@ -48,8 +48,8 @@ import java.util.concurrent.TimeUnit;
 import static net.kodehawa.mantarobot.utils.StringUtils.advancedSplitArgs;
 
 @Module
+@SuppressWarnings("unused")
 public class TradeCmd {
-
     private Map<Long, TradeSession> currentSessions = new ConcurrentHashMap<>();
 
     //TODO: comment this

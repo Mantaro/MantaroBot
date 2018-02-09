@@ -50,6 +50,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 @Module
+@SuppressWarnings("unused")
 public class MuteCmds {
     private static Pattern timePattern = Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
 

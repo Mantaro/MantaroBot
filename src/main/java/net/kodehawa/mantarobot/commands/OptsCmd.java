@@ -50,6 +50,7 @@ import static java.util.Map.Entry;
 import static net.kodehawa.mantarobot.utils.Utils.mapObjects;
 
 @Module
+@SuppressWarnings("unused")
 public class OptsCmd {
     public static Command optsCmd;
 

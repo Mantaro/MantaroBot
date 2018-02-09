@@ -49,6 +49,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Module
+@SuppressWarnings("unused")
 public class AnimeCmds {
     private final static OkHttpClient client = new OkHttpClient();
     public static String authToken;

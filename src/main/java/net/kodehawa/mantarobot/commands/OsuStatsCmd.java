@@ -45,6 +45,7 @@ import java.util.concurrent.*;
 
 @Slf4j
 @Module
+@SuppressWarnings("unused")
 public class OsuStatsCmd {
     private final Map<String, Object> map = new HashMap<>();
     private final ExecutorService pool = Executors.newCachedThreadPool();

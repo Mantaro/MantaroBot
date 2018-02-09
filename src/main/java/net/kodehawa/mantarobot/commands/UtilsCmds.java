@@ -68,6 +68,7 @@ import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 
 @Slf4j
 @Module
+@SuppressWarnings("unused")
 public class UtilsCmds {
     private static Pattern timePattern = Pattern.compile(" -time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
 

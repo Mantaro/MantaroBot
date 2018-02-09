@@ -63,6 +63,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 @Module
+@SuppressWarnings("unused")
 public class PlayerCmds {
     private final OkHttpClient client = new OkHttpClient();
 

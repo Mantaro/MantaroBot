@@ -69,8 +69,8 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
  * Basically part of CurrencyCmds, but only the money commands.
  */
 @Module
+@SuppressWarnings("unused")
 public class MoneyCmds {
-
     private static final ThreadLocal<NumberFormat> PERCENT_FORMAT = ThreadLocal.withInitial(() -> {
         final NumberFormat format = NumberFormat.getPercentInstance();
         format.setMinimumFractionDigits(1); // decimal support
@@ -88,6 +88,14 @@ public class MoneyCmds {
         cr.register("daily", new SimpleCommand(Category.CURRENCY) {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                if(args.length > 0 && event.getMessage().getMentionedUsers().isEmpty() && args[0].equalsIgnoreCase("-check")) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.daily.check"),
+                            (rateLimiter.tryAgainIn(event.getAuthor()) > 0 ?
+                                    Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor())) : languageContext.get("commands.daily.about_now"))
+                    ).queue();
+                    return;
+                }
+
                 long money = 150L;
                 User mentionedUser = null;
                 List<User> mentioned = event.getMessage().getMentionedUsers();

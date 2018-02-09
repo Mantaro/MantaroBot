@@ -45,8 +45,8 @@ import static net.kodehawa.mantarobot.commands.image.ImageboardUtils.getImage;
 import static net.kodehawa.mantarobot.commands.image.ImageboardUtils.nsfwCheck;
 
 @Module
+@SuppressWarnings("unused")
 public class ImageCmds {
-
     private final URLCache CACHE = new URLCache(20);
     private final String[] catResponses = {
             "Aww, here, take a cat.", "%mention%, are you sad? ;w; take a cat!", "You should all have a cat in your life, but an image will do.",

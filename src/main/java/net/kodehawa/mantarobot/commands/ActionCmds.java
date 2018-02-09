@@ -30,6 +30,7 @@ import java.awt.*;
 import java.util.List;
 
 @Module
+@SuppressWarnings("unused")
 public class ActionCmds {
 
     //Images.

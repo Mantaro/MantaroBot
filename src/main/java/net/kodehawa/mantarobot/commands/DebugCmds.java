@@ -57,6 +57,7 @@ import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 @Module
+@SuppressWarnings("unused")
 public class DebugCmds {
     @Subscribe
     public void info(CommandRegistry cr) {

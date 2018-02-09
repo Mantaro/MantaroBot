@@ -60,6 +60,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Slf4j
 @Module
+@SuppressWarnings("unused")
 public class CustomCmds {
     private static final Map<String, List<String>> customCommands = new ConcurrentHashMap<>();
     private final Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+"),

@@ -61,8 +61,8 @@ import static net.kodehawa.mantarobot.commands.info.stats.StatsHelper.calculateI
 import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
 
 @Module
+@SuppressWarnings("unused")
 public class InfoCmds {
-
     private final CategoryStatsManager categoryStatsManager = new CategoryStatsManager();
     private final CommandStatsManager commandStatsManager = new CommandStatsManager();
     private final CustomCommandStatsManager customCommandStatsManager = new CustomCommandStatsManager();

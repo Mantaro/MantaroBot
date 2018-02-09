@@ -42,8 +42,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Module
+@SuppressWarnings("unused")
 public class MessageCmds {
-
     @Subscribe
     public void prune(CommandRegistry cr) {
         cr.register("prune", new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {

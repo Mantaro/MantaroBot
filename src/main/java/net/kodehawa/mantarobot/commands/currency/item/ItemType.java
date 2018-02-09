@@ -29,10 +29,16 @@ public enum ItemType {
     PREMIUM;
 
     public enum LootboxType {
-        COMMON, RARE, PREMIUM, EPIC
+        COMMON,
+        RARE,
+        PREMIUM,
+        //-insert ea logo here-
+        EPIC
     }
 
     public enum PotionType {
-        PLAYER, CHANNEL, SPECIAL
+        PLAYER,
+        CHANNEL,
+        SPECIAL
     }
 }

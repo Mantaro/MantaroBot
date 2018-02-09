@@ -56,6 +56,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Slf4j
 @Module
+@SuppressWarnings("unused")
 public class OwnerCmd {
     private static final String JAVA_EVAL_IMPORTS = "" +
             "import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;\n" +

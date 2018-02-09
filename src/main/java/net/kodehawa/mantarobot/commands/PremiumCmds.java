@@ -41,6 +41,7 @@ import java.util.concurrent.TimeUnit;
 import static java.lang.System.currentTimeMillis;
 
 @Module
+@SuppressWarnings("unused")
 public class PremiumCmds {
     @Subscribe
     public void comprevip(CommandRegistry cr) {
