@@ -734,7 +734,7 @@ public class GuildOptions extends OptionHandler {
                     if (channel != null) {
                         consumer.accept(channel);
                     }
-                });
+        });
     }
 
     @Override

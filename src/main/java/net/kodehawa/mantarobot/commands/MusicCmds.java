@@ -42,6 +42,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
@@ -783,21 +784,27 @@ public class MusicCmds {
                         return;
                     }
 
-                    //TODO add an option to remove the stop vote.
-                    List<String> stopVotes = scheduler.getVoteStop();
-                    int requiredVotes = scheduler.getRequiredVotes();
-                    if(stopVotes.contains(event.getAuthor().getId())) {
-                        stopVotes.remove(event.getAuthor().getId());
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.stop.vote.remove"), EmoteReference.CORRECT, requiredVotes - stopVotes.size()).queue();
-                    } else {
-                        stopVotes.add(event.getAuthor().getId());
-                        if(stopVotes.size() >= requiredVotes) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.stop.success"), EmoteReference.CORRECT).queue();
-                            stop(event, languageContext);
-                            return;
-                        }
+                    GuildData guildData = MantaroData.db().getGuild(event.getGuild()).getData();
 
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.stop.vote.submit"), EmoteReference.OK, requiredVotes - stopVotes.size()).queue();
+                    if(!guildData.isStopVote()) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.stop.success"), EmoteReference.CORRECT).queue();
+                        stop(event, languageContext);
+                    } else {
+                        List<String> stopVotes = scheduler.getVoteStop();
+                        int requiredVotes = scheduler.getRequiredVotes();
+                        if(stopVotes.contains(event.getAuthor().getId())) {
+                            stopVotes.remove(event.getAuthor().getId());
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.stop.vote.remove"), EmoteReference.CORRECT, requiredVotes - stopVotes.size()).queue();
+                        } else {
+                            stopVotes.add(event.getAuthor().getId());
+                            if(stopVotes.size() >= requiredVotes) {
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.stop.success"), EmoteReference.CORRECT).queue();
+                                stop(event, languageContext);
+                                return;
+                            }
+
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.stop.vote.submit"), EmoteReference.OK, requiredVotes - stopVotes.size()).queue();
+                        }
                     }
                 } catch(NullPointerException e) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.stop.no_player"), EmoteReference.ERROR).queue();
