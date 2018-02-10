@@ -103,12 +103,11 @@ public class Items {
             POTION_CLEAN = new Item(ItemType.INTERACTIVE, EmoteReference.POTION1.getUnicode(),"Milk Potion", "Clears all potion effects.", 45, true),
             POTION_STAMINA = new Item(ItemType.INTERACTIVE, EmoteReference.POTION2.getUnicode(),"Energy Beverage", "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.", 45, true),
             FISHING_ROD = new Item(ItemType.INTERACTIVE, "\uD83C\uDFA3","Fishing Rod", "Enables you to fish.", 65, true),
-            FISH_1 = new Item(ItemType.COMMON, "\uD83C\uDFA3","Fishing Rod", "Common Fish. Caught in fishing", 10, false),
-            FISH_2 = new Item(ItemType.COMMON, "\uD83C\uDFA3","Fishing Rod", "Rare Fish. Caught in fishing", 30, false),
-            FISH_3 = new Item(ItemType.RARE, "\uD83C\uDFA3","Fishing Rod", "Rarest Fish. You're extremely lucky if you actually got this.", 45, false)
+            FISH_1 = new Item(ItemType.COMMON, "\uD83D\uDC1F","Fish", "Common Fish. Caught in fishing", 10, false),
+            FISH_2 = new Item(ItemType.COMMON, "\uD83D\uDC20","Tropical Fish", "Rare Fish. Caught in fishing", 30, false),
+            FISH_3 = new Item(ItemType.RARE, "\uD83D\uDC21","Blowfish", "Rarest Fish. You're extremely lucky if you actually got this.", 45, false)
     };
 
-    //Some interactive items don't remove themselves because the useitem command will remove them. The ones that don't depend on useitem will remove themselves.
     public static void setItemActions() {
         final SecureRandom random = new SecureRandom();
         log.info("Registering item actions...");
@@ -129,7 +128,7 @@ public class Items {
             } else {
                 int select = random.nextInt(100);
 
-                if(select < 35) {
+                if(select < 20) {
                     List<Item> common = Stream.of(ALL)
                             .filter(i -> i.getItemType() == ItemType.COMMON && !i.isHidden() && i.isSellable() && i.value < 45)
                             .collect(Collectors.toList());

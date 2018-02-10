@@ -634,13 +634,13 @@ public class CurrencyCmds {
         registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(!Utils.handleDefaultRatelimit(ratelimiter, event.getAuthor(), event)) {
-                    return;
-                }
-
                 Player p = MantaroData.db().getPlayer(event.getAuthor());
                 if(!p.getInventory().containsItem(Items.LOOT_CRATE)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.opencrate.no_crate"), EmoteReference.SAD).queue();
+                    return;
+                }
+
+                if(!Utils.handleDefaultRatelimit(ratelimiter, event.getAuthor(), event)) {
                     return;
                 }
 
@@ -716,13 +716,13 @@ public class CurrencyCmds {
         cr.register("fish", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(!Utils.handleDefaultRatelimit(ratelimiter, event.getAuthor(), event)) {
-                    return;
-                }
-
                 Player p = MantaroData.db().getPlayer(event.getAuthor());
                 if(!p.getInventory().containsItem(Items.FISHING_ROD)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.fish.no_rod"), EmoteReference.SAD).queue();
+                    return;
+                }
+
+                if(!Utils.handleDefaultRatelimit(ratelimiter, event.getAuthor(), event)) {
                     return;
                 }
 
