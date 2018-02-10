@@ -26,6 +26,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -40,7 +41,8 @@ public class Items {
             LOOT_CRATE_KEY,
             BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
             NECKLACE, ROSE,
-            DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_HEALTH, POTION_STAMINA;
+            DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN, POTION_STAMINA, FISHING_ROD,
+            FISH_1, FISH_2, FISH_3;
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.HOURS, 1);
@@ -72,6 +74,7 @@ public class Items {
             ROSE = new Item(ItemType.COMMON, EmoteReference.ROSE.getUnicode(),"Rose", "The embodiment of your love.", 53, true),
             CHOCOLATE = new Item(ItemType.COMMON, EmoteReference.CHOCOLATE.getUnicode(),"Chocolate", "Yummy.", 45, true),
             COOKIES = new Item(ItemType.COMMON, EmoteReference.COOKIE.getUnicode(),"Cookie", "Delicious.", 48, true),
+
             // ---------------------------------- LEFT OVERS FROM CURRENCY V1 STARTS HERE ----------------------------------
             //CANNOT REMOVE BECAUSE WE WERE MEME ENOUGH TO FUCKING SAVE THEM BY THEIR IDS
             LOADED_DICE_2 = new Item("\uD83C\uDFB2","Special Loaded Die", "Even more loaded. `Leftover from Currency version 1. No longer obtainable.`"),
@@ -81,43 +84,120 @@ public class Items {
             RING_2 = new Item("\uD83D\uDC5A","Special Ring", "It's so special, it's not even a ring. `Leftover from Currency version 1. No longer obtainable.`"),
             ENHANCER = new Item(EmoteReference.MAG.getUnicode(),"Enchancer", "A broken enchanter, I wonder if it could be fixed? `Leftover from Currency version 1. No longer obtainable.`"),
             STAR = new Item(ItemType.COLLECTABLE, EmoteReference.STAR.getUnicode(),"Prize", "Pretty much, huh? `Leftover from Currency version 1. No longer obtainable.`", 0, false, false, true),
+
             // ---------------------------------- LEFT OVERS FROM CURRENCY V1 END HERE ----------------------------------
             LOOT_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Loot Crate", "You can use this along with a loot key to open a loot crate! `~>opencrate`", 0, false, false, true, Items::openLootCrate),
             STAR_2 = new Item(ItemType.COMMON, EmoteReference.STAR.getUnicode(),"Prize 2", "In the first place, how did you get so much money?", 500, true, false, true),
             SLOT_COIN = new Item(ItemType.COMMON, "\uD83C\uDF9F","Slot ticket", "Gives you extra chance in slots, also works as bulk storage.", 65, true, true),
             HOUSE = new Item(ItemType.COMMON, EmoteReference.HOUSE.getUnicode(),"House", "Cozy place to live in.", 5000, true, true),
             CAR = new Item(ItemType.COMMON, "\uD83D\uDE97","Car", "To move around.", 1000, true, true),
+
             // ---------------------------------- CHRISTMAS 2017 EVENT STARTS HERE ----------------------------------
             BELL_SPECIAL = new Item(ItemType.RARE, "\uD83D\uDD14", "Christmas bell","Christmas event 2017 reward. Gives you a cozy christmas feeling on your tree.", 0, false, false, true),
             CHRISTMAS_TREE_SPECIAL = new Item(ItemType.RARE, "\uD83C\uDF84", "Christmas tree","Christmas event 2017 reward. Who doesn't like a christmas tree?.", 0, false, false, true),
             // ---------------------------------- CHRISTMAS 2017 EVENT ENDS HERE ----------------------------------
+
             // ---------------------------------- 5.0 ITEMS START HERE ----------------------------------
             PANTS = new Item(ItemType.COMMON, "\uD83D\uDC56", "Pants", "Basically what you wear on your legs... hopefully.", 20, true),
             POTION_HASTE = new Item(ItemType.RARE, EmoteReference.POTION1.getUnicode(),"Haste Potion", "Allows you to have 50% less ratelimit effect on some commands for 5 minutes.", 45, true),
-            POTION_HEALTH = new Item(ItemType.INTERACTIVE, EmoteReference.POTION1.getUnicode(),"Milk Potion", "Clears all potion effects.", 45, true),
+            POTION_CLEAN = new Item(ItemType.INTERACTIVE, EmoteReference.POTION1.getUnicode(),"Milk Potion", "Clears all potion effects.", 45, true),
             POTION_STAMINA = new Item(ItemType.INTERACTIVE, EmoteReference.POTION2.getUnicode(),"Energy Beverage", "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.", 45, true),
+            FISHING_ROD = new Item(ItemType.INTERACTIVE, "\uD83C\uDFA3","Fishing Rod", "Enables you to fish.", 65, true),
+            FISH_1 = new Item(ItemType.COMMON, "\uD83C\uDFA3","Fishing Rod", "Common Fish. Caught in fishing", 10, false),
+            FISH_2 = new Item(ItemType.COMMON, "\uD83C\uDFA3","Fishing Rod", "Rare Fish. Caught in fishing", 30, false),
+            FISH_3 = new Item(ItemType.RARE, "\uD83C\uDFA3","Fishing Rod", "Rarest Fish. You're extremely lucky if you actually got this.", 45, false)
     };
 
     //Some interactive items don't remove themselves because the useitem command will remove them. The ones that don't depend on useitem will remove themselves.
     public static void setItemActions() {
+        final SecureRandom random = new SecureRandom();
         log.info("Registering item actions...");
+        FISHING_ROD.setAction((event, lang) -> {
+            Player p = MantaroData.db().getPlayer(event.getAuthor());
+            Inventory playerInventory = p.getInventory();
+
+            if(!playerInventory.containsItem(FISHING_ROD))
+                return false;
+
+            //TODO plz repeat less code
+            //yes this uses a different random than the other thing
+            if(r.nextInt(100) > (handleStaminaPotion(p) ? 90 : 80)) { //20% chance for the rod to break on usage (10% with stamina).
+                event.getChannel().sendMessageFormat(lang.get("commands.fish.rod_broke"), EmoteReference.SAD).queue();
+                playerInventory.process(new ItemStack(FISHING_ROD, -1));
+                p.save();
+                return false;
+            } else {
+                int select = random.nextInt(100);
+
+                if(select < 35) {
+                    List<Item> common = Stream.of(ALL)
+                            .filter(i -> i.getItemType() == ItemType.COMMON && !i.isHidden() && i.isSellable() && i.value < 45)
+                            .collect(Collectors.toList());
+                    Item selected = common.get(random.nextInt(common.size()));
+                    if(playerInventory.getAmount(selected) == 5000) {
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.trash.overflow"), EmoteReference.SAD).queue();
+                        return true;
+                    }
+
+                    playerInventory.process(new ItemStack(selected, 1));
+                    event.getChannel().sendMessageFormat(lang.get("commands.fish.trash.success"), EmoteReference.EYES, selected.getEmoji(), selected.getName()).queue();
+                } else if (select < 55) {
+                    int amount = random.nextInt(4);
+
+                    if(playerInventory.getAmount(FISH_1) + amount >= 5000) {
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.overflow"), EmoteReference.SAD).queue();
+                        return true;
+                    }
+
+
+                    playerInventory.process(new ItemStack(FISH_1, amount));
+                    event.getChannel().sendMessageFormat(lang.get("commands.fish.success"), EmoteReference.POPPER, amount, FISH_1.getEmoji()).queue();
+                } else if (select < 75) {
+                    int amount = random.nextInt(2);
+
+                    if(playerInventory.getAmount(FISH_2) + amount >= 5000) {
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.overflow"), EmoteReference.SAD).queue();
+                        return true;
+                    }
+
+
+                    playerInventory.process(new ItemStack(FISH_2, amount));
+                    event.getChannel().sendMessageFormat(lang.get("commands.fish.success"), EmoteReference.POPPER, amount, FISH_2.getEmoji()).queue();
+                } else {
+                    int amount = random.nextInt(2);
+                    Item selected = null;
+                    if(random.nextInt(25) > 20) {
+                        List<Item> rare = Stream.of(ALL)
+                                .filter(i -> i.getItemType() == ItemType.RARE && !i.isHidden() && i.isSellable())
+                                .collect(Collectors.toList());
+                        selected = rare.get(random.nextInt(rare.size()));
+                    }
+
+                    if(playerInventory.getAmount(FISH_3) + amount >= 5000 ) {
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.overflow"), EmoteReference.SAD).queue();
+                        return true;
+                    }
+
+                    playerInventory.process(new ItemStack(FISH_3, amount));
+                    event.getChannel().sendMessageFormat(lang.get("commands.fish.success"),
+                            EmoteReference.POPPER, amount, FISH_3.getEmoji(), (selected != null ? "\n" + String.format(lang.get("commands.fish.tier3.extra"), selected) : "")
+                    ).queue();
+                }
+
+                p.save();
+                return true;
+            }
+        });
+
         BROM_PICKAXE.setAction((event, lang) -> {
             Player p = MantaroData.db().getPlayer(event.getAuthor());
             Inventory playerInventory = p.getInventory();
-            boolean hasStaminaPotion = p.getData().getActivePotion() != null && fromId(p.getData().getActivePotion().getPotion()) == POTION_STAMINA;
-            if(r.nextInt(100) > (hasStaminaPotion ? 85 : 75)) { //35% chance for the pick to break on usage (25% with stamina).
-                if(hasStaminaPotion) {
-                    PotionEffect staminaPotion = p.getData().getActivePotion();
-                    //counter starts at 0
-                    if(staminaPotion.getTimesUsed() >= 4) {
-                        p.getData().setActivePotion(null);
-                        p.save();
-                    } else {
-                        staminaPotion.setTimesUsed(staminaPotion.getTimesUsed() + 1);
-                        p.save();
-                    }
-                }
 
+            //Defensive programming :D
+            if(!playerInventory.containsItem(BROM_PICKAXE))
+                return false;
+
+            if(r.nextInt(100) > (handleStaminaPotion(p) ? 85 : 75)) { //35% chance for the pick to break on usage (25% with stamina).
                 event.getChannel().sendMessageFormat(lang.get("commands.mine.pick_broke"), EmoteReference.SAD).queue();
                 playerInventory.process(new ItemStack(BROM_PICKAXE, -1));
                 p.save();
@@ -127,10 +207,11 @@ public class Items {
             }
         });
 
-        POTION_HEALTH.setAction((event, lang) -> {
+        POTION_CLEAN.setAction((event, lang) -> {
             Player p = MantaroData.db().getPlayer(event.getAuthor());
             p.getData().setActivePotion(null);
             event.getChannel().sendMessage(EmoteReference.POPPER + "Cleared potion effects.").queue();
+            p.getInventory().process(new ItemStack(POTION_CLEAN, -1));
             p.save();
             return true;
         });
@@ -139,14 +220,17 @@ public class Items {
             Player p = MantaroData.db().getPlayer(event.getAuthor());
             p.getData().setActivePotion(new PotionEffect(idOf(POTION_STAMINA), System.currentTimeMillis(), ItemType.PotionType.PLAYER));
             event.getChannel().sendMessage(EmoteReference.POPPER + "Activated stamina for 5 mining sessions.").queue();
+            p.getInventory().process(new ItemStack(POTION_STAMINA, -1));
             p.save();
             return true;
         });
 
         POTION_HASTE.setAction((event, lang) -> {
             Player p = MantaroData.db().getPlayer(event.getAuthor());
-            p.getData().setActivePotion(new PotionEffect(idOf(POTION_HASTE), System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
+            p.getData().setActivePotion(new PotionEffect(idOf(POTION_HASTE),
+                    System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
             event.getChannel().sendMessage(EmoteReference.POPPER + "Activated Haste for 2 minutes.").queue();
+            p.getInventory().process(new ItemStack(POTION_HASTE, -1));
             p.save();
             return true;
         });
@@ -309,5 +393,24 @@ public class Items {
         }
 
         return null;
+    }
+
+    private static boolean handleStaminaPotion(Player p) {
+        boolean hasStaminaPotion = p.getData().getActivePotion() != null && fromId(p.getData().getActivePotion().getPotion()) == POTION_STAMINA;
+        if (r.nextInt(100) > (hasStaminaPotion ? 85 : 75)) { //35% chance for the pick to break on usage (25% with stamina).
+            if (hasStaminaPotion) {
+                PotionEffect staminaPotion = p.getData().getActivePotion();
+                //counter starts at 0
+                if (staminaPotion.getTimesUsed() >= 4) {
+                    p.getData().setActivePotion(null);
+                    p.save();
+                } else {
+                    staminaPotion.setTimesUsed(staminaPotion.getTimesUsed() + 1);
+                    p.save();
+                }
+            }
+        }
+
+        return hasStaminaPotion;
     }
 }

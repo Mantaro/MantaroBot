@@ -630,9 +630,20 @@ public class CurrencyCmds {
 
     @Subscribe
     public void lootcrate(CommandRegistry registry) {
+        final RateLimiter ratelimiter = new RateLimiter(TimeUnit.MINUTES, 15);
         registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                if(!Utils.handleDefaultRatelimit(ratelimiter, event.getAuthor(), event)) {
+                    return;
+                }
+
+                Player p = MantaroData.db().getPlayer(event.getAuthor());
+                if(!p.getInventory().containsItem(Items.LOOT_CRATE)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.opencrate.no_crate"), EmoteReference.SAD).queue();
+                    return;
+                }
+
                 Items.LOOT_CRATE.getAction().test(event, languageContext);
             }
 
@@ -656,6 +667,11 @@ public class CurrencyCmds {
                     return;
                 }
 
+                if(args[0].equalsIgnoreCase("ils")) {
+                    //TODO: List interactive items.
+                    return;
+                }
+
                 Item item = Items.fromAnyNoId(content).orElse(null);
                 if(item == null) {
                     event.getChannel().sendMessageFormat(languageContext.get("general.item_lookup.not_found"), EmoteReference.ERROR).queue();
@@ -672,17 +688,53 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(item.getAction().test(event, languageContext)) {
-                    Player p = MantaroData.db().getPlayer(event.getAuthor());
-                    p.getInventory().process(new ItemStack(item, -1));
-                    p.save();
+                Player p = MantaroData.db().getPlayer(event.getAuthor());
+                if(!p.getInventory().containsItem(item)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_item"), EmoteReference.SAD).queue();
+                    return;
                 }
+
+                item.getAction().test(event, languageContext);
             }
 
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
-                //TODO
-                return null;
+                return helpEmbed(event, "Use Item Command")
+                        .setDescription("**Uses an item**\n" +
+                                "You need to have the item to use it, and the item has to be marked as *interactive*. For a list of interactive items use" +
+                                "`~>useitem ils`")
+                        .addField("Usage", "`~>useitem <item>` - **Uses the specified item**", false)
+                        .addField("Example", "`~>useitem fishing rod`", false)
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void fish(CommandRegistry cr) {
+        final RateLimiter ratelimiter = new RateLimiter(TimeUnit.MINUTES, 5);
+        cr.register("fish", new SimpleCommand(Category.CURRENCY) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                if(!Utils.handleDefaultRatelimit(ratelimiter, event.getAuthor(), event)) {
+                    return;
+                }
+
+                Player p = MantaroData.db().getPlayer(event.getAuthor());
+                if(!p.getInventory().containsItem(Items.FISHING_ROD)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.fish.no_rod"), EmoteReference.SAD).queue();
+                    return;
+                }
+
+                Items.FISHING_ROD.getAction().test(event, languageContext);
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Fish Command")
+                        .setDescription("**Starts a fishing session**\n" +
+                                "You need a fishing rod to start fishing. The rod has a 20% chance of breaking (10% if you use an stamina potion)")
+                        .build();
             }
         });
     }
