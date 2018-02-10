@@ -50,6 +50,8 @@ public class ImageActionCmd extends NoArgsCommand {
     private boolean swapNames = false;
     private String type;
     private EmoteReference emoji;
+    //TODO add this
+    private String botLine;
 
     public ImageActionCmd(String name, String desc, Color color, String imageName, EmoteReference emoji, String format, List<String> images, String lonelyLine, boolean swap) {
         super(Category.ACTION);
@@ -150,6 +152,10 @@ public class ImageActionCmd extends NoArgsCommand {
                 .setDescription(desc)
                 .setColor(color)
                 .build();
+    }
+
+    private boolean isMentioningBot(GuildMessageReceivedEvent event) {
+        return event.getMessage().getMentionedUsers().stream().anyMatch(user -> user.getIdLong() == event.getGuild().getSelfMember().getUser().getIdLong());
     }
 
     private boolean isLonely(GuildMessageReceivedEvent event) {

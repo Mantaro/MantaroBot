@@ -810,7 +810,6 @@ public class MoneyCmds {
                 if(!Items.BROM_PICKAXE.getAction().test(event, languageContext)) return;
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
-                //TODO this key doesn't work?
                 String message = String.format(languageContext.get("commands.mine.success"), EmoteReference.PICK, money);
 
                 if(r.nextInt(400) > 350) {

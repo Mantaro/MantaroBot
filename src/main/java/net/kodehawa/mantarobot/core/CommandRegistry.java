@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.core;
 
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -146,9 +147,16 @@ public class CommandRegistry {
         log.debug("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
         cmd.run(event, new I18nContext(data, userData), cmdName, content);
 
+        //Logging
         if(cmd.category() != null && cmd.category().name() != null && !cmd.category().name().isEmpty()) {
             MantaroBot.getInstance().getStatsClient().increment("command", "name:" + cmdName);
             MantaroBot.getInstance().getStatsClient().increment("category", "name:" + cmd.category().name().toLowerCase());
+
+            JDA.ShardInfo shardInfo = event.getJDA().getShardInfo();
+            int shardId = shardInfo == null ? 0 : shardInfo.getShardId();
+
+            MantaroBot.getInstance().getStatsClient().increment("shard_command", "id:" + shardId);
+
             CommandStatsManager.log(cmdName);
             CategoryStatsManager.log(cmd.category().name().toLowerCase());
         }

@@ -128,7 +128,10 @@ public class Items {
             } else {
                 int select = random.nextInt(100);
 
-                if(select < 20) {
+                if(select < 25) {
+                    //we need to continue the dust meme
+                    event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING).queue();
+                } else if(select < 45) {
                     List<Item> common = Stream.of(ALL)
                             .filter(i -> i.getItemType() == ItemType.COMMON && !i.isHidden() && i.isSellable() && i.value < 45)
                             .collect(Collectors.toList());
@@ -140,7 +143,7 @@ public class Items {
 
                     playerInventory.process(new ItemStack(selected, 1));
                     event.getChannel().sendMessageFormat(lang.get("commands.fish.trash.success"), EmoteReference.EYES, selected.getEmoji(), selected.getName()).queue();
-                } else if (select < 55) {
+                } else if (select < 65) {
                     int amount = random.nextInt(4);
 
                     if(playerInventory.getAmount(FISH_1) + amount >= 5000) {
@@ -151,7 +154,7 @@ public class Items {
 
                     playerInventory.process(new ItemStack(FISH_1, amount));
                     event.getChannel().sendMessageFormat(lang.get("commands.fish.success"), EmoteReference.POPPER, amount, FISH_1.getEmoji()).queue();
-                } else if (select < 75) {
+                } else if (select < 85) {
                     int amount = random.nextInt(2);
 
                     if(playerInventory.getAmount(FISH_2) + amount >= 5000) {
