@@ -66,6 +66,8 @@ public class BirthdayTask {
                     if(channel != null && birthdayRole != null) {
                         if(!guild.getSelfMember().canInteract(birthdayRole))
                             continue; //Go to next guild...
+                        if(!channel.canTalk())
+                            continue; //cannot talk here...
                         if(tempData.getGuildAutoRole() != null && birthdayRole.getId().equals(tempData.getGuildAutoRole()))
                             continue;
                         if(birthdayRole.isPublicRole())
