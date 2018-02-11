@@ -467,29 +467,35 @@ public class MantaroListener implements EventListener {
         //link protection
         if(guildData.isLinkProtection() && !guildData.getLinkProtectionAllowedChannels().contains(event.getChannel().getId()) &&
                 !guildData.getLinkProtectionAllowedUsers().contains(event.getAuthor().getId())) {
-            if(event.getMember() != null && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)
-                    && hasInvite(event.getJDA(), event.getGuild(), event.getMessage().getContentRaw())) {
-                Member bot = event.getGuild().getSelfMember();
-                MantaroBot.getInstance().getStatsClient().increment("links_blocked");
-                if(bot.hasPermission(event.getChannel(), Permission.MESSAGE_MANAGE) || bot.hasPermission(Permission.ADMINISTRATOR)) {
-                    User author = event.getAuthor();
+            //Has link protection enabled, let's check if they don't have admin stuff.
+            if(event.getMember() != null && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
+                //Check if invite is valid. This is async because hasInvite uses complete sometimes.
+                shard.getThreadPool().execute(() -> {
+                    //If this message has an invite and it's not an invite to the same guild it was sent on, proceed to delete.
+                    if(hasInvite(event.getJDA(), event.getGuild(), event.getMessage().getContentRaw())) {
+                        Member bot = event.getGuild().getSelfMember();
+                        MantaroBot.getInstance().getStatsClient().increment("links_blocked");
+                        if(bot.hasPermission(event.getChannel(), Permission.MESSAGE_MANAGE) || bot.hasPermission(Permission.ADMINISTRATOR)) {
+                            User author = event.getAuthor();
 
-                    //Ignore myself.
-                    if(event.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
-                        return;
+                            //Ignore myself.
+                            if(event.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
+                                return;
+                            }
+
+                            //Ignore log channel.
+                            if(guildData.getGuildLogChannel() != null && event.getChannel().getId().equals(guildData.getGuildLogChannel())) {
+                                return;
+                            }
+
+                            //Yes, I know the check previously done is redundant, but in case someone decides to change the law of nature, it should do	.
+                            event.getMessage().delete().queue();
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "**You cannot advertise here.** Deleted invite link sent by **" + author.getName() + "#" + author.getDiscriminator() + "**.").queue();
+                        } else {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot remove the invite link because I don't have permission to delete messages!").queue();
+                        }
                     }
-
-                    //Ignore log channel.
-                    if(guildData.getGuildLogChannel() != null && event.getChannel().getId().equals(guildData.getGuildLogChannel())) {
-                        return;
-                    }
-
-                    //Yes, I know the check previously done is redundant, but in case someone decides to change the law of nature, it should do	.
-                    event.getMessage().delete().queue();
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "**You cannot advertise here.** Deleted invite link sent by **" + author.getName() + "#" + author.getDiscriminator() + "**.").queue();
-                } else {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot remove the invite link because I don't have permission to delete messages!").queue();
-                }
+                });
             }
         }
     }

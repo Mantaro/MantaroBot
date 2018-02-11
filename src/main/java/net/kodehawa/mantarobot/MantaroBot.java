@@ -41,7 +41,6 @@ import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.collections4.iterators.ArrayIterator;
@@ -60,9 +59,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static net.kodehawa.mantarobot.utils.ShutdownCodes.API_HANDSHAKE_FAILURE;
-import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
-import static net.kodehawa.mantarobot.utils.ShutdownCodes.REBOOT_FAILURE;
+import static net.kodehawa.mantarobot.utils.ShutdownCodes.*;
 
 @Slf4j
 public class MantaroBot extends ShardedJDA {

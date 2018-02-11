@@ -25,8 +25,6 @@ import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.Date;
-
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 @Slf4j

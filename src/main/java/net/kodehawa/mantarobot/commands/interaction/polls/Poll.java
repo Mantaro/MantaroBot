@@ -186,13 +186,17 @@ public class Poll extends Lobby {
 
                 AtomicInteger react = new AtomicInteger(0);
                 AtomicInteger counter = new AtomicInteger(0);
-                String votes = new ArrayList<>(getChannel().getMessageById(message.getIdLong()).complete().getReactions()).stream()
-                        .filter(r -> react.getAndIncrement() <= options.length)
-                        .map(r -> String.format(languageContext.get("commands.poll.vote_results"), r.getCount() - 1, options[counter.getAndIncrement()]))
-                        .collect(Collectors.joining("\n"));
 
-                embedBuilder.addField(languageContext.get("commands.poll.result"), "```diff\n" + votes + "```", false);
-                getChannel().sendMessage(embedBuilder.build()).queue();
+                getChannel().getMessageById(message.getIdLong()).queue(message -> {
+                    String votes = message.getReactions().stream()
+                            .filter(r -> react.getAndIncrement() <= options.length)
+                            .map(r -> String.format(languageContext.get("commands.poll.vote_results"), r.getCount() - 1, options[counter.getAndIncrement()]))
+                            .collect(Collectors.joining("\n"));
+
+                    embedBuilder.addField(languageContext.get("commands.poll.result"), "```diff\n" + votes + "```", false);
+                    getChannel().sendMessage(embedBuilder.build()).queue();
+                });
+
                 getRunningPolls().remove(getChannel().getId());
             }
 
