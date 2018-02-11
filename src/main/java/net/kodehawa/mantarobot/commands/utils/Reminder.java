@@ -16,8 +16,6 @@
 
 package net.kodehawa.mantarobot.commands.utils;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -34,11 +32,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 public class Reminder {
-    @JsonIgnore
     public static final Map<String, List<Reminder>> CURRENT_REMINDERS = new HashMap<>();
-    @JsonIgnore
     private static final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-    @JsonIgnore
     private Future<?> scheduledReminder;
 
     public final String id;
@@ -48,8 +43,7 @@ public class Reminder {
     private final String userId;
     private final long offset;
 
-    private Reminder(@JsonProperty("id") String id, @JsonProperty("userId") String userId, @JsonProperty("reminder") String reminder,
-                     @JsonProperty("scheduledAtMillis") long scheduledAt, @JsonProperty("time") long time, @JsonProperty("offset") long offset) {
+    private Reminder(String id, String userId, String reminder, long scheduledAt, long time, long offset) {
         this.id = id;
         this.userId = userId;
         this.reminder = reminder;

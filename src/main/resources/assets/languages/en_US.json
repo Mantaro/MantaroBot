@@ -460,6 +460,7 @@
       "success": "%1$sTransferred **%2$d** to *%3$s* successfully."
     },
     "useitem": {
+      "use_command": "%1$sFor this item you need to use the command that's linked to the item! (mine for pickaxe, fish for the fishing rod)",
       "no_items_specified": "%1$sYou need to specify what item to use!",
       "not_interactive": "%1$sYou cannot interact with this item...",
       "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set...",

@@ -640,9 +640,8 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(!Utils.handleDefaultRatelimit(ratelimiter, event.getAuthor(), event)) {
+                if(!Utils.handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
                     return;
-                }
 
                 Items.LOOT_CRATE.getAction().test(event, languageContext);
             }
@@ -680,6 +679,11 @@ public class CurrencyCmds {
 
                 if(item.getItemType() != ItemType.INTERACTIVE) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.not_interactive"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(item == Items.BROM_PICKAXE || item == Items.FISHING_ROD) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.use_command"), EmoteReference.WARNING).queue();
                     return;
                 }
 
@@ -722,9 +726,8 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(!Utils.handleDefaultRatelimit(ratelimiter, event.getAuthor(), event)) {
+                if(!Utils.handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
                     return;
-                }
 
                 Items.FISHING_ROD.getAction().test(event, languageContext);
             }

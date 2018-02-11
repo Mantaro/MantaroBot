@@ -44,7 +44,6 @@ import java.util.*;
 
 @Slf4j
 public class CommandRegistry {
-
     private final Map<String, Command> commands;
     private final Config conf = MantaroData.config().get();
 
