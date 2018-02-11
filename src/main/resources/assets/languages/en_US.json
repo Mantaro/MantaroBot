@@ -662,6 +662,7 @@
     "vipstatus": {
       "user": {
         "header": "Your Premium Status",
+        "header_other": "%1$s's Premium Status",
         "not_premium": "%1$sYou aren't premium :c",
         "premium": "**Premium user! <3**",
         "old_system": "**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**"

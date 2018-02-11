@@ -36,6 +36,7 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.currentTimeMillis;
@@ -131,17 +132,26 @@ public class PremiumCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 EmbedBuilder embedBuilder = new EmbedBuilder();
 
-                if(args.length == 0) {
-                    DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
+                List<User> mentionedUsers = event.getMessage().getMentionedUsers();
+                boolean isMention = !mentionedUsers.isEmpty();
+                if(args.length == 0 || isMention) {
+                    User toCheck = event.getAuthor();
+                    if(isMention)
+                        toCheck = mentionedUsers.get(0);
+
+                    DBUser dbUser = MantaroData.db().getUser(toCheck);
                     if(!dbUser.isPremium()) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.vipstatus.user.not_premium"), EmoteReference.ERROR).queue();
                         return;
                     }
 
-                    embedBuilder.setAuthor(languageContext.get("commands.vipstatus.user.header"), null, event.getAuthor().getEffectiveAvatarUrl());
+                    embedBuilder.setAuthor(isMention ?
+                            String.format(languageContext.get("commands.vipstatus.user.header_other"), toCheck.getName()) :
+                            languageContext.get("commands.vipstatus.user.header"), null, event.getAuthor().getEffectiveAvatarUrl()
+                    );
 
                     if(dbUser.getData().getPremiumKey() != null) {
-                        PremiumKey currentKey = MantaroData.db().getPremiumKey(MantaroData.db().getUser(event.getAuthor()).getData().getPremiumKey());
+                        PremiumKey currentKey = MantaroData.db().getPremiumKey(MantaroData.db().getUser(toCheck).getData().getPremiumKey());
                         User owner = MantaroBot.getInstance().getUserById(currentKey.getOwner());
                         boolean marked = false;
                         if(owner == null) {
@@ -149,7 +159,7 @@ public class PremiumCmds {
                             owner = event.getAuthor();
                         }
 
-                        if(!marked) {
+                        if(!marked && isMention) {
                             Player p = MantaroData.db().getPlayer(owner);
                             if(p.getData().addBadgeIfAbsent(Badge.DONATOR_2))
                                 p.saveAsync();
