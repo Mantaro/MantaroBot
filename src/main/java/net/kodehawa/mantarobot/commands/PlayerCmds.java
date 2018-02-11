@@ -252,7 +252,7 @@ public class PlayerCmds {
                                         displayBadges.isEmpty() ? languageContext.get("commands.profile.no_badges") : displayBadges, false
                                 )
                                 .setFooter(String.format("%s | %s", String.format(languageContext.get("commands.profile.timezone_user"),
-                                        (user.getTimezone() == null ? languageContext.get("commands.profile.no_timezone") : user.getTimezone())), String.format(languageContext.get("general.requested_by"), " " + event.getAuthor().getName())), null
+                                        (user.getTimezone() == null ? languageContext.get("commands.profile.no_timezone") : user.getTimezone())), String.format(languageContext.get("general.requested_by"), event.getAuthor().getName())), null
                                 )
                         );
                     }

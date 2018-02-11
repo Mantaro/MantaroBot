@@ -992,7 +992,7 @@
       "own_balance": "Your balance is **$%1$s.**"
     },
     "daily": {
-      "check": "%1$sYou'll be able to claim your daily on: %2$s.",
+      "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
       "about_now": "about now",
       "errors": {
         "bot": "%1$sYou cannot transfer your daily to a bot!",

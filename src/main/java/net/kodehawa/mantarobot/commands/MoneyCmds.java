@@ -89,7 +89,7 @@ public class MoneyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length > 0 && event.getMessage().getMentionedUsers().isEmpty() && args[0].equalsIgnoreCase("-check")) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.daily.check"),
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.daily.check"), EmoteReference.TALKING,
                             (rateLimiter.tryAgainIn(event.getAuthor()) > 0 ?
                                     Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor())) : languageContext.get("commands.daily.about_now"))
                     ).queue();
@@ -104,14 +104,14 @@ public class MoneyCmds {
                     mentionedUser = event.getMessage().getMentionedUsers().get(0);
 
                 if(mentionedUser != null && mentionedUser.isBot()) {
-                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "daily.bot"), EmoteReference.ERROR).queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "daily.errors.bot"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 Player player = mentionedUser != null ? MantaroData.db().getPlayer(event.getGuild().getMember(mentionedUser)) : MantaroData.db().getPlayer(event.getMember());
 
                 if(player.isLocked()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + (mentionedUser != null ? languageContext.withRoot("commands", "daily.receipt_locked") : languageContext.withRoot("commands", "daily.own_locked"))).queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + (mentionedUser != null ? languageContext.withRoot("commands", "daily.errors.receipt_locked") : languageContext.withRoot("commands", "daily.errors.own_locked"))).queue();
                     return;
                 }
 
