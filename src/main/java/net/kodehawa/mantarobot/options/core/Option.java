@@ -16,8 +16,10 @@
 
 package net.kodehawa.mantarobot.options.core;
 
+import br.com.brjdevs.java.utils.functions.interfaces.TriConsumer;
 import lombok.Getter;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +44,7 @@ public class Option {
     @Getter
     private final OptionType type;
     @Getter
-    private BiConsumer<GuildMessageReceivedEvent, String[]> eventConsumer;
+    private TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> eventConsumer;
 
     public Option(String displayName, String description, OptionType type) {
         this.optionName = displayName;
@@ -61,11 +63,16 @@ public class Option {
     }
 
     public Option setAction(Consumer<GuildMessageReceivedEvent> code) {
-        eventConsumer = (event, ignored) -> code.accept(event);
+        eventConsumer = (event, ignored, ignored2) -> code.accept(event);
         return this;
     }
 
     public Option setAction(BiConsumer<GuildMessageReceivedEvent, String[]> code) {
+        eventConsumer = (event, c, ignored) -> code.accept(event, c);
+        return this;
+    }
+
+    public Option setAction(TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> code) {
         eventConsumer = code;
         return this;
     }
