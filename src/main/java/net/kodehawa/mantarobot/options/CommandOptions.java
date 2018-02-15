@@ -398,9 +398,9 @@ public class CommandOptions extends OptionHandler {
 
         registerOption("server:role:specific:disallow", "Disallows a role from executing an specific command", "Disallows a role from executing an specific command\n" +
                 "This command takes the command to disallow and the role name afterwards. If the role name contains spaces, wrap it in quotes \"like this\"\n" +
-                "Example: `~>opts server role specific disallow daily Member`", "Disallows a role from executing an specific command", (event, args) -> {
+                "Example: `~>opts server role specific disallow daily Member`", "Disallows a role from executing an specific command", (event, args, lang) -> {
             if(args.length < 2) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "You need the role and the command to disallow!").queue();
+                event.getChannel().sendMessageFormat(lang.get("options.server_role_specific_disallow.invalid"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -408,29 +408,36 @@ public class CommandOptions extends OptionHandler {
             String roleDisallow = args[1];
 
             Consumer<Role> consumer = role -> {
+                if(role == null) {
+                    event.getChannel().sendMessageFormat(lang.get("options.invalid_role"), EmoteReference.ERROR).queue();
+                    return;
+                }
+                
                 DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                 GuildData guildData = dbGuild.getData();
 
                 if(!DefaultCommandProcessor.REGISTRY.commands().containsKey(commandDisallow)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "That command doesn't exist!").queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.no_command"), EmoteReference.ERROR, commandDisallow).queue();
                     return;
                 }
 
                 if(commandDisallow.equals("opts") || commandDisallow.equals("help")) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot disable the options or the help command.").queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.help_opts_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 guildData.getRoleSpecificDisabledCommands().computeIfAbsent(role.getId(), key -> new ArrayList<>());
 
                 if(guildData.getRoleSpecificDisabledCommands().get(role.getId()).contains(commandDisallow)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "This command was already disabled for the specified role.").queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.server_role_specific_disallow.already_disabled"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 guildData.getRoleSpecificDisabledCommands().get(role.getId()).add(commandDisallow);
                 dbGuild.save();
-                event.getChannel().sendMessage(String.format("%sSuccessfully restricted command `%s` for role `%s`", EmoteReference.CORRECT, commandDisallow, role.getName())).queue();
+                event.getChannel().sendMessageFormat(lang.get("options.server_role_specific_disallow.success"), 
+                        EmoteReference.CORRECT, commandDisallow, role.getName()
+                ).queue();
             };
 
             Role role = Utils.findRoleSelect(event, roleDisallow, consumer);
@@ -442,9 +449,9 @@ public class CommandOptions extends OptionHandler {
 
         registerOption("server:role:specific:allow", "Allows a role from executing an specific command", "Allows a role from executing an specific command\n" +
                 "This command takes either the role name, id or mention and the command to disallow afterwards. If the role name contains spaces, wrap it in quotes \"like this\"\n" +
-                "Example: `~>opts server role specific allow daily Member`", "Allows a role from executing an specific command", (event, args) -> {
+                "Example: `~>opts server role specific allow daily Member`", "Allows a role from executing an specific command", (event, args, lang) -> {
             if(args.length < 2) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "You need the role and the command to allow!").queue();
+                event.getChannel().sendMessageFormat(lang.get("options.server_role_specific_allow.invalid"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -453,7 +460,7 @@ public class CommandOptions extends OptionHandler {
 
             Consumer<Role> consumer = role -> {
                 if(role == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid role!").queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.invalid_role"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -461,19 +468,21 @@ public class CommandOptions extends OptionHandler {
                 GuildData guildData = dbGuild.getData();
 
                 if(!DefaultCommandProcessor.REGISTRY.commands().containsKey(commandAllow)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "That command doesn't exist!").queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.no_command"), EmoteReference.ERROR, commandAllow).queue();
                     return;
                 }
 
                 List l = guildData.getRoleSpecificDisabledCommands().computeIfAbsent(role.getId(), key -> new ArrayList<>());
                 if(l.isEmpty() || !l.contains(commandAllow)) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "This command wasn't disabled for this role?").queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.server_role_specific_allow.not_disabled"), EmoteReference.THINKING).queue();
                     return;
                 }
 
                 guildData.getRoleSpecificDisabledCommands().get(role.getId()).remove(commandAllow);
                 dbGuild.save();
-                event.getChannel().sendMessage(String.format("%sSuccessfully un-restricted command `%s` for role `%s`", EmoteReference.CORRECT, commandAllow, role.getName())).queue();
+                event.getChannel().sendMessageFormat(lang.get("options.server_role_specific_allow.success"),
+                        EmoteReference.CORRECT, commandAllow, role.getName()
+                ).queue();
             };
 
             Role role = Utils.findRoleSelect(event, roleAllow, consumer);
@@ -485,9 +494,9 @@ public class CommandOptions extends OptionHandler {
 
         registerOption("category:role:specific:disable", "Disables a role from executing commands in an specified category.", "Disables a role from executing commands in an specified category\n" +
                 "This command takes the category name and the role to disable afterwards. If the role name contains spaces, wrap it in quotes \"like this\"\n" +
-                "Example: `~>opts category role specific disable Currency Member`", "Disables a role from executing commands in an specified category.", (event, args) -> {
+                "Example: `~>opts category role specific disable Currency Member`", "Disables a role from executing commands in an specified category.", (event, args, lang) -> {
             if(args.length < 2) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable and the role to.").queue();
+                event.getChannel().sendMessageFormat(lang.get("options.category_role_specific_disable.invalid"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -499,26 +508,33 @@ public class CommandOptions extends OptionHandler {
             Consumer<Role> consumer = role -> {
                 if(toDisable == null) {
                     AtomicInteger at = new AtomicInteger();
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
-                            + "```md\n" + Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.invalid_category"),
+                            EmoteReference.ERROR, Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name)
+                                    .collect(Collectors.joining("\n"))
+                    ).queue();
+                    return;
+                }
+
+                if(role == null) {
+                    event.getChannel().sendMessageFormat(lang.get("options.invalid_role"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 guildData.getRoleSpecificDisabledCategories().computeIfAbsent(role.getId(), cat -> new ArrayList<>());
 
                 if(guildData.getRoleSpecificDisabledCategories().get(role.getId()).contains(toDisable)) {
-                    event.getChannel().sendMessage(EmoteReference.WARNING + "This category is already disabled.").queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.category_role_specific_disable.already_disabled"), EmoteReference.WARNING).queue();
                     return;
                 }
 
                 if(toDisable.toString().equals("Moderation")) {
-                    event.getChannel().sendMessage(EmoteReference.WARNING + "You cannot disable moderation since it contains this command.").queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.category_role_specific_disable.moderation_notice"), EmoteReference.WARNING).queue();
                     return;
                 }
 
                 guildData.getRoleSpecificDisabledCategories().get(role.getId()).add(toDisable);
                 dbGuild.save();
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "Disabled category `" + toDisable.toString() + "` for role " + role.getName()).queue();
+                event.getChannel().sendMessageFormat(lang.get("options.category_role_specific_disable.success"), EmoteReference.CORRECT, toDisable.toString(), role.getName()).queue();
             };
 
             Role role = Utils.findRoleSelect(event, roleName, consumer);
@@ -530,9 +546,9 @@ public class CommandOptions extends OptionHandler {
 
         registerOption("category:role:specific:enable", "Enables a role from executing commands in an specified category.", "Enables a role from executing commands in an specified category\n" +
                 "This command takes the category name and the role to enable afterwards. If the role name contains spaces, wrap it in quotes \"like this\"\n" +
-                "Example: `~>opts category role specific enable Currency Member`", "Enables a role from executing commands in an specified category.", (event, args) -> {
+                "Example: `~>opts category role specific enable Currency Member`", "Enables a role from executing commands in an specified category.", (event, args, lang) -> {
             if(args.length < 2) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable and the channel where.").queue();
+                event.getChannel().sendMessageFormat(lang.get("options.category_role_specific_enable.invalid"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -544,24 +560,26 @@ public class CommandOptions extends OptionHandler {
             Consumer<Role> consumer = role -> {
                 if(toEnable == null) {
                     AtomicInteger at = new AtomicInteger();
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
-                            + "```md\n" + Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.invalid_category"),
+                            EmoteReference.ERROR, Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name)
+                                    .collect(Collectors.joining("\n"))
+                    ).queue();
                     return;
                 }
 
                 if(role == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid role!").queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.invalid_role"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 List l = guildData.getRoleSpecificDisabledCategories().computeIfAbsent(role.getId(), cat -> new ArrayList<>());
                 if(l.isEmpty() || !l.contains(toEnable)) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "This category wasn't disabled?").queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.category_role_specific_enable.not_disabled"), EmoteReference.THINKING).queue();
                     return;
                 }
                 guildData.getRoleSpecificDisabledCategories().get(role.getId()).remove(toEnable);
                 dbGuild.save();
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "Enabled category `" + toEnable.toString() + "` for role " + role.getName()).queue();
+                event.getChannel().sendMessageFormat(lang.get("options.category_role_specific_enable.success"), EmoteReference.CORRECT, toEnable.toString(), role.getName()).queue();
             };
 
             Role role = Utils.findRoleSelect(event, roleName, consumer);
