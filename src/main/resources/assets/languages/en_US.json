@@ -1171,6 +1171,32 @@
     "music_vote_toggle": {
       "success": "%1$sVoting (to stop/skip) is now set to %s"
     },
+    "localblacklist_add":{
+      "invalid": "%1$s**You need to specify the users to locally blacklist.**",
+      "yourself_notice": "%1$sWhy are you trying to blacklist yourself?...",
+      "admin_notice": "%1$sOne (or more) of the users you're trying to blacklist are admins or Bot Commanders!",
+      "success": "%1$sLocally blacklisted users: **%2$s**"
+    },
+    "localblacklist_remove": {
+      "invalid": "%1$s**You need to specify the users to locally un-blacklist.**",
+      "success": "%1$sLocally un-blacklisted users: **%2$s**"
+    },
+    "logs_enable": {
+      "success": "%1$sMessage logging has been enabled with parameters -> `Channel #%2$s (%3$s)`"
+    },
+    "logs_disable": {
+      "success": "%1$sMessage logging has been disabled."
+    },
+    "logs_exclude": {
+      "clearchannels": {
+        "success": "%1$sCleared log exceptions!"
+      },
+      "remove": {
+        "success": "%1$sRemoved logs exception on channel: %2$s"
+      },
+      "success": "%1$sAdded logs exception on channel: %s",
+      "invalid": "%1$sIncorrect argument length."
+    },
     "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
     "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
     "no_command": "%1$sNo command called %2$s",

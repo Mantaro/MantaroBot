@@ -44,19 +44,16 @@ public abstract class OptionHandler {
         Option.addOption(name, new Option(displayName, description, type).setAction(code).setShortDescription(shortDescription));
     }
 
-    protected void registerOption(String name, String displayName, String description, String shortDescription, OptionType type, BiConsumer<GuildMessageReceivedEvent, String[]> code) {
-        Option.addOption(name, new Option(displayName, description, type).setAction(code).setShortDescription(shortDescription));
+    protected void registerOptionShort(String name, String displayName, String description, String shortDescription, BiConsumer<GuildMessageReceivedEvent, I18nContext> code) {
+        Option.addOption(name, new Option(displayName, description, type).setActionLang(code).setShortDescription(shortDescription));
     }
 
     protected void registerOption(String name, String displayName, String description, BiConsumer<GuildMessageReceivedEvent, I18nContext> code) {
         Option.addOption(name, new Option(displayName, description, type).setActionLang(code).setShortDescription(description));
     }
 
-    protected void registerOption(String name, String displayName, String description, String shortDescription, TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> code) {
-        Option.addOption(name, new Option(displayName, description, type).setActionLang(code).setShortDescription(shortDescription));
-    }
-
-    protected void registerOption(String name, String displayName, String description, String shortDescription, OptionType type, TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> code) {
+    protected void registerOption(String name, String displayName, String description, String shortDescription,
+                                  TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> code) {
         Option.addOption(name, new Option(displayName, description, type).setActionLang(code).setShortDescription(shortDescription));
     }
 

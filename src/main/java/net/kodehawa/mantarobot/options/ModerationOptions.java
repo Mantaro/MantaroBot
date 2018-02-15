@@ -21,8 +21,10 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -52,23 +54,23 @@ public class ModerationOptions extends OptionHandler {
                 "Adds someone to the local blacklist.\n" +
                         "You need to mention the user. You can mention multiple users.\n" +
                         "**Example:** `~>opts localblacklist add @user1 @user2`",
-                "Adds someone to the local blacklist.", (event, args) -> {
+                "Adds someone to the local blacklist.", (event, args, lang) -> {
 
                     List<User> mentioned = event.getMessage().getMentionedUsers();
 
                     if(mentioned.isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally blacklist.**").queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.localblacklist_add.invalid"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(mentioned.contains(event.getAuthor())) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Why are you trying to blacklist yourself?...").queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.localblacklist_add.yourself_notice"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     Guild guild = event.getGuild();
                     if(mentioned.stream().anyMatch(u -> CommandPermission.ADMIN.test(guild.getMember(u)))) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "One (or more) of the users you're trying to blacklist are admins or Bot Commanders!").queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.localblacklist_add.admin_notice"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -81,18 +83,18 @@ public class ModerationOptions extends OptionHandler {
                     guildData.getDisabledUsers().addAll(toBlackList);
                     dbGuild.save();
 
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally blacklisted users: **" + blacklisted + "**").queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.localblacklist_add.success"), EmoteReference.CORRECT, blacklisted).queue();
                 });
 
         registerOption("localblacklist:remove", "Local Blacklist remove",
                 "Removes someone from the local blacklist.\n" +
                         "You need to mention the user. You can mention multiple users.\n" +
                         "**Example:** `~>opts localblacklist remove @user1 @user2`",
-                "Removes someone from the local blacklist.", (event, args) -> {
+                "Removes someone from the local blacklist.", (event, args, lang) -> {
                     List<User> mentioned = event.getMessage().getMentionedUsers();
 
                     if(mentioned.isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally blacklist.**").queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.localblacklist_remove.invalid"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -105,15 +107,13 @@ public class ModerationOptions extends OptionHandler {
                     guildData.getDisabledUsers().removeAll(toUnBlackList);
                     dbGuild.save();
 
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally unblacklisted users: **" + unBlackListed + "**").queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.localblacklist_remove.success"), EmoteReference.CORRECT, unBlackListed).queue();
                 });
 
-        //region logs
-        //region enable
         registerOption("logs:enable", "Enable logs",
                 "Enables logs. You need to use the channel name.\n" +
                         "**Example:** `~>opts logs enable mod-logs`",
-                "Enables logs.", (event, args) -> {
+                "Enables logs.", (event, args, lang) -> {
                     if(args.length < 1) {
                         onHelp(event);
                         return;
@@ -126,8 +126,9 @@ public class ModerationOptions extends OptionHandler {
                     Consumer<TextChannel> consumer = textChannel -> {
                         guildData.setGuildLogChannel(textChannel.getId());
                         dbGuild.saveAsync();
-                        event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Message logging has been enabled with parameters -> ``Channel #%s (%s)``",
-                                textChannel.getName(), textChannel.getId())).queue();
+                        event.getChannel().sendMessage(String.format(lang.get("options.logs_enable.success"),
+                                EmoteReference.MEGA, textChannel.getName(), textChannel.getId())
+                        ).queue();
                     };
 
                     TextChannel channel = Utils.findChannelSelect(event, logChannel, consumer);
@@ -140,7 +141,7 @@ public class ModerationOptions extends OptionHandler {
         registerOption("logs:exclude", "Exclude log channel.",
                 "Excludes a channel from logging. You need to use the channel name, *not* the mention.\n" +
                         "**Example:** `~>opts logs exclude staff`",
-                "Excludes a channel from logging.", (event, args) -> {
+                "Excludes a channel from logging.", (event, args, lang) -> {
                     if(args.length == 0) {
                         onHelp(event);
                         return;
@@ -151,70 +152,58 @@ public class ModerationOptions extends OptionHandler {
                     if(args[0].equals("clearchannels")) {
                         guildData.getLogExcludedChannels().clear();
                         dbGuild.saveAsync();
-                        event.getChannel().sendMessage(EmoteReference.OK + "Cleared log exceptions!").queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.logs_exclude.clearchannels.success"), EmoteReference.OK).queue();
                         return;
                     }
 
                     if(args[0].equals("remove")) {
                         if(args.length < 2) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect argument length.").queue();
+                            event.getChannel().sendMessageFormat(lang.get("options.log_exclude.invalid"), EmoteReference.ERROR).queue();
                             return;
                         }
                         String channel = args[1];
-                        List<TextChannel> channels = event.getGuild().getTextChannelsByName(channel, true);
-                        if(channels.size() == 0) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a channel with that name!").queue();
-                        } else if(channels.size() == 1) {
-                            TextChannel ch = channels.get(0);
-                            guildData.getLogExcludedChannels().remove(ch.getId());
+
+                        Consumer<TextChannel> consumer = textChannel -> {
+                            guildData.getLogExcludedChannels().remove(textChannel.getId());
                             dbGuild.saveAsync();
-                            event.getChannel().sendMessage(EmoteReference.OK + "Removed logs exception on channel: " + ch.getAsMention()).queue();
-                        } else {
-                            DiscordUtils.selectList(event, channels, ch -> String.format("%s (ID: %s)", ch.getName(), ch.getId()),
-                                    s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:")
-                                            .setDescription(s).build(),
-                                    ch -> {
-                                        guildData.getLogExcludedChannels().remove(ch.getId());
-                                        dbGuild.saveAsync();
-                                        event.getChannel().sendMessage(EmoteReference.OK + "Removed logs exception on channel: " + ch.getAsMention()).queue();
-                                    });
+                            event.getChannel().sendMessageFormat(lang.get("options.logs_exclude.remove.success"), 
+                                    EmoteReference.OK, textChannel.getAsMention()
+                            ).queue();
+                        };
+
+                        TextChannel ch = Utils.findChannelSelect(event, channel, consumer);
+
+                        if (ch != null) {
+                            consumer.accept(ch);
                         }
                         return;
                     }
 
                     String channel = args[0];
-                    List<TextChannel> channels = event.getGuild().getTextChannelsByName(channel, true);
-                    if(channels.size() == 0) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a channel with that name!").queue();
-                    } else if(channels.size() == 1) {
-                        TextChannel ch = channels.get(0);
-                        guildData.getLogExcludedChannels().add(ch.getId());
+                    Consumer<TextChannel> consumer = textChannel -> {
+                        guildData.getLogExcludedChannels().add(textChannel.getId());
                         dbGuild.saveAsync();
-                        event.getChannel().sendMessage(EmoteReference.OK + "Added logs exception on channel: " + ch.getAsMention()).queue();
-                    } else {
-                        DiscordUtils.selectList(event, channels, ch -> String.format("%s (ID: %s)", ch.getName(), ch.getId()),
-                                s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:")
-                                        .setDescription(s).build(),
-                                ch -> {
-                                    guildData.getLogExcludedChannels().add(ch.getId());
-                                    dbGuild.saveAsync();
-                                    event.getChannel().sendMessage(EmoteReference.OK + "Added logs exception on channel: " + ch.getAsMention()).queue();
-                                });
-                    }
-                });//endregion
+                        event.getChannel().sendMessageFormat(lang.get("options.logs_exclude.success"), EmoteReference.OK, textChannel.getAsMention()).queue();
+                    };
 
-        //region disable
-        registerOption("logs:disable", "Disable logs",
+                    TextChannel ch = Utils.findChannelSelect(event, channel, consumer);
+
+                    if (ch != null) {
+                        consumer.accept(ch);
+                    }
+                });
+
+
+        registerOptionShort("logs:disable", "Disable logs",
                 "Disables logs.\n" +
                         "**Example:** `~>opts logs disable`",
-                "Disables logs.", (event) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    guildData.setGuildLogChannel(null);
-                    dbGuild.saveAsync();
-                    event.getChannel().sendMessage(EmoteReference.MEGA + "Message logging has been disabled.").queue();
-                });//endregion
-        // endregion
+                "Disables logs.", (GuildMessageReceivedEvent event, I18nContext lang) -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            guildData.setGuildLogChannel(null);
+            dbGuild.saveAsync();
+            event.getChannel().sendMessageFormat(lang.get("options.log_disable.success"), EmoteReference.MEGA).queue();
+        });
     }
 
     @Override
