@@ -16,8 +16,10 @@
 
 package net.kodehawa.mantarobot.options.core;
 
+import br.com.brjdevs.java.utils.functions.interfaces.TriConsumer;
 import lombok.Setter;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -44,6 +46,18 @@ public abstract class OptionHandler {
 
     protected void registerOption(String name, String displayName, String description, String shortDescription, OptionType type, BiConsumer<GuildMessageReceivedEvent, String[]> code) {
         Option.addOption(name, new Option(displayName, description, type).setAction(code).setShortDescription(shortDescription));
+    }
+
+    protected void registerOption(String name, String displayName, String description, BiConsumer<GuildMessageReceivedEvent, I18nContext> code) {
+        Option.addOption(name, new Option(displayName, description, type).setActionLang(code).setShortDescription(description));
+    }
+
+    protected void registerOption(String name, String displayName, String description, String shortDescription, TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> code) {
+        Option.addOption(name, new Option(displayName, description, type).setActionLang(code).setShortDescription(shortDescription));
+    }
+
+    protected void registerOption(String name, String displayName, String description, String shortDescription, OptionType type, TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> code) {
+        Option.addOption(name, new Option(displayName, description, type).setActionLang(code).setShortDescription(shortDescription));
     }
 
     public void onHelp(GuildMessageReceivedEvent event) {

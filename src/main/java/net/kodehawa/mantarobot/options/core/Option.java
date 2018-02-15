@@ -67,12 +67,17 @@ public class Option {
         return this;
     }
 
+    public Option setActionLang(BiConsumer<GuildMessageReceivedEvent, I18nContext> code) {
+        eventConsumer = (event, ignored, ctx) -> code.accept(event, ctx);
+        return this;
+    }
+
     public Option setAction(BiConsumer<GuildMessageReceivedEvent, String[]> code) {
         eventConsumer = (event, c, ignored) -> code.accept(event, c);
         return this;
     }
 
-    public Option setAction(TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> code) {
+    public Option setActionLang(TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> code) {
         eventConsumer = code;
         return this;
     }
