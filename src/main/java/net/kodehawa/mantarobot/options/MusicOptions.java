@@ -45,12 +45,12 @@ public class MusicOptions extends OptionHandler {
         registerOption("fairqueue:max", "Fair queue maximum",
                 "Sets the maximum fairqueue value (max amount of the same song any user can add).\n" +
                         "Example: `~>opts fairqueue max 5`",
-                "Sets the maximum fairqueue value.", (event, args) -> {
+                "Sets the maximum fairqueue value.", (event, args, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
 
                     if(args.length == 0) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a positive integer.").queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.fairqueue_max.invalid"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -59,29 +59,30 @@ public class MusicOptions extends OptionHandler {
                     try {
                         fq = Integer.parseInt(much);
                     } catch(Exception ex) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number").queue();
+                        event.getChannel().sendMessageFormat(lang.get("general.invalid_number"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     guildData.setMaxFairQueue(fq);
                     dbGuild.save();
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Set max fair queue size to " + fq).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.fairqueue_max.success"), EmoteReference.CORRECT, fq).queue();
                 });
 
-        registerOption("musicannounce:toggle", "Music announce toggle", "Toggles whether the bot will announce the new song playing or no.", event -> {
+        registerOption("musicannounce:toggle", "Music announce toggle", "Toggles whether the bot will announce the new song playing or no.",
+                (event, lang) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             boolean t1 = guildData.isMusicAnnounce();
 
             guildData.setMusicAnnounce(!t1);
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set music announce to " + "**" + !t1 + "**").queue();
+            event.getChannel().sendMessageFormat(lang.get("musicannounce_toggle.success"), EmoteReference.CORRECT, !t1).queue();
             dbGuild.save();
         });
 
         registerOption("music:channel", "Music VC lock",
                 "Locks the bot to a VC. You need the VC name.\n" +
                         "Example: `~>opts music channel Music`",
-                "Locks the music feature to the specified VC.", (event, args) -> {
+                "Locks the music feature to the specified VC.", (event, args, lang) -> {
                     if(args.length == 0) {
                         OptsCmd.onHelp(event);
                         return;
@@ -94,7 +95,7 @@ public class MusicOptions extends OptionHandler {
                     Consumer<VoiceChannel> consumer = voiceChannel -> {
                         guildData.setMusicChannel(voiceChannel.getId());
                         dbGuild.save();
-                        event.getChannel().sendMessage(EmoteReference.OK + "Music Channel set to: " + voiceChannel.getName()).queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.music_channel.success"), EmoteReference.OK, voiceChannel.getName()).queue();
                     };
 
                     VoiceChannel channel = Utils.findVoiceChannelSelect(event, channelName, consumer);
@@ -107,7 +108,7 @@ public class MusicOptions extends OptionHandler {
         registerOption("music:queuelimit", "Music queue limit",
                 "Sets a custom queue limit.\n" +
                         "Example: `~>opts music queuelimit 90`",
-                "Sets a custom queue limit.", (event, args) -> {
+                "Sets a custom queue limit.", (event, args, lang) -> {
                     if(args.length == 0) {
                         OptsCmd.onHelp(event);
                         return;
@@ -115,7 +116,7 @@ public class MusicOptions extends OptionHandler {
 
                     boolean isNumber = args[0].matches("^[0-9]*$");
                     if(!isNumber) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid number!").queue();
+                        event.getChannel().sendMessageFormat(lang.get("general.invalid_number"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -126,28 +127,26 @@ public class MusicOptions extends OptionHandler {
                         int applySize = finalSize >= 300 ? 300 : finalSize;
                         guildData.setMusicQueueSizeLimit((long) applySize);
                         dbGuild.save();
-                        event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "The queue limit on this server is now " +
-                                "**%d** songs.", applySize)).queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.music_queuelimit.success"), EmoteReference.MEGA, applySize).queue();
                     } catch(NumberFormatException ex) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You're trying to set too high of a number (which won't" +
-                                " be applied anyway), silly").queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.music_queuelimit.invalid"), EmoteReference.ERROR).queue();
                     }
                 });
 
-        registerOption("music:clearchannel", "Music channel clear", "Clears the specific music channel.", (event) -> {
+        registerOption("music:clearchannel", "Music channel clear", "Clears the specific music channel.", (event, lang) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             guildData.setMusicChannel(null);
             dbGuild.save();
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "I can play music on all channels now").queue();
+            event.getChannel().sendMessageFormat(lang.get("options.music_clearchannel.success"), EmoteReference.CORRECT).queue();
         });
 
-        registerOption("music:vote:toggle", "Vote toggle", "Toggles voting.", event -> {
+        registerOption("music:vote:toggle", "Vote toggle", "Toggles voting.", (event, lang) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             guildData.setMusicVote(!guildData.isMusicVote());
             dbGuild.save();
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Voting (to stop/skip) is now set to " + guildData.isMusicVote()).queue();
+            event.getChannel().sendMessageFormat(lang.get("options.music_vote_toggle.success"), EmoteReference.CORRECT, guildData.isMusicVote()).queue();
         });
     }
 

@@ -1151,6 +1151,26 @@
       "not_disabled": "%1$sThis category isn't disabled.",
       "success": "%1$sEnabled category `%2$s` for role %3$s"
     },
+    "fairqueue_max": {
+      "invalid": "%1$sYou need to specify a positive integer.",
+      "success": "%1$sSet max fair queue size to %2$d"
+    },
+    "musicannounce_toggle": {
+      "success": "%1$sSet music announce to **%2$s**"
+    },
+    "music_channel": {
+      "success": "%1$sMusic Channel set to: %2$s"
+    },
+    "music_queuelimit": {
+      "success": "%1$sThe queue limit on this server is now **%2$d** songs.",
+      "invalid": "%1$sYou're trying to set too high of a number (which won't be applied anyway), silly"
+    },
+    "music_clearchannel": {
+      "success": "%1$sI can play music on all channels now"
+    },
+    "music_vote_toggle": {
+      "success": "%1$sVoting (to stop/skip) is now set to %s"
+    },
     "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
     "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
     "no_command": "%1$sNo command called %2$s",
