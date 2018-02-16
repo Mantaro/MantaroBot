@@ -1197,6 +1197,43 @@
       "success": "%1$sAdded logs exception on channel: %s",
       "invalid": "%1$sIncorrect argument length."
     },
+    "lobby_reset": {
+      "success": "%1$sReset the lobby correctly."
+    },
+    "modlog_blacklist": {
+      "no_mentions": "%1$s**You need to specify the users to locally blacklist from mod logs.**",
+      "success": "%1$sLocally blacklisted users from mod-log: **%2$s**"
+    },
+    "modlog_whitelist": {
+      "no_mentions": "%1$s**You need to specify the users to locally whitelist from mod logs.**",
+      "success": "%1$sLocally un-blacklisted users from mod-log: **%2$s**"
+    },
+    "linkprotection_toggle": {
+      "success": "%1$sSet link protection to `%2$s`"
+    },
+    "linkprotection_channel_allow": {
+      "success": "%1$s%2$s can now be used to send discord invites."
+    },
+    "linkprotection_channel_disallow": {
+      "success": "%1$s%2$s cannot longer be used to send discord invites."
+    },
+    "linkprotection_user_allow": {
+      "no_mentions": "%1$sYou need to mention the user to whitelist from posting invites!",
+      "success": "%1$sSuccessfully whitelisted %2$s#%3$s from posting discord invites."
+    },
+    "linkprotection_user_disallow": {
+      "no_mentions": "%1$sYou need to mention the user to blacklist from posting invites!",
+      "not_whitelisted": "%1$sThis user isn't in the invite posting whitelist!",
+      "success": "%1$sSuccessfully blacklisted %s#%s from posting discord invites."
+    },
+    "imageboard_tags_blacklist_add": {
+      "no_tag": "%1$sYou need to specify at least a tag to blacklist!",
+      "success": "%1$sSuccessfully blacklisted %s from image search."
+    },
+    "imageboard_tags_blacklist_remove": {
+      "no_tag": "%1$sYou need to specify at least a tag to un-blacklist!",
+      "success": "%1$sSuccessfully un-blacklisted %2$s from image search."
+    },
     "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
     "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
     "no_command": "%1$sNo command called %2$s",

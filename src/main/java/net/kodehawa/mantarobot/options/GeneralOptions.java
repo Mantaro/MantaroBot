@@ -45,22 +45,21 @@ public class GeneralOptions extends OptionHandler {
 
     @Subscribe
     public void onRegistry(OptionRegistryEvent e) {
-        registerOption("lobby:reset", "Lobby reset", "Fixes stuck game/poll/operations session.", event -> {
+        registerOption("lobby:reset", "Lobby reset", "Fixes stuck game/poll/operations session.", (event, lang) -> {
             GameLobby.LOBBYS.remove(event.getChannel());
             Poll.getRunningPolls().remove(event.getChannel().getId());
             List<Future<Void>> stuck = InteractiveOperations.get(event.getChannel());
             if(stuck.size() > 0) stuck.forEach(f->f.cancel(true));
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Reset the lobby correctly.").queue();
+            event.getChannel().sendMessageFormat(lang.get("options.lobby_reset.success"), EmoteReference.CORRECT).queue();
         });
 
-        registerOption("modlog:blacklist", "Modlog blacklist",
+        registerOption("modlog:blacklist", "Prevents an user from appearing in modlogs",
                 "Prevents an user from appearing in modlogs.\n" +
                         "You need the user mention.\n" +
-                        "Example: ~>opts modlog blacklist @user",
-                "Prevents an user from appearing in modlogs", event -> {
+                        "Example: ~>opts modlog blacklist @user", (event, lang) -> {
             List<User> mentioned = event.getMessage().getMentionedUsers();
             if(mentioned.isEmpty()) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally blacklist from mod logs.**").queue();
+                event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklist.no_mentions"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -73,17 +72,16 @@ public class GeneralOptions extends OptionHandler {
             guildData.getModlogBlacklistedPeople().addAll(toBlackList);
             dbGuild.save();
 
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally blacklisted users from mod-log: **" + blacklisted + "**").queue();
+            event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklist.success"), EmoteReference.CORRECT, blacklisted).queue();
         });
 
-        registerOption("modlog:whitelist", "Modlog whitelist",
+        registerOption("modlog:whitelist", "Allows an user from appearing in modlogs (everyone by default)",
                 "Allows an user from appearing in modlogs.\n" +
                         "You need the user mention.\n" +
-                        "Example: ~>opts modlog whitelist @user",
-                "Allows an user from appearing in modlogs (everyone by default)", event -> {
+                        "Example: ~>opts modlog whitelist @user", (event, lang) -> {
             List<User> mentioned = event.getMessage().getMentionedUsers();
             if(mentioned.isEmpty()) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally whitelist from mod logs.**").queue();
+                event.getChannel().sendMessageFormat(lang.get("options.modlog_whitelist.no_mentions"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -96,16 +94,16 @@ public class GeneralOptions extends OptionHandler {
             guildData.getModlogBlacklistedPeople().removeAll(toUnBlacklist);
             dbGuild.save();
 
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally un-blacklisted users from mod-log: **" + unBlacklisted + "**").queue();
+            event.getChannel().sendMessageFormat(lang.get("options.modlog_whitelist.success"), EmoteReference.CORRECT, unBlacklisted).queue();
         });
 
-        registerOption("linkprotection:toggle", "Link-protection toggle", "Toggles anti-link protection.", event -> {
+        registerOption("linkprotection:toggle", "Link-protection toggle", "Toggles anti-link protection.", (event, lang) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             boolean toggler = guildData.isLinkProtection();
 
             guildData.setLinkProtection(!toggler);
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set link protection to " + "`" + !toggler + "`").queue();
+            event.getChannel().sendMessageFormat(lang.get("options.linkprotection_toggle.success"), EmoteReference.CORRECT, !toggler).queue();
             dbGuild.save();
         });
 
@@ -113,7 +111,7 @@ public class GeneralOptions extends OptionHandler {
                 "Allows the posting of invites on a channel.\n" +
                         "You need the channel name.\n" +
                         "Example: ~>opts linkprotection channel allow promote-here",
-                "Allows the posting of invites on a channel.", (event, args) -> {
+                "Allows the posting of invites on a channel.", (event, args, lang) -> {
             if(args.length == 0) {
                 OptsCmd.onHelp(event);
                 return;
@@ -126,7 +124,7 @@ public class GeneralOptions extends OptionHandler {
             Consumer<TextChannel> consumer = tc -> {
                 guildData.getLinkProtectionAllowedChannels().add(tc.getId());
                 dbGuild.save();
-                event.getChannel().sendMessage(EmoteReference.OK + tc.getAsMention() + " can now be used to send discord invites.").queue();
+                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_allow.success"), EmoteReference.OK, tc.getAsMention()).queue();
             };
 
             TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
@@ -140,7 +138,7 @@ public class GeneralOptions extends OptionHandler {
                 "Disallows the posting of invites on a channel.\n" +
                         "You need the channel name.\n" +
                         "Example: ~>opts linkprotection channel disallow general",
-                "Disallows the posting of invites on a channel (every channel by default)", (event, args) -> {
+                "Disallows the posting of invites on a channel (every channel by default)", (event, args, lang) -> {
             if(args.length == 0) {
                 OptsCmd.onHelp(event);
                 return;
@@ -153,7 +151,7 @@ public class GeneralOptions extends OptionHandler {
             Consumer<TextChannel> consumer = tc -> {
                 guildData.getLinkProtectionAllowedChannels().remove(tc.getId());
                 dbGuild.save();
-                event.getChannel().sendMessage(EmoteReference.OK + tc.getAsMention() + " cannot longer be used to send discord invites.").queue();
+                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_disallow.success"), EmoteReference.OK, tc.getAsMention()).queue();
             };
 
             TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
@@ -164,7 +162,7 @@ public class GeneralOptions extends OptionHandler {
         });
 
         registerOption("linkprotection:user:allow", "Link-protection user whitelist", "Allows an user to post invites.\n" +
-                "You need to mention the user.", "Allows an user to post invites.", (event, args) -> {
+                "You need to mention the user.", "Allows an user to post invites.", (event, args, lang) -> {
             if(args.length == 0) {
                 OptsCmd.onHelp(event);
                 return;
@@ -174,18 +172,20 @@ public class GeneralOptions extends OptionHandler {
             GuildData guildData = dbGuild.getData();
 
             if(event.getMessage().getMentionedUsers().isEmpty()) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention the user to whitelist from posting invites!").queue();
+                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_allow.no_mentions"), EmoteReference.ERROR).queue();
                 return;
             }
 
             User toWhiteList = event.getMessage().getMentionedUsers().get(0);
             guildData.getLinkProtectionAllowedUsers().add(toWhiteList.getId());
             dbGuild.save();
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully whitelisted " + toWhiteList.getName() + "#" + toWhiteList.getDiscriminator() + " from posting discord invites.").queue();
+            event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_allow.success"),
+                    EmoteReference.CORRECT, toWhiteList.getName(), toWhiteList.getDiscriminator()
+            ).queue();
         });
 
         registerOption("linkprotection:user:disallow", "Link-protection user blacklist", "Disallows an user to post invites.\n" +
-                "You need to mention the user. (This is the default behaviour)", "Allows an user to post invites (This is the default behaviour)", (event, args) -> {
+                "You need to mention the user. (This is the default behaviour)", "Allows an user to post invites (This is the default behaviour)", (event, args, lang) -> {
             if(args.length == 0) {
                 OptsCmd.onHelp(event);
                 return;
@@ -195,26 +195,28 @@ public class GeneralOptions extends OptionHandler {
             GuildData guildData = dbGuild.getData();
 
             if(event.getMessage().getMentionedUsers().isEmpty()) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention the user to blacklist from posting invites!").queue();
+                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_disallow.no_mentions"), EmoteReference.ERROR).queue();
                 return;
             }
 
             User toBlackList = event.getMessage().getMentionedUsers().get(0);
 
             if(!guildData.getLinkProtectionAllowedUsers().contains(toBlackList.getId())) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "This user isn't in the invite posting whitelist!").queue();
+                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_disallow.not_whitelisted"), EmoteReference.ERROR).queue();
                 return;
             }
 
             guildData.getLinkProtectionAllowedUsers().remove(toBlackList.getId());
             dbGuild.save();
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully blacklisted " + toBlackList.getName() + "#" + toBlackList.getDiscriminator() + " from posting discord invites.").queue();
+            event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_disallow.success"),
+                    EmoteReference.CORRECT, toBlackList.getName(), toBlackList.getDiscriminator()
+            ).queue();
         });
 
         registerOption("imageboard:tags:blacklist:add", "Blacklist imageboard tags", "Blacklists the specified imageboard tag from being looked up.",
-                "Blacklist imageboard tags", (event, args) -> {
+                "Blacklist imageboard tags", (event, args, lang) -> {
             if(args.length == 0) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify at least a tag to blacklist!").queue();
+                event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_add.no_tag"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -226,13 +228,15 @@ public class GeneralOptions extends OptionHandler {
             }
 
             dbGuild.saveAsync();
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully blacklisted " + String.join(" ,", args) + " from image search.").queue();
+            event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_add.success"),
+                    EmoteReference.CORRECT, String.join(" ,", args)
+            ).queue();
         });
 
         registerOption("imageboard:tags:blacklist:remove", "Un-blacklist imageboard tags", "Un-blacklist the specified imageboard tag from being looked up.",
-                "Un-blacklist imageboard tags", (event, args) -> {
+                "Un-blacklist imageboard tags", (event, args, lang) -> {
             if(args.length == 0) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify at least a tag to un-blacklist!").queue();
+                event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_remove.no_tag"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -244,7 +248,9 @@ public class GeneralOptions extends OptionHandler {
             }
 
             dbGuild.saveAsync();
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully un-blacklisted " + String.join(" ,", args) + " from image search.").queue();
+            event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_remove.success"),
+                    EmoteReference.CORRECT, String.join(" ,", args)
+            ).queue();
         });
     }
 
