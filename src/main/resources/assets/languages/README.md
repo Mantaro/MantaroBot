@@ -33,8 +33,9 @@
    + If you're unsure what a parameter is, you can try using the command or contact MrLar 🌺#0611 or Kodehawa#3457.
    + For languages that are read backwards (compared to english), the %\<number\>$s-alike parameters can be moved to accomodate your language reading. You can contact MrLar 🌺#0611 or Kodehawa#3457 on Discord if you're lost.
    
-
- - Once done, save the file and go back to your Github desktop client.
+ - After you are done, send the changed file to Kodehawa#3457 or MrLar 🌺#0611 on Discord for review (Please include a message on why you are sending it, aswell as the langauge you translated to).
+ 
+ - Once reviewed and being given the ok, go back to your Github desktop client.
 
  - You'll see changes made. UNTICK everything thats not your langauge file (or the README incase you edited the table below).
 
