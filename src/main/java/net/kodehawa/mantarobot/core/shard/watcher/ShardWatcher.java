@@ -164,6 +164,8 @@ public class ShardWatcher implements Runnable {
                                 }
                             }, 20, TimeUnit.SECONDS);
                         } catch(Exception e) {
+                            //Force add into the queue
+                            RESUME_WAITER.schedule(() -> RESTART_QUEUE.add(MantaroBot.getInstance().getShard(id)), 30, TimeUnit.SECONDS);
                             //Somehow we couldn't reboot the shard.
                             LogUtils.shard(String.format("Cannot restart shard %d. Try to do it manually.", id));
                             //Print the exception so we can look at it later...
