@@ -84,7 +84,8 @@ public class ShardWatcher implements Runnable {
 
                 //Alert us, plz no panic
                 LogUtils.shard(
-                        String.format("(Resume request failed) Dead shard? Starting automatic shard restart on shard #%d due to it being inactive for longer than 30 seconds.", shard.getId())
+                        String.format("(Resume request failed or errored) " +
+                                "Dead shard? Starting automatic shard restart on shard #%d due to it being inactive for longer than 30 seconds.", shard.getId())
                 );
 
                 try {

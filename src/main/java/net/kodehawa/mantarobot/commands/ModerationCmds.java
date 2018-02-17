@@ -111,9 +111,11 @@ public class ModerationCmds {
 
                     //Proceed to ban them. Again, using queue so I don't get rate limited.
                     guild.getController().ban(member, 7).reason(finalReason).queue(
-                            success -> {
-                                user.openPrivateChannel().complete().sendMessage(String.format("%sYou were **softbanned** by %s#%s for reason %s on server **%s**.",
-                                        EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), finalReason, event.getGuild().getName())).queue();
+                            success -> user.openPrivateChannel().queue(privateChannel -> {
+                                if(!user.isBot()) {
+                                    privateChannel.sendMessage(String.format("%sYou were **softbanned** by %s#%s for reason %s on server **%s**.",
+                                            EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), finalReason, event.getGuild().getName())).queue();
+                                }
                                 db.getData().setCases(db.getData().getCases() + 1);
                                 db.saveAsync();
                                 channel.sendMessage(String.format("%s%s. **(%s got softbanned)**", EmoteReference.ZAP, modActionQuotes[r.nextInt(modActionQuotes.length)], member.getEffectiveName())).queue();
@@ -129,10 +131,9 @@ public class ModerationCmds {
                                     }
                                 });
 
-
                                 ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.KICK, db.getData().getCases());
                                 TextChannelGround.of(event).dropItemWithChance(2, 2);
-                            },
+                            }),
                             error -> {
                                 if(error instanceof PermissionException) {
                                     channel.sendMessage(String.format(EmoteReference.ERROR + "Error softbanning %s: (No permission provided: %s)",
@@ -216,15 +217,17 @@ public class ModerationCmds {
                     final DBGuild db = MantaroData.db().getGuild(event.getGuild());
 
                     guild.getController().ban(member, 7).reason(finalReason).queue(
-                            success -> {
-                                user.openPrivateChannel().complete().sendMessage(String.format("%sYou were **banned** by %s#%s on server **%s**. Reason: %s.",
-                                        EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), event.getGuild().getName(), finalReason)).queue();
+                            success -> user.openPrivateChannel().queue(privateChannel -> {
+                                if(!user.isBot()) {
+                                    privateChannel.sendMessage(String.format("%sYou were **banned** by %s#%s on server **%s**. Reason: %s.",
+                                            EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), event.getGuild().getName(), finalReason)).queue();
+                                }
                                 db.getData().setCases(db.getData().getCases() + 1);
                                 db.saveAsync();
                                 channel.sendMessage(String.format("%s%s (%s got banned)", EmoteReference.ZAP, modActionQuotes[r.nextInt(modActionQuotes.length)], user.getName())).queue();
                                 ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.BAN, db.getData().getCases());
                                 TextChannelGround.of(event).dropItemWithChance(1, 2);
-                            },
+                            }),
                             error ->
                             {
                                 if(error instanceof PermissionException) {
@@ -314,8 +317,8 @@ public class ModerationCmds {
                     guild.getController().kick(member).reason(finalReason).queue(
                             success -> {
                                 if(!user.isBot()) {
-                                    user.openPrivateChannel().complete().sendMessage(String.format("%sYou were **kicked** by %s#%s with reason: %s on server **%s**.",
-                                            EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), finalReason, event.getGuild().getName())).queue();
+                                    user.openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(String.format("%sYou were **kicked** by %s#%s with reason: %s on server **%s**.",
+                                            EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), finalReason, event.getGuild().getName())).queue());
                                 }
                                 db.getData().setCases(db.getData().getCases() + 1);
                                 db.saveAsync();
@@ -395,9 +398,11 @@ public class ModerationCmds {
                 String sTime = StringUtils.parseTime(l);
                 receivedMessage.getMentionedUsers().forEach(user ->
                         guild.getController().ban(user, 7).queue(
-                                success -> {
-                                    user.openPrivateChannel().complete().sendMessage(String.format("%sYou were **temporarily banned** by %s#%s with reason: %s on server **%s**.",
-                                            EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), finalReason, event.getGuild().getName())).queue();
+                                success -> user.openPrivateChannel().queue(privateChannel -> {
+                                    if(!user.isBot()) {
+                                        privateChannel.sendMessage(String.format("%sYou were **temporarily banned** by %s#%s with reason: %s on server **%s**.",
+                                                EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), finalReason, event.getGuild().getName())).queue();
+                                    }
 
                                     db.getData().setCases(db.getData().getCases() + 1);
                                     db.saveAsync();
@@ -407,7 +412,7 @@ public class ModerationCmds {
                                     ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.TEMP_BAN, db.getData().getCases(), sTime);
                                     MantaroBot.getTempBanManager().addTempban(guild.getId() + ":" + user.getId(), l + System.currentTimeMillis());
                                     TextChannelGround.of(event).dropItemWithChance(1, 2);
-                                },
+                                }),
                                 error ->
                                 {
                                     if(error instanceof PermissionException) {
