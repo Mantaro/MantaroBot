@@ -166,6 +166,8 @@ public class ShardWatcher implements Runnable {
                         } catch(Exception e) {
                             //Somehow we couldn't reboot the shard.
                             LogUtils.shard(String.format("Cannot restart shard %d. Try to do it manually.", id));
+                            //Print the exception so we can look at it later...
+                            e.printStackTrace();
                         }
                     }
                 } else {
