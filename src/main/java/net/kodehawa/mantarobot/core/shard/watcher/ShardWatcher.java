@@ -84,7 +84,8 @@ public class ShardWatcher implements Runnable {
 
                 //Alert us, plz no panic
                 LogUtils.shard(
-                        String.format("(Resume request failed) Dead shard? Starting automatic shard restart on shard #%d due to it being inactive for longer than 30 seconds.", shard.getId())
+                        String.format("(Resume request failed or errored) " +
+                                "Dead shard? Starting automatic shard restart on shard #%d due to it being inactive for longer than 30 seconds.", shard.getId())
                 );
 
                 try {
@@ -164,12 +165,12 @@ public class ShardWatcher implements Runnable {
                                 }
                             }, 20, TimeUnit.SECONDS);
                         } catch(Exception e) {
+                            //Print the exception so we can look at it later...
+                            e.printStackTrace();
                             //Force add into the queue
                             RESUME_WAITER.schedule(() -> RESTART_QUEUE.add(MantaroBot.getInstance().getShard(id)), 30, TimeUnit.SECONDS);
                             //Somehow we couldn't reboot the shard.
                             LogUtils.shard(String.format("Cannot restart shard %d. Try to do it manually.", id));
-                            //Print the exception so we can look at it later...
-                            e.printStackTrace();
                         }
                     }
                 } else {
