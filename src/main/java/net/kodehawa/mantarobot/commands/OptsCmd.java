@@ -179,10 +179,8 @@ public class OptsCmd {
                     }
 
                     StringBuilder show = new StringBuilder();
-                    show.append(lang.get("options.check_data.header"))
-                            .append(" **")
-                            .append(event.getGuild().getName())
-                            .append("**\n\n");
+                    show.append(String.format(lang.get("options.check_data.header"), event.getGuild().getName()))
+                            .append("\n\n");
 
                     AtomicInteger ai = new AtomicInteger();
 
@@ -203,6 +201,7 @@ public class OptsCmd {
                         } else {
                             show.append(" **")
                                     .append(lang.get("options.check_data.set_to"))
+                                    .append(" ")
                                     .append(e.getValue())
                                     .append("**\n");
                         }
