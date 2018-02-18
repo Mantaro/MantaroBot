@@ -1342,6 +1342,25 @@
     "levelupmessages_channel_set": {
       "success": "%1$sThe level-up channel has been set to: %2$s"
     },
+    "defaultmutetimeout_set": {
+      "not_specified": "%1$sYou have to specify a timeout in the format of 1m20s, for example.",
+      "wrong_format": "%1$sWrong time format. You have to specify a timeout in the format of 1m20s, for example.",
+      "too_long": "%1$sThe time specified is too long...",
+      "negative_notice": "You cannot mute someone for negative time!",
+      "success": "%1$sSuccessfully set mod action timeout to `%2$s` (%3$dms)"
+    },
+    "defaultmutetimeout_reset": {
+      "success": "%1$sSuccessfully reset timeout."
+    },
+    "muterole_unbind": {
+      "success": "%1$sCorrectly reset the mute role."
+    },
+    "muterole_set": {
+      "success": "%1$sSet mute role to **%s**"
+    },
+    "reset:all": {
+      "success": "%1$sCorrectly reset your options!"
+    },
     "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
     "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
     "no_command": "%1$sNo command called %2$s",

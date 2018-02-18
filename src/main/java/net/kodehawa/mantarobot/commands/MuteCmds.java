@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 @Module
@@ -195,14 +196,14 @@ public class MuteCmds {
                         "This command will set the timeout of ~>mute to a fixed value **unless you specify another time in the command**\n" +
                         "**Example:** `~>opts defaultmutetimeout set 1m20s`\n" +
                         "**Considerations:** Time is in 1m20s or 1h10m3s format, for example.", OptionType.GUILD)
-                .setAction(((event, args) -> {
+                .setActionLang((event, args, lang) -> {
                     if(args.length == 0) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You have to specify a timeout in the format of 1m20s, for example.").queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.defaultmutetimeout_set.not_specified"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(!(args[0]).matches("(?:(\\d+)h)?(?:(\\d+)m)?(?:(\\d+)s)?")) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong time format. You have to specify a timeout in the format of 1m20s, for example.").queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.defaultmutetimeout_set.wrong_format"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -211,12 +212,12 @@ public class MuteCmds {
                     long time = System.currentTimeMillis() + timeoutToSet;
 
                     if(time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Too long...").queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.defaultmutetimeout_set.too_long"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(time < 0) {
-                        event.getChannel().sendMessage("You cannot mute someone for negative time!").queue();
+                        event.getChannel().sendMessage(lang.get("options.defaultmutetimeout_set.negative_notice")).queue();
                         return;
                     }
 
@@ -225,27 +226,27 @@ public class MuteCmds {
                     guildData.setSetModTimeout(timeoutToSet);
                     dbGuild.save();
 
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully set mod action timeout to `" + args[0] + "` (" + timeoutToSet + "ms)").queue();
-                })).setShortDescription("Sets the default timeout for the ~>mute command"));
+                    event.getChannel().sendMessageFormat(lang.get("options.defaultmutetimeout_set.success"), EmoteReference.CORRECT, args[0], timeoutToSet).queue();
+                }).setShortDescription("Sets the default timeout for the ~>mute command"));
 
 
                 mute.addOption("defaultmutetimeout:reset", new Option("Default mute timeout reset",
                         "Resets the default mute timeout which was set previously with `defaultmusictimeout set`", OptionType.GUILD)
-                        .setAction((event -> {
+                        .setActionLang((event, lang) -> {
                             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                             GuildData guildData = dbGuild.getData();
 
                             guildData.setSetModTimeout(0L);
                             dbGuild.save();
 
-                            event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset timeout.").queue();
-                        })).setShortDescription("Resets the default mute timeout."));
+                            event.getChannel().sendMessageFormat(lang.get("options.defaultmutetimeout_reset.success"), EmoteReference.CORRECT).queue();
+                        }).setShortDescription("Resets the default mute timeout."));
 
                 mute.addOption("muterole:set", new Option("Mute role set",
                         "Sets this guilds mute role to apply on the ~>mute command.\n" +
                                 "To use this command you need to specify a role name. *In case the name contains spaces, the name should" +
                                 " be wrapped in quotation marks", OptionType.COMMAND)
-                        .setAction((event, args) -> {
+                        .setActionLang((event, args, lang) -> {
                             if(args.length < 1) {
                                 OptsCmd.onHelp(event);
                                 return;
@@ -255,33 +256,26 @@ public class MuteCmds {
                             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                             GuildData guildData = dbGuild.getData();
 
-                            List<Role> roleList = event.getGuild().getRolesByName(roleName, true);
-                            if(roleList.size() == 0) {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a role with that name!").queue();
-                            } else if(roleList.size() == 1) {
-                                Role role = roleList.get(0);
+                            Consumer<Role> consumer = (role) -> {
                                 guildData.setMutedRole(role.getId());
                                 dbGuild.saveAsync();
-                                event.getChannel().sendMessage(EmoteReference.OK + "Set mute role to **" + roleName + "**").queue();
-                            } else {
-                                DiscordUtils.selectList(event, roleList, role -> String.format("%s (ID: %s)  | Position: %s", role.getName(),
-                                        role.getId(), role.getPosition()), s -> OptsCmd.getOpts().baseEmbed(event, "Select the Mute Role:")
-                                                .setDescription(s).build(),
-                                        role -> {
-                                            guildData.setMutedRole(role.getId());
-                                            dbGuild.saveAsync();
-                                            event.getChannel().sendMessage(EmoteReference.OK + "Set mute role to **" + roleName + "**").queue();
-                                        });
+                                event.getChannel().sendMessageFormat(lang.get("options.muterole_set.success"), EmoteReference.OK, roleName).queue();
+                            };
+
+                            Role role = Utils.findRoleSelect(event, roleName, consumer);
+
+                            if(role != null) {
+                                consumer.accept(role);
                             }
                         }).setShortDescription("Sets this guilds mute role to apply on the ~>mute command"));
 
                 mute.addOption("muterole:unbind", new Option("Mute Role unbind", "Resets the current value set for the mute role", OptionType.GENERAL)
-                        .setAction(event -> {
+                        .setActionLang((event, lang) -> {
                             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                             GuildData guildData = dbGuild.getData();
                             guildData.setMutedRole(null);
                             dbGuild.saveAsync();
-                            event.getChannel().sendMessage(EmoteReference.OK + "Correctly reset the mute role.").queue();
+                            event.getChannel().sendMessageFormat(lang.get("options.muterole_unbind.success"), EmoteReference.OK).queue();
                         }).setShortDescription("Resets the current value set for the mute role."));
     }
 
