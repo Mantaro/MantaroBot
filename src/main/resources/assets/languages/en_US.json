@@ -23,7 +23,7 @@
     "description": "Description",
     "options": "Options",
     "find_members_failure": "%1$sDidn't find any member with your search criteria :(",
-    "too_many_members": "%1$sToo many members found, maybe refine your search? (ex. use name#discriminator)\n%**Members found:** %2$s",
+    "too_many_members": "%1$sToo many members found, maybe refine your search? (ex. use name#discriminator)\n**Members found:** %2$s",
     "dust": "There's only dust here.",
     "invalid_syntax": "Invalid syntax.",
     "item_lookup": {
@@ -36,7 +36,7 @@
     "invalid_action": "You cannot do that, silly.",
     "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel.",
     "buy_sell_paged_react": "**Total pages: %1$d.**\nUse the message reactions to move between pages.\n%2$s",
-    "buy_sell_paged_text": "**Total pages: %1$d.**\nUse **&p>>** and **&p <<** to move across pages.\n%2$s",
+    "buy_sell_paged_text": "**Total pages: %1$d.**\nUse **&p >>** and **&p <<** to move across pages.\n%2$s",
     "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**"
   },
   "commands": {
