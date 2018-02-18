@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.kodehawa.mantarobot.commands.OptsCmd;
@@ -78,7 +77,7 @@ public class GuildOptions extends OptionHandler {
         registerOption("birthday:enable", "Birthday Monitoring enable",
                 "Enables birthday monitoring. You need the channel **name** and the role name (it assigns that role on birthday)\n" +
                         "**Example:** `~>opts birthday enable general Birthday`, `~>opts birthday enable general \"Happy Birthday\"`",
-                "Enables birthday monitoring.", (event, args) -> {
+                "Enables birthday monitoring.", (event, args, lang) -> {
                     if (args.length < 2) {
                         OptsCmd.onHelp(event);
                         return;
@@ -100,22 +99,21 @@ public class GuildOptions extends OptionHandler {
                         Role roleObj = event.getGuild().getRolesByName(role.replace(channelId, ""), true).get(0);
 
                         if (roleObj.isPublicRole()) {
-                            event.getChannel().sendMessageFormat("%sYou cannot set the everyone role as a birthday role! " +
-                                    "Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.", EmoteReference.ERROR).queue();
+                            event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.public_role"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         if (guildData.getGuildAutoRole() != null && roleObj.getId().equals(guildData.getGuildAutoRole())) {
-                            event.getChannel().sendMessageFormat("%sYou cannot set the autorole role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.", EmoteReference.ERROR).queue();
+                            event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.autorole"), EmoteReference.ERROR).queue();
                             return;
                         }
 
-                        event.getChannel().sendMessage(EmoteReference.WARNING + "Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.\n" +
-                                "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users.\n" +
-                                "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and unassigns it when the birthday day has passed. " +
-                                "**This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!\n" +
-                                "If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.\n\n" +
-                                "Type **yes** if you agree to set the role " + roleObj.getName() + " as a birthday role, and **no** to cancel. This timeouts in 45 seconds.").queue();
+                        event.getChannel().sendMessageFormat(
+                                String.join("\n", lang.get("options.birthday_enable.warning"),
+                                        lang.get("options.birthday_enable.warning_1"),
+                                        lang.get("options.birthday_enable.warning_2"),
+                                        lang.get("options.birthday_enable.warning_3")), EmoteReference.WARNING, roleObj.getName()
+                        ).queue();
                         InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 45, interactiveEvent -> {
                             String content = interactiveEvent.getMessage().getContentRaw();
                             if (content.equalsIgnoreCase("yes")) {
@@ -123,13 +121,12 @@ public class GuildOptions extends OptionHandler {
                                 guildData.setBirthdayChannel(channelId);
                                 guildData.setBirthdayRole(roleId);
                                 dbGuild.saveAsync();
-                                event.getChannel().sendMessage(
-                                        String.format(String.format("%sBirthday logging enabled on this server with parameters -> Channel: `%%s (%%s)` and role: `%%s (%%s)`", EmoteReference.MEGA),
+                                event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.success"), EmoteReference.MEGA,
                                                 channelObj.getAsMention(), channelId, role, roleId
-                                        )).queue();
+                                        ).queue();
                                 return Operation.COMPLETED;
                             } else if (content.equalsIgnoreCase("no")) {
-                                interactiveEvent.getChannel().sendMessageFormat("%sCancelled request.", EmoteReference.CORRECT).queue();
+                                interactiveEvent.getChannel().sendMessageFormat(lang.get("general.cancelled"), EmoteReference.CORRECT).queue();
                                 return Operation.COMPLETED;
                             }
 
@@ -138,22 +135,23 @@ public class GuildOptions extends OptionHandler {
 
                     } catch (Exception ex) {
                         if (ex instanceof IndexOutOfBoundsException) {
-                            event.getChannel().sendMessageFormat("%sI didn't find a channel or role!\n " +
-                                    "**Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".**", EmoteReference.ERROR).queue();
+                            event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.error_channel_1") + "\n" + lang.get("options.birthday_enable.error_channel_2"),
+                                    EmoteReference.ERROR
+                            ).queue();
                             return;
                         }
-                        event.getChannel().sendMessageFormat("%sYou supplied invalid arguments for this command %s", EmoteReference.ERROR, EmoteReference.SAD).queue();
+                        event.getChannel().sendMessage(lang.get("general.invalid_syntax")).queue();
                         OptsCmd.onHelp(event);
                     }
                 });
 
-        registerOption("birthday:disable", "Birthday disable", "Disables birthday monitoring.", (event) -> {
+        registerOption("birthday:disable", "Birthday disable", "Disables birthday monitoring.", (event, lang) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             guildData.setBirthdayChannel(null);
             guildData.setBirthdayRole(null);
             dbGuild.saveAsync();
-            event.getChannel().sendMessageFormat("%sBirthday logging has been disabled on this server", EmoteReference.MEGA).queue();
+            event.getChannel().sendMessageFormat(lang.get("options.birthday_disable.success"), EmoteReference.MEGA).queue();
         });
         //endregion
 
@@ -162,7 +160,7 @@ public class GuildOptions extends OptionHandler {
         registerOption("prefix:set", "Prefix set",
                 "Sets the server prefix.\n" +
                         "**Example:** `~>opts prefix set .`",
-                "Sets the server prefix.", (event, args) -> {
+                "Sets the server prefix.", (event, args, lang) -> {
                     if (args.length < 1) {
                         onHelp(event);
                         return;
@@ -170,12 +168,12 @@ public class GuildOptions extends OptionHandler {
                     String prefix = args[0];
 
                     if (prefix.length() > 50) {
-                        event.getChannel().sendMessageFormat("%sDon't you think that's a bit too long? ", EmoteReference.ERROR).queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.prefix_set.too_long"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if (prefix.isEmpty()) {
-                        event.getChannel().sendMessageFormat("%sCannot set the guild prefix to nothing...", EmoteReference.ERROR).queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.prefix_set.empty_prefix"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -183,19 +181,18 @@ public class GuildOptions extends OptionHandler {
                     GuildData guildData = dbGuild.getData();
                     guildData.setGuildCustomPrefix(prefix);
                     dbGuild.save();
-                    event.getChannel().sendMessageFormat("%sYour server's custom prefix has been set to %s", EmoteReference.MEGA, prefix).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.prefix_set.success"), EmoteReference.MEGA, prefix).queue();
                 });//endregion
 
         //region clear
         registerOption("prefix:clear", "Prefix clear",
                 "Clear the server prefix.\n" +
-                        "**Example:** `~>opts prefix clear`",
-                "Resets the server prefix.", (event) -> {
+                        "**Example:** `~>opts prefix clear`", (event, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
                     guildData.setGuildCustomPrefix(null);
                     dbGuild.save();
-                    event.getChannel().sendMessageFormat("%sYour server's custom prefix has been disabled", EmoteReference.MEGA).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.prefix_clear.success"), EmoteReference.MEGA).queue();
                 });//endregion
         // endregion
 
@@ -205,7 +202,7 @@ public class GuildOptions extends OptionHandler {
                 "Sets the server autorole. This means every user who joins will get this role. **You need to use the role name, if it contains spaces" +
                         " you need to wrap it in quotation marks**\n" +
                         "**Example:** `~>opts autorole set Member`, `~>opts autorole set \"Magic Role\"`",
-                "Sets the server autorole.", (event, args) -> {
+                "Sets the server autorole.", (event, args, lang) -> {
                     if (args.length == 0) {
                         onHelp(event);
                         return;
@@ -214,56 +211,41 @@ public class GuildOptions extends OptionHandler {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
 
-                    String name = args[0];
-                    List<Role> roles = event.getGuild().getRolesByName(name, true);
-
-                    if (roles.isEmpty()) {
-                        event.getChannel().sendMessageFormat("%sI couldn't find a role with that name", EmoteReference.ERROR).queue();
-                        return;
-                    }
-
-                    if (roles.size() <= 1) {
-                        if (!event.getMember().canInteract(roles.get(0))) {
-                            event.getChannel().sendMessageFormat("%sThis role is placed higher than your highest role, therefore you cannot put it as autorole!", EmoteReference.ERROR).queue();
+                    Consumer<Role> consumer = (role) -> {
+                        if (!event.getMember().canInteract(role)) {
+                            event.getChannel().sendMessageFormat(lang.get("options.autorole_set.hierarchy_conflict"), EmoteReference.ERROR).queue();
                             return;
                         }
 
-                        guildData.setGuildAutoRole(roles.get(0).getId());
+                        if(!event.getGuild().getSelfMember().canInteract(role)) {
+                            event.getChannel().sendMessageFormat(lang.get("options.autorole_set.self_hierarchy_conflict"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
+                        guildData.setGuildAutoRole(role.getId());
                         dbGuild.saveAsync();
-                        event.getChannel().sendMessageFormat("%sThe server autorole is now set to: **%s** (Position: %d)", EmoteReference.CORRECT, roles.get
-                                (0).getName(), roles.get(0).getPosition()).queue();
-                        return;
+                        event.getChannel().sendMessageFormat(lang.get("options.autorole_set.success"), EmoteReference.CORRECT,
+                                role.getName(), role.getPosition()
+                        ).queue();
+                    };
+
+                    Role role = Utils.findRoleSelect(event, String.join(" ", args), consumer);
+                    
+                    if(role != null) {
+                        consumer.accept(role);
                     }
-
-                    event.getChannel().sendMessage(new EmbedBuilder().setTitle("Selection", null).setDescription("").build
-                            ()).queue();
-
-                    DiscordUtils.selectList(event, roles,
-                            role -> String.format("%s (ID: %s)  | Position: %s", role.getName(), role.getId(), role.getPosition()),
-                            s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Role:").setDescription(s).build(),
-                            role -> {
-                                if (!event.getMember().canInteract(role)) {
-                                    event.getChannel().sendMessageFormat("%sThis role is placed higher than your highest role, therefore you cannot put it as autorole!", EmoteReference.ERROR).queue();
-                                    return;
-                                }
-
-                                guildData.setGuildAutoRole(role.getId());
-                                dbGuild.saveAsync();
-                                event.getChannel().sendMessageFormat("%sThe server autorole is now set to role: **%s** (Position: %d)", EmoteReference.OK, role.getName(), role.getPosition()).queue();
-                            }
-                    );
                 });//endregion
 
         //region unbind
         registerOption("autorole:unbind", "Autorole clear",
                 "Clear the server autorole.\n" +
                         "**Example:** `~>opts autorole unbind`",
-                "Resets the servers autorole.", (event) -> {
+                "Resets the servers autorole.", (event, args, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
                     guildData.setGuildAutoRole(null);
                     dbGuild.saveAsync();
-                    event.getChannel().sendMessageFormat("%sThe autorole for this server has been removed.", EmoteReference.OK).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.autorole_unbind.success"), EmoteReference.OK).queue();
                 });//endregion
         //endregion
 
@@ -272,27 +254,27 @@ public class GuildOptions extends OptionHandler {
         registerOption("usermessage:resetchannel", "Reset message channel",
                 "Clears the join/leave message channel.\n" +
                         "**Example:** `~>opts usermessage resetchannel`",
-                "Clears the join/leave message channel.", (event) -> {
+                "Clears the join/leave message channel.", (event, args, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
                     guildData.setLogJoinLeaveChannel(null);
                     guildData.setLogLeaveChannel(null);
                     guildData.setLogJoinChannel(null);
                     dbGuild.save();
-                    event.getChannel().sendMessageFormat("%sSucessfully reset the join/leave channel.", EmoteReference.CORRECT).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.usermessage_resetchannel.success"), EmoteReference.CORRECT).queue();
                 });//endregion
 
         //region resetdata
         registerOption("usermessage:resetdata", "Reset join/leave message data",
                 "Resets the join/leave message data.\n" +
                         "**Example:** `~>opts usermessage resetdata`",
-                "Resets the join/leave message data.", (event) -> {
+                "Resets the join/leave message data.", (event, args, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
                     guildData.setLeaveMessage(null);
                     guildData.setJoinMessage(null);
                     dbGuild.save();
-                    event.getChannel().sendMessageFormat("%sSucessfully reset the join/leave message.", EmoteReference.CORRECT).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.usermessage_resetdata.success"), EmoteReference.CORRECT).queue();
                 });
         //endregion
 
@@ -300,7 +282,7 @@ public class GuildOptions extends OptionHandler {
 
         registerOption("usermessage:join:channel", "Sets the join message channel", "Sets the join channel, you need the channel **name**\n" +
                 "**Example:** `~>opts usermessage join channel join-magic`\n" +
-                "You can reset it by doing `~>opts usermessage join resetchannel`", "Sets the join message channel", (event, args) -> {
+                "You can reset it by doing `~>opts usermessage join resetchannel`", "Sets the join message channel", (event, args, lang) -> {
             if (args.length == 0) {
                 onHelp(event);
                 return;
@@ -312,7 +294,7 @@ public class GuildOptions extends OptionHandler {
             Consumer<TextChannel> consumer = tc -> {
                 guildData.setLogJoinChannel(tc.getId());
                 dbGuild.saveAsync();
-                event.getChannel().sendMessageFormat("%sThe user join log channel is now set to: %s", EmoteReference.OK, tc.getAsMention()).queue();
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_join_channel.success"), EmoteReference.OK, tc.getAsMention()).queue();
             };
 
             TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
@@ -322,17 +304,17 @@ public class GuildOptions extends OptionHandler {
             }
         });
 
-        registerOption("usermessage:join:resetchannel", "Resets the join message channel", "Resets the join message channel", event -> {
+        registerOption("usermessage:join:resetchannel", "Resets the join message channel", "Resets the join message channel", (event, lang) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             guildData.setLogJoinChannel(null);
             dbGuild.saveAsync();
-            event.getChannel().sendMessageFormat("%sSuccessfully reset log join channel!", EmoteReference.CORRECT).queue();
+            event.getChannel().sendMessageFormat(lang.get("options.usermessage_join_resetchannel.success"), EmoteReference.CORRECT).queue();
         });
 
         registerOption("usermessage:leave:channel", "Sets the leave message channel", "Sets the leave channel, you need the channel **name**\n" +
                 "**Example:** `~>opts usermessage leave channel leave-magic`\n" +
-                "You can reset it by doing `~>opts usermessage leave resetchannel`", "Sets the leave message channel", (event, args) -> {
+                "You can reset it by doing `~>opts usermessage leave resetchannel`", "Sets the leave message channel", (event, args, lang) -> {
             if (args.length == 0) {
                 onHelp(event);
                 return;
@@ -345,7 +327,7 @@ public class GuildOptions extends OptionHandler {
             Consumer<TextChannel> consumer = tc -> {
                 guildData.setLogLeaveChannel(tc.getId());
                 dbGuild.saveAsync();
-                event.getChannel().sendMessageFormat("%sThe user leave log channel is now set to: %s", EmoteReference.CORRECT, tc.getAsMention()).queue();
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_leave_channel.success"), EmoteReference.CORRECT, tc.getAsMention()).queue();
             };
 
             TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
@@ -355,19 +337,19 @@ public class GuildOptions extends OptionHandler {
             }
         });
 
-        registerOption("usermessage:leave:resetchannel", "Resets the leave message channel", "Resets the leave message channel", event -> {
+        registerOption("usermessage:leave:resetchannel", "Resets the leave message channel", "Resets the leave message channel", (event, lang) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             guildData.setLogLeaveChannel(null);
             dbGuild.saveAsync();
-            event.getChannel().sendMessageFormat("%sSuccessfully reset log leave channel!", EmoteReference.CORRECT).queue();
+            event.getChannel().sendMessageFormat(lang.get("options.usermessage_leave_resetchannel.success"), EmoteReference.CORRECT).queue();
         });
 
         registerOption("usermessage:channel", "Set message channel",
                 "Sets the join/leave message channel. You need the channel **name**\n" +
                         "**Example:** `~>opts usermessage channel join-magic`\n" +
                         "Warning: if you set this, you cannot set individual join/leave channels unless you reset the channel.",
-                "Sets the join/leave message channel.", (event, args) -> {
+                "Sets the join/leave message channel.", (event, args, lang) -> {
                     if (args.length == 0) {
                         onHelp(event);
                         return;
@@ -380,7 +362,7 @@ public class GuildOptions extends OptionHandler {
                     Consumer<TextChannel> consumer = textChannel -> {
                         guildData.setLogJoinLeaveChannel(textChannel.getId());
                         dbGuild.save();
-                        event.getChannel().sendMessageFormat("%sThe logging Join/Leave channel is set to: %s", EmoteReference.OK, textChannel.getAsMention()).queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.usermessage_channel.success"), EmoteReference.OK, textChannel.getAsMention()).queue();
                     };
 
                     TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
@@ -394,7 +376,7 @@ public class GuildOptions extends OptionHandler {
         registerOption("usermessage:joinmessage", "User join message",
                 "Sets the join message.\n" +
                         "**Example:** `~>opts usermessage joinmessage Welcome $(event.user.name) to the $(event.guild.name) server! Hope you have a great time`",
-                "Sets the join message.", (event, args) -> {
+                "Sets the join message.", (event, args, lang) -> {
                     if (args.length == 0) {
                         onHelp(event);
                         return;
@@ -406,14 +388,14 @@ public class GuildOptions extends OptionHandler {
                     String joinMessage = String.join(" ", args);
                     guildData.setJoinMessage(joinMessage);
                     dbGuild.save();
-                    event.getChannel().sendMessageFormat("%sServer join message set to: %s", EmoteReference.CORRECT, joinMessage).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage.success"), EmoteReference.CORRECT, joinMessage).queue();
                 });//endregion
 
         //region leavemessage
         registerOption("usermessage:leavemessage", "User leave message",
                 "Sets the leave message.\n" +
                         "**Example:** `~>opts usermessage leavemessage Sad to see you depart, $(event.user.name)`",
-                "Sets the leave message.", (event, args) -> {
+                "Sets the leave message.", (event, args, lang) -> {
                     if (args.length == 0) {
                         onHelp(event);
                         return;
@@ -425,7 +407,7 @@ public class GuildOptions extends OptionHandler {
                     String leaveMessage = String.join(" ", args);
                     guildData.setLeaveMessage(leaveMessage);
                     dbGuild.save();
-                    event.getChannel().sendMessageFormat("%sServer leave message set to: %s", EmoteReference.CORRECT, leaveMessage).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage.success"), EmoteReference.CORRECT, leaveMessage).queue();
                 });//endregion
         //endregion
         //region autoroles
@@ -434,7 +416,7 @@ public class GuildOptions extends OptionHandler {
                 "Adds a role to the `~>iam` list.\n" +
                         "You need the name of the iam and the name of the role. If the role contains spaces wrap it in quotation marks.\n" +
                         "**Example:** `~>opts autoroles add member Member`, `~>opts autoroles add wew \"A role with spaces on its name\"`",
-                "Adds an auto-assignable role to the iam lists.", (event, args) -> {
+                "Adds an auto-assignable role to the iam lists.", (event, args, lang) -> {
                     if (args.length < 2) {
                         onHelp(event);
                         return;
@@ -447,32 +429,41 @@ public class GuildOptions extends OptionHandler {
 
                     List<Role> roleList = event.getGuild().getRolesByName(roleName, true);
                     if (roleList.size() == 0) {
-                        event.getChannel().sendMessageFormat("%sI didn't find a role with that name!", EmoteReference.ERROR).queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.no_role_found"), EmoteReference.ERROR).queue();
                     } else if (roleList.size() == 1) {
                         Role role = roleList.get(0);
 
                         if (!event.getMember().canInteract(role)) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR +
-                                    "This role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!").queue();
+                            event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.hierarchy_conflict"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
+                        if(!event.getGuild().getSelfMember().canInteract(role)) {
+                            event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.self_hierarchy_conflict"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         guildData.getAutoroles().put(args[0], role.getId());
                         dbGuild.saveAsync();
-                        event.getChannel().sendMessageFormat("%sAdded autorole **%s**, which gives the role **%s**", EmoteReference.OK, args[0], role.getName()).queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.success"), EmoteReference.OK, args[0], role.getName()).queue();
                     } else {
                         DiscordUtils.selectList(event, roleList, role -> String.format("%s (ID: %s)  | Position: %s", role.getName(),
                                 role.getId(), role.getPosition()), s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Role:")
                                         .setDescription(s).build(),
                                 role -> {
                                     if (!event.getMember().canInteract(role)) {
-                                        event.getChannel().sendMessageFormat("%sThis role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!", EmoteReference.ERROR).queue();
+                                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.hierarchy_conflict"), EmoteReference.ERROR).queue();
+                                        return;
+                                    }
+
+                                    if(!event.getGuild().getSelfMember().canInteract(role)) {
+                                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.self_hierarchy_conflict"), EmoteReference.ERROR).queue();
                                         return;
                                     }
 
                                     guildData.getAutoroles().put(args[0], role.getId());
                                     dbGuild.saveAsync();
-                                    event.getChannel().sendMessageFormat("%sAdded autorole **%s**, which gives the role **%s**", EmoteReference.OK, args[0], role.getName()).queue();
+                                    event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.success"), EmoteReference.OK, args[0], role.getName()).queue();
                                 });
                     }
                 });
@@ -482,7 +473,7 @@ public class GuildOptions extends OptionHandler {
                 "Removes a role from the `~>iam` list.\n" +
                         "You need the name of the iam.\n" +
                         "**Example:** `~>opts autoroles remove iamname`",
-                "Removes an auto-assignable role from iam.", (event, args) -> {
+                "Removes an auto-assignable role from iam.", (event, args, lang) -> {
                     if (args.length == 0) {
                         onHelp(event);
                         return;
@@ -494,20 +485,20 @@ public class GuildOptions extends OptionHandler {
                     if (autoroles.containsKey(args[0])) {
                         autoroles.remove(args[0]);
                         dbGuild.saveAsync();
-                        event.getChannel().sendMessageFormat("%sRemoved autorole %s", EmoteReference.OK, args[0]).queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_remove.success"), EmoteReference.OK, args[0]).queue();
                     } else {
-                        event.getChannel().sendMessageFormat("%sI couldn't find an autorole with that name", EmoteReference.ERROR).queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_remove.not_found"), EmoteReference.ERROR).queue();
                     }
                 });//endregion
 
         //region clear
         registerOption("autoroles:clear", "Autoroles clear",
                 "Removes all autoroles.",
-                "Removes all autoroles.", (event, args) -> {
+                "Removes all autoroles.", (event, args, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     dbGuild.getData().getAutoroles().clear();
                     dbGuild.saveAsync();
-                    event.getChannel().sendMessageFormat("%sCleared all autoroles!", EmoteReference.CORRECT).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.autoroles_clear.success"), EmoteReference.CORRECT).queue();
                 }
         ); //endregion
 
@@ -515,7 +506,7 @@ public class GuildOptions extends OptionHandler {
         registerOption("admincustom", "Admin custom commands",
                 "Locks custom commands to admin-only.\n" +
                         "Example: `~>opts admincustom true`",
-                "Locks custom commands to admin-only.", (event, args) -> {
+                "Locks custom commands to admin-only.", (event, args, lang) -> {
                     if (args.length == 0) {
                         OptsCmd.onHelp(event);
                         return;
@@ -528,8 +519,7 @@ public class GuildOptions extends OptionHandler {
                     try {
                         guildData.setCustomAdminLock(Boolean.parseBoolean(action));
                         dbGuild.save();
-                        String toSend = EmoteReference.CORRECT + (Boolean.parseBoolean(action) ? "Custom command creation " +
-                                "is now admin only." : "Custom command creation can now be done by anyone.");
+                        String toSend = String.format("%s%s", EmoteReference.CORRECT, Boolean.parseBoolean(action) ? lang.get("options.admincustom.admin_only") : lang.get("options.admincustom.everyone"));
                         event.getChannel().sendMessage(toSend).queue();
                     } catch (Exception ex) {
                         event.getChannel().sendMessageFormat("%sSilly, that's not a boolean value!", EmoteReference.ERROR).queue();
@@ -538,12 +528,12 @@ public class GuildOptions extends OptionHandler {
         //endregion
 
         registerOption("timedisplay:set", "Time display set", "Toggles between 12h and 24h time display.\n" +
-                "Example: `~>opts timedisplay 24h`", "Toggles between 12h and 24h time display.", (event, args) -> {
+                "Example: `~>opts timedisplay 24h`", "Toggles between 12h and 24h time display.", (event, args, lang) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
 
             if (args.length == 0) {
-                event.getChannel().sendMessageFormat("%sYou need to specify a mode (12h or 24h)", EmoteReference.ERROR).queue();
+                event.getChannel().sendMessageFormat(lang.get("options.timedisplay_set.no_mode_specified"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -551,17 +541,17 @@ public class GuildOptions extends OptionHandler {
 
             switch (mode) {
                 case "12h":
-                    event.getChannel().sendMessageFormat("%sSet time display mode to 12h", EmoteReference.CORRECT).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.timedisplay_set.12h"), EmoteReference.CORRECT).queue();
                     guildData.setTimeDisplay(1);
                     dbGuild.save();
                     break;
                 case "24h":
-                    event.getChannel().sendMessageFormat("%sSet time display mode to 24h", EmoteReference.CORRECT).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.timedisplay_set.24h"), EmoteReference.CORRECT).queue();
                     guildData.setTimeDisplay(0);
                     dbGuild.save();
                     break;
                 default:
-                    event.getChannel().sendMessageFormat("%sNot a valid choice. Valid choices: **24h**, **12h**", EmoteReference.ERROR).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.timedisplay_set.invalid"), EmoteReference.ERROR).queue();
                     break;
             }
         });
@@ -569,9 +559,9 @@ public class GuildOptions extends OptionHandler {
         registerOption("server:role:disallow", "Role disallow", "Disallows all users with a role from executing commands.\n" +
                         "You need to provide the name of the role to disallow from mantaro.\n" +
                         "Example: `~>opts server role disallow bad`, `~>opts server role disallow \"No commands\"`",
-                "Disallows all users with a role from executing commands.", (event, args) -> {
+                "Disallows all users with a role from executing commands.", (event, args, lang) -> {
                     if (args.length == 0) {
-                        event.getChannel().sendMessageFormat("%sYou need to specify the name of the role!", EmoteReference.ERROR).queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.server_role_disallow.no_name"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -579,30 +569,23 @@ public class GuildOptions extends OptionHandler {
                     GuildData guildData = dbGuild.getData();
                     String roleName = String.join(" ", args);
 
-                    List<Role> roleList = event.getGuild().getRolesByName(roleName, true);
-                    if (roleList.size() == 0) {
-                        event.getChannel().sendMessageFormat("%sI didn't find a role with that name!", EmoteReference.ERROR).queue();
-                    } else if (roleList.size() == 1) {
-                        Role role = roleList.get(0);
+                    Consumer<Role> consumer = (role) -> {
                         guildData.getDisabledRoles().add(role.getId());
                         dbGuild.saveAsync();
-                        event.getChannel().sendMessageFormat("%sDisabled role %s from executing commands.", EmoteReference.CORRECT, role.getName()).queue();
-                    } else {
-                        DiscordUtils.selectList(event, roleList, role -> String.format("%s (ID: %s)  | Position: %s", role.getName(),
-                                role.getId(), role.getPosition()), s -> OptsCmd.getOpts().baseEmbed(event, "Select the Role:")
-                                        .setDescription(s).build(),
-                                role -> {
-                                    guildData.getDisabledRoles().add(role.getId());
-                                    dbGuild.saveAsync();
-                                    event.getChannel().sendMessageFormat("%sDisabled role %s from executing commands.", EmoteReference.CORRECT, role.getName()).queue();
-                                });
+                        event.getChannel().sendMessageFormat(lang.get("options.server_role_disallow.success"), EmoteReference.CORRECT, role.getName()).queue();
+                    };
+
+                    Role role = Utils.findRoleSelect(event, roleName, consumer);
+
+                    if(role != null) {
+                        consumer.accept(role);
                     }
                 });
 
         registerOption("server:role:allow", "Role allow", "Allows all users with a role from executing commands.\n" +
                         "You need to provide the name of the role to allow from mantaro. Has to be already disabled.\n" +
                         "Example: `~>opts server role allow bad`, `~>opts server role allow \"No commands\"`",
-                "Allows all users with a role from executing commands (Has to be already disabled)", (event, args) -> {
+                "Allows all users with a role from executing commands (Has to be already disabled)", (event, args, lang) -> {
                     if (args.length == 0) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the name of the role!").queue();
                         return;
@@ -612,72 +595,59 @@ public class GuildOptions extends OptionHandler {
                     GuildData guildData = dbGuild.getData();
                     String roleName = String.join(" ", args);
 
-                    List<Role> roleList = event.getGuild().getRolesByName(roleName, true);
-                    if (roleList.size() == 0) {
-                        event.getChannel().sendMessageFormat("%sI didn't find a role with that name!", EmoteReference.ERROR).queue();
-                    } else if (roleList.size() == 1) {
-                        Role role = roleList.get(0);
-
+                    Consumer<Role> consumer = (role) -> {
                         if (!guildData.getDisabledRoles().contains(role.getId())) {
-                            event.getChannel().sendMessageFormat("%sThis role isn't disabled!", EmoteReference.ERROR).queue();
+                            event.getChannel().sendMessageFormat(lang.get("options.server_role_allow.not_disabled"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         guildData.getDisabledRoles().remove(role.getId());
                         dbGuild.saveAsync();
-                        event.getChannel().sendMessageFormat("%sAllowed role %s to execute commands.", EmoteReference.CORRECT, role.getName()).queue();
-                    } else {
-                        DiscordUtils.selectList(event, roleList, role -> String.format("%s (ID: %s)  | Position: %s", role.getName(),
-                                role.getId(), role.getPosition()), s -> OptsCmd.getOpts().baseEmbed(event, "Select the Role:")
-                                        .setDescription(s).build(),
-                                role -> {
-                                    if (!guildData.getDisabledRoles().contains(role.getId())) {
-                                        event.getChannel().sendMessageFormat("%sThis role isn't disabled!", EmoteReference.ERROR).queue();
-                                        return;
-                                    }
+                        event.getChannel().sendMessageFormat(lang.get("options.server_role_allow.success"), EmoteReference.CORRECT, role.getName()).queue();
+                    };
 
-                                    guildData.getDisabledRoles().remove(role.getId());
-                                    dbGuild.saveAsync();
-                                    event.getChannel().sendMessageFormat("%sAllowed role %s to execute commands.", EmoteReference.CORRECT, role.getName()).queue();
-                                });
+                    Role role = Utils.findRoleSelect(event, roleName, consumer);
+
+                    if(role != null) {
+                        consumer.accept(role);
                     }
                 });
 
         registerOption("server:ignorebots:autoroles:toggle",
-                "Bot autorole ignore", "Toggles between ignoring bots on autorole assign and not.", (event) -> {
+                "Bot autorole ignore", "Toggles between ignoring bots on autorole assign and not.", (event, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
                     boolean ignore = guildData.isIgnoreBotsAutoRole();
                     guildData.setIgnoreBotsAutoRole(!ignore);
                     dbGuild.saveAsync();
 
-                    event.getChannel().sendMessageFormat("%sSet bot autorole ignore to: **%s**", EmoteReference.CORRECT, guildData.isIgnoreBotsAutoRole()).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.server_ignorebots_autoroles_toggle.success"), EmoteReference.CORRECT, guildData.isIgnoreBotsAutoRole()).queue();
                 });
 
         registerOption("server:ignorebots:joinleave:toggle",
-                "Bot join/leave ignore", "Toggles between ignoring bots on join/leave message.", (event) -> {
+                "Bot join/leave ignore", "Toggles between ignoring bots on join/leave message.", (event, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
                     boolean ignore = guildData.isIgnoreBotsWelcomeMessage();
                     guildData.setIgnoreBotsWelcomeMessage(!ignore);
                     dbGuild.saveAsync();
 
-                    event.getChannel().sendMessageFormat("%sSet bot autorole ignore to: **%s**", EmoteReference.CORRECT, guildData.isIgnoreBotsWelcomeMessage()).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.server_ignorebots_joinleave_toggle.success"), EmoteReference.CORRECT, guildData.isIgnoreBotsWelcomeMessage()).queue();
                 });
 
         registerOption("levelupmessages:toggle", "Level-up toggle",
-                "Toggles level up messages, remember that after this you have to set thee channel and the message!", "Toggles level up messages", event -> {
+                "Toggles level up messages, remember that after this you have to set thee channel and the message!", (event, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
                     boolean ignore = guildData.isEnabledLevelUpMessages();
                     guildData.setEnabledLevelUpMessages(!ignore);
                     dbGuild.saveAsync();
 
-                    event.getChannel().sendMessageFormat("%sSet level up messages to: **%s**", EmoteReference.CORRECT, guildData.isEnabledLevelUpMessages()).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.levelupmessage_toggle.success"), EmoteReference.CORRECT, guildData.isEnabledLevelUpMessages()).queue();
                 });
 
         registerOption("levelupmessages:message:set", "Level-up message", "Sets the message to display on level up",
-                "Sets the level up message", (event, args) -> {
+                "Sets the level up message", (event, args, lang) -> {
                     if (args.length == 0) {
                         onHelp(event);
                         return;
@@ -689,23 +659,23 @@ public class GuildOptions extends OptionHandler {
                     String levelUpMessage = String.join(" ", args);
                     guildData.setLevelUpMessage(levelUpMessage);
                     dbGuild.saveAsync();
-                    event.getChannel().sendMessageFormat("%sServer level-up message set to: %s", EmoteReference.CORRECT, levelUpMessage).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_set.success"), EmoteReference.CORRECT, levelUpMessage).queue();
                 });
 
         registerOption("levelupmessages:message:clear", "Level-up message clear", "Clears the message to display on level up",
-                "Clears the message to display on level up", (event, args) -> {
+                "Clears the message to display on level up", (event, args, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
 
                     guildData.setLevelUpMessage(null);
                     dbGuild.saveAsync();
 
-                    event.getChannel().sendMessageFormat("%sCleared level-up message!", EmoteReference.CORRECT).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_clear.success"), EmoteReference.CORRECT).queue();
                 });
 
         registerOption("levelupmessages:channel:set", "Level-up message channel",
                 "Sets the channel to display level up messages", "Sets the channel to display level up messages",
-                (event, args) -> {
+                (event, args, lang) -> {
                     if (args.length == 0) {
                         onHelp(event);
                         return;
@@ -718,7 +688,7 @@ public class GuildOptions extends OptionHandler {
                     Consumer<TextChannel> consumer = textChannel -> {
                         guildData.setLevelUpChannel(textChannel.getId());
                         dbGuild.saveAsync();
-                        event.getChannel().sendMessageFormat("%sThe level-up channel has been set to: %s", EmoteReference.OK, textChannel.getAsMention()).queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_channel_set.success"), EmoteReference.OK, textChannel.getAsMention()).queue();
                     };
 
                     TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);

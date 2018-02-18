@@ -37,7 +37,8 @@
     "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel.",
     "buy_sell_paged_react": "**Total pages: %1$d.**\nUse the message reactions to move between pages.\n%2$s",
     "buy_sell_paged_text": "**Total pages: %1$d.**\nUse **&p >>** and **&p <<** to move across pages.\n%2$s",
-    "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**"
+    "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**",
+    "cancelled": "%1$sCancelled request."
   },
   "commands": {
     "fish": {
@@ -1233,6 +1234,113 @@
     "imageboard_tags_blacklist_remove": {
       "no_tag": "%1$sYou need to specify at least a tag to un-blacklist!",
       "success": "%1$sSuccessfully un-blacklisted %2$s from image search."
+    },
+    "birthday_enable": {
+      "public_role": "%1$sYou cannot set the everyone role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
+      "autorole": "%1$sYou cannot set the autorole role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
+      "warning": "%sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
+      "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and unassigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users.",
+      "warning_3": "Type **yes** if you agree to set the role %s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
+      "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
+      "error_channel_1": "%1$sI didn't find a channel or role!",
+      "error_channel_2": "**Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".**"
+    },
+    "birthday_disable": {
+      "success": "%1$sBirthday logging has been disabled on this server"
+    },
+    "prefix_set": {
+      "too_long": "%1$sDon't you think that's a bit too long?",
+      "empty_prefix": "%1$sCannot set the guild prefix to nothing...",
+      "success": "%1$sYour server's custom prefix has been set to %2$s"
+    },
+    "prefix_clear": {
+      "success": "%1$sYour server's custom prefix has been disabled"
+    },
+    "autorole_set": {
+      "no_role_found": "%1$sI couldn't find a role with that name. If the role has spaces, try wrapping it in quotes.",
+      "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as autorole!",
+      "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as autorole!",
+      "success": "%1$sThe server autorole is now set to: **%2$s** (Position: %3$d)"
+    },
+    "autorole_unbind": {
+      "success": "%1$sThe autorole for this server has been removed."
+    },
+    "usermessage_resetchannel": {
+      "success": "%1$sSucessfully reset the join/leave channel."
+    },
+    "usermessage_resetdata": {
+      "success": "%1$sSucessfully reset the join/leave message."
+    },
+    "usermessage_join_channel": {
+      "success": "%1$sThe user join log channel is now set to: %2$s"
+    },
+    "usermessage_join_resetchannel": {
+      "success": "%1$sSuccessfully reset log join channel!"
+    },
+    "usermessage_leave_channel": {
+      "success": "%1$sThe user leave log channel is now set to: %s"
+    },
+    "usermessage_leave_resetchannel": {
+      "success": "%1$sSuccessfully reset log leave channel!"
+    },
+    "usermessage_channel": {
+      "success": "%1$sThe logging Join/Leave channel is set to: %2$s"
+    },
+    "usermessage_joinmessage": {
+      "success": "%1$sServer join message set to: %2$s"
+    },
+    "usermessage_leavemessage": {
+      "success": "%1$sServer leave message set to: %2$s"
+    },
+    "autoroles_add": {
+      "no_role_found": "%1$sI didn't find a role with that name!",
+      "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!",
+      "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as an auto-assignable role!",
+      "success": "%1$sAdded autorole **%2$s**, which gives the role **%3$s**"
+    },
+    "autoroles_remove": {
+      "not_found": "%1$sI couldn't find an autorole with that name",
+      "success": "%1$sRemoved autorole %2$s"
+    },
+    "autoroles_clear": {
+      "success": "%1$sCleared all autoroles!"
+    },
+    "admincustom": {
+      "admin_only": "Custom command creation is now admin only.",
+      "everyone": "Custom command creation can now be done by anyone."
+    },
+    "timedisplay_set": {
+      "mode_not_specified": "%1$sYou need to specify a mode (12h or 24h)",
+      "12h": "%1$sSet time display mode to 12h",
+      "24h": "%1$sSet time display mode to 24h",
+      "invalid": "%1$sNot a valid choice. Valid choices: **24h**, **12h**"
+    },
+    "server_role_disallow": {
+      "no_name": "%1$sYou need to specify the name of the role!",
+      "success": "%1$sDisabled role %2$s from executing commands."
+    },
+    "server_role_allow": {
+      "not_disabled": "%1$sThis role isn't disabled!",
+      "success": "%1$sAllowed role %2$s to execute commands."
+    },
+    "server_ignorebots_autoroles_toggle": {
+      "success": "%1$sSet bot autorole ignore to: **%2$s**"
+    },
+    "server_ignorebots_joinleave_toggle": {
+      "success": "%1$sSet bot join/leave ignore to: **%2$s**"
+    },
+    "levelupmessages_toggle": {
+      "success": "%1$sSet level up messages to: **%2$s**"
+    },
+    "levelupmessages_message_set": {
+      "success": "%1$sServer level-up message set to: %2$s"
+    },
+    "levelupmessages_message_clear": {
+      "success": "%1$sCleared level-up message!"
+    },
+    "levelupmessages_channel_set": {
+      "success": "%1$sThe level-up channel has been set to: %2$s"
     },
     "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
     "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
