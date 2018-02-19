@@ -45,8 +45,8 @@
       "dust": "%1$sDer Tag ist zu Ende und dein Eimer hat nur Staub gesammelt.",
       "no_rod": "%1$sDu hast keine Angel mit der du Angeln kannst!",
       "trash": {
-        "overflow": "%1$sDu hast beim Angeln etwas Kauderwelsch gefunden, aber dein Inventar war voll, also mussten wir es ins Wasser werfen ...",
-        "success": "%1$sWährend du ruhig Angelst findest du %2$s %3$s, aber es scheint nur Kauderwelsch zu sein :("
+        "overflow": "%1$sDu hast beim Angeln etwas Müll gefunden, aber dein Inventar war voll, also mussten wir es ins Wasser werfen ...",
+        "success": "%1$sWährend du ruhig Angelst findest du %2$s %3$s, aber es scheint nur Müll zu sein :("
       },
       "tier3": {
         "extra": "Auserdem findest du %1$s, was ein glück!"
@@ -438,66 +438,66 @@
       "header": "Mantaro's Markt"
     },
     "itemtransfer": {
-      "transfer_yourself_note": "%1$sYou cannot transfer items to yourself!",
-      "bot_notice": "%1$sYou cannot transfer items to a bot.",
-      "locked_notice": "%1$sYou cannot transfer items now. (Player is locked)",
-      "hidden_item": "%1$sYou cannot transfer this item!",
-      "overflow": "%1$sThis player has the maximum possible amount of this item (5000).",
-      "success": "%1$s%2$s gave 1 **%3$s** to %4$s",
-      "multiple_items_error": "%1$sYou don't have any of these items in your inventory",
-      "error": "1$sYou don't enough of this item in your inventory to do this!"
+      "transfer_yourself_note": "%1$sDu kannst kein Item an dich selbst senden!",
+      "bot_notice": "%1$sDu kannst kein Item an einen Bot senden.",
+      "locked_notice": "%1$sDu kannst momentan keine Items senden. (Spieler gesperrt)",
+      "hidden_item": "%1$sDu kannst dieses Item nich versenden!",
+      "overflow": "%1$sDieser Spieler hat bereits das maximum von diesem Item (5000).",
+      "success": "%1$s%2$s gab 1 **%3$s** an %4$s",
+      "multiple_items_error": "%1$sDu hast dieses Item nicht.",
+      "error": "1$sDu hast nicht genügend von diesem Item!"
     },
     "transfer": {
-      "transfer_yourself_note": "%1$sYou cannot transfer money to yourself.",
-      "bot_notice": "%1$sYou cannot transfer money to a bot.",
-      "no_amount": "%1$sYou need to specify the amount.",
-      "no_money_specified_notice": "%1$sYou cannot transfer no money :P",
-      "over_transfer_limit": "%1$sYou cannot transfer this much money. (Limit: %2$d credits)",
-      "own_locked_notice": "%1$sYou cannot transfer money now.",
-      "receipt_overflow_notice": "Cannot send money to this player.",
-      "no_money_notice": "%1$sYou cannot transfer money you don't have.",
-      "receipt_locked_notice": "1$sThat user cannot receive money now.",
-      "receipt_over_limit": "%1$sThis user already has too much money...",
-      "success": "%1$sTransferred **%2$d** to *%3$s* successfully."
+      "transfer_yourself_note": "%1$sDu kannst nichts an dich selbst senden.",
+      "bot_notice": "%1$sDu kannst kein Geld an einen Bot senden.",
+      "no_amount": "%1$sDu musst mir eine Anzahl geben.",
+      "no_money_specified_notice": "%1$sDu kannst nicht garkein Geld senden.:P",
+      "over_transfer_limit": "%1$sDu kannst nicht so viel Geld senden. (Limit: %2$d credits)",
+      "own_locked_notice": "%1$sDu kannst jetzt kein Geld versenden.",
+      "receipt_overflow_notice": "Du kannst kein Geld and diesen Spieler senden.",
+      "no_money_notice": "%1$sDu kannst Geld, das du nicht hast, nicht versenden.",
+      "receipt_locked_notice": "1$sDieser Spieler kann jetzt kein Geld erhalten.",
+      "receipt_over_limit": "%1$sDiser Spieler hat bereits zu viel Geld...",
+      "success": "%1$**%2$d** wurden an *%3$s* gesendet."
     },
     "useitem": {
-      "use_command": "%1$sFor this item you need to use the command that's linked to the item! (mine for pickaxe, fish for the fishing rod)",
-      "no_items_specified": "%1$sYou need to specify what item to use!",
-      "not_interactive": "%1$sYou cannot interact with this item...",
-      "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set...",
-      "no_item": "%1$sYou don't have this item in your inventory..."
+      "use_command": "%1$sFür diesen Gegenstand musst du den Command verwenden, der mit dem Gegenstand verbunden ist! (mine für Spitzhacke, fisch für die Angelrute)",
+      "no_items_specified": "%1$sDu musst angeben, welches Item verwendet werden soll!",
+      "not_interactive": "%1$sDu kannst nichts mit diesem Item machen...",
+      "interactive_no_action": "%1$sDiese Item ist als Interactive markiert, aber hat keine aktion...",
+      "no_item": "%1$sDu besitzt dieses Item nicht..."
     },
     "opts": {
-      "note": "%1$sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
+      "note": "%1$sHey, wenn du verloren bist oder Hilfe bei der Verwendung von Optionen benötigst, besuche <https://github.com/Mantaro/MantaroBot/wiki/Configuration>, um eine Anleitung zur Verwendung von Optionen zu erhalten. \nHinweis: Nur Administratoren, Personen mit Verwalten Server oder Personen mit der Bot-Commander-Rolle können diesen Command verwenden! ",
       "list": {
-        "header": "**Mantaro's Options List**\n%1$s*All options must be prefixed with `~>opts` when running them*\n%2$s"
+        "header": "**Mantaro's Option Liste**\n%1$s*Alle optionen müssen mit `~>opts` beginnen wenn du sie benutzt*\n%2$s"
       },
-      "option_not_found": "%1$sInvalid option help name.",
-      "invalid_args": "%1$sInvalid option or arguments."
+      "option_not_found": "%1$sIUngültiger Option Name.",
+      "invalid_args": "%1$sUngültige Option oder Argumente."
     },
     "8ball": {
-      "error": "%1$sI ran into an error while fetching 8ball results."
+      "error": "%1$sIch habe einen Fehler erhalten währened des  aufrufen der 8ball Ergebnisse."
     },
     "iam": {
       "list": {
-        "name": "\nAutorole name: ",
-        "role": " | Gives role **",
-        "header": "Autoroles list",
-        "no_autoroles": "There aren't any autoroles setup in this server!"
+        "name": "\nAutorollen Name: ",
+        "role": " | Gibt Rolle **",
+        "header": "Autorollen Liste",
+        "no_autoroles": "Es gibt keine Autorollen in diesem server!"
       },
-      "deleted_role": "%1$sThe role that this autorole corresponded to has been deleted",
-      "already_assigned": "%1$sYou already have this role, silly!",
-      "success": "%1$s%2$s, you've been given the **%3$s** role",
-      "error": "%1$sI couldn't take from you **%2$s. Make sure that I have permission to add roles and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the name `%2$s`!"
+      "deleted_role": "%1$sDie Rolle die mit dieser Autorolle verbunden war wurde anscheinend gelöscht",
+      "already_assigned": "%1$sDu hast diese Rolle bereits, dummerchen!",
+      "success": "%1$s%2$s, du hast die **%3$s** rolle erhalten.",
+      "error": "%1$sIch konnte die **%2$s rolle nicht von dir entfernen. Stelle sicher das ich Rollen verwalten kannd und die Rolle **%2$s** niedrieger als meine höchste rolle ist.",
+      "no_role": "%1$sEs gibt keine Autorolle mit dem namen `%2$s`!"
     },
     "iamnot": {
-      "not_assigned": "%1$sYou don't have this role, silly!",
-      "success": "%1$s%2$s, you've lost the **%3$s** role"
+      "not_assigned": "%1$sDu hast diese rolle nicht, dummerchen!",
+      "success": "%1$s%2$s, du hast die rolle **%3$s** verloren."
     },
     "misc": {
-      "reverse_missing": "%1$sYou didn't provide any message to reverse!",
-      "random_color": "%1$sThe random color is %2$s"
+      "reverse_missing": "%1$sDu hast keine nachricht zum umdrehen gegeben!",
+      "random_color": "%1$sDie zufällige Farbe ist %2$s"
     },
     "poll": {
       "missing": "%1$sYou didn't include either the %2$s argument or it was empty!\n%3$s",
