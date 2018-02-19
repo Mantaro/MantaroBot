@@ -94,7 +94,7 @@
       "success": "%1$s%2$s (%3$s wurde temporär gebannt)"
     },
     "music_usage": {
-      "1": "*How to use music in Mantaro?*",
+      "1": "*Wie benutze ich Mantaro's Music?*",
       "2": "- Um **songs von youtube or soundcloud hinzuzufügen** nutze `~>play` For example: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *Es wird automatish dem Kanal in dem du dich befindest beitreten*",
       "3": "- Um **songs von youtube zu suchen** nutze `~>play <suche>` (ohne das < und >) Zum Beispiel: `~>play see you again` (Du musst eine nummer wählen, *schreibe* einfach du nummer wenn es auftaucht!)",
       "4": "- Um **songs von soundlcoud zu suchen** nutze `~>play soundcloud <suche>` Zum Beispiel: `~>play soundcloud hot milk`",
@@ -108,334 +108,334 @@
       "12": "Genieße deine Musik und danke, dass du Mantaro benutzt hast!"
     },
     "music_general": {
-      "not_playing": "%1$sI'm not currently playing anything",
-      "dj_only": "%1$sYou need to be a DJ to use this command!",
-      "enjoy_note": "Enjoy the music! <3",
-      "no_player": "%1$sThere seems to be no player here...",
-      "not_connected": "%1$sYou aren't connected to the voice channel I'm currently playing in! (If you believe this is an error, please report it on the support server)",
-      "np_message": "%1$s Now playing **%2$s** (%3$s) on **%4$s** | %5$s",
-      "track_error": "%1$sSomething went wrong while playing this track! Sorry for the inconveniences, I'll try to play the next one available if there is one.",
-      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it.\n%2$s",
+      "not_playing": "%1$sIch spiele momentan keine Music",
+      "dj_only": "%1$sDu musst ein DJ sein um diesen Command zu nutzen.!",
+      "enjoy_note": "Genieße die Music! <3",
+      "no_player": "%1$sEs scheint kein Player hier zu geben...",
+      "not_connected": "%1$sDu bist nicht in dem Sprach-Kanal in dem ich gerade Spiele.! (Wenn du gluabst dies ist nicht der fall, melde es bitte in unserem Support Server.)",
+      "np_message": "%1$s Spiele momentan: **%2$s** (%3$s) on **%4$s** | %5$s",
+      "track_error": "%1$sEtwas lief schief beim Spielen dieses Songs, Ich werde den nächsten song spielen wenn es einen gibt.",
+      "queue_finished": "%1$sBeendete die aktuelle Warteschlange! Ich hoffe es hat die gefallen.\n%2$s",
       "queue": {
-        "no_track_found_np": "Nothing or title/duration not found",
-        "header": "Queue for server %1$s",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`.",
-        "nothing_playing_2": "**If there is a song playing and you didn't add more songs, then there is actually just dust here. You can queue more songs as you desire!**",
-        "np": "Currently playing",
-        "page_overflow": "Nothing here, just dust. Why don't you go back some pages?",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`.",
-        "total_queue_time": "Total queue time",
-        "total_size": "Total queue size",
-        "togglers": "Repeat / Pause",
-        "playing_in": "Playing in",
-        "footer": "Total pages: %1$d%2$s. Currently in page %3$d",
-        "multiple_pages": " -> Use ~>queue <page> to change pages",
-        "page_react": " -> React to change pages",
-        "no_channel": "No channel :(",
+        "no_track_found_np": "Nichts oder der Title/die Länge wurde nicht gefunden.",
+        "header": "Warteschlange für den Server %1$s",
+        "nothing_playing": "Nichts hier, nur Staub. Warum bringst du nicht ein paar Songs in die Warteschlange? \nWenn du denkst, dass es hier Songs gibt, die aber nicht erscheinen, versuche es mit `~> queue 1`.",
+        "nothing_playing_2": "**Wenn es einen Song gibt und du hast keine weiteren Songs hinzugefügt, dann ist hier eigentlich nur Staub. Du kannst mehr Songs in die Warteschlange stellen!**",
+        "np": "Spiele Derzeit",
+        "page_overflow": "Nichts hier, nur Staub. Warum gehst du nicht ein paar Seiten zurück?",
+        "page_overflow_2": "Wenn du denkst, dass es hier Songs gibt, die aber nicht erscheinen, versuche es mit `~> queue 1`.",
+        "total_queue_time": "Gesamtwarteschlangenzeit",
+        "total_size": "Gesamtgröße der Warteschlange",
+        "togglers": "Widerholen / Pausiert",
+        "playing_in": "Spielt in",
+        "footer": "Seiten: %1$d%2$s. In Seite %3$d",
+        "multiple_pages": " -> Nutze ~>queue <page> um seiten zu wechseln.",
+        "page_react": " -> Reagiere, um Seiten zu ändern",
+        "no_channel": "Kein Kanal :(",
         "songs": "song(s)"
       },
       "connect": {
-        "success": "%1$sConnected to channel **%2$s**!",
-        "full_channel": "%1$sI can't connect to that channel because it is full!",
-        "non_existent_channel": "%1$sWe received a non-existent channel as response. If you set a voice channel and then deleted it, that might be the cause.\n We reset your music channel for you, try to play the music again.",
-        "user_no_vc": "%1$s**Please join a voice channel!**",
-        "missing_permissions_connect": "%1$sI cannot connect to this channel due to the lack of permission (%2$s).",
-        "missing_permission_speak": "%1$sI cannot speak in this channel due to the lack of permission (%2$s).",
-        "channel_locked": "%1$sI can only play music on channel **%2$s**!",
-        "already_connected": "%1$sI'm already connected on channel **%2$s**! (Use the `move` command to move me to another channel)",
-        "attempting_to_connect": "%1$sI'm already trying to connect to channel **%2$s**! (Use the `move` command to move me to another channel)"
+        "success": "%1$sVerbunden mit Kanal **%2$s**!",
+        "full_channel": "%1$sIch kann keine Verbindung zu diesem Kanal herstellen, da dieser voll ist!",
+        "non_existent_channel": "%1$sWir haben einen nicht vorhandenen Kanal als Antwort erhalten. Wenn du einen Sprachkanal einstellst und ihn dann löschst, könnte das die Ursache sein.\nWir setzen deinen Musikkanal für dich zurück und versuchen, die Musik erneut abzuspielen.",
+        "user_no_vc": "%1$s**Bitte trete einem Sprachkanal bei!**",
+        "missing_permissions_connect": "%1$sIch kann aufgrund fehlender Berechtigungen keine Verbindung zu diesem Kanal herstellen (%2$s).",
+        "missing_permission_speak": "%1$sIch kann nicht in diesem Kanal sprechen, weil ich keine Erlaubnis habe (%2$s).",
+        "channel_locked": "%1$sIch kann nur Musik in dem Kanal **%2$s** abspielen!",
+        "already_connected": "%1$sIch bin bereits in einem  aderen Kanal **%2$s**! (Verwenden Sie den `move` Befehl, um mich zu einem anderen Kanal zu bewegen)",
+        "attempting_to_connect": "%1$sIch versuche bereits, eine Verbindung zum Kanal herzustellen **%2$s**! (Verwenden Sie den `move` Befehl, um mich zu einem anderen Kanal zu bewegen)"
       },
       "listener": {
-        "paused": "%1$sPausing player because I got muted :(",
-        "resumed": "%1$sResuming playback because someone joined!",
-        "left_alone": "%1$sI'll leave **%2$s** in 2 minutes because I was left all alone :(",
-        "leave": "%1$sI decided to leave **%2$s** because I was left all alone :("
+        "paused": "%1$sSpieler pausieren, weil ich gemuted wurde :(",
+        "resumed": "%1$sFortsetzen der Wiedergabe, weil jemand beigetreten ist!",
+        "left_alone": "%1$sIch velasse **%2$s** in 2 minuten weil ich allein gelassen wurde :(",
+        "leave": "%1$sI habe **%2$s** verlassen weil ich allein gelassen wurde :("
       },
       "loader": {
-        "over_limit": "%1$sThe queue you added had more than %2$d songs, so we added songs until this limit and ignored the rest.",
-        "loaded_playlist": "%1$sAdded **%2$d songs** to queue on playlist: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`~>play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.",
-        "error_loading": "%1$sError while fetching music: %2$s",
-        "over_queue_limit": "%1$sCould not queue %2$s: Surpassed queue song limit (%3$s)!",
-        "over_32_minutes": "%1$sCould not queue %2$s: Track is longer than 32 minutes! (%3$s)",
-        "fair_queue_limit_reached": "%1$s**Surpassed fair queue level of %2$d (Too many songs which are exactly equal)**",
-        "loaded_song": "%1$sAdded to queue -> **%2$s** **(%3$s)**",
-        "selection_text": "Song selection. Type the song number to continue.",
-        "timeout_text": "This timeouts in 30 seconds. Type &cancel to cancel."
+        "over_limit": "%1$sDie Warteschlange die du hinzugefügt hast überschreitet %2$d songs, also haben wir nur so viele hinzugefügt und den rest ignoriert.",
+        "loaded_playlist": "%1$s**%2$d songs** der Warteschlange hinzugefügt: **%3$s** *(%4$s)*",
+        "no_matches": "%1$sDie Suche ergab keine Ergebnisse. Wenn dies für * alle Lieder * angezeigt wird, nach denen du suchst, Nutze stattdessen `~> play soundcloud <Suchbegriff>`. Direkte Links zu youtube sollten auch funktionieren.",
+        "error_loading": "%1$sFehler beim Abrufen der Musik: %2$s",
+        "over_queue_limit": "%1$sKonnte %2$s nicht hinzufügen: Song limit überschritten (%3$s)!",
+        "over_32_minutes": "%1$sKonnte %2$s nicht hinzufügen: Der song ist länger als 32 minuten! (%3$s)",
+        "fair_queue_limit_reached": "%1$s**Fair-Queue limit von %2$d überschritten (Zu viele songs mit dem selben namen)**",
+        "loaded_song": "%1$sDer Warteschlange hinzugefügt -> **%2$s** **(%3$s)**",
+        "selection_text": "Song auswahl. Schreibe die Song nummer um fortzufahren.",
+        "timeout_text": "Dies läuft in 30 sekunden ab. Schreibe &cancel um abzubrechen."
       },
-      "premium_beg": "%1$sConsider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)",
-      "closed_connection": "%1$sClosed audio connection."
+      "premium_beg": "%1$sDenke darüber nach, auf Patreon.com/mantaro zu spenden. Wenn du mich magst, hilft mir sogar eine kleine Spende, den Bot am Leben zu halten (check `~>donate` für mehr Infos!)",
+      "closed_connection": "%1$sAudioverbindung geschloßen."
     },
     "forceskip": {
-      "success": "%1$sAn admin or Bot Commander decided to skip this song."
+      "success": "%1$sEin Admin- oder Bot-Commander entschied sich, dieses Lied zu überspringen."
     },
     "np": {
-      "no_track": "%1$sThere either isn't track playing or we cannot seem to find it, try playing a song",
-      "header": "Now Playing"
+      "no_track": "%1$sEs gibt keinen Track oder wir können ihn nicht finden, versuchen Sie einen Song abzuspielen.",
+      "header": "Spiele Derzeit"
     },
     "pause": {
-      "paused": "Player paused.",
-      "unpaused": "Player unpaused."
+      "paused": "Player pausiert.",
+      "unpaused": "Player wird fortgesetzt."
     },
     "rewind": {
-      "negative": "%1$sPositive integers only",
-      "before_beggining": "%1$sYou can't skip to before the beginning of a song",
-      "success": "%1$sRewound song to: %2$s."
+      "negative": "%1$sNur positive Ganzzahlen",
+      "before_beggining": "%1$sSDu kannst nicht vor dem Beginn eines Songs springen",
+      "success": "%1$sLied zurückspulen zu: %2$s."
     },
     "restartsong": {
-      "success": "%1$sRestarted current song."
+      "success": "%1$sSong neugestarted."
     },
     "skipahead": {
-      "past_duration": "%1$sYou can't skip past the duration of a song",
-      "success": "%1$sSkipped ahead to %2$s."
+      "past_duration": "%1$sSie können die Dauer eines Songs nicht überspringen",
+      "success": "%1$sVorgesprungen zu %2$s."
     },
     "move": {
-      "attempt": "%1$sI will try to move to the channel you're in",
-      "error_moving": "%1$sFailed to switch voice channels.",
-      "cannot_connect": "%1$sCannot connect: I either don't have permission to talk or to move channels.",
-      "non_existent_channel": "%1$sI can't move to a non-existent channel!",
-      "success": "%1$sMoved bot to channel `%2$s`",
-      "vc_not_found": "%1$sVoice channel not found or you didn't specify one!"
+      "attempt": "%1$sIch werde versuchen, zu dem Kanal zu wechseln, in dem du dich befindest",
+      "error_moving": "%1$sFehler beim wechseln der Sprachkanäle.",
+      "cannot_connect": "%1$sVerbindung nicht möglich: Ich bin entweder nicht berechtigt zu sprechen oder den Kanl zu betreten.",
+      "non_existent_channel": "%1$sIch kann nicht zu einem nicht existierenden Kanal wechseln!",
+      "success": "%1$sZu Kanel `%2$s` gewechselt.",
+      "vc_not_found": "%1$sSprachkanal nicht gefunden oder du hast keinen angegeben!"
     },
     "shard": {
-      "info": "I'm in shard %1$d!"
+      "info": "Ich bin in shard %1$d!"
     },
     "queue": {
       "clear": {
-        "header": "%1$sThe server DJ has decided to clear the queue!",
-        "success": "%1$sRemoved **%2$d songs** from the queue.",
-        "error": "%1$sEither you're not connected to the VC or you're not the DJ."
+        "header": "%1$sDer Server-DJ hat beschlossen, die Warteschlange zu löschen!",
+        "success": "%1$s**%2$d songs** von der Warteschlange entfernt.",
+        "error": "%1$sEntweder bist du nicht mit dem VC verbunden oder du bist nicht der DJ."
       }
     },
     "repeat": {
-      "queue_cancel": "%1$sContinuing with the current queue.",
-      "queue_repeat": "%1$sRepeating the current queue.",
-      "song_cancel": "%1$sContinuing with the normal queue.",
-      "song_repeat": "%1$sRepeating the current song."
+      "queue_cancel": "%1$sFahre mit der aktuellen Warteschlange fort.",
+      "queue_repeat": "%1$sWiederhole die Warteschlange.",
+      "song_cancel": "%1$sFahre mit der aktuellen Warteschlange fort.",
+      "song_repeat": "%1$sWiederhole den aktuellen song."
     },
     "nextsong": {
-      "no_song_next": "%1$sOw, there isn't any song next",
-      "format": "%1$sNext song in queue: **%2$s** (%3$s) | *Total songs in queue: %4$d*"
+      "no_song_next": "%1$sAua, als nächstes gibt es kein Lied mehr",
+      "format": "%1$sNächster Song: **%2$s** (%3$s) | *Songs in der Liste: %4$d*"
     },
     "shuffle": {
-      "success": "%1$sRandomized the order of the current queue."
+      "success": "%1$sWarteschlange geshuffelt."
     },
     "skip": {
-      "dj_skip": "%1$sThe DJ has decided to skip!",
+      "dj_skip": "%1$sDer DJ entschied sich das Lied zu überspringen.",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted!** You need %2$d more vote(s) to skip!",
-        "remove": "%1$s**Your vote has been removed!** You need %2$d more vote(s) to skip!"
+        "submit": "%1$s**Deine Stimme wurde abgegeben!** Du benötigst %2$d mehr stimmen zum skippen!",
+        "remove": "%1$s**Deine Stimme wurde entfernt!** Du benötigst %2$d mehr stimmen zum skippen!",
       },
-      "success": "%1$sReached the required amount of votes, skipping song...",
-      "no_track": "%1$sThere seems to be no track to skip, so I cannot do anything..."
+      "success": "%1$sErreichte die erforderliche Anzahl von Stimmen, überspringe den Song...",
+      "no_track": "%1$sEs scheint keinen Song zum Überspringen zu geben, also kann ich nichts machen..."
     },
     "removetrack": {
-      "invalid_range": "%1$s`%2$s` is not a valid range!",
-      "no_track": "%1$sThere isn't a queued track at the position `%2$d`!",
-      "invalid_number": "(%1$s`%2$s`) One of the ranges is not a valid number!",
-      "invalid_number_range": "%1$s`%2$s` is not a valid number or range!",
-      "success": "%1$sRemoved **%2$d** track(s) from the queue."
+      "invalid_range": "%1$s`%2$s` ist keine gültige Folge.!",
+      "no_track": "%1$sAn dieser Position befindet sich kein Song `%2$d`!",
+      "invalid_number": "(%1$s`%2$s`) Eine der Nummern ist keine gültige Ganzzahl!",
+      "invalid_number_range": "%1$s`%2$s` ist keine gültige Zahl oder Folge!",
+      "success": "%1$s**%2$d** song(s) entfernt."
     },
     "stop": {
-      "dj_stop": "%1$sThe server DJ has decided to stop!",
+      "dj_stop": "%1$sDer Server DJ entschied sich den Player zu stoppen!",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted!** You need %2$d more vote(s) to stop!",
-        "remove": "%1$s**Your vote has been removed!** You need %2$d more vote(s) to stop!"
+        "submit": "%1$s**Deine Stimme wurde abgegeben!** Du benötigst %2$d mehr stimmen zum stoppen!",
+        "remove": "%1$s**Deine Stimme wurde entfernt!** Du benötigst %2$d mehr stimmen zum stoppen!"
       },
-      "success": "%1$sReached the required amount of votes, stopping player...",
-      "no_player": "%1$sThere seems to be no player to stop, so I cannot do anything...",
-      "cleanup": "%1$sRemoved **%2$d songs** from the queue."
+      "success": "%1$sErreichte die erforderliche Anzahl von Stimmen, stoppe den Player...",
+      "no_player": "%1$sEs scheint hier keine Player zu geben, also kann ich nichts machen...",
+      "cleanup": "%1$s**%2$d songs** von der Warteschlange entfernt."
     },
     "volume": {
-      "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
-      "success": "%1$sVolume set to %2$d\n\n%3$s"
+      "check": "%1$sDie momentane Lautstärke ist: %2$d\n\n%3$s",
+      "success": "%1$sLautstärke ist nun %2$d\n\n%3$s"
     },
     "custom": {
-      "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
-      "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
+      "error_running": "%1$sFehler beim Ausführen eines benutzerdefinierten Command's ... Bitte überprüfe den Inhalt und die Länge der Antwort (max. 2000 Zeichen).",
+      "not_loaded": "Der Bot wurde noch nicht vollständig gebootet ... benutzerdefinierte Command's werden in Kürze verfügbar sein!",
       "ls": {
-        "header": "Commands for this guild"
+        "header": "Command's für diesen Server"
       },
       "view": {
-        "invalid": "%1$sYou need to specify the command and the response number!",
-        "not_found": "%1$sThere isn't a custom command with that name here!",
-        "less_than_specified": "%1$sThis command has less responses than the number you specified...",
-        "success": "**Response `%1$d` for custom command `%2$s`:** \n```\n%3$s```"
+        "invalid": "%1$sDu musst den Command und die Antwortnummer angeben!",
+        "not_found": "%1$sKein benutzerdefinierten Command mit diesem Namen gefunden!",
+        "less_than_specified": "%1$sDieser Command hat weniger Antworten als die angegebene Anzahl...",
+        "success": "**Antwort Nummer `%1$d` für benutzerdefinierten command `%2$s`:** \n```\n%3$s```"
       },
       "raw": {
-        "header": "Command \"%1$s\":",
-        "amount": "(Showing %1$d responses of %2$d)",
-        "pasted": "Pasted content"
+        "header": "Command \"%s\":",
+        "amount": "(Zeige %d antworten von %d)",
+        "pasted": "Hichgeladener Inhalt"
       },
       "clear": {
-        "success": "%1$sCleared **%2$d Custom Commands**!"
+        "success": "%1$s**%2$d benutzerdifinierte Command's** gelöchst!"
       },
       "make": {
-        "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
-        "cancel": "%1$sCommand Creation canceled.",
-        "no_responses_added": "%1$sNo responses were added. Stopping creation without saving...",
-        "success": "%1$sSaved to command `%2$s`!",
-        "no_name_specified": "%1$sYou didn't specify the name of the custom command to create!"
+        "start_text": "%1$s**\"Creation of Custom Command `%2$s`\"** gestarted!\nSchreibe `&~>stop` um die creation **ohne zu speichern** abzubrehcen.\nSchreibe `&~>save` um die creation abzubrehcen **und den Command zu speichern**. Beginne jeden text, den do als Antwort für diesen command hinzufügen möchtest, mit `&`.\nDiese interactive Aktion ended nach 60 sekunden, wen Inaktive.",
+        "cancel": "%1$sCommand creation abgebrochen.",
+        "no_responses_added": "%1$sKeine Antworten wurden hinzugefügt. Breche die creation ohne speichern ab...",
+        "success": "%1$sSCommand `%2$s` gepeichert!",
+        "no_name_specified": "%1$sDu has keinen name für die creation angegeben!"
       },
       "eval": {
-        "error": "%1$sThere was an error while evaluating your command!%2$s"
+        "error": "%1$sBeim Auswerten Ihres Befehls ist ein Fehler aufgetreten!%2$s"
       },
       "remove": {
-        "success": "%2$sRemoved Custom Command `%1$s`!"
+        "success": "%2$sBenutzerdifinierter Command `%1$s` wurde entfernt!"
       },
       "import": {
-        "not_found": "%1$sThere are no custom commands matching your search query.",
-        "header": "`%1$s` - Guild: `%2$s`",
-        "selection": "Select the Command:",
-        "note": "(You can only select custom commands from guilds that you are a member of)",
-        "success": "Imported custom command `%1$s` from guild `%2$s` with responses `%3$s`"
+        "not_found": "%1$sEs gab keine benutzerdefinierten Command's, die der Suchanfrage entsprachen..",
+        "header": "`%1$s` - Server: `%2$s`",
+        "selection": "Wähle den Command:",
+        "note": "(Sie können nur benutzerdefinierte Command's von Servern in denene du dich befindest auswählen.",
+        "success": "Benutzerdifinierter Command `%1$s` von Server `%2$s` importiret, mit folgeden Antworten: `%3$s`"
       },
       "edit": {
-        "invalid_number": "%1$sYou need to specify a correct number to change!",
-        "no_index": "%1$sYou cannot edit a non-existent index!",
-        "empty_response": "%1$sCannot edit to an empty response!",
-        "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly!"
+        "invalid_number": "%1$sDu musst eine korrekte Nummer zum Ändern angeben!",
+        "no_index": "%1$sDu kannst keinen nich vorhanden Index bearbeiten!",
+        "empty_response": "%1$sDu kannst nicht zu einer Leeren antwort wechseln.!",
+        "success": "%1$sAnwort **#%2$d** von Command `%3$s` erfolgreich bearbeitet!"
       },
       "rename": {
-        "success": "%1$sRenamed command `%2$s` to `%3$s`!"
+        "success": "%1$sCommand `%2$s` zu `%3$s` umbennant!"
       },
       "add": {
-        "success": "%1$sSaved to command `%2$s`!"
+        "success": "%1$sCommand `%2$s` gespeichert!"
       },
-      "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
-      "already_exists": "%1$sA command already exists with this name!",
-      "name_too_long": "%1$sName is too long.",
-      "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just dust.",
-      "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.",
-      "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
-      "invalid_image": "%1$sThis command contains an invalid image, please fix...",
-      "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
-      "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
-      "invalid_link": "%1$sThe string `%2$s` isn't a valid link."
+      "character_not_allowed": "%1$sDieses Zeichen ist in benutzerdefinierten Command's nicht erlaubt..",
+      "already_exists": "%1$sEin Command mit diesem Name existiert bereits!",
+      "name_too_long": "%1$sDer Name ist zu lang.",
+      "no_cc": "%1$sIn diesem Server gibt es keine benutzerdefinierten Command's, nur Staub.",
+      "admin_only": "In diesem Server können nur Administratoren benutzerdefinierte Command's Erstellen, Bearbeite, Auswerten order Entfernen.",
+      "not_found": "%1$sDer Command `%2$s` existiert in diesem Server nicht.",
+      "invalid_image": "%1$sDieser Command enthält ein Ungültiges Bild, bitte beheben...",
+      "invalid_string": "%1$sDer string `{%2$s}`  ist nicht gültig oder die Ausgabe ist länger als 2000 Zeichen.",
+      "invalid_json": "%1$sDer string `{%2$s}` is eine Ungültige JSON.",
+      "invalid_link": "%1$sDer string `%2$s` ist kein Gültiger link."
     },
     "mute": {
-      "no_permissions": "%1$sYou need to have either ban or kick members permission to mute!",
-      "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`",
-      "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent!",
-      "no_mentions": "%1$sYou need to mention at least one user to mute.",
-      "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server!",
-      "no_time": "%1$sYou didn't specify any time!",
-      "time_not_specified": "%1$sYou wanted time but didn't specify for how long!",
-      "negative_time_notice": "%1$sYou cannot mute someone for negative time!",
-      "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
-      "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
-      "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to unmute them.",
-      "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
-      "user_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
-      "success": "%1$sAdded mute role to **%2$s%3$s** for around %4$s"
+      "no_permissions": "%1$sDu benötigst entweder ban order kick Rechte um Mitglieder zu muten!",
+      "no_mute_role": "%1$sDieser Server hat (noch) keine Mute-Rolle, du kannst eine Einrichten mit: `~>opts muterole set <Rolle>`",
+      "null_mute_role": "%1$sDie zuvor konfigurierte Rolle auf diesem Server ist jetzt nicht mehr vorhanden!",
+      "no_mentions": "%1$sDu musst mindestens einen Benutzer zum muten erwähnen.",
+      "no_manage_roles": "%1$sMir fehlen die Rechte Rollen zu verwalten.!",
+      "no_time": "%1$sDue hast keine Mute-Zeit angegeben!",
+      "time_not_specified": "%1$sDu wolltest eine Mute-Zeit, hast aber nicht angeben für wie lange.",
+      "negative_time_notice": "%1$sDu kannst niemand für einen negativen Zeitraum muten!",
+      "default_time_too_long": "%1$sDie Standard Mute-Zeit ist zu lang (Maximum: 10 Tage)...",
+      "time_too_long": "%1$sDie angegeben Mute-Zeit ist zu lang (Maximum: 10 Tage)...",
+      "already_muted": "%1$sDieser Benutzer ist bereits gemuted. Nutze `~>unmute` um denjenigen zu entmuted.",
+      "self_hierarchy_error": "%1$sIch kann diesem Benutzer die Mute-Rolle nicht zuweisen, da derjenige sich in einer höheren Hierarchie als ich befinden oder die Rolle in einer höheren Hierarchie ist!",
+      "user_hierarchy_error": "%1$sIch kann diesem Benutzer die Mute-Rolle nicht zuweisen, da derjenige sich in einer höheren Hierarchie als ich befinden oder die Rolle in einer höheren Hierarchie als du bist!",
+      "success": "%1$sMute-Rolle zu **%2$s%3$s** für circa %4$s hinzugefügt."
     },
     "unmute": {
-      "no_permissions": "%1$sYou need to have either ban or kick members permission to un-mute!",
-      "no_mentions": "%1$sYou need to mention at least one user to un-mute.",
-      "success": "%1$sRemoved mute role from **%2$s**",
-      "no_role_assigned": "%1$sThis user doesn't have the mute role assigned to them."
+      "no_permissions": "%1$sDu benötigst entweder ban order kick Rechte um Mitglieder zu entmuten!",
+      "no_mentions": "%1$sDu musst mindestens einen Benutzer zum entmuten erwähnen.",
+      "success": "%1$sMute-Rolle von **%2$s** entfernt.",
+      "no_role_assigned": "%1$sDieser Benutzer ist nicht gemuted."
     },
     "ping": {
       "quotes": {
-        "1": "supersonic speed! :upside_down:",
-        "10": "faster than Sonic! :smiley:",
-        "69": "l-lewd! <:MantaroGasm:318869352851963904>",
-        "100": "great! :smiley:",
-        "200": "nice! :slight_smile:",
-        "300": "decent. :neutral_face:",
-        "400": "average... :confused:",
-        "500": "slightly slow. :slight_frown:",
-        "600": "kinda slow.. :frowning2:",
-        "700": "slow.. :worried:",
-        "800": "too slow. :disappointed:",
-        "900": "bad. :sob: (helpme)",
+        "1": "Überschallgeschwindigkeit! :upside_down:",
+        "10": "Schneller as Sonic! :smiley:",
+        "69": "U-Unanständig! <:MantaroGasm:318869352851963904>",
+        "100": "Gut! :smiley:",
+        "200": "Schön! :slight_smile:",
+        "300": "Dezent. :neutral_face:",
+        "400": "Durchschnittlich... :confused:",
+        "500": "leicht langsam. :slight_frown:",
+        "600": "langsam.. :frowning2:",
+        "700": "langsam.. :worried:",
+        "800": "zu langsam. :disappointed:",
+        "900": "Schlecht. :sob: (helpme)",
         "1600": "#BlameDiscord. :angry:",
-        "10000": "this makes no sense :thinking: #BlameSteven",
-        "default": "slow af. :dizzy_face:"
+        "10000": "Dies Ergibt kein Sinn :thinking: #BlameSteven",
+        "default": "Viel zu langsam. :dizzy_face:"
       },
-      "text": "%1$s*%2$s* - My ping: %3$d ms (%4$s) `Websocket:%5$dms`"
+      "text": "%1$s*%2$s* - Meine Latenz: %3$d ms (%4$s) `Websocket:%5$dms`"
     },
     "love": {
-      "no_mention": "%1$sYou need to mention at least 1 user.",
-      "not_ideal": "Try again next time...",
-      "decent": "Good enough!",
-      "nice": "Good match!",
-      "perfect": "Perfect match!",
-      "yourself_note": "You're a special creature and you should love yourself more than anyone <3",
-      "header": "Love Meter",
-      "result": "Result:"
+      "no_mention": "%1$sDo musst mindestens einene Benutzer erwähnen.",
+      "not_ideal": "Versuch es nächstes mal...",
+      "decent": "Gut genug!",
+      "nice": "Gutes Paar!",
+      "perfect": "Perfektes Paar!",
+      "yourself_note": "Du bist ein spezielles Wesen und solltest dich mehr als alle anderen Lieben <3.",
+      "header": "Liebes Meter",
+      "result": "Ergebniss:"
     },
     "marry": {
-      "no_mention": "%1$sMention the user you want to marry.",
-      "marry_yourself_notice": "%1$sYou cannot marry yourself, as much as you may want to.",
-      "marry_bot_notice": "%1$sYou cannot marry a bot.",
-      "already_married_receipt": "%1$sYou're married with them already, aww.",
-      "already_married": "%1$sYou're married already.",
-      "receipt_married": "%1$sThat user is married already.",
-      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>market buy 2 ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s, type with **yes** or **no** to the marriage proposal from %3$s\nThis timeouts in 120 seconds.",
-      "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory!",
-      "accepted": "%1$s`%2$s` accepted the proposal of `%3$s`!",
-      "denied": "%1$sDenied proposal from `%2$s`"
+      "no_mention": "%1$sErwähnen den Benutzer den du heiraten möchtest.",
+      "marry_yourself_notice": "%1$sDu kannst dich selber nicht heiraten, egal wie sehr du es möchtest.",
+      "marry_bot_notice": "%1$sDu kannst keinen Bot heiraten.",
+      "already_married_receipt": "%1$sIhr seit Bereits verheiratet, aww.",
+      "already_married": "%1$sDu bist bereits verheiratet.",
+      "receipt_married": "%1$sDieser Benutzer ist bereits verheiratet.",
+      "no_ring": "%1$sOhne 2 Ringe kannst du nicht heiraten! Du kannst diese kaufen mit `~>market buy 2 ring` und dann versuch es erneut <3.",
+      "confirmation": "%1$s%2$s, beanworte den Heiratsantrag von %3$s mit **yes** (ja) oder **no** (nein).\nDies läuft in 120 sekuden ab.",
+      "ring_check_fail": "%1$sDu kannst nicht mit weniger als 2 Ringen in deinem Inventar heiraten!",
+      "accepted": "%1$s`%2$s` hat den Antrag von `%3$s` akzeptiert!",
+      "denied": "%1$sAntrag von`%2$s` abgelehnt."
     },
     "divorce": {
-      "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?",
-      "success": "%1$sNow you're single. That's nice I guess."
+      "not_married": "%1$sDu bist nicht mit jemandem verheiratet, warum findest du diesen besonderen Menschen nicht?",
+      "success": "%1$sJetzt bist du Single. Das ist nett, denke ich zumindest."
     },
     "ratewaifu": {
-      "nothing_specified": "%1$sGive me a waifu to rate!",
-      "success": "%1$sI rate %2$s with a **%3$d/100**"
+      "nothing_specified": "%1$sGib mir eine Waifu zum Bewerten!",
+      "success": "%1$sIch bewerte %2$s mit einer **%3$d/100**"
     },
     "roll": {
-      "success": "%1$sYou got **%2$d**%3$s",
-      "amount": "Doing **%1$d** rolls."
+      "success": "%1$sDu würfelst eine **%2$d**%3$s",
+      "amount": "Würfle **%d** mal."
     },
     "coinflip": {
-      "over_limit": "%1$sHold in there! The limit is 1,000 coin flips",
-      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions",
-      "success": "%1$s Your result from **%2$d** time(s) yielded **%3$d** heads and **%4$d** tails"
+      "over_limit": "%1$sHalt dich dort fest! Das Limit ist 1.000 Münzwürfe.",
+      "no_repetitions": "%1$sDu musst eine ganze Zahl für die Anzahl der Wiederholungen angeben.",
+      "success": "%1$s Die Ergebnisse von **%2$d** wurf/würfen ergaben **%3$d** Kopf und **%4$d** Zahl"
     },
     "inventory": {
-      "brief": "**%1$s's inventory:** %2$s",
-      "calculate": "%1$sYou will get **%2$d credits** if you sell all of your items!",
-      "header": "%1$s's Inventory",
-      "format": "**Price**: 📥 %1$d 📤 %2$d\n%3$s"
+      "brief": "**%1$s's Inventar:** %2$s",
+      "calculate": "%1$sDu erhälst **%2$d Credits** when du all deine Items verkaufst!",
+      "header": "%1$s's Inventar",
+      "format": "**Preis**: 📥 %1$d 📤 %2$d\n%3$s"
     },
     "market": {
       "dump": {
-        "invalid": "%1$sNot a valid number of items to dump.",
-        "non_existent": "%1$sCannot dump a non-existent item!",
-        "player_no_item": "%1$sCannot dump an item you don't have!",
-        "more_items_than_player": "%1$sYou cannot dump more items than what you have.",
-        "success": "%1$sSent %2$dx **%3$s %4$s** to the trash!"
+        "invalid": "%1$sUngültige Anzahl an zu löschender Items.",
+        "non_existent": "%1$sEin nicht vorhandenes Item kann nicht gelöscht werden!",
+        "player_no_item": "%1$sKann ein Item, das du nicht hast, nicht löschen!",
+        "more_items_than_player": "%1$sDu kannst nicht mehr Items löschen als du besitzt.",
+        "success": "%1$s%2$dx **%3$s %4$s** Items wurden gelöscht.!"
       },
       "price": {
         "non_existent": "%1$sCannot check the price of a non-existent item!",
         "no_price": "%1$sThis item is not available neither for sell or buy (could be an exclusive collectible)",
-        "collectible": "%1$sThis is a collectible item. (Sell value: %2$d credits)",
-        "success": "%1$sThe market value of %2$s**%3$s** is %4$s credits to buy it and you can get %5$s credits if you sell it."
+        "collectible": "%1$sThis is a collectible item. (Sell value: %2$d Credits)",
+        "success": "%1$sThe market value of %2$s**%3$s** is %4$s Credits to buy it and you can get %5$s Credits if you sell it."
       },
       "sell": {
-        "invalid": "%1$sNot a valid number of items to sell.",
+        "invalid": "%1$sUngültige Anzahl an zu verkaufender Items.",
         "all": {
-          "success": "%1$sYou sold all your inventory items and gained %2$d credits!"
+          "success": "%1$sDu hast alle deine Items für %2$d Credits verkauft!"
         },
         "non_existent": "%1$sYou cannot sell a non-existent item.",
         "no_sell_price": "%1$sYou cannot sell an item that cannot be sold.",
         "no_item_player": "%1$sYou cannot sell an item you don't have.",
         "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
-        "success": "%1$sYou sold %2$d **%3$s** and gained %4$d credits!"
+        "success": "%1$sYou sold %2$d **%3$s** and gained %4$d Credits!"
       },
       "buy": {
-        "invalid": "%1$sNot a valid number of items to buy.",
-        "non_existent": "%1$sYou cannot buy an non-existent item.",
-        "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object!",
-        "success": "%1$sBought %2$d %3$s for %4$d credits successfully. You now have %5$d credits.",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item."
+        "invalid": "%1$sUngültige Anzahl an zu kaufender Items.",
+        "non_existent": "%1$sDu kannst ein nicht existierendes Item nicht kaufen.",
+        "no_buy_price": "%1$sDu kannst ein Item, das nicht gekauft werden kann, nicht kaufen.",
+        "item_limit_reached": "%1$sDu kannst nicht noch mehr von diesem Item kaufen!",
+        "success": "%1$sDu hast %2$d %3$s gekauft für %4$d Credits. Du hast nun %5$d Credits.",
+        "not_enough_money": "%1$sDu hast nicht genügend Credits um dieses Item zu kaufen."
 
       },
-      "header": "Mantaro's Market"
+      "header": "Mantaro's Markt"
     },
     "itemtransfer": {
       "transfer_yourself_note": "%1$sYou cannot transfer items to yourself!",
