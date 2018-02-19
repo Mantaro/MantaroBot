@@ -410,21 +410,21 @@
         "success": "%1$s%2$dx **%3$s %4$s** Items wurden gelöscht.!"
       },
       "price": {
-        "non_existent": "%1$sCannot check the price of a non-existent item!",
-        "no_price": "%1$sThis item is not available neither for sell or buy (could be an exclusive collectible)",
-        "collectible": "%1$sThis is a collectible item. (Sell value: %2$d Credits)",
-        "success": "%1$sThe market value of %2$s**%3$s** is %4$s Credits to buy it and you can get %5$s Credits if you sell it."
+        "non_existent": "%1$sIch kann nicht den Preis eines nicht existierendem Item checken!",
+        "no_price": "%1$sDieses Item steht weder zum kauf noch verkauf zur Verfügung (Es könnte eine Sammelstück sein)",
+        "collectible": "%1$sDies ist ein Sammelstück. (Verkauf Preis: %2$d Credits)",
+        "success": "%1$sDer kauf Preis für %2$s**%3$s** ist %4$s Credit und du erhälst %5$s Credits wenn due es verkaufst."
       },
       "sell": {
         "invalid": "%1$sUngültige Anzahl an zu verkaufender Items.",
         "all": {
           "success": "%1$sDu hast alle deine Items für %2$d Credits verkauft!"
         },
-        "non_existent": "%1$sYou cannot sell a non-existent item.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold.",
-        "no_item_player": "%1$sYou cannot sell an item you don't have.",
-        "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
-        "success": "%1$sYou sold %2$d **%3$s** and gained %4$d Credits!"
+        "non_existent": "%1$sDu kannst kein nicht vorhandendes Item verkaufen.",
+        "no_sell_price": "%1$sDu kannst kein Item verkaufen das nicht verkauft werden kann.",
+        "no_item_player": "%1$sDu kannst kein Item verkaufen das du nicht besitzt.",
+        "more_items_than_player": "%1$sDu kannst nicht mehr als du has verkaufen.",
+        "success": "%1$sDu hast %2$d **%3$s** verkauft und erhälst %4$d Credits!"
       },
       "buy": {
         "invalid": "%1$sUngültige Anzahl an zu kaufender Items.",
