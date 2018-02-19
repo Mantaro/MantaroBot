@@ -82,7 +82,7 @@
       "no_mention": "%1$sDu musst mindestens einen Nutzer erwähnen zum kicken!",
       "no_permission_self": "%1$sSorry! Mir fehlen die Rechte Nutzer zu kicken in diesem Server!",
       "hierarchy_conflict": "%1$sDu kannst nicht jemanden kicken der einer höhere Hierarchie als du hat.! Netter Versuch %2$s",
-      "yourself_note": "%1$sWarum versuchst du dich selbst zu kicken, dummerchen?",,
+      "yourself_note": "%1$sWarum versuchst du dich selbst zu kicken, dummerchen?",
       "self_hierarchy_conflict": "%1$sKann das Mitglied nicht kicken: %2$s, sie befinden sich in einer höheren Hierarchie als ich.!",
       "success": "%1$s%2$s (%3$s wurde gekickt)",
       "error": "%1$sFehler beim kicken %2$s: (Ich benötige die Rechte: %3$s)",
@@ -224,7 +224,7 @@
       "dj_skip": "%1$sDer DJ entschied sich das Lied zu überspringen.",
       "vote": {
         "submit": "%1$s**Deine Stimme wurde abgegeben!** Du benötigst %2$d mehr stimmen zum skippen!",
-        "remove": "%1$s**Deine Stimme wurde entfernt!** Du benötigst %2$d mehr stimmen zum skippen!",
+        "remove": "%1$s**Deine Stimme wurde entfernt!** Du benötigst %2$d mehr stimmen zum skippen!"
       },
       "success": "%1$sErreichte die erforderliche Anzahl von Stimmen, überspringe den Song...",
       "no_track": "%1$sEs scheint keinen Song zum Überspringen zu geben, also kann ich nichts machen..."
