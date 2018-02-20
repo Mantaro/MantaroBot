@@ -64,4 +64,4 @@ You may add yourself to this table while making a translation.
 | Portuguese (BR) | Natan#1337 ([@Natanbc](https://github.com/natanbc)) |
 | French (FR) | Desiree 🌺#0611 ([@Desiiii](https://github.com/Desiiii)) |
 | German (DE) | MrLar 🌺#0611 ([@MrLar](https://github.com/MrLar)) |
-| Chinese (Taiwan) (zh-TW) | edisonlee55#9058 ([@edisonlee55](https://github.com/edisonlee55))
+| Chinese (TW) | edisonlee55#9058 ([@edisonlee55](https://github.com/edisonlee55))
