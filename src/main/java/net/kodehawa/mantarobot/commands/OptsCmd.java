@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.functions.interfaces.TriConsumer;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
@@ -44,7 +45,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiConsumer;
 
 import static java.util.Map.Entry;
 import static net.kodehawa.mantarobot.utils.Utils.mapObjects;
@@ -136,12 +136,12 @@ public class OptsCmd {
                     Option option = Option.getOptionMap().get(name.toString());
 
                     if(option != null) {
-                        BiConsumer<GuildMessageReceivedEvent, String[]> callable = Option.getOptionMap().get(name.toString()).getEventConsumer();
+                        TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> callable = Option.getOptionMap().get(name.toString()).getEventConsumer();
                         try {
                             String[] a;
                             if(++i < args.length) a = Arrays.copyOfRange(args, i, args.length);
                             else a = new String[0];
-                            callable.accept(event, a);
+                            callable.accept(event, a, new I18nContext(MantaroData.db().getGuild(event.getGuild()).getData(), MantaroData.db().getUser(event.getAuthor().getId()).getData()));
                             Player p = MantaroData.db().getPlayer(event.getAuthor());
                             if(p.getData().addBadgeIfAbsent(Badge.DID_THIS_WORK)) {
                                 p.saveAsync();
@@ -165,24 +165,22 @@ public class OptsCmd {
                                 "%sHey, if you're lost or want help on using opts, check https://github.com/Mantaro/MantaroBot/wiki/Configuration for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!")
                         .build();
             }
-            //TODO: translate options after translating all commands. This two down here are already included in the translation file
         }).addOption("check:data", new Option("Data check.",
                 "Checks the data values you have set on this server. **THIS IS NOT USER-FRIENDLY**", OptionType.GENERAL)
-                .setAction(event -> {
+                .setActionLang((event, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
                     //Map as follows: name, value
                     Map<String, Object> fieldMap = mapObjects(guildData);
 
                     if(fieldMap == null) {
-                        event.getChannel().sendMessage(String.format("%sCannot retrieve values. Weird thing...", EmoteReference.ERROR)).queue();
+                        event.getChannel().sendMessage(String.format(lang.get("options.check_data.retrieve_failure"), EmoteReference.ERROR)).queue();
                         return;
                     }
 
                     StringBuilder show = new StringBuilder();
-                    show.append("Options set for server **")
-                            .append(event.getGuild().getName())
-                            .append("**\n\n");
+                    show.append(String.format(lang.get("options.check_data.header"), event.getGuild().getName()))
+                            .append("\n\n");
 
                     AtomicInteger ai = new AtomicInteger();
 
@@ -197,10 +195,13 @@ public class OptsCmd {
                                 .append("`");
 
                         if(e.getValue() == null) {
-                            show.append(" **is not set to anything.")
+                            show.append(" **")
+                                    .append(lang.get("options.check_data.null_set"))
                                     .append("**\n");
                         } else {
-                            show.append(" is set to: **")
+                            show.append(" **")
+                                    .append(lang.get("options.check_data.set_to"))
+                                    .append(" ")
                                     .append(e.getValue())
                                     .append("**\n");
                         }
@@ -211,7 +212,7 @@ public class OptsCmd {
                 }).setShortDescription("Checks the data values you have set on this server.")
         ).addOption("reset:all", new Option("Options reset.",
                 "Resets all options set on this server.", OptionType.GENERAL)
-            .setAction(event -> {
+            .setActionLang((event, lang) -> {
                 //Temporary stuff.
                 DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                 GuildData temp = MantaroData.db().getGuild(event.getGuild()).getData();
@@ -235,7 +236,7 @@ public class OptsCmd {
                 //weee
                 newDbGuild.saveAsync();
 
-                event.getChannel().sendMessage(String.format("%sCorrectly reset your options!", EmoteReference.CORRECT)).queue();
+                event.getChannel().sendMessage(String.format(lang.get("options.reset_all.success"), EmoteReference.CORRECT)).queue();
             }
         ));
     }
