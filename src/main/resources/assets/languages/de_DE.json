@@ -500,187 +500,187 @@
       "random_color": "%1$sDie zufällige Farbe ist %2$s"
     },
     "poll": {
-      "missing": "%1$sYou didn't include either the %2$s argument or it was empty!\n%3$s",
-      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3`. For spaced stuff use quotation marks at the start and end of the sentence.",
-      "other_poll_running": "%1$sThere seems to be another poll running here...",
-      "no_reaction_perms": "%1$sSeems like I cannot add reactions here...",
-      "too_long": "This was too long to show, so I pasted it: %1$s",
-      "header": "Poll #%1$d created by %2$s",
-      "success": "**Poll started. React to the number to vote.**\n*%1$s*\nType &cancelpoll to cancel a running poll.",
-      "time": "You have %1$s to vote.",
-      "error": "%1$sAn unknown error has occurred while setting up a poll. Maybe try again?",
-      "result_header": "Poll results",
-      "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
-      "vote_results": "+Registered %1$d votes for option %2$s",
-      "thank_note": "Thanks for your vote",
-      "results": "Results",
-      "cancelled": "%1$sCancelled poll"
+      "missing": "%1$sDu hast entweder das Argument %2$s vergessen oder leer gelassen!\n%3$s",
+      "invalid": "%1$sDiese Umfrage kann nicht erstellt werden. **Denke daran, dass die Optionen maximal 9 und mindestens 2 sein müssen und das Timeout maximal 45m und mindestens 30s betragen darf.**\nOptionen sind durch ein Komma getrennt, zum Beispiel `1,2,3`. Für Leerzeichen verwenden Sie Anführungszeichen am Anfang und am Ende des Satzes.",
+      "other_poll_running": "%1$sEs scheint eine andere Umfrage zu geben, die hier läuft...",
+      "no_reaction_perms": "%1$sAnscheinend kann ich hier keine Reaktionen hinzufügen...",
+      "too_long": "Das war zu lang, um es zu zeigen, also habe ich es hochgeladen: %1$s",
+      "header": "Poll #%1$d erstellt von %2$s",
+      "success": "**Die Umfrage begann. Reagieren Sie auf die zu wählende Nummer.**\n*%1$s*\nSchreibe &cancelpoll um diese Umfrage abzubrechen.",
+      "time": "Sie haben %1$s zum abstimmmen.",
+      "error": "%1$sBeim Einrichten einer Umfrage ist ein unbekannter Fehler aufgetreten. Vielleicht nochmal versuchen?",
+      "result_header": "Umfrageergebnisse",
+      "result_screen": "**Zeige Ergebnisse für die Umfrage, die von %1$s gestartet wurde** mit dem Namen: *%2$s*",
+      "vote_results": "+%1$d für die Option %2$s registriert",
+      "thank_note": "Danke für Ihre Stimme",
+      "results": "Ergebnisse",
+      "cancelled": "%1$sUmfrage abgebrochen"
     },
     "osustats": {
       "user": {
-        "header": "osu! statistics for %1$s",
-        "rank": "Rank",
-        "acc": "Accuracy",
+        "header": "osu! statistiken für %1$s",
+        "rank": "Rang",
+        "acc": "Genauigkeit",
         "level": "Level",
-        "ranked": "Ranked Score",
-        "country_rank": "Country Rank"
+        "ranked": "Rangliste Punkte",
+        "country_rank": "Landesrang"
       },
-      "retrieving_info": "%1$sRetrieving information from osu! server...",
-      "timeout": "%1$sThe osu! api seems to be taking a nap. Maybe try again later?",
-      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rank: %6$s -> Max Combo: %7$d",
-      "best": "**10 best osu! scores for: %1$s**\n```md\n%2$s```",
-      "error": "%1$sUh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)",
-      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Date: %5$s -> Max Combo: %5$d\n",
-      "recent": "**10 most recent osu! scores for: %1$s**\n```md\n%2$s```",
-      "error_detailed": "Uh-oh... seems like I just received scramble soup as a response... (%1$s)"
+      "retrieving_info": "%1$sInformationen abrufen vom osu! server...",
+      "timeout": "%1$sDie osu! api scheint ein Nickerchen zu machen. Vielleicht später noch einmal versuchen?",
+      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rang: %6$s -> Max Combo: %7$d",
+      "best": "**10 beste osu! punkte für: %1$s**\n```md\n%2$s```",
+      "error": "%1$sUh-oh ... scheint, als hätte ich gerade eine Rührensuppe als Antwort bekommen... (Fehler beim Abrufen der Ergebnisse)",
+      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Datum: %5$s -> Max Combo: %5$d\n",
+      "recent": "**10 neuesten osu! punkte für: %1$s**\n```md\n%2$s```",
+      "error_detailed": "Uh-oh ... scheint, als hätte ich gerade eine Rührensuppe als Antwort bekommen... (%1$s)"
     },
     "profile": {
       "timezone": {
-        "not_specified": "%1$sYou need to specify the timezone.",
-        "reset": "%1$sReset timezone.",
-        "invalid": "%1$sInvalid timezone.",
-        "success": "%1$sSaved timezone, your profile timezone is now: **%2$s**"
+        "not_specified": "%1$sSie müssen die Zeitzone angeben.",
+        "reset": "%1$sZeitzone zurückgesetzt",
+        "invalid": "%1$sUngültige Zeitzone",
+        "success": "%1$sZeitzone gespeicherte, Ihre Profilzeitzone ist jetzt: **%2$s**"
       },
       "description": {
-        "no_argument": "%1$sYou need to provide an argument! (set or remove)\nfor example, ~>profile description set Hi there!",
-        "too_long": "%1$sThe description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`",
-        "success": "%1$sSet description to: **%2$s**\nCheck your shiny new profile with `~>profile`",
-        "clear_success": "%1$sSuccessfully cleared description."
+        "no_argument": "%1$sSie müssen ein Argument angeben! (set (setzen) oder remove (entfernen))\nzum Beispiel, ~>profile description set Hi there!",
+        "too_long": "%1$sDie Beschreibung ist zu lang! `(Limit von 300 Zeichen für alle und 500 für Premium-Nutzer)`",
+        "success": "%1$sDeine Beschreibung ist nun: **%2$s**\nÜberprüfe dein glänzendes neues Profil mit `~>profile`",
+        "clear_success": "%1$sBeschreibung erfolgreich gelöscht."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge!",
-        "reset_success": "%1$sNo badge will show on the top of your profile now!",
-        "important_success": "%1$sYour display badge is now the most important one.",
-        "no_such_badge": "%1$sThere's no such badge...\nYour available badges: %2$s",
-        "player_missing_badge": "%1$sYou don't have that badge.\nYour available badges: %2$s",
-        "success": "%1$sYour display badge is now: **%2$s**"
+        "not_specified": "%1$sSie müssen Ihr Hauptabzeichen angeben!",
+        "reset_success": "%1$sKein Abzeichen wird jetzt oben auf deinem Profil angezeigt!",
+        "important_success": "%1$sIhr Display-Abzeichen ist jetzt das wichtigste.",
+        "no_such_badge": "%1$sEs gibt kein solches Abzeichen...\nIhre verfügbaren Abzeichen: %2$s",
+        "player_missing_badge": "%1$sDu hast dieses Abzeichen nicht.\nIhre verfügbaren Abzeichen: %2$s",
+        "success": "%1$sDein Display-Abzeichen ist jetzt: **%2$s**"
       },
-      "bot_notice": "%1$sBots don't have profiles.",
-      "header": "%1$s's Profile",
-      "no_desc": "No description set",
+      "bot_notice": "%1$sBots haben keine Profile.",
+      "header": "%1$s's Profil",
+      "no_desc": "Keine Beschreibung festgelegt",
       "credits": "Credits",
       "level": "Level",
-      "xp": "Experience",
-      "rep": "Reputation",
-      "birthday": "Birthday",
-      "married": "Married with",
-      "nobody": "Nobody",
-      "inventory": "Inventory",
-      "badges": "Top 5 Badges",
-      "no_badges": "No badges (yet!)",
-      "no_timezone": "No timezone set.",
-      "timezone_user": "User's timezone: %1$s",
-      "not_specified": "Not specified."
+      "xp": "Erfahrung",
+      "rep": "Ruf",
+      "birthday": "Geburtstag",
+      "married": "Verheiratet mit",
+      "nobody": "Niemandem",
+      "inventory": "Inventar",
+      "badges": "Top 5 Abzeichen",
+      "no_badges": "Keine Abzeichen (noch!)",
+      "no_timezone": "Keine Zeitzone festgelegt.",
+      "timezone_user": "Zeitzone des Benutzers: %1$s",
+      "not_specified": "Keine Angabe."
     },
     "badges": {
       "info": {
-        "not_specified": "%1$sYou need to specify a badge to see the info of.",
-        "not_found": "%1$sThere's no such badge...",
-        "header": "Badge information for %1$s",
-        "achieved": "Achieved"
+        "not_specified": "%1$sDu musst ein Abzeichen angeben von denem du die Informationen sehen willst.",
+        "not_found": "%1$sEs gibt kein solches Abzeichen...",
+        "header": "Abzeichen Informationen für %1$s",
+        "achieved": "Erreicht"
       },
-      "brief_success": "**%1$s's badges:**\n%2$s",
-      "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n",
-      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge.\n",
-      "upvote_notice": "**You can get a free badge for [up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!** (It might take some minutes to process)\n\n",
-      "no_badges": "No badges to show (yet!)",
-      "header": "Badges achieved by %1$s"
+      "brief_success": "**%1$s's Abzeichen:**\n%2$s",
+      "profile_notice": "Wenn du der Meinung sind, dass du ein neues Abzeichen erhalten hast und es hier nicht angezeigt wird, verwenden Sie bitte `~>profile` und führen Sie den Comamnd erneut aus.\n",
+      "info_notice": "Verwende `~>badges info <Abzeichen name>` um mehr Information über ein Abzeichen zu erhalten.\n",
+      "upvote_notice": "**Sie können ein kostenloses Abzeichen für das [Up-Voten von Mantaro auf discordbots.org](https://discordbots.org/bot/mantaro) erhalten!** (Die Verarbeitung kann einige Minuten dauern)\n\n",
+      "no_badges": "Keine Abzeichen (noch!)",
+      "header": "Abzeichen erreicht von %1$s"
     },
     "rep": {
-      "no_mentions": "%1$sYou need to mention or put the name of at least one user.\n**%2$s",
-      "more_than_one": "%1$sYou can only give reputation to one person!",
-      "rep_bot": "%1$sYou cannot rep a bot.\n",
-      "rep_yourself": "%1$sYou cannot rep yourself.\n",
+      "no_mentions": "%1$sDu musst mindestens einen Nutzer erwähnen oder deren Namen angeben.\n**%2$s",
+      "more_than_one": "%1$sDu kannst nur eine Person gleichzeitig Ansehen schenken!",
+      "rep_bot": "%1$sDu kannst einem Bot kein Ansehen schenken.\n",
+      "rep_yourself": "%1$sDu kannst die selber nicht Ansehen schenken.\n",
       "cooldown": {
-        "waiting": "**You'll be able to use this command again in %1$s**",
-        "pass": "You can rep someone now."
+        "waiting": "**Du kannst diesn Command %1$s erneut verwenden**",
+        "pass": "Du kannst jetzt jemandem Ansehen schenken."
       },
-      "success": "%1$sAdded reputation to **%2$s**"
+      "success": "%1$sDu hast **%2$s** Ansehen geschenkt"
     },
     "birthday": {
-      "reset": "%1$sCorrectly reset birthday date.",
-      "no_global_birthdays": "%1$sThings seems a bit empty here...",
-      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month here :(\n%2$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)",
-      "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running :(",
-      "error": "%1$sSomething went wrong while getting birthdays :(",
-      "header": "**%1$s's Birthdays for %2$s**\n",
-      "invalid_date": "%1$sNot a valid date.\nRemember that the date format is `dd/mm/yyyy`",
-      "error_date": "%1$s%2$s is either not a valid date or not parseable. Please try with the correct formatting. Remember to include the year, although you can put any year and it won't affect anything.\nRemember that the date format is `dd/mm/yyyy`",
-      "added_birthdate": "%1$sAdded birth date."
+      "reset": "%1$sGeburtsdatum zurücksetzen.",
+      "no_global_birthdays": "%1$sDie Dinge scheinen hier ein wenig leer zu sein...",
+      "no_guild_month_birthdays": "%1$sEs gibt keine Geburtstage für diesen Monat hier:(\n%2$sWenn Sie nur den Geburtstagssprecher eingerichtet haben, warten Sie bitte ein wenig, bis Sie ihn erneut ausführen. (Der Cache wird alle 23 Stunden aktualisiert)",
+      "cache_not_running": "%1$sDer Geburtstag Cacher scheint nicht zu laufen :(",
+      "error": "%1$sEtwas ging schief beim Abrufen der Geburtstage :(",
+      "header": "**%1$s's Geburtstage für %2$s**\n",
+      "invalid_date": "%1$sUngültiges Datum.\nDas korrekte format ist `tt/mm/jjjj`",
+      "error_date": "%1$s%2$s ist entweder kein gültiges Datum oder nicht analysierbar. Bitte versuchen Sie es mit der korrekten Formatierung. Denken Sie daran, das Jahr einzufügen, obwohl Sie jedes Jahr setzen können und es nichts beeinflussen wird.\nDas korrekte format ist `tt/mm/jjjj`",
+      "added_birthdate": "%1$sGeburtsdatum hinzugefügt."
     },
     "choose": {
-      "success": "%1$sI choose `%2$s`"
+      "success": "%1$sIch wähle `%2$s`"
     },
     "dictionary": {
-      "no_word": "%1$s You need to specify a word.",
-      "header": "Definition for %1$s",
-      "description": "**Part of speech:** `%1$s`\n**Headword:** `%2$s`"
+      "no_word": "%1$s Du musst ein Wort angeben.",
+      "header": "Definition für %1$s",
+      "description": "**Wortart:** `%1$s`\n**Stichwort:** `%2$s`"
     },
     "remindme": {
-      "nothing_specified": "%1$sWhat could I remind you of if you don't give me what to remind you? Oh! Lemme remind you of setting a reminder!",
-      "no_reminders": "%1$sYou have no reminders set!",
+      "nothing_specified": "%1$sAn was könnte ich dich erinnern, wenn du mir nicht gibst, was ich dich daran erinnern soll? Oh! Lass mich dich daran erinnern, eine Erinnerung zu setzen!",
+      "no_reminders": "%1$sSie haben keine Erinnerungen festgelegt!",
       "cancel": {
-        "success": "%1$sCancelled your reminder.",
-        "select": "Select the reminder you want to cancel."
+        "success": "%1$sDeine Erinnerung wurde abgebrochen.",
+        "select": "Wählen Sie die Erinnerung aus, die Sie abbrechen möchten."
       },
-      "no_time":  "You didn't give me a `-time` argument! (Example: `-time 1h`)",
-      "too_little_time": "%1$sThat's too little time!",
-      "too_long": "Too long (Maximum: 3 months)...",
-      "success": "%1$sI'll remind you of **%2$s** in %3$s"
+      "no_time":  "Du hast mir kein `-time` argument gegeben! (Beispiel: `-time 1h`)",
+      "too_little_time": "%1$sDas ist zu wenig Zeit!",
+      "too_long": "Zu lang (Maximum: 3 Monate)...",
+      "success": "%1$sIch werde dich an **%2$s** erinnern in %3$s"
     },
     "time": {
-      "invalid_timezone": "%1$sThat's not a valid timezone!",
-      "success": "%1$sIt's %2$s in the %3$s timezone",
-      "error": "%1$sError while retrieving timezone or it's not valid"
+      "invalid_timezone": "%1$sDas ist keine gültige Zeitzone!",
+      "success": "%1$sEs ist %2$s in der %3$s Zeitzone",
+      "error": "%1$sFehler beim Abrufen der Zeitzone oder sie ist ungültig"
     },
     "urban": {
-      "header": "Urban Dictionary definition for %1$s",
-      "main_def": "Main definition.",
-      "footer": "Information by Urban Dictionary"
+      "header": "Urban Dictionary definition für %1$s",
+      "main_def": "Haupt-Definition.",
+      "footer": "Information von Urban Dictionary"
     },
     "weather": {
-      "header": "%1$s Forecast information for %2$s",
-      "clouds": "clouds",
-      "temperature": "Temperature",
-      "humidity": "Humidity",
-      "wind_speed": "Wind Speed",
-      "pressure": "Pressure",
-      "footer": "Information provided by OpenWeatherMap (Process time: %1$dms)",
-      "error": "%1$sError while fetching results. (Not found?)"
+      "header": "%1$s Prognose Informationen für %2$s",
+      "clouds": "wolken",
+      "temperature": "Temperatur",
+      "humidity": "Feuchtigkeit",
+      "wind_speed": "Wind Geschwindikeit",
+      "pressure": "Druck",
+      "footer": "Information gegeben von OpenWeatherMap (Verarbeitungs Zeit: %1$dms)",
+      "error": "%1$sFehler beim Abrufen der Ergebnisse... (Nicht gefunden?)"
     },
     "activatekey": {
       "check": {
-        "key_valid_for": "%1$sYour key is valid for %2$s more days :heart:",
-        "no_key_found": "%1$sYou don't have a key enabled... If you're a premium from the old system you should still have your rewards, though!"
+        "key_valid_for": "%1$sIhr Schlüssel ist gültig für %$2s weitere tage :heart:",
+        "no_key_found": "%1$sSie haben keinen Schlüssel aktiviert... Wenn Sie premium unter dem alten System sind, sollten Sie dennoch Ihre Belohnungen haben!"
       },
-      "no_key_provided": "%1$sI cannot enable a premium key if you don't give me one!",
-      "invalid_key": "%1$sYou provided an invalid or already enabled key!",
-      "guild_already_premium": "%1$sThis server already has a premium subscription!",
-      "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)",
-      "user_already_premium": "%1$sYou're already premium :heart:!",
-      "user_successful": "%1$sYou're now **Premium** :heart: (For: %2$d days)"
+      "no_key_provided": "%1$sIch kann keinen Premium-Schlüssel aktivieren, wenn Sie mir keinen geben!",
+      "invalid_key": "%1$sSie haben einen ungültigen oder bereits aktivierten Schlüssel angegeben!",
+      "guild_already_premium": "%1$sDieser Server hat bereits ein Premium-Abonnement!",
+      "guild_successful": "%1$sDieser Server ist jetzt **Premium** :heart: (Für: %2$d Tage)",
+      "user_already_premium": "%1$sSie sind bereits premium :heart:!",
+      "user_successful": "%1$sSie sind nun **Premium** :heart: (Für: %2$d Tage)"
     },
     "vipstatus": {
       "user": {
-        "header": "Your Premium Status",
+        "header": "Dein Premium Status",
         "header_other": "%1$s's Premium Status",
-        "not_premium": "%1$sYou aren't premium :c",
-        "premium": "**Premium user! <3**",
-        "old_system": "**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+        "not_premium": "%1$sDu bist nicht premium :c",
+        "premium": "**Premium nutzer! <3**",
+        "old_system": "**Premium-Benutzer unter dem alten System! Mach dir keine Sorgen, du bist Premium und deine Vorteile werden richtig funktionieren!**"
       },
       "guild": {
         "header": "%1$s's Premium Status",
-        "not_premium": "%1$sThis guild isn't premium :c",
-        "premium": "**Premium guild! <3**",
-        "old_system": "**Premium guild under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+        "not_premium": "%1$sDieser Server ist nicht premium :c",
+        "premium": "**Premium server! <3**",
+        "old_system": "**Premium Server unter dem alten System! Mach dir keine Sorgen, es ist Premium und die Vorteile werden richtig funktionieren!**"
       },
-      "valid_for_old": "Valid for",
-      "old_days_more": "%1$d days more",
-      "thank_note": "Thanks you for your support <3",
-      "expire": "Expires in",
-      "key_duration": "Key total duration",
-      "key_owner": "Key owner",
-      "wrong_args": "%1$sWrong arguments..."
+      "valid_for_old": "Gültig für",
+      "old_days_more": "%1$d weitere tage",
+      "thank_note": "Danke für deine Unterstützung <3",
+      "expire": "Läuft ab in",
+      "key_duration": "Gesamtdauer",
+      "key_owner": "Schlüsselinhaber",
+      "wrong_args": "%1$sFalsche Argumente..."
     },
     "action": {
       "no_mention": "%1$sYou need to mention a user",
