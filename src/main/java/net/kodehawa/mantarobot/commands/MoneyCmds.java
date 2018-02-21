@@ -664,6 +664,7 @@ public class MoneyCmds {
         leaderboards.createSubCommandAlias("rep", "reputation");
         leaderboards.createSubCommandAlias("lvl", "level");
         leaderboards.createSubCommandAlias("streak", "daily");
+        leaderboards.createSubCommandAlias("games", "wins");
 
         cr.registerAlias("leaderboard", "richest");
     }

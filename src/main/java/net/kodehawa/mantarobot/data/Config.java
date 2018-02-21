@@ -73,6 +73,11 @@ public class Config {
     public String weebapiKey;
     public String apiTwoUrl = "http://127.0.0.1:5874";
     public boolean needApi = true;
+    public String patreonClientId;
+    public String patreonSecret;
+    public String patreonAccessToken;
+    //we need an actual callback url here? yikes.
+    public String patreonRedirectUri = "https://mantaro.site";
 
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());
