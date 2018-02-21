@@ -528,10 +528,10 @@
       "retrieving_info": "%1$sRetrieving information from osu! server...",
       "timeout": "%1$sThe osu! api seems to be taking a nap. Maybe try again later?",
       "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rank: %6$s -> Max Combo: %7$d",
-      "best": "**10 best osu! scores for: %1$s**\n```md\n%2$s```",
+      "best": "**10 best osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
       "error": "%1$sUh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)",
       "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Date: %5$s -> Max Combo: %5$d\n",
-      "recent": "**10 most recent osu! scores for: %1$s**\n```md\n%2$s```",
+      "recent": "**10 most recent osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
       "error_detailed": "Uh-oh... seems like I just received scramble soup as a response... (%1$s)"
     },
     "profile": {
@@ -1072,6 +1072,7 @@
       "reputation": "Reputation Leaderboard (Top 10)",
       "daily": "Daily Streak Leaderboard (Top 10)",
       "level": "Level leaderboard (Top 10)",
+      "game": "Game Wins leaderboard (Top 10)",
       "inner": {
         "experience": "Experience"
       }
@@ -1081,7 +1082,7 @@
     "options": "Mantaro Options",
     "check_data": {
       "retrieve_failure": "%1$sCannot retrieve values. Weird thing...",
-      "header": "Options set for server **%1$s%**",
+      "header": "Options set for server **%1$s**",
       "null_set": "is not set to anything.",
       "set_to": "is set to:"
     },
