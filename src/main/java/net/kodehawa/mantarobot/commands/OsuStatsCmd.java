@@ -69,6 +69,7 @@ public class OsuStatsCmd {
                         .addField("Parameters", "`player` - **The osu! player to look info for.**", false)
                         .addField("Considerations", "You can specify the mode by using `-mode` at the end. For example -mode 3 will look up for mania scores.9\n" +
                                 "0: standard, 1: taiko, 2: ctb, 3: mania", false)
+                        .addField("Example", "`~>osustats best snoverpk -mode 3` (mania scores)", false)
                         .build();
             }
         });
@@ -126,21 +127,26 @@ public class OsuStatsCmd {
             String[] args = content.split(" ");
             Map<String, Optional<String>> options = StringUtils.parse(args);
 
+            int mode = 0;
+            boolean modeSpecified = false;
             if(options.containsKey("mode") && options.get("mode").isPresent()) {
                 try {
-                    int mode = Integer.parseInt(options.get("mode").get());
-                    map.put("m", mode);
+                    mode = Integer.parseInt(options.get("mode").get());
+                    modeSpecified = true;
                 } catch (NumberFormatException e) {
                     return String.format(languageContext.get("general.invalid_number"), EmoteReference.ERROR);
                 }
-            } else {
-                map.put("m", 0);
             }
 
             String lookup = Utils.replaceArguments(options, String.join(" ", args), "mode");
 
+            if(modeSpecified)
+                lookup = lookup.replace(" " + mode, "");
+
             User osuUser = osuClient.getUser(lookup, map);
             MantaroBot.getInstance().getStatsClient().gauge("osu_user_ping", System.currentTimeMillis() - start);
+
+            map.put("m", mode);
             List<UserScore> userBest = osuClient.getUserBest(osuUser, map);
             MantaroBot.getInstance().getStatsClient().gauge("osu_score_ping", System.currentTimeMillis() - start);
             StringBuilder sb = new StringBuilder();
@@ -165,7 +171,7 @@ public class OsuStatsCmd {
                 mods1 = "";
             }
 
-            finalResponse = String.format(languageContext.get("commands.osustats.best"), osuUser.getUsername(), sb.toString());
+            finalResponse = String.format(languageContext.get("commands.osustats.best"), osuUser.getUsername(), mode, sb.toString());
         } catch (JSONException jx) {
             finalResponse = String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);
         } catch(Exception e) {
@@ -181,20 +187,25 @@ public class OsuStatsCmd {
             String[] args = content.split(" ");
             Map<String, Optional<String>> options = StringUtils.parse(args);
 
+            int mode = 0;
+            boolean modeSpecified = false;
             if(options.containsKey("mode") && options.get("mode").isPresent()) {
                 try {
-                    int mode = Integer.parseInt(options.get("mode").get());
-                    map.put("m", mode);
+                    mode = Integer.parseInt(options.get("mode").get());
+                    modeSpecified = true;
                 } catch (NumberFormatException e) {
                     return String.format(languageContext.get("general.invalid_number"), EmoteReference.ERROR);
                 }
-            } else {
-                map.put("m", 0);
             }
 
             String lookup = Utils.replaceArguments(options, String.join(" ", args), "mode");
 
+            if(modeSpecified)
+                lookup = lookup.replace(" " + mode, "");
+
             User hey = osuClient.getUser(lookup, map);
+
+            map.put("m", mode);
             List<UserScore> userRecent = osuClient.getUserRecent(hey, map);
             StringBuilder sb = new StringBuilder();
             List<String> recent = new CopyOnWriteArrayList<>();
@@ -219,7 +230,7 @@ public class OsuStatsCmd {
             }
 
             recent.forEach(sb::append);
-            finalMessage = String.format(languageContext.get("commands.osustats.recent"), hey.getUsername(), sb.toString());
+            finalMessage = String.format(languageContext.get("commands.osustats.recent"), hey.getUsername(), mode, sb.toString());
 
         } catch (JSONException jx) {
             finalMessage = String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);
@@ -234,23 +245,8 @@ public class OsuStatsCmd {
         MessageEmbed finalMessage;
         try {
             long start = System.currentTimeMillis();
-            String[] args = content.split(" ");
-            Map<String, Optional<String>> options = StringUtils.parse(args);
 
-            if(options.containsKey("mode") && options.get("mode").isPresent()) {
-                try {
-                    int mode = Integer.parseInt(options.get("mode").get());
-                    map.put("m", mode);
-                } catch (NumberFormatException e) {
-                    return new EmbedBuilder().setDescription(String.format(languageContext.get("general.invalid_number"), EmoteReference.ERROR)).build();
-                }
-            } else {
-                map.put("m", 0);
-            }
-
-            String lookup = Utils.replaceArguments(options, String.join(" ", args), "mode");
-
-            User osuClientUser = osuClient.getUser(lookup, map);
+            User osuClientUser = osuClient.getUser(content, map);
             DecimalFormat dfa = new DecimalFormat("####0.00"); //For accuracy
             DecimalFormat df = new DecimalFormat("####0"); //For everything else
             long end = System.currentTimeMillis() - start;
