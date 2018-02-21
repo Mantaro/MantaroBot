@@ -1072,6 +1072,7 @@
       "reputation": "Reputation Leaderboard (Top 10)",
       "daily": "Daily Streak Leaderboard (Top 10)",
       "level": "Level leaderboard (Top 10)",
+      "game": "Game Wins leaderboard (Top 10)",
       "inner": {
         "experience": "Experience"
       }
