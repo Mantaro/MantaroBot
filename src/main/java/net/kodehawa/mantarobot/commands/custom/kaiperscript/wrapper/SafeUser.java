@@ -2,7 +2,7 @@ package net.kodehawa.mantarobot.commands.custom.kaiperscript.wrapper;
 
 import net.dv8tion.jda.core.entities.User;
 
-class SafeUser extends SafeJDAObject<User> {
+public class SafeUser extends SafeJDAObject<User> {
     SafeUser(User user) {
         super(user);
     }

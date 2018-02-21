@@ -2,7 +2,7 @@ package net.kodehawa.mantarobot.commands.custom.kaiperscript.wrapper;
 
 import net.dv8tion.jda.core.entities.Message;
 
-class SafeMessage extends SafeJDAObject<Message> {
+public class SafeMessage extends SafeJDAObject<Message> {
     SafeMessage(Message message) {
         super(message);
     }

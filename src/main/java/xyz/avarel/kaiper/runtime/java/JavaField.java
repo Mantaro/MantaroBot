@@ -28,8 +28,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class JavaField extends JavaObject implements Obj {
-    private final JavaObject parent;
     private final String name;
+    private final JavaObject parent;
 
     public JavaField(JavaObject parent, String name) {
         super(parent.getObject());
@@ -43,29 +43,6 @@ public class JavaField extends JavaObject implements Obj {
         this.name = name;
     }
 
-    public Object getField() {
-        if (name == null) return null;
-
-        Object object = getObject();
-
-        Map<String, PropertyDescriptor> beans = JavaBeansUtils.getBeanInfo(object.getClass());
-
-        if (beans.containsKey(name)) {
-            try {
-                return beans.get(name).getReadMethod().invoke(object);
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                return null;
-            }
-        }
-
-        try {
-            Field field = object.getClass().getField(name);
-            return field.get(object);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            return null;
-        }
-    }
-
     @Override
     public Type getType() {
         Object field = getField();
@@ -76,11 +53,17 @@ public class JavaField extends JavaObject implements Obj {
     public Object toJava() {
         Object field = getField();
 
-        if (field instanceof Obj) {
-            return ((Obj) field).toJava();
+        if (JavaUtils.hasKaiperTypeEquivalent(field)) {
+            return JavaUtils.mapJavaToKaiperType(field).toJava();
         }
 
         return field;
+    }
+
+    @Override
+    public Obj getAttr(String name) {
+        return new JavaField(this, name)
+            .nativeCheck();
     }
 
     @Override
@@ -112,49 +95,13 @@ public class JavaField extends JavaObject implements Obj {
     }
 
     @Override
-    public Obj getAttr(String name) {
-        return new JavaField(this, name);
-    }
-
-    @Override
-    public Obj invoke(List<Obj> arguments) {
-        if (name == null) return Undefined.VALUE;
-
-        List<Object> nativeArgs = arguments.stream()
-                .map(Obj::toJava)
-                .map(o -> o != Undefined.VALUE ? o : null)
-                .collect(Collectors.toList());
-
-        List<Class<?>> classes = nativeArgs.stream()
-                .map(o -> o != null ? o.getClass() : null)
-                .collect(Collectors.toList());
-
-        Object result = null;
-
-        outer: for (Method method : getObject().getClass().getMethods()) {
-            if (!method.getName().equals(name)) continue;
-            if (classes.size() != method.getParameterCount()) continue;
-
-            Class<?>[] parameterTypes = method.getParameterTypes();
-            for (int i = 0; i < method.getParameterCount(); i++) {
-
-                if (!JavaUtils.isAssignable(classes.get(i), parameterTypes[i])) {
-                    continue outer;
-                }
-            }
-
-            try {
-                result = method.invoke(getObject(), nativeArgs.toArray());
-                break;
-            } catch (IllegalAccessException | InvocationTargetException ignore) {}
+    public int hashCode() {
+        Object field = getField();
+        if (JavaUtils.hasKaiperTypeEquivalent(field)) {
+            return JavaUtils.mapJavaToKaiperType(field).hashCode();
         }
 
-        if (parent instanceof JavaField && result == ((JavaField) parent).getField()
-                || parent != null && result == parent.getObject()) {
-            return parent;
-        }
-
-        return JavaUtils.mapJavaToKaiperType(result);
+        return getField().hashCode();
     }
 
     @Override
@@ -185,12 +132,73 @@ public class JavaField extends JavaObject implements Obj {
     }
 
     @Override
-    public int hashCode() {
-        Object field = getField();
-        if (JavaUtils.hasKaiperTypeEquivalent(field)) {
-            return JavaUtils.mapJavaToKaiperType(field).hashCode();
+    public Obj invoke(List<Obj> arguments) {
+        if (name == null) return Undefined.VALUE;
+
+        List<Object> nativeArgs = arguments.stream()
+            .map(Obj::toJava)
+            .map(o -> o != Undefined.VALUE ? o : null)
+            .collect(Collectors.toList());
+
+        List<Class<?>> classes = nativeArgs.stream()
+            .map(o -> o != null ? o.getClass() : null)
+            .collect(Collectors.toList());
+
+        Object result = null;
+
+        outer:
+        for (Method method : getObject().getClass().getMethods()) {
+            if (!method.getName().equals(name)) continue;
+            if (classes.size() != method.getParameterCount()) continue;
+
+            Class<?>[] parameterTypes = method.getParameterTypes();
+            for (int i = 0; i < method.getParameterCount(); i++) {
+
+                if (!JavaUtils.isAssignable(classes.get(i), parameterTypes[i])) {
+                    continue outer;
+                }
+            }
+
+            try {
+                result = method.invoke(getObject(), nativeArgs.toArray());
+                break;
+            } catch (IllegalAccessException | InvocationTargetException ignore) {}
         }
 
-        return getField().hashCode();
+        if (parent instanceof JavaField && result == ((JavaField) parent).getField()
+            || parent != null && result == parent.getObject()) {
+            return parent;
+        }
+
+        return JavaUtils.mapJavaToKaiperType(result);
+    }
+
+    public Object getField() {
+        if (name == null) return null;
+
+        Object object = getObject();
+        Map<String, PropertyDescriptor> beans = JavaBeansUtils.getBeanInfo(object.getClass());
+        if (beans.containsKey(name)) {
+            try {
+                return beans.get(name).getReadMethod().invoke(object);
+            } catch (IllegalAccessException | InvocationTargetException ignored) {
+            }
+        }
+
+        try {
+            Field field = object.getClass().getField(name);
+            return field.get(object);
+        } catch (NoSuchFieldException | IllegalAccessException ignored) {
+            return null;
+        }
+    }
+
+    public Obj nativeCheck() {
+        Object field = getField();
+
+        if (field instanceof Obj) return (Obj) field;
+        if (JavaUtils.hasKaiperTypeEquivalent(field)) return JavaUtils.mapJavaToKaiperType(field);
+
+        return this;
     }
 }
