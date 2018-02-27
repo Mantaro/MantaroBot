@@ -2,7 +2,7 @@ package net.kodehawa.mantarobot.commands.custom.kaiperscript.wrapper;
 
 import net.dv8tion.jda.core.entities.TextChannel;
 
-class SafeChannel extends SafeJDAObject<TextChannel> {
+public class SafeChannel extends SafeJDAObject<TextChannel> {
 
     SafeChannel(TextChannel channel) {
         super(channel);

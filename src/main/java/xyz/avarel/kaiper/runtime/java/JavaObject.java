@@ -43,9 +43,8 @@ public class JavaObject implements Obj {
 
     @Override
     public Obj getAttr(String name) {
-        JavaField field = new JavaField(this, name);
-        Object obj = field.getField();
-        return obj instanceof Obj ? (Obj) obj : field;
+        return new JavaField(this, name)
+            .nativeCheck();
     }
 
     @Override
