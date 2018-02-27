@@ -504,7 +504,7 @@ public class CustomCmds {
                     //reflect at local
                     customCommands.put(custom.getId(), custom.getValues());
 
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.add.success"), EmoteReference.CORRECT, cmd).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.add.success"), EmoteReference.CORRECT, cmd).queue();
 
                     //easter egg :D
                     TextChannelGround.of(event).dropItemWithChance(8, 2);

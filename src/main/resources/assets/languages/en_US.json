@@ -528,10 +528,10 @@
       "retrieving_info": "%1$sRetrieving information from osu! server...",
       "timeout": "%1$sThe osu! api seems to be taking a nap. Maybe try again later?",
       "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rank: %6$s -> Max Combo: %7$d",
-      "best": "**10 best osu! scores for: %1$s**\n```md\n%2$s```",
+      "best": "**10 best osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
       "error": "%1$sUh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)",
       "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Date: %5$s -> Max Combo: %5$d\n",
-      "recent": "**10 most recent osu! scores for: %1$s**\n```md\n%2$s```",
+      "recent": "**10 most recent osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
       "error_detailed": "Uh-oh... seems like I just received scramble soup as a response... (%1$s)"
     },
     "profile": {
@@ -755,7 +755,7 @@
         "header": "Who's that pokemon?",
         "footer": "You have 5 attempts and 75 seconds. (Type end to end the game)"
       },
-      "started_mp_role": "%1$sStarted a MP lobby with all users with the specfied role: %2$s",
+      "started_mp_role": "%1$sStarted a MP lobby with all users with the specified role: %2$s",
       "started_mp_user": "%1$sStarted a MP lobby with users: %2$s",
       "lobby_started": "%1$sStarted a new lobby! **Games: %2$s**\nYou can type `endlobby` to end all games and finish the lobby.",
       "game_timeout_drop": "%1$sSeems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!",
@@ -764,7 +764,7 @@
         "ended_game": "%1$sEnded game. Possible answers were: %2$s",
         "ended_lobby": "%1$sEnded lobby correctly! Thanks for playing!",
         "all_attempts_used": "%1$sAlready used all attempts, ending game. Possible answers were: %2$s",
-        "incorrect_answer": "%1$sThat's not it, you have %2$d attempts remaning.",
+        "incorrect_answer": "%1$sThat's not it, you have %2$d attempts remaining.",
         "won_game": "%1$s**%2$s** just won $%3$d credits by answering correctly!"
       },
       "lobby_time_out": "%1$sThe time ran out! The correct answer is: %2$s",
@@ -1072,6 +1072,7 @@
       "reputation": "Reputation Leaderboard (Top 10)",
       "daily": "Daily Streak Leaderboard (Top 10)",
       "level": "Level leaderboard (Top 10)",
+      "game": "Game Wins leaderboard (Top 10)",
       "inner": {
         "experience": "Experience"
       }
@@ -1081,7 +1082,7 @@
     "options": "Mantaro Options",
     "check_data": {
       "retrieve_failure": "%1$sCannot retrieve values. Weird thing...",
-      "header": "Options set for server **%1$s%**",
+      "header": "Options set for server **%1$s**",
       "null_set": "is not set to anything.",
       "set_to": "is set to:"
     },

@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import com.osu.api.ciyfhx.*;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONException;
 
@@ -41,6 +43,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.*;
 
 @Slf4j
@@ -64,6 +67,9 @@ public class OsuStatsCmd {
                                         + "`~>osu user <player>` - **Retrieves information about a osu! player**.\n"
                                 , false)
                         .addField("Parameters", "`player` - **The osu! player to look info for.**", false)
+                        .addField("Considerations", "You can specify the mode by using `-mode` at the end. For example -mode 3 will look up for mania scores.9\n" +
+                                "0: standard, 1: taiko, 2: ctb, 3: mania", false)
+                        .addField("Example", "`~>osustats best snoverpk -mode 3` (mania scores)", false)
                         .build();
             }
         });
@@ -118,12 +124,29 @@ public class OsuStatsCmd {
         String finalResponse;
         try {
             long start = System.currentTimeMillis();
-            String beheaded1 = content.replace("best ", "");
-            String[] args = beheaded1.split(" ");
-            map.put("m", 0);
+            String[] args = content.split(" ");
+            Map<String, Optional<String>> options = StringUtils.parse(args);
 
-            User osuUser = osuClient.getUser(args[0], map);
+            int mode = 0;
+            boolean modeSpecified = false;
+            if(options.containsKey("mode") && options.get("mode").isPresent()) {
+                try {
+                    mode = Integer.parseInt(options.get("mode").get());
+                    modeSpecified = true;
+                } catch (NumberFormatException e) {
+                    return String.format(languageContext.get("general.invalid_number"), EmoteReference.ERROR);
+                }
+            }
+
+            String lookup = Utils.replaceArguments(options, String.join(" ", args), "mode");
+
+            if(modeSpecified)
+                lookup = lookup.replace(" " + mode, "");
+
+            User osuUser = osuClient.getUser(lookup, map);
             MantaroBot.getInstance().getStatsClient().gauge("osu_user_ping", System.currentTimeMillis() - start);
+
+            map.put("m", mode);
             List<UserScore> userBest = osuClient.getUserBest(osuUser, map);
             MantaroBot.getInstance().getStatsClient().gauge("osu_score_ping", System.currentTimeMillis() - start);
             StringBuilder sb = new StringBuilder();
@@ -148,7 +171,7 @@ public class OsuStatsCmd {
                 mods1 = "";
             }
 
-            finalResponse = String.format(languageContext.get("commands.osustats.best"), osuUser.getUsername(), sb.toString());
+            finalResponse = String.format(languageContext.get("commands.osustats.best"), osuUser.getUsername(), mode, sb.toString());
         } catch (JSONException jx) {
             finalResponse = String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);
         } catch(Exception e) {
@@ -161,10 +184,28 @@ public class OsuStatsCmd {
     private String recent(String content, I18nContext languageContext) {
         String finalMessage;
         try {
-            String beheaded1 = content.replace("recent ", "");
-            String[] args = beheaded1.split(" ");
-            map.put("m", 0);
-            User hey = osuClient.getUser(args[0], map);
+            String[] args = content.split(" ");
+            Map<String, Optional<String>> options = StringUtils.parse(args);
+
+            int mode = 0;
+            boolean modeSpecified = false;
+            if(options.containsKey("mode") && options.get("mode").isPresent()) {
+                try {
+                    mode = Integer.parseInt(options.get("mode").get());
+                    modeSpecified = true;
+                } catch (NumberFormatException e) {
+                    return String.format(languageContext.get("general.invalid_number"), EmoteReference.ERROR);
+                }
+            }
+
+            String lookup = Utils.replaceArguments(options, String.join(" ", args), "mode");
+
+            if(modeSpecified)
+                lookup = lookup.replace(" " + mode, "");
+
+            User hey = osuClient.getUser(lookup, map);
+
+            map.put("m", mode);
             List<UserScore> userRecent = osuClient.getUserRecent(hey, map);
             StringBuilder sb = new StringBuilder();
             List<String> recent = new CopyOnWriteArrayList<>();
@@ -189,7 +230,7 @@ public class OsuStatsCmd {
             }
 
             recent.forEach(sb::append);
-            finalMessage = String.format(languageContext.get("commands.osustats.recent"), hey.getUsername(), sb.toString());
+            finalMessage = String.format(languageContext.get("commands.osustats.recent"), hey.getUsername(), mode, sb.toString());
 
         } catch (JSONException jx) {
             finalMessage = String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);
@@ -204,13 +245,8 @@ public class OsuStatsCmd {
         MessageEmbed finalMessage;
         try {
             long start = System.currentTimeMillis();
-            String beheaded1 = content.replace("user ", "");
 
-            String[] args = beheaded1.split(" ");
-
-            map.put("m", 0);
-
-            User osuClientUser = osuClient.getUser(args[0], map);
+            User osuClientUser = osuClient.getUser(content, map);
             DecimalFormat dfa = new DecimalFormat("####0.00"); //For accuracy
             DecimalFormat df = new DecimalFormat("####0"); //For everything else
             long end = System.currentTimeMillis() - start;

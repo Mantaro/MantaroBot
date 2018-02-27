@@ -5,7 +5,7 @@ import net.dv8tion.jda.core.entities.Role;
 
 import java.util.List;
 
-class SafeRole extends SafeJDAObject<Role> {
+public class SafeRole extends SafeJDAObject<Role> {
     SafeRole(Role role) {
         super(role);
     }

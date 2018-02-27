@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class SafeGuild extends SafeJDAObject<Guild> {
+public class SafeGuild extends SafeJDAObject<Guild> {
     private final SafeChannel channel;
 
     SafeGuild(Guild guild, SafeChannel channel) {

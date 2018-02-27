@@ -630,9 +630,41 @@ public class MoneyCmds {
             }
         });
 
+        leaderboards.addSubCommand("games", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                Cursor<Map> m;
+
+                try(Connection conn = Utils.newDbConnection()) {
+                    m = r.table("players")
+                            .orderBy()
+                            .optArg("index", r.desc("gameWins"))
+                            .filter(player -> player.g("id").match(pattern))
+                            .map(player -> player.pluck("id", r.hashMap("data", "gamesWon")))
+                            .limit(10)
+                            .run(conn, OptArgs.of("read_mode", "outdated"));
+                }
+
+                List<Map> c = m.toList();
+                m.close();
+
+                event.getChannel().sendMessage(
+                        baseEmbed(event, languageContext.get("commands.leaderboard.game"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                        ).setDescription(c.stream()
+                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), ((HashMap)(map.get("data"))).get("gamesWon").toString()))
+                                .filter(p -> Objects.nonNull(p.getKey()))
+                                .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
+                                        .getKey().getDiscriminator(), p.getValue()))
+                                .collect(Collectors.joining("\n"))
+                        ).build()
+                ).queue();
+            }
+        });
+
         leaderboards.createSubCommandAlias("rep", "reputation");
         leaderboards.createSubCommandAlias("lvl", "level");
         leaderboards.createSubCommandAlias("streak", "daily");
+        leaderboards.createSubCommandAlias("games", "wins");
 
         cr.registerAlias("leaderboard", "richest");
     }

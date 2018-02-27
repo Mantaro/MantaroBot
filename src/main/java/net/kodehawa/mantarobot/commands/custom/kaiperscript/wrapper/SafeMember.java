@@ -9,7 +9,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class SafeMember extends SafeUser {
+public class SafeMember extends SafeUser {
     private final Member member;
 
     SafeMember(Member member) {
@@ -47,6 +47,6 @@ class SafeMember extends SafeUser {
 
     @Override
     public String toString() {
-        return member.toString();
+        return "Member(" + getId() + ")";
     }
 }
