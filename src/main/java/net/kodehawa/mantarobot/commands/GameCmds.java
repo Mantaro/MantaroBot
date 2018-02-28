@@ -39,7 +39,6 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.NewRateLimiter;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

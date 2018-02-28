@@ -144,6 +144,18 @@ public class OsuStatsCmd {
                 lookup = lookup.replace(" " + mode, "");
 
             User osuUser = osuClient.getUser(lookup, map);
+            if(osuUser == null) {
+                try {
+                    osuUser = osuClient.getUser(Long.parseLong(lookup), map);
+                } catch (NumberFormatException e) {
+                    return String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);
+                }
+
+                if(osuUser == null) {
+                    return String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);
+                }
+            }
+
             MantaroBot.getInstance().getStatsClient().gauge("osu_user_ping", System.currentTimeMillis() - start);
 
             map.put("m", mode);
@@ -203,10 +215,21 @@ public class OsuStatsCmd {
             if(modeSpecified)
                 lookup = lookup.replace(" " + mode, "");
 
-            User hey = osuClient.getUser(lookup, map);
+            User osuUser = osuClient.getUser(lookup, map);
+            if(osuUser == null) {
+                try {
+                    osuUser = osuClient.getUser(Long.parseLong(lookup), map);
+                } catch (NumberFormatException e) {
+                    return String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);
+                }
+
+                if(osuUser == null) {
+                    return String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);
+                }
+            }
 
             map.put("m", mode);
-            List<UserScore> userRecent = osuClient.getUserRecent(hey, map);
+            List<UserScore> userRecent = osuClient.getUserRecent(osuUser, map);
             StringBuilder sb = new StringBuilder();
             List<String> recent = new CopyOnWriteArrayList<>();
             int n1 = 0;
@@ -230,7 +253,7 @@ public class OsuStatsCmd {
             }
 
             recent.forEach(sb::append);
-            finalMessage = String.format(languageContext.get("commands.osustats.recent"), hey.getUsername(), mode, sb.toString());
+            finalMessage = String.format(languageContext.get("commands.osustats.recent"), osuUser.getUsername(), mode, sb.toString());
 
         } catch (JSONException jx) {
             finalMessage = String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);

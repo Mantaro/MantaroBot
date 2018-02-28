@@ -61,7 +61,7 @@ public class MuteCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
 
-                if(!event.getMember().hasPermission(Permission.KICK_MEMBERS) || !event.getMember().hasPermission(Permission.BAN_MEMBERS)) {
+                if(!(event.getMember().hasPermission(Permission.KICK_MEMBERS) || event.getMember().hasPermission(Permission.BAN_MEMBERS))) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_permissions"), EmoteReference.ERROR).queue();
                     return;
                 }
