@@ -28,6 +28,7 @@ public class PollBuilder {
     private String[] options;
     private long timeout;
     private I18nContext languageContext;
+    private String image;
 
     public PollBuilder setEvent(GuildMessageReceivedEvent event) {
         this.event = event;
@@ -54,6 +55,11 @@ public class PollBuilder {
         return this;
     }
 
+    public PollBuilder setImage(String image) {
+        this.image = image;
+        return this;
+    }
+
     public Poll build() {
         if(options == null)
             throw new IllegalArgumentException("Cannot create a poll with null options");
@@ -64,6 +70,6 @@ public class PollBuilder {
         if(languageContext == null)
             throw new IllegalArgumentException("Cannot create a poll without a language context!");
 
-        return new Poll(UUID.randomUUID().toString(), event.getGuild().getId(), event.getChannel().getId(), event.getAuthor().getId(), name, timeout, languageContext, options);
+        return new Poll(UUID.randomUUID().toString(), event.getGuild().getId(), event.getChannel().getId(), event.getAuthor().getId(), name, timeout, languageContext, image, options);
     }
 }

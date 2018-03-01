@@ -323,8 +323,12 @@ public class MiscCmds {
                     return;
                 }
 
-                if(opts.containsKey("name") || opts.get("name").isPresent()) {
+                if(opts.containsKey("name") && opts.get("name").isPresent()) {
                     builder.setName(opts.get("name").get().replaceAll(String.valueOf('"'), ""));
+                }
+
+                if(opts.containsKey("image") && opts.get("image").isPresent()) {
+                    builder.setImage(opts.get("image").get());
                 }
 
 
@@ -343,10 +347,11 @@ public class MiscCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Poll Command")
                         .setDescription("**Creates a poll**")
-                        .addField("Usage", "`~>poll [-options <options>] [-time <time>] [-name <name>]`", false)
+                        .addField("Usage", "`~>poll [-options <options>] [-time <time>] [-name <name>] [-image <image>]`", false)
                         .addField("Parameters", "`-options` The options to add. Minimum is 2 and maximum is 9. For instance: `Pizza,Spaghetti,Pasta,\"Spiral Nudels\"` (Enclose options with multiple words in double quotes).\n" +
                                 "`-time` The time the operation is gonna take. The format is as follows `1m29s` for 1 minute and 21 seconds. Maximum poll runtime is 45 minutes.\n" +
-                                "`-name` The name of the poll for reference.", false)
+                                "`-name` The name of the poll for reference.\n" +
+                                "`-image` The image to embed to the poll. Optional.", false)
                         .addField("Considerations", "To cancel the running poll type &cancelpoll. Only the person who started it or an Admin can cancel it.", false)
                         .addField("Example", "~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"", false)
                         .build();
