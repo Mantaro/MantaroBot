@@ -22,7 +22,6 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -32,8 +31,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.utils.StringUtils;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Random;
@@ -346,95 +343,6 @@ public class ModerationCmds {
                 return helpEmbed(event, "Kick")
                         .setDescription("**Kicks the mentioned users. (You need Kick Members)**")
                         .addField("Usage", "`~>kick <@user> <reason> - **Kicks the mentioned user   **", false)
-                        .build();
-            }
-        });
-    }
-
-    @Subscribe
-    public void tempban(CommandRegistry cr) {
-        cr.register("tempban", new SimpleCommand(Category.MODERATION) {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                String reason = content;
-                Guild guild = event.getGuild();
-                User author = event.getAuthor();
-                TextChannel channel = event.getChannel();
-                Message receivedMessage = event.getMessage();
-
-                if(!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.BAN_MEMBERS)) {
-                    channel.sendMessage(String.format(languageContext.get("commands.ban.no_permission"), EmoteReference.ERROR)).queue();
-                    return;
-                }
-
-                if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    channel.sendMessage(String.format(languageContext.get("commands.ban.no_mention"), EmoteReference.ERROR)).queue();
-                    return;
-                }
-
-                for(User user : event.getMessage().getMentionedUsers()) {
-                    reason = reason.replaceAll("(\\s+)?<@!?" + user.getId() + ">(\\s+)?", "");
-                }
-                int index = reason.indexOf("time:");
-                if(index < 0) {
-                    event.getChannel().sendMessage(String.format(languageContext.get("commands.tempban.no_time"), EmoteReference.ERROR)).queue();
-                    return;
-                }
-                String time = reason.substring(index);
-                reason = reason.replace(time, "").trim();
-                time = time.replaceAll("time:(\\s+)?", "");
-                if(reason.isEmpty()) {
-                    event.getChannel().sendMessage(String.format(languageContext.get("commands.tempban.no_reason"), EmoteReference.ERROR)).queue();
-                    return;
-                }
-
-                if(time.isEmpty()) {
-                    event.getChannel().sendMessage(String.format(languageContext.get("commands.tempban.no_time"), EmoteReference.ERROR)).queue();
-                    return;
-                }
-
-                final DBGuild db = MantaroData.db().getGuild(event.getGuild());
-                long l = Utils.parseTime(time);
-                String finalReason = String.format("Temporally banned by %#s: %s", event.getAuthor(), reason);
-                String sTime = StringUtils.parseTime(l);
-                receivedMessage.getMentionedUsers().forEach(user ->
-                        guild.getController().ban(user, 7).queue(
-                                success -> user.openPrivateChannel().queue(privateChannel -> {
-                                    if(!user.isBot()) {
-                                        privateChannel.sendMessage(String.format("%sYou were **temporarily banned** by %s#%s with reason: %s on server **%s**.",
-                                                EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), finalReason, event.getGuild().getName())).queue();
-                                    }
-
-                                    db.getData().setCases(db.getData().getCases() + 1);
-                                    db.saveAsync();
-
-                                    channel.sendMessage(String.format(languageContext.get("commands.tempban.success"), EmoteReference.ZAP, modActionQuotes[r.nextInt(modActionQuotes.length)], user.getName())).queue();
-
-                                    ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.TEMP_BAN, db.getData().getCases(), sTime);
-                                    MantaroBot.getTempBanManager().addTempban(guild.getId() + ":" + user.getId(), l + System.currentTimeMillis());
-                                    TextChannelGround.of(event).dropItemWithChance(1, 2);
-                                }),
-                                error ->
-                                {
-                                    if(error instanceof PermissionException) {
-                                        channel.sendMessage(String.format(languageContext.get("commands.ban.error"),
-                                                EmoteReference.ERROR, user.getName(), ((PermissionException) error).getPermission())).queue();
-                                    } else {
-                                        channel.sendMessage(String.format(languageContext.get("commands.ban.unknown_error"), EmoteReference.ERROR, user.getName())).queue();
-                                        log.warn("Encountered an unexpected error while trying to ban someone.", error);
-                                    }
-                                })
-                );
-            }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Tempban Command")
-                        .setDescription("**Temporarily bans an user**")
-                        .addField("Usage", "`~>tempban <user> <reason> time:<time>`", false)
-                        .addField("Example", "`~>tempban @Kodehawa example time:1d`", false)
-                        .addField("Extended usage", "`time` - can be used with the following parameters: " +
-                                "d (days), s (second), m (minutes), h (hour). **For example time:1d1h will give a day and an hour.**", false)
                         .build();
             }
         });

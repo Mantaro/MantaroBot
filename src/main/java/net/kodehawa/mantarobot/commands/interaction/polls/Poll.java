@@ -16,14 +16,12 @@
 
 package net.kodehawa.mantarobot.commands.interaction.polls;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
@@ -39,7 +37,6 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Future;
@@ -49,11 +46,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Poll extends Lobby {
-    @JsonIgnore
     private static final Map<String, Poll> runningPolls = new HashMap<>();
-    @JsonIgnore
     private Future<Void> runningPoll;
 
+    @Getter
     private final String id;
     private final long timeout;
     private boolean isCompliant = true;
@@ -63,9 +59,7 @@ public class Poll extends Lobby {
     private final I18nContext languageContext;
     private final String image;
 
-    //TODO exclude languageContext from the json
-    public Poll(@JsonProperty("id") String id, @JsonProperty("guildId") String guildId, @JsonProperty("channelId") String channelId, @JsonProperty("ownerId") String ownerId,
-                @JsonProperty("name") String name, @JsonProperty("timeout") long timeout, I18nContext languageContext, String image, @JsonProperty("options") String... options) {
+    public Poll(String id, String guildId, String channelId, String ownerId, String name, long timeout, I18nContext languageContext, String image, String... options) {
         super(guildId, channelId);
         this.id = id;
         this.options = options;
