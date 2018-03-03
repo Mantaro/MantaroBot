@@ -53,6 +53,7 @@ public class TradeCmd {
     private Map<Long, TradeSession> currentSessions = new ConcurrentHashMap<>();
 
     //TODO: comment this
+    //TODO remake this, smh.
     @Subscribe
     public void trade(CommandRegistry cr) {
         TreeCommand tradeCommand = (TreeCommand) cr.register("trade", new TreeCommand(Category.CURRENCY) {
