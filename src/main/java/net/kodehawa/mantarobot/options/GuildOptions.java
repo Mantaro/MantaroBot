@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.kodehawa.mantarobot.commands.OptsCmd;
@@ -74,6 +75,55 @@ public class GuildOptions extends OptionHandler {
         }));
         //endregion
         //region opts birthday
+        registerOption("birthday:test", "Tests if the birthday assigner works." ,
+                "Tests if the birthday assigner works properly. You need to input an user mention/id/tag to test it with.", "Tests if the birthday assigner works.",
+                (event, args, lang) -> {
+            if(args.length < 1) {
+                event.getChannel().sendMessageFormat(lang.get("options.birthday_test.no_user"), EmoteReference.ERROR2).queue();
+                return;
+            }
+
+            Member m = Utils.findMember(event, event.getMember(), String.join(" ", args));
+            if(m == null)
+                return;
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            TextChannel birthdayChannel = guildData.getBirthdayChannel() == null ? null : event.getGuild().getTextChannelById(guildData.getBirthdayChannel());
+            Role birthdayRole = guildData.getBirthdayRole() == null ? null : event.getGuild().getRoleById(guildData.getBirthdayRole());
+
+            if(birthdayChannel == null) {
+                event.getChannel().sendMessageFormat(lang.get("opts.birthday_test.no_bd_channel"), EmoteReference.ERROR).queue();
+                return;
+            }
+
+            if(birthdayRole == null) {
+                event.getChannel().sendMessageFormat(lang.get("opts.birthday_test.no_bd_role"), EmoteReference.ERROR).queue();
+                return;
+            }
+
+            if(!birthdayChannel.canTalk()) {
+                event.getChannel().sendMessageFormat(lang.get("opts.birthday_test.no_talk_permission"), EmoteReference.ERROR).queue();
+                return;
+            }
+
+            if(!event.getGuild().getSelfMember().canInteract(birthdayRole)) {
+                event.getChannel().sendMessageFormat(lang.get("opts.birthday_test.cannot_interact"), EmoteReference.ERROR).queue();
+                return;
+            }
+
+            event.getGuild().getController().addSingleRoleToMember(m, birthdayRole).queue(success ->
+                    birthdayChannel.sendMessage(EmoteReference.POPPER + m.getEffectiveName() + " is a year older now! (test)").queue(s ->
+                                    event.getChannel().sendMessageFormat(lang.get("options.birthday_test.success"),
+                            EmoteReference.CORRECT, birthdayChannel.getName(), m.getEffectiveName(), birthdayRole.getName()
+                    ).queue(), error ->
+                            event.getChannel().sendMessageFormat(lang.get("options.birthday_test.error"),
+                                    EmoteReference.CORRECT, birthdayChannel.getName(), m.getEffectiveName(), birthdayRole.getName()
+                    ).queue())
+            );
+        });
+
         registerOption("birthday:enable", "Birthday Monitoring enable",
                 "Enables birthday monitoring. You need the channel **name** and the role name (it assigns that role on birthday)\n" +
                         "**Example:** `~>opts birthday enable general Birthday`, `~>opts birthday enable general \"Happy Birthday\"`",

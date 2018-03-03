@@ -110,7 +110,7 @@ public class ImageCmd extends NoArgsCommand {
             List<User> users = event.getMessage().getMentionedUsers();
             String names = "";
             if(users != null)
-                names = users.stream().map(user -> event.getGuild().getMember(user).getEffectiveName()).collect(Collectors.joining(", "));
+                names = users.stream().distinct().map(user -> event.getGuild().getMember(user).getEffectiveName()).collect(Collectors.joining(", "));
             if(!names.isEmpty()) builder.append("**").append(names).append("**, ");
         }
 
