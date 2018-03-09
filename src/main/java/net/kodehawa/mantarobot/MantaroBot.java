@@ -27,7 +27,6 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.moderation.MuteTask;
-import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
 import net.kodehawa.mantarobot.core.MantaroCore;
@@ -66,8 +65,6 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.*;
 public class MantaroBot extends ShardedJDA {
     @Getter
     private static MantaroBot instance;
-    @Getter
-    private static TempBanManager tempBanManager;
     @Getter
     private final MantaroAudioManager audioManager;
     @Getter
@@ -142,7 +139,6 @@ public class MantaroBot extends ShardedJDA {
 
         shardedMantaro = core.getShardedInstance();
         audioManager = new MantaroAudioManager();
-        tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
         Items.setItemActions();
 
         long end = System.currentTimeMillis();

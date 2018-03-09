@@ -18,8 +18,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.Character;
 import net.kodehawa.mantarobot.commands.game.GuessTheNumber;
@@ -222,13 +221,18 @@ public class GameCmds {
 
                 String difficulty = null;
 
-                if(args.length > 0) {
+                List<User> mentions = event.getMessage().getMentionedUsers();
+                List<Role> roleMentions = event.getMessage().getMentionedRoles();
+
+                if(args.length == 1) {
                     difficulty = args[0];
                 }
 
-                if(difficulty != null && !(difficulty.equals("easy") || difficulty.equals("hard") || difficulty.equals("medium"))) {
+                if((difficulty != null && !(difficulty.equals("easy") || difficulty.equals("hard") || difficulty.equals("medium"))) && (mentions.isEmpty() && roleMentions.isEmpty())) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.game.trivia.wrong_diff"), EmoteReference.ERROR).queue();
                     return;
+                } else if (!mentions.isEmpty() || !roleMentions.isEmpty()) {
+                    difficulty = null;
                 }
 
                 startGame(new Trivia(difficulty), event, languageContext);

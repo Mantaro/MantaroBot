@@ -151,7 +151,6 @@ public class Items {
                         return true;
                     }
 
-
                     playerInventory.process(new ItemStack(FISH_1, amount));
                     event.getChannel().sendMessageFormat(lang.get("commands.fish.success"), EmoteReference.POPPER, amount, FISH_1.getEmoji()).queue();
                 } else if (select < 85) {

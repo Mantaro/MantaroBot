@@ -68,6 +68,7 @@ public class InfoCmds {
     private final CustomCommandStatsManager customCommandStatsManager = new CustomCommandStatsManager();
     private final GameStatsManager gameStatsManager = new GameStatsManager();
     private final GuildStatsManager guildStatsManager = new GuildStatsManager();
+    private final List<String> tips = new SimpleFileDataManager("assets/mantaro/texts/tips.txt").get();
 
     @Subscribe
     public void about(CommandRegistry cr) {
@@ -303,7 +304,10 @@ public class InfoCmds {
                                             guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).isEmpty() ?
                                             "" : "\n" + String.format(languageContext.get("commands.help.channel_specific_disabled_commands"),
                                             guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).size())
+                                    ) + ( tips.isEmpty() ?
+                                        "" : String.format("\n*Tip: %s*", tips.get(r.nextInt(tips.size())))
                                     )
+
                             )
                             .setFooter(String.format(languageContext.get("commands.help.footer"), prefix,
                                     DefaultCommandProcessor.REGISTRY.commands().values().stream().filter(c -> c.category() != null).count()), null);
@@ -698,7 +702,6 @@ public class InfoCmds {
     @Subscribe
     //no need to translate this
     public void tips(CommandRegistry cr) {
-        final List<String> tips = new SimpleFileDataManager("assets/mantaro/texts/tips.txt").get();
         final Random r = new Random();
 
         cr.register("tips", new SimpleCommand(Category.INFO) {

@@ -163,6 +163,6 @@ public class ImageActionCmd extends NoArgsCommand {
     }
 
     private String noMentions(GuildMessageReceivedEvent event) {
-        return event.getMessage().getMentionedUsers().stream().map(user -> event.getGuild().getMember(user).getEffectiveName()).collect(Collectors.joining(", ")).trim();
+        return event.getMessage().getMentionedUsers().stream().distinct().map(user -> event.getGuild().getMember(user).getEffectiveName()).collect(Collectors.joining(", ")).trim();
     }
 }
