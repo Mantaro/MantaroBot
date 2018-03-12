@@ -16,34 +16,59 @@
 
 package net.kodehawa.mantarobot.commands.info.stats.manager;
 
-import net.jodah.expiringmap.ExpirationPolicy;
-import net.jodah.expiringmap.ExpiringMap;
+import net.dv8tion.jda.core.EmbedBuilder;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.List;
+import java.util.function.IntFunction;
+import java.util.stream.Collectors;
 
 public class CommandStatsManager extends StatsManager<String> {
-    public static final ExpiringMap<String, AtomicInteger> DAY_CMDS = ExpiringMap.<String, AtomicInteger>builder()
-            .expiration(1, TimeUnit.DAYS)
-            .expirationPolicy(ExpirationPolicy.CREATED)
-            .build();
-    public static final ExpiringMap<String, AtomicInteger> HOUR_CMDS = ExpiringMap.<String, AtomicInteger>builder()
-            .expiration(1, TimeUnit.HOURS)
-            .expirationPolicy(ExpirationPolicy.CREATED)
-            .build();
-    public static final ExpiringMap<String, AtomicInteger> MINUTE_CMDS = ExpiringMap.<String, AtomicInteger>builder()
-            .expiration(1, TimeUnit.MINUTES)
-            .expirationPolicy(ExpirationPolicy.CREATED)
-            .build();
-    public static final Map<String, AtomicInteger> TOTAL_CMDS = new HashMap<>();
-
     public static void log(String cmd) {
         if(cmd.isEmpty()) return;
-        TOTAL_CMDS.computeIfAbsent(cmd, k -> new AtomicInteger(0)).incrementAndGet();
-        DAY_CMDS.computeIfAbsent(cmd, k -> new AtomicInteger(0)).incrementAndGet();
-        HOUR_CMDS.computeIfAbsent(cmd, k -> new AtomicInteger(0)).incrementAndGet();
-        MINUTE_CMDS.computeIfAbsent(cmd, k -> new AtomicInteger(0)).incrementAndGet();
+        UsageTracker.tracker(cmd).increment();
+    }
+
+    public static String resume(Bucket bucket) {
+        int total = UsageTracker.total(bucket.valueMapper);
+
+        return (total == 0) ? ("No Events Logged.") : ("Count: " + total + "\n" + bucket.supplier.apply(5)
+                .stream()
+                .map(tracker -> {
+                    int percent = Math.round((float) bucket.valueMapper.apply(tracker) * 100 / total);
+                    return String.format("%s %d%% **%s** (%d)", bar(percent, 15), percent, tracker.getCommandName(), bucket.valueMapper.apply(tracker));
+                })
+                .collect(Collectors.joining("\n")));
+    }
+
+    public static EmbedBuilder fillEmbed(Bucket bucket, EmbedBuilder builder) {
+        int total = UsageTracker.total(bucket.valueMapper);
+
+        if(total == 0) {
+            builder.addField("Nothing Here.", "Just dust.", false);
+            return builder;
+        }
+
+        bucket.supplier.apply(12)
+                .forEach(tracker -> {
+                    int percent = bucket.valueMapper.apply(tracker) * 100 / total;
+                    builder.addField(tracker.getCommandName(), String.format("%s %d%% (%d)", bar(percent, 15), percent, bucket.valueMapper.apply(tracker)), false);
+                });
+
+        return builder;
+    }
+
+    public enum Bucket {
+        MINUTE(UsageTracker::highestMinute, UsageTracker::minuteUsages),
+        HOUR(UsageTracker::highestHourly, UsageTracker::hourlyUsages),
+        DAY(UsageTracker::highestDaily, UsageTracker::dailyUsages),
+        TOTAL(UsageTracker::highestTotal, UsageTracker::totalUsages);
+
+        final IntFunction<List<UsageTracker>> supplier;
+        final UsageTracker.TrackerIntFunction valueMapper;
+
+        Bucket(IntFunction<List<UsageTracker>> supplier, UsageTracker.TrackerIntFunction valueMapper) {
+            this.supplier = supplier;
+            this.valueMapper = valueMapper;
+        }
     }
 }

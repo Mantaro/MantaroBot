@@ -491,32 +491,32 @@ public class InfoCmds {
                 if(args.length > 0) {
                     String what = args[0];
                     if(what.equals("total")) {
-                        event.getChannel().sendMessage(commandStatsManager.fillEmbed(CommandStatsManager.TOTAL_CMDS, baseEmbed(event, "Command Stats | Total")).build()).queue();
+                        event.getChannel().sendMessage(CommandStatsManager.fillEmbed(CommandStatsManager.Bucket.TOTAL, baseEmbed(event, "Command Stats | Total")).build()).queue();
                         return;
                     }
 
                     if(what.equals("daily")) {
-                        event.getChannel().sendMessage(commandStatsManager.fillEmbed(CommandStatsManager.DAY_CMDS, baseEmbed(event, "Command Stats | Daily")).build()).queue();
+                        event.getChannel().sendMessage(CommandStatsManager.fillEmbed(CommandStatsManager.Bucket.DAY, baseEmbed(event, "Command Stats | Daily")).build()).queue();
                         return;
                     }
 
                     if(what.equals("hourly")) {
-                        event.getChannel().sendMessage(commandStatsManager.fillEmbed(CommandStatsManager.HOUR_CMDS, baseEmbed(event, "Command Stats | Hourly")).build()).queue();
+                        event.getChannel().sendMessage(CommandStatsManager.fillEmbed(CommandStatsManager.Bucket.HOUR, baseEmbed(event, "Command Stats | Hourly")).build()).queue();
                         return;
                     }
 
                     if(what.equals("now")) {
-                        event.getChannel().sendMessage(commandStatsManager.fillEmbed(CommandStatsManager.MINUTE_CMDS, baseEmbed(event, "Command Stats | Now")).build()).queue();
+                        event.getChannel().sendMessage(CommandStatsManager.fillEmbed(CommandStatsManager.Bucket.MINUTE, baseEmbed(event, "Command Stats | Now")).build()).queue();
                         return;
                     }
                 }
 
                 //Default
                 event.getChannel().sendMessage(baseEmbed(event, "Command Stats")
-                        .addField(languageContext.get("general.now"), commandStatsManager.resume(CommandStatsManager.MINUTE_CMDS), false)
-                        .addField(languageContext.get("general.hourly"), commandStatsManager.resume(CommandStatsManager.HOUR_CMDS), false)
-                        .addField(languageContext.get("general.daily"), commandStatsManager.resume(CommandStatsManager.DAY_CMDS), false)
-                        .addField(languageContext.get("general.total"), commandStatsManager.resume(CommandStatsManager.TOTAL_CMDS), false)
+                        .addField(languageContext.get("general.now"), CommandStatsManager.resume(CommandStatsManager.Bucket.MINUTE), false)
+                        .addField(languageContext.get("general.hourly"), CommandStatsManager.resume(CommandStatsManager.Bucket.HOUR), false)
+                        .addField(languageContext.get("general.daily"), CommandStatsManager.resume(CommandStatsManager.Bucket.DAY), false)
+                        .addField(languageContext.get("general.total"), CommandStatsManager.resume(CommandStatsManager.Bucket.TOTAL), false)
                         .build()
                 ).queue();
             }
