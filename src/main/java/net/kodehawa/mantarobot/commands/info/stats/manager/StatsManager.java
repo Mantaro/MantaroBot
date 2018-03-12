@@ -27,10 +27,10 @@ public abstract class StatsManager<T> {
     private static final char ACTIVE_BLOCK = '\u2588';
     private static final char EMPTY_BLOCK = '\u200b';
 
-    public static String bar(int percent, int total) {
-        int activeBlocks = (int) ((float) percent / 100f * total);
+    public static String bar(long percent, long total) {
+        long activeBlocks = (int) ((float) percent / 100f * total);
         StringBuilder builder = new StringBuilder().append('`').append(EMPTY_BLOCK);
-        for(int i = 0; i < total; i++) builder.append(activeBlocks > i ? ACTIVE_BLOCK : ' ');
+        for(long i = 0; i < total; i++) builder.append(activeBlocks > i ? ACTIVE_BLOCK : ' ');
         return builder.append(EMPTY_BLOCK).append('`').toString();
     }
 

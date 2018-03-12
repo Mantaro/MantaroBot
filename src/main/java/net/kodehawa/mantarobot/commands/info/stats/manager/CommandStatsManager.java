@@ -16,59 +16,45 @@
 
 package net.kodehawa.mantarobot.commands.info.stats.manager;
 
+import com.github.natanbc.usagetracker.Bucket;
+import com.github.natanbc.usagetracker.TrackerGroup;
 import net.dv8tion.jda.core.EmbedBuilder;
 
-import java.util.List;
-import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 
 public class CommandStatsManager extends StatsManager<String> {
+    private static final TrackerGroup<String> TRACKERS = new TrackerGroup<>();
+
     public static void log(String cmd) {
         if(cmd.isEmpty()) return;
-        UsageTracker.tracker(cmd).increment();
+        TRACKERS.tracker(cmd).increment();
     }
 
     public static String resume(Bucket bucket) {
-        int total = UsageTracker.total(bucket.valueMapper);
+        long total = TRACKERS.total(bucket);
 
-        return (total == 0) ? ("No Events Logged.") : ("Count: " + total + "\n" + bucket.supplier.apply(5)
-                .stream()
+        return (total == 0) ? ("No Events Logged.") : ("Count: " + total + "\n" + TRACKERS.highest(bucket, 5)
                 .map(tracker -> {
-                    int percent = Math.round((float) bucket.valueMapper.apply(tracker) * 100 / total);
-                    return String.format("%s %d%% **%s** (%d)", bar(percent, 15), percent, tracker.getCommandName(), bucket.valueMapper.apply(tracker));
+                    int percent = Math.round((float) bucket.amount(tracker) * 100 / total);
+                    return String.format("%s %d%% **%s** (%d)", bar(percent, 15), percent, tracker.getKey(), bucket.amount(tracker));
                 })
                 .collect(Collectors.joining("\n")));
     }
 
     public static EmbedBuilder fillEmbed(Bucket bucket, EmbedBuilder builder) {
-        int total = UsageTracker.total(bucket.valueMapper);
+        long total = TRACKERS.total(bucket);
 
         if(total == 0) {
             builder.addField("Nothing Here.", "Just dust.", false);
             return builder;
         }
 
-        bucket.supplier.apply(12)
+        TRACKERS.highest(bucket, 12)
                 .forEach(tracker -> {
-                    int percent = bucket.valueMapper.apply(tracker) * 100 / total;
-                    builder.addField(tracker.getCommandName(), String.format("%s %d%% (%d)", bar(percent, 15), percent, bucket.valueMapper.apply(tracker)), false);
+                    long percent = bucket.amount(tracker) * 100 / total;
+                    builder.addField(tracker.getKey(), String.format("%s %d%% (%d)", bar(percent, 15), percent, bucket.amount(tracker)), false);
                 });
 
         return builder;
-    }
-
-    public enum Bucket {
-        MINUTE(UsageTracker::highestMinute, UsageTracker::minuteUsages),
-        HOUR(UsageTracker::highestHourly, UsageTracker::hourlyUsages),
-        DAY(UsageTracker::highestDaily, UsageTracker::dailyUsages),
-        TOTAL(UsageTracker::highestTotal, UsageTracker::totalUsages);
-
-        final IntFunction<List<UsageTracker>> supplier;
-        final UsageTracker.TrackerIntFunction valueMapper;
-
-        Bucket(IntFunction<List<UsageTracker>> supplier, UsageTracker.TrackerIntFunction valueMapper) {
-            this.supplier = supplier;
-            this.valueMapper = valueMapper;
-        }
     }
 }

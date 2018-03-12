@@ -99,6 +99,8 @@ dependencies {
 
 	//Basically for FinderUtil
 	compile 'com.jagrosh:JDA-Utilities:1.9'
+
+	compile 'com.github.natanbc:usage-tracker:0.1.1'
 }
 
 task wrapper(type: Wrapper) {
