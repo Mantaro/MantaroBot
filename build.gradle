@@ -18,6 +18,16 @@
 //Imports
 import org.apache.tools.ant.filters.ReplaceTokens
 
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.apollographql.apollo:apollo-gradle-plugin:0.4.4'
+    }
+}
+
 //Plugins
 plugins {
 	//Compiles Java
@@ -32,6 +42,9 @@ plugins {
 	//Tell me when smth is outdated
 	id 'com.github.ben-manes.versions' version '0.16.0'
 }
+
+//graphql
+apply plugin: 'com.apollographql.android'
 
 //Define the Main Class
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
