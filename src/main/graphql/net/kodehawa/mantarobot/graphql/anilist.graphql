@@ -74,6 +74,7 @@ query MediaSearch($query: String) {
       genres
       averageScore
       meanScore
+      format
       nextAiringEpisode {
         airingAt
         episode
