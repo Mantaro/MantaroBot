@@ -838,8 +838,11 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, user, event)) return;
-                if(!Items.BROM_PICKAXE.getAction().test(event, languageContext)) return;
+                if(!handleDefaultRatelimit(rateLimiter, user, event))
+                    return;
+
+                if(!Items.BROM_PICKAXE.getAction().test(event, languageContext))
+                    return;
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
                 String message = String.format(languageContext.get("commands.mine.success"), EmoteReference.PICK, money);
@@ -855,6 +858,8 @@ public class MoneyCmds {
 
                     player.getData().addBadgeIfAbsent(Badge.MINER);
                 }
+
+                //TODO add handling for gems.
 
                 event.getChannel().sendMessage(message).queue();
                 player.addMoney(money);

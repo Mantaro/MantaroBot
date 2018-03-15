@@ -1370,6 +1370,32 @@
       "success": "%1$sDone! The message was sent on channel %1$s for user **%2$s**. They got assigned the role %3$s",
       "error": "%1$sOw... There was an error while sending the message on channel %1$s for user **%2$s** and role %3$s"
     },
+    "usermessage_joinmessage_add": {
+      "success": "%1$sAdded %2$s to the extra join messages successfully."
+    },
+    "usermessage_joinmessage_remove": {
+      "success": "%1$sRemoved %2$s (index %3$d) from the extra join messages successfully."
+    },
+    "usermessage_joinmessage_clear": {
+      "success": "%1$sCleared all extra join messages."
+    },
+    "usermessage_joinmessage_list": {
+      "header": "Extra join messages list.",
+      "no_extras": "%1$sThere isn't any extra join messages here..."
+    },
+    "usermessage_leavemessage_add": {
+      "success": "%1$sAdded %2$s to the extra leave messages successfully."
+    },
+    "usermessage_leavemessage_remove": {
+      "success": "%1$sRemoved %2$s (index %3$d) from the extra leave messages successfully."
+    },
+    "usermessage_leavemessage_clear": {
+      "success": "%1$sCleared all extra leave messages."
+    },
+    "usermessage_leavemessage_list": {
+      "header": "Extra leave messages list.",
+      "no_extras": "%1$sThere isn't any extra leave messages here..."
+    },
     "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
     "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
     "no_command": "%1$sNo command called %2$s",

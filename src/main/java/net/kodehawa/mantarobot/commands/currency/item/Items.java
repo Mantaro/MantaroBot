@@ -42,7 +42,7 @@ public class Items {
             BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
             NECKLACE, ROSE,
             DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN, POTION_STAMINA, FISHING_ROD,
-            FISH_1, FISH_2, FISH_3;
+            FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4;
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.HOURS, 1);
@@ -105,7 +105,12 @@ public class Items {
             FISHING_ROD = new Item(ItemType.INTERACTIVE, "\uD83C\uDFA3","Fishing Rod", "Enables you to fish.", 65, true),
             FISH_1 = new Item(ItemType.COMMON, "\uD83D\uDC1F","Fish", "Common Fish. Caught in fishing", 10, false),
             FISH_2 = new Item(ItemType.COMMON, "\uD83D\uDC20","Tropical Fish", "Rare Fish. Caught in fishing", 30, false),
-            FISH_3 = new Item(ItemType.RARE, "\uD83D\uDC21","Blowfish", "Rarest Fish. You're extremely lucky if you actually got this.", 45, false)
+            FISH_3 = new Item(ItemType.RARE, "\uD83D\uDC21","Blowfish", "Rarest Fish. You're extremely lucky if you actually got this.", 45, false),
+            // ---------------------------------- 5.0 MINING ITEMS START HERE ----------------------------------
+            GEM_1 = new Item(ItemType.COMMON, "\u2604", "Comet Gem", "Fragments of a comet you found while mining. Useful for casting.", 40, false),
+            GEM_2 = new Item(ItemType.COMMON, EmoteReference.STAR.getUnicode(), "Star Gem", "Fragments of a fallen star you found while mining.", 45, false),
+            GEM_3 = new Item(ItemType.COMMON, "\uD83D\uDD78", "Cobweb", "Something a spider left over on the mine. Wonder if it's worth something.", 10, false),
+            GEM_4 = new Item(ItemType.COMMON, "\uD83D\uDCAB", "Gem Fragment", "Fragment of an ancient gem. Useful for casting", 50, false)
     };
 
     public static void setItemActions() {

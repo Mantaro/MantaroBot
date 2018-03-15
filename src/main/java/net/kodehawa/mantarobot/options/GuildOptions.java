@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -37,6 +38,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -459,6 +461,177 @@ public class GuildOptions extends OptionHandler {
                     dbGuild.save();
                     event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage.success"), EmoteReference.CORRECT, leaveMessage).queue();
                 });//endregion
+
+        registerOption("usermessage:joinmessage:add", "Join Message extra messages add", "Adds a new join message\n" +
+                "**Example**: `~>opts usermessage joinmessage add hi`" , "Adds a new join message", ((event, args, lang) -> {
+            if (args.length == 0) {
+                onHelp(event);
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            String message = String.join(" ", args);
+
+            guildData.getExtraJoinMessages().add(message);
+            dbGuild.save();
+
+            event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage_add.success"), EmoteReference.CORRECT, message).queue();
+        }));
+
+        registerOption("usermessage:joinmessage:remove", "Join Message extra messages remove", "Removes a join message\n" +
+                "**Example**: `~>opts usermessage joinmessage remove 0`" , "Removes a join message", ((event, args, lang) -> {
+            if (args.length == 0) {
+                onHelp(event);
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            int index;
+            try {
+                index = Integer.parseInt(args[0]);
+            } catch (NumberFormatException ex) {
+                event.getChannel().sendMessageFormat(lang.get("general.invalid_number"), EmoteReference.ERROR2).queue();
+                return;
+            }
+
+            String old = guildData.getExtraJoinMessages().get(index);
+
+            guildData.getExtraJoinMessages().remove(index);
+            dbGuild.save();
+
+            event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage_remove.success"), EmoteReference.CORRECT, old, index).queue();
+        }));
+
+        registerOption("usermessage:joinmessage:clear", "Join Message extra messages clear", "Clears all extra join messages\n" +
+                "**Example**: `~>opts usermessage joinmessage clear`" , "Clears all extra join messages", ((event, args, lang) -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            dbGuild.getData().getExtraJoinMessages().clear();
+            dbGuild.save();
+
+            event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage_clear.success"), EmoteReference.CORRECT).queue();
+        }));
+
+        registerOption("usermessage:joinmessage:list", "Join Message extra messages list", "Lists all extra join messages\n" +
+                "**Example**: `~>opts usermessage joinmessage list`" , "Lists all extra join messages", ((event, args, lang) -> {
+            StringBuilder builder = new StringBuilder();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData data = dbGuild.getData();
+
+            if(data.getExtraJoinMessages().isEmpty()) {
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage_list.no_extras"), EmoteReference.ERROR).queue();
+                return;
+            }
+
+            if(data.getJoinMessage() != null) {
+                builder.append("Main: ").append(data.getJoinMessage()).append("\n\n");
+            }
+
+            for(String s : data.getExtraJoinMessages()) {
+                builder.append(s).append("\n");
+            }
+
+            List<String> m = DiscordUtils.divideString(builder);
+            List<String> messages = new LinkedList<>();
+            boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+            for(String s1 : m) {
+                messages.add(String.format(lang.get("options.usermessage_joinmessage_list.header"),
+                        hasReactionPerms ? lang.get("general.text_menu") + " " : lang.get("general.arrow_react"), String.format("```prolog\n%s```", s1)));
+            }
+
+            if(hasReactionPerms) {
+                DiscordUtils.list(event, 45, false, messages);
+            } else {
+                DiscordUtils.listText(event, 45, false, messages);
+            }
+        }));
+
+        registerOption("usermessage:leavemessage:add", "Leave Message extra messages add", "Adds a new leave message\n" +
+                "**Example**: `~>opts usermessage leavemessage add hi`" , "Adds a new leave message", ((event, args, lang) -> {
+            if (args.length == 0) {
+                onHelp(event);
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            String message = String.join(" ", args);
+
+            guildData.getExtraLeaveMessages().add(message);
+            dbGuild.save();
+
+            event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage_add.success"), EmoteReference.CORRECT, message).queue();
+        }));
+
+        registerOption("usermessage:leavemessage:remove", "Leave Message extra messages remove", "Removes a leave message\n" +
+                "**Example**: `~>opts usermessage leavemessage remove 0`" , "Removes a leave message", ((event, args, lang) -> {
+            if (args.length == 0) {
+                onHelp(event);
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            int index;
+            try {
+                index = Integer.parseInt(args[0]);
+            } catch (NumberFormatException ex) {
+                event.getChannel().sendMessageFormat(lang.get("general.invalid_number"), EmoteReference.ERROR2).queue();
+                return;
+            }
+
+            String old = guildData.getExtraLeaveMessages().get(index);
+
+            guildData.getExtraLeaveMessages().remove(index);
+            dbGuild.save();
+
+            event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage_remove.success"), EmoteReference.CORRECT, old).queue();
+        }));
+
+        registerOption("usermessage:leavemessage:clear", "Leave Message extra messages clear", "Clears all extra leave messages\n" +
+                "**Example**: `~>opts usermessage leavemessage clear`" , "Clears all extra leave messages", ((event, args, lang) -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            dbGuild.getData().getExtraLeaveMessages().clear();
+            dbGuild.save();
+
+            event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage_clear.success"), EmoteReference.CORRECT).queue();
+
+        }));
+
+        registerOption("usermessage:leavemessage:list", "Leave Message extra messages list", "Lists all extra leave messages\n" +
+                "**Example**: `~>opts usermessage leavemessage list`" , "Lists all extra leave messages", ((event, args, lang) -> {
+            StringBuilder builder = new StringBuilder();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData data = dbGuild.getData();
+
+            if(data.getExtraJoinMessages().isEmpty()) {
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage_list.no_extras"), EmoteReference.ERROR).queue();
+                return;
+            }
+
+            if(data.getJoinMessage() != null) {
+                builder.append("Main: ").append(data.getJoinMessage()).append("\n\n");
+            }
+
+            for(String s : data.getExtraLeaveMessages()) {
+                builder.append(s).append("\n");
+            }
+
+            List<String> m = DiscordUtils.divideString(builder);
+            List<String> messages = new LinkedList<>();
+            boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+            for(String s1 : m) {
+                messages.add(String.format(lang.get("options.usermessage_leavemessage_list.header"),
+                        hasReactionPerms ? lang.get("general.text_menu") + " " : lang.get("general.arrow_react"), String.format("```prolog\n%s```", s1)));
+            }
+
+            if(hasReactionPerms) {
+                DiscordUtils.list(event, 45, false, messages);
+            } else {
+                DiscordUtils.listText(event, 45, false, messages);
+            }
+        }));
         //endregion
         //region autoroles
         //region add
