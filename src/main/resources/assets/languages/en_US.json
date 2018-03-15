@@ -458,7 +458,8 @@
       "no_money_notice": "%1$sYou cannot transfer money you don't have.",
       "receipt_locked_notice": "1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sThis user already has too much money...",
-      "success": "%1$sTransferred **%2$d** to *%3$s* successfully."
+      "success": "%1$sTransferred **%2$d** to *%3$s* successfully.",
+      "item_transfer": "%1$sYou cannot transfer items using transfer, use transferitems instead!"
     },
     "useitem": {
       "use_command": "%1$sFor this item you need to use the command that's linked to the item! (mine for pickaxe, fish for the fishing rod)",
