@@ -1380,7 +1380,7 @@
       "success": "%1$sCleared all extra join messages."
     },
     "usermessage_joinmessage_list": {
-      "header": "Extra join messages list.\n%1$s",
+      "header": "Extra join messages list. %1$s\n%2$s",
       "no_extras": "%1$sThere isn't any extra join messages here..."
     },
     "usermessage_leavemessage_add": {
@@ -1393,7 +1393,7 @@
       "success": "%1$sCleared all extra leave messages."
     },
     "usermessage_leavemessage_list": {
-      "header": "Extra leave messages list.\n%1$s",
+      "header": "Extra leave messages list. %1$s\n%2$s",
       "no_extras": "%1$sThere isn't any extra leave messages here..."
     },
     "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
