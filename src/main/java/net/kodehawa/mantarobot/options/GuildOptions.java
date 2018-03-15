@@ -588,7 +588,7 @@ public class GuildOptions extends OptionHandler {
             guildData.getExtraLeaveMessages().remove(index);
             dbGuild.save();
 
-            event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage_remove.success"), EmoteReference.CORRECT, old).queue();
+            event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage_remove.success"), EmoteReference.CORRECT, old, index).queue();
         }));
 
         registerOption("usermessage:leavemessages:clear", "Leave Message extra messages clear", "Clears all extra leave messages\n" +
