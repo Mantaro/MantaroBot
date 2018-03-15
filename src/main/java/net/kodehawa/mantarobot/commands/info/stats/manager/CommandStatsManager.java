@@ -16,34 +16,45 @@
 
 package net.kodehawa.mantarobot.commands.info.stats.manager;
 
-import net.jodah.expiringmap.ExpirationPolicy;
-import net.jodah.expiringmap.ExpiringMap;
+import com.github.natanbc.usagetracker.Bucket;
+import com.github.natanbc.usagetracker.TrackerGroup;
+import net.dv8tion.jda.core.EmbedBuilder;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class CommandStatsManager extends StatsManager<String> {
-    public static final ExpiringMap<String, AtomicInteger> DAY_CMDS = ExpiringMap.<String, AtomicInteger>builder()
-            .expiration(1, TimeUnit.DAYS)
-            .expirationPolicy(ExpirationPolicy.CREATED)
-            .build();
-    public static final ExpiringMap<String, AtomicInteger> HOUR_CMDS = ExpiringMap.<String, AtomicInteger>builder()
-            .expiration(1, TimeUnit.HOURS)
-            .expirationPolicy(ExpirationPolicy.CREATED)
-            .build();
-    public static final ExpiringMap<String, AtomicInteger> MINUTE_CMDS = ExpiringMap.<String, AtomicInteger>builder()
-            .expiration(1, TimeUnit.MINUTES)
-            .expirationPolicy(ExpirationPolicy.CREATED)
-            .build();
-    public static final Map<String, AtomicInteger> TOTAL_CMDS = new HashMap<>();
+    private static final TrackerGroup<String> TRACKERS = new TrackerGroup<>();
 
     public static void log(String cmd) {
         if(cmd.isEmpty()) return;
-        TOTAL_CMDS.computeIfAbsent(cmd, k -> new AtomicInteger(0)).incrementAndGet();
-        DAY_CMDS.computeIfAbsent(cmd, k -> new AtomicInteger(0)).incrementAndGet();
-        HOUR_CMDS.computeIfAbsent(cmd, k -> new AtomicInteger(0)).incrementAndGet();
-        MINUTE_CMDS.computeIfAbsent(cmd, k -> new AtomicInteger(0)).incrementAndGet();
+        TRACKERS.tracker(cmd).increment();
+    }
+
+    public static String resume(Bucket bucket) {
+        long total = TRACKERS.total(bucket);
+
+        return (total == 0) ? ("No Events Logged.") : ("Count: " + total + "\n" + TRACKERS.highest(bucket, 5)
+                .map(tracker -> {
+                    int percent = Math.round((float) bucket.amount(tracker) * 100 / total);
+                    return String.format("%s %d%% **%s** (%d)", bar(percent, 15), percent, tracker.getKey(), bucket.amount(tracker));
+                })
+                .collect(Collectors.joining("\n")));
+    }
+
+    public static EmbedBuilder fillEmbed(Bucket bucket, EmbedBuilder builder) {
+        long total = TRACKERS.total(bucket);
+
+        if(total == 0) {
+            builder.addField("Nothing Here.", "Just dust.", false);
+            return builder;
+        }
+
+        TRACKERS.highest(bucket, 12)
+                .forEach(tracker -> {
+                    long percent = bucket.amount(tracker) * 100 / total;
+                    builder.addField(tracker.getKey(), String.format("%s %d%% (%d)", bar(percent, 15), percent, bucket.amount(tracker)), false);
+                });
+
+        return builder;
     }
 }

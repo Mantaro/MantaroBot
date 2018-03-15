@@ -18,6 +18,16 @@
 //Imports
 import org.apache.tools.ant.filters.ReplaceTokens
 
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.apollographql.apollo:apollo-gradle-plugin:0.4.4'
+    }
+}
+
 //Plugins
 plugins {
 	//Compiles Java
@@ -32,6 +42,9 @@ plugins {
 	//Tell me when smth is outdated
 	id 'com.github.ben-manes.versions' version '0.16.0'
 }
+
+//graphql
+apply plugin: 'com.apollographql.android'
 
 //Define the Main Class
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
@@ -99,6 +112,10 @@ dependencies {
 
 	//Basically for FinderUtil
 	compile 'com.jagrosh:JDA-Utilities:1.9'
+
+	compile 'com.github.natanbc:usage-tracker:0.1.1'
+
+    compile 'com.apollographql.apollo:apollo-runtime:0.4.4'
 }
 
 task wrapper(type: Wrapper) {
@@ -106,13 +123,14 @@ task wrapper(type: Wrapper) {
 }
 
 tasks.withType(JavaCompile) {
-	options.compilerArgs << "-Xlint:deprecation"
+	options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
 	options.encoding = 'UTF-8'
 }
 
 //Task for the versioning system
 task prepareSource(type: Copy) {
 	from 'src/main/java'
+    from 'build/generated/source/apollo/'
 	into 'build/prepared-src'
 	filter(ReplaceTokens, tokens: [
 		version: ver.toString()
@@ -120,6 +138,8 @@ task prepareSource(type: Copy) {
 	dependsOn clean
 }
 prepareSource.dependsOn clean
+
+clean.finalizedBy generateApolloClasses
 
 compileJava {
 	source = prepareSource.destinationDir
