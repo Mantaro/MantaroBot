@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands;
 
+import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
 import com.google.gson.JsonSyntaxException;
 import lombok.extern.slf4j.Slf4j;
@@ -60,8 +61,13 @@ public class AnimeCmds {
 
                     List<MediaSearchQuery.Medium> found = Anilist.searchMedia(content)
                             .stream()
-                            .filter(media->media.type() == MediaType.ANIME)
+                            .filter(media -> media.type() == MediaType.ANIME)
                             .collect(Collectors.toList());
+
+                    if(found.isEmpty()) {
+                        event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
+                        return;
+                    }
 
                     if(found.size() == 1) {
                         animeData(event, languageContext, found.get(0));
@@ -69,7 +75,7 @@ public class AnimeCmds {
                     }
 
                     DiscordUtils.selectList(event, found, anime -> String.format("**[%s (%s)](%s)**",
-                            anime.title().english(), anime.title().romaji(), anime.siteUrl()),
+                            anime.title().english().isEmpty() ? anime.title().romaji() : anime.title().english(), anime.title().native_(), anime.siteUrl()),
                             s -> baseEmbed(event, languageContext.withRoot("commands", "anime.selection_start"))
                                     .setDescription(s)
                                     .setThumbnail("https://anilist.co/img/logo_al.png")
@@ -114,6 +120,11 @@ public class AnimeCmds {
 
                     List<CharacterSearchQuery.Character> characters = Anilist.searchCharacters(content);
 
+                    if(characters.isEmpty()) {
+                        event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
                     if(characters.size() == 1) {
                         characterData(event, languageContext, characters.get(0));
                         return;
@@ -122,7 +133,7 @@ public class AnimeCmds {
                     DiscordUtils.selectList(event, characters, character -> String.format("**[%s %s](%s)**",
                             character.name().last() == null ? "" : character.name().last(), character.name().first(),
                             character.siteUrl()),
-                            s -> baseEmbed(event, languageContext.withRoot("commands", "character.information_footer"))
+                            s -> baseEmbed(event, languageContext.withRoot("commands", "anime.information_footer"))
                                     .setDescription(s)
                                     .setThumbnail("https://anilist.co/img/logo_al.png")
                                     .setFooter(languageContext.withRoot("commands", "anime.information_footer"), event.getAuthor().getAvatarUrl())
@@ -135,6 +146,7 @@ public class AnimeCmds {
                 } catch (Exception exception) {
                     event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "character.error"),
                             EmoteReference.ERROR, exception.getClass().getSimpleName()).queue();
+                    exception.printStackTrace();
                 }
             }
 
@@ -154,7 +166,7 @@ public class AnimeCmds {
     }
 
     private void animeData(GuildMessageReceivedEvent event, I18nContext lang, MediaSearchQuery.Medium type) {
-        String ANIME_TITLE = type.title().english();
+        String ANIME_TITLE = type.title().english().isEmpty() ? type.title().romaji() : type.title().english();
         String RELEASE_DATE = type.startDate() == null ? null : type.startDate().day() + "/" + type.startDate().month() + "/" + type.startDate().year();
         String END_DATE = type.endDate() == null ? null : type.endDate().day() + "/" + type.endDate().month() + "/" + type.endDate().year();
         String ANIME_DESCRIPTION = type.description().replace("<br>", "\n");
@@ -164,7 +176,7 @@ public class AnimeCmds {
         String EPISODES = type.episodes().toString();
         String DURATION = type.duration().toString();
 
-        List<String> genres = type.genres();
+        List<String> genres = Lists.newArrayList(type.genres());
         genres.removeAll(Collections.singleton(""));
         String GENRES = String.join(", ", genres);
 
