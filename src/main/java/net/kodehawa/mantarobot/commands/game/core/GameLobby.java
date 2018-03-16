@@ -34,6 +34,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unchecked")
 public class GameLobby extends Lobby {
 
     public static final Map<TextChannel, GameLobby> LOBBYS = new ConcurrentHashMap<>();

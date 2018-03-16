@@ -119,12 +119,50 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '3.2'
+	gradleVersion = '4.6'
 }
 
 tasks.withType(JavaCompile) {
-	options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
+	options.compilerArgs <<
+            "-Xlint:deprecation" <<
+            "-Xlint:unchecked" <<
+            "-Xlint:divzero" <<
+            "-Xlint:cast" <<
+            "-Xlint:empty" <<
+            "-Xlint:fallthrough" <<
+            "-Xlint:finally" <<
+            "-Xlint:overrides"
 	options.encoding = 'UTF-8'
+}
+
+compileJava.dependsOn.remove(generateApolloClasses)
+
+clean {
+    delete = []
+    def file = new File("build")
+    if(file.listFiles() != null) {
+        file.listFiles().each {
+            if(it.name == "generated") {
+                if(it.listFiles() != null) {
+                    it.listFiles().each {
+                        if(it.name == "source") {
+                            if(it.listFiles() != null) {
+                                it.listFiles().each {
+                                    if(it.name != "apollo") {
+                                        delete it.name
+                                    }
+                                }
+                            }
+                        } else {
+                            delete it.name
+                        }
+                    }
+                }
+            } else {
+                delete it.name
+            }
+        }
+    }
 }
 
 //Task for the versioning system
@@ -138,8 +176,6 @@ task prepareSource(type: Copy) {
 	dependsOn clean
 }
 prepareSource.dependsOn clean
-
-clean.finalizedBy generateApolloClasses
 
 compileJava {
 	source = prepareSource.destinationDir
