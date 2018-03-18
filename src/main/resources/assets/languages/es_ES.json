@@ -310,128 +310,128 @@
       "invalid_link": "%1$sLa cadena de carácteres `%2$s` no es un link válido."
     },
     "mute": {
-      "no_permissions": "%1$sYou need to have either ban or kick members permission to mute!",
-      "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`",
-      "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent!",
-      "no_mentions": "%1$sYou need to mention at least one user to mute.",
-      "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server!",
-      "no_time": "%1$sYou didn't specify any time!",
-      "time_not_specified": "%1$sYou wanted time but didn't specify for how long!",
-      "negative_time_notice": "%1$sYou cannot mute someone for negative time!",
-      "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
-      "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
-      "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to unmute them.",
-      "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
-      "user_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
-      "success": "%1$sAdded mute role to **%2$s%3$s** for around %4$s"
+      "no_permissions": "%1$sNecesitas tener el permiso para expulsar o banear miembros para poder mutear!",
+      "no_mute_role": "%1$sEl rol de muteo no está configurado en este servidor, puedes configurarlo con el comando `~>opts muterole set <role>`",
+      "null_mute_role": "%1$sEl rol de muteo que estaba configurado en este servidor ya no existe",
+      "no_mentions": "%1$sNecesitas mencionar al menos a un usuario para mutearlo.",
+      "no_manage_roles": "%1$sNo tengo permiso para administrar roles en este servidor",
+      "no_time": "%1$sNo especificaste el tiempo",
+      "time_not_specified": "%1$s¡Especificaste el parametro para agregar tiempo pero no pusiste por cuanto!",
+      "negative_time_notice": "%1$sNo creo que sea posible mutear a alguien por tiempo negativo...",
+      "default_time_too_long": "%1$sEl tiempo de muteo por defecto es muy largo (Máximo: 10 días)...",
+      "time_too_long": "%1$sEl tiempo especificado es muy largo (Máximo: 10 días)...",
+      "already_muted": "%1$sEste usuario ya está muteado. Ejecuta `~>unmute` para des-mutearlo.",
+      "self_hierarchy_error": "%1$sNo puedo asignar el rol de muteo a este user porque está en una jerarquía mas alta que yo, o el rol está en una jerarquía mas alta que mi rol más importante!",
+      "user_hierarchy_error": "%1$sNo puedo asignar el rol de muteo a este user porque está en una jerarquía mas alta que tú, o el rol está en una jerarquía mas alta que tu rol más importante!",
+      "success": "%1$sAñadido el rol de muteo a **%2$s%3$s** por alrededor de %4$s"
     },
     "unmute": {
-      "no_permissions": "%1$sYou need to have either ban or kick members permission to un-mute!",
-      "no_mentions": "%1$sYou need to mention at least one user to un-mute.",
-      "success": "%1$sRemoved mute role from **%2$s**",
-      "no_role_assigned": "%1$sThis user doesn't have the mute role assigned to them."
+      "no_permissions": "%1$sNecesitas tener el permiso para expulsar o banear miembros para poder des-mutear!",
+      "no_mentions": "%1$sNecesitas mencionar al menos a un usuario para des-mutearlo.",
+      "success": "%1$sHe removido el rol de muteo de **%2$s**",
+      "no_role_assigned": "%1$sEste usuario no está muteado..."
     },
     "ping": {
       "quotes": {
-        "1": "supersonic speed! :upside_down:",
-        "10": "faster than Sonic! :smiley:",
+        "1": "velocidad supersónica! :upside_down:",
+        "10": "mas rápido que Sonic! :smiley:",
         "69": "l-lewd! <:MantaroGasm:318869352851963904>",
-        "100": "great! :smiley:",
-        "200": "nice! :slight_smile:",
-        "300": "decent. :neutral_face:",
-        "400": "average... :confused:",
-        "500": "slightly slow. :slight_frown:",
-        "600": "kinda slow.. :frowning2:",
-        "700": "slow.. :worried:",
-        "800": "too slow. :disappointed:",
-        "900": "bad. :sob: (helpme)",
+        "100": "bien! :smiley:",
+        "200": "suficiente, :slight_smile:",
+        "300": "decente. :neutral_face:",
+        "400": "promedio... :confused:",
+        "500": "relativamente lento... :slight_frown:",
+        "600": "un poco lento-.. :frowning2:",
+        "700": "lento... :worried:",
+        "800": "muy lento. :disappointed:",
+        "900": "mal. :sob: (helpme)",
         "1600": "#BlameDiscord. :angry:",
-        "10000": "this makes no sense :thinking: #BlameSteven",
-        "default": "slow af. :dizzy_face:"
+        "10000": "esto no tiene mucho sentido :thinking: #BlameSteven",
+        "default": "jodidamente lento. :dizzy_face:"
       },
-      "text": "%1$s*%2$s* - My ping: %3$d ms (%4$s) `Websocket:%5$dms`"
+      "text": "%1$s*%2$s* - Mi ping: %3$d ms (%4$s) `Websocket:%5$dms`"
     },
     "love": {
-      "no_mention": "%1$sYou need to mention at least 1 user.",
-      "not_ideal": "Try again next time...",
-      "decent": "Good enough!",
-      "nice": "Good match!",
-      "perfect": "Perfect match!",
-      "yourself_note": "You're a special creature and you should love yourself more than anyone <3",
-      "header": "Love Meter",
-      "result": "Result:"
+      "no_mention": "%1$sNecesitas mencionar al menos un usuario.",
+      "not_ideal": "Intentalo la próxima vez...",
+      "decent": "Suficientemente bueno!",
+      "nice": "Buena pareja!",
+      "perfect": "Pareja perfecta!",
+      "yourself_note": "Eres una persona especial y te deberías amar más que a nadie más en este mundo <3",
+      "header": "Contador de Amor",
+      "result": "Resultado:"
     },
     "marry": {
-      "no_mention": "%1$sMention the user you want to marry.",
-      "marry_yourself_notice": "%1$sYou cannot marry yourself, as much as you may want to.",
-      "marry_bot_notice": "%1$sYou cannot marry a bot.",
-      "already_married_receipt": "%1$sYou're married with them already, aww.",
-      "already_married": "%1$sYou're married already.",
-      "receipt_married": "%1$sThat user is married already.",
-      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>market buy 2 ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s, type with **yes** or **no** to the marriage proposal from %3$s\nThis timeouts in 120 seconds.",
-      "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory!",
-      "accepted": "%1$s`%2$s` accepted the proposal of `%3$s`!",
-      "denied": "%1$sDenied proposal from `%2$s`"
+      "no_mention": "%1$sMenciona al usuario con el que te quieras casar.",
+      "marry_yourself_notice": "%1$sNo puedes casarte contigo mismo, por más que lo desees.",
+      "marry_bot_notice": "%1$sNo puedes casarte con un bot. No creo que andemos en el mundo de Futurama todavía... espera, ¿se podían casar los robots con humanos allí?",
+      "already_married_receipt": "%1$sYa estás casado con el/ella, aww.",
+      "already_married": "%1$sYa te encuentras casado.",
+      "receipt_married": "%1$sEse usuario ya está casado.",
+      "no_ring": "%1$sNo puedes proponerte sin dos anillos de casamiento! Puedes comprarlos ejecutando `~>market buy 2 ring` y luego intenta proponerte denuevo <3",
+      "confirmation": "%1$s%2$s, escribe **yes** o **no** para responder a la proposición de matrimonio de %3$s\nEsto expira en 2 minutos.",
+      "ring_check_fail": "%1$sNo puedes casarte con menos de dos anillos en tu inventario!",
+      "accepted": "%1$s`%2$s` ha aceptado la proposición de `%3$s`!",
+      "denied": "%1$sLa proposición de `%2$s` fue negada :("
     },
     "divorce": {
-      "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?",
-      "success": "%1$sNow you're single. That's nice I guess."
+      "not_married": "%1$sNo estás casado con nadie, ¿Por qué no encuentras a ese alguien especial?",
+      "success": "%1$sYa te has separado. Eso es bueno... ¿creo?"
     },
     "ratewaifu": {
-      "nothing_specified": "%1$sGive me a waifu to rate!",
-      "success": "%1$sI rate %2$s with a **%3$d/100**"
+      "nothing_specified": "%1$sDame una waifu para puntuar!",
+      "success": "%1$sLe doy una puntuación a %2$s de **%3$d/100**"
     },
     "roll": {
-      "success": "%1$sYou got **%2$d**%3$s",
-      "amount": "Doing **%1$d** rolls."
+      "success": "%1$sConseguiste **%2$d**%3$s",
+      "amount": "Dandole **%1$d** vueltas al dado."
     },
     "coinflip": {
-      "over_limit": "%1$sHold in there! The limit is 1,000 coin flips",
-      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions",
-      "success": "%1$s Your result from **%2$d** time(s) yielded **%3$d** heads and **%4$d** tails"
+      "over_limit": "%1$sEspera! El límite es de 1000 vueltas de la moneda",
+      "no_repetitions": "%1$sNecesitas especificar un numero entero para las repeticiones",
+      "success": "%1$s Tu resultado por **%2$d** veces sacó **%3$d** caras y **%4$d** sellos"
     },
     "inventory": {
-      "brief": "**%1$s's inventory:** %2$s",
-      "calculate": "%1$sYou will get **%2$d credits** if you sell all of your items!",
-      "header": "%1$s's Inventory",
-      "format": "**Price**: 📥 %1$d 📤 %2$d\n%3$s"
+      "brief": "**Inventario de %1$s:** %2$s",
+      "calculate": "%1$sConseguirás **%2$d creditos** si vendes todos tus items!",
+      "header": "Inventario de %1$s",
+      "format": "**Precio**: 📥 %1$d 📤 %2$d\n%3$s"
     },
     "market": {
       "dump": {
-        "invalid": "%1$sNot a valid number of items to dump.",
-        "non_existent": "%1$sCannot dump a non-existent item!",
-        "player_no_item": "%1$sCannot dump an item you don't have!",
-        "more_items_than_player": "%1$sYou cannot dump more items than what you have.",
-        "success": "%1$sSent %2$dx **%3$s %4$s** to the trash!"
+        "invalid": "%1$sEse no es una cantidad válida de items que tirar a la basura.",
+        "non_existent": "%1$sNo puedo tirar un item no existente!",
+        "player_no_item": "%1$sNo puedo tirar un item que no tienes!",
+        "more_items_than_player": "%1$sNo puedes tirar mas items de los que tienes.",
+        "success": "%1$sHe enviado %2$dx **%3$s %4$s** a la basura!"
       },
       "price": {
-        "non_existent": "%1$sCannot check the price of a non-existent item!",
-        "no_price": "%1$sThis item is not available neither for sell or buy (could be an exclusive collectible)",
-        "collectible": "%1$sThis is a collectible item. (Sell value: %2$d credits)",
-        "success": "%1$sThe market value of %2$s**%3$s** is %4$s credits to buy it and you can get %5$s credits if you sell it."
+        "non_existent": "%1$sNo puedo revisar el precio de un item inexistente!",
+        "no_price": "%1$sEste item no está disponible para compraventa (¿Podría ser un coleccionable exclusivo?)",
+        "collectible": "%1$sEste es un ítem coleccionable. (Valor de venta: %2$d créditos)",
+        "success": "%1$sEl valor de %2$s**%3$s** es %4$s créditos si lo compras, y podrías obtener %5$s creditos si lo deseas vender."
       },
       "sell": {
-        "invalid": "%1$sNot a valid number of items to sell.",
+        "invalid": "%1$sEse no es un número valido de items para vender.",
         "all": {
-          "success": "%1$sYou sold all your inventory items and gained %2$d credits!"
+          "success": "%1$sVendiste todo tu inventario y ganaste %2$d créditos!"
         },
-        "non_existent": "%1$sYou cannot sell a non-existent item.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold.",
-        "no_item_player": "%1$sYou cannot sell an item you don't have.",
-        "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
-        "success": "%1$sYou sold %2$d **%3$s** and gained %4$d credits!"
+        "non_existent": "%1$sNo puedes vender un item inexistente.",
+        "no_sell_price": "%1$sNo puedes vender un item que no tenga valor de venta.",
+        "no_item_player": "%1$sNo puedes vender un item que no tienes.",
+        "more_items_than_player": "%1$sNo puedes vender mas items de los que tienes.",
+        "success": "%1$sHas vendido %2$d **%3$s** y ganaste %4$d créditos!"
       },
       "buy": {
-        "invalid": "%1$sNot a valid number of items to buy.",
-        "non_existent": "%1$sYou cannot buy an non-existent item.",
-        "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object!",
-        "success": "%1$sBought %2$d %3$s for %4$d credits successfully. You now have %5$d credits.",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item."
+        "invalid": "%1$sNo es un número valido de items para comprar.",
+        "non_existent": "%1$sNo puedes comprar un item inexistente.",
+        "no_buy_price": "%1$sNo puedes comprar un item que no se puede comprar.",
+        "item_limit_reached": "%1$sNo puedes comprar mas items de esto!",
+        "success": "%1$sHas comprado %2$d %3$s por %4$d créditos correctamente. Ahora tienes %5$d créditos.",
+        "not_enough_money": "%1$sNo tienes dinero suficiente para comprar esto."
 
       },
-      "header": "Mantaro's Market"
+      "header": "La tiendita de Mantaro"
     },
     "itemtransfer": {
       "transfer_yourself_note": "%1$sYou cannot transfer items to yourself!",
