@@ -164,8 +164,8 @@ public class MusicCmds {
                     try {
                         new URL(content);
                     } catch(Exception e) {
-                        if(content.startsWith("soundcloud"))
-                            content = ("scsearch: " + content).replace("soundcloud ", "");
+                        if(content.startsWith("soundcloud") && content.substring("soundcloud".length()).trim().length() > 0)
+                            content = ("scsearch: " + content).substring("soundcloud".length());
                         else content = "ytsearch: " + content;
                     }
 
@@ -261,7 +261,8 @@ public class MusicCmds {
                 try {
                     new URL(content);
                 } catch(Exception e) {
-                    if(content.startsWith("soundcloud")) content = ("scsearch: " + content).replace("soundcloud ", "");
+                    if(content.startsWith("soundcloud") && content.substring("soundcloud".length()).trim().length() > 0)
+                            content = ("scsearch: " + content).substring("soundcloud".length());
                     else content = "ytsearch: " + content;
                 }
 
