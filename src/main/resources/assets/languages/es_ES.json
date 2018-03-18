@@ -74,245 +74,240 @@
       "yourself_note": "%1$s¿Por qué estás intentando banearte a ti solo? huh...",
       "self_hierarchy_conflict": "%1$sNo puedo banear al miembro: %2$s, tienen una jerarquía igual o mayor a la mía!",
       "success": "%1$s%2$s (%3$s fue baneado)",
-      "error": "%1$sError baneando %2$s: (Necesito el permiso %3$s)",
-      "unknown_error": "%1$sHuh, he encontrado un error desconocido mientras baneaba a %2$s"
+      "error": "%1$sError baneando a %2$s: (Necesito el permiso %3$s)",
+      "unknown_error": "%1$sHuh, he encontrado un error desconocido mientras intentaba banear a %2$s"
     },
     "kick": {
-      "no_permission": "%1$sCannot kick: You have no Kick Members permission.",
-      "no_mention": "%1$sYou must mention 1 or more users to be kicked!",
-      "no_permission_self": "%1$sSorry! I don't have permission to kick members in this server!",
-      "hierarchy_conflict": "%1$sYou cannot kick an user in a higher hierarchy than you",
-      "yourself_note": "%1$sWhy are you trying to kick yourself, silly?",
-      "self_hierarchy_conflict": "%1$sCannot kick member: %2$s, they are higher or the same hierarchy than I am!",
-      "success": "%1$s%2$s (%3$s got kicked)",
-      "error": "%1$sError kicking %2$s: (No permission provided: %3$s)",
-      "unknown_error": "%1$sUnknown error while attempting to kick %2$s"
-    },
-    "tempban": {
-      "no_time": "%1$sYou cannot temp ban an user without giving me the time!",
-      "no_reason": "%2$sYou cannot temp ban someone without a reason!",
-      "success": "%1$s%2$s (%3$s got temporarly banned)"
+      "no_permission": "%1$sNo tienes permiso para expulsar miembros! Necesitas el permiso Expulsar Miembros.",
+      "no_mention": "%1$sNecesitas mencionar al menos un usuario para expulsar!",
+      "no_permission_self": "%1$sLo siento mucho! No tengo permiso para expulsar usuarios en este servidor!",
+      "hierarchy_conflict": "%1$sNo puedes expulsar a un usuario en una jerarquía mas alta que la tuya",
+      "yourself_note": "%1$s¿Por qué estás intentando expulsarte a ti mismo? huh...",
+      "self_hierarchy_conflict": "%1$sNo puedo expulsar al miembro: %2$s, tienen una jerarquía igual o mayor a la mía!",
+      "success": "%1$s%2$s (%3$s fue expulsado)",
+      "error": "%1$sError expulsando a %2$s: (Necesito el permiso %3$s)",
+      "unknown_error": "%1$sHuh, he encontrado un error desconocido mientras intentaba expulsar a %2$s"
     },
     "music_usage": {
-      "1": "*How to use music in Mantaro?*",
-      "2": "- To **queue songs from youtube or soundcloud** use `~>play` For example: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
-      "3": "- To **search for a song on youtube** use `~>play <search term>` (without the leading < and >) For example: `~>play see you again` (You need to select the number, just *type the number* after the selection box pops up!)",
-      "4": "- To **search for a song on soundcloud** use `~>play soundcloud <search term>` For example `~>play soundcloud hot milk`",
-      "5": "- To **check the queue** you just type `~>queue`",
-      "6": "- To **remove a track from the queue** you just need to use `~>removetrack` It takes as an argument the position the song is queued at (you can check in on queue)",
-      "7": "- To **pause or unpause** just use `~>pause`",
-      "8": "- To **stop the music and unbind the player** use `~>stop`",
-      "9": "- To **shuffle the queue** just use `~>shuffle`",
-      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeat queue`. Using `~>repeat` while repeat is on, turns it off\n",
-      "11": "For more info please use `~>help <command name>` (without the <> and replace command name with the name of the command you want)",
-      "12": "Enjoy your music and thanks for using Mantaro!"
+      "1": "*¿Cómo usar la música en Mantaro?*",
+      "2": "- Para **poner musica desde youtube o soundcloud** usa `~>play` Por ejemplo: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *El bot se conectará automaticamente al canal donde te encuentres*",
+      "3": "- Para **buscar una canción de youtube** usa `~>play <search term>` (sin los < y >) Por ejemplo: `~>play see you again` (Necesitas seleccionar el número, solo *escribe el numero* despues que el cuadro de selección aparezca!)",
+      "4": "- Para **buscar una canción de soundcloud** usa `~>play soundcloud <search term>` Por ejemplo `~>play soundcloud hot milk`",
+      "5": "- Para **revisar la cola** puedes usar `~>queue`",
+      "6": "- Para **eliminar una canción de la cola** solo necesitas usar `~>removetrack` Toma como argumento la posición de la canción en la cola (puedes revisarlo usando ~>queue)",
+      "7": "- Para **pausar o resumir la canción** usa `~>pause`",
+      "8": "- Para **parar la musica y desconectar al bot del canal de voz** usa `~>stop`",
+      "9": "- Para **barajar/randomizar la cola** usa `~>shuffle`",
+      "10": "- Al final,para **repetir una canción** usa `~>repeat` y para **repetir la cola** usa `~>repeat queue`. Usar `~>repeat` cuando la repetición está encendida, la apaga.\n",
+      "11": "Para más información porfavor usa `~>help <nombre del comando>` (sin el <> y reemplaza nombre del comando con el nombre del comando que quieras revisar en la ayuda)",
+      "12": "Disfruta la música y gracias por usar Mantaro!"
     },
     "music_general": {
-      "not_playing": "%1$sI'm not currently playing anything",
-      "dj_only": "%1$sYou need to be a DJ to use this command!",
-      "enjoy_note": "Enjoy the music! <3",
-      "no_player": "%1$sThere seems to be no player here...",
-      "not_connected": "%1$sYou aren't connected to the voice channel I'm currently playing in! (If you believe this is an error, please report it on the support server)",
-      "np_message": "%1$s Now playing **%2$s** (%3$s) on **%4$s** | %5$s",
-      "track_error": "%1$sSomething went wrong while playing this track! Sorry for the inconveniences, I'll try to play the next one available if there is one.",
-      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it.\n%2$s",
-      "soundcloud_no_args": "%1$sYou need to give me the song name, I can't guess it",
+      "not_playing": "%1$sEn este momento no estoy reproduciendo nada",
+      "dj_only": "%1$sNecesitas ser un DJ para usar este comando!",
+      "enjoy_note": "Disfruta la música! <3",
+      "no_player": "%1$sParece que no hay ningún reproductor por aquí...",
+      "not_connected": "%1$sNo estás conectado al canal de voz donde estoy reproduciendo música actualmente! (Si crees que esto es un error, favor reportar en el servidor de soporte)",
+      "np_message": "%1$s Ahora reproduciendo **%2$s** (%3$s) en **%4$s** | %5$s",
+      "track_error": "%1$sAlgo salió muy mal mientras intentaba reproducir esta canción! Lo siento por los inconvenientes, Intentaré reproducir la próxima canción de la cola si es que hay alguna disponible.",
+      "queue_finished": "%1$sHe finalizado de reproducir toda la cola! Espero que lo hayas disfrutado.\n%2$s",
+      "soundcloud_no_args": "%1$sNecesitas darme el nombre de la canción! No puedo adivinarla...",
       "queue": {
-        "no_track_found_np": "Nothing or title/duration not found",
-        "header": "Queue for server %1$s",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`.",
-        "nothing_playing_2": "**If there is a song playing and you didn't add more songs, then there is actually just dust here. You can queue more songs as you desire!**",
-        "np": "Currently playing",
-        "page_overflow": "Nothing here, just dust. Why don't you go back some pages?",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`.",
-        "total_queue_time": "Total queue time",
-        "total_size": "Total queue size",
-        "togglers": "Repeat / Pause",
-        "playing_in": "Playing in",
-        "footer": "Total pages: %1$d%2$s. Currently in page %3$d",
-        "multiple_pages": " -> Use ~>queue <page> to change pages",
-        "page_react": " -> React to change pages",
-        "no_channel": "No channel :(",
-        "songs": "song(s)"
+        "no_track_found_np": "Nada o título/duración no encontrada.",
+        "header": "Cola para el servidor %1$s",
+        "nothing_playing": "Nada por aquí, solo polvo. ¿Por qué no pones algunas canciones en la cola?\nSi crees que hay canciones por aquí pero no aparecen, intenta usar `~>queue 1`.",
+        "nothing_playing_2": "**Si hay una canción reproduciendose y no has añadido más, entonces solamente hay polvo por aquí. Puedes poner más canciones en la cola a tu antojo!**",
+        "np": "Reproduciendo actualmente",
+        "page_overflow": "Nada aquí, solo polvo. ¿Por qué no vas algunas páginas para atrás?",
+        "page_overflow_2": "Si crees que hay canciones en esta cola pero no aparecen, intenta usar `~>queue 1`.",
+        "total_queue_time": "Tiempo total de la cola",
+        "total_size": "Tamaño de la cola",
+        "togglers": "Repetición / Pausa",
+        "playing_in": "Reproduciendo en",
+        "footer": "Páginas: %1$d%2$s. Mostrando página %3$d",
+        "multiple_pages": " -> Usa ~>queue <página> para cambiar las páginas",
+        "page_react": " -> Usa las reacciones para cambiar de página.",
+        "no_channel": "Sin canal :(",
+        "songs": "canción(es)"
       },
       "connect": {
-        "success": "%1$sConnected to channel **%2$s**!",
-        "full_channel": "%1$sI can't connect to that channel because it is full!",
-        "non_existent_channel": "%1$sWe received a non-existent channel as response. If you set a voice channel and then deleted it, that might be the cause.\n We reset your music channel for you, try to play the music again.",
-        "user_no_vc": "%1$s**Please join a voice channel!**",
-        "missing_permissions_connect": "%1$sI cannot connect to this channel due to the lack of permission (%2$s).",
-        "missing_permission_speak": "%1$sI cannot speak in this channel due to the lack of permission (%2$s).",
-        "channel_locked": "%1$sI can only play music on channel **%2$s**!",
-        "already_connected": "%1$sI'm already connected on channel **%2$s**! (Use the `move` command to move me to another channel)",
-        "attempting_to_connect": "%1$sI'm already trying to connect to channel **%2$s**! (Use the `move` command to move me to another channel)"
+        "success": "%1$sConectado al canal de voz **%2$s**!",
+        "full_channel": "%1$sNo puedo conectarme a ese canal de voz porque está lleno!",
+        "non_existent_channel": "%1$sRecibí un canal de voz no existente como respuesta. Si bloqueaste el bot en un solo canal de voz y después eliminaste ese canal, esa podría ser la causa.\nReseteé el canal de voz por tí, intenta reproducir la canción denuevo.",
+        "user_no_vc": "%1$s**Por favor ingresa a un canal de voz.**",
+        "missing_permissions_connect": "%1$sNo puedo conectarme a ese canal de voz porque me faltan permisos (%2$s).",
+        "missing_permission_speak": "%1$sNo puedo hablar en ese canal de voz porque me faltan permisos (%2$s).",
+        "channel_locked": "%1$sSólo puedo reproducir música en el canal de voz **%2$s**!",
+        "already_connected": "%1$sYa estoy conectado al canal de voz **%2$s**! (Usa el comando `move` para moverme a otro canal)",
+        "attempting_to_connect": "%1$sEstoy intentando conectarme al canal de voz **%2$s** en este momento! (Usa el comando `move` para moverme a otro canal)"
       },
       "listener": {
-        "paused": "%1$sPausing player because I got muted :(",
-        "resumed": "%1$sResuming playback because someone joined!",
-        "left_alone": "%1$sI'll leave **%2$s** in 2 minutes because I was left all alone :(",
-        "leave": "%1$sI decided to leave **%2$s** because I was left all alone :("
+        "paused": "%1$sPausando el reproductor porque me mutearon :(",
+        "resumed": "%1$sResumiendo el reproductor de música!",
+        "left_alone": "%1$sSaldré del canal **%2$s** en dos minutos porque me dejaron solita :(",
+        "leave": "%1$sDecidí salir del canal **%2$s** porque me dejaron solita :("
       },
       "loader": {
-        "over_limit": "%1$sThe queue you added had more than %2$d songs, so we added songs until this limit and ignored the rest.",
-        "loaded_playlist": "%1$sAdded **%2$d songs** to queue on playlist: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`~>play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.",
-        "error_loading": "%1$sError while fetching music: %2$s",
-        "over_queue_limit": "%1$sCould not queue %2$s: Surpassed queue song limit (%3$s)!",
-        "over_32_minutes": "%1$sCould not queue %2$s: Track is longer than 32 minutes! (%3$s)",
-        "fair_queue_limit_reached": "%1$s**Surpassed fair queue level of %2$d (Too many songs which are exactly equal)**",
-        "loaded_song": "%1$sAdded to queue -> **%2$s** **(%3$s)**",
-        "selection_text": "Song selection. Type the song number to continue.",
-        "timeout_text": "This timeouts in 30 seconds. Type &cancel to cancel."
+        "over_limit": "%1$sLa cola que agregaste tiene más de %2$d canciones, así que agregué canciones hasta el límite y ignoré el resto.",
+        "loaded_playlist": "%1$sAñadidas **%2$d canciones** a la cola en la lista de reproducción: **%3$s** *(%4$s)*",
+        "no_matches": "%1$sLa búsqueda no arrojó resultados. Si esto aparece para *todas las canciones* que intentas buscar, podrías intentar usar `~>play soundcloud <término de busqueda>` en su lugar. Links directos de youtube y soundcloud deberían funcionar también.",
+        "error_loading": "%1$sError mientras estaba intentando reproducir la música: %2$s",
+        "over_queue_limit": "%1$sNo pude agregar %2$s a la cola: Has sobrepasado el límite de canciones que se le puede agregar a la cola (%3$s)!",
+        "over_32_minutes": "%1$sNo pude agregar %2$s a la cola: La canción es más larga que el límite de 32 minutos por canción! (%3$s)",
+        "fair_queue_limit_reached": "%1$s**Sobrepasado el nivel de fair queue para %2$d (Muchas canciones que son exactamente iguales)**",
+        "loaded_song": "%1$sAñadí la canción **%2$s** a la cola! **(%3$s)**",
+          "selection_text": "Cuadro de selección de canciones. Escribe el número que precede al nombre de la canción para continuar.",
+        "timeout_text": "Esta operación expira en 30 segundos. Escribe &cancel para cancelar la operación."
       },
-      "premium_beg": "%1$sConsider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)",
-      "closed_connection": "%1$sClosed audio connection."
+      "premium_beg": "%1$sConsidera donar a mantaro en patreon.com/mantaro si te gusta como me comporto! Hasta una donación pequeña me ayuda a mantener a flote (Revisa el comando `~>donate` para más información!)",
+      "closed_connection": "%1$sHe cerrado la conexión al canal de voz."
     },
     "forceskip": {
-      "success": "%1$sAn admin or Bot Commander decided to skip this song."
+      "success": "%1$sUn administrador o un Bot Commander decidió saltarse esta canción."
     },
     "np": {
-      "no_track": "%1$sThere either isn't track playing or we cannot seem to find it, try playing a song",
-      "header": "Now Playing"
+      "no_track": "%1$sNo hay ninguna canción reproduciendose o no logro encontrarla... intenta reproducir una canción!",
+      "header": "Reproduciendo ahora"
     },
     "pause": {
-      "paused": "Player paused.",
-      "unpaused": "Player unpaused."
+      "paused": "Reproductor pausado.",
+      "unpaused": "Reproductor resumido."
     },
     "rewind": {
-      "negative": "%1$sPositive integers only",
-      "before_beggining": "%1$sYou can't skip to before the beginning of a song",
-      "success": "%1$sRewound song to: %2$s."
+      "negative": "%1$sSólo puedes usar números enteros positivos",
+      "before_beggining": "%1$sNo puedes saltarte al momento anterior al principio de la canción...",
+      "success": "%1$sRebobinada la canción actual a: %2$s."
     },
     "restartsong": {
-      "success": "%1$sRestarted current song."
+      "success": "%1$sHe reiniciado la canción actual."
     },
     "skipahead": {
-      "past_duration": "%1$sYou can't skip past the duration of a song",
-      "success": "%1$sSkipped ahead to %2$s."
+      "past_duration": "%1$sNo puedes saltarte después del término de la canción!",
+      "success": "%1$sAdelanté la canción a %2$s."
     },
     "move": {
-      "attempt": "%1$sI will try to move to the channel you're in",
-      "error_moving": "%1$sFailed to switch voice channels.",
-      "cannot_connect": "%1$sCannot connect: I either don't have permission to talk or to move channels.",
-      "non_existent_channel": "%1$sI can't move to a non-existent channel!",
-      "success": "%1$sMoved bot to channel `%2$s`",
-      "vc_not_found": "%1$sVoice channel not found or you didn't specify one!"
+      "attempt": "%1$sIntentaré moverme al canal de voz donde te encuentras",
+      "error_moving": "%1$sNo pude moverme al canal de voz :(.",
+      "cannot_connect": "%1$sImposible conectarse: No tengo permiso para hablar en ese canal o no tengo permiso para moverme ahí.",
+      "non_existent_channel": "%1$sNo puedo moverme a un canal inexistente!",
+      "success": "%1$sMe he movido al canal de voz `%2$s`",
+      "vc_not_found": "%1$sNo he podido encontrar el canal de voz o no lo especificaste!"
     },
     "shard": {
-      "info": "I'm in shard %1$d!"
+      "info": "Estoy en el shard %1$d!"
     },
     "queue": {
       "clear": {
-        "header": "%1$sThe server DJ has decided to clear the queue!",
-        "success": "%1$sRemoved **%2$d songs** from the queue.",
-        "error": "%1$sEither you're not connected to the VC or you're not the DJ."
+        "header": "%1$sEl DJ de este servidor decidió limpiar la cola!",
+        "success": "%1$sEliminadas **%2$d canciones** de la cola.",
+        "error": "%1$sNo estás conectado al canal de voz donde me encuentro o no eres un DJ en este servidor!"
       }
     },
     "repeat": {
-      "queue_cancel": "%1$sContinuing with the current queue.",
-      "queue_repeat": "%1$sRepeating the current queue.",
-      "song_cancel": "%1$sContinuing with the normal queue.",
-      "song_repeat": "%1$sRepeating the current song."
+      "queue_cancel": "%1$sContinuando con la cola actual.",
+      "queue_repeat": "%1$sRepitiendo la cola actual.",
+      "song_cancel": "%1$sContinuando con la cola actual.",
+      "song_repeat": "%1$sRepitiendo la canción actual."
     },
     "nextsong": {
-      "no_song_next": "%1$sOw, there isn't any song next",
-      "format": "%1$sNext song in queue: **%2$s** (%3$s) | *Total songs in queue: %4$d*"
+      "no_song_next": "%1$sOuch, no hay más canciones por aqui!",
+      "format": "%1$sPróxima canción en cola: **%2$s** (%3$s) | *Canciones en cola: %4$d*"
     },
     "shuffle": {
-      "success": "%1$sRandomized the order of the current queue."
+      "success": "%1$sHe randomizado el orden de la cola en este servidor."
     },
     "skip": {
-      "dj_skip": "%1$sThe DJ has decided to skip!",
+      "dj_skip": "%1$sUn DJ de este servidor ha decidido saltarse esta canción!",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted!** You need %2$d more vote(s) to skip!",
-        "remove": "%1$s**Your vote has been removed!** You need %2$d more vote(s) to skip!"
+        "submit": "%1$s**Tu voto ha sido tomado en cuenta!** Necesitan %2$d voto(s) más para saltarse esta canción!",
+        "remove": "%1$s**Has eliminado tu voto!** Necesitan %2$d voto(s) más para saltarse esta canción!"
       },
-      "success": "%1$sReached the required amount of votes, skipping song...",
-      "no_track": "%1$sThere seems to be no track to skip, so I cannot do anything..."
+      "success": "%1$sHan alcanzado la cantidad necesaria de votos, saltando esta canción...",
+      "no_track": "%1$sNo encuentro ninguna canción para saltarme, así que no puedo hacer nada..."
     },
     "removetrack": {
-      "invalid_range": "%1$s`%2$s` is not a valid range!",
-      "no_track": "%1$sThere isn't a queued track at the position `%2$d`!",
-      "invalid_number": "(%1$s`%2$s`) One of the ranges is not a valid number!",
-      "invalid_number_range": "%1$s`%2$s` is not a valid number or range!",
-      "success": "%1$sRemoved **%2$d** track(s) from the queue."
+      "invalid_range": "%1$s`%2$s` no es un rango válido!",
+      "no_track": "%1$sNo hay una canción en cola en la posición `%2$d`!",
+      "invalid_number": "(%1$s`%2$s`) Uno de los rangos no contiene un número válido!",
+      "invalid_number_range": "%1$s`%2$s` no es un número o rango válido!",
+      "success": "%1$sSe han eliminado **%2$d** canción(es) de la cola."
     },
     "stop": {
-      "dj_stop": "%1$sThe server DJ has decided to stop!",
+      "dj_stop": "%1$sUn DJs de este servidor ha decidido parar el reproductor!",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted!** You need %2$d more vote(s) to stop!",
-        "remove": "%1$s**Your vote has been removed!** You need %2$d more vote(s) to stop!"
+        "submit": "%1$s**Tu voto ha sido tomado en cuenta!** Necesitan %2$d voto(s) más para parar el reproductor!",
+        "remove": "%1$s**Has eliminado tu voto!** Necesitan %2$d voto(s) más para parar el reproductor!"
       },
-      "success": "%1$sReached the required amount of votes, stopping player...",
-      "no_player": "%1$sThere seems to be no player to stop, so I cannot do anything...",
-      "cleanup": "%1$sRemoved **%2$d songs** from the queue."
+      "success": "%1$sHan alcanzado la cantidad necesaria de votos, parando el reproductor...",
+      "no_player": "%1$sNo encuentro ningún reproductor que parar, así que no puedo hacer nada...",
+      "cleanup": "%1$sSe han eliminado **%2$d cancion(es)** de la cola."
     },
     "volume": {
-      "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
-      "success": "%1$sVolume set to %2$d\n\n%3$s"
+      "check": "%1$sEl volumen de esta sesión de musica es: %2$d\n\n%3$s",
+      "success": "%1$sVolumen ajustado a %2$d\n\n%3$s"
     },
     "custom": {
-      "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
-      "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
+      "error_running": "%1$sHe encontrado un error mientras intentaba ejecutar un comando personalizado... porfavor revisa el contenido y su extensión (no puede ser más de 2000 caracteres).",
+      "not_loaded": "Hey! Aún me estoy iniciando. Los comandos estarán disponibles bastante pronto, en cuanto termine de iniciar.",
       "ls": {
-        "header": "Commands for this guild"
+        "header": "Comandos para este servidor"
       },
       "view": {
-        "invalid": "%1$sYou need to specify the command and the response number!",
-        "not_found": "%1$sThere isn't a custom command with that name here!",
-        "less_than_specified": "%1$sThis command has less responses than the number you specified...",
-        "success": "**Response `%1$d` for custom command `%2$s`:** \n```\n%3$s```"
+        "invalid": "%1$sNecesitas especificar el comando y el número de la respuesta!",
+        "not_found": "%1$sNo hay un comando personalizado con ese nombre aquí!",
+        "less_than_specified": "%1$sEste comando personalizado tiene menos respuestas que el número que especificaste...",
+        "success": "**Respuesta `%1$d` del comando personalizado `%2$s`:** \n```\n%3$s```"
       },
       "raw": {
-        "header": "Command \"%1$s\":",
-        "amount": "(Showing %1$d responses of %2$d)",
-        "pasted": "Pasted content"
+        "header": "Comando personalizado \"%1$s\":",
+        "amount": "(Mostrando %1$d respuestas, de un total de %2$d)",
+        "pasted": "Contenido completo"
       },
       "clear": {
-        "success": "%1$sCleared **%2$d Custom Commands**!"
+        "success": "%1$sHe eliminado **%2$d comandos personalizados**!"
       },
       "make": {
-        "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
-        "cancel": "%1$sCommand Creation canceled.",
-        "no_responses_added": "%1$sNo responses were added. Stopping creation without saving...",
-        "success": "%1$sSaved to command `%2$s`!",
-        "no_name_specified": "%1$sYou didn't specify the name of the custom command to create!"
+        "start_text": "%1$sIniciada **\"Creación de comando personalizado: `%2$s`\"**!\nEnvía `&~>stop` para parar la creación **sin guardar**.\nEnvía `&~>save` para parar la creación del comando y **guardarlo**. Envía cualquier texto que empieze con `&` para que sea añadido a las respuestas del comando.\nEsta operación terminará sin guardar después de 60 segundos de inactividad.",
+        "cancel": "%1$sCreación de comando personalizado cancelada.",
+        "no_responses_added": "%1$sNo se añadieron respuestas. Saliendo de la operación sin guardar...",
+        "success": "%1$sGuardado en comando personalizado `%2$s`!",
+        "no_name_specified": "%1$sNo especificaste el nombre del comando personalizado a crear!"
       },
       "eval": {
-        "error": "%1$sThere was an error while evaluating your command!%2$s"
+        "error": "%1$sHubo un error evaluando el contenido! %2$s"
       },
       "remove": {
-        "success": "%2$sRemoved Custom Command `%1$s`!"
+        "success": "%2$sHe eliminado el comando personalizado `%1$s`!"
       },
       "import": {
-        "not_found": "%1$sThere are no custom commands matching your search query.",
-        "header": "`%1$s` - Guild: `%2$s`",
-        "selection": "Select the Command:",
-        "note": "(You can only select custom commands from guilds that you are a member of)",
-        "success": "Imported custom command `%1$s` from guild `%2$s` with responses `%3$s`"
+        "not_found": "%1$sNo hay comandos personalizados que coincidan con los términos de búsqueda.",
+        "header": "`%1$s` - Servidor: `%2$s`",
+        "selection": "Seleccione el comando:",
+        "note": "(Solo puedes importar comandos personalizados desde servidores donde eres miembro)",
+        "success": "He importado el comando personalizado `%1$s` del servidor `%2$s` con respuestas `%3$s`"
       },
       "edit": {
-        "invalid_number": "%1$sYou need to specify a correct number to change!",
-        "no_index": "%1$sYou cannot edit a non-existent index!",
-        "empty_response": "%1$sCannot edit to an empty response!",
-        "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly!"
+        "invalid_number": "%1$sNecesitas especificar un numero válido para editar!",
+        "no_index": "%1$sNo puedo editar un index inválido!",
+        "empty_response": "%1$sNo puedo editar esta respuesta a una respuesta vacía!",
+        "success": "%1$sEditada respuesta **#%2$d** del comando personalizado `%3$s` correctamente!"
       },
       "rename": {
-        "success": "%1$sRenamed command `%2$s` to `%3$s`!"
+        "success": "%1$sRenombrado comando `%2$s` a `%3$s`!"
       },
       "add": {
-        "success": "%1$sSaved to command `%2$s`!"
+        "success": "%1$sHe guardado el comando personalizado `%2$s` exitosamente!"
       },
-      "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
-      "already_exists": "%1$sA command already exists with this name!",
-      "name_too_long": "%1$sName is too long.",
-      "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just dust.",
-      "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.",
-      "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
-      "invalid_image": "%1$sThis command contains an invalid image, please fix...",
-      "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
-      "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
-      "invalid_link": "%1$sThe string `%2$s` isn't a valid link."
+      "character_not_allowed": "%1$sEste carácter no está habilitado para ser usado en los nombres de comandos personalizados.",
+      "already_exists": "%1$sUn comando ya existe con ese nombre!",
+      "name_too_long": "%1$sEl nombre es muy largo.",
+      "no_cc": "%1$sNo hay comandos personalizados en este servidor, solamente pude encontrar polvo...",
+      "admin_only": "Este servidor solo permite la creación y evalauación de comandos personalizados para administradores.",
+      "not_found": "%1$sEl comando personalizado `%2$s` no existe en este servidor.",
+      "invalid_image": "%1$sEste comando contiene una imágen invalida, porfavor arreglar...",
+      "invalid_string": "%1$sLa cadena de carácteres `{%2$s}` no es válida, o la salida sería mayor de 2000 carácteres.",
+      "invalid_json": "%1$sLa cadena de carácteres `{%2$s}` no es un JSON válido.",
+      "invalid_link": "%1$sLa cadena de carácteres `%2$s` no es un link válido."
     },
     "mute": {
       "no_permissions": "%1$sYou need to have either ban or kick members permission to mute!",
