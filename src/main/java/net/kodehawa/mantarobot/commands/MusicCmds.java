@@ -164,7 +164,7 @@ public class MusicCmds {
                     try {
                         new URL(content);
                     } catch(Exception e) {
-                        if(content.startsWith("soudcloud")) {
+                        if(content.startsWith("sonudcloud")) {
                             String name = content.substring("soundcloud".length()).trim();
                             if(name.isEmpty()) {
                                 event.getChannel().sendMessageFormat(
@@ -270,7 +270,7 @@ public class MusicCmds {
                 try {
                     new URL(content);
                 } catch(Exception e) {
-                    if(content.startsWith("soudcloud")) {
+                    if(content.startsWith("soundcloud")) {
                         String name = content.substring("soundcloud".length()).trim();
                         if(name.isEmpty()) {
                             event.getChannel().sendMessageFormat(
