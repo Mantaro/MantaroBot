@@ -588,7 +588,7 @@ public class MantaroListener implements EventListener {
     }
 
     private void sendJoinLeaveMessage(GenericGuildMemberEvent event, List<String> extraMessages, String msg, String channel) {
-        int select = rand.nextInt(extraMessages.size());
+        int select = extraMessages.isEmpty() ? 0 : rand.nextInt(extraMessages.size());
         String message = rand.nextBoolean() ? msg : extraMessages.isEmpty() ? msg : extraMessages.get(select);
 
         if (channel != null && message != null) {
