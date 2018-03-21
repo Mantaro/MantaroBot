@@ -539,8 +539,8 @@
         "success": "%1$sZona horaria guardada. La zona horaria en tu perfil ahora es: **%2$s**"
       },
       "description": {
-        "no_argument": "%1$sNecesitas darme un argumento! (set o remove)\nPor ejemplo, ~>profile description set ¡Holi por ahí!",
-        "too_long": "%1$sLa descripción es muy larga! `(Límite de 300 carácteres para todos y de 500 carácteres para usuarios premium)`",
+        "no_argument": "%1$s¡Necesitas darme un argumento! (set o remove)\nPor ejemplo, ~>profile description set ¡Holi por ahí!",
+        "too_long": "%1$s¡La descripción es muy larga! `(Límite de 300 carácteres para todos y de 500 carácteres para usuarios premium)`",
         "success": "%1$sEstablecida la descripción de tu perfil como: **%2$s**\nRevisa tu nuevo perfil usando `~>profile`",
         "clear_success": "%1$sCorrectamente limpiada tu descripción de tu perfil.."
       },
