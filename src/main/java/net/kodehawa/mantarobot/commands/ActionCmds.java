@@ -97,6 +97,12 @@ public class ActionCmds {
                 "pout", EmoteReference.TALKING, "commands.action.pout", "pout", "commands.action.lonely.pout", true
         ));
 
+        //lick();
+        cr.register("lick", new ImageActionCmd(
+                "lick", "Licks the specified user.", Color.PINK,
+                "lick", EmoteReference.TALKING, "commands.action.lick", "lick", "commands.action.lonely.lick", true
+        ));
+
         //teehee()
         cr.register("teehee", new ImageActionCmd("Teehee", "Teehee~", Color.PINK,
                 "teehee", EmoteReference.EYES, "commands.action.teehee", "teehee", "commands.action.lonely.teehee", true));
