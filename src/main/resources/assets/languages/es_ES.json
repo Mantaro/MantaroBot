@@ -434,174 +434,174 @@
       "header": "La tiendita de Mantaro"
     },
     "itemtransfer": {
-      "transfer_yourself_note": "%1$sYou cannot transfer items to yourself!",
-      "bot_notice": "%1$sYou cannot transfer items to a bot.",
-      "locked_notice": "%1$sYou cannot transfer items now. (Player is locked)",
-      "hidden_item": "%1$sYou cannot transfer this item!",
-      "overflow": "%1$sThis player has the maximum possible amount of this item (5000).",
-      "success": "%1$s%2$s gave 1 **%3$s** to %4$s",
-      "multiple_items_error": "%1$sYou don't have any of these items in your inventory",
-      "error": "1$sYou don't enough of this item in your inventory to do this!"
+      "transfer_yourself_note": "%1$sNo puedes transferirte items a ti mismo!",
+      "bot_notice": "%1$sNo puedes transferirle items a un bot.",
+      "locked_notice": "%1$sNo puedes transferir items ahora.",
+      "hidden_item": "%1$sNo puedes transferir este item!",
+      "overflow": "%1$sEste jugador tiene el máximo permitido de este item (5000).",
+      "success": "%1$s%2$s le dió **%3$s** a %4$s",
+      "multiple_items_error": "%1$sNo tienes ninguno de estos items en tu inventario.",
+      "error": "1$sNo tienes suficientes items!"
     },
     "transfer": {
-      "transfer_yourself_note": "%1$sYou cannot transfer money to yourself.",
-      "bot_notice": "%1$sYou cannot transfer money to a bot.",
-      "no_amount": "%1$sYou need to specify the amount.",
-      "no_money_specified_notice": "%1$sYou cannot transfer no money :P",
-      "over_transfer_limit": "%1$sYou cannot transfer this much money. (Limit: %2$d credits)",
-      "own_locked_notice": "%1$sYou cannot transfer money now.",
-      "receipt_overflow_notice": "Cannot send money to this player.",
-      "no_money_notice": "%1$sYou cannot transfer money you don't have.",
-      "receipt_locked_notice": "1$sThat user cannot receive money now.",
-      "receipt_over_limit": "%1$sThis user already has too much money...",
-      "success": "%1$sTransferred **%2$d** to *%3$s* successfully.",
-      "item_transfer": "%1$sYou cannot transfer items using transfer, use transferitems instead!"
+      "transfer_yourself_note": "%1$sNo puedes transferirte créditos a ti mismo.",
+      "bot_notice": "%1$sNo puedes transferirle créditos a un bot.",
+      "no_amount": "%1$sNecesitas especificar el monto a transferir.",
+      "no_money_specified_notice": "%1$sNo puedes mandar 0 créditos :P",
+      "over_transfer_limit": "%1$sNo puedes transferir tanto créditos. (Límite: %2$d créditos)",
+      "own_locked_notice": "%1$sNo puedes transferir créditos ahora.",
+      "receipt_overflow_notice": "No puedes enviarle más créditos a este jugador.",
+      "no_money_notice": "%1$sNo puedes transferir créditos que no posees.",
+      "receipt_locked_notice": "1$sEse usuario no puede recibir créditos ahora.",
+      "receipt_over_limit": "%1$sEse usuario ya tiene muchos créditos...",
+      "success": "%1$sHas transferido **%2$d** créditos a *%3$s* correctamente.",
+      "item_transfer": "%1$sNo puedes transferir items usando este comando, debes usar `transferitems`!"
     },
     "useitem": {
-      "use_command": "%1$sFor this item you need to use the command that's linked to the item! (mine for pickaxe, fish for the fishing rod)",
-      "no_items_specified": "%1$sYou need to specify what item to use!",
-      "not_interactive": "%1$sYou cannot interact with this item...",
-      "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set...",
-      "no_item": "%1$sYou don't have this item in your inventory..."
+      "use_command": "%1$sPara este item, necesitas usar el comando específico con el que se usa este! (mine para el pickaxe, fish para el fishing rod)",
+      "no_items_specified": "%1$sNecesitas decirme que item usar!",
+      "not_interactive": "%1$sNo puedes interactuar con ese item...",
+      "interactive_no_action": "%1$sEste item fue marcado como interactivo, pero no tiene una acción determinada (error interno)...",
+      "no_item": "%1$sNo tienes ese item en tu inventario..."
     },
     "opts": {
-      "note": "%1$sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
+      "note": "%1$sHey, si estás perdido intentando entender las opciones o no recuerdas este comando, revisa <https://github.com/Mantaro/MantaroBot/wiki/Configuration> para una guía de como usar opts (sólo en ingles).\nNota: Sólo los administradores, gente con Manejar Servidor o gente con el rol Bot Commander pueden usar este comando!",
       "list": {
-        "header": "**Mantaro's Options List**\n%1$s*All options must be prefixed with `~>opts` when running them*\n%2$s"
+        "header": "**Lista de Opciones de Mantaro**\n%1$s*Todas las opciones deben incluir `~>opts` como prefijo (el comando en sí) cuando desees usarlas.*\n%2$s"
       },
-      "option_not_found": "%1$sInvalid option help name.",
-      "invalid_args": "%1$sInvalid option or arguments."
+      "option_not_found": "%1$sOpción inválida o no encontrada.",
+      "invalid_args": "%1$sOpción o argumento inválido."
     },
     "8ball": {
-      "error": "%1$sI ran into an error while fetching 8ball results."
+      "error": "%1$sEncontré un error mientras buscaba los resultados de la bolita magica..."
     },
     "iam": {
       "list": {
-        "name": "\nAutorole name: ",
-        "role": " | Gives role **",
-        "header": "Autoroles list",
-        "no_autoroles": "There aren't any autoroles setup in this server!"
+        "name": "\nNombre del autorol: ",
+        "role": " | Da el rol **",
+        "header": "Lista de autoroles",
+        "no_autoroles": "No hay ningún autorol configurado en este servidor!"
       },
-      "deleted_role": "%1$sThe role that this autorole corresponded to has been deleted",
-      "already_assigned": "%1$sYou already have this role, silly!",
-      "success": "%1$s%2$s, you've been given the **%3$s** role",
-      "error": "%1$sI couldn't take from you **%2$s. Make sure that I have permission to add roles and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the name `%2$s`!"
+      "deleted_role": "%1$s¡El rol al que correspondía este autorol fue eliminado!",
+      "already_assigned": "%1$sTú ya tienes ese rol.",
+      "success": "%1$s%2$s, te he dado el rol **%3$s**",
+      "error": "%1$sNo pude quitarte el rol **%2$s**. Estate seguro que tengo permiso para administrar roles y que mi rol prevalente está encima de **%2$s**",
+      "no_role": "%1$sNo hay ningún autorol llamado `%2$s`!"
     },
     "iamnot": {
-      "not_assigned": "%1$sYou don't have this role, silly!",
-      "success": "%1$s%2$s, you've lost the **%3$s** role"
+      "not_assigned": "%1$sNo tienes ese rol.",
+      "success": "%1$s%2$s, te he quitado el rol **%3$s**."
     },
     "misc": {
-      "reverse_missing": "%1$sYou didn't provide any message to reverse!",
-      "random_color": "%1$sThe random color is %2$s"
+      "reverse_missing": "%1$sNo me diste ningún mensaje para invertir :(",
+      "random_color": "%1$sEl color aleatorio que he elegido es %2$s (hex)"
     },
     "poll": {
-      "missing": "%1$sYou didn't include either the %2$s argument or it was empty!\n%3$s",
-      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3`. For spaced stuff use quotation marks at the start and end of the sentence.",
-      "other_poll_running": "%1$sThere seems to be another poll running here...",
-      "no_reaction_perms": "%1$sSeems like I cannot add reactions here...",
-      "too_long": "This was too long to show, so I pasted it: %1$s",
-      "header": "Poll #%1$d created by %2$s",
-      "success": "**Poll started. React to the number to vote.**\n*%1$s*\nType &cancelpoll to cancel a running poll.",
-      "time": "You have %1$s to vote.",
-      "error": "%1$sAn unknown error has occurred while setting up a poll. Maybe try again?",
-      "result_header": "Poll results",
-      "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
-      "vote_results": "+Registered %1$d votes for option %2$s",
-      "thank_note": "Thanks for your vote",
-      "results": "Results",
-      "cancelled": "%1$sCancelled poll"
+      "missing": "%1$sNo incluiste el argumento %2$s o este está vacio!\n%3$s",
+      "invalid": "%1$sEsta votación no se puede construir. **Recuerda que puedes poner un máximo de 9 y un mínimo de 2 opciones y el tiempo para que caduque debe ser menor a 45m y mayor que 30s.**\nLas opciones debes separarlas con una coma, por ejemplo `1,2,3`. Para frases que usan espacios, usa comillas para envolverlas, de este modo funcionará.",
+      "other_poll_running": "%1$sCreo que hay otra votación por aquí aún activa...",
+      "no_reaction_perms": "%1$sNo puedo agregar reacciones aquí...",
+      "too_long": "Las opciones eran muy largas, así que las copié por aquí: %1$s",
+      "header": "Votación #%1$d creada por %2$s",
+      "success": "**Votación iniciada. Reacciona usando el número de la opción que quieras votar.**\n*%1$s*\nEscribe &cancelpoll para cancelar una votación activa.",
+      "time": "Tienes %1$s para votar.",
+      "error": "%1$sHe encontrado un error desconocido mientras intentaba construir esta votación... ¿Puedes intentar denuevo?",
+      "result_header": "Resultados de la votación",
+      "result_screen": "**Mostrando los resultados de la votación *%2$s* iniciada por %1$s**",
+      "vote_results": "+Registrados %1$d votos en la opción %2$s",
+      "thank_note": "Gracias por tu voto.",
+      "results": "Resultados",
+      "cancelled": "%1$sVotación cancelada."
     },
     "osustats": {
       "user": {
-        "header": "osu! statistics for %1$s",
+        "header": "Estadísiticas de %1$s para osu!",
         "rank": "Rank",
-        "acc": "Accuracy",
-        "level": "Level",
-        "ranked": "Ranked Score",
-        "country_rank": "Country Rank"
+        "acc": "Precisión",
+        "level": "Nivel",
+        "ranked": "Puntuación Rankeada",
+        "country_rank": "Rank de País"
       },
-      "retrieving_info": "%1$sRetrieving information from osu! server...",
-      "timeout": "%1$sThe osu! api seems to be taking a nap. Maybe try again later?",
-      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rank: %6$s -> Max Combo: %7$d",
-      "best": "**10 best osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
-      "error": "%1$sUh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)",
-      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Date: %5$s -> Max Combo: %5$d\n",
-      "recent": "**10 most recent osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
-      "error_detailed": "Uh-oh... seems like I just received scramble soup as a response... (%1$s)"
+      "retrieving_info": "%1$sRecuperando la información de los servidores de osu!...",
+      "timeout": "%1$sLa API de osu! parece que está tomando una siesta ahorita mismo. ¿Puedes intentarlo en unos minutos?",
+      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rank: %6$s -> Combo máximo: %7$d",
+      "best": "**Mejores 10 scores de osu! para: %1$s** (Modo: %2$d)\n```md\n%3$s```",
+      "error": "%1$sUh-oh... parece que solo recibí unos tamales como respuesta... (Error externo mientras intentabamos recuperar los resultados)",
+      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Fecha: %5$s -> Combo máximo: %5$d\n",
+      "recent": "**10 scores más recientes para: %1$s** (Modo: %2$d)\n```md\n%3$s```",
+      "error_detailed": "Uh-oh... parece que solo recibí unos tamales como respuesta... (%1$s)"
     },
     "profile": {
       "timezone": {
-        "not_specified": "%1$sYou need to specify the timezone.",
-        "reset": "%1$sReset timezone.",
-        "invalid": "%1$sInvalid timezone.",
-        "success": "%1$sSaved timezone, your profile timezone is now: **%2$s**"
+        "not_specified": "%1$sNecesitas especificar una zona horaria.",
+        "reset": "%1$sTu zona horaria fue correctamente limpiada de tu perfil.",
+        "invalid": "%1$sZona horaria inválida.",
+        "success": "%1$sZona horaria guardada. La zona horaria en tu perfil ahora es: **%2$s**"
       },
       "description": {
-        "no_argument": "%1$sYou need to provide an argument! (set or remove)\nfor example, ~>profile description set Hi there!",
-        "too_long": "%1$sThe description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`",
-        "success": "%1$sSet description to: **%2$s**\nCheck your shiny new profile with `~>profile`",
-        "clear_success": "%1$sSuccessfully cleared description."
+        "no_argument": "%1$sNecesitas darme un argumento! (set o remove)\nPor ejemplo, ~>profile description set ¡Holi por ahí!",
+        "too_long": "%1$sLa descripción es muy larga! `(Límite de 300 carácteres para todos y de 500 carácteres para usuarios premium)`",
+        "success": "%1$sEstablecida la descripción de tu perfil como: **%2$s**\nRevisa tu nuevo perfil usando `~>profile`",
+        "clear_success": "%1$sCorrectamente limpiada tu descripción de tu perfil.."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge!",
-        "reset_success": "%1$sNo badge will show on the top of your profile now!",
-        "important_success": "%1$sYour display badge is now the most important one.",
-        "no_such_badge": "%1$sThere's no such badge...\nYour available badges: %2$s",
-        "player_missing_badge": "%1$sYou don't have that badge.\nYour available badges: %2$s",
-        "success": "%1$sYour display badge is now: **%2$s**"
+        "not_specified": "%1$sNecesitas decime que trofeo quieres mostrar",
+        "reset_success": "%1$sNo se mostrará ningún trofeo en tu perfíl desde ahora.",
+        "important_success": "%1$sSe mostrará el trofeo más importante (por jerarquía) en tu perfil desde ahora.",
+        "no_such_badge": "%1$sEse trofeo no existe...\nTus trofeos: %2$s",
+        "player_missing_badge": "%1$sNo tienes ese trofeo.\nTus trofeos: %2$s",
+        "success": "%1$sAhora se mostrará **%2$s** en tu perfil."
       },
-      "bot_notice": "%1$sBots don't have profiles.",
-      "header": "%1$s's Profile",
-      "no_desc": "No description set",
-      "credits": "Credits",
-      "level": "Level",
-      "xp": "Experience",
-      "rep": "Reputation",
-      "birthday": "Birthday",
-      "married": "Married with",
-      "nobody": "Nobody",
-      "inventory": "Inventory",
-      "badges": "Top 5 Badges",
-      "no_badges": "No badges (yet!)",
-      "no_timezone": "No timezone set.",
-      "timezone_user": "User's timezone: %1$s",
-      "not_specified": "Not specified."
+      "bot_notice": "%1$sLos bots no tienen perfil.",
+      "header": "Perfil de %1$s",
+      "no_desc": "Sin descripción.",
+      "credits": "Créditos",
+      "level": "Nivel",
+      "xp": "Experiencia",
+      "rep": "Reputación",
+      "birthday": "Cumpleaños",
+      "married": "Casado con",
+      "nobody": "Nadie",
+      "inventory": "Inventario",
+      "badges": "Mejores 5 trofeos",
+      "no_badges": "Ningún trofeo (¡por ahora!)",
+      "no_timezone": "No se ha establecido ninguna zona horaria.",
+      "timezone_user": "Zona horaria: %1$s",
+      "not_specified": "No especificado."
     },
     "badges": {
       "info": {
-        "not_specified": "%1$sYou need to specify a badge to see the info of.",
-        "not_found": "%1$sThere's no such badge...",
-        "header": "Badge information for %1$s",
-        "achieved": "Achieved"
+        "not_specified": "%1$sNecesitas decirme que trofeo deseas revisar.",
+        "not_found": "%1$sEse trofeo no existe...",
+        "header": "Información para el trofeo %1$s",
+        "achieved": "Logrado"
       },
-      "brief_success": "**%1$s's badges:**\n%2$s",
-      "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n",
-      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge.\n",
-      "upvote_notice": "**You can get a free badge for [up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!** (It might take some minutes to process)\n\n",
-      "no_badges": "No badges to show (yet!)",
-      "header": "Badges achieved by %1$s"
+      "brief_success": "**Trofeos de %1$s**\n%2$s",
+      "profile_notice": "Si crees que tienes un trofeo pero no aparece aquí, usa `~>profile` y luego ejecuta este comando denuevo.\n",
+      "info_notice": "Usa `~>badges info <nombre del trofeo>` para ver información sobre un trofeo.\n",
+      "upvote_notice": "**Puedes conseguir un trofeo gratis por [darle like a Mantaro en discordbots.org](https://discordbots.org/bot/mantaro)!** (Podría tomar unos minutos para procesar)\n\n",
+      "no_badges": "No hay trofeos para mostrar (¡aún!)",
+      "header": "Trofeos logrados por %1$s"
     },
     "rep": {
-      "no_mentions": "%1$sYou need to mention or put the name of at least one user.\n**%2$s",
-      "more_than_one": "%1$sYou can only give reputation to one person!",
-      "rep_bot": "%1$sYou cannot rep a bot.\n",
-      "rep_yourself": "%1$sYou cannot rep yourself.\n",
+      "no_mentions": "%1$sNecesitas mencionar o escribir el nombre de un usuario.\n**%2$s",
+      "more_than_one": "%1$sSolo puedes darle reputación a una persona",
+      "rep_bot": "%1$sNo puedes darle reputación a un bot.\n",
+      "rep_yourself": "%1$sNo puedes darte reputación a tí mismo.\n",
       "cooldown": {
-        "waiting": "**You'll be able to use this command again in %1$s**",
-        "pass": "You can rep someone now."
+        "waiting": "**Podrás usar este comando en %1$s**",
+        "pass": "Ya puedes darle reputación a alguien."
       },
-      "success": "%1$sAdded reputation to **%2$s**"
+      "success": "%1$sLe añadiste un punto de reputación a **%2$s**"
     },
     "birthday": {
-      "reset": "%1$sCorrectly reset birthday date.",
-      "no_global_birthdays": "%1$sThings seems a bit empty here...",
-      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month here :(\n%2$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)",
-      "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running :(",
-      "error": "%1$sSomething went wrong while getting birthdays :(",
-      "header": "**%1$s's Birthdays for %2$s**\n",
-      "invalid_date": "%1$sNot a valid date.\nRemember that the date format is `dd/mm/yyyy`",
+      "reset": "%1$sHe limpiado la fecha de tu cumpleaños correctamente.",
+      "no_global_birthdays": "%1$sEstá un poco vacio por aquí...",
+      "no_guild_month_birthdays": "%1$sNo hay ningún cumpleaños para este mes por aquí :(\n%2$sSi acabas de configurar el anunciador de cumpleaños, porfavor espera un día para revisar denuevo. (La cache se refresca cada 23 horas)",
+      "cache_not_running": "%1$sEl cache de cumpleaños no parece estar funcionando (error interno) :(",
+      "error": "%1$sAlgo salió muy mal intentando buscar los cumpleaños (error interno) :(",
+      "header": "**Cumpleaños del servidor %1$s para el mes de %2$s**\n",
+      "invalid_date": "%1$sNo es una fecha correcta o no se encuentra en el formato requerido.\nRecuerda que el formato requerido es `dd/mm/yyyy`",
       "error_date": "%1$s%2$s is either not a valid date or not parseable. Please try with the correct formatting. Remember to include the year, although you can put any year and it won't affect anything.\nRemember that the date format is `dd/mm/yyyy`",
       "added_birthdate": "%1$sAdded birth date."
     },

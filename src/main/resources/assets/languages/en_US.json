@@ -57,8 +57,8 @@
     },
     "softban": {
       "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
-      "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server!",
-      "no_mention": "%1$sYou must mention 1 or more users to be soft-banned!",
+      "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
+      "no_mention": "%1$sYou must mention 1 or more users to be soft-banned.",
       "hierarchy_conflict": "%1$sYou cannot softban an user in a higher hierarchy than you",
       "yourself_note": "%1$sWhy are you trying to soft-ban yourself?",
       "self_hierarchy_conflict": "%1$sCannot softban member: %2$s, they are higher or the same hierarchy than I am!",
@@ -68,8 +68,8 @@
     },
     "ban": {
       "no_permission": "%1$sYou can't ban: You need the `Ban Users` permission.",
-      "no_mention": "%1$sYou need to mention at least one user to ban!",
-      "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server!",
+      "no_mention": "%1$sYou need to mention at least one user to ban.",
+      "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
       "hierarchy_conflict": "%1$sYou cannot ban an user who's higher than you in the server hierarchy! Nice try %2$s",
       "yourself_note": "%1$sWhy are you trying to ban yourself, silly?",
       "self_hierarchy_conflict": "%1$sCannot ban member: %2$s, they are higher or the same hierarchy than I am!",
@@ -79,8 +79,8 @@
     },
     "kick": {
       "no_permission": "%1$sCannot kick: You have no Kick Members permission.",
-      "no_mention": "%1$sYou must mention 1 or more users to be kicked!",
-      "no_permission_self": "%1$sSorry! I don't have permission to kick members in this server!",
+      "no_mention": "%1$sYou must mention 1 or more users to be kicked.",
+      "no_permission_self": "%1$sSorry! I don't have permission to kick members in this server.",
       "hierarchy_conflict": "%1$sYou cannot kick an user in a higher hierarchy than you",
       "yourself_note": "%1$sWhy are you trying to kick yourself, silly?",
       "self_hierarchy_conflict": "%1$sCannot kick member: %2$s, they are higher or the same hierarchy than I am!",
@@ -139,7 +139,7 @@
         "success": "%1$sConnected to channel **%2$s**!",
         "full_channel": "%1$sI can't connect to that channel because it is full!",
         "non_existent_channel": "%1$sWe received a non-existent channel as response. If you set a voice channel and then deleted it, that might be the cause.\n We reset your music channel for you, try to play the music again.",
-        "user_no_vc": "%1$s**Please join a voice channel!**",
+        "user_no_vc": "%1$s**Please join a voice channel**",
         "missing_permissions_connect": "%1$sI cannot connect to this channel due to the lack of permission (%2$s).",
         "missing_permission_speak": "%1$sI cannot speak in this channel due to the lack of permission (%2$s).",
         "channel_locked": "%1$sI can only play music on channel **%2$s**!",
@@ -222,26 +222,26 @@
       "success": "%1$sRandomized the order of the current queue."
     },
     "skip": {
-      "dj_skip": "%1$sThe DJ has decided to skip!",
+      "dj_skip": "%1$sThe DJ has decided to skip",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted!** You need %2$d more vote(s) to skip!",
-        "remove": "%1$s**Your vote has been removed!** You need %2$d more vote(s) to skip!"
+        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!",
+        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to skip!"
       },
       "success": "%1$sReached the required amount of votes, skipping song...",
       "no_track": "%1$sThere seems to be no track to skip, so I cannot do anything..."
     },
     "removetrack": {
-      "invalid_range": "%1$s`%2$s` is not a valid range!",
+      "invalid_range": "%1$s`%2$s` is not a valid range.",
       "no_track": "%1$sThere isn't a queued track at the position `%2$d`!",
       "invalid_number": "(%1$s`%2$s`) One of the ranges is not a valid number!",
       "invalid_number_range": "%1$s`%2$s` is not a valid number or range!",
       "success": "%1$sRemoved **%2$d** track(s) from the queue."
     },
     "stop": {
-      "dj_stop": "%1$sThe server DJ has decided to stop!",
+      "dj_stop": "%1$sThe server DJ has decided to stop",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted!** You need %2$d more vote(s) to stop!",
-        "remove": "%1$s**Your vote has been removed!** You need %2$d more vote(s) to stop!"
+        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to stop!",
+        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to stop!"
       },
       "success": "%1$sReached the required amount of votes, stopping player...",
       "no_player": "%1$sThere seems to be no player to stop, so I cannot do anything...",
@@ -259,7 +259,7 @@
       },
       "view": {
         "invalid": "%1$sYou need to specify the command and the response number!",
-        "not_found": "%1$sThere isn't a custom command with that name here!",
+        "not_found": "%1$sThere isn't a custom command with that name here.",
         "less_than_specified": "%1$sThis command has less responses than the number you specified...",
         "success": "**Response `%1$d` for custom command `%2$s`:** \n```\n%3$s```"
       },
@@ -269,20 +269,20 @@
         "pasted": "Pasted content"
       },
       "clear": {
-        "success": "%1$sCleared **%2$d Custom Commands**!"
+        "success": "%1$sCleared **%2$d Custom Commands**"
       },
       "make": {
         "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
         "cancel": "%1$sCommand Creation canceled.",
         "no_responses_added": "%1$sNo responses were added. Stopping creation without saving...",
-        "success": "%1$sSaved to command `%2$s`!",
+        "success": "%1$sSaved to command `%2$s`.",
         "no_name_specified": "%1$sYou didn't specify the name of the custom command to create!"
       },
       "eval": {
         "error": "%1$sThere was an error while evaluating your command!%2$s"
       },
       "remove": {
-        "success": "%2$sRemoved Custom Command `%1$s`!"
+        "success": "%2$sRemoved Custom Command `%1$s`."
       },
       "import": {
         "not_found": "%1$sThere are no custom commands matching your search query.",
@@ -292,19 +292,19 @@
         "success": "Imported custom command `%1$s` from guild `%2$s` with responses `%3$s`"
       },
       "edit": {
-        "invalid_number": "%1$sYou need to specify a correct number to change!",
-        "no_index": "%1$sYou cannot edit a non-existent index!",
-        "empty_response": "%1$sCannot edit to an empty response!",
-        "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly!"
+        "invalid_number": "%1$sYou need to specify a correct number to change.",
+        "no_index": "%1$sYou cannot edit a non-existent index.",
+        "empty_response": "%1$sCannot edit to an empty response",
+        "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly"
       },
       "rename": {
-        "success": "%1$sRenamed command `%2$s` to `%3$s`!"
+        "success": "%1$sRenamed command `%2$s` to `%3$s`"
       },
       "add": {
-        "success": "%1$sSaved to command `%2$s`!"
+        "success": "%1$sSaved to command `%2$s`"
       },
       "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
-      "already_exists": "%1$sA command already exists with this name!",
+      "already_exists": "%1$sA command already exists with this name.",
       "name_too_long": "%1$sName is too long.",
       "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just dust.",
       "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.",
@@ -315,14 +315,14 @@
       "invalid_link": "%1$sThe string `%2$s` isn't a valid link."
     },
     "mute": {
-      "no_permissions": "%1$sYou need to have either ban or kick members permission to mute!",
+      "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
       "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`",
-      "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent!",
+      "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent.",
       "no_mentions": "%1$sYou need to mention at least one user to mute.",
-      "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server!",
-      "no_time": "%1$sYou didn't specify any time!",
-      "time_not_specified": "%1$sYou wanted time but didn't specify for how long!",
-      "negative_time_notice": "%1$sYou cannot mute someone for negative time!",
+      "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server.",
+      "no_time": "%1$sYou didn't specify any time. Remember that you need to add the `-time` argument and specify it there.",
+      "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
+      "negative_time_notice": "%1$sYou cannot mute someone for negative time.",
       "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
       "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
       "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to unmute them.",
@@ -375,7 +375,7 @@
       "receipt_married": "%1$sThat user is married already.",
       "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>market buy 2 ring` and then try proposing again <3",
       "confirmation": "%1$s%2$s, type with **yes** or **no** to the marriage proposal from %3$s\nThis timeouts in 120 seconds.",
-      "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory!",
+      "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
       "accepted": "%1$s`%2$s` accepted the proposal of `%3$s`!",
       "denied": "%1$sDenied proposal from `%2$s`"
     },
@@ -398,7 +398,7 @@
     },
     "inventory": {
       "brief": "**%1$s's inventory:** %2$s",
-      "calculate": "%1$sYou will get **%2$d credits** if you sell all of your items!",
+      "calculate": "%1$sYou will get **%2$d credits** if you sell all of your items.",
       "header": "%1$s's Inventory",
       "format": "**Price**: 📥 %1$d 📤 %2$d\n%3$s"
     },
@@ -408,10 +408,10 @@
         "non_existent": "%1$sCannot dump a non-existent item!",
         "player_no_item": "%1$sCannot dump an item you don't have!",
         "more_items_than_player": "%1$sYou cannot dump more items than what you have.",
-        "success": "%1$sSent %2$dx **%3$s %4$s** to the trash!"
+        "success": "%1$sSent %2$dx **%3$s %4$s** to the trash."
       },
       "price": {
-        "non_existent": "%1$sCannot check the price of a non-existent item!",
+        "non_existent": "%1$sCannot check the price of a non-existent item.",
         "no_price": "%1$sThis item is not available neither for sell or buy (could be an exclusive collectible)",
         "collectible": "%1$sThis is a collectible item. (Sell value: %2$d credits)",
         "success": "%1$sThe market value of %2$s**%3$s** is %4$s credits to buy it and you can get %5$s credits if you sell it."
@@ -431,7 +431,7 @@
         "invalid": "%1$sNot a valid number of items to buy.",
         "non_existent": "%1$sYou cannot buy an non-existent item.",
         "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object!",
+        "item_limit_reached": "%1$sYou cannot buy more of that object.",
         "success": "%1$sBought %2$d %3$s for %4$d credits successfully. You now have %5$d credits.",
         "not_enough_money": "%1$sYou don't have enough money to buy this item."
 
@@ -439,14 +439,14 @@
       "header": "Mantaro's Market"
     },
     "itemtransfer": {
-      "transfer_yourself_note": "%1$sYou cannot transfer items to yourself!",
+      "transfer_yourself_note": "%1$sYou cannot transfer items to yourself.",
       "bot_notice": "%1$sYou cannot transfer items to a bot.",
       "locked_notice": "%1$sYou cannot transfer items now. (Player is locked)",
       "hidden_item": "%1$sYou cannot transfer this item!",
       "overflow": "%1$sThis player has the maximum possible amount of this item (5000).",
       "success": "%1$s%2$s gave 1 **%3$s** to %4$s",
       "multiple_items_error": "%1$sYou don't have any of these items in your inventory",
-      "error": "1$sYou don't enough of this item in your inventory to do this!"
+      "error": "1$sYou don't have enough of this item in your inventory to do this!"
     },
     "transfer": {
       "transfer_yourself_note": "%1$sYou cannot transfer money to yourself.",
@@ -460,11 +460,11 @@
       "receipt_locked_notice": "1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sThis user already has too much money...",
       "success": "%1$sTransferred **%2$d** to *%3$s* successfully.",
-      "item_transfer": "%1$sYou cannot transfer items using transfer, use transferitems instead!"
+      "item_transfer": "%1$sYou cannot transfer items using transfer, use transferitems instead."
     },
     "useitem": {
       "use_command": "%1$sFor this item you need to use the command that's linked to the item! (mine for pickaxe, fish for the fishing rod)",
-      "no_items_specified": "%1$sYou need to specify what item to use!",
+      "no_items_specified": "%1$sYou need to specify what item to use.",
       "not_interactive": "%1$sYou cannot interact with this item...",
       "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set...",
       "no_item": "%1$sYou don't have this item in your inventory..."
@@ -485,20 +485,20 @@
         "name": "\nAutorole name: ",
         "role": " | Gives role **",
         "header": "Autoroles list",
-        "no_autoroles": "There aren't any autoroles setup in this server!"
+        "no_autoroles": "There aren't any autoroles setup in this server."
       },
       "deleted_role": "%1$sThe role that this autorole corresponded to has been deleted",
       "already_assigned": "%1$sYou already have this role, silly!",
       "success": "%1$s%2$s, you've been given the **%3$s** role",
       "error": "%1$sI couldn't take from you **%2$s. Make sure that I have permission to add roles and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the name `%2$s`!"
+      "no_role": "%1$sThere isn't an autorole with the name `%2$s`."
     },
     "iamnot": {
       "not_assigned": "%1$sYou don't have this role, silly!",
       "success": "%1$s%2$s, you've lost the **%3$s** role"
     },
     "misc": {
-      "reverse_missing": "%1$sYou didn't provide any message to reverse!",
+      "reverse_missing": "%1$sYou didn't provide any message to reverse.",
       "random_color": "%1$sThe random color is %2$s"
     },
     "poll": {
@@ -590,7 +590,7 @@
     },
     "rep": {
       "no_mentions": "%1$sYou need to mention or put the name of at least one user.\n**%2$s",
-      "more_than_one": "%1$sYou can only give reputation to one person!",
+      "more_than_one": "%1$sYou can only give reputation to one person",
       "rep_bot": "%1$sYou cannot rep a bot.\n",
       "rep_yourself": "%1$sYou cannot rep yourself.\n",
       "cooldown": {
@@ -603,10 +603,10 @@
       "reset": "%1$sCorrectly reset birthday date.",
       "no_global_birthdays": "%1$sThings seems a bit empty here...",
       "no_guild_month_birthdays": "%1$sThere are no birthdays for this month here :(\n%2$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)",
-      "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running :(",
-      "error": "%1$sSomething went wrong while getting birthdays :(",
+      "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running (internal error) :(",
+      "error": "%1$sSomething went wrong while getting birthdays (internal error) :(",
       "header": "**%1$s's Birthdays for %2$s**\n",
-      "invalid_date": "%1$sNot a valid date.\nRemember that the date format is `dd/mm/yyyy`",
+      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd/mm/yyyy`",
       "error_date": "%1$s%2$s is either not a valid date or not parseable. Please try with the correct formatting. Remember to include the year, although you can put any year and it won't affect anything.\nRemember that the date format is `dd/mm/yyyy`",
       "added_birthdate": "%1$sAdded birth date."
     },
@@ -620,18 +620,18 @@
     },
     "remindme": {
       "nothing_specified": "%1$sWhat could I remind you of if you don't give me what to remind you? Oh! Lemme remind you of setting a reminder!",
-      "no_reminders": "%1$sYou have no reminders set!",
+      "no_reminders": "%1$sYou have no reminders set",
       "cancel": {
         "success": "%1$sCancelled your reminder.",
         "select": "Select the reminder you want to cancel."
       },
       "no_time":  "You didn't give me a `-time` argument! (Example: `-time 1h`)",
-      "too_little_time": "%1$sThat's too little time!",
+      "too_little_time": "%1$sThat's too little time",
       "too_long": "Too long (Maximum: 3 months)...",
       "success": "%1$sI'll remind you of **%2$s** in %3$s"
     },
     "time": {
-      "invalid_timezone": "%1$sThat's not a valid timezone!",
+      "invalid_timezone": "%1$sThat's not a valid timezone",
       "success": "%1$sIt's %2$s in the %3$s timezone",
       "error": "%1$sError while retrieving timezone or it's not valid"
     },
@@ -655,11 +655,11 @@
         "key_valid_for": "%1$sYour key is valid for %2$s more days :heart:",
         "no_key_found": "%1$sYou don't have a key enabled... If you're a premium from the old system you should still have your rewards, though!"
       },
-      "no_key_provided": "%1$sI cannot enable a premium key if you don't give me one!",
-      "invalid_key": "%1$sYou provided an invalid or already enabled key!",
-      "guild_already_premium": "%1$sThis server already has a premium subscription!",
+      "no_key_provided": "%1$sI cannot enable a premium key if you don't give me one",
+      "invalid_key": "%1$sYou provided an invalid or already enabled key",
+      "guild_already_premium": "%1$sThis server already has a premium subscription",
       "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)",
-      "user_already_premium": "%1$sYou're already premium :heart:!",
+      "user_already_premium": "%1$sYou're already premium :heart:",
       "user_successful": "%1$sYou're now **Premium** :heart: (For: %2$d days)"
     },
     "vipstatus": {
@@ -728,14 +728,14 @@
       "meow": "Meow."
     },
     "game": {
-      "won_games": "%1$s%2$s has won **%3$s games**!",
-      "nothing_specified": "%1$sYou didn't specify anything to play!",
-      "not_enough_games": "%1$sYou need to specify two games at least!",
+      "won_games": "%1$s%2$s has won **%3$s games**",
+      "nothing_specified": "%1$sYou didn't specify anything to play...",
+      "not_enough_games": "%1$sYou need to specify two games at least",
       "invalid_selection": "%1$sYou need to specify two games at least (Valid games: character, pokemon, number, trivia)!",
       "multiple": {
         "invalid": "%1$sYou need to specify the game and the number of times to run it",
-        "invalid_times": "%1$sInvalid number of times!",
-        "too_many_games": "%1$sYou can only start a maximum of 10 games of the same type at a time!"
+        "invalid_times": "%1$sInvalid number of times. Remember that it must be an integer.",
+        "too_many_games": "%1$sYou can only start a maximum of 10 games of the same type at a time."
       },
       "trivia": {
         "wrong_diff": "%1$sWrong difficulty specified! (Supported: easy, medium and hard)",
@@ -764,7 +764,7 @@
       "other_lobby_running": "%1$sCannot start a new game lobby when there is a game currently running.",
       "lobby": {
         "ended_game": "%1$sEnded game. Possible answers were: %2$s",
-        "ended_lobby": "%1$sEnded lobby correctly! Thanks for playing!",
+        "ended_lobby": "%1$sEnded lobby correctly! Thanks for playing.",
         "all_attempts_used": "%1$sAlready used all attempts, ending game. Possible answers were: %2$s",
         "incorrect_answer": "%1$sThat's not it, you have %2$d attempts remaining.",
         "won_game": "%1$s**%2$s** just won $%3$d credits by answering correctly!"
@@ -781,13 +781,13 @@
       "bot_no_messages": "%1$sThere are no messages from bots or bot calls here.",
       "no_pins_no_messages": "%1$sThere are no non-pinned messages here...",
       "mention_no_messages": "%1$sThere are no messages from users which you mentioned here.",
-      "too_few_messages": "%1$sToo few messages to prune!",
+      "too_few_messages": "%1$sToo few messages to prune.",
       "error_retrieving": "%1$sUnknown error while retrieving the history to prune the messages<%2$s>: %3$s",
       "invalid_number": "%1$sPlease specify a valid number.",
-      "not_valid": "%1$sThat's not a valid number of messages to delete!",
+      "not_valid": "%1$sThat's not a valid number of messages to delete.",
       "less_than_five": "%1$sYou need to provide at least 5 messages.",
       "messages_too_old": "%1$sThere are no messages newer than 2 weeks old, discord won't let me delete them.",
-      "success": "%1$sSuccessfully pruned %2$s messages from this channel!",
+      "success": "%1$sSuccessfully pruned %2$s messages from this channel.",
       "lack_perms": "%1$sLack of permission while pruning messages (No permission provided: %2$s)",
       "error_deleting": "%1$sUnknown error while pruning messages <%2$s>: %3$s"
     },
@@ -798,7 +798,7 @@
       "cat": {
         "error": "%1$sError retrieving cute cat images :("
       },
-      "invalid_rating": "%1$sYou provided an invalid rating (Available types: questionable, explicit, safe)!",
+      "invalid_rating": "%1$sYou provided an invalid rating (Available types: questionable, explicit, safe)",
       "nsfw_no_nsfw": "%1$sCannot send a NSFW image in a non-nsfw channel :(",
       "no_images": "%1$sThere are no images matching your search criteria...",
       "no_results": "%1$s**There aren't any more images or no results found**! Please try with a lower number or another search.",
@@ -998,7 +998,7 @@
       "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
       "about_now": "about now",
       "errors": {
-        "bot": "%1$sYou cannot transfer your daily to a bot!",
+        "bot": "%1$sYou cannot transfer your daily to a bot.",
         "receipt_locked": "That user cannot receive daily credits now.",
         "own_locked": "You cannot receive your daily now."
       },
@@ -1016,16 +1016,16 @@
       "credits": "%1$sYou got **$%2$s** daily credits.\n\n%3$s"
     },
     "gamble": {
-      "no_credits": "%1$sYou're broke. Search for some credits first!",
+      "no_credits": "%1$sYou're broke. Maybe search for some credits first.",
       "too_much_money": "You have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs! Thanks for not breaking the local bank. *(Gamble limit: %1$d credits)*",
       "invalid_money_or_modifier": "%1$sPlease type a valid number less than or equal to your current balance or `all` to gamble all your credits.",
       "not_enough_money": "%1$sPlease type a value within your balance.",
       "invalid_percentage": "%1$sPlease type a valid percentage value.",
       "confirmation_message": "%1$sYou're about to bet **%2$d** credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.",
       "cancelled_bet": "%1$sCancelled bet.",
-      "win": "%1$sCongrats, you won %2$d credits and got to keep what you had!",
+      "win": "%1$sCongrats, you won %2$d credits and got to keep what you had.",
       "win_overflow": "%1$sCongrats, you won %2$d credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.",
-      "lose": "%1$sSadly, you lost %2$s credits! %3$s",
+      "lose": "%1$sSadly, you lost %2$s credits. %3$s",
       "lose_all": "all of your",
       "credits": "credits"
     },
@@ -1045,10 +1045,10 @@
       "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
     },
     "mine": {
-      "no_pick": "%1$sYou don't have any pick to mine!",
+      "no_pick": "%1$sYou don't have any pick to mine.",
       "success": "%1$sYou mined minerals worth **$%2$s credits!**",
       "diamond": {
-        "overflow": "\nHuh, you found a diamond while mining, but you already had too much, so we sold it for you!",
+        "overflow": "\nHuh, you found a diamond while mining, but you already had too much, so we sold it for you.",
         "success": "\nHuh! You got lucky and found a diamond while mining, check your inventory!"
       },
       "pick_broke": "%1$sOne of your picks broke while mining."
@@ -1056,14 +1056,14 @@
     "slots": {
       "errors" : {
         "amount_not_ticket": "%1$sYou cannot specify how many tickets you're gonna use if you're not using tickets!",
-        "not_enough_tickets": "%1$sYou don't have enough slots tickets!",
+        "not_enough_tickets": "%1$sYou don't have enough slots tickets.",
         "too_much_money": "%1$sThis machine cannot dispense that much money!",
         "not_enough_money": "%1$sYou don't have enough money to play the slots machine!",
-        "below_minimum": "%1$sThe minimum amount is 25!",
+        "below_minimum": "%1$sThe minimum amount is 25 credits",
         "no_tickets": "%1$sYou wanted to use tickets but you don't have any :<",
         "no_amount": "%1$sYou didn't specify the amount!"
       },
-      "roll": "%1$s**You used %2$s and rolled the slot machine!**\n",
+      "roll": "%1$s**You used %2$s and rolled the slot machine**\n",
       "win": "And you won **%1$d** credits and got to keep what you bet (%2$d credits)! Lucky!",
       "lose": "And you lost %1$s\nI hope you do better next time!",
       "tickets": "slots ticket(s)",
@@ -1098,11 +1098,11 @@
       "success": "%1$sEnabled %2$s on this server."
     },
     "server_command_specific_disallow": {
-      "invalid": "%1$sYou need to specify the channel name and the command to disallow!",
+      "invalid": "%1$sYou need to specify the channel name and the command to disallow.",
       "success": "%1$sDisabled %2$s on channel #%3$s."
     },
     "server_command_specific_allow": {
-      "invalid": "%1$sYou need to specify the channel name and the command to allow!",
+      "invalid": "%1$sYou need to specify the channel name and the command to allow.",
       "success": "%1$sEnabled %2$s on channel #%3$s."
     },
     "server_channel_disallow": {
