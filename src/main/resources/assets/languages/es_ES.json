@@ -602,198 +602,198 @@
       "error": "%1$sAlgo salió muy mal intentando buscar los cumpleaños (error interno) :(",
       "header": "**Cumpleaños del servidor %1$s para el mes de %2$s**\n",
       "invalid_date": "%1$sNo es una fecha correcta o no se encuentra en el formato requerido.\nRecuerda que el formato requerido es `dd/mm/yyyy`",
-      "error_date": "%1$s%2$s is either not a valid date or not parseable. Please try with the correct formatting. Remember to include the year, although you can put any year and it won't affect anything.\nRemember that the date format is `dd/mm/yyyy`",
-      "added_birthdate": "%1$sAdded birth date."
+      "error_date": "%1$s%2$s no es una fecha válida o no la puedo entender. Por favor intentalo con el formato correcto. Recuerda incluir el año, aunque este no afecta nada, es necesario.\nRecuerda que el formato es `dd/mm/yyyy`",
+      "added_birthdate": "%1$sHe añadido la fecha de tu cumpleaños."
     },
     "choose": {
-      "success": "%1$sI choose `%2$s`"
+      "success": "%1$sEscojo `%2$s`"
     },
     "dictionary": {
-      "no_word": "%1$s You need to specify a word.",
-      "header": "Definition for %1$s",
-      "description": "**Part of speech:** `%1$s`\n**Headword:** `%2$s`"
+      "no_word": "%1$sNecesitas especificar una palabra.",
+      "header": "Definición de %1$s",
+      "description": "**Parte del lenguaje:** `%1$s`\n**Pariente:** `%2$s`"
     },
     "remindme": {
-      "nothing_specified": "%1$sWhat could I remind you of if you don't give me what to remind you? Oh! Lemme remind you of setting a reminder!",
-      "no_reminders": "%1$sYou have no reminders set!",
+      "nothing_specified": "%1$s¿De qué podría recordarte si no me das un recordatorio? ¡Oh! ¡Te recordaré de poner un recordatorio!",
+      "no_reminders": "%1$sNo tienes ningún recordatorio.",
       "cancel": {
-        "success": "%1$sCancelled your reminder.",
-        "select": "Select the reminder you want to cancel."
+        "success": "%1$sHe cancelado este recordatorio.",
+        "select": "Selecciona el recordatorio que desees cancelar."
       },
-      "no_time":  "You didn't give me a `-time` argument! (Example: `-time 1h`)",
-      "too_little_time": "%1$sThat's too little time! (Minimum: 10 seconds)",
-      "too_long": "Too long (Maximum: 3 months)...",
-      "success": "%1$sI'll remind you of **%2$s** in %3$s"
+      "no_time":  "No me diste el argumento `-time`! (Ejemplo: `-time 1h`)",
+      "too_little_time": "%1$sThat's too little time! (Mínimo: 10s)",
+      "too_long": "Eso es mucho tiempo... (Máximo: 3m)...",
+      "success": "%1$sTe recordaré de **%2$s** en %3$s"
     },
     "time": {
-      "invalid_timezone": "%1$sThat's not a valid timezone!",
-      "success": "%1$sIt's %2$s in the %3$s timezone",
-      "error": "%1$sError while retrieving timezone or it's not valid"
+      "invalid_timezone": "%1$sEsa no es una zona horaria válida.",
+      "success": "%1$sSon las %2$s en la zona horaria %3$s",
+      "error": "%1$sEncontré un error mientras buscaba la zona horaria en el libro grande de ahí... bueno, o capaz que es inválida."
     },
     "urban": {
-      "header": "Urban Dictionary definition for %1$s",
-      "main_def": "Main definition.",
-      "footer": "Information by Urban Dictionary"
+      "header": "Definición para %1$s en Urban Dictionary",
+      "main_def": "Definición principal.",
+      "footer": "Información por Urban Dictionary"
     },
     "weather": {
-      "header": "%1$s Forecast information for %2$s",
-      "clouds": "clouds",
-      "temperature": "Temperature",
-      "humidity": "Humidity",
-      "wind_speed": "Wind Speed",
-      "pressure": "Pressure",
-      "footer": "Information provided by OpenWeatherMap (Process time: %1$dms)",
-      "error": "%1$sError while fetching results. (Not found?)"
+      "header": "%1$s Información del tiempo para %2$s",
+      "clouds": "nubosidad",
+      "temperature": "Temperatura",
+      "humidity": "Humedad",
+      "wind_speed": "Velocidad del Viento",
+      "pressure": "Presión",
+      "footer": "Información por OpenWeatherMap (Tiempo tomado: %1$dms)",
+      "error": "%1$sEncontré un error mientras intentaba buscar los resultados. ¿No existe?"
     },
     "activatekey": {
       "check": {
-        "key_valid_for": "%1$sYour key is valid for %2$s more days :heart:",
-        "no_key_found": "%1$sYou don't have a key enabled... If you're a premium from the old system you should still have your rewards, though!"
+        "key_valid_for": "%1$sTu licencia es válida por %2$s más dias :heart:",
+        "no_key_found": "%1$sNo tienes una licencia habilitada... Si eres un usuario premium del sistema antiguo aún deberias tener tus recompensas, eso si!"
       },
-      "no_key_provided": "%1$sI cannot enable a premium key if you don't give me one!",
-      "invalid_key": "%1$sYou provided an invalid or already enabled key!",
-      "guild_already_premium": "%1$sThis server already has a premium subscription!",
-      "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)",
-      "user_already_premium": "%1$sYou're already premium :heart:!",
-      "user_successful": "%1$sYou're now **Premium** :heart: (For: %2$d days)"
+      "no_key_provided": "%1$sNo puedo habilitar una licencia paga si no me das ninguna licencia...",
+      "invalid_key": "%1$sMe diste una licencia inválida o esta ya está activada.",
+      "guild_already_premium": "%1$sEste servidor ya tiene una licencia activada.",
+      "guild_successful": "%1$sEste servidor ahora es **Premium** :heart: (Por: %2$d días)",
+      "user_already_premium": "%1$s¡Ya eres premium :heart:!",
+      "user_successful": "%1$sAhora eres **Premium** :heart: (Por: %2$d días)"
     },
     "vipstatus": {
       "user": {
-        "header": "Your Premium Status",
-        "header_other": "%1$s's Premium Status",
-        "not_premium": "%1$sYou aren't premium :c",
-        "premium": "**Premium user! <3**",
-        "old_system": "**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+        "header": "Tu estado premium",
+        "header_other": "Estado premium de %1$s",
+        "not_premium": "%1$sNo eres premium :(",
+        "premium": "**¡Usuario premium! <3**",
+        "old_system": "**¡Usuario premium mediante el sistema antiguo! No te preocupes, eres premium y tus perks funcionarán correctamente.**"
       },
       "guild": {
-        "header": "%1$s's Premium Status",
-        "not_premium": "%1$sThis guild isn't premium :c",
-        "premium": "**Premium guild! <3**",
-        "old_system": "**Premium guild under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+        "header": "Estado premium del servidor %1$s",
+        "not_premium": "%1$sEste servidor no es premium :(",
+        "premium": "**¡Servidor premium! <3**",
+        "old_system": "**¡Servidor premium mediante el sistema antiguo! No te preocupes, eres premium y tus perks funcionarán correctamente.**"
       },
-      "valid_for_old": "Valid for",
-      "old_days_more": "%1$d days more",
-      "thank_note": "Thanks you for your support <3",
-      "expire": "Expires in",
-      "key_duration": "Key total duration",
-      "key_owner": "Key owner",
-      "wrong_args": "%1$sWrong arguments..."
+      "valid_for_old": "Válido por",
+      "old_days_more": "%1$d más días",
+      "thank_note": "Gracias por tu apoyo <3",
+      "expire": "Expira en",
+      "key_duration": "Duración total de la licencia",
+      "key_owner": "Dueño de la licencia",
+      "wrong_args": "%1$sArgumentos inválidos..."
     },
     "action": {
-      "no_mention": "%1$sYou need to mention a user",
-      "error_retrieving": "%1$sWe got an error while retrieving the next gif for this action...",
-      "permission_or_unexpected_error": "%1$sS-Sorry, but I dropped the image. Probably I don't have permissions to send it.",
+      "no_mention": "%1$sNecesitas mencionar un usuario",
+      "error_retrieving": "%1$sEncontré un error mientras buscaba una imagen para usar...",
+      "permission_or_unexpected_error": "%1$s¡L-Lo siento! boté la imagen... (Probablemente me faltan permisos para enviarla)",
       "lonely": {
-        "pat": "Aww, I see you are lonely, take a pat <3",
-        "hug": "Aww, I see you are lonely, take a hug <3",
-        "kiss": "Aww, I see you are lonely, *kisses*",
-        "poke": "Aww, I see you are lonely, *pokes you*",
-        "slap": "Hmm, why do you want this? Uh, I guess... *slaps you*",
-        "bite": "*bites you*",
-        "lick": "*licks you*",
-        "tickle": "*tickles you*",
-        "highfive": "*highfives*",
+        "pat": "Aww, veo que estás solito/a, toma un pat <3",
+        "hug": "Aww, veo que estás solito/a, toma un abrazo <3",
+        "kiss": "Aww, veo que estás solito/a, *te da un beso*",
+        "poke": "Aww, veo que estás solito/a, *te pokea*",
+        "slap": "Hmm, ¿por qué deseas esto? eh... bueno... *abofetea*",
+        "bite": "*muerde*",
+        "lick": "*lame*",
+        "tickle": "*te hace cosquillas*",
+        "highfive": "*te da los 5*",
         "pout": "*pouts, hmph*",
-        "teehee": "*teases you*",
-        "smile": "*smiles at you*",
-        "stare": "*stares at you*",
-        "holdhands": "*holds your hand*",
-        "cuddle": "*cuddles you*",
-        "nuzzle": "*nuzzles you*",
-        "bloodsuck": "J-Just how am I meant to? Oh well.. *sucks your blood*"
+        "teehee": "*te molesta*",
+        "smile": "*sonrie*",
+        "stare": "*miraaaando*",
+        "holdhands": "*te da la mano*",
+        "cuddle": "*te abraza tiernamente*",
+        "nuzzle": "*te acaricia*",
+        "bloodsuck": "¿C-Cómo quieres que haga esto? bueeeno.. *chupa tu sangre*"
       },
-      "pat": "%1$s you have been patted by %2$s",
-      "hug": "%1$s you have been hugged by %2$s",
-      "kiss": "%1$s you have been kissed by %2$s",
-      "poke": "%1$s you have been poked by %2$s :eyes:",
-      "slap": "%1$s you have been slapped by %2$s!",
-      "bite": "%1$s you have been bitten by %2$s :eyes:",
-      "tickle": "%1$s you have been tickled by %2$s",
-      "lick": "%1$s you have been licked by %2$s",
-      "highfive": "%1$s highfives %2$s :heart:",
-      "pout": "%1$s pouts at %2$s *hmph*",
-      "teehee": "%1$s is teasing %2$s",
-      "smile": "%1$s is smiling at %2$s :heart:",
-      "stare": "%1$s is staring at %2$s",
-      "holdhands": "%1$s is holding %2$s's hand",
-      "cuddle": "%1$s you have been cuddled by %2$s",
-      "nuzzle": "%1$s is nuzzling %2$s",
-      "bloodsuck": "%1$s is sucking the blood of %2$s!",
-      "nom": "Yummy.",
+      "pat": "%1$s, %2$s te hizo pat",
+      "hug": "%1$s fuiste abrazado por %2$s",
+      "kiss": "%1$s fuiste besado por %2$s",
+      "poke": "%1$s, %2$s te pokeo :eyes:",
+      "slap": "%1$s fuiste abofeteado por %2$s!",
+      "bite": "%1$s fuiste mordido por %2$s :eyes:",
+      "tickle": "%1$s, %2$s te hizo cosquillas! jeje",
+      "lick": "%1$s, %2$s te lamió.",
+      "highfive": "%1$s le da los 5 a %2$s :heart:",
+      "pout": "%1$s, %2$s te está poniendo mala cara *hmph*",
+      "teehee": "%1$s está molestando a %2$s",
+      "smile": "%1$s está sonriendole a %2$s :heart:",
+      "stare": "%1$s está mirando a %2$s",
+      "holdhands": "%1$s está dandole la mano a %2$s",
+      "cuddle": "%1$s fuiste abrazado tiernamente por %2$s",
+      "nuzzle": "%1$s está acariciando a %2$s",
+      "bloodsuck": "%1$s está chupandole la sangre a %2$s!",
+      "nom": "Sabroso.",
       "facedesk": "*facedesks*",
-      "lewd": "Y-You lewdie!",
+      "lewd": "¡P-Pervertido/a!",
       "meow": "Meow."
     },
     "game": {
-      "won_games": "%1$s%2$s has won **%3$s games**!",
-      "nothing_specified": "%1$sYou didn't specify anything to play!",
-      "not_enough_games": "%1$sYou need to specify two games at least!",
-      "invalid_selection": "%1$sYou need to specify two games at least (Valid games: character, pokemon, number, trivia)!",
+      "won_games": "%1$s%2$s ha ganado **%3$s juegos**!",
+      "nothing_specified": "%1$sNo especificaste nada que jugar.",
+      "not_enough_games": "%1$sNecesitas decirme al menos dos juegos.",
+      "invalid_selection": "%1$sNecesitas especificar al menos dos juegos. (Juegos válidos: character, pokemon, number, trivia)!",
       "multiple": {
-        "invalid": "%1$sYou need to specify the game and the number of times to run it",
-        "invalid_times": "%1$sInvalid number of times!",
-        "too_many_games": "%1$sYou can only start a maximum of 10 games of the same type at a time!"
+        "invalid": "%1$sNecesitas especificar el juego y cuantas veces deseas jugarlo.",
+        "invalid_times": "%1$sNúmero inválido de repeticiones.",
+        "too_many_games": "%1$s¡Sólo puedes iniciar un máximo de 10 juegos del mismo tipo al mismo tiempo!"
       },
       "trivia": {
-        "wrong_diff": "%1$sWrong difficulty specified! (Supported: easy, medium and hard)",
-        "fetch_error": "%1$sError while starting trivia. Seemingly Open Trivia DB is having trouble.",
-        "possibilities": "Possibilities",
-        "difficulty": "Difficulty",
-        "category": "Category"
+        "wrong_diff": "%1$s¡Dificultad incorrecta! (Dificultades válidas: easy, medium y hard)",
+        "fetch_error": "%1$sError iniciando el juego de trivia. Puede que Open Trivia DB esté teniendo dificultades.",
+        "possibilities": "Posibilidades",
+        "difficulty": "Dificultad",
+        "category": "Categoría"
       },
       "number": {
-        "start": "%1$sGuess the number! **You have 5 attempts and 30 seconds. The number is between 0 and 150**",
-        "nan": "%1$sThat's not even a number...",
-        "ended_game": "%1$sEnded game. The number was: %2$d",
-        "all_attempts_used": "%1$sAlready used all attempts, ending game. The number was: %2$d",
-        "hint": "Hint: The number is %1$s than your input number.",
-        "higher": "higher",
-        "lower": "lower"
+        "start": "%1$s¡Adivina el número! **Tienes 5 intentos y 30 segundos. El número es entre 0 y 150**",
+        "nan": "%1$sEso no es un número...",
+        "ended_game": "%1$sJuego terminado, el número era: %2$d",
+        "all_attempts_used": "%1$sUsaste todos los intentos, terminando el juego. El número era: %2$d",
+        "hint": "Tip: El número es %1$s que el numero que pusiste.",
+        "higher": "mayor",
+        "lower": "menor"
       },
       "pokemon": {
-        "header": "Who's that pokemon?",
-        "footer": "You have 5 attempts and 75 seconds. (Type end to end the game)"
+        "header": "¿Cuál es ese pokémon?",
+        "footer": "Tienes 5 intentos y 75 segundos. (Escribe end para terminar el juego)"
       },
-      "started_mp_role": "%1$sStarted a MP lobby with all users with the specified role: %2$s",
-      "started_mp_user": "%1$sStarted a MP lobby with users: %2$s",
-      "lobby_started": "%1$sStarted a new lobby! **Games: %2$s**\nYou can type `endlobby` to end all games and finish the lobby.",
-      "game_timeout_drop": "%1$sSeems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!",
-      "other_lobby_running": "%1$sCannot start a new game lobby when there is a game currently running.",
+      "started_mp_role": "%1$sIniciada una partida multijugador con los roles: %2$s",
+      "started_mp_user": "%1$sIniciada una partida multijugador con los usuarios: %2$s",
+      "lobby_started": "%1$s¡Nueva partida iniciada! **Juegos: %2$s**\nPuedes escribir `endlobby` para terminar todos los juegos.",
+      "game_timeout_drop": "%1$sParece que dejé un juego por aquí, pero me olvidé de recogerlo... ¡Empezaré tu nuevo juego ahora mismo!",
+      "other_lobby_running": "%1$sNo puedo iniciar una nueva partida si ya hay una partida en curso. (Si crees que esto es un error, dile a un administrador que ejecute opts lobby reset)",
       "lobby": {
-        "ended_game": "%1$sEnded game. Possible answers were: %2$s",
-        "ended_lobby": "%1$sEnded lobby correctly! Thanks for playing!",
-        "all_attempts_used": "%1$sAlready used all attempts, ending game. Possible answers were: %2$s",
-        "incorrect_answer": "%1$sThat's not it, you have %2$d attempts remaining.",
-        "won_game": "%1$s**%2$s** just won $%3$d credits by answering correctly!"
+        "ended_game": "%1$sJuego terminado. Las respuestas posibles eran: %2$s",
+        "ended_lobby": "%1$s¡Partida terminada! Gracias por jugar.",
+        "all_attempts_used": "%1$sUsaste todos los intentos, terminando el juego. Las respuestas posibles eran: %2$s",
+        "incorrect_answer": "%1$sEsa no es la respuesta, tienes %2$d intentos más.",
+        "won_game": "%1$s¡**%2$s** ha ganado $%3$d créditos por responder correctamente!"
       },
-      "lobby_time_out": "%1$sThe time ran out! The correct answer is: %2$s",
-      "end_footer": "You have 10 attempts and 60 seconds. (Type end to end the game)",
-      "error": "%1$sError while setting up a game.",
-      "character_load_error": "%1$sReport this in the official server please. Failed to setup game for pre-saved character: %2$s",
-      "character_start": "Guess the character"
+      "lobby_time_out": "%1$s¡Se acabó el tiempo! La respuesta correcta era: %2$s",
+      "end_footer": "You have 10 attempts and 60 seconds. (Escribe end para terminar el juego)",
+      "error": "%1$sEncontré un error mientras iniciaba el juego... (error interno)",
+      "character_load_error": "%1$sFavor reportar esto en el servidor de soporte. Fallo al iniciar juego para personaje pre-definido: %2$s",
+      "character_start": "¡Adivina el personaje!"
     },
     "prune": {
-      "no_messages_specified": "%1$sYou specified no messages to prune.",
-      "no_permissions": "%1$sI cannot prune on this server since I don't have the Manage Messages permission.",
-      "bot_no_messages": "%1$sThere are no messages from bots or bot calls here.",
-      "no_pins_no_messages": "%1$sThere are no non-pinned messages here...",
-      "mention_no_messages": "%1$sThere are no messages from users which you mentioned here.",
-      "too_few_messages": "%1$sToo few messages to prune!",
-      "error_retrieving": "%1$sUnknown error while retrieving the history to prune the messages<%2$s>: %3$s",
-      "invalid_number": "%1$sPlease specify a valid number.",
-      "not_valid": "%1$sThat's not a valid number of messages to delete!",
-      "less_than_five": "%1$sYou need to provide at least 5 messages.",
-      "messages_too_old": "%1$sThere are no messages newer than 2 weeks old, discord won't let me delete them.",
-      "success": "%1$sSuccessfully pruned %2$s messages from this channel!",
-      "lack_perms": "%1$sLack of permission while pruning messages (No permission provided: %2$s)",
-      "error_deleting": "%1$sUnknown error while pruning messages <%2$s>: %3$s"
+      "no_messages_specified": "%1$sNo especificaste mensajes para eliminar en masa.",
+      "no_permissions": "%1$sNo puedo eliminar mensajes en masa en este servidor porque no tengo el permiso Administrar Mensajes",
+      "bot_no_messages": "%1$sNo hay mensajes de bots ni llamadas a los bots por aquí...",
+      "no_pins_no_messages": "%1$sNo hay ningun mensaje no anclado por aquí...",
+      "mention_no_messages": "%1$sNo encuentro ningún mensaje de los usuarios que mencionaste por aquí.",
+      "too_few_messages": "%1$s¡Muy pocos mensajes para eliminar en masa! El mínimo son 5.",
+      "error_retrieving": "%1$sEncontré un error desconocido mientras intentaba recuperar el historial de mensajes para eliminar. (Uso interno: %2$s: %3$s)",
+      "invalid_number": "%1$sPor favor especifica un número válido.",
+      "not_valid": "%1$s¡Ese no es un número válido de mensajes a eliminar!",
+      "less_than_five": "%1$sNecesitas al menos 5 mensajes.",
+      "messages_too_old": "%1$sTodos los mensajes aquí son de al menos 2 semanas de antiguedad. No puedo eliminar mensajes tan antiguos.",
+      "success": "%1$s¡He eliminado %2$s mensajes en masa de este canal!",
+      "lack_perms": "%1$sMe faltan permisos para eliminar mensajes en masa... (Falta de permisos: %2$s)",
+      "error_deleting": "%1$sHe encontrado un error desconocido mientras eliminaba los mensajes (Uso interno: %2$s: %3$s)"
     },
     "imageboard": {
       "catgirl": {
-        "error": "Unable to get image."
+        "error": "Error al buscar una imagen."
       },
       "cat": {
-        "error": "%1$sError retrieving cute cat images :("
+        "error": "%1$sError buscando imagenes de gatitos tiernos :("
       },
       "invalid_rating": "%1$sYou provided an invalid rating (Available types: questionable, explicit, safe)!",
       "nsfw_no_nsfw": "%1$sCannot send a NSFW image in a non-nsfw channel :(",
