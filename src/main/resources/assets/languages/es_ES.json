@@ -795,285 +795,285 @@
       "cat": {
         "error": "%1$sError buscando imagenes de gatitos tiernos :("
       },
-      "invalid_rating": "%1$sYou provided an invalid rating (Available types: questionable, explicit, safe)!",
-      "nsfw_no_nsfw": "%1$sCannot send a NSFW image in a non-nsfw channel :(",
-      "no_images": "%1$sThere are no images matching your search criteria...",
-      "no_results": "%1$s**There aren't any more images or no results found**! Please try with a lower number or another search.",
-      "error": "%1$sThere was an error while looking for an image...",
-      "wrong_argument": "%1$sWrong argument type. Check ~>help %2$s",
-      "blacklisted_tag": "%1$sThis image tag has been blacklisted here by an administrator.",
-      "error_tag": "%1$sThere was an error while looking for this tag...",
-      "error_random": "%1$sThere was an error while looking for a random image...",
-      "non_nsfw_channel": "%1$sNot on an NSFW channel. Cannot send lewd images.\n**Reminder:** You can set this channel as NSFW by going to the channel settings and checking `Set this Channel as NSFW`.",
-      "loli_content_disallow": "%1$sSadly we cannot display images that allegedly contain `loli` or `shota` lewd/NSFW content because discord prohibits it. (Filter ran: Image contains a loli or shota tag and it's NSFW)",
-      "null_list_notice": "%1$sOops... something went wrong when searching... (If you used a tag, the tag might not exist)",
-      "found_image": "Found image",
+      "invalid_rating": "%1$sMe diste un rating invalido... (Ratings válidos: questionable, explicit, safe)!",
+      "nsfw_no_nsfw": "%1$sNo puedo enviar una imagen NSFW en un canal que no este marcado como tal :(",
+      "no_images": "%1$sNo encontré ninguna imagen con los términos que me diste...",
+      "no_results": "%1$s**No hay mas imagenes por aquí o no encontré ninguna**! Por favor intenta con una página menor u otro término de busqueda.",
+      "error": "%1$sEncontré un error mientras intentaba buscarte una imagen...",
+      "wrong_argument": "%1$sArgumento inválido. Revisa ~>help %2$s",
+      "blacklisted_tag": "%1$sEste tag ha sido puesto en la lista negra por un administrador.",
+      "error_tag": "%1$sEncontré un error mientras intentaba buscarte una imagen con este tag...",
+      "error_random": "%1$sEncontré un error mientras intentaba buscarte una imagen aleatoria...",
+      "non_nsfw_channel": "%1$sNo estás en un canal NSFW. No puedo enviar imagenes sugerentes.\n**Recordatorio:** Puedes marcar este canal como NSFW si vas a la configuración del canal y habilitar 'Canal NSFW'.",
+      "loli_content_disallow": "%1$sNo podemos mostrar imagenes que contengan los tags `loli` o `shota` y contenido sugerente porque discord lo prohibe.",
+      "null_list_notice": "%1$sOops... algo salió muy mal mientras buscaba una imagen... (Si usaste un tag, capáz que este no exista)",
+      "found_image": "Imagen encontrada",
       "description_image": "Rating: **%1$s**, Imageboard: **%2$s**",
-      "width": "Width",
-      "height": "Height",
+      "width": "Ancho",
+      "height": "Largo",
       "tags": "Tags",
-      "load_notice": "If the image doesn't load, click the title.",
-      "rule34_notice": "If you don't like the content on this command, you can use ~>yandere",
-      "yandere_nsfw_notice": "%1$sYande.re command can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!"
+      "load_notice": "Si la imagen no carga, clickea el título.",
+      "rule34_notice": "Si no te gusta este comando (mucho furry, etc), usa ~>yandere",
+      "yandere_nsfw_notice": "%1$sEl comando de Yande.re solo puede ser usado en canales NSFW debido a numerosos reportes de este enviando imagenes sugerentes cuando se pedian imagenes no sugerentes.\nPuedes intentar usar `~>konachan` como reemplazo."
     },
     "about": {
-      "title": "About Mantaro",
+      "title": "Acerca de Mantaro",
       "description": {
-        "1": "Hello, I'm **MantaroBot**! I'm here to make your life a little easier. To get started, type `~>help`!",
-        "2": "Some of my features include:",
-        "3": "**Moderation made easy** (`Mass kick/ban, prune commands, logs and more!`)",
-        "4": "**Funny and useful commands**, see `~>help anime` or `~>help hug` for examples.",
-        "5": "**First quality music**, check out `~>music`!.",
-        "support": "**[Support server](https://discordapp.com/invite/cMTmuPa)! | [Support Mantaro development!](https://www.patreon.com/mantaro)**",
-        "credits": "%1$sCheck ~>about credits!"
+        "1": "Hola, soy **Mantaro**! y estoy aquí para hacer tu vida en Discord un poquito mas facil. Para empezar, ejecuta `~>help`!",
+        "2": "Algunas de mis funciones incluyen:",
+        "3": "**Moderación facil** (`Kick/ban masivo, eliminación de mensajes en masa, logs y más!`)",
+        "4": "**Comandos divertidos y útiles**, revisa `~>help remindme` o `~>help hug` para ejemplos.",
+        "5": "**Música de calidad**, revisa `~>music`!.",
+        "support": "**[Servidor de soporte](https://discordapp.com/invite/cMTmuPa)! | [¡Ayuda al desarrollo de Mantaro!](https://www.patreon.com/mantaro)**",
+        "credits": "%1$sRevisa ~>about credits!"
       },
       "patreon": {
-        "header": "**Mantaro's Patreon Pledgers**"
+        "header": "**Pledgers en Patreon**"
       },
       "credits": {
-        "main_dev": "Main developer",
-        "dev": "Developer",
-        "docs": "Documentation",
-        "translators": "Translators",
-        "community_admin": "Community Admin",
-        "special_mentions": "Thanks to bots.discord.pw, Carbonitex and discordbots.org for helping us with increasing the bot's visibility.",
-        "thank_note": "Much thanks to everyone above for helping make Mantaro better!"
+        "main_dev": "Desarrollador Principal",
+        "dev": "Desarrollador",
+        "docs": "Documentación",
+        "translators": "Traductores",
+        "community_admin": "Admin de la Comunidad",
+        "special_mentions": "Gracias a bots.discord.pw, Carbonitex y discordbots.org por ayudar a incrementar la visibilidad del bot.",
+        "thank_note": "¡Muchas gracias a todos nuestros usuarios por ayudarnos a hacer de Mantaro un mejor bot!"
       },
-      "version": "MantaroBot Version",
-      "uptime": "Uptime",
+      "version": "Versión de Mantaro",
+      "uptime": "Tiempo de Actividad",
       "shards": "Shards",
       "threads": "Threads",
-      "guilds": "Servers",
-      "users": "Users (Unique)",
-      "tc": "Text Channels",
-      "vc": "Voice Channels",
-      "invite": "Invite link: http://is.gd/mantaro (Commands this session: %1$,d | Current shard: %2$d)"
+      "guilds": "Servidores",
+      "users": "Usuarios Únicos",
+      "tc": "Canales de Texto",
+      "vc": "Canales de Voz",
+      "invite": "Invitación: http://is.gd/mantaro (Comandos esta sesión: %1$,d | Shard actual: %2$d)"
     },
     "invite": {
-      "url": "Invite URL",
-      "server": "Support Server",
+      "url": "URL de invitación instantánea",
+      "server": "Servidor de Soporte",
       "patreon": "Patreon URL",
       "description" : {
-        "1": "Here are some useful links!",
-        "2": "**If you have any questions about the bot, feel free to join the support guild and ask**!.",
-        "3": "We provided a patreon link in case you would like to help Mantaro keep running by donating [and getting perks by doing so!].",
-        "4": "Thanks you in advance for using the bot! **<3 from the developers**"
+        "1": "¡Aquí hay algunos links útiles!",
+        "2": "¡**Si tienes preguntas sobre el bot, sientete libre de unirte al servidor de soporte y preguntar**!.",
+        "3": "Pusimos un link de patreon por si quieres ayudar al desarrollo del bot [¡y conseguir perks haciendolo!].",
+        "4": "¡Muchas gracias por usar el bot! **<3 de parte de los desarrolladores y el team de Mantaro**"
       },
-      "footer": "We hope you have fun with the bot."
+      "footer": "Esperamos que te diviertas con Mantaro."
     },
     "stats": {
-      "header": "Mantaro Statistics",
-      "description": "Well... I did my math!",
+      "header": "Estadísticas de Mantaro",
+      "description": "Bueno... ¡Hice mi tarea de mates!",
       "usage": {
-        "header": "Mantaro's usage information",
-        "description": "Hardware and usage information.",
-        "threads": "Threads",
-        "memory_usage": "Memory Usage",
-        "cores": "CPU Cores",
-        "cpu_usage": "CPU Usage",
-        "assigned_mem": "Assigned Memory",
-        "assigned_remaining": "Remaining from assigned"
+        "header": "Información de uso de hardware",
+        "description": "Información de uso de hardware.",
+        "threads": "Hilos",
+        "memory_usage": "Uso de Memoria",
+        "cores": "Hilos de CPU",
+        "cpu_usage": "Uso de CPU",
+        "assigned_mem": "Memoria Asignada",
+        "assigned_remaining": "Remanente de Memoria"
       },
       "server": {
-        "header": "Mantaro's server usage information",
-        "cpu_usage": "CPU Usage",
-        "rem": "RAM (TOTAL/FREE/USED)"
+        "header": "Información de uso del Servidor",
+        "cpu_usage": "Uso de CPU",
+        "rem": "RAM (TOTAL/LIBRE/USADA)"
       },
-      "users_guild": "Users per Guild",
-      "online_users_guild": "Online Users per Guild",
-      "online_users_users_guild": "Online Users per Users per Server",
-      "tc_server": "Text Channels per Server",
-      "vc_server": "Voice Channels per Server",
-      "music_user_server": "Music Listeners per Users per Server",
-      "music_online_user_server": "Music Listeners per Online Users per Server",
-      "music_server": "Music Connections per Server",
-      "queue_size": "Total queue size",
-      "commands": "Total commands (including custom)",
-      "exclusiveness": "Exclusiveness in Total Servers",
-      "big_servers": "Big Servers",
-      "milestone": "! Guilds to next milestone (%1$s): %2$s"
+      "users_guild": "Usuarios por Servidor",
+      "online_users_guild": "Usuarios online por servidor",
+      "online_users_users_guild": "Usuarios Online por usuarios por servidor",
+      "tc_server": "Canales de texto por servidor",
+      "vc_server": "Canales de voz por servidor",
+      "music_user_server": "Personas escuchando musica por usuarios por servidor",
+      "music_online_user_server": "Personas escuchando musica por usuarios conectados por servidor",
+      "music_server": "Conexiones de música por servidor",
+      "queue_size": "Tamaño total de la cola de música",
+      "commands": "Comandos totales (incluyendo personalizados)",
+      "exclusiveness": "Exclusividad por servidores totales",
+      "big_servers": "Servidores Grandes (>500 usuarios)",
+      "milestone": "! Servidores para el proximo milestone (%1$s): %2$s"
     },
     "social": {
-      "header": "%1$sO-Oh, I see you're interested on seeing my social networks!\n\n",
+      "header": "%1$sO-Oh, ¡Veo que estás interesado en revisar mis redes sociales!\n\n",
       "description": {
-        "1": "W-Well, here we go!",
-        "2": "**- Website:** <%1$s>"
+        "1": "¡Allí vamos!",
+        "2": "**- Sitio Web:** <%1$s>"
       },
-      "note": "**If you like Mantaro, please upvote on** <https://discordbots.org/bot/mantaro> **and/or consider donating on Patreon or Paypal! Thanks you~**"
+      "note": "**¡Si te gusta Mantaro, considera darnos like en** <https://discordbots.org/bot/mantaro> **o considera donar en Patreon o Paypal! Gracias~**"
     },
     "avatar": {
-      "result": "%1$sAvatar for: **%2$s**\n%3$s"
+      "result": "%Avatar de: **%2$s**\n%3$s"
     },
     "serverinfo": {
-      "header": "Server Information",
-      "description": "Server information for %1$s",
-      "users": "Users (Online/Unique)",
-      "created": "Creation Date",
-      "channels": "Voice/Text Channels",
-      "owner": "Owner",
+      "header": "Información del Servidor",
+      "description": "Información de %1$s",
+      "users": "Usuarios (Conectados/Totales)",
+      "created": "Fecha de Creación",
+      "channels": "Canales de voz/texto",
+      "owner": "Dueño",
       "region": "Region",
       "roles": "Roles (%1$d)",
-      "id_show": "Server ID: %1$s"
+      "id_show": "ID del servidor: %1$s"
     },
     "userinfo": {
-      "header": "User info for %1$s1%2$s",
+      "header": "Información del usuario %1$s1%2$s",
       "roles": "Roles: [%1$d]",
-      "id": "User ID",
-      "join_date": "Join Date",
-      "created": "Account Created",
-      "account_age": "Account Age",
-      "mutual_guilds": "Mutual Guilds",
-      "vc": "Voice Channel",
-      "playing": "Playing Now",
+      "id": "ID del Usuario",
+      "join_date": "Fecha de Union",
+      "created": "Cuenta Creada",
+      "account_age": "Edad de la Cuenta",
+      "mutual_guilds": "Servidores en Común",
+      "vc": "Canal de Voz",
+      "playing": "Reproduciendo Ahora",
       "color": "Color",
       "status": "Status",
-      "nothing": "Nothing",
-      "default": "Default"
+      "nothing": "Nada",
+      "default": "Por defecto"
     },
     "roleinfo": {
-      "header": "Role info for %1$s",
-      "id": "Role ID",
-      "created": "Role Created",
-      "age": "Role Age",
+      "header": "Información del rol %1$s",
+      "id": "ID del Rol",
+      "created": "Rol creado",
+      "age": "Edad del rol",
       "color": "Color",
-      "members": "Members",
-      "position": "Position",
-      "hoisted": "Hoisted",
-      "managed": "Managed",
-      "permissions": "Permissions: [%1$d]"
+      "members": "Miembros",
+      "position": "Posición",
+      "hoisted": "Separado",
+      "managed": "Manejado",
+      "permissions": "Permisos: [%1$d]"
     },
     "donate": {
-      "beg": "%1$sOh hi! If you are interested in donating, please check the links below. Running Mantaro takes time and money, and every dollar is highly appreciated!\n\n%2$s",
-      "methods": "**Donation Methods**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
+      "beg": "%1$s¡Oh!, Hola. Si estás interesado/a en donar, clickea en los links de abajo. Correr Mantaro toma tiempo y dinero, y cualquier dinero que puedan donar será muy apreciado!\n\n%2$s",
+      "methods": "**Métodos de Donación**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
     },
     "help": {
-      "title": "Mantaro Help",
-      "base": "Command list. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
-      "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://is.gd/mantaroguild)\n",
-      "patreon": "[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)",
-      "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
-      "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
-      "footer": "To check command usage, type %1$shelp <command> // -> Commands: %2$s",
-      "commands": "Commands",
+      "title": "Ayuda de Mantaro",
+      "base": "Lista de comandos. Para una guía detallada de como usar Mantaro, revisa la [wiki](https://github.com/Mantaro/MantaroBot/wiki) (sólo en inglés).\n",
+      "support": "Si tienes dudas o problemas usando Mantaro, puedes pedir ayuda en el [servidor de soporte](https://is.gd/mantaroguild)\n",
+      "patreon": "[¡Necesitamos tu ayuda para mantener Mantaro a flote! Clickea aquí para más info.](https://www.patreon.com/mantaro)",
+      "disabled_commands": "Solo mostrando los comandos habilitados. Comandos deshabilitados: %1$s",
+      "channel_specific_disabled_commands": "\nSolo mostrando los comandos habilitados. Comandos deshabilitados en este canal: %1$s",
+      "footer": "Para revisar el uso de un comando, ejecuta %1$shelp <command> // -> Comandos: %2$s",
+      "commands": "Comandos",
       "extended": {
-        "no_help": "%1$sThere's no extended help set for this command.",
-        "not_found": "%1$sA command with this name doesn't exist"
+        "no_help": "%1$sNo hay ayuda extendida para este comando.",
+        "not_found": "%1$sNo hay ningún comando con ese nombre."
       }
     },
     "anime": {
-      "selection_start": "Type the number of the anime you want to select.",
-      "information_footer": "Information provided by Anilist. Type &cancel to cancel.",
-      "no_results": "%1$sNo results found...",
-      "malformed_result": "%1$sWe got a wrong API result for this specific search. Maybe try another one?",
-      "error": "%1$s**I swear I didn't drop your favorite anime!**\nWe received a ``%2$s`` while trying to process the command.",
-      "information_header": "Anime information for %1$s",
-      "information_notice": "Information provided by AniList.",
-      "airing": "Airing",
-      "release_date": "Release date",
-      "end_date": "End date",
-      "average_score": "Average score",
-      "type": "Type",
-      "episodes": "Episodes",
-      "episode_duration": "Episode Duration",
-      "genres": "Genres",
-      "minutes": "minutes"
+      "selection_start": "Envía el numero del anime que deseas revisar.",
+      "information_footer": "Información proporcionada por AniList. Envía &cancel para cancelar.",
+      "no_results": "%1$sNingún resultado encontrado...",
+      "malformed_result": "%1$sEncontré un resultado incorrecto en la API para este anime. ¿Puedes intentar con otro término de búsqueda?",
+      "error": "%1$s**¡Juro que no tiré tu anime favorito!**\nRecibí ``%2$s`` mientras intentaba procesar esto. (error interno)",
+      "information_header": "Información del anime %1$s",
+      "information_notice": "Información proporcionada por AniList.",
+      "airing": "Al aire",
+      "release_date": "Fecha de Estreno",
+      "end_date": "Fecha de Término",
+      "average_score": "Puntuación Media",
+      "type": "Tipo",
+      "episodes": "Episodios",
+      "episode_duration": "Duración de los episodios",
+      "genres": "Géneros",
+      "minutes": "minutos"
     },
     "character": {
-      "selection_start": "Type the number of the character you want to select.",
-      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got ``%2$s`` while trying to process this command.",
-      "information_header": "Character information for %1$s",
-      "information": "Information",
-      "no_aliases": "No aliases",
-      "alias_start": "Also known as:",
-      "no_info": "No info."
+      "selection_start": "Envía el numero del personaje que deseas revisar.",
+      "error": "%1$s**¡Juro que no ignoré a tu waifu!**\nEncontré ``%2$s`` mientras procesaba esto. (error interno)",
+      "information_header": "Información del personaje %1$s",
+      "information": "Información",
+      "no_aliases": "Sin alias",
+      "alias_start": "También conocido como:",
+      "no_info": "Sin información."
     },
     "balance": {
-      "external_balance": "%1$s's balance is **$%2$s.**",
-      "own_balance": "Your balance is **$%1$s.**"
+      "external_balance": "El balance de %1$s es **$%2$s.**",
+      "own_balance": "Tu balance es **$%1$s.**"
     },
     "daily": {
-      "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
-      "about_now": "about now",
+      "check": "%1$sPodrás acumular tus créditos diarios en: **%2$s.**",
+      "about_now": "ahorita",
       "errors": {
-        "bot": "%1$sYou cannot transfer your daily to a bot!",
-        "receipt_locked": "That user cannot receive daily credits now.",
-        "own_locked": "You cannot receive your daily now."
+        "bot": "%1$sNo puedes transferirle tus créditos diarios a un bot.",
+        "receipt_locked": "Ese usuario no puede recibir créditos ahora mismo.",
+        "own_locked": "No puedes recibir créditos ahora mismo."
       },
       "streak": {
-        "up": "Streak up! Current streak: `%1$sx`",
-        "first_time": "First time claiming daily, have fun! (Come back for your streak tomorrow!)",
-        "lost_streak": "2+ days have passed since your last daily, so your streak got reset :(\nOld streak: `%1$dx`",
-        "bonus": "\nYou won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)",
+        "up": "¡Subiste tu racha! Racha actual: `%1$sx`",
+        "first_time": "Primera vez que sacas tus créditos diarios, ¡diviertete! (¡Vuelve mañana para aumentar tu racha!)",
+        "lost_streak": "Más de 2 dias han pasado desde que acumulaste tus créditos diarios por ultima vez, por lo que tu racha ha vuelto a 1 :(\nRacha antigua: `%1$dx`",
+        "bonus": "\n¡Ganaste un bonus de $%1$s por acumular tus créditos diarios por 5 días seguidos o más! (Va incluido en el dinero que se muestra)",
         "given": {
           "up": "Streak up! Current streak: `%1$dx`.\n*The streak was applied to your profile!*",
-          "bonus": "%1$s won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)"
+          "bonus": "¡%1$s ganó un bonus de $%1$s por acumular tus créditos diarios por 5 días seguidos o más! (Va incluido en el dinero que se muestra)"
         }
       },
-      "given_credits": "%1$sI gave your **$%2$s** daily credits to %3$s\n\n%4$s",
-      "credits": "%1$sYou got **$%2$s** daily credits.\n\n%3$s"
+      "given_credits": "%1$sLe di tus **$%2$s** creditos diarios a %3$s\n\n%4$s",
+      "credits": "%1$sAcumulaste **$%2$s** creditos diarios.\n\n%3$s"
     },
     "gamble": {
-      "no_credits": "%1$sYou're broke. Search for some credits first!",
-      "too_much_money": "You have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs! Thanks for not breaking the local bank. *(Gamble limit: %1$d credits)*",
-      "invalid_money_or_modifier": "%1$sPlease type a valid number less than or equal to your current balance or `all` to gamble all your credits.",
-      "not_enough_money": "%1$sPlease type a value within your balance.",
-      "invalid_percentage": "%1$sPlease type a valid percentage value.",
-      "confirmation_message": "%1$sYou're about to bet **%2$d** credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.",
-      "cancelled_bet": "%1$sCancelled bet.",
-      "win": "%1$sCongrats, you won %2$d credits and got to keep what you had!",
-      "win_overflow": "%1$sCongrats, you won %2$d credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.",
-      "lose": "%1$sSadly, you lost %2$s credits! %3$s",
-      "lose_all": "all of your",
-      "credits": "credits"
+      "no_credits": "%1$s¡Estás quebrado! Acumula algunos créditos antes de intentar denuevo",
+      "too_much_money": "¡Tienes mucho dinero! ¿Por qué no transfieres el dinero o compras items? ¡Ahora también puedes usar `~>slots` para todas tus necesidades de juegos de azar! *(Límite de dinero para apostar: %1$d créditos)*",
+      "invalid_money_or_modifier": "%1$sPor favor especifica un número mayor o igual al de los créditos que posees o `all` para apostar todos tus créditos.",
+      "not_enough_money": "%1$sPor favor especifica un número dentro de tu balance de dinero.",
+      "invalid_percentage": "%1$sPor favor especifica un porcentaje válido.",
+      "confirmation_message": "%1$sEstás a punto de apostar **%2$d** créditos (lo cual me parece mucho). ¿Estás seguro/a? Escribe **yes** para continuar y **no** para cancelar.",
+      "cancelled_bet": "%1$sApuesta cancelada.",
+      "win": "%1$sFelicidades, ganaste %2$d créditos y conservaste lo que tenías!",
+      "win_overflow": "%1$sFelicidades, ganaste %2$d créditos. Pero ya tenias muchos creditos. Tu bolsa explotó.",
+      "lose": "%1$sLamentablemente, perdiste %2$s créditos! %3$s",
+      "lose_all": "todos tus",
+      "credits": "créditos"
     },
     "loot": {
-      "player_locked": "%1$sYou cannot loot now.",
-      "item_overflow": "But you already had too many items, so you decided to throw away the excess.",
+      "player_locked": "%1$sNo puedes lootear ahora mismo.",
+      "item_overflow": "Pero ya tenias muchos items, así que tiramos el exceso.",
       "with_item": {
-        "found": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits!** %4$s",
-        "found_but_overflow": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits.**%4$sBut you already had too many credits.",
-        "found_only_item_but_overflow": "%1$sDigging through messages, you found %2$s. %3$s"
+        "found": "%1$sCavando entre los mensajes, encontraste %2$s, y además **$%3$d créditos!** %4$s",
+        "found_but_overflow": "%1$sCavando entre los mensajes, encontraste %2$s, y además **$%3$d créditos.**%4$sPero ya tenías muchos creditos, así que doné el exceso.",
+        "found_only_item_but_overflow": "%1$sCavando entre los mensajes, encontraste %2$s. %3$s"
       },
       "without_item": {
-        "found": "%1$sDigging through messages, you found **$%2$s credits!**",
-        "found_but_overflow_no_item": "%1$sDigging through messages, you found **$%2$d credits.** But you already had too many credits."
+        "found": "%1$sCavando entre los mensajes, you found **$%2$s credits!**",
+        "found_but_overflow_no_item": "%1$sCavando entre los mensajes, encontraste **$%2$d créditos.** Pero ya tenías muchos creditos, así que doné el exceso."
       },
-      "dust": "Digging through messages, you found nothing but dust",
-      "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
+      "dust": "Cavando entre los mensajes, sólo lograste encontrar algo de polvo acumulado.",
+      "easter": "\n¡Parece que hay mucho polvo por aquí! Te recomendaría limpiar un poquito esto..."
     },
     "mine": {
-      "no_pick": "%1$sYou don't have any pick to mine!",
-      "success": "%1$sYou mined minerals worth **$%2$s credits!**",
+      "no_pick": "%1$sNo tienes ningún pico para minar!",
+      "success": "%1$sMinastes piedras preciosas con un valor de **$%2$s créditos!**",
       "diamond": {
-        "overflow": "\nHuh, you found a diamond while mining, but you already had too much, so we sold it for you!",
-        "success": "\nHuh! You got lucky and found a diamond while mining, check your inventory!"
+        "overflow": "\n¡Huh, encontraste un diamante minando! Pero ya tenías muchos diamantes, así que lo vendí por ti.",
+        "success": "\n¡Huh, tuviste suerte y encontraste un diamante mientras minabas! Revisa tu inventario."
       },
-      "pick_broke": "%1$sOne of your picks broke while mining."
+      "pick_broke": "%1$sLamentablemente, uno de tus picos se quebró mientras minabas."
     },
     "slots": {
       "errors" : {
-        "amount_not_ticket": "%1$sYou cannot specify how many tickets you're gonna use if you're not using tickets!",
-        "not_enough_tickets": "%1$sYou don't have enough slots tickets!",
-        "too_much_money": "%1$sThis machine cannot dispense that much money!",
-        "not_enough_money": "%1$sYou don't have enough money to play the slots machine!",
-        "below_minimum": "%1$sThe minimum amount is 25!",
-        "no_tickets": "%1$sYou wanted to use tickets but you don't have any :<",
-        "no_amount": "%1$sYou didn't specify the amount!"
+        "amount_not_ticket": "%1$s¡No puedes especificarme cuantos tickets vas a usar si no estas usando tickets!",
+        "not_enough_tickets": "%1$sNo tienes suficientes tickets.",
+        "too_much_money": "%1$sEste tragamonedas no acepta tanto dinero.",
+        "not_enough_money": "%1$sNo tienes suficiente dinero para usar el tragamonedas.",
+        "below_minimum": "%1$s¡El monto mínimo son 25 créditos!",
+        "no_tickets": "%1$sQuerías usar tickets pero no tienes ninguno :(",
+        "no_amount": "%1$sNo especificaste el monto."
       },
-      "roll": "%1$s**You used %2$s and rolled the slot machine!**\n",
-      "win": "And you won **%1$d** credits and got to keep what you bet (%2$d credits)! Lucky!",
-      "lose": "And you lost %1$s\nI hope you do better next time!",
-      "tickets": "slots ticket(s)",
-      "credits": "credits"
+      "roll": "%1$s**Usaste %2$s y iniciaste la máquina tragamonedas**\n",
+      "win": "Y ganaste **%1$d** créditos y conservaste tu apuesta (%2$d créditos) ¡Suertudo/a!",
+      "lose": "Y perdiste %1$s\n¡Espero que te vaya mejor a la próxima!",
+      "tickets": "tickets de la máquina tragamonedas",
+      "credits": "créditos"
     },
     "leaderboard": {
-      "money": "Money Leaderboard (Top 10)",
-      "reputation": "Reputation Leaderboard (Top 10)",
-      "daily": "Daily Streak Leaderboard (Top 10)",
-      "level": "Level leaderboard (Top 10)",
-      "game": "Game Wins leaderboard (Top 10)",
+      "money": "Tabla de clasificación de créditos (Top 10)",
+      "reputation": "Tabla de clasificación de reputación (Top 10)",
+      "daily": "Tabla de clasificación de racha (Top 10)",
+      "level": "Tabla de clasificación de nivel (Top 10)",
+      "game": "Tabla de clasificación de juegos (Top 10)",
       "inner": {
-        "experience": "Experience"
+        "experience": "Experiencia"
       }
     }
   },

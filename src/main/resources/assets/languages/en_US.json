@@ -824,10 +824,10 @@
     "about": {
       "title": "About Mantaro",
       "description": {
-        "1": "Hello, I'm **MantaroBot**! I'm here to make your life a little easier. To get started, type `~>help`!",
+        "1": "Hello, I'm **Mantaro**! I'm here to make your life a little easier. To get started, type `~>help`!",
         "2": "Some of my features include:",
         "3": "**Moderation made easy** (`Mass kick/ban, prune commands, logs and more!`)",
-        "4": "**Funny and useful commands**, see `~>help anime` or `~>help hug` for examples.",
+        "4": "**Funny and useful commands**, see `~>help remindme` or `~>help hug` for examples.",
         "5": "**First quality music**, check out `~>music`!.",
         "support": "**[Support server](https://discordapp.com/invite/cMTmuPa)! | [Support Mantaro development!](https://www.patreon.com/mantaro)**",
         "credits": "%1$sCheck ~>about credits!"
@@ -862,7 +862,7 @@
         "1": "Here are some useful links!",
         "2": "**If you have any questions about the bot, feel free to join the support guild and ask**!.",
         "3": "We provided a patreon link in case you would like to help Mantaro keep running by donating [and getting perks by doing so!].",
-        "4": "Thanks you in advance for using the bot! **<3 from the developers**"
+        "4": "Thanks you for using the bot! **<3 from the developers and the Mantaro team**"
       },
       "footer": "We hope you have fun with the bot."
     },
@@ -895,7 +895,7 @@
       "queue_size": "Total queue size",
       "commands": "Total commands (including custom)",
       "exclusiveness": "Exclusiveness in Total Servers",
-      "big_servers": "Big Servers",
+      "big_servers": "Big Servers (>500 users)",
       "milestone": "! Guilds to next milestone (%1$s): %2$s"
     },
     "social": {
@@ -969,8 +969,8 @@
       "selection_start": "Type the number of the anime you want to select.",
       "information_footer": "Information provided by Anilist. Type &cancel to cancel.",
       "no_results": "%1$sNo results found...",
-      "malformed_result": "%1$sWe got a wrong API result for this specific search. Maybe try another one?",
-      "error": "%1$s**I swear I didn't drop your favorite anime!**\nWe received a ``%2$s`` while trying to process the command.",
+      "malformed_result": "%1$sI got a wrong API result for this specific search. Maybe try with another search term?",
+      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a ``%2$s`` while trying to process the command. (internal error)",
       "information_header": "Anime information for %1$s",
       "information_notice": "Information provided by AniList.",
       "airing": "Airing",
@@ -985,7 +985,7 @@
     },
     "character": {
       "selection_start": "Type the number of the character you want to select.",
-      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got ``%2$s`` while trying to process this command.",
+      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got ``%2$s`` while trying to process this command. (internal error)",
       "information_header": "Character information for %1$s",
       "information": "Information",
       "no_aliases": "No aliases",
@@ -1026,7 +1026,7 @@
       "confirmation_message": "%1$sYou're about to bet **%2$d** credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.",
       "cancelled_bet": "%1$sCancelled bet.",
       "win": "%1$sCongrats, you won %2$d credits and got to keep what you had.",
-      "win_overflow": "%1$sCongrats, you won %2$d credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.",
+      "win_overflow": "%1$sCongrats, you won %2$d credits. But you already had too many credits. Your bag overflowed.",
       "lose": "%1$sSadly, you lost %2$s credits. %3$s",
       "lose_all": "all of your",
       "credits": "credits"
@@ -1036,12 +1036,12 @@
       "item_overflow": "But you already had too many items, so you decided to throw away the excess.",
       "with_item": {
         "found": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits!** %4$s",
-        "found_but_overflow": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits.**%4$sBut you already had too many credits.",
+        "found_but_overflow": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits.**%4$sBut you already had too many credits, so I donated the excess.",
         "found_only_item_but_overflow": "%1$sDigging through messages, you found %2$s. %3$s"
       },
       "without_item": {
         "found": "%1$sDigging through messages, you found **$%2$s credits!**",
-        "found_but_overflow_no_item": "%1$sDigging through messages, you found **$%2$d credits.** But you already had too many credits."
+        "found_but_overflow_no_item": "%1$sDigging through messages, you found **$%2$d credits.** But you already had too many credits, so I donated the excess."
       },
       "dust": "Digging through messages, you found nothing but dust",
       "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"

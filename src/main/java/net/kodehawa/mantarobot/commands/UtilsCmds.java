@@ -316,7 +316,7 @@ public class UtilsCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.nothing_specified"), EmoteReference.ERROR).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.nothing_specified"), EmoteReference.WARNING).queue();
                     return;
                 }
 
