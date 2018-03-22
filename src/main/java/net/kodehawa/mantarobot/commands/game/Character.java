@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.utils.Anilist;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -41,7 +42,6 @@ import java.util.List;
 @Slf4j(topic = "Game [Character]")
 public class Character extends ImageGame {
     private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
-    private final String authToken = AnimeCmds.authToken;
     @Getter
     private final int maxAttempts = 10;
     private String characterName;
@@ -83,11 +83,7 @@ public class Character extends ImageGame {
 
             characterNameL = new ArrayList<>();
             characterName = CollectionUtils.random(NAMES.get());
-            String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(characterName, "UTF-8"), authToken);
-            String json = Utils.wget(url, null);
-
-            CharacterData character = CharacterData.fromJsonFirst(json);
-            String imageUrl = character.getMedImageUrl();
+            String imageUrl = Anilist.searchCharacters(characterName).get(0).image().large();
 
             //Allow for replying with only the first name of the character.
             if(characterName.contains(" ") && !characterName.contains("Sailor")) {

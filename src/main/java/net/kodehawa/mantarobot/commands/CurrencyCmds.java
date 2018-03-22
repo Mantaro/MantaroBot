@@ -555,6 +555,11 @@ public class CurrencyCmds {
 
                 if(!handleDefaultRatelimit(rl, event.getAuthor(), event)) return;
 
+                if(Items.fromAnyNoId(args[0]) != null) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.item_transfer"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 long toSend; // = 0 at the start
 
                 try {

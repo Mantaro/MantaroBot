@@ -58,6 +58,7 @@ public class ImageCmds {
     private final ImageBoard<Rule34Image> rule34 = DefaultImageBoards.RULE34;
     private final ImageBoard<SafebooruImage> safebooru = DefaultImageBoards.SAFEBOORU; //safebooru.org, not the danbooru one.
     private final ImageBoard<YandereImage> yandere = DefaultImageBoards.YANDERE;
+    private final WeebAPIRequester weebAPIRequester = new WeebAPIRequester();
 
     @Subscribe
     public void cat(CommandRegistry cr) {
@@ -67,15 +68,9 @@ public class ImageCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 try {
-                    Request r = new Request.Builder()
-                            .url("http://random.cat/meow")
-                            .build();
-
-                    Response response = httpClient.newCall(r).execute();
-
-                    String url = new JSONObject(response.body().string()).getString("file");
-                    response.close();
-                    event.getChannel().sendFile(CACHE.getFile(url), "cat.jpg",
+                    Pair<String, String> result = weebAPIRequester.getRandomImageByType("animal_cat", false, null);
+                    String url = result.getKey();
+                    event.getChannel().sendFile(CACHE.getFile(url), "cat-" + result.getValue() + ".png",
                             new MessageBuilder().append(EmoteReference.TALKING).append(
                                     CollectionUtils.random(catResponses).replace("%mention%", event.getAuthor().getName())
                             ).build()).queue();
@@ -96,9 +91,6 @@ public class ImageCmds {
     @Subscribe
     public void catgirls(CommandRegistry cr) {
         cr.register("catgirl", new SimpleCommand(Category.IMAGE) {
-
-            final WeebAPIRequester requester = new WeebAPIRequester();
-
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 boolean nsfw = args.length > 0 && args[0].equalsIgnoreCase("nsfw");
@@ -107,7 +99,7 @@ public class ImageCmds {
                     return;
 
                 try {
-                    Pair<String, String> result = requester.getRandomImageByType("neko", nsfw, null);
+                    Pair<String, String> result = weebAPIRequester.getRandomImageByType("neko", nsfw, null);
                     String image = result.getKey();
 
                     if(image == null) {

@@ -87,4 +87,6 @@ public class GuildData {
     private HashMap<String, List<String>> roleSpecificDisabledCommands = new HashMap<>();
     private String lang = "en_US";
     private boolean musicVote = true;
+    private List<String> extraJoinMessages = new ArrayList<>();
+    private List<String> extraLeaveMessages = new ArrayList<>();
 }

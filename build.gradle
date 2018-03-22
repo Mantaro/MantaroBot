@@ -18,6 +18,16 @@
 //Imports
 import org.apache.tools.ant.filters.ReplaceTokens
 
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.apollographql.apollo:apollo-gradle-plugin:0.4.4'
+    }
+}
+
 //Plugins
 plugins {
 	//Compiles Java
@@ -32,6 +42,9 @@ plugins {
 	//Tell me when smth is outdated
 	id 'com.github.ben-manes.versions' version '0.16.0'
 }
+
+//graphql
+apply plugin: 'com.apollographql.android'
 
 //Define the Main Class
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
@@ -99,20 +112,63 @@ dependencies {
 
 	//Basically for FinderUtil
 	compile 'com.jagrosh:JDA-Utilities:1.9'
+
+	compile 'com.github.natanbc:usage-tracker:0.1.1'
+
+    compile 'com.apollographql.apollo:apollo-runtime:0.4.4'
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '3.2'
+	gradleVersion = '4.6'
 }
 
 tasks.withType(JavaCompile) {
-	options.compilerArgs << "-Xlint:deprecation"
+	options.compilerArgs <<
+            "-Xlint:deprecation" <<
+            "-Xlint:unchecked" <<
+            "-Xlint:divzero" <<
+            "-Xlint:cast" <<
+            "-Xlint:empty" <<
+            "-Xlint:fallthrough" <<
+            "-Xlint:finally" <<
+            "-Xlint:overrides"
 	options.encoding = 'UTF-8'
+}
+
+compileJava.dependsOn.remove(generateApolloClasses)
+
+clean {
+    delete = []
+    def file = new File("build")
+    if(file.listFiles() != null) {
+        file.listFiles().each {
+            if(it.name == "generated") {
+                if(it.listFiles() != null) {
+                    it.listFiles().each {
+                        if(it.name == "source") {
+                            if(it.listFiles() != null) {
+                                it.listFiles().each {
+                                    if(it.name != "apollo") {
+                                        delete it.name
+                                    }
+                                }
+                            }
+                        } else {
+                            delete it.name
+                        }
+                    }
+                }
+            } else {
+                delete it.name
+            }
+        }
+    }
 }
 
 //Task for the versioning system
 task prepareSource(type: Copy) {
 	from 'src/main/java'
+    from 'build/generated/source/apollo/'
 	into 'build/prepared-src'
 	filter(ReplaceTokens, tokens: [
 		version: ver.toString()

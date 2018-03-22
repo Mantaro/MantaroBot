@@ -164,8 +164,17 @@ public class MusicCmds {
                     try {
                         new URL(content);
                     } catch(Exception e) {
-                        if(content.startsWith("soundcloud"))
-                            content = ("scsearch: " + content).replace("soundcloud ", "");
+                        if(content.startsWith("sonudcloud")) {
+                            String name = content.substring("soundcloud".length()).trim();
+                            if(name.isEmpty()) {
+                                event.getChannel().sendMessageFormat(
+                                        languageContext.get("commands.music_general.soundcloud_no_args"),
+                                        EmoteReference.ERROR
+                                ).queue();
+                                return;
+                            }
+                            content = "scsearch: " + content;
+                        }
                         else content = "ytsearch: " + content;
                     }
 
@@ -179,7 +188,7 @@ public class MusicCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Play Now command")
-                        .setDescription("**Puts a song on the front of the queue and plays it inmediatly**")
+                        .setDescription("**Puts a song on the front of the queue and plays it immediately**")
                         .build();
             }
         });
@@ -261,7 +270,17 @@ public class MusicCmds {
                 try {
                     new URL(content);
                 } catch(Exception e) {
-                    if(content.startsWith("soundcloud")) content = ("scsearch: " + content).replace("soundcloud ", "");
+                    if(content.startsWith("soundcloud")) {
+                        String name = content.substring("soundcloud".length()).trim();
+                        if(name.isEmpty()) {
+                            event.getChannel().sendMessageFormat(
+                                    languageContext.get("commands.music_general.soundcloud_no_args"),
+                                    EmoteReference.ERROR
+                            ).queue();
+                            return;
+                        }
+                        content = "scsearch: " + content;
+                    }
                     else content = "ytsearch: " + content;
                 }
 

@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Optional;
 
+@SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType"})
 public class Util {
     public static String bufferToString(ByteBuffer buf) {
         // This should only be used on ByteBuffers we've created by
@@ -20,6 +21,7 @@ public class Util {
         return new String(buf.array(), StandardCharsets.UTF_8);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T, P> T convertToPojo(Object value, Optional<Class<P>> pojoClass) {
         return !pojoClass.isPresent() || !(value instanceof Map)
                 ? (T) value

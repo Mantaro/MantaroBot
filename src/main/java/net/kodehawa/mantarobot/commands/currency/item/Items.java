@@ -23,6 +23,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.utils.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
@@ -42,7 +43,7 @@ public class Items {
             BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
             NECKLACE, ROSE,
             DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN, POTION_STAMINA, FISHING_ROD,
-            FISH_1, FISH_2, FISH_3;
+            FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4;
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.HOURS, 1);
@@ -105,7 +106,12 @@ public class Items {
             FISHING_ROD = new Item(ItemType.INTERACTIVE, "\uD83C\uDFA3","Fishing Rod", "Enables you to fish.", 65, true),
             FISH_1 = new Item(ItemType.COMMON, "\uD83D\uDC1F","Fish", "Common Fish. Caught in fishing", 10, false),
             FISH_2 = new Item(ItemType.COMMON, "\uD83D\uDC20","Tropical Fish", "Rare Fish. Caught in fishing", 30, false),
-            FISH_3 = new Item(ItemType.RARE, "\uD83D\uDC21","Blowfish", "Rarest Fish. You're extremely lucky if you actually got this.", 45, false)
+            FISH_3 = new Item(ItemType.RARE, "\uD83D\uDC21","Blowfish", "Rarest Fish. You're extremely lucky if you actually got this.", 45, false),
+            // ---------------------------------- 5.0 MINING ITEMS START HERE ----------------------------------
+            GEM_1 = new Item(ItemType.COMMON, "\u2604", "Comet Gem", "Fragments of a comet you found while mining. Useful for casting.", 40, false),
+            GEM_2 = new Item(ItemType.COMMON, EmoteReference.STAR.getUnicode(), "Star Gem", "Fragments of a fallen star you found while mining.", 45, false),
+            GEM_3 = new Item(ItemType.COMMON, "\uD83D\uDD78", "Cobweb", "Something a spider left over on the mine. Wonder if it's worth something.", 10, false),
+            GEM_4 = new Item(ItemType.COMMON, "\uD83D\uDCAB", "Gem Fragment", "Fragment of an ancient gem. Useful for casting", 50, false)
     };
 
     public static void setItemActions() {
@@ -308,24 +314,21 @@ public class Items {
     }
 
     private static void openLootBox(GuildMessageReceivedEvent event, boolean special) {
+        /*
         List<Item> toAdd = new ArrayList<>();
         int amtItems = r.nextInt(3) + 3;
         List<Item> items = new ArrayList<>(Arrays.asList(Items.ALL));
         items.removeIf(item -> item.isHidden() || !item.isBuyable() || !item.isSellable());
-        items.sort((o1, o2) -> {
-            if(o1.getValue() > o2.getValue())
-                return 1;
-            if(o1.getValue() == o2.getValue())
-                return 0;
-
-            return -1;
-        });
+        items.sort(Comparator.comparingLong(Item::getValue));
 
         if(!special) {
             for(Item i : Items.ALL) if(i.isHidden() || !i.isBuyable() || i.isSellable()) items.add(i);
         }
         for(int i = 0; i < amtItems; i++)
             toAdd.add(selectReverseWeighted(items));
+         */
+
+        List<Item> toAdd = selectItems(r.nextInt(3) + 3, special ? ItemType.LootboxType.RARE : ItemType.LootboxType.COMMON);
 
         Player player = MantaroData.db().getPlayer(event.getMember());
         ArrayList<ItemStack> ita = new ArrayList<>();
@@ -340,6 +343,7 @@ public class Items {
                 overflow ? ". But you already had too much, so you decided to throw away the excess" : "")).queue();
     }
 
+    /*
     private static Item selectReverseWeighted(List<Item> items) {
         Map<Integer, Item> weights = new HashMap<>();
         int weightedTotal = 0;
@@ -358,8 +362,8 @@ public class Items {
         }
         return null;
     }
+    */
 
-    //TODO finish implementing this i have to sleep now
     private static List<Item> selectItems(int amount, ItemType.LootboxType type) {
         List<Item> all = Arrays.stream(Items.ALL).filter(i->i.isBuyable() || i.isSellable()).collect(Collectors.toList());
 
@@ -376,24 +380,32 @@ public class Items {
                 .sorted(Comparator.comparingLong(i->i.value))
                 .collect(Collectors.toList());
 
-        int numCommon = 0, numRare = 0, numPremium = 0;
+        RandomCollection<Item> items = new RandomCollection<>();
 
+        //fallthrough intended
         switch(type) {
-            case COMMON: {
-                numCommon = amount;
-            } break;
-            case RARE: {
-                numRare = amount;
-            } break;
-            case PREMIUM: {
-
-            } break;
-            case EPIC: {
-
-            } break;
+            case EPIC:
+                throw new UnsupportedOperationException();
+            case PREMIUM:
+                premium.forEach(i->{
+                    items.add(2, i);
+                });
+            case RARE:
+                rare.forEach(i->{
+                    items.add(5, i);
+                });
+            case COMMON:
+                common.forEach(i->{
+                    items.add(20, i);
+                });
         }
 
-        return null;
+        List<Item> list = new ArrayList<>(amount);
+        for(int i = 0; i < amount; i++) {
+            list.add(items.next());
+        }
+
+        return list;
     }
 
     private static boolean handleStaminaPotion(Player p) {
