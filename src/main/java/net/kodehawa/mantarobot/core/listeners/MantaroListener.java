@@ -489,7 +489,7 @@ public class MantaroListener implements EventListener {
                                 return;
                             }
 
-                            //Yes, I know the check previously done is redundant, but in case someone decides to change the law of nature, it should do	.
+                            //Yes, I know the check previously done is redundant, but in case someone decides to change the laws of nature, it should do	.
                             event.getMessage().delete().queue();
                             event.getChannel().sendMessage(EmoteReference.ERROR + "**You cannot advertise here.** Deleted invite link sent by **" + author.getName() + "#" + author.getDiscriminator() + "**.").queue();
                         } else {
