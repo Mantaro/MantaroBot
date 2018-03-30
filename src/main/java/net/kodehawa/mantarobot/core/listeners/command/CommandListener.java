@@ -212,7 +212,7 @@ public class CommandListener implements EventListener {
                     String.format("%s%s\n(Error ID: `%s`)\n" +
                                     "If you want, join our **support guild** (Link on `~>about`), or check out our GitHub page (/Mantaro/MantaroBot). " +
                                     "Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
-                            EmoteReference.ERROR, boomQuotes[rand.nextInt(boomQuotes.length)], id)
+                            EmoteReference.ERROR, /*boomQuotes[rand.nextInt(boomQuotes.length)]*/ "hewwo hewwo we made a fucky wucky", id)
             ).queue();
 
             if(player.getData().addBadgeIfAbsent(Badge.FIRE))
