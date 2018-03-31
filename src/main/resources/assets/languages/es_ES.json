@@ -52,7 +52,7 @@
         "extra": "También encontraste %1$s, que suerte!"
       },
       "overflow": "%1$sEncontraste unos pescados, pero tu inventario está lleno, asi que no puedes recogerlos y los devuelves al agua.",
-      "success": "%1$sMientras pescabas calmadamente, encontraste %2$sx %3$s y los guardas en tu tarro para peces.",
+      "success": "%1$sMientras pescabas calmadamente, encontraste %2$s y los guardas en tu tarro para peces.",
       "rod_broke": "%1$sTu caña de pescar se ha roto mientras intentabas atrapar un pez :("
     },
     "softban": {

@@ -52,7 +52,7 @@
         "extra": "And you also found %1$s, lucky!"
       },
       "overflow": "%1$sYou found some fish, but your inventory was full, so we had to throw it back into the water...",
-      "success": "%1$sWhile calmly fishing, you found %2$sx %3$s and you proceed to save them into your fish bucket.",
+      "success": "%1$sWhile calmly fishing, you found %2$s and you proceed to save them into your bucket.",
       "rod_broke": "%1$sYour fishing rod broke while trying to catch a fish :("
     },
     "softban": {

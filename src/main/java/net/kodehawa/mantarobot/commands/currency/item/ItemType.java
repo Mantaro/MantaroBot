@@ -23,6 +23,8 @@ public enum ItemType {
     COMMON,
     //An item that's maybe a collectible, but that's harder to get than the rest.
     RARE,
+    //An item used in fishing mechanisms and memery :^)
+    FISHING,
     //An item that has an action attached to it.
     INTERACTIVE,
     //Guess.

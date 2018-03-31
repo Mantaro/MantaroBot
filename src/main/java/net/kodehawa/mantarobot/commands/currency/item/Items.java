@@ -104,9 +104,9 @@ public class Items {
             POTION_CLEAN = new Item(ItemType.INTERACTIVE, EmoteReference.POTION1.getUnicode(),"Milk Potion", "Clears all potion effects.", 45, true),
             POTION_STAMINA = new Item(ItemType.INTERACTIVE, EmoteReference.POTION2.getUnicode(),"Energy Beverage", "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.", 45, true),
             FISHING_ROD = new Item(ItemType.INTERACTIVE, "\uD83C\uDFA3","Fishing Rod", "Enables you to fish.", 65, true),
-            FISH_1 = new Item(ItemType.COMMON, "\uD83D\uDC1F","Fish", "Common Fish. Caught in fishing", 10, false),
-            FISH_2 = new Item(ItemType.COMMON, "\uD83D\uDC20","Tropical Fish", "Rare Fish. Caught in fishing", 30, false),
-            FISH_3 = new Item(ItemType.RARE, "\uD83D\uDC21","Blowfish", "Rarest Fish. You're extremely lucky if you actually got this.", 45, false),
+            FISH_1 = new Item(ItemType.FISHING, "\uD83D\uDC1F","Fish", "Common Fish. Caught in fishing", 10, false),
+            FISH_2 = new Item(ItemType.FISHING, "\uD83D\uDC20","Tropical Fish", "Rare Fish. Caught in fishing", 30, false),
+            FISH_3 = new Item(ItemType.FISHING, "\uD83D\uDC21","Blowfish", "Rarest Fish. You're extremely lucky if you actually got this.", 45, false),
             // ---------------------------------- 5.0 MINING ITEMS START HERE ----------------------------------
             GEM_1 = new Item(ItemType.COMMON, "\u2604", "Comet Gem", "Fragments of a comet you found while mining. Useful for casting.", 40, false),
             GEM_2 = new Item(ItemType.COMMON, EmoteReference.STAR.getUnicode(), "Star Gem", "Fragments of a fallen star you found while mining.", 45, false),
@@ -124,8 +124,6 @@ public class Items {
             if(!playerInventory.containsItem(FISHING_ROD))
                 return false;
 
-            //TODO plz repeat less code
-            //yes this uses a different random than the other thing
             if(r.nextInt(100) > (handleStaminaPotion(p) ? 90 : 80)) { //20% chance for the rod to break on usage (10% with stamina).
                 event.getChannel().sendMessageFormat(lang.get("commands.fish.rod_broke"), EmoteReference.SAD).queue();
                 playerInventory.process(new ItemStack(FISHING_ROD, -1));
@@ -137,6 +135,7 @@ public class Items {
                 if(select < 25) {
                     //we need to continue the dust meme
                     event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING).queue();
+                    return false;
                 } else if(select < 45) {
                     List<Item> common = Stream.of(ALL)
                             .filter(i -> i.getItemType() == ItemType.COMMON && !i.isHidden() && i.isSellable() && i.value < 45)
@@ -149,45 +148,31 @@ public class Items {
 
                     playerInventory.process(new ItemStack(selected, 1));
                     event.getChannel().sendMessageFormat(lang.get("commands.fish.trash.success"), EmoteReference.EYES, selected.getEmoji(), selected.getName()).queue();
-                } else if (select < 65) {
+                } else if (select > 45) {
+                    List<Item> fish = Stream.of(ALL)
+                            .filter(i -> i.getItemType() == ItemType.FISHING && !i.isHidden() && i.isSellable())
+                            .collect(Collectors.toList());
+                    RandomCollection<Item> fishItems = new RandomCollection<>();
+
                     int amount = random.nextInt(4);
+                    fish.forEach((item) -> fishItems.add(3, item));
 
-                    if(playerInventory.getAmount(FISH_1) + amount >= 5000) {
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.overflow"), EmoteReference.SAD).queue();
-                        return true;
+                    List<Item> list = new ArrayList<>(amount);
+                    for(int i = 0; i < amount; i++) {
+                        Item it = fishItems.next();
+
+                        //TODO make this fancy lol
+                        if(playerInventory.getAmount(it) >= 5000) continue;
+
+                        list.add(it);
                     }
 
-                    playerInventory.process(new ItemStack(FISH_1, amount));
-                    event.getChannel().sendMessageFormat(lang.get("commands.fish.success"), EmoteReference.POPPER, amount, FISH_1.getEmoji()).queue();
-                } else if (select < 85) {
-                    int amount = random.nextInt(2);
+                    ArrayList<ItemStack> ita = new ArrayList<>();
+                    list.forEach(item -> ita.add(new ItemStack(item, 1)));
 
-                    if(playerInventory.getAmount(FISH_2) + amount >= 5000) {
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.overflow"), EmoteReference.SAD).queue();
-                        return true;
-                    }
-
-
-                    playerInventory.process(new ItemStack(FISH_2, amount));
-                    event.getChannel().sendMessageFormat(lang.get("commands.fish.success"), EmoteReference.POPPER, amount, FISH_2.getEmoji()).queue();
-                } else {
-                    int amount = random.nextInt(2);
-                    Item selected = null;
-                    if(random.nextInt(25) > 20) {
-                        List<Item> rare = Stream.of(ALL)
-                                .filter(i -> i.getItemType() == ItemType.RARE && !i.isHidden() && i.isSellable())
-                                .collect(Collectors.toList());
-                        selected = rare.get(random.nextInt(rare.size()));
-                    }
-
-                    if(playerInventory.getAmount(FISH_3) + amount >= 5000 ) {
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.overflow"), EmoteReference.SAD).queue();
-                        return true;
-                    }
-
-                    playerInventory.process(new ItemStack(FISH_3, amount));
+                    playerInventory.process(ita);
                     event.getChannel().sendMessageFormat(lang.get("commands.fish.success"),
-                            EmoteReference.POPPER, amount, FISH_3.getEmoji(), (selected != null ? "\n" + String.format(lang.get("commands.fish.tier3.extra"), selected) : "")
+                            EmoteReference.POPPER, list.stream().map(Item::getEmoji).collect(Collectors.joining(", "))
                     ).queue();
                 }
 
@@ -314,20 +299,6 @@ public class Items {
     }
 
     private static void openLootBox(GuildMessageReceivedEvent event, boolean special) {
-        /*
-        List<Item> toAdd = new ArrayList<>();
-        int amtItems = r.nextInt(3) + 3;
-        List<Item> items = new ArrayList<>(Arrays.asList(Items.ALL));
-        items.removeIf(item -> item.isHidden() || !item.isBuyable() || !item.isSellable());
-        items.sort(Comparator.comparingLong(Item::getValue));
-
-        if(!special) {
-            for(Item i : Items.ALL) if(i.isHidden() || !i.isBuyable() || i.isSellable()) items.add(i);
-        }
-        for(int i = 0; i < amtItems; i++)
-            toAdd.add(selectReverseWeighted(items));
-         */
-
         List<Item> toAdd = selectItems(r.nextInt(3) + 3, special ? ItemType.LootboxType.RARE : ItemType.LootboxType.COMMON);
 
         Player player = MantaroData.db().getPlayer(event.getMember());
@@ -342,27 +313,6 @@ public class Items {
                 EmoteReference.LOOT_CRATE.getDiscordNotation(), toAdd.stream().map(Item::toString).collect(Collectors.joining(", ")),
                 overflow ? ". But you already had too much, so you decided to throw away the excess" : "")).queue();
     }
-
-    /*
-    private static Item selectReverseWeighted(List<Item> items) {
-        Map<Integer, Item> weights = new HashMap<>();
-        int weightedTotal = 0;
-
-        for(int i = 0; i < items.size(); i++) {
-            int t = items.size() - i;
-            weightedTotal += t;
-            weights.put(t, items.get(i));
-        }
-
-        final int[] selected = { r.nextInt(weightedTotal) };
-        for(Map.Entry<Integer, Item> i : weights.entrySet()) {
-            if((selected[0] -= i.getKey()) <= 0) {
-                return i.getValue();
-            }
-        }
-        return null;
-    }
-    */
 
     private static List<Item> selectItems(int amount, ItemType.LootboxType type) {
         List<Item> all = Arrays.stream(Items.ALL).filter(i->i.isBuyable() || i.isSellable()).collect(Collectors.toList());
@@ -387,15 +337,15 @@ public class Items {
             case EPIC:
                 throw new UnsupportedOperationException();
             case PREMIUM:
-                premium.forEach(i->{
+                premium.forEach(i-> {
                     items.add(2, i);
                 });
             case RARE:
-                rare.forEach(i->{
+                rare.forEach(i-> {
                     items.add(5, i);
                 });
             case COMMON:
-                common.forEach(i->{
+                common.forEach(i-> {
                     items.add(20, i);
                 });
         }
