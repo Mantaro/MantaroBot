@@ -869,11 +869,12 @@ public class MoneyCmds {
 
                     //top notch handling for gems, 10/10 implementation -ign
                     ItemStack selectedGem = new ItemStack(gem.get(r.nextInt(gem.size())), r.nextInt(5));
-                    if(player.getInventory().getAmount(selectedGem.getItem()) + selectedGem.getAmount() >= 5000) {
+                    Item itemGem = selectedGem.getItem();
+                    if(player.getInventory().getAmount(itemGem) + selectedGem.getAmount() >= 5000) {
                         message += languageContext.withRoot("commands", "mine.gem.overflow");
-                        money += selectedGem.getItem().getValue() * 0.9;
+                        money += itemGem.getValue() * 0.9;
                     } else {
-                        message += languageContext.withRoot("commands", "mine.gem.success");
+                        message += String.format(languageContext.withRoot("commands", "mine.gem.success"), itemGem.getEmoji() + " x" + selectedGem.getAmount());
                     }
 
                     player.getData().addBadgeIfAbsent(Badge.MINER);
