@@ -30,7 +30,9 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
+import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -61,6 +63,7 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
@@ -859,7 +862,22 @@ public class MoneyCmds {
                     player.getData().addBadgeIfAbsent(Badge.MINER);
                 }
 
-                //TODO add handling for gems.
+                if(r.nextInt(410) > 394) {
+                    List<Item> gem = Stream.of(Items.ALL)
+                            .filter(i -> i.getItemType() == ItemType.MINE && !i.isHidden() && i.isSellable())
+                            .collect(Collectors.toList());
+
+                    //top notch handling for gems, 10/10 implementation -ign
+                    ItemStack selectedGem = new ItemStack(gem.get(r.nextInt(gem.size())), r.nextInt(5));
+                    if(player.getInventory().getAmount(selectedGem.getItem()) + selectedGem.getAmount() >= 5000) {
+                        message += languageContext.withRoot("commands", "mine.gem.overflow");
+                        money += selectedGem.getItem().getValue() * 0.9;
+                    } else {
+                        message += languageContext.withRoot("commands", "mine.gem.success");
+                    }
+
+                    player.getData().addBadgeIfAbsent(Badge.MINER);
+                }
 
                 event.getChannel().sendMessage(message).queue();
                 player.addMoney(money);

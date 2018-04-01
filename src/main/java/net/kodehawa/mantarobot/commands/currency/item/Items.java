@@ -108,10 +108,10 @@ public class Items {
             FISH_2 = new Item(ItemType.FISHING, "\uD83D\uDC20","Tropical Fish", "Rare Fish. Caught in fishing", 30, false),
             FISH_3 = new Item(ItemType.FISHING, "\uD83D\uDC21","Blowfish", "Rarest Fish. You're extremely lucky if you actually got this.", 45, false),
             // ---------------------------------- 5.0 MINING ITEMS START HERE ----------------------------------
-            GEM_1 = new Item(ItemType.COMMON, "\u2604", "Comet Gem", "Fragments of a comet you found while mining. Useful for casting.", 40, false),
-            GEM_2 = new Item(ItemType.COMMON, EmoteReference.STAR.getUnicode(), "Star Gem", "Fragments of a fallen star you found while mining.", 45, false),
-            GEM_3 = new Item(ItemType.COMMON, "\uD83D\uDD78", "Cobweb", "Something a spider left over on the mine. Wonder if it's worth something.", 10, false),
-            GEM_4 = new Item(ItemType.COMMON, "\uD83D\uDCAB", "Gem Fragment", "Fragment of an ancient gem. Useful for casting", 50, false)
+            GEM_1 = new Item(ItemType.MINE, "\u2604", "Comet Gem", "Fragments of a comet you found while mining. Useful for casting.", 40, false),
+            GEM_2 = new Item(ItemType.MINE, EmoteReference.STAR.getUnicode(), "Star Gem", "Fragments of a fallen star you found while mining.", 45, false),
+            GEM_3 = new Item(ItemType.MINE, "\uD83D\uDD78", "Cobweb", "Something a spider left over on the mine. Wonder if it's worth something.", 10, false),
+            GEM_4 = new Item(ItemType.MINE, "\uD83D\uDCAB", "Gem Fragment", "Fragment of an ancient gem. Useful for casting", 50, false)
     };
 
     public static void setItemActions() {
@@ -158,11 +158,14 @@ public class Items {
                     fish.forEach((item) -> fishItems.add(3, item));
 
                     List<Item> list = new ArrayList<>(amount);
+                    boolean overflow = false;
                     for(int i = 0; i < amount; i++) {
                         Item it = fishItems.next();
 
-                        //TODO make this fancy lol
-                        if(playerInventory.getAmount(it) >= 5000) continue;
+                        if(playerInventory.getAmount(it) >= 5000) {
+                            overflow = true;
+                            continue;
+                        }
 
                         list.add(it);
                     }
@@ -174,6 +177,8 @@ public class Items {
                     event.getChannel().sendMessageFormat(lang.get("commands.fish.success"),
                             EmoteReference.POPPER, list.stream().map(Item::getEmoji).collect(Collectors.joining(", "))
                     ).queue();
+
+                    if(overflow) event.getChannel().sendMessageFormat(lang.get("commands.fish.overflow"), EmoteReference.SAD).queue();
                 }
 
                 p.save();
@@ -202,7 +207,7 @@ public class Items {
         POTION_CLEAN.setAction((event, lang) -> {
             Player p = MantaroData.db().getPlayer(event.getAuthor());
             p.getData().setActivePotion(null);
-            event.getChannel().sendMessage(EmoteReference.POPPER + "Cleared potion effects.").queue();
+            event.getChannel().sendMessageFormat(lang.get("general.item_usage.milk"), EmoteReference.POPPER).queue();
             p.getInventory().process(new ItemStack(POTION_CLEAN, -1));
             p.save();
             return true;
@@ -211,7 +216,7 @@ public class Items {
         POTION_STAMINA.setAction((event, lang) -> {
             Player p = MantaroData.db().getPlayer(event.getAuthor());
             p.getData().setActivePotion(new PotionEffect(idOf(POTION_STAMINA), System.currentTimeMillis(), ItemType.PotionType.PLAYER));
-            event.getChannel().sendMessage(EmoteReference.POPPER + "Activated stamina for 5 mining sessions.").queue();
+            event.getChannel().sendMessageFormat(lang.get("general.item_usage.stamina"), EmoteReference.POPPER).queue();
             p.getInventory().process(new ItemStack(POTION_STAMINA, -1));
             p.save();
             return true;
@@ -221,7 +226,7 @@ public class Items {
             Player p = MantaroData.db().getPlayer(event.getAuthor());
             p.getData().setActivePotion(new PotionEffect(idOf(POTION_HASTE),
                     System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
-            event.getChannel().sendMessage(EmoteReference.POPPER + "Activated Haste for 2 minutes.").queue();
+            event.getChannel().sendMessageFormat(lang.get("general.item_usage.haste"), EmoteReference.POPPER).queue();
             p.getInventory().process(new ItemStack(POTION_HASTE, -1));
             p.save();
             return true;
@@ -286,19 +291,19 @@ public class Items {
                 inventory.process(new ItemStack(Items.LOOT_CRATE, -1));
                 player.getData().addBadgeIfAbsent(Badge.THE_SECRET);
                 player.save();
-                openLootBox(event, true);
+                openLootBox(event, true, lang);
                 return true;
             } else {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate key to open a crate. It's locked!").queue();
+                event.getChannel().sendMessageFormat(lang.get("general.item_usage.crate.no_key"), EmoteReference.ERROR).queue();
                 return false;
             }
         } else {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate! How else would you use your key >.>").queue();
+            event.getChannel().sendMessageFormat(lang.get("general.item_usage.crate.no_crate"), EmoteReference.ERROR).queue();
             return false;
         }
     }
 
-    private static void openLootBox(GuildMessageReceivedEvent event, boolean special) {
+    private static void openLootBox(GuildMessageReceivedEvent event, boolean special, I18nContext lang) {
         List<Item> toAdd = selectItems(r.nextInt(3) + 3, special ? ItemType.LootboxType.RARE : ItemType.LootboxType.COMMON);
 
         Player player = MantaroData.db().getPlayer(event.getMember());
@@ -309,9 +314,9 @@ public class Items {
         boolean overflow = player.getInventory().merge(ita);
         player.saveAsync();
 
-        event.getChannel().sendMessage(String.format("%s**You won:** %s%s",
+        event.getChannel().sendMessage(String.format(lang.get("general.item_usage.crate.success"),
                 EmoteReference.LOOT_CRATE.getDiscordNotation(), toAdd.stream().map(Item::toString).collect(Collectors.joining(", ")),
-                overflow ? ". But you already had too much, so you decided to throw away the excess" : "")).queue();
+                overflow ? ". " + lang.get("general.item_usage.crate.overflow") : "")).queue();
     }
 
     private static List<Item> selectItems(int amount, ItemType.LootboxType type) {
