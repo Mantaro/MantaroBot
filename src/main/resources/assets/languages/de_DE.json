@@ -46,13 +46,13 @@
       "no_rod": "%1$sDu hast keine Angel mit der du Angeln kannst!",
       "trash": {
         "overflow": "%1$sDu hast beim Angeln etwas Müll gefunden, aber dein Inventar war voll, also mussten wir es ins Wasser werfen ...",
-        "success": "%1$sWährend du ruhig Angelst findest du %2$s %3$s, aber es scheint nur Müll zu sein :("
+        "success": "%1$sWährend du ruhig Angelst findest du %2$s, aber es scheint nur Müll zu sein :("
       },
       "tier3": {
         "extra": "Auserdem findest du %1$s, was ein glück!"
       },
       "overflow": "%1$sDu hast Fische gefangen, aber dein Inventar war voll, also mussten wir es ins Wasser werfen ...",
-      "success": "%1$sWährend du ruhig Angelst findest dud %2$sx %3$s und du fährst fort, sie in Ihrem Fischeimer zu lagern.",
+      "success": "%1$sWährend du ruhig Angelst findest dud %2$s und du fährst fort, sie in Ihrem Fischeimer zu lagern.",
       "rod_broke": "%1$sDeine Angelrute brach beim Versuch, einen Fisch zu fangen :("
     },
     "softban": {
