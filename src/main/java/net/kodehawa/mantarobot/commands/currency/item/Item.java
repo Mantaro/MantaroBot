@@ -26,6 +26,12 @@ import java.util.function.BiPredicate;
 
 @Slf4j
 public class Item {
+    @Getter
+    //EXAMPLE: 1-1-2-2-2 will mean require two items of type 1 and 3 of type 2. For example a pick will require 2 of type 1 and 1 of type 2.
+    //You can have as many types as you want.
+    //If the recipe it's an empty string, it means the item has no recipe.
+    private String recipe;
+
     protected final long value;
     private final boolean buyable;
     private final String emoji, name, desc;
@@ -41,10 +47,10 @@ public class Item {
     private ItemType itemType;
 
     public Item(ItemType type, String emoji, String name, String desc, long value) {
-        this(type, emoji, name, desc, value, true, true, false, 100, null);
+        this(type, emoji, name, desc, value, true, true, false, 100, null, "");
     }
 
-    public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize, BiPredicate<GuildMessageReceivedEvent, I18nContext> action) {
+    public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize, BiPredicate<GuildMessageReceivedEvent, I18nContext> action, String recipe) {
         this.emoji = emoji;
         this.name = name;
         this.desc = desc;
@@ -56,31 +62,32 @@ public class Item {
         this.hidden = hidden;
         this.action = action;
         this.itemType = type;
+        this.recipe = recipe;
         log.debug("Registered item {}: {}", name, this.toVerboseString());
     }
 
     public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable) {
-        this(type, emoji, name, desc, value, sellable, buyable, false, 100, null);
+        this(type, emoji, name, desc, value, sellable, buyable, false, 100, null, "");
     }
 
     public Item(ItemType type, String emoji, String name, String desc, long value, boolean buyable) {
-        this(type, emoji, name, desc, value, true, buyable, false, 100, null);
+        this(type, emoji, name, desc, value, true, buyable, false, 100, null, "");
     }
 
     public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden) {
-        this(type, emoji, name, desc, value, sellable, buyable, hidden, 100, null);
+        this(type, emoji, name, desc, value, sellable, buyable, hidden, 100, null, "");
     }
 
     public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, BiPredicate<GuildMessageReceivedEvent, I18nContext> action) {
-        this(type, emoji, name, desc, value, sellable, buyable, false, 100, action);
+        this(type, emoji, name, desc, value, sellable, buyable, false, 100, action, "");
     }
 
     public Item(ItemType type, String emoji, String name, String desc, long value, boolean buyable, BiPredicate<GuildMessageReceivedEvent, I18nContext> action) {
-        this(type, emoji, name, desc, value, true, buyable, false, 100, action);
+        this(type, emoji, name, desc, value, true, buyable, false, 100, action, "");
     }
 
     public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden, BiPredicate<GuildMessageReceivedEvent, I18nContext> action) {
-        this(type, emoji, name, desc, value, sellable, buyable, hidden, 100, action);
+        this(type, emoji, name, desc, value, sellable, buyable, hidden, 100, action, "");
     }
 
     /**
@@ -92,7 +99,7 @@ public class Item {
      * @param desc  A short description, normally used in inventory.
      */
     public Item(String emoji, String name, String desc) {
-        this(ItemType.COLLECTABLE, emoji, name, desc, 0, false, false, true, 100, null);
+        this(ItemType.COLLECTABLE, emoji, name, desc, 0, false, false, true, 100, null, "");
     }
 
     @Override

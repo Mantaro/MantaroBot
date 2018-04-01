@@ -50,10 +50,9 @@ public class ImageActionCmd extends NoArgsCommand {
     private boolean swapNames = false;
     private String type;
     private EmoteReference emoji;
-    //TODO add this
     private String botLine;
 
-    public ImageActionCmd(String name, String desc, Color color, String imageName, EmoteReference emoji, String format, List<String> images, String lonelyLine, boolean swap) {
+    public ImageActionCmd(String name, String desc, Color color, String imageName, EmoteReference emoji, String format, List<String> images, String lonelyLine, String botLine, boolean swap) {
         super(Category.ACTION);
         this.name = name;
         this.desc = desc;
@@ -64,9 +63,10 @@ public class ImageActionCmd extends NoArgsCommand {
         this.images = images;
         this.lonelyLine = lonelyLine;
         this.swapNames = swap;
+        this.botLine = botLine;
     }
 
-    public ImageActionCmd(String name, String desc, Color color, String imageName, EmoteReference emoji, String format, String type, String lonelyLine) {
+    public ImageActionCmd(String name, String desc, Color color, String imageName, EmoteReference emoji, String format, String type, String lonelyLine, String botLine) {
         super(Category.ACTION);
         this.name = name;
         this.desc = desc;
@@ -77,9 +77,10 @@ public class ImageActionCmd extends NoArgsCommand {
         this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, "gif").getKey());
         this.lonelyLine = lonelyLine;
         this.type = type;
+        this.botLine = botLine;
     }
 
-    public ImageActionCmd(String name, String desc, Color color, String imageName, EmoteReference emoji, String format, String type, String lonelyLine, boolean swap) {
+    public ImageActionCmd(String name, String desc, Color color, String imageName, EmoteReference emoji, String format, String type, String lonelyLine, String botLine, boolean swap) {
         super(Category.ACTION);
         this.name = name;
         this.desc = desc;
@@ -91,6 +92,7 @@ public class ImageActionCmd extends NoArgsCommand {
         this.lonelyLine = lonelyLine;
         this.swapNames = swap;
         this.type = type;
+        this.botLine = botLine;
     }
 
     @Override
@@ -134,6 +136,10 @@ public class ImageActionCmd extends NoArgsCommand {
 
             if(isLonely(event)) {
                 toSend = new MessageBuilder().append("**").append(languageContext.get(lonelyLine)).append("**");
+            }
+
+            if(isMentioningBot(event)) {
+                toSend = new MessageBuilder().append("**").append(languageContext.get(botLine)).append("**");
             }
 
             event.getChannel().sendFile(
