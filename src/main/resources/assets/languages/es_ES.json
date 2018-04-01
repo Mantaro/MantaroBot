@@ -31,6 +31,17 @@
       "no_item_name": "No hay ningún objeto asociado con este emoji.",
       "not_found": "No pude encontrar ningún objecto con tu búsqueda :("
     },
+    "misc_item_usage": {
+      "milk": "%1$sTodos los efectos de poción han sido limpiados.",
+      "stamina": "%1$sActivada poción de stamina por 5 sesiones de mine.",
+      "haste": "%1$sPrisa activado por 2 minutos.",
+      "crate": {
+        "no_key": "%1$sNecesitas una loot crate key para abrir una loot crate. ¡Está bloqueada!",
+        "no_crate": "%1$sNecesitas una loot crate! De que otra forma podría usar esa llave >.>... oh",
+        "success": "%1$s**Ganaste:** %2$s%3$s",
+        "overflow": "Pero ya tenías demasiado, así que decidiste tirar el exceso."
+      }
+    },
     "mention_user_required": "%1$sNecesitas mencionar un usuario.",
     "invalid_character": "%1$sEse no es un carácter válido.",
     "invalid_action": "Hey, no puedes hacer eso!",
@@ -1047,6 +1058,10 @@
       "diamond": {
         "overflow": "\n¡Huh, encontraste un diamante minando! Pero ya tenías muchos diamantes, así que lo vendí por ti.",
         "success": "\n¡Huh, tuviste suerte y encontraste un diamante mientras minabas! Revisa tu inventario."
+      },
+      "gem": {
+        "overflow": "\n¡Huh, encontraste *%1$s* minando! Pero ya tenías mucho de esa gema, así que la vendí por ti.",
+        "success": "\n¡Huh, tuviste suerte y encontraste *%1$s* minando! Revisa tu inventario."
       },
       "pick_broke": "%1$sLamentablemente, uno de tus picos se quebró mientras minabas."
     },

@@ -37,7 +37,7 @@
       "haste": "%1$sActivated Haste for 2 minutes.",
       "crate": {
         "no_key": "%1$sYou need a loot crate key to open a crate. It's locked!",
-        "no_crate": "%1$sYou need a loot crate! How else would you use your key >.>",
+        "no_crate": "%1$sYou need a loot crate! How else would you use your key >.>... oh",
         "success": "%1$s**You won:** %2$s%3$s",
         "overflow": "But you already had too much, so you decided to throw away the excess"
       }
@@ -1065,8 +1065,8 @@
         "success": "\nHuh! You got lucky and found a diamond while mining, check your inventory!"
       },
       "gem": {
-        "overflow": "\nHuh, you found %1$s while mining, but you already had too much, so I sold it for you.",
-        "success": "\nHuh! You got lucky and found %1$s while mining, check your inventory!"
+        "overflow": "\nHuh, you found *%1$s* while mining, but you already had too much of that gem, so I sold it for you.",
+        "success": "\nHuh! You got lucky and found *%1$s* while mining, check your inventory."
       },
       "pick_broke": "%1$sOne of your picks broke while mining."
     },
