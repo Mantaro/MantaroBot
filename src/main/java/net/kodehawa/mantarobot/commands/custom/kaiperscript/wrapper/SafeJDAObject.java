@@ -25,6 +25,6 @@ class SafeJDAObject<T extends ISnowflake> {
 
     @Override
     public String toString() {
-        return object.getClass().getSimpleName() + "(" + getId() + ")";
+        return object.getClass().getSimpleName() + "(id = " + getId() + ")";
     }
 }

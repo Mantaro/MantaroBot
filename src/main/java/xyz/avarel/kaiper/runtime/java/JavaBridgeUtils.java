@@ -15,6 +15,9 @@
 
 package xyz.avarel.kaiper.runtime.java;
 
+import xyz.avarel.kaiper.runtime.Obj;
+import xyz.avarel.kaiper.runtime.Undefined;
+
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -22,8 +25,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-public class JavaBeansUtils {
+public class JavaBridgeUtils {
     private static final Map<Class<?>, Map<String, PropertyDescriptor>> cache = new WeakHashMap<>();
+
+    public static Obj mapJavaToKaiperType(Object o) {
+        if (o instanceof Class) return Undefined.VALUE;
+        return JavaUtils.mapJavaToKaiperType(o); //Can be safely mapped
+    }
 
     private static synchronized Map<String, PropertyDescriptor> scanAndCacheBeans(Class<?> c) {
         Map<String, PropertyDescriptor> map = new LinkedHashMap<>();

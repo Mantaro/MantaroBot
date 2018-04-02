@@ -25,6 +25,6 @@ public class SafeGuildMessageReceivedEvent {
 
     @Override
     public String toString() {
-        return "GuildMessageReceivedEvent";
+        return "GuildMessageReceivedEvent(message = " + message + ")";
     }
 }

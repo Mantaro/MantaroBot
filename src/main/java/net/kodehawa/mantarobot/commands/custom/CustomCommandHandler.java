@@ -39,7 +39,7 @@ public class CustomCommandHandler {
 
         GlobalVisitorSettings.ITERATION_LIMIT = 200;
         GlobalVisitorSettings.SIZE_LIMIT = 100;
-        GlobalVisitorSettings.MILLISECONDS_LIMIT = 300;
+        GlobalVisitorSettings.MILLISECONDS_LIMIT = 200;
         GlobalVisitorSettings.RECURSION_DEPTH_LIMIT = 100;
 
         // Special handlers

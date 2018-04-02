@@ -45,16 +45,17 @@ public class JavaField extends JavaObject implements Obj {
 
     @Override
     public Type getType() {
-        Object field = getField();
-        return JavaUtils.mapJavaToKaiperType(field).getType();
+        return JavaBridgeUtils.mapJavaToKaiperType(getField()).getType();
     }
 
     @Override
     public Object toJava() {
         Object field = getField();
 
+        if (field instanceof Class) return null;
+
         if (JavaUtils.hasKaiperTypeEquivalent(field)) {
-            return JavaUtils.mapJavaToKaiperType(field).toJava();
+            return JavaUtils.mapJavaToKaiperType(field).toJava(); //Can be safely mapped
         }
 
         return field;
@@ -72,7 +73,7 @@ public class JavaField extends JavaObject implements Obj {
 
         Object object = getField();
 
-        Map<String, PropertyDescriptor> beans = JavaBeansUtils.getBeanInfo(object.getClass());
+        Map<String, PropertyDescriptor> beans = JavaBridgeUtils.getBeanInfo(object.getClass());
 
         if (beans.containsKey(name)) {
             try {
@@ -98,7 +99,7 @@ public class JavaField extends JavaObject implements Obj {
     public int hashCode() {
         Object field = getField();
         if (JavaUtils.hasKaiperTypeEquivalent(field)) {
-            return JavaUtils.mapJavaToKaiperType(field).hashCode();
+            return JavaUtils.mapJavaToKaiperType(field).hashCode(); //Can be safely mapped
         }
 
         return getField().hashCode();
@@ -115,7 +116,7 @@ public class JavaField extends JavaObject implements Obj {
         Object field = getField();
 
         if (JavaUtils.hasKaiperTypeEquivalent(field)) {
-            return JavaUtils.mapJavaToKaiperType(field).equals(obj);
+            return JavaUtils.mapJavaToKaiperType(field).equals(obj); //Can be safely mapped
         }
 
         return getObject() == obj;
@@ -124,8 +125,11 @@ public class JavaField extends JavaObject implements Obj {
     @Override
     public String toString() {
         Object field = getField();
+
+        if (field instanceof Class) return Undefined.VALUE.toString();
+
         if (JavaUtils.hasKaiperTypeEquivalent(field)) {
-            return JavaUtils.mapJavaToKaiperType(field).toString();
+            return JavaUtils.mapJavaToKaiperType(field).toString(); //Can be safely mapped
         }
 
         return getField().toString();
@@ -170,14 +174,14 @@ public class JavaField extends JavaObject implements Obj {
             return parent;
         }
 
-        return JavaUtils.mapJavaToKaiperType(result);
+        return JavaBridgeUtils.mapJavaToKaiperType(result);
     }
 
     public Object getField() {
         if (name == null) return null;
 
         Object object = getObject();
-        Map<String, PropertyDescriptor> beans = JavaBeansUtils.getBeanInfo(object.getClass());
+        Map<String, PropertyDescriptor> beans = JavaBridgeUtils.getBeanInfo(object.getClass());
         if (beans.containsKey(name)) {
             try {
                 return beans.get(name).getReadMethod().invoke(object);
@@ -195,9 +199,9 @@ public class JavaField extends JavaObject implements Obj {
 
     public Obj nativeCheck() {
         Object field = getField();
-
+        if (field instanceof Class) return Undefined.VALUE;
         if (field instanceof Obj) return (Obj) field;
-        if (JavaUtils.hasKaiperTypeEquivalent(field)) return JavaUtils.mapJavaToKaiperType(field);
+        if (JavaUtils.hasKaiperTypeEquivalent(field)) return JavaUtils.mapJavaToKaiperType(field); //Can be safely mapped
 
         return this;
     }
