@@ -136,6 +136,7 @@ public class MantaroCore {
             throw new IllegalArgumentException("Cannot look for options if you don't specify where!");
 
         Future<Set<Class<?>>> commands = lookForAnnotatedOn(commandsPackage, Module.class);
+        Set<Class<?>> classes = commands.get(); // reflections lib not threadsafe
         Future<Set<Class<?>>> options = lookForAnnotatedOn(optsPackage, Option.class);
 
         if(single) {
@@ -145,7 +146,7 @@ public class MantaroCore {
         }
 
         shardEventBus = new EventBus();
-        for(Class<?> aClass : commands.get()) {
+        for(Class<?> aClass : classes) {
             try {
                 shardEventBus.register(aClass.newInstance());
             } catch(Exception e) {
