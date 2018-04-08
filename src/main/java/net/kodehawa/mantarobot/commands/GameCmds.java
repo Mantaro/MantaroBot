@@ -157,7 +157,8 @@ public class GameCmds {
         gameCommand.addSubCommand("multiple", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                String[] values = SPLIT_PATTERN.split(content, 2);
+                String strippedContent =  mentionPattern.matcher(content).replaceAll("");
+                String[] values = SPLIT_PATTERN.split(strippedContent, 2);
                 if(values.length < 2) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.game.multiple.invalid"), EmoteReference.ERROR).queue();
                     return;
