@@ -64,14 +64,6 @@ public class DefaultCommandProcessor implements ICommandProcessor {
         String[] parts = splitArgs(rawCmd, 2);
         String cmdName = parts[0], content = parts[1];
 
-        if(!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_EMBED_LINKS)) {
-            event.getChannel().sendMessage(EmoteReference.STOP + "I require the permission ``Embed Links``. " +
-                    "All Commands will be refused until you give me that permission.\n" +
-                    "http://i.imgur.com/Ydykxcy.gifv Refer to this on instructions on how to give the bot the permissions. " +
-                    "Also check all the other roles the bot has have that permissions and remember to check channel-specific permissions. Thanks you.").queue();
-            return false;
-        }
-
         REGISTRY.process(event, cmdName, content);
 
         long end = System.currentTimeMillis();
