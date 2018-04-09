@@ -157,8 +157,13 @@ public class Items {
                             .collect(Collectors.toList());
                     RandomCollection<Item> fishItems = new RandomCollection<>();
 
+                    int money = 0;
                     int amount = random.nextInt(4);
                     fish.forEach((item) -> fishItems.add(3, item));
+
+                    if(select > 75) {
+                        money = Math.max(10, random.nextInt(85));
+                    }
 
                     List<Item> list = new ArrayList<>(amount);
                     boolean overflow = false;
@@ -177,9 +182,16 @@ public class Items {
                     list.forEach(item -> ita.add(new ItemStack(item, 1)));
 
                     playerInventory.process(ita);
-                    event.getChannel().sendMessageFormat(lang.get("commands.fish.success"),
-                            EmoteReference.POPPER, list.stream().map(Item::getEmoji).collect(Collectors.joining(", "))
-                    ).queue();
+
+                    if(money > 0) {
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money"),
+                                EmoteReference.POPPER, list.stream().map(Item::getEmoji).collect(Collectors.joining(", ")), money
+                        ).queue();
+                    } else {
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success"),
+                                EmoteReference.POPPER, list.stream().map(Item::getEmoji).collect(Collectors.joining(", "))
+                        ).queue();
+                    }
 
                     if(overflow) event.getChannel().sendMessageFormat(lang.get("commands.fish.overflow"), EmoteReference.SAD).queue();
                 }
