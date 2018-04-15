@@ -204,24 +204,8 @@ public class Utils {
         }
     }
 
-    public static Comparator<String> randomOrder() {
-        ThreadLocalRandom r = ThreadLocalRandom.current();
-        int x = r.nextInt(), y = r.nextInt();
-        boolean b = r.nextBoolean();
-        return Comparator.comparingInt((String s) -> s.hashCode() ^ x)
-                .thenComparingInt(s -> s.length() ^ y)
-                .thenComparing(b ? Comparator.naturalOrder() : Comparator.reverseOrder());
-    }
-
-    public static String centerString(String text, int len) {
-        String out = String.format("%" + len + "s%s%" + len + "s", "", text, "");
-        float mid = (out.length() / 2);
-        float start = mid - (len / 2);
-        float end = start + len;
-        return out.substring((int) start, (int) end);
-    }
-
     /**
+     * DEPRECATED - Redirects to wgetResty.
      * Fetches an Object from any given URL. Uses vanilla Java methods.
      * Can retrieve text, JSON Objects, XML and probably more.
      *
@@ -230,21 +214,7 @@ public class Utils {
      * @return The object as a parsed UTF-8 string.
      */
     public static String wget(String url, GuildMessageReceivedEvent event) {
-        String webObject = null;
-        try {
-            URL ur1 = new URL(url);
-            HttpURLConnection conn = (HttpURLConnection) ur1.openConnection();
-            conn.setRequestProperty("User-Agent", MantaroInfo.USER_AGENT);
-            InputStream ism = conn.getInputStream();
-            webObject = CharStreams.toString(new InputStreamReader(ism, StandardCharsets.UTF_8));
-        } catch(Exception e) {
-            if(e instanceof java.io.FileNotFoundException) return null;
-
-            log.warn(getFetchDataFailureResponse(url, null), e);
-            Optional.ofNullable(event).ifPresent((w) -> w.getChannel().sendMessage("\u274C I got an error while retrieving data from " + url).queue());
-        }
-
-        return webObject;
+        return wgetResty(url, event);
     }
 
     /**
@@ -264,7 +234,7 @@ public class Utils {
             url2 = CharStreams.toString(new InputStreamReader(is, StandardCharsets.UTF_8));
         } catch(IOException e) {
             log.warn(getFetchDataFailureResponse(url, "Resty"), e);
-            Optional.ofNullable(event).ifPresent((evt) -> evt.getChannel().sendMessage("\u274C Error retrieving data from URL [Resty]").queue());
+            Optional.ofNullable(event).ifPresent((evt) -> evt.getChannel().sendMessage("\u274C Error retrieving data from desired URL").queue());
         }
 
         return url2;
@@ -309,7 +279,7 @@ public class Utils {
     public static Role findRole(GuildMessageReceivedEvent event, String content) {
         List<Role> found = FinderUtil.findRoles(content, event.getGuild());
         if(found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any role with that name :(").queue();
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any role with that name :( -if the role has spaces try wrapping it in quotes \"like this\"-").queue();
             return null;
         }
 
@@ -330,7 +300,7 @@ public class Utils {
     public static Role findRoleSelect(GuildMessageReceivedEvent event, String content, Consumer<Role> consumer) {
         List<Role> found = FinderUtil.findRoles(content, event.getGuild());
         if(found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any roles with that name :(").queue();
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any roles with that name :( -if the role has spaces try wrapping it in quotes \"like this\"-").queue();
             return null;
         }
 
