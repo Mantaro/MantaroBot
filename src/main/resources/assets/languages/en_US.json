@@ -412,7 +412,8 @@
       "brief": "**%1$s's inventory:** %2$s",
       "calculate": "%1$sYou will get **%2$d credits** if you sell all of your items.",
       "header": "%1$s's Inventory",
-      "format": "**Price**: 📥 %1$d 📤 %2$d\n%3$s"
+      "format": "**Price**: 📥 %1$d 📤 %2$d\n%3$s",
+      "empty": "%1$sYour inventory is empty! :("
     },
     "market": {
       "dump": {

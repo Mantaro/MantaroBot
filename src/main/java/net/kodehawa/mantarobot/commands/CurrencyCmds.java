@@ -39,6 +39,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -52,6 +53,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
+import static net.kodehawa.mantarobot.utils.Utils.wget;
 
 @Module
 @SuppressWarnings("unused")
@@ -71,14 +73,11 @@ public class CurrencyCmds {
                     return;
 
                 Player player = MantaroData.db().getPlayer(member);
-
-                if(t.containsKey("brief")) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.inventory.brief"), member.getEffectiveName(), ItemStack.toString(player.getInventory().asList())).queue();
-                    return;
-                }
+                final Inventory playerInventory = player.getInventory();
+                final List<ItemStack> inventoryList = playerInventory.asList();
 
                 if(t.containsKey("calculate")) {
-                    long all = player.getInventory().asList().stream()
+                    long all = playerInventory.asList().stream()
                             .filter(item -> item.getItem().isSellable())
                             .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
                             .sum();
@@ -87,13 +86,23 @@ public class CurrencyCmds {
                     return;
                 }
 
+                if(inventoryList.isEmpty()) {
+                    event.getChannel().sendMessageFormat("commands.inventory.empty", EmoteReference.WARNING).queue();
+                    return;
+                }
+
+                if(t.containsKey("brief")) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.inventory.brief"), member.getEffectiveName(), ItemStack.toString(playerInventory.asList())).queue();
+                    return;
+                }
+
                 EmbedBuilder builder = baseEmbed(event, String.format(languageContext.get("commands.inventory.header"), member.getEffectiveName()), member.getUser().getEffectiveAvatarUrl());
-                List<ItemStack> list = player.getInventory().asList();
+
                 List<MessageEmbed.Field> fields = new LinkedList<>();
-                if(list.isEmpty())
+                if(inventoryList.isEmpty())
                     builder.setDescription(languageContext.get("general.dust"));
                 else {
-                    player.getInventory().asList().forEach(stack -> {
+                    playerInventory.asList().forEach(stack -> {
                         long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
                         long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
                         fields.add(new MessageEmbed.Field(String.format("%s %s x %d", stack.getItem().getEmoji(), stack.getItem().getName(), stack.getAmount()),
