@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.CustomCmds;
@@ -93,7 +94,6 @@ public class CommandRegistry {
         //Variable used in lambda expression should be final or effectively final...
         final Command cmd = command;
 
-
         if(data.getDisabledCommands().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) {
             return false;
         }
@@ -122,6 +122,15 @@ public class CommandRegistry {
         if(data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), c ->
                 new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) {
             return false;
+        }
+
+        if(data.getWhitelistedRole() != null) {
+            Role whitelistedRole = event.getGuild().getRoleById(data.getWhitelistedRole());
+            if((whitelistedRole != null && event.getMember().getRoles().stream().noneMatch(r -> whitelistedRole.getId().equalsIgnoreCase(r.getId())) && !isAdmin(event.getMember()))) {
+                return false;
+            }
+
+            //else continue.
         }
 
         if(!data.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream().anyMatch(r -> data.getDisabledRoles().contains(r.getId())) && !isAdmin(event.getMember())) {

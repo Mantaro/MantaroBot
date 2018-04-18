@@ -480,6 +480,7 @@ public class FunCmds {
                         )
                         .addField(languageContext.get("commands.marry.status.date"), marriageDate.toString(), false)
                         .addField(languageContext.get("commands.marry.status.love_letter"), loveLetter, false)
+                        //TODO I18n: "ownership" isn't the right word here.
                         .addField(languageContext.get("commands.marry.status.waifus"), String.valueOf(eitherHasWaifus), false)
                         .setFooter("Marriage ID: " + currentMarriage.getId(), null);
 
@@ -487,6 +488,8 @@ public class FunCmds {
                 event.getChannel().sendMessage(embedBuilder.build()).queue();
             }
         });
+
+        cr.registerAlias("marry", "marriage");
     }
 
     @Subscribe

@@ -89,4 +89,5 @@ public class GuildData {
     private boolean musicVote = true;
     private List<String> extraJoinMessages = new ArrayList<>();
     private List<String> extraLeaveMessages = new ArrayList<>();
+    private String whitelistedRole = null;
 }
