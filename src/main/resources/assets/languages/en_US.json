@@ -384,7 +384,7 @@
         "no_marriage": "%1$sYou aren't married, you cannot write a love letter for yourself...",
         "not_proposing_player": "%1$sYou aren't the player who proposed this marriage!",
         "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`.",
-        "too_long": "%1$sThe love letter is too long (maximum is 1000 characters)",
+        "too_long": "%1$sThe love letter is too long (maximum is 500 characters)",
         "cannot_see": "%1$sI cannot find the user that you're married to... Probably they aren't in any server with me.",
         "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s",
         "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `marry status`.",
@@ -392,7 +392,7 @@
       },
       "status": {
         "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\"",
-        "header": "Marriage Status",
+        "header": "Current Marriage Status",
         "description_format": "%1$sMarriage status between **%2$s#%3$s** and **%4$s#%5$s**",
         "date": "Marriage Date",
         "love_letter": "Love Letter",

@@ -54,6 +54,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -363,7 +364,7 @@ public class FunCmds {
                         return;
                     }
 
-                    if(content.length() > 1000) {
+                    if(content.length() > 500) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.too_long"), EmoteReference.ERROR).queue();
                         return;
                     }
@@ -472,6 +473,7 @@ public class FunCmds {
                 Date marriageDate = new Date(currentMarriage.getData().getMarriageCreationMillis());
                 boolean eitherHasWaifus = !(dbUser.getData().getWaifus().isEmpty() && db.getUser(marriedTo).getData().getWaifus().isEmpty());
                 EmbedBuilder embedBuilder = new EmbedBuilder()
+                        .setThumbnail("http://www.hey.fr/fun/emoji/twitter/en/twitter/469-emoji_twitter_sparkling_heart.png")
                         .setAuthor(languageContext.get("commands.marry.status.header"), null, event.getAuthor().getEffectiveAvatarUrl())
                         .setDescription(String.format(languageContext.get("commands.marry.status.description_format"),
                                 EmoteReference.HEART, author.getName(), author.getDiscriminator(), marriedTo.getName(), marriedTo.getDiscriminator())
@@ -649,6 +651,7 @@ public class FunCmds {
 
     @Subscribe
     public void love(CommandRegistry registry) {
+        final SecureRandom random = new SecureRandom();
         registry.register("love", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
@@ -677,7 +680,7 @@ public class FunCmds {
                     ids[1] = mentioned.get(0).getIdLong();
                 }
 
-                int percentage = (int)(ids[0] == ids[1] ? 101 : (ids[0] + ids[1]) % 101L);
+                int percentage = (ids[0] == ids[1] ? 101 : random.nextInt(101)); //last value is exclusive, so 101.
 
                 if(percentage < 45) {
                     result = languageContext.get("commands.love.not_ideal");
