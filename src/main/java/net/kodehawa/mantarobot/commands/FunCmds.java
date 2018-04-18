@@ -385,7 +385,19 @@ public class FunCmds {
                             return Operation.IGNORED;
                         }
 
-                        final String c = e.getMessage().getContentDisplay();
+                        //Replace prefix because people seem to think you have to add the prefix before saying yes.
+                        String c = e.getMessage().getContentRaw();
+                        for(String s : config.prefix) {
+                            if(c.toLowerCase().startsWith(s)) {
+                                c = c.substring(s.length());
+                            }
+                        }
+
+                        String guildCustomPrefix = db.getGuild(e.getGuild()).getData().getGuildCustomPrefix();
+                        if(guildCustomPrefix != null && !guildCustomPrefix.isEmpty() && c.toLowerCase().startsWith(guildCustomPrefix)) {
+                            c = c.substring(guildCustomPrefix.length());
+                        }
+                        //End of prefix replacing.
 
                         //Confirmed they want to save this as the permanent love letter.
                         if(c.equalsIgnoreCase("yes")) {
