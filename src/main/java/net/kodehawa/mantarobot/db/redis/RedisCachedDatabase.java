@@ -40,7 +40,8 @@ public class RedisCachedDatabase extends ManagedDatabase {
             DBGuild.class, "guild",
             Player.class, "player",
             DBUser.class, "user",
-            PremiumKey.class, "key"
+            PremiumKey.class, "key",
+            Marriage.class, "marriage"
     ));
 
     private final RMap<String, CustomCommand> ccMap;
@@ -57,6 +58,7 @@ public class RedisCachedDatabase extends ManagedDatabase {
                                @Nonnull RMap<String, Player> playerMap,
                                @Nonnull RMap<String, DBUser> userMap,
                                @Nonnull RMap<String, PremiumKey> keyMap,
+                               @Nonnull RMap<String, Marriage> marriageMap,
                                @Nonnull RBucket<MantaroObj> mantaroBucket) {
         super(conn);
         this.ccMap = ccMap;
@@ -70,7 +72,8 @@ public class RedisCachedDatabase extends ManagedDatabase {
                 DBGuild.class, guildMap,
                 Player.class, playerMap,
                 DBUser.class, userMap,
-                PremiumKey.class, keyMap
+                PremiumKey.class, keyMap,
+                Marriage.class, marriageMap
         ));
     }
 

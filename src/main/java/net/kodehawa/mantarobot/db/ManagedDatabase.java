@@ -179,6 +179,22 @@ public class ManagedDatabase {
         return c.toList();
     }
 
+    //Can be null and it's perfectly valid.
+    public Marriage getMarriage(String marriageId) {
+        if(marriageId == null)
+            return null;
+        log("Requesting marriage {} from rethink", marriageId);
+        return r.table(Marriage.DB_TABLE).get(marriageId).run(conn, Marriage.class);
+    }
+
+    @Nonnull
+    @CheckReturnValue
+    public List<Marriage> getMarriages() {
+        log("Requesting all marriages from rethink");
+        Cursor<Marriage> c = r.table(Marriage.DB_TABLE).run(conn, Marriage.class);
+        return c.toList();
+    }
+
     @Nonnull
     @CheckReturnValue
     public List<PremiumKey> getPremiumKeys() {

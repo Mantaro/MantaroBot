@@ -16,31 +16,12 @@
 
 package net.kodehawa.mantarobot.db.entities.helpers;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.Marriage;
 
-import java.util.ArrayList;
-import java.util.List;
-
+//Just in case we need more stuff here. Don't want to run into issues later down the road.
 @Data
-public class UserData {
-    private String birthday;
-    private boolean hasReceivedFirstKey; //Placeholder here for rethonk plz
-    private String premiumKey;
-    private int reminderN;
-    private String timezone;
-    private String lang;
-
-    //NEW MARRIAGE SYSTEM
-    private String marriageId;
-    private List<String> waifus = new ArrayList<>();
-
-    @JsonIgnore
-    public Marriage getMarriage() {
-        //we're going full round trip here
-        return MantaroData.db().getMarriage(marriageId);
-    }
-
+public class MarriageData {
+    private long marriageCreationMillis;
+    //You can create a read-only note for your partner to remember. Will be completely scraped when the marriage ends, and only readable by the ones who agreed to marry.
+    private String loveLetter;
 }

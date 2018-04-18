@@ -100,6 +100,7 @@ public class MantaroData {
                         map(client, "players", i.players),
                         map(client, "users", i.users),
                         map(client, "premium-keys", i.premiumKeys),
+                        map(client, "marriages", i.marriages),
                         client.getBucket("mantaro")
                 );
             } else {

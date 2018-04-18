@@ -38,7 +38,9 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
@@ -142,9 +144,10 @@ public class PlayerCmds {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                         User userLooked = event.getAuthor();
-                        Player player = MantaroData.db().getPlayer(userLooked);
+                        final ManagedDatabase db = MantaroData.db();
+                        Player player = db.getPlayer(userLooked);
 
-                        UserData user = MantaroData.db().getUser(event.getMember()).getData();
+                        UserData user = db.getUser(event.getMember()).getData();
                         Member memberLooked = event.getMember();
 
                         List<Member> found = FinderUtil.findMembers(content, event.getGuild());
@@ -168,11 +171,23 @@ public class PlayerCmds {
                                 return;
                             }
 
-                            user = MantaroData.db().getUser(userLooked).getData();
-                            player = MantaroData.db().getPlayer(memberLooked);
+                            user = db.getUser(userLooked).getData();
+                            player = db.getPlayer(memberLooked);
                         }
 
+                        //LEGACY SUPPORT
                         User marriedTo = (player.getData().getMarriedWith() == null || player.getData().getMarriedWith().isEmpty()) ? null : MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
+                        //New marriage support.
+                        Marriage currentMarriage = db.getUser(event.getAuthor()).getData().getMarriage();
+                        User marriedToNew = null;
+                        boolean isNewMarriage = false;
+                        if(currentMarriage != null) {
+                            String marriedToId = currentMarriage.getOtherPlayer(memberLooked.getUser().getId());
+                            if(marriedToId != null) {
+                                marriedToNew = MantaroBot.getInstance().getUserById(marriedToId);
+                                isNewMarriage = true;
+                            }
+                        }
 
                         PlayerData playerData = player.getData();
                         Inventory inv = player.getInventory();
@@ -245,8 +260,12 @@ public class PlayerCmds {
                                 .addField(EmoteReference.POPPER + languageContext.get("commands.profile.birthday"),
                                         user.getBirthday() != null ? user.getBirthday().substring(0, 5) : languageContext.get("commands.profile.not_specified"), true
                                 )
-                                .addField(EmoteReference.HEART + languageContext.get("commands.profile.married"),
-                                        marriedTo == null ? languageContext.get("commands.profile.nobody") : String.format("%s#%s", marriedTo.getName(), marriedTo.getDiscriminator()), false
+                                //VERY readable stuff. God fuck I need to rewrite the profile command SOME day.
+                                .addField(EmoteReference.HEART + languageContext.get("commands.profile.married"), (marriedTo == null && marriedToNew == null) ?
+                                        languageContext.get("commands.profile.nobody") :
+                                        isNewMarriage ? String.format("%s#%s", marriedToNew.getName(), marriedToNew.getDiscriminator()) :
+                                                String.format("%s#%s", marriedTo.getName(), marriedTo.getDiscriminator()), false
+
                                 )
                                 .addField(EmoteReference.POUCH + languageContext.get("commands.profile.inventory"),
                                         ItemStack.toString(inv.asList()), false

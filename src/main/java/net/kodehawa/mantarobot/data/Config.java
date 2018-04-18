@@ -100,6 +100,7 @@ public class Config {
         public int port = 6379;
         public CacheInfo premiumKeys = new CacheInfo();
         public CacheInfo users = new CacheInfo();
+        public CacheInfo marriages = new CacheInfo();
 
         public static class CacheInfo {
             public boolean enabled = false;

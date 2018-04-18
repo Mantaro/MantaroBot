@@ -16,11 +16,14 @@
 
 package net.kodehawa.mantarobot.db.entities.helpers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.Marriage;
 
 import java.beans.Transient;
 import java.text.SimpleDateFormat;
@@ -46,35 +49,19 @@ public class PlayerData {
     private boolean showBadge = true;
     private PotionEffect activePotion;
 
-    @Transient
+    @JsonIgnore
+    //LEGACY SUPPORT
+    //Marriage UUID data is on UserData now!
     public boolean isMarried() {
         return marriedWith != null && MantaroBot.getInstance().getUserById(marriedWith) != null;
     }
 
-    @Transient
-    public String marryDate() {
-        if(getMarriedSince() == null || getMarriedSince() == 0) return null;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        final Date date = new Date(getMarriedSince());
-        return sdf.format(date);
-    }
-
-    @Transient
-    public String anniversary() {
-        if(getMarriedSince() == null || getMarriedSince() == 0) return null;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        Calendar cal = new GregorianCalendar();
-        cal.setTime(new Date(getMarriedSince()));
-        cal.add(Calendar.YEAR, 1);
-        return sdf.format(cal.getTime());
-    }
-
-    @Transient
+    @JsonIgnore
     public boolean hasBadge(Badge b) {
         return badges.contains(b);
     }
 
-    @Transient
+    @JsonIgnore
     public boolean addBadgeIfAbsent(Badge b) {
         if(hasBadge(b)) {
             return false;
@@ -84,7 +71,7 @@ public class PlayerData {
         return true;
     }
 
-    @Transient
+    @JsonIgnore
     public boolean removeBadge(Badge b) {
         if(!hasBadge(b)) {
             return false;
