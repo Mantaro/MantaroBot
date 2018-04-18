@@ -379,6 +379,25 @@
       "result": "Result:"
     },
     "marry": {
+      "loveletter": {
+        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on.",
+        "no_marriage": "%1$sYou aren't married, you cannot write a love letter for yourself...",
+        "not_proposing_player": "%1$sYou aren't the player who proposed this marriage!",
+        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`.",
+        "too_long": "%1$sThe love letter is too long (maximum is 1000 characters)",
+        "cannot_see": "%1$sI cannot find the user that you're married to... Probably they aren't in any server with me.",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s"
+        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `marry status`."
+        "scrapped": "%1$sYou still have time to think on what to write, no need to rush!"
+      },
+      "status": {
+        "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\"",
+        "header": "Marriage Status",
+        "description_format": "%1$sMarriage status between **%2$s#%3$s** and **%4$s#%5$s**",
+        "date": "Marriage Date",
+        "love_letter": "Love Letter",
+        "waifus": "Waifu Ownership"
+      },
       "no_mention": "%1$sMention the user you want to marry.",
       "marry_yourself_notice": "%1$sYou cannot marry yourself, as much as you may want to.",
       "marry_bot_notice": "%1$sYou cannot marry a bot. I don't think this is Futurama... yet. Wait, could bots and humans marry there?",
@@ -389,7 +408,8 @@
       "confirmation": "%1$s%2$s, type with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
       "accepted": "%1$s**%2$s#3$s** accepted the proposal of **%4$s#%5$s**!",
-      "denied": "%1$sDenied proposal from `%2$s`"
+      "denied": "%1$sDenied proposal from **%2$s**"
+
     },
     "divorce": {
       "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?",

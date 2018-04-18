@@ -363,7 +363,7 @@ public class FunCmds {
                         return;
                     }
 
-                    if(content.length() > 1500) {
+                    if(content.length() > 1000) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.too_long"), EmoteReference.ERROR).queue();
                         return;
                     }
@@ -473,7 +473,7 @@ public class FunCmds {
                 boolean eitherHasWaifus = !(dbUser.getData().getWaifus().isEmpty() && db.getUser(marriedTo).getData().getWaifus().isEmpty());
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.marry.status.header"), null, event.getAuthor().getEffectiveAvatarUrl())
-                        .setDescription(String.format(languageContext.get("commands.marry.status.description"),
+                        .setDescription(String.format(languageContext.get("commands.marry.status.description_format"),
                                 EmoteReference.HEART, author.getName(), author.getDiscriminator(), marriedTo.getName(), marriedTo.getDiscriminator())
                         )
                         .addField(languageContext.get("commands.marry.status.date"), marriageDate.toString(), false)
