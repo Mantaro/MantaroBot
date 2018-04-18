@@ -388,7 +388,7 @@
       "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>market buy 2 ring` and then try proposing again <3",
       "confirmation": "%1$s%2$s, type with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
-      "accepted": "%1$s`%2$s` accepted the proposal of `%3$s`!",
+      "accepted": "%1$s**%2$s#3$s** accepted the proposal of **%4$s#%5$s**!",
       "denied": "%1$sDenied proposal from `%2$s`"
     },
     "divorce": {

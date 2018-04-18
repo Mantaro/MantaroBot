@@ -35,7 +35,11 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -105,208 +109,215 @@ public class FunCmds {
 
     @Subscribe
     public void marry(CommandRegistry cr) {
-            cr.register("marry", new SimpleCommand(Category.FUN) {
+        ITreeCommand marryCommand = (ITreeCommand) cr.register("marry", new TreeCommand(Category.FUN) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.no_mention"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                //MARRIAGE SYSTEM EXPLANATION.
-                //UserData stores marriage UUID, Marriages table on rethink stores the Marriage document based on the UUID assigned.
-                //Onto the UUID we need to encode userId + timestamp of the proposing player and the proposed to player after the acceptance is done.
-                //Scrapping a marriage is easy, just remove the document from the db and reset marriageId field on the User.
-                //A marriage IS only between 2 people, but a waifu system will be implemented down the road (waifus field in UserData being a List of User)
-                //To check whether the person is married to the person proposing to, we can check if their Marriage ID is the same instead of all this bullshit.
-                //If the marriageId field exists but it's missing the document on the marriages db, we can scrape that as non existent (race condition?)
-                //Already-married people will just be checked whether the getMarriage is not null on UserData (that redirects to the db call to get the Marriage object,
-                //not only the id.
-                //Person proposing NEEDS 2 rings and them deducted from their inventory. A love letter can be randomly dropped.
-                //After the love letter is dropped, the proposing person can write on it and transfer the written letter to their loved one, as a read-only receipt that
-                //will be scrapped completely after the marriage ends.
-                //Marriage date will be saved as Instant.now().toEpochMilli().
-                //A denied marriage will give the denied badge, a successful one will give the married badge.
-                //A successfully delivered love letter will give you the lover badge.
-                //CANNOT marry bots, yourself, people already married, if you're married.
-                //Confirmation cannot happen if the rings are missing. Timeout for confirmation is at MOST 2 minutes.
-                //If the receipt has more than 5000 rings, remove rings from the person giving it and scrape them.
-
-                //We don't need to change those. I sure fucking hope we don't.
-                final ManagedDatabase managedDatabase = MantaroData.db();
-                final DBGuild dbGuild = managedDatabase.getGuild(event.getGuild());
-
-                User proposingUser = event.getAuthor();
-                User proposedToUser = event.getMessage().getMentionedUsers().get(0);
-
-                //This is just for checking purposes, so we don't need the DBUser itself.
-                UserData proposingUserData = managedDatabase.getUser(proposingUser).getData();
-                UserData proposedToUserData = managedDatabase.getUser(proposedToUser).getData();
-
-                //Again just for checking, and no need to change.
-                final Inventory proposingPlayerInventory = managedDatabase.getPlayer(proposingUser).getInventory();
-
-                //Why would you do this...
-                if(proposedToUser.getId().equals(event.getAuthor().getId())) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.marry_yourself_notice"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                final Marriage proposingMarriage = proposingUserData.getMarriage();
-                final Marriage proposedToMarriage = proposedToUserData.getMarriage();
-
-                //We need to conduct a bunch of checks here.
-                //You CANNOT marry bots, yourself, people already married, or engage on another marriage if you're married.
-                //On the latter, the waifu system will be avaliable on release.
-                //Confirmation cannot happen if the rings are missing. Timeout for confirmation is at MOST 2 minutes.
-                //If the receipt has more than 5000 rings, remove rings from the person giving it and scrape them.
-
-                //Proposed to is a bot user, cannot marry bots, this is still not 2100.
-                if(proposedToUser.isBot()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.marry_bot_notice"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                //Already married to the same person you're proposing to.
-                if((proposingMarriage != null && proposedToMarriage != null) && proposedToUserData.getMarriage().getId().equals(proposingMarriage.getId())) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.already_married_receipt"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                //You're already married. Huh huh.
-                if(proposingMarriage != null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.already_married"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                //Receipt is married, cannot continue.
-                if(proposedToMarriage != null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.receipt_married"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                //Not enough rings to continue. Buy more rings w.
-                if(!proposingPlayerInventory.containsItem(Items.RING) || proposingPlayerInventory.getAmount(Items.RING) < 2) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.no_ring"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                //Send confirmation message.
-                event.getChannel().sendMessageFormat(languageContext.get("commands.marry.confirmation"), EmoteReference.MEGA,
-                        proposedToUser.getName(), event.getAuthor().getName(), EmoteReference.STOPWATCH
-                ).queue();
-
-                InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 120, (ie) -> {
-                    //Ignore all messages from anyone that isn't the user we already proposed to. Waiting for confirmation...
-                    if(!ie.getAuthor().getId().equals(proposedToUser.getId()))
-                        return Operation.IGNORED;
-
-                    //Replace prefix because people seem to think you have to add the prefix before saying yes.
-                    String message = ie.getMessage().getContentRaw();
-                    for(String s : config.prefix) {
-                        if(message.toLowerCase().startsWith(s)) {
-                            message = message.substring(s.length());
-                        }
-                    }
-
-                    String guildCustomPrefix = dbGuild.getData().getGuildCustomPrefix();
-                    if(guildCustomPrefix != null && !guildCustomPrefix.isEmpty() && message.toLowerCase().startsWith(guildCustomPrefix)) {
-                        message = message.substring(guildCustomPrefix.length());
-                    }
-                    //End of prefix replacing.
-
-                    //Lovely~ <3
-                    if(message.equalsIgnoreCase("yes")) {
-                        //Here we NEED to get the Player,
-                        //User and Marriage objects once again to avoid race conditions or changes on those that might have happened on the 120 seconds that this lasted for.
-                        //We need to check if the marriage is empty once again before continuing, also if we have enough rings!
-                        //USE THOSE VARIABLES TO MODIFY DATA, NOT THE ONES USED TO CHECK BEFORE THE CONFIRMATION MESSAGE. THIS IS EXTREMELY IMPORTANT.
-                        //Else we end up with really annoying to debug bugs, lol.
-                        Player proposingPlayer = managedDatabase.getPlayer(proposingUser);
-                        Player proposedToPlayer = managedDatabase.getPlayer(proposedToUser);
-                        DBUser proposingUserDB = managedDatabase.getUser(proposingUser);
-                        DBUser proposedToUserDB = managedDatabase.getUser(proposedToUser);
-
-
-                        // ---------------- START OF FINAL MARRIAGE CHECK ----------------
-                        final Marriage proposingMarriageFinal = proposingUserData.getMarriage();
-                        final Marriage proposedToMarriageFinal = proposedToUserData.getMarriage();
-
-                        if(proposingMarriageFinal != null) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.already_married"), EmoteReference.ERROR).queue();
-                            return Operation.COMPLETED;
+            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+                return new SubCommand() {
+                    @Override
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        if(event.getMessage().getMentionedUsers().isEmpty()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.no_mention"), EmoteReference.ERROR).queue();
+                            return;
                         }
 
-                        if(proposedToMarriageFinal != null) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.receipt_married"), EmoteReference.ERROR).queue();
-                            return Operation.COMPLETED;
-                        }
-                        // ---------------- END OF FINAL MARRIAGE CHECK ----------------
-
-                        // ---------------- START OF INVENTORY CHECKS ----------------
-                        //LAST inventory check and ring assignment is gonna happen using those.
-                        final Inventory proposingPlayerFinalInventory = proposingPlayer.getInventory();
-                        final Inventory proposedToPlayerInventory = proposedToPlayer.getInventory();
-
-                        if(proposingPlayerFinalInventory.getAmount(Items.RING) < 2) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.ring_check_fail"), EmoteReference.ERROR).queue();
-                            return Operation.COMPLETED;
-                        }
-
-                        //Remove the ring from the proposing player inventory.
-                        proposingPlayerFinalInventory.process(new ItemStack(Items.RING, -1));
-
-                        //Silently scrape the rings if the receipt has more than 5000 rings.
-                        if(proposedToPlayerInventory.getAmount(Items.RING) < 5000) {
-                            proposedToPlayerInventory.process(new ItemStack(Items.RING, 1));
-                        }
-                        // ---------------- END OF INVENTORY CHECKS ----------------
-
-                        // ---------------- START OF MARRIAGE ASSIGNMENT ----------------
-                        final long marriageCreationMillis = Instant.now().toEpochMilli();
+                        //MARRIAGE SYSTEM EXPLANATION.
+                        //UserData stores marriage UUID, Marriages table on rethink stores the Marriage document based on the UUID assigned.
                         //Onto the UUID we need to encode userId + timestamp of the proposing player and the proposed to player after the acceptance is done.
-                        String marriageId = new UUID(proposingUser.getIdLong(), proposedToUser.getIdLong()).toString();
+                        //Scrapping a marriage is easy, just remove the document from the db and reset marriageId field on the User.
+                        //A marriage IS only between 2 people, but a waifu system will be implemented down the road (waifus field in UserData being a List of User)
+                        //To check whether the person is married to the person proposing to, we can check if their Marriage ID is the same instead of all this bullshit.
+                        //If the marriageId field exists but it's missing the document on the marriages db, we can scrape that as non existent (race condition?)
+                        //Already-married people will just be checked whether the getMarriage is not null on UserData (that redirects to the db call to get the Marriage object,
+                        //not only the id.
+                        //Person proposing NEEDS 2 rings and them deducted from their inventory. A love letter can be randomly dropped.
+                        //After the love letter is dropped, the proposing person can write on it and transfer the written letter to their loved one, as a read-only receipt that
+                        //will be scrapped completely after the marriage ends.
+                        //Marriage date will be saved as Instant.now().toEpochMilli().
+                        //A denied marriage will give the denied badge, a successful one will give the married badge.
+                        //A successfully delivered love letter will give you the lover badge.
+                        //CANNOT marry bots, yourself, people already married, if you're married.
+                        //Confirmation cannot happen if the rings are missing. Timeout for confirmation is at MOST 2 minutes.
+                        //If the receipt has more than 5000 rings, remove rings from the person giving it and scrape them.
 
-                        //Make and save the new marriage object.
-                        Marriage actualMarriage = Marriage.of(marriageId, proposingUser, proposedToUser);
-                        actualMarriage.getData().setMarriageCreationMillis(marriageCreationMillis);
-                        actualMarriage.save();
+                        //We don't need to change those. I sure fucking hope we don't.
+                        final ManagedDatabase managedDatabase = MantaroData.db();
+                        final DBGuild dbGuild = managedDatabase.getGuild(event.getGuild());
 
-                        //Assign the marriage ID to the respective users and save it.
-                        proposingUserDB.getData().setMarriageId(marriageId);
-                        proposedToUserDB.getData().setMarriageId(marriageId);
-                        proposingUserDB.save();
-                        proposedToUserDB.save();
-                        //---------------- END OF MARRIAGE ASSIGNMENT ----------------
+                        User proposingUser = event.getAuthor();
+                        User proposedToUser = event.getMessage().getMentionedUsers().get(0);
 
-                        //Send marriage confirmation message.
-                        ie.getChannel().sendMessageFormat(languageContext.get("commands.marry.accepted"), EmoteReference.POPPER, ie.getAuthor().getName(), proposingUser.getName()).queue();
+                        //This is just for checking purposes, so we don't need the DBUser itself.
+                        UserData proposingUserData = managedDatabase.getUser(proposingUser).getData();
+                        UserData proposedToUserData = managedDatabase.getUser(proposedToUser).getData();
 
-                        //Add the badge to the married couple.
-                        proposingPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
-                        proposedToPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
+                        //Again just for checking, and no need to change.
+                        final Inventory proposingPlayerInventory = managedDatabase.getPlayer(proposingUser).getInventory();
 
-                        //Badge assignment saving.
-                        proposingPlayer.save();
-                        proposedToPlayer.save();
+                        //Why would you do this...
+                        if(proposedToUser.getId().equals(event.getAuthor().getId())) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.marry_yourself_notice"), EmoteReference.ERROR).queue();
+                            return;
+                        }
 
-                        //Drop a love letter to the text channel ground.
-                        TextChannelGround.of(event).dropItemWithChance(Items.LOVE_LETTER, 2);
-                        return Operation.COMPLETED;
+                        final Marriage proposingMarriage = proposingUserData.getMarriage();
+                        final Marriage proposedToMarriage = proposedToUserData.getMarriage();
+
+                        //We need to conduct a bunch of checks here.
+                        //You CANNOT marry bots, yourself, people already married, or engage on another marriage if you're married.
+                        //On the latter, the waifu system will be avaliable on release.
+                        //Confirmation cannot happen if the rings are missing. Timeout for confirmation is at MOST 2 minutes.
+                        //If the receipt has more than 5000 rings, remove rings from the person giving it and scrape them.
+
+                        //Proposed to is a bot user, cannot marry bots, this is still not 2100.
+                        if(proposedToUser.isBot()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.marry_bot_notice"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
+                        //Already married to the same person you're proposing to.
+                        if((proposingMarriage != null && proposedToMarriage != null) && proposedToUserData.getMarriage().getId().equals(proposingMarriage.getId())) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.already_married_receipt"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
+                        //You're already married. Huh huh.
+                        if(proposingMarriage != null) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.already_married"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
+                        //Receipt is married, cannot continue.
+                        if(proposedToMarriage != null) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.receipt_married"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
+                        //Not enough rings to continue. Buy more rings w.
+                        if(!proposingPlayerInventory.containsItem(Items.RING) || proposingPlayerInventory.getAmount(Items.RING) < 2) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.no_ring"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
+                        //Send confirmation message.
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.marry.confirmation"), EmoteReference.MEGA,
+                                proposedToUser.getName(), event.getAuthor().getName(), EmoteReference.STOPWATCH
+                        ).queue();
+
+                        InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 120, (ie) -> {
+                            //Ignore all messages from anyone that isn't the user we already proposed to. Waiting for confirmation...
+                            if(!ie.getAuthor().getId().equals(proposedToUser.getId()))
+                                return Operation.IGNORED;
+
+                            //Replace prefix because people seem to think you have to add the prefix before saying yes.
+                            String message = ie.getMessage().getContentRaw();
+                            for(String s : config.prefix) {
+                                if(message.toLowerCase().startsWith(s)) {
+                                    message = message.substring(s.length());
+                                }
+                            }
+
+                            String guildCustomPrefix = dbGuild.getData().getGuildCustomPrefix();
+                            if(guildCustomPrefix != null && !guildCustomPrefix.isEmpty() && message.toLowerCase().startsWith(guildCustomPrefix)) {
+                                message = message.substring(guildCustomPrefix.length());
+                            }
+                            //End of prefix replacing.
+
+                            //Lovely~ <3
+                            if(message.equalsIgnoreCase("yes")) {
+                                //Here we NEED to get the Player,
+                                //User and Marriage objects once again to avoid race conditions or changes on those that might have happened on the 120 seconds that this lasted for.
+                                //We need to check if the marriage is empty once again before continuing, also if we have enough rings!
+                                //USE THOSE VARIABLES TO MODIFY DATA, NOT THE ONES USED TO CHECK BEFORE THE CONFIRMATION MESSAGE. THIS IS EXTREMELY IMPORTANT.
+                                //Else we end up with really annoying to debug bugs, lol.
+                                Player proposingPlayer = managedDatabase.getPlayer(proposingUser);
+                                Player proposedToPlayer = managedDatabase.getPlayer(proposedToUser);
+                                DBUser proposingUserDB = managedDatabase.getUser(proposingUser);
+                                DBUser proposedToUserDB = managedDatabase.getUser(proposedToUser);
+
+
+                                // ---------------- START OF FINAL MARRIAGE CHECK ----------------
+                                final Marriage proposingMarriageFinal = proposingUserData.getMarriage();
+                                final Marriage proposedToMarriageFinal = proposedToUserData.getMarriage();
+
+                                if(proposingMarriageFinal != null) {
+                                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.already_married"), EmoteReference.ERROR).queue();
+                                    return Operation.COMPLETED;
+                                }
+
+                                if(proposedToMarriageFinal != null) {
+                                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.receipt_married"), EmoteReference.ERROR).queue();
+                                    return Operation.COMPLETED;
+                                }
+                                // ---------------- END OF FINAL MARRIAGE CHECK ----------------
+
+                                // ---------------- START OF INVENTORY CHECKS ----------------
+                                //LAST inventory check and ring assignment is gonna happen using those.
+                                final Inventory proposingPlayerFinalInventory = proposingPlayer.getInventory();
+                                final Inventory proposedToPlayerInventory = proposedToPlayer.getInventory();
+
+                                if(proposingPlayerFinalInventory.getAmount(Items.RING) < 2) {
+                                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.ring_check_fail"), EmoteReference.ERROR).queue();
+                                    return Operation.COMPLETED;
+                                }
+
+                                //Remove the ring from the proposing player inventory.
+                                proposingPlayerFinalInventory.process(new ItemStack(Items.RING, -1));
+
+                                //Silently scrape the rings if the receipt has more than 5000 rings.
+                                if(proposedToPlayerInventory.getAmount(Items.RING) < 5000) {
+                                    proposedToPlayerInventory.process(new ItemStack(Items.RING, 1));
+                                }
+                                // ---------------- END OF INVENTORY CHECKS ----------------
+
+                                // ---------------- START OF MARRIAGE ASSIGNMENT ----------------
+                                final long marriageCreationMillis = Instant.now().toEpochMilli();
+                                //Onto the UUID we need to encode userId + timestamp of the proposing player and the proposed to player after the acceptance is done.
+                                String marriageId = new UUID(proposingUser.getIdLong(), proposedToUser.getIdLong()).toString();
+
+                                //Make and save the new marriage object.
+                                Marriage actualMarriage = Marriage.of(marriageId, proposingUser, proposedToUser);
+                                actualMarriage.getData().setMarriageCreationMillis(marriageCreationMillis);
+                                actualMarriage.save();
+
+                                //Assign the marriage ID to the respective users and save it.
+                                proposingUserDB.getData().setMarriageId(marriageId);
+                                proposedToUserDB.getData().setMarriageId(marriageId);
+                                proposingUserDB.save();
+                                proposedToUserDB.save();
+                                //---------------- END OF MARRIAGE ASSIGNMENT ----------------
+
+                                //Send marriage confirmation message.
+                                ie.getChannel().sendMessageFormat(languageContext.get("commands.marry.accepted"),
+                                        EmoteReference.POPPER, ie.getAuthor().getName(), ie.getAuthor().getDiscriminator(), proposingUser.getName(), proposingUser.getDiscriminator()
+                                ).queue();
+
+                                //Add the badge to the married couple.
+                                proposingPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
+                                proposedToPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
+
+                                //Badge assignment saving.
+                                proposingPlayer.save();
+                                proposedToPlayer.save();
+
+                                //Drop a love letter to the text channel ground.
+                                TextChannelGround.of(event).dropItemWithChance(Items.LOVE_LETTER, 2);
+                                return Operation.COMPLETED;
+                            }
+
+                            if(message.equalsIgnoreCase("no")) {
+                                ie.getChannel().sendMessageFormat(languageContext.get("commands.marry.denied"), EmoteReference.CORRECT, proposingUser.getName()).queue();
+
+                                //Well, we have a badge for this too. Consolation prize I guess.
+                                final Player proposingPlayer = managedDatabase.getPlayer(proposingUser);
+                                proposingPlayer.getData().addBadgeIfAbsent(Badge.DENIED);
+                                proposingPlayer.saveAsync();
+                                return Operation.COMPLETED;
+                            }
+
+                            return Operation.IGNORED;
+                        });
                     }
-
-                    if(message.equalsIgnoreCase("no")) {
-                        ie.getChannel().sendMessageFormat(languageContext.get("commands.marry.denied"), EmoteReference.CORRECT, proposingUser.getName()).queue();
-
-                        //Well, we have a badge for this too. Consolation prize I guess.
-                        final Player proposingPlayer = managedDatabase.getPlayer(proposingUser);
-                        proposingPlayer.getData().addBadgeIfAbsent(Badge.DENIED);
-                        proposingPlayer.saveAsync();
-                        return Operation.COMPLETED;
-                    }
-
-                    return Operation.IGNORED;
-                });
+                };
             }
 
             @Override
@@ -319,6 +330,147 @@ public class FunCmds {
                                 false
                         )
                         .build();
+            }
+        });
+
+        marryCommand.addSubCommand("createletter", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                final ManagedDatabase db = MantaroData.db();
+                final User author = event.getAuthor();
+
+                Player player = db.getPlayer(author);
+                Inventory playerInventory = player.getInventory();
+                DBUser dbUser = db.getUser(author);
+
+                //Without one love letter we cannot do much, ya know.
+                if(playerInventory.containsItem(Items.LOVE_LETTER)) {
+                    final Marriage currentMarriage = dbUser.getData().getMarriage();
+
+                    //Check if the user is married, is the proposed player, there's no love letter and that the love letter is less than 1500 characters long.
+                    if(currentMarriage == null) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.no_marriage"), EmoteReference.SAD).queue();
+                        return;
+                    }
+
+                    if(!author.getId().equals(currentMarriage.getPlayer1())) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.not_proposing_player"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    if(currentMarriage.getData().getLoveLetter() != null || !currentMarriage.getData().getLoveLetter().isEmpty()) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.already_done"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    if(content.length() > 1500) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.too_long"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    //Can we find the user this is married to?
+                    final User marriedTo = MantaroBot.getInstance().getUserById(currentMarriage.getOtherPlayer(author.getId()));
+                    if(marriedTo == null) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.cannot_see"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.confirmation"),
+                            EmoteReference.TALKING, marriedTo.getName(), marriedTo.getDiscriminator(), content
+                    ).queue();
+
+                    //Start the operation.
+                    InteractiveOperations.create(event.getChannel(), author.getIdLong(), 60, e -> {
+                        if(!e.getAuthor().getId().equals(author.getId())) {
+                            return Operation.IGNORED;
+                        }
+
+                        final String c = e.getMessage().getContentDisplay();
+
+                        //Confirmed they want to save this as the permanent love letter.
+                        if(c.equalsIgnoreCase("yes")) {
+                            final Player playerFinal = db.getPlayer(author);
+                            final Inventory inventoryFinal = playerFinal.getInventory();
+                            final DBUser dbUserFinal = db.getUser(author);
+                            final Marriage currentMarriageFinal = dbUser.getData().getMarriage();
+
+                            //We need to do most of the checks all over again just to make sure nothing important slipped through.
+                            if(currentMarriageFinal == null) {
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.no_marriage"), EmoteReference.SAD).queue();
+                                return Operation.COMPLETED;
+                            }
+
+                            if(!inventoryFinal.containsItem(Items.LOVE_LETTER)) {
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.no_letter"), EmoteReference.SAD).queue();
+                                return Operation.COMPLETED;
+                            }
+
+                            //Remove the love letter from the inventory.
+                            inventoryFinal.process(new ItemStack(Items.LOVE_LETTER, -1));
+                            player.save();
+
+                            //Save the love letter. The content variable is the actual letter, while c is the content of the operation itself.
+                            //Yes it's confusing.
+                            currentMarriageFinal.getData().setLoveLetter(content);
+                            currentMarriageFinal.save();
+
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.confirmed"), EmoteReference.CORRECT).queue();
+                            return Operation.COMPLETED;
+                        } else if (c.equalsIgnoreCase("no")) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.scrapped"), EmoteReference.CORRECT).queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        return Operation.IGNORED;
+                    });
+                } else {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.no_letter"), EmoteReference.SAD).queue();
+                }
+            }
+        });
+
+        marryCommand.addSubCommand("status", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                final ManagedDatabase db = MantaroData.db();
+                final User author = event.getAuthor();
+                DBUser dbUser = db.getUser(author);
+                final Marriage currentMarriage = dbUser.getData().getMarriage();
+
+                //What status would we have without marriage? Well, we can be unmarried omegalul.
+                if (currentMarriage == null) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.status.no_marriage"), EmoteReference.SAD).queue();
+                    return;
+                }
+
+                //Can we find the user this is married to?
+                final User marriedTo = MantaroBot.getInstance().getUserById(currentMarriage.getOtherPlayer(author.getId()));
+                if (marriedTo == null) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.cannot_see"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                //Get the current love letter.
+                String loveLetter = currentMarriage.getData().getLoveLetter();
+                if(loveLetter == null || loveLetter.isEmpty()) {
+                    loveLetter = "None.";
+                }
+
+                //This would be good if it was 2008. But it works.
+                Date marriageDate = new Date(currentMarriage.getData().getMarriageCreationMillis());
+                boolean eitherHasWaifus = !(dbUser.getData().getWaifus().isEmpty() && db.getUser(marriedTo).getData().getWaifus().isEmpty());
+                EmbedBuilder embedBuilder = new EmbedBuilder()
+                        .setAuthor(languageContext.get("commands.marry.status.header"), null, event.getAuthor().getEffectiveAvatarUrl())
+                        .setDescription(String.format(languageContext.get("commands.marry.status.description"),
+                                EmoteReference.HEART, author.getName(), author.getDiscriminator(), marriedTo.getName(), marriedTo.getDiscriminator())
+                        )
+                        .addField(languageContext.get("commands.marry.status.date"), marriageDate.toString(), false)
+                        .addField(languageContext.get("commands.marry.status.love_letter"), loveLetter, false)
+                        .addField(languageContext.get("commands.marry.status.waifus"), String.valueOf(eitherHasWaifus), false)
+                        .setFooter("Marriage ID: " + currentMarriage.getId(), null);
+
+
+                event.getChannel().sendMessage(embedBuilder.build()).queue();
             }
         });
     }

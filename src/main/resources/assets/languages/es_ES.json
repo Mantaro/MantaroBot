@@ -383,7 +383,7 @@
       "no_ring": "%1$sNo puedes proponerte sin dos anillos de casamiento! Puedes comprarlos ejecutando `~>market buy 2 ring` y luego intenta proponerte denuevo <3",
       "confirmation": "%1$s%2$s, escribe **yes** o **no** para responder a la proposición de matrimonio de %3$s\n%4$sEsto expira en 2 minutos.",
       "ring_check_fail": "%1$sNo puedes casarte con menos de dos anillos en tu inventario!",
-      "accepted": "%1$s`%2$s` ha aceptado la proposición de `%3$s`!",
+      "accepted": "%1$s**%2$s#%3$s** ha aceptado la proposición de %4$s#%5$s!",
       "denied": "%1$sLa proposición de `%2$s` fue negada :("
     },
     "divorce": {
