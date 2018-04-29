@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class NewerRateLimiter {
+public class ImprovedWebscaleNewestNewNewerRateLimiterForSinglePageApplicationsForTheWeb {
     private static final String SCRIPT;
 
     private final JedisPool pool;
@@ -26,13 +26,13 @@ public class NewerRateLimiter {
 
     static {
         try {
-            SCRIPT = IOUtils.toString(NewerRateLimiter.class.getResourceAsStream("/ratelimiter.lua"), StandardCharsets.UTF_8);
+            SCRIPT = IOUtils.toString(ImprovedWebscaleNewestNewNewerRateLimiterForSinglePageApplicationsForTheWeb.class.getResourceAsStream("/ratelimiter.lua"), StandardCharsets.UTF_8);
         } catch(IOException e) {
             throw new ExceptionInInitializerError(e);
         }
     }
 
-    private NewerRateLimiter(JedisPool pool, int limit, int cooldown, int spamBeforeCooldownIncrease, int cooldownIncrease, int maxCooldown) {
+    private ImprovedWebscaleNewestNewNewerRateLimiterForSinglePageApplicationsForTheWeb(JedisPool pool, int limit, int cooldown, int spamBeforeCooldownIncrease, int cooldownIncrease, int maxCooldown) {
         this.pool = pool;
         this.limit = limit;
         this.cooldown = cooldown;
@@ -128,7 +128,7 @@ public class NewerRateLimiter {
             return this;
         }
 
-        public NewerRateLimiter build() {
+        public ImprovedWebscaleNewestNewNewerRateLimiterForSinglePageApplicationsForTheWeb build() {
             if(pool == null) {
                 throw new IllegalStateException("Pool must be set");
             }
@@ -138,7 +138,7 @@ public class NewerRateLimiter {
             if(cooldown < 0) {
                 throw new IllegalStateException("Cooldown must be set");
             }
-            return new NewerRateLimiter(pool, limit, cooldown, spamTolerance, cooldownPenaltyIncrease, maxCooldown);
+            return new ImprovedWebscaleNewestNewNewerRateLimiterForSinglePageApplicationsForTheWeb(pool, limit, cooldown, spamTolerance, cooldownPenaltyIncrease, maxCooldown);
         }
     }
 }
