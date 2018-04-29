@@ -1059,7 +1059,7 @@
       "streak": {
         "up": "Streak up! Current streak: `%1$sx`",
         "first_time": "First time claiming daily, have fun! (Come back for your streak tomorrow!)",
-        "lost_streak": "2+ days have passed since your last daily, so your streak got reset :(\nOld streak: `%1$dx`",
+        "lost_streak": "2+ days have passed since your last daily, so your streak of `%1$dx` got reset :(",
         "bonus": "\nYou won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)",
         "given": {
           "up": "Streak up! Current streak: `%1$dx`.\n*The streak was applied to your profile!*",

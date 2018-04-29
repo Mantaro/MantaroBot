@@ -57,9 +57,9 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class CommandListener implements EventListener {
-    //Message cache of 65000 cached messages. If it reaches 65000 it will delete the first one stored, and continue being 65000
+    //Message cache of 10000 cached messages per shard. If it reaches 10000 it will delete the first one stored, and continue being 10000.
     @Getter
-    private static final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(65000).build();
+    private final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(5).maximumSize(10000).build();
     private static final RateLimiter experienceRatelimiter = new RateLimiter(TimeUnit.SECONDS, 18);
     //Commands ran this session.
     private static int commandTotal = 0;

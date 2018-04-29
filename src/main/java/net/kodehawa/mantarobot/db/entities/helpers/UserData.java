@@ -36,6 +36,10 @@ public class UserData {
     //NEW MARRIAGE SYSTEM
     private String marriageId;
     private List<String> waifus = new ArrayList<>();
+    private int waifuSlots = 3;
+
+    //Persistent reminders. UUID is saved here.
+    private List<String> reminders = new ArrayList<>();
 
     @JsonIgnore
     public Marriage getMarriage() {
