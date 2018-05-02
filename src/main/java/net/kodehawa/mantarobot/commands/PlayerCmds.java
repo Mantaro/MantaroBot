@@ -368,7 +368,7 @@ public class PlayerCmds {
                     return;
                 }
 
-                if(args[1].equals("clear")) {
+                if(args[0].equals("clear")) {
                     player.getData().setDescription(null);
                     event.getChannel().sendMessageFormat(languageContext.get("commands.profile.description.clear_success"), EmoteReference.CORRECT).queue();
                     player.save();

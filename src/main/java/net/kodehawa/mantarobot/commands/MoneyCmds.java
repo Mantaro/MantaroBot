@@ -670,6 +670,7 @@ public class MoneyCmds {
         leaderboards.createSubCommandAlias("games", "wins");
 
         cr.registerAlias("leaderboard", "richest");
+        cr.registerAlias("leaderboard", "lb");
     }
 
     @Subscribe
