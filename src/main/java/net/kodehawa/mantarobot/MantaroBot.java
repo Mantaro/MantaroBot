@@ -241,7 +241,8 @@ public class MantaroBot extends ShardedJDA {
     @Override
     public void restartShard(int shardId, boolean force) {
         try {
-            getShardList().get(shardId).start(force);
+            MantaroShard shard = getShardList().get(shardId);
+            shard.start(force);
         } catch(Exception e) {
             LogUtils.shard("Error while restarting shard " + shardId);
             e.printStackTrace();

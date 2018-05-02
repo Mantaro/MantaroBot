@@ -37,6 +37,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
@@ -418,6 +419,33 @@ public class PlayerCmds {
                 data.setMainBadge(badge);
                 player.saveAsync();
                 event.getChannel().sendMessageFormat(languageContext.get("commands.profile.displaybadge.success"), EmoteReference.CORRECT, badge.display).queue();
+            }
+        });
+
+        profileCommand.addSubCommand("lang", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.lang.nothing_specified"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
+
+                if(content.equalsIgnoreCase("reset")) {
+                    dbUser.getData().setLang(null);
+                    dbUser.save();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.lang.reset_success"), EmoteReference.CORRECT).queue();
+                    return;
+                }
+
+                if(I18n.isValidLanguage(content)) {
+                    dbUser.getData().setLang(content);
+                    dbUser.save();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content).queue();
+                } else {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.lang.invalid"), EmoteReference.ERROR).queue();
+                }
             }
         });
     }

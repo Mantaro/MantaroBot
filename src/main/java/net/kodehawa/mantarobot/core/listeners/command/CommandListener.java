@@ -57,9 +57,6 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class CommandListener implements EventListener {
-    //Message cache of 10000 cached messages per shard. If it reaches 10000 it will delete the first one stored, and continue being 10000.
-    @Getter
-    private final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(5).maximumSize(10000).build();
     private static final RateLimiter experienceRatelimiter = new RateLimiter(TimeUnit.SECONDS, 18);
     //Commands ran this session.
     private static int commandTotal = 0;
@@ -113,7 +110,7 @@ public class CommandListener implements EventListener {
             lastMessageReceivedAt = System.currentTimeMillis();
             GuildMessageReceivedEvent msg = (GuildMessageReceivedEvent) event;
             //Inserts a cached message into the cache. This only holds the id and the content, and is way lighter than saving the entire jda object.
-            messageCache.put(msg.getMessage().getId(), Optional.of(new CachedMessage(msg.getAuthor().getIdLong(), msg.getMessage().getContentDisplay())));
+            shard.getMessageCache().put(msg.getMessage().getId(), Optional.of(new CachedMessage(msg.getAuthor().getIdLong(), msg.getMessage().getContentDisplay())));
 
             //Ignore myself and bots.
             if(msg.getAuthor().isBot() || msg.getAuthor().equals(msg.getJDA().getSelfUser()))

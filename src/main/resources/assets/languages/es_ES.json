@@ -374,6 +374,25 @@
       "result": "Resultado:"
     },
     "marry": {
+      "loveletter": {
+        "no_letter": "%1$sNo tienes ninguna carta de amor en tu inventario, por lo que no tienes nada donde escribirla :(.",
+        "no_marriage": "%1$sNo estás casado/a, y no puedes escribirte una carta de amor a ti mismo...",
+        "not_proposing_player": "%1$s¡No eres el jugador que propuso este casamiento!",
+        "already_done": "%1$sEste casamiento ya tiene una carta de amor asignada. Revisala usando `marry status`.",
+        "too_long": "%1$sEsta carta de amor es muy larga (500 carácteres máximo)",
+        "cannot_see": "%1$sNo puedo encontrar al usuario con el que estás casado/a... Probablemente no está en ningun servidor donde me encuentro.",
+        "confirmation": "%1$sEstás *seguro* que quieres escribir esta carta de amor para tu casamiento con **%2$s#%3$s**? Esto es PERMANENTE mientras el casamiento esté en pie. *Contenido de la carta:* %4$s",
+        "confirmed": "%1$s¡Le he enviado la carta correctamente a tu pareja! Revisala usando `marry status`.",
+        "scrapped": "%1$sAún tienes tiempo para pensar en que escribirle, no es necesario apurarse :)"
+      },
+      "status": {
+        "no_marriage": "%1$sNo estás casado asi que asumo que tu estado es... \"soltero\"",
+        "header": "Estado actual del casamiento",
+        "description_format": "%1$sEstado de pareja entre **%2$s#%3$s** y **%4$s#%5$s**",
+        "date": "Fecha de casamiento",
+        "love_letter": "Carta de amor",
+        "waifus": "Waifus"
+      },
       "no_mention": "%1$sMenciona al usuario con el que te quieras casar.",
       "marry_yourself_notice": "%1$sNo puedes casarte contigo mismo, por más que lo desees.",
       "marry_bot_notice": "%1$sNo puedes casarte con un bot. No creo que andemos en el mundo de Futurama todavía... espera, ¿se podían casar los robots con humanos allí?",
@@ -563,6 +582,12 @@
         "no_such_badge": "%1$sEse trofeo no existe...\nTus trofeos: %2$s",
         "player_missing_badge": "%1$sNo tienes ese trofeo.\nTus trofeos: %2$s",
         "success": "%1$sAhora se mostrará **%2$s** en tu perfil."
+      },
+      "lang": {
+        "nothing_specified": "%1$sTienes que especificar un idioma para usar o `reset` para resetear tu configuración de idioma.",
+        "reset_success": "%1$sHe reseteado correctamente tu configuración de idioma.",
+        "success": "%1$sEl idioma que Mantaro usará para hablarte ahora será `%2$s`",
+        "invalid": "%1$s¡Ese idioma no existe! Puedes usar `reset` para resetear tu configuración de idioma."
       },
       "bot_notice": "%1$sLos bots no tienen perfil.",
       "header": "Perfil de %1$s",

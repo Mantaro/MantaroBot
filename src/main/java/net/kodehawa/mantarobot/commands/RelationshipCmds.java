@@ -17,7 +17,10 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -46,8 +49,10 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.awt.*;
 import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
@@ -534,7 +539,6 @@ public class RelationshipCmds {
 
     @Subscribe
     public void waifu(CommandRegistry cr) {
-
         ITreeCommand waifu = (ITreeCommand) cr.register("waifu", new TreeCommand(Category.FUN) {
             @Override
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
@@ -575,7 +579,7 @@ public class RelationshipCmds {
                                     .append("#")
                                     .append(user.getDiscriminator())
                                     .append(". (V: ")
-                                    .append(calculateWaifuValue(user))
+                                    .append(calculateWaifuValue(user).getFinalValue())
                                     .append(")");
 
                             //New line owo
@@ -586,6 +590,7 @@ public class RelationshipCmds {
                                 .setAuthor("Your waifus", null, event.getAuthor().getEffectiveAvatarUrl())
                                 .setDescription(userData.getWaifus().isEmpty() ? "No waifus to see here, just dust :(" : waifus)
                                 .setThumbnail("https://i.imgur.com/95JtKgP.png")
+                                .setColor(Color.CYAN)
                                 .setFooter(String.format("Total waifus: %1$d", userData.getWaifus().size()), null);
 
                         event.getChannel().sendMessage(waifusEmbed.build()).queue();
@@ -602,19 +607,47 @@ public class RelationshipCmds {
         waifu.addSubCommand("stats", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                Member member = Utils.findMember(event, event.getMember(), content);
+                if(member == null)
+                    return;
 
+                User toLookup = member.getUser();
+                Waifu waifuStats = calculateWaifuValue(toLookup);
+
+                EmbedBuilder statsBuilder = new EmbedBuilder()
+                        .setThumbnail(toLookup.getEffectiveAvatarUrl())
+                        .setAuthor(toLookup == event.getAuthor() ? "Your waifu stats" : String.format("%1$s's waifu stats", toLookup.getName()),
+                                null, toLookup.getEffectiveAvatarUrl()
+                        )
+                        .setColor(Color.PINK)
+                        .setDescription(String.format("%1$s.- **Money weight value:** %2$s\n" +
+                                "%1$s.- **Badge weight value:** %3$s\n" +
+                                "%1$s.- **Experience weight value:** %4$s",
+                                EmoteReference.BLUE_SMALL_MARKER, waifuStats.getMoneyValue(), waifuStats.getBadgeValue(), waifuStats.getExperienceValue())
+                        )
+                        .addField("Total value", String.format("%1$d credits", waifuStats.getFinalValue()), false);
+
+                event.getChannel().sendMessage(statsBuilder.build()).queue();
             }
         });
 
         waifu.addSubCommand("claim", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                if(event.getMessage().getMentionedUsers().isEmpty()) {
+                    //no
+                    return;
+                }
 
+                User toLookup = event.getMessage().getMentionedUsers().get(0);
+                Waifu waifuToClaim = calculateWaifuValue(toLookup);
+
+                //Remember to do here: deduct balance, give a new badge that i have yet to come up with a name for, and update the fields.
             }
         });
     }
 
-    private long calculateWaifuValue(User user) {
+    private Waifu calculateWaifuValue(User user) {
         final ManagedDatabase db = MantaroData.db();
         Player waifuPlayer = db.getPlayer(user);
         PlayerData waifuPlayerData = waifuPlayer.getData();
@@ -628,20 +661,33 @@ public class RelationshipCmds {
         //Maximum waifu value is Integer.MAX_VALUE.
 
         //Money calculation.
-        waifuValue += Math.round(Math.max(1, (int) (waifuPlayer.getMoney() / 100000)) * calculatePercentage(3, waifuBaseValue));
+        long moneyValue = Math.round(Math.max(1, (int) (waifuPlayer.getMoney() / 100000)) * calculatePercentage(3, waifuBaseValue));
         //Badge calculation.
-        waifuValue += Math.round(Math.max(1, (waifuPlayerData.getBadges().size() / 10)) * calculatePercentage(20, waifuBaseValue));
+        long badgeValue = Math.round(Math.max(1, (waifuPlayerData.getBadges().size() / 10)) * calculatePercentage(20, waifuBaseValue));
         //Experience calculator.
-        waifuValue += Math.round(Math.max(1, (int) (waifuPlayer.getData().getExperience() / 1000)) * calculatePercentage(20, waifuBaseValue));
+        long experienceValue = Math.round(Math.max(1, (int) (waifuPlayer.getData().getExperience() / 1000)) * calculatePercentage(20, waifuBaseValue));
+
+        //"final" value
+        waifuValue += moneyValue + badgeValue + experienceValue;
 
         //what is this lol
         //After all those calculations are complete, the value then is calculated using final * (reputation scale / 10) where reputation scale goes up by 1 every 10 reputation points.
         //At 6000 reputation points, the waifu value gets multiplied by 2. This is the maximum amount it can be multiplied to.
-        return Math.min(Integer.MAX_VALUE, waifuValue * ((waifuPlayer.getReputation() / 10) / 10)) * waifuPlayer.getReputation() > 6000 ? 2 : 1;
+        long finalValue = Math.min(Integer.MAX_VALUE, waifuValue * (waifuPlayer.getReputation() / 10) / 10) * waifuPlayer.getReputation() > 6000 ? 2 : 1;
+        return new Waifu(moneyValue, badgeValue, experienceValue, finalValue);
     }
 
     //Yes, I had to do it, fuck.
     private long calculatePercentage(long percentage, long number) {
         return (percentage * number) / 100;
+    }
+
+    @AllArgsConstructor
+    @Data
+    private class Waifu {
+        private long moneyValue;
+        private long badgeValue;
+        private long experienceValue;
+        private long finalValue;
     }
 }

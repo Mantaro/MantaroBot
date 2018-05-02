@@ -17,6 +17,8 @@
 package net.kodehawa.mantarobot.core.shard;
 
 import br.com.brjdevs.java.utils.async.Async;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import lombok.Getter;
@@ -34,6 +36,7 @@ import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
+import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
@@ -49,6 +52,7 @@ import javax.security.auth.login.LoginException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -73,6 +77,9 @@ public class MantaroShard implements JDA {
     private BirthdayTask birthdayTask = new BirthdayTask();
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
     private static final Config config = MantaroData.config().get();
+    //Message cache of 10000 cached messages per shard. If it reaches 10000 it will delete the first one stored, and continue being 10000.
+    @Getter
+    private final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(5).maximumSize(10000).build();
 
     //Christmas date
     private static final Calendar christmas = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.DECEMBER, 25).build();

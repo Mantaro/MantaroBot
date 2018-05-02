@@ -590,6 +590,12 @@
         "player_missing_badge": "%1$sYou don't have that badge.\nYour available badges: %2$s",
         "success": "%1$sYour display badge is now: **%2$s**"
       },
+      "lang": {
+        "nothing_specified": "%1$sYou have to specify a language to use or `reset` to reset your language settings.",
+        "reset_success": "%1$sSuccessfully reset your personal language settings.",
+        "success": "%1$sMantaro will now talk to you in `%2$s`",
+        "invalid": "%1$sThat language doesn't exist! You can use `reset` to reset your language settings."
+      },
       "bot_notice": "%1$sBots don't have profiles.",
       "header": "%1$s's Profile",
       "no_desc": "No description set",

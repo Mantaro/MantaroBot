@@ -313,7 +313,7 @@ public class MantaroListener implements EventListener {
             if (logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
                 if (tc == null) return;
-                CachedMessage deletedMessage = CommandListener.getMessageCache().get(event.getMessageId(), Optional::empty).orElse(null);
+                CachedMessage deletedMessage = shard.getMessageCache().get(event.getMessageId(), Optional::empty).orElse(null);
 
                 if (deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel) && !deletedMessage.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
                     if (MantaroData.db().getGuild(event.getGuild()).getData().getModlogBlacklistedPeople().contains(deletedMessage.getAuthor().getId())) {
@@ -345,7 +345,7 @@ public class MantaroListener implements EventListener {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
                 if (tc == null) return;
                 User author = event.getAuthor();
-                CachedMessage editedMessage = CommandListener.getMessageCache().get(event.getMessage().getId(), Optional::empty).orElse(null);
+                CachedMessage editedMessage = shard.getMessageCache().get(event.getMessage().getId(), Optional::empty).orElse(null);
 
                 if (editedMessage != null && !editedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
 
@@ -359,7 +359,7 @@ public class MantaroListener implements EventListener {
 
                     tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` Message created by **%s#%s** in channel **%s** was modified.\n```diff\n-%s\n+%s```",
                             hour, author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContentDisplay().replace("```", ""))).queue();
-                    CommandListener.getMessageCache().put(event.getMessage().getId(), Optional.of(new CachedMessage(event.getAuthor().getIdLong(), event.getMessage().getContentDisplay())));
+                    shard.getMessageCache().put(event.getMessage().getId(), Optional.of(new CachedMessage(event.getAuthor().getIdLong(), event.getMessage().getContentDisplay())));
                     logTotal++;
                 }
             }
