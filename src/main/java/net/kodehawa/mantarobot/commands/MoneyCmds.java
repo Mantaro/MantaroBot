@@ -187,7 +187,7 @@ public class MoneyCmds {
                     }
 
                     if(authorPlayerData.getDailyStreak() > 100) {
-                        playerData.addBadgeIfAbsent(Badge.BIG_CLAIMER);
+                        authorPlayerData.addBadgeIfAbsent(Badge.BIG_CLAIMER);
                     }
 
                     authorPlayerData.setLastDailyAt(System.currentTimeMillis());
