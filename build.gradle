@@ -66,6 +66,16 @@ repositories {
 	mavenLocal()
 }
 
+task generateLanguageList {
+	def out = new PrintStream(new FileOutputStream("src/main/resources/assets/languages/list.txt"))
+	new File("src/main/resources/assets/languages").listFiles().each {
+		if(it.getName().endsWith("json")) {
+			out.println(it.getName())
+		}
+	}
+	out.close()
+}
+
 dependencies {
 	compile 'net.dv8tion:JDA:3.5.0_331'
 	compile 'com.sedmelluq:lavaplayer:1.2.45'
@@ -135,6 +145,7 @@ tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
+compileJava.dependsOn generateLanguageList
 compileJava.dependsOn.remove(generateApolloClasses)
 
 clean {
