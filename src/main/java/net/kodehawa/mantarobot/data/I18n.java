@@ -39,7 +39,7 @@ public class I18n {
         Map<String, I18n> m = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
         try(InputStream is = I18n.class.getResourceAsStream("/assets/languages/list.txt")) {
-            Collections.addAll(LANGUAGES, IOUtils.toString(is, StandardCharsets.UTF_8));
+            Collections.addAll(LANGUAGES, IOUtils.toString(is, StandardCharsets.UTF_8).trim().split("\n"));
         } catch(IOException e) {
             throw new ExceptionInInitializerError(e);
         }
