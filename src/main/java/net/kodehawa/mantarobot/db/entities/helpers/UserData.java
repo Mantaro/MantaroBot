@@ -22,7 +22,9 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class UserData {
@@ -35,8 +37,10 @@ public class UserData {
 
     //NEW MARRIAGE SYSTEM
     private String marriageId;
-    private List<String> waifus = new ArrayList<>();
+    //user id, value bought for.
+    private Map<String, Long> waifus = new HashMap<>();
     private int waifuSlots = 3;
+    private int timesClaimed;
 
     //Persistent reminders. UUID is saved here.
     private List<String> reminders = new ArrayList<>();

@@ -409,11 +409,29 @@
       "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
       "accepted": "%1$s**%2$s#3$s** accepted the proposal of **%4$s#%5$s**!",
       "denied": "%1$sDenied proposal from **%2$s**"
-
     },
     "divorce": {
       "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?",
       "success": "%1$sNow you're single. That's nice I guess."
+    },
+    "waifu": {
+      "header": "Your waifus",
+      "no_waifus": "No waifus to see here, just dust :(",
+      "footer": "Total waifus: %1$d",
+      "stats": {
+        "header": "Your waifu stats",
+        "header_other": "%1$s's waifu stats",
+        "format": "%1$s.- **Money weight value:** %2$s\n%1$s.- **Badge weight value:** %3$s\n%1$s.- **Experience weight value:** %4$s",
+        "value": "Total waifu value",
+        "credits": "%1$d credits"
+      },
+      "claim": {
+        "no_user": "%1$sYou didn't mention any user to claim.",
+        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed.",
+        "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s)**",
+        "not_enough_slots": "%1$sYou don't have enough slots avaliable to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
+        "success": "%1$sSuccessfully claimed %2$s for %3$s. Slots used: %4$s"
+      }
     },
     "ratewaifu": {
       "nothing_specified": "%1$sGive me a waifu to rate!",

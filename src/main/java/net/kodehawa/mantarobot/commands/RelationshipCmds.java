@@ -568,7 +568,7 @@ public class RelationshipCmds {
                         StringBuilder waifus = new StringBuilder();
                         AtomicInteger counter = new AtomicInteger();
 
-                        for(String waifu : userData.getWaifus()) {
+                        for(String waifu : userData.getWaifus().keySet()) {
                             User user = MantaroBot.getInstance().getUserById(waifu);
                             if(user == null)
                                 continue;
@@ -587,11 +587,11 @@ public class RelationshipCmds {
                         }
 
                         EmbedBuilder waifusEmbed = new EmbedBuilder()
-                                .setAuthor("Your waifus", null, event.getAuthor().getEffectiveAvatarUrl())
-                                .setDescription(userData.getWaifus().isEmpty() ? "No waifus to see here, just dust :(" : waifus)
+                                .setAuthor(languageContext.get("commands.waifu.header"), null, event.getAuthor().getEffectiveAvatarUrl())
+                                .setDescription(userData.getWaifus().isEmpty() ? languageContext.get("commands.waifu.no_waifu") : waifus)
                                 .setThumbnail("https://i.imgur.com/95JtKgP.png")
                                 .setColor(Color.CYAN)
-                                .setFooter(String.format("Total waifus: %1$d", userData.getWaifus().size()), null);
+                                .setFooter(String.format(languageContext.get("commands.waifu.footer"), userData.getWaifus().size()), null);
 
                         event.getChannel().sendMessage(waifusEmbed.build()).queue();
                     }
@@ -616,16 +616,14 @@ public class RelationshipCmds {
 
                 EmbedBuilder statsBuilder = new EmbedBuilder()
                         .setThumbnail(toLookup.getEffectiveAvatarUrl())
-                        .setAuthor(toLookup == event.getAuthor() ? "Your waifu stats" : String.format("%1$s's waifu stats", toLookup.getName()),
+                        .setAuthor(toLookup == event.getAuthor() ? languageContext.get("commands.waifu.stats.header") : String.format(languageContext.get("commands.waifu.stats.header_other"), toLookup.getName()),
                                 null, toLookup.getEffectiveAvatarUrl()
                         )
                         .setColor(Color.PINK)
-                        .setDescription(String.format("%1$s.- **Money weight value:** %2$s\n" +
-                                "%1$s.- **Badge weight value:** %3$s\n" +
-                                "%1$s.- **Experience weight value:** %4$s",
-                                EmoteReference.BLUE_SMALL_MARKER, waifuStats.getMoneyValue(), waifuStats.getBadgeValue(), waifuStats.getExperienceValue())
+                        .setDescription(String.format(languageContext.get("commands.waifu.stats.format"),
+                                 EmoteReference.BLUE_SMALL_MARKER, waifuStats.getMoneyValue(), waifuStats.getBadgeValue(), waifuStats.getExperienceValue())
                         )
-                        .addField("Total value", String.format("%1$d credits", waifuStats.getFinalValue()), false);
+                        .addField(languageContext.get("commands.waifu.stats.value"), String.format(languageContext.get("commands.waifu.stats.credits"), waifuStats.getFinalValue()), false);
 
                 event.getChannel().sendMessage(statsBuilder.build()).queue();
             }
@@ -635,14 +633,72 @@ public class RelationshipCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    //no
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.no_user"), EmoteReference.ERROR).queue();
                     return;
                 }
 
+                final ManagedDatabase db = MantaroData.db();
                 User toLookup = event.getMessage().getMentionedUsers().get(0);
-                Waifu waifuToClaim = calculateWaifuValue(toLookup);
 
-                //Remember to do here: deduct balance, give a new badge that i have yet to come up with a name for, and update the fields.
+                //TODO: Add new badge (waifu claimer (claimer), waifu (claimed)).
+                Player claimer = db.getPlayer(event.getAuthor());
+                DBUser claimerUser = db.getUser(event.getAuthor());
+                final UserData claimerUserData = claimerUser.getData();
+
+                Player claimed = db.getPlayer(toLookup);
+                DBUser claimedUser = db.getUser(toLookup);
+                final UserData claimedUserData = claimedUser.getData();
+
+                //Waifu object declaration.
+                Waifu waifuToClaim = calculateWaifuValue(toLookup);
+                final long waifuFinalValue = waifuToClaim.getFinalValue();
+
+                //Checks.
+
+                //If the to-be claimed has the claim key in their inventory, it cannot be claimed.
+                if(claimed.getInventory().containsItem(Items.CLAIM_KEY)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.key_locked"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(claimer.getMoney() < waifuFinalValue) {
+                    event.getChannel().sendMessageFormat(
+                            languageContext.get("commands.waifu.claim.not_enough_money"), EmoteReference.ERROR, waifuFinalValue
+                    ).queue();
+                    return;
+                }
+
+                if(claimerUserData.getWaifuSlots() > claimerUserData.getWaifus().size()) {
+                    event.getChannel().sendMessageFormat(
+                            languageContext.get("commands.waifu.claim.not_enough_slots"),
+                            EmoteReference.ERROR, claimerUserData.getWaifuSlots(), claimerUserData.getWaifus().size()
+                    ).queue();
+                    return;
+                }
+
+                //Deduct from balance. The check whether the user has enough money was done up there.
+                claimer.removeMoney(waifuFinalValue);
+                //Add waifu to claimer list.
+                claimerUser.getData().getWaifus().put(toLookup.getId(), waifuFinalValue);
+                claimedUserData.setTimesClaimed(claimedUserData.getTimesClaimed() + 1);
+
+                //Massive saving operation owo.
+                claimer.save();
+                claimed.save();
+                claimedUser.save();
+                claimerUser.save();
+
+                //Send confirmation message
+                event.getChannel().sendMessageFormat(
+                        languageContext.get("commands.waifu.claim.success"), EmoteReference.CORRECT, toLookup.getName(), waifuFinalValue, claimerUserData.getWaifus().size()
+                ).queue();
+            }
+        });
+
+        waifu.addSubCommand("buyslots", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+
             }
         });
     }
