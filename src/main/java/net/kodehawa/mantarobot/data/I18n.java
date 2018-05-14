@@ -22,6 +22,7 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.guild.GenericGuildEvent;
 import org.apache.commons.io.IOUtils;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -37,18 +38,10 @@ public class I18n {
     static {
         Map<String, I18n> m = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
-        try {
-            List<String> files = IOUtils.readLines(I18n.class.getResourceAsStream("/assets/languages/"), StandardCharsets.UTF_8);
-            for(String fileName : files) {
-                if(!fileName.endsWith(".json"))
-                    continue;
-
-                String extension = fileName.substring(fileName.lastIndexOf("."));
-                fileName = fileName.replace(extension, "");
-                LANGUAGES.add(fileName);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        try(InputStream is = I18n.class.getResourceAsStream("/assets/languages/list.txt")) {
+            Collections.addAll(LANGUAGES, IOUtils.toString(is, StandardCharsets.UTF_8).trim().split("\n"));
+        } catch(IOException e) {
+            throw new ExceptionInInitializerError(e);
         }
 
         for(String s : LANGUAGES) {
