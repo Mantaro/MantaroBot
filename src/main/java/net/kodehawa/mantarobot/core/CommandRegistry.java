@@ -60,13 +60,11 @@ public class CommandRegistry {
     //I know there are better approaches to this, THIS IS JUST A WORKAROUND, DON'T TRY TO REPLICATE THIS.
     public boolean process(GuildMessageReceivedEvent event, String cmdName, String content) {
         long start = System.currentTimeMillis();
+        cmdName = cmdName.toLowerCase();
         Command command = commands.get(cmdName);
 
         if(command == null) {
-            command = commands.get(cmdName.toLowerCase());
-
-            if(command == null)
-                return false;
+            return false;
         }
 
         //Variable used in lambda expression should be final or effectively final...
