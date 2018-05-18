@@ -52,3 +52,6 @@ quotes.json
 
 #RethinkDB
 /db/
+
+# macOS
+.DS_Store
