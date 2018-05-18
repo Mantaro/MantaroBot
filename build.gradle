@@ -54,8 +54,8 @@ repositories {
 }
 
 dependencies {
-	compile 'net.dv8tion:JDA:3.5.1_339'
-	compile 'com.sedmelluq:lavaplayer:1.2.51'
+	compile 'net.dv8tion:JDA:3.5.1_367'
+	compile 'com.sedmelluq:lavaplayer:1.2.63'
 	compile 'com.sedmelluq:jda-nas:1.0.6'
 
 	compile 'org.reflections:reflections:0.9.9'
