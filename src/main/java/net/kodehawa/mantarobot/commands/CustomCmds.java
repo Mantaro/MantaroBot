@@ -84,7 +84,7 @@ public class CustomCmds {
 
             String response = random(values);
             try {
-                runCustom(response.replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere"), event);
+                runCustom(response, event);
                 CustomCommandStatsManager.log(cmdName);
             } catch(Exception e) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "Error while running custom command... please check the response content and length (cannot be more than 2000 chars).").queue();
@@ -339,7 +339,7 @@ public class CustomCmds {
 
                 if(action.equals("eval")) {
                     try {
-                        runCustom(content.replace("eval ", ""), event);
+                        runCustom(content.replace("eval ", "").replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere"), event);
                     } catch(Exception e) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "There was an error while evaluating your command!" +
                                 (e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")")).queue();

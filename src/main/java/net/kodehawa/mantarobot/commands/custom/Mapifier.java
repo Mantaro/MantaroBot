@@ -91,11 +91,11 @@ public class Mapifier {
     }
 
     public static void map(String prefix, Map<String, String> map, Message message) {
-        map.put(prefix, splitArgs(message.getContentRaw(), 2)[1]);
+        map.put(prefix, splitArgs(message.getContentRaw().replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere"), 2)[1]);
         prefix = prefix + ".";
-        map.put(prefix + "raw", splitArgs(message.getContentRaw(), 2)[1]);
-        map.put(prefix + "textual", splitArgs(message.getContentDisplay(), 2)[1]);
-        map.put(prefix + "stripped", splitArgs(message.getContentStripped(), 2)[1]);
+        map.put(prefix + "raw", splitArgs(message.getContentRaw().replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere"), 2)[1]);
+        map.put(prefix + "textual", splitArgs(message.getContentDisplay().replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere"), 2)[1]);
+        map.put(prefix + "stripped", splitArgs(message.getContentStripped().replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere"), 2)[1]);
     }
 
     public static void map(String prefix, Map<String, String> map, TextChannel channel) {
