@@ -415,9 +415,6 @@
       "success": "%1$sNow you're single. That's nice I guess."
     },
     "waifu": {
-      "header": "Your waifus",
-      "no_waifus": "No waifus to see here, just dust :(",
-      "footer": "Total waifus: %1$d",
       "stats": {
         "header": "Your waifu stats",
         "header_other": "%1$s's waifu stats",
@@ -431,7 +428,10 @@
         "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s)**",
         "not_enough_slots": "%1$sYou don't have enough slots avaliable to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
         "success": "%1$sSuccessfully claimed %2$s for %3$s. Slots used: %4$s"
-      }
+      },
+      "header": "Your waifus",
+      "no_waifus": "No waifus to see here, just dust :(",
+      "footer": "Total waifus: %1$d"
     },
     "ratewaifu": {
       "nothing_specified": "%1$sGive me a waifu to rate!",

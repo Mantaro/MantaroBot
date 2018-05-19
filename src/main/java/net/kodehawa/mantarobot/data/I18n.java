@@ -39,22 +39,30 @@ public class I18n {
         Map<String, I18n> m = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
         try(InputStream is = I18n.class.getResourceAsStream("/assets/languages/list.txt")) {
-            Collections.addAll(LANGUAGES, IOUtils.toString(is, StandardCharsets.UTF_8).trim().split("\n"));
+            for(String s : IOUtils.toString(is, StandardCharsets.UTF_8).trim().split("\n")) {
+                String language = s.trim();
+                System.out.println(language);
+                LANGUAGES.add(language);
+            }
+
+            System.out.println(LANGUAGES);
         } catch(IOException e) {
             throw new ExceptionInInitializerError(e);
         }
 
         for(String s : LANGUAGES) {
-            InputStream is = I18n.class.getResourceAsStream("/assets/languages/" + s + ".json");
+            System.out.println(s);
+            InputStream is = I18n.class.getResourceAsStream("/assets/languages/" + s);
             try {
                 @SuppressWarnings("unchecked")
                 Map<String, ?> map = (Map<String, ?>)mapper.readValue(is, Map.class);
-                m.put(s, new I18n(map, s));
+                m.put(s.replace(".json", ""), new I18n(map, s));
             } catch(Exception e) {
                 throw new Error("Unable to initialize I18n", e);
             }
         }
         LANGUAGE_MAP = Collections.unmodifiableMap(m);
+        System.out.println(LANGUAGE_MAP);
     }
 
     private I18n(Map<String, ?> map, String language) {
@@ -71,7 +79,7 @@ public class I18n {
                 map = (Map<String, ?>)maybeMap;
                 index++;
             } else {
-                if(language.equals("en_US")) throw new IllegalArgumentException("Missing key " + Arrays.stream(parts).collect(Collectors.joining(".")));
+                if(language.equals("en_US") || recursion) throw new IllegalArgumentException("Missing key " + Arrays.stream(parts).collect(Collectors.joining(".")));
                 return get(LANGUAGE_MAP.get("en_US").map, parts, true);
             }
         }

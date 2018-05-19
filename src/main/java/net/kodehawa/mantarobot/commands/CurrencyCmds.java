@@ -311,7 +311,7 @@ public class CurrencyCmds {
 
                 try {
                     if(args[0].equals("all")) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.inventory.sell.all.confirmation"), EmoteReference.WARNING).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.all.confirmation"), EmoteReference.WARNING).queue();
                         //Start the operation.
                         InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 60, e -> {
                             if(!e.getAuthor().getId().equals(event.getAuthor().getId())) {
