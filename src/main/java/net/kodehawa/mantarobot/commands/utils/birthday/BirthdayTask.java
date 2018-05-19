@@ -58,17 +58,17 @@ public class BirthdayTask {
             SnowflakeCacheView<Guild> guilds = jda.getGuildCache();
 
             for(Guild guild : guilds) {
-                GuildData tempData = db.getGuild(guild).getData();
-                if(tempData.getBirthdayChannel() != null && tempData.getBirthdayRole() != null) {
-                    Role birthdayRole = guild.getRoleById(tempData.getBirthdayRole());
-                    TextChannel channel = guild.getTextChannelById(tempData.getBirthdayChannel());
+                GuildData tempGuildData = db.getGuild(guild).getData();
+                if(tempGuildData.getBirthdayChannel() != null && tempGuildData.getBirthdayRole() != null) {
+                    Role birthdayRole = guild.getRoleById(tempGuildData.getBirthdayRole());
+                    TextChannel channel = guild.getTextChannelById(tempGuildData.getBirthdayChannel());
 
                     if(channel != null && birthdayRole != null) {
                         if(!guild.getSelfMember().canInteract(birthdayRole))
                             continue; //Go to next guild...
                         if(!channel.canTalk())
                             continue; //cannot talk here...
-                        if(tempData.getGuildAutoRole() != null && birthdayRole.getId().equals(tempData.getGuildAutoRole()))
+                        if(tempGuildData.getGuildAutoRole() != null && birthdayRole.getId().equals(tempGuildData.getGuildAutoRole()))
                             continue;
                         if(birthdayRole.isPublicRole())
                             continue;
@@ -83,7 +83,12 @@ public class BirthdayTask {
                             String birthday = data.getValue();
 
                             if(birthday == null) {
-                                log.debug("Birthday is null? Continuing to next iteration...");
+                                log.debug("Birthday is null? Removing role if present and continuing to next iteration...");
+                                if(member.getRoles().contains(birthdayRole)) {
+                                    guild.getController().removeRolesFromMember(member, birthdayRole)
+                                            .reason("Birthday assigner. If you see this happening for every member of your server, or in unintended ways, please do ~>opts birthday disable")
+                                            .queue();
+                                }
                                 continue; //shouldn't happen
                             }
                             //else start the assigning
