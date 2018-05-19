@@ -182,7 +182,7 @@ public class CustomCommandHandler {
                         new InterpreterEvaluator()
                             .declare("event", new JavaObject(new SafeGuildMessageReceivedEvent(event)))
                             .declare("args", Str.of(args))
-                    );
+                    ).replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere");
             } catch (LimitReachedException e) {
                 event.getChannel().sendMessage("**Error**: " + e.getMessage()).queue();
                 return false;
