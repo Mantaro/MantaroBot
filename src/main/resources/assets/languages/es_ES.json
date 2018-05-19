@@ -445,7 +445,9 @@
       "sell": {
         "invalid": "%1$sEse no es un número valido de items para vender.",
         "all": {
-          "success": "%1$sVendiste todo tu inventario y ganaste %2$d créditos!"
+          "confirmation": "%1$s¿Estás *seguro* que quieres vender **todos** tus items? Escribe *yes* para confirmar la venta y *no* para cancelarla",
+          "success": "%1$sVendiste todo tu inventario y ganaste %2$d créditos!",
+          "cancelled": "%1$sCancelada correctamente."
         },
         "non_existent": "%1$sNo puedes vender un item inexistente.",
         "no_sell_price": "%1$sNo puedes vender un item que no tenga valor de venta.",

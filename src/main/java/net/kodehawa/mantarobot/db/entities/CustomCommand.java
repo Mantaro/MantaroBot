@@ -18,9 +18,11 @@ package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import net.kodehawa.mantarobot.db.ManagedObject;
+import net.kodehawa.mantarobot.db.entities.helpers.CustomCommandData;
 import net.kodehawa.mantarobot.utils.URLEncoding;
 
 import javax.annotation.Nonnull;
@@ -29,20 +31,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomCommand implements ManagedObject {
     public static final String DB_TABLE = "commands";
     private final String id;
     private final List<String> values;
+    private final CustomCommandData data;
 
     @ConstructorProperties({"id", "values"})
     @JsonCreator
-    public CustomCommand(@JsonProperty("id") String id, @JsonProperty("values") List<String> values) {
+    public CustomCommand(@JsonProperty("id") String id, @JsonProperty("values") List<String> values,@JsonProperty("values")  CustomCommandData data) {
         this.id = id;
         this.values = values.stream().map(URLEncoding::decode).collect(Collectors.toList());
+        this.data = data;
     }
 
     public static CustomCommand of(String guildId, String cmdName, List<String> responses) {
-        return new CustomCommand(guildId + ":" + cmdName, responses.stream().map(URLEncoding::encode).collect(Collectors.toList()));
+        return new CustomCommand(guildId + ":" + cmdName, responses.stream().map(URLEncoding::encode).collect(Collectors.toList()), new CustomCommandData());
     }
 
     @JsonIgnore

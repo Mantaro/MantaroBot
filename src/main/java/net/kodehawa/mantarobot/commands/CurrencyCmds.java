@@ -30,6 +30,8 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -309,17 +311,37 @@ public class CurrencyCmds {
 
                 try {
                     if(args[0].equals("all")) {
-                        long all = player.getInventory().asList().stream()
-                                .filter(item -> item.getItem().isSellable())
-                                .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
-                                .sum();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.inventory.sell.all.confirmation"), EmoteReference.WARNING).queue();
+                        //Start the operation.
+                        InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 60, e -> {
+                            if(!e.getAuthor().getId().equals(event.getAuthor().getId())) {
+                                return Operation.IGNORED;
+                            }
 
-                        player.getInventory().clearOnlySellables();
-                        player.addMoney(all);
+                            String c = e.getMessage().getContentRaw();
 
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.all.success"), EmoteReference.MONEY, all).queue();
+                            if(c.equalsIgnoreCase("yes")) {
+                                long all = player.getInventory().asList().stream()
+                                        .filter(item -> item.getItem().isSellable())
+                                        .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
+                                        .sum();
 
-                        player.saveAsync();
+                                player.getInventory().clearOnlySellables();
+                                player.addMoney(all);
+
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.all.success"), EmoteReference.MONEY, all).queue();
+
+                                player.saveAsync();
+
+                                return Operation.COMPLETED;
+                            } else if (c.equalsIgnoreCase("no")) {
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.all.cancelled"), EmoteReference.CORRECT).queue();
+                                return Operation.COMPLETED;
+                            }
+
+                            return Operation.IGNORED;
+                        });
+
                         return;
                     }
 
