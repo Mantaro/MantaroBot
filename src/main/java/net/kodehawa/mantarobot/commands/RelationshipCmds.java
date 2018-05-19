@@ -702,10 +702,36 @@ public class RelationshipCmds {
             }
         });
 
-        waifu.addSubCommand("buyslots", new SubCommand() {
+        waifu.addSubCommand("buyslot", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                //TODO: finish this owo
+                final ManagedDatabase db = MantaroData.db();
+                int baseValue = 3000;
 
+                DBUser user = db.getUser(event.getAuthor());
+                Player player = db.getPlayer(event.getAuthor());
+                final UserData userData = user.getData();
+
+                int currentSlots = userData.getWaifuSlots();
+                int baseMultiplier = currentSlots / 3;
+                int finalValue = baseValue * baseMultiplier;
+
+                if(player.isLocked()) {
+                    //nope
+                    return;
+                }
+
+                if(player.getMoney() < finalValue) {
+                    return;
+                }
+
+                player.removeMoney(finalValue);
+                userData.setWaifuSlots(userData.getWaifuSlots() + 1);
+                user.save();
+                player.save();
+
+                event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.buyslot.success"), EmoteReference.CORRECT, finalValue, userData.getWaifuSlots()).queue();
             }
         });
     }
