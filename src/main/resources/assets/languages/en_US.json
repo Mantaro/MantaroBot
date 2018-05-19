@@ -430,7 +430,7 @@
         "success": "%1$sSuccessfully claimed %2$s for %3$s. Slots used: %4$s"
       },
       "header": "Your waifus",
-      "no_waifus": "No waifus to see here, just dust :(",
+      "no_waifu": "No waifus to see here, just dust :(",
       "footer": "Total waifus: %1$d"
     },
     "ratewaifu": {
