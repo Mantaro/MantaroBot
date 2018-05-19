@@ -264,7 +264,7 @@ public class CustomCmds {
                                         event.getChannel().sendMessageFormat(languageContext.get("commands.custom.make.no_responses_added"), EmoteReference.ERROR).queue();
                                     } else {
                                         CustomCommand custom = CustomCommand.of(event.getGuild().getId(), cmd, responses);
-
+                                        custom.getData().setOwner(event.getAuthor().getId());
                                         //save at DB
                                         custom.saveAsync();
 
@@ -351,6 +351,7 @@ public class CustomCmds {
                                 return guild == null ? null : Pair.of(guild, customCommand);
                             })
                             .filter(Objects::nonNull)
+
                             .collect(Collectors.toList());
 
                     if(filtered.size() == 0) {
@@ -367,10 +368,7 @@ public class CustomCmds {
                                             null
                                     ).build(),
                             pair -> {
-                                String cmdName = pair.getValue().getName();
-                                List<String> responses = pair.getValue().getValues();
-                                CustomCommand custom = CustomCommand.of(event.getGuild().getId(), cmdName, responses);
-
+                                CustomCommand custom = CustomCommand.transfer(event.getGuild().getId(), pair.getValue());
                                 //save at DB
                                 custom.saveAsync();
 
@@ -378,7 +376,7 @@ public class CustomCmds {
                                 customCommands.put(custom.getId(), custom.getValues());
 
                                 event.getChannel().sendMessageFormat(languageContext.get("commands.custom.import.success"),
-                                        cmdName, pair.getKey().getName(), String.join("``, ``", responses)
+                                        custom.getName(), pair.getKey().getName(), custom.getValues().size()
                                 ).queue();
 
                                 //easter egg :D
@@ -497,6 +495,8 @@ public class CustomCmds {
 
                         if(c != null) custom.getValues().addAll(c.getValues());
                     }
+
+                    custom.getData().setOwner(event.getAuthor().getId());
 
                     //save at DB
                     custom.saveAsync();

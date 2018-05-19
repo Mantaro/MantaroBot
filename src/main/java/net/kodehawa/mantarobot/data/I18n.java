@@ -41,17 +41,14 @@ public class I18n {
         try(InputStream is = I18n.class.getResourceAsStream("/assets/languages/list.txt")) {
             for(String s : IOUtils.toString(is, StandardCharsets.UTF_8).trim().split("\n")) {
                 String language = s.trim();
-                System.out.println(language);
                 LANGUAGES.add(language);
             }
 
-            System.out.println(LANGUAGES);
         } catch(IOException e) {
             throw new ExceptionInInitializerError(e);
         }
 
         for(String s : LANGUAGES) {
-            System.out.println(s);
             InputStream is = I18n.class.getResourceAsStream("/assets/languages/" + s);
             try {
                 @SuppressWarnings("unchecked")
@@ -62,7 +59,6 @@ public class I18n {
             }
         }
         LANGUAGE_MAP = Collections.unmodifiableMap(m);
-        System.out.println(LANGUAGE_MAP);
     }
 
     private I18n(Map<String, ?> map, String language) {

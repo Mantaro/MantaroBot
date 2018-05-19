@@ -301,7 +301,7 @@
         "header": "`%1$s` - Guild: `%2$s`",
         "selection": "Select the Command:",
         "note": "(You can only select custom commands from guilds that you are a member of)",
-        "success": "Imported custom command `%1$s` from guild `%2$s` with responses `%3$s`"
+        "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %1$d responses."
       },
       "edit": {
         "invalid_number": "%1$sYou need to specify a correct number to change.",
@@ -418,7 +418,7 @@
       "stats": {
         "header": "Your waifu stats",
         "header_other": "%1$s's waifu stats",
-        "format": "%1$s.- **Money weight value:** %2$s\n%1$s.- **Badge weight value:** %3$s\n%1$s.- **Experience weight value:** %4$s",
+        "format": "%1$s **Money weight value:** %2$s\n%1$s **Badge weight value:** %3$s\n%1$s **Experience weight value:** %4$s",
         "value": "Total waifu value",
         "credits": "%1$d credits"
       },
@@ -429,9 +429,13 @@
         "not_enough_slots": "%1$sYou don't have enough slots avaliable to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
         "success": "%1$sSuccessfully claimed %2$s for %3$s. Slots used: %4$s"
       },
-      "header": "Your waifus",
-      "no_waifu": "No waifus to see here, just dust :(",
-      "footer": "Total waifus: %1$d"
+      "header": "Waifu List",
+      "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$d waifus as of now.*\n\n",
+      "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `~>waifu claim` to get started.",
+      "footer": "Total waifus: %1$d - Avaliable slots: %2$s",
+      "value_format": "**- Value:**",
+      "value_b_format": "**- Bought for:**",
+      "credits_format": " credits."
     },
     "ratewaifu": {
       "nothing_specified": "%1$sGive me a waifu to rate!",

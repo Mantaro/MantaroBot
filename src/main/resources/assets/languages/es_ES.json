@@ -296,7 +296,7 @@
         "header": "`%1$s` - Servidor: `%2$s`",
         "selection": "Seleccione el comando:",
         "note": "(Solo puedes importar comandos personalizados desde servidores donde eres miembro)",
-        "success": "He importado el comando personalizado `%1$s` del servidor `%2$s` con respuestas `%3$s`"
+        "success": "He importado el comando personalizado `%1$s` del servidor `%2$s` con un total de %3$d respuestas."
       },
       "edit": {
         "invalid_number": "%1$sNecesitas especificar un numero válido para editar!",
@@ -445,7 +445,7 @@
       "sell": {
         "invalid": "%1$sEse no es un número valido de items para vender.",
         "all": {
-          "confirmation": "%1$s¿Estás *seguro* que quieres vender **todos** tus items? Escribe *yes* para confirmar la venta y *no* para cancelarla",
+          "confirmation": "%1$s¿Estás *seguro* que quieres vender **todos** tus items? Escribe *yes* para confirmar la venta y *no* para cancelarla.",
           "success": "%1$sVendiste todo tu inventario y ganaste %2$d créditos!",
           "cancelled": "%1$sCancelada correctamente."
         },

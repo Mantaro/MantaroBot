@@ -566,32 +566,39 @@ public class RelationshipCmds {
                         UserData userData = dbUser.getData();
 
                         StringBuilder waifus = new StringBuilder();
-                        AtomicInteger counter = new AtomicInteger();
 
                         for(String waifu : userData.getWaifus().keySet()) {
                             User user = MantaroBot.getInstance().getUserById(waifu);
                             if(user == null)
                                 continue;
 
-                            waifus.append(counter.incrementAndGet())
-                                    .append(".- ")
+                            waifus.append(EmoteReference.BLUE_SMALL_MARKER)
                                     .append(user.getName())
                                     .append("#")
                                     .append(user.getDiscriminator())
-                                    .append(". (V: ")
+                                    .append(".\n       ")
+                                    .append(languageContext.get("commands.waifu.value_format"))
+                                    .append(" ")
                                     .append(calculateWaifuValue(user).getFinalValue())
-                                    .append(")");
+                                    .append(languageContext.get("commands.waifu.credits_format"))
+                                    .append("\n       ")
+                                    .append(languageContext.get("commands.waifu.value_b_format"))
+                                    .append(" ")
+                                    .append(userData.getWaifus().get(waifu))
+                                    .append(languageContext.get("commands.waifu.credits_format"));
 
                             //New line owo
                             waifus.append("\n");
                         }
 
+                        String description = userData.getWaifus().isEmpty() ? languageContext.get("commands.waifu.no_waifu") : waifus.toString();
+
                         EmbedBuilder waifusEmbed = new EmbedBuilder()
                                 .setAuthor(languageContext.get("commands.waifu.header"), null, event.getAuthor().getEffectiveAvatarUrl())
-                                .setDescription(userData.getWaifus().isEmpty() ? languageContext.get("commands.waifu.no_waifu") : waifus)
-                                .setThumbnail("https://i.imgur.com/95JtKgP.png")
+                                .setDescription(String.format(languageContext.get("commands.waifu.description_header"), userData.getWaifuSlots()) + description)
+                                .setThumbnail("http://www.hey.fr/fun/emoji/twitter/en/twitter/469-emoji_twitter_sparkling_heart.png")
                                 .setColor(Color.CYAN)
-                                .setFooter(String.format(languageContext.get("commands.waifu.footer"), userData.getWaifus().size()), null);
+                                .setFooter(String.format(languageContext.get("commands.waifu.footer"), userData.getWaifus().size(), userData.getWaifuSlots() - userData.getWaifus().size()), null);
 
                         event.getChannel().sendMessage(waifusEmbed.build()).queue();
                     }
@@ -668,7 +675,7 @@ public class RelationshipCmds {
                     return;
                 }
 
-                if(claimerUserData.getWaifuSlots() > claimerUserData.getWaifus().size()) {
+                if(claimerUserData.getWaifus().size() > claimerUserData.getWaifuSlots()) {
                     event.getChannel().sendMessageFormat(
                             languageContext.get("commands.waifu.claim.not_enough_slots"),
                             EmoteReference.ERROR, claimerUserData.getWaifuSlots(), claimerUserData.getWaifus().size()
@@ -729,7 +736,7 @@ public class RelationshipCmds {
         //what is this lol
         //After all those calculations are complete, the value then is calculated using final * (reputation scale / 10) where reputation scale goes up by 1 every 10 reputation points.
         //At 6000 reputation points, the waifu value gets multiplied by 2. This is the maximum amount it can be multiplied to.
-        long finalValue = Math.min(Integer.MAX_VALUE, waifuValue * (waifuPlayer.getReputation() / 10) / 10) * waifuPlayer.getReputation() > 6000 ? 2 : 1;
+        long finalValue = (long)(Math.min(Integer.MAX_VALUE, waifuValue * (waifuPlayer.getReputation() / 10) / 10) * (waifuPlayer.getReputation() > 6000 ? 1.75 : 1));
         return new Waifu(moneyValue, badgeValue, experienceValue, finalValue);
     }
 

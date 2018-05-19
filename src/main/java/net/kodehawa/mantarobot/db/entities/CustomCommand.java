@@ -50,6 +50,10 @@ public class CustomCommand implements ManagedObject {
         return new CustomCommand(guildId + ":" + cmdName, responses.stream().map(URLEncoding::encode).collect(Collectors.toList()), new CustomCommandData());
     }
 
+    public static CustomCommand transfer(String guildId, CustomCommand command) {
+        return new CustomCommand(guildId + ":" + command.getName(), command.getValues(), command.getData());
+    }
+
     @JsonIgnore
     @Override
     @Nonnull
