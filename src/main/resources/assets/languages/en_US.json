@@ -266,6 +266,9 @@
     "custom": {
       "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
       "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
+      "nsfw_enabled": "%1$sThis command has been succesfully marked as NSFW.",
+      "nsfw_disabled": "%1$sThis command has been succesfully marked as SFW.",
+      "nsfw_not_nsfw": "%1$sThis command is marked as NSFW therefore it can only be used on NSFW channels.",
       "ls": {
         "header": "Commands for this guild"
       },
@@ -284,7 +287,7 @@
         "success": "%1$sCleared **%2$d Custom Commands**"
       },
       "make": {
-        "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
+        "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses. Use `~>nsfw` to mark this command as NSFW and `~>sfw` to revert.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
         "cancel": "%1$sCommand Creation canceled.",
         "no_responses_added": "%1$sNo responses were added. Stopping creation without saving...",
         "success": "%1$sSaved to command `%2$s`.",
@@ -294,7 +297,7 @@
         "error": "%1$sThere was an error while evaluating your command!%2$s"
       },
       "remove": {
-        "success": "%2$sRemoved Custom Command `%1$s`."
+        "success": "%1$sRemoved Custom Command `%2$s`."
       },
       "import": {
         "not_found": "%1$sThere are no custom commands matching your search query.",
@@ -316,7 +319,7 @@
         "success": "%1$sSaved to command `%2$s`"
       },
       "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
-      "already_exists": "%1$sA command already exists with this name.",
+      "already_exists": "%1$sThe command `%2$s` already exists.",
       "name_too_long": "%1$sName is too long.",
       "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just a bit of dust.",
       "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.",
@@ -1011,7 +1014,7 @@
       "account_age": "Account Age",
       "mutual_guilds": "Mutual Guilds",
       "vc": "Voice Channel",
-      "playing": "Playing Now",
+      "playing": "Activity",
       "color": "Color",
       "status": "Status",
       "nothing": "Nothing",

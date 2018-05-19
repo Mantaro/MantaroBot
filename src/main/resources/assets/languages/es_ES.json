@@ -261,6 +261,10 @@
     "custom": {
       "error_running": "%1$sHe encontrado un error mientras intentaba ejecutar un comando personalizado... porfavor revisa el contenido y su extensión (no puede ser más de 2000 caracteres).",
       "not_loaded": "Hey! Aún me estoy iniciando. Los comandos estarán disponibles bastante pronto, en cuanto termine de iniciar.",
+      "nsfw_enabled": "%1$sEste comando fue correctamente marcado como NSFW.",
+      "nsfw_disabled": "%1$sEste comando fue correctamente marcado como SFW.",
+      "nsfw_not_nsfw": "%1$sEste comando es NSFW por lo que solo puede ser ejecutado en canales NSFW.",
+
       "ls": {
         "header": "Comandos para este servidor"
       },
@@ -289,14 +293,14 @@
         "error": "%1$sHubo un error evaluando el contenido! %2$s"
       },
       "remove": {
-        "success": "%2$sHe eliminado el comando personalizado `%1$s`!"
+        "success": "%1$sHe eliminado el comando personalizado `%2$s`!"
       },
       "import": {
         "not_found": "%1$sNo hay comandos personalizados que coincidan con los términos de búsqueda.",
         "header": "`%1$s` - Servidor: `%2$s`",
         "selection": "Seleccione el comando:",
         "note": "(Solo puedes importar comandos personalizados desde servidores donde eres miembro)",
-        "success": "He importado el comando personalizado `%1$s` del servidor `%2$s` con un total de %3$d respuestas."
+        "success": "He importado el comando personalizado `%1$s` del servidor `%2$s` con un total de %3$d respuestas.#"
       },
       "edit": {
         "invalid_number": "%1$sNecesitas especificar un numero válido para editar!",
@@ -311,7 +315,7 @@
         "success": "%1$sHe guardado el comando personalizado `%2$s` exitosamente!"
       },
       "character_not_allowed": "%1$sEste carácter no está habilitado para ser usado en los nombres de comandos personalizados.",
-      "already_exists": "%1$sUn comando ya existe con ese nombre!",
+      "already_exists": "%1$sEl comando `%2$s` ya existe.",
       "name_too_long": "%1$sEl nombre es muy largo.",
       "no_cc": "%1$sNo hay comandos personalizados en este servidor, solamente pude encontrar polvo...",
       "admin_only": "Este servidor solo permite la creación y evalauación de comandos personalizados para administradores.",
@@ -982,7 +986,7 @@
       "account_age": "Edad de la Cuenta",
       "mutual_guilds": "Servidores en Común",
       "vc": "Canal de Voz",
-      "playing": "Reproduciendo Ahora",
+      "playing": "Actividad",
       "color": "Color",
       "status": "Status",
       "nothing": "Nada",

@@ -20,6 +20,6 @@ import lombok.Data;
 
 @Data
 public class CustomCommandData {
-    private String owner;
+    private String owner = "";
     private boolean nsfw = false;
 }

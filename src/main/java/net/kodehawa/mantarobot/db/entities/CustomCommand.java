@@ -36,14 +36,16 @@ public class CustomCommand implements ManagedObject {
     public static final String DB_TABLE = "commands";
     private final String id;
     private final List<String> values;
-    private final CustomCommandData data;
+    //Setting a default to avoid backwards compat.
+    private CustomCommandData data = new CustomCommandData();
 
     @ConstructorProperties({"id", "values"})
     @JsonCreator
     public CustomCommand(@JsonProperty("id") String id, @JsonProperty("values") List<String> values, @JsonProperty("data") CustomCommandData data) {
         this.id = id;
         this.values = values.stream().map(URLEncoding::decode).collect(Collectors.toList());
-        this.data = data;
+        if(data != null)
+            this.data = data;
     }
 
     public static CustomCommand of(String guildId, String cmdName, List<String> responses) {
