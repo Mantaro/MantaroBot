@@ -8,14 +8,14 @@ public class SafeMessage extends SafeJDAObject<Message> {
     }
 
     public String getDisplay() {
-        return object.getContentDisplay();
+        return object.getContentDisplay().replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere");
     }
 
     public String getRaw() {
-        return object.getContentRaw();
+        return object.getContentRaw().replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere");
     }
 
     public String getStripped() {
-        return object.getContentStripped();
+        return object.getContentStripped().replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere");
     }
 }

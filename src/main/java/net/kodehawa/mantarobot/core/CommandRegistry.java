@@ -65,7 +65,7 @@ public class CommandRegistry {
     //I know there are better approaches to this, THIS IS JUST A WORKAROUND, DON'T TRY TO REPLICATE THIS.
     public boolean process(GuildMessageReceivedEvent event, String cmdName, String content) {
         long start = System.currentTimeMillis();
-        Command command = commands.get(cmdName);
+        Command command = commands.get(cmdName.toLowerCase());
         if(MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) {
             return false;
         }
@@ -75,12 +75,8 @@ public class CommandRegistry {
         GuildData data = dbg.getData();
 
         if(command == null) {
-            command = commands.get(cmdName.toLowerCase());
-
-            if(command == null) {
-                CustomCmds.handle(cmdName, event, new I18nContext(data, userData), content);
-                return false;
-            }
+            CustomCmds.handle(cmdName, event, new I18nContext(data, userData), content);
+            return false;
         }
 
         if(!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_EMBED_LINKS)) {

@@ -74,7 +74,7 @@ public class CustomCommandHandler {
                     )
                     .trim();
 
-                MessageBuilder message = new MessageBuilder().append(result);
+                MessageBuilder message = new MessageBuilder().append(result.replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere"));
 
                 if (embed[0] != null) {
                     EmbedBuilder builder = SafeEmbed.builder(embed[0]);
