@@ -70,8 +70,8 @@ public class CustomCmds {
 
     public static boolean handle(String cmdName, GuildMessageReceivedEvent event, I18nContext lang, String args) {
         CustomCommand customCommand = customCommands.get(event.getGuild().getId() + ":" + cmdName);
+        if (customCommand == null) return false;
         List<String> values = customCommand.getValues();
-        if (values == null) return false;
         if(customCommand.getData().isNsfw() && !event.getChannel().isNSFW()) {
             event.getChannel().sendMessageFormat(lang.get("commands.custom.nsfw_not_nsfw"), EmoteReference.ERROR).queue();
             return true;

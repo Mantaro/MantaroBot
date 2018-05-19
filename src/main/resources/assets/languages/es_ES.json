@@ -300,7 +300,7 @@
         "header": "`%1$s` - Servidor: `%2$s`",
         "selection": "Seleccione el comando:",
         "note": "(Solo puedes importar comandos personalizados desde servidores donde eres miembro)",
-        "success": "He importado el comando personalizado `%1$s` del servidor `%2$s` con un total de %3$d respuestas.#"
+        "success": "He importado el comando personalizado `%1$s` del servidor `%2$s` con un total de %3$d respuestas."
       },
       "edit": {
         "invalid_number": "%1$sNecesitas especificar un numero válido para editar!",
