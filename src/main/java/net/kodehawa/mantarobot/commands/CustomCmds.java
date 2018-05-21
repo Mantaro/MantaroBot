@@ -327,7 +327,7 @@ public class CustomCmds {
 
                 if(action.equals("eval")) {
                     try {
-                        new CustomCommandHandler(event, languageContext, cmd).handle(true);
+                        new CustomCommandHandler(event, languageContext, content.replace(action + " ", "")).handle(true);
                     } catch (Exception e) {
                         event.getChannel().sendMessage(String.format(languageContext.get("commands.custom.eval.error"), EmoteReference.ERROR, e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")")).queue();
                     }
