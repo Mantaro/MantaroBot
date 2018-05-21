@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.commands.custom;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.MiscCmds;
@@ -160,10 +161,25 @@ public class CustomCommandHandler {
         this.args = args;
     }
 
+    public void handle(boolean preview) {
+        if (!processResponse())
+            return;
+        if (specialHandling())
+            return;
+
+        MessageBuilder builder = new MessageBuilder().setContent(response);
+        if(preview) {
+            builder.append("\n\n")
+                    .append(EmoteReference.WARNING)
+                    .append("**This is a preview of how a CC with this content would look like, ALL MENTIONS ARE DISABLED ON THIS MODE.**")
+                    .stripMentions(event.getJDA(), Message.MentionType.ROLE, Message.MentionType.USER);
+        }
+
+        builder.stripMentions(event.getJDA(), Message.MentionType.HERE, Message.MentionType.EVERYONE).sendTo(event.getChannel()).queue();
+    }
+
     public void handle() {
-        if (!processResponse()) return;
-        if (specialHandling()) return;
-        event.getChannel().sendMessage(response).queue();
+        this.handle(false);
     }
 
     private boolean processResponse() {

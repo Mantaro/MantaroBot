@@ -46,10 +46,12 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -79,7 +81,7 @@ public class CustomCmds {
 
         CommandStatsManager.log("custom command");
 
-        String response = random(values).replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere");
+        String response = random(values);
         try {
             new CustomCommandHandler(event, lang, response, args).handle();
         } catch (Exception e) {
@@ -91,11 +93,17 @@ public class CustomCmds {
 
     @Subscribe
     public void custom(CommandRegistry cr) {
+        //People spamming crap... we cant have nice things owo
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
+
         String any = "[\\d\\D]*?";
 
         cr.register("custom", new SimpleCommand(Category.UTILS) {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event));
+                    return;
+
                 if(args.length < 1) {
                     onHelp(event);
                     return;
@@ -319,7 +327,7 @@ public class CustomCmds {
 
                 if(action.equals("eval")) {
                     try {
-                        new CustomCommandHandler(event, languageContext, cmd).handle();
+                        new CustomCommandHandler(event, languageContext, cmd).handle(true);
                     } catch (Exception e) {
                         event.getChannel().sendMessage(String.format(languageContext.get("commands.custom.eval.error"), EmoteReference.ERROR, e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")")).queue();
                     }
