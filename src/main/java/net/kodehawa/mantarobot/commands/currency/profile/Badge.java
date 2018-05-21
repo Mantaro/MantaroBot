@@ -113,6 +113,10 @@ public enum Badge {
     //Marry to someone.
     MARRIED("Married", "\uD83D\uDC8D", "Find your loved one.", 91, 92),
 
+    WAIFU_CLAIMER("Waifu Claimer", "", "Claimed a waifu.", 91, 92),
+
+    CLAIMED("Claimed", "\uD83D\uDCFF", "Got claimed as a waifu.", 91, 92),
+
     //Self-explanatory. (Description)
     WALKER("Walker", "\uD83C\uDFF7", "Get to level 10 in Mantaro.", 91, 92),
 

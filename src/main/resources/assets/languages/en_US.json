@@ -432,6 +432,11 @@
         "not_enough_slots": "%1$sYou don't have enough slots avaliable to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
         "success": "%1$sSuccessfully claimed %2$s for %3$s. Slots used: %4$s"
       },
+      "buyslot": {
+        "locked": "%1$sYou're currently unable to perform this action.",
+        "not_enough_money": "%1$sYou don't have enough money to buy more slots! You need %2$d credits.",
+        "success": "%1$sSuccessfully bought this slot for %2$d, you currently have %3d total slots and %4$d available slots."
+      },
       "header": "Waifu List",
       "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$d waifus as of now.*\n\n",
       "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `~>waifu claim` to get started.",

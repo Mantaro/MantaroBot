@@ -647,17 +647,16 @@ public class RelationshipCmds {
                 final ManagedDatabase db = MantaroData.db();
                 User toLookup = event.getMessage().getMentionedUsers().get(0);
 
-                //TODO: Add new badge (waifu claimer (claimer), waifu (claimed)).
-                Player claimer = db.getPlayer(event.getAuthor());
-                DBUser claimerUser = db.getUser(event.getAuthor());
+                final Player claimer = db.getPlayer(event.getAuthor());
+                final DBUser claimerUser = db.getUser(event.getAuthor());
                 final UserData claimerUserData = claimerUser.getData();
 
-                Player claimed = db.getPlayer(toLookup);
-                DBUser claimedUser = db.getUser(toLookup);
+                final Player claimed = db.getPlayer(toLookup);
+                final DBUser claimedUser = db.getUser(toLookup);
                 final UserData claimedUserData = claimedUser.getData();
 
                 //Waifu object declaration.
-                Waifu waifuToClaim = calculateWaifuValue(toLookup);
+                final Waifu waifuToClaim = calculateWaifuValue(toLookup);
                 final long waifuFinalValue = waifuToClaim.getFinalValue();
 
                 //Checks.
@@ -689,6 +688,10 @@ public class RelationshipCmds {
                 claimerUser.getData().getWaifus().put(toLookup.getId(), waifuFinalValue);
                 claimedUserData.setTimesClaimed(claimedUserData.getTimesClaimed() + 1);
 
+                //Add badges
+                claimer.getData().addBadgeIfAbsent(Badge.WAIFU_CLAIMER);
+                claimed.getData().addBadgeIfAbsent(Badge.CLAIMED);
+
                 //Massive saving operation owo.
                 claimer.save();
                 claimed.save();
@@ -705,7 +708,6 @@ public class RelationshipCmds {
         waifu.addSubCommand("buyslot", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                //TODO: finish this owo
                 final ManagedDatabase db = MantaroData.db();
                 int baseValue = 3000;
 
@@ -718,20 +720,21 @@ public class RelationshipCmds {
                 int finalValue = baseValue * baseMultiplier;
 
                 if(player.isLocked()) {
-                    //nope
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.buyslot.locked"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(player.getMoney() < finalValue) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.buyslot.not_enough_money"), EmoteReference.ERROR, finalValue).queue();
                     return;
                 }
 
                 player.removeMoney(finalValue);
-                userData.setWaifuSlots(userData.getWaifuSlots() + 1);
+                userData.setWaifuSlots(currentSlots + 1);
                 user.save();
                 player.save();
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.buyslot.success"), EmoteReference.CORRECT, finalValue, userData.getWaifuSlots()).queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.buyslot.success"), EmoteReference.CORRECT, finalValue, userData.getWaifuSlots(), (userData.getWaifuSlots() - userData.getWaifus().size())).queue();
             }
         });
     }
