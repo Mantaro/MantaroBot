@@ -643,7 +643,9 @@
       "no_badges": "No badges (yet!)",
       "no_timezone": "No timezone set.",
       "timezone_user": "User's timezone: %1$s",
-      "not_specified": "Not specified."
+      "not_specified": "Not specified.",
+      "potion": "Active Potion",
+      "no_potion": "No active potions."
     },
     "badges": {
       "info": {
@@ -673,13 +675,14 @@
     "birthday": {
       "reset": "%1$sCorrectly reset birthday date.",
       "no_global_birthdays": "%1$sThings seems a bit empty here...",
-      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month here :(\n%2$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)",
+      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)",
       "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running (internal error) :(",
       "error": "%1$sSomething went wrong while getting birthdays (internal error) :(",
       "header": "**%1$s's Birthdays for %2$s**\n",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd/mm/yyyy`",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting. Remember to include the year, although you can put any year and it won't affect anything.\nRemember that the date format is `dd/mm/yyyy`",
-      "added_birthdate": "%1$sSuccessfully added birth date."
+      "added_birthdate": "%1$sSuccessfully added birth date.",
+      "invalid_month": "%1$sThat's not a valid month number! (Valid months are"
     },
     "choose": {
       "success": "%1$sI choose `%2$s`"

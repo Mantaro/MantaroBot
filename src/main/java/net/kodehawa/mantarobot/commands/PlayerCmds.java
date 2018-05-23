@@ -234,20 +234,18 @@ public class PlayerCmds {
                         Collections.sort(badges);
                         String displayBadges = badges.stream().map(Badge::getUnicode).limit(5).collect(Collectors.joining("  "));
 
-                        applyBadge(event.getChannel(),
-                                badges.isEmpty() ? null : (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()), userLooked,
-                                baseEmbed(event,
-                                        (marriedTo == null || !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING
-                                        ) + String.format(languageContext.get("commands.profile.header"), memberLooked.getEffectiveName()), userLooked.getEffectiveAvatarUrl()
+                        EmbedBuilder builder = baseEmbed(event,
+                                (marriedTo == null || !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING
+                                ) + String.format(languageContext.get("commands.profile.header"), memberLooked.getEffectiveName()), userLooked.getEffectiveAvatarUrl()
                                 )
                                 .setThumbnail(userLooked.getEffectiveAvatarUrl())
                                 .setDescription(
                                         (player.getData().isShowBadge() ? (badges.isEmpty() ?
                                                 "" : String.format("**%s**\n", (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()))) : ""
                                         ) +
-                                        (player.getData().getDescription() == null ?
-                                                languageContext.get("commands.profile.no_desc") : player.getData().getDescription()
-                                        )
+                                                (player.getData().getDescription() == null ?
+                                                        languageContext.get("commands.profile.no_desc") : player.getData().getDescription()
+                                                )
                                 )
                                 .addField(EmoteReference.DOLLAR + languageContext.get("commands.profile.credits"),
                                         "$ " + player.getMoney(), true
@@ -276,7 +274,17 @@ public class PlayerCmds {
                                 )
                                 .setFooter(String.format("%s | %s", String.format(languageContext.get("commands.profile.timezone_user"),
                                         (user.getTimezone() == null ? languageContext.get("commands.profile.no_timezone") : user.getTimezone())), String.format(languageContext.get("general.requested_by"), event.getAuthor().getName())), null
-                                )
+                                );
+
+                        if(player.getData().getActivePotion() != null) {
+                            builder.addField(EmoteReference.RUNNER + languageContext.get("commands.profile.potion"),
+                                    Items.fromId(player.getData().getActivePotion().getPotion()).getName(), false);
+                        }
+
+
+                        applyBadge(event.getChannel(),
+                                badges.isEmpty() ? null : (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()), userLooked,
+                                builder
                         );
                     }
                 };

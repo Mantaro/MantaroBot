@@ -64,7 +64,6 @@ public class Trivia extends Game<String> {
             EmbedBuilder eb = new EmbedBuilder();
             JSONObject ob = new JSONObject(json);
 
-
             JSONObject question = ob.getJSONArray("results").getJSONObject(0);
 
             List<String> answers = question.getJSONArray("incorrect_answers").toList().stream().map(v -> fromB64(String.valueOf(v))).collect(Collectors.toList());
@@ -72,8 +71,11 @@ public class Trivia extends Game<String> {
             String qu = fromB64(question.getString("question"));
             String category = fromB64(question.getString("category"));
             String diff = fromB64(question.getString("difficulty"));
-            if(diff.equalsIgnoreCase("hard")) hardDiff = true;
-            if(fromB64(question.getString("type")).equalsIgnoreCase("boolean")) isBool = true;
+
+            if(diff.equalsIgnoreCase("hard"))
+                hardDiff = true;
+            if(fromB64(question.getString("type")).equalsIgnoreCase("boolean"))
+                isBool = true;
 
             expectedAnswer.add(fromB64(question.getString("correct_answer")).trim());
 

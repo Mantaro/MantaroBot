@@ -640,7 +640,7 @@
     "birthday": {
       "reset": "%1$sHe limpiado la fecha de tu cumpleaños correctamente.",
       "no_global_birthdays": "%1$sEstá un poco vacio por aquí...",
-      "no_guild_month_birthdays": "%1$sNo hay ningún cumpleaños para este mes por aquí :(\n%2$sSi acabas de configurar el anunciador de cumpleaños, porfavor espera un día para revisar denuevo. (La cache se refresca cada 23 horas)",
+      "no_guild_month_birthdays": "%1$sNo hay ningún cumpleaños para este mes (%2$s) por aquí :(\n%3$sSi acabas de configurar el anunciador de cumpleaños, porfavor espera un día para revisar denuevo. (La cache se refresca cada 23 horas)",
       "cache_not_running": "%1$sEl cache de cumpleaños no parece estar funcionando (error interno) :(",
       "error": "%1$sAlgo salió muy mal intentando buscar los cumpleaños (error interno) :(",
       "header": "**Cumpleaños del servidor %1$s para el mes de %2$s**\n",

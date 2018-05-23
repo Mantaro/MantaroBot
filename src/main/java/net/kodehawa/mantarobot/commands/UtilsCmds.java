@@ -110,6 +110,31 @@ public class UtilsCmds {
                 if(content.startsWith("month")) {
                     BirthdayCacher cacher = MantaroBot.getInstance().getBirthdayCacher();
 
+                    String m1 = "";
+                    if(args.length == 2) {
+                        m1 = args[1];
+                    }
+
+                    Calendar calendar = Calendar.getInstance();
+                    int month = calendar.get(Calendar.MONTH);
+
+                    if(!m1.isEmpty()) {
+                        try {
+                            month = Integer.parseInt(m1);
+                            if(month < 1 || month > 12) {
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.invalid_month"), EmoteReference.ERROR).queue();
+                                return;
+                            }
+
+                            //Substract here so we can do the check properly up there.
+                            month = month - 1;
+                        } catch (NumberFormatException e) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.invalid_month"), EmoteReference.ERROR).queue();
+                        }
+                    }
+
+                    calendar.set(calendar.get(Calendar.YEAR), month, calendar.get(Calendar.DAY_OF_MONTH));
+
                     try {
                         if(cacher != null) {
                             if(cacher.cachedBirthdays.isEmpty()) {
@@ -119,7 +144,6 @@ public class UtilsCmds {
 
                             List<String> ids = event.getGuild().getMemberCache().stream().map(m -> m.getUser().getId()).collect(Collectors.toList());
                             Map<String, String> guildCurrentBirthdays = new HashMap<>();
-                            Calendar calendar = Calendar.getInstance();
                             String calendarMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1);
                             String currentMonth = (calendarMonth.length() == 1 ? 0 : "") + calendarMonth;
 
@@ -130,7 +154,7 @@ public class UtilsCmds {
                             }
 
                             if(guildCurrentBirthdays.isEmpty()) {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.no_guild_month_birthdays"), EmoteReference.ERROR).queue();
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.no_guild_month_birthdays"), EmoteReference.ERROR, month + 1, EmoteReference.BLUE_SMALL_MARKER).queue();
                                 return;
                             }
 
@@ -160,6 +184,7 @@ public class UtilsCmds {
                         }
                     } catch(Exception e) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.error"), EmoteReference.SAD).queue();
+                        e.printStackTrace();
                     }
 
                     return;
