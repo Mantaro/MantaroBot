@@ -630,7 +630,7 @@ public class RelationshipCmds {
                         .setDescription(String.format(languageContext.get("commands.waifu.stats.format"),
                                  EmoteReference.BLUE_SMALL_MARKER, waifuStats.getMoneyValue(), waifuStats.getBadgeValue(), waifuStats.getExperienceValue(), waifuStats.getReputationMultiplier())
                         )
-                        .addField(languageContext.get("commands.waifu.stats.value"), String.format(languageContext.get("commands.waifu.stats.credits"), waifuStats.getFinalValue()), false);
+                        .addField(languageContext.get("commands.waifu.stats.value"), EmoteReference.BUY + String.format(languageContext.get("commands.waifu.stats.credits"), waifuStats.getFinalValue()), false);
 
                 event.getChannel().sendMessage(statsBuilder.build()).queue();
             }

@@ -45,12 +45,12 @@ public class Player implements ManagedObject {
     private final String id;
     private final transient Inventory inventory = new Inventory();
     @Getter
-    private Long level = null;
+    private Long level;
     @Getter
-    private Long money = null;
+    private Long money;
     @Getter
     @Setter
-    private Long reputation = null;
+    private Long reputation;
 
     @JsonCreator
     @ConstructorProperties({"id", "level", "money", "reputation", "inventory", "data"})

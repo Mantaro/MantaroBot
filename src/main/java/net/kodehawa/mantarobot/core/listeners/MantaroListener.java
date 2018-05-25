@@ -542,7 +542,8 @@ public class MantaroListener implements EventListener {
         }
 
         try {
-            String joinChannel = data.getLogJoinLeaveChannel() == null ? data.getLogJoinChannel() : data.getLogJoinLeaveChannel();
+            String joinChannel = data.getLogJoinLeaveChannel() == null && event.getGuild().getTextChannelById(data.getLogJoinLeaveChannel()) != null ?
+                    data.getLogJoinChannel() : data.getLogJoinLeaveChannel();
             String joinMessage = data.getJoinMessage();
             sendJoinLeaveMessage(event, data.getExtraJoinMessages(), joinMessage, joinChannel);
             MantaroBot.getInstance().getStatsClient().increment("join_messages");
@@ -577,7 +578,8 @@ public class MantaroListener implements EventListener {
         }
 
         try {
-            String leaveChannel = data.getLogJoinLeaveChannel() == null ? data.getLogLeaveChannel() : data.getLogJoinLeaveChannel();
+            String leaveChannel = data.getLogJoinLeaveChannel() == null && event.getGuild().getTextChannelById(data.getLogJoinLeaveChannel()) != null ?
+                    data.getLogLeaveChannel() : data.getLogJoinLeaveChannel();
             String leaveMessage = data.getLeaveMessage();
             sendJoinLeaveMessage(event, data.getExtraLeaveMessages(), leaveMessage, leaveChannel);
             MantaroBot.getInstance().getStatsClient().increment("leave_messages");
