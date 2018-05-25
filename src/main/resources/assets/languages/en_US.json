@@ -70,7 +70,7 @@
     "softban": {
       "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
       "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
-      "no_mention": "%1$sYou must mention 1 or more users to be soft-banned.",
+      "no_users": "%1$sYou need to give me an user to softban.",
       "hierarchy_conflict": "%1$sYou cannot softban an user in a higher hierarchy than you",
       "yourself_note": "%1$sWhy are you trying to soft-ban yourself?",
       "self_hierarchy_conflict": "%1$sCannot softban member: %2$s, they are higher or the same hierarchy than I am!",
@@ -80,7 +80,7 @@
     },
     "ban": {
       "no_permission": "%1$sYou can't ban: You need the `Ban Users` permission.",
-      "no_mention": "%1$sYou need to mention at least one user to ban.",
+      "no_users": "%1$sYou need to give me an user to ban.",
       "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
       "hierarchy_conflict": "%1$sYou cannot ban an user who's higher than you in the server hierarchy! Nice try %2$s",
       "yourself_note": "%1$sWhy are you trying to ban yourself, silly?",
@@ -91,7 +91,7 @@
     },
     "kick": {
       "no_permission": "%1$sCannot kick: You have no Kick Members permission.",
-      "no_mention": "%1$sYou must mention 1 or more users to be kicked.",
+      "no_users": "%1$sYou need to give me an user to kick.",
       "no_permission_self": "%1$sSorry! I don't have permission to kick members in this server.",
       "hierarchy_conflict": "%1$sYou cannot kick an user in a higher hierarchy than you",
       "yourself_note": "%1$sWhy are you trying to kick yourself, silly?",
@@ -333,7 +333,7 @@
       "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
       "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`",
       "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent.",
-      "no_mentions": "%1$sYou need to mention at least one user to mute.",
+      "no_users": "%1$sYou need to give me an user to mute.",
       "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server.",
       "no_time": "%1$sYou didn't specify any time. Remember that you need to add the `-time` argument and specify it there.",
       "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",

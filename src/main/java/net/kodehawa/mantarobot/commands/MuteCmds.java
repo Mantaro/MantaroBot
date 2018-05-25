@@ -59,6 +59,12 @@ public class MuteCmds {
         Command mute = registry.register("mute", new SimpleCommand(Category.MODERATION) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                if(args.length == 0) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_users"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                String affected = args[0];
 
                 if(!(event.getMember().hasPermission(Permission.KICK_MEMBERS) || event.getMember().hasPermission(Permission.BAN_MEMBERS))) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_permissions"), EmoteReference.ERROR).queue();
@@ -96,7 +102,7 @@ public class MuteCmds {
                 final String finalReason = timePattern.matcher(reason).replaceAll("");
 
                 MantaroObj data = db.getMantaroData();
-                Member member = Utils.findMember(event, event.getMember(), content);
+                Member member = Utils.findMember(event, event.getMember(), affected);
                 if(member == null)
                     return;
 

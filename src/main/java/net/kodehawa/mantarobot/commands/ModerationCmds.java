@@ -31,6 +31,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -59,6 +60,13 @@ public class ModerationCmds {
                 Message receivedMessage = event.getMessage();
                 String reason = content;
 
+                if(args.length == 0) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.softban.no_users"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                String affected = args[0];
+
                 if(!guild.getMember(author).hasPermission(Permission.BAN_MEMBERS)) {
                     channel.sendMessage(String.format(languageContext.get("commands.softban.no_permission"), EmoteReference.ERROR2)).queue();
                     return;
@@ -71,8 +79,8 @@ public class ModerationCmds {
                     return;
                 }
 
-                for(User user : event.getMessage().getMentionedUsers()) {
-                    reason = reason.replaceAll("(\\s+)?<@!?" + user.getId() + ">(\\s+)?", "");
+                if(args.length > 1) {
+                    reason = StringUtils.splitArgs(content, 2)[1];
                 }
 
                 if(reason.isEmpty()) {
@@ -81,7 +89,7 @@ public class ModerationCmds {
 
                 final String finalReason = String.format("Softbanned by %#s: %s", event.getAuthor(), reason);
 
-                Member member = Utils.findMember(event, event.getMember(), content);
+                Member member = Utils.findMember(event, event.getMember(), affected);
                 if(member == null)
                     return;
 
@@ -163,6 +171,13 @@ public class ModerationCmds {
                 Message receivedMessage = event.getMessage();
                 String reason = content;
 
+                if(args.length == 0) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.ban.no_users"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                String affected = args[0];
+
                 if(!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.BAN_MEMBERS)) {
                     channel.sendMessage(String.format(languageContext.get("commands.ban.no_permission"), EmoteReference.ERROR)).queue();
                     return;
@@ -175,8 +190,8 @@ public class ModerationCmds {
                     return;
                 }
 
-                for(User user : event.getMessage().getMentionedUsers()) {
-                    reason = reason.replaceAll("(\\s+)?<@!?" + user.getId() + ">(\\s+)?", "");
+                if(args.length > 1) {
+                    reason = StringUtils.splitArgs(content, 2)[1];
                 }
 
                 if(reason.isEmpty()) {
@@ -184,7 +199,7 @@ public class ModerationCmds {
                 }
 
                 final String finalReason = String.format("Banned by %#s: %s", event.getAuthor(), reason);
-                Member member = Utils.findMember(event, event.getMember(), content);
+                Member member = Utils.findMember(event, event.getMember(), affected);
                 if(member == null)
                     return;
 
@@ -254,6 +269,13 @@ public class ModerationCmds {
                 Message receivedMessage = event.getMessage();
                 String reason = content;
 
+                if(args.length == 0) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.kick.no_users"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                String affected = args[0];
+
                 if(!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.KICK_MEMBERS)) {
                     channel.sendMessage(String.format(languageContext.get("commands.kick.no_permission"), EmoteReference.ERROR2)).queue();
                     return;
@@ -271,8 +293,8 @@ public class ModerationCmds {
                     return;
                 }
 
-                for(User user : event.getMessage().getMentionedUsers()) {
-                    reason = reason.replaceAll("(\\s+)?<@!?" + user.getId() + ">(\\s+)?", "");
+                if(args.length > 1) {
+                    reason = StringUtils.splitArgs(content, 2)[1];
                 }
 
                 if(reason.isEmpty()) {
@@ -280,7 +302,7 @@ public class ModerationCmds {
                 }
 
                 final String finalReason = String.format("Kicked by %#s: %s", event.getAuthor(), reason);
-                Member member = Utils.findMember(event, event.getMember(), content);
+                Member member = Utils.findMember(event, event.getMember(), affected);
                 if(member == null)
                     return;
 
