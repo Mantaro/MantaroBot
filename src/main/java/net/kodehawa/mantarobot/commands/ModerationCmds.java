@@ -281,11 +281,6 @@ public class ModerationCmds {
                     return;
                 }
 
-                if(receivedMessage.getMentionedUsers().isEmpty()) {
-                    channel.sendMessage(String.format(languageContext.get("commands.kick.no_mention"), EmoteReference.ERROR)).queue();
-                    return;
-                }
-
                 Member selfMember = guild.getSelfMember();
 
                 if(!selfMember.hasPermission(net.dv8tion.jda.core.Permission.KICK_MEMBERS)) {

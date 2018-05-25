@@ -339,7 +339,7 @@
       "already_muted": "%1$sEste usuario ya está muteado. Ejecuta `~>unmute` para des-mutearlo.",
       "self_hierarchy_error": "%1$sNo puedo asignar el rol de muteo a este user porque está en una jerarquía mas alta que yo, o el rol está en una jerarquía mas alta que mi rol más importante!",
       "user_hierarchy_error": "%1$sNo puedo asignar el rol de muteo a este user porque está en una jerarquía mas alta que tú, o el rol está en una jerarquía mas alta que tu rol más importante!",
-      "success": "%1$sAñadido el rol de muteo a **%2$s%3$s** por alrededor de %4$s"
+      "success": "%1$sAñadido el rol de muteo a **%2$s** por alrededor de %3$s"
     },
     "unmute": {
       "no_permissions": "%1$sNecesitas tener el permiso para expulsar o banear miembros para poder des-mutear!",
@@ -1423,7 +1423,7 @@
       "success": "%1$sCorrectly reset the mute role."
     },
     "muterole_set": {
-      "success": "%1$sSet mute role to **%s**"
+      "success": "%1$sSet mute role to **%2$s**"
     },
     "reset:all": {
       "success": "%1$sCorrectly reset your options!"
