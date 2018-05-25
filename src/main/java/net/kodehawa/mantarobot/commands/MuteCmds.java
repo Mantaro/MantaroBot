@@ -87,11 +87,6 @@ public class MuteCmds {
                     reason = StringUtils.splitArgs(content, 2)[1];
                 }
 
-                if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_mentions"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
                 if(!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MANAGE_ROLES)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_manage_roles"), EmoteReference.ERROR).queue();
                     return;

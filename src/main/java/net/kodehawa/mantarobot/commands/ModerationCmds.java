@@ -71,11 +71,6 @@ public class ModerationCmds {
                     return;
                 }
 
-                if(receivedMessage.getMentionedUsers().isEmpty()) {
-                    channel.sendMessage(String.format(languageContext.get("commands.softban.no_mention"), EmoteReference.ERROR)).queue();
-                    return;
-                }
-
                 for(User user : event.getMessage().getMentionedUsers()) {
                     reason = reason.replaceAll("(\\s+)?<@!?" + user.getId() + ">(\\s+)?", "");
                 }
@@ -177,11 +172,6 @@ public class ModerationCmds {
 
                 if(!selfMember.hasPermission(Permission.BAN_MEMBERS)) {
                     channel.sendMessage(String.format(languageContext.get("commands.ban.no_permission_self"), EmoteReference.ERROR)).queue();
-                    return;
-                }
-
-                if(receivedMessage.getMentionedUsers().isEmpty()) {
-                    channel.sendMessage(String.format(languageContext.get("commands.ban.no_mention"), EmoteReference.ERROR)).queue();
                     return;
                 }
 
