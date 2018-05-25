@@ -1068,7 +1068,7 @@
         "bonus": "\n¡Ganaste un bonus de $%1$s por acumular tus créditos diarios por 5 días seguidos o más! (Va incluido en el dinero que se muestra)",
         "given": {
           "up": "Streak up! Current streak: `%1$dx`.\n*The streak was applied to your profile!*",
-          "bonus": "¡%1$s ganó un bonus de $%1$s por acumular tus créditos diarios por 5 días seguidos o más! (Va incluido en el dinero que se muestra)"
+          "bonus": "¡%1$s ganó un bonus de $%2$s por acumular tus créditos diarios por 5 días seguidos o más! (Va incluido en el dinero que se muestra)"
         }
       },
       "given_credits": "%1$sLe di tus **$%2$s** creditos diarios a %3$s\n\n%4$s",
