@@ -803,6 +803,11 @@ public class GuildOptions extends OptionHandler {
 
                     Role role = Utils.findRoleSelect(event, roleName, consumer);
 
+                    if(role.isPublicRole()) {
+                        event.getChannel().sendMessageFormat(lang.get("options.server_role_disallow.public_role"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
                     if(role != null) {
                         consumer.accept(role);
                     }

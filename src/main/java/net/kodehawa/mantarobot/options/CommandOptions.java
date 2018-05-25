@@ -412,7 +412,13 @@ public class CommandOptions extends OptionHandler {
                     event.getChannel().sendMessageFormat(lang.get("options.invalid_role"), EmoteReference.ERROR).queue();
                     return;
                 }
-                
+
+                //lol reusing strings
+                if(role.isPublicRole()) {
+                    event.getChannel().sendMessageFormat(lang.get("options.server_role_disallow.public_role"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                 GuildData guildData = dbGuild.getData();
 
@@ -517,6 +523,12 @@ public class CommandOptions extends OptionHandler {
 
                 if(role == null) {
                     event.getChannel().sendMessageFormat(lang.get("options.invalid_role"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                //reusing strings v2
+                if(role.isPublicRole()) {
+                    event.getChannel().sendMessageFormat(lang.get("options.server_role_disallow.public_role"), EmoteReference.ERROR).queue();
                     return;
                 }
 
