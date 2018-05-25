@@ -314,7 +314,7 @@ public class InfoCmds {
                                     DefaultCommandProcessor.REGISTRY.commands().values().stream().filter(c -> c.category() != null).count()), null);
 
                     Arrays.stream(Category.values())
-                            .filter(c -> c != Category.CURRENCY || !MantaroData.config().get().isPremiumBot())
+                            //.filter(c -> c != Category.CURRENCY || !MantaroData.config().get().isPremiumBot())
                             .filter(c -> c != Category.OWNER || CommandPermission.OWNER.test(event.getMember()))
                             .forEach(c -> embed.addField(c + " " + languageContext.get("commands.help.commands") +":",
                                     forType(event.getChannel(), guildData, c), false)
