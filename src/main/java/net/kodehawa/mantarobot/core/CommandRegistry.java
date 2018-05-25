@@ -163,7 +163,7 @@ public class CommandRegistry {
             //10 days before expiration or best fit.
             if(currentKey.validFor() < 10 && !userData.isReceivedExpirationWarning()) {
                 event.getAuthor().openPrivateChannel().queue(privateChannel ->
-                        privateChannel.sendMessage(EmoteReference.WARNING + "Your premium key is about to run out in **" + currentKey.validFor() + " days**!\n" +
+                        privateChannel.sendMessage(EmoteReference.WARNING + "Your premium key is about to run out in **" + Math.max(1, currentKey.validFor()) + " days**!\n" +
                                 EmoteReference.HEART + "*If you're still pledging to Mantaro* you can ask Kodehawa#3457 for a key renewal in the #donators channel. " +
                                 "In the case that you're not longer a patron, you cannot renew, but I sincerely hope you had a good time with the bot and its features! " +
                                 "**If you ever want to pledge again you can check the patreon link at <https://patreon.com/mantaro>**\n\n" +
