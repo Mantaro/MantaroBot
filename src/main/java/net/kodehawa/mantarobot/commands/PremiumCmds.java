@@ -34,6 +34,7 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.List;
@@ -150,8 +151,10 @@ public class PremiumCmds {
                             languageContext.get("commands.vipstatus.user.header"), null, event.getAuthor().getEffectiveAvatarUrl()
                     );
 
-                    if(dbUser.getData().getPremiumKey() != null) {
-                        PremiumKey currentKey = MantaroData.db().getPremiumKey(MantaroData.db().getUser(toCheck).getData().getPremiumKey());
+                    final UserData data = dbUser.getData();
+                    PremiumKey currentKey = MantaroData.db().getPremiumKey(data.getPremiumKey());
+
+                    if(currentKey != null) {
                         User owner = MantaroBot.getInstance().getUserById(currentKey.getOwner());
                         boolean marked = false;
                         if(owner == null) {
@@ -186,9 +189,9 @@ public class PremiumCmds {
                         }
 
                         embedBuilder.setAuthor(String.format(languageContext.get("commands.vipstatus.guild.header"), event.getGuild().getName()), null, event.getAuthor().getEffectiveAvatarUrl());
+                        PremiumKey currentKey = MantaroData.db().getPremiumKey(dbGuild.getData().getPremiumKey());
 
-                        if(dbGuild.getData().getPremiumKey() != null) {
-                            PremiumKey currentKey = MantaroData.db().getPremiumKey(dbGuild.getData().getPremiumKey());
+                        if(currentKey != null) {
                             User owner = MantaroBot.getInstance().getUserById(currentKey.getOwner());
                             if(owner == null)
                                 owner = event.getGuild().getOwner().getUser();
