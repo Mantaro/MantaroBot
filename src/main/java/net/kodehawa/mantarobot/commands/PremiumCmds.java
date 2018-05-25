@@ -154,7 +154,7 @@ public class PremiumCmds {
                     final UserData data = dbUser.getData();
                     PremiumKey currentKey = MantaroData.db().getPremiumKey(data.getPremiumKey());
 
-                    if(currentKey != null) {
+                    if(currentKey != null && currentKey.validFor() > 0) {
                         User owner = MantaroBot.getInstance().getUserById(currentKey.getOwner());
                         boolean marked = false;
                         if(owner == null) {
@@ -191,7 +191,7 @@ public class PremiumCmds {
                         embedBuilder.setAuthor(String.format(languageContext.get("commands.vipstatus.guild.header"), event.getGuild().getName()), null, event.getAuthor().getEffectiveAvatarUrl());
                         PremiumKey currentKey = MantaroData.db().getPremiumKey(dbGuild.getData().getPremiumKey());
 
-                        if(currentKey != null) {
+                        if(currentKey != null && currentKey.validFor() > 0) {
                             User owner = MantaroBot.getInstance().getUserById(currentKey.getOwner());
                             if(owner == null)
                                 owner = event.getGuild().getOwner().getUser();
