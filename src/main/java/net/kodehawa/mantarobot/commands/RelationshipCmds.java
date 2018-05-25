@@ -628,7 +628,7 @@ public class RelationshipCmds {
                         )
                         .setColor(Color.PINK)
                         .setDescription(String.format(languageContext.get("commands.waifu.stats.format"),
-                                 EmoteReference.BLUE_SMALL_MARKER, waifuStats.getMoneyValue(), waifuStats.getBadgeValue(), waifuStats.getExperienceValue())
+                                 EmoteReference.BLUE_SMALL_MARKER, waifuStats.getMoneyValue(), waifuStats.getBadgeValue(), waifuStats.getExperienceValue(), waifuStats.getReputationMultiplier())
                         )
                         .addField(languageContext.get("commands.waifu.stats.value"), String.format(languageContext.get("commands.waifu.stats.credits"), waifuStats.getFinalValue()), false);
 
@@ -745,19 +745,19 @@ public class RelationshipCmds {
         PlayerData waifuPlayerData = waifuPlayer.getData();
 
         long waifuValue = waifuBaseValue;
-        //For every 100000 money owned, it increases by 3% base value (base: 1500)
-        //For every 10 badges, it increases by 20% base value.
-        //For every 1000 experience, the value increases by 20% of the base value.
+        //For every 100000 money owned, it increases by 7% base value (base: 1500)
+        //For every 5 badges, it increases by 15% base value.
+        //For every 5000 experience, the value increases by 17% of the base value.
         //After all those calculations are complete, the value then is calculated using final * (reputation scale / 10) where reputation scale goes up by 1 every 10 reputation points.
         //For every 3 waifu claims, the final value increases by 10%.
         //Maximum waifu value is Integer.MAX_VALUE.
 
         //Money calculation.
-        long moneyValue = Math.round(Math.max(1, (int) (waifuPlayer.getMoney() / 100000)) * calculatePercentage(3, waifuBaseValue));
+        long moneyValue = Math.round(Math.max(1, (int) (waifuPlayer.getMoney() / 100000)) * calculatePercentage(7, waifuBaseValue));
         //Badge calculation.
-        long badgeValue = Math.round(Math.max(1, (waifuPlayerData.getBadges().size() / 10)) * calculatePercentage(20, waifuBaseValue));
+        long badgeValue = Math.round(Math.max(1, (waifuPlayerData.getBadges().size() / 5)) * calculatePercentage(15, waifuBaseValue));
         //Experience calculator.
-        long experienceValue = Math.round(Math.max(1, (int) (waifuPlayer.getData().getExperience() / 1000)) * calculatePercentage(20, waifuBaseValue));
+        long experienceValue = Math.round(Math.max(1, (int) (waifuPlayer.getData().getExperience() / 5000)) * calculatePercentage(17, waifuBaseValue));
 
         //"final" value
         waifuValue += moneyValue + badgeValue + experienceValue;
@@ -765,8 +765,15 @@ public class RelationshipCmds {
         //what is this lol
         //After all those calculations are complete, the value then is calculated using final * (reputation scale / 10) where reputation scale goes up by 1 every 10 reputation points.
         //At 6000 reputation points, the waifu value gets multiplied by 2. This is the maximum amount it can be multiplied to.
-        long finalValue = (long)(Math.min(Integer.MAX_VALUE, waifuValue * (waifuPlayer.getReputation() / 10) / 10) * (waifuPlayer.getReputation() > 6000 ? 1.75 : 1));
-        return new Waifu(moneyValue, badgeValue, experienceValue, finalValue);
+        long reputation = waifuPlayer.getReputation();
+        double reputationScaling = (reputation / 4.5) / 10;
+        long finalValue = (long) (
+                Math.min(Integer.MAX_VALUE,
+                        (waifuValue * (reputationScaling > 1 ? reputationScaling : 1) * (reputation > 6000 ? 1.75 : 1)
+                )
+        ));
+
+        return new Waifu(moneyValue, badgeValue, experienceValue, reputationScaling, finalValue);
     }
 
     //Yes, I had to do it, fuck.
@@ -780,6 +787,7 @@ public class RelationshipCmds {
         private long moneyValue;
         private long badgeValue;
         private long experienceValue;
+        private double reputationMultiplier;
         private long finalValue;
     }
 }
