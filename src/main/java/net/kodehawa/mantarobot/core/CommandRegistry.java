@@ -38,6 +38,8 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -66,20 +68,21 @@ public class CommandRegistry {
     public boolean process(GuildMessageReceivedEvent event, String cmdName, String content) {
         long start = System.currentTimeMillis();
         Command command = commands.get(cmdName.toLowerCase());
-        if(MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) {
+        if (MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) {
             return false;
         }
 
         DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
-        UserData userData = MantaroData.db().getUser(event.getAuthor()).getData();
+        DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
+        UserData userData = dbUser.getData();
         GuildData data = dbg.getData();
 
-        if(command == null) {
+        if (command == null) {
             CustomCmds.handle(cmdName, event, new I18nContext(data, userData), content);
             return false;
         }
 
-        if(!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_EMBED_LINKS)) {
+        if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_EMBED_LINKS)) {
             event.getChannel().sendMessage(EmoteReference.STOP + "I require the permission ``Embed Links``. " +
                     "All Commands will be refused until you give me that permission.\n" +
                     "http://i.imgur.com/Ydykxcy.gifv Refer to this on instructions on how to give the bot the permissions. " +
@@ -90,69 +93,88 @@ public class CommandRegistry {
         //Variable used in lambda expression should be final or effectively final...
         final Command cmd = command;
 
-        if(data.getDisabledCommands().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) {
+        if (data.getDisabledCommands().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) {
             return false;
         }
 
         List<String> channelDisabledCommands = data.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
-        if(channelDisabledCommands != null && channelDisabledCommands.contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) {
+        if (channelDisabledCommands != null && channelDisabledCommands.contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) {
             return false;
         }
 
-        if(data.getDisabledUsers().contains(event.getAuthor().getId()) && !isAdmin(event.getMember())) {
+        if (data.getDisabledUsers().contains(event.getAuthor().getId()) && !isAdmin(event.getMember())) {
             return false;
         }
 
-        if(data.getDisabledChannels().contains(event.getChannel().getId()) && (cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() != Category.MODERATION : cmd.category() != Category.MODERATION)) {
+        if (data.getDisabledChannels().contains(event.getChannel().getId()) && (cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() != Category.MODERATION : cmd.category() != Category.MODERATION)) {
             return false;
         }
 
-        if(conf.isPremiumBot() && (cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() == Category.CURRENCY : cmd.category() == Category.CURRENCY)) {
+        if (conf.isPremiumBot() && (cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() == Category.CURRENCY : cmd.category() == Category.CURRENCY)) {
             return false;
         }
 
-        if(data.getDisabledCategories().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) {
+        if (data.getDisabledCategories().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) {
             return false;
         }
 
-        if(data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), c ->
+        if (data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), c ->
                 new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) {
             return false;
         }
 
-        if(data.getWhitelistedRole() != null) {
+        if (data.getWhitelistedRole() != null) {
             Role whitelistedRole = event.getGuild().getRoleById(data.getWhitelistedRole());
-            if((whitelistedRole != null && event.getMember().getRoles().stream().noneMatch(r -> whitelistedRole.getId().equalsIgnoreCase(r.getId())) && !isAdmin(event.getMember()))) {
+            if ((whitelistedRole != null && event.getMember().getRoles().stream().noneMatch(r -> whitelistedRole.getId().equalsIgnoreCase(r.getId())) && !isAdmin(event.getMember()))) {
                 return false;
             }
 
             //else continue.
         }
 
-        if(!data.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream().anyMatch(r -> data.getDisabledRoles().contains(r.getId())) && !isAdmin(event.getMember())) {
+        if (!data.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream().anyMatch(r -> data.getDisabledRoles().contains(r.getId())) && !isAdmin(event.getMember())) {
             return false;
         }
 
         HashMap<String, List<String>> roleSpecificDisabledCommands = data.getRoleSpecificDisabledCommands();
-        if(event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) && !isAdmin(event.getMember())) {
+        if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) && !isAdmin(event.getMember())) {
             return false;
         }
 
         HashMap<String, List<Category>> roleSpecificDisabledCategories = data.getRoleSpecificDisabledCategories();
-        if(event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCategories.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) && !isAdmin(event.getMember())) {
+        if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCategories.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) && !isAdmin(event.getMember())) {
             return false;
         }
 
         //If we are in the patreon bot, deny all requests from unknown guilds.
-        if(conf.isPremiumBot() && !conf.isOwner(event.getAuthor()) && !dbg.isPremium()) {
+        if (conf.isPremiumBot() && !conf.isOwner(event.getAuthor()) && !dbg.isPremium()) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like you're trying to use the Patreon bot when this guild is **not** marked as premium. " +
                     "**If you think this is an error please contact Kodehawa#3457 or poke me on #donators in the support guild**").queue();
             return false;
         }
 
-        if(!cmd.permission().test(event.getMember())) {
+        if (!cmd.permission().test(event.getMember())) {
             event.getChannel().sendMessage(EmoteReference.STOP + "You have no permissions to trigger this command :(").queue();
             return false;
+        }
+
+        PremiumKey currentKey = MantaroData.db().getPremiumKey(userData.getPremiumKey());
+        if(currentKey != null) {
+            //10 days before expiration or best fit.
+            if(currentKey.validFor() < 10 && !userData.isReceivedExpirationWarning()) {
+                event.getAuthor().openPrivateChannel().queue(privateChannel ->
+                        privateChannel.sendMessage(EmoteReference.WARNING + "Your premium key is about to run out in " + currentKey.validFor() + "days!\n" +
+                                EmoteReference.HEART + "*If you're still pledging to Mantaro* you can ask Kodehawa#3457 for a key renewal in the #donators channel. " +
+                                "In the case that you're not longer a patron, you cannot renew, but I sincerely hope you had a good time with the bot and its features! " +
+                                "**If you ever want to pledge again you can check the patreon link at <https://patreon.com/mantaro>**\n\n" +
+                                "Thanks you so much for your support to keep Mantaro alive! It wouldn't be possible without the help of all of you.\n" +
+                                "With love, Kodehawa#3457 " + EmoteReference.HEART).queue()
+                );
+
+                //Set expiration warning flag to true and save.
+                userData.setReceivedExpirationWarning(true);
+                dbUser.save();
+            }
         }
 
         long end = System.currentTimeMillis();

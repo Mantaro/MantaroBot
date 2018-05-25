@@ -35,6 +35,8 @@ public class UserData {
     private String timezone;
     private String lang;
 
+    private boolean receivedExpirationWarning; //premium key about to expire!
+
     //NEW MARRIAGE SYSTEM
     private String marriageId;
     //user id, value bought for.

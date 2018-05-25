@@ -64,8 +64,14 @@ public class DBUser implements ManagedObject {
         return DB_TABLE;
     }
 
+    @JsonIgnore
     public User getUser(JDA jda) {
         return jda.getUserById(getId());
+    }
+
+    @JsonIgnore
+    public User getUser() {
+        return MantaroBot.getInstance().getUserById(getId());
     }
 
     @JsonIgnore
