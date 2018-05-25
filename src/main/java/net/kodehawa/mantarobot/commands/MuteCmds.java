@@ -21,6 +21,7 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -37,13 +38,11 @@ import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.options.core.OptionType;
-import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -102,30 +101,43 @@ public class MuteCmds {
                 final String finalReason = timePattern.matcher(reason).replaceAll("");
 
                 MantaroObj data = db.getMantaroData();
+                Member member = Utils.findMember(event, event.getMember(), content);
+                if(member == null)
+                    return;
 
-                event.getMessage().getMentionedUsers().forEach(user -> {
-                    Member m = event.getGuild().getMember(user);
-                    long time = guildData.getSetModTimeout() > 0 ? System.currentTimeMillis() + guildData.getSetModTimeout() : 0L;
+                User user = member.getUser();
 
-                    if(opts.containsKey("time")) {
-                        if(!opts.get("time").isPresent() || opts.get("time").get().isEmpty()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.mute.time_not_specified"), EmoteReference.WARNING).queue();
-                            return;
-                        }
+                long time = guildData.getSetModTimeout() > 0 ? System.currentTimeMillis() + guildData.getSetModTimeout() : 0L;
 
-                        time = System.currentTimeMillis() + Utils.parseTime(opts.get("time").get());
+                if(opts.containsKey("time")) {
+                    if(!opts.get("time").isPresent() || opts.get("time").get().isEmpty()) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.time_not_specified"), EmoteReference.WARNING).queue();
+                        return;
+                    }
 
+                    time = System.currentTimeMillis() + Utils.parseTime(opts.get("time").get());
+
+                    if(time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
+                        //smh smh smfh god fuck rethinkdb just
+                        //dont
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.time_too_long"), EmoteReference.ERROR).queue();
+                        //yeah why am I doing this
+                        //smh
+                        return;
+                    }
+
+                    if(time < 0) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.negative_time_notice"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    data.getMutes().put(user.getIdLong(), Pair.of(event.getGuild().getId(), time));
+                    data.save();
+                    dbGuild.save();
+                } else {
+                    if(time > 0) {
                         if(time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
-                            //smh smh smfh god fuck rethinkdb just
-                            //dont
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.mute.time_too_long"), EmoteReference.ERROR).queue();
-                            //yeah why am I doing this
-                            //smh
-                            return;
-                        }
-
-                        if(time < 0) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.mute.negative_time_notice"), EmoteReference.ERROR).queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.mute.default_time_too_long"), EmoteReference.ERROR).queue();
                             return;
                         }
 
@@ -133,48 +145,37 @@ public class MuteCmds {
                         data.save();
                         dbGuild.save();
                     } else {
-                        if(time > 0) {
-                            if(time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.mute.default_time_too_long"), EmoteReference.ERROR).queue();
-                                return;
-                            }
-
-                            data.getMutes().put(user.getIdLong(), Pair.of(event.getGuild().getId(), time));
-                            data.save();
-                            dbGuild.save();
-                        } else {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_time"), EmoteReference.ERROR).queue();
-                            return;
-                        }
-                    }
-
-
-                    if(m.getRoles().contains(mutedRole)) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.already_muted"), EmoteReference.WARNING).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_time"), EmoteReference.ERROR).queue();
                         return;
                     }
+                }
 
-                    if(!event.getGuild().getSelfMember().canInteract(m)) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.self_hierarchy_error"), EmoteReference.ERROR).queue();
-                        return;
-                    }
 
-                    if(!event.getMember().canInteract(m)) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.user_hierarchy_error"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+                if(member.getRoles().contains(mutedRole)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.already_muted"), EmoteReference.WARNING).queue();
+                    return;
+                }
 
-                    final DBGuild dbg = db.getGuild(event.getGuild());
-                    event.getGuild().getController().addSingleRoleToMember(m, mutedRole)
-                            .reason(String.format("Muted by %#s for %s: %s", event.getAuthor(), Utils.formatDuration(time - System.currentTimeMillis()), finalReason))
-                            .queue();
+                if(!event.getGuild().getSelfMember().canInteract(member)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.self_hierarchy_error"), EmoteReference.ERROR).queue();
+                    return;
+                }
 
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.success"), EmoteReference.CORRECT, m.getEffectiveName(), Utils.getHumanizedTime(time - System.currentTimeMillis())).queue();
+                if(!event.getMember().canInteract(member)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.user_hierarchy_error"), EmoteReference.ERROR).queue();
+                    return;
+                }
 
-                    dbg.getData().setCases(dbg.getData().getCases() + 1);
-                    dbg.saveAsync();
-                    ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.MUTE, dbg.getData().getCases());
-                });
+                final DBGuild dbg = db.getGuild(event.getGuild());
+                event.getGuild().getController().addSingleRoleToMember(member, mutedRole)
+                        .reason(String.format("Muted by %#s for %s: %s", event.getAuthor(), Utils.formatDuration(time - System.currentTimeMillis()), finalReason))
+                        .queue();
+
+                event.getChannel().sendMessageFormat(languageContext.get("commands.mute.success"), EmoteReference.CORRECT, member.getEffectiveName(), Utils.getHumanizedTime(time - System.currentTimeMillis())).queue();
+
+                dbg.getData().setCases(dbg.getData().getCases() + 1);
+                dbg.saveAsync();
+                ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.MUTE, dbg.getData().getCases());
             }
 
             @Override
