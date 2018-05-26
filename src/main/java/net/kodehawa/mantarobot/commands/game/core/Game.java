@@ -93,7 +93,7 @@ public abstract class Game<T> {
             }
 
             if(attempts >= maxAttempts) {
-                lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.all_attempts_used"), EmoteReference.ERROR, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(" ,"))).queue();
+                lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.all_attempts_used"), EmoteReference.ERROR, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(", "))).queue();
                 lobby.startNextGame(); //This should take care of removing the lobby, actually.
                 return Operation.COMPLETED;
             }

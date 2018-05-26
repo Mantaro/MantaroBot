@@ -16,10 +16,7 @@
 
 package net.kodehawa.mantarobot.core.listeners.command;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.rethinkdb.gen.exc.ReqlError;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
@@ -49,8 +46,6 @@ import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.redisson.client.RedisException;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -207,7 +202,7 @@ public class CommandListener implements EventListener {
             Player player = MantaroData.db().getPlayer(event.getAuthor());
             event.getChannel().sendMessage(
                     String.format("%s%s\n(Error ID: `%s`)\n" +
-                                    "If you want, join our **support guild** (Link on `~>about`), or check out our GitHub page (/Mantaro/MantaroBot). " +
+                                    "If you want, join our **support server** (Link on `~>about` or at `is.gd/mantaroguild`), or check out our GitHub page (/Mantaro/MantaroBot). " +
                                     "Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
                             EmoteReference.ERROR, boomQuotes[rand.nextInt(boomQuotes.length)], id)
             ).queue();

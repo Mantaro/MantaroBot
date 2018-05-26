@@ -705,6 +705,13 @@ public class RelationshipCmds {
             }
         });
 
+        waifu.addSubCommand("unclaim", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+
+            }
+        });
+
         waifu.addSubCommand("buyslot", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
