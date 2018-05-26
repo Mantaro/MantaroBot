@@ -120,6 +120,8 @@ dependencies {
 
 	compile 'com.github.natanbc:java-eval:1.0'
 
+	compile 'redis.clients:jedis:2.9.0'
+
 	//Basically for FinderUtil
 	compile 'com.jagrosh:JDA-Utilities:1.9'
 
