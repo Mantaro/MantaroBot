@@ -552,14 +552,15 @@ public class RelationshipCmds {
                         //For every 10 badges, it increases by 20% base value.
                         //For every 1000 experience, the value increases by 20% of the base value.
                         //After all those calculations are complete, the value then is calculated using final * (reputation scale / 10) where reputation scale goes up by 1 every 10 reputation points.
-                        //For every 3 waifu claims, the final value increases by 10%.
                         //Maximum waifu value is Integer.MAX_VALUE.
+
+                        //TODO:
                         //Having a common waifu with your married partner will increase some marriage stats (MP games with your waifu gives more money, MP games with your partner gives more money, for example)
-                        //Trading with your waifu or partner lifts the "equal value" requirement off it.
                         //If you claim a waifu, and then your waifu claims you, that will unlock the "Mutual" achievement.
                         //If the waifu status is mutual, the MP game boost will go up by 20% and giving your daily to that waifu will increase the amount of money that your
                         //waifu will receive.
-                        //Removing a waifu from your list will cost the 50% of the amount money the value the waifu is worth at the current time.
+                        //Trading with your waifu or partner lifts the "equal value" requirement off it. (requires trading to be implemented)
+
 
                         //Default call will bring out the waifu list.
                         DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
@@ -689,6 +690,8 @@ public class RelationshipCmds {
                 claimedUserData.setTimesClaimed(claimedUserData.getTimesClaimed() + 1);
 
                 //Add badges
+                //TODO: check for mutual badge
+
                 claimer.getData().addBadgeIfAbsent(Badge.WAIFU_CLAIMER);
                 claimed.getData().addBadgeIfAbsent(Badge.CLAIMED);
 
@@ -708,7 +711,72 @@ public class RelationshipCmds {
         waifu.addSubCommand("unclaim", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                if(event.getMessage().getMentionedUsers().isEmpty()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.no_user"), EmoteReference.ERROR).queue();
+                    return;
+                }
 
+                final ManagedDatabase db = MantaroData.db();
+                User toLookup = event.getMessage().getMentionedUsers().get(0);
+
+                final DBUser claimerUser = db.getUser(event.getAuthor());
+                final UserData data = claimerUser.getData();
+
+                long value = data.getWaifus().get(toLookup.getId());
+                long valuePayment = (long) (value * 0.15);
+
+                //Send confirmation message.
+                event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.confirmation"), EmoteReference.MEGA,
+                        toLookup.getName(), valuePayment, EmoteReference.STOPWATCH
+                ).queue();
+
+                InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 60, (ie) -> {
+                    if(!ie.getAuthor().getId().equals(event.getAuthor().getId())) {
+                        return Operation.IGNORED;
+                    }
+
+                    //Replace prefix because people seem to think you have to add the prefix before saying yes.
+                    String c = ie.getMessage().getContentRaw();
+                    for(String s : config.prefix) {
+                        if(c.toLowerCase().startsWith(s)) {
+                            c = c.substring(s.length());
+                        }
+                    }
+
+                    String guildCustomPrefix = db.getGuild(ie.getGuild()).getData().getGuildCustomPrefix();
+                    if(guildCustomPrefix != null && !guildCustomPrefix.isEmpty() && c.toLowerCase().startsWith(guildCustomPrefix)) {
+                        c = c.substring(guildCustomPrefix.length());
+                    }
+                    //End of prefix replacing.
+
+                    if(c.equalsIgnoreCase("yes")) {
+                        Player p = MantaroData.db().getPlayer(ie.getMember());
+                        final DBUser user = db.getUser(event.getAuthor());
+                        final UserData userData = claimerUser.getData();
+
+                        if(p.getMoney() < valuePayment) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.not_enough_money"), EmoteReference.ERROR).queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        if(p.isLocked()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.player_locked"), EmoteReference.ERROR).queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        p.removeMoney(valuePayment);
+                        userData.getWaifus().remove(toLookup.getId());
+                        user.save();
+
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.success"), EmoteReference.CORRECT, toLookup.getName(), valuePayment).queue();
+                        return Operation.COMPLETED;
+                    } else if (c.equalsIgnoreCase("no")) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.scrapped"), EmoteReference.CORRECT).queue();
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                });
             }
         });
 
