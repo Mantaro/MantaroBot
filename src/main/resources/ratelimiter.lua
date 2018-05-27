@@ -52,7 +52,7 @@ if reset < now then
 end
 
 if count >= limit then
-    local spam = data.spam
+    local spam = data.spam or 0
     if spam + 1 > allowedSpam then
         reset = math.min(reset + (incr * (spam - allowedSpam)), now + maxCooldown)
     end
