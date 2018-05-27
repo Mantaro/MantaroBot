@@ -18,7 +18,10 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.Character;
 import net.kodehawa.mantarobot.commands.game.GuessTheNumber;
@@ -37,12 +40,11 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.NewRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -57,12 +59,14 @@ public class GameCmds {
 
     @Subscribe
     public void game(CommandRegistry cr) {
-        final NewRateLimiter rateLimiter = new NewRateLimiter(Executors.newSingleThreadScheduledExecutor(), 4, 6, TimeUnit.SECONDS, 450, true) {
-            @Override
-            protected void onSpamDetected(String key, int times) {
-                log.warn("[Game] Spam detected for {} ({} times)!", key, times);
-            }
-        };
+        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                .spamTolerance(2)
+                .limit(5)
+                .cooldown(6, TimeUnit.SECONDS)
+                .cooldownPenaltyIncrease(3, TimeUnit.SECONDS)
+                .maxCooldown(10, TimeUnit.MINUTES)
+                .pool(MantaroData.getDefaultJedisPool())
+                .build();
 
         SimpleTreeCommand gameCommand = (SimpleTreeCommand) cr.register("game", new SimpleTreeCommand(Category.GAMES) {
             @Override
@@ -96,7 +100,7 @@ public class GameCmds {
             }
         }));
 
-        gameCommand.setPredicate(event -> Utils.handleDefaultNewRatelimit(rateLimiter, event.getAuthor(), event));
+        gameCommand.setPredicate(event -> Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event));
         gameCommand.createSubCommandAlias("pokemon", "pokémon");
         gameCommand.createSubCommandAlias("number", "guessthatnumber");
 
@@ -209,16 +213,19 @@ public class GameCmds {
     @Subscribe
     public void trivia(CommandRegistry cr) {
         cr.register("trivia", new SimpleCommand(Category.GAMES) {
-            final NewRateLimiter rateLimiter = new NewRateLimiter(Executors.newSingleThreadScheduledExecutor(), 3, 7, TimeUnit.SECONDS, 350, true) {
-                @Override
-                protected void onSpamDetected(String key, int times) {
-                    log.warn("[Trivia] Spam detected for {} ({} times)!", key, times);
-                }
-            };
+            final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                    .spamTolerance(2)
+                    .limit(5)
+                    .cooldown(7, TimeUnit.SECONDS)
+                    .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
+                    .maxCooldown(15, TimeUnit.MINUTES)
+                    .pool(MantaroData.getDefaultJedisPool())
+                    .build();
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(!Utils.handleDefaultNewRatelimit(rateLimiter, event.getAuthor(), event)) return;
+                if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event))
+                    return;
 
                 String difficulty = null;
 

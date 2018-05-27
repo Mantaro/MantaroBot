@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.data;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rethinkdb.net.Connection;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.redis.RedisCachedDatabase;
@@ -28,6 +29,7 @@ import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
 import org.redisson.client.codec.Codec;
 import org.redisson.codec.JsonJacksonCodec;
+import redis.clients.jedis.JedisPool;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -44,6 +46,9 @@ public class MantaroData {
     private static ObjectMapper mapper = new ObjectMapper();
     private static RedissonClient redisson;
     private static Codec redissonCodec = new JsonJacksonCodec(mapper);
+
+    @Getter
+    private static JedisPool defaultJedisPool = new JedisPool("127.0.0.1", 6379);
 
     public static GsonDataManager<Config> config() {
         if(config == null) config = new GsonDataManager<>(Config.class, "config.json", Config::new);
