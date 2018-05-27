@@ -582,6 +582,7 @@ public class Utils {
                     String.format("%s%s (Ratelimited)\n **You'll be able to use this command again in %s.**",
                             EmoteReference.STOPWATCH, ratelimitQuotes[random.nextInt(ratelimitQuotes.length)], Utils.getHumanizedTime(rateLimit.getCooldownReset()))
                     + (rateLimit.getSpamAttempts() > 2 ? "\n\nPlease rest, it's good for your health :(" : "")
+                    + (rateLimit.getSpamAttempts() > 4 ? "\nI think stopping is the best option for now..." : "")
             ).queue();
 
             MantaroBot.getInstance().getStatsClient().increment("ratelimits");
