@@ -44,7 +44,7 @@ public class IncreasingRateLimiter {
     }
 
     @SuppressWarnings("unchecked")
-    public RateLimit limit(String key) {
+    private RateLimit limit0(String key) {
         try(Jedis j = pool.getResource()) {
             if(scriptSha == null) {
                 scriptSha = j.scriptLoad(SCRIPT);
@@ -53,7 +53,7 @@ public class IncreasingRateLimiter {
             List<Long> result;
             try {
                 result = (List<Long>)j.evalsha(scriptSha,
-                        Collections.singletonList(prefix + key),
+                        Collections.singletonList(key),
                         Arrays.asList(
                                 String.valueOf(limit),
                                 String.valueOf(start),
@@ -66,7 +66,7 @@ public class IncreasingRateLimiter {
             } catch(JedisNoScriptException e) {
                 //script not in cache. force load it and try again.
                 scriptSha = j.scriptLoad(SCRIPT);
-                return limit(key);
+                return limit0(key);
             }
             return new RateLimit(
                     start,
@@ -75,6 +75,10 @@ public class IncreasingRateLimiter {
                     result.get(2).intValue()
             );
         }
+    }
+
+    public RateLimit limit(String key) {
+        return limit0(prefix + key);
     }
 
     public static class Builder {

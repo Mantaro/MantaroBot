@@ -61,7 +61,7 @@ public class GameCmds {
     public void game(CommandRegistry cr) {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .spamTolerance(2)
-                .limit(5)
+                .limit(1)
                 .cooldown(6, TimeUnit.SECONDS)
                 .cooldownPenaltyIncrease(3, TimeUnit.SECONDS)
                 .maxCooldown(10, TimeUnit.MINUTES)
