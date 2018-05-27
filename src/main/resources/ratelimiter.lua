@@ -58,7 +58,11 @@ if count >= limit then
     end
 
     redis.call("HMSET", KEYS[1], "count", count, "reset", reset, "spam", spam + 1)
-    redis.call("PEXPIRE", KEYS[1], reset)
+    -- I'm giving you all two chances to back off before resetting your cooldown.
+    -- Use them wisely.
+    if spam + 1 > allowedSpam + 2 then
+        redis.call("PEXPIRE", KEYS[1], reset)
+    end
 
     return {count, reset, spam}
 else

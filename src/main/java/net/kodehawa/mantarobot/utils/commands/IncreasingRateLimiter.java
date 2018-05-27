@@ -17,6 +17,7 @@ public class IncreasingRateLimiter {
     private static final String SCRIPT;
 
     private final JedisPool pool;
+    private final String prefix;
     private final int limit;
     private final int cooldown;
     private final int spamBeforeCooldownIncrease;
@@ -32,8 +33,9 @@ public class IncreasingRateLimiter {
         }
     }
 
-    private IncreasingRateLimiter(JedisPool pool, int limit, int cooldown, int spamBeforeCooldownIncrease, int cooldownIncrease, int maxCooldown) {
+    private IncreasingRateLimiter(JedisPool pool, String prefix, int limit, int cooldown, int spamBeforeCooldownIncrease, int cooldownIncrease, int maxCooldown) {
         this.pool = pool;
+        this.prefix = prefix;
         this.limit = limit;
         this.cooldown = cooldown;
         this.spamBeforeCooldownIncrease = spamBeforeCooldownIncrease;
@@ -51,7 +53,7 @@ public class IncreasingRateLimiter {
             List<Long> result;
             try {
                 result = (List<Long>)j.evalsha(scriptSha,
-                        Collections.singletonList(key),
+                        Collections.singletonList(prefix + key),
                         Arrays.asList(
                                 String.valueOf(limit),
                                 String.valueOf(start),
@@ -77,6 +79,7 @@ public class IncreasingRateLimiter {
 
     public static class Builder {
         private JedisPool pool;
+        private String prefix = "";
         private int limit = -1;
         private int cooldown = -1;
         private int cooldownPenaltyIncrease;
@@ -85,6 +88,15 @@ public class IncreasingRateLimiter {
 
         public Builder pool(JedisPool pool) {
             this.pool = pool;
+            return this;
+        }
+
+        public Builder prefix(String prefix) {
+            if(prefix == null) {
+                this.prefix = "";
+            } else {
+                this.prefix = prefix + ":";
+            }
             return this;
         }
 
@@ -138,7 +150,7 @@ public class IncreasingRateLimiter {
             if(cooldown < 0) {
                 throw new IllegalStateException("Cooldown must be set");
             }
-            return new IncreasingRateLimiter(pool, limit, cooldown, spamTolerance, cooldownPenaltyIncrease, maxCooldown);
+            return new IncreasingRateLimiter(pool, prefix, limit, cooldown, spamTolerance, cooldownPenaltyIncrease, maxCooldown);
         }
     }
 }
