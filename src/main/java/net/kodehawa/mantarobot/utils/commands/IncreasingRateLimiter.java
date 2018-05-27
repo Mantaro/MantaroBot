@@ -68,6 +68,7 @@ public class IncreasingRateLimiter {
                 scriptSha = j.scriptLoad(SCRIPT);
                 return limit0(key);
             }
+
             return new RateLimit(
                     start,
                     (int)(limit - result.get(0)),

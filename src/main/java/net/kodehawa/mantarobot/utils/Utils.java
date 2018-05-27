@@ -580,7 +580,7 @@ public class Utils {
         if(rateLimit.getTriesLeft() < 1) {
             event.getChannel().sendMessage(
                     String.format("%s%s (Ratelimited)\n **You'll be able to use this command again in %s.**",
-                            EmoteReference.STOPWATCH, ratelimitQuotes[random.nextInt(ratelimitQuotes.length)], Utils.getHumanizedTime(rateLimit.getCooldownReset()))
+                            EmoteReference.STOPWATCH, ratelimitQuotes[random.nextInt(ratelimitQuotes.length)], Utils.getHumanizedTime(rateLimit.getCooldown()))
                     + (rateLimit.getSpamAttempts() > 2 ? "\n\nPlease rest, it's good for your health :( (Ratelimit will keep increasing if you try before the cooldown resets!)" : "")
                     + (rateLimit.getSpamAttempts() > 4 ? "\nI think stopping is the best option for now..." : "")
             ).queue();

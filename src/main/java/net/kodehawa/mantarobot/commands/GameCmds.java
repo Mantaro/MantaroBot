@@ -60,10 +60,10 @@ public class GameCmds {
     @Subscribe
     public void game(CommandRegistry cr) {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
-                .spamTolerance(2)
                 .limit(1)
-                .cooldown(6, TimeUnit.SECONDS)
-                .cooldownPenaltyIncrease(3, TimeUnit.SECONDS)
+                .spamTolerance(1)
+                .cooldown(10, TimeUnit.SECONDS)
+                .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
                 .maxCooldown(10, TimeUnit.MINUTES)
                 .pool(MantaroData.getDefaultJedisPool())
                 .build();
@@ -214,9 +214,9 @@ public class GameCmds {
     public void trivia(CommandRegistry cr) {
         cr.register("trivia", new SimpleCommand(Category.GAMES) {
             final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
-                    .spamTolerance(2)
-                    .limit(5)
-                    .cooldown(7, TimeUnit.SECONDS)
+                    .spamTolerance(1)
+                    .limit(1)
+                    .cooldown(10, TimeUnit.SECONDS)
                     .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
                     .maxCooldown(15, TimeUnit.MINUTES)
                     .pool(MantaroData.getDefaultJedisPool())
