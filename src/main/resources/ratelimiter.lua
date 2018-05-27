@@ -25,7 +25,7 @@ do
     data = tmp
 end
 
-local count = data.count or 1
+local count = data.count or 0
 
 local reset = data.reset or 0
 
@@ -47,7 +47,7 @@ end
 if reset < now then
     reset = now + initialCooldown
     if count == limit then
-        count = 1
+        count = 0
     end
 end
 
