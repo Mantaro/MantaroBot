@@ -791,7 +791,7 @@ public class RelationshipCmds {
                 final UserData userData = user.getData();
 
                 int currentSlots = userData.getWaifuSlots();
-                int baseMultiplier = currentSlots / 3;
+                int baseMultiplier = (currentSlots / 3) + 1;
                 int finalValue = baseValue * baseMultiplier;
 
                 if(player.isLocked()) {
