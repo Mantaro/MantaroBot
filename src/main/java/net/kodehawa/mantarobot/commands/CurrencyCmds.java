@@ -475,7 +475,7 @@ public class CurrencyCmds {
                     if(!handleDefaultRatelimit(rl, event.getAuthor(), event))
                         return;
 
-                    Item item = Items.fromAny(args[1]).orElse(null);
+                    Item item = Items.fromAnyNoId(args[1]).orElse(null);
                     if(item == null) {
                         event.getChannel().sendMessage(languageContext.get("general.item_lookup.no_item_emoji")).queue();
                     } else {
@@ -586,11 +586,6 @@ public class CurrencyCmds {
 
                 if(!handleDefaultRatelimit(rl, event.getAuthor(), event)) return;
 
-                if(Items.fromAnyNoId(args[0]) != null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.item_transfer"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
                 long toSend; // = 0 at the start
 
                 try {
@@ -603,6 +598,11 @@ public class CurrencyCmds {
 
                 if(toSend == 0) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.no_money_specified_notice"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(Items.fromAnyNoId(args[1]).isPresent()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.item_transfer"), EmoteReference.ERROR).queue();
                     return;
                 }
 
