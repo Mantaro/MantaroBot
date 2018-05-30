@@ -184,7 +184,12 @@ public class Items {
 
                     playerInventory.process(ita);
 
-                    if(money > 0) {
+                    if(money > 0 && list.isEmpty()) {
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money_noitem"),
+                                EmoteReference.POPPER, money
+                        ).queue();
+
+                    } else if(money > 0) {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money"),
                                 EmoteReference.POPPER, list.stream().map(Item::getEmoji).collect(Collectors.joining(", ")), money
                         ).queue();

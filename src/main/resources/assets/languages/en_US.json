@@ -65,6 +65,7 @@
       "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water...",
       "success": "%1$sWhile calmly fishing, you found %2$s and you proceed to save them into your bucket.",
       "success_money": "%1$sWhile calmly fishing, you found %2$s and %3$d in cash and you proceed to save them into your bucket.",
+      "success_money_noitem": "%1$sWhile calmly fishing, you found %3$d in cash and you proceed to save them into your pocket.",
       "rod_broke": "%1$sYour fishing rod broke while trying to catch a fish :("
     },
     "softban": {
