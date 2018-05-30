@@ -89,7 +89,7 @@ public class CurrencyCmds {
                 }
 
                 if(inventoryList.isEmpty()) {
-                    event.getChannel().sendMessageFormat("commands.inventory.empty", EmoteReference.WARNING).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.inventory.empty"), EmoteReference.WARNING).queue();
                     return;
                 }
 

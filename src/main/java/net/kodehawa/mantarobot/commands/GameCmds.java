@@ -111,7 +111,7 @@ public class GameCmds {
                 if(member == null)
                     return;
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.game.won"), EmoteReference.POPPER, member.getEffectiveName(), MantaroData.db().getPlayer(member).getData().getGamesWon()).queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.game.won_games"), EmoteReference.POPPER, member.getEffectiveName(), MantaroData.db().getPlayer(member).getData().getGamesWon()).queue();
             }
         });
 

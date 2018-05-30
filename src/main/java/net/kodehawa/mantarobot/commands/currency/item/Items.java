@@ -223,7 +223,7 @@ public class Items {
         POTION_CLEAN.setAction((event, lang) -> {
             Player p = MantaroData.db().getPlayer(event.getAuthor());
             p.getData().setActivePotion(null);
-            event.getChannel().sendMessageFormat(lang.get("general.item_usage.milk"), EmoteReference.POPPER).queue();
+            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.milk"), EmoteReference.POPPER).queue();
             p.getInventory().process(new ItemStack(POTION_CLEAN, -1));
             p.save();
             return true;
@@ -232,7 +232,7 @@ public class Items {
         POTION_STAMINA.setAction((event, lang) -> {
             Player p = MantaroData.db().getPlayer(event.getAuthor());
             p.getData().setActivePotion(new PotionEffect(idOf(POTION_STAMINA), System.currentTimeMillis(), ItemType.PotionType.PLAYER));
-            event.getChannel().sendMessageFormat(lang.get("general.item_usage.stamina"), EmoteReference.POPPER).queue();
+            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.stamina"), EmoteReference.POPPER).queue();
             p.getInventory().process(new ItemStack(POTION_STAMINA, -1));
             p.save();
             return true;
@@ -242,7 +242,7 @@ public class Items {
             Player p = MantaroData.db().getPlayer(event.getAuthor());
             p.getData().setActivePotion(new PotionEffect(idOf(POTION_HASTE),
                     System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
-            event.getChannel().sendMessageFormat(lang.get("general.item_usage.haste"), EmoteReference.POPPER).queue();
+            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.haste"), EmoteReference.POPPER).queue();
             p.getInventory().process(new ItemStack(POTION_HASTE, -1));
             p.save();
             return true;
@@ -310,11 +310,11 @@ public class Items {
                 openLootBox(event, true, lang);
                 return true;
             } else {
-                event.getChannel().sendMessageFormat(lang.get("general.item_usage.crate.no_key"), EmoteReference.ERROR).queue();
+                event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.crate.no_key"), EmoteReference.ERROR).queue();
                 return false;
             }
         } else {
-            event.getChannel().sendMessageFormat(lang.get("general.item_usage.crate.no_crate"), EmoteReference.ERROR).queue();
+            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.crate.no_crate"), EmoteReference.ERROR).queue();
             return false;
         }
     }
@@ -330,9 +330,9 @@ public class Items {
         boolean overflow = player.getInventory().merge(ita);
         player.saveAsync();
 
-        event.getChannel().sendMessage(String.format(lang.get("general.item_usage.crate.success"),
+        event.getChannel().sendMessage(String.format(lang.get("general.misc_item_usage.crate.success"),
                 EmoteReference.LOOT_CRATE.getDiscordNotation(), toAdd.stream().map(Item::toString).collect(Collectors.joining(", ")),
-                overflow ? ". " + lang.get("general.item_usage.crate.overflow") : "")).queue();
+                overflow ? ". " + lang.get("general.misc_item_usage.crate.overflow") : "")).queue();
     }
 
     private static List<Item> selectItems(int amount, ItemType.LootboxType type) {
