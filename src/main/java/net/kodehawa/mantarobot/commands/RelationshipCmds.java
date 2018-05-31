@@ -321,8 +321,13 @@ public class RelationshipCmds {
                         return;
                     }
 
-                    if(currentMarriage.getData().getLoveLetter() != null || !currentMarriage.getData().getLoveLetter().isEmpty()) {
+                    if(currentMarriage.getData().getLoveLetter() != null) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.already_done"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    if(content.isEmpty()) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.empty"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -668,7 +673,8 @@ public class RelationshipCmds {
                     return;
                 }
 
-                if(claimer.getMoney() < waifuFinalValue) {
+                //Deduct from balance and checks for money.
+                if(!claimer.removeMoney(waifuFinalValue)) {
                     event.getChannel().sendMessageFormat(
                             languageContext.get("commands.waifu.claim.not_enough_money"), EmoteReference.ERROR, waifuFinalValue
                     ).queue();
@@ -683,8 +689,6 @@ public class RelationshipCmds {
                     return;
                 }
 
-                //Deduct from balance. The check whether the user has enough money was done up there.
-                claimer.removeMoney(waifuFinalValue);
                 //Add waifu to claimer list.
                 claimerUser.getData().getWaifus().put(toLookup.getId(), waifuFinalValue);
                 claimedUserData.setTimesClaimed(claimedUserData.getTimesClaimed() + 1);
@@ -696,10 +700,10 @@ public class RelationshipCmds {
                 claimed.getData().addBadgeIfAbsent(Badge.CLAIMED);
 
                 //Massive saving operation owo.
-                claimer.save();
-                claimed.save();
-                claimedUser.save();
-                claimerUser.save();
+                claimer.saveAsync();
+                claimed.saveAsync();
+                claimedUser.saveAsync();
+                claimerUser.saveAsync();
 
                 //Send confirmation message
                 event.getChannel().sendMessageFormat(
