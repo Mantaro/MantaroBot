@@ -741,7 +741,7 @@ public class CurrencyCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Use Item Command")
                         .setDescription("**Uses an item**\n" +
-                                "You need to have the item to use it, and the item has to be marked as *interactive*. For a list of interactive items use" +
+                                "You need to have the item to use it, and the item has to be marked as *interactive*. For a list of interactive items use " +
                                 "`~>useitem ils`")
                         .addField("Usage", "`~>useitem <item>` - **Uses the specified item**", false)
                         .addField("Example", "`~>useitem fishing rod`", false)

@@ -98,7 +98,7 @@ public class Trivia extends Game<String> {
                     .addField(languageContext.get("commands.game.trivia.possibilities"), sb.toString(), false)
                     .addField(languageContext.get("commands.game.trivia.difficulty"), "`" + Utils.capitalize(diff) + "`", true)
                     .addField(languageContext.get("commands.game.trivia.category"), "`" + category + "`", true)
-                    .setFooter(languageContext.get("commands.game.end_footer"), lobby.getEvent().getAuthor().getAvatarUrl());
+                    .setFooter(languageContext.get("commands.game.trivia_end_footer"), lobby.getEvent().getAuthor().getAvatarUrl());
 
             lobby.getChannel().sendMessage(eb.build()).queue();
 

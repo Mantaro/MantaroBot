@@ -877,6 +877,7 @@
       },
       "lobby_time_out": "%1$sThe time ran out! The correct answer is: %2$s",
       "end_footer": "You have 10 attempts and 60 seconds. (Type end to end the game)",
+      "trivia_end_footer": "You have 2 attempts and 60 seconds. (Type end to end the game)",
       "error": "%1$sI found an error while setting up the game... (internal error)",
       "character_load_error": "%1$sReport this in the official server please. Failed to setup game for pre-saved character: %2$s",
       "character_start": "Guess the character"

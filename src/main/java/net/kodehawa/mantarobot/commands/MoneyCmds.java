@@ -532,7 +532,7 @@ public class MoneyCmds {
                         .addField("Usage", "`~>leaderboard` - **Returns the money leaderboard.**\n" +
                                 "`~>leaderboard rep` - **Returns the reputation leaderboard.**\n" +
                                 "`~>leaderboard lvl` - **Returns the level leaderboard.**\n" +
-                                "~>leaderboard streak - **Returns the daily streak leaderboard.", false)
+                                "`~>leaderboard streak` - **Returns the daily streak leaderboard.**", false)
                         .build();
             }
         });
