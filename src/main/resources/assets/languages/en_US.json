@@ -691,7 +691,7 @@
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd/mm/yyyy`",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting. Remember to include the year, although you can put any year and it won't affect anything.\nRemember that the date format is `dd/mm/yyyy`",
       "added_birthdate": "%1$sSuccessfully added birth date.",
-      "invalid_month": "%1$sThat's not a valid month number! (Valid months are"
+      "invalid_month": "%1$sThat's not a valid month number! (Valid months are numbers from 1 to 12)"
     },
     "choose": {
       "success": "%1$sI choose `%2$s`"
@@ -865,7 +865,7 @@
       "started_mp_user": "%1$sStarted a multi-player lobby with users: %2$s",
       "lobby_started": "%1$sStarted a new lobby! **Games: %2$s**\nYou can type `endlobby` to end all games and finish the lobby.",
       "game_timeout_drop": "%1$sSeems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!",
-      "other_lobby_running": "%1$sCannot start a new game lobby when there is a game currently running. (If this is an error, tell an admin to run opts lobby reset)",
+      "other_lobby_running": "%1$sCannot start a new game lobby when there is a game currently running. (If this is an error, tell an admin to run `~>opts lobby reset`)",
       "lobby": {
         "ended_game": "%1$sEnded game. Possible answers were: %2$s",
         "ended_lobby": "%1$sEnded lobby correctly! Thanks for playing.",
@@ -1259,7 +1259,7 @@
       "success": "%1$sDisabled category `%2$s` for role %3$s"
     },
     "category_role_specific_enable": {
-      "invalid": "%1$sYou need to specify a category to enable and the channel where.",
+      "invalid": "%1$sYou need to specify a role to enable and the channel where.",
       "not_disabled": "%1$sThis category isn't disabled.",
       "success": "%1$sEnabled category `%2$s` for role %3$s"
     },
@@ -1408,14 +1408,14 @@
       "no_role_found": "%1$sI didn't find a role with that name!",
       "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!",
       "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as an auto-assignable role!",
-      "success": "%1$sAdded autorole **%2$s**, which gives the role **%3$s**"
+      "success": "%1$sAdded auto-assignable role **%2$s**, which gives the role **%3$s**"
     },
     "autoroles_remove": {
-      "not_found": "%1$sI couldn't find an autorole with that name",
-      "success": "%1$sRemoved autorole %2$s"
+      "not_found": "%1$sI couldn't find an auto-assignable role with that name",
+      "success": "%1$sRemoved auto-assignable role %2$s"
     },
     "autoroles_clear": {
-      "success": "%1$sCleared all autoroles!"
+      "success": "%1$sCleared all auto-assignable roles!"
     },
     "admincustom": {
       "admin_only": "Custom command creation is now admin only.",
