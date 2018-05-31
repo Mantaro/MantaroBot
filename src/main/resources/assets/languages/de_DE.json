@@ -395,7 +395,7 @@
         "scrapped": "%1$sDu hast immer noch Zeit, um darüber nachzudenken, was du schreiben willst, kein Grund zur Eile!"
       },
       "status": {
-        "no_marriage": "%1$sDu bist nicht verheiratet, als denke ich dein Status ist uh... \"unverheiratet\"",
+        "no_marriage": "%1$sDu bist nicht verheiratet, also denke ich dein Status ist uh... \"unverheiratet\"",
         "header": "Aktueller Ehestatus",
         "description_format": "%1$sEhestatus von **%2$s#%3$s** und **%4$s#%5$s**",
         "date": "Hochzeitstag",
