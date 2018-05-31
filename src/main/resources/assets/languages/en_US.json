@@ -882,6 +882,9 @@
       "character_load_error": "%1$sReport this in the official server please. Failed to setup game for pre-saved character: %2$s",
       "character_start": "Guess the character"
     },
+    "opencrate": {
+      "no_crate": "%1$sYou don't have any loot crate to open :("
+    },
     "prune": {
       "no_messages_specified": "%1$sYou specified no messages to prune.",
       "no_permissions": "%1$sI cannot prune on this server since I don't have the Manage Messages permission.",
