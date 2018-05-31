@@ -2,9 +2,9 @@
   "general": {
     "invalid_number": "%1$sDas ist keine Nummer!",
     "requested_by": "Angefordert von%1$s.",
-    "operation_timed_out": "%1$sDie Zeit, um diese Operation zu beantworten, ist abgelaufen",
-    "too_many_users_found": "%1$sZu viele Benutzer gefunden, versuche es etwas genuaer? (zum Beispiel: name#discriminator)\n**Gefundene Benutzer:** %2$s",
-    "search_no_result": "%1$sIhre suche ergab keine Ergebnisse :(",
+    "operation_timed_out": "%1$sDie Zeit, um diese Operation zu beantworten, ist abgelaufen.",
+    "too_many_users_found": "%1$sZu viele Benutzer gefunden, versuchen Sie es etwas genuaer? (zum Beispiel: name#discriminator)\n**Gefundene Benutzer:** %2$s",
+    "search_no_result": "%1$sIhre Suche ergab keine Ergebnisse. :(",
     "unknown": "Unbekannt",
     "days": "Tage",
     "none": "Keine(r)",
@@ -12,18 +12,18 @@
     "hourly": "Stündlich",
     "daily": "Täglich",
     "total": "Total",
-    "arrow_react": "Verwende die Pfeilreaktionen um die Seite zu wechseln.",
-    "text_menu": "Verwende &page >> und &page << um Seiten zu wechseln oder &cancel um die Aktion zu enden.",
-    "not_found": "Nicht(s) gefunden",
+    "arrow_react": "Verwenden Sie die Pfeilreaktionen, um die Seite zu wechseln.",
+    "text_menu": "Verwenden Sie &page >> und &page <<, um Seiten zu wechseln oder &cancel, um die Aktion zu enden.",
+    "not_found": "Nicht(s) gefunden.",
     "no_results": "Keine Ergebnisse gefunden.",
-    "timeout": "Dies läuft in %1$d sekunden ab.",
+    "timeout": "Dies läuft in %1$d Sekunden ab.",
     "example": "Beispiel",
     "definition": "Definition",
     "name": "Name",
     "description": "Beschreibung",
     "options": "Optionen",
-    "find_members_failure": "%1$sKein Mitglied mit Ihren Suchkriterien gefunden :(",
-    "too_many_members": "%1$sZu viele Mitglieder gefunden, versuche es etwas genuaer? (zum Beispiel: name#discriminator)\n**Gefundene Mitglider:** %2$s",
+    "find_members_failure": "%1$sKein Mitglied mit Ihren Suchkriterien gefunden. :(",
+    "too_many_members": "%1$sZu viele Mitglieder gefunden, versuchen Sie es etwas genauer? (zum Beispiel: name#discriminator)\n**Gefundene Mitglider:** %2$s",
     "dust": "Hier ist nur Staub.",
     "invalid_syntax": "Ungültiger Syntax",
     "item_lookup": {
@@ -31,14 +31,25 @@
       "no_item_name": "Diesem Namen ist kein Item zugeordnet",
       "not_found": "Kein Item mit diesen Suchkriterien gefunden."
     },
+    "misc_item_usage": {
+      "milk": "%1$sTrankeffekte entfernt.",
+      "stamina": "%1$sAusdauer für 5 Bergbaurunden aktiviert.",
+      "haste": "%1$sHast für 2 Minuten aktiviert.",
+      "crate": {
+        "no_key": "%1$sDu brauchst einen Truhenschlüssel, um eine Truhe zu öffnen. Sie ist verschlossen!",
+        "no_crate": "%1$sDu brauchst eine Truhe! Wie sonst möchtest du deinen Schlüssel benutzen >.>... oh",
+        "success": "%1$s**Du hast folgendes gewonnen:** %2$s%3$s",
+        "overflow": "Aber du hattest schon zu viel, also hast du dich dazu entschlossen, den Rest weg zu werfen."
+      }
+    },
     "mention_user_required": "%1$sDu musst einen Benutzer erwähnen.",
-    "invalid_character": "%1$sDas ist kein erlaubter Charakter.",
-    "invalid_action": "Du kannst dies nicht tuen, dummerchen.",
-    "interactive_running": "%1$sDu hast bereist eine Interactive Aktion in diesem Kanal am laufen!",
+    "invalid_character": "%1$sDas ist kein erlaubtes Zeichen.",
+    "invalid_action": "Du kannst dies nicht tun, Dummerchen.",
+    "interactive_running": "%1$sDu hast bereist eine interaktive Aktion in diesem Kanal am laufen!",
     "buy_sell_paged_react": "**Seiten: %1$d.**\nVerwende die Reaktionen um die Seite zu wechseln.\n%2$s",
     "buy_sell_paged_text": "**Seiten: %1$d.**\nVerwende **&p >>** und **&p <<** um die Seite zu wechseln.\n%2$s",
     "buy_sell_paged_reference": "**Referenz %1$s Kauf %2$s Verkauf.**",
-    "cancelled": "%1$sAnfrage abgebrochen.."
+    "cancelled": "%1$sAnfrage abgebrochen."
   },
   "commands": {
     "fish": {
@@ -46,82 +57,85 @@
       "no_rod": "%1$sDu hast keine Angel mit der du Angeln kannst!",
       "trash": {
         "overflow": "%1$sDu hast beim Angeln etwas Müll gefunden, aber dein Inventar war voll, also mussten wir es ins Wasser werfen ...",
-        "success": "%1$sWährend du ruhig Angelst findest du %2$s, aber es scheint nur Müll zu sein :("
+        "success": "%1$sWährend du ruhig angelst findest du %2$s, aber es scheint nur Müll zu sein :("
       },
       "tier3": {
-        "extra": "Auserdem findest du %1$s, was ein glück!"
+        "extra": "Außerdem findest du %1$s, was ein Glück!"
       },
       "overflow": "%1$sDu hast Fische gefangen, aber dein Inventar war voll, also mussten wir es ins Wasser werfen ...",
-      "success": "%1$sWährend du ruhig Angelst findest dud %2$s und du fährst fort, sie in Ihrem Fischeimer zu lagern.",
-      "rod_broke": "%1$sDeine Angelrute brach beim Versuch, einen Fisch zu fangen :("
+      "success": "%1$sWährend du ruhig angelst findest du %2$s und fährst fort, sie in deinem Fischeimer zu lagern.",
+      "success_money": "%1$sWährend du ruhig angelst findest du %2$s und %3$d in bar und du bewahrst es weiter in deinem Eimer auf.",
+      "success_money_noitem": "%1$s Während du ruhig angelst findest du %3$d in bar und fährst fort, das Geld in deiner Tasche zu sparen.",
+      "rod_broke": "%1$sDeine Angelrute brach beim Versuch, einen Fisch zu fangen. :("
     },
     "softban": {
-      "no_permission": "%1$sKann nicht Sof-Banenn: Du hast keine Rechte Mitglider zu Bannen.",
-      "no_permission_self": "%1$sSorry! Ich habe keine Rechte Mitglider zu banenn!",
-      "no_mention": "%1$sDu musst mindestens einen Nutzer erwähnen zum soft-bannen!",
-      "hierarchy_conflict": "%1$sDu kannst nicht jemanden soft-bannen der einer höhere Hierarchie als du hat.",
-      "yourself_note": "%1$sWarum versuchst du dich selbt zu soft-bannen?",
-      "self_hierarchy_conflict": "%1$sKann das Mitglied nicht soft-bannen: %2$s, sie befinden sich in einer höheren Hierarchie als ich.!",
-      "success": "%1$s%2$s. **(%3$s wurde soft-banned)**",
-      "error": "%1$sFehler währened des entbannens [%2$s]: (Keine Rechte: %3$s)",
-      "unknown_error": "%1$sUnbekannter Fehler während des entbannens [%2$s]: <%3$s>: %4$s"
+      "no_permission": "%1$sKann nicht softbannen: Sie haben keine Rechte Mitglider zu bannen.",
+      "no_permission_self": "%1$sSorry! Ich habe keine Rechte Mitglider zu bannen!",
+      "no_mention": "%1$sZum softbannen müssen Sie mindestens einen Nutzer erwähnen!",
+      "hierarchy_conflict": "%1$sSie können niemanden softbannen, der in der Hierarchie höher steht als Sie.",
+      "yourself_note": "%1$sWarum versuchen Sie sich selbt zu softbannen?",
+      "self_hierarchy_conflict": "%1$sKann das Mitglied nicht softbannen: %2$s, es steht in der Hierarchie höher als ich.!",
+      "success": "%1$s%2$s. **(%3$s wurde softbanned)**",
+      "error": "%1$sFehler währened des Entbannens [%2$s]: (Keine Rechte: %3$s)",
+      "unknown_error": "%1$sUnbekannter Fehler während des Entbannens [%2$s]: <%3$s>: %4$s"
     },
     "ban": {
-      "no_permission": "%1$sDu kannst nicht Bannen: Du benötigst die `Mitglieder Bannen` rechte.",
-      "no_mention": "%1$sDu musst mindestens einen Nutzer erwähnen zum bannen!",
-      "no_permission_self": "%1$sSorry! Mir fehlen die Rechte Nutzer zu bannen in diesem Server!",
-      "hierarchy_conflict": "%1$sDu kannst nicht jemanden bannen der einer höhere Hierarchie als du hat.! Netter Versuch %2$s",
-      "yourself_note": "%1$sWarum versuchst du dich selbst zu bannen, dummerchen?",
-      "self_hierarchy_conflict": "%1$sKann das Mitglied nicht bannen: %2$s, sie befinden sich in einer höheren Hierarchie als ich.!",
+      "no_permission": "%1$sSie können nicht bannen: Sie benötigen die `Mitglieder bannen` Berechtigung.",
+      "no_mention": "%1$sSie müssen mindestens einen Nutzer zum bannen erwähnen!",
+      "no_permission_self": "%1$sSorry! Mir fehlen die Rechte Nutzer in diesem Server zu bannen!",
+      "hierarchy_conflict": "%1$sSie können niemanden bannen, der in der Hierarchie höher steht als Sie! Netter Versuch %2$s",
+      "yourself_note": "%1$sWarum versuchen Sie sich selbst zu bannen?",
+      "self_hierarchy_conflict": "%1$sKann das Mitglied nicht bannen: %2$s, es befindet sich in der Hierarchie höher als ich!",
       "success": "%1$s%2$s (%3$s wurde gebannt)",
       "error": "%1$sFehler beim Bannen %2$s: (Ich benötige die Rechte: %3$s)",
-      "unknown_error": "%1$sHuh, Ich habe einen unbekannten fehler beim Bannen entdeckt %2$s"
+      "unknown_error": "%1$sHuh, ich habe einen unbekannten Fehler beim Bannen entdeckt %2$s"
     },
     "kick": {
-      "no_permission": "%1$sKann nicht kicken: Die fehlen die rechte um Mitglider zu kicken.",
-      "no_mention": "%1$sDu musst mindestens einen Nutzer erwähnen zum kicken!",
-      "no_permission_self": "%1$sSorry! Mir fehlen die Rechte Nutzer zu kicken in diesem Server!",
-      "hierarchy_conflict": "%1$sDu kannst nicht jemanden kicken der einer höhere Hierarchie als du hat.! Netter Versuch %2$s",
-      "yourself_note": "%1$sWarum versuchst du dich selbst zu kicken, dummerchen?",
-      "self_hierarchy_conflict": "%1$sKann das Mitglied nicht kicken: %2$s, sie befinden sich in einer höheren Hierarchie als ich.!",
+      "no_permission": "%1$sKann nicht kicken: Ihnen fehlen die Rechte, um Mitglider zu kicken.",
+      "no_mention": "%1$sSie müssen mindestens einen Nutzer zum Kicken erwähnen!",
+      "no_permission_self": "%1$sSorry! Mir fehlen die Rechte Nutzer in diesem Server zu kicken!",
+      "hierarchy_conflict": "%1$sSie können niemanden kicken, der in der Hierarchie höher steht als Sie! Netter Versuch %2$s",
+      "yourself_note": "%1$sWarum versuchen Sie sich selbst zu kicken?",
+      "self_hierarchy_conflict": "%1$sKann das Mitglied nicht kicken: %2$s, es befindet sich in der Hierarchie höher als ich!",
       "success": "%1$s%2$s (%3$s wurde gekickt)",
-      "error": "%1$sFehler beim kicken %2$s: (Ich benötige die Rechte: %3$s)",
-      "unknown_error": "%1$sHuh, Ich habe einen unbekannten fehler beim kicken entdeckt %2$s"
+      "error": "%1$sFehler beim Kicken %2$s: (Ich benötige die Rechte: %3$s)",
+      "unknown_error": "%1$sHuh, ich habe einen unbekannten Fehler beim Kicken entdeckt %2$s"
     },
     "tempban": {
-      "no_time": "%1$sDu kannst niemanden temporär bannen ohne eine Zeit anzugeben.!",
-      "no_reason": "%2$sDu kannst nicht ohne einen Grund temporär bannen!",
+      "no_time": "%1$sSie können niemanden temporär bannen, ohne eine Zeit anzugeben!",
+      "no_reason": "%2$sSie können nicht ohne einen Grund temporär bannen!",
       "success": "%1$s%2$s (%3$s wurde temporär gebannt)"
     },
     "music_usage": {
-      "1": "*Wie benutze ich Mantaro's Music?*",
-      "2": "- Um **songs von youtube or soundcloud hinzuzufügen** nutze `~>play` For example: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *Es wird automatish dem Kanal in dem du dich befindest beitreten*",
-      "3": "- Um **songs von youtube zu suchen** nutze `~>play <suche>` (ohne das < und >) Zum Beispiel: `~>play see you again` (Du musst eine nummer wählen, *schreibe* einfach du nummer wenn es auftaucht!)",
-      "4": "- Um **songs von soundlcoud zu suchen** nutze `~>play soundcloud <suche>` Zum Beispiel: `~>play soundcloud hot milk`",
+      "1": "*Wie benutze ich Mantaros Musik?*",
+      "2": "- Um **Songs von YouTube oder SoundCloud hinzuzufügen** nutze `~>play` For example: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *Es wird automatish dem Kanal in dem du dich befindest beitreten*",
+      "3": "- Um **Songs von YouTube zu suchen** nutze `~>play <suche>` (ohne das < und >) Zum Beispiel: `~>play see you again` (Du musst eine Nummer wählen, *schreibe* einfach die Nummer, wenn es auftaucht!)",
+      "4": "- Um **Songs von SoundCloud zu suchen** nutze `~>play soundcloud <suche>` Zum Beispiel: `~>play soundcloud hot milk`",
       "5": "- Um **die Warteschlange einzusehen** nutze einfach `~>queue`",
-      "6": "- Um **einen Song aus der Warteschlange zu entfernen** nutze `~>removetrack`. Dies benötigt ein Argument, und zwar die position von dem Song den du entfernen möchtest.",
-      "7": "- Um **zu pausieren und play again** nutze `~>pause`",
-      "8": "- Um **die music zu stoppen** nutze `~>stop`",
-      "9": "- To **shuffle the queue** just use `~>shuffle`",
-      "10": "- Und letzzlich, um **einen song zu wiederholen** nutze `~>repeat` und **um die LIste zu wiederholen** nutze `~>repeat queue`. Nutze `~>repeat` während es bereits Widerholt, um es abzuschalten\n",
-      "11": "Für mehr info nutze `~>help <command name>` (Ohne die <> und mit dem command Namen den du einsehen willst.)",
-      "12": "Genieße deine Musik und danke, dass du Mantaro benutzt hast!"
+      "6": "- Um **einen Song aus der Warteschlange zu entfernen** nutze `~>removetrack`. Dies benötigt ein Argument, und zwar die Position von dem Song den du entfernen möchtest.",
+      "7": "- Um **zu pausieren und fort zu setzen** nutze `~>pause`",
+      "8": "- Um **die Musik zu stoppen** nutze `~>stop`",
+      "9": "- Um **die Playlist zufällig anzuordnen** nutze `~>shuffle`",
+      "10": "- Und letzlich, um **einen Song zu wiederholen** nutze `~>repeat` und **um die Liste zu wiederholen** nutze `~>repeat queue`. Nutze `~>repeat` während es bereits wiederholt, um es abzuschalten\n",
+      "11": "Für mehr Informationen nutze `~>help <command name>` (Ohne die <> und mit dem Befehlsnamen, den du einsehen willst.)",
+      "12": "Genieße deine Musik und danke, dass du Mantaro benutzt!"
     },
     "music_general": {
-      "not_playing": "%1$sIch spiele momentan keine Music",
-      "dj_only": "%1$sDu musst ein DJ sein um diesen Command zu nutzen.!",
-      "enjoy_note": "Genieße die Music! <3",
-      "no_player": "%1$sEs scheint kein Player hier zu geben...",
-      "not_connected": "%1$sDu bist nicht in dem Sprach-Kanal in dem ich gerade Spiele.! (Wenn du gluabst dies ist nicht der fall, melde es bitte in unserem Support Server.)",
+      "not_playing": "%1$sIch spiele momentan keine Musik",
+      "dj_only": "%1$sDu musst ein DJ sein, um diesen Befehl zu nutzen.!",
+      "enjoy_note": "Genieße die Musik! <3",
+      "no_player": "%1$sEs scheint hier keinen Player zu geben...",
+      "not_connected": "%1$sDu bist nicht in dem Sprach-Kanal in dem ich gerade spiele! (Wenn du glaubst, dies ist nicht der Fall, melde es bitte in unserem Support Server.)",
       "np_message": "%1$s Spiele momentan: **%2$s** (%3$s) on **%4$s** | %5$s",
-      "track_error": "%1$sEtwas lief schief beim Spielen dieses Songs, Ich werde den nächsten song spielen wenn es einen gibt.",
-      "queue_finished": "%1$sBeendete die aktuelle Warteschlange! Ich hoffe es hat die gefallen.\n%2$s",
+      "track_error": "%1$sEtwas lief schief beim Spielen dieses Songs, ich werde den nächsten Song spielen, wenn es einen gibt.",
+      "queue_finished": "%1$sBeendete die aktuelle Warteschlange! Ich hoffe es hat dir gefallen.\n%2$s",
+      "soundcloud_no_args": "%1$sDu musst mir einen Songnamen nennen, ich bin kein Magier, daher kann ich ihn nicht erraten. :(",
       "queue": {
         "no_track_found_np": "Nichts oder der Title/die Länge wurde nicht gefunden.",
         "header": "Warteschlange für den Server %1$s",
         "nothing_playing": "Nichts hier, nur Staub. Warum bringst du nicht ein paar Songs in die Warteschlange? \nWenn du denkst, dass es hier Songs gibt, die aber nicht erscheinen, versuche es mit `~> queue 1`.",
         "nothing_playing_2": "**Wenn es einen Song gibt und du hast keine weiteren Songs hinzugefügt, dann ist hier eigentlich nur Staub. Du kannst mehr Songs in die Warteschlange stellen!**",
-        "np": "Spiele Derzeit",
+        "np": "Spiele derzeit",
         "page_overflow": "Nichts hier, nur Staub. Warum gehst du nicht ein paar Seiten zurück?",
         "page_overflow_2": "Wenn du denkst, dass es hier Songs gibt, die aber nicht erscheinen, versuche es mit `~> queue 1`.",
         "total_queue_time": "Gesamtwarteschlangenzeit",
@@ -129,53 +143,53 @@
         "togglers": "Widerholen / Pausiert",
         "playing_in": "Spielt in",
         "footer": "Seiten: %1$d%2$s. In Seite %3$d",
-        "multiple_pages": " -> Nutze ~>queue <page> um seiten zu wechseln.",
+        "multiple_pages": " -> Nutze ~>queue <page>, um Seiten zu wechseln.",
         "page_react": " -> Reagiere, um Seiten zu ändern",
         "no_channel": "Kein Kanal :(",
-        "songs": "song(s)"
+        "songs": "Song(s)"
       },
       "connect": {
         "success": "%1$sVerbunden mit Kanal **%2$s**!",
         "full_channel": "%1$sIch kann keine Verbindung zu diesem Kanal herstellen, da dieser voll ist!",
-        "non_existent_channel": "%1$sWir haben einen nicht vorhandenen Kanal als Antwort erhalten. Wenn du einen Sprachkanal einstellst und ihn dann löschst, könnte das die Ursache sein.\nWir setzen deinen Musikkanal für dich zurück und versuchen, die Musik erneut abzuspielen.",
+        "non_existent_channel": "%1$sIch habe einen nicht vorhandenen Kanal als Antwort erhalten. Wenn du einen Sprachkanal einstellst und ihn dann löschst, könnte das die Ursache sein.\nIch setze deinen Musikkanal für dich zurück und versuche, die Musik erneut abzuspielen.",
         "user_no_vc": "%1$s**Bitte trete einem Sprachkanal bei!**",
         "missing_permissions_connect": "%1$sIch kann aufgrund fehlender Berechtigungen keine Verbindung zu diesem Kanal herstellen (%2$s).",
         "missing_permission_speak": "%1$sIch kann nicht in diesem Kanal sprechen, weil ich keine Erlaubnis habe (%2$s).",
         "channel_locked": "%1$sIch kann nur Musik in dem Kanal **%2$s** abspielen!",
-        "already_connected": "%1$sIch bin bereits in einem  aderen Kanal **%2$s**! (Verwenden Sie den `move` Befehl, um mich zu einem anderen Kanal zu bewegen)",
-        "attempting_to_connect": "%1$sIch versuche bereits, eine Verbindung zum Kanal herzustellen **%2$s**! (Verwenden Sie den `move` Befehl, um mich zu einem anderen Kanal zu bewegen)"
+        "already_connected": "%1$sIch bin bereits in einem  anderen Kanal **%2$s**! (Verwende den `move` Befehl, um mich zu einem anderen Kanal zu bewegen)",
+        "attempting_to_connect": "%1$sIch versuche bereits, eine Verbindung zum Kanal herzustellen **%2$s**! (Verwende den `move` Befehl, um mich zu einem anderen Kanal zu bewegen)"
       },
       "listener": {
-        "paused": "%1$sSpieler pausieren, weil ich gemuted wurde :(",
+        "paused": "%1$sWiedergabe pausieren, weil ich gemuted wurde :(",
         "resumed": "%1$sFortsetzen der Wiedergabe, weil jemand beigetreten ist!",
-        "left_alone": "%1$sIch velasse **%2$s** in 2 minuten weil ich allein gelassen wurde :(",
-        "leave": "%1$sI habe **%2$s** verlassen weil ich allein gelassen wurde :("
+        "left_alone": "%1$sIch verlasse **%2$s** in 2 Minuten, weil ich allein gelassen wurde. :(",
+        "leave": "%1$sIch habe **%2$s** verlassen, weil ich allein gelassen wurde. :("
       },
       "loader": {
-        "over_limit": "%1$sDie Warteschlange die du hinzugefügt hast überschreitet %2$d songs, also haben wir nur so viele hinzugefügt und den rest ignoriert.",
-        "loaded_playlist": "%1$s**%2$d songs** der Warteschlange hinzugefügt: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sDie Suche ergab keine Ergebnisse. Wenn dies für * alle Lieder * angezeigt wird, nach denen du suchst, Nutze stattdessen `~> play soundcloud <Suchbegriff>`. Direkte Links zu youtube sollten auch funktionieren.",
+        "over_limit": "%1$sDie Warteschlange die du hinzugefügt hast überschreitet %2$d Songs, also habe ich nur so viele hinzugefügt und den Rest ignoriert.",
+        "loaded_playlist": "%1$s**%2$d Songs** der Warteschlange hinzugefügt: **%3$s** *(%4$s)*",
+        "no_matches": "%1$sDie Suche ergab keine Ergebnisse. Wenn dies für *alle Songs* angezeigt wird, nach denen du suchst, benutze stattdessen `~> play soundcloud <Suchbegriff>`. Direkte Links zu YouTube sollten auch funktionieren.",
         "error_loading": "%1$sFehler beim Abrufen der Musik: %2$s",
-        "over_queue_limit": "%1$sKonnte %2$s nicht hinzufügen: Song limit überschritten (%3$s)!",
-        "over_32_minutes": "%1$sKonnte %2$s nicht hinzufügen: Der song ist länger als 32 minuten! (%3$s)",
-        "fair_queue_limit_reached": "%1$s**Fair-Queue limit von %2$d überschritten (Zu viele songs mit dem selben namen)**",
+        "over_queue_limit": "%1$sKonnte %2$s nicht hinzufügen: Songlimit überschritten (%3$s)!",
+        "over_32_minutes": "%1$sKonnte %2$s nicht hinzufügen: Der Song ist länger als 32 Minuten! (%3$s)",
+        "fair_queue_limit_reached": "%1$s**Fair-Queuelimit von %2$d überschritten (Zu viele Songs mit dem selben Namen)**",
         "loaded_song": "%1$sDer Warteschlange hinzugefügt -> **%2$s** **(%3$s)**",
-        "selection_text": "Song auswahl. Schreibe die Song nummer um fortzufahren.",
-        "timeout_text": "Dies läuft in 30 sekunden ab. Schreibe &cancel um abzubrechen."
+        "selection_text": "Songauswahl. Schreibe die Songnummer, um fortzufahren.",
+        "timeout_text": "Dies läuft in 30 Sekunden ab. Schreibe &cancel, um abzubrechen."
       },
-      "premium_beg": "%1$sDenke darüber nach, auf Patreon.com/mantaro zu spenden. Wenn du mich magst, hilft mir sogar eine kleine Spende, den Bot am Leben zu halten (check `~>donate` für mehr Infos!)",
-      "closed_connection": "%1$sAudioverbindung geschloßen."
+      "premium_beg": "%1$sDenke darüber nach, auf Patreon.com/mantaro zu spenden. Wenn du mich magst, hilft mir sogar eine kleine Spende, den Bot am Leben zu halten (Schau unter `~>donate` für mehr Infos!)",
+      "closed_connection": "%1$sAudioverbindung geschlossen..."
     },
     "forceskip": {
       "success": "%1$sEin Admin- oder Bot-Commander entschied sich, dieses Lied zu überspringen."
     },
     "np": {
-      "no_track": "%1$sEs gibt keinen Track oder wir können ihn nicht finden, versuchen Sie einen Song abzuspielen.",
-      "header": "Spiele Derzeit"
+      "no_track": "%1$sEs gibt keinen Track oder wir können ihn nicht finden, versuche einen Song abzuspielen.",
+      "header": "Spiele derzeit"
     },
     "pause": {
-      "paused": "Player pausiert.",
-      "unpaused": "Player wird fortgesetzt."
+      "paused": "Wiedergabe pausiert.",
+      "unpaused": "Wiedergabe wird fortgesetzt."
     },
     "rewind": {
       "negative": "%1$sNur positive Ganzzahlen",
@@ -183,27 +197,27 @@
       "success": "%1$sLied zurückspulen zu: %2$s."
     },
     "restartsong": {
-      "success": "%1$sSong neugestarted."
+      "success": "%1$sSong neugestartet."
     },
     "skipahead": {
-      "past_duration": "%1$sSie können die Dauer eines Songs nicht überspringen",
+      "past_duration": "%1$sDu kannst die Dauer eines Songs nicht überspringen",
       "success": "%1$sVorgesprungen zu %2$s."
     },
     "move": {
       "attempt": "%1$sIch werde versuchen, zu dem Kanal zu wechseln, in dem du dich befindest",
-      "error_moving": "%1$sFehler beim wechseln der Sprachkanäle.",
-      "cannot_connect": "%1$sVerbindung nicht möglich: Ich bin entweder nicht berechtigt zu sprechen oder den Kanl zu betreten.",
+      "error_moving": "%1$sFehler beim Wechseln der Sprachkanäle.",
+      "cannot_connect": "%1$sVerbindung nicht möglich: Ich bin entweder nicht berechtigt zu sprechen oder den Kanal zu betreten.",
       "non_existent_channel": "%1$sIch kann nicht zu einem nicht existierenden Kanal wechseln!",
-      "success": "%1$sZu Kanel `%2$s` gewechselt.",
+      "success": "%1$sZu Kanal `%2$s` gewechselt.",
       "vc_not_found": "%1$sSprachkanal nicht gefunden oder du hast keinen angegeben!"
     },
     "shard": {
-      "info": "Ich bin in shard %1$d!"
+      "info": "Ich bin in Shard %1$d!"
     },
     "queue": {
       "clear": {
         "header": "%1$sDer Server-DJ hat beschlossen, die Warteschlange zu löschen!",
-        "success": "%1$s**%2$d songs** von der Warteschlange entfernt.",
+        "success": "%1$s**%2$d Songs** von der Warteschlange entfernt.",
         "error": "%1$sEntweder bist du nicht mit dem VC verbunden oder du bist nicht der DJ."
       }
     },
@@ -211,7 +225,7 @@
       "queue_cancel": "%1$sFahre mit der aktuellen Warteschlange fort.",
       "queue_repeat": "%1$sWiederhole die Warteschlange.",
       "song_cancel": "%1$sFahre mit der aktuellen Warteschlange fort.",
-      "song_repeat": "%1$sWiederhole den aktuellen song."
+      "song_repeat": "%1$sWiederhole den aktuellen Song."
     },
     "nextsong": {
       "no_song_next": "%1$sAua, als nächstes gibt es kein Lied mehr",
@@ -223,115 +237,118 @@
     "skip": {
       "dj_skip": "%1$sDer DJ entschied sich das Lied zu überspringen.",
       "vote": {
-        "submit": "%1$s**Deine Stimme wurde abgegeben!** Du benötigst %2$d mehr stimmen zum skippen!",
-        "remove": "%1$s**Deine Stimme wurde entfernt!** Du benötigst %2$d mehr stimmen zum skippen!"
+        "submit": "%1$s**Deine Stimme wurde abgegeben!** Du benötigst %2$d mehr Stimmen zum Skippen!",
+        "remove": "%1$s**Deine Stimme wurde entfernt!** Du benötigst %2$d mehr Stimmen zum Skippen!"
       },
       "success": "%1$sErreichte die erforderliche Anzahl von Stimmen, überspringe den Song...",
       "no_track": "%1$sEs scheint keinen Song zum Überspringen zu geben, also kann ich nichts machen..."
     },
     "removetrack": {
-      "invalid_range": "%1$s`%2$s` ist keine gültige Folge.!",
+      "invalid_range": "%1$s`%2$s` ist keine gültige Folge!",
       "no_track": "%1$sAn dieser Position befindet sich kein Song `%2$d`!",
       "invalid_number": "(%1$s`%2$s`) Eine der Nummern ist keine gültige Ganzzahl!",
       "invalid_number_range": "%1$s`%2$s` ist keine gültige Zahl oder Folge!",
-      "success": "%1$s**%2$d** song(s) entfernt."
+      "success": "%1$s**%2$d** Song(s) entfernt."
     },
     "stop": {
       "dj_stop": "%1$sDer Server DJ entschied sich den Player zu stoppen!",
       "vote": {
-        "submit": "%1$s**Deine Stimme wurde abgegeben!** Du benötigst %2$d mehr stimmen zum stoppen!",
-        "remove": "%1$s**Deine Stimme wurde entfernt!** Du benötigst %2$d mehr stimmen zum stoppen!"
+        "submit": "%1$s**Deine Stimme wurde abgegeben!** Du benötigst %2$d mehr Stimmen zum Stoppen!",
+        "remove": "%1$s**Deine Stimme wurde entfernt!** Du benötigst %2$d mehr Stimmen zum Stoppen!"
       },
       "success": "%1$sErreichte die erforderliche Anzahl von Stimmen, stoppe den Player...",
       "no_player": "%1$sEs scheint hier keine Player zu geben, also kann ich nichts machen...",
-      "cleanup": "%1$s**%2$d songs** von der Warteschlange entfernt."
+      "cleanup": "%1$s**%2$d Songs** von der Warteschlange entfernt."
     },
     "volume": {
       "check": "%1$sDie momentane Lautstärke ist: %2$d\n\n%3$s",
       "success": "%1$sLautstärke ist nun %2$d\n\n%3$s"
     },
     "custom": {
-      "error_running": "%1$sFehler beim Ausführen eines benutzerdefinierten Command's ... Bitte überprüfe den Inhalt und die Länge der Antwort (max. 2000 Zeichen).",
-      "not_loaded": "Der Bot wurde noch nicht vollständig gebootet ... benutzerdefinierte Command's werden in Kürze verfügbar sein!",
+      "error_running": "%1$sFehler beim Ausführen eines benutzerdefinierten Befehls ... Bitte überprüfe den Inhalt und die Länge der Antwort (max. 2000 Zeichen).",
+      "not_loaded": "Der Bot wurde noch nicht vollständig gebootet ... benutzerdefinierte Befehle werden in Kürze verfügbar sein!",
+      "nsfw_enabled": "%1$sDieser Befehl wurde erfolgreich als NSFW markiert.",
+      "nsfw_disabled": "%1$sDieser Befehl wurde erfolgreich als SFW markiert.",
+      "nsfw_not_nsfw": "%1$sDieser Befehl ist als NSFW markiert, daher kannst du ihn nur in NSFW-Kanälen verwenden.",
       "ls": {
-        "header": "Command's für diesen Server"
+        "header": "Befehle für diesen Server"
       },
       "view": {
-        "invalid": "%1$sDu musst den Command und die Antwortnummer angeben!",
-        "not_found": "%1$sKein benutzerdefinierten Command mit diesem Namen gefunden!",
-        "less_than_specified": "%1$sDieser Command hat weniger Antworten als die angegebene Anzahl...",
-        "success": "**Antwort Nummer `%1$d` für benutzerdefinierten command `%2$s`:** \n```\n%3$s```"
+        "invalid": "%1$sDu musst den Befehl und die Antwortnummer angeben!",
+        "not_found": "%1$sKein benutzerdefinierten Befehl mit diesem Namen gefunden!",
+        "less_than_specified": "%1$sDieser Befehl hat weniger Antworten als die angegebene Anzahl...",
+        "success": "**Antwort Nummer `%1$d` für benutzerdefinierten Befehl `%2$s`:** \n```\n%3$s```"
       },
       "raw": {
-        "header": "Command \"%s\":",
-        "amount": "(Zeige %d antworten von %d)",
-        "pasted": "Hichgeladener Inhalt"
+        "header": "Befehl \"%s\":",
+        "amount": "(Zeige %d Antworten von %d)",
+        "pasted": "Hochgeladener Inhalt"
       },
       "clear": {
-        "success": "%1$s**%2$d benutzerdifinierte Command's** gelöchst!"
+        "success": "%1$s**%2$d benutzerdefinierte Befehle** gelöchst!"
       },
       "make": {
-        "start_text": "%1$s**\"Creation of Custom Command `%2$s`\"** gestarted!\nSchreibe `&~>stop` um die creation **ohne zu speichern** abzubrehcen.\nSchreibe `&~>save` um die creation abzubrehcen **und den Command zu speichern**. Beginne jeden text, den do als Antwort für diesen command hinzufügen möchtest, mit `&`.\nDiese interactive Aktion ended nach 60 sekunden, wen Inaktive.",
-        "cancel": "%1$sCommand creation abgebrochen.",
-        "no_responses_added": "%1$sKeine Antworten wurden hinzugefügt. Breche die creation ohne speichern ab...",
-        "success": "%1$sSCommand `%2$s` gepeichert!",
-        "no_name_specified": "%1$sDu has keinen name für die creation angegeben!"
+        "start_text": "%1$s**\"Erstellung vom benutzerdefinierten Befehl `%2$s`\"** gestartet!\nSchreibe `&~>stop` um die Erstellung **ohne zu speichern** abzubrehcen.\nSchreibe `&~>save` um die Erstellung abzubrehcen **und den Command zu speichern**. Beginne jeden Text, den du als Antwort für diesen Befehl hinzufügen möchtest, mit `&`.\nDiese interaktive Aktion endet nach 60 Sekunden, wenn inaktiv.",
+        "cancel": "%1$sBefehlerstellung abgebrochen.",
+        "no_responses_added": "%1$sKeine Antworten wurden hinzugefügt. Breche die Erstellung ohne speichern ab...",
+        "success": "%1$sSBefehl `%2$s` gepeichert!",
+        "no_name_specified": "%1$sDu hast keinen Namen für die Erstellung angegeben!"
       },
       "eval": {
-        "error": "%1$sBeim Auswerten Ihres Befehls ist ein Fehler aufgetreten!%2$s"
+        "error": "%1$sBeim Auswerten deines Befehls ist ein Fehler aufgetreten!%2$s"
       },
       "remove": {
-        "success": "%2$sBenutzerdifinierter Command `%1$s` wurde entfernt!"
+        "success": "%1$sBenutzerdefinierter Befehl entfernt `%2$s`."
       },
       "import": {
-        "not_found": "%1$sEs gab keine benutzerdefinierten Command's, die der Suchanfrage entsprachen..",
+        "not_found": "%1$sEs gab keine benutzerdefinierten Befehle, die der Suchanfrage entsprachen..",
         "header": "`%1$s` - Server: `%2$s`",
-        "selection": "Wähle den Command:",
-        "note": "(Sie können nur benutzerdefinierte Command's von Servern in denene du dich befindest auswählen.",
-        "success": "Benutzerdifinierter Command `%1$s` von Server `%2$s` importiret, mit folgeden Antworten: `%3$s`"
+        "selection": "Wähle den Befehl:",
+        "note": "(Du kannst nur benutzerdefinierte Befehle von Servern, in denen du dich befindest, auswählen.",
+        "success": "Benutzerdifinierter Befehl `%1$s` von Server `%2$s` mit folgenden Antworten importiert: `%3$s`"
       },
       "edit": {
         "invalid_number": "%1$sDu musst eine korrekte Nummer zum Ändern angeben!",
-        "no_index": "%1$sDu kannst keinen nich vorhanden Index bearbeiten!",
-        "empty_response": "%1$sDu kannst nicht zu einer Leeren antwort wechseln.!",
-        "success": "%1$sAnwort **#%2$d** von Command `%3$s` erfolgreich bearbeitet!"
+        "no_index": "%1$sDu kannst keinen nicht vorhandenen Index bearbeiten!",
+        "empty_response": "%1$sDu kannst nicht zu einer leeren Antwort wechseln!",
+        "success": "%1$sAnwort **#%2$d** von Befehl `%3$s` erfolgreich bearbeitet!"
       },
       "rename": {
-        "success": "%1$sCommand `%2$s` zu `%3$s` umbennant!"
+        "success": "%1$sBefehl `%2$s` zu `%3$s` umbennant!"
       },
       "add": {
-        "success": "%1$sCommand `%2$s` gespeichert!"
+        "success": "%1$sBefehl `%2$s` gespeichert!"
       },
-      "character_not_allowed": "%1$sDieses Zeichen ist in benutzerdefinierten Command's nicht erlaubt..",
-      "already_exists": "%1$sEin Command mit diesem Name existiert bereits!",
+      "character_not_allowed": "%1$sDieses Zeichen ist in benutzerdefinierten Befehlen nicht erlaubt..",
+      "already_exists": "%1$sEin Befehl mit diesem Name existiert bereits!",
       "name_too_long": "%1$sDer Name ist zu lang.",
-      "no_cc": "%1$sIn diesem Server gibt es keine benutzerdefinierten Command's, nur Staub.",
-      "admin_only": "In diesem Server können nur Administratoren benutzerdefinierte Command's Erstellen, Bearbeite, Auswerten order Entfernen.",
-      "not_found": "%1$sDer Command `%2$s` existiert in diesem Server nicht.",
-      "invalid_image": "%1$sDieser Command enthält ein Ungültiges Bild, bitte beheben...",
-      "invalid_string": "%1$sDer string `{%2$s}`  ist nicht gültig oder die Ausgabe ist länger als 2000 Zeichen.",
-      "invalid_json": "%1$sDer string `{%2$s}` is eine Ungültige JSON.",
-      "invalid_link": "%1$sDer string `%2$s` ist kein Gültiger link."
+      "no_cc": "%1$sIn diesem Server gibt es keine benutzerdefinierten Befehle, nur Staub.",
+      "admin_only": "In diesem Server können nur Administratoren benutzerdefinierte Befehle erstellen, bearbeite, auswerten oder entfernen.",
+      "not_found": "%1$sDer Befehl `%2$s` existiert in diesem Server nicht.",
+      "invalid_image": "%1$sDieser Befehl enthält ein ungültiges Bild, bitte beheben...",
+      "invalid_string": "%1$sDer String `{%2$s}`  ist nicht gültig oder die Ausgabe ist länger als 2000 Zeichen.",
+      "invalid_json": "%1$sDer String `{%2$s}` ist eine ungültige JSON.",
+      "invalid_link": "%1$sDer String `%2$s` ist kein gültiger Link."
     },
     "mute": {
-      "no_permissions": "%1$sDu benötigst entweder ban order kick Rechte um Mitglieder zu muten!",
-      "no_mute_role": "%1$sDieser Server hat (noch) keine Mute-Rolle, du kannst eine Einrichten mit: `~>opts muterole set <Rolle>`",
+      "no_permissions": "%1$sDu benötigst entweder Bann oder Kick Rechte, um Mitglieder zu muten!",
+      "no_mute_role": "%1$sDieser Server hat (noch) keine Mute-Rolle, Sie können mit: `~>opts muterole set <Rolle>` eine einrichten.",
       "null_mute_role": "%1$sDie zuvor konfigurierte Rolle auf diesem Server ist jetzt nicht mehr vorhanden!",
-      "no_mentions": "%1$sDu musst mindestens einen Benutzer zum muten erwähnen.",
-      "no_manage_roles": "%1$sMir fehlen die Rechte Rollen zu verwalten.!",
-      "no_time": "%1$sDue hast keine Mute-Zeit angegeben!",
-      "time_not_specified": "%1$sDu wolltest eine Mute-Zeit, hast aber nicht angeben für wie lange.",
-      "negative_time_notice": "%1$sDu kannst niemand für einen negativen Zeitraum muten!",
+      "no_mentions": "%1$sSie müssen mindestens einen Benutzer zum muten erwähnen.",
+      "no_manage_roles": "%1$sMir fehlen die Rechte Rollen zu verwalten!",
+      "no_time": "%1$sSie haben keine Mute-Zeit angegeben!",
+      "time_not_specified": "%1$sSie wollten eine Mute-Zeit, haben aber nicht angeben für wie lange.",
+      "negative_time_notice": "%1$sSie können niemanden für einen negativen Zeitraum muten!",
       "default_time_too_long": "%1$sDie Standard Mute-Zeit ist zu lang (Maximum: 10 Tage)...",
-      "time_too_long": "%1$sDie angegeben Mute-Zeit ist zu lang (Maximum: 10 Tage)...",
-      "already_muted": "%1$sDieser Benutzer ist bereits gemuted. Nutze `~>unmute` um denjenigen zu entmuted.",
-      "self_hierarchy_error": "%1$sIch kann diesem Benutzer die Mute-Rolle nicht zuweisen, da derjenige sich in einer höheren Hierarchie als ich befinden oder die Rolle in einer höheren Hierarchie ist!",
-      "user_hierarchy_error": "%1$sIch kann diesem Benutzer die Mute-Rolle nicht zuweisen, da derjenige sich in einer höheren Hierarchie als ich befinden oder die Rolle in einer höheren Hierarchie als du bist!",
-      "success": "%1$sMute-Rolle zu **%2$s%3$s** für circa %4$s hinzugefügt."
+      "time_too_long": "%1$sDie angegebene Mute-Zeit ist zu lang (Maximum: 10 Tage)...",
+      "already_muted": "%1$sDieser Benutzer ist bereits gemuted. Nutzen Sie `~>unmute` um denjenigen zu entmuten.",
+      "self_hierarchy_error": "%1$sIch kann diesem Benutzer die Mute-Rolle nicht zuweisen, da derjenige sich in der Hierarchie höher als ich befindet oder die Rolle in der Hierarchie höher ist!",
+      "user_hierarchy_error": "%1$sIch kann diesem Benutzer die Mute-Rolle nicht zuweisen, da derjenige sich in der Hierarchie höher als ich befindet oder die Rolle in der Hierarchie höher ist als Sie!",
+      "success": "%1$sMute-Rolle zu **%2$s** für circa %3$s hinzugefügt."
     },
     "unmute": {
-      "no_permissions": "%1$sDu benötigst entweder ban order kick Rechte um Mitglieder zu entmuten!",
-      "no_mentions": "%1$sDu musst mindestens einen Benutzer zum entmuten erwähnen.",
+      "no_permissions": "%1$sDu benötigst entweder Bann order kick Rechte um Mitglieder zu entmuten!",
+      "no_mentions": "%1$sSie müssen mindestens einen Benutzer zum entmuten erwähnen.",
       "success": "%1$sMute-Rolle von **%2$s** entfernt.",
       "no_role_assigned": "%1$sDieser Benutzer ist nicht gemuted."
     },
@@ -344,19 +361,19 @@
         "200": "Schön! :slight_smile:",
         "300": "Dezent. :neutral_face:",
         "400": "Durchschnittlich... :confused:",
-        "500": "leicht langsam. :slight_frown:",
-        "600": "langsam.. :frowning2:",
-        "700": "langsam.. :worried:",
-        "800": "zu langsam. :disappointed:",
+        "500": "Etwas langsam. :slight_frown:",
+        "600": "Langsam... :frowning2:",
+        "700": "Langsam... :worried:",
+        "800": "Zu langsam. :disappointed:",
         "900": "Schlecht. :sob: (helpme)",
         "1600": "#BlameDiscord. :angry:",
-        "10000": "Dies Ergibt kein Sinn :thinking: #BlameSteven",
+        "10000": "Dies ergibt kein Sinn :thinking: #BlameSteven",
         "default": "Viel zu langsam. :dizzy_face:"
       },
       "text": "%1$s*%2$s* - Meine Latenz: %3$d ms (%4$s) `Websocket:%5$dms`"
     },
     "love": {
-      "no_mention": "%1$sDo musst mindestens einene Benutzer erwähnen.",
+      "no_mention": "%1$sDu musst mindestens einene Benutzer erwähnen.",
       "not_ideal": "Versuch es nächstes mal...",
       "decent": "Gut genug!",
       "nice": "Gutes Paar!",
@@ -366,21 +383,76 @@
       "result": "Ergebniss:"
     },
     "marry": {
-      "no_mention": "%1$sErwähnen den Benutzer den du heiraten möchtest.",
+      "loveletter": {
+        "no_letter": "%1$sDu hast keine Liebesbriefe in deinem Inventar, also hast du nichts, wo du deine Briefe draufschreiben kannst.",
+        "no_marriage": "%1$sDu bist nicht verheiratet und du kannst keinen Liebesbrief an dich selbst schreiben...",
+        "not_proposing_player": "%1$sDu bist nicht derjenige, der diesen Antrag gestellt hat!",
+        "already_done": "%1$sDie Ehe hat bereits einen Liebesbrief. Schau ihn dir unter `marry status` an.",
+        "too_long": "%1$sDer Liebesbrief ist zu lang (maximal 500 Zeichen).",
+        "cannot_see": "%1$sIch kann den Nutzer, mit dem du verheiratet bist, nicht sehen... Vielleicht ist er mit mir auf keinem Server?",
+        "confirmation": "%1$sBist du *sicher*, dass du diesen Brief für deine Ehe mit **%2$s#%3$s**? Dies ist PERMANENT, während die Ehe hält. *Brieftext:* %4$s",
+        "confirmed": "%1$sDer Liebesbrief wurde erfolgreich an deine Liebe zugestellt! Schau ihn dir mit `marry status` an.",
+        "scrapped": "%1$sDu hast immer noch Zeit, um darüber nachzudenken, was du schreiben willst, kein Grund zur Eile!"
+      },
+      "status": {
+        "no_marriage": "%1$sDu bist nicht verheiratet, als denke ich dein Status ist uh... \"unverheiratet\"",
+        "header": "Aktueller Ehestatus",
+        "description_format": "%1$sEhestatus von **%2$s#%3$s** und **%4$s#%5$s**",
+        "date": "Hochzeitstag",
+        "love_letter": "Liebesbrief",
+        "waifus": "Waifu Besitz"
+      },
+      "no_mention": "%1$sErwähne den Benutzer, den du heiraten möchtest.",
       "marry_yourself_notice": "%1$sDu kannst dich selber nicht heiraten, egal wie sehr du es möchtest.",
       "marry_bot_notice": "%1$sDu kannst keinen Bot heiraten.",
-      "already_married_receipt": "%1$sIhr seit Bereits verheiratet, aww.",
+      "already_married_receipt": "%1$sIhr seid bereits verheiratet, aww.",
       "already_married": "%1$sDu bist bereits verheiratet.",
       "receipt_married": "%1$sDieser Benutzer ist bereits verheiratet.",
-      "no_ring": "%1$sOhne 2 Ringe kannst du nicht heiraten! Du kannst diese kaufen mit `~>market buy 2 ring` und dann versuch es erneut <3.",
-      "confirmation": "%1$s%2$s, beanworte den Heiratsantrag von %3$s mit **yes** (ja) oder **no** (nein).\nDies läuft in 120 sekuden ab.",
-      "ring_check_fail": "%1$sDu kannst nicht mit weniger als 2 Ringen in deinem Inventar heiraten!",
-      "accepted": "%1$s`%2$s` hat den Antrag von `%3$s` akzeptiert!",
+      "no_ring": "%1$sOhne zwei Ringe kannst du nicht heiraten! Du kannst diese mit `~>market buy 2 ring` kaufen und dann versuch es erneut <3.",
+      "confirmation": "%1$s%2$s, beanworte den Heiratsantrag von %3$s mit **yes** (ja) oder **no** (nein).\nDies läuft in 120 Sekunden ab.",
+      "ring_check_fail": "%1$sDu kannst nicht mit weniger als zwei Ringen in deinem Inventar heiraten!",
+      "accepted": "%1$s**%2$s#%3$s** hat den Antrag von **%4$s#%5$s** angenommen!",
       "denied": "%1$sAntrag von`%2$s` abgelehnt."
     },
     "divorce": {
-      "not_married": "%1$sDu bist nicht mit jemandem verheiratet, warum findest du diesen besonderen Menschen nicht?",
+      "not_married": "%1$sDu bist mit niemandem verheiratet, warum findest du diesen besonderen Menschen nicht?",
       "success": "%1$sJetzt bist du Single. Das ist nett, denke ich zumindest."
+    },
+    "waifu": {
+      "stats": {
+        "header": "Deine Waifu Stats",
+        "header_other": "%1$ss Waifu Stats",
+        "format": "%1$s.- **Geldgewichtung:** %2$s\n%1$s.- **Ordensgewichtung:** %3$s\n%1$s.- **Erfahrungsgewichtung:** %4$s",
+        "value": "Gesamter Waifu Wert:",
+        "credits": "%1$d Credits"
+      },
+      "claim": {
+        "no_user": "%1$sDu hast keinen Nutzer zum Beanspruchen erwähnt.",
+        "key_locked": "%1$sDer Nutzer, den du versucht hast zu beanspruchen, ist verschlossen und kann nicht beansprucht werden.",
+        "not_enough_money": "%1$sDu hast nicht genug Geld, um diese Waifu zu beanspruchen **(Kosten: %2$s)**",
+        "not_enough_slots": "%1$sDu hast nicht genug Plätze verfügbar, um diese Waifu zu beanspruchen. (Plätze: %2$s, Benutzt: %3$s)",
+        "success": "%1$s%2$s erfolgreich für %3$s beansprucht. Plätze benutzt: %4$s"
+      },
+      "unclaim": {
+        "no_user": "%1$sDu musst eine Waifu erwähnen, auf die du verzichten willst.",
+        "confirmation": "%1$sBist du *sicher*, dass du auf %2$s verzichten willst? Die kosten, um auf diese Waifu zu verzichten sind **%3$s Credits**. Gebe *yes* zum bestätigen oder *no* zum abbrechen ein\n%4$sDies endet in einer Minute.",
+        "not_enough_money": "%1$sDu hast nicht genug Geld, um auf diese Waifu zu verzichten!",
+        "player_locked": "%1$sDu kannst das aktuell nicht tun.",
+        "scrapped": "%1$sWaifu-Verzicht abgebrochen.",
+        "success": "%1$sErfolgreich auf **%2$s** verzichtet, mit den Kosten von **%3$s Credits**."
+      },
+      "buyslot": {
+        "locked": "%1$sDu kannst das aktuell nicht tun.",
+        "not_enough_money": "%1$sDu hast nicht genug Geld, um mehr Plätze zu kaufen! Du brauchst %2$d Credits.",
+        "success": "%1$sDieser Platz wurde erfolgreich für%2$s Credits gekauft, du hast aktuell ingsgesamt %3s Plätze und %4$s davon verfügbar."
+      },
+      "header": "Waifu Liste",
+      "description_header": "Hier ist eine Liste mit all deinen geliebten Waifus, nach Hinzufüge-Datum sortiert.\n*Du kannst aktuell maximal %1$d Waifus haben.*\n\n",
+      "no_waifu": "Keine Waifus zu sehen, nur Staub. :(\nDu kannst Waifus sammeln, indem du jemanden beanspruchst! Nutze dazu `~>waifu claim`, um anzufangen.",
+      "footer": "Gesamte Waifus: %1$d - Verfügbare Plätze: %2$s",
+      "value_format": "**- Wert:**",
+      "value_b_format": "**- gekauft für:**",
+      "credits_format": " Credits."
     },
     "ratewaifu": {
       "nothing_specified": "%1$sGib mir eine Waifu zum Bewerten!",
@@ -393,110 +465,114 @@
     "coinflip": {
       "over_limit": "%1$sHalt dich dort fest! Das Limit ist 1.000 Münzwürfe.",
       "no_repetitions": "%1$sDu musst eine ganze Zahl für die Anzahl der Wiederholungen angeben.",
-      "success": "%1$s Die Ergebnisse von **%2$d** wurf/würfen ergaben **%3$d** Kopf und **%4$d** Zahl"
+      "success": "%1$s Die Ergebnisse von **%2$d** Wurf/Würfen ergaben **%3$d** Kopf und **%4$d** Zahl"
     },
     "inventory": {
       "brief": "**%1$s's Inventar:** %2$s",
-      "calculate": "%1$sDu erhälst **%2$d Credits** when du all deine Items verkaufst!",
+      "calculate": "%1$sDu erhältst **%2$d Credits**, wenn du all deine Items verkaufst!",
       "header": "%1$s's Inventar",
-      "format": "**Preis**: 📥 %1$d 📤 %2$d\n%3$s"
+      "format": "**Preis**: 📥 %1$d 📤 %2$d\n%3$s",
+      "empty": "%1$sDein Inventar ist leer! :("
     },
     "market": {
       "dump": {
-        "invalid": "%1$sUngültige Anzahl an zu löschender Items.",
+        "invalid": "%1$sUngültige Anzahl zu löschender Items.",
         "non_existent": "%1$sEin nicht vorhandenes Item kann nicht gelöscht werden!",
         "player_no_item": "%1$sKann ein Item, das du nicht hast, nicht löschen!",
-        "more_items_than_player": "%1$sDu kannst nicht mehr Items löschen als du besitzt.",
-        "success": "%1$s%2$dx **%3$s %4$s** Items wurden gelöscht.!"
+        "more_items_than_player": "%1$sDu kannst nicht mehr Items löschen, als du besitzt.",
+        "success": "%1$s%2$dx **%3$s %4$s** Items wurden gelöscht!"
       },
       "price": {
-        "non_existent": "%1$sIch kann nicht den Preis eines nicht existierendem Item checken!",
-        "no_price": "%1$sDieses Item steht weder zum kauf noch verkauf zur Verfügung (Es könnte eine Sammelstück sein)",
-        "collectible": "%1$sDies ist ein Sammelstück. (Verkauf Preis: %2$d Credits)",
-        "success": "%1$sDer kauf Preis für %2$s**%3$s** ist %4$s Credit und du erhälst %5$s Credits wenn due es verkaufst."
+        "non_existent": "%1$sIch kann nicht den Preis eines nicht existierenden Items checken!",
+        "no_price": "%1$sDieses Item steht weder zum Kauf noch Verkauf zur Verfügung (Es könnte eine Sammelstück sein)",
+        "collectible": "%1$sDies ist ein Sammelstück. (Verkaufspreis: %2$d Credits)",
+        "success": "%1$sDer Kaufpreis für %2$s**%3$s** ist %4$s Credits und du erhälst %5$s Credits, wenn du es verkaufst."
       },
       "sell": {
-        "invalid": "%1$sUngültige Anzahl an zu verkaufender Items.",
+        "invalid": "%1$sUngültige Anzahl zu verkaufender Items.",
         "all": {
-          "success": "%1$sDu hast alle deine Items für %2$d Credits verkauft!"
+          "confirmation": "%1$sBist du *sicher, dass du **alle** deine Items verkaufen willst? Gebe *yes* ein, um zu bestätigen und *no*, um abzubrechen.",
+          "success": "%1$sDu hast alle deine Items verkauft und %2$d Credits erhalten!",
+          "cancelled": "%1$sErfolgreich abgebrochen."
         },
         "non_existent": "%1$sDu kannst kein nicht vorhandendes Item verkaufen.",
-        "no_sell_price": "%1$sDu kannst kein Item verkaufen das nicht verkauft werden kann.",
-        "no_item_player": "%1$sDu kannst kein Item verkaufen das du nicht besitzt.",
-        "more_items_than_player": "%1$sDu kannst nicht mehr als du has verkaufen.",
-        "success": "%1$sDu hast %2$d **%3$s** verkauft und erhälst %4$d Credits!"
+        "no_sell_price": "%1$sDu kannst kein Item verkaufen, das nicht verkauft werden kann.",
+        "no_item_player": "%1$sDu kannst kein Item verkaufen, das du nicht besitzt.",
+        "more_items_than_player": "%1$sDu kannst nicht mehrverkaufen, als du hast.",
+        "success": "%1$sDu hast %2$d **%3$s** verkauft und erhältst %4$d Credits!"
       },
       "buy": {
-        "invalid": "%1$sUngültige Anzahl an zu kaufender Items.",
+        "invalid": "%1$sUngültige Anzahl zu kaufender Items.",
         "non_existent": "%1$sDu kannst ein nicht existierendes Item nicht kaufen.",
         "no_buy_price": "%1$sDu kannst ein Item, das nicht gekauft werden kann, nicht kaufen.",
         "item_limit_reached": "%1$sDu kannst nicht noch mehr von diesem Item kaufen!",
-        "success": "%1$sDu hast %2$d %3$s gekauft für %4$d Credits. Du hast nun %5$d Credits.",
+        "success": "%1$sDu hast %2$d %3$s für %4$d Credits gekauft. Du hast nun %5$d Credits.",
         "not_enough_money": "%1$sDu hast nicht genügend Credits um dieses Item zu kaufen."
 
       },
-      "header": "Mantaro's Markt"
+      "header": "Mantaros Markt"
     },
     "itemtransfer": {
-      "transfer_yourself_note": "%1$sDu kannst kein Item an dich selbst senden!",
-      "bot_notice": "%1$sDu kannst kein Item an einen Bot senden.",
-      "locked_notice": "%1$sDu kannst momentan keine Items senden. (Spieler gesperrt)",
-      "hidden_item": "%1$sDu kannst dieses Item nich versenden!",
-      "overflow": "%1$sDieser Spieler hat bereits das maximum von diesem Item (5000).",
+      "transfer_yourself_note": "%1$sDu kannst keinen Gegenstand an dich selbst senden!",
+      "bot_notice": "%1$sDu kannst keinen Gegenstand an einen Bot senden.",
+      "locked_notice": "%1$sDu kannst momentan keine Gegenstände senden. (Nutzer gesperrt)",
+      "hidden_item": "%1$sDu kannst diesen Gegenstand nicht versenden!",
+      "overflow": "%1$sDieser Nutzer hat bereits das Maximum von diesem Gegenstand (5000).",
       "success": "%1$s%2$s gab 1 **%3$s** an %4$s",
-      "multiple_items_error": "%1$sDu hast dieses Item nicht.",
-      "error": "1$sDu hast nicht genügend von diesem Item!"
+      "multiple_items_error": "%1$sDu hast diesen Gegenstand nicht.",
+      "error": "1$sDu hast nicht genügend von diesem Gegenstand!"
     },
     "transfer": {
       "transfer_yourself_note": "%1$sDu kannst nichts an dich selbst senden.",
       "bot_notice": "%1$sDu kannst kein Geld an einen Bot senden.",
       "no_amount": "%1$sDu musst mir eine Anzahl geben.",
-      "no_money_specified_notice": "%1$sDu kannst nicht garkein Geld senden.:P",
-      "over_transfer_limit": "%1$sDu kannst nicht so viel Geld senden. (Limit: %2$d credits)",
+      "no_money_specified_notice": "%1$sDu kannst nicht garkein Geld senden. :P",
+      "over_transfer_limit": "%1$sDu kannst nicht so viel Geld senden. (Limit: %2$d Credits)",
       "own_locked_notice": "%1$sDu kannst jetzt kein Geld versenden.",
-      "receipt_overflow_notice": "Du kannst kein Geld and diesen Spieler senden.",
+      "receipt_overflow_notice": "Du kannst kein Geld an diesen Nutzer senden.",
       "no_money_notice": "%1$sDu kannst Geld, das du nicht hast, nicht versenden.",
-      "receipt_locked_notice": "1$sDieser Spieler kann jetzt kein Geld erhalten.",
-      "receipt_over_limit": "%1$sDiser Spieler hat bereits zu viel Geld...",
-      "success": "%1$**%2$d** wurden an *%3$s* gesendet."
+      "receipt_locked_notice": "1$sDieser Nutzer kann jetzt kein Geld erhalten.",
+      "receipt_over_limit": "%1$sDieser Nutzer hat bereits zu viel Geld...",
+      "success": "%1$**%2$d** wurden an *%3$s* gesendet.",
+      "item_transfer": "%1$sDu kannst Gegenstände nicht mit transfer verschicken, benutze stattdessen transferitems."
     },
     "useitem": {
-      "use_command": "%1$sFür diesen Gegenstand musst du den Command verwenden, der mit dem Gegenstand verbunden ist! (mine für Spitzhacke, fisch für die Angelrute)",
-      "no_items_specified": "%1$sDu musst angeben, welches Item verwendet werden soll!",
-      "not_interactive": "%1$sDu kannst nichts mit diesem Item machen...",
-      "interactive_no_action": "%1$sDiese Item ist als Interactive markiert, aber hat keine aktion...",
-      "no_item": "%1$sDu besitzt dieses Item nicht..."
+      "use_command": "%1$sFür diesen Gegenstand musst du den Befehl verwenden, der mit dem Gegenstand verbunden ist! (mine für Spitzhacke, fisch für die Angelrute)",
+      "no_items_specified": "%1$sDu musst angeben, welcher Gegenstand verwendet werden soll!",
+      "not_interactive": "%1$sDu kannst nichts mit diesem Gegenstand machen...",
+      "interactive_no_action": "%1$sDieser Gegenstand ist als interaktiv markiert, aber hat keine Aktion...",
+      "no_item": "%1$sDu besitzt diesen Gegenstand nicht..."
     },
     "opts": {
-      "note": "%1$sHey, wenn du verloren bist oder Hilfe bei der Verwendung von Optionen benötigst, besuche <https://github.com/Mantaro/MantaroBot/wiki/Configuration>, um eine Anleitung zur Verwendung von Optionen zu erhalten. \nHinweis: Nur Administratoren, Personen mit Verwalten Server oder Personen mit der Bot-Commander-Rolle können diesen Command verwenden! ",
+      "note": "%1$sHey, wenn du verloren bist oder Hilfe bei der Verwendung von Optionen benötigst, besuche <https://github.com/Mantaro/MantaroBot/wiki/Configuration>, um eine Anleitung zur Verwendung von Optionen zu erhalten. \nHinweis: Nur Administratoren, Personen mit Server verwalten oder Personen mit der Bot-Commander-Rolle können diesen Befehl verwenden! ",
       "list": {
-        "header": "**Mantaro's Option Liste**\n%1$s*Alle optionen müssen mit `~>opts` beginnen wenn du sie benutzt*\n%2$s"
+        "header": "**Mantaros Optionen Liste**\n%1$s*Alle Optionen müssen mit `~>opts` beginnen wenn du sie benutzt*\n%2$s"
       },
-      "option_not_found": "%1$sIUngültiger Option Name.",
+      "option_not_found": "%1$sIUngültiger Optionsname.",
       "invalid_args": "%1$sUngültige Option oder Argumente."
     },
     "8ball": {
-      "error": "%1$sIch habe einen Fehler erhalten währened des  aufrufen der 8ball Ergebnisse."
+      "error": "%1$sIch habe, währened des Aufrufens der 8ball Ergebnisse, einen Fehler erhalten."
     },
     "iam": {
       "list": {
         "name": "\nAutorollen Name: ",
         "role": " | Gibt Rolle **",
         "header": "Autorollen Liste",
-        "no_autoroles": "Es gibt keine Autorollen in diesem server!"
+        "no_autoroles": "Es gibt keine Autorollen in diesem Server!"
       },
-      "deleted_role": "%1$sDie Rolle die mit dieser Autorolle verbunden war wurde anscheinend gelöscht",
-      "already_assigned": "%1$sDu hast diese Rolle bereits, dummerchen!",
-      "success": "%1$s%2$s, du hast die **%3$s** rolle erhalten.",
-      "error": "%1$sIch konnte die **%2$s rolle nicht von dir entfernen. Stelle sicher das ich Rollen verwalten kannd und die Rolle **%2$s** niedrieger als meine höchste rolle ist.",
-      "no_role": "%1$sEs gibt keine Autorolle mit dem namen `%2$s`!"
+      "deleted_role": "%1$sDie Rolle, die mit dieser Autorolle verbunden war, wurde anscheinend gelöscht",
+      "already_assigned": "%1$sDu hast diese Rolle bereits, Dummerchen!",
+      "success": "%1$s%2$s, du hast die **%3$s** Rolle erhalten.",
+      "error": "%1$sIch konnte die **%2$s Rolle nicht von dir entfernen. Stelle sicher, dass ich Rollen verwalten kann und die Rolle **%2$s** niedrieger als meine höchste Rolle ist.",
+      "no_role": "%1$sEs gibt keine Autorolle mit dem Namen `%2$s`!"
     },
     "iamnot": {
-      "not_assigned": "%1$sDu hast diese rolle nicht, dummerchen!",
-      "success": "%1$s%2$s, du hast die rolle **%3$s** verloren."
+      "not_assigned": "%1$sDu hast diese Rolle nicht, Dummerchen!",
+      "success": "%1$s%2$s, du hast die Rolle **%3$s** verloren."
     },
     "misc": {
-      "reverse_missing": "%1$sDu hast keine nachricht zum umdrehen gegeben!",
+      "reverse_missing": "%1$sDu hast keine Nachricht zum Umdrehen gegeben!",
       "random_color": "%1$sDie zufällige Farbe ist %2$s"
     },
     "poll": {
@@ -505,41 +581,41 @@
       "other_poll_running": "%1$sEs scheint eine andere Umfrage zu geben, die hier läuft...",
       "no_reaction_perms": "%1$sAnscheinend kann ich hier keine Reaktionen hinzufügen...",
       "too_long": "Das war zu lang, um es zu zeigen, also habe ich es hochgeladen: %1$s",
-      "header": "Poll #%1$d erstellt von %2$s",
+      "header": "Umfrage #%1$d erstellt von %2$s",
       "success": "**Die Umfrage begann. Reagieren Sie auf die zu wählende Nummer.**\n*%1$s*\nSchreibe &cancelpoll um diese Umfrage abzubrechen.",
       "time": "Sie haben %1$s zum abstimmmen.",
       "error": "%1$sBeim Einrichten einer Umfrage ist ein unbekannter Fehler aufgetreten. Vielleicht nochmal versuchen?",
       "result_header": "Umfrageergebnisse",
       "result_screen": "**Zeige Ergebnisse für die Umfrage, die von %1$s gestartet wurde** mit dem Namen: *%2$s*",
-      "vote_results": "+%1$d für die Option %2$s registriert",
+      "vote_results": "+%1$d Stimmen für die Option %2$s registriert",
       "thank_note": "Danke für Ihre Stimme",
       "results": "Ergebnisse",
       "cancelled": "%1$sUmfrage abgebrochen"
     },
     "osustats": {
       "user": {
-        "header": "osu! statistiken für %1$s",
+        "header": "osu! Statistiken für %1$s",
         "rank": "Rang",
         "acc": "Genauigkeit",
         "level": "Level",
         "ranked": "Rangliste Punkte",
         "country_rank": "Landesrang"
       },
-      "retrieving_info": "%1$sInformationen abrufen vom osu! server...",
-      "timeout": "%1$sDie osu! api scheint ein Nickerchen zu machen. Vielleicht später noch einmal versuchen?",
+      "retrieving_info": "%1$sInformationen abrufen vom osu! Server...",
+      "timeout": "%1$sDie osu! API scheint ein Nickerchen zu machen. Vielleicht später noch einmal versuchen?",
       "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rang: %6$s -> Max Combo: %7$d",
-      "best": "**10 beste osu! punkte für: %1$s** (Mode: %2$d)\n```md\n%2$s```",
-      "error": "%1$sUh-oh ... scheint, als hätte ich gerade eine Rührensuppe als Antwort bekommen... (Fehler beim Abrufen der Ergebnisse)",
+      "best": "**10 beste osu! Ergenisse für: %1$s** (Mode: %2$d)\n```md\n%2$s```",
+      "error": "%1$sUh-oh... scheint, als hätte ich gerade eine Rührensuppe als Antwort bekommen... (Fehler beim Abrufen der Ergebnisse)",
       "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Datum: %5$s -> Max Combo: %5$d\n",
-      "recent": "**10 neuesten osu! punkte für: %1$s** (Mode: %2$d)\n```md\n%2$s```",
-      "error_detailed": "Uh-oh ... scheint, als hätte ich gerade eine Rührensuppe als Antwort bekommen... (%1$s)"
+      "recent": "**10 neuesten osu! Ergebnisse für: %1$s** (Mode: %2$d)\n```md\n%2$s```",
+      "error_detailed": "Uh-oh... scheint, als hätte ich gerade eine Rührensuppe als Antwort bekommen... (%1$s)"
     },
     "profile": {
       "timezone": {
         "not_specified": "%1$sSie müssen die Zeitzone angeben.",
         "reset": "%1$sZeitzone zurückgesetzt",
         "invalid": "%1$sUngültige Zeitzone",
-        "success": "%1$sZeitzone gespeicherte, Ihre Profilzeitzone ist jetzt: **%2$s**"
+        "success": "%1$sZeitzone gespeichert, Ihre Profilzeitzone ist jetzt: **%2$s**"
       },
       "description": {
         "no_argument": "%1$sSie müssen ein Argument angeben! (set (setzen) oder remove (entfernen))\nzum Beispiel, ~>profile description set Hi there!",
@@ -548,15 +624,21 @@
         "clear_success": "%1$sBeschreibung erfolgreich gelöscht."
       },
       "displaybadge": {
-        "not_specified": "%1$sSie müssen Ihr Hauptabzeichen angeben!",
+        "not_specified": "%1$sDu musst dein Hauptabzeichen angeben!",
         "reset_success": "%1$sKein Abzeichen wird jetzt oben auf deinem Profil angezeigt!",
-        "important_success": "%1$sIhr Display-Abzeichen ist jetzt das wichtigste.",
-        "no_such_badge": "%1$sEs gibt kein solches Abzeichen...\nIhre verfügbaren Abzeichen: %2$s",
-        "player_missing_badge": "%1$sDu hast dieses Abzeichen nicht.\nIhre verfügbaren Abzeichen: %2$s",
+        "important_success": "%1$sDein Display-Abzeichen ist jetzt das wichtigste.",
+        "no_such_badge": "%1$sEs gibt kein solches Abzeichen...\nDeine verfügbaren Abzeichen: %2$s",
+        "player_missing_badge": "%1$sDu hast dieses Abzeichen nicht.\nDeine verfügbaren Abzeichen: %2$s",
         "success": "%1$sDein Display-Abzeichen ist jetzt: **%2$s**"
       },
+      "lang": {
+        "nothing_specified": "%1$sDu musst eine Sprache angeben, oder aber `reset` benutzen, um deine Spracheinstellungen zurückzusetzen.",
+        "reset_success": "%1$sDeine persönlichen Spracheinstellungen wurden erfolgreich zurückgesetzt.",
+        "success": "%1$sMantaro wird jetzt in folgender Sprache mit dir reden: `%2$s`",
+        "invalid": "%1$sDiese Sprache ist nicht verfügbar! Du kannst `reset` nutzen, um die Spracheinstellungen zurückzusetzen."
+      },
       "bot_notice": "%1$sBots haben keine Profile.",
-      "header": "%1$s's Profil",
+      "header": "%1$ss Profil",
       "no_desc": "Keine Beschreibung festgelegt",
       "credits": "Credits",
       "level": "Level",
@@ -570,43 +652,46 @@
       "no_badges": "Keine Abzeichen (noch!)",
       "no_timezone": "Keine Zeitzone festgelegt.",
       "timezone_user": "Zeitzone des Benutzers: %1$s",
-      "not_specified": "Keine Angabe."
+      "not_specified": "Nicht angegeben.",
+      "potion": "Aktiver Trank",
+      "no_potion": "Keine aktiven Tränke."
     },
     "badges": {
       "info": {
-        "not_specified": "%1$sDu musst ein Abzeichen angeben von denem du die Informationen sehen willst.",
+        "not_specified": "%1$sDu musst ein Abzeichen angeben, von dem du die Informationen sehen willst.",
         "not_found": "%1$sEs gibt kein solches Abzeichen...",
         "header": "Abzeichen Informationen für %1$s",
         "achieved": "Erreicht"
       },
       "brief_success": "**%1$s's Abzeichen:**\n%2$s",
-      "profile_notice": "Wenn du der Meinung sind, dass du ein neues Abzeichen erhalten hast und es hier nicht angezeigt wird, verwenden Sie bitte `~>profile` und führen Sie den Comamnd erneut aus.\n",
-      "info_notice": "Verwende `~>badges info <Abzeichen name>` um mehr Information über ein Abzeichen zu erhalten.\n",
+      "profile_notice": "Wenn du der Meinung bist, dass du ein neues Abzeichen erhalten hast und es hier nicht angezeigt wird, verwende bitte `~>profile` und führe den Comamnd erneut aus.\n",
+      "info_notice": "Verwende `~>badges info <Abzeichenname>` um mehr Information über ein Abzeichen zu erhalten.\n",
       "upvote_notice": "**Sie können ein kostenloses Abzeichen für das [Up-Voten von Mantaro auf discordbots.org](https://discordbots.org/bot/mantaro) erhalten!** (Die Verarbeitung kann einige Minuten dauern)\n\n",
       "no_badges": "Keine Abzeichen (noch!)",
       "header": "Abzeichen erreicht von %1$s"
     },
     "rep": {
       "no_mentions": "%1$sDu musst mindestens einen Nutzer erwähnen oder deren Namen angeben.\n**%2$s",
-      "more_than_one": "%1$sDu kannst nur eine Person gleichzeitig Ansehen schenken!",
-      "rep_bot": "%1$sDu kannst einem Bot kein Ansehen schenken.\n",
-      "rep_yourself": "%1$sDu kannst die selber nicht Ansehen schenken.\n",
+      "more_than_one": "%1$sDu kannst nur eine Person gleichzeitig Ruf schenken!",
+      "rep_bot": "%1$sDu kannst einem Bot kein Ruf schenken.\n",
+      "rep_yourself": "%1$sDu kannst die selber nicht Ruf schenken.\n",
       "cooldown": {
-        "waiting": "**Du kannst diesn Command %1$s erneut verwenden**",
-        "pass": "Du kannst jetzt jemandem Ansehen schenken."
+        "waiting": "**Du kannst diesn Befehl in %1$s erneut verwenden**",
+        "pass": "Du kannst jetzt jemandem Ruf schenken."
       },
-      "success": "%1$sDu hast **%2$s** Ansehen geschenkt"
+      "success": "%1$sDu hast **%2$s** Ruf geschenkt."
     },
     "birthday": {
       "reset": "%1$sGeburtsdatum zurücksetzen.",
       "no_global_birthdays": "%1$sDie Dinge scheinen hier ein wenig leer zu sein...",
-      "no_guild_month_birthdays": "%1$sEs gibt keine Geburtstage für diesen Monat hier:(\n%2$sWenn Sie nur den Geburtstagssprecher eingerichtet haben, warten Sie bitte ein wenig, bis Sie ihn erneut ausführen. (Der Cache wird alle 23 Stunden aktualisiert)",
+      "no_guild_month_birthdays": "%1$sEs gibt keine Geburtstage für diesen Monat hier:(\n%2$sWenn Sie gerade erst den Geburtstagssprecher eingerichtet haben, warten Sie bitte ein wenig, bis Sie ihn erneut ausführen. (Der Cache wird alle 23 Stunden aktualisiert)",
       "cache_not_running": "%1$sDer Geburtstag Cacher scheint nicht zu laufen :(",
-      "error": "%1$sEtwas ging schief beim Abrufen der Geburtstage :(",
-      "header": "**%1$s's Geburtstage für %2$s**\n",
-      "invalid_date": "%1$sUngültiges Datum.\nDas korrekte format ist `tt/mm/jjjj`",
-      "error_date": "%1$s%2$s ist entweder kein gültiges Datum oder nicht analysierbar. Bitte versuchen Sie es mit der korrekten Formatierung. Denken Sie daran, das Jahr einzufügen, obwohl Sie jedes Jahr setzen können und es nichts beeinflussen wird.\nDas korrekte format ist `tt/mm/jjjj`",
-      "added_birthdate": "%1$sGeburtsdatum hinzugefügt."
+      "error": "%1$sEtwas ging beim Abrufen der Geburtstage schief. :(",
+      "header": "**%1$ss Geburtstage für %2$s**\n",
+      "invalid_date": "%1$sUngültiges Datum.\nDas korrekte Format ist `tt/mm/jjjj`",
+      "error_date": "%1$s%2$s ist entweder kein gültiges Datum oder nicht analysierbar. Bitte versuchen Sie es mit der korrekten Formatierung. Denken Sie daran, das Jahr einzufügen, obwohl Sie jedes Jahr setzen können und es nichts beeinflussen wird.\nDas korrekte Format ist `tt/mm/jjjj`",
+      "added_birthdate": "%1$sErfolgreich das Geburtsdatum hinzugefügt.",
+      "invalid_month": "%1$sDas ist keine gültige Monatszahl! (Gültige Monate sind"
     },
     "choose": {
       "success": "%1$sIch wähle `%2$s`"
@@ -617,7 +702,7 @@
       "description": "**Wortart:** `%1$s`\n**Stichwort:** `%2$s`"
     },
     "remindme": {
-      "nothing_specified": "%1$sAn was könnte ich dich erinnern, wenn du mir nicht gibst, was ich dich daran erinnern soll? Oh! Lass mich dich daran erinnern, eine Erinnerung zu setzen!",
+      "nothing_specified": "%1$sAn was könnte ich dich erinnern, wenn du mir nichts gibst, an das ich dich erinnern soll? Oh! Lass mich dich daran erinnern, eine Erinnerung zu setzen!",
       "no_reminders": "%1$sSie haben keine Erinnerungen festgelegt!",
       "cancel": {
         "success": "%1$sDeine Erinnerung wurde abgebrochen.",
@@ -625,8 +710,8 @@
       },
       "no_time":  "Du hast mir kein `-time` argument gegeben! (Beispiel: `-time 1h`)",
       "too_little_time": "%1$sDas ist zu wenig Zeit!",
-      "too_long": "Zu lang (Maximum: 3 Monate)...",
-      "success": "%1$sIch werde dich an **%2$s** erinnern in %3$s"
+      "too_long": "Zu lang (Maximum: 3 Monate)",
+      "success": "%1$sIch werde dich an **%2$s** in %3$s erinnern."
     },
     "time": {
       "invalid_timezone": "%1$sDas ist keine gültige Zeitzone!",
@@ -634,49 +719,49 @@
       "error": "%1$sFehler beim Abrufen der Zeitzone oder sie ist ungültig"
     },
     "urban": {
-      "header": "Urban Dictionary definition für %1$s",
+      "header": "Urban Dictionary Definition für %1$s",
       "main_def": "Haupt-Definition.",
       "footer": "Information von Urban Dictionary"
     },
     "weather": {
-      "header": "%1$s Prognose Informationen für %2$s",
-      "clouds": "wolken",
+      "header": "%1$s Prognose für %2$s",
+      "clouds": "Wolken",
       "temperature": "Temperatur",
       "humidity": "Feuchtigkeit",
       "wind_speed": "Wind Geschwindikeit",
       "pressure": "Druck",
-      "footer": "Information gegeben von OpenWeatherMap (Verarbeitungs Zeit: %1$dms)",
+      "footer": "Information gegeben von OpenWeatherMap (Verarbeitungszeit: %1$dms)",
       "error": "%1$sFehler beim Abrufen der Ergebnisse... (Nicht gefunden?)"
     },
     "activatekey": {
       "check": {
         "key_valid_for": "%1$sIhr Schlüssel ist gültig für %$2s weitere tage :heart:",
-        "no_key_found": "%1$sSie haben keinen Schlüssel aktiviert... Wenn Sie premium unter dem alten System sind, sollten Sie dennoch Ihre Belohnungen haben!"
+        "no_key_found": "%1$sSie haben keinen Schlüssel aktiviert... Wenn Sie Premium unter dem alten System waren, sollten Sie dennoch Ihre Belohnungen haben!"
       },
       "no_key_provided": "%1$sIch kann keinen Premium-Schlüssel aktivieren, wenn Sie mir keinen geben!",
       "invalid_key": "%1$sSie haben einen ungültigen oder bereits aktivierten Schlüssel angegeben!",
       "guild_already_premium": "%1$sDieser Server hat bereits ein Premium-Abonnement!",
       "guild_successful": "%1$sDieser Server ist jetzt **Premium** :heart: (Für: %2$d Tage)",
-      "user_already_premium": "%1$sSie sind bereits premium :heart:!",
+      "user_already_premium": "%1$sSie sind bereits Premium :heart:!",
       "user_successful": "%1$sSie sind nun **Premium** :heart: (Für: %2$d Tage)"
     },
     "vipstatus": {
       "user": {
         "header": "Dein Premium Status",
-        "header_other": "%1$s's Premium Status",
-        "not_premium": "%1$sDu bist nicht premium :c",
-        "premium": "**Premium nutzer! <3**",
+        "header_other": "%1$s Premium Status",
+        "not_premium": "%1$sDu bist nicht Premium. :c",
+        "premium": "**Premiumnutzer! <3**",
         "old_system": "**Premium-Benutzer unter dem alten System! Mach dir keine Sorgen, du bist Premium und deine Vorteile werden richtig funktionieren!**"
       },
       "guild": {
-        "header": "%1$s's Premium Status",
-        "not_premium": "%1$sDieser Server ist nicht premium :c",
-        "premium": "**Premium server! <3**",
-        "old_system": "**Premium Server unter dem alten System! Mach dir keine Sorgen, es ist Premium und die Vorteile werden richtig funktionieren!**"
+        "header": "%1$ss Premium Status",
+        "not_premium": "%1$sDieser Server ist nicht premium. :c",
+        "premium": "**Premium-Server! <3**",
+        "old_system": "**Premium-Server unter dem alten System! Mach dir keine Sorgen, er ist Premium und die Vorteile werden richtig funktionieren!**"
       },
       "valid_for_old": "Gültig für",
-      "old_days_more": "%1$d weitere tage",
-      "thank_note": "Danke für deine Unterstützung <3",
+      "old_days_more": "%1$d weitere Tage.",
+      "thank_note": "Danke für deine Unterstützung. <3",
       "expire": "Läuft ab in",
       "key_duration": "Gesamtdauer",
       "key_owner": "Schlüsselinhaber",
@@ -687,14 +772,15 @@
       "error_retrieving": "%1$sBeim Abrufen des Gifs für diese Aktion ist ein Fehler aufgetreten...",
       "permission_or_unexpected_error": "%1$sT-Tut mir leid, aber ich habe das Bild fallen gelassen. Wahrscheinlich habe ich keine Berechtigung, es zu senden.",
       "lonely": {
-        "pat": "Aww, Ich sehe, du bist einsam. *streichelt deine Kopf* <3",
-        "hug": "Aww, Ich sehe, du bist einsam, nehm eine Umarmung <3",
+        "pat": "Aww, Ich sehe, du bist einsam. *streichelt deinen Kopf* <3",
+        "hug": "Aww, Ich sehe, du bist einsam, nehm eine Umarmung. <3",
         "kiss": "Aww, Ich sehe, du bist einsam, *küsst*",
         "poke": "Aww, Ich sehe, du bist einsam, *stupts dich an*",
-        "slap": "Hmm, wieso willst du das? Uh, Na dann... *Ohrfeigt dich*",
+        "slap": "Hmm, wieso willst du das? Uh, na dann... *ohrfeigt dich*",
         "bite": "*beißt dich*",
+        "lick": "*leckt dich ab*",
         "tickle": "*kitzelt dich*",
-        "highfive": "*gibt dir fünf*",
+        "highfive": "*gibt dir Fünf*",
         "pout": "*schmollt, hmph*",
         "teehee": "*ärgert dich*",
         "smile": "*lächelt dich an*",
@@ -704,21 +790,41 @@
         "nuzzle": "*knuddelt dich*",
         "bloodsuck": "Wie soll ich nur? Naja.. *saugt dein Blut*"
       },
-      "pat": "%1$s du wurdest von %2$s am Kopf gestreichelt",
-      "hug": "%1$s du wurdest von %2$s umarmt",
-      "kiss": "%1$s du wurdest von %2$s geküsst",
-      "poke": "%1$s du wurdest von %2$s angestupst :eyes:",
+      "self": {
+        "pat": "*wird gestreichelt*",
+        "hug": "*wird rot* O-oh... Danke dir...",
+        "kiss": "*wird rot*... Ich- uh... denke nicht du solltest einen Bot küssen, aber...",
+        "poke": "O-Oh! Was brauchst du?",
+        "slap": ":(",
+        "bite": "D-Das tut weh!",
+        "lick": "Wie schmeckt Metall? Ich glaube nicht sonderlich gut...",
+        "tickle": "Hahahaha... Oh Gott, hör auf >u<",
+        "highfive": "*gibt dir Fünf*",
+        "pout": "Bist du auf mich böse? :(",
+        "teehee": ":eyes:",
+        "smile": "Aww.",
+        "stare": ":eyes:",
+        "holdhands": "O-oh... ;//;",
+        "cuddle": "Das ist niedlich!",
+        "nuzzle": "Awwiee, niedlich!",
+        "bloodsuck": "Bist du jetzt ein Vampir? Oh!"
+      },
+      "pat": "%1$s du wurdest von %2$s am Kopf gestreichelt.",
+      "hug": "%1$s du wurdest von %2$s umarmt.",
+      "kiss": "%1$s du wurdest von %2$s geküsst.",
+      "poke": "%1$s du wurdest von %2$s angestupst. :eyes:",
       "slap": "%1$s du wurdest von %2$s geohrfeigt!",
-      "bite": "%1$s du wurdest von %2$s gebissen :eyes:",
+      "bite": "%1$s du wurdest von %2$s gebissen. :eyes:",
       "tickle": "%1$s du wurdest von %2$s gekitzelt.",
-      "highfive": "%2$s gibt %1$s fünf :heart:",
-      "pout": "%1$s smollt %2$s an *hmph*",
-      "teehee": "%1$s ärgert %2$s",
-      "smile": "%1$s lächelt %2$s an :heart:",
-      "stare": "%1$s starrt %2$s an",
-      "holdhands": "%1$s hält %2$s's Hand",
-      "cuddle": "%1$s knuddelt %2$s",
-      "nuzzle": "%1$s knuddelt %2$s",
+      "lick": "%1$s you have been licked by %2$s.",
+      "highfive": "%2$s gibt %1$s fünf. :heart:",
+      "pout": "%1$s smollt %2$s an. *hmph*",
+      "teehee": "%1$s ärgert %2$s.",
+      "smile": "%1$s lächelt %2$s an. :heart:",
+      "stare": "%1$s starrt %2$s an.",
+      "holdhands": "%1$s hält %2$ss Hand.",
+      "cuddle": "%1$s knuddelt %2$s.",
+      "nuzzle": "%1$s knuddelt %2$s.",
       "bloodsuck": "%1$s saugt am Blut von %2$s!",
       "nom": "Yummy.",
       "facedesk": "*facedesks*",
@@ -736,14 +842,14 @@
         "too_many_games": "%1$sDu kannst maximal 10 Spiele desselben Typs gleichzeitig starten!"
       },
       "trivia": {
-        "wrong_diff": "%1$sFalsche Schwierigkeit angegeben! (Unterstützt: easy (einfach), medium (mittle) and hard (schwer))",
-        "fetch_error": "%1$sFehler beim Starten von Trivia. Scheinbar hat Open Trivia DB probleme.",
+        "wrong_diff": "%1$sFalsche Schwierigkeit angegeben! (Unterstützt: easy (einfach), medium (mittel) and hard (schwer))",
+        "fetch_error": "%1$sFehler beim Starten von Trivia. Scheinbar hat Open Trivia DB Probleme.",
         "possibilities": "Möglichkeiten",
         "difficulty": "Schwierigkeit",
         "category": "Kategorie"
       },
       "number": {
-        "start": "%1$sRate die Nummer! **Sie haben 5 Versuche und 30 Sekunden. Die Anzahl liegt zwischen 0 und 150**",
+        "start": "%1$sRate die Nummer! **Sie haben 5 Versuche und 30 Sekunden. Die Zahl liegt zwischen 0 und 150**",
         "nan": "%1$sDas ist nicht einmal eine Nummer...",
         "ended_game": "%1$sBeendetes Spiel. Die Nummer war: %2$d",
         "all_attempts_used": "%1$sBereits alle Versuche genutzt, Spiel beendet. Die Nummer war: %2$d",
@@ -829,7 +935,7 @@
         "credits": "%1$sSiehe ~>about credits!"
       },
       "patreon": {
-        "header": "**Mantaro's Patreon Pledgers**"
+        "header": "**Mantaros Patreon Unterstützer**"
       },
       "credits": {
         "main_dev": "Hauptentwickler",
@@ -851,7 +957,7 @@
       "invite": "Invite-link: http://is.gd/mantaro (Command's diese Sitzung: %1$,d | Aktueller Shard: %2$d)"
     },
     "invite": {
-      "url": "Invite-URL",
+      "url": "Einladungs-URL",
       "server": "Support-Server",
       "patreon": "Patreon-URL",
       "description" : {
@@ -903,469 +1009,508 @@
       "note": "**Wenn du Mantaro magst, bitte upvote auf **<https://discordbots.org/bot/mantaro>** und/oder denke drüber nach auf Patreon oder Paypal zu spenden! Danke~**"
     },
     "avatar": {
-      "result": "%1$sAvatar for: **%2$s**\n%3$s"
+      "result": "%1$sAvatar von: **%2$s**\n%3$s"
     },
     "serverinfo": {
-      "header": "Server Information",
-      "description": "Server information for %1$s",
-      "users": "Users (Online/Unique)",
-      "created": "Creation Date",
-      "channels": "Voice/Text Channels",
-      "owner": "Owner",
+      "header": "Server Informationen",
+      "description": "Server informationen für %1$s",
+      "users": "Nutzer (Online/Einzigartig)",
+      "created": "Erstellungsdatum",
+      "channels": "Sprach-/Textkanäle",
+      "owner": "Besitzer",
       "region": "Region",
-      "roles": "Roles (%1$d)",
+      "roles": "Rollen (%1$d)",
       "id_show": "Server ID: %1$s"
     },
     "userinfo": {
-      "header": "User info for %1$s#%2$s",
-      "roles": "Roles: [%1$d]",
+      "header": "Nutzerinfo für %1$s#%2$s",
+      "roles": "Rollen: [%1$d]",
       "id": "User ID",
-      "join_date": "Join Date",
-      "created": "Account Created",
-      "account_age": "Account Age",
-      "mutual_guilds": "Mutual Guilds",
-      "vc": "Voice Channel",
-      "playing": "Playing Now",
-      "color": "Color",
+      "join_date": "Beitrittsdatum",
+      "created": "Account erstellt",
+      "account_age": "Account Alter",
+      "mutual_guilds": "Gemeinsame Gilden",
+      "vc": "Sprachkanäle",
+      "playing": "Aktivität",
+      "color": "Farbe",
       "status": "Status",
-      "nothing": "Nothing",
-      "default": "Default"
+      "nothing": "Nichts",
+      "default": "Standard"
     },
     "roleinfo": {
-      "header": "Role info for %1$s",
-      "id": "Role ID",
-      "created": "Role Created",
-      "age": "Role Age",
-      "color": "Color",
-      "members": "Members",
+      "header": "Rolleninformation für %1$s",
+      "id": "Rollen ID",
+      "created": "Rolle erstellt",
+      "age": "Rollen Alter",
+      "color": "Farbe",
+      "members": "Mitglieder",
       "position": "Position",
-      "hoisted": "Hoisted",
-      "managed": "Managed",
-      "permissions": "Permissions: [%1$d]"
+      "hoisted": "Gruppiert",
+      "managed": "Verwaltet",
+      "permissions": "Berechtigungen: [%1$d]"
     },
     "donate": {
-      "beg": "%1$sOh hi! If you are interested in donating, please check the links below. Running Mantaro takes time and money, and every dollar is highly appreciated!\n\n%2$s",
-      "methods": "**Donation Methods**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
+      "beg": "%1$sOh Hi! Wenn du daran interessiert bist zu spenden, schau dir bitte die Links unten an. Mantaro zu betreiben kostet Zeit und Geld, und jeder Euro ist gern gesehen!\n\n%2$s",
+      "methods": "**Spendemethoden**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
     },
     "help": {
-      "title": "Mantaro Help",
-      "base": "Command list. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
-      "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://is.gd/mantaroguild)\n",
-      "patreon": "[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)",
-      "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
-      "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
-      "footer": "To check command usage, type %1$shelp <command> // -> Commands: %2$s",
-      "commands": "Commands",
+      "title": "Mantaro-Hilfe",
+      "base": "Befehlsliste. Für eine detailierte Beschreibung bezüglich der Nutzung von Mantaro, schau dir bitte das [Wiki](https://github.com/Mantaro/MantaroBot/wiki) an.\n",
+      "support": "Solltest du Probleme oder Anfragen haben, während du Mantaro nutzt, bitte trete dem [Support Server](https://is.gd/mantaroguild) bei.\n",
+      "patreon": "[Wir brauchen deine Hilfe um Mantaro online zu halten! Klicke hier für mehr Informationen.](https://www.patreon.com/mantaro)",
+      "disabled_commands": "Zeige nur nicht deaktivierte Befehle. Gesamte deaktivierte Befehle: %1$s",
+      "channel_specific_disabled_commands": "\nZeige nur nicht deaktivierte Befehle. Gesamte kanalspezifische deaktivierte Befehle: %1$s",
+      "footer": "Um die Befehlsnutzung anzusehen, nutze %1$shelp <command> // -> Befehle: %2$s",
+      "commands": "Befehle",
       "extended": {
-        "no_help": "%1$sThere's no extended help set for this command.",
-        "not_found": "%1$sA command with this name doesn't exist"
+        "no_help": "%1$sEs gibt keine weitere Hilfe für diesen Befehl.",
+        "not_found": "%1$sEinen Befehl mit diesem Namen gibt es nicht"
       }
     },
     "anime": {
-      "selection_start": "Type the number of the anime you want to select.",
-      "information_footer": "Information provided by Anilist. Type &cancel to cancel.",
-      "no_results": "%1$sNo results found...",
-      "malformed_result": "%1$sWe got a wrong API result for this specific search. Maybe try another one?",
-      "error": "%1$s**I swear I didn't drop your favorite anime!**\nWe received a ``%2$s`` while trying to process the command.",
-      "information_header": "Anime information for %1$s",
-      "information_notice": "Information provided by AniList.",
+      "selection_start": "Gebe die Nummer des Anime, den du auswählen möchtest ein.",
+      "information_footer": "Informationen bereitgestellt durch Anilist. Gebe &cancel zum abbrechen ein.",
+      "no_results": "%1$sKeine Ergebnisse gefunden...",
+      "malformed_result": "%1$sIch bekam ein falsches API Ergebnis für diese Suche. Versuche vielleicht einen anderen Begriff?",
+      "error": "%1$s**Ich schwöre, ich habe deinen Lieblingsanime nicht fallen lassen!**\nIch habe einen ``%2$s`` erhalten, während ich versuchte den Befehl auszuführen. (internal error)",
+      "information_header": "Anime Informationen für %1$s",
+      "information_notice": "Informationen bereitgestellt durch AniList.",
       "airing": "Airing",
-      "release_date": "Release date",
-      "end_date": "End date",
-      "average_score": "Average score",
-      "type": "Type",
-      "episodes": "Episodes",
-      "episode_duration": "Episode Duration",
+      "release_date": "Veröffentlichungsdatum",
+      "end_date": "Enddatum",
+      "average_score": "Durchschnittliche Bewertung",
+      "type": "Typ",
+      "episodes": "Episoden",
+      "episode_duration": "Episodendauer",
       "genres": "Genres",
-      "minutes": "minutes"
+      "minutes": "Minuten"
     },
     "character": {
-      "selection_start": "Type the number of the character you want to select.",
-      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got ``%2$s`` while trying to process this command.",
-      "information_header": "Character information for %1$s",
-      "information": "Information",
-      "no_aliases": "No aliases",
-      "alias_start": "Also known as:",
-      "no_info": "No info."
+      "selection_start": "Gebe die Nummer des Charakters, den du auswählen möchtest, ein.",
+      "error": "%1$s**Ich schwöre, Ich habe deine Lieblingswaifu nicht f-fallen gelassen, bitte vergib mir!**\nIch habe ``%2$s`` erhalten, während ich versuchte den Befehl auszuführen. (internal error)",
+      "information_header": "Charakterinformationen für %1$s",
+      "information": "Informationen",
+      "no_aliases": "Keine weiteren Namen",
+      "alias_start": "Auch bekannt als:",
+      "no_info": "Keine Info."
     },
     "balance": {
-      "external_balance": "%1$s's balance is **$%2$s.**",
-      "own_balance": "Your balance is **$%1$s.**"
+      "external_balance": "%1$ss Guthaben ist **$%2$s.**",
+      "own_balance": "Dein Guthaben ist **$%1$s.**"
     },
     "daily": {
-      "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
-      "about_now": "about now",
+      "check": "%1$s`Du kannst deine täglichen Credite in **%2$s** abholen.",
+      "about_now": "jetzt",
       "errors": {
-        "bot": "%1$sYou cannot transfer your daily to a bot!",
-        "receipt_locked": "That user cannot receive daily credits now.",
-        "own_locked": "You cannot receive your daily now."
+        "bot": "%1$sDu kannst deine täglichen Credits nicht an einen Bot transferieren.",
+        "receipt_locked": "Dieser Nutzer kann jetzt keine täglichen Credits erhalten.",
+        "own_locked": "Du kannst jetzt nicht deine täglichen Credits erhalten."
       },
       "streak": {
-        "up": "Streak up! Current streak: `%1$sx`",
-        "first_time": "First time claiming daily, have fun! (Come back for your streak tomorrow!)",
-        "lost_streak": "2+ days have passed since your last daily, so your streak of `%1$dx` got reset :(",
-        "bonus": "\nYou won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)",
+        "up": "Tägliche Strähne verlängert! Aktuell: `%1$sx`",
+        "first_time": "Erstes beanspruchen der täglichen Credits, viel Spaß! (Komm morgen für deine tägliche Strähne zurück!)",
+        "lost_streak": "2+ Tage sind seit deiner letzten täglichen Abholung verganen, daher wurde deine Strähne von `%1$dx` zurückgesetzt. :(",
+        "bonus": "\nDu hast einen Bonus von $%1$s für das beanspruchen deiner täglichen Credits an 5 oder mehr Tagen am Stück erhalten! (In der Geldsumme enthalten!)",
         "given": {
-          "up": "Streak up! Current streak: `%1$dx`.\n*The streak was applied to your profile!*",
-          "bonus": "%1$s won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)"
+          "up": "Tägliche Strähne verlängert! Aktuell: `%1$dx`.\n*Die Strähne wurde auf dein Profil angewendet!*",
+          "bonus": "%1$s hat einen Bonus von $%2$s für das Abholen an fünf oder mehr Tagen in Folge gewonnen! (Beim angezeigten Geld enthalten!)"
         }
       },
-      "given_credits": "%1$sI gave your **$%2$s** daily credits to %3$s\n\n%4$s",
-      "credits": "%1$sYou got **$%2$s** daily credits.\n\n%3$s"
+      "given_credits": "%1$sIch gab deine **$%2$s** täglichen Credits an %3$s\n\n%4$s",
+      "credits": "%1$sDu hast **$%2$s** tägliche Credits erhalten.\n\n%3$s"
     },
     "gamble": {
-      "no_credits": "%1$sYou're broke. Search for some credits first!",
-      "too_much_money": "You have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs! Thanks for not breaking the local bank. *(Gamble limit: %1$d credits)*",
-      "invalid_money_or_modifier": "%1$sPlease type a valid number less than or equal to your current balance or `all` to gamble all your credits.",
-      "not_enough_money": "%1$sPlease type a value within your balance.",
-      "invalid_percentage": "%1$sPlease type a valid percentage value.",
-      "confirmation_message": "%1$sYou're about to bet **%2$d** credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.",
-      "cancelled_bet": "%1$sCancelled bet.",
-      "win": "%1$sCongrats, you won %2$d credits and got to keep what you had!",
-      "win_overflow": "%1$sCongrats, you won %2$d credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.",
-      "lose": "%1$sSadly, you lost %2$s credits! %3$s",
-      "lose_all": "all of your",
-      "credits": "credits"
+      "no_credits": "%1$sDu bist pleite. Such vielleicht erstmal nach ein paar Credits.",
+      "too_much_money": "Du hast zu viel Geld! Vielleicht gib jemandem was ab oder kauf dir Items? Du kannst jetzt auch `~>slots` für all deine Glückspielbedürfnisse nutzen! Danke dafür, dass du nicht die örtliche Bank auslastest. *(Glückspiellimit: %1$d Credits)*",
+      "invalid_money_or_modifier": "%1$sBitte gebe eine gültige Zahl, geringer oder gleich deinem aktuellen Guthaben, ein, oder `all`, um alle deine Credits zu setzen.",
+      "not_enough_money": "%1$sBitte gebe eine Zahl innerhalb deines Guthabens ein.",
+      "invalid_percentage": "%1$sBite gebe eine gültige Prozentzahl ein.",
+      "confirmation_message": "%1$sDu bist dabei **%2$d** Credits zu setzen (was nach einer Menge ausschaut). Bist du dir sicher? Gebe **yes** zum fortsetzen und **no** zum abbrechen ein.",
+      "cancelled_bet": "%1$sWette abgebrochen.",
+      "win": "%1$sGratulation, du gewinnst %2$d Credits und behältst, was du hattest.",
+      "win_overflow": "%1$sGratulation, du gewinnst %2$d Credits. Leider hattest du schon zu viele Credits. Deine Tasche ist übergelaufen.",
+      "lose": "%1$sLeider verlierst du %2$s Credits. %3$s",
+      "lose_all": "alle deine",
+      "credits": "Credits"
     },
     "loot": {
-      "player_locked": "%1$sYou cannot loot now.",
-      "item_overflow": "But you already had too many items, so you decided to throw away the excess.",
+      "player_locked": "%1$sDu kannst jetzt nichts erbeuten.",
+      "item_overflow": "Aber du hattest schon zu viele Items, also habe ich beschlossen den Rest wegzuwerfen.",
       "with_item": {
-        "found": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits!** %4$s",
-        "found_but_overflow": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits.**%4$sBut you already had too many credits.",
-        "found_only_item_but_overflow": "%1$sDigging through messages, you found %2$s. %3$s"
+        "found": "%1$sBeim Graben durch die Nachrichten hast du %2$s gefunden. Noch dazu **$%3$d Credits!** %4$s",
+        "found_but_overflow": "%1$sBeim Graben durch die Nachrichten hast du %2$s und **$%3$d Credits gefunden.**%4$sAber du hattest schon zu viele Credits, also habe ich den Überschuss gespendet.",
+        "found_only_item_but_overflow": "%1$sBeim Graben durch die Nachrichten hast du %2$s gefunden. %3$s"
       },
       "without_item": {
-        "found": "%1$sDigging through messages, you found **$%2$s credits!**",
-        "found_but_overflow_no_item": "%1$sDigging through messages, you found **$%2$d credits.** But you already had too many credits."
+        "found": "%1$sBeim Graben durch die Nachrichten hast du **$%2$s Credits gefunden!**",
+        "found_but_overflow_no_item": "%1$sBeim Graben durch die Nachrichten hast du **$%2$d Credits** gefunden. Aber du hattest schon zu viele Credits, also habe ich den Überschuss gespendet."
       },
-      "dust": "Digging through messages, you found nothing but dust",
-      "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
+      "dust": "Beim Graben durch die Nachrichten hast du nichts als Staub gefunden.",
+      "easter": "\nSchaut so aus, als ob du hier sehr viel Staub hast... Du solltest hier vielleicht mal putzen, bevor es hier zu unordentlich wird!"
     },
     "mine": {
-      "no_pick": "%1$sYou don't have any pick to mine!",
-      "success": "%1$sYou mined minerals worth **$%2$s credits!**",
+      "no_pick": "%1$sDu hast keine Spitzhacke zum abbauen.",
+      "success": "%1$sDu hast Mineralien im Wert von **$%2$s Credits abgebaut!**",
       "diamond": {
-        "overflow": "\nHuh, you found a diamond while mining, but you already had too much, so we sold it for you!",
-        "success": "\nHuh! You got lucky and found a diamond while mining, check your inventory!"
+        "overflow": "\nHuch, du hast einen Diamanten während des Abbauens gefunden, aber du hattest schon zu viele, also habe ich ihn für dich verkauft.",
+        "success": "\nHuch! Du hattest Glück und hast beim Abbauen einen Diamanten gefunden, schau in dein Inventar!"
       },
-      "pick_broke": "%1$sOne of your picks broke while mining."
+      "gem": {
+        "overflow": "\nHuch, du hast *%1$s* beim Abbauen gefunden, aber du hattest schon zu viele von diesem Edelstein, also habe ich ihn für dich verkauft.",
+        "success": "\nHuch! Du hattest Glück und hast *%1$s* beim Abbauen gefunden, schaú in dein Inventar."
+      },
+      "pick_broke": "%1$sEine deiner Spitzhacken ist beim Abbauen zerbrochen."
     },
     "slots": {
       "errors" : {
-        "amount_not_ticket": "%1$sYou cannot specify how many tickets you're gonna use if you're not using tickets!",
-        "not_enough_tickets": "%1$sYou don't have enough slots tickets!",
-        "too_much_money": "%1$sThis machine cannot dispense that much money!",
-        "not_enough_money": "%1$sYou don't have enough money to play the slots machine!",
-        "below_minimum": "%1$sThe minimum amount is 25!",
-        "no_tickets": "%1$sYou wanted to use tickets but you don't have any :<",
-        "no_amount": "%1$sYou didn't specify the amount!"
+        "amount_not_ticket": "%1$sDu kannst nicht angeben wie viele Tickets du verwenden willst, wenn du keine Tickets benutzt!",
+        "not_enough_tickets": "%1$sDu hast nicht genug Tickets.",
+        "too_much_money": "%1$sDieser Automat kann nicht so viel Geld ausgeben!",
+        "not_enough_money": "%1$sDu hast nicht genügend Geld, um an diesem Automaten zu spielen!",
+        "below_minimum": "%1$sDer Mindestwert beträgt 25 Credits.",
+        "no_tickets": "%1$sDu willst Tickets benutzen, hast aber keine :<",
+        "no_amount": "%1$sDu hast keine Anzahl angegeben!"
       },
-      "roll": "%1$s**You used %2$s and rolled the slot machine!**\n",
-      "win": "And you won **%1$d** credits and got to keep what you bet (%2$d credits)! Lucky!",
-      "lose": "And you lost %1$s\nI hope you do better next time!",
-      "tickets": "slots ticket(s)",
-      "credits": "credits"
+      "roll": "%1$s**Du hast %2$s genutzt und an dem Automaten gespielt**\n",
+      "win": "Und du hast **%1$d** Credits gewonnen und behältst, was du gesetzt hast (%2$d Credits)! Glück!",
+      "lose": "Und du hast %1$s verloren\nIch hoffe du hast nächstes Mal mehr Glück!",
+      "tickets": "Automatenticket(s)",
+      "credits": "Credits"
     },
     "leaderboard": {
-      "money": "Money Leaderboard (Top 10)",
-      "reputation": "Reputation Leaderboard (Top 10)",
-      "daily": "Daily Streak Leaderboard (Top 10)",
-      "level": "Level leaderboard (Top 10)",
-      "game": "Game Wins leaderboard (Top 10)",
+      "money": "Geld Rangliste (Top 10)",
+      "reputation": "Ruf Rangliste (Top 10)",
+      "daily": "Tägliche Strähne Rangliste (Top 10)",
+      "level": "Level Rangliste (Top 10)",
+      "game": "Spielsiege Rangliste (Top 10)",
       "inner": {
-        "experience": "Experience"
+        "experience": "Erfahrung"
       }
     }
   },
   "options": {
-    "options": "Mantaro Options",
+    "options": "Mantaro Optionen",
     "check_data": {
-      "retrieve_failure": "%1$sCannot retrieve values. Weird thing...",
-      "header": "Options set for server **%1$s**",
-      "null_set": "is not set to anything.",
-      "set_to": "is set to:"
+      "retrieve_failure": "%1$sKann keine Werten empfangen. Merwürdige Sache...",
+      "header": "Optionen für Server **%1$s** gesetzt",
+      "null_set": "ist auf nichts gesetzt.",
+      "set_to": "ist gesetzt auf:"
     },
     "reset_all": {
-      "success": "%1$sCorrectly reset your options!"
+      "success": "%1$sOptionen korrekt zurückgesetzt!"
     },
     "server_command_disallow": {
-      "success": "%1$sDisabled %2$s on this server."
+      "success": "%1$s%2$s auf diesem Server deaktiviert."
     },
     "server_command_allow": {
-      "success": "%1$sEnabled %2$s on this server."
+      "success": "%1$s%2$s auf diesem Server aktiviert."
     },
     "server_command_specific_disallow": {
-      "invalid": "%1$sYou need to specify the channel name and the command to disallow!",
-      "success": "%1$sDisabled %2$s on channel #%3$s."
+      "invalid": "%1$sDu musst einen Kanalnamen und einen Befehl zum Verbieten angeben.",
+      "success": "%1$s%2$s wurde in #%3$s deaktiviert."
     },
     "server_command_specific_allow": {
-      "invalid": "%1$sYou need to specify the channel name and the command to allow!",
-      "success": "%1$sEnabled %2$s on channel #%3$s."
+      "invalid": "%1$sDu musst einen Kanalnamen und einen Befehl zum Erlauben angeben.",
+      "success": "%1$s%2$s wurde in #%3$s aktiviert."
     },
     "server_channel_disallow": {
-      "too_many": "%1$sYou cannot disable more channels since the bot wouldn't be able to talk otherwise :(",
-      "success": "%1$sChannel %2$s will not longer listen to commands"
+      "too_many": "%1$sDu kannst nicht mehr Kanäle deaktivieren, da der Bot sonst nicht in der Lage wäre zu reden :(",
+      "success": "%1$sKanal %2$s wird nicht länger auf Befehle achten."
     },
     "server_channel_allow": {
       "success": "%sChannel %s will now listen to commands"
     },
     "category_disable": {
-      "no_category": "%1$sYou need to specify a category to disable.",
-      "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
-      "success": "%1$sDisabled category `%2$s`"
+      "no_category": "%1$sDu musst eine Kategorie zum Deaktivieren angeben.",
+      "already_disabled": "%1$sDiese Kategorie ist bereits deaktiviert.",
+      "moderation_notice": "%1$sDu kannst die Moderation nicht deaktivieren, da sie diesen Befehl enthält.",
+      "success": "%1$sDeaktiviere Kategorie `%2$s`"
     },
     "category_enable": {
-      "no_category": "%1$sYou need to specify a category to enable.",
-      "success": "%1$sEnabled category `%2$s`"
+      "no_category": "%1$sDu musst eine Kategorie zum aktivieren angeben.",
+      "success": "%1$sAktiviere Kategorie `%2$s`"
     },
     "category_specific_disable": {
-      "invalid": "%1$sYou need to specify a category to disable and the channel where.",
-      "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
-      "success": "%1$sDisabled category `%2$s` on channel %3$s"
+      "invalid": "%1$sDu musst eine Kategorie zum Deaktivieren angeben, und einen Kanal wo.",
+      "already_disabled": "%1$sDiese Kategorie ist bereits deaktiviert.",
+      "moderation_notice": "%1$sDu kannst die Moderation nicht deaktivieren, da sie diesen Befehl enthält.",
+      "success": "%1$sDeaktiviere Kategorie `%2$s` in Kanal %3$s"
     },
     "category_specific_enable": {
-      "invalid": "%1$sYou need to specify a category to enable and the channel where.",
-      "invalid_channel": "%1$sThat's not a valid channel!",
-      "not_disabled": "%1$sThis category isn't disabled.",
-      "success": "%1$sEnabled category `%2$s` on channel %3$s"
+      "invalid": "%1$sDu musst eine Kategorie zum Akttivieren angeben, und einen Kanal wo.",
+      "invalid_channel": "%1$sDas ist kein Kanal!",
+      "not_disabled": "%1$sDiese Kategorie ist nicht deaktiviert.",
+      "success": "%1$sAktiviere Kategorie `%2$s` in Kanal %3$s"
     },
     "server_role_specific_disallow": {
-      "invalid": "%1$sYou need the role and the command to disallow!",
-      "already_disabled": "%1$sThis command was already disabled for the specified role.",
-      "success": "%1$sSuccessfully restricted command `%2$s` for role `%3$s`"
+      "invalid": "%1$sDu brauchst eine Rolle und einen Befehl zum Verbieten!",
+      "already_disabled": "%1$sDieser Befehl ist bereits für diese Rolle deaktiviert.",
+      "success": "%1$sErfolgreich den Befehl `%2$s` für `%3$s` deaktiviert."
     },
     "server_role_specific_allow": {
-      "invalid": "%1$sYou need the role and the command to allow!",
-      "not_disabled": "%1$sThis command wasn't disabled for this role.",
-      "success": "%1$sSuccessfully un-restricted command `%2$s` for role `%3$s`"
+      "invalid": "%1$sDu brauchst eine Rolle und einen Befehl zum Erlauben!",
+      "not_disabled": "%1$sDieser Befehl ist für diese Rolle nicht deaktiviert.",
+      "success": "%1$sErfolgreich den Befehl `%2$s` für `%3$s` aktiviert."
     },
     "category_role_specific_disable": {
-      "invalid": "%1$sYou need to specify a category to disable and the role to.",
-      "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
-      "success": "%1$sDisabled category `%2$s` for role %3$s"
+      "invalid": "%1$sDu musst eine Kategorie und eine Rolle zum Deaktivieren angeben.",
+      "already_disabled": "%1$sDiese Kategorie ist bereits deaktivert.",
+      "moderation_notice": "%1$sDu kannst die Moderation nicht deaktivieren, da sie diesen Befehl enthält.",
+      "success": "%1$sDekativiere Kategorie `%2$s` für %3$s"
     },
     "category_role_specific_enable": {
-      "invalid": "%1$sYou need to specify a category to enable and the channel where.",
-      "not_disabled": "%1$sThis category isn't disabled.",
-      "success": "%1$sEnabled category `%2$s` for role %3$s"
+      "invalid": "%1$sDu musst eine Kategorie zum Aktivieren angeben, und einen Kanal wo.",
+      "not_disabled": "%1$sDiese Kategorie ist nicht deaktiviert.",
+      "success": "%1$sAktiviere Kategorie `%2$s` für %3$s"
     },
     "fairqueue_max": {
-      "invalid": "%1$sYou need to specify a positive integer.",
-      "success": "%1$sSet max fair queue size to %2$d"
+      "invalid": "%1$sDu musst eine positive Ganzzahl angeben.",
+      "success": "%1$sAngemessene maximal Warteschlangengröße gesetzt auf %2$d"
     },
     "musicannounce_toggle": {
-      "success": "%1$sSet music announce to **%2$s**"
+      "success": "%1$sSetze Musikansage auf **%2$s**"
     },
     "music_channel": {
-      "success": "%1$sMusic Channel set to: %2$s"
+      "success": "%1$sMusikkanal gesetzt auf: %2$s"
     },
     "music_queuelimit": {
-      "success": "%1$sThe queue limit on this server is now **%2$d** songs.",
-      "invalid": "%1$sYou're trying to set too high of a number (which won't be applied anyway), silly"
+      "success": "%1$sDas Warteschlangenlimit ist auf diesem Server jetzt **%2$d** Songs.",
+      "invalid": "%1$sDu versucht eine zu hohe Zahl (welche sowieso nicht eingestellt werden würde) einzustellen, Dummerchen."
     },
     "music_clearchannel": {
-      "success": "%1$sI can play music on all channels now"
+      "success": "%1$sIch kann jetzt in allen Kanälen Musik spielen."
     },
     "music_vote_toggle": {
-      "success": "%1$sVoting (to stop/skip) is now set to %s"
+      "success": "%1$sAbstimmung (zum stoppen/überspringen) ist jetzt auf %s gesetzt."
     },
     "localblacklist_add":{
-      "invalid": "%1$s**You need to specify the users to locally blacklist.**",
-      "yourself_notice": "%1$sWhy are you trying to blacklist yourself?...",
-      "admin_notice": "%1$sOne (or more) of the users you're trying to blacklist are admins or Bot Commanders!",
-      "success": "%1$sLocally blacklisted users: **%2$s**"
+      "invalid": "%1$s**Du must einen Nutzer zum lokalen Ignorieren lassen angeben.**",
+      "yourself_notice": "%1$sWarum versuchst du dich selbst ignorieren zu lassen...?",
+      "admin_notice": "%1$sEiner (oder mehrere) der Nutzer, die du versuchst ignorieren zu lassen, sind Admins oder Bot Commander!",
+      "success": "%1$sLokal geblacklistete Nutzer: **%2$s**"
     },
     "localblacklist_remove": {
-      "invalid": "%1$s**You need to specify the users to locally un-blacklist.**",
-      "success": "%1$sLocally un-blacklisted users: **%2$s**"
+      "invalid": "%1$s**Du musst einen Nutzer zum lokalen Beachten angeben.**",
+      "success": "%1$sBeachte lokal Nutzer: **%2$s**"
     },
     "logs_enable": {
-      "success": "%1$sMessage logging has been enabled with parameters -> `Channel #%2$s (%3$s)`"
+      "success": "%1$sNachrichtenlogging wurde mit Parametern aktiviert -> `Kanal #%2$s (%3$s)`"
     },
     "logs_disable": {
-      "success": "%1$sMessage logging has been disabled."
+      "success": "%1$sNachrichtenlogging wurde deaktiviert."
     },
     "logs_exclude": {
       "clearchannels": {
-        "success": "%1$sCleared log exceptions!"
+        "success": "%1$sLogausnahmen entfernt!"
       },
       "remove": {
-        "success": "%1$sRemoved logs exception on channel: %2$s"
+        "success": "%1$sLogausnahme entfernt in Kanal: %2$s"
       },
-      "success": "%1$sAdded logs exception on channel: %s",
-      "invalid": "%1$sIncorrect argument length."
+      "success": "%1$sLogausnahme hinzugefügt in Kanal: %s",
+      "invalid": "%1$sInkorrekte Argumentlänge."
     },
     "lobby_reset": {
-      "success": "%1$sReset the lobby correctly."
+      "success": "%1$sLobby erfolgreich zurückgesetzt."
     },
     "modlog_blacklist": {
-      "no_mentions": "%1$s**You need to specify the users to locally blacklist from mod logs.**",
-      "success": "%1$sLocally blacklisted users from mod-log: **%2$s**"
+      "no_mentions": "%1$s**Du musst einen Nutzer angeben, den du von den lokalen Moderationslogs ausnehmen möchtest.**",
+      "success": "%1$sNutzer lokal von den Moderationslogs ausgenommen: **%2$s**"
     },
     "modlog_whitelist": {
-      "no_mentions": "%1$s**You need to specify the users to locally whitelist from mod logs.**",
-      "success": "%1$sLocally un-blacklisted users from mod-log: **%2$s**"
+      "no_mentions": "%1$s**Du musst einen Nutzer angeben, um ihn lokal zu den Moderationslogs hinzuzufügen.**",
+      "success": "%1$sNutzer lokal zu den Moderationslogs hinzugefügt: **%2$s**"
     },
     "linkprotection_toggle": {
-      "success": "%1$sSet link protection to `%2$s`"
+      "success": "%1$sLinkschutz aktiviert: `%2$s`"
     },
     "linkprotection_channel_allow": {
-      "success": "%1$s%2$s can now be used to send discord invites."
+      "success": "%1$s%2$s kann nun genutzt werden, um Discord-Einladungen zu senden."
     },
     "linkprotection_channel_disallow": {
-      "success": "%1$s%2$s cannot longer be used to send discord invites."
+      "success": "%1$s%2$s kann nicht länger genutzt werden, um Discord-Einladungen zu senden."
     },
-    "linkprotection_user_all|ow": {
-      "no_mentions": "%1$sYou need to mention the user to whitelist from posting invites!",
-      "success": "%1$sSuccessfully whitelisted %2$s#%3$s from posting discord invites."
+    "linkprotection_user_allow": {
+      "no_mentions": "%1$sDu musst einen Nutzer erwähnen, um ihn Einladungen posten zu lassen!",
+      "success": "%1$sErfolgreich %2$s#%3$s die Erlaubnis gegeben, Discord-Einladungen zu posten."
     },
     "linkprotection_user_disallow": {
-      "no_mentions": "%1$sYou need to mention the user to blacklist from posting invites!",
-      "not_whitelisted": "%1$sThis user isn't in the invite posting whitelist!",
-      "success": "%1$sSuccessfully blacklisted %s#%s from posting discord invites."
+      "no_mentions": "%1$sDu musst einen Nutzer erwähnen, um ihm zu verbieten, Einladungen zu posten!",
+      "not_whitelisted": "%1$sDieser Nutzer hat keine Erlaubnis Einladungen zu posten!",
+      "success": "%1$sErfolgreich dem Nutzer %s#%s verboten Discord-Einladungen zu posten."
     },
     "imageboard_tags_blacklist_add": {
-      "no_tag": "%1$sYou need to specify at least a tag to blacklist!",
-      "success": "%1$sSuccessfully blacklisted %s from image search."
+      "no_tag": "%1$sDu musst mindestens einen Tag zum verbieten angeben!",
+      "success": "%1$sErfolgreich %s für die Bildersuche verboten."
     },
     "imageboard_tags_blacklist_remove": {
-      "no_tag": "%1$sYou need to specify at least a tag to un-blacklist!",
-      "success": "%1$sSuccessfully un-blacklisted %2$s from image search."
+      "no_tag": "%1$sDu musst mindestens einen Tag zum Erlauben angeben!",
+      "success": "%1$sErfolgreich %2$s für die Bildersuche erlaubt."
     },
     "birthday_enable": {
-      "public_role": "%1$sYou cannot set the everyone role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
-      "autorole": "%1$sYou cannot set the autorole role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
-      "warning": "%sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
-      "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and unassigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users.",
-      "warning_3": "Type **yes** if you agree to set the role %s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
-      "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
-      "error_channel_1": "%1$sI didn't find a channel or role!",
-      "error_channel_2": "**Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".**"
+      "public_role": "%1$sDu kannst die everyone-Rolle nicht als Geburtstagsrolle setzen! Beachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird.",
+      "autorole": "%1$sDu kannst nicht die autorole-Rolle als Geburtstagsrolle setzen! Beachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird.",
+      "warning": "%sBeachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird. Wenn du Zweifel daran hast, wie du sie konfigurieren musst, kannst du immer dem Support-Server beitreten und fragen. Du kannst auch `~>opts help birthday enable` für ein Beispiel anschauen",
+      "warning_1": "So funktioniert der Geburtstagsanzeiger: Er vergibt eine temporäre Rolle an die Personen, die Geburtstag haben und nimmt ihnen die Rolle ab, wenn der Tag endet. **Das bedeutet, dass jeder mit der Geburtstagrolle die Rolle verliert, wenn der Geburtstag endet**. Bitte sei vorsichtig, wenn du auswählst welche Rolle du nutzen willst, da eine Fehleinstellung böse Folgen haben kann (sehr böse)!",
+      "warning_2": "Due Rolle *muss eine neu erstellte Rolle sein, oder eine, die du für niemanden sonst verwendest*. Es DARF KEINE Rolle sein, die du bereits bei deinen Nutzern benutzt.",
+      "warning_3": "Gebe **yes** ein, wenn du zustimmst, die Rolle %s als Geburtstagsrolle zu setzen, und **no** zum abbrechen. Diese Wahl endet in 45 Sekunden.",
+      "success": "%1$sGeburtstagslogging auf diesem Server mit Parametern aktiviert -> Kanal `%2$s (%3$s)` und Rolle: `%4$s (%5$s)`",
+      "error_channel_1": "%1$sIch habe keinen Kanal oder Rolle gefunden!",
+      "error_channel_2": "**Beachte, du musst weder den Kanal noch die Rolle erwähnen, sonder nur den Namen schreiben, die Reihenfolge ist <Kanal> <Rolle>, ohne die \"<>\".**"
     },
     "birthday_disable": {
-      "success": "%1$sBirthday logging has been disabled on this server"
+      "success": "%1$sGeburtstagslogging wurde auf diesem Server deaktiviert."
     },
     "prefix_set": {
-      "too_long": "%1$sDon't you think that's a bit too long?",
-      "empty_prefix": "%1$sCannot set the guild prefix to nothing...",
-      "success": "%1$sYour server's custom prefix has been set to %2$s"
+      "too_long": "%1$sDenkst du nicht, dass ist ein bisschen zu lang?",
+      "empty_prefix": "%1$sKann das Präfix nicht zu nichts setzen...",
+      "success": "%1$sDein benutzerdefiniertes Präfix wurde zu %2$s geändert."
     },
     "prefix_clear": {
-      "success": "%1$sYour server's custom prefix has been disabled"
+      "success": "%1$sDas benutzerdefinierte Serverpräfix wurde deaktivert."
     },
     "autorole_set": {
-      "no_role_found": "%1$sI couldn't find a role with that name. If the role has spaces, try wrapping it in quotes.",
-      "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as autorole!",
-      "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as autorole!",
-      "success": "%1$sThe server autorole is now set to: **%2$s** (Position: %3$d)"
+      "no_role_found": "%1$sIch konnte keine Rolle mit dem Namen finden. Sollte der Rollenname Leerzeichen enthalten, versuche Anführungszeichen drum rum zu setzen.",
+      "hierarchy_conflict": "%1$sDiese Rolle ist höher als deine höchste Rolle, daher kannst du sie nicht als Autorolle zuweisen!",
+      "self_hierarchy_conflict": "%1$sDiese Rolle ist höher als meine höchste Rolle, daher kannst du sie nicht als Autorolle zuweisen!",
+      "success": "%1$sTDie Server-Autorolle ist jetzt auf: **%2$s** (Position: %3$d) gesetzt"
     },
     "autorole_unbind": {
-      "success": "%1$sThe autorole for this server has been removed."
+      "success": "%1$sDie Autorolle für diesen Server wurde entfernt."
     },
     "usermessage_resetchannel": {
-      "success": "%1$sSucessfully reset the join/leave channel."
+      "success": "%1$sErfolgreich den Willkommens-/Verabschiedungs-Kanal zurückgesetzt."
     },
     "usermessage_resetdata": {
-      "success": "%1$sSucessfully reset the join/leave message."
+      "success": "%1$sErfolgreich die Willkommens-/Verabschiedungs-Nachricht zurückgesetzt."
     },
     "usermessage_join_channel": {
-      "success": "%1$sThe user join log channel is now set to: %2$s"
+      "success": "%1$sDer Nutzerbeitrittslogkanal ist jetzt: %2$s"
     },
     "usermessage_join_resetchannel": {
-      "success": "%1$sSuccessfully reset log join channel!"
+      "success": "%1$sErfolgreich den Nutzerbeitrittslogkanal zurückgesetzt!"
     },
     "usermessage_leave_channel": {
-      "success": "%1$sThe user leave log channel is now set to: %s"
+      "success": "%1$sDer Nutzeraustrittslogkanal ist jetzt: %s"
     },
     "usermessage_leave_resetchannel": {
-      "success": "%1$sSuccessfully reset log leave channel!"
+      "success": "%1$sErfolgreich den Nutzeraustrittslogkanal zurückgestzt!"
     },
     "usermessage_channel": {
-      "success": "%1$sThe logging Join/Leave channel is set to: %2$s"
+      "success": "%1$sDer Kanal für Beitritts-/Austrittslogs ist jetzt: %2$s"
     },
     "usermessage_joinmessage": {
-      "success": "%1$sServer join message set to: %2$s"
+      "success": "%1$sServerbeitrittsnachricht geändert zu: %2$s"
     },
     "usermessage_leavemessage": {
-      "success": "%1$sServer leave message set to: %2$s"
+      "success": "%1$sServeraustrittsnachricht geändert zu: %2$s"
     },
     "autoroles_add": {
-      "no_role_found": "%1$sI didn't find a role with that name!",
-      "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!",
-      "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as an auto-assignable role!",
-      "success": "%1$sAdded autorole **%2$s**, which gives the role **%3$s**"
+      "no_role_found": "%1$sIch habe keine Rolle mit dem Namen gefunden!",
+      "hierarchy_conflict": "%1$sDiese Rolle ist höher als deine höchste Rolle, daher kannst du sie nicht als autmotisch zuzuweisende Rolle setzen!",
+      "self_hierarchy_conflict": "%1$sDiese Rolle ist höher als meine höchste Rolle, daher kannst du sie nicht als autmotisch zuzuweisende Rolle setzen!",
+      "success": "%1$sAutorolle **%2$s** hinzugefügt, diese gibt die Rolle **%3$s**"
     },
     "autoroles_remove": {
-      "not_found": "%1$sI couldn't find an autorole with that name",
-      "success": "%1$sRemoved autorole %2$s"
+      "not_found": "%1$sIch konnte keine Autorolle mit diesem namen finden.",
+      "success": "%1$sEntferne Autorolle %2$s"
     },
     "autoroles_clear": {
-      "success": "%1$sCleared all autoroles!"
+      "success": "%1$sAlle Autorollen entfernt!"
     },
     "admincustom": {
-      "admin_only": "Custom command creation is now admin only.",
-      "everyone": "Custom command creation can now be done by anyone."
+      "admin_only": "Benutzerdefinierte Befehlserstellung ist jetzt nur noch für Admins möglich.",
+      "everyone": "Benutzerdefinierte Befehlserstellung ist jetzt für alle möglich."
     },
     "timedisplay_set": {
-      "mode_not_specified": "%1$sYou need to specify a mode (12h or 24h)",
-      "12h": "%1$sSet time display mode to 12h",
-      "24h": "%1$sSet time display mode to 24h",
-      "invalid": "%1$sNot a valid choice. Valid choices: **24h**, **12h**"
+      "mode_not_specified": "%1$sDu musst einen Anzeigestil wählen (12h oder 24h)",
+      "12h": "%1$sZeitanzeige auf 12-Stunden gestellt",
+      "24h": "%1$sZeitanzeige auf 24-Stunden gestellt",
+      "invalid": "%1$sKeine korrekte Möglichkeit. Möglichkeiten: **24h**, **12h**"
     },
     "server_role_disallow": {
-      "no_name": "%1$sYou need to specify the name of the role!",
-      "success": "%1$sDisabled role %2$s from executing commands."
+      "no_name": "%1$sDu musst den Namen der Rolle angeben!",
+      "public_role": "%1$sDu kannst die everyone-Rolle nicht daran hindern Befehle auszuführen!",
+      "success": "%1$sVerbiete der Rolle %2$s das Nutzen von Befehlen."
     },
     "server_role_allow": {
-      "not_disabled": "%1$sThis role isn't disabled!",
-      "success": "%1$sAllowed role %2$s to execute commands."
+      "not_disabled": "%1$sDiese Rolle ist nicht deaktiviert!",
+      "success": "%1$sErlaube der Rolle %2$s das Nutzen von Befehlen."
     },
     "server_ignorebots_autoroles_toggle": {
-      "success": "%1$sSet bot autorole ignore to: **%2$s**"
+      "success": "%1$sSchalte das Ignorieren von Botautorollen auf: **%2$s**"
     },
     "server_ignorebots_joinleave_toggle": {
-      "success": "%1$sSet bot join/leave ignore to: **%2$s**"
+      "success": "%1$sSchalte das Ignorieren vom Beitreten und Austreten von Bots auf: **%2$s**"
     },
     "levelupmessages_toggle": {
-      "success": "%1$sSet level up messages to: **%2$s**"
+      "success": "%1$sSetze Level-Up-Nachricht auf: **%2$s**"
     },
     "levelupmessages_message_set": {
-      "success": "%1$sServer level-up message set to: %2$s"
+      "success": "%1$sServer-Level-Up-Nachricht geändert auf: %2$s"
     },
     "levelupmessages_message_clear": {
-      "success": "%1$sCleared level-up message!"
+      "success": "%1$sLevel-Up-Nachricht zurückgesetzt!"
     },
     "levelupmessages_channel_set": {
-      "success": "%1$sThe level-up channel has been set to: %2$s"
+      "success": "%1$sDer Level-Up-Kanal wurde gesetzt auf: %2$s"
     },
     "defaultmutetimeout_set": {
-      "not_specified": "%1$sYou have to specify a timeout in the format of 1m20s, for example.",
-      "wrong_format": "%1$sWrong time format. You have to specify a timeout in the format of 1m20s, for example.",
-      "too_long": "%1$sThe time specified is too long...",
-      "negative_notice": "You cannot mute someone for negative time!",
-      "success": "%1$sSuccessfully set mod action timeout to `%2$s` (%3$dms)"
+      "not_specified": "%1$sDu musst eine Zeitüberschreitung im Format 1m20s, beispielsweise, angeben.",
+      "wrong_format": "%1$sFalsches Zeitformat. Du musst eine Zeitüberschreitung im Format 1m20s, beispielsweise, angeben.",
+      "too_long": "%1$sDie angegebene Zeit ist zu lang...",
+      "negative_notice": "Du kannst niemanden für eine negative Zeit stummschalten!",
+      "success": "%1$sErfolgreich die Moderationszeitüberschreitung auf `%2$s` (%3$dms) gesetzt."
     },
     "defaultmutetimeout_reset": {
-      "success": "%1$sSuccessfully reset timeout."
+      "success": "%1$sErfolgreich die Zeitüberschreitung zurückgesetzt."
     },
     "muterole_unbind": {
-      "success": "%1$sCorrectly reset the mute role."
+      "success": "%1$sErfolgreich die Stumm-Rolle zurückgesetzt."
     },
     "muterole_set": {
-      "success": "%1$sSet mute role to **%s**"
+      "success": "%1$sStumm-Rolle auf **%2$s** gesetzt"
     },
     "reset:all": {
-      "success": "%1$sCorrectly reset your options!"
+      "success": "%1$sErfolgreich deine Optionen zurückgesetzt!"
     },
-    "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
-    "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
-    "no_command": "%1$sNo command called %2$s",
-    "invalid_role": "%1$sThat's not a valid role!"
+    "birthday_test": {
+      "no_bd_channel": "%1$sDu hast keinen Geburtstagskanal eingestellt!",
+      "no_bd_role": "%1$sDu hast keine Rolle für den Geburtstag eingestellt!",
+      "no_talk_permission": "%1$sDer Bot kann im Geburtstagskanal nicht schreiben.",
+      "cannot_interact": "%1$sDer Bot kann nicht mit der Geburtstagsrolle interagieren.",
+      "success": "%1$sErledigt! Die Nachricht wurde in %1$s für den Nutzer **%2$s** geschickt. Er hat die Rolle %3$s bekommen.",
+      "error": "%1$sOw... Es gab einen Fehler beim Senden der Nachricht in den Kanal %1$s für den Nutzer **%2$s** und die Rolle %3$s"
+    },
+    "usermessage_joinmessage_add": {
+      "success": "%1$s`%2$s` zu den zusätzlichen Beitrittsnachrichten hinzugefügt."
+    },
+    "usermessage_joinmessage_remove": {
+      "success": "%1$s`%2$s (Nummer %3$d)` von den zusätzlichen Beitrittsnachrichten entfernt."
+    },
+    "usermessage_joinmessage_clear": {
+      "success": "%1$sAlle zusätzlichen Beitrittsnachrichten entfernt."
+    },
+    "usermessage_joinmessage_list": {
+      "header": "Liste der zusätzlichen Beitrittsnachrichten. %1$s\n%2$s",
+      "no_extras": "%1$sEs gibt keine zusätzlichen Nachrichten..."
+    },
+    "usermessage_leavemessage_add": {
+      "success": "%1$s`%2$s` zu den zusätzlichen Austrittsnachrichten hinzugefügt."
+    },
+    "usermessage_leavemessage_remove": {
+      "success": "%1$s`%2$s (Nummer %3$d)` von den zusätzlichen Austrittsnachrichten entfernt."
+    },
+    "usermessage_leavemessage_clear": {
+      "success": "%1$sAlle zusätzlichen Austrittsnachrichten entfernt."
+    },
+    "usermessage_leavemessage_list": {
+      "header": "Liste der zusätzlichen Austrittsnachrichten. %1$s\n%2$s",
+      "no_extras": "%1$sEs gibt keine zusätzlichen Nachrichten..."
+    },
+    "invalid_category": "%1$sDu hast eine ungültige Kategorie eingegeben. Eine Liste gültiger Kategorien zum deaktivieren (Groß- und Kleinschreibung beachten) wird unten angezeit```md\n%2$s```",
+    "help_opts_notice": "%1$sDu kannst den options oder help Befehl nicht deaktivieren.",
+    "no_command": "%1$sKein Befehl namens %2$s",
+    "invalid_role": "%1$sDas ist keine gültige Rolle!"
   },
   "discord_permissions": {
     "create_instant_invite": "Soforteinladung erstellen",
