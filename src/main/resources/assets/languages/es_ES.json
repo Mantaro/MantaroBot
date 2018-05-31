@@ -65,6 +65,7 @@
       "overflow": "%1$sEncontraste unos pescados, pero tu inventario está lleno, asi que no puedes recogerlos y los devuelves al agua.",
       "success": "%1$sMientras pescabas calmadamente, encontraste %2$s y los guardas en tu tarro.",
       "success_money": "%1$sMientras pescabas calmadamente, encontraste %2$s y %3$d en créditos y los guardas en tu tarro.",
+      "success_money_noitem": "%1$sMientras pescabas calmadamente, encontraste %3$d en créditos y los guardas en tu bolsillo.",
       "rod_broke": "%1$sTu caña de pescar se ha roto mientras intentabas atrapar un pez :("
     },
     "softban": {
@@ -99,6 +100,11 @@
       "success": "%1$s%2$s (%3$s fue expulsado)",
       "error": "%1$sError expulsando a %2$s: (Necesito el permiso %3$s)",
       "unknown_error": "%1$sHuh, he encontrado un error desconocido mientras intentaba expulsar a %2$s"
+    },
+    "tempban": {
+      "no_time": "%1$sYou cannot temp ban an user without giving me the time.",
+      "no_reason": "%2$sYou cannot temp ban someone without a reason.",
+      "success": "%1$s%2$s (%3$s got temporarly banned)"
     },
     "music_usage": {
       "1": "*¿Cómo usar la música en Mantaro?*",
@@ -160,7 +166,7 @@
         "leave": "%1$sDecidí salir del canal **%2$s** porque me dejaron solita :("
       },
       "loader": {
-        "over_limit": "%1$sLa cola que agregaste tiene más de %2$d canciones, así que agregué canciones hasta el límite y ignoré el resto.",
+        "over_limit": "%1$sLa cola que agregaste tiene más de %2$d canciones, así que agregué canciones hasta el límite e ignoré el resto.",
         "loaded_playlist": "%1$sAñadidas **%2$d canciones** a la cola en la lista de reproducción: **%3$s** *(%4$s)*",
         "no_matches": "%1$sLa búsqueda no arrojó resultados. Si esto aparece para *todas las canciones* que intentas buscar, podrías intentar usar `~>play soundcloud <término de busqueda>` en su lugar. Links directos de youtube y soundcloud deberían funcionar también.",
         "error_loading": "%1$sError mientras estaba intentando reproducir la música: %2$s",
@@ -260,11 +266,10 @@
     },
     "custom": {
       "error_running": "%1$sHe encontrado un error mientras intentaba ejecutar un comando personalizado... porfavor revisa el contenido y su extensión (no puede ser más de 2000 caracteres).",
-      "not_loaded": "Hey! Aún me estoy iniciando. Los comandos estarán disponibles bastante pronto, en cuanto termine de iniciar.",
+      "not_loaded": "Hey! Aún me estoy iniciando. Los comandos personalizados estarán disponibles bastante pronto, en cuanto termine de iniciar.",
       "nsfw_enabled": "%1$sEste comando fue correctamente marcado como NSFW.",
       "nsfw_disabled": "%1$sEste comando fue correctamente marcado como SFW.",
       "nsfw_not_nsfw": "%1$sEste comando es NSFW por lo que solo puede ser ejecutado en canales NSFW.",
-
       "ls": {
         "header": "Comandos para este servidor"
       },
@@ -328,7 +333,7 @@
     "mute": {
       "no_permissions": "%1$sNecesitas tener el permiso para expulsar o banear miembros para poder mutear!",
       "no_mute_role": "%1$sEl rol de muteo no está configurado en este servidor, puedes configurarlo con el comando `~>opts muterole set <role>`",
-      "null_mute_role": "%1$sEl rol de muteo que estaba configurado en este servidor ya no existe",
+      "null_mute_role": "%1$sEl rol de muteo que estaba configurado en este servidor ya no existe.",
       "no_mentions": "%1$sNecesitas mencionar al menos a un usuario para mutearlo.",
       "no_manage_roles": "%1$sNo tengo permiso para administrar roles en este servidor",
       "no_time": "%1$sNo especificaste el tiempo",
@@ -337,8 +342,8 @@
       "default_time_too_long": "%1$sEl tiempo de muteo por defecto es muy largo (Máximo: 10 días)...",
       "time_too_long": "%1$sEl tiempo especificado es muy largo (Máximo: 10 días)...",
       "already_muted": "%1$sEste usuario ya está muteado. Ejecuta `~>unmute` para des-mutearlo.",
-      "self_hierarchy_error": "%1$sNo puedo asignar el rol de muteo a este user porque está en una jerarquía mas alta que yo, o el rol está en una jerarquía mas alta que mi rol más importante!",
-      "user_hierarchy_error": "%1$sNo puedo asignar el rol de muteo a este user porque está en una jerarquía mas alta que tú, o el rol está en una jerarquía mas alta que tu rol más importante!",
+      "self_hierarchy_error": "%1$sNo puedo asignar el rol de muteo a este usuario porque está en una jerarquía mas alta que yo, o el rol está en una jerarquía mas alta que mi rol más importante!",
+      "user_hierarchy_error": "%1$sNo puedo asignar el rol de muteo a este usuario porque está en una jerarquía mas alta que tú, o el rol está en una jerarquía mas alta que tu rol más importante!",
       "success": "%1$sAñadido el rol de muteo a **%2$s** por alrededor de %3$s"
     },
     "unmute": {
@@ -370,9 +375,9 @@
     "love": {
       "no_mention": "%1$sNecesitas mencionar al menos un usuario.",
       "not_ideal": "Intentalo la próxima vez...",
-      "decent": "Suficientemente bueno!",
-      "nice": "Buena pareja!",
-      "perfect": "Pareja perfecta!",
+      "decent": "¡Suficientemente bueno!",
+      "nice": "¡Buena pareja!",
+      "perfect": "¡Pareja perfecta!",
       "yourself_note": "Eres una persona especial y te deberías amar más que a nadie más en este mundo <3",
       "header": "Contador de Amor",
       "result": "Resultado:"
@@ -400,9 +405,9 @@
       "no_mention": "%1$sMenciona al usuario con el que te quieras casar.",
       "marry_yourself_notice": "%1$sNo puedes casarte contigo mismo, por más que lo desees.",
       "marry_bot_notice": "%1$sNo puedes casarte con un bot. No creo que andemos en el mundo de Futurama todavía... espera, ¿se podían casar los robots con humanos allí?",
-      "already_married_receipt": "%1$sYa estás casado con el/ella, aww.",
-      "already_married": "%1$sYa te encuentras casado.",
-      "receipt_married": "%1$sEse usuario ya está casado.",
+      "already_married_receipt": "%1$sYa estás casado con él/ella, aww.",
+      "already_married": "%1$sYa te encuentras casado/a.",
+      "receipt_married": "%1$sEse usuario ya está casado/a.",
       "no_ring": "%1$sNo puedes proponerte sin dos anillos de casamiento! Puedes comprarlos ejecutando `~>market buy 2 ring` y luego intenta proponerte denuevo <3",
       "confirmation": "%1$s%2$s, escribe **yes** o **no** para responder a la proposición de matrimonio de %3$s\n%4$sEsto expira en 2 minutos.",
       "ring_check_fail": "%1$sNo puedes casarte con menos de dos anillos en tu inventario!",
@@ -412,6 +417,42 @@
     "divorce": {
       "not_married": "%1$sNo estás casado con nadie, ¿Por qué no encuentras a ese alguien especial?",
       "success": "%1$sYa te has separado. Eso es bueno... ¿creo?"
+    },
+    "waifu": {
+      "stats": {
+        "header": "Tus estadísticas waifu",
+        "header_other": "Estadísticas waifu de %1$s",
+        "format": "%1$s **Valor del peso del dinero:** %2$s\n%1$s **Valor de trofeos:** %3$s\n%1$s **Valor de experiencia:** %4$s\n%1$s **Multiplicador de reputación:** %5$.2fx",
+        "value": "Valor total de waifu",
+        "credits": "%1$d créditos"
+      },
+      "claim": {
+        "no_user": "%1$sNo mencionaste a un usuario para reclamar!.",
+        "key_locked": "%1$sEl usuario que intentaste reclamar está bloqueado por llave y no puede ser reclamado.",
+        "not_enough_money": "%1$sNo tienes dinero suficiente para reclamar esta waifu **(Valor: %2$s)**",
+        "not_enough_slots": "%1$sNo tienes suficiente espacio para reclamar esta waifu. (Total de espacios: %2$s, Espacios usados: %3$s)",
+        "success": "%1$sWaifu reclamada exitosamente! %2$s for %3$s. Espacios usados: %4$s"
+      },
+      "unclaim": {
+        "no_user": "%1$sNecesitas mencionar una waifu para remover.",
+        "confirmation": "%1$sEstas *seguro/a* de que deseas remover a %2$s? El costo de remover esta waifu es de **%3$s credits**. Escribe *yes* para confirmar o *no* para cancelar\n%4$sEsta acción se cancelará en 1 minuto.",
+        "not_enough_money": "%1$sNo tienes suficiente dinero para remover esta waifu!",
+        "player_locked": "%1$sNo puedes hacer eso en este momento.",
+        "scrapped": "%1$sHas decidido no remover tu waifu.",
+        "success": "%1$sWaifu **%2$s** removida correctamente por el precio de **%3$s créditos**."
+      },
+      "buyslot": {
+        "locked": "%1$sNo puedes realizar esta acción en este momento.",
+        "not_enough_money": "%1$sNo tienes suficiente dinero para comprar más espacios! Necesitas %2$d créditos.",
+        "success": "%1$sCompraste correctamente este espacio por %2$s, en este momento tienes %3s espacios totales y %4$s espacios disponibles."
+      },
+      "header": "Lista Waifu",
+      "description_header": "Aquí está la lista de tus queridas waifus, ordenadas por fecha.\n*Puedes tener un máximo de %1$d waifus en este momento.*\n\n",
+      "no_waifu": "No hay waifus acá, solo polvo :(\nPuedes conseguir waifus si reclamas a alguien! Usa `~>waifu claim` para empezar.",
+      "footer": "Total de waifus: %1$d - Espacios disponibles: %2$s",
+      "value_format": "**- Valor:**",
+      "value_b_format": "**- Comprado por:**",
+      "credits_format": " créditos."
     },
     "ratewaifu": {
       "nothing_specified": "%1$sDame una waifu para puntuar!",
@@ -430,11 +471,12 @@
       "brief": "**Inventario de %1$s:** %2$s",
       "calculate": "%1$sConseguirás **%2$d creditos** si vendes todos tus items!",
       "header": "Inventario de %1$s",
-      "format": "**Precio**: 📥 %1$d 📤 %2$d\n%3$s"
+      "format": "**Precio**: 📥 %1$d 📤 %2$d\n%3$s",
+      "empty": "%1$sTu inventario está vacío! :("
     },
     "market": {
       "dump": {
-        "invalid": "%1$sEse no es una cantidad válida de items que tirar a la basura.",
+        "invalid": "%1$sEsa no es una cantidad válida de items que tirar a la basura.",
         "non_existent": "%1$sNo puedo tirar un item no existente!",
         "player_no_item": "%1$sNo puedo tirar un item que no tienes!",
         "more_items_than_player": "%1$sNo puedes tirar mas items de los que tienes.",
@@ -442,7 +484,7 @@
       },
       "price": {
         "non_existent": "%1$sNo puedo revisar el precio de un item inexistente!",
-        "no_price": "%1$sEste item no está disponible para compraventa (¿Podría ser un coleccionable exclusivo?)",
+        "no_price": "%1$sEste item no está disponible para compra-venta (¿Podría ser un coleccionable exclusivo?)",
         "collectible": "%1$sEste es un ítem coleccionable. (Valor de venta: %2$d créditos)",
         "success": "%1$sEl valor de %2$s**%3$s** es %4$s créditos si lo compras, y podrías obtener %5$s creditos si lo deseas vender."
       },
@@ -456,14 +498,14 @@
         "non_existent": "%1$sNo puedes vender un item inexistente.",
         "no_sell_price": "%1$sNo puedes vender un item que no tenga valor de venta.",
         "no_item_player": "%1$sNo puedes vender un item que no tienes.",
-        "more_items_than_player": "%1$sNo puedes vender mas items de los que tienes.",
+        "more_items_than_player": "%1$sNo puedes vender más items de los que tienes.",
         "success": "%1$sHas vendido %2$d **%3$s** y ganaste %4$d créditos!"
       },
       "buy": {
         "invalid": "%1$sNo es un número valido de items para comprar.",
         "non_existent": "%1$sNo puedes comprar un item inexistente.",
         "no_buy_price": "%1$sNo puedes comprar un item que no se puede comprar.",
-        "item_limit_reached": "%1$sNo puedes comprar mas items de esto!",
+        "item_limit_reached": "%1$sNo puedes comprar más items de esto!",
         "success": "%1$sHas comprado %2$d %3$s por %4$d créditos correctamente. Ahora tienes %5$d créditos.",
         "not_enough_money": "%1$sNo tienes dinero suficiente para comprar esto."
 
@@ -485,7 +527,7 @@
       "bot_notice": "%1$sNo puedes transferirle créditos a un bot.",
       "no_amount": "%1$sNecesitas especificar el monto a transferir.",
       "no_money_specified_notice": "%1$sNo puedes mandar 0 créditos :P",
-      "over_transfer_limit": "%1$sNo puedes transferir tanto créditos. (Límite: %2$d créditos)",
+      "over_transfer_limit": "%1$sNo puedes transferir tantos créditos. (Límite: %2$d créditos)",
       "own_locked_notice": "%1$sNo puedes transferir créditos ahora.",
       "receipt_overflow_notice": "No puedes enviarle más créditos a este jugador.",
       "no_money_notice": "%1$sNo puedes transferir créditos que no posees.",
@@ -522,7 +564,7 @@
       "deleted_role": "%1$s¡El rol al que correspondía este autorol fue eliminado!",
       "already_assigned": "%1$sTú ya tienes ese rol.",
       "success": "%1$s%2$s, te he dado el rol **%3$s**",
-      "error": "%1$sNo pude quitarte el rol **%2$s**. Estate seguro que tengo permiso para administrar roles y que mi rol prevalente está encima de **%2$s**",
+      "error": "%1$sNo pude quitarte el rol **%2$s**. Asegurate que tengo permiso para administrar roles y que mi rol prevalente está encima de **%2$s**",
       "no_role": "%1$sNo hay ningún autorol llamado `%2$s`!"
     },
     "iamnot": {
@@ -579,11 +621,11 @@
         "no_argument": "%1$s¡Necesitas darme un argumento! (set o remove)\nPor ejemplo, ~>profile description set ¡Holi por ahí!",
         "too_long": "%1$s¡La descripción es muy larga! `(Límite de 300 carácteres para todos y de 500 carácteres para usuarios premium)`",
         "success": "%1$sEstablecida la descripción de tu perfil como: **%2$s**\nRevisa tu nuevo perfil usando `~>profile`",
-        "clear_success": "%1$sCorrectamente limpiada tu descripción de tu perfil.."
+        "clear_success": "%1$sCorrectamente limpiada tu descripción de tu perfil."
       },
       "displaybadge": {
         "not_specified": "%1$sNecesitas decime que trofeo quieres mostrar",
-        "reset_success": "%1$sNo se mostrará ningún trofeo en tu perfíl desde ahora.",
+        "reset_success": "%1$sNo se mostrará ningún trofeo en tu perfil desde ahora.",
         "important_success": "%1$sSe mostrará el trofeo más importante (por jerarquía) en tu perfil desde ahora.",
         "no_such_badge": "%1$sEse trofeo no existe...\nTus trofeos: %2$s",
         "player_missing_badge": "%1$sNo tienes ese trofeo.\nTus trofeos: %2$s",
@@ -610,7 +652,9 @@
       "no_badges": "Ningún trofeo (¡por ahora!)",
       "no_timezone": "No se ha establecido ninguna zona horaria.",
       "timezone_user": "Zona horaria: %1$s",
-      "not_specified": "No especificado."
+      "not_specified": "No especificado.",
+      "potion": "Poción activa",
+      "no_potion": "No hay pociones activas."
     },
     "badges": {
       "info": {
@@ -646,7 +690,8 @@
       "header": "**Cumpleaños del servidor %1$s para el mes de %2$s**\n",
       "invalid_date": "%1$sNo es una fecha correcta o no se encuentra en el formato requerido.\nRecuerda que el formato requerido es `dd/mm/yyyy`",
       "error_date": "%1$s%2$s no es una fecha válida o no la puedo entender. Por favor intentalo con el formato correcto. Recuerda incluir el año, aunque este no afecta nada, es necesario.\nRecuerda que el formato es `dd/mm/yyyy`",
-      "added_birthdate": "%1$sHe añadido la fecha de tu cumpleaños."
+      "added_birthdate": "%1$sHe añadido la fecha de tu cumpleaños.",
+      "invalid_month": "%1$sEse no es un número de mes válido! (Meses válidos son números del 1 al 12)"
     },
     "choose": {
       "success": "%1$sEscojo `%2$s`"
@@ -664,7 +709,7 @@
         "select": "Selecciona el recordatorio que desees cancelar."
       },
       "no_time":  "No me diste el argumento `-time`! (Ejemplo: `-time 1h`)",
-      "too_little_time": "%1$sThat's too little time! (Mínimo: 10s)",
+      "too_little_time": "%1$sEso es muy poco tiempo! (Mínimo: 10s)",
       "too_long": "Eso es mucho tiempo... (Máximo: 3m)...",
       "success": "%1$sTe recordaré de **%2$s** en %3$s"
     },
@@ -765,11 +810,11 @@
         "bloodsuck": "¿Acaso eres un vampiro ahora?, oh!"
       },
       "pat": "%1$s, %2$s te hizo pat",
-      "hug": "%1$s fuiste abrazado por %2$s",
-      "kiss": "%1$s fuiste besado por %2$s",
+      "hug": "%1$s fuiste abrazado/a por %2$s",
+      "kiss": "%1$s fuiste besado/a por %2$s",
       "poke": "%1$s, %2$s te pokeo :eyes:",
-      "slap": "%1$s fuiste abofeteado por %2$s!",
-      "bite": "%1$s fuiste mordido por %2$s :eyes:",
+      "slap": "%1$s fuiste abofeteado/a por %2$s!",
+      "bite": "%1$s fuiste mordido/a por %2$s :eyes:",
       "tickle": "%1$s, %2$s te hizo cosquillas! jeje",
       "lick": "%1$s, %2$s te lamió.",
       "highfive": "%1$s le da los 5 a %2$s :heart:",
@@ -778,7 +823,7 @@
       "smile": "%1$s está sonriendole a %2$s :heart:",
       "stare": "%1$s está mirando a %2$s",
       "holdhands": "%1$s está dandole la mano a %2$s",
-      "cuddle": "%1$s fuiste abrazado tiernamente por %2$s",
+      "cuddle": "%1$s fuiste abrazado/a tiernamente por %2$s",
       "nuzzle": "%1$s está acariciando a %2$s",
       "bloodsuck": "%1$s está chupandole la sangre a %2$s!",
       "nom": "Sabroso.",
@@ -820,7 +865,7 @@
       "started_mp_user": "%1$sIniciada una partida multijugador con los usuarios: %2$s",
       "lobby_started": "%1$s¡Nueva partida iniciada! **Juegos: %2$s**\nPuedes escribir `endlobby` para terminar todos los juegos.",
       "game_timeout_drop": "%1$sParece que dejé un juego por aquí, pero me olvidé de recogerlo... ¡Empezaré tu nuevo juego ahora mismo!",
-      "other_lobby_running": "%1$sNo puedo iniciar una nueva partida si ya hay una partida en curso. (Si crees que esto es un error, dile a un administrador que ejecute opts lobby reset)",
+      "other_lobby_running": "%1$sNo puedo iniciar una nueva partida si ya hay una partida en curso. (Si crees que esto es un error, dile a un administrador que ejecute `~>opts lobby reset`)",
       "lobby": {
         "ended_game": "%1$sJuego terminado. Las respuestas posibles eran: %2$s",
         "ended_lobby": "%1$s¡Partida terminada! Gracias por jugar.",
@@ -1067,7 +1112,7 @@
         "lost_streak": "Más de 2 dias han pasado desde que acumulaste tus créditos diarios por ultima vez, por lo que has perdido tu tu racha de `%1$dx` :(",
         "bonus": "\n¡Ganaste un bonus de $%1$s por acumular tus créditos diarios por 5 días seguidos o más! (Va incluido en el dinero que se muestra)",
         "given": {
-          "up": "Streak up! Current streak: `%1$dx`.\n*The streak was applied to your profile!*",
+          "up": "Racha aumentada! Racha actual: `%1$dx`.\n*La racha ha sido aplicada en tu profile!*",
           "bonus": "¡%1$s ganó un bonus de $%2$s por acumular tus créditos diarios por 5 días seguidos o más! (Va incluido en el dinero que se muestra)"
         }
       },
@@ -1075,7 +1120,7 @@
       "credits": "%1$sAcumulaste **$%2$s** creditos diarios.\n\n%3$s"
     },
     "gamble": {
-      "no_credits": "%1$s¡Estás quebrado! Acumula algunos créditos antes de intentar denuevo",
+      "no_credits": "%1$s¡Estás quebrado! Acumula algunos créditos antes de intentar de nuevo",
       "too_much_money": "¡Tienes mucho dinero! ¿Por qué no transfieres el dinero o compras items? ¡Ahora también puedes usar `~>slots` para todas tus necesidades de juegos de azar! *(Límite de dinero para apostar: %1$d créditos)*",
       "invalid_money_or_modifier": "%1$sPor favor especifica un número mayor o igual al de los créditos que posees o `all` para apostar todos tus créditos.",
       "not_enough_money": "%1$sPor favor especifica un número dentro de tu balance de dinero.",
@@ -1144,359 +1189,359 @@
     }
   },
   "options": {
-    "options": "Mantaro Options",
+    "options": "Configuraciones de Mantaro",
     "check_data": {
-      "retrieve_failure": "%1$sCannot retrieve values. Weird thing...",
-      "header": "Options set for server **%1$s**",
-      "null_set": "is not set to anything.",
-      "set_to": "is set to:"
+      "retrieve_failure": "%1$sDatos no encontrados. Que raro...",
+      "header": "Configuraciones para este servidor **%1$s**",
+      "null_set": "no tiene ninguna configuración.",
+      "set_to": "está configurado a:"
     },
     "reset_all": {
-      "success": "%1$sCorrectly reset your options!"
+      "success": "%1$sConfiguraciones restablecidas correctamente!"
     },
     "server_command_disallow": {
-      "success": "%1$sDisabled %2$s on this server."
+      "success": "%1$sEl comando %2$s ha sido deshabilitado en este servidor."
     },
     "server_command_allow": {
-      "success": "%1$sEnabled %2$s on this server."
+      "success": "%1$sEl comando %2$s ha sido habilitado en el servidor."
     },
     "server_command_specific_disallow": {
-      "invalid": "%1$sYou need to specify the channel name and the command to disallow!",
-      "success": "%1$sDisabled %2$s on channel #%3$s."
+      "invalid": "%1$sNecesitas especificar el nombre del canal y el nombre del comando que quieres deshabilitar!",
+      "success": "%1$sEl comando %2$s ha sido deshabilitado en el canal #%3$s."
     },
     "server_command_specific_allow": {
-      "invalid": "%1$sYou need to specify the channel name and the command to allow!",
-      "success": "%1$sEnabled %2$s on channel #%3$s."
+      "invalid": "%1$sNecesitas especificar el nombre del canal y el nombre del comando que quieres habilitar!",
+      "success": "%1$sEl comando %2$s ha sido habilitado en el canal #%3$s."
     },
     "server_channel_disallow": {
-      "too_many": "%1$sYou cannot disable more channels since the bot wouldn't be able to talk otherwise :(",
-      "success": "%1$sChannel %2$s will not longer listen to commands"
+      "too_many": "%1$sNo puedes deshabilitar más canales, de lo contrario el bot no tendrá donde hablar :(",
+      "success": "%1$sEl canal %2$s ya no escuchará comandos."
     },
     "server_channel_allow": {
-      "success": "%sChannel %s will now listen to commands"
+      "success": "%sEl canal %s ahora escuchará comandos"
     },
     "category_disable": {
-      "no_category": "%1$sYou need to specify a category to disable.",
-      "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
-      "success": "%1$sDisabled category `%2$s`"
+      "no_category": "%1$sNecesitas especificar una categoría para deshabilitar.",
+      "already_disabled": "%1$sEsta categoría ya fue deshabilitada.",
+      "moderation_notice": "%1$sNo pueden deshabilitarse comandos de moderación debido a que contiene este comando.",
+      "success": "%1$sLa categoría `%2$s` ha sido deshabilitada."
     },
     "category_enable": {
-      "no_category": "%1$sYou need to specify a category to enable.",
-      "success": "%1$sEnabled category `%2$s`"
+      "no_category": "%1$sNecesitas especificar una categoría para habilitar.",
+      "success": "%1$sLa categoría `%2$s` ha sido habilitada."
     },
     "category_specific_disable": {
-      "invalid": "%1$sYou need to specify a category to disable and the channel where.",
-      "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
-      "success": "%1$sDisabled category `%2$s` on channel %3$s"
+      "invalid": "%1$sNecesitas especificar una categoría y un canal para deshabilitar.",
+      "already_disabled": "%1$sEsta categoría ya fue deshabilitada.",
+      "moderation_notice": "%1$sNo pueden deshabilitarse comandos de moderación debido a que contiene este comando.",
+      "success": "%1$sLa categoría `%2$s` ha sido deshabilitada en el canal %3$s"
     },
     "category_specific_enable": {
-      "invalid": "%1$sYou need to specify a category to enable and the channel where.",
-      "invalid_channel": "%1$sThat's not a valid channel!",
-      "not_disabled": "%1$sThis category isn't disabled.",
-      "success": "%1$sEnabled category `%2$s` on channel %3$s"
+      "invalid": "%1$sNecesitas especificar una categoría y un canal para habilitar.",
+      "invalid_channel": "%1$sEse no es un canal válido!",
+      "not_disabled": "%1$sEsta categoría no está deshabilitada.",
+      "success": "%1$sLa categoría `%2$s` ha sido habilitada en el canal %3$s"
     },
     "server_role_specific_disallow": {
-      "invalid": "%1$sYou need the role and the command to disallow!",
-      "already_disabled": "%1$sThis command was already disabled for the specified role.",
-      "success": "%1$sSuccessfully restricted command `%2$s` for role `%3$s`"
+      "invalid": "%1$sNecesitas especificar un rol y un comando para deshabilitar!",
+      "already_disabled": "%1$sEste comando ya fue deshabilitado para el rol ingresado.",
+      "success": "%1$sEl comando `%2$s` ha sido deshabilitado para el rol `%3$s`"
     },
     "server_role_specific_allow": {
-      "invalid": "%1$sYou need the role and the command to allow!",
-      "not_disabled": "%1$sThis command wasn't disabled for this role.",
-      "success": "%1$sSuccessfully un-restricted command `%2$s` for role `%3$s`"
+      "invalid": "%1$sNecesitas especificar un rol y un comando para habilitar!",
+      "not_disabled": "%1$sEste comando no fue deshabilitado para el rol ingresado.",
+      "success": "%1$sEl comando `%2$s` ha sido habilitado para el rol `%3$s`"
     },
     "category_role_specific_disable": {
-      "invalid": "%1$sYou need to specify a category to disable and the role to.",
-      "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
-      "success": "%1$sDisabled category `%2$s` for role %3$s"
+      "invalid": "%1$sNecesitas especificar un rol y una categoría para deshabilitar!",
+      "already_disabled": "%1$sEsta categoría ya fue deshabilitada.",
+      "moderation_notice": "%1$sNo pueden deshabilitarse comandos de moderación debido a que contiene este comando.",
+      "success": "%1$sLa categoría `%2$s` ha sido deshabilitada para el rol %3$s"
     },
     "category_role_specific_enable": {
-      "invalid": "%1$sYou need to specify a category to enable and the channel where.",
-      "not_disabled": "%1$sThis category isn't disabled.",
-      "success": "%1$sEnabled category `%2$s` for role %3$s"
+      "invalid": "%1$sNecesitas especificar un rol y una categoría para habilitar!",
+      "not_disabled": "%1$sEsta categoría no está deshabilitada.",
+      "success": "%1$sLa categoría `%2$s` ha sido habilitada para el rol %3$s"
     },
     "fairqueue_max": {
-      "invalid": "%1$sYou need to specify a positive integer.",
-      "success": "%1$sSet max fair queue size to %2$d"
+      "invalid": "%1$sNecesitas especificar un número entero positivo.",
+      "success": "%1$sEl tamaño máximo de la cola justa fue ajustado a %2$d"
     },
     "musicannounce_toggle": {
-      "success": "%1$sSet music announce to **%2$s**"
+      "success": "%1$sLos anuncios de música fueron cambiados a **%2$s**"
     },
     "music_channel": {
-      "success": "%1$sMusic Channel set to: %2$s"
+      "success": "%1$sCanal de música establecido a: %2$s"
     },
     "music_queuelimit": {
-      "success": "%1$sThe queue limit on this server is now **%2$d** songs.",
-      "invalid": "%1$sYou're trying to set too high of a number (which won't be applied anyway), silly"
+      "success": "%1$sEl límite de la cola en este servidor es ahora de **%2$d** canciones.",
+      "invalid": "%1$sEstás intentando ingresar un número muy alto (cosa que no funcionaría de todos modos)"
     },
     "music_clearchannel": {
-      "success": "%1$sI can play music on all channels now"
+      "success": "%1$sAhora puedo reproducir música en todos los canales"
     },
     "music_vote_toggle": {
-      "success": "%1$sVoting (to stop/skip) is now set to %s"
+      "success": "%1$sVotos necesarios (para stop/skip) ahora son %s"
     },
     "localblacklist_add":{
-      "invalid": "%1$s**You need to specify the users to locally blacklist.**",
-      "yourself_notice": "%1$sWhy are you trying to blacklist yourself?...",
-      "admin_notice": "%1$sOne (or more) of the users you're trying to blacklist are admins or Bot Commanders!",
-      "success": "%1$sLocally blacklisted users: **%2$s**"
+      "invalid": "%1$s**Necesitas especificar los usuarios que agregar a la lista negra local.**",
+      "yourself_notice": "%1$sPor qué estás intentando agregarte a la lista negra?...",
+      "admin_notice": "%1$sUno (o más) de los usuarios que intentaste agregar a la lista negra son administradores o tienen el rol Bot Commander!",
+      "success": "%1$sUsuarios en la lista negra local: **%2$s**"
     },
     "localblacklist_remove": {
-      "invalid": "%1$s**You need to specify the users to locally un-blacklist.**",
-      "success": "%1$sLocally un-blacklisted users: **%2$s**"
+      "invalid": "%1$s**Necesitas especificar los usuarios que remover de la lista negra local.**",
+      "success": "%1$sUsuarios fuera de la lista negra local: **%2$s**"
     },
     "logs_enable": {
-      "success": "%1$sMessage logging has been enabled with parameters -> `Channel #%2$s (%3$s)`"
+      "success": "%1$sRegistro de mensajes ha sido habilitado con los parametros -> `Canal #%2$s (%3$s)`"
     },
     "logs_disable": {
-      "success": "%1$sMessage logging has been disabled."
+      "success": "%1$sRegistro de mensajes ha sido deshabilitado."
     },
     "logs_exclude": {
       "clearchannels": {
-        "success": "%1$sCleared log exceptions!"
+        "success": "%1$sRegistro de excepciones borrado!"
       },
       "remove": {
-        "success": "%1$sRemoved logs exception on channel: %2$s"
+        "success": "%1$sRegistro de mensajes de excepciones removido del canal: %2$s"
       },
-      "success": "%1$sAdded logs exception on channel: %s",
-      "invalid": "%1$sIncorrect argument length."
+      "success": "%1$sRegistro de mensajes de excepciones agregado al canal: %s",
+      "invalid": "%1$sLongitud incorrecta del argumento."
     },
     "lobby_reset": {
-      "success": "%1$sReset the lobby correctly."
+      "success": "%1$sLobby reiniciado correctamente."
     },
     "modlog_blacklist": {
-      "no_mentions": "%1$s**You need to specify the users to locally blacklist from mod logs.**",
-      "success": "%1$sLocally blacklisted users from mod-log: **%2$s**"
+      "no_mentions": "%1$s**Necesitas especificar los usuarios que agregar a la lista negra del registro de mensajes de moderadores.**",
+      "success": "%1$sUsuarios en la lista local negra de registro de mensajes de moderadores: **%2$s**"
     },
     "modlog_whitelist": {
-      "no_mentions": "%1$s**You need to specify the users to locally whitelist from mod logs.**",
-      "success": "%1$sLocally un-blacklisted users from mod-log: **%2$s**"
+      "no_mentions": "%1$s**Necesitas especificar los usuarios que serán agregados al registro de mensajes de moderadores.**",
+      "success": "%1$sUsuarios en la lista local de registro de mensajes de moderadores: **%2$s**"
     },
     "linkprotection_toggle": {
-      "success": "%1$sSet link protection to `%2$s`"
+      "success": "%1$sLa protección de links ha sido cambiada a `%2$s`"
     },
     "linkprotection_channel_allow": {
-      "success": "%1$s%2$s can now be used to send discord invites."
+      "success": "%1$s%2$s ahora puede recibir invitaciones de Discord."
     },
     "linkprotection_channel_disallow": {
-      "success": "%1$s%2$s cannot longer be used to send discord invites."
+      "success": "%1$s%2$s ya no puede recibir invitaciones de Discord."
     },
     "linkprotection_user_all|ow": {
-      "no_mentions": "%1$sYou need to mention the user to whitelist from posting invites!",
-      "success": "%1$sSuccessfully whitelisted %2$s#%3$s from posting discord invites."
+      "no_mentions": "%1$sNecesitas mencionar a un usuario al cual se le permita publicar invitaciones!",
+      "success": "%1$sAl usuario %2$s#%3$s ahora se le permite la publicación de invitaciones."
     },
     "linkprotection_user_disallow": {
-      "no_mentions": "%1$sYou need to mention the user to blacklist from posting invites!",
-      "not_whitelisted": "%1$sThis user isn't in the invite posting whitelist!",
-      "success": "%1$sSuccessfully blacklisted %s#%s from posting discord invites."
+      "no_mentions": "%1$sNecesitas mencionar a un usuario al cual se le prohiba publicar invitaciones!",
+      "not_whitelisted": "%1$sA este usuario no está en la lista que le permite enviar invitaciones!",
+      "success": "%1$sAl usuario %s#%s ahora se le prohibe publicar invitaciones."
     },
     "imageboard_tags_blacklist_add": {
-      "no_tag": "%1$sYou need to specify at least a tag to blacklist!",
-      "success": "%1$sSuccessfully blacklisted %s from image search."
+      "no_tag": "%1$sNecesitas especificar un tag para agregar a la lista negra!",
+      "success": "%1$sEl tag %s ha sido agregado a la lista negra de búsqueda de imágenes."
     },
     "imageboard_tags_blacklist_remove": {
-      "no_tag": "%1$sYou need to specify at least a tag to un-blacklist!",
-      "success": "%1$sSuccessfully un-blacklisted %2$s from image search."
+      "no_tag": "%1$sNecesitas especificar un tag para remover de la lista negra!",
+      "success": "%1$sEl tag %2$s ha sido removido de la lista negra de búsqueda de imágenes."
     },
     "birthday_enable": {
-      "public_role": "%1$sYou cannot set the everyone role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
-      "autorole": "%1$sYou cannot set the autorole role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
-      "warning": "%sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
-      "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and unassigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users.",
-      "warning_3": "Type **yes** if you agree to set the role %s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
-      "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
-      "error_channel_1": "%1$sI didn't find a channel or role!",
-      "error_channel_2": "**Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".**"
+      "public_role": "%1$sNo puedes usar el rol everyone como rol de cumpleaños! Recuerda que el rol de cumpleaños es un rol que se asigna a la persona el día de su cumpleaños, y luego es removida al terminar el día.",
+      "autorole": "%1$sNo puedes utilizar un rol autorole como rol de cumpleaños! Recuerda que el rol de cumpleaños es un rol que se asigna a la persona el día de su cumpleaños, y luego es removida al terminar el día.",
+      "warning": "%sRecuerda que el rol de cumpleaños es un rol que se asigna a la persona el día de su cumpleaños, y luego es removida al terminar el día. Si tienes alguna duda de como configurarlo, siempre puedes unirte al servidor de soporte y preguntar. También puedes usar `~>opts help birthday enable` para tener un ejemplo.",
+      "warning_1": "Esto es debido a como el asignador de cumpleaños funciona: Le asigna un rol temporal a la persona en su cumpleaños, y lo remueve una vez que termine el día de su cumpleaños. **Esto quiere decir que todos aquellos con el rol de cumpleaños lo tendrán removido una vez que termine el día de su cumpleaños**. Por favor ten cuidado a la hora de elegir el rol a usar, pues un detalle de este tipo puede llegar a causar muchos problemas (en serio)!",
+      "warning_2": "El rol *tiene que ser un nuevo rol o un rol que no esté en uso por nadie más*. NO DEBE ser un rol que sea usado por otros usuarios.",
+      "warning_3": "Escribe **yes** si estas de acuerdo con usar el rol %s como rol de cumpleaños, o escribe **no** para cancelar. Este mensaje se cancela en 45 segundos.",
+      "success": "%1$sRegistro de mensajes de cumpleaños ha sido habilitado en este servidor con los parametros -> Canal: `%2$s (%3$s)` y rol: `%4$s (%5$s)`",
+      "error_channel_1": "%1$sNo encontré el canal o el rol!",
+      "error_channel_2": "**Recuerda, no tienes que mencionar ni el rol ni el canal, más bien solo escribe su nombre, el orden es <canal> <rol>, sin utilizar \"<>\".**"
     },
     "birthday_disable": {
-      "success": "%1$sBirthday logging has been disabled on this server"
+      "success": "%1$sRegistro de mensajes de cumpleaños ha sido deshabilitado en el servidor"
     },
     "prefix_set": {
-      "too_long": "%1$sDon't you think that's a bit too long?",
-      "empty_prefix": "%1$sCannot set the guild prefix to nothing...",
-      "success": "%1$sYour server's custom prefix has been set to %2$s"
+      "too_long": "%1$sNo te parece que eso es un poco largo?",
+      "empty_prefix": "%1$sEl prefijo no puede ser vacío...",
+      "success": "%1$sEl prefijo personalizado de este servidor es %2$s"
     },
     "prefix_clear": {
-      "success": "%1$sYour server's custom prefix has been disabled"
+      "success": "%1$sEl prefijo personalizado ha sido deshabilitado"
     },
     "autorole_set": {
-      "no_role_found": "%1$sI couldn't find a role with that name. If the role has spaces, try wrapping it in quotes.",
-      "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as autorole!",
-      "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as autorole!",
-      "success": "%1$sThe server autorole is now set to: **%2$s** (Position: %3$d)"
+      "no_role_found": "%1$sNo pude encontrar un rol con ese nombre. Si el nombre del rol tiene espacios, intenta ponerlo en comillas.",
+      "hierarchy_conflict": "%1$sEste rol está en una posición mayor que tu mayor rol, por lo tanto no puede ser utilizado como autorole!",
+      "self_hierarchy_conflict": "%1$sEste rol está en una posición mayor que mi mayor rol, por lo tanto no puede ser utilizado como autorole!",
+      "success": "%1$sEl autorole en el servidor ahora es: **%2$s** (Posición: %3$d)"
     },
     "autorole_unbind": {
-      "success": "%1$sThe autorole for this server has been removed."
+      "success": "%1$sEl autorole en este servidor ha sido removido."
     },
     "usermessage_resetchannel": {
-      "success": "%1$sSucessfully reset the join/leave channel."
+      "success": "%1$sReiniciado correctamente el canal de entrada/salida del servidor."
     },
     "usermessage_resetdata": {
-      "success": "%1$sSucessfully reset the join/leave message."
+      "success": "%1$sReiniciado correctamente el mensaje de entrada/salida del servidor."
     },
     "usermessage_join_channel": {
-      "success": "%1$sThe user join log channel is now set to: %2$s"
+      "success": "%1$sEl canal de entrada del servidor ahora es: %2$s"
     },
     "usermessage_join_resetchannel": {
-      "success": "%1$sSuccessfully reset log join channel!"
+      "success": "%1$sReiniciado correctamente el canal de entrada del servidor!"
     },
     "usermessage_leave_channel": {
-      "success": "%1$sThe user leave log channel is now set to: %s"
+      "success": "%1$sEl canal de salida del servidor ahora es: %s"
     },
     "usermessage_leave_resetchannel": {
-      "success": "%1$sSuccessfully reset log leave channel!"
+      "success": "%1$sReiniciado correctamente el canal de salida del servidor!"
     },
     "usermessage_channel": {
-      "success": "%1$sThe logging Join/Leave channel is set to: %2$s"
+      "success": "%1$sEl canal de entrada/salida del servidor ahora es: %2$s"
     },
     "usermessage_joinmessage": {
-      "success": "%1$sServer join message set to: %2$s"
+      "success": "%1$sEl mensaje de entrada del servidor ahora es: %2$s"
     },
     "usermessage_leavemessage": {
-      "success": "%1$sServer leave message set to: %2$s"
+      "success": "%1$sEl mensaje de salida del servidor ahora es: %2$s"
     },
     "autoroles_add": {
-      "no_role_found": "%1$sI didn't find a role with that name!",
-      "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!",
-      "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as an auto-assignable role!",
-      "success": "%1$sAdded autorole **%2$s**, which gives the role **%3$s**"
+      "no_role_found": "%1$sNo encontré un rol con ese nombre!",
+      "hierarchy_conflict": "%1$sEste rol está en una posición mayor que tu mayor rol, por lo tanto no puede ser utilizado como un rol autoasignable!",
+      "self_hierarchy_conflict": "%1$sEste rol está en una posición mayor que mi mayor rol, por lo tanto no puede ser utilizado como un rol autoasignable!",
+      "success": "%1$sEl rol autoasignable **%2$s** ha sido agregado, el cual te da el rol **%3$s**"
     },
     "autoroles_remove": {
-      "not_found": "%1$sI couldn't find an autorole with that name",
-      "success": "%1$sRemoved autorole %2$s"
+      "not_found": "%1$sNo pude encontrar un rol autoasignable con ese nombre!",
+      "success": "%1$sEl rol autoasignable %2$s ha sido removido."
     },
     "autoroles_clear": {
-      "success": "%1$sCleared all autoroles!"
+      "success": "%1$sTodos los roles autoasignables han sido removidos!"
     },
     "admincustom": {
-      "admin_only": "Custom command creation is now admin only.",
-      "everyone": "Custom command creation can now be done by anyone."
+      "admin_only": "La creación de comandos personalizados ahora es permitida solo para administradores.",
+      "everyone": "La creación de comandos personalizados ahora es permitida para todos."
     },
     "timedisplay_set": {
-      "mode_not_specified": "%1$sYou need to specify a mode (12h or 24h)",
-      "12h": "%1$sSet time display mode to 12h",
-      "24h": "%1$sSet time display mode to 24h",
-      "invalid": "%1$sNot a valid choice. Valid choices: **24h**, **12h**"
+      "mode_not_specified": "%1$sNecesitas especificar el formato (12h o 24h)",
+      "12h": "%1$sLa hora ahora se muestra con el formato 12h",
+      "24h": "%1$sLa hora ahora se muestra con el formato 24h",
+      "invalid": "%1$sNo es una opción válida. Opciones válidas: **24h**, **12h**"
     },
     "server_role_disallow": {
-      "no_name": "%1$sYou need to specify the name of the role!",
-      "public_role": "%1$sYou cannot disable the everyone role from using commands!",
-      "success": "%1$sDisabled role %2$s from executing commands."
+      "no_name": "%1$sNecesitas especificar el nombre del rol!",
+      "public_role": "%1$sNo puedes deshabilitar el rol everyone de usar comandos!",
+      "success": "%1$sEl rol %2$s ahora está deshabilitado para el uso de comandos."
     },
     "server_role_allow": {
-      "not_disabled": "%1$sThis role isn't disabled!",
-      "success": "%1$sAllowed role %2$s to execute commands."
+      "not_disabled": "%1$sEste rol no está deshabilitado!",
+      "success": "%1$sEl rol %2$s ahora está habilitado para el uso de comandos."
     },
     "server_ignorebots_autoroles_toggle": {
-      "success": "%1$sSet bot autorole ignore to: **%2$s**"
+      "success": "%1$sIgnorar bots a la hora de asignar autorole: **%2$s**"
     },
     "server_ignorebots_joinleave_toggle": {
-      "success": "%1$sSet bot join/leave ignore to: **%2$s**"
+      "success": "%1$sIgnorar bots a la hora de enviar mensaje de entrada/salida: **%2$s**"
     },
     "levelupmessages_toggle": {
-      "success": "%1$sSet level up messages to: **%2$s**"
+      "success": "%1$sMostrar mensajes a la hora de subir de nivel: **%2$s**"
     },
     "levelupmessages_message_set": {
-      "success": "%1$sServer level-up message set to: %2$s"
+      "success": "%1$sEl nuevo mensaje a la hora de subir de nivel es: %2$s"
     },
     "levelupmessages_message_clear": {
-      "success": "%1$sCleared level-up message!"
+      "success": "%1$sReiniciado el mensaje a la hora de subir de nivel!"
     },
     "levelupmessages_channel_set": {
-      "success": "%1$sThe level-up channel has been set to: %2$s"
+      "success": "%1$sEl canal para los mensajes de subir de nivel ahora es: %2$s"
     },
     "defaultmutetimeout_set": {
-      "not_specified": "%1$sYou have to specify a timeout in the format of 1m20s, for example.",
-      "wrong_format": "%1$sWrong time format. You have to specify a timeout in the format of 1m20s, for example.",
-      "too_long": "%1$sThe time specified is too long...",
-      "negative_notice": "You cannot mute someone for negative time!",
-      "success": "%1$sSuccessfully set mod action timeout to `%2$s` (%3$dms)"
+      "not_specified": "%1$sNecesitas especificar el tiempo con el formato 1m20s, por ejemplo.",
+      "wrong_format": "%1$sError en el formato del tiempo. Debes especificar el tiempo con el formato 1m20s, por ejemplo.",
+      "too_long": "%1$sEl tiempo especificado es muy largo...",
+      "negative_notice": "Uno simplemente no mutea a alguien en tiempo negativo!",
+      "success": "%1$sEl tiempo por defecto del mute ahora es de `%2$s` (%3$dms)"
     },
     "defaultmutetimeout_reset": {
-      "success": "%1$sSuccessfully reset timeout."
+      "success": "%1$sReinicio exitoso del tiempo por defecto del mute."
     },
     "muterole_unbind": {
-      "success": "%1$sCorrectly reset the mute role."
+      "success": "%1$sReinicio exitoso del rol para mute."
     },
     "muterole_set": {
-      "success": "%1$sSet mute role to **%2$s**"
+      "success": "%1$sEl rol para mute es ahora **%2$s**"
     },
     "reset:all": {
-      "success": "%1$sCorrectly reset your options!"
+      "success": "%1$sReinicio exitoso de todas las configuraciones!"
     },
     "birthday_test": {
-      "no_bd_channel": "%1$sYou don't have any birthday channel set!",
-      "no_bd_role": "%1$sYou don't have any role set for the birthday setter!",
-      "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel.",
-      "cannot_interact": "%1$sThe bot is unable to interact with the birthday role.",
-      "success": "%1$sDone! The message was sent on channel %1$s for user **%2$s**. They got assigned the role %3$s",
-      "error": "%1$sOw... There was an error while sending the message on channel %1$s for user **%2$s** and role %3$s"
+      "no_bd_channel": "%1$sNo tienes un canal para mensajes de cumpleaños asignado!",
+      "no_bd_role": "%1$sNo tienes ningún rol designado como rol de cumpleaños!",
+      "no_talk_permission": "%1$sEl bot no puede hablar en el canal para mensajes de cumpleaños.",
+      "cannot_interact": "%1$sEl bot no puede interactuar con el rol de cumpleaños.",
+      "success": "%1$sListo! El mensaje fue enviado en el canal %1$s para el usuario **%2$s**. Les fue asignado el rol %3$s",
+      "error": "%1$sOw... Hubo un error mientras se enviaba el mansaje en el canal %1$s para el usuario **%2$s** y el rol %3$s"
     },
     "usermessage_joinmessage_add": {
-      "success": "%1$sAdded `%2$s` to the extra join messages successfully."
+      "success": "%1$sSe agregó `%2$s` al mensaje de ingreso extra."
     },
     "usermessage_joinmessage_remove": {
-      "success": "%1$sRemoved `%2$s (index %3$d)` from the extra join messages successfully."
+      "success": "%1$sSe removió `%2$s (index %3$d)` del mensaje de ingreso extra."
     },
     "usermessage_joinmessage_clear": {
-      "success": "%1$sCleared all extra join messages."
+      "success": "%1$sSe reiniciaron todos los mensajes de ingreso extra."
     },
     "usermessage_joinmessage_list": {
-      "header": "Extra join messages list. %1$s\n%2$s",
-      "no_extras": "%1$sThere isn't any extra join messages here..."
+      "header": "Lista de mensajes de ingreso extra. %1$s\n%2$s",
+      "no_extras": "%1$sNo hay mensajes de ingreso extra aquí..."
     },
     "usermessage_leavemessage_add": {
-      "success": "%1$sAdded `%2$s` to the extra leave messages successfully."
+      "success": "%1$sSe agregó `%2$s` al mensaje de salida extra."
     },
     "usermessage_leavemessage_remove": {
-      "success": "%1$sRemoved `%2$s (index %3$d)` from the extra leave messages successfully."
+      "success": "%1$sSe removió `%2$s (index %3$d)` del mensaje de salida extra."
     },
     "usermessage_leavemessage_clear": {
-      "success": "%1$sCleared all extra leave messages."
+      "success": "%1$sSe reiniciaron todos los mensajes de salida extra."
     },
     "usermessage_leavemessage_list": {
-      "header": "Extra leave messages list. %1$s\n%2$s",
-      "no_extras": "%1$sThere isn't any extra leave messages here..."
+      "header": "Lista de mensajes de salida extra. %1$s\n%2$s",
+      "no_extras": "%1$sNo hay mensajes de salida extra aquí..."
     },
-    "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
-    "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
-    "no_command": "%1$sNo command called %2$s",
-    "invalid_role": "%1$sThat's not a valid role!"
+    "invalid_category": "%1$sIngresaste una categoría inválida. Una lista de todas las categorías válidas para deshabilitar (sensible a mayúsculas y minúsculas) será mostrado abajo```md\n%2$s```",
+    "help_opts_notice": "%1$sNo puedes deshabilitar los comandos de opciones (opts) o el de ayuda (help).",
+    "no_command": "%1$sNo hay un comando llamado %2$s",
+    "invalid_role": "%1$sEse no es un rol válido!"
   },
   "discord_permissions": {
-    "create_instant_invite": "Create Instant Invite",
-    "kick_members": "Kick Members",
-    "ban_members": "Ban Members",
+    "create_instant_invite": "Crear Invitación Instantánea",
+    "kick_members": "Expulsar Miembros",
+    "ban_members": "Banear Miembros",
     "administrator": "Administrator",
-    "manage_channel": "Manage Channels",
-    "manage_server": "Manage Server",
-    "message_add_reaction": "Add Reactions",
-    "view_audit_logs": "View Audit Logs",
-    "view_channel": "Read Text Channels & See Voice Channels",
-    "message_read": "Read Messages",
-    "message_write": "Send Messages",
-    "message_tts": "Send TTS Messages",
-    "message_manage": "Manage Messages",
-    "message_embed_links": "Embed Links",
-    "message_attach_files": "Attach Files",
-    "message_history": "Read History",
-    "message_mention_everyone": "Mention Everyone",
-    "message_ext_emoji": "Use External Emojis",
-    "voice_connect": "Connect",
-    "voice_speak": "Speak",
-    "voice_mute_others": "Mute Members",
-    "voice_deaf_others": "Deafen Members",
-    "voice_move_others": "Move Members",
-    "voice_use_vad": "Use Voice Activity",
-    "nickname_change": "Change Nickname",
-    "nickname_manage": "Manage Nicknames",
-    "manage_roles": "Manage Roles",
-    "manage_permissions": "Manage Permissions",
-    "manage_webhooks": "Manage Webhooks",
-    "manage_emotes": "Manage Emojis"
+    "manage_channel": "Administrar Canales",
+    "manage_server": "Administrar Servidor",
+    "message_add_reaction": "Añadir reacciones",
+    "view_audit_logs": "Ver el registro de auditoría",
+    "view_channel": "Leer canales de texto y ver canales de voz",
+    "message_read": "Leer mensajes",
+    "message_write": "Enviar mensajes",
+    "message_tts": "Enviar mensajes de TTS",
+    "message_manage": "Administrar mensajes",
+    "message_embed_links": "Insertar Enlaces",
+    "message_attach_files": "Adjuntar Archivos",
+    "message_history": "Leer el historial de mensajes",
+    "message_mention_everyone": "Mencionar a todos",
+    "message_ext_emoji": "Usar Emojis externos",
+    "voice_connect": "Conectar",
+    "voice_speak": "Hablar",
+    "voice_mute_others": "Silenciar Miembros",
+    "voice_deaf_others": "Ensordecer Miembros",
+    "voice_move_others": "Mover Miembros",
+    "voice_use_vad": "Usar la actividad de voz",
+    "nickname_change": "Cambiar apodo",
+    "nickname_manage": "Administrar apodo",
+    "manage_roles": "Administrar Roles",
+    "manage_permissions": "Administrar Permisos",
+    "manage_webhooks": "Administrar Webhooks",
+    "manage_emotes": "Administrar emojis"
   }
 }
