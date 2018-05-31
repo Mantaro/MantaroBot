@@ -77,8 +77,8 @@ task generateLanguageList {
 }
 
 dependencies {
-	compile 'net.dv8tion:JDA:3.5.0_331'
-	compile 'com.sedmelluq:lavaplayer:1.2.45'
+	compile 'net.dv8tion:JDA:3.6.0_368'
+	compile 'com.sedmelluq:lavaplayer:1.2.63'
 	compile 'com.sedmelluq:jda-nas:1.0.6'
 
 	compile 'org.reflections:reflections:0.9.11'
