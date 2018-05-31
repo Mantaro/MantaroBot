@@ -502,7 +502,7 @@ public class CurrencyCmds {
                                 player.getInventory().process(new ItemStack(item, -1));
                                 giveToPlayer.getInventory().process(new ItemStack(item, 1));
                                 event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.success"), EmoteReference.OK, event.getMember().getEffectiveName(),
-                                        item.getName(), event.getGuild().getMember(giveTo).getEffectiveName()).queue();
+                                        1, item.getName(), event.getGuild().getMember(giveTo).getEffectiveName()).queue();
                             } else {
                                 event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.multiple_items_error"), EmoteReference.ERROR).queue();
                             }

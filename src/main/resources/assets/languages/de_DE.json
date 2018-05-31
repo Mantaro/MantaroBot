@@ -520,9 +520,9 @@
       "locked_notice": "%1$sDu kannst momentan keine Gegenstände senden. (Nutzer gesperrt)",
       "hidden_item": "%1$sDu kannst diesen Gegenstand nicht versenden!",
       "overflow": "%1$sDieser Nutzer hat bereits das Maximum von diesem Gegenstand (5000).",
-      "success": "%1$s%2$s gab 1 **%3$s** an %4$s",
+      "success": "%1$s%2$s gab **%4$s** **%5$s** an %6$s",
       "multiple_items_error": "%1$sDu hast diesen Gegenstand nicht.",
-      "error": "1$sDu hast nicht genügend von diesem Gegenstand!"
+      "error": "%1$sDu hast nicht genügend von diesem Gegenstand!"
     },
     "transfer": {
       "transfer_yourself_note": "%1$sDu kannst nichts an dich selbst senden.",
