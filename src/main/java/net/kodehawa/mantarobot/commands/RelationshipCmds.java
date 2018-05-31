@@ -673,6 +673,11 @@ public class RelationshipCmds {
                     return;
                 }
 
+                if(claimer.isLocked()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.locked"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 //Deduct from balance and checks for money.
                 if(!claimer.removeMoney(waifuFinalValue)) {
                     event.getChannel().sendMessageFormat(
