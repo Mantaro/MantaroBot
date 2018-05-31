@@ -520,7 +520,7 @@
       "locked_notice": "%1$sYou cannot transfer items now. (Player is locked)",
       "hidden_item": "%1$sYou cannot transfer this item!",
       "overflow": "%1$sThis player has the maximum possible amount of this item (5000).",
-      "success": "%1$s%2$s gave 1 **%3$s** to %4$s",
+      "success": "%1$s%2$s gave **%3$s** **%4$s** to %5$s",
       "multiple_items_error": "%1$sYou don't have any of these items in your inventory",
       "error": "%1$sYou don't have enough of this item in your inventory to do this!"
     },

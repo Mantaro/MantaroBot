@@ -518,7 +518,7 @@
       "locked_notice": "%1$sNo puedes transferir items ahora.",
       "hidden_item": "%1$sNo puedes transferir este item!",
       "overflow": "%1$sEste jugador tiene el máximo permitido de este item (5000).",
-      "success": "%1$s%2$s le dió **%3$s** a %4$s",
+      "success": "%1$s%2$s le dió **%3$s** **%4$s** a %5$s",
       "multiple_items_error": "%1$sNo tienes ninguno de estos items en tu inventario.",
       "error": "%1$sNo tienes suficientes items!"
     },
