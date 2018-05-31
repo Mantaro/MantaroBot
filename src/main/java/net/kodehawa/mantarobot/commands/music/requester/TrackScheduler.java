@@ -145,7 +145,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
-        if(getRequestedChannelParsed() != null && getRequestedChannelParsed().canTalk()) {
+        if(getRequestedChannelParsed() != null && getRequestedChannelParsed().canTalk() && (lastMessageSentAt == 0 || lastMessageSentAt + 10000 < System.currentTimeMillis())) {
             getRequestedChannelParsed().sendMessage(EmoteReference.SAD +
                     "Something went wrong while playing this track! Sorry for the inconveniences, I'll try to play the next one available if there is one.").queue();
         }
