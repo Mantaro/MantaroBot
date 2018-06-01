@@ -1,7 +1,7 @@
 {
   "general": {
     "invalid_number": "%1$sDas ist keine Nummer!",
-    "requested_by": "Angefordert von%1$s.",
+    "requested_by": "Angefordert von %1$s.",
     "operation_timed_out": "%1$sDie Zeit, um diese Operation zu beantworten, ist abgelaufen.",
     "too_many_users_found": "%1$sZu viele Benutzer gefunden, versuchen Sie es etwas genuaer? (zum Beispiel: name#discriminator)\n**Gefundene Benutzer:** %2$s",
     "search_no_result": "%1$sIhre Suche ergab keine Ergebnisse. :(",
@@ -385,6 +385,7 @@
     "marry": {
       "loveletter": {
         "no_letter": "%1$sDu hast keine Liebesbriefe in deinem Inventar, also hast du nichts, wo du deine Briefe draufschreiben kannst.",
+        "empty": "%1$sDu kannst den Liebesbrief nicht leer lassen.",
         "no_marriage": "%1$sDu bist nicht verheiratet und du kannst keinen Liebesbrief an dich selbst schreiben...",
         "not_proposing_player": "%1$sDu bist nicht derjenige, der diesen Antrag gestellt hat!",
         "already_done": "%1$sDie Ehe hat bereits einen Liebesbrief. Schau ihn dir unter `marry status` an.",
@@ -428,6 +429,7 @@
       },
       "claim": {
         "no_user": "%1$sDu hast keinen Nutzer zum Beanspruchen erwähnt.",
+        "locked": "%1$sDu bist aktuell nicht in der Lage diese Aktion durchzuführen.",
         "key_locked": "%1$sDer Nutzer, den du versucht hast zu beanspruchen, ist verschlossen und kann nicht beansprucht werden.",
         "not_enough_money": "%1$sDu hast nicht genug Geld, um diese Waifu zu beanspruchen **(Kosten: %2$s)**",
         "not_enough_slots": "%1$sDu hast nicht genug Plätze verfügbar, um diese Waifu zu beanspruchen. (Plätze: %2$s, Benutzt: %3$s)",
@@ -823,7 +825,7 @@
       "smile": "%1$s lächelt %2$s an. :heart:",
       "stare": "%1$s starrt %2$s an.",
       "holdhands": "%1$s hält %2$ss Hand.",
-      "cuddle": "%1$s knuddelt %2$s.",
+      "cuddle": "%1$s du wurdest von %2$s geknuddelt.",
       "nuzzle": "%1$s knuddelt %2$s.",
       "bloodsuck": "%1$s saugt am Blut von %2$s!",
       "nom": "Yummy.",
@@ -871,13 +873,17 @@
         "ended_lobby": "%1$sBeendete Lobby! Danke fürs Spielen!",
         "all_attempts_used": "%1$sBereits alle Versuche genutzt, Spiel beendet. Mögliche Antworten waren: %2$s",
         "incorrect_answer": "%1$sDas ist es nicht, Sie haben %2$d Versuche übrig.",
-        "won_game": "%1$s**%2$s** hat $%3$d credits gewonnen, dank eine richtigen Antwort!"
+        "won_game": "%1$s**%2$s** hat $%3$d Credits gewonnen, dank eine richtigen Antwort!"
       },
       "lobby_time_out": "%1$sDie Zeit ist abgelaufen! Die richtige Antwort ist: %2$s",
-      "end_footer": "Sie haben 10 Versuche und 60 Sekunden. (Schreibe end um das Spiel zu beenden)",
+      "end_footer": "Du hast 10 Versuche und 60 Sekunden. (Schreibe end, um das Spiel zu beenden)",
+      "trivia_end_footer": "Du hast 2 Versuche und 60 Sekunden. (Gebe end ein, um das Spiel zu beenden)",
       "error": "%1$sFehler beim Einrichten eines Spiels.",
       "character_load_error": "%1$sMelden Sie dies bitte im offiziellen Server. Fehler beim Einrichten des Spiels für den zuvor gespeicherten Charakter: %2$s",
       "character_start": "Rate den Charakter"
+    },
+    "opencrate": {
+      "no_crate": "%1$sDu hast keine Truhe, die du öffnen könntest. :("
     },
     "prune": {
       "no_messages_specified": "%1$sDu hast keine zu löschenden Nachrichten angegeben.",
@@ -886,14 +892,14 @@
       "no_pins_no_messages": "%1$sEs gibt hier keine nicht gepinnten Nachrichten...",
       "mention_no_messages": "%1$sEs gibt hier keine Nachrichten von Benutzern, die Sie hier erwähnt haben.",
       "too_few_messages": "%1$sZu wenige Nachrichten zum löchen!",
-      "error_retrieving": "%1$sUnbekannter Fehler beim Abrufen des Verlaufs, um die Nachrichten zu löchen<%2$s>: %3$s",
+      "error_retrieving": "%1$sUnbekannter Fehler beim Abrufen des Verlaufs, um die Nachrichten zu löchen %2$s %3$s",
       "invalid_number": "%1$sBitte geben eine gültige Nummer an.",
       "not_valid": "%1$sDas ist keine gültige Anzahl zu löschender Nachrichten!",
       "less_than_five": "%1$sSie müssen mindestens 5 Nachrichten bereitstellen.",
       "messages_too_old": "%1$sEs gibt keine Nachrichten, die jünger als 2 Wochen sind, Discord lässt mich nicht löschen.",
       "success": "%1$sLöschte erfolgreich %2$s nachrichten von diesem Kanal!",
       "lack_perms": "%1$sFehlende Erlaubnis zum Löschen von Nachrichten (Erlaubnis nicht zur Verfügung gestellt: %2$s)",
-      "error_deleting": "%1$sUnbekannter Fehler beim Löschen von Nachrichten <%2$s>: %3$s"
+      "error_deleting": "%1$sUnbekannter Fehler beim Löschen von Nachrichten %2$s %3$s"
     },
     "imageboard": {
       "catgirl": {
@@ -1218,7 +1224,7 @@
       "success": "%1$sKanal %2$s wird nicht länger auf Befehle achten."
     },
     "server_channel_allow": {
-      "success": "%sChannel %s will now listen to commands"
+      "success": "%sKanal %s wird ab jetzt auf Befehle achten."
     },
     "category_disable": {
       "no_category": "%1$sDu musst eine Kategorie zum Deaktivieren angeben.",
