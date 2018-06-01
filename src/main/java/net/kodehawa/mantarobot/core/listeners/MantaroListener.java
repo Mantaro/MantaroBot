@@ -379,14 +379,14 @@ public class MantaroListener implements EventListener {
         JDA jda = event.getJDA();
         if (jda.getShardInfo() == null) return;
 
-        if (event.getStatus().equals(JDA.Status.CONNECTED)) {
+        if (event.getNewStatus().equals(JDA.Status.CONNECTED)) {
             MantaroBot.getInstance().getStatsClient().increment("shard.connect");
             MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.connected")
                     .withText("Shard connected")
                     .withDate(new Date()).build());
         }
 
-        log.info(String.format("Shard #%d: Changed from %s to %s", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
+        log.info(String.format("Shard #%d: Changed from %s to %s", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getNewStatus()));
     }
 
     private void logUnban(GuildUnbanEvent event) {

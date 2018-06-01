@@ -648,10 +648,10 @@ public class MusicCmds {
                 if(args.length == 0) {
                     if(musicManager.getTrackScheduler().getRepeatMode() == TrackScheduler.Repeat.SONG) {
                         musicManager.getTrackScheduler().setRepeatMode(null);
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.queue.song_cancel"), EmoteReference.CORRECT).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.repeat.song_cancel"), EmoteReference.CORRECT).queue();
                     } else {
                         musicManager.getTrackScheduler().setRepeatMode(TrackScheduler.Repeat.SONG);
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.queue.song_repeat"), EmoteReference.CORRECT).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.repeat.song_repeat"), EmoteReference.CORRECT).queue();
                     }
 
                     TextChannelGround.of(event).dropItemWithChance(0, 10);
@@ -659,10 +659,10 @@ public class MusicCmds {
                     if(args[0].equalsIgnoreCase("queue")) {
                         if(musicManager.getTrackScheduler().getRepeatMode() == TrackScheduler.Repeat.QUEUE) {
                             musicManager.getTrackScheduler().setRepeatMode(null);
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.queue.queue_cancel"), EmoteReference.CORRECT).queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.repeat.queue_cancel"), EmoteReference.CORRECT).queue();
                         } else {
                             musicManager.getTrackScheduler().setRepeatMode(TrackScheduler.Repeat.QUEUE);
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.queue.queue_repeat"), EmoteReference.CORRECT).queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.repeat.queue_repeat"), EmoteReference.CORRECT).queue();
                         }
 
                         TextChannelGround.of(event).dropItemWithChance(0, 10);
