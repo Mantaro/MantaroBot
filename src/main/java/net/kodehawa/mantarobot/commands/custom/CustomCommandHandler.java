@@ -50,7 +50,8 @@ public class CustomCommandHandler {
 
             try {
                 String code = value.trim();
-                if (code.isEmpty()) return;
+                if (code.isEmpty())
+                    return;
 
                 if (!code.startsWith("<$k")) code = "<$k " + code;
 

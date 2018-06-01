@@ -107,7 +107,7 @@ public class VoiceChannelListener implements EventListener {
                     if(gmm.isAwaitingDeath()) {
                         TextChannel tc = scheduler.getRequestedChannelParsed();
                         if(tc.canTalk()) {
-                            tc.sendMessageFormat(scheduler.getLanguage().get("commands.music_general.listener.resume"), EmoteReference.POPPER).queue();
+                            tc.sendMessageFormat(scheduler.getLanguage().get("commands.music_general.listener.resumed"), EmoteReference.POPPER).queue();
                         }
                     }
                 }
