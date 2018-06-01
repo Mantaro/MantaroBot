@@ -25,6 +25,7 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
+import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -218,6 +219,12 @@ public class PlayerCmds {
                             saveAfter = true;
                         if(player.getLevel() >= 200 && playerData.addBadgeIfAbsent(Badge.MARATHON_WINNER))
                             saveAfter = true;
+                        if(player.getReputation() >= 10 && playerData.addBadgeIfAbsent(Badge.POPULAR))
+                            saveAfter = true;
+                        if(player.getReputation() >= 100 && playerData.addBadgeIfAbsent(Badge.CELEBRITY))
+                            saveAfter = true;
+                        if(player.getReputation() >= 1000 && playerData.addBadgeIfAbsent(Badge.MOST_KNOWN))
+                            saveAfter = true;
                         if(playerData.getMarketUsed() > 1000 && playerData.addBadgeIfAbsent(Badge.COMPULSIVE_BUYER))
                             saveAfter = true;
                         if(mhMember != null && mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 406920476259123201L) && playerData.addBadgeIfAbsent(Badge.HELPER_2))
@@ -276,9 +283,11 @@ public class PlayerCmds {
                                         (user.getTimezone() == null ? languageContext.get("commands.profile.no_timezone") : user.getTimezone())), String.format(languageContext.get("general.requested_by"), event.getAuthor().getName())), null
                                 );
 
+                        Item potion = Items.fromId(player.getData().getActivePotion().getPotion());
+
                         if(player.getData().getActivePotion() != null) {
                             builder.addField(EmoteReference.RUNNER + languageContext.get("commands.profile.potion"),
-                                    Items.fromId(player.getData().getActivePotion().getPotion()).getName(), false);
+                                   potion.getEmoji() + " " + potion.getName(), false);
                         }
 
 

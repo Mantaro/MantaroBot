@@ -74,6 +74,15 @@ public enum Badge {
     //Win more than 100 games
     GAMER("Gamer", "\uD83D\uDD79", "Win 100 games.", 91, 92),
 
+    //Self-explanatory. (Description)
+    POPULAR("Popular", "\uD83E\uDD49", "Earn 10 reputation.", 91, 92),
+
+    //Self-explanatory. (Description)
+    CELEBRITY("Celebrity", "\uD83E\uDD48", "Earn 100 reputation.", 91, 92),
+
+    //Self-explanatory. (Description)
+    MOST_KNOWN("Most known", "\uD83E\uDD47", "Earn 1000 reputation.", 91, 92),
+
     //Get extremely lucky with slots.
     LUCKY_SEVEN("Lucky 7", "\uD83C\uDFB0", "Get more than 175 million in credits from slots.", 92, 92),
 
@@ -88,6 +97,9 @@ public enum Badge {
 
     //Use a mod action with mantaro
     POWER_USER("Power User", "\uD83D\uDD27", "Do mod stuff with Mantaro.", 91, 92),
+
+    //Find a gem.
+    GEM_FINDER("Gem Finder", "\uD83D\uDC8E", "Find a gem while mining.", 91, 92),
 
     //Mine a diamond.
     MINER("Miner", "\u26cf", "Find a diamond while mining.", 91, 92),

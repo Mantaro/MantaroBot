@@ -56,7 +56,7 @@
       "dust": "%1$sDer Tag ist zu Ende und dein Eimer hat nur Staub gesammelt.",
       "no_rod": "%1$sDu hast keine Angel mit der du Angeln kannst!",
       "trash": {
-        "overflow": "%1$sDu hast beim Angeln etwas Müll gefunden, aber dein Inventar war voll, also mussten wir es ins Wasser werfen ...",
+        "overflow": "%1$sDu hast beim Angeln etwas Müll gefunden, aber dein Inventar war voll, also mussten wir es ins Wasser werfen...",
         "success": "%1$sWährend du ruhig angelst findest du %2$s, aber es scheint nur Müll zu sein :("
       },
       "tier3": {

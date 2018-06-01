@@ -57,7 +57,7 @@
       "no_rod": "%1$sNo tienes una caña de pescar para pescar!",
       "trash": {
         "overflow": "%1$sEncontraste un poco de basura pescando, pero tu inventario está lleno, asi que no puedes recogerla...",
-        "success": "%1$sMientras pescabas calmadamente, encontraste %2$s %3$s flotando, pero parece que solo es un poco de basura... :("
+        "success": "%1$sMientras pescabas calmadamente, encontraste %2$s flotando, pero parece que solo es un poco de basura... :("
       },
       "tier3": {
         "extra": "También encontraste %1$s, que suerte!"

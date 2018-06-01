@@ -152,7 +152,7 @@ public class Items {
                     }
 
                     playerInventory.process(new ItemStack(selected, 1));
-                    event.getChannel().sendMessageFormat(lang.get("commands.fish.trash.success"), EmoteReference.EYES, selected.getEmoji(), selected.getName()).queue();
+                    event.getChannel().sendMessageFormat(lang.get("commands.fish.trash.success"), EmoteReference.EYES, selected.getEmoji()).queue();
                 } else if (select > 45) {
                     List<Item> fish = Stream.of(ALL)
                             .filter(i -> i.getItemType() == ItemType.FISHING && !i.isHidden() && i.isSellable())

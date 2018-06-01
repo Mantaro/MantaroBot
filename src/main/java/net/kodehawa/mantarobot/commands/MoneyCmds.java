@@ -879,7 +879,7 @@ public class MoneyCmds {
                         message += String.format(languageContext.withRoot("commands", "mine.gem.success"), itemGem.getEmoji() + " x" + selectedGem.getAmount());
                     }
 
-                    player.getData().addBadgeIfAbsent(Badge.MINER);
+                    player.getData().addBadgeIfAbsent(Badge.GEM_FINDER);
                 }
 
                 event.getChannel().sendMessage(message).queue();
