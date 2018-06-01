@@ -35,6 +35,7 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
@@ -57,6 +58,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.security.SecureRandom;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
@@ -276,13 +278,13 @@ public class MoneyCmds {
                         default:
                             i = content.endsWith("%")
                                     ? Math.round(PERCENT_FORMAT.get().parse(content).doubleValue() * player.getMoney())
-                                    : Long.parseLong(content);
+                                    : new RoundedMetricPrefixFormat().parseObject(content, new ParsePosition(0));
                             if(i > player.getMoney() || i < 0) throw new UnsupportedOperationException();
                             multiplier = 1.1d + (i / player.getMoney() * r.nextInt(1300) / 1000d);
                             luck = 17 + (int) (multiplier * 13) + r.nextInt(12);
                             break;
                     }
-                } catch(NumberFormatException e) {
+                } catch(NumberFormatException | NullPointerException e) {
                     event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.invalid_money_or_modifier"), EmoteReference.ERROR2).queue();
                     return;
                 } catch(UnsupportedOperationException e) {
