@@ -863,7 +863,7 @@ public class MoneyCmds {
                     player.getData().addBadgeIfAbsent(Badge.MINER);
                 }
 
-                if(r.nextInt(410) > 394) {
+                if(r.nextInt(400) > 371) {
                     List<Item> gem = Stream.of(Items.ALL)
                             .filter(i -> i.getItemType() == ItemType.MINE && !i.isHidden() && i.isSellable())
                             .collect(Collectors.toList());
@@ -875,6 +875,7 @@ public class MoneyCmds {
                         message += languageContext.withRoot("commands", "mine.gem.overflow");
                         money += itemGem.getValue() * 0.9;
                     } else {
+                        player.getInventory().process(selectedGem);
                         message += String.format(languageContext.withRoot("commands", "mine.gem.success"), itemGem.getEmoji() + " x" + selectedGem.getAmount());
                     }
 

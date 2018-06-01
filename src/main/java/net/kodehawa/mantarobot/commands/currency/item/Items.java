@@ -100,9 +100,9 @@ public class Items {
 
             // ---------------------------------- 5.0 ITEMS START HERE ----------------------------------
             PANTS = new Item(ItemType.COMMON, "\uD83D\uDC56", "Pants", "Basically what you wear on your legs... hopefully.", 20, true),
-            POTION_HASTE = new Item(ItemType.RARE, EmoteReference.POTION1.getUnicode(),"Haste Potion", "Allows you to have 50% less ratelimit effect on some commands for 5 minutes.", 890, true),
-            POTION_CLEAN = new Item(ItemType.INTERACTIVE, EmoteReference.POTION1.getUnicode(),"Milky Potion", "Clears all potion effects.", 50, true),
-            POTION_STAMINA = new Item(ItemType.INTERACTIVE, EmoteReference.POTION2.getUnicode(),"Energy Beverage", "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.", 550, true),
+            POTION_HASTE = new Item(ItemType.RARE, "\uD83C\uDF76","Haste Potion", "Allows you to have 50% less ratelimit effect on some commands for 5 minutes.", 890, true),
+            POTION_CLEAN = new Item(ItemType.INTERACTIVE, "\uD83C\uDF7C","Milky Potion", "Clears all potion effects.", 50, true),
+            POTION_STAMINA = new Item(ItemType.INTERACTIVE, "\uD83C\uDFFA","Energy Beverage", "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.", 550, true),
             FISHING_ROD = new Item(ItemType.INTERACTIVE, "\uD83C\uDFA3","Fishing Rod", "Enables you to fish.", 65, true),
             FISH_1 = new Item(ItemType.FISHING, "\uD83D\uDC1F","Fish", "Common Fish. Caught in fishing", 10, false),
             FISH_2 = new Item(ItemType.FISHING, "\uD83D\uDC20","Tropical Fish", "Rare Fish. Caught in fishing", 30, false),
@@ -167,7 +167,7 @@ public class Items {
                         money = Math.max(10, random.nextInt(85));
                     }
 
-                    List<Item> list = new ArrayList<>(amount);
+                    List<ItemStack> list = new ArrayList<>(amount);
                     boolean overflow = false;
                     for(int i = 0; i < amount; i++) {
                         Item it = fishItems.next();
@@ -177,29 +177,25 @@ public class Items {
                             continue;
                         }
 
-                        list.add(it);
+                        list.add(new ItemStack(it, 1));
                     }
 
-                    ArrayList<ItemStack> ita = new ArrayList<>();
-                    list.forEach(item -> ita.add(new ItemStack(item, 1)));
-                    playerInventory.process(ita);
+                    List<ItemStack> reducedList = ItemStack.reduce(list);
+                    playerInventory.process(reducedList);
 
-                    if(money > 0 && list.isEmpty()) {
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money_noitem"),
-                                EmoteReference.POPPER, money
-                        ).queue();
+                    String itemDisplay = ItemStack.toString(reducedList);
+
+                    if(money > 0 && reducedList.isEmpty()) {
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money_noitem"), EmoteReference.POPPER, money).queue();
 
                     } else if(money > 0) {
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money"),
-                                EmoteReference.POPPER, list.stream().map(Item::getEmoji).collect(Collectors.joining(", ")), money
-                        ).queue();
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money"), EmoteReference.POPPER, itemDisplay, money).queue();
                     } else {
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success"),
-                                EmoteReference.POPPER, list.stream().map(Item::getEmoji).collect(Collectors.joining(", "))
-                        ).queue();
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success"), EmoteReference.POPPER, itemDisplay).queue();
                     }
 
-                    if(overflow) event.getChannel().sendMessageFormat(lang.get("commands.fish.overflow"), EmoteReference.SAD).queue();
+                    if(overflow)
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.overflow"), EmoteReference.SAD).queue();
                 }
 
                 p.save();
