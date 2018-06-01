@@ -64,8 +64,8 @@
       },
       "overflow": "%1$sEncontraste unos pescados, pero tu inventario está lleno, asi que no puedes recogerlos y los devuelves al agua.",
       "success": "%1$sMientras pescabas calmadamente, encontraste %2$s y los guardas en tu tarro.",
-      "success_money": "%1$sMientras pescabas calmadamente, encontraste %2$s y %3$d en créditos y los guardas en tu tarro.",
-      "success_money_noitem": "%1$sMientras pescabas calmadamente, encontraste %3$d en créditos y los guardas en tu bolsillo.",
+      "success_money": "%1$sMientras pescabas calmadamente, encontraste %2$s y **$%3$d créditos** y los guardas en tu tarro.",
+      "success_money_noitem": "%1$sMientras pescabas calmadamente, encontraste **$%3$d créditos** y los guardas en tu bolsillo.",
       "rod_broke": "%1$sTu caña de pescar se ha roto mientras intentabas atrapar un pez :("
     },
     "softban": {

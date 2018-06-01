@@ -64,8 +64,8 @@
       },
       "overflow": "%1$sDu hast Fische gefangen, aber dein Inventar war voll, also mussten wir es ins Wasser werfen ...",
       "success": "%1$sWährend du ruhig angelst findest du %2$s und fährst fort, sie in deinem Fischeimer zu lagern.",
-      "success_money": "%1$sWährend du ruhig angelst findest du %2$s und %3$d in bar und du bewahrst es weiter in deinem Eimer auf.",
-      "success_money_noitem": "%1$s Während du ruhig angelst findest du %3$d in bar und fährst fort, das Geld in deiner Tasche zu sparen.",
+      "success_money": "%1$sWährend du ruhig angelst findest du %2$s und **$%3$d bar** und du bewahrst es weiter in deinem Eimer auf.",
+      "success_money_noitem": "%1$s Während du ruhig angelst findest du **$%3$d bar** und fährst fort, das Geld in deiner Tasche zu sparen.",
       "rod_broke": "%1$sDeine Angelrute brach beim Versuch, einen Fisch zu fangen. :("
     },
     "softban": {
