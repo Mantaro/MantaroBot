@@ -16,8 +16,10 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Data;
 
+import java.beans.ConstructorProperties;
 import java.util.UUID;
 
 @Data
@@ -28,6 +30,8 @@ public class PotionEffect {
     private ItemType.PotionType type;
     private long timesUsed;
 
+    @JsonCreator
+    @ConstructorProperties({"potionId", "until", "type"})
     public PotionEffect(int potionId, long until, ItemType.PotionType type) {
         uuid = UUID.randomUUID().toString();
         this.potion = potionId;
