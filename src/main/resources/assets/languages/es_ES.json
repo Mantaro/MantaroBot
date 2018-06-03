@@ -32,7 +32,7 @@
       "not_found": "No pude encontrar ningún objecto con tu búsqueda :("
     },
     "misc_item_usage": {
-      "milk": "%1$sTodos los efectos de poción han sido limpiados.",
+      "milk": "%1$sTodos los efectos de poción han sido removidos.",
       "stamina": "%1$sActivada poción de stamina por 5 sesiones de mine.",
       "haste": "%1$sPrisa activado por 2 minutos.",
       "crate": {
