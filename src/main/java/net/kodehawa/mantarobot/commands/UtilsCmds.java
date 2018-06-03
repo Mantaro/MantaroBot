@@ -404,7 +404,7 @@ public class UtilsCmds {
                     return;
                 }
 
-                event.getChannel().sendMessage(String.format("%sI'll remind you of **%s** in %s", EmoteReference.CORRECT, toRemind, Utils.getHumanizedTime(time))).queue();
+                event.getChannel().sendMessage(String.format("%sI'll remind you of `%s**` in %s", EmoteReference.CORRECT, toRemind, Utils.getHumanizedTime(time))).queue();
 
                 //TODO save to db
                 new Reminder.Builder()
