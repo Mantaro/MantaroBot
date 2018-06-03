@@ -23,7 +23,7 @@
     "description": "Beschreibung",
     "options": "Optionen",
     "find_members_failure": "%1$sKein Mitglied mit Ihren Suchkriterien gefunden. :(",
-    "too_many_members": "%1$sZu viele Mitglieder gefunden, versuchen Sie es etwas genauer? (zum Beispiel: name#discriminator)\n**Gefundene Mitglider:** %2$s",
+    "too_many_members": "%1$sZu viele Mitglieder gefunden, versuchen Sie es etwas genauer? (zum Beispiel: name#discriminator)\n**Gefundene Mitglieder:** %2$s",
     "dust": "Hier ist nur Staub.",
     "invalid_syntax": "Ungültiger Syntax",
     "item_lookup": {
@@ -64,8 +64,8 @@
       },
       "overflow": "%1$sDu hast Fische gefangen, aber dein Inventar war voll, also mussten wir es ins Wasser werfen ...",
       "success": "%1$sWährend du ruhig angelst findest du %2$s und fährst fort, sie in deinem Fischeimer zu lagern.",
-      "success_money": "%1$sWährend du ruhig angelst findest du %2$s und **$%3$d bar** und du bewahrst es weiter in deinem Eimer auf.",
-      "success_money_noitem": "%1$s Während du ruhig angelst findest du **$%2$d bar** und fährst fort, das Geld in deiner Tasche zu sparen.",
+      "success_money": "%1$sWährend du ruhig angelst findest du %2$s und **$%2$d Credits** und du bewahrst es weiter in deinem Eimer auf.",
+      "success_money_noitem": "%1$s Während du ruhig angelst findest du **$%2$d Credits** und fährst fort, das Geld in deiner Tasche zu sparen.",
       "rod_broke": "%1$sDeine Angelrute brach beim Versuch, einen Fisch zu fangen. :("
     },
     "softban": {
@@ -133,11 +133,11 @@
       "queue": {
         "no_track_found_np": "Nichts oder der Title/die Länge wurde nicht gefunden.",
         "header": "Warteschlange für den Server %1$s",
-        "nothing_playing": "Nichts hier, nur Staub. Warum bringst du nicht ein paar Songs in die Warteschlange? \nWenn du denkst, dass es hier Songs gibt, die aber nicht erscheinen, versuche es mit `~> queue 1`.",
+        "nothing_playing": "Nichts hier, nur Staub. Warum bringst du nicht ein paar Songs in die Warteschlange? \nWenn du denkst, dass es hier Songs gibt, die aber nicht erscheinen, versuche es mit `~>queue 1`.",
         "nothing_playing_2": "**Wenn es einen Song gibt und du hast keine weiteren Songs hinzugefügt, dann ist hier eigentlich nur Staub. Du kannst mehr Songs in die Warteschlange stellen!**",
         "np": "Spiele derzeit",
         "page_overflow": "Nichts hier, nur Staub. Warum gehst du nicht ein paar Seiten zurück?",
-        "page_overflow_2": "Wenn du denkst, dass es hier Songs gibt, die aber nicht erscheinen, versuche es mit `~> queue 1`.",
+        "page_overflow_2": "Wenn du denkst, dass es hier Songs gibt, die aber nicht erscheinen, versuche es mit `~>queue 1`.",
         "total_queue_time": "Gesamtwarteschlangenzeit",
         "total_size": "Gesamtgröße der Warteschlange",
         "togglers": "Widerholen / Pausiert",
@@ -391,7 +391,7 @@
         "already_done": "%1$sDie Ehe hat bereits einen Liebesbrief. Schau ihn dir unter `marry status` an.",
         "too_long": "%1$sDer Liebesbrief ist zu lang (maximal 500 Zeichen).",
         "cannot_see": "%1$sIch kann den Nutzer, mit dem du verheiratet bist, nicht sehen... Vielleicht ist er mit mir auf keinem Server?",
-        "confirmation": "%1$sBist du *sicher*, dass du diesen Brief für deine Ehe mit **%2$s#%3$s**? Dies ist PERMANENT, während die Ehe hält. *Brieftext:* %4$s",
+        "confirmation": "%1$sBist du *sicher*, dass du diesen Brief für deine Ehe mit **%2$s#%3$s**? Dies ist PERMANENT, während die Ehe hält (Gebe yes für Ja und no für Nein ein). *Brieftext:* %4$s",
         "confirmed": "%1$sDer Liebesbrief wurde erfolgreich an deine Liebe zugestellt! Schau ihn dir mit `marry status` an.",
         "scrapped": "%1$sDu hast immer noch Zeit, um darüber nachzudenken, was du schreiben willst, kein Grund zur Eile!"
       },
@@ -693,7 +693,7 @@
       "invalid_date": "%1$sUngültiges Datum.\nDas korrekte Format ist `tt/mm/jjjj`",
       "error_date": "%1$s%2$s ist entweder kein gültiges Datum oder nicht analysierbar. Bitte versuchen Sie es mit der korrekten Formatierung. Denken Sie daran, das Jahr einzufügen, obwohl Sie jedes Jahr setzen können und es nichts beeinflussen wird.\nDas korrekte Format ist `tt/mm/jjjj`",
       "added_birthdate": "%1$sErfolgreich das Geburtsdatum hinzugefügt.",
-      "invalid_month": "%1$sDas ist keine gültige Monatszahl! (Gültige Monate sind"
+      "invalid_month": "%1$sDas ist keine gültige Monatszahl! (Gültige Monate sind Nummern von 1-12)"
     },
     "choose": {
       "success": "%1$sIch wähle `%2$s`"
@@ -867,7 +867,7 @@
       "started_mp_user": "%1$sBegann eine MP-Lobby mit den Nutzern: %2$s",
       "lobby_started": "%1$sBegann eine neue Lobby! **Spiele: %2$s**\nDu kannst `endlobby` schreiben um alle Spiele zu beenden.",
       "game_timeout_drop": "%1$sScheint so, als hätte ich hier ein Spiel fallen lassen, aber vergessen, es aufzuheben. Ich werde dein neues Spiel beginnen!",
-      "other_lobby_running": "%1$sEine neue Spielelobby kann nicht gestartet werden, wenn gerade ein Spiel läuft.",
+      "other_lobby_running": "%1$sEine neue Spielelobby kann nicht gestartet werden, wenn gerade ein Spiel läuft. (Sollte dies ein Fehler sein, bitte einen Admin darum `~>opts lobby reset` auszuführen.)",
       "lobby": {
         "ended_game": "%1$sBeendetes Spiel. Mögliche Antworten waren: %2$s",
         "ended_lobby": "%1$sBeendete Lobby! Danke fürs Spielen!",
@@ -1065,7 +1065,7 @@
       "support": "Solltest du Probleme oder Anfragen haben, während du Mantaro nutzt, bitte trete dem [Support Server](https://is.gd/mantaroguild) bei.\n",
       "patreon": "[Wir brauchen deine Hilfe um Mantaro online zu halten! Klicke hier für mehr Informationen.](https://www.patreon.com/mantaro)",
       "disabled_commands": "Zeige nur nicht deaktivierte Befehle. Gesamte deaktivierte Befehle: %1$s",
-      "channel_specific_disabled_commands": "\nZeige nur nicht deaktivierte Befehle. Gesamte kanalspezifische deaktivierte Befehle: %1$s",
+      "channel_specific_disabled_commands": "\nZeige nur nicht deaktivierte Befehle. Gesamte kanalspezifisch deaktivierte Befehle: %1$s",
       "footer": "Um die Befehlsnutzung anzusehen, nutze %1$shelp <command> // -> Befehle: %2$s",
       "commands": "Befehle",
       "extended": {
