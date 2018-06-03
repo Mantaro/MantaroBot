@@ -761,7 +761,7 @@ public class RelationshipCmds {
                     if(c.equalsIgnoreCase("yes")) {
                         Player p = MantaroData.db().getPlayer(ie.getMember());
                         final DBUser user = db.getUser(event.getAuthor());
-                        final UserData userData = claimerUser.getData();
+                        final UserData userData = user.getData();
 
                         if(p.getMoney() < valuePayment) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.not_enough_money"), EmoteReference.ERROR).queue();
