@@ -382,17 +382,15 @@ public class Items {
 
     private static boolean handleStaminaPotion(Player p) {
         boolean hasStaminaPotion = p.getData().getActivePotion() != null && fromId(p.getData().getActivePotion().getPotion()) == POTION_STAMINA;
-        if (r.nextInt(100) > (hasStaminaPotion ? 85 : 75)) { //35% chance for the pick to break on usage (25% with stamina).
-            if (hasStaminaPotion) {
-                PotionEffect staminaPotion = p.getData().getActivePotion();
-                //counter starts at 0
-                if (staminaPotion.getTimesUsed() >= 4) {
-                    p.getData().setActivePotion(null);
-                    p.save();
-                } else {
-                    staminaPotion.setTimesUsed(staminaPotion.getTimesUsed() + 1);
-                    p.save();
-                }
+        if (hasStaminaPotion) {
+            //counter starts at 0
+            if (p.getData().getActivePotion().getTimesUsed() >= 4) {
+                p.getData().setActivePotion(null);
+                p.save();
+            } else {
+                long timesUsed = p.getData().getActivePotion().getTimesUsed();
+                p.getData().getActivePotion().setTimesUsed(timesUsed + 1);
+                p.save();
             }
         }
 

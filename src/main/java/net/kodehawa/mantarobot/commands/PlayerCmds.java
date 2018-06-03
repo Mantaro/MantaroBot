@@ -283,9 +283,9 @@ public class PlayerCmds {
                                         (user.getTimezone() == null ? languageContext.get("commands.profile.no_timezone") : user.getTimezone())), String.format(languageContext.get("general.requested_by"), event.getAuthor().getName())), null
                                 );
 
-                        Item potion = Items.fromId(player.getData().getActivePotion().getPotion());
 
                         if(player.getData().getActivePotion() != null) {
+                            Item potion = Items.fromId(player.getData().getActivePotion().getPotion());
                             builder.addField(EmoteReference.RUNNER + languageContext.get("commands.profile.potion"),
                                    potion.getEmoji() + " " + potion.getName(), false);
                         }
