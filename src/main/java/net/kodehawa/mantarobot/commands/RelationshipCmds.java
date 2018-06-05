@@ -686,7 +686,7 @@ public class RelationshipCmds {
                     return;
                 }
 
-                if(claimerUserData.getWaifus().size() > claimerUserData.getWaifuSlots()) {
+                if(claimerUserData.getWaifus().size() >= claimerUserData.getWaifuSlots()) {
                     event.getChannel().sendMessageFormat(
                             languageContext.get("commands.waifu.claim.not_enough_slots"),
                             EmoteReference.ERROR, claimerUserData.getWaifuSlots(), claimerUserData.getWaifus().size()

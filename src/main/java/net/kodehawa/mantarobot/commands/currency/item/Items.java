@@ -114,7 +114,7 @@ public class Items {
             GEM_4 = new Item(ItemType.MINE, "\uD83D\uDCAB", "Gem Fragment", "Fragment of an ancient gem. Useful for casting", 50, false),
             // ---------------------------------- 5.0 ITEMS START HERE (again lol) ----------------------------------
             MOP = new Item(ItemType.COMMON, "\u3030","Mop", "A delightful way to clean all the dust you have around.", 10, true),
-            CLAIM_KEY = new Item(ItemType.COMMON, EmoteReference.KEY.getUnicode(),"Claim Key", "This items makes you unclaimeable (as a waifu) while having it on your inventory.", 1, true),
+            CLAIM_KEY = new Item(ItemType.COMMON, EmoteReference.KEY.getUnicode(),"Claim Key", "This items makes you unclaimeable (as a waifu) while having it on your inventory.", 1, false, true),
             COFFEE = new Item(ItemType.COMMON, "\u2615","Coffee", "A delightful way to start your day.", 10, true)
     };
 

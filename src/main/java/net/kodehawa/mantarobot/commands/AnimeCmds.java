@@ -75,7 +75,8 @@ public class AnimeCmds {
                     }
 
                     DiscordUtils.selectList(event, found, anime -> String.format("**[%s (%s)](%s)**",
-                            anime.title().english().isEmpty() ? anime.title().romaji() : anime.title().english(), anime.title().native_(), anime.siteUrl()),
+                            anime.title().english() == null || anime.title().english().isEmpty() ?
+                                    anime.title().romaji() : anime.title().english(), anime.title().native_(), anime.siteUrl()),
                             s -> baseEmbed(event, languageContext.withRoot("commands", "anime.selection_start"))
                                     .setDescription(s)
                                     .setThumbnail("https://anilist.co/img/logo_al.png")
@@ -85,7 +86,8 @@ public class AnimeCmds {
                 } catch (JsonSyntaxException jsonException) {
                     event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
                 } catch (NullPointerException nullException) {
-                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.malformed_results"), EmoteReference.ERROR).queue();
+                    nullException.printStackTrace();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.malformed_result"), EmoteReference.ERROR).queue();
                 } catch (Exception exception) {
                     event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.error"),
                             EmoteReference.ERROR, exception.getClass().getSimpleName()).queue();
@@ -166,7 +168,7 @@ public class AnimeCmds {
     }
 
     private void animeData(GuildMessageReceivedEvent event, I18nContext lang, MediaSearchQuery.Medium type) {
-        String ANIME_TITLE = type.title().english().isEmpty() ? type.title().romaji() : type.title().english();
+        String ANIME_TITLE = type.title().english() == null || type.title().english().isEmpty() ? type.title().romaji() : type.title().english();
         String RELEASE_DATE = type.startDate() == null ? null : type.startDate().day() + "/" + type.startDate().month() + "/" + type.startDate().year();
         String END_DATE = type.endDate() == null ? null : type.endDate().day() + "/" + type.endDate().month() + "/" + type.endDate().year();
         String ANIME_DESCRIPTION = type.description().replace("<br>", "\n");
