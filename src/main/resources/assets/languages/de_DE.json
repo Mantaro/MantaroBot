@@ -188,8 +188,8 @@
       "header": "Spiele derzeit"
     },
     "pause": {
-      "paused": "Wiedergabe pausiert.",
-      "unpaused": "Wiedergabe wird fortgesetzt."
+      "paused": "Wiedergabe pausiert. *(Wiedergabe wurde zuvor fortgesetzt)*",
+      "unpaused": "Wiedergabe wird fortgesetzt. *(Wiedergabe wurde zuvor pausiert)*"
     },
     "rewind": {
       "negative": "%1$sNur positive Ganzzahlen",
