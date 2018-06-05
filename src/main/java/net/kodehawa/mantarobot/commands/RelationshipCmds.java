@@ -829,7 +829,7 @@ public class RelationshipCmds {
         PlayerData waifuPlayerData = waifuPlayer.getData();
 
         long waifuValue = waifuBaseValue;
-        //For every 150000 money owned, it increases by 7% base value (base: 1300)
+        //For every 120000 money owned, it increases by 7% base value (base: 1300)
         //For every 3 badges, it increases by 17% base value.
         //For every 2580 experience, the value increases by 20% of the base value.
         //After all those calculations are complete, the value then is calculated using final * (reputation scale / 10) where reputation scale goes up by 1 every 10 reputation points.
@@ -837,7 +837,7 @@ public class RelationshipCmds {
         //Maximum waifu value is Integer.MAX_VALUE.
 
         //Money calculation.
-        long moneyValue = Math.round(Math.max(1, (int) (waifuPlayer.getMoney() / 150000)) * calculatePercentage(7, waifuBaseValue));
+        long moneyValue = Math.round(Math.max(1, (int) (waifuPlayer.getMoney() / 120000)) * calculatePercentage(7, waifuBaseValue));
         //Badge calculation.
         long badgeValue = Math.round(Math.max(1, (waifuPlayerData.getBadges().size() / 3)) * calculatePercentage(17, waifuBaseValue));
         //Experience calculator.
