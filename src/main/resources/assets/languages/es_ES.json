@@ -188,8 +188,8 @@
       "header": "Reproduciendo ahora"
     },
     "pause": {
-      "paused": "Reproductor pausado.",
-      "unpaused": "Reproductor resumido."
+      "paused": "Reproductor pausado. *(El reproductor no estaba pausado)*",
+      "unpaused": "Reproductor resumido. *(El reproductor estaba pausado)*"
     },
     "rewind": {
       "negative": "%1$sSólo puedes usar números enteros positivos",

@@ -188,8 +188,8 @@
       "header": "Now Playing"
     },
     "pause": {
-      "paused": "Player paused.",
-      "unpaused": "Player unpaused."
+      "paused": "Player paused. *(Player was unpaused previously)*",
+      "unpaused": "Player unpaused *(Player was paused previously)*."
     },
     "rewind": {
       "negative": "%1$sPositive integers only",

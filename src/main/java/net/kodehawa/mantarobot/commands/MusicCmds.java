@@ -255,6 +255,8 @@ public class MusicCmds {
                 TextChannelGround.of(event).dropItemWithChance(0, 10);
             }
         });
+
+        cr.registerAlias("pause", "resume");
     }
 
     @Subscribe

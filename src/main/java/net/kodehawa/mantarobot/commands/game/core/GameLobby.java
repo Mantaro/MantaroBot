@@ -87,9 +87,7 @@ public class GameLobby extends Lobby {
                     gamesToPlay.clear();
                 else
                     gamesToPlay.removeFirst();
-
-                System.out.println(gamesToPlay.size());
-
+                
                 if(gamesToPlay.isEmpty() || !success) {
                     LOBBYS.remove(getChannel().getIdLong());
                     return;
