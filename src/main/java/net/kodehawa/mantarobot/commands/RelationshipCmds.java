@@ -63,7 +63,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class RelationshipCmds {
 
     private final Config config = MantaroData.config().get();
-    private final long waifuBaseValue = 1500L;
+    private final long waifuBaseValue = 1300L;
 
     @Subscribe
     public void marry(CommandRegistry cr) {
@@ -829,9 +829,9 @@ public class RelationshipCmds {
         PlayerData waifuPlayerData = waifuPlayer.getData();
 
         long waifuValue = waifuBaseValue;
-        //For every 150000 money owned, it increases by 7% base value (base: 1500)
+        //For every 150000 money owned, it increases by 7% base value (base: 1300)
         //For every 3 badges, it increases by 17% base value.
-        //For every 3000 experience, the value increases by 20% of the base value.
+        //For every 2580 experience, the value increases by 20% of the base value.
         //After all those calculations are complete, the value then is calculated using final * (reputation scale / 10) where reputation scale goes up by 1 every 10 reputation points.
         //For every 3 waifu claims, the final value increases by 10%.
         //Maximum waifu value is Integer.MAX_VALUE.
@@ -841,7 +841,7 @@ public class RelationshipCmds {
         //Badge calculation.
         long badgeValue = Math.round(Math.max(1, (waifuPlayerData.getBadges().size() / 3)) * calculatePercentage(17, waifuBaseValue));
         //Experience calculator.
-        long experienceValue = Math.round(Math.max(1, (int) (waifuPlayer.getData().getExperience() / 3000)) * calculatePercentage(20, waifuBaseValue));
+        long experienceValue = Math.round(Math.max(1, (int) (waifuPlayer.getData().getExperience() / 2580)) * calculatePercentage(18, waifuBaseValue));
 
         //"final" value
         waifuValue += moneyValue + badgeValue + experienceValue;
