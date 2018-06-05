@@ -673,10 +673,10 @@
       "header": "Abzeichen erreicht von %1$s"
     },
     "rep": {
-      "no_mentions": "%1$sDu musst mindestens einen Nutzer erwähnen oder deren Namen angeben.\n**%2$s",
+      "no_mentions": "%1$sDu musst mindestens einen Nutzer erwähnen oder deren Namen angeben.\n%2$s",
       "more_than_one": "%1$sDu kannst nur eine Person gleichzeitig Ruf schenken!",
-      "rep_bot": "%1$sDu kannst einem Bot kein Ruf schenken.\n",
-      "rep_yourself": "%1$sDu kannst die selber nicht Ruf schenken.\n",
+      "rep_bot": "%1$sDu kannst einem Bot kein Ruf schenken.\n%2$s",
+      "rep_yourself": "%1$sDu kannst die selber nicht Ruf schenken.\n%2$s",
       "cooldown": {
         "waiting": "**Du kannst diesn Befehl in %1$s erneut verwenden**",
         "pass": "Du kannst jetzt jemandem Ruf schenken."

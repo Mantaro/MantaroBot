@@ -671,10 +671,10 @@
       "header": "Trofeos logrados por %1$s"
     },
     "rep": {
-      "no_mentions": "%1$sNecesitas mencionar o escribir el nombre de un usuario.\n**%2$s",
+      "no_mentions": "%1$sNecesitas mencionar o escribir el nombre de un usuario.\n%2$s",
       "more_than_one": "%1$sSolo puedes darle reputación a una persona",
-      "rep_bot": "%1$sNo puedes darle reputación a un bot.\n",
-      "rep_yourself": "%1$sNo puedes darte reputación a tí mismo.\n",
+      "rep_bot": "%1$sNo puedes darle reputación a un bot.\n%2$s",
+      "rep_yourself": "%1$sNo puedes darte reputación a tí mismo.\n%2$s",
       "cooldown": {
         "waiting": "**Podrás usar este comando en %1$s**",
         "pass": "Ya puedes darle reputación a alguien."

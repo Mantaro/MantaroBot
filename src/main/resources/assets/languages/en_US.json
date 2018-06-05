@@ -673,10 +673,10 @@
       "header": "Badges achieved by %1$s"
     },
     "rep": {
-      "no_mentions": "%1$sYou need to mention or put the name of one user.\n**%2$s",
+      "no_mentions": "%1$sYou need to mention or put the name of one user.\n%2$s",
       "more_than_one": "%1$sYou can only give reputation to one person",
-      "rep_bot": "%1$sYou cannot rep a bot.\n",
-      "rep_yourself": "%1$sYou cannot rep yourself.\n",
+      "rep_bot": "%1$sYou cannot rep a bot.\n%2$s",
+      "rep_yourself": "%1$sYou cannot rep yourself.\n%2$s",
       "cooldown": {
         "waiting": "**You'll be able to use this command again in %1$s**",
         "pass": "You can rep someone now."
