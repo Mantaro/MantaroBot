@@ -67,15 +67,14 @@ public class GuessTheNumber extends Game<Object> {
                 if(players.contains(e.getAuthor().getId())) {
                     if(e.getMessage().getContentRaw().equalsIgnoreCase("end")) {
                         lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.number.ended_game"), EmoteReference.CORRECT, number).queue();
-                        lobby.startNextGame();
-                        GameLobby.LOBBYS.remove(lobby.getChannel());
+                        lobby.startNextGame(true);
                         return Operation.COMPLETED;
                     }
 
                     if(e.getMessage().getContentRaw().equalsIgnoreCase("endlobby")) {
                         lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.lobby.ended_lobby"), EmoteReference.CORRECT).queue();
                         lobby.getGamesToPlay().clear();
-                        lobby.startNextGame();
+                        lobby.startNextGame(true);
                         return Operation.COMPLETED;
                     }
 
@@ -105,13 +104,13 @@ public class GuessTheNumber extends Game<Object> {
 
                         TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
                         lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.lobby.won_game"), EmoteReference.MEGA, e.getMember().getEffectiveName(), gains).queue();
-                        lobby.startNextGame();
+                        lobby.startNextGame(true);
                         return Operation.COMPLETED;
                     }
 
                     if(attempts >= maxAttempts) {
                         lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.number.all_attempts_used"), EmoteReference.ERROR, number).queue();
-                        lobby.startNextGame(); //This should take care of removing the lobby, actually.
+                        lobby.startNextGame(true); //This should take care of removing the lobby, actually.
                         return Operation.COMPLETED;
                     }
 
@@ -134,12 +133,12 @@ public class GuessTheNumber extends Game<Object> {
                     return;
 
                 lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby_timed_out"), EmoteReference.ERROR, number).queue();
-                GameLobby.LOBBYS.remove(lobby.getChannel());
+                GameLobby.LOBBYS.remove(lobby.getChannel().getIdLong());
             }
 
             @Override
             public void onCancel() {
-                GameLobby.LOBBYS.remove(lobby.getChannel());
+                GameLobby.LOBBYS.remove(lobby.getChannel().getIdLong());
             }
         });
     }

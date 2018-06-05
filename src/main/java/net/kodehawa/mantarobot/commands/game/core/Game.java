@@ -61,14 +61,14 @@ public abstract class Game<T> {
         if(players.contains(e.getAuthor().getId())) {
             if(e.getMessage().getContentRaw().equalsIgnoreCase("end")) {
                 lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.ended_game"), EmoteReference.CORRECT, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(", "))).queue();
-                lobby.startNextGame();
+                lobby.startNextGame(true);
                 return Operation.COMPLETED;
             }
 
             if(e.getMessage().getContentRaw().equalsIgnoreCase("endlobby")) {
                 lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.ended_lobby"),EmoteReference.CORRECT).queue();
                 lobby.getGamesToPlay().clear();
-                lobby.startNextGame();
+                lobby.startNextGame(true);
                 return Operation.COMPLETED;
             }
 
@@ -88,13 +88,13 @@ public abstract class Game<T> {
 
                 TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
                 lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.won_game"), EmoteReference.MEGA, e.getMember().getEffectiveName(), gains).queue();
-                lobby.startNextGame();
+                lobby.startNextGame(true);
                 return Operation.COMPLETED;
             }
 
             if(attempts >= maxAttempts) {
                 lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.all_attempts_used"), EmoteReference.ERROR, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(", "))).queue();
-                lobby.startNextGame(); //This should take care of removing the lobby, actually.
+                lobby.startNextGame(true); //This should take care of removing the lobby, actually.
                 return Operation.COMPLETED;
             }
 

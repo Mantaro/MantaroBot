@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unchecked")
 public class GameLobby extends Lobby {
 
-    public static final Map<TextChannel, GameLobby> LOBBYS = new ConcurrentHashMap<>();
+    public static final Map<Long, GameLobby> LOBBYS = new ConcurrentHashMap<>();
     private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     @Getter
@@ -67,27 +67,31 @@ public class GameLobby extends Lobby {
     }
 
     public void startFirstGame() {
-        LOBBYS.put(event.getChannel(), this);
+        LOBBYS.put(event.getChannel().getIdLong(), this);
         if(gamesToPlay.getFirst().onStart(this)) {
             DBGuild dbGuild = MantaroData.db().getGuild(guild);
-            dbGuild.getData().setGameTimeoutExpectedAt(String.valueOf(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(60)));
+            dbGuild.getData().setGameTimeoutExpectedAt(String.valueOf(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(70)));
             dbGuild.save();
 
             gamesToPlay.getFirst().call(this, players);
         } else {
-            LOBBYS.remove(getChannel());
-            gamesToPlay.clear();
+            startNextGame(false);
         }
     }
 
     //This runs async because I need the operation to end *before* this, also if this takes too long games get stuck.
-    public void startNextGame() {
+    public void startNextGame(boolean success) {
         executorService.execute(() -> {
             try {
-                gamesToPlay.removeFirst();
+                if(!success)
+                    gamesToPlay.clear();
+                else
+                    gamesToPlay.removeFirst();
 
-                if(gamesToPlay.isEmpty()) {
-                    LOBBYS.remove(getChannel());
+                System.out.println(gamesToPlay.size());
+
+                if(gamesToPlay.isEmpty() || !success) {
+                    LOBBYS.remove(getChannel().getIdLong());
                     return;
                 }
 
@@ -95,11 +99,11 @@ public class GameLobby extends Lobby {
                     gamesToPlay.getFirst().call(this, players);
                 } else {
                     gamesToPlay.clear();
-                    LOBBYS.remove(getChannel());
+                    LOBBYS.remove(getChannel().getIdLong());
                 }
             } catch(Exception e) {
                 gamesToPlay.clear();
-                LOBBYS.remove(getChannel());
+                LOBBYS.remove(getChannel().getIdLong());
             }
         });
     }

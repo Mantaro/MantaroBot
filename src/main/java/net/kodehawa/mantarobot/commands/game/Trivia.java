@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 public class Trivia extends Game<String> {
     private final String OTDB_URL = "https://opentdb.com/api.php?amount=1&encode=base64";
     private final int maxAttempts = 2;
-    private String difficulty = null;
+    private String difficulty;
     private List<String> expectedAnswer = new ArrayList<>();
     private boolean hardDiff = false;
     private boolean isBool;
@@ -124,12 +124,12 @@ public class Trivia extends Game<String> {
                     return;
 
                 lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby_timed_out"), EmoteReference.ERROR, expectedAnswer.get(0)).queue();
-                GameLobby.LOBBYS.remove(lobby.getChannel());
+                GameLobby.LOBBYS.remove(lobby.getChannel().getIdLong());
             }
 
             @Override
             public void onCancel() {
-                GameLobby.LOBBYS.remove(lobby.getChannel());
+                GameLobby.LOBBYS.remove(lobby.getChannel().getIdLong());
             }
         });
     }

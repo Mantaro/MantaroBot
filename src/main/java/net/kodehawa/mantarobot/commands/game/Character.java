@@ -65,12 +65,12 @@ public class Character extends ImageGame {
                     return;
 
                 lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby_timed_out"), EmoteReference.ERROR, String.join(" ,", characterNameL)).queue();
-                GameLobby.LOBBYS.remove(lobby.getChannel());
+                GameLobby.LOBBYS.remove(lobby.getChannel().getIdLong());
             }
 
             @Override
             public void onCancel() {
-                GameLobby.LOBBYS.remove(lobby.getChannel());
+                GameLobby.LOBBYS.remove(lobby.getChannel().getIdLong());
             }
         });
     }
