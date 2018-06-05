@@ -63,7 +63,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class RelationshipCmds {
 
     private final Config config = MantaroData.config().get();
-    private final long waifuBaseValue = 1500L;
+    private final long waifuBaseValue = 1300L;
 
     @Subscribe
     public void marry(CommandRegistry cr) {
@@ -829,31 +829,31 @@ public class RelationshipCmds {
         PlayerData waifuPlayerData = waifuPlayer.getData();
 
         long waifuValue = waifuBaseValue;
-        //For every 100000 money owned, it increases by 7% base value (base: 1500)
-        //For every 5 badges, it increases by 15% base value.
-        //For every 5000 experience, the value increases by 17% of the base value.
+        //For every 120000 money owned, it increases by 7% base value (base: 1300)
+        //For every 3 badges, it increases by 17% base value.
+        //For every 2580 experience, the value increases by 20% of the base value.
         //After all those calculations are complete, the value then is calculated using final * (reputation scale / 10) where reputation scale goes up by 1 every 10 reputation points.
         //For every 3 waifu claims, the final value increases by 10%.
         //Maximum waifu value is Integer.MAX_VALUE.
 
         //Money calculation.
-        long moneyValue = Math.round(Math.max(1, (int) (waifuPlayer.getMoney() / 100000)) * calculatePercentage(7, waifuBaseValue));
+        long moneyValue = Math.round(Math.max(1, (int) (waifuPlayer.getMoney() / 120000)) * calculatePercentage(7, waifuBaseValue));
         //Badge calculation.
-        long badgeValue = Math.round(Math.max(1, (waifuPlayerData.getBadges().size() / 5)) * calculatePercentage(15, waifuBaseValue));
+        long badgeValue = Math.round(Math.max(1, (waifuPlayerData.getBadges().size() / 3)) * calculatePercentage(17, waifuBaseValue));
         //Experience calculator.
-        long experienceValue = Math.round(Math.max(1, (int) (waifuPlayer.getData().getExperience() / 5000)) * calculatePercentage(17, waifuBaseValue));
+        long experienceValue = Math.round(Math.max(1, (int) (waifuPlayer.getData().getExperience() / 2580)) * calculatePercentage(18, waifuBaseValue));
 
         //"final" value
         waifuValue += moneyValue + badgeValue + experienceValue;
 
         //what is this lol
         //After all those calculations are complete, the value then is calculated using final * (reputation scale / 10) where reputation scale goes up by 1 every 10 reputation points.
-        //At 6000 reputation points, the waifu value gets multiplied by 2. This is the maximum amount it can be multiplied to.
+        //At 6000 reputation points, the waifu value gets multiplied by 1.35. This is the maximum amount it can be multiplied to.
         long reputation = waifuPlayer.getReputation();
         double reputationScaling = (reputation / 4.5) / 10;
         long finalValue = (long) (
                 Math.min(Integer.MAX_VALUE,
-                        (waifuValue * (reputationScaling > 1 ? reputationScaling : 1) * (reputation > 6000 ? 1.75 : 1)
+                        (waifuValue * (reputationScaling > 1 ? reputationScaling : 1) * (reputation > 6000 ? 1.35 : 1)
                 )
         ));
 
