@@ -337,8 +337,7 @@ public class GameCmds {
     private boolean checkRunning(GuildMessageReceivedEvent event, I18nContext languageContext) {
         if(GameLobby.LOBBYS.containsKey(event.getChannel())) {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            if(dbGuild.getData().getGameTimeoutExpectedAt() != null &&
-                    (Long.parseLong(dbGuild.getData().getGameTimeoutExpectedAt()) > System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(75))) {
+            if(dbGuild.getData().getGameTimeoutExpectedAt() != null && (Long.parseLong(dbGuild.getData().getGameTimeoutExpectedAt()) < System.currentTimeMillis())) {
                 event.getChannel().sendMessageFormat(languageContext.get("commands.game.game_timeout_drop"), EmoteReference.ERROR).queue();
                 return false;
             } else {

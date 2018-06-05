@@ -424,7 +424,9 @@ public class UtilsCmds {
                     return;
                 }
 
-                event.getChannel().sendMessage(String.format(languageContext.get("commands.remindme.success"), EmoteReference.CORRECT, toRemind, Utils.getHumanizedTime(time))).queue();
+                new MessageBuilder().append(String.format(languageContext.get("commands.remindme.success"), EmoteReference.CORRECT, toRemind, Utils.getHumanizedTime(time)))
+                        .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.ROLE, Message.MentionType.HERE)
+                        .sendTo(event.getChannel()).queue();
 
                 //TODO save to db
                 new Reminder.Builder()
