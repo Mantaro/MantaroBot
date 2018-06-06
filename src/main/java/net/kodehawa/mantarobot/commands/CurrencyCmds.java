@@ -479,6 +479,11 @@ public class CurrencyCmds {
                     if(item == null) {
                         event.getChannel().sendMessage(languageContext.get("general.item_lookup.no_item_emoji")).queue();
                     } else {
+                        if(item == Items.CLAIM_KEY) {
+                            event.getChannel().sendMessage(languageContext.get("general.item_lookup.claim_key")).queue();
+                            return;
+                        }
+
                         Player player = MantaroData.db().getPlayer(event.getAuthor());
                         Player giveToPlayer = MantaroData.db().getPlayer(giveTo);
 

@@ -30,6 +30,7 @@
       "no_item_emoji": "There isn't an item associated with this emoji.",
       "no_item_name": "There isn't an item associated with this name.",
       "not_found": "Couldn't find any related items with your search."
+      "claim_key": "You cannot transfer a claim key."
     },
     "misc_item_usage": {
       "milk": "%1$sCleared potion effects.",
