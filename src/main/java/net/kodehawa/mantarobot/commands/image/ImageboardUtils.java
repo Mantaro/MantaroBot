@@ -134,7 +134,6 @@ public class ImageboardUtils {
                             message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
                     );
                 } catch(Exception exception) {
-                    exception.printStackTrace();
                     channel.sendMessageFormat(languageContext.get("commands.imageboard.error_tag"), EmoteReference.SAD).queue();
                 }
 
