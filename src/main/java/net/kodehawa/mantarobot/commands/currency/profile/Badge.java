@@ -92,6 +92,16 @@ public enum Badge {
     //Claim daily more than 10 days in a row.
     CLAIMER("Claimer", "\uD83C\uDF89", "Claim daily more than 10 days in a row.", 91, 92),
 
+    MUTUAL("Mutual", "\uD83C\uDF8E", "The waifu of your waifu.", 91, 92),
+
+    WAIFU("Waifu", "\ud83d\udda4", "Get waifu claimed.", 91, 92),
+
+    POPULAR_WAIFU("Popular Waifu", "\uD83D\uDC99", "Get waifu claimed 10 times.", 91, 92),
+
+    KNOWN_WAIFU("Sociable Waifu", "\uD83D\uDC9A", "Get waifu claimed 100 times.", 91, 92),
+
+    BEST_WAIFU("Best Waifu", "\uD83D\uDC9B", "Get waifu claimed 1000 times (how?).", 91, 92),
+
     //Participated on the christmas 2017 event
     CHRISTMAS("Christmas Spirit", "\uD83C\uDF85", "Participated in the christmas 2017 event!", 91, 92),
 

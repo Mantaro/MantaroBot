@@ -701,6 +701,11 @@ public class RelationshipCmds {
                 //Add badges
                 //TODO: check for mutual badge
 
+                if(claimedUserData.getWaifus().containsKey(claimer.getId())) {
+                    claimer.getData().addBadgeIfAbsent(Badge.MUTUAL);
+                    claimed.getData().addBadgeIfAbsent(Badge.MUTUAL);
+                }
+
                 claimer.getData().addBadgeIfAbsent(Badge.WAIFU_CLAIMER);
                 claimed.getData().addBadgeIfAbsent(Badge.CLAIMED);
 

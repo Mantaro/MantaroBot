@@ -31,6 +31,8 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -42,13 +44,16 @@ public class ImageboardUtils {
     @SuppressWarnings("unchecked")
     public static void getImage(ImageBoard<?> api, ImageRequestType type, boolean nsfwOnly, String imageboard, String[] args, String content, GuildMessageReceivedEvent event, I18nContext languageContext) {
         Rating rating = Rating.SAFE;
-        boolean needRating = args.length >= 3;
+        List<String> list = new ArrayList<>(Arrays.asList(args));
+        list.remove("tags"); // remove tags from argument list. (BACKWARDS COMPATIBILITY)
+
+        boolean needRating = list.size() >= 2;
         final TextChannel channel = event.getChannel();
         final Player player = MantaroData.db().getPlayer(event.getAuthor());
         final PlayerData playerData = player.getData();
 
         if(needRating && !nsfwOnly)
-            rating = Rating.lookupFromString(args[2]);
+            rating = Rating.lookupFromString(list.get(2));
 
         if(nsfwOnly)
             rating = Rating.EXPLICIT;
@@ -69,60 +74,12 @@ public class ImageboardUtils {
         String queryRating = nsfwOnly ? null : rating.getLongName();
 
         switch(type) {
-            case GET:
-                try {
-                    String arguments = content.replace("get ", "");
-                    String[] argumentsSplit = arguments.split(" ");
-                    api.get(page, queryRating).async(requestedImages -> {
-                        if(isListNull(requestedImages, languageContext, event)) return;
-
-                        try {
-                            int number;
-                            List<BoardImage> images = (List<BoardImage>) requestedImages;
-                            if(!nsfwOnly)
-                                images = requestedImages.stream().filter(data -> data.getRating().equals(finalRating)).collect(Collectors.toList());
-
-                            if(images.isEmpty()) {
-                                channel.sendMessageFormat(languageContext.get("commands.imageboard.no_images"), EmoteReference.SAD).queue();
-                                return;
-                            }
-
-                            try {
-                                number = Integer.parseInt(argumentsSplit[0]);
-                            } catch(Exception e) {
-                                number = r.nextInt(images.size());
-                            }
-
-                            BoardImage image = images.get(number);
-                            String tags = image.getTags().stream().collect(Collectors.joining(", "));
-                            if(foundMinorTags(event, languageContext, tags, image.getRating())) {
-                                return;
-                            }
-
-                            imageEmbed(languageContext, image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, image.getRating(), imageboard, channel);
-                            if(image.getRating().equals(Rating.EXPLICIT)) {
-                                if(playerData.addBadgeIfAbsent(Badge.LEWDIE)) {
-                                    player.saveAsync();
-                                }
-
-                                TextChannelGround.of(event).dropItemWithChance(13, 3);
-                            }
-                        } catch(Exception e) {
-                            channel.sendMessageFormat(languageContext.get("commands.imageboard.no_results"), EmoteReference.SAD).queue();
-                        }
-                    }, failure -> channel.sendMessageFormat(languageContext.get("commands.imageboard.error"), EmoteReference.SAD).queue());
-                } catch(NumberFormatException ne) {
-                    channel.sendMessageFormat(languageContext.get("commands.imageboard.wrong_argument"), EmoteReference.ERROR, imageboard).queue(
-                            message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                    );
-                } catch (Exception e) {
-                    channel.sendMessageFormat(languageContext.get("commands.imageboard.error"), EmoteReference.SAD).queue();
-                }
-                break;
             case TAGS:
                 try {
-                    String sNoArgs = content.replace("tags ", "");
-                    String[] arguments = sNoArgs.split(" ");
+                    //Keep this: basically we will still accept the old way of doing it.
+                    //See up there for the actual removal of the tags from the old checking.
+                    String replaced = content.replace("tags ", "");
+                    String[] arguments = replaced.split(" ");
                     String tags = arguments[0];
 
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
@@ -140,6 +97,7 @@ public class ImageboardUtils {
                             if(!nsfwOnly)
                                 filter = requestedImages.stream().filter(data -> data.getRating().equals(finalRating)).collect(Collectors.toList());
 
+                            //We didn't find anything after filtering?
                             if(filter.isEmpty()) {
                                 channel.sendMessageFormat(languageContext.get("commands.imageboard.no_images"), EmoteReference.SAD).queue();
                                 return;
@@ -148,9 +106,10 @@ public class ImageboardUtils {
                             int number;
                             try {
                                 number = Integer.parseInt(arguments[1]);
-                            } catch(Exception e) {
+                            } catch(NumberFormatException e) {
                                 number = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
                             }
+
                             BoardImage image = filter.get(number);
                             String imageTags = image.getTags().stream().collect(Collectors.joining(", "));
 

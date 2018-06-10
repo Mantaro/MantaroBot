@@ -17,5 +17,5 @@
 package net.kodehawa.mantarobot.commands.image;
 
 public enum ImageRequestType {
-    GET, TAGS, RANDOM
+    TAGS, RANDOM
 }

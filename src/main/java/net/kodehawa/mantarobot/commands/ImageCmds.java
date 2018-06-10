@@ -131,13 +131,10 @@ public class ImageCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
-                    case "get":
-                        getImage(e621, ImageRequestType.GET, true, "e621", args, content, event, languageContext);
-                        break;
-                    case "tags":
+                    case "":
                         getImage(e621, ImageRequestType.TAGS, true, "e621", args, content, event, languageContext);
                         break;
-                    case "":
+                    case "random":
                         getImage(e621, ImageRequestType.RANDOM, true, "e621", args, content, event, languageContext);
                         break;
                     default:
@@ -152,9 +149,8 @@ public class ImageCmds {
                         .setColor(Color.PINK)
                         .setDescription("**Retrieves images from the e621 (furry) image board.**")
                         .addField("Usage",
-                                "`~>e621` - **Gets you a completely random image.**\n"
-                                        + "`~>e621 get <imagenumber>` - **Gets you an image with the specified parameters.**\n"
-                                        + "`~>e621 tags <tag>` - **Gets you an image with the respective tag and specified parameters.**\n\n"
+                                "`~>e621 random` - **Retrieves a random image**\n"
+                                        + "`~>e621 tags <tag>` or `~>e621 <tag>` - **Fetches an image with the respective tag and specified parameters.**\n\n"
                                         + "**WARNING**: This command can be only used in NSFW channels!", false)
                         .addField("Parameters",
                                 "`tag` - **Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)**\n", false)
@@ -170,13 +166,10 @@ public class ImageCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
-                    case "get":
-                        getImage(konachan, ImageRequestType.GET, false, "konachan", args, content, event, languageContext);
-                        break;
-                    case "tags":
+                    case "":
                         getImage(konachan, ImageRequestType.TAGS, false, "konachan", args, content, event, languageContext);
                         break;
-                    case "":
+                    case "random":
                         getImage(konachan, ImageRequestType.RANDOM, false, "konachan", args, content, event, languageContext);
                         break;
                     default:
@@ -191,8 +184,7 @@ public class ImageCmds {
                         .setColor(Color.PINK)
                         .setDescription("**Retrieves images from the Konachan image board.**")
                         .addField("Usage",
-                                "`~>konachan` - **Gets you a completely random image.**\n"
-                                        + "`~>konachan get <imagenumber> <rating>` - **Gets you an image with the specified parameters.**\n"
+                                "`~>konachan random` - **Gets you a completely random image.**\n"
                                         + "`~>konachan tags <tag> <rating>` - **Gets you an image with the respective tag and specified parameters.**\n\n"
                                         + "**WARNING**: If the rating is explicit/questionable this command can be only used in NSFW channels! (Unless rating has been specified as safe or not specified at all)", false)
                         .addField("Parameters",
@@ -210,13 +202,10 @@ public class ImageCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
-                    case "get":
-                        getImage(safebooru, ImageRequestType.GET, false, "safebooru", args, content, event, languageContext);
-                        break;
-                    case "tags":
+                    case "":
                         getImage(safebooru, ImageRequestType.TAGS, false, "safebooru", args, content, event, languageContext);
                         break;
-                    case "":
+                    case "random":
                         getImage(safebooru, ImageRequestType.RANDOM, false, "safebooru", args, content, event, languageContext);
                         break;
                     default:
@@ -232,7 +221,6 @@ public class ImageCmds {
                         .setDescription("**Retrieves images from the Safebooru image board.**")
                         .addField("Usage",
                                 "`~>safebooru` - **Gets you a completely random image.**\n"
-                                        + "`~>safebooru get <imagenumber>` - **Gets you an image with the specified parameters.**\n"
                                         + "`~>safebooru tags <tag>` - **Gets you an image with the respective tag and specified parameters.**\n\n", false)
                         .addField("Parameters",
                                 "`tag` - **Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)**\n", false)
@@ -248,13 +236,10 @@ public class ImageCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
-                    case "get":
-                        getImage(danbooru, ImageRequestType.GET, false, "danbooru", args, content, event, languageContext);
-                        break;
-                    case "tags":
+                    case "":
                         getImage(danbooru, ImageRequestType.TAGS, false, "danbooru", args, content, event, languageContext);
                         break;
-                    case "":
+                    case "random":
                         getImage(danbooru, ImageRequestType.RANDOM, false, "danbooru", args, content, event, languageContext);
                         break;
                     default:
@@ -270,7 +255,6 @@ public class ImageCmds {
                         .setDescription("**Retrieves images from the danbooru image board.**")
                         .addField("Usage",
                                 "`~>danbooru` - **Gets you a completely random image.**\n"
-                                        + "`~>danbooru get <imagenumber> <rating>` - **Gets you an image with the specified parameters.**\n"
                                         + "`~>danbooru tags <tag> <rating>` - **Gets you an image with the respective tag and specified parameters.**\n\n"
                                         + "**WARNING**: If rating is explicit/questionable, the command can be only used in NSFW channels! (Unless rating has been specified as safe or not specified at all)", false)
                         .addField("Parameters",
@@ -288,13 +272,10 @@ public class ImageCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
-                    case "get":
-                        getImage(rule34, ImageRequestType.GET, true, "rule34", args, content, event, languageContext);
-                        break;
-                    case "tags":
+                    case "":
                         getImage(rule34, ImageRequestType.TAGS, true, "rule34", args, content, event, languageContext);
                         break;
-                    case "":
+                    case "random":
                         getImage(rule34, ImageRequestType.RANDOM, true, "rule34", args, content, event, languageContext);
                         break;
                     default:
@@ -310,7 +291,6 @@ public class ImageCmds {
                         .setDescription("**Retrieves images from the rule34 (hentai) image board.**")
                         .addField("Usage",
                                 "`~>rule34` - **Gets you a completely random image.**\n"
-                                        + "`~>rule34 get <imagenumber>` - **Gets you an image with the specified parameters.**\n"
                                         + "`~>rule34 tags <tag>` - **Gets you an image with the respective tag and specified parameters.**\n\n"
                                         + "**WARNING**: This command can be only used in NSFW channels!", false)
                         .addField("Parameters",
@@ -332,13 +312,10 @@ public class ImageCmds {
 
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
-                    case "get":
-                        getImage(yandere, ImageRequestType.GET, false, "yandere", args, content, event, languageContext);
-                        break;
-                    case "tags":
+                    case "":
                         getImage(yandere, ImageRequestType.TAGS, false, "yandere", args, content, event, languageContext);
                         break;
-                    case "":
+                    case "random":
                         getImage(yandere, ImageRequestType.RANDOM, false, "yandere", args, content, event, languageContext);
                         break;
                     default:
@@ -355,7 +332,6 @@ public class ImageCmds {
                                 + "but tags can be set to safe if you so desire.**")
                         .addField("Usage",
                                 "`~>yandere` - **Gets you a completely random image.**\n"
-                                        + "`~>yandere get <imagenumber> <rating>` - **Gets you an image with the specified parameters.**\n"
                                         + "`~>yandere tags <tag> <rating>` - **Gets you an image with the respective tag and specified parameters.**\n\n"
                                         + "**WARNING**: This command can be only used in NSFW channels! (Unless rating has been specified as safe or not specified at all)", false)
                         .addField("Parameters",
