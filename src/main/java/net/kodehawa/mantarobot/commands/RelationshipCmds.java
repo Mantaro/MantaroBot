@@ -447,7 +447,6 @@ public class RelationshipCmds {
                         )
                         .addField(languageContext.get("commands.marry.status.date"), marriageDate.toString(), false)
                         .addField(languageContext.get("commands.marry.status.love_letter"), loveLetter, false)
-                        //TODO I18n: "ownership" isn't the right word here.
                         .addField(languageContext.get("commands.marry.status.waifus"), String.valueOf(eitherHasWaifus), false)
                         .setFooter("Marriage ID: " + currentMarriage.getId(), null);
 
@@ -700,8 +699,6 @@ public class RelationshipCmds {
                 claimedUserData.setTimesClaimed(claimedUserData.getTimesClaimed() + 1);
 
                 //Add badges
-                //TODO: check for mutual badge
-
                 if(claimedUserData.getWaifus().containsKey(claimer.getId())) {
                     claimer.getData().addBadgeIfAbsent(Badge.MUTUAL);
                     claimed.getData().addBadgeIfAbsent(Badge.MUTUAL);
