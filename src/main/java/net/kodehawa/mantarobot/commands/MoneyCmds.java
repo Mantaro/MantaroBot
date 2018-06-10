@@ -48,8 +48,10 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
@@ -199,10 +201,23 @@ public class MoneyCmds {
                 if(mentionedUser != null && !mentionedUser.getId().equals(event.getAuthor().getId())) {
                     money = money + r.nextInt(90);
 
-                    if(mentionedUser.getId().equals(player.getData().getMarriedWith())) {
+                    DBUser user = MantaroData.db().getUser(event.getAuthor());
+                    UserData userData = user.getData();
+
+                    DBUser mentionedDBUser = MantaroData.db().getUser(mentionedUser.getId());
+                    UserData mentionedUserData = user.getData();
+
+                    //so many parenthesis is this lisp
+                    if((userData.getMarriage() != null && mentionedUser.getId().equals(userData.getMarriage().getOtherPlayer(event.getAuthor().getId())))
+                            || (mentionedUser.getId().equals(player.getData().getMarriedWith()) && userData.getMarriage() == null)) {
                         if(player.getInventory().containsItem(Items.RING)) {
-                            money = money + r.nextInt(70);
+                            money = money + Math.max(10, r.nextInt(100));
                         }
+                    }
+
+                    //Mutual waifu status.
+                    if(userData.getWaifus().containsKey(mentionedUser.getId()) && mentionedUserData.getWaifus().containsKey(event.getAuthor().getId())) {
+                        money = money + Math.max(5, r.nextInt(70));
                     }
 
                     player.addMoney(money);

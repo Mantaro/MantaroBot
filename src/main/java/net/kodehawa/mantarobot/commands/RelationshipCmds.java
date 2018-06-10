@@ -558,12 +558,13 @@ public class RelationshipCmds {
                         //For every 1000 experience, the value increases by 20% of the base value.
                         //After all those calculations are complete, the value then is calculated using final * (reputation scale / 10) where reputation scale goes up by 1 every 10 reputation points.
                         //Maximum waifu value is Integer.MAX_VALUE.
-
-                        //TODO:
-                        //Having a common waifu with your married partner will increase some marriage stats (MP games with your waifu gives more money, MP games with your partner gives more money, for example)
+                        //Having a common waifu with your married partner will increase some marriage stats.
                         //If you claim a waifu, and then your waifu claims you, that will unlock the "Mutual" achievement.
                         //If the waifu status is mutual, the MP game boost will go up by 20% and giving your daily to that waifu will increase the amount of money that your
                         //waifu will receive.
+
+                        //TODO:
+                        //MP game boost impl.
                         //Trading with your waifu or partner lifts the "equal value" requirement off it. (requires trading to be implemented)
 
 
