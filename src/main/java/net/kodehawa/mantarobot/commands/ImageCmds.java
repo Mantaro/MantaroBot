@@ -132,13 +132,11 @@ public class ImageCmds {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "":
-                        getImage(e621, ImageRequestType.TAGS, true, "e621", args, content, event, languageContext);
-                        break;
                     case "random":
                         getImage(e621, ImageRequestType.RANDOM, true, "e621", args, content, event, languageContext);
                         break;
                     default:
-                        onHelp(event);
+                        getImage(e621, ImageRequestType.TAGS, true, "e621", args, content, event, languageContext);
                         break;
                 }
             }
@@ -167,13 +165,11 @@ public class ImageCmds {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "":
-                        getImage(konachan, ImageRequestType.TAGS, false, "konachan", args, content, event, languageContext);
-                        break;
                     case "random":
                         getImage(konachan, ImageRequestType.RANDOM, false, "konachan", args, content, event, languageContext);
                         break;
                     default:
-                        onHelp(event);
+                        getImage(konachan, ImageRequestType.TAGS, false, "konachan", args, content, event, languageContext);
                         break;
                 }
             }
@@ -203,13 +199,11 @@ public class ImageCmds {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "":
-                        getImage(safebooru, ImageRequestType.TAGS, false, "safebooru", args, content, event, languageContext);
-                        break;
                     case "random":
                         getImage(safebooru, ImageRequestType.RANDOM, false, "safebooru", args, content, event, languageContext);
                         break;
                     default:
-                        onHelp(event);
+                        getImage(safebooru, ImageRequestType.TAGS, false, "safebooru", args, content, event, languageContext);
                         break;
                 }
             }
@@ -237,13 +231,11 @@ public class ImageCmds {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "":
-                        getImage(danbooru, ImageRequestType.TAGS, false, "danbooru", args, content, event, languageContext);
-                        break;
                     case "random":
                         getImage(danbooru, ImageRequestType.RANDOM, false, "danbooru", args, content, event, languageContext);
                         break;
                     default:
-                        onHelp(event);
+                        getImage(safebooru, ImageRequestType.TAGS, false, "safebooru", args, content, event, languageContext);
                         break;
                 }
             }
@@ -273,13 +265,11 @@ public class ImageCmds {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "":
-                        getImage(rule34, ImageRequestType.TAGS, true, "rule34", args, content, event, languageContext);
-                        break;
                     case "random":
                         getImage(rule34, ImageRequestType.RANDOM, true, "rule34", args, content, event, languageContext);
                         break;
                     default:
-                        onHelp(event);
+                        getImage(rule34, ImageRequestType.TAGS, true, "rule34", args, content, event, languageContext);
                         break;
                 }
             }
@@ -312,14 +302,11 @@ public class ImageCmds {
 
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
-                    case "":
-                        getImage(yandere, ImageRequestType.TAGS, false, "yandere", args, content, event, languageContext);
-                        break;
                     case "random":
                         getImage(yandere, ImageRequestType.RANDOM, false, "yandere", args, content, event, languageContext);
                         break;
                     default:
-                        onHelp(event);
+                        getImage(yandere, ImageRequestType.TAGS, false, "yandere", args, content, event, languageContext);
                         break;
                 }
             }
