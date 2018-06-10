@@ -145,8 +145,8 @@ public class PlayerCmds {
                         User userLooked = event.getAuthor();
                         final ManagedDatabase db = MantaroData.db();
                         Player player = db.getPlayer(userLooked);
+                        DBUser dbUser = db.getUser(userLooked);
 
-                        UserData user = db.getUser(event.getMember()).getData();
                         Member memberLooked = event.getMember();
 
                         List<Member> found = FinderUtil.findMembers(content, event.getGuild());
@@ -170,7 +170,8 @@ public class PlayerCmds {
                                 return;
                             }
 
-                            user = db.getUser(userLooked).getData();
+                            //Re-assign.
+                            dbUser = db.getUser(userLooked);
                             player = db.getPlayer(memberLooked);
                         }
 
@@ -189,6 +190,7 @@ public class PlayerCmds {
                         }
 
                         PlayerData playerData = player.getData();
+                        UserData userData = dbUser.getData();
                         Inventory inv = player.getInventory();
 
                         //start of badge assigning
@@ -196,6 +198,7 @@ public class PlayerCmds {
                         Member mhMember = mh == null ? null : mh.getMemberById(memberLooked.getUser().getId());
                         boolean saveAfter = false;
 
+                        //Seriously what the fuck is this? lmao
                         if(player.getMoney() > 7526527671L && playerData.addBadgeIfAbsent(Badge.ALTERNATIVE_WORLD))
                             saveAfter = true;
                         if(MantaroData.config().get().isOwner(userLooked) && playerData.addBadgeIfAbsent(Badge.DEVELOPER))
@@ -228,7 +231,14 @@ public class PlayerCmds {
                             saveAfter = true;
                         if(mhMember != null && mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 290257037072531466L || r.getIdLong() == 290902183300431872L) && playerData.addBadgeIfAbsent(Badge.DONATOR_2))
                             saveAfter = true;
-
+                        if(userData.getTimesClaimed() >= 1 && playerData.addBadgeIfAbsent(Badge.WAIFU))
+                            saveAfter = true;
+                        if(userData.getTimesClaimed() >= 10 && playerData.addBadgeIfAbsent(Badge.POPULAR_WAIFU))
+                            saveAfter = true;
+                        if(userData.getTimesClaimed() >= 100 && playerData.addBadgeIfAbsent(Badge.KNOWN_WAIFU))
+                            saveAfter = true;
+                        if(userData.getTimesClaimed() >= 1000 && playerData.addBadgeIfAbsent(Badge.BEST_WAIFU))
+                            saveAfter = true;
 
                         if(saveAfter)
                             player.saveAsync();
@@ -261,7 +271,7 @@ public class PlayerCmds {
                                         String.valueOf(player.getReputation()), true
                                 )
                                 .addField(EmoteReference.POPPER + languageContext.get("commands.profile.birthday"),
-                                        user.getBirthday() != null ? user.getBirthday().substring(0, 5) : languageContext.get("commands.profile.not_specified"), true
+                                        userData.getBirthday() != null ? userData.getBirthday().substring(0, 5) : languageContext.get("commands.profile.not_specified"), true
                                 )
                                 //VERY readable stuff. God fuck I need to rewrite the profile command SOME day.
                                 .addField(EmoteReference.HEART + languageContext.get("commands.profile.married"), (marriedTo == null && marriedToNew == null) ?
@@ -277,7 +287,7 @@ public class PlayerCmds {
                                         displayBadges.isEmpty() ? languageContext.get("commands.profile.no_badges") : displayBadges, false
                                 )
                                 .setFooter(String.format("%s | %s", String.format(languageContext.get("commands.profile.timezone_user"),
-                                        (user.getTimezone() == null ? languageContext.get("commands.profile.no_timezone") : user.getTimezone())), String.format(languageContext.get("general.requested_by"), event.getAuthor().getName())), null
+                                        (userData.getTimezone() == null ? languageContext.get("commands.profile.no_timezone") : userData.getTimezone())), String.format(languageContext.get("general.requested_by"), event.getAuthor().getName())), null
                                 );
 
 
