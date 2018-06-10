@@ -106,7 +106,7 @@ public class ImageboardUtils {
                             int number;
                             try {
                                 number = Integer.parseInt(arguments[1]);
-                            } catch(Exception e) {
+                            } catch(NumberFormatException e) {
                                 number = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
                             }
 
