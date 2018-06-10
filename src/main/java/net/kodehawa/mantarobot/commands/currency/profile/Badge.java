@@ -98,7 +98,7 @@ public enum Badge {
 
     POPULAR_WAIFU("Popular Waifu", "\uD83D\uDC99", "Get waifu claimed 10 times.", 91, 92),
 
-    KNOWN_WAIFU("Sociable Waifu", "\uD83D\uDC9A", "Get waifu claimed 100 times.", 91, 92),
+    KNOWN_WAIFU("Known Waifu", "\uD83D\uDC9A", "Get waifu claimed 100 times.", 91, 92),
 
     BEST_WAIFU("Best Waifu", "\uD83D\uDC9B", "Get waifu claimed 1000 times (how?).", 91, 92),
 

@@ -53,7 +53,7 @@ public class ImageboardUtils {
         final PlayerData playerData = player.getData();
 
         if(needRating && !nsfwOnly)
-            rating = Rating.lookupFromString(list.get(2));
+            rating = Rating.lookupFromString(list.get(1));
 
         if(nsfwOnly)
             rating = Rating.EXPLICIT;
@@ -106,7 +106,7 @@ public class ImageboardUtils {
                             int number;
                             try {
                                 number = Integer.parseInt(arguments[1]);
-                            } catch(NumberFormatException e) {
+                            } catch(Exception e) {
                                 number = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
                             }
 
@@ -134,6 +134,7 @@ public class ImageboardUtils {
                             message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
                     );
                 } catch(Exception exception) {
+                    exception.printStackTrace();
                     channel.sendMessageFormat(languageContext.get("commands.imageboard.error_tag"), EmoteReference.SAD).queue();
                 }
 
