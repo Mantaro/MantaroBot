@@ -859,7 +859,7 @@ public class MoneyCmds {
                         money += Items.DIAMOND.getValue() * 0.9;
                     } else {
                         player.getInventory().process(new ItemStack(Items.DIAMOND, 1));
-                        message += languageContext.withRoot("commands", "mine.diamond.success");
+                        message += EmoteReference.DIAMOND + languageContext.withRoot("commands", "mine.diamond.success");
                     }
 
                     player.getData().addBadgeIfAbsent(Badge.MINER);
@@ -878,7 +878,7 @@ public class MoneyCmds {
                         money += itemGem.getValue() * 0.9;
                     } else {
                         player.getInventory().process(selectedGem);
-                        message += String.format(languageContext.withRoot("commands", "mine.gem.success"), itemGem.getEmoji() + " x" + selectedGem.getAmount());
+                        message += EmoteReference.MEGA + String.format(languageContext.withRoot("commands", "mine.gem.success"), itemGem.getEmoji() + " x" + selectedGem.getAmount());
                     }
 
                     player.getData().addBadgeIfAbsent(Badge.GEM_FINDER);

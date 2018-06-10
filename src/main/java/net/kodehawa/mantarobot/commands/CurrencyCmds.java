@@ -47,11 +47,9 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
@@ -707,8 +705,33 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(args[0].equalsIgnoreCase("ils")) {
-                    //TODO: List interactive items.
+                if(args[0].equalsIgnoreCase("ls")) {
+                    //TODO: i18n.
+                    List<Item> interactiveItems = Arrays.stream(Items.ALL).filter(i -> i.getItemType() == ItemType.INTERACTIVE).collect(Collectors.toList());
+
+                    StringBuilder show = new StringBuilder();
+
+                    show.append(EmoteReference.MEGA)
+                            .append("This is a list of all interactive items in Mantaro. For more info about interactive items check the wiki!");
+
+                    for (Item item : interactiveItems) {
+                        show.append(EmoteReference.BLUE_SMALL_MARKER)
+                                .append(item.getEmoji())
+                                .append(" ")
+                                .append(item.getName())
+                                .append("\n")
+                                .append("        **")
+                                .append(item.getDesc())
+                                .append("**");
+                    }
+
+                    event.getChannel().sendMessage(new EmbedBuilder()
+                            .setAuthor("Interactive Item List", null, event.getAuthor().getEffectiveAvatarUrl())
+                            .setDescription(show.toString())
+                            .setThumbnail("https://png.icons8.com/metro/540/shopping-cart.png")
+                            .build()
+                    ).queue();
+
                     return;
                 }
 
@@ -747,7 +770,7 @@ public class CurrencyCmds {
                 return helpEmbed(event, "Use Item Command")
                         .setDescription("**Uses an item**\n" +
                                 "You need to have the item to use it, and the item has to be marked as *interactive*. For a list of interactive items use " +
-                                "`~>useitem ils`")
+                                "`~>useitem ls`")
                         .addField("Usage", "`~>useitem <item>` - **Uses the specified item**", false)
                         .addField("Example", "`~>useitem fishing rod`", false)
                         .build();

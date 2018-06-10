@@ -190,8 +190,11 @@ public class Items {
 
                     } else if(money > 0) {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money"), EmoteReference.POPPER, itemDisplay, money).queue();
-                    } else {
+                    } else if (!reducedList.isEmpty()) {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.success"), EmoteReference.POPPER, itemDisplay).queue();
+                    } else {
+                        //somehow we go all the way back and it's dust again (forgot to handle it?)
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING).queue();
                     }
 
                     if(overflow)
