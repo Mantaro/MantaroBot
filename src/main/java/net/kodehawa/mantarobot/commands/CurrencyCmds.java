@@ -185,7 +185,7 @@ public class CurrencyCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Mantaro's market")
                         .setDescription("**List current items for buying and selling.**")
-                        .addField("Buying and selling", "To buy do ~>market buy <item emoji>. It will subtract the value from your money" +
+                        .addField("Buying and selling", "To buy do `~>market buy <item emoji>`. It will subtract the value from your money" +
                                 " and give you the item.\n" +
                                 "To sell do `~>market sell all` to sell all your items or `~>market sell <item emoji>` to sell the specified item. " +
                                 "**You'll get the sell value of the item on coins to spend.**\n" +
