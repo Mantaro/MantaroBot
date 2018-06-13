@@ -47,13 +47,14 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
+import java.awt.Color;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
-import static net.kodehawa.mantarobot.utils.Utils.wget;
 
 @Module
 @SuppressWarnings("unused")
@@ -706,29 +707,31 @@ public class CurrencyCmds {
                 }
 
                 if(args[0].equalsIgnoreCase("ls")) {
-                    //TODO: i18n.
                     List<Item> interactiveItems = Arrays.stream(Items.ALL).filter(i -> i.getItemType() == ItemType.INTERACTIVE).collect(Collectors.toList());
 
                     StringBuilder show = new StringBuilder();
 
-                    show.append(EmoteReference.MEGA)
-                            .append("This is a list of all interactive items in Mantaro. For more info about interactive items check the wiki!");
+                    show.append(EmoteReference.TALKING)
+                            .append(languageContext.get("commands.useitem.ls.description"))
+                            .append("\n\n");
 
                     for (Item item : interactiveItems) {
                         show.append(EmoteReference.BLUE_SMALL_MARKER)
                                 .append(item.getEmoji())
-                                .append(" ")
+                                .append(" **")
                                 .append(item.getName())
-                                .append("\n")
-                                .append("        **")
+                                .append("**\n")
+                                .append("      - ")
                                 .append(item.getDesc())
-                                .append("**");
+                                .append("\n");
                     }
 
                     event.getChannel().sendMessage(new EmbedBuilder()
-                            .setAuthor("Interactive Item List", null, event.getAuthor().getEffectiveAvatarUrl())
+                            .setAuthor(languageContext.get("commands.useitem.ls.header"), null, event.getAuthor().getEffectiveAvatarUrl())
                             .setDescription(show.toString())
                             .setThumbnail("https://png.icons8.com/metro/540/shopping-cart.png")
+                            .setColor(Color.PINK)
+                            .setFooter(String.format(languageContext.get("general.requested_by"), event.getMember().getEffectiveName()), null)
                             .build()
                     ).queue();
 

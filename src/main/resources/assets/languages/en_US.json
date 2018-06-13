@@ -540,6 +540,10 @@
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the transferitems command instead."
     },
     "useitem": {
+      "ls": {
+        "header": "Interactive Items List",
+        "desc": "This is a list of all interactive items in Mantaro. For more info about interactive items check the wiki!"
+      },
       "use_command": "%1$sFor this item you need to use the command that's linked to the item! (mine for pick, fish for the fishing rod)",
       "no_items_specified": "%1$sYou need to specify what item to use.",
       "not_interactive": "%1$sYou cannot interact with this item...",
