@@ -100,13 +100,13 @@ public class Items {
 
             // ---------------------------------- 5.0 ITEMS START HERE ----------------------------------
             PANTS = new Item(ItemType.COMMON, "\uD83D\uDC56", "Pants", "Basically what you wear on your legs... hopefully.", 20, true),
-            POTION_HASTE = new Item(ItemType.RARE, "\uD83C\uDF76","Haste Potion", "Allows you to have 50% less ratelimit effect on some commands for 5 minutes.", 890, true),
+            POTION_HASTE = new Item(ItemType.INTERACTIVE, "\uD83C\uDF76","Haste Potion", "Allows you to collect more stuff from lootable commands for 2 sessions.", 890, true),
             POTION_CLEAN = new Item(ItemType.INTERACTIVE, "\uD83C\uDF7C","Milky Potion", "Clears all potion effects.", 50, true),
             POTION_STAMINA = new Item(ItemType.INTERACTIVE, "\uD83C\uDFFA","Energy Beverage", "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.", 550, true),
             FISHING_ROD = new Item(ItemType.INTERACTIVE, "\uD83C\uDFA3","Fishing Rod", "Enables you to fish.", 65, true),
             FISH_1 = new Item(ItemType.FISHING, "\uD83D\uDC1F","Fish", "Common Fish. Caught in fishing", 10, false),
-            FISH_2 = new Item(ItemType.FISHING, "\uD83D\uDC20","Tropical Fish", "Rare Fish. Caught in fishing", 30, false),
-            FISH_3 = new Item(ItemType.FISHING, "\uD83D\uDC21","Blowfish", "Rarest Fish. You're extremely lucky if you actually got this.", 45, false),
+            FISH_2 = new Item(ItemType.FISHING, "\uD83D\uDC20","Tropical Fish", "A very tropical fish. Caught in fishing", 30, false),
+            FISH_3 = new Item(ItemType.FISHING, "\uD83D\uDC21","Blowfish", "I wonder... is this good?. Caught in fishing.", 45, false),
             // ---------------------------------- 5.0 MINING ITEMS START HERE ----------------------------------
             GEM_1 = new Item(ItemType.MINE, "\u2604", "Comet Gem", "Fragments of a comet you found while mining. Useful for casting.", 40, false),
             GEM_2 = new Item(ItemType.MINE, EmoteReference.STAR.getUnicode(), "Star Gem", "Fragments of a fallen star you found while mining.", 45, false),

@@ -469,7 +469,7 @@
     },
     "inventory": {
       "brief": "**Inventario de %1$s:** %2$s",
-      "calculate": "%1$sConseguirás **%2$d creditos** si vendes todos tus items!",
+      "calculate": "%1$s%2$s conseguirá **%3$d creditos** si vende todos los items!",
       "header": "Inventario de %1$s",
       "format": "**Precio**: 📥 %1$d 📤 %2$d\n%3$s",
       "empty": "%1$sTu inventario está vacío! :("
@@ -1009,7 +1009,7 @@
       "note": "**¡Si te gusta Mantaro, considera darnos like en** <https://discordbots.org/bot/mantaro> **o considera donar en Patreon o Paypal! Gracias~**"
     },
     "avatar": {
-      "result": "%Avatar de: **%2$s**\n%3$s"
+      "result": "%1$sAvatar de: **%2$s**\n%3$s"
     },
     "serverinfo": {
       "header": "Información del Servidor",

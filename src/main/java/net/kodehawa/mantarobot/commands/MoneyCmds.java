@@ -886,7 +886,7 @@ public class MoneyCmds {
                             .collect(Collectors.toList());
 
                     //top notch handling for gems, 10/10 implementation -ign
-                    ItemStack selectedGem = new ItemStack(gem.get(r.nextInt(gem.size())), r.nextInt(5));
+                    ItemStack selectedGem = new ItemStack(gem.get(r.nextInt(gem.size())), Math.max(1, r.nextInt(5)));
                     Item itemGem = selectedGem.getItem();
                     if(player.getInventory().getAmount(itemGem) + selectedGem.getAmount() >= 5000) {
                         message += languageContext.withRoot("commands", "mine.gem.overflow");

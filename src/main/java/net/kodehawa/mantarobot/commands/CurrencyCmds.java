@@ -82,7 +82,7 @@ public class CurrencyCmds {
                             .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
                             .sum();
 
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.inventory.calculate"), EmoteReference.DIAMOND, all).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.inventory.calculate"), EmoteReference.DIAMOND, member.getEffectiveName(), all).queue();
                     return;
                 }
 
