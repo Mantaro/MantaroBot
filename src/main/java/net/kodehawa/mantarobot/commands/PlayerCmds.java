@@ -386,7 +386,12 @@ public class PlayerCmds {
                     }
 
                     player.getData().setDescription(content1);
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.description.success"), EmoteReference.POPPER, content1).queue();
+
+                    new MessageBuilder().setContent(String.format(languageContext.get("commands.profile.description.success"), EmoteReference.POPPER, content1))
+                            .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE)
+                            .sendTo(event.getChannel())
+                            .queue();
+
                     player.getData().addBadgeIfAbsent(Badge.WRITER);
                     player.save();
                     return;

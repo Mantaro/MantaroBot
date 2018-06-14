@@ -20,7 +20,9 @@ import com.google.common.eventbus.Subscribe;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -343,9 +345,13 @@ public class RelationshipCmds {
                         return;
                     }
 
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.confirmation"),
-                            EmoteReference.TALKING, marriedTo.getName(), marriedTo.getDiscriminator(), content
-                    ).queue();
+                    //Send a confirmation message.
+                    new MessageBuilder()
+                            .setContent(String.format(languageContext.get("commands.marry.loveletter.confirmation"), EmoteReference.TALKING, marriedTo.getName(),
+                                    marriedTo.getDiscriminator(), content))
+                            .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
+                            .sendTo(event.getChannel())
+                            .queue();
 
                     //Start the operation.
                     InteractiveOperations.create(event.getChannel(), author.getIdLong(), 60, e -> {
@@ -565,7 +571,6 @@ public class RelationshipCmds {
                         //TODO:
                         //MP game boost impl.
                         //Trading with your waifu or partner lifts the "equal value" requirement off it. (requires trading to be implemented)
-
 
                         //Default call will bring out the waifu list.
                         DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
