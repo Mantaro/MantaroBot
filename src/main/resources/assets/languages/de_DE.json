@@ -472,7 +472,7 @@
     },
     "inventory": {
       "brief": "**%1$ss Inventar:** %2$s",
-      "calculate": "%1$s%2$s erhältt **%3$d Credits**, wenn alle Items verkauft werden!",
+      "calculate": "%1$s%2$s erhält **%3$d Credits**, wenn alle Items verkauft werden!",
       "header": "%1$ss Inventar",
       "format": "**Preis**: 📥 %1$d 📤 %2$d\n%3$s",
       "empty": "%1$sDein Inventar ist leer! :("
