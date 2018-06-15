@@ -29,7 +29,8 @@
     "item_lookup": {
       "no_item_emoji": "Diesem Emoji ist kein Item zugeordnet.",
       "no_item_name": "Diesem Namen ist kein Item zugeordnet",
-      "not_found": "Kein Item mit diesen Suchkriterien gefunden."
+      "not_found": "Kein Item mit diesen Suchkriterien gefunden.",
+      "claim_key": "Du kannst einen Premium-Key nicht transferieren."
     },
     "misc_item_usage": {
       "milk": "%1$sTrankeffekte entfernt.",
@@ -470,9 +471,9 @@
       "success": "%1$s Die Ergebnisse von **%2$d** Wurf/Würfen ergaben **%3$d** Kopf und **%4$d** Zahl"
     },
     "inventory": {
-      "brief": "**%1$s's Inventar:** %2$s",
-      "calculate": "%1$s%2$s erhältst **%3$d Credits**, wenn du all deine Items verkaufst!",
-      "header": "%1$s's Inventar",
+      "brief": "**%1$ss Inventar:** %2$s",
+      "calculate": "%1$s%2$s erhältt **%3$d Credits**, wenn alle Items verkauft werden!",
+      "header": "%1$ss Inventar",
       "format": "**Preis**: 📥 %1$d 📤 %2$d\n%3$s",
       "empty": "%1$sDein Inventar ist leer! :("
     },
@@ -539,6 +540,10 @@
       "item_transfer": "%1$sDu kannst Gegenstände nicht mit transfer verschicken, benutze stattdessen transferitems."
     },
     "useitem": {
+      "ls": {
+        "header": "Lister interaktiver Gegenstände",
+        "desc": "Dies ist eine Liste aller interaktiver Gegenstände in Mantaro. Für mehr Informationen über interaktive Gegenstände, schau bitte ins Wiki!"
+      },
       "use_command": "%1$sFür diesen Gegenstand musst du den Befehl verwenden, der mit dem Gegenstand verbunden ist! (mine für Spitzhacke, fisch für die Angelrute)",
       "no_items_specified": "%1$sDu musst angeben, welcher Gegenstand verwendet werden soll!",
       "not_interactive": "%1$sDu kannst nichts mit diesem Gegenstand machen...",
