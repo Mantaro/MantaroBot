@@ -431,6 +431,7 @@ public class UtilsCmds {
                 //TODO save to db
                 new Reminder.Builder()
                         .id(user.getId())
+                        .guild(event.getGuild().getId())
                         .reminder(toRemind)
                         .current(System.currentTimeMillis())
                         .time(time + System.currentTimeMillis())

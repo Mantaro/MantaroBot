@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.utils;
 
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -42,10 +43,12 @@ public class Reminder {
     private final long scheduledAtMillis;
     private final String userId;
     private final long offset;
+    private final String guildId;
 
-    private Reminder(String id, String userId, String reminder, long scheduledAt, long time, long offset) {
+    private Reminder(String id, String userId, String guildId, String reminder, long scheduledAt, long time, long offset) {
         this.id = id;
         this.userId = userId;
+        this.guildId = guildId;
         this.reminder = reminder;
         this.time = time;
         this.scheduledAtMillis = scheduledAt;
@@ -65,6 +68,7 @@ public class Reminder {
 
         scheduledReminder = service.schedule(() -> {
             User user = MantaroBot.getInstance().getUserById(userId);
+            Guild guild = MantaroBot.getInstance().getGuildById(guildId);
             if(user == null) return;
             removeCurrent();
 
@@ -73,7 +77,8 @@ public class Reminder {
             Consumer<Throwable> ignore = (t) -> {};
 
             user.openPrivateChannel().queue(channel -> channel.sendMessage(
-                    EmoteReference.POPPER + "**Reminder!**\n" + "You asked me to remind you of: " + reminder + "\nAt: " + new Date(scheduledAtMillis)
+                    EmoteReference.POPPER + "**Reminder!**\n" + "You asked me to remind you of: " + reminder + "\nAt: " + new Date(scheduledAtMillis) +
+                            (guild != null ? "\n*Asked on: " + guild.getName() + "*" : "")
             ).queue(c.get(), ignore));
         }, (time - scheduledAtMillis) - offset, TimeUnit.MILLISECONDS);
     }
@@ -96,6 +101,7 @@ public class Reminder {
         private String reminder;
         private long time;
         private String userId;
+        private String guildId;
         private long offset;
 
         public Builder id(String id) {
@@ -118,6 +124,11 @@ public class Reminder {
             return this;
         }
 
+        public Builder guild(String id) {
+            guildId = id;
+            return this;
+        }
+
         public Builder offset(long offset) {
             this.offset = offset;
             return this;
@@ -129,12 +140,14 @@ public class Reminder {
                 throw new IllegalArgumentException("User ID cannot be null");
             if(reminder == null)
                 throw new IllegalArgumentException("Reminder cannot be null");
+            if(guildId == null)
+                throw new IllegalArgumentException("Guild ID cannot be null");
             if(time <= 0)
                 throw new IllegalArgumentException("Time to remind must be positive and >0");
             if(current <= 0)
                 throw new IllegalArgumentException("Current time must be positive and >0");
 
-            return new Reminder(UUID.randomUUID().toString(), userId, reminder, current, time, offset);
+            return new Reminder(UUID.randomUUID().toString(), userId, guildId, reminder, current, time, offset);
         }
     }
 }
