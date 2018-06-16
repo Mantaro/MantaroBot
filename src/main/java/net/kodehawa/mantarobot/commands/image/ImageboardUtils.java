@@ -106,7 +106,7 @@ public class ImageboardUtils {
                             int number;
                             try {
                                 number = Integer.parseInt(arguments[1]);
-                            } catch(NumberFormatException e) {
+                            } catch(NumberFormatException | ArrayIndexOutOfBoundsException e) {
                                 number = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
                             }
 
@@ -126,6 +126,7 @@ public class ImageboardUtils {
                                 TextChannelGround.of(event).dropItemWithChance(13, 3);
                             }
                         } catch(Exception e) {
+                            e.printStackTrace();
                             channel.sendMessageFormat(languageContext.get("commands.imageboard.no_results"), EmoteReference.SAD).queue();
                         }
                     }, failure -> channel.sendMessageFormat(languageContext.get("commands.imageboard.error_tag"), EmoteReference.SAD).queue());
