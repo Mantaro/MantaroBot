@@ -712,7 +712,7 @@ public class CurrencyCmds {
                     StringBuilder show = new StringBuilder();
 
                     show.append(EmoteReference.TALKING)
-                            .append(languageContext.get("commands.useitem.ls.description"))
+                            .append(languageContext.get("commands.useitem.ls.desc"))
                             .append("\n\n");
 
                     for (Item item : interactiveItems) {
