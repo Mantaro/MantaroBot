@@ -67,7 +67,7 @@ public class CurrencyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Map<String, Optional<String>> t = StringUtils.parse(args);
-                content = Utils.replaceArguments(t, content, "brief", "calculate");
+                content = Utils.replaceArguments(t, content, "brief", "calculate", "calc", "c");
                 Member member = Utils.findMember(event, event.getMember(), content);
 
                 if(member == null)
@@ -77,7 +77,7 @@ public class CurrencyCmds {
                 final Inventory playerInventory = player.getInventory();
                 final List<ItemStack> inventoryList = playerInventory.asList();
 
-                if(t.containsKey("calculate")) {
+                if(t.containsKey("calculate") || t.containsKey("calc") || t.containsKey("c")) {
                     long all = playerInventory.asList().stream()
                             .filter(item -> item.getItem().isSellable())
                             .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))

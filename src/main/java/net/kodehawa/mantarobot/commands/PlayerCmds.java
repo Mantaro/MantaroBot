@@ -83,7 +83,7 @@ public class PlayerCmds {
 
                 if(content.isEmpty()) {
                     event.getChannel().sendMessage(String.format(languageContext.get("commands.rep.no_mentions"), EmoteReference.ERROR,
-                            (rl > 0 ?  String.format(languageContext.get("commands.rep.cooldown.wait"), Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())))
+                            (rl > 0 ?  String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())))
                              : languageContext.get("commands.rep.cooldown.pass")))).queue();
                     return;
                 }
@@ -314,6 +314,7 @@ public class PlayerCmds {
                                 "- To change your description do `~>profile description set <description>`\n" +
                                 "  -- To clear it, just do `~>profile description clear`\n" +
                                 "- To set your timezone do `~>profile timezone <timezone>`\n" +
+                                "- To set your language do `~>profile lang <lang id>`\n" +
                                 "- To set your display badge use `~>profile displaybadge` and `~>profile displaybadge reset` to reset it.\n" +
                                 "  -- You can also use `~>profile displaybadge none` to display no badge on your profile.\n" +
                                 "**The profile only shows the 5 most important badges!.** Use `~>badges` to get a complete list.", false)
