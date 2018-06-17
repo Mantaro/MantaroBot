@@ -126,7 +126,6 @@ public class ImageboardUtils {
                                 TextChannelGround.of(event).dropItemWithChance(13, 3);
                             }
                         } catch(Exception e) {
-                            e.printStackTrace();
                             channel.sendMessageFormat(languageContext.get("commands.imageboard.no_results"), EmoteReference.SAD).queue();
                         }
                     }, failure -> channel.sendMessageFormat(languageContext.get("commands.imageboard.error_tag"), EmoteReference.SAD).queue());

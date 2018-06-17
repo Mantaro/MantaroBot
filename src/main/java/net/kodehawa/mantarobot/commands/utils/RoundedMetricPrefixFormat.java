@@ -48,7 +48,6 @@ public class RoundedMetricPrefixFormat extends Format {
 
     @Override
     public StringBuffer format(Object obj, StringBuffer output, FieldPosition pos) {
-
         double number = Double.valueOf(obj.toString());
         // if the number is negative, convert it to a positive number and add the minus sign to the output at the end
         boolean isNegative = number < 0;
@@ -90,7 +89,6 @@ public class RoundedMetricPrefixFormat extends Format {
      */
     @Override
     public Long parseObject(String source, ParsePosition pos) {
-
         if (NumberUtils.isNumber(source)) {
             //I don't need decimals. Original returned Object and not Long because it kept decimals.
             pos.setIndex(source.length());
@@ -103,7 +101,10 @@ public class RoundedMetricPrefixFormat extends Format {
             String number = isNegative ? source.substring(1, length - 1) : source.substring(0, length - 1);
             String metricPrefix = Character.toString(source.charAt(length - 1));
 
-            Number absoluteNumber = toNumber(number);
+            long absoluteNumber = 0;
+            try {
+                absoluteNumber = Long.parseLong(number);
+            } catch (NumberFormatException ignored) { }
 
             int index = 0;
 
@@ -114,18 +115,14 @@ public class RoundedMetricPrefixFormat extends Format {
             }
 
             int exponent = 3 * index;
-            Double factor = Math.pow(10, exponent);
+            double factor = Math.pow(10, exponent);
             factor *= isNegative ? -1 : 1;
 
             pos.setIndex(source.length());
-            Float result = absoluteNumber.floatValue() * factor.longValue();
-            return result.longValue();
+            float result = (float) absoluteNumber * (long) factor;
+            return (long) result;
         }
 
         return null;
-    }
-
-    private static Number toNumber(String number) {
-        return NumberUtils.createNumber(number);
     }
 }
