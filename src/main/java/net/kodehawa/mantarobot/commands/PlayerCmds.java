@@ -323,8 +323,12 @@ public class PlayerCmds {
                     }
 
                     player.getData().setDescription(content1);
-                    event.getChannel().sendMessage(EmoteReference.POPPER + "Set description to: **" + content1 + "**\n" +
-                            "Check your shiny new profile with `~>profile`").queue();
+
+                    new MessageBuilder().setContent(EmoteReference.POPPER + "Set description to: **" + content1 + "**\n" +
+                            "Check your shiny new profile with `~>profile`")
+                            .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.ROLE, Message.MentionType.HERE)
+                            .sendTo(event.getChannel()).queue();
+
                     player.save();
                     return;
                 }
