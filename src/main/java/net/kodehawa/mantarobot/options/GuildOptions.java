@@ -942,7 +942,7 @@ public class GuildOptions extends OptionHandler {
                     String birthdayMessage = String.join(" ", args);
                     guildData.setBirthdayMessage(birthdayMessage);
                     dbGuild.saveAsync();
-                    event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_set.success"), EmoteReference.CORRECT, birthdayMessage).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.birthday_message_set.success"), EmoteReference.CORRECT, birthdayMessage).queue();
         });
 
         registerOption("birthday:message:clear", "Birthday message clear", "Clears the message to display on a new birthday",
@@ -953,7 +953,7 @@ public class GuildOptions extends OptionHandler {
                     guildData.setBirthdayMessage(null);
                     dbGuild.saveAsync();
 
-                    event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_clear.success"), EmoteReference.CORRECT).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.birthday_message_clear.success"), EmoteReference.CORRECT).queue();
         });
     }
 
