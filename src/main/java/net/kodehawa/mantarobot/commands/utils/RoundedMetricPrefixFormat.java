@@ -16,7 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.utils;
 
-import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
@@ -89,11 +89,10 @@ public class RoundedMetricPrefixFormat extends Format {
      */
     @Override
     public Long parseObject(String source, ParsePosition pos) {
-        if (NumberUtils.isNumber(source)) {
+        if (StringUtils.isNumeric(source)) {
             //I don't need decimals. Original returned Object and not Long because it kept decimals.
             pos.setIndex(source.length());
             return Long.parseLong(source);
-
         } else if(METRIC_PREFIXED_NUMBER.matcher(source).matches()) {
             boolean isNegative = source.charAt(0) == '-';
             int length = source.length();

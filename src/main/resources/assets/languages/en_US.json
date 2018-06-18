@@ -1465,6 +1465,12 @@
     "levelupmessages_channel_set": {
       "success": "%1$sThe level-up channel has been set to: %2$s"
     },
+    "birthday_message_set": {
+      "success": "%1$sServer birthday message set to: %2$s"
+    },
+    "birthday_message_clear": {
+      "success": "%1$sCleared birthday message!"
+    },
     "defaultmutetimeout_set": {
       "not_specified": "%1$sYou have to specify a timeout in the format of 1m20s, for example.",
       "wrong_format": "%1$sWrong time format. You have to specify a timeout in the format of 1m20s, for example.",

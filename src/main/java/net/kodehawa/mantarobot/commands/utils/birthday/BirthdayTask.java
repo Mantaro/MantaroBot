@@ -43,8 +43,11 @@ public class BirthdayTask {
     public void handle(int shardId) {
         try {
             BirthdayCacher cache = MantaroBot.getInstance().getBirthdayCacher();
-            if(cache == null) return;
-            if(!cache.isDone) return;
+            if(cache == null)
+                return;
+            if(!cache.isDone)
+                return;
+
             int i = 0;
             int r = 0;
 
@@ -96,13 +99,22 @@ public class BirthdayTask {
                             //tada!
                             if(birthday.substring(0, 5).equals(now)) {
                                 log.debug("Assigning birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
+                                String tempBirthdayMessage = String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
+                                        member.getEffectiveName());
+
+                                if(tempGuildData.getBirthdayMessage() != null) {
+                                    tempBirthdayMessage = tempGuildData.getBirthdayMessage().replace("$(user)", member.getEffectiveName());
+                                }
+
+                                //Variable used in lambda expression should be final or effectively final...
+                                final String birthdayMessage = tempBirthdayMessage;
+
                                 if(!member.getRoles().contains(birthdayRole)) {
                                     try {
                                         guild.getController().addSingleRoleToMember(member, birthdayRole)
                                                 .reason("Birthday assigner. If you see this happening for every member of your server, or in unintended ways, please do ~>opts birthday disable")
                                                 .queue(s -> {
-                                                    channel.sendMessage(String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
-                                                            member.getEffectiveName())).queue();
+                                                    channel.sendMessage(birthdayMessage).queue();
                                                     MantaroBot.getInstance().getStatsClient().increment("birthdays_logged");
                                                 }
                                         );

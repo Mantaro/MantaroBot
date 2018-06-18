@@ -891,7 +891,7 @@ public class GuildOptions extends OptionHandler {
                     guildData.setLevelUpMessage(levelUpMessage);
                     dbGuild.saveAsync();
                     event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_set.success"), EmoteReference.CORRECT, levelUpMessage).queue();
-                });
+        });
 
         registerOption("levelupmessages:message:clear", "Level-up message clear", "Clears the message to display on level up",
                 "Clears the message to display on level up", (event, args, lang) -> {
@@ -902,7 +902,7 @@ public class GuildOptions extends OptionHandler {
                     dbGuild.saveAsync();
 
                     event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_clear.success"), EmoteReference.CORRECT).queue();
-                });
+        });
 
         registerOption("levelupmessages:channel:set", "Level-up message channel",
                 "Sets the channel to display level up messages", "Sets the channel to display level up messages",
@@ -927,6 +927,33 @@ public class GuildOptions extends OptionHandler {
                     if (channel != null) {
                         consumer.accept(channel);
                     }
+        });
+
+        registerOption("birthday:message:set", "Birthday message", "Sets the message to display on a new birthday",
+                "Sets the birthday message", (event, args, lang) -> {
+                    if (args.length == 0) {
+                        onHelp(event);
+                        return;
+                    }
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    String birthdayMessage = String.join(" ", args);
+                    guildData.setBirthdayMessage(birthdayMessage);
+                    dbGuild.saveAsync();
+                    event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_set.success"), EmoteReference.CORRECT, birthdayMessage).queue();
+        });
+
+        registerOption("birthday:message:clear", "Birthday message clear", "Clears the message to display on a new birthday",
+                "Clears the message to display on birthday", (event, args, lang) -> {
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    guildData.setBirthdayMessage(null);
+                    dbGuild.saveAsync();
+
+                    event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_clear.success"), EmoteReference.CORRECT).queue();
         });
     }
 
