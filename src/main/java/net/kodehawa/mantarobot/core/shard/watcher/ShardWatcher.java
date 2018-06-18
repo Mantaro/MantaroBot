@@ -179,7 +179,7 @@ public class ShardWatcher implements Runnable {
                     long ping = MantaroBot.getInstance().getPing();
 
                     //We might have a few soft-dead shards on here... (or internet went to shit)
-                    if(ping > 400) {
+                    if(ping > 850) {
                         LogUtils.shard(String.format("No dead shards found, but average ping is high (%dms). Ping breakdown: %s",
                                 ping, Arrays.toString(MantaroBot.getInstance().getPings())));
                     }
