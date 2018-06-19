@@ -639,7 +639,7 @@ public class RelationshipCmds {
                         )
                         .setColor(Color.PINK)
                         .setDescription(String.format(languageContext.get("commands.waifu.stats.format"),
-                                 EmoteReference.BLUE_SMALL_MARKER, waifuStats.getMoneyValue(), waifuStats.getBadgeValue(), waifuStats.getExperienceValue(), waifuStats.getReputationMultiplier())
+                                 EmoteReference.BLUE_SMALL_MARKER, waifuStats.getMoneyValue(), waifuStats.getBadgeValue(), waifuStats.getExperienceValue(), waifuStats.getClaimValue(), waifuStats.getReputationMultiplier())
                         )
                         .addField(languageContext.get("commands.waifu.stats.value"), EmoteReference.BUY + String.format(languageContext.get("commands.waifu.stats.credits"), waifuStats.getFinalValue()), false);
 
@@ -821,6 +821,11 @@ public class RelationshipCmds {
                     return;
                 }
 
+                if(userData.getWaifuSlots() >= 20) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.buyslot.too_many"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 player.removeMoney(finalValue);
                 userData.setWaifuSlots(currentSlots + 1);
                 user.save();
@@ -835,13 +840,14 @@ public class RelationshipCmds {
         final ManagedDatabase db = MantaroData.db();
         Player waifuPlayer = db.getPlayer(user);
         PlayerData waifuPlayerData = waifuPlayer.getData();
+        UserData waifuUserData = db.getUser(user).getData();
 
         long waifuValue = waifuBaseValue;
         //For every 120000 money owned, it increases by 7% base value (base: 1300)
         //For every 3 badges, it increases by 17% base value.
         //For every 2580 experience, the value increases by 20% of the base value.
         //After all those calculations are complete, the value then is calculated using final * (reputation scale / 10) where reputation scale goes up by 1 every 10 reputation points.
-        //For every 3 waifu claims, the final value increases by 10%.
+        //For every 3 waifu claims, the final value increases by 5% of the base value.
         //Maximum waifu value is Integer.MAX_VALUE.
 
         //Money calculation.
@@ -850,9 +856,11 @@ public class RelationshipCmds {
         long badgeValue = Math.round(Math.max(1, (waifuPlayerData.getBadges().size() / 3)) * calculatePercentage(17, waifuBaseValue));
         //Experience calculator.
         long experienceValue = Math.round(Math.max(1, (int) (waifuPlayer.getData().getExperience() / 2580)) * calculatePercentage(18, waifuBaseValue));
+        //Claim calculator.
+        long claimValue = Math.round(Math.max(1, (waifuUserData.getTimesClaimed() / 3) * calculatePercentage(5, waifuBaseValue)));
 
         //"final" value
-        waifuValue += moneyValue + badgeValue + experienceValue;
+        waifuValue += moneyValue + badgeValue + experienceValue + claimValue;
 
         //what is this lol
         //After all those calculations are complete, the value then is calculated using final * (reputation scale / 10) where reputation scale goes up by 1 every 10 reputation points.
@@ -865,7 +873,7 @@ public class RelationshipCmds {
                 )
         ));
 
-        return new Waifu(moneyValue, badgeValue, experienceValue, reputationScaling, finalValue);
+        return new Waifu(moneyValue, badgeValue, experienceValue, reputationScaling, claimValue, finalValue);
     }
 
     //Yes, I had to do it, fuck.
@@ -880,6 +888,7 @@ public class RelationshipCmds {
         private long badgeValue;
         private long experienceValue;
         private double reputationMultiplier;
+        private long claimValue;
         private long finalValue;
     }
 }

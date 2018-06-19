@@ -30,7 +30,9 @@ public enum ItemType {
     //An item that has an action attached to it.
     INTERACTIVE,
     //Guess.
-    PREMIUM;
+    PREMIUM,
+    //Cast-able item.
+    CAST;
 
     public enum LootboxType {
         COMMON,

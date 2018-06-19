@@ -65,9 +65,10 @@
       },
       "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water...",
       "success": "%1$sWhile calmly fishing, you found %2$s and you proceed to save them into your bucket.",
-      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$d credits** and you proceed to save them into your bucket.",
+      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$d credits** and you proceed to save them into your bucket.%4$s",
       "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$d credits** and you proceed to save them into your pocket.",
-      "rod_broke": "%1$sYour fishing rod broke while trying to catch a fish :("
+      "rod_broke": "%1$sYour fishing rod broke while trying to catch a fish :(",
+      "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!"
     },
     "softban": {
       "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
@@ -120,6 +121,9 @@
       "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeat queue`. Using `~>repeat` while repeat is on, turns it off\n",
       "11": "For more info please use `~>help <command name>` (without the <> and replace command name with the name of the command you want)",
       "12": "Enjoy your music and thanks for using Mantaro!"
+    },
+    "lang": {
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `~>profile lang <language code>`.\n**Avaliable languages:** `%2$s`"
     },
     "music_general": {
       "not_playing": "%1$sI'm not currently playing anything",
@@ -424,7 +428,7 @@
       "stats": {
         "header": "Your waifu stats",
         "header_other": "%1$s's waifu stats",
-        "format": "%1$s **Money weight value:** %2$s\n%1$s **Badge weight value:** %3$s\n%1$s **Experience weight value:** %4$s\n%1$s **Reputation multiplier:** %5$.2fx",
+        "format": "%1$s **Money weight value:** %2$s\n%1$s **Badge weight value:** %3$s\n%1$s **Experience weight value:** %4$s\n%1$s **Claim weight value:** %5$s\n%1$s **Reputation multiplier:** %6$.2fx",
         "value": "Total waifu value",
         "credits": "%1$d credits"
       },
@@ -447,7 +451,8 @@
       "buyslot": {
         "locked": "%1$sYou're currently unable to perform this action.",
         "not_enough_money": "%1$sYou don't have enough money to buy more slots! You need %2$d credits.",
-        "success": "%1$sSuccessfully bought this slot for %2$s, you currently have %3s total slots and %4$s available slots."
+        "success": "%1$sSuccessfully bought this slot for %2$s, you currently have %3s total slots and %4$s available slots.",
+        "too_many": "%1$sYou already have too many slots!"
       },
       "header": "Waifu List",
       "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$d waifus as of now.*\n\n",
@@ -1170,7 +1175,8 @@
         "overflow": "\nHuh, you found *%1$s* while mining, but you already had too much of that gem, so I sold it for you.",
         "success": "\nHuh! You got lucky and found *%1$s* while mining, check your inventory."
       },
-      "pick_broke": "%1$sOne of your picks broke while mining."
+      "pick_broke": "%1$sOne of your picks broke while mining.",
+      "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!"
     },
     "slots": {
       "errors" : {
@@ -1194,6 +1200,8 @@
       "daily": "Daily Streak Leaderboard (Top 10)",
       "level": "Level leaderboard (Top 10)",
       "game": "Game Wins leaderboard (Top 10)",
+      "waifu": "Waifu Value leaderboard (Top 10)",
+      "claim": "Waifu Claim leaderboard (Top 10)",
       "inner": {
         "experience": "Experience"
       }

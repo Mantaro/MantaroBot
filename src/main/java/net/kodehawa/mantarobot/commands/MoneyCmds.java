@@ -48,6 +48,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
@@ -650,6 +651,68 @@ public class MoneyCmds {
             }
         });
 
+        leaderboards.addSubCommand("waifuvalue", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                Cursor<Map> m;
+
+                try(Connection conn = Utils.newDbConnection()) {
+                    m = r.table("players")
+                            .orderBy()
+                            .optArg("index", r.desc("waifuCachedValue"))
+                            .filter(player -> player.g("id").match(pattern))
+                            .map(player -> player.pluck("id", r.hashMap("data", "waifuCachedValue")))
+                            .limit(10)
+                            .run(conn, OptArgs.of("read_mode", "outdated"));
+                }
+
+                List<Map> c = m.toList();
+                m.close();
+
+                event.getChannel().sendMessage(
+                        baseEmbed(event, languageContext.get("commands.leaderboard.waifu"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                        ).setDescription(c.stream()
+                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), ((HashMap)(map.get("data"))).get("waifuCachedValue").toString()))
+                                .filter(p -> Objects.nonNull(p.getKey()))
+                                .map(p -> String.format("%s**%s#%s** - $%s", EmoteReference.MARKER, p.getKey().getName(), p
+                                        .getKey().getDiscriminator(), p.getValue()))
+                                .collect(Collectors.joining("\n"))
+                        ).build()
+                ).queue();
+            }
+        });
+
+        leaderboards.addSubCommand("claim", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                Cursor<Map> m;
+
+                try(Connection conn = Utils.newDbConnection()) {
+                    m = r.table("users")
+                            .orderBy()
+                            .optArg("index", r.desc("timesClaimed"))
+                            .filter(player -> player.g("id").match(pattern))
+                            .map(player -> player.pluck("id", r.hashMap("data", "timesClaimed")))
+                            .limit(10)
+                            .run(conn, OptArgs.of("read_mode", "outdated"));
+                }
+
+                List<Map> c = m.toList();
+                m.close();
+
+                event.getChannel().sendMessage(
+                        baseEmbed(event, languageContext.get("commands.leaderboard.claim"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                        ).setDescription(c.stream()
+                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), ((HashMap)(map.get("data"))).get("timesClaimed").toString()))
+                                .filter(p -> Objects.nonNull(p.getKey()))
+                                .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
+                                        .getKey().getDiscriminator(), p.getValue()))
+                                .collect(Collectors.joining("\n"))
+                        ).build()
+                ).queue();
+            }
+        });
+
         leaderboards.addSubCommand("games", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
@@ -852,7 +915,9 @@ public class MoneyCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 User user = event.getAuthor();
-                Player player = MantaroData.db().getPlayer(user);
+                final ManagedDatabase db = MantaroData.db();
+                Player player = db.getPlayer(user);
+                UserData userData = db.getUser(user).getData();
 
                 if(!player.getInventory().containsItem(Items.BROM_PICKAXE)) {
                     event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "mine.no_pick"), EmoteReference.ERROR).queue();
@@ -866,9 +931,18 @@ public class MoneyCmds {
                     return;
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
+
+                boolean waifuHelp = false;
+                if(Items.handlePotion(Items.WAIFU_PILL, 5, player)) {
+                    if(userData.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 2_000_000L)) {
+                        money += Math.max(45, random.nextInt(200));
+                        waifuHelp = true;
+                    }
+                }
+
                 String message = String.format(languageContext.get("commands.mine.success"), EmoteReference.PICK, money);
 
-                if(r.nextInt(400) > 350) {
+                if(r.nextInt(400) > (Items.handlePotion(Items.POTION_HASTE, 2, player) ? 290 : 350)) {
                     if(player.getInventory().getAmount(Items.DIAMOND) == 5000) {
                         message += languageContext.withRoot("commands", "mine.diamond.overflow");
                         money += Items.DIAMOND.getValue() * 0.9;
@@ -880,7 +954,7 @@ public class MoneyCmds {
                     player.getData().addBadgeIfAbsent(Badge.MINER);
                 }
 
-                if(r.nextInt(400) > 371) {
+                if(r.nextInt(400) > (Items.handlePotion(Items.POTION_HASTE, 2, player) ? 311 : 371)) {
                     List<Item> gem = Stream.of(Items.ALL)
                             .filter(i -> i.getItemType() == ItemType.MINE && !i.isHidden() && i.isSellable())
                             .collect(Collectors.toList());
@@ -894,6 +968,10 @@ public class MoneyCmds {
                     } else {
                         player.getInventory().process(selectedGem);
                         message += EmoteReference.MEGA + String.format(languageContext.withRoot("commands", "mine.gem.success"), itemGem.getEmoji() + " x" + selectedGem.getAmount());
+                    }
+
+                    if(waifuHelp) {
+                        message += languageContext.get("commands.mine.waifu_help");
                     }
 
                     player.getData().addBadgeIfAbsent(Badge.GEM_FINDER);

@@ -21,6 +21,8 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.RandomCollection;
@@ -43,7 +45,7 @@ public class Items {
             BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
             NECKLACE, ROSE,
             DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN, POTION_STAMINA, FISHING_ROD,
-            FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE;
+            FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE;
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.HOURS, 1);
@@ -100,36 +102,41 @@ public class Items {
 
             // ---------------------------------- 5.0 ITEMS START HERE ----------------------------------
             PANTS = new Item(ItemType.COMMON, "\uD83D\uDC56", "Pants", "Basically what you wear on your legs... hopefully.", 20, true),
-            POTION_HASTE = new Item(ItemType.INTERACTIVE, "\uD83C\uDF76","Haste Potion", "Allows you to collect more stuff from lootable commands for 2 sessions.", 890, true),
+            POTION_HASTE = new Item(ItemType.INTERACTIVE, "\uD83C\uDF76","Haste Potion", "Allows you to collect more stuff from lootable commands for 2 sessions.", 690, true),
             POTION_CLEAN = new Item(ItemType.INTERACTIVE, "\uD83C\uDF7C","Milky Potion", "Clears all potion effects.", 50, true),
             POTION_STAMINA = new Item(ItemType.INTERACTIVE, "\uD83C\uDFFA","Energy Beverage", "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.", 550, true),
             FISHING_ROD = new Item(ItemType.INTERACTIVE, "\uD83C\uDFA3","Fishing Rod", "Enables you to fish.", 65, true),
             FISH_1 = new Item(ItemType.FISHING, "\uD83D\uDC1F","Fish", "Common Fish. Caught in fishing", 10, false),
             FISH_2 = new Item(ItemType.FISHING, "\uD83D\uDC20","Tropical Fish", "A very tropical fish. Caught in fishing", 30, false),
-            FISH_3 = new Item(ItemType.FISHING, "\uD83D\uDC21","Blowfish", "I wonder... is this good?. Caught in fishing.", 45, false),
+            FISH_3 = new Item(ItemType.FISHING, "\uD83D\uDC21","Blowfish", "I wonder... is this good?. Caught in fishing.", 15, false),
             // ---------------------------------- 5.0 MINING ITEMS START HERE ----------------------------------
             GEM_1 = new Item(ItemType.MINE, "\u2604", "Comet Gem", "Fragments of a comet you found while mining. Useful for casting.", 40, false),
-            GEM_2 = new Item(ItemType.MINE, EmoteReference.STAR.getUnicode(), "Star Gem", "Fragments of a fallen star you found while mining.", 45, false),
+            GEM_2 = new Item(ItemType.MINE, EmoteReference.STAR.getUnicode(), "Star Gem", "Fragments of a fallen star you found while mining.", 60, false),
             GEM_3 = new Item(ItemType.MINE, "\uD83D\uDD78", "Cobweb", "Something a spider left over on the mine. Wonder if it's worth something.", 10, false),
             GEM_4 = new Item(ItemType.MINE, "\uD83D\uDCAB", "Gem Fragment", "Fragment of an ancient gem. Useful for casting", 50, false),
             // ---------------------------------- 5.0 ITEMS START HERE (again lol) ----------------------------------
             MOP = new Item(ItemType.COMMON, "\u3030","Mop", "A delightful way to clean all the dust you have around.", 10, true),
             CLAIM_KEY = new Item(ItemType.COMMON, EmoteReference.KEY.getUnicode(),"Claim Key", "This items makes you unclaimeable (as a waifu) while having it on your inventory.", 1, false, true),
-            COFFEE = new Item(ItemType.COMMON, "\u2615","Coffee", "A delightful way to start your day.", 10, true)
+            COFFEE = new Item(ItemType.COMMON, "\u2615","Coffee", "A delightful way to start your day.", 10, true),
+            WAIFU_PILL = new Item(ItemType.INTERACTIVE, "\ud83d\udc8a","Waifu Pill", "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 2 million. Lasts 5 sessions.", 670, true),
+            FISHING_BAIT = new Item(ItemType.INTERACTIVE, "\uE525","Fishing bait.", "Gives you a higher chance of catching fish.", 15, true),
+            DIAMOND_PICKAXE = new Item(ItemType.CAST, "\u26cf","Diamond Pickaxe", "A very much stronger pick. (`~>mine` tool)", 580, true, false, "1;2", 10, 19),
     };
 
 
     public static void setItemActions() {
         final SecureRandom random = new SecureRandom();
         log.info("Registering item actions...");
+        final ManagedDatabase managedDatabase = MantaroData.db();
         FISHING_ROD.setAction((event, lang) -> {
-            Player p = MantaroData.db().getPlayer(event.getAuthor());
+            Player p = managedDatabase.getPlayer(event.getAuthor());
+            DBUser u = managedDatabase.getUser(event.getAuthor());
             Inventory playerInventory = p.getInventory();
 
             if(!playerInventory.containsItem(FISHING_ROD))
                 return false;
 
-            if(r.nextInt(100) > (handleStaminaPotion(p) ? 90 : 80)) { //20% chance for the rod to break on usage (10% with stamina).
+            if(r.nextInt(100) > (handlePotion(POTION_STAMINA, 4, p) ? 90 : 80)) { //20% chance for the rod to break on usage (10% with stamina).
                 event.getChannel().sendMessageFormat(lang.get("commands.fish.rod_broke"), EmoteReference.SAD).queue();
                 playerInventory.process(new ItemStack(FISHING_ROD, -1));
                 p.save();
@@ -160,11 +167,19 @@ public class Items {
                     RandomCollection<Item> fishItems = new RandomCollection<>();
 
                     int money = 0;
-                    int amount = random.nextInt(4);
+                    int amount = handleBuff(FISHING_BAIT, 1, p) ? Math.max(1, random.nextInt(6)) : random.nextInt(4);
                     fish.forEach((item) -> fishItems.add(3, item));
 
                     if(select > 75) {
                         money = Math.max(10, random.nextInt(85));
+                    }
+
+                    boolean waifuHelp = false;
+                    if(Items.handlePotion(Items.WAIFU_PILL, 5, p)) {
+                        if(u.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 2_000_000L)) {
+                            money += Math.max(10, random.nextInt(100));
+                            waifuHelp = true;
+                        }
                     }
 
                     List<ItemStack> list = new ArrayList<>(amount);
@@ -189,7 +204,9 @@ public class Items {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money_noitem"), EmoteReference.POPPER, money).queue();
 
                     } else if(money > 0) {
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money"), EmoteReference.POPPER, itemDisplay, money).queue();
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money"),
+                                EmoteReference.POPPER, itemDisplay, money, (waifuHelp ? "\n" + lang.get("commands.fish.waifu_help") : "")
+                        ).queue();
                     } else if (!reducedList.isEmpty()) {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.success"), EmoteReference.POPPER, itemDisplay).queue();
                     } else {
@@ -207,14 +224,14 @@ public class Items {
         });
 
         BROM_PICKAXE.setAction((event, lang) -> {
-            Player p = MantaroData.db().getPlayer(event.getAuthor());
+            Player p = managedDatabase.getPlayer(event.getAuthor());
             Inventory playerInventory = p.getInventory();
 
             //Defensive programming :D
             if(!playerInventory.containsItem(BROM_PICKAXE))
                 return false;
 
-            if(r.nextInt(100) > (handleStaminaPotion(p) ? 85 : 75)) { //35% chance for the pick to break on usage (25% with stamina).
+            if(r.nextInt(100) > (handlePotion(POTION_STAMINA, 4, p) ? 85 : 75)) { //35% chance for the pick to break on usage (25% with stamina).
                 event.getChannel().sendMessageFormat(lang.get("commands.mine.pick_broke"), EmoteReference.SAD).queue();
                 playerInventory.process(new ItemStack(BROM_PICKAXE, -1));
                 p.save();
@@ -225,7 +242,7 @@ public class Items {
         });
 
         POTION_CLEAN.setAction((event, lang) -> {
-            Player p = MantaroData.db().getPlayer(event.getAuthor());
+            Player p = managedDatabase.getPlayer(event.getAuthor());
             p.getData().setActivePotion(null);
             event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.milk"), EmoteReference.POPPER).queue();
             p.getInventory().process(new ItemStack(POTION_CLEAN, -1));
@@ -234,7 +251,7 @@ public class Items {
         });
 
         POTION_STAMINA.setAction((event, lang) -> {
-            Player p = MantaroData.db().getPlayer(event.getAuthor());
+            Player p = managedDatabase.getPlayer(event.getAuthor());
             p.getData().setActivePotion(new PotionEffect(idOf(POTION_STAMINA), System.currentTimeMillis(), ItemType.PotionType.PLAYER));
             event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.stamina"), EmoteReference.POPPER).queue();
             p.getInventory().process(new ItemStack(POTION_STAMINA, -1));
@@ -243,7 +260,7 @@ public class Items {
         });
 
         POTION_HASTE.setAction((event, lang) -> {
-            Player p = MantaroData.db().getPlayer(event.getAuthor());
+            Player p = managedDatabase.getPlayer(event.getAuthor());
             p.getData().setActivePotion(new PotionEffect(idOf(POTION_HASTE),
                     System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
             event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.haste"), EmoteReference.POPPER).queue();
@@ -383,11 +400,11 @@ public class Items {
         return list;
     }
 
-    private static boolean handleStaminaPotion(Player p) {
-        boolean hasStaminaPotion = p.getData().getActivePotion() != null && fromId(p.getData().getActivePotion().getPotion()) == POTION_STAMINA;
-        if (hasStaminaPotion) {
+    public static boolean handlePotion(Item i, int maxTimes, Player p) {
+        boolean isPotionPresent = p.getData().getActivePotion() != null && fromId(p.getData().getActivePotion().getPotion()) == i;
+        if (isPotionPresent) {
             //counter starts at 0
-            if (p.getData().getActivePotion().getTimesUsed() >= 4) {
+            if (p.getData().getActivePotion().getTimesUsed() >= maxTimes) {
                 p.getData().setActivePotion(null);
                 p.save();
             } else {
@@ -397,6 +414,23 @@ public class Items {
             }
         }
 
-        return hasStaminaPotion;
+        return isPotionPresent;
+    }
+
+    public static boolean handleBuff(Item i, int maxTimes, Player p) {
+        boolean isBuffPresent = p.getData().getActivePotion() != null && fromId(p.getData().getActiveBuff().getPotion()) == i;
+        if (isBuffPresent) {
+            //counter starts at 0
+            if (p.getData().getActiveBuff().getTimesUsed() >= maxTimes) {
+                p.getData().setActiveBuff(null);
+                p.save();
+            } else {
+                long timesUsed = p.getData().getActiveBuff().getTimesUsed();
+                p.getData().getActiveBuff().setTimesUsed(timesUsed + 1);
+                p.save();
+            }
+        }
+
+        return isBuffPresent;
     }
 }

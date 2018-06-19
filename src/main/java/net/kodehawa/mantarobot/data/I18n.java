@@ -29,7 +29,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class I18n {
-    private static final List<String> LANGUAGES = new ArrayList<>();
+    public static final List<String> LANGUAGES = new ArrayList<>();
     private static final ThreadLocal<String> ROOT = new ThreadLocal<>();
     private static final Map<String, I18n> LANGUAGE_MAP;
     private final Map<String, ?> map;

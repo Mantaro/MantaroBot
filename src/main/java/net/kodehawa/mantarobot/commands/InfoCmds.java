@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.github.natanbc.usagetracker.DefaultBucket;
 import com.google.common.eventbus.Subscribe;
+import com.sun.imageio.plugins.common.I18N;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.Permission;
@@ -39,6 +40,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
+import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -191,6 +193,23 @@ public class InfoCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Donation Methods")
                         .setDescription("**Shows the donation methods in case you want to support Mantaro!**")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void language(CommandRegistry cr) {
+        cr.register("lang", new SimpleCommand(Category.INFO) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                event.getChannel().sendMessageFormat(languageContext.get("commands.lang.info"), EmoteReference.ZAP, String.join(", ", I18n.LANGUAGES)).queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Localization Help")
+                        .setDescription("**Shows how to change the server and user languages, along with a language list.**")
                         .build();
             }
         });

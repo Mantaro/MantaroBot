@@ -27,10 +27,12 @@ import java.util.function.BiPredicate;
 @Slf4j
 public class Item {
     @Getter
-    //EXAMPLE: 1-1-2-2-2 will mean require two items of type 1 and 3 of type 2. For example a pick will require 2 of type 1 and 1 of type 2.
+    //EXAMPLE: 1-3;3-2 will mean require two items of type 1 and 3 of type 2. For example a pick will require 2 of type 1 and 1 of type 2.
     //You can have as many types as you want.
     //If the recipe it's an empty string, it means the item has no recipe.
     private String recipe;
+    @Getter
+    private int[] recipeTypes;
 
     protected final long value;
     private final boolean buyable;
@@ -50,7 +52,7 @@ public class Item {
         this(type, emoji, name, desc, value, true, true, false, 100, null, "");
     }
 
-    public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize, BiPredicate<GuildMessageReceivedEvent, I18nContext> action, String recipe) {
+    public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize, BiPredicate<GuildMessageReceivedEvent, I18nContext> action, String recipe, int... recipeTypes) {
         this.emoji = emoji;
         this.name = name;
         this.desc = desc;
@@ -63,11 +65,16 @@ public class Item {
         this.action = action;
         this.itemType = type;
         this.recipe = recipe;
+        this.recipeTypes = recipeTypes;
         log.debug("Registered item {}: {}", name, this.toVerboseString());
     }
 
     public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable) {
         this(type, emoji, name, desc, value, sellable, buyable, false, 100, null, "");
+    }
+
+    public Item(ItemType type, String emoji, String name, String desc, long value, boolean sellable, boolean buyable, String recipe, int... recipeTypes) {
+        this(type, emoji, name, desc, value, sellable, buyable, false, 100, null, recipe, recipeTypes);
     }
 
     public Item(ItemType type, String emoji, String name, String desc, long value, boolean buyable) {

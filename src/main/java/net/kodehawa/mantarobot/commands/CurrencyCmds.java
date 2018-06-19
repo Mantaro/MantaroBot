@@ -808,4 +808,84 @@ public class CurrencyCmds {
             }
         });
     }
+
+    @Subscribe
+    public void cast(CommandRegistry cr) {
+        final RateLimiter ratelimiter = new RateLimiter(TimeUnit.SECONDS, 10);
+        cr.register("cast", new SimpleCommand(Category.CURRENCY) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                Player player = MantaroData.db().getPlayer(event.getAuthor());
+                Optional<Item> toCast = Items.fromAnyNoId(content);
+
+                if(!toCast.isPresent()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_item_found"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(!Utils.handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
+                    return;
+
+                Item castItem = toCast.get();
+
+                if(castItem.getItemType() != ItemType.CAST) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.cast.item_not_cast"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Map<Item, Integer> castMap = new HashMap<>();
+                String recipe = castItem.getRecipe();
+                String[] splitRecipe = recipe.split(";");
+                long castCost = castItem.getValue() / 2;
+
+                if(player.getMoney() < castCost) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_money"), EmoteReference.ERROR, castCost).queue();
+                    return;
+                }
+
+                int increment = 0;
+                for(int i : castItem.getRecipeTypes()) {
+                    Item item = Items.fromId(i);
+                    int amount = Integer.valueOf(splitRecipe[increment]);
+
+                    if(!player.getInventory().containsItem(item)) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_item"), EmoteReference.ERROR, item.getName()).queue();
+                        return;
+                    }
+
+                    int inventoryAmount = player.getInventory().getAmount(item);
+                    if(inventoryAmount < amount) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_items"), EmoteReference.ERROR, item.getName(), inventoryAmount).queue();
+                        return;
+                    }
+
+                    castMap.put(item, amount);
+                    increment++;
+                }
+
+                for(Map.Entry<Item, Integer> entry : castMap.entrySet()) {
+                    Item i = entry.getKey();
+                    int amount = entry.getValue();
+                    player.getInventory().process(new ItemStack(i, -amount));
+                }
+
+                player.getInventory().process(new ItemStack(castItem, 1));
+                player.save();
+
+                event.getChannel().sendMessageFormat(languageContext.get("commands.cast.success"),
+                        EmoteReference.POPPER, castItem.getEmoji(), castItem.getName(), castCost
+                ).queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Cast command")
+                        .setDescription("**Allows you to cast any castable item given you have the necessary elements.**\n" +
+                                "Casting requires you to have the necessary materials to cast the item, and it has a cost of `item value / 3`.\n" +
+                                "Cast-able items are only able to be adquired by this command. They're non-buyable items, though you can sell them for a profit.")
+                        .addField("Usage", "`~>cast <item emoji or name>` - Casts the item you provide.", false)
+                        .build();
+            }
+        });
+    }
 }

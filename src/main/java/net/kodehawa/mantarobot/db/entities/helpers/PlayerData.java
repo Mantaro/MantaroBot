@@ -48,6 +48,8 @@ public class PlayerData {
     private long marketUsed;
     private boolean showBadge = true;
     private PotionEffect activePotion;
+    private PotionEffect activeBuff;
+    private long waifuCachedValue;
 
     @JsonIgnore
     //LEGACY SUPPORT
