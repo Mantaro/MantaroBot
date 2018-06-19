@@ -482,6 +482,14 @@
       "format": "**Price**: 📥 %1$d 📤 %2$d\n%3$s",
       "empty": "%1$sYour inventory is empty! :("
     },
+    "cast": {
+      "no_item_found": "%1$sI didn't find any item matching that.",
+      "item_not_cast": "%1$sYou cannot cast this item.",
+      "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
+      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
+      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
+      "success": "%1$sYou succesfully **casted %2$s %3$s** for **%4$s credits.**"
+    },
     "market": {
       "dump": {
         "invalid": "%1$sNot a valid number of items to dump.",

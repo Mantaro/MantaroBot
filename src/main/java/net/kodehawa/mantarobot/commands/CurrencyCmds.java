@@ -855,7 +855,7 @@ public class CurrencyCmds {
 
                     int inventoryAmount = player.getInventory().getAmount(item);
                     if(inventoryAmount < amount) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_items"), EmoteReference.ERROR, item.getName(), inventoryAmount).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_items"), EmoteReference.ERROR, item.getName(), amount, inventoryAmount).queue();
                         return;
                     }
 
@@ -881,7 +881,7 @@ public class CurrencyCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Cast command")
                         .setDescription("**Allows you to cast any castable item given you have the necessary elements.**\n" +
-                                "Casting requires you to have the necessary materials to cast the item, and it has a cost of `item value / 3`.\n" +
+                                "Casting requires you to have the necessary materials to cast the item, and it has a cost of `item value / 2`.\n" +
                                 "Cast-able items are only able to be adquired by this command. They're non-buyable items, though you can sell them for a profit.")
                         .addField("Usage", "`~>cast <item emoji or name>` - Casts the item you provide.", false)
                         .build();

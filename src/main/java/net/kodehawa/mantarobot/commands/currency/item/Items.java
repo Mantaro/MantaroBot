@@ -120,7 +120,7 @@ public class Items {
             COFFEE = new Item(ItemType.COMMON, "\u2615","Coffee", "A delightful way to start your day.", 10, true),
             WAIFU_PILL = new Item(ItemType.INTERACTIVE, "\ud83d\udc8a","Waifu Pill", "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 2 million. Lasts 5 sessions.", 670, true),
             FISHING_BAIT = new Item(ItemType.INTERACTIVE, "\uE525","Fishing bait.", "Gives you a higher chance of catching fish.", 15, true),
-            DIAMOND_PICKAXE = new Item(ItemType.CAST, "\u26cf","Diamond Pickaxe", "A very much stronger pick. (`~>mine` tool)", 580, true, false, "1;2", 10, 19),
+            DIAMOND_PICKAXE = new Item(ItemType.CAST, "\u2692\ufe0f","Diamond Pickaxe", "A very much stronger pick. (`~>mine` tool)", 580, true, false, "1;2", 10, 18),
     };
 
 
