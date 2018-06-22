@@ -18,7 +18,6 @@ package net.kodehawa.mantarobot.commands;
 
 import com.github.natanbc.usagetracker.DefaultBucket;
 import com.google.common.eventbus.Subscribe;
-import com.sun.imageio.plugins.common.I18N;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.Permission;

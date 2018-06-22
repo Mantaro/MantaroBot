@@ -61,7 +61,7 @@ public class Utils {
     private static final String[] ratelimitQuotes = {
             "Woah... you're calling me a bit too fast... I might get dizzy!", "Don't be greedy!", "Y-You're calling me so fast that I'm getting dizzy...",
             "Halt in there buddy!", "Wait just a tiiiiny bit more uwu", "Seems like we're gonna get a speed ticket if we continue going this fast!",
-            "I wanna do this... but halt for a bit please."
+            "I wanna do this... but halt for a bit please.", "Hey, wait up, I'm not done with my break yet!", "Can you slow down a little bit?"
     };
 
     private static final Random random = new Random();
@@ -616,11 +616,8 @@ public class Utils {
             return true;
         } else {
             String id = TimeZone.getTimeZone(timeZone).getID();
-            if (!id.equals(DEFAULT_GMT_TIMEZONE)) {
-                return true;
-            }
+            return !id.equals(DEFAULT_GMT_TIMEZONE);
         }
 
-        return false;
     }
 }

@@ -17,8 +17,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Member;
@@ -27,6 +25,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.Waifu;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -58,14 +57,13 @@ import java.awt.*;
 import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Module
 //In theory fun category, but created this class to avoid FunCmds to go over 1k lines.
 public class RelationshipCmds {
 
     private final Config config = MantaroData.config().get();
-    private final long waifuBaseValue = 1300L;
+    private static final long waifuBaseValue = 1300L;
 
     @Subscribe
     public void marry(CommandRegistry cr) {
@@ -836,7 +834,7 @@ public class RelationshipCmds {
         });
     }
 
-    private Waifu calculateWaifuValue(User user) {
+    static Waifu calculateWaifuValue(User user) {
         final ManagedDatabase db = MantaroData.db();
         Player waifuPlayer = db.getPlayer(user);
         PlayerData waifuPlayerData = waifuPlayer.getData();
@@ -857,7 +855,7 @@ public class RelationshipCmds {
         //Experience calculator.
         long experienceValue = Math.round(Math.max(1, (int) (waifuPlayer.getData().getExperience() / 2580)) * calculatePercentage(18, waifuBaseValue));
         //Claim calculator.
-        long claimValue = Math.round(Math.max(1, (waifuUserData.getTimesClaimed() / 3) * calculatePercentage(5, waifuBaseValue)));
+        long claimValue = Math.round(Math.max(1, (waifuUserData.getTimesClaimed() / 3)) * calculatePercentage(5, waifuBaseValue));
 
         //"final" value
         waifuValue += moneyValue + badgeValue + experienceValue + claimValue;
@@ -877,18 +875,7 @@ public class RelationshipCmds {
     }
 
     //Yes, I had to do it, fuck.
-    private long calculatePercentage(long percentage, long number) {
+    private static long calculatePercentage(long percentage, long number) {
         return (percentage * number) / 100;
-    }
-
-    @AllArgsConstructor
-    @Data
-    private class Waifu {
-        private long moneyValue;
-        private long badgeValue;
-        private long experienceValue;
-        private double reputationMultiplier;
-        private long claimValue;
-        private long finalValue;
     }
 }

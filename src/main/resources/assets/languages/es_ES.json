@@ -420,9 +420,9 @@
     },
     "waifu": {
       "stats": {
-        "header": "Tus estadísticas waifu",
-        "header_other": "Estadísticas waifu de %1$s",
-        "format": "%1$s **Valor del peso del dinero:** %2$s\n%1$s **Valor de trofeos:** %3$s\n%1$s **Valor de experiencia:** %4$s\n%1$s **Multiplicador de reputación:** %5$.2fx",
+        "header": "Tus estadísticas de waifu",
+        "header_other": "Estadísticas de waifu de %1$s",
+        "format": "%1$s **Ponderación del dinero:** %2$s\n%1$s **Ponderación de trofeos:** %3$s\n%1$s **Ponderación de experiencia:** %4$s\n%1$s **Ponderación de claimeo:** %5$s\n%1$s **Multiplicador de reputación:** %6$.2fx",
         "value": "Valor total de waifu",
         "credits": "%1$d créditos"
       },

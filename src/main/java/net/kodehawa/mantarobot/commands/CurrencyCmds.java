@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
@@ -48,6 +49,8 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.awt.Color;
+import java.security.SecureRandom;
+import java.text.ParsePosition;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -594,7 +597,7 @@ public class CurrencyCmds {
 
                 try {
                     //Convert negative values to absolute.
-                    toSend = Math.abs(Long.parseLong(args[1]));
+                    toSend = Math.abs(new RoundedMetricPrefixFormat().parseObject(args[1], new ParsePosition(0)));
                 } catch(Exception e) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.no_amount"), EmoteReference.ERROR).queue();
                     return;
@@ -812,6 +815,8 @@ public class CurrencyCmds {
     @Subscribe
     public void cast(CommandRegistry cr) {
         final RateLimiter ratelimiter = new RateLimiter(TimeUnit.SECONDS, 10);
+        final SecureRandom random = new SecureRandom();
+
         cr.register("cast", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
@@ -827,7 +832,6 @@ public class CurrencyCmds {
                     return;
 
                 Item castItem = toCast.get();
-
                 if(castItem.getItemType() != ItemType.CAST) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.cast.item_not_cast"), EmoteReference.ERROR).queue();
                     return;
@@ -840,6 +844,11 @@ public class CurrencyCmds {
 
                 if(player.getMoney() < castCost) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_money"), EmoteReference.ERROR, castCost).queue();
+                    return;
+                }
+
+                if(!player.getInventory().containsItem(Items.WRENCH)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_tool"), EmoteReference.ERROR, castCost).queue();
                     return;
                 }
 
@@ -872,8 +881,14 @@ public class CurrencyCmds {
                 player.getInventory().process(new ItemStack(castItem, 1));
                 player.save();
 
+                String message = "";
+                if(random.nextInt(100) > 75) {
+                    player.getInventory().process(new ItemStack(Items.WRENCH, -1));
+                    message += languageContext.get("commands.cast.tool_broke");
+                }
+
                 event.getChannel().sendMessageFormat(languageContext.get("commands.cast.success"),
-                        EmoteReference.POPPER, castItem.getEmoji(), castItem.getName(), castCost
+                        EmoteReference.POPPER, castItem.getEmoji(), castItem.getName(), castCost, message
                 ).queue();
             }
 

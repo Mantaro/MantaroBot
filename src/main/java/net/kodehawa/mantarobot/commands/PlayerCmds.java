@@ -136,6 +136,8 @@ public class PlayerCmds {
 
     @Subscribe
     public void profile(CommandRegistry cr) {
+        final ManagedDatabase managedDatabase = MantaroData.db();
+
         ITreeCommand profileCommand = (TreeCommand) cr.register("profile", new TreeCommand(Category.CURRENCY) {
             @Override
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
@@ -143,9 +145,8 @@ public class PlayerCmds {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                         User userLooked = event.getAuthor();
-                        final ManagedDatabase db = MantaroData.db();
-                        Player player = db.getPlayer(userLooked);
-                        DBUser dbUser = db.getUser(userLooked);
+                        Player player = managedDatabase.getPlayer(userLooked);
+                        DBUser dbUser = managedDatabase.getUser(userLooked);
 
                         Member memberLooked = event.getMember();
 
@@ -171,14 +172,15 @@ public class PlayerCmds {
                             }
 
                             //Re-assign.
-                            dbUser = db.getUser(userLooked);
-                            player = db.getPlayer(memberLooked);
+                            dbUser = managedDatabase.getUser(userLooked);
+                            player = managedDatabase.getPlayer(memberLooked);
                         }
 
                         //LEGACY SUPPORT
                         User marriedTo = (player.getData().getMarriedWith() == null || player.getData().getMarriedWith().isEmpty()) ? null : MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
+
                         //New marriage support.
-                        Marriage currentMarriage = db.getUser(event.getAuthor()).getData().getMarriage();
+                        Marriage currentMarriage = managedDatabase.getUser(event.getAuthor()).getData().getMarriage();
                         User marriedToNew = null;
                         boolean isNewMarriage = false;
                         if(currentMarriage != null) {
@@ -193,56 +195,27 @@ public class PlayerCmds {
                         UserData userData = dbUser.getData();
                         Inventory inv = player.getInventory();
 
+                        //Cache waifu value.
+                        playerData.setWaifuCachedValue(RelationshipCmds.calculateWaifuValue(userLooked).getFinalValue());
+
                         //start of badge assigning
                         Guild mh = MantaroBot.getInstance().getGuildById("213468583252983809");
                         Member mhMember = mh == null ? null : mh.getMemberById(memberLooked.getUser().getId());
-                        boolean saveAfter = false;
 
-                        //Seriously what the fuck is this? lmao
-                        if(player.getMoney() > 7526527671L && playerData.addBadgeIfAbsent(Badge.ALTERNATIVE_WORLD))
-                            saveAfter = true;
-                        if(MantaroData.config().get().isOwner(userLooked) && playerData.addBadgeIfAbsent(Badge.DEVELOPER))
-                            saveAfter = true;
-                        if(inv.asList().stream().anyMatch(stack -> stack.getAmount() == 5000) && playerData.addBadgeIfAbsent(Badge.SHOPPER))
-                            saveAfter = true;
-                        if(inv.asList().stream().anyMatch(stack -> stack.getItem().equals(Items.CHRISTMAS_TREE_SPECIAL) || stack.getItem().equals(Items.BELL_SPECIAL)) && playerData.addBadgeIfAbsent(Badge.CHRISTMAS))
-                            saveAfter = true;
-                        if(MantaroBot.getInstance().getShardedMantaro().getDiscordBotsUpvoters().contains(userLooked.getIdLong()) && playerData.addBadgeIfAbsent(Badge.UPVOTER))
-                            saveAfter = true;
-                        if(player.getLevel() >= 10 && playerData.addBadgeIfAbsent(Badge.WALKER))
-                            saveAfter = true;
-                        if(player.getLevel() >= 50 && playerData.addBadgeIfAbsent(Badge.RUNNER))
-                            saveAfter = true;
-                        if(player.getLevel() >= 100 && playerData.addBadgeIfAbsent(Badge.FAST_RUNNER))
-                            saveAfter = true;
-                        if(player.getLevel() >= 150 && playerData.addBadgeIfAbsent(Badge.MARATHON_RUNNER))
-                            saveAfter = true;
-                        if(player.getLevel() >= 200 && playerData.addBadgeIfAbsent(Badge.MARATHON_WINNER))
-                            saveAfter = true;
-                        if(player.getReputation() >= 10 && playerData.addBadgeIfAbsent(Badge.POPULAR))
-                            saveAfter = true;
-                        if(player.getReputation() >= 100 && playerData.addBadgeIfAbsent(Badge.CELEBRITY))
-                            saveAfter = true;
-                        if(player.getReputation() >= 1000 && playerData.addBadgeIfAbsent(Badge.MOST_KNOWN))
-                            saveAfter = true;
-                        if(playerData.getMarketUsed() > 1000 && playerData.addBadgeIfAbsent(Badge.COMPULSIVE_BUYER))
-                            saveAfter = true;
-                        if(mhMember != null && mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 406920476259123201L) && playerData.addBadgeIfAbsent(Badge.HELPER_2))
-                            saveAfter = true;
-                        if(mhMember != null && mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 290257037072531466L || r.getIdLong() == 290902183300431872L) && playerData.addBadgeIfAbsent(Badge.DONATOR_2))
-                            saveAfter = true;
-                        if(userData.getTimesClaimed() >= 1 && playerData.addBadgeIfAbsent(Badge.WAIFU))
-                            saveAfter = true;
-                        if(userData.getTimesClaimed() >= 10 && playerData.addBadgeIfAbsent(Badge.POPULAR_WAIFU))
-                            saveAfter = true;
-                        if(userData.getTimesClaimed() >= 100 && playerData.addBadgeIfAbsent(Badge.KNOWN_WAIFU))
-                            saveAfter = true;
-                        if(userData.getTimesClaimed() >= 1000 && playerData.addBadgeIfAbsent(Badge.BEST_WAIFU))
-                            saveAfter = true;
+                        Badge.assignBadges(player, dbUser);
 
-                        if(saveAfter)
-                            player.saveAsync();
+                        //Manual badges
+                        if(MantaroData.config().get().isOwner(userLooked))
+                            playerData.addBadgeIfAbsent(Badge.DEVELOPER);
+                        if(inv.asList().stream().anyMatch(stack -> stack.getItem().equals(Items.CHRISTMAS_TREE_SPECIAL) || stack.getItem().equals(Items.BELL_SPECIAL)))
+                            playerData.addBadgeIfAbsent(Badge.CHRISTMAS);
+                        if(mhMember != null && mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 406920476259123201L))
+                            playerData.addBadgeIfAbsent(Badge.HELPER_2);
+                        if(mhMember != null && mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 290257037072531466L || r.getIdLong() == 290902183300431872L))
+                            playerData.addBadgeIfAbsent(Badge.DONATOR_2);
                         //end of badge assigning
+
+                        player.saveAsync();
 
                         List<Badge> badges = playerData.getBadges();
                         Collections.sort(badges);
@@ -326,7 +299,7 @@ public class PlayerCmds {
         profileCommand.addSubCommand("timezone", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
+                DBUser dbUser = managedDatabase.getUser(event.getAuthor());
                 String[] args = content.split(" ");
 
                 if(args.length < 1) {
@@ -366,7 +339,7 @@ public class PlayerCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = content.split(" ");
                 User author = event.getAuthor();
-                Player player = MantaroData.db().getPlayer(author);
+                Player player = managedDatabase.getPlayer(author);
 
                 if(args.length == 0) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.profile.description.no_argument"), EmoteReference.ERROR).queue();
@@ -376,7 +349,7 @@ public class PlayerCmds {
                 if(args[0].equals("set")) {
                     int MAX_LENGTH = 300;
 
-                    if(MantaroData.db().getUser(author).isPremium())
+                    if(managedDatabase.getUser(author).isPremium())
                         MAX_LENGTH = 500;
 
                     String content1 = SPLIT_PATTERN.split(content, 2)[1];
@@ -415,7 +388,7 @@ public class PlayerCmds {
                     return;
                 }
 
-                Player player = MantaroData.db().getPlayer(event.getAuthor());
+                Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData data = player.getData();
 
                 if(args[0].equalsIgnoreCase("none")) {
@@ -460,7 +433,7 @@ public class PlayerCmds {
                     return;
                 }
 
-                DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
+                DBUser dbUser = managedDatabase.getUser(event.getAuthor());
 
                 if(content.equalsIgnoreCase("reset")) {
                     dbUser.getData().setLang(null);
@@ -471,8 +444,11 @@ public class PlayerCmds {
 
                 if(I18n.isValidLanguage(content)) {
                     dbUser.getData().setLang(content);
+                    //Create new I18n context based on the new language choice.
+                    I18nContext newContext = new I18nContext(managedDatabase.getGuild(event.getGuild().getId()).getData(), dbUser.getData());
+
                     dbUser.save();
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content).queue();
+                    event.getChannel().sendMessageFormat(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content).queue();
                 } else {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.profile.lang.invalid"), EmoteReference.ERROR).queue();
                 }

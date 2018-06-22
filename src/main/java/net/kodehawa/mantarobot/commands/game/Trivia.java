@@ -40,12 +40,12 @@ import java.util.stream.Collectors;
 public class Trivia extends Game<String> {
     private final String OTDB_URL = "https://opentdb.com/api.php?amount=1&encode=base64";
     private final int maxAttempts = 2;
-    private String difficulty;
+    private TriviaDifficulty difficulty;
     private List<String> expectedAnswer = new ArrayList<>();
     private boolean hardDiff = false;
     private boolean isBool;
 
-    public Trivia(String difficulty) {
+    public Trivia(TriviaDifficulty difficulty) {
         this.difficulty = difficulty;
     }
 
@@ -53,7 +53,7 @@ public class Trivia extends Game<String> {
     public boolean onStart(GameLobby lobby) {
         final I18nContext languageContext = lobby.getLanguageContext();
         try {
-            String json = Utils.wget(OTDB_URL + (difficulty == null ? "" : "&difficulty=" + difficulty), null);
+            String json = Utils.wget(OTDB_URL + (difficulty == null ? "" : "&difficulty=" + difficulty.name().toLowerCase()), null);
 
             if(json == null) {
                 lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.trivia.fetch_error"), EmoteReference.ERROR).queue();
