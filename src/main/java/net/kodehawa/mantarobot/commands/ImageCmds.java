@@ -302,6 +302,7 @@ public class ImageCmds {
 
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
+                    case "":
                     case "random":
                         getImage(yandere, ImageRequestType.RANDOM, false, "yandere", args, content, event, languageContext);
                         break;

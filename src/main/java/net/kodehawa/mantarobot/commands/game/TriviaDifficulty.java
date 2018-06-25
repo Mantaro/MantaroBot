@@ -16,17 +16,9 @@
 
 package net.kodehawa.mantarobot.commands.game;
 
-import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-
 public enum TriviaDifficulty {
     EASY, MEDIUM, HARD;
 
-    /**
-     * Looks up the Badge based on a String value, if nothing is found returns null.
-     *
-     * @param name The String value to match
-     * @return The badge, or null if nothing is found.
-     */
     public static TriviaDifficulty lookupFromString(String name) {
         for(TriviaDifficulty t : TriviaDifficulty.values()) {
             //field name search
@@ -35,5 +27,5 @@ public enum TriviaDifficulty {
             }
         }
         return null;
-    }
+    }     
 }

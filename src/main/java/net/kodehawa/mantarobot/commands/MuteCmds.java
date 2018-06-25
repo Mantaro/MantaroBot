@@ -119,11 +119,7 @@ public class MuteCmds {
                     time = System.currentTimeMillis() + Utils.parseTime(opts.get("time").get());
 
                     if(time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
-                        //smh smh smfh god fuck rethinkdb just
-                        //dont
                         event.getChannel().sendMessageFormat(languageContext.get("commands.mute.time_too_long"), EmoteReference.ERROR).queue();
-                        //yeah why am I doing this
-                        //smh
                         return;
                     }
 

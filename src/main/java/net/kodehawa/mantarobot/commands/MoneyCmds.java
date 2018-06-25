@@ -748,6 +748,7 @@ public class MoneyCmds {
         leaderboards.createSubCommandAlias("lvl", "level");
         leaderboards.createSubCommandAlias("streak", "daily");
         leaderboards.createSubCommandAlias("games", "wins");
+        leaderboards.createSubCommandAlias("waifuvalue", "waifu");
 
         cr.registerAlias("leaderboard", "richest");
         cr.registerAlias("leaderboard", "lb");

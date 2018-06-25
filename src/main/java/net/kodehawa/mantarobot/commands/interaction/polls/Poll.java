@@ -53,8 +53,8 @@ public class Poll extends Lobby {
     private final String id;
     private final long timeout;
     private boolean isCompliant = true;
-    private String name = "";
-    private String owner = "";
+    private String name;
+    private String owner;
     private final String[] options;
     private final I18nContext languageContext;
     private final String image;

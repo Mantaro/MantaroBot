@@ -96,7 +96,6 @@ public class FunCmds {
         cr.register("ratewaifu", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-
                 if(args.length == 0) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.love.nothing_specified"), EmoteReference.ERROR).queue();
                     return;
