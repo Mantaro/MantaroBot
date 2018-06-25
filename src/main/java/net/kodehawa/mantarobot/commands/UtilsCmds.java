@@ -218,7 +218,10 @@ public class UtilsCmds {
                     return;
                 }
 
-                event.getChannel().sendMessage("I choose ``" + random(args) + "``").queue();
+                new MessageBuilder().setContent("I choose ``" + random(args) + "``")
+                        .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE)
+                        .sendTo(event.getChannel())
+                        .queue();
             }
 
             @Override
