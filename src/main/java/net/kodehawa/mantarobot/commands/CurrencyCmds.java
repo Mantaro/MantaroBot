@@ -848,7 +848,7 @@ public class CurrencyCmds {
                 }
 
                 if(!player.getInventory().containsItem(Items.WRENCH)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_tool"), EmoteReference.ERROR, castCost).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_tool"), EmoteReference.ERROR, Items.WRENCH.getName()).queue();
                     return;
                 }
 

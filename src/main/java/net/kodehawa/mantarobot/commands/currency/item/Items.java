@@ -102,9 +102,9 @@ public class Items {
 
             // ---------------------------------- 5.0 ITEMS START HERE ----------------------------------
             PANTS = new Item(ItemType.COMMON, "\uD83D\uDC56", "Pants", "Basically what you wear on your legs... hopefully.", 20, true),
-            POTION_HASTE = new Item(ItemType.INTERACTIVE, "\uD83C\uDF76","Haste Potion", "Allows you to collect more stuff from lootable commands for 2 sessions.", 690, true),
+            POTION_HASTE = new Item(ItemType.INTERACTIVE, "\uD83C\uDF76","Haste Potion", "Allows you to collect more stuff from lootable commands for 2 sessions.", 490, true),
             POTION_CLEAN = new Item(ItemType.INTERACTIVE, "\uD83C\uDF7C","Milky Potion", "Clears all potion effects.", 50, true),
-            POTION_STAMINA = new Item(ItemType.INTERACTIVE, "\uD83C\uDFFA","Energy Beverage", "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.", 550, true),
+            POTION_STAMINA = new Item(ItemType.INTERACTIVE, "\uD83C\uDFFA","Energy Beverage", "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.", 450, true),
             FISHING_ROD = new Item(ItemType.INTERACTIVE, "\uD83C\uDFA3","Fishing Rod", "Enables you to fish.", 65, true),
             FISH_1 = new Item(ItemType.FISHING, "\uD83D\uDC1F","Fish", "Common Fish. Caught in fishing", 10, false),
             FISH_2 = new Item(ItemType.FISHING, "\uD83D\uDC20","Tropical Fish", "A very tropical fish. Caught in fishing", 30, false),
@@ -119,8 +119,8 @@ public class Items {
             CLAIM_KEY = new Item(ItemType.COMMON, EmoteReference.KEY.getUnicode(),"Claim Key", "This items makes you unclaimeable (as a waifu) while having it on your inventory.", 1, false, true),
             COFFEE = new Item(ItemType.COMMON, "\u2615","Coffee", "A delightful way to start your day.", 10, true),
             WAIFU_PILL = new Item(ItemType.INTERACTIVE, "\ud83d\udc8a","Waifu Pill", "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 2 million. Lasts 5 sessions.", 670, true),
-            FISHING_BAIT = new Item(ItemType.INTERACTIVE, "\uE525","Fishing bait.", "Gives you a higher chance of catching fish.", 15, true),
-            DIAMOND_PICKAXE = new Item(ItemType.CAST, "\u2692\ufe0f","Diamond Pickaxe", "A very much stronger pick. (`~>mine` tool)", 580, true, false, "1;2", 10, 18),
+            FISHING_BAIT = new Item(ItemType.INTERACTIVE, "\uD83D\uDC1B","Fishing bait.", "Gives you a higher chance of catching fish.", 15, true),
+            DIAMOND_PICKAXE = new Item(ItemType.CAST, "\u2692\ufe0f","Diamond Pickaxe", "A very much stronger pick. (`~>mine` tool)", 450, true, false, "1;2", 10, 18),
             TELEVISION = new Item(ItemType.COMMON, "\uD83D\uDCFA","Television", "Must... watch... TV...", 45, true),
             WRENCH = new Item(ItemType.COMMON, "\ud83d\udd27","Wrench", "Casting tool. Useful to put stuff together.", 50, true),
     };
@@ -130,6 +130,8 @@ public class Items {
         final SecureRandom random = new SecureRandom();
         log.info("Registering item actions...");
         final ManagedDatabase managedDatabase = MantaroData.db();
+
+        //Basically fish command.
         FISHING_ROD.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
             DBUser u = managedDatabase.getUser(event.getAuthor());
@@ -173,7 +175,7 @@ public class Items {
                     fish.forEach((item) -> fishItems.add(3, item));
 
                     if(select > 75) {
-                        money = Math.max(10, random.nextInt(85));
+                        money = Math.max(5, random.nextInt(85));
                     }
 
                     boolean waifuHelp = false;
@@ -233,7 +235,7 @@ public class Items {
             if(!playerInventory.containsItem(BROM_PICKAXE))
                 return false;
 
-            if(r.nextInt(100) > (handlePotion(POTION_STAMINA, 4, p) ? 85 : 75)) { //35% chance for the pick to break on usage (25% with stamina).
+            if(r.nextInt(100) > (handlePotion(POTION_STAMINA, 4, p) ? 85 : 77)) { //33% chance for the pick to break on usage (25% with stamina).
                 event.getChannel().sendMessageFormat(lang.get("commands.mine.pick_broke"), EmoteReference.SAD).queue();
                 playerInventory.process(new ItemStack(BROM_PICKAXE, -1));
                 p.save();
@@ -267,6 +269,16 @@ public class Items {
                     System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
             event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.haste"), EmoteReference.POPPER).queue();
             p.getInventory().process(new ItemStack(POTION_HASTE, -1));
+            p.save();
+            return true;
+        });
+
+        FISHING_BAIT.setAction((event, lang) -> {
+            Player p = managedDatabase.getPlayer(event.getAuthor());
+            p.getData().setActiveBuff(new PotionEffect(idOf(FISHING_BAIT),
+                    System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
+            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.bait"), EmoteReference.POPPER).queue();
+            p.getInventory().process(new ItemStack(FISHING_BAIT, -1));
             p.save();
             return true;
         });

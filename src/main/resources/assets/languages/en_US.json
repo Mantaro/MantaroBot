@@ -36,6 +36,7 @@
       "milk": "%1$sCleared potion effects.",
       "stamina": "%1$sActivated stamina for 5 mining sessions.",
       "haste": "%1$sActivated Haste for 2 minutes.",
+      "bait": "%1$sInserted a bait in your fishing rod! Good luck fishing. (Activated for 1 use)",
       "crate": {
         "no_key": "%1$sYou need a loot crate key to open a crate. It's locked!",
         "no_crate": "%1$sYou need a loot crate! How else would you use your key >.>... oh",
@@ -489,6 +490,7 @@
       "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
       "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
       "success": "%1$sYou succesfully **casted %2$s %3$s** for **%4$s credits.**",
+      "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
       "item_broke": "\nSadly, your wrench broke in the process, but you got your item!"
     },
     "market": {
@@ -688,6 +690,7 @@
       "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n",
       "info_notice": "Use `~>badges info <badge name>` to get more information about a badge.\n",
       "upvote_notice": "**You can get a free badge for [up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!** (It might take some minutes to process)\n\n",
+      "donate_notice": "**You can get a badge for [supporting the development of Mantaro!](https://patreon.com/mantaro)!** (It might take some minutes to process)\n\n",
       "no_badges": "No badges to show (yet!)",
       "header": "Badges achieved by %1$s"
     },

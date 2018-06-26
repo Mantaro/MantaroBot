@@ -239,7 +239,10 @@ public class UtilsCmds {
                     return;
                 }
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.choose.success"), EmoteReference.EYES, random(args)).queue();
+                new MessageBuilder().setContent(String.format(languageContext.get("commands.choose.success"), EmoteReference.EYES, random(args)))
+                        .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE)
+                        .sendTo(event.getChannel())
+                        .queue();
             }
 
             @Override

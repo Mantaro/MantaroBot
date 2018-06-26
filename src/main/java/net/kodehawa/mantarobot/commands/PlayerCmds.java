@@ -222,26 +222,20 @@ public class PlayerCmds {
                         String displayBadges = badges.stream().map(Badge::getUnicode).limit(5).collect(Collectors.joining("  "));
 
                         EmbedBuilder builder = baseEmbed(event,
-                                (marriedTo == null || !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING
-                                ) + String.format(languageContext.get("commands.profile.header"), memberLooked.getEffectiveName()), userLooked.getEffectiveAvatarUrl()
-                                )
+                                (marriedTo == null || !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING) +
+                                        String.format(languageContext.get("commands.profile.header"), memberLooked.getEffectiveName()), userLooked.getEffectiveAvatarUrl())
                                 .setThumbnail(userLooked.getEffectiveAvatarUrl())
                                 .setDescription(
                                         (player.getData().isShowBadge() ? (badges.isEmpty() ?
-                                                "" : String.format("**%s**\n", (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()))) : ""
-                                        ) +
-                                                (player.getData().getDescription() == null ?
-                                                        languageContext.get("commands.profile.no_desc") : player.getData().getDescription()
-                                                )
+                                                "" : String.format("**%s**\n", (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()))) : "") +
+                                                (player.getData().getDescription() == null ? languageContext.get("commands.profile.no_desc") : player.getData().getDescription())
                                 )
-                                .addField(EmoteReference.DOLLAR + languageContext.get("commands.profile.credits"),
-                                        "$ " + player.getMoney(), true
+                                .addField(EmoteReference.DOLLAR + languageContext.get("commands.profile.credits"), "$ " + player.getMoney(), true
                                 )
                                 .addField(EmoteReference.ZAP + languageContext.get("commands.profile.level"),
                                         String.format("%d (%s: %d)", player.getLevel(), languageContext.get("commands.profile.xp"), player.getData().getExperience()), true
                                 )
-                                .addField(EmoteReference.REP + languageContext.get("commands.profile.rep"),
-                                        String.valueOf(player.getReputation()), true
+                                .addField(EmoteReference.REP + languageContext.get("commands.profile.rep"), String.valueOf(player.getReputation()), true
                                 )
                                 .addField(EmoteReference.POPPER + languageContext.get("commands.profile.birthday"),
                                         userData.getBirthday() != null ? userData.getBirthday().substring(0, 5) : languageContext.get("commands.profile.not_specified"), true
@@ -253,8 +247,7 @@ public class PlayerCmds {
                                                 String.format("%s#%s", marriedTo.getName(), marriedTo.getDiscriminator()), false
 
                                 )
-                                .addField(EmoteReference.POUCH + languageContext.get("commands.profile.inventory"),
-                                        ItemStack.toString(inv.asList()), false
+                                .addField(EmoteReference.POUCH + languageContext.get("commands.profile.inventory"), ItemStack.toString(inv.asList()), false
                                 )
                                 .addField(EmoteReference.HEART + languageContext.get("commands.profile.badges"),
                                         displayBadges.isEmpty() ? languageContext.get("commands.profile.no_badges") : displayBadges, false
@@ -490,7 +483,8 @@ public class PlayerCmds {
                         //Show the message that tells the person that they can get a free badge for upvoting mantaro one out of 3 times they use this command.
                         //The message stops appearing when they upvote.
                         String toShow = languageContext.get("commands.badges.profile_notice") + languageContext.get("commands.badges.info_notice") +
-                                ((r.nextInt(3) == 0 && !playerData.hasBadge(Badge.UPVOTER) ? languageContext.get("commands.badges.upvote_notice") : "\n"))
+                                ((r.nextInt(3) == 0 && !playerData.hasBadge(Badge.UPVOTER) ? languageContext.get("commands.badges.upvote_notice") : "\n")) +
+                                ((r.nextInt(2) == 0 ? languageContext.get("commands.badges.donate_notice") : "\n"))
                                 + badges.stream().map(badge -> String.format("**%s:** *%s*", badge, badge.description)).collect(Collectors.joining("\n"));
 
                         if(toShow.isEmpty()) toShow = languageContext.get("commands.badges.no_badges");
