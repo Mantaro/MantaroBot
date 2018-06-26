@@ -86,7 +86,7 @@ public class Items {
             COMPANION = new Item(EmoteReference.DOG.getUnicode(),"Companion", "Aw, such a cute dog. `Leftover from Currency version 1. No longer obtainable.`"),
             RING_2 = new Item("\uD83D\uDC5A","Special Ring", "It's so special, it's not even a ring. `Leftover from Currency version 1. No longer obtainable.`"),
             ENHANCER = new Item(EmoteReference.MAG.getUnicode(),"Enchancer", "A broken enchanter, I wonder if it could be fixed? `Leftover from Currency version 1. No longer obtainable.`"),
-            STAR = new Item(ItemType.COLLECTABLE, EmoteReference.STAR.getUnicode(),"Prize", "Pretty much, huh? `Leftover from Currency version 1. No longer obtainable.`", 0, false, false, true),
+            STAR = new Item(ItemType.COLLECTABLE, "\u26A0\uFE0F","Prize", "Pretty much, huh? `Leftover from Currency version 1. No longer obtainable.`", 0, false, false, true),
 
             // ---------------------------------- LEFT OVERS FROM CURRENCY V1 END HERE ----------------------------------
             LOOT_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Loot Crate", "You can use this along with a loot key to open a loot crate! `~>opencrate`", 0, false, false, true, Items::openLootCrate),
