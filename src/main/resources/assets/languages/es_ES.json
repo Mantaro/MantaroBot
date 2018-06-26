@@ -874,7 +874,8 @@
         "won_game": "%1$s¡**%2$s** ha ganado $%3$d créditos por responder correctamente!"
       },
       "lobby_time_out": "%1$s¡Se acabó el tiempo! La respuesta correcta era: %2$s",
-      "end_footer": "You have 10 attempts and 60 seconds. (Escribe end para terminar el juego)",
+      "end_footer": "Tienes 5 intentos y 60 segundos. (Escribe end para terminar el juego)",
+      "trivia_end_footer": "Tienes %1$s intentos y 60 segundos. (Escribe end para terminar el juego)",
       "error": "%1$sEncontré un error mientras iniciaba el juego... (error interno)",
       "character_load_error": "%1$sFavor reportar esto en el servidor de soporte. Fallo al iniciar juego para personaje pre-definido: %2$s",
       "character_start": "¡Adivina el personaje!"

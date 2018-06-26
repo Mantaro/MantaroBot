@@ -24,8 +24,8 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.game.*;
 import net.kodehawa.mantarobot.commands.game.Character;
+import net.kodehawa.mantarobot.commands.game.*;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -43,6 +43,7 @@ import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -53,6 +54,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 @SuppressWarnings("unused")
 public class GameCmds {
     private final Pattern mentionPattern = Pattern.compile("<(#|@|@&)?.[0-9]{17,21}>");
+    private final Map<String, Function<TriviaDifficulty, Game>> games = new HashMap<>();
 
     @Subscribe
     public void game(CommandRegistry cr) {
@@ -64,6 +66,12 @@ public class GameCmds {
                 .maxCooldown(10, TimeUnit.MINUTES)
                 .pool(MantaroData.getDefaultJedisPool())
                 .build();
+
+        //Does it even make sense to do this if I only had to add a parameter to one? Oh well...
+        games.put("pokemon", (d) -> new Pokemon());
+        games.put("number", (d) -> new GuessTheNumber());
+        games.put("character", (d) -> new Character());
+        games.put("trivia", Trivia::new);
 
         SimpleTreeCommand gameCommand = (SimpleTreeCommand) cr.register("game", new SimpleTreeCommand(Category.GAMES) {
             @Override
@@ -100,7 +108,6 @@ public class GameCmds {
         }));
 
         gameCommand.setPredicate(event -> Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event));
-
         gameCommand.createSubCommandAlias("pokemon", "pokémon");
         gameCommand.createSubCommandAlias("number", "guessthatnumber");
 
@@ -122,7 +129,8 @@ public class GameCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = net.kodehawa.mantarobot.utils.StringUtils.advancedSplitArgs(content, 0);
                 Map<String, Optional<String>> t = StringUtils.parse(args);
-                content = Utils.replaceArguments(t, content, "diff");
+                String difficultyArgument = "diff";
+                content = Utils.replaceArguments(t, content, difficultyArgument);
 
                 if(content.isEmpty()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.game.nothing_specified"), EmoteReference.ERROR).queue();
@@ -131,8 +139,8 @@ public class GameCmds {
 
                 //Trivia difficulty handling.
                 TriviaDifficulty difficulty = null;
-                if(t.containsKey("diff") && t.get("diff").isPresent()) {
-                    String d = t.get("diff").get();
+                if(t.containsKey(difficultyArgument) && t.get(difficultyArgument).isPresent()) {
+                    String d = t.get(difficultyArgument).get();
                     TriviaDifficulty enumDiff = TriviaDifficulty.lookupFromString(d);
                     if(enumDiff != null) {
                         difficulty = enumDiff;
@@ -144,27 +152,14 @@ public class GameCmds {
                 //Stripe all mentions from this.
                 String[] split = mentionPattern.matcher(content).replaceAll("").split(", ");
 
-                if(split.length < 1 || split.length == 1) {
+                if(split.length <= 1) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.game.not_enough_games"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 LinkedList<Game> gameList = new LinkedList<>();
                 for(String s : split) {
-                    switch(s.replace(" ", "")) {
-                        case "pokemon":
-                            gameList.add(new Pokemon());
-                            break;
-                        case "trivia":
-                            gameList.add(new Trivia(difficulty));
-                            break;
-                        case "number":
-                            gameList.add(new GuessTheNumber());
-                            break;
-                        case "character":
-                            gameList.add(new Character());
-                            break;
-                    }
+                    gameList.add(games.get(s.trim()).apply(difficulty));
                 }
 
                 if(gameList.isEmpty() || gameList.size() == 1) {
@@ -181,28 +176,32 @@ public class GameCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = net.kodehawa.mantarobot.utils.StringUtils.advancedSplitArgs(content, 0);
                 Map<String, Optional<String>> t = StringUtils.parse(args);
-                content = Utils.replaceArguments(t, content, "diff");
+                String difficultyArgument = "diff";
+                content = Utils.replaceArguments(t, content, difficultyArgument);
 
                 //Trivia difficulty handling.
                 TriviaDifficulty difficulty = null;
-                if(t.containsKey("diff") && t.get("diff").isPresent()) {
-                    String d = t.get("diff").get();
+
+                if(t.containsKey(difficultyArgument) && t.get(difficultyArgument).isPresent()) {
+                    String d = t.get(difficultyArgument).get();
                     TriviaDifficulty enumDiff = TriviaDifficulty.lookupFromString(d);
+
                     if(enumDiff != null) {
                         difficulty = enumDiff;
                         content = content.replace(d, "").trim();
                     }
                 }
                 //End of trivia difficulty handling.
+
                 String strippedContent =  mentionPattern.matcher(content).replaceAll("");
                 String[] values = SPLIT_PATTERN.split(strippedContent, 2);
+
                 if(values.length < 2) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.game.multiple.invalid"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 int number;
-
                 try {
                     number = Integer.parseInt(values[1]);
                 } catch(Exception e) {
@@ -217,22 +216,10 @@ public class GameCmds {
 
                 LinkedList<Game> gameList = new LinkedList<>();
                 for(int i = 0; i < number; i++) {
-                    switch(values[0].replace(" ", "")) {
-                        case "pokemon":
-                            gameList.add(new Pokemon());
-                            break;
-                        case "trivia":
-                            gameList.add(new Trivia(difficulty));
-                            break;
-                        case "number":
-                            gameList.add(new GuessTheNumber());
-                            break;
-                        case "character":
-                            gameList.add(new Character());
-                            break;
-                    }
+                    gameList.add(games.get(values[0].trim()).apply(difficulty));
                 }
 
+                //No games queued?
                 if(gameList.isEmpty()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.game.multiple.invalid"), EmoteReference.ERROR).queue();
                     return;

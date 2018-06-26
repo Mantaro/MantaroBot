@@ -43,7 +43,7 @@ import java.util.List;
 public class Character extends ImageGame {
     private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
     @Getter
-    private final int maxAttempts = 10;
+    private final int maxAttempts = 5;
     private String characterName;
     private List<String> characterNameL;
 

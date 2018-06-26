@@ -71,11 +71,8 @@ public class Trivia extends Game<String> {
             String qu = fromB64(question.getString("question"));
             String category = fromB64(question.getString("category"));
             String diff = fromB64(question.getString("difficulty"));
-
-            if(diff.equalsIgnoreCase("hard"))
-                hardDiff = true;
-            if(fromB64(question.getString("type")).equalsIgnoreCase("boolean"))
-                isBool = true;
+            hardDiff = diff.equalsIgnoreCase("hard");
+            isBool = fromB64(question.getString("type")).equalsIgnoreCase("boolean");
 
             expectedAnswer.add(fromB64(question.getString("correct_answer")).trim());
 
@@ -98,7 +95,7 @@ public class Trivia extends Game<String> {
                     .addField(languageContext.get("commands.game.trivia.possibilities"), sb.toString(), false)
                     .addField(languageContext.get("commands.game.trivia.difficulty"), "`" + Utils.capitalize(diff) + "`", true)
                     .addField(languageContext.get("commands.game.trivia.category"), "`" + category + "`", true)
-                    .setFooter(languageContext.get("commands.game.trivia_end_footer"), lobby.getEvent().getAuthor().getAvatarUrl());
+                    .setFooter(String.format(languageContext.get("commands.game.trivia_end_footer"), isBool ? 1 : 2), lobby.getEvent().getAuthor().getAvatarUrl());
 
             lobby.getChannel().sendMessage(eb.build()).queue();
 

@@ -18,7 +18,7 @@ package net.kodehawa.mantarobot.commands.currency.trade;
 
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.currency.item.Item;
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
@@ -34,18 +34,18 @@ public class TradeLobby extends Lobby {
     public List<Long> usersTrading = new ArrayList<>();
     public GuildMessageReceivedEvent event;
     public I18nContext language;
-    public Item initialItem;
+    public ItemStack initialItemStack;
     public long initialCredits;
     public Map<Long, Long> creditMap = new HashMap<>();
-    public Map<Long, List<Item>> itemMap = new HashMap<>();
+    public Map<Long, List<ItemStack>> itemStackMap = new HashMap<>();
 
-    public TradeLobby(GuildMessageReceivedEvent event, I18nContext languageContext, String guild, String channel, Item initialItem, long initialCredits, long... users) {
+    public TradeLobby(GuildMessageReceivedEvent event, I18nContext languageContext, String guild, String channel, ItemStack initialItem, long initialCredits, long... users) {
         super(guild, channel);
 
         this.event = event;
         this.language = languageContext;
         this.initialCredits = initialCredits;
-        this.initialItem = initialItem;
+        this.initialItemStack = initialItem;
         for(long user : users) {
             usersTrading.add(user);
         }
@@ -59,6 +59,6 @@ public class TradeLobby extends Lobby {
     @Override
     public String toString() {
         return String.format("TradeLobby{%s, (ii %s, ic %s, cm %s, im %s), users:%d, channel:%s}", event.getGuild(),
-                initialItem, initialCredits, creditMap, itemMap, usersTrading.size(), getChannel());
+                initialItemStack, initialCredits, creditMap, itemStackMap, usersTrading.size(), getChannel());
     }
 }
