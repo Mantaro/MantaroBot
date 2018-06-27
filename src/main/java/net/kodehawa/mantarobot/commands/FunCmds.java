@@ -148,7 +148,9 @@ public class FunCmds {
                     } catch(Exception ignored) { }
                 }
 
-                if(amount >= 100) amount = 100;
+                if(amount >= 100)
+                    amount = 100;
+
                 event.getChannel().sendMessageFormat(languageContext.get("commands.roll.success"), EmoteReference.DICE, diceRoll(size, amount), amount == 1 ? "!" : (String.format("\nDoing **%d** rolls.", amount))).queue();
 
                 TextChannelGround.of(event.getChannel()).dropItemWithChance(Items.LOADED_DICE, 5);
@@ -184,8 +186,10 @@ public class FunCmds {
                 long[] ids = new long[2];
                 List<String> listDisplay = new ArrayList<>();
                 String toDisplay;
+
                 listDisplay.add(String.format("\uD83D\uDC97  %s#%s", mentioned.get(0).getName(), mentioned.get(0).getDiscriminator()));
                 listDisplay.add(String.format("\uD83D\uDC97  %s#%s", event.getAuthor().getName(), event.getAuthor().getDiscriminator()));
+
                 toDisplay = listDisplay.stream().collect(Collectors.joining("\n"));
 
                 if(mentioned.size() > 1) {

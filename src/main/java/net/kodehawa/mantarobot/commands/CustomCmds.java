@@ -72,7 +72,9 @@ public class CustomCmds {
 
     public static boolean handle(String cmdName, GuildMessageReceivedEvent event, I18nContext lang, String args) {
         CustomCommand customCommand = customCommands.get(event.getGuild().getId() + ":" + cmdName);
-        if (customCommand == null) return false;
+        if (customCommand == null)
+            return false;
+
         List<String> values = customCommand.getValues();
         if(customCommand.getData().isNsfw() && !event.getChannel().isNSFW()) {
             event.getChannel().sendMessageFormat(lang.get("commands.custom.nsfw_not_nsfw"), EmoteReference.ERROR).queue();
@@ -227,14 +229,14 @@ public class CustomCmds {
                     return;
                 }
 
+                if(args.length < 2) {
+                    onHelp(event);
+                    return;
+                }
+
                 String cmd = args[1];
 
                 if(action.equals("make")) {
-                    if(args.length < 2) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.make.no_name_specified"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-
                     if(!NAME_PATTERN.matcher(cmd).matches()) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.custom.character_not_allowed"), EmoteReference.ERROR).queue();
                         return;
@@ -243,12 +245,15 @@ public class CustomCmds {
                     List<String> responses = new ArrayList<>();
                     boolean created = InteractiveOperations.create(
                             event.getChannel(), event.getAuthor().getIdLong(),60, e -> {
-                                if(!e.getAuthor().equals(event.getAuthor())) return Operation.IGNORED;
+                                if(!e.getAuthor().equals(event.getAuthor()))
+                                    return Operation.IGNORED;
 
                                 String c = e.getMessage().getContentRaw();
-                                boolean nsfw = false;
-                                if(!c.startsWith("&")) return Operation.IGNORED;
+                                if(!c.startsWith("&"))
+                                    return Operation.IGNORED;
                                 c = c.substring(1);
+
+                                boolean nsfw = false;
 
                                 if(c.startsWith("~>cancel") || c.startsWith("~>stop")) {
                                     event.getChannel().sendMessageFormat(languageContext.get("commands.custom.make.cancel"), EmoteReference.CORRECT).queue();
@@ -317,11 +322,6 @@ public class CustomCmds {
                         event.getChannel().sendMessageFormat(languageContext.get("general.interactive_running"), EmoteReference.ERROR).queue();
                     }
 
-                    return;
-                }
-
-                if(args.length < 2) {
-                    onHelp(event);
                     return;
                 }
 
@@ -415,11 +415,6 @@ public class CustomCmds {
                 }
 
                 if(action.equals("info")) {
-                    if(args.length < 2) {
-                        onHelp(event);
-                        return;
-                    }
-
                     CustomCommand command = db().getCustomCommand(event.getGuild(), cmd);
                     String owner = command.getData().getOwner();
                     User user = owner.isEmpty() ? null : MantaroBot.getInstance().getUserCache().getElementById(owner);

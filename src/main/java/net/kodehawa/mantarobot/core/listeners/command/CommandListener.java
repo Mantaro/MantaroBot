@@ -93,7 +93,7 @@ public class CommandListener implements EventListener {
                 return;
 
             //Stopped receiving message events?
-            if(getLastMessageDiff() > 100000)
+            if(getLastMessageDiff() > 55000)
                 return;
 
             //Hey, this listener is alive! (This won't pass if somehow this is blocked)

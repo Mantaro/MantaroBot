@@ -95,7 +95,8 @@ public class PlayerCmds {
                 }
 
                 Member member = Utils.findMember(event, event.getMember(), content);
-                if(member == null) return;
+                if(member == null)
+                    return;
 
                 user = member.getUser();
 
@@ -113,7 +114,10 @@ public class PlayerCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+                //Check for RL.
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                    return;
+
                 Player player = MantaroData.db().getPlayer(user);
                 player.addReputation(1L);
                 player.save();

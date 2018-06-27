@@ -39,6 +39,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Module
@@ -64,20 +65,8 @@ public class MessageCmds {
                     channel.getHistory().retrievePast(100).queue(
                             messageHistory -> {
                                 String prefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
-                                messageHistory = messageHistory.stream().filter(message -> message.getAuthor().isBot() ||
-                                        message.getContentRaw().startsWith(prefix == null ? "~>" : prefix)).collect(Collectors.toList());
-
-                                if(messageHistory.isEmpty()) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.bots_no_messages"), EmoteReference.ERROR).queue();
-                                    return;
-                                }
-
-                                if(messageHistory.size() < 3) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.too_few_messages"), EmoteReference.ERROR).queue();
-                                    return;
-                                }
-
-                                prune(event, languageContext, messageHistory);
+                                getMessageHistory(event, messageHistory, languageContext, "commands.prune.bots_no_messages",
+                                        message -> message.getAuthor().isBot() || message.getContentRaw().startsWith(prefix == null ? "~>" : prefix));
                             },
                             error -> {
                                 channel.sendMessage(String.format(languageContext.get("commands.prune.error_retrieving"),
@@ -93,8 +82,7 @@ public class MessageCmds {
                     if(args.length > 1) {
                         try {
                             i = Integer.parseInt(args[1]);
-                            if(i < 3)
-                                i = 3;
+                            if(i < 3) i = 3;
                         } catch(Exception e) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.prune.not_valid"), EmoteReference.ERROR).queue();
                             return;
@@ -102,27 +90,14 @@ public class MessageCmds {
                     }
 
                     channel.getHistory().retrievePast(Math.min(i, 100)).queue(
-                            messageHistory -> {
-                                messageHistory = messageHistory.stream().filter(message -> !message.isPinned()).collect(Collectors.toList());
-
-                                if(messageHistory.isEmpty()) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.no_pins_no_messages"), EmoteReference.ERROR).queue();
-                                    return;
-                                }
-
-                                if(messageHistory.size() < 3) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.too_few_messages"), EmoteReference.ERROR).queue();
-                                    return;
-                                }
-
-                                prune(event, languageContext, messageHistory);
-                            },
+                            messageHistory -> getMessageHistory(event, messageHistory, languageContext, "commands.prune.no_pins_no_messages", message -> !message.isPinned()),
                             error -> {
                                 channel.sendMessage(String.format(languageContext.get("commands.prune.error_retrieving"),
                                         EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
                                 error.printStackTrace();
                             }
                     );
+
                     return;
                 }
 
@@ -144,26 +119,13 @@ public class MessageCmds {
                     }
 
                     channel.getHistory().retrievePast(Math.min(i, 100)).queue(
-                            messageHistory -> {
-                                messageHistory = messageHistory.stream().filter(message -> users.contains(message.getAuthor().getIdLong())).collect(Collectors.toList());
-
-                                if(messageHistory.isEmpty()) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.mention_no_messages"), EmoteReference.ERROR).queue();
-                                    return;
-                                }
-
-                                if(messageHistory.size() < 3) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.too_few_messages"), EmoteReference.ERROR).queue();
-                                    return;
-                                }
-
-                                prune(event, languageContext, messageHistory);
-                            },
+                            messageHistory -> getMessageHistory(event, messageHistory, languageContext, "commands.prune.mention_no_messages", message -> users.contains(message.getAuthor().getIdLong())),
                             error -> {
                                 channel.sendMessage(String.format(languageContext.get("commands.prune.error_retrieving"),
                                         EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
                                 error.printStackTrace();
                             });
+
                     return;
                 }
 
@@ -172,11 +134,6 @@ public class MessageCmds {
                     i = Integer.parseInt(content);
                 } catch(Exception e) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.prune.invalid_number"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                if(i < 5) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.less_than_five"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -196,13 +153,29 @@ public class MessageCmds {
                         .setDescription("**Prunes a specific amount of messages.**")
                         .addField("Usage", "`~>prune <x>/<@user>` - **Prunes messages**", false)
                         .addField("Parameters", "x = **number of messages to delete**", false)
-                        .addField("Important", "You need to provide *at least* 5 messages. I'd say better 10 or more.\n" +
+                        .addField("Important", "You need to provide *at least* 3 messages. I'd say better 10 or more.\n" +
                                 "You can use `~>prune bot` to remove all bot messages and bot calls.\n" +
                                 "You can use `~>prune nopins` to avoid pruning pinned messages.", false)
                         .build();
             }
 
         });
+    }
+
+    private void getMessageHistory(GuildMessageReceivedEvent event, List<Message> messageHistory, I18nContext languageContext, String i18n, Predicate<Message> predicate) {
+        messageHistory = messageHistory.stream().filter(predicate).collect(Collectors.toList());
+
+        if(messageHistory.isEmpty()) {
+            event.getChannel().sendMessageFormat(languageContext.get(i18n), EmoteReference.ERROR).queue();
+            return;
+        }
+
+        if(messageHistory.size() < 3) {
+            event.getChannel().sendMessageFormat(languageContext.get("commands.prune.too_few_messages"), EmoteReference.ERROR).queue();
+            return;
+        }
+
+        prune(event, languageContext, messageHistory);
     }
 
     private void prune(GuildMessageReceivedEvent event, I18nContext languageContext, List<Message> messageHistory) {

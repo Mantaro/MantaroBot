@@ -108,9 +108,8 @@ public class GameCmds {
         }));
 
         gameCommand.setPredicate(event -> Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event));
-        gameCommand.createSubCommandAlias("pokemon", "pokémon");
-        gameCommand.createSubCommandAlias("number", "guessthatnumber");
 
+        //Sub-commands.
         gameCommand.addSubCommand("wins", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
@@ -162,7 +161,7 @@ public class GameCmds {
                     gameList.add(games.get(s.trim()).apply(difficulty));
                 }
 
-                if(gameList.isEmpty() || gameList.size() == 1) {
+                if(gameList.size() <= 1) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.game.invalid_selection"), EmoteReference.ERROR).queue();
                     return;
                 }
@@ -228,6 +227,9 @@ public class GameCmds {
                 startGames(gameList, event, languageContext);
             }
         });
+
+        gameCommand.createSubCommandAlias("pokemon", "pokémon");
+        gameCommand.createSubCommandAlias("number", "guessthatnumber");
     }
 
     @Subscribe

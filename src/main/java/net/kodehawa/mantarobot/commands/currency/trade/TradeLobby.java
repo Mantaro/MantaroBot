@@ -58,7 +58,7 @@ public class TradeLobby extends Lobby {
 
     @Override
     public String toString() {
-        return String.format("TradeLobby{%s, (ii %s, ic %s, cm %s, im %s), users:%d, channel:%s}", event.getGuild(),
+        return String.format("TradeLobby{%s, (ii %s, ic %s, cm %s, ism %s), users:%d, channel:%s}", event.getGuild(),
                 initialItemStack, initialCredits, creditMap, itemStackMap, usersTrading.size(), getChannel());
     }
 }
