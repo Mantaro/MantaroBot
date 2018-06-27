@@ -72,6 +72,7 @@ public class Pokemon extends ImageGame {
 
         try {
             GameStatsManager.log(name());
+
             PokemonGameData data = GsonDataManager.GSON_PRETTY.fromJson(Utils.wgetResty(config.apiTwoUrl + "/mantaroapi/pokemon/random", null), PokemonGameData.class);
             expectedAnswer = data.getNames();
             sendEmbedImage(lobby.getChannel(), data.getImage(), eb ->

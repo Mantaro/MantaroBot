@@ -146,6 +146,7 @@ public class GuessTheNumber extends Game<Object> {
     @Override
     public boolean onStart(GameLobby lobby) {
         GameStatsManager.log(name());
+
         number = r.nextInt(150);
         lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.number.start"), EmoteReference.THINKING).queue();
         return true;

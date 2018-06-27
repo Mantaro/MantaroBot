@@ -86,6 +86,7 @@ public class OwnerCmd {
                         event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]).queue();
                         obj.saveAsync();
                     }
+
                     return;
                 }
 
@@ -101,7 +102,11 @@ public class OwnerCmd {
                         event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + MantaroBot.getInstance().getUserById(args[2])).queue();
                         obj.saveAsync();
                     }
+
+                    return;
                 }
+
+                onHelp(event);
             }
 
             @Override
@@ -120,21 +125,20 @@ public class OwnerCmd {
         cr.register("transferplayer", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                List<User> mentionedUsers = event.getMessage().getMentionedUsers();
-                if(mentionedUsers.size() < 2) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention the 2 players to transfer!").queue();
+                if(content.isEmpty() || args.length < 2) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to tell me the 2 players ids to transfer!").queue();
                     return;
                 }
 
-                event.getChannel().sendMessage(EmoteReference.WARNING + "You're about to transfer all the player information from " + mentionedUsers.get(0) + " to " + mentionedUsers.get(1) + " are you sure you want to continue?").queue();
+                event.getChannel().sendMessage(EmoteReference.WARNING + "You're about to transfer all the player information from " + args[0] + " to " + args[1] + " are you sure you want to continue?").queue();
                 InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 30, e -> {
                     if(e.getAuthor().getIdLong() != event.getAuthor().getIdLong()) {
                         return Operation.IGNORED;
                     }
 
                     if(e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
-                        Player transferred = MantaroData.db().getPlayer(mentionedUsers.get(0));
-                        Player transferTo = MantaroData.db().getPlayer(mentionedUsers.get(1));
+                        Player transferred = MantaroData.db().getPlayer(args[0]);
+                        Player transferTo = MantaroData.db().getPlayer(args[1]);
 
                         transferTo.setMoney(transferred.getMoney());
                         transferTo.setLevel(transferred.getLevel());
@@ -153,10 +157,10 @@ public class OwnerCmd {
 
 
                         transferTo.save();
-                        Player reset = Player.of(mentionedUsers.get(0));
+                        Player reset = Player.of(args[0]);
                         reset.save();
 
-                        e.getChannel().sendMessage(EmoteReference.CORRECT + "Transfer from " + mentionedUsers.get(0) + " to " + mentionedUsers.get(1) + " completed.").queue();
+                        e.getChannel().sendMessage(EmoteReference.CORRECT + "Transfer from " + args[0] + " to " + args[1] + " completed.").queue();
 
                         return Operation.COMPLETED;
                     }
