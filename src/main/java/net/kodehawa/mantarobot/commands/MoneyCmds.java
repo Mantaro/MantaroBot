@@ -19,16 +19,11 @@ package net.kodehawa.mantarobot.commands;
 import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import com.jagrosh.jdautilities.utils.FinderUtil;
-import com.rethinkdb.gen.ast.OrderBy;
-import com.rethinkdb.model.OptArgs;
-import com.rethinkdb.net.Connection;
-import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -41,22 +36,18 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
-import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.PlayerStats;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.security.SecureRandom;
 import java.text.NumberFormat;
@@ -70,7 +61,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 /**
@@ -278,13 +268,13 @@ public class MoneyCmds {
                         case "all":
                         case "everything":
                             i = player.getMoney();
-                            multiplier = 1.3d + (r.nextInt(1450) / 1000d);
-                            luck = 21 + (int) (multiplier * 13) + r.nextInt(18);
+                            multiplier = 1.3d + (r.nextInt(1350) / 1000d);
+                            luck = 19 + (int) (multiplier * 13) + r.nextInt(18);
                             break;
                         case "half":
                             i = player.getMoney() == 1 ? 1 : player.getMoney() / 2;
                             multiplier = 1.2d + (r.nextInt(1350) / 1000d);
-                            luck = 19 + (int) (multiplier * 13) + r.nextInt(18);
+                            luck = 18 + (int) (multiplier * 13) + r.nextInt(18);
                             break;
                         case "quarter":
                             i = player.getMoney() == 1 ? 1 : player.getMoney() / 4;
@@ -507,254 +497,6 @@ public class MoneyCmds {
     }
 
     @Subscribe
-    public void richest(CommandRegistry cr) {
-        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
-        final String pattern = ":g$";
-
-        ITreeCommand leaderboards = (ITreeCommand) cr.register("leaderboard", new TreeCommand(Category.CURRENCY) {
-            @Override
-            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
-                            return;
-
-                        OrderBy template =
-                                r.table("players")
-                                        .orderBy()
-                                        .optArg("index", r.desc("money"));
-
-                        Cursor<Map> c1 = getGlobalRichest(template, pattern);
-                        List<Map> c = c1.toList();
-                        c1.close();
-
-                        event.getChannel().sendMessage(
-                                baseEmbed(event, languageContext.get("commands.leaderboard.money"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
-                                ).setDescription(c.stream()
-                                        .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
-                                        .filter(p -> Objects.nonNull(p.getKey()))
-                                        .map(p -> String.format("%s**%s#%s** - $%s", EmoteReference.MARKER, p.getKey().getName(), p
-                                                .getKey().getDiscriminator(), p.getValue()))
-                                        .collect(Collectors.joining("\n"))
-                                ).build()
-                        ).queue();
-                    }
-                };
-            }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Leaderboard")
-                        .setDescription("**Returns the leaderboard.**")
-                        .addField("Usage", "`~>leaderboard` - **Returns the money leaderboard.**\n" +
-                                "`~>leaderboard rep` - **Returns the reputation leaderboard.**\n" +
-                                "`~>leaderboard lvl` - **Returns the level leaderboard.**\n" +
-                                "`~>leaderboard streak` - **Returns the daily streak leaderboard.**", false)
-                        .build();
-            }
-        });
-
-        leaderboards.addSubCommand("lvl", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
-                    return;
-
-                Cursor<Map> m;
-                try(Connection conn = Utils.newDbConnection()) {
-                    m = r.table("players")
-                            .orderBy()
-                            .optArg("index", r.desc("level"))
-                            .filter(player -> player.g("id").match(pattern))
-                            .map(player -> player.pluck("id", "level", r.hashMap("data", "experience")))
-                            .limit(10)
-                            .run(conn, OptArgs.of("read_mode", "outdated"));
-                }
-
-                List<Map> c = m.toList();
-                m.close();
-
-                event.getChannel().sendMessage(
-                        baseEmbed(event, languageContext.get("commands.leaderboard.level"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
-                        ).setDescription(c.stream()
-                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString() +
-                                        "\n -" + languageContext.get("commands.leaderboard.inner.experience")  + ":** " + ((Map)map.get("data")).get("experience") + "**"))
-                                .filter(p -> Objects.nonNull(p.getKey()))
-                                .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
-                                        .getKey().getDiscriminator(), p.getValue()))
-                                .collect(Collectors.joining("\n"))
-                        ).build()
-                ).queue();
-            }
-        });
-
-        leaderboards.addSubCommand("rep", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                Cursor<Map> m;
-
-                try(Connection conn = Utils.newDbConnection()) {
-                    m = r.table("players")
-                            .orderBy()
-                            .optArg("index", r.desc("reputation"))
-                            .filter(player -> player.g("id").match(pattern))
-                            .map(player -> player.pluck("id", "reputation"))
-                            .limit(10)
-                            .run(conn, OptArgs.of("read_mode", "outdated"));
-                }
-
-                List<Map> c = m.toList();
-                m.close();
-
-                event.getChannel().sendMessage(
-                        baseEmbed(event, languageContext.get("commands.leaderboard.reputation"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
-                        ).setDescription(c.stream()
-                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("reputation").toString()))
-                                .filter(p -> Objects.nonNull(p.getKey()))
-                                .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
-                                        .getKey().getDiscriminator(), p.getValue()))
-                                .collect(Collectors.joining("\n"))
-                        ).build()
-                ).queue();
-            }
-        });
-
-        leaderboards.addSubCommand("streak", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                Cursor<Map> m;
-
-                try(Connection conn = Utils.newDbConnection()) {
-                    m = r.table("players")
-                            .orderBy()
-                            .optArg("index", r.desc("userDailyStreak"))
-                            .filter(player -> player.g("id").match(pattern))
-                            .map(player -> player.pluck("id", r.hashMap("data", "dailyStrike")))
-                            .limit(10)
-                            .run(conn, OptArgs.of("read_mode", "outdated"));
-                }
-
-                List<Map> c = m.toList();
-                m.close();
-
-                event.getChannel().sendMessage(
-                        baseEmbed(event, languageContext.get("commands.leaderboard.daily"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
-                        ).setDescription(c.stream()
-                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), ((HashMap)(map.get("data"))).get("dailyStrike").toString()))
-                                .filter(p -> Objects.nonNull(p.getKey()))
-                                .map(p -> String.format("%s**%s#%s** - %sx", EmoteReference.MARKER, p.getKey().getName(), p
-                                        .getKey().getDiscriminator(), p.getValue()))
-                                .collect(Collectors.joining("\n"))
-                        ).build()
-                ).queue();
-            }
-        });
-
-        leaderboards.addSubCommand("waifuvalue", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                Cursor<Map> m;
-
-                try(Connection conn = Utils.newDbConnection()) {
-                    m = r.table("players")
-                            .orderBy()
-                            .optArg("index", r.desc("waifuCachedValue"))
-                            .filter(player -> player.g("id").match(pattern))
-                            .map(player -> player.pluck("id", r.hashMap("data", "waifuCachedValue")))
-                            .limit(10)
-                            .run(conn, OptArgs.of("read_mode", "outdated"));
-                }
-
-                List<Map> c = m.toList();
-                m.close();
-
-                event.getChannel().sendMessage(
-                        baseEmbed(event, languageContext.get("commands.leaderboard.waifu"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
-                        ).setDescription(c.stream()
-                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), ((HashMap)(map.get("data"))).get("waifuCachedValue").toString()))
-                                .filter(p -> Objects.nonNull(p.getKey()))
-                                .map(p -> String.format("%s**%s#%s** - $%s", EmoteReference.MARKER, p.getKey().getName(), p
-                                        .getKey().getDiscriminator(), p.getValue()))
-                                .collect(Collectors.joining("\n"))
-                        ).build()
-                ).queue();
-            }
-        });
-
-        leaderboards.addSubCommand("claim", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                Cursor<Map> m;
-
-                try(Connection conn = Utils.newDbConnection()) {
-                    m = r.table("users")
-                            .orderBy()
-                            .optArg("index", r.desc("timesClaimed"))
-                            .filter(player -> player.g("id").match(pattern))
-                            .map(player -> player.pluck("id", r.hashMap("data", "timesClaimed")))
-                            .limit(10)
-                            .run(conn, OptArgs.of("read_mode", "outdated"));
-                }
-
-                List<Map> c = m.toList();
-                m.close();
-
-                event.getChannel().sendMessage(
-                        baseEmbed(event, languageContext.get("commands.leaderboard.claim"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
-                        ).setDescription(c.stream()
-                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), ((HashMap)(map.get("data"))).get("timesClaimed").toString()))
-                                .filter(p -> Objects.nonNull(p.getKey()))
-                                .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
-                                        .getKey().getDiscriminator(), p.getValue()))
-                                .collect(Collectors.joining("\n"))
-                        ).build()
-                ).queue();
-            }
-        });
-
-        leaderboards.addSubCommand("games", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                Cursor<Map> m;
-
-                try(Connection conn = Utils.newDbConnection()) {
-                    m = r.table("players")
-                            .orderBy()
-                            .optArg("index", r.desc("gameWins"))
-                            .filter(player -> player.g("id").match(pattern))
-                            .map(player -> player.pluck("id", r.hashMap("data", "gamesWon")))
-                            .limit(10)
-                            .run(conn, OptArgs.of("read_mode", "outdated"));
-                }
-
-                List<Map> c = m.toList();
-                m.close();
-
-                event.getChannel().sendMessage(
-                        baseEmbed(event, languageContext.get("commands.leaderboard.game"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
-                        ).setDescription(c.stream()
-                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), ((HashMap)(map.get("data"))).get("gamesWon").toString()))
-                                .filter(p -> Objects.nonNull(p.getKey()))
-                                .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
-                                        .getKey().getDiscriminator(), p.getValue()))
-                                .collect(Collectors.joining("\n"))
-                        ).build()
-                ).queue();
-            }
-        });
-
-        leaderboards.createSubCommandAlias("rep", "reputation");
-        leaderboards.createSubCommandAlias("lvl", "level");
-        leaderboards.createSubCommandAlias("streak", "daily");
-        leaderboards.createSubCommandAlias("games", "wins");
-        leaderboards.createSubCommandAlias("waifuvalue", "waifu");
-
-        cr.registerAlias("leaderboard", "richest");
-        cr.registerAlias("leaderboard", "lb");
-    }
-
-    @Subscribe
     public void slots(CommandRegistry cr) {
         RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 35);
         String[] emotes = {"\uD83C\uDF52", "\uD83D\uDCB0", "\uD83D\uDCB2", "\uD83E\uDD55", "\uD83C\uDF7F", "\uD83C\uDF75", "\uD83C\uDFB6"};
@@ -769,12 +511,17 @@ public class MoneyCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Map<String, Optional<String>> opts = StringUtils.parse(args);
+
                 long money = 50;
                 int slotsChance = 25; //25% raw chance of winning, completely random chance of winning on the other random iteration
                 boolean isWin = false;
                 boolean coinSelect = false;
-                Player player = MantaroData.db().getPlayer(event.getAuthor());
                 int amountN = 1;
+
+                final ManagedDatabase db = MantaroData.db();
+                Player player = db.getPlayer(event.getAuthor());
+                PlayerStats stats = db.getPlayerStats(event.getMember());
+
 
                 if(opts.containsKey("useticket")) {
                     coinSelect = true;
@@ -879,14 +626,20 @@ public class MoneyCmds {
                     message.append(toSend).append("\n\n").append(String.format(languageContext.withRoot("commands", "slots.win"), gains, money)).append(EmoteReference.POPPER);
                     player.addMoney(gains + money);
 
+                    stats.incrementSlotsWins();
+                    stats.addSlotsWin(gains);
+
                     if((gains + money) > SLOTS_MAX_MONEY) {
                         player.getData().addBadgeIfAbsent(Badge.LUCKY_SEVEN);
                     }
 
                     player.saveAsync();
                 } else {
+                    stats.getData().incrementSlotsLose();
                     message.append(toSend).append("\n\n").append(String.format(languageContext.withRoot("commands", "slots.lose"), EmoteReference.SAD));
                 }
+
+                stats.saveAsync();
 
                 message.append("\n");
                 event.getChannel().sendMessage(message.toString()).queue();
@@ -994,6 +747,8 @@ public class MoneyCmds {
     }
 
     private void proceedGamble(GuildMessageReceivedEvent event, I18nContext languageContext, Player player, int luck, Random r, long i, long gains) {
+        PlayerStats stats = MantaroData.db().getPlayerStats(event.getMember());
+
         if(luck > r.nextInt(140)) {
             if(player.addMoney(gains)) {
                 if(gains > Integer.MAX_VALUE) {
@@ -1003,6 +758,9 @@ public class MoneyCmds {
                     }
                 }
 
+                stats.incrementGambleWins();
+                stats.addGambleWin(gains);
+
                 event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.win"), EmoteReference.DICE, gains).queue();
             } else {
                 event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.win_overflow"), EmoteReference.DICE, gains).queue();
@@ -1011,20 +769,12 @@ public class MoneyCmds {
             long oldMoney = player.getMoney();
             player.setMoney(Math.max(0, player.getMoney() - i));
 
+            stats.getData().incrementGambleLose();
             event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.lose"), EmoteReference.DICE, (player.getMoney() == 0 ? languageContext.withRoot("commands", "gamble.lose_all") + " " + oldMoney : i), EmoteReference.SAD).queue();
         }
 
         player.setLocked(false);
         player.saveAsync();
+        stats.save();
     }
-
-    private Cursor<Map> getGlobalRichest(OrderBy template, String pattern) {
-        try(Connection conn = Utils.newDbConnection()) {
-            return template.filter(player -> player.g("id").match(pattern))
-                    .map(player -> player.pluck("id", "money"))
-                    .limit(10)
-                    .run(conn, OptArgs.of("read_mode", "outdated"));
-        }
-    }
-
 }

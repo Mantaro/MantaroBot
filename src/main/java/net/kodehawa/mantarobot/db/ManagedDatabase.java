@@ -172,6 +172,26 @@ public class ManagedDatabase {
 
     @Nonnull
     @CheckReturnValue
+    public PlayerStats getPlayerStats(@Nonnull String userId) {
+        log("Requesting player STATS {} from rethink", userId);
+        PlayerStats playerStats = r.table(PlayerStats.DB_TABLE).get(userId).run(conn, PlayerStats.class);
+        return playerStats == null ? PlayerStats.of(userId) : playerStats;
+    }
+
+    @Nonnull
+    @CheckReturnValue
+    public PlayerStats getPlayerStats(@Nonnull User user) {
+        return getPlayerStats(user.getId());
+    }
+
+    @Nonnull
+    @CheckReturnValue
+    public PlayerStats getPlayerStats(@Nonnull Member member) {
+        return getPlayerStats(member.getUser());
+    }
+
+    @Nonnull
+    @CheckReturnValue
     public List<Player> getPlayers() {
         log("Requesting all players from rethink");
         String pattern = ":g$";
