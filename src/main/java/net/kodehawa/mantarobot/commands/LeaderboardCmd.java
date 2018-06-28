@@ -21,7 +21,9 @@ import com.rethinkdb.gen.ast.ReqlFunction1;
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Cursor;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -41,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.rethinkdb.RethinkDB.r;
@@ -50,7 +53,7 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 public class LeaderboardCmd {
     @Subscribe
     public void richest(CommandRegistry cr) {
-        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
         final String pattern = ":g$";
 
         TreeCommand leaderboards = (TreeCommand) cr.register("leaderboard", new TreeCommand(Category.CURRENCY) {
@@ -59,7 +62,33 @@ public class LeaderboardCmd {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        List<Map> lb1 = getLeaderboard("playerstats", "gambleWinAmount",
+                                stats -> stats.pluck("id", "gambleWinAmount"), 5
+                        );
 
+                        List<Map> lb2 = getLeaderboard("playerstats", "slotsWinAmount",
+                                stats -> stats.pluck("id", "slotsWinAmount"), 5
+                        );
+
+                        event.getChannel().sendMessage(
+                                baseEmbed(event, languageContext.get("commands.leaderboard.header"))
+                                        .setDescription(EmoteReference.DICE + "**Main Leaderboard page.**\n" +
+                                                "To check what leaderboards we have avaliable, please run `~>help leaderboard`.\n\n" +
+                                                EmoteReference.TALKING + "This page shows the top 5 in slots and gamble wins, both in amount and quantity. The old money leaderboard is avaliable on `~>leaderboard money`")
+                                        .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
+                                        .addField("Gamble", lb1.stream()
+                                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("gambleWinAmount").toString()))
+                                                .filter(p -> Objects.nonNull(p.getKey()))
+                                                .map(p -> String.format("%s**%s#%s** - $%,d", EmoteReference.BLUE_SMALL_MARKER, p.getKey().getName(), p.getKey().getDiscriminator(), Long.parseLong(p.getValue())))
+                                                .collect(Collectors.joining("\n")), true)
+                                        .addField("Slots", lb2.stream()
+                                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("slotsWinAmount").toString()))
+                                                .filter(p -> Objects.nonNull(p.getKey()))
+                                                .map(p -> String.format("%s**%s#%s** - $%,d", EmoteReference.BLUE_SMALL_MARKER, p.getKey().getName(), p.getKey().getDiscriminator(), Long.parseLong(p.getValue())))
+                                                .collect(Collectors.joining("\n")), true)
+                                        .setFooter(String.format(languageContext.get("general.requested_by"), event.getAuthor().getName()), null)
+                                        .build()
+                        ).queue();
                     }
                 };
             }
@@ -68,9 +97,13 @@ public class LeaderboardCmd {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Leaderboard")
                         .setDescription("**Returns the leaderboard.**")
-                        .addField("Usage", "`~>leaderboard` - **Returns the money leaderboard.**\n" +
+                        .addField("Usage", "`~>leaderboard` - **Returns the main leaderboard.**\n" +
                                 "`~>leaderboard rep` - **Returns the reputation leaderboard.**\n" +
                                 "`~>leaderboard lvl` - **Returns the level leaderboard.**\n" +
+                                "`~>leaderboard money` - **Returns the money leaderboard.**\n" +
+                                "`~>leaderboard waifu` - **Returns the waifu value leaderboard.**\n" +
+                                "`~>leaderboard claim` - **Returns the waifu claims leaderboard.**\n" +
+                                "`~>leaderboard games`  - **Returns the games leaderboard.**\n" +
                                 "`~>leaderboard streak` - **Returns the daily streak leaderboard.**", false)
                         .build();
             }
@@ -86,15 +119,11 @@ public class LeaderboardCmd {
                         player -> player.pluck("id", "money"), 10
                 );
 
-                event.getChannel().sendMessage(
-                        baseEmbed(event, languageContext.get("commands.leaderboard.money"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
-                        ).setDescription(c.stream()
-                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
-                                .filter(p -> Objects.nonNull(p.getKey()))
-                                .map(p -> String.format("%s**%s#%s** - $%s", EmoteReference.MARKER, p.getKey().getName(), p
-                                        .getKey().getDiscriminator(), p.getValue()))
-                                .collect(Collectors.joining("\n"))
-                        ).build()
+                event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
+                        String.format(languageContext.get("commands.leaderboard.inner.money"), EmoteReference.MONEY),"commands.leaderboard.money", c,
+                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                map.get("money").toString()), "%s**%s#%s** - $%,d")
+                        .build()
                 ).queue();
             }
         });
@@ -107,16 +136,12 @@ public class LeaderboardCmd {
                         player -> player.pluck("id", "level", r.hashMap("data", "experience")), 10
                 );
 
-                event.getChannel().sendMessage(
-                        baseEmbed(event, languageContext.get("commands.leaderboard.level"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
-                        ).setDescription(c.stream()
-                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString() +
-                                        "\n -" + languageContext.get("commands.leaderboard.inner.experience")  + ":** " + ((Map)map.get("data")).get("experience") + "**"))
-                                .filter(p -> Objects.nonNull(p.getKey()))
-                                .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
-                                        .getKey().getDiscriminator(), p.getValue()))
-                                .collect(Collectors.joining("\n"))
-                        ).build()
+                event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
+                        String.format(languageContext.get("commands.leaderboard.inner.level"), EmoteReference.ZAP),"commands.leaderboard.level", c,
+                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString() +
+                                "\n -" + languageContext.get("commands.leaderboard.inner.experience")  + ":** " +
+                                ((Map)map.get("data")).get("experience") + "**"), "%s**%s#%s** - %,d")
+                        .build()
                 ).queue();
             }
         });
@@ -129,15 +154,11 @@ public class LeaderboardCmd {
                         player -> player.pluck("id", "reputation"), 10
                 );
 
-                event.getChannel().sendMessage(
-                        baseEmbed(event, languageContext.get("commands.leaderboard.reputation"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
-                        ).setDescription(c.stream()
-                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("reputation").toString()))
-                                .filter(p -> Objects.nonNull(p.getKey()))
-                                .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
-                                        .getKey().getDiscriminator(), p.getValue()))
-                                .collect(Collectors.joining("\n"))
-                        ).build()
+                event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
+                        String.format(languageContext.get("commands.leaderboard.inner.reputation"), EmoteReference.REP),"commands.leaderboard.reputation", c,
+                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                map.get("reputation").toString()), "%s**%s#%s** - %,d")
+                        .build()
                 ).queue();
             }
         });
@@ -150,15 +171,11 @@ public class LeaderboardCmd {
                         player -> player.pluck("id", r.hashMap("data", "dailyStrike")), 10
                 );
 
-                event.getChannel().sendMessage(
-                        baseEmbed(event, languageContext.get("commands.leaderboard.daily"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
-                        ).setDescription(c.stream()
-                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), ((HashMap)(map.get("data"))).get("dailyStrike").toString()))
-                                .filter(p -> Objects.nonNull(p.getKey()))
-                                .map(p -> String.format("%s**%s#%s** - %sx", EmoteReference.MARKER, p.getKey().getName(), p
-                                        .getKey().getDiscriminator(), p.getValue()))
-                                .collect(Collectors.joining("\n"))
-                        ).build()
+                event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
+                        String.format(languageContext.get("commands.leaderboard.inner.daily"), EmoteReference.POPPER),"commands.leaderboard.daily", c,
+                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                ((HashMap)(map.get("data"))).get("dailyStrike").toString()), "%s**%s#%s** - %sx")
+                        .build()
                 ).queue();
             }
         });
@@ -171,15 +188,11 @@ public class LeaderboardCmd {
                         player -> player.pluck("id", r.hashMap("data", "waifuCachedValue")), 10
                 );
 
-                event.getChannel().sendMessage(
-                        baseEmbed(event, languageContext.get("commands.leaderboard.waifu"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
-                        ).setDescription(c.stream()
-                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), ((HashMap)(map.get("data"))).get("waifuCachedValue").toString()))
-                                .filter(p -> Objects.nonNull(p.getKey()))
-                                .map(p -> String.format("%s**%s#%s** - $%s", EmoteReference.MARKER, p.getKey().getName(), p
-                                        .getKey().getDiscriminator(), p.getValue()))
-                                .collect(Collectors.joining("\n"))
-                        ).build()
+                event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
+                        String.format(languageContext.get("commands.leaderboard.inner.waifu"), EmoteReference.MONEY),"commands.leaderboard.waifu", c,
+                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                ((HashMap)(map.get("data"))).get("waifuCachedValue").toString()), "%s**%s#%s** - $%,d")
+                        .build()
                 ).queue();
             }
         });
@@ -188,19 +201,14 @@ public class LeaderboardCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Map> c = getLeaderboard("users", "timesClaimed",
-                        user -> true,
                         player -> player.pluck("id", r.hashMap("data", "timesClaimed")), 10
                 );
 
-                event.getChannel().sendMessage(
-                        baseEmbed(event, languageContext.get("commands.leaderboard.claim"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
-                        ).setDescription(c.stream()
-                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), ((HashMap)(map.get("data"))).get("timesClaimed").toString()))
-                                .filter(p -> Objects.nonNull(p.getKey()))
-                                .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
-                                        .getKey().getDiscriminator(), p.getValue()))
-                                .collect(Collectors.joining("\n"))
-                        ).build()
+                event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
+                        String.format(languageContext.get("commands.leaderboard.inner.claim"), EmoteReference.HEART),"commands.leaderboard.claim", c,
+                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                ((HashMap)(map.get("data"))).get("timesClaimed").toString()), "%s**%s#%s** - %,d")
+                        .build()
                 ).queue();
             }
         });
@@ -213,15 +221,11 @@ public class LeaderboardCmd {
                         player -> player.pluck("id", r.hashMap("data", "gamesWon")), 10
                 );
 
-                event.getChannel().sendMessage(
-                        baseEmbed(event, languageContext.get("commands.leaderboard.game"), event.getJDA().getSelfUser().getEffectiveAvatarUrl()
-                        ).setDescription(c.stream()
-                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), ((HashMap)(map.get("data"))).get("gamesWon").toString()))
-                                .filter(p -> Objects.nonNull(p.getKey()))
-                                .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
-                                        .getKey().getDiscriminator(), p.getValue()))
-                                .collect(Collectors.joining("\n"))
-                        ).build()
+                event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
+                        String.format(languageContext.get("commands.leaderboard.inner.game"), EmoteReference.ZAP),"commands.leaderboard.game", c,
+                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                ((HashMap)(map.get("data"))).get("gamesWon").toString()), "%s**%s#%s** - %,d")
+                        .build()
                 ).queue();
             }
         });
@@ -234,6 +238,10 @@ public class LeaderboardCmd {
 
         cr.registerAlias("leaderboard", "richest");
         cr.registerAlias("leaderboard", "lb");
+    }
+
+    private List<Map> getLeaderboard(String table, String index, ReqlFunction1 mapFunction, int limit) {
+        return getLeaderboard(table, index, m -> true, mapFunction, limit);
     }
 
     private List<Map> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction, int limit) {
@@ -252,5 +260,17 @@ public class LeaderboardCmd {
         m.close();
 
         return c;
+    }
+
+    private EmbedBuilder generateLeaderboardEmbed(GuildMessageReceivedEvent event, I18nContext languageContext, String description, String leaderboardKey, List<Map> lb, Function<Map, Pair<User, String>> mapFunction, String format) {
+        return new EmbedBuilder().setAuthor(languageContext.get("commands.leaderboard.header"), null, event.getJDA().getSelfUser().getEffectiveAvatarUrl())
+                .setDescription(description)
+                .addField(languageContext.get(leaderboardKey), lb.stream()
+                        .map(mapFunction)
+                        .filter(p -> Objects.nonNull(p.getKey()))
+                        .map(p -> String.format(format, EmoteReference.BLUE_SMALL_MARKER, p.getKey().getName(), p.getKey().getDiscriminator(), Long.parseLong(p.getValue())))
+                        .collect(Collectors.joining("\n")), false)
+                .setFooter(String.format(languageContext.get("general.requested_by"), event.getAuthor().getName()), null)
+                .setThumbnail(event.getAuthor().getEffectiveAvatarUrl());
     }
 }

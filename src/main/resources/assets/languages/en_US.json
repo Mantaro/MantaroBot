@@ -1207,15 +1207,23 @@
       "credits": "credits"
     },
     "leaderboard": {
-      "money": "Money Leaderboard (Top 10)",
-      "reputation": "Reputation Leaderboard (Top 10)",
-      "daily": "Daily Streak Leaderboard (Top 10)",
-      "level": "Level leaderboard (Top 10)",
-      "game": "Game Wins leaderboard (Top 10)",
-      "waifu": "Waifu Value leaderboard (Top 10)",
-      "claim": "Waifu Claim leaderboard (Top 10)",
+      "header": "Mantaro's Leaderboard",
+      "money": "Money Leaderboard",
+      "reputation": "Reputation Leaderboard",
+      "daily": "Daily Streak Leaderboard",
+      "level": "Level leaderboard",
+      "game": "Game Wins leaderboard",
+      "waifu": "Waifu Value leaderboard",
+      "claim": "Waifu Claim leaderboard",
       "inner": {
-        "experience": "Experience"
+        "experience": "Experience",
+        "game": "%1sThis page shows the top 10 people who have won the most games.\n\nCheck out `~>help game` or `~>help trivia` for details on how games work!",
+        "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `~>help waifu` for details on the waifu system.",
+        "money": "%1$sThis page shows the top 10 richest people on Mantaro.\nThis leaderboard has been stale for a while, but never give up!",
+        "rep": "%1sThis page shows the top 10 people with the most reputation.",
+        "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `~>help daily` for more info",
+        "lvl": "%1sThis page shows the top 10 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
+        "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `~>help waifu` for details on the waifu system."
       }
     }
   },

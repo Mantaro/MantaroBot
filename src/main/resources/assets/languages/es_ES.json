@@ -1179,11 +1179,11 @@
       "credits": "créditos"
     },
     "leaderboard": {
-      "money": "Tabla de clasificación de créditos (Top 10)",
-      "reputation": "Tabla de clasificación de reputación (Top 10)",
-      "daily": "Tabla de clasificación de racha (Top 10)",
-      "level": "Tabla de clasificación de nivel (Top 10)",
-      "game": "Tabla de clasificación de juegos (Top 10)",
+      "money": "Tabla de clasificación de créditos",
+      "reputation": "Tabla de clasificación de reputación",
+      "daily": "Tabla de clasificación de racha",
+      "level": "Tabla de clasificación de nivel",
+      "game": "Tabla de clasificación de juegos",
       "inner": {
         "experience": "Experiencia"
       }
