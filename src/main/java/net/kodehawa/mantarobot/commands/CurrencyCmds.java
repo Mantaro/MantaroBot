@@ -642,11 +642,13 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(toTransfer.addMoney(toSend)) {
+                long amountTransfer = Math.round(toSend * 0.95);
+
+                if(toTransfer.addMoney(amountTransfer)) {
                     transferPlayer.removeMoney(toSend);
                     transferPlayer.saveAsync();
 
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.success"), EmoteReference.CORRECT, toSend,
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.success"), EmoteReference.CORRECT, toSend, amountTransfer,
                             event.getMessage().getMentionedUsers().get(0).getName()).queue();
 
                     toTransfer.saveAsync();

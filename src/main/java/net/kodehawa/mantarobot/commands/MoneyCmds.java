@@ -541,7 +541,7 @@ public class MoneyCmds {
                     }
 
                     try {
-                        amountN = Integer.parseUnsignedInt(amount);
+                        amountN = Integer.parseInt(amount);
                     } catch (NumberFormatException e) {
                         event.getChannel().sendMessageFormat(languageContext.get("general.invalid_number"), EmoteReference.ERROR).queue();
                     }
@@ -556,7 +556,7 @@ public class MoneyCmds {
 
                 if(args.length == 1 && !coinSelect) {
                     try {
-                        money = Math.abs(Integer.parseInt(args[0]));
+                        money = Math.abs(new RoundedMetricPrefixFormat().parseObject(args[0], new ParsePosition(0)));
 
                         if(money < 25) {
                             event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "slots.errors.below_minimum"), EmoteReference.ERROR).queue();

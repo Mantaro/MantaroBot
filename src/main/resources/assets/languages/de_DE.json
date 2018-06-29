@@ -536,7 +536,7 @@
       "no_money_notice": "%1$sDu kannst Geld, das du nicht hast, nicht versenden.",
       "receipt_locked_notice": "1$sDieser Nutzer kann jetzt kein Geld erhalten.",
       "receipt_over_limit": "%1$sDieser Nutzer hat bereits zu viel Geld...",
-      "success": "%1$**%2$d** wurden an *%3$s* gesendet.",
+      "success": "%1$**%2$d** (%3$s after 5% tax) wurden an *%4$s* gesendet.",
       "item_transfer": "%1$sDu kannst Gegenstände nicht mit transfer verschicken, benutze stattdessen transferitems."
     },
     "useitem": {
