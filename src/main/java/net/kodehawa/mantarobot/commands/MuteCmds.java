@@ -83,7 +83,6 @@ public class MuteCmds {
                 }
 
                 Role mutedRole = event.getGuild().getRoleById(guildData.getMutedRole());
-
                 if(mutedRole == null) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.mute.null_mute_role"), EmoteReference.ERROR).queue();
                     return;
@@ -98,6 +97,7 @@ public class MuteCmds {
                     return;
                 }
 
+                reason = Utils.mentionPattern.matcher(reason).replaceAll("");
                 //Regex from: Fabricio20
                 final String finalReason = timePattern.matcher(reason).replaceAll("");
 
@@ -146,7 +146,6 @@ public class MuteCmds {
                         return;
                     }
                 }
-
 
                 if(member.getRoles().contains(mutedRole)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.mute.already_muted"), EmoteReference.WARNING).queue();
@@ -200,7 +199,7 @@ public class MuteCmds {
                         return;
                     }
 
-                    if(!(args[0]).matches("(?:(\\d+)h)?(?:(\\d+)m)?(?:(\\d+)s)?")) {
+                    if(!timePattern.matcher(args[0]).matches()) {
                         event.getChannel().sendMessageFormat(lang.get("options.defaultmutetimeout_set.wrong_format"), EmoteReference.ERROR).queue();
                         return;
                     }
@@ -319,7 +318,7 @@ public class MuteCmds {
                     return;
                 }
 
-                final String finalReason = reason;
+                final String finalReason = Utils.mentionPattern.matcher(reason).replaceAll("");
                 final DBGuild dbg = db.getGuild(event.getGuild());
 
                 event.getMessage().getMentionedUsers().forEach(user -> {

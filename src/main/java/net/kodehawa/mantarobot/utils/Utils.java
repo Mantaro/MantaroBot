@@ -56,6 +56,7 @@ import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 public class Utils {
     public static final OkHttpClient httpClient = new OkHttpClient();
     private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
+    public static final Pattern mentionPattern = Pattern.compile("<(#|@|@&)?.[0-9]{17,21}>");
     private static final Config config = MantaroData.config().get();
 
     private static final String[] ratelimitQuotes = {

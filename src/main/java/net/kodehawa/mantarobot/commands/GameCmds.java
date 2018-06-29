@@ -53,7 +53,6 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 @Module
 @SuppressWarnings("unused")
 public class GameCmds {
-    private final Pattern mentionPattern = Pattern.compile("<(#|@|@&)?.[0-9]{17,21}>");
     private final Map<String, Function<TriviaDifficulty, Game>> games = new HashMap<>();
 
     @Subscribe
@@ -149,7 +148,7 @@ public class GameCmds {
                 //End of trivia difficulty handling.
 
                 //Stripe all mentions from this.
-                String[] split = mentionPattern.matcher(content).replaceAll("").split(", ");
+                String[] split = Utils.mentionPattern.matcher(content).replaceAll("").split(", ");
 
                 if(split.length <= 1) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.game.not_enough_games"), EmoteReference.ERROR).queue();
@@ -192,7 +191,7 @@ public class GameCmds {
                 }
                 //End of trivia difficulty handling.
 
-                String strippedContent =  mentionPattern.matcher(content).replaceAll("");
+                String strippedContent = Utils.mentionPattern.matcher(content).replaceAll("");
                 String[] values = SPLIT_PATTERN.split(strippedContent, 2);
 
                 if(values.length < 2) {
