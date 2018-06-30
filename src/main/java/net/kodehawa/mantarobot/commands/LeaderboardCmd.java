@@ -100,6 +100,8 @@ public class LeaderboardCmd {
                         .addField("Usage", "`~>leaderboard` - **Returns the main leaderboard.**\n" +
                                 "`~>leaderboard rep` - **Returns the reputation leaderboard.**\n" +
                                 "`~>leaderboard lvl` - **Returns the level leaderboard.**\n" +
+                                "`~>leaderboard gamble` - **Returns the gamble (times) leaderboard.**\n" +
+                                "`~>leaderboard slots` - **Returns the slots (times) leaderboard.**\n" +
                                 "`~>leaderboard money` - **Returns the money leaderboard.**\n" +
                                 "`~>leaderboard waifu` - **Returns the waifu value leaderboard.**\n" +
                                 "`~>leaderboard claim` - **Returns the waifu claims leaderboard.**\n" +
@@ -110,6 +112,40 @@ public class LeaderboardCmd {
         });
 
         leaderboards.setPredicate(event -> handleDefaultRatelimit(rateLimiter, event.getAuthor(), event));
+
+        leaderboards.addSubCommand("gamble", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                List<Map> c = getLeaderboard("playerstats", "gambleWins",
+                        player -> player.g("id").match(pattern),
+                        player -> player.pluck("id", "gambleWins"), 10
+                );
+
+                event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
+                        String.format(languageContext.get("commands.leaderboard.inner.gamble"), EmoteReference.MONEY),"commands.leaderboard.gamble", c,
+                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                map.get("gambleWins").toString()), "%s**%s#%s** - $%,d")
+                        .build()
+                ).queue();
+            }
+        });
+
+        leaderboards.addSubCommand("gamble", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                List<Map> c = getLeaderboard("playerstats", "slotsWins",
+                        player -> player.g("id").match(pattern),
+                        player -> player.pluck("id", "slotsWins"), 10
+                );
+
+                event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
+                        String.format(languageContext.get("commands.leaderboard.inner.slots"), EmoteReference.MONEY),"commands.leaderboard.slots", c,
+                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                map.get("slotsWins").toString()), "%s**%s#%s** - $%,d")
+                        .build()
+                ).queue();
+            }
+        });
 
         leaderboards.addSubCommand("money", new SubCommand() {
             @Override

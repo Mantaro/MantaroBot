@@ -1211,6 +1211,8 @@
       "header": "Mantaro's Leaderboard",
       "money": "Money Leaderboard",
       "reputation": "Reputation Leaderboard",
+      "gamble": "Gamble Wins Leaderboard",
+      "slots": "Slots Wins Leaderboard",
       "daily": "Daily Streak Leaderboard",
       "level": "Level leaderboard",
       "game": "Game Wins leaderboard",
@@ -1224,7 +1226,9 @@
         "rep": "%1sThis page shows the top 10 people with the most reputation.",
         "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `~>help daily` for more info",
         "lvl": "%1sThis page shows the top 10 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
-        "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `~>help waifu` for details on the waifu system."
+        "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `~>help waifu` for details on the waifu system.",
+        "gamble": "%1sThis page shows the top 10 people with the slots runs won.\n\nCheck out `~>help slots` for details on slots.",
+        "slots": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `~>help waifu` for details on gamble."
       }
     }
   },
