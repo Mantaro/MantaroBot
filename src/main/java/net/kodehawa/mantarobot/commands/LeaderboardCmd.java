@@ -117,7 +117,6 @@ public class LeaderboardCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Map> c = getLeaderboard("playerstats", "gambleWins",
-                        player -> player.g("id").match(pattern),
                         player -> player.pluck("id", "gambleWins"), 10
                 );
 
@@ -134,7 +133,6 @@ public class LeaderboardCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Map> c = getLeaderboard("playerstats", "slotsWins",
-                        player -> player.g("id").match(pattern),
                         player -> player.pluck("id", "slotsWins"), 10
                 );
 
