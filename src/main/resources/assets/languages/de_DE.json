@@ -36,6 +36,7 @@
       "milk": "%1$sTrankeffekte entfernt.",
       "stamina": "%1$sAusdauer für 5 Bergbaurunden aktiviert.",
       "haste": "%1$sHast für 2 Minuten aktiviert.",
+      "bait": "%1$sEin Köder wurde an deiner Angel befestigt! Viel Glück beim Fischen! (Aktiviert für 1 Benutzung.)",
       "crate": {
         "no_key": "%1$sDu brauchst einen Truhenschlüssel, um eine Truhe zu öffnen. Sie ist verschlossen!",
         "no_crate": "%1$sDu brauchst eine Truhe! Wie sonst möchtest du deinen Schlüssel benutzen >.>... oh",
@@ -67,12 +68,13 @@
       "success": "%1$sWährend du ruhig angelst findest du %2$s und fährst fort, sie in deinem Fischeimer zu lagern.",
       "success_money": "%1$sWährend du ruhig angelst findest du %2$s und **$%2$d Credits** und du bewahrst es weiter in deinem Eimer auf.",
       "success_money_noitem": "%1$s Während du ruhig angelst findest du **$%2$d Credits** und fährst fort, das Geld in deiner Tasche zu sparen.",
-      "rod_broke": "%1$sDeine Angelrute brach beim Versuch, einen Fisch zu fangen. :("
+      "rod_broke": "%1$sDeine Angelrute brach beim Versuch, einen Fisch zu fangen. :(",
+      "waifu_help": "Deine Waifu kam und gesellte sich zu deinem Angelabenteuer dazu und ihr habt beide eine größere Beute erhalten!"
     },
     "softban": {
       "no_permission": "%1$sKann nicht softbannen: Sie haben keine Rechte Mitglider zu bannen.",
       "no_permission_self": "%1$sSorry! Ich habe keine Rechte Mitglider zu bannen!",
-      "no_mention": "%1$sZum softbannen müssen Sie mindestens einen Nutzer erwähnen!",
+      "no_users": "%1$sZum Softbannen müssen Sie mindestens einen Nutzer erwähnen!",
       "hierarchy_conflict": "%1$sSie können niemanden softbannen, der in der Hierarchie höher steht als Sie.",
       "yourself_note": "%1$sWarum versuchen Sie sich selbt zu softbannen?",
       "self_hierarchy_conflict": "%1$sKann das Mitglied nicht softbannen: %2$s, es steht in der Hierarchie höher als ich.!",
@@ -82,7 +84,7 @@
     },
     "ban": {
       "no_permission": "%1$sSie können nicht bannen: Sie benötigen die `Mitglieder bannen` Berechtigung.",
-      "no_mention": "%1$sSie müssen mindestens einen Nutzer zum bannen erwähnen!",
+      "no_users": "%1$sSie müssen mindestens einen Nutzer zum bannen erwähnen!",
       "no_permission_self": "%1$sSorry! Mir fehlen die Rechte Nutzer in diesem Server zu bannen!",
       "hierarchy_conflict": "%1$sSie können niemanden bannen, der in der Hierarchie höher steht als Sie! Netter Versuch %2$s",
       "yourself_note": "%1$sWarum versuchen Sie sich selbst zu bannen?",
@@ -93,7 +95,7 @@
     },
     "kick": {
       "no_permission": "%1$sKann nicht kicken: Ihnen fehlen die Rechte, um Mitglider zu kicken.",
-      "no_mention": "%1$sSie müssen mindestens einen Nutzer zum Kicken erwähnen!",
+      "no_users": "%1$sSie müssen mindestens einen Nutzer zum Kicken erwähnen!",
       "no_permission_self": "%1$sSorry! Mir fehlen die Rechte Nutzer in diesem Server zu kicken!",
       "hierarchy_conflict": "%1$sSie können niemanden kicken, der in der Hierarchie höher steht als Sie! Netter Versuch %2$s",
       "yourself_note": "%1$sWarum versuchen Sie sich selbst zu kicken?",
@@ -120,6 +122,9 @@
       "10": "- Und letzlich, um **einen Song zu wiederholen** nutze `~>repeat` und **um die Liste zu wiederholen** nutze `~>repeat queue`. Nutze `~>repeat` während es bereits wiederholt, um es abzuschalten\n",
       "11": "Für mehr Informationen nutze `~>help <command name>` (Ohne die <> und mit dem Befehlsnamen, den du einsehen willst.)",
       "12": "Genieße deine Musik und danke, dass du Mantaro benutzt!"
+    },
+    "lang": {
+      "info": "%1$sDu kannst deine Serversprache (sofern anwendbar) mithilfe von `~>opts language set <language code>` ändern. Deine eigene Sprache kannst du mithilfe von `~>profile lang <language code>` ändern.\n**Verfügbare Sprache:** `%2$s`"
     },
     "music_general": {
       "not_playing": "%1$sIch spiele momentan keine Musik",
@@ -152,7 +157,7 @@
       "connect": {
         "success": "%1$sVerbunden mit Kanal **%2$s**!",
         "full_channel": "%1$sIch kann keine Verbindung zu diesem Kanal herstellen, da dieser voll ist!",
-        "non_existent_channel": "%1$sIch habe einen nicht vorhandenen Kanal als Antwort erhalten. Wenn du einen Sprachkanal einstellst und ihn dann löschst, könnte das die Ursache sein.\nIch setze deinen Musikkanal für dich zurück und versuche, die Musik erneut abzuspielen.",
+        "non_existent_channel": "%1$sIch habe einen nicht vorhandenen Kanal als Antwort erhalten. Wenn du einen Sprachkanal einstellst und ihn dann löschst, könnte das die Ursache sein.\n Ich setze deinen Musikkanal für dich zurück und versuche, die Musik erneut abzuspielen.",
         "user_no_vc": "%1$s**Bitte trete einem Sprachkanal bei!**",
         "missing_permissions_connect": "%1$sIch kann aufgrund fehlender Berechtigungen keine Verbindung zu diesem Kanal herstellen (%2$s).",
         "missing_permission_speak": "%1$sIch kann nicht in diesem Kanal sprechen, weil ich keine Erlaubnis habe (%2$s).",
@@ -302,7 +307,7 @@
         "success": "%1$sBenutzerdefinierter Befehl entfernt `%2$s`."
       },
       "import": {
-        "not_found": "%1$sEs gab keine benutzerdefinierten Befehle, die der Suchanfrage entsprachen..",
+        "not_found": "%1$sEs gab keine benutzerdefinierten Befehle, die der Suchanfrage entsprachen.",
         "header": "`%1$s` - Server: `%2$s`",
         "selection": "Wähle den Befehl:",
         "note": "(Du kannst nur benutzerdefinierte Befehle von Servern, in denen du dich befindest, auswählen.",
@@ -447,7 +452,8 @@
       "buyslot": {
         "locked": "%1$sDu kannst das aktuell nicht tun.",
         "not_enough_money": "%1$sDu hast nicht genug Geld, um mehr Plätze zu kaufen! Du brauchst %2$d Credits.",
-        "success": "%1$sDieser Platz wurde erfolgreich für%2$s Credits gekauft, du hast aktuell ingsgesamt %3s Plätze und %4$s davon verfügbar."
+        "success": "%1$sDieser Platz wurde erfolgreich für%2$s Credits gekauft, du hast aktuell ingsgesamt %3s Plätze und %4$s davon verfügbar.",
+        "too_many": "%1$sDu hast bereits zu viele Plätze!"
       },
       "header": "Waifu Liste",
       "description_header": "Hier ist eine Liste mit all deinen geliebten Waifus, nach Hinzufüge-Datum sortiert.\n*Du kannst aktuell maximal %1$d Waifus haben.*\n\n",
@@ -476,6 +482,16 @@
       "header": "%1$ss Inventar",
       "format": "**Preis**: 📥 %1$d 📤 %2$d\n%3$s",
       "empty": "%1$sDein Inventar ist leer! :("
+    },
+    "cast": {
+      "no_item_found": "%1$sIch habe keine passenden Gegenstände gefunden.",
+      "item_not_cast": "%1$sDu kannst diesen Gegenstand nicht benutzen.",
+      "not_enough_money": "%1$sDu hast nicht genug Geld, um dies anzuwenden. **(Kosten: %2$s)**",
+      "no_item": "%1$sDu hast nicht den benötigten Gegenstand *%2$s*, um fortzufahren.",
+      "not_enough_items": "%1$sDu hast nicht  genug von *%2$s*, um fortzufahren. **(Benötigt: %3$s, Aktuell: %4$s)**",
+      "success": "%1$sDu hast erfolgreich **%2$s %3$s** für **%4$s Credits angewendet.**",
+      "no_tool": "%1$sDu musst %2$s haben, um diese Anwendung fortzusetzen!",
+      "item_broke": "\nLeider broch dein Werkzeugschlüssel, aber du bekamst dein Item!"
     },
     "market": {
       "dump": {
@@ -536,8 +552,9 @@
       "no_money_notice": "%1$sDu kannst Geld, das du nicht hast, nicht versenden.",
       "receipt_locked_notice": "1$sDieser Nutzer kann jetzt kein Geld erhalten.",
       "receipt_over_limit": "%1$sDieser Nutzer hat bereits zu viel Geld...",
-      "success": "%1$**%2$d** (%3$s after 5% tax) wurden an *%4$s* gesendet.",
-      "item_transfer": "%1$sDu kannst Gegenstände nicht mit transfer verschicken, benutze stattdessen transferitems."
+      "success": "%1$sEs wurden **%2$d** *(%3$s nach 5% Steuern)* an *%4$s* erfolgreich überwiesen.",
+      "item_transfer": "%1$sDu kannst Gegenstände nicht mit transfer verschicken, benutze stattdessen den transferitems Befehl.",
+      "party": "Du kannst nur einmal alle 5 Minuten an eine Person (%1$s) überweisen."
     },
     "useitem": {
       "ls": {
@@ -674,6 +691,7 @@
       "profile_notice": "Wenn du der Meinung bist, dass du ein neues Abzeichen erhalten hast und es hier nicht angezeigt wird, verwende bitte `~>profile` und führe den Comamnd erneut aus.\n",
       "info_notice": "Verwende `~>badges info <Abzeichenname>` um mehr Information über ein Abzeichen zu erhalten.\n",
       "upvote_notice": "**Sie können ein kostenloses Abzeichen für das [Up-Voten von Mantaro auf discordbots.org](https://discordbots.org/bot/mantaro) erhalten!** (Die Verarbeitung kann einige Minuten dauern)\n\n",
+      "donate_notice": "**Du kannst ein Abzeichen für das [Unterstützung von Mantaros Entwicklung bekommen](https://patreon.com/mantaro)!** (Es könnte ein paar Minuten zum Verarbeiten brauchen)\n\n",
       "no_badges": "Keine Abzeichen (noch!)",
       "header": "Abzeichen erreicht von %1$s"
     },
@@ -1142,7 +1160,8 @@
       "win_overflow": "%1$sGratulation, du gewinnst %2$d Credits. Leider hattest du schon zu viele Credits. Deine Tasche ist übergelaufen.",
       "lose": "%1$sLeider verlierst du %2$s Credits. %3$s",
       "lose_all": "alle deine",
-      "credits": "Credits"
+      "credits": "Credits",
+      "too_much": "1%sDu kannst nur bis zu 275 Millionen auf einmal setzen. Du möchtest nicht vollkommen pleite gehen, oder? *(Einsatzlimit: %2$,d Credits)*"
     },
     "loot": {
       "player_locked": "%1$sDu kannst jetzt nichts erbeuten.",
@@ -1170,7 +1189,8 @@
         "overflow": "\nHuch, du hast *%1$s* beim Abbauen gefunden, aber du hattest schon zu viele von diesem Edelstein, also habe ich ihn für dich verkauft.",
         "success": "\nHuch! Du hattest Glück und hast *%1$s* beim Abbauen gefunden, schaú in dein Inventar."
       },
-      "pick_broke": "%1$sEine deiner Spitzhacken ist beim Abbauen zerbrochen."
+      "pick_broke": "%1$sEine deiner Spitzhacken ist beim Abbauen zerbrochen.",
+      "waifu_help": "Deine Waifu gesellte sich zu deinem Minenabenteuer und ihr habt beide eine größere Beute bekommen!"
     },
     "slots": {
       "errors" : {
@@ -1189,13 +1209,27 @@
       "credits": "Credits"
     },
     "leaderboard": {
-      "money": "Geld Rangliste (Top 10)",
-      "reputation": "Ruf Rangliste (Top 10)",
-      "daily": "Tägliche Strähne Rangliste (Top 10)",
-      "level": "Level Rangliste (Top 10)",
-      "game": "Spielsiege Rangliste (Top 10)",
+      "header": "Mantaros Rangliste",
+      "money": "Geld Rangliste",
+      "reputation": "Ruf Rangliste",
+      "gamble": "Wettsiege Rangliste",
+      "slots": "Automatensiege Rangliste",
+      "daily": "Tägliche Strähne Rangliste",
+      "level": "Level Rangliste",
+      "game": "Spielsiege Rangliste",
+      "waifu": "Waifu Wert Rangliste",
+      "claim": "Waifu Anspruch Rangliste",
       "inner": {
-        "experience": "Erfahrung"
+        "experience": "Erfahrung",
+        "game": "%1sDiese Seite zeigt die Top 10 Personen an, welche die meisten Spiele gewonnen haben.\n\nSchau unter `~>help game` oder `~>help trivia` für Details, wie Spiele funktionieren nach!",
+        "claim": "%1sDiese Seite zeigt die Top 10 Personen an, welche am häufigsten beansprucht worden sind.\n\nSchau unter `~>help waifu` für  Details bezüglich des Waifu-Systems.",
+        "money": "%1$sDiese Seite zeigt die Top 10 Personen an, welche das meiste Geld besitzen.\nDiese Rangliste , aber gib niemals auf!",
+        "rep": "%1sDiese Seite zeigt die Top 10 Personen mit dem meisten Ruf an.",
+        "streak": "%1sDiese Seite zeigt die Top 10 Personen mit der höchsten täglichen Strähne an.\n\nSchau unter `~>help daily` für mehr Details.",
+        "lvl": "%1sDiese Seite zeigt die Top 10 Personen mit den höchsten Leveln an.\n\nLevel werden durch's Sprechen verdient. Befehlsnutzung wird nicht mit angerechnet und EP haben eine 30 Sekunden Abkllingzeit.",
+        "waifu": "%1sDiese Seite zeigt die Top 10 Personen an, welche den höchsten Waifu-Wert haben.\n\nSchau unter `~>help waifu` für  Details bezüglich des Waifu-Systems.",
+        "gamble": "%1sDiese Seite zeigt die Top 10 Personen an, welche die meisten Automatensiege haben.\n\nSchau unter `~>help slots` für Details bezüglich Automaten.",
+        "slots": "%1sDiese Seite zeigt die Top 10 Personen an, welche die meisten Glücksspiele gewonnen haben.\n\nSchau unter `~>help waifu` für Details bezüglich Glücksspielen."
       }
     }
   },
@@ -1464,6 +1498,12 @@
     },
     "levelupmessages_channel_set": {
       "success": "%1$sDer Level-Up-Kanal wurde gesetzt auf: %2$s"
+    },
+    "birthday_message_set": {
+      "success": "%1$sServergeburtstagsnachricht wurde gesetzt auf: %2$s"
+    },
+    "birthday_message_clear": {
+      "success": "%1$sGeburtstagsnachricht entfernt!"
     },
     "defaultmutetimeout_set": {
       "not_specified": "%1$sDu musst eine Zeitüberschreitung im Format 1m20s, beispielsweise, angeben.",
