@@ -24,6 +24,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
@@ -62,7 +63,7 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 @Module
 @SuppressWarnings("unused")
 public class CurrencyCmds {
-    private final int TRANSFER_LIMIT = Integer.MAX_VALUE / 3; //around 715m
+    private final int TRANSFER_LIMIT = Integer.MAX_VALUE / 4; //around 536m
 
     @Subscribe
     public void inventory(CommandRegistry cr) {
@@ -571,6 +572,7 @@ public class CurrencyCmds {
     public void transfer(CommandRegistry cr) {
         cr.register("transfer", new SimpleCommand(Category.CURRENCY) {
             RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 10);
+            RateLimiter partyRateLimiter = new RateLimiter(TimeUnit.MINUTES, 4);
 
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
@@ -592,6 +594,19 @@ public class CurrencyCmds {
                 }
 
                 if(!handleDefaultRatelimit(rl, event.getAuthor(), event)) return;
+
+                String partyKey = event.getAuthor().getId() + ":" + giveTo.getId();
+                if(!partyRateLimiter.process(partyKey)) {
+                    event.getChannel().sendMessage(
+                            EmoteReference.STOPWATCH +
+                                    String.format(languageContext.get("commands.transfer.party"), giveTo.getId()) + " (Ratelimited)" +
+                                    "\n **You'll be able to transfer to this user again in " + Utils.getHumanizedTime(partyRateLimiter.tryAgainIn(partyKey))
+                                    + ".**"
+                    ).queue();
+
+                    MantaroBot.getInstance().getStatsClient().increment("ratelimits");
+                    return;
+                }
 
                 long toSend; // = 0 at the start
 
