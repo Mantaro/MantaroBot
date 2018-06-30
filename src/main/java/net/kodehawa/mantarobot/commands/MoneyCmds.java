@@ -78,6 +78,7 @@ public class MoneyCmds {
     private final Random random = new Random();
     private final int SLOTS_MAX_MONEY = 175_000_000;
     private final long GAMBLE_ABSOLUTE_MAX_MONEY = (long) (Integer.MAX_VALUE) * 5;
+    private final long GAMBLE_MAX_MONEY = 275_000_000;
 
     @Subscribe
     public void daily(CommandRegistry cr) {
@@ -247,8 +248,8 @@ public class MoneyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Player player = MantaroData.db().getPlayer(event.getMember());
-
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                    return;
 
                 if(player.getMoney() <= 0) {
                     event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.no_credits"), EmoteReference.SAD).queue();
@@ -301,6 +302,11 @@ public class MoneyCmds {
                     return;
                 }
 
+                if(i > GAMBLE_MAX_MONEY) {
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.too_much"), EmoteReference.ERROR2, GAMBLE_MAX_MONEY).queue();
+                    return;
+                }
+
                 User user = event.getAuthor();
                 long gains = (long) (i * multiplier);
                 gains = Math.round(gains * 0.45);
@@ -308,7 +314,7 @@ public class MoneyCmds {
                 final int finalLuck = luck;
                 final long finalGains = gains;
 
-                if(i >= Integer.MAX_VALUE / 4) {
+                if(i >= 60000000) {
                     player.setLocked(true);
                     player.save();
                     event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.confirmation_message"), EmoteReference.WARNING, i).queue();
