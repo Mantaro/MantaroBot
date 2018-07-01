@@ -46,10 +46,13 @@ public class GeneralOptions extends OptionHandler {
     @Subscribe
     public void onRegistry(OptionRegistryEvent e) {
         registerOption("lobby:reset", "Lobby reset", "Fixes stuck game/poll/operations session.", (event, lang) -> {
-            GameLobby.LOBBYS.remove(event.getChannel());
+            GameLobby.LOBBYS.remove(event.getChannel().getIdLong());
             Poll.getRunningPolls().remove(event.getChannel().getId());
+
             List<Future<Void>> stuck = InteractiveOperations.get(event.getChannel());
-            if(stuck.size() > 0) stuck.forEach(f->f.cancel(true));
+            if(stuck.size() > 0)
+                stuck.forEach(f->f.cancel(true));
+
             event.getChannel().sendMessageFormat(lang.get("options.lobby_reset.success"), EmoteReference.CORRECT).queue();
         });
 
@@ -113,7 +116,7 @@ public class GeneralOptions extends OptionHandler {
                         "Example: ~>opts linkprotection channel allow promote-here",
                 "Allows the posting of invites on a channel.", (event, args, lang) -> {
             if(args.length == 0) {
-                OptsCmd.onHelp(event);
+                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_allow.no_channel"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -140,7 +143,7 @@ public class GeneralOptions extends OptionHandler {
                         "Example: ~>opts linkprotection channel disallow general",
                 "Disallows the posting of invites on a channel (every channel by default)", (event, args, lang) -> {
             if(args.length == 0) {
-                OptsCmd.onHelp(event);
+                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_disallow.no_channel"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -164,7 +167,7 @@ public class GeneralOptions extends OptionHandler {
         registerOption("linkprotection:user:allow", "Link-protection user whitelist", "Allows an user to post invites.\n" +
                 "You need to mention the user.", "Allows an user to post invites.", (event, args, lang) -> {
             if(args.length == 0) {
-                OptsCmd.onHelp(event);
+                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_allow.no_user"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -187,7 +190,7 @@ public class GeneralOptions extends OptionHandler {
         registerOption("linkprotection:user:disallow", "Link-protection user blacklist", "Disallows an user to post invites.\n" +
                 "You need to mention the user. (This is the default behaviour)", "Allows an user to post invites (This is the default behaviour)", (event, args, lang) -> {
             if(args.length == 0) {
-                OptsCmd.onHelp(event);
+                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_disallow.no_user"), EmoteReference.ERROR).queue();
                 return;
             }
 

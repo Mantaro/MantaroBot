@@ -84,7 +84,7 @@ public class MusicOptions extends OptionHandler {
                         "Example: `~>opts music channel Music`",
                 "Locks the music feature to the specified VC.", (event, args, lang) -> {
                     if(args.length == 0) {
-                        OptsCmd.onHelp(event);
+                        event.getChannel().sendMessageFormat(lang.get("options.music_channel.no_channel"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -110,7 +110,7 @@ public class MusicOptions extends OptionHandler {
                         "Example: `~>opts music queuelimit 90`",
                 "Sets a custom queue limit.", (event, args, lang) -> {
                     if(args.length == 0) {
-                        OptsCmd.onHelp(event);
+                        event.getChannel().sendMessageFormat(lang.get("options.music_queuelimit.no_args"), EmoteReference.ERROR).queue();
                         return;
                     }
 

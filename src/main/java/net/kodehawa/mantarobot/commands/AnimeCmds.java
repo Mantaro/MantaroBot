@@ -55,7 +55,7 @@ public class AnimeCmds {
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 try {
                     if(content.isEmpty()) {
-                        onHelp(event);
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.anime.no_args"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -116,7 +116,7 @@ public class AnimeCmds {
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 try {
                     if(content.isEmpty()) {
-                        onHelp(event);
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.character.no_args"), EmoteReference.ERROR).queue();
                         return;
                     }
 

@@ -95,7 +95,7 @@ public class UtilsCmds {
                 SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
                 DBUser user = MantaroData.db().getUser(event.getAuthor());
                 if(content.isEmpty()) {
-                    onError(event);
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.no_content"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -235,7 +235,7 @@ public class UtilsCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length < 1) {
-                    onHelp(event);
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.choose.nothing_to"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -499,63 +499,61 @@ public class UtilsCmds {
         registry.register("urban", new SimpleCommand(Category.UTILS) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.urban.no_args"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 String commandArguments[] = content.split("->");
                 EmbedBuilder embed = new EmbedBuilder();
 
-                if(!content.isEmpty()) {
-                    String url = null;
+                String url = null;
 
-                    try {
-                        url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(commandArguments[0], "UTF-8");
-                    } catch(UnsupportedEncodingException ignored) { }
+                try {
+                    url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(commandArguments[0], "UTF-8");
+                } catch(UnsupportedEncodingException ignored) { }
 
-                    String json = Utils.wgetResty(url, event);
-                    UrbanData data = GsonDataManager.GSON_PRETTY.fromJson(json, UrbanData.class);
+                String json = Utils.wgetResty(url, event);
+                UrbanData data = GsonDataManager.GSON_PRETTY.fromJson(json, UrbanData.class);
 
-                    //This shouldn't happen, but it fucking happened.
-                    if(commandArguments.length < 1) {
-                        return;
-                    } else if (commandArguments.length > 2) {
-                        onHelp(event);
-                        return;
-                    }
+                if (commandArguments.length > 2) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.urban.too_many_args"), EmoteReference.ERROR).queue();
+                    return;
+                }
 
-                    if(data == null || data.getList() == null || data.getList().isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + languageContext.get("general.no_results")).queue();
-                        return;
-                    }
+                if(data == null || data.getList() == null || data.getList().isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + languageContext.get("general.no_results")).queue();
+                    return;
+                }
 
-                    if(commandArguments.length > 1) {
-                        int definitionNumber = Integer.parseInt(commandArguments[1]) - 1;
-                        UrbanData.List urbanData = data.getList().get(definitionNumber);
-                        String definition = urbanData.getDefinition();
-                        embed.setAuthor(
-                                String.format(languageContext.get("commands.urban.header"), commandArguments[0]), urbanData.getPermalink(), null)
-                                .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
-                                .setDescription(languageContext.get("general.definition") + " " + String.valueOf(definitionNumber + 1))
-                                .setColor(Color.GREEN)
-                                .addField(languageContext.get("general.definition"), definition.length() > 1000 ? definition.substring(0, 1000) + "..." : definition, false)
-                                .addField(languageContext.get("general.example"), urbanData.getExample().length() > 1000 ? urbanData.getExample().substring(0, 1000) + "..." : urbanData.getExample(), false)
-                                .addField(":thumbsup:", urbanData.thumbs_up, true)
-                                .addField(":thumbsdown:", urbanData.thumbs_down, true)
-                                .setFooter(languageContext.get("commands.urban.footer"), null);
-                        event.getChannel().sendMessage(embed.build()).queue();
-                    } else {
-                        UrbanData.List urbanData = data.getList().get(0);
-                        embed.setAuthor(
-                                String.format(languageContext.get("commands.urban.header"), content), data.getList().get(0).getPermalink(), null)
-                                .setDescription(languageContext.get("commands.urban.main_def"))
-                                .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
-                                .setColor(Color.GREEN)
-                                .addField(languageContext.get("general.definition"), urbanData.getDefinition().length() > 1000 ? urbanData.getDefinition().substring(0, 1000) + "..." : urbanData.getDefinition(), false)
-                                .addField(languageContext.get("general.example"), urbanData.getExample().length() > 1000 ? urbanData.getExample().substring(0, 1000) + "..." : urbanData.getExample(), false)
-                                .addField(":thumbsup:", urbanData.thumbs_up, true)
-                                .addField(":thumbsdown:", urbanData.thumbs_down, true)
-                                .setFooter(languageContext.get("commands.urban.footer"), null);
-                        event.getChannel().sendMessage(embed.build()).queue();
-                    }
+                if(commandArguments.length > 1) {
+                    int definitionNumber = Integer.parseInt(commandArguments[1]) - 1;
+                    UrbanData.List urbanData = data.getList().get(definitionNumber);
+                    String definition = urbanData.getDefinition();
+                    embed.setAuthor(
+                            String.format(languageContext.get("commands.urban.header"), commandArguments[0]), urbanData.getPermalink(), null)
+                            .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
+                            .setDescription(languageContext.get("general.definition") + " " + String.valueOf(definitionNumber + 1))
+                            .setColor(Color.GREEN)
+                            .addField(languageContext.get("general.definition"), definition.length() > 1000 ? definition.substring(0, 1000) + "..." : definition, false)
+                            .addField(languageContext.get("general.example"), urbanData.getExample().length() > 1000 ? urbanData.getExample().substring(0, 1000) + "..." : urbanData.getExample(), false)
+                            .addField(":thumbsup:", urbanData.thumbs_up, true)
+                            .addField(":thumbsdown:", urbanData.thumbs_down, true)
+                            .setFooter(languageContext.get("commands.urban.footer"), null);
+                    event.getChannel().sendMessage(embed.build()).queue();
                 } else {
-                    onHelp(event);
+                    UrbanData.List urbanData = data.getList().get(0);
+                    embed.setAuthor(
+                            String.format(languageContext.get("commands.urban.header"), content), data.getList().get(0).getPermalink(), null)
+                            .setDescription(languageContext.get("commands.urban.main_def"))
+                            .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
+                            .setColor(Color.GREEN)
+                            .addField(languageContext.get("general.definition"), urbanData.getDefinition().length() > 1000 ? urbanData.getDefinition().substring(0, 1000) + "..." : urbanData.getDefinition(), false)
+                            .addField(languageContext.get("general.example"), urbanData.getExample().length() > 1000 ? urbanData.getExample().substring(0, 1000) + "..." : urbanData.getExample(), false)
+                            .addField(":thumbsup:", urbanData.thumbs_up, true)
+                            .addField(":thumbsdown:", urbanData.thumbs_down, true)
+                            .setFooter(languageContext.get("commands.urban.footer"), null);
+                    event.getChannel().sendMessage(embed.build()).queue();
                 }
             }
 
@@ -579,7 +577,7 @@ public class UtilsCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(content.isEmpty()) {
-                    onError(event);
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.weather.no_content"), EmoteReference.ERROR).queue();
                     return;
                 }
 

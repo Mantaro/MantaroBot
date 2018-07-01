@@ -115,7 +115,7 @@ public class ModerationOptions extends OptionHandler {
                         "**Example:** `~>opts logs enable mod-logs`",
                 "Enables logs.", (event, args, lang) -> {
                     if(args.length < 1) {
-                        onHelp(event);
+                        event.getChannel().sendMessageFormat(lang.get("options.logs_enable.no_channel"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -140,10 +140,11 @@ public class ModerationOptions extends OptionHandler {
 
         registerOption("logs:exclude", "Exclude log channel.",
                 "Excludes a channel from logging. You need to use the channel name, *not* the mention.\n" +
-                        "**Example:** `~>opts logs exclude staff`",
+                        "**Example:** `~>opts logs exclude staff`. " +
+                        "The `opts logs exclude clearchannels` clears all of the log exclusions, and `opts logs exclude remove <channel>` removes a single channel from the exclusion list.",
                 "Excludes a channel from logging.", (event, args, lang) -> {
                     if(args.length == 0) {
-                        onHelp(event);
+                        event.getChannel().sendMessageFormat(lang.get("options.logs_exclude.no_args"), EmoteReference.ERROR).queue();
                         return;
                     }
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());

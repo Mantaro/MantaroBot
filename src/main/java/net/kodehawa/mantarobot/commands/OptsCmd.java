@@ -68,7 +68,7 @@ public class OptsCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length == 0) {
-                    OptsCmd.onHelp(event);
+                    onHelp(event);
                     return;
                 }
 

@@ -53,13 +53,13 @@ public class CommandOptions extends OptionHandler {
                         "**Example:** `~>opts server command disallow 8ball`",
                 "Disallows a command from being triggered at all.", (event, args, lang) -> {
             if(args.length == 0) {
-                onHelp(event);
+                event.getChannel().sendMessageFormat(lang.get("options.server_command_disallow.no_command"), EmoteReference.ERROR).queue();
                 return;
             }
 
             String commandName = args[0];
             if(DefaultCommandProcessor.REGISTRY.commands().get(commandName) == null) {
-                event.getChannel().sendMessageFormat(lang.get("options.no.command"), EmoteReference.ERROR, commandName).queue();
+                event.getChannel().sendMessageFormat(lang.get("options.no_command"), EmoteReference.ERROR, commandName).queue();
                 return;
             }
 
@@ -80,7 +80,7 @@ public class CommandOptions extends OptionHandler {
                         "**Example:** `~>opts server command allow 8ball`",
                 "Allows a command from being triggered.", (event, args, lang) -> {
             if(args.length == 0) {
-                onHelp(event);
+                event.getChannel().sendMessageFormat(lang.get("options.server_command_allow.no_command"), EmoteReference.ERROR).queue();
                 return;
             }
             String commandName = args[0];
@@ -99,11 +99,6 @@ public class CommandOptions extends OptionHandler {
                 "Disallows a command from being triggered at all in a specific channel. Use the channel **name** and command name\n" +
                         "**Example:** `~>opts server command specific disallow general 8ball`",
                 "Disallows a command from being triggered at all in a specific channel.", (event, args, lang) -> {
-            if(args.length == 0) {
-                onHelp(event);
-                return;
-            }
-
             if(args.length < 2) {
                 event.getChannel().sendMessageFormat(lang.get("options.server_command_specific_disallow.invalid"), EmoteReference.ERROR).queue();
                 return;
@@ -140,11 +135,6 @@ public class CommandOptions extends OptionHandler {
                 "Re-allows a command from being triggered in a specific channel. Use the channel **name** and command name\n" +
                         "**Example:** `~>opts server command specific allow general 8ball`",
                 "Re-allows a command from being triggered in a specific channel.", ((event, args, lang) -> {
-            if(args.length == 0) {
-                onHelp(event);
-                return;
-            }
-
             if(args.length < 2) {
                 event.getChannel().sendMessageFormat(lang.get("options.server_command_specific_allow.invalid"), EmoteReference.ERROR).queue();
                 return;
@@ -178,7 +168,7 @@ public class CommandOptions extends OptionHandler {
                         "**Example:** `~>opts server channel disallow general`",
                 "Disallows a channel from commands.", (event, args, lang) -> {
             if(args.length == 0) {
-                onHelp(event);
+                event.getChannel().sendMessageFormat(lang.get("options.server_channel_disallow.no_channel"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -208,7 +198,7 @@ public class CommandOptions extends OptionHandler {
                         "**Example:** `~>opts server channel allow general`",
                 "Re-allows a channel from commands.", (event, args, lang) -> {
             if(args.length == 0) {
-                onHelp(event);
+                event.getChannel().sendMessageFormat(lang.get("options.server_channel_allow.no_channel"), EmoteReference.ERROR).queue();
                 return;
             }
 

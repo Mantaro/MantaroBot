@@ -157,7 +157,7 @@ public class MusicCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(isDJ(event.getMember())) {
                     if(content.trim().isEmpty()) {
-                        onHelp(event);
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.no_song"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -265,7 +265,7 @@ public class MusicCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(content.trim().isEmpty()) {
-                    onHelp(event);
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.no_song"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -312,7 +312,7 @@ public class MusicCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(content.trim().isEmpty()) {
-                    onHelp(event);
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.no_song"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -348,7 +348,7 @@ public class MusicCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length == 0) {
-                    onHelp(event);
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.rewind.no_time"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -429,7 +429,7 @@ public class MusicCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length == 0) {
-                    onHelp(event);
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.skipahead.no_time"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -862,7 +862,7 @@ public class MusicCmds {
                         return;
 
                     if(args.length == 0) {
-                        onError(event);
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.volume.no_args"), EmoteReference.ERROR).queue();
                         return;
                     }
 

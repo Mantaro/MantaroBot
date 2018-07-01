@@ -130,7 +130,7 @@ public class MiscCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(content.isEmpty()) {
-                    onError(event);
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.8ball.no_args"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -170,7 +170,7 @@ public class MiscCmds {
                 DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                 Map<String, String> autoroles = dbGuild.getData().getAutoroles();
                 if(args.length == 0 || content.length() == 0) {
-                    onError(event);
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.iam.no_iam"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -226,8 +226,8 @@ public class MiscCmds {
         cr.register("iamnot", new SimpleCommand(Category.MISC) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(args.length == 0 || content.length() == 0) {
-                    onHelp(event);
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.iamnot.no_args"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -237,8 +237,8 @@ public class MiscCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Iamnot (autoroles)")
-                        .setDescription("**Remove an autorole that your server administrators have set up!**")
-                        .addField("Usage", "~>iamnot <name>. Remove the role with the specified name.\n"
+                        .setDescription("**Remove an autorole from yourself that your server administrators have set up!**")
+                        .addField("Usage", "~>iamnot <name>. Remove the role from yourself with the specified name.\n"
                                 + "~>iamnot list. List all the available autoroles in this server", false)
                         .build();
             }

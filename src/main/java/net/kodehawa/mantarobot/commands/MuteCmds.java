@@ -245,7 +245,7 @@ public class MuteCmds {
                                 " be wrapped in quotation marks", OptionType.COMMAND)
                         .setActionLang((event, args, lang) -> {
                             if(args.length < 1) {
-                                OptsCmd.onHelp(event);
+                                event.getChannel().sendMessageFormat(lang.get("options.muterole_set.no_role"), EmoteReference.ERROR).queue();
                                 return;
                             }
 

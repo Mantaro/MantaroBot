@@ -127,6 +127,7 @@
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `~>profile lang <language code>`.\n**Avaliable languages:** `%2$s`"
     },
     "music_general": {
+      "no_song": "%1$sYou need to tell me what song you want to play! *(YouTube, Soundcloud, Twitch URL or search queries are allowed)*",
       "not_playing": "%1$sI'm not currently playing anything",
       "dj_only": "%1$sYou need to be a DJ to use this command!",
       "enjoy_note": "Enjoy the music! <3",
@@ -198,6 +199,7 @@
       "unpaused": "Player unpaused *(Player was paused previously)*."
     },
     "rewind": {
+      "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
       "negative": "%1$sPositive integers only",
       "before_beggining": "%1$sYou can't skip to before the beginning of a song",
       "success": "%1$sRewound song to: %2$s."
@@ -206,6 +208,7 @@
       "success": "%1$sRestarted current song."
     },
     "skipahead": {
+      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `~>skipahead 1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
       "past_duration": "%1$sYou can't skip past the duration of a song",
       "success": "%1$sSkipped ahead to %2$s."
     },
@@ -268,9 +271,11 @@
     },
     "volume": {
       "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
-      "success": "%1$sVolume set to %2$d\n\n%3$s"
+      "success": "%1$sVolume set to %2$d\n\n%3$s",
+      "no_args": "%1$sYou need to tell me what volume you want me to set the music to (5 to 100)."
     },
     "custom": {
+      "no_args": "%1$sYou need to specify what you want to do with this command. Check command help for more info!",
       "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
       "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
       "nsfw_enabled": "%1$sThis command has been succesfully marked as NSFW.",
@@ -279,6 +284,7 @@
       "ls": {
         "header": "Commands for this guild"
       },
+      "invalid": "%1$sInvalid command selection. Check command help (`help custom`).",
       "view": {
         "invalid": "%1$sYou need to specify the command and the response number!",
         "not_found": "%1$sThere isn't a custom command with that name here.",
@@ -286,6 +292,7 @@
         "success": "**Response `%1$d` for custom command `%2$s`:** \n```\n%3$s```"
       },
       "raw": {
+        "no_command": "%1$sYou need to tell me what command you want to look at.",
         "header": "Command \"%1$s\":",
         "amount": "(Showing %1$d responses of %2$d)",
         "pasted": "Pasted content"
@@ -495,6 +502,7 @@
     },
     "market": {
       "dump": {
+        "no_item": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to dump.",
         "invalid": "%1$sNot a valid number of items to dump.",
         "non_existent": "%1$sCannot dump a non-existent item!",
         "player_no_item": "%1$sCannot dump an item you don't have!",
@@ -508,6 +516,7 @@
         "success": "%1$sThe market value of %2$s**%3$s** is %4$s credits to buy it and you can get %5$s credits if you sell it."
       },
       "sell": {
+        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
         "invalid": "%1$sNot a valid number of items to sell.",
         "all": {
           "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? Type *yes* to confirm and *no* to cancel",
@@ -521,6 +530,7 @@
         "success": "%1$sYou sold %2$d **%3$s** and gained %4$d credits!"
       },
       "buy": {
+        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
         "invalid": "%1$sNot a valid number of items to buy.",
         "non_existent": "%1$sYou cannot buy an non-existent item.",
         "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
@@ -539,7 +549,8 @@
       "overflow": "%1$sThis player has the maximum possible amount of this item (5000).",
       "success": "%1$s%2$s gave **%3$s** **%4$s** to %5$s",
       "multiple_items_error": "%1$sYou don't have any of these items in your inventory",
-      "error": "%1$sYou don't have enough of this item in your inventory to do this!"
+      "error": "%1$sYou don't have enough of this item in your inventory to do this!",
+      "no_item_mention": "%1$sYou need to specify the person to transfer the item and the item to transfer."
     },
     "transfer": {
       "transfer_yourself_note": "%1$sYou cannot transfer money to yourself.",
@@ -576,6 +587,7 @@
       "invalid_args": "%1$sInvalid option or arguments."
     },
     "8ball": {
+      "no_args": "%1$sYou need to specify what you want the 8ball to answer.",
       "error": "%1$sI ran into an error while fetching the 8ball results."
     },
     "iam": {
@@ -589,9 +601,11 @@
       "already_assigned": "%1$sYou already have this role, silly!",
       "success": "%1$s%2$s, you've been given the **%3$s** role",
       "error": "%1$sI couldn't take from you **%2$s. Make sure that I have permission to add roles and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the name `%2$s`."
+      "no_role": "%1$sThere isn't an autorole with the name `%2$s`.",
+      "no_iam": "%1$sYou need to specify which auto-assignable role you want to assign yourself!"
     },
     "iamnot": {
+      "no_args": "%1$sYou have to specify what role you want me to remove from you, silly.",
       "not_assigned": "%1$sYou don't have this role, silly!",
       "success": "%1$s%2$s, you've lost the **%3$s** role"
     },
@@ -716,9 +730,11 @@
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd/mm/yyyy`",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting. Remember to include the year, although you can put any year and it won't affect anything.\nRemember that the date format is `dd/mm/yyyy`",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd/MM/yyyy)",
-      "invalid_month": "%1$sThat's not a valid month number! (Valid months are numbers from 1 to 12)"
+      "invalid_month": "%1$sThat's not a valid month number! (Valid months are numbers from 1 to 12)",
+      "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list."
     },
     "choose": {
+      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga`)",
       "success": "%1$sI choose `%2$s`"
     },
     "dictionary": {
@@ -744,7 +760,9 @@
       "error": "%1$sI found an error while looking for the timezone in the big book over there... or it could be invalid."
     },
     "urban": {
+      "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
       "header": "Urban Dictionary definition for %1$s",
+      "too_many_args": "%1$sToo many arguments! Page format is `name->page number`",
       "main_def": "Main definition.",
       "footer": "Information by Urban Dictionary"
     },
@@ -756,7 +774,8 @@
       "wind_speed": "Wind Speed",
       "pressure": "Pressure",
       "footer": "Information provided by OpenWeatherMap (Process time: %1$dms)",
-      "error": "%1$sError while fetching results. (Not found?)"
+      "error": "%1$sError while fetching results. (Not found?)",
+      "no_content": "%1$sYou need to specify which city and country to search the weather of!"
     },
     "activatekey": {
       "check": {
@@ -1097,6 +1116,7 @@
       }
     },
     "anime": {
+      "no_args": "%1$sYou need to tell me what anime to look for.",
       "selection_start": "Type the number of the anime you want to select.",
       "information_footer": "Information provided by Anilist. Type &cancel to cancel.",
       "no_results": "%1$sNo results found...",
@@ -1115,6 +1135,7 @@
       "minutes": "minutes"
     },
     "character": {
+      "no_args": "%1$sYou need to tell me what character you want to look for.",
       "selection_start": "Type the number of the character you want to select.",
       "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got ``%2$s`` while trying to process this command. (internal error)",
       "information_header": "Character information for %1$s",
@@ -1228,7 +1249,7 @@
         "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `~>help daily` for more info",
         "lvl": "%1sThis page shows the top 10 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
         "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `~>help waifu` for details on the waifu system.",
-        "gamble": "%1sThis page shows the top 10 people with the gamble runs won.\n\nCheck out `~>help gamble` for details on gamble.",
+        "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `~>help gamble` for details on gamble.",
         "slots": "%1sThis page shows the top 10 people with the most slots runs won.\n\nCheck out `~>help slots` for details on slots."
       }
     }
@@ -1245,9 +1266,11 @@
       "success": "%1$sCorrectly reset your options!"
     },
     "server_command_disallow": {
+      "no_command": "%1$sYou need to specify the command you want to disable on this server.",
       "success": "%1$sDisabled %2$s on this server."
     },
     "server_command_allow": {
+      "no_command": "%1$sYou need to specify the command you want to enable on this server.",
       "success": "%1$sEnabled %2$s on this server."
     },
     "server_command_specific_disallow": {
@@ -1259,10 +1282,12 @@
       "success": "%1$sEnabled %2$s on channel #%3$s."
     },
     "server_channel_disallow": {
+      "no_channel": "%1$sYou need to specify the channel where you want the bot not to listen to commands.",
       "too_many": "%1$sYou cannot disable more channels since the bot wouldn't be able to talk otherwise :(",
       "success": "%1$sChannel %2$s will not longer listen to commands"
     },
     "server_channel_allow": {
+      "no_channel": "%1$sYou need to specify the channel where you want the bot to listen to commands. (All channels by default)",
       "success": "%sChannel %s will now listen to commands"
     },
     "category_disable": {
@@ -1316,9 +1341,11 @@
       "success": "%1$sSet music announce to **%2$s**"
     },
     "music_channel": {
+      "no_channel": "%1$sYou need to specify what voice channel you want to bind the music player to.",
       "success": "%1$sMusic Channel set to: %2$s"
     },
     "music_queuelimit": {
+      "no_args": "%1$sYou need to specify what's the queue limit you want to use. *(Default: 350)*",
       "success": "%1$sThe queue limit on this server is now **%2$d** songs.",
       "invalid": "%1$sYou're trying to set too high of a number (which won't be applied anyway), silly"
     },
@@ -1339,12 +1366,14 @@
       "success": "%1$sLocally un-blacklisted users: **%2$s**"
     },
     "logs_enable": {
+      "no_channel": "%1$sYou need to specify which channel to use as the log channel.",
       "success": "%1$sMessage logging has been enabled with parameters -> `Channel #%2$s (%3$s)`"
     },
     "logs_disable": {
       "success": "%1$sMessage logging has been disabled."
     },
     "logs_exclude": {
+      "no_args": "%1$sYou need to specify which channel to exclude, or `clearchannels` to clear all exceptions, or `remove` to remove a single channel from the exception list.",
       "clearchannels": {
         "success": "%1$sCleared log exceptions!"
       },
@@ -1369,16 +1398,20 @@
       "success": "%1$sSet link protection to `%2$s`"
     },
     "linkprotection_channel_allow": {
+      "no_channel": "%1$sYou need to specify what channel you want to exclude from the invite checker.",
       "success": "%1$s%2$s can now be used to send discord invites."
     },
     "linkprotection_channel_disallow": {
+      "no_channel": "%1$sYou need to specify what channel you want to include on the invite checker. (All channels included by default)",
       "success": "%1$s%2$s cannot longer be used to send discord invites."
     },
-    "linkprotection_user_all|ow": {
+    "linkprotection_user_allow": {
+      "no_channel": "%1$sYou need to specify what user you want to exclude from the invite checker.",
       "no_mentions": "%1$sYou need to mention the user to whitelist from posting invites!",
       "success": "%1$sSuccessfully whitelisted %2$s#%3$s from posting discord invites."
     },
     "linkprotection_user_disallow": {
+      "no_channel": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
       "no_mentions": "%1$sYou need to mention the user to blacklist from posting invites!",
       "not_whitelisted": "%1$sThis user isn't in the invite posting whitelist!",
       "success": "%1$sSuccessfully blacklisted %s#%s from posting discord invites."
@@ -1392,6 +1425,7 @@
       "success": "%1$sSuccessfully un-blacklisted %2$s from image search."
     },
     "birthday_enable": {
+      "no_args": "%1$sYou need to specify the channel name and the role name.",
       "public_role": "%1$sYou cannot set the everyone role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
       "autorole": "%1$sYou cannot set the autorole role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
       "warning": "%sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
@@ -1406,6 +1440,7 @@
       "success": "%1$sBirthday logging has been disabled on this server"
     },
     "prefix_set": {
+      "no_prefix": "%1$sYou need to tell me what prefix you want to use.",
       "too_long": "%1$sDon't you think that's a bit too long?",
       "empty_prefix": "%1$sCannot set the guild prefix to nothing...",
       "success": "%1$sYour server's custom prefix has been set to %2$s"
@@ -1414,6 +1449,7 @@
       "success": "%1$sYour server's custom prefix has been disabled"
     },
     "autorole_set": {
+      "no_role": "%1$sYou didn't tell me what role to look for!",
       "no_role_found": "%1$sI couldn't find a role with that name. If the role has spaces, try wrapping it in quotes.",
       "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as autorole!",
       "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as autorole!",
@@ -1426,36 +1462,43 @@
       "success": "%1$sSucessfully reset the join/leave channel."
     },
     "usermessage_resetdata": {
-      "success": "%1$sSucessfully reset the join/leave message."
+      "success": "%1$sSucessfully reset the join/leave data."
     },
     "usermessage_join_channel": {
+      "no_channel": "%1$sYou need to specify what channel you want me to send the join message.",
       "success": "%1$sThe user join log channel is now set to: %2$s"
     },
     "usermessage_join_resetchannel": {
       "success": "%1$sSuccessfully reset log join channel!"
     },
     "usermessage_leave_channel": {
+      "no_channel": "%1$sYou need to specify what channel you want me to send the leave message.",
       "success": "%1$sThe user leave log channel is now set to: %s"
     },
     "usermessage_leave_resetchannel": {
       "success": "%1$sSuccessfully reset log leave channel!"
     },
     "usermessage_channel": {
+      "no_channel": "%1$sYou need to specify what channel you want me to send the join and leave messages.",
       "success": "%1$sThe logging Join/Leave channel is set to: %2$s"
     },
     "usermessage_joinmessage": {
+      "no_message": "%1$sYou need to specify what message you want me to say when someone joins!",
       "success": "%1$sServer join message set to: %2$s"
     },
     "usermessage_leavemessage": {
+      "no_message": "%1$sYou need to specify what message you want me to say when someone leaves!",
       "success": "%1$sServer leave message set to: %2$s"
     },
     "autoroles_add": {
+      "no_args": "%1$sYou need to specify the name of the iam and the name of the role.",
       "no_role_found": "%1$sI didn't find a role with that name!",
       "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!",
       "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as an auto-assignable role!",
       "success": "%1$sAdded auto-assignable role **%2$s**, which gives the role **%3$s**"
     },
     "autoroles_remove": {
+      "no_args": "%1$sYou need to specify the name of the iam you want to remove.",
       "not_found": "%1$sI couldn't find an auto-assignable role with that name",
       "success": "%1$sRemoved auto-assignable role %2$s"
     },
@@ -1463,8 +1506,10 @@
       "success": "%1$sCleared all auto-assignable roles!"
     },
     "admincustom": {
+      "no_args": "%1$sYou need to specify if you want it to be true or false (true to lock CC creation to Admins/Bot Commander only)",
       "admin_only": "Custom command creation is now admin only.",
-      "everyone": "Custom command creation can now be done by anyone."
+      "everyone": "Custom command creation can now be done by anyone.",
+      "not_bool": "%1$sSilly, that's not a boolean value (true or false)!"
     },
     "timedisplay_set": {
       "mode_not_specified": "%1$sYou need to specify a mode (12h or 24h)",
@@ -1478,6 +1523,7 @@
       "success": "%1$sDisabled role %2$s from executing commands."
     },
     "server_role_allow": {
+      "no_name": "%1$sYou need to specify the name of the role you want to allow (has to be disallowed already for this to do anything, since allow is default)!",
       "not_disabled": "%1$sThis role isn't disabled!",
       "success": "%1$sAllowed role %2$s to execute commands."
     },
@@ -1491,15 +1537,18 @@
       "success": "%1$sSet level up messages to: **%2$s**"
     },
     "levelupmessages_message_set": {
+      "no_message": "%1$sYou need to specify the message you want to show on user level-up. *Tip: The username of the person is done using the $(user) argument on the message*",
       "success": "%1$sServer level-up message set to: %2$s"
     },
     "levelupmessages_message_clear": {
       "success": "%1$sCleared level-up message!"
     },
     "levelupmessages_channel_set": {
+      "no_channel": "%1$sYou need to specify a channel to show level-up messages!",
       "success": "%1$sThe level-up channel has been set to: %2$s"
     },
     "birthday_message_set": {
+      "no_message": "%1$sYou need to specify the message you want to show on birthday. *Tip: The username of the person is done using the $(user) argument on the message*",
       "success": "%1$sServer birthday message set to: %2$s"
     },
     "birthday_message_clear": {
@@ -1519,6 +1568,7 @@
       "success": "%1$sCorrectly reset the mute role."
     },
     "muterole_set": {
+      "no_role": "%1$sYou need to specify the role you want to use as the mute role. If the name has spaces try wrapping it in quotes.",
       "success": "%1$sSet mute role to **%2$s**"
     },
     "reset:all": {
@@ -1533,9 +1583,11 @@
       "error": "%1$sOw... There was an error while sending the message on channel %1$s for user **%2$s** and role %3$s"
     },
     "usermessage_joinmessage_add": {
+      "no_message": "%1$sYou need to specify what extra message you want me to say when someone joins!",
       "success": "%1$sAdded `%2$s` to the extra join messages successfully."
     },
     "usermessage_joinmessage_remove": {
+      "no_message": "%1$sYou need to specify the index of the message you want to remove!",
       "success": "%1$sRemoved `%2$s (index %3$d)` from the extra join messages successfully."
     },
     "usermessage_joinmessage_clear": {
@@ -1546,9 +1598,11 @@
       "no_extras": "%1$sThere isn't any extra join messages here..."
     },
     "usermessage_leavemessage_add": {
+      "no_message": "%1$sYou need to specify what extra message you want me to say when someone leaves!",
       "success": "%1$sAdded `%2$s` to the extra leave messages successfully."
     },
     "usermessage_leavemessage_remove": {
+      "no_message": "%1$sYou need to specify the index of the message you want to remove!",
       "success": "%1$sRemoved `%2$s (index %3$d)` from the extra leave messages successfully."
     },
     "usermessage_leavemessage_clear": {

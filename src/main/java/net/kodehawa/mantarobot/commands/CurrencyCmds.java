@@ -220,6 +220,11 @@ public class CurrencyCmds {
         marketCommand.addSubCommand("dump", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.no_item"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 String[] args = content.split(" ");
                 String itemName = content;
                 int itemNumber = 1;
@@ -230,9 +235,6 @@ public class CurrencyCmds {
                         itemName = itemName.replace(args[0], "").trim();
                     } catch (NumberFormatException e) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.invalid"), EmoteReference.ERROR).queue();
-                        return;
-                    } catch (Exception e) {
-                        onHelp(event);
                         return;
                     }
                 }
@@ -294,6 +296,11 @@ public class CurrencyCmds {
         marketCommand.addSubCommand("sell", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.no_item_amount"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 Player player = MantaroData.db().getPlayer(event.getMember());
                 String[] args = content.split(" ");
                 String itemName = content;
@@ -305,9 +312,6 @@ public class CurrencyCmds {
                         itemName = itemName.replace(args[0], "").trim();
                     } catch (NumberFormatException e) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.invalid"), EmoteReference.ERROR).queue();
-                        return;
-                    } catch (Exception e) {
-                        onHelp(event);
                         return;
                     }
                 }
@@ -388,6 +392,11 @@ public class CurrencyCmds {
         marketCommand.addSubCommand("buy", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.no_item_amount"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 Player player = MantaroData.db().getPlayer(event.getMember());
                 String[] args = content.split(" ");
                 String itemName = content;
@@ -397,13 +406,9 @@ public class CurrencyCmds {
                     try {
                         itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
                         itemName = itemName.replace(args[0], "").trim();
-                    } catch (Exception e) {
-                        if (e instanceof NumberFormatException) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.invalid"), EmoteReference.ERROR).queue();
-                        } else {
-                            onHelp(event);
-                            return;
-                        }
+                    } catch (NumberFormatException e) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.invalid"), EmoteReference.ERROR).queue();
+                        return;
                     }
                 }
 
@@ -454,7 +459,7 @@ public class CurrencyCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length < 2) {
-                    onError(event);
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.no_item_mention"), EmoteReference.ERROR).queue();
                     return;
                 }
 

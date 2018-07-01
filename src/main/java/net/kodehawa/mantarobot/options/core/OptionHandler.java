@@ -56,8 +56,4 @@ public abstract class OptionHandler {
                                   TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> code) {
         Option.addOption(name, new Option(displayName, description, type).setActionLang(code).setShortDescription(shortDescription));
     }
-
-    public void onHelp(GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage(optsCmd.help(event)).queue();
-    }
 }

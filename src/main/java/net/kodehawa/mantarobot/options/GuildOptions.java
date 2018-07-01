@@ -59,7 +59,11 @@ public class GuildOptions extends OptionHandler {
         registerOption("language:set", "Sets the language of this guild", "Sets the language of this guild. Languages use a language code (example en_US or de_DE).\n" +
                 "**Example:** `~>opts language set es_CL`", "Sets the language of this guild", ((event, args) -> {
             if(args.length < 1) {
-                OptsCmd.onHelp(event);
+                event.getChannel().sendMessageFormat(
+                        "%1$sYou need to specify the display language that you want the bot to use on this server. (To see avaliable lang codes, use `~>lang`)",
+                        EmoteReference.ERROR
+                ).queue();
+
                 return;
             }
 
@@ -132,7 +136,7 @@ public class GuildOptions extends OptionHandler {
                         "**Example:** `~>opts birthday enable general Birthday`, `~>opts birthday enable general \"Happy Birthday\"`",
                 "Enables birthday monitoring.", (event, args, lang) -> {
                     if (args.length < 2) {
-                        OptsCmd.onHelp(event);
+                        event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.no_args"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -186,13 +190,11 @@ public class GuildOptions extends OptionHandler {
                             return Operation.IGNORED;
                         });
 
+                    } catch (IndexOutOfBoundsException ex1) {
+                        event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.error_channel_1") + "\n" + lang.get("options.birthday_enable.error_channel_2"),
+                                EmoteReference.ERROR
+                        ).queue();
                     } catch (Exception ex) {
-                        if (ex instanceof IndexOutOfBoundsException) {
-                            event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.error_channel_1") + "\n" + lang.get("options.birthday_enable.error_channel_2"),
-                                    EmoteReference.ERROR
-                            ).queue();
-                            return;
-                        }
                         event.getChannel().sendMessage(lang.get("general.invalid_syntax")).queue();
                         OptsCmd.onHelp(event);
                     }
@@ -215,7 +217,7 @@ public class GuildOptions extends OptionHandler {
                         "**Example:** `~>opts prefix set .`",
                 "Sets the server prefix.", (event, args, lang) -> {
                     if (args.length < 1) {
-                        onHelp(event);
+                        event.getChannel().sendMessageFormat(lang.get("options.prefix_set.no_prefix"), EmoteReference.ERROR).queue();
                         return;
                     }
                     String prefix = args[0];
@@ -257,7 +259,7 @@ public class GuildOptions extends OptionHandler {
                         "**Example:** `~>opts autorole set Member`, `~>opts autorole set \"Magic Role\"`",
                 "Sets the server autorole.", (event, args, lang) -> {
                     if (args.length == 0) {
-                        onHelp(event);
+                        event.getChannel().sendMessageFormat(lang.get("options.autorole_set.no_role"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -337,7 +339,7 @@ public class GuildOptions extends OptionHandler {
                 "**Example:** `~>opts usermessage join channel join-magic`\n" +
                 "You can reset it by doing `~>opts usermessage join resetchannel`", "Sets the join message channel", (event, args, lang) -> {
             if (args.length == 0) {
-                onHelp(event);
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_join_channel.no_channel"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -369,7 +371,7 @@ public class GuildOptions extends OptionHandler {
                 "**Example:** `~>opts usermessage leave channel leave-magic`\n" +
                 "You can reset it by doing `~>opts usermessage leave resetchannel`", "Sets the leave message channel", (event, args, lang) -> {
             if (args.length == 0) {
-                onHelp(event);
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_leave_channel.no_channel"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -404,7 +406,7 @@ public class GuildOptions extends OptionHandler {
                         "Warning: if you set this, you cannot set individual join/leave channels unless you reset the channel.",
                 "Sets the join/leave message channel.", (event, args, lang) -> {
                     if (args.length == 0) {
-                        onHelp(event);
+                        event.getChannel().sendMessageFormat(lang.get("options.usermessage_channel.no_channel"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -431,7 +433,7 @@ public class GuildOptions extends OptionHandler {
                         "**Example:** `~>opts usermessage joinmessage Welcome $(event.user.name) to the $(event.guild.name) server! Hope you have a great time`",
                 "Sets the join message.", (event, args, lang) -> {
                     if (args.length == 0) {
-                        onHelp(event);
+                        event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage.no_message"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -450,7 +452,7 @@ public class GuildOptions extends OptionHandler {
                         "**Example:** `~>opts usermessage leavemessage Sad to see you depart, $(event.user.name)`",
                 "Sets the leave message.", (event, args, lang) -> {
                     if (args.length == 0) {
-                        onHelp(event);
+                        event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage.no_message"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -466,7 +468,7 @@ public class GuildOptions extends OptionHandler {
         registerOption("usermessage:joinmessages:add", "Join Message extra messages add", "Adds a new join message\n" +
                 "**Example**: `~>opts usermessage joinmessages add hi`" , "Adds a new join message", ((event, args, lang) -> {
             if (args.length == 0) {
-                onHelp(event);
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessages_add.no_message"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -483,7 +485,7 @@ public class GuildOptions extends OptionHandler {
         registerOption("usermessage:joinmessages:remove", "Join Message extra messages remove", "Removes a join message\n" +
                 "**Example**: `~>opts usermessage joinmessages remove 0`" , "Removes a join message", ((event, args, lang) -> {
             if (args.length == 0) {
-                onHelp(event);
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessages_remove.no_message"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -552,7 +554,7 @@ public class GuildOptions extends OptionHandler {
         registerOption("usermessage:leavemessages:add", "Leave Message extra messages add", "Adds a new leave message\n" +
                 "**Example**: `~>opts usermessage leavemessages add hi`" , "Adds a new leave message", ((event, args, lang) -> {
             if (args.length == 0) {
-                onHelp(event);
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessages_add.no_message"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -569,7 +571,7 @@ public class GuildOptions extends OptionHandler {
         registerOption("usermessage:leavemessages:remove", "Leave Message extra messages remove", "Removes a leave message\n" +
                 "**Example**: `~>opts usermessage leavemessages remove 0`" , "Removes a leave message", ((event, args, lang) -> {
             if (args.length == 0) {
-                onHelp(event);
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessages_remove.no_message"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -644,7 +646,7 @@ public class GuildOptions extends OptionHandler {
                         "**Example:** `~>opts autoroles add member Member`, `~>opts autoroles add wew \"A role with spaces on its name\"`",
                 "Adds an auto-assignable role to the iam lists.", (event, args, lang) -> {
                     if (args.length < 2) {
-                        onHelp(event);
+                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.no_args"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -701,7 +703,7 @@ public class GuildOptions extends OptionHandler {
                         "**Example:** `~>opts autoroles remove iamname`",
                 "Removes an auto-assignable role from iam.", (event, args, lang) -> {
                     if (args.length == 0) {
-                        onHelp(event);
+                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.no_args"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -734,7 +736,7 @@ public class GuildOptions extends OptionHandler {
                         "Example: `~>opts admincustom true`",
                 "Locks custom commands to admin-only.", (event, args, lang) -> {
                     if (args.length == 0) {
-                        OptsCmd.onHelp(event);
+                        event.getChannel().sendMessageFormat(lang.get("options.admincustom.no_args"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -748,7 +750,7 @@ public class GuildOptions extends OptionHandler {
                         String toSend = String.format("%s%s", EmoteReference.CORRECT, Boolean.parseBoolean(action) ? lang.get("options.admincustom.admin_only") : lang.get("options.admincustom.everyone"));
                         event.getChannel().sendMessage(toSend).queue();
                     } catch (Exception ex) {
-                        event.getChannel().sendMessageFormat("%sSilly, that's not a boolean value!", EmoteReference.ERROR).queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.admincustom.not_bool"), EmoteReference.ERROR).queue();
                     }
                 });
         //endregion
@@ -803,7 +805,7 @@ public class GuildOptions extends OptionHandler {
 
                     Role role = Utils.findRoleSelect(event, roleName, consumer);
 
-                    if(role.isPublicRole()) {
+                    if(role != null && role.isPublicRole()) {
                         event.getChannel().sendMessageFormat(lang.get("options.server_role_disallow.public_role"), EmoteReference.ERROR).queue();
                         return;
                     }
@@ -818,7 +820,7 @@ public class GuildOptions extends OptionHandler {
                         "Example: `~>opts server role allow bad`, `~>opts server role allow \"No commands\"`",
                 "Allows all users with a role from executing commands (Has to be already disabled)", (event, args, lang) -> {
                     if (args.length == 0) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the name of the role!").queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.server_role_allow.no_name"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -880,7 +882,7 @@ public class GuildOptions extends OptionHandler {
         registerOption("levelupmessages:message:set", "Level-up message", "Sets the message to display on level up",
                 "Sets the level up message", (event, args, lang) -> {
                     if (args.length == 0) {
-                        onHelp(event);
+                        event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_set.no_message"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -908,7 +910,7 @@ public class GuildOptions extends OptionHandler {
                 "Sets the channel to display level up messages", "Sets the channel to display level up messages",
                 (event, args, lang) -> {
                     if (args.length == 0) {
-                        onHelp(event);
+                        event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_channel_set.no_channel"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -932,7 +934,7 @@ public class GuildOptions extends OptionHandler {
         registerOption("birthday:message:set", "Birthday message", "Sets the message to display on a new birthday",
                 "Sets the birthday message", (event, args, lang) -> {
                     if (args.length == 0) {
-                        onHelp(event);
+                        event.getChannel().sendMessageFormat(lang.get("options.birthday_message_set.no_message"), EmoteReference.ERROR).queue();
                         return;
                     }
 
