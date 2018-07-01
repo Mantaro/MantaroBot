@@ -123,13 +123,13 @@ public class LeaderboardCmd {
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.gamble"), EmoteReference.MONEY),"commands.leaderboard.gamble", c,
                         map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
-                                map.get("gambleWins").toString()), "%s**%s#%s** - $%,d")
+                                map.get("gambleWins").toString()), "%s**%s#%s** - %,d")
                         .build()
                 ).queue();
             }
         });
 
-        leaderboards.addSubCommand("gamble", new SubCommand() {
+        leaderboards.addSubCommand("slots", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Map> c = getLeaderboard("playerstats", "slotsWins",
@@ -139,7 +139,7 @@ public class LeaderboardCmd {
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.slots"), EmoteReference.MONEY),"commands.leaderboard.slots", c,
                         map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
-                                map.get("slotsWins").toString()), "%s**%s#%s** - $%,d")
+                                map.get("slotsWins").toString()), "%s**%s#%s** - %,d")
                         .build()
                 ).queue();
             }
