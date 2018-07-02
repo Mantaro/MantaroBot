@@ -662,7 +662,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                long amountTransfer = Math.round(toSend * 0.95);
+                long amountTransfer = Math.round(toSend * 0.90);
 
                 if(toTransfer.addMoney(amountTransfer)) {
                     transferPlayer.removeMoney(toSend);

@@ -552,7 +552,7 @@
       "no_money_notice": "%1$sDu kannst Geld, das du nicht hast, nicht versenden.",
       "receipt_locked_notice": "1$sDieser Nutzer kann jetzt kein Geld erhalten.",
       "receipt_over_limit": "%1$sDieser Nutzer hat bereits zu viel Geld...",
-      "success": "%1$sEs wurden **%2$d** *(%3$s nach 5% Steuern)* an *%4$s* erfolgreich überwiesen.",
+      "success": "%1$sEs wurden **%2$d** *(%3$s nach 10% Steuern)* an *%4$s* erfolgreich überwiesen.",
       "item_transfer": "%1$sDu kannst Gegenstände nicht mit transfer verschicken, benutze stattdessen den transferitems Befehl.",
       "party": "Du kannst nur einmal alle 5 Minuten an eine Person (%1$s) überweisen."
     },

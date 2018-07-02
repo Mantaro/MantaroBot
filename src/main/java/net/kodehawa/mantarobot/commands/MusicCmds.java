@@ -497,9 +497,7 @@ public class MusicCmds {
 
                     if(isDJ(event.getMember())) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.queue.header"), EmoteReference.CORRECT).queue();
-
                         int TEMP_QUEUE_LENGTH = musicManager.getTrackScheduler().getQueue().size();
-
                         MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
 
                         event.getChannel().sendMessageFormat(languageContext.get("commands.queue.success"), EmoteReference.CORRECT, TEMP_QUEUE_LENGTH).queue();
@@ -543,11 +541,9 @@ public class MusicCmds {
                 MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler()
                         .getQueueAsList(list -> {
                             TIntHashSet selected = new TIntHashSet();
-
                             String last = Integer.toString(list.size() - 1);
 
                             for(String param : args) {
-
                                 String arg = replaceEach(
                                         param,
                                         new String[]{"first", "next", "last", "all"},
@@ -646,24 +642,25 @@ public class MusicCmds {
                 }
 
                 GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
+                final TrackScheduler trackScheduler = musicManager.getTrackScheduler();
 
                 if(args.length == 0) {
-                    if(musicManager.getTrackScheduler().getRepeatMode() == TrackScheduler.Repeat.SONG) {
-                        musicManager.getTrackScheduler().setRepeatMode(null);
+                    if(trackScheduler.getRepeatMode() == TrackScheduler.Repeat.SONG) {
+                        trackScheduler.setRepeatMode(null);
                         event.getChannel().sendMessageFormat(languageContext.get("commands.repeat.song_cancel"), EmoteReference.CORRECT).queue();
                     } else {
-                        musicManager.getTrackScheduler().setRepeatMode(TrackScheduler.Repeat.SONG);
+                        trackScheduler.setRepeatMode(TrackScheduler.Repeat.SONG);
                         event.getChannel().sendMessageFormat(languageContext.get("commands.repeat.song_repeat"), EmoteReference.CORRECT).queue();
                     }
 
                     TextChannelGround.of(event).dropItemWithChance(0, 10);
                 } else {
                     if(args[0].equalsIgnoreCase("queue")) {
-                        if(musicManager.getTrackScheduler().getRepeatMode() == TrackScheduler.Repeat.QUEUE) {
-                            musicManager.getTrackScheduler().setRepeatMode(null);
+                        if(trackScheduler.getRepeatMode() == TrackScheduler.Repeat.QUEUE) {
+                            trackScheduler.setRepeatMode(null);
                             event.getChannel().sendMessageFormat(languageContext.get("commands.repeat.queue_cancel"), EmoteReference.CORRECT).queue();
                         } else {
-                            musicManager.getTrackScheduler().setRepeatMode(TrackScheduler.Repeat.QUEUE);
+                            trackScheduler.setRepeatMode(TrackScheduler.Repeat.QUEUE);
                             event.getChannel().sendMessageFormat(languageContext.get("commands.repeat.queue_repeat"), EmoteReference.CORRECT).queue();
                         }
 
