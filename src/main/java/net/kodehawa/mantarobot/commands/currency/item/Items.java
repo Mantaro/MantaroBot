@@ -45,7 +45,7 @@ public class Items {
             BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
             NECKLACE, ROSE,
             DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN, POTION_STAMINA, FISHING_ROD,
-            FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE, TELEVISION, WRENCH;
+            FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE, TELEVISION, WRENCH, MOTORCYCLE;
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 25    );
@@ -123,6 +123,8 @@ public class Items {
             DIAMOND_PICKAXE = new Item(ItemType.CAST, "\u2692\ufe0f","Diamond Pickaxe", "A very much stronger pick. (`~>mine` tool)", 450, true, false, "1;2", 10, 18),
             TELEVISION = new Item(ItemType.COMMON, "\uD83D\uDCFA","Television", "Must... watch... TV...", 45, true),
             WRENCH = new Item(ItemType.COMMON, "\ud83d\udd27","Wrench", "Casting tool. Useful to put stuff together.", 50, true),
+            //car is 1000 credits, so this is 350
+            MOTORCYCLE = new Item(ItemType.COMMON, "\uD83C\uDFCD","Motorcycle", "Going around, the cool way.", 350, true),
     };
 
 
