@@ -598,20 +598,8 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rl, event.getAuthor(), event)) return;
-
-                String partyKey = event.getAuthor().getId() + ":" + giveTo.getId();
-                if(!partyRateLimiter.process(partyKey)) {
-                    event.getChannel().sendMessage(
-                            EmoteReference.STOPWATCH +
-                                    String.format(languageContext.get("commands.transfer.party"), giveTo.getId()) + " (Ratelimited)" +
-                                    "\n **You'll be able to transfer to this user again in " + Utils.getHumanizedTime(partyRateLimiter.tryAgainIn(partyKey))
-                                    + ".**"
-                    ).queue();
-
-                    MantaroBot.getInstance().getStatsClient().increment("ratelimits");
+                if(!handleDefaultRatelimit(rl, event.getAuthor(), event))
                     return;
-                }
 
                 long toSend; // = 0 at the start
 
@@ -657,8 +645,21 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(toTransfer.getMoney() > (long) TRANSFER_LIMIT * 20) {
+                if(toTransfer.getMoney() > (long) TRANSFER_LIMIT * 18) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.receipt_over_limit"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                String partyKey = event.getAuthor().getId() + ":" + giveTo.getId();
+                if(!partyRateLimiter.process(partyKey)) {
+                    event.getChannel().sendMessage(
+                            EmoteReference.STOPWATCH +
+                                    String.format(languageContext.get("commands.transfer.party"), giveTo.getName()) + " (Ratelimited)" +
+                                    "\n **You'll be able to transfer to this user again in " + Utils.getHumanizedTime(partyRateLimiter.tryAgainIn(partyKey))
+                                    + ".**"
+                    ).queue();
+
+                    MantaroBot.getInstance().getStatsClient().increment("ratelimits");
                     return;
                 }
 
@@ -669,7 +670,8 @@ public class CurrencyCmds {
                     transferPlayer.saveAsync();
 
                     event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.success"), EmoteReference.CORRECT, toSend, amountTransfer,
-                            event.getMessage().getMentionedUsers().get(0).getName()).queue();
+                            event.getMessage().getMentionedUsers().get(0).getName()
+                    ).queue();
 
                     toTransfer.saveAsync();
                     rl.process(toTransfer.getUserId());

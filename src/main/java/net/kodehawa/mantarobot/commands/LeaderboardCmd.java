@@ -36,6 +36,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.HashMap;
@@ -171,10 +172,10 @@ public class LeaderboardCmd {
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
-                        String.format(languageContext.get("commands.leaderboard.inner.level"), EmoteReference.ZAP),"commands.leaderboard.level", c,
+                        String.format(languageContext.get("commands.leaderboard.inner.lvl"), EmoteReference.ZAP),"commands.leaderboard.level", c,
                         map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString() +
                                 "\n -" + languageContext.get("commands.leaderboard.inner.experience")  + ":** " +
-                                ((Map)map.get("data")).get("experience") + "**"), "%s**%s#%s** - %,d")
+                                ((Map)map.get("data")).get("experience") + "**"), "%s**%s#%s** - %s")
                         .build()
                 ).queue();
             }
@@ -189,7 +190,7 @@ public class LeaderboardCmd {
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
-                        String.format(languageContext.get("commands.leaderboard.inner.reputation"), EmoteReference.REP),"commands.leaderboard.reputation", c,
+                        String.format(languageContext.get("commands.leaderboard.inner.rep"), EmoteReference.REP),"commands.leaderboard.reputation", c,
                         map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
                                 map.get("reputation").toString()), "%s**%s#%s** - %,d")
                         .build()
@@ -206,7 +207,7 @@ public class LeaderboardCmd {
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
-                        String.format(languageContext.get("commands.leaderboard.inner.daily"), EmoteReference.POPPER),"commands.leaderboard.daily", c,
+                        String.format(languageContext.get("commands.leaderboard.inner.streak"), EmoteReference.POPPER),"commands.leaderboard.daily", c,
                         map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
                                 ((HashMap)(map.get("data"))).get("dailyStrike").toString()), "%s**%s#%s** - %sx")
                         .build()
@@ -302,7 +303,9 @@ public class LeaderboardCmd {
                 .addField(languageContext.get(leaderboardKey), lb.stream()
                         .map(mapFunction)
                         .filter(p -> Objects.nonNull(p.getKey()))
-                        .map(p -> String.format(format, EmoteReference.BLUE_SMALL_MARKER, p.getKey().getName(), p.getKey().getDiscriminator(), Long.parseLong(p.getValue())))
+                        .map(p -> String.format(format, EmoteReference.BLUE_SMALL_MARKER, p.getKey().getName(),
+                                p.getKey().getDiscriminator(), StringUtils.isNumeric(p.getValue()) ? Long.parseLong(p.getValue()) : p.getValue())
+                        )
                         .collect(Collectors.joining("\n")), false)
                 .setFooter(String.format(languageContext.get("general.requested_by"), event.getAuthor().getName()), null)
                 .setThumbnail(event.getAuthor().getEffectiveAvatarUrl());

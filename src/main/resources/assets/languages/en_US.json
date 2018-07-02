@@ -563,9 +563,9 @@
       "no_money_notice": "%1$sYou cannot transfer money you don't have.",
       "receipt_locked_notice": "1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sThis user already has too much money...",
-      "success": "%1$sTransferred **%2$d** *(%3$s after 10% tax)* to *%4$s* successfully.",
+      "success": "%1$sTransferred **%2$,d** *(%3$,d after 10%% tax)* to **%4$s** successfully.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the transferitems command instead.",
-      "party": "You can only transfer to the same person (%1$s) once every 5 minutes."
+      "party": "You can only transfer to the same person (%1$s) once every 4 minutes."
     },
     "useitem": {
       "ls": {
