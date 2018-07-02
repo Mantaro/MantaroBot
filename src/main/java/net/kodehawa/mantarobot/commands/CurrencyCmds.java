@@ -903,13 +903,14 @@ public class CurrencyCmds {
                 }
 
                 player.getInventory().process(new ItemStack(castItem, 1));
-                player.save();
 
                 String message = "";
                 if(random.nextInt(100) > 75) {
                     player.getInventory().process(new ItemStack(Items.WRENCH, -1));
-                    message += languageContext.get("commands.cast.tool_broke");
+                    message += languageContext.get("commands.cast.item_broke");
                 }
+
+                player.save();
 
                 event.getChannel().sendMessageFormat(languageContext.get("commands.cast.success"),
                         EmoteReference.POPPER, castItem.getEmoji(), castItem.getName(), castCost, message
