@@ -302,6 +302,11 @@ public class MoneyCmds {
                     return;
                 }
 
+                if(i < 100) {
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.too_little"), EmoteReference.ERROR2).queue();
+                    return;
+                }
+
                 if(i > GAMBLE_MAX_MONEY) {
                     event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.too_much"), EmoteReference.ERROR2, GAMBLE_MAX_MONEY).queue();
                     return;
