@@ -44,7 +44,6 @@ import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
-import org.redisson.client.RedisException;
 
 import java.util.Optional;
 import java.util.Random;
@@ -193,10 +192,6 @@ public class CommandListener implements EventListener {
             //So much just went wrong...
             e.printStackTrace();
             SentryHelper.captureExceptionContext("Something seems to have broken in the db! Check this out!", e, this.getClass(), "Database");
-        } catch (RedisException e) {
-            //So much just went wrong but on another side of the db...
-            e.printStackTrace();
-            SentryHelper.captureExceptionContext("Something seems to have broken in the db! Check this out!", e, this.getClass(), "Redis Database");
         } catch(Exception e) {
             String id = Snow64.toSnow64(event.getMessage().getIdLong());
             Player player = MantaroData.db().getPlayer(event.getAuthor());

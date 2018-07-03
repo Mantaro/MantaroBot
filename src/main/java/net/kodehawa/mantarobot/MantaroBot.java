@@ -120,7 +120,7 @@ public class MantaroBot extends ShardedJDA {
         }
 
         core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
-        discordBotsAPI = new DiscordBotsAPI(config.dbotsorgToken);
+        discordBotsAPI = new DiscordBotsAPI.Builder().setToken(config.dbotsorgToken).build();
 
         statsClient = new NonBlockingStatsDClient(
                 config.isPremiumBot() ? "mantaro-patreon" : "mantaro",

@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.data;
 import lombok.Data;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
-import org.redisson.api.LocalCachedMapOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +55,6 @@ public class Config {
     public String rMQIP;
     public String rMQPassword;
     public String rMQUser;
-    public RedisInfo redis = new RedisInfo();
     public String remoteNode;
     public String sentryDSN;
     public int shardWatcherTimeout = 1500; //wait 1500ms for the handlers to run
@@ -89,26 +87,5 @@ public class Config {
 
     public boolean isOwner(String id) {
         return owners.contains(id);
-    }
-
-    public static class RedisInfo {
-        public CacheInfo customCommands = new CacheInfo();
-        public boolean enabled = true;
-        public CacheInfo guilds = new CacheInfo();
-        public String host = "localhost";
-        public CacheInfo players = new CacheInfo();
-        public int port = 6379;
-        public CacheInfo premiumKeys = new CacheInfo();
-        public CacheInfo users = new CacheInfo();
-        public CacheInfo marriages = new CacheInfo();
-
-        public static class CacheInfo {
-            public boolean enabled = false;
-            public LocalCachedMapOptions.EvictionPolicy evictionPolicy = LocalCachedMapOptions.EvictionPolicy.LFU;
-            public LocalCachedMapOptions.InvalidationPolicy invalidationPolicy = LocalCachedMapOptions.InvalidationPolicy.ON_CHANGE;
-            public long maxIdleMs = 180000;
-            public int maxSize = 1000;
-            public long ttlMs = 180000;
-        }
     }
 }

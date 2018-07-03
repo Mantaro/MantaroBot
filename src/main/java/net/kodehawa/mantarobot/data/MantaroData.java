@@ -16,19 +16,11 @@
 
 package net.kodehawa.mantarobot.data;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rethinkdb.net.Connection;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.redis.RedisCachedDatabase;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
-import org.redisson.Redisson;
-import org.redisson.api.LocalCachedMapOptions;
-import org.redisson.api.RMap;
-import org.redisson.api.RedissonClient;
-import org.redisson.client.codec.Codec;
-import org.redisson.codec.JsonJacksonCodec;
 import redis.clients.jedis.JedisPool;
 
 import java.util.concurrent.Callable;
@@ -43,9 +35,6 @@ public class MantaroData {
     private static GsonDataManager<Config> config;
     private static Connection conn;
     private static ManagedDatabase db;
-    private static ObjectMapper mapper = new ObjectMapper();
-    private static RedissonClient redisson;
-    private static Codec redissonCodec = new JsonJacksonCodec(mapper);
 
     @Getter
     private static JedisPool defaultJedisPool = new JedisPool("127.0.0.1", 6379);
@@ -67,50 +56,10 @@ public class MantaroData {
         return conn;
     }
 
-    public static RedissonClient redisson() {
-        if(redisson == null) {
-            synchronized(MantaroData.class) {
-                if(redisson != null) return redisson;
-                Config.RedisInfo i = config().get().redis;
-                if(i.enabled) {
-                    org.redisson.config.Config cfg = new org.redisson.config.Config();
-                    cfg.useSingleServer().setAddress("redis://" + i.host + ":" + i.port);
-                    redisson = Redisson.create(cfg);
-                    log.info("Established redis connection to {}:{}", i.host, i.port);
-                } else {
-                    throw new IllegalStateException("Redis is disabled");
-                }
-            }
-        }
-        return redisson;
-    }
-
-    public static RedisCachedDatabase redisDb() {
-        ManagedDatabase db = db();
-        if(db instanceof RedisCachedDatabase)
-            return (RedisCachedDatabase) db;
-
-        throw new IllegalStateException("Redis database is disabled");
-    }
 
     public static ManagedDatabase db() {
         if(db == null) {
-            Config.RedisInfo i = config().get().redis;
-            if(i.enabled) {
-                RedissonClient client = redisson();
-
-                db = new RedisCachedDatabase(conn(),
-                        map(client, "custom-commands", i.customCommands),
-                        map(client, "guilds", i.guilds),
-                        map(client, "players", i.players),
-                        map(client, "users", i.users),
-                        map(client, "premium-keys", i.premiumKeys),
-                        map(client, "marriages", i.marriages),
-                        client.getBucket("mantaro")
-                );
-            } else {
-                db = new ManagedDatabase(conn());
-            }
+            db = new ManagedDatabase(conn());
         }
         return db;
     }
@@ -125,18 +74,5 @@ public class MantaroData {
 
     public static void queue(Runnable runnable) {
         getExecutor().submit(runnable);
-    }
-
-    private static <K, V> RMap<K, V> map(RedissonClient client, String key, Config.RedisInfo.CacheInfo cacheInfo) {
-        if(!cacheInfo.enabled)
-            return client.getMap(key, redissonCodec);
-
-        LocalCachedMapOptions<K, V> options = LocalCachedMapOptions.<K, V>defaults()
-                .timeToLive(cacheInfo.ttlMs)
-                .maxIdle(cacheInfo.maxIdleMs)
-                .cacheSize(cacheInfo.maxSize)
-                .evictionPolicy(cacheInfo.evictionPolicy)
-                .invalidationPolicy(cacheInfo.invalidationPolicy);
-        return client.getLocalCachedMap(key, options);
     }
 }

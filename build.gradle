@@ -105,7 +105,9 @@ dependencies {
 	compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.4'
 
 	compile 'com.rethinkdb:rethinkdb-driver:2.3.3'
-	compile 'org.redisson:redisson:3.5.3' //don't update this one unless needed, it just threw deprecation warnings everywhere.
+
+	//see you in hell
+	//compile 'org.redisson:redisson:3.5.3' //don't update this one unless needed, it just threw deprecation warnings everywhere.
 	compile 'io.sentry:sentry:1.2.0'
 
 	compile 'net.jodah:expiringmap:0.5.8'
@@ -113,7 +115,7 @@ dependencies {
 
     compile fileTree(dir: 'lib', include: '*.jar')
     compile 'net.kodehawa:imageboard-api:2.0.4'
-	compile 'com.github.natanbc:discordbots-api:1.4.2'
+	compile 'com.github.natanbc:discordbots-api:3.3.3'
 
     compileOnly "org.projectlombok:lombok:1.16.20"
 	compile 'com.datadoghq:java-dogstatsd-client:2.5'

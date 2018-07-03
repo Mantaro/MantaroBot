@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.core.shard;
 import br.com.brjdevs.java.utils.async.Async;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
-import com.github.natanbc.discordbotsapi.PostingException;
 import gnu.trove.impl.unmodifiable.TUnmodifiableLongSet;
 import gnu.trove.set.TLongSet;
 import gnu.trove.set.hash.TLongHashSet;
@@ -66,7 +65,7 @@ public class ShardedMantaro {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final Carbonitex carbonitex = new Carbonitex();
     private final Config config = MantaroData.config().get();
-    private final DiscordBotsAPI discordBotsAPI = new DiscordBotsAPI(MantaroData.config().get().dbotsorgToken);
+    private final DiscordBotsAPI discordBotsAPI = new DiscordBotsAPI.Builder().setToken(MantaroData.config().get().dbotsorgToken).build();
     @Getter
     private final List<MantaroEventManager> managers = new ArrayList<>();
     private final ICommandProcessor processor;
@@ -180,7 +179,7 @@ public class ShardedMantaro {
                 try {
                     long count = MantaroBot.getInstance().getGuildCache().size();
                     int[] shards = MantaroBot.getInstance().getShardList().stream().mapToInt(shard -> (int) shard.getGuildCache().size()).toArray();
-                    discordBotsAPI.postStats(shards);
+                    discordBotsAPI.postStats(shards).execute();
                     log.debug("Updated server count ({}) for discordbots.org", count);
                 } catch(Exception ignored) {}
             }, 1, TimeUnit.HOURS);

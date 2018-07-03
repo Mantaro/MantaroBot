@@ -42,7 +42,6 @@
             <li><a href="https://github.com/sedmelluq/lavaplayer">Lavaplayer by sedmelluq</a></li>
             <li><a href="http://rethinkdb.com">RethinkDB by the RethinkDB team</a></li>
             <li><a href="https://redis.io">Redis by the redis team.</a></li>
-            <li><a href="https://github.com/redisson/redisson">Redisson by the redisson team.</a></li>
             <li>And a lot more!</li>
         </ul>
         <hr>
