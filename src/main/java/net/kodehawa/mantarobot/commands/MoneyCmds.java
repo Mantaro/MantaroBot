@@ -242,7 +242,7 @@ public class MoneyCmds {
     @Subscribe
     public void gamble(CommandRegistry cr) {
         cr.register("gamble", new SimpleCommand(Category.CURRENCY) {
-            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 20, true);
+            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 35, true);
             SecureRandom r = new SecureRandom();
 
             @Override

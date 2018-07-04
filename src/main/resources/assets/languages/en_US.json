@@ -436,7 +436,7 @@
       "stats": {
         "header": "Your waifu stats",
         "header_other": "%1$s's waifu stats",
-        "format": "%1$s **Money weight value:** %2$,d\n%1$s **Badge weight value:** %3$,d\n%1$s **Experience weight value:** %4$,d\n%1$,d **Claim weight value:** %5$,d\n%1$s **Reputation multiplier:** %6$.2fx",
+        "format": "%1$s **Money weight value:** %2$,d\n%1$s **Badge weight value:** %3$,d\n%1$s **Experience weight value:** %4$,d\n%1$s **Claim weight value:** %5$,d\n%1$s **Reputation multiplier:** %6$.2fx",
         "value": "Total waifu value",
         "credits": "%1$,d credits"
       },
