@@ -1096,8 +1096,8 @@
       "no_info": "Sin información."
     },
     "balance": {
-      "external_balance": "El balance de %1$s es **$%2$s.**",
-      "own_balance": "Tu balance es **$%1$s.**"
+      "external_balance": "El balance de %1$s es **$%2$,d créditos.**",
+      "own_balance": "Tu balance es **$%1$,d créditos.**"
     },
     "daily": {
       "check": "%1$sPodrás acumular tus créditos diarios en: **%2$s.**",

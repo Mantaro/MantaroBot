@@ -1145,8 +1145,8 @@
       "no_info": "No info."
     },
     "balance": {
-      "external_balance": "%1$s's balance is **$%2$s.**",
-      "own_balance": "Your balance is **$%1$s.**"
+      "external_balance": "%1$s's balance is **$%2$.d credits.**",
+      "own_balance": "Your balance is **$%1$,d credits.**"
     },
     "daily": {
       "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",

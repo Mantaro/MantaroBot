@@ -248,8 +248,6 @@ public class MoneyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Player player = MantaroData.db().getPlayer(event.getMember());
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
-                    return;
 
                 if(player.getMoney() <= 0) {
                     event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.no_credits"), EmoteReference.SAD).queue();
@@ -260,6 +258,9 @@ public class MoneyCmds {
                     event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.too_much_credits"), EmoteReference.ERROR2, GAMBLE_ABSOLUTE_MAX_MONEY).queue();
                     return;
                 }
+
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                    return;
 
                 double multiplier;
                 long i;
@@ -786,6 +787,6 @@ public class MoneyCmds {
 
         player.setLocked(false);
         player.saveAsync();
-        stats.save();
+        stats.saveAsync();
     }
 }

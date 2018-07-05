@@ -49,7 +49,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
-import java.awt.Color;
+import java.awt.*;
 import java.security.SecureRandom;
 import java.text.ParsePosition;
 import java.util.*;
@@ -697,7 +697,6 @@ public class CurrencyCmds {
 
     @Subscribe
     public void lootcrate(CommandRegistry registry) {
-        final RateLimiter ratelimiter = new RateLimiter(TimeUnit.MINUTES, 15);
         registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
@@ -707,9 +706,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(!Utils.handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
-                    return;
-
+                //Ratelimit handled here
                 Items.LOOT_CRATE.getAction().test(event, languageContext);
             }
 

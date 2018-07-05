@@ -48,7 +48,7 @@ public class Items {
             FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE, TELEVISION, WRENCH, MOTORCYCLE;
 
     private static final Random r = new Random();
-    private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 25    );
+    private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 15);
 
     public static final Item[] ALL = {
             HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music. Should be worth something, tho.", 5, true, false),
@@ -342,8 +342,10 @@ public class Items {
 
                 inventory.process(new ItemStack(Items.LOOT_CRATE_KEY, -1));
                 inventory.process(new ItemStack(Items.LOOT_CRATE, -1));
+
                 player.getData().addBadgeIfAbsent(Badge.THE_SECRET);
                 player.save();
+
                 openLootBox(event, true, lang);
                 return true;
             } else {
