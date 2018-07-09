@@ -33,6 +33,7 @@
       "claim_key": "You cannot transfer a claim key."
     },
     "misc_item_usage": {
+      "mop": "%1$sCleaned all the dust on your room. Yay.",
       "milk": "%1$sCleared potion effects.",
       "stamina": "%1$sActivated stamina for 5 mining sessions.",
       "haste": "%1$sActivated Haste for 2 minutes.",

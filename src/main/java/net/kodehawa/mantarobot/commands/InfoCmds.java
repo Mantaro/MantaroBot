@@ -58,8 +58,6 @@ import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
-import static net.kodehawa.mantarobot.commands.info.stats.StatsHelper.calculateDouble;
-import static net.kodehawa.mantarobot.commands.info.stats.StatsHelper.calculateInt;
 import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
 
 @Module
@@ -407,51 +405,7 @@ public class InfoCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        event.getChannel().sendMessage(EmoteReference.MEGA + "**[Stats]** Y-Yeah... gathering them, hold on for a bit...").queue(message -> {
-                            GuildStatsManager.MILESTONE = (((int) (MantaroBot.getInstance().getGuildCache().size() + 99) / 100) * 100) + 100;
-                            List<Guild> guilds = MantaroBot.getInstance().getGuilds();
-
-                            List<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannels();
-                            List<VoiceChannel> musicChannels = voiceChannels.parallelStream().filter(vc -> vc.getMembers().contains(vc.getGuild().getSelfMember())).collect(Collectors.toList());
-
-                            IntSummaryStatistics usersPerGuild = calculateInt(guilds, value -> value.getMembers().size());
-                            IntSummaryStatistics onlineUsersPerGuild = calculateInt(guilds, value -> (int) value.getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count());
-                            DoubleSummaryStatistics onlineUsersPerUserPerGuild = calculateDouble(guilds, value -> (double) value.getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() / (double) value.getMembers().size() * 100);
-                            DoubleSummaryStatistics listeningUsersPerUsersPerGuilds = calculateDouble(musicChannels, value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().size() * 100);
-                            DoubleSummaryStatistics listeningUsersPerOnlineUsersPerGuilds = calculateDouble(musicChannels, value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() * 100);
-                            IntSummaryStatistics textChannelsPerGuild = calculateInt(guilds, value -> value.getTextChannels().size());
-                            IntSummaryStatistics voiceChannelsPerGuild = calculateInt(guilds, value -> value.getVoiceChannels().size());
-
-                            int musicConnections = (int) voiceChannels.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
-                                    voiceChannel.getGuild().getSelfMember())).count();
-                            long exclusiveness = MantaroBot.getInstance().getGuildCache().stream().filter(g -> g.getMembers().stream().filter(member -> member.getUser().isBot()).count() == 1).count();
-                            double musicConnectionsPerServer = (double) musicConnections / (double) guilds.size() * 100;
-                            double exclusivenessPercent = (double) exclusiveness / (double) guilds.size() * 100;
-                            long bigGuilds = MantaroBot.getInstance().getGuildCache().stream().filter(g -> g.getMembers().size() > 500).count();
-                            message.editMessage(
-                                    new EmbedBuilder()
-                                            .setColor(Color.PINK)
-                                            .setAuthor(languageContext.get("commands.stats.header"), "https://github.com/Kodehawa/MantaroBot/", event.getJDA().getSelfUser().getAvatarUrl())
-                                            .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                                            .setDescription(languageContext.get("commands.stats.description"))
-                                            .addField(languageContext.get("commands.stats.user_guild"), String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", usersPerGuild.getMin(), usersPerGuild.getAverage(), usersPerGuild.getMax()), true)
-                                            .addField(languageContext.get("commands.stats.online_user_guild"), String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", onlineUsersPerGuild.getMin(), onlineUsersPerGuild.getAverage(), onlineUsersPerGuild.getMax()), true)
-                                            .addField(languageContext.get("commands.stats.online_users_users_guild"), String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", onlineUsersPerUserPerGuild.getMin(), onlineUsersPerUserPerGuild.getAverage(), onlineUsersPerUserPerGuild.getMax()), true)
-                                            .addField(languageContext.get("commands.stats.tc_server"), String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", textChannelsPerGuild.getMin(), textChannelsPerGuild.getAverage(), textChannelsPerGuild.getMax()), true)
-                                            .addField(languageContext.get("commands.stats.vc_server"), String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", voiceChannelsPerGuild.getMin(), voiceChannelsPerGuild.getAverage(), voiceChannelsPerGuild.getMax()), true)
-                                            .addField(languageContext.get("commands.stats.music_user_server"), String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerUsersPerGuilds.getMin(), listeningUsersPerUsersPerGuilds.getAverage(), listeningUsersPerUsersPerGuilds.getMax()), true)
-                                            .addField(languageContext.get("commands.stats.music_online_user_server"), String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerOnlineUsersPerGuilds.getMin(), listeningUsersPerOnlineUsersPerGuilds.getAverage(), listeningUsersPerOnlineUsersPerGuilds.getMax()), true)
-                                            .addField(languageContext.get("commands.stats.music_server"), String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", musicConnectionsPerServer, musicConnections), true)
-                                            .addField(languageContext.get("commands.stats.queue_size"), Long.toString(MantaroBot.getInstance().getAudioManager().getTotalQueueSize()), true)
-                                            .addField(languageContext.get("commands.stats.commands"), String.valueOf(DefaultCommandProcessor.REGISTRY.commands().size()), true)
-                                            .addField(languageContext.get("commands.stats.exclusiveness"), Math.round(exclusivenessPercent) + "% (" + exclusiveness + ")", false)
-                                            .addField(languageContext.get("commands.stats.big_servers"), String.valueOf(bigGuilds), true)
-                                            .setFooter(String.format(languageContext.get("commands.stats.milestone"), GuildStatsManager.MILESTONE, (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuildCache().size()))
-                                                    , event.getJDA().getSelfUser().getAvatarUrl())
-                                            .build()
-                            ).override(true).queue();
-                            TextChannelGround.of(event).dropItemWithChance(4, 5);
-                        });
+                        onHelp(event);
                     }
                 };
             }

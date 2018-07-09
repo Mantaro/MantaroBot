@@ -115,7 +115,7 @@ public class Items {
             GEM_3 = new Item(ItemType.MINE, "\uD83D\uDD78", "Cobweb", "Something a spider left over on the mine. Wonder if it's worth something.", 10, false),
             GEM_4 = new Item(ItemType.MINE, "\uD83D\uDCAB", "Gem Fragment", "Fragment of an ancient gem. Useful for casting", 50, false),
             // ---------------------------------- 5.0 ITEMS START HERE (again lol) ----------------------------------
-            MOP = new Item(ItemType.COMMON, "\u3030","Mop", "A delightful way to clean all the dust you have around.", 10, true),
+            MOP = new Item(ItemType.INTERACTIVE, "\u3030","Mop", "A delightful way to clean all the dust you have around.", 10, true),
             CLAIM_KEY = new Item(ItemType.COMMON, EmoteReference.KEY.getUnicode(),"Claim Key", "This items makes you unclaimeable (as a waifu) while having it on your inventory.", 1, false, true),
             COFFEE = new Item(ItemType.COMMON, "\u2615","Coffee", "A delightful way to start your day.", 10, true),
             WAIFU_PILL = new Item(ItemType.INTERACTIVE, "\ud83d\udc8a","Waifu Pill", "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 2 million. Lasts 5 sessions.", 670, true),
@@ -132,6 +132,11 @@ public class Items {
         final SecureRandom random = new SecureRandom();
         log.info("Registering item actions...");
         final ManagedDatabase managedDatabase = MantaroData.db();
+
+        MOP.setAction(((event, lang) -> {
+            event.getChannel().sendMessageFormat(lang.get("commands.misc_item_usage.mop"), EmoteReference.DUST).queue();
+            return true;
+        }));
 
         //Basically fish command.
         FISHING_ROD.setAction((event, lang) -> {

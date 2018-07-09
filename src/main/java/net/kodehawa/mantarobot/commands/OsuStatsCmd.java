@@ -52,7 +52,6 @@ import java.util.concurrent.*;
 public class OsuStatsCmd {
     private final Map<String, Object> map = new HashMap<>();
     private final ExecutorService pool = Executors.newCachedThreadPool();
-    private String mods1 = "";
     private OsuClient osuClient = new OsuClient(MantaroData.config().get().osuApiKey);
 
     @Subscribe
@@ -121,6 +120,7 @@ public class OsuStatsCmd {
     }
 
     private String best(String content, I18nContext languageContext) {
+        String mods1 = "";
         String finalResponse;
         try {
             long start = System.currentTimeMillis();
@@ -195,6 +195,7 @@ public class OsuStatsCmd {
 
     private String recent(String content, I18nContext languageContext) {
         String finalMessage;
+        String mods1 = "";
         try {
             String[] args = content.split(" ");
             Map<String, Optional<String>> options = StringUtils.parse(args);
