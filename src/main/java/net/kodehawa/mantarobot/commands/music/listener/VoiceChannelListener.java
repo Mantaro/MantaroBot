@@ -29,10 +29,12 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.util.concurrent.TimeUnit;
 
 public class VoiceChannelListener implements EventListener {
+    private RateLimiter vcRatelimiter = new RateLimiter(TimeUnit.SECONDS, 10);
     private static boolean validate(GuildVoiceState state) {
         return state == null || !state.inVoiceChannel();
     }
@@ -81,6 +83,7 @@ public class VoiceChannelListener implements EventListener {
                 TrackScheduler scheduler = gmm.getTrackScheduler();
                 if(scheduler.getCurrentTrack() != null && scheduler.getRequestedChannelParsed() != null) {
                     TextChannel tc = scheduler.getRequestedChannelParsed();
+                    //Didn't ratelimit this one because mute can only be done by admins and such? Don't think it'll get abused.
                     if(tc.canTalk()) {
                         tc.sendMessageFormat(scheduler.getLanguage().get("commands.music_general.listener.paused"), EmoteReference.SAD).queue();
                     }
@@ -106,7 +109,7 @@ public class VoiceChannelListener implements EventListener {
                 if(scheduler.getCurrentTrack() != null) {
                     if(gmm.isAwaitingDeath()) {
                         TextChannel tc = scheduler.getRequestedChannelParsed();
-                        if(tc.canTalk()) {
+                        if(tc.canTalk() && vcRatelimiter.process(vc.getGuild().getId())) {
                             tc.sendMessageFormat(scheduler.getLanguage().get("commands.music_general.listener.resumed"), EmoteReference.POPPER).queue();
                         }
                     }
@@ -128,7 +131,7 @@ public class VoiceChannelListener implements EventListener {
                 TrackScheduler scheduler = gmm.getTrackScheduler();
                 if(scheduler != null && scheduler.getCurrentTrack() != null && scheduler.getRequestedChannelParsed() != null) {
                     TextChannel tc = scheduler.getRequestedChannelParsed();
-                    if(tc.canTalk()) {
+                    if(tc.canTalk() && vcRatelimiter.process(vc.getGuild().getId())) {
                         tc.sendMessageFormat(scheduler.getLanguage().get("commands.music_general.listener.left_alone"), EmoteReference.THINKING, vc.getName()).queue(
                                 m -> m.delete().queueAfter(30, TimeUnit.SECONDS)
                         );

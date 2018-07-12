@@ -206,6 +206,7 @@ public class PlayerCmds {
                         Guild mh = MantaroBot.getInstance().getGuildById("213468583252983809");
                         Member mhMember = mh == null ? null : mh.getMemberById(memberLooked.getUser().getId());
 
+                        //Badge assigning code
                         Badge.assignBadges(player, dbUser);
 
                         //Manual badges
@@ -355,6 +356,8 @@ public class PlayerCmds {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.profile.description.too_long"), EmoteReference.ERROR).queue();
                         return;
                     }
+
+                    content1 = Utils.DISCORD_INVITE.matcher(content1).replaceAll("-discord invite link-").replaceAll(Utils.DISCORD_INVITE_2, "-discord invite link-");
 
                     player.getData().setDescription(content1);
 

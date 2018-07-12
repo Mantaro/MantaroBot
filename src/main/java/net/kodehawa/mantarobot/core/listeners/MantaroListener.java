@@ -44,7 +44,6 @@ import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.commands.info.stats.manager.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.GuildStatsManager.LoggedEvent;
 import net.kodehawa.mantarobot.core.MantaroCore;
-import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
@@ -70,22 +69,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static net.kodehawa.mantarobot.utils.Utils.DISCORD_INVITE;
+import static net.kodehawa.mantarobot.utils.Utils.DISCORD_INVITE_2;
+import static net.kodehawa.mantarobot.utils.Utils.THIRD_PARTY_INVITE;
 
 @Slf4j
 public class MantaroListener implements EventListener {
-    //The regex to filter discord invites.
-    private static final Pattern DISCORD_INVITE = Pattern.compile(
-            "(?:discord(?:(?:\\.|.?dot.?)gg|app(?:\\.|.?dot.?)com/invite)/(?<id>" +
-                    "([\\w]{10,16}|[a-zA-Z0-9]{4,8})))");
-
-    private static final Pattern DISCORD_INVITE_2 = Pattern.compile(
-            "(https?://)?discord(app(\\.|\\s*?dot\\s*?)com\\s+?/\\s+?invite\\s*?/\\s*?|(\\.|\\s*?dot\\s*?)(gg|me|io)\\s*?/\\s*?)([a-zA-Z0-9\\-_]+)"
-    );
-
-    private static final Pattern THIRD_PARTY_INVITE = Pattern.compile(
-            "(https?://)?discord(\\.|\\s*?dot\\s*?)(me|io)\\s*?/\\s*?([a-zA-Z0-9\\-_]+)"
-    );
-
     private static final Cache<String, Long> INVITES = CacheBuilder.newBuilder()
             .maximumSize(10000)
             .build();
