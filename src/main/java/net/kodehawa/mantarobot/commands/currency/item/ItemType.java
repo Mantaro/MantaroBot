@@ -18,21 +18,33 @@ package net.kodehawa.mantarobot.commands.currency.item;
 
 public enum ItemType {
     //An item without buy value, that can only be obtained through commands.
-    COLLECTABLE,
+    COLLECTABLE(false),
     //An item that's common, obtainable through buy/sell.
-    COMMON,
+    COMMON(false),
     //An item that's maybe a collectible, but that's harder to get than the rest.
-    RARE,
+    RARE(false),
     //An item used in fishing mechanisms.
-    FISHING,
+    FISHING(false),
     //An item used in mining.
-    MINE,
+    MINE(false),
     //An item that has an action attached to it.
-    INTERACTIVE,
+    INTERACTIVE(false),
     //Guess.
-    PREMIUM,
+    PREMIUM(false),
     //Cast-able item.
-    CAST;
+    CAST(true),
+    //Cast-able item, but you can also use it to mine
+    CAST_MINE(true);
+
+    private boolean cast;
+
+    ItemType(boolean cast) {
+        this.cast = cast;
+    }
+
+    public boolean isCastable() {
+        return cast;
+    }
 
     public enum LootboxType {
         COMMON,

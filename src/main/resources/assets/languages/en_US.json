@@ -1203,14 +1203,16 @@
     },
     "mine": {
       "no_pick": "%1$sYou don't have any pick to mine.",
-      "success": "%1$sYou mined minerals worth **$%2$s credits!**",
+      "not_suitable": "%1$sThis is not a pick you can use to mine!",
+      "not_in_inventory": "%1$sYou don't have this pick on your inventory, switching to the default pick.",
+      "success": "%1$sYou mined minerals worth **$%2$s credits**, using a *%3$s*",
       "diamond": {
-        "overflow": "\nHuh, you found a diamond while mining, but you already had too much, so I sold it for you.",
-        "success": "\nHuh! You got lucky and found a diamond while mining, check your inventory!"
+        "overflow": "Huh, you found a diamond while mining, but you already had too much, so I sold it for you.",
+        "success": "Huh! You got lucky and found a diamond while mining, check your inventory!"
       },
       "gem": {
-        "overflow": "\nHuh, you found *%1$s* while mining, but you already had too much of that gem, so I sold it for you.",
-        "success": "\nHuh! You got lucky and found *%1$s* while mining, check your inventory."
+        "overflow": "Huh, you found *%1$s* while mining, but you already had too much of that gem, so I sold it for you.",
+        "success": "Huh! You got lucky and found *%1$s* while mining, check your inventory."
       },
       "pick_broke": "%1$sOne of your picks broke while mining.",
       "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!"

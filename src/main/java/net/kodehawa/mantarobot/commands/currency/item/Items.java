@@ -45,7 +45,7 @@ public class Items {
             BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
             NECKLACE, ROSE,
             DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN, POTION_STAMINA, FISHING_ROD,
-            FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE, TELEVISION, WRENCH, MOTORCYCLE;
+            FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE, TELEVISION, WRENCH, MOTORCYCLE, GEM1_PICKAXE, GEM2_PICKAXE;
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 15);
@@ -120,11 +120,13 @@ public class Items {
             COFFEE = new Item(ItemType.COMMON, "\u2615","Coffee", "A delightful way to start your day.", 10, true),
             WAIFU_PILL = new Item(ItemType.INTERACTIVE, "\ud83d\udc8a","Waifu Pill", "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 2 million. Lasts 5 sessions.", 670, true),
             FISHING_BAIT = new Item(ItemType.INTERACTIVE, "\uD83D\uDC1B","Fishing bait.", "Gives you a higher chance of catching fish.", 15, true),
-            DIAMOND_PICKAXE = new Item(ItemType.CAST, "\u2692\ufe0f","Diamond Pickaxe", "A very much stronger pick. (`~>mine` tool)", 450, true, false, "1;2", 10, 18),
+            DIAMOND_PICKAXE = new Item(ItemType.CAST_MINE, "\u2692\ufe0f","Diamond Pickaxe", "A very much stronger pick (Diamond). (`~>mine` tool)", 450, true, false, "1;2", 10, 18),
             TELEVISION = new Item(ItemType.COMMON, "\uD83D\uDCFA","Television", "Must... watch... TV...", 45, true),
             WRENCH = new Item(ItemType.COMMON, "\ud83d\udd27","Wrench", "Casting tool. Useful to put stuff together.", 50, true),
             //car is 1000 credits, so this is 350
             MOTORCYCLE = new Item(ItemType.COMMON, "\uD83C\uDFCD","Motorcycle", "Going around, the cool way.", 350, true),
+            GEM1_PICKAXE = new Item(ItemType.CAST_MINE, "\u2692\ufe0f","Comet Gem Pickaxe", "A very much stronger pick (Comet). (`~>mine` tool)", 350, true, false, "1;2", 10, 48),
+            GEM2_PICKAXE = new Item(ItemType.CAST_MINE, "\u2692\ufe0f","Star Gem Pickaxe", "A very much stronger pick (Star). (`~>mine` tool)", 350, true, false, "1;2", 10, 49),
     };
 
 
@@ -234,23 +236,27 @@ public class Items {
             }
         });
 
+        //START OF PICKAXE ACTION DECLARATION
         BROM_PICKAXE.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            Inventory playerInventory = p.getInventory();
-
-            //Defensive programming :D
-            if(!playerInventory.containsItem(BROM_PICKAXE))
-                return false;
-
-            if(r.nextInt(100) > (handlePotion(POTION_STAMINA, 4, p) ? 85 : 77)) { //33% chance for the pick to break on usage (25% with stamina).
-                event.getChannel().sendMessageFormat(lang.get("commands.mine.pick_broke"), EmoteReference.SAD).queue();
-                playerInventory.process(new ItemStack(BROM_PICKAXE, -1));
-                p.save();
-                return false;
-            } else {
-                return true;
-            }
+            return handlePickaxe(event, lang, BROM_PICKAXE, p, 0.40f);
         });
+
+        DIAMOND_PICKAXE.setAction((event, lang) -> {
+            Player p = managedDatabase.getPlayer(event.getAuthor());
+            return handlePickaxe(event, lang, DIAMOND_PICKAXE, p, 0.29f);
+        });
+
+        GEM1_PICKAXE.setAction((event, lang) -> {
+            Player p = managedDatabase.getPlayer(event.getAuthor());
+            return handlePickaxe(event, lang, GEM1_PICKAXE, p, 0.36f);
+        });
+
+        GEM2_PICKAXE.setAction((event, lang) -> {
+            Player p = managedDatabase.getPlayer(event.getAuthor());
+            return handlePickaxe(event, lang, GEM2_PICKAXE, p, 0.35f);
+        });
+        //END OF PICKAXE ACTION DECLARATION
 
         POTION_CLEAN.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
@@ -455,5 +461,23 @@ public class Items {
         }
 
         return isBuffPresent;
+    }
+
+    private static boolean handlePickaxe(GuildMessageReceivedEvent event, I18nContext lang, Item item, Player player, float chance) {
+        Inventory playerInventory = player.getInventory();
+
+        //Defensive programming :D
+        if(!playerInventory.containsItem(item))
+            return false;
+
+        if(r.nextFloat() > (handlePotion(POTION_STAMINA, 4, player) ? (chance) + 0.05 : chance)) {
+            event.getChannel().sendMessageFormat(lang.get("commands.mine.pick_broke"), EmoteReference.SAD).queue();
+            playerInventory.process(new ItemStack(item, -1));
+            player.save();
+            return false;
+        } else {
+            return true;
+        }
+
     }
 }

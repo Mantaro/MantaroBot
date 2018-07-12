@@ -853,7 +853,7 @@ public class CurrencyCmds {
                     return;
 
                 Item castItem = toCast.get();
-                if(castItem.getItemType() != ItemType.CAST) {
+                if(!castItem.getItemType().isCastable()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.cast.item_not_cast"), EmoteReference.ERROR).queue();
                     return;
                 }

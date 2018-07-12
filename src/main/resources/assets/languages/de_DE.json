@@ -1180,14 +1180,14 @@
     },
     "mine": {
       "no_pick": "%1$sDu hast keine Spitzhacke zum abbauen.",
-      "success": "%1$sDu hast Mineralien im Wert von **$%2$s Credits abgebaut!**",
+      "success": "%1$sDu hast Mineralien im Wert von **$%2$s Credits abgebaut**, using a %3$s",
       "diamond": {
-        "overflow": "\nHuch, du hast einen Diamanten während des Abbauens gefunden, aber du hattest schon zu viele, also habe ich ihn für dich verkauft.",
-        "success": "\nHuch! Du hattest Glück und hast beim Abbauen einen Diamanten gefunden, schau in dein Inventar!"
+        "overflow": "Huch, du hast einen Diamanten während des Abbauens gefunden, aber du hattest schon zu viele, also habe ich ihn für dich verkauft.",
+        "success": "Huch! Du hattest Glück und hast beim Abbauen einen Diamanten gefunden, schau in dein Inventar!"
       },
       "gem": {
-        "overflow": "\nHuch, du hast *%1$s* beim Abbauen gefunden, aber du hattest schon zu viele von diesem Edelstein, also habe ich ihn für dich verkauft.",
-        "success": "\nHuch! Du hattest Glück und hast *%1$s* beim Abbauen gefunden, schaú in dein Inventar."
+        "overflow": "Huch, du hast *%1$s* beim Abbauen gefunden, aber du hattest schon zu viele von diesem Edelstein, also habe ich ihn für dich verkauft.",
+        "success": "Huch! Du hattest Glück und hast *%1$s* beim Abbauen gefunden, schaú in dein Inventar."
       },
       "pick_broke": "%1$sEine deiner Spitzhacken ist beim Abbauen zerbrochen.",
       "waifu_help": "Deine Waifu gesellte sich zu deinem Minenabenteuer und ihr habt beide eine größere Beute bekommen!"

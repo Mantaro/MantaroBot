@@ -43,6 +43,7 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PlayerStats;
+import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -680,12 +681,31 @@ public class MoneyCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                User user = event.getAuthor();
+                final User user = event.getAuthor();
                 final ManagedDatabase db = MantaroData.db();
-                Player player = db.getPlayer(user);
-                UserData userData = db.getUser(user).getData();
 
-                if(!player.getInventory().containsItem(Items.BROM_PICKAXE)) {
+                Player player = db.getPlayer(user);
+                Inventory inventory = player.getInventory();
+                UserData userData = db.getUser(user).getData();
+                Item item = Items.BROM_PICKAXE; //default pick
+
+                Optional<Item> itemOpt = Items.fromAnyNoId(content);
+                //why is the item optional present when there's no content?
+                if(itemOpt.isPresent() && !content.isEmpty()) {
+                    Item temp = itemOpt.get();
+                    if(temp.getItemType() != ItemType.CAST_MINE) {
+                        event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "mine.not_suitable"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    if(!inventory.containsItem(temp)) {
+                        event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "mine.not_in_inventory"), EmoteReference.ERROR, temp).queue();
+                    } else {
+                        item = temp;
+                    }
+                }
+
+                if(!inventory.containsItem(item)) {
                     event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "mine.no_pick"), EmoteReference.ERROR).queue();
                     return;
                 }
@@ -693,7 +713,7 @@ public class MoneyCmds {
                 if(!handleDefaultRatelimit(rateLimiter, user, event))
                     return;
 
-                if(!Items.BROM_PICKAXE.getAction().test(event, languageContext))
+                if(!item.getAction().test(event, languageContext))
                     return;
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
@@ -706,15 +726,15 @@ public class MoneyCmds {
                     }
                 }
 
-                String message = String.format(languageContext.get("commands.mine.success"), EmoteReference.PICK, money);
+                String message = String.format(languageContext.get("commands.mine.success"), EmoteReference.PICK, money, item.getName());
 
                 if(r.nextInt(400) > (Items.handlePotion(Items.POTION_HASTE, 2, player) ? 290 : 350)) {
-                    if(player.getInventory().getAmount(Items.DIAMOND) == 5000) {
-                        message += languageContext.withRoot("commands", "mine.diamond.overflow");
+                    if(inventory.getAmount(Items.DIAMOND) == 5000) {
+                        message += "\n" + languageContext.withRoot("commands", "mine.diamond.overflow");
                         money += Items.DIAMOND.getValue() * 0.9;
                     } else {
-                        player.getInventory().process(new ItemStack(Items.DIAMOND, 1));
-                        message += EmoteReference.DIAMOND + languageContext.withRoot("commands", "mine.diamond.success");
+                        inventory.process(new ItemStack(Items.DIAMOND, 1));
+                        message += "\n" + EmoteReference.DIAMOND + languageContext.withRoot("commands", "mine.diamond.success");
                     }
 
                     player.getData().addBadgeIfAbsent(Badge.MINER);
@@ -728,16 +748,16 @@ public class MoneyCmds {
                     //top notch handling for gems, 10/10 implementation -ign
                     ItemStack selectedGem = new ItemStack(gem.get(r.nextInt(gem.size())), Math.max(1, r.nextInt(5)));
                     Item itemGem = selectedGem.getItem();
-                    if(player.getInventory().getAmount(itemGem) + selectedGem.getAmount() >= 5000) {
-                        message += languageContext.withRoot("commands", "mine.gem.overflow");
+                    if(inventory.getAmount(itemGem) + selectedGem.getAmount() >= 5000) {
+                        message += "\n" + languageContext.withRoot("commands", "mine.gem.overflow");
                         money += itemGem.getValue() * 0.9;
                     } else {
-                        player.getInventory().process(selectedGem);
-                        message += EmoteReference.MEGA + String.format(languageContext.withRoot("commands", "mine.gem.success"), itemGem.getEmoji() + " x" + selectedGem.getAmount());
+                        inventory.process(selectedGem);
+                        message += "\n" + EmoteReference.MEGA + String.format(languageContext.withRoot("commands", "mine.gem.success"), itemGem.getEmoji() + " x" + selectedGem.getAmount());
                     }
 
                     if(waifuHelp) {
-                        message += languageContext.get("commands.mine.waifu_help");
+                        message += "\n" + languageContext.get("commands.mine.waifu_help");
                     }
 
                     player.getData().addBadgeIfAbsent(Badge.GEM_FINDER);
