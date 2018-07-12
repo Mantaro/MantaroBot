@@ -41,11 +41,10 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 public class Items {
     public static final Item HEADPHONES, BAN_HAMMER, KICK_BOOT, FLOPPY_DISK, MY_MATHS, PING_RACKET,
             LOADED_DICE, FORGOTTEN_MUSIC, CC_PENCIL, OVERFLOWED_BAG, BROM_PICKAXE, MILK, ALCOHOL, LEWD_MAGAZINE, RING,
-            LOOT_CRATE_KEY,
-            BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
-            NECKLACE, ROSE,
-            DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN, POTION_STAMINA, FISHING_ROD,
-            FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE, TELEVISION, WRENCH, MOTORCYCLE, GEM1_PICKAXE, GEM2_PICKAXE;
+            LOOT_CRATE_KEY, BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
+            NECKLACE, ROSE, DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN,
+            POTION_STAMINA, FISHING_ROD, FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE,
+            TELEVISION, WRENCH, MOTORCYCLE, GEM1_PICKAXE, GEM2_PICKAXE;
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 15);
@@ -125,6 +124,7 @@ public class Items {
             WRENCH = new Item(ItemType.COMMON, "\ud83d\udd27","Wrench", "Casting tool. Useful to put stuff together.", 50, true),
             //car is 1000 credits, so this is 350
             MOTORCYCLE = new Item(ItemType.COMMON, "\uD83C\uDFCD","Motorcycle", "Going around, the cool way.", 350, true),
+            //TODO: proper emojis
             GEM1_PICKAXE = new Item(ItemType.CAST_MINE, "\u2692\ufe0f","Comet Gem Pickaxe", "A very much stronger pick (Comet). (`~>mine` tool)", 350, true, false, "1;2", 10, 48),
             GEM2_PICKAXE = new Item(ItemType.CAST_MINE, "\u2692\ufe0f","Star Gem Pickaxe", "A very much stronger pick (Star). (`~>mine` tool)", 350, true, false, "1;2", 10, 49),
     };
@@ -136,7 +136,7 @@ public class Items {
         final ManagedDatabase managedDatabase = MantaroData.db();
 
         MOP.setAction(((event, lang) -> {
-            event.getChannel().sendMessageFormat(lang.get("commands.misc_item_usage.mop"), EmoteReference.DUST).queue();
+            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.mop"), EmoteReference.DUST).queue();
             return true;
         }));
 
@@ -470,7 +470,7 @@ public class Items {
         if(!playerInventory.containsItem(item))
             return false;
 
-        if(r.nextFloat() > (handlePotion(POTION_STAMINA, 4, player) ? (chance) + 0.05 : chance)) {
+        if(r.nextFloat() < (handlePotion(POTION_STAMINA, 4, player) ? (chance) + 0.05 : chance)) {
             event.getChannel().sendMessageFormat(lang.get("commands.mine.pick_broke"), EmoteReference.SAD).queue();
             playerInventory.process(new ItemStack(item, -1));
             player.save();
