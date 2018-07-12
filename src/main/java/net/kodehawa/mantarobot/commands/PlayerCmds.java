@@ -184,7 +184,7 @@ public class PlayerCmds {
                         User marriedTo = (player.getData().getMarriedWith() == null || player.getData().getMarriedWith().isEmpty()) ? null : MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
 
                         //New marriage support.
-                        Marriage currentMarriage = managedDatabase.getUser(event.getAuthor()).getData().getMarriage();
+                        Marriage currentMarriage = managedDatabase.getUser(userLooked).getData().getMarriage();
                         User marriedToNew = null;
                         boolean isNewMarriage = false;
                         if(currentMarriage != null) {
