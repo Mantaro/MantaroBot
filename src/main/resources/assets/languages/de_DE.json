@@ -80,7 +80,7 @@
       "self_hierarchy_conflict": "%1$sKann das Mitglied nicht softbannen: %2$s, es steht in der Hierarchie höher als ich.!",
       "success": "%1$s%2$s. **(%3$s wurde softbanned)**",
       "error": "%1$sFehler währened des Entbannens [%2$s]: (Keine Rechte: %3$s)",
-      "unknown_error": "%1$sUnbekannter Fehler während des Entbannens [%2$s]: <%3$s>: %4$s"
+      "unknown_error": "%1$sUnbekannter Fehler während des Entbannens %2$s: *(Error? %3$s: %4$s)*"
     },
     "ban": {
       "no_permission": "%1$sSie können nicht bannen: Sie benötigen die `Mitglieder bannen` Berechtigung.",
@@ -199,7 +199,7 @@
     },
     "rewind": {
       "negative": "%1$sNur positive Ganzzahlen",
-      "before_beggining": "%1$sSDu kannst nicht vor dem Beginn eines Songs springen",
+      "before_beginning": "%1$sSDu kannst nicht vor dem Beginn eines Songs springen",
       "success": "%1$sLied zurückspulen zu: %2$s."
     },
     "restartsong": {

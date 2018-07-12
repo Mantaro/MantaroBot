@@ -77,7 +77,7 @@
       "self_hierarchy_conflict": "%1$sNo puedo soft-banear a usuario: %2$s, tienen una jerarquía igual o mayor a la mía!",
       "success": "%1$s%2$s. **(%3$s fue soft-baneado)**",
       "error": "%1$sError soft-baneando a %2$s: (Permiso no otorgado: %3$s)",
-      "unknown_error": "%1$sError desconocido mientras se soft-baneaba a %2$s. (Error? %3$s: %4$s)"
+      "unknown_error": "%1$sError desconocido mientras se soft-baneaba a %2$s. *(Error? %3$s: %4$s)*"
     },
     "ban": {
       "no_permission": "%1$sNo tienes permiso para banear! Necesitas el permiso Banear Miembros",
@@ -193,7 +193,7 @@
     },
     "rewind": {
       "negative": "%1$sSólo puedes usar números enteros positivos",
-      "before_beggining": "%1$sNo puedes saltarte al momento anterior al principio de la canción...",
+      "before_beginning": "%1$sNo puedes saltarte al momento anterior al principio de la canción...",
       "success": "%1$sRebobinada la canción actual a: %2$s."
     },
     "restartsong": {

@@ -80,8 +80,8 @@
       "yourself_note": "%1$sWhy are you trying to soft-ban yourself?",
       "self_hierarchy_conflict": "%1$sCannot softban member: %2$s, they are higher or the same hierarchy than I am!",
       "success": "%1$s%2$s. **(%3$s got softbanned)**",
-      "error": "%1$sError unbanning [%2$s]: (No permission provided: %3$s)",
-      "unknown_error": "%1$sUnknown error while unbanning [%2$s]: <%3$s>: %4$s"
+      "error": "%1$sError soft-banning [%2$s]: (No permission provided: %3$s)",
+      "unknown_error": "%1$sUnknown error while soft-banning %2$s: *(Error? %3$s: %4$s)*"
     },
     "ban": {
       "no_permission": "%1$sYou can't ban: You need the `Ban Users` permission.",
@@ -202,7 +202,7 @@
     "rewind": {
       "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
       "negative": "%1$sPositive integers only",
-      "before_beggining": "%1$sYou can't skip to before the beginning of a song",
+      "before_beginning": "%1$sYou can't skip to before the beginning of a song",
       "success": "%1$sRewound song to: %2$s."
     },
     "restartsong": {
