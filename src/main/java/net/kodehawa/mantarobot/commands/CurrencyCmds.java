@@ -163,7 +163,8 @@ public class CurrencyCmds {
                                 String buyValue = item.isBuyable() ? String.format("$%d", item.getValue()) : "N/A";
                                 String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
 
-                                fields.add(new MessageEmbed.Field(String.format("%s %s", item.getEmoji(), item.getName()),
+                                fields.add(new MessageEmbed.Field(String.format("%s %s", item.getEmoji(),
+                                        languageContext.getContextLanguage().equals("en_US") ? item.getName() : item.getName() + "\n" + languageContext.get(item.getTranslatedName())),
                                         EmoteReference.BUY + buyValue + " " + EmoteReference.SELL + sellValue, true)
                                 );
                             }

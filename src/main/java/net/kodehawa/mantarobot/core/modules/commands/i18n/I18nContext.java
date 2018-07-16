@@ -27,18 +27,18 @@ public class I18nContext {
     private UserData userData;
 
     public String get(String s) {
-        I18n context = I18n.getForLanguage((userData.getLang() == null || userData.getLang().isEmpty() ? guildData.getLang() : userData.getLang()));
-        if(context == null)
-            context = I18n.getForLanguage("en_US");
-
+        I18n context = I18n.getForLanguage(getContextLanguage());
         return context.get(s);
     }
 
     public String withRoot(String root, String s) {
-        I18n context = I18n.getForLanguage((userData.getLang() == null || userData.getLang().isEmpty() ? guildData.getLang() : userData.getLang()));
-        if(context == null)
-            context = I18n.getForLanguage("en_US");
-
+        I18n context = I18n.getForLanguage(getContextLanguage());
         return context.withRoot(root, s);
+    }
+
+    public String getContextLanguage() {
+        String lang = userData.getLang() == null || userData.getLang().isEmpty() ? guildData.getLang() : userData.getLang();
+        I18n context = I18n.getForLanguage(lang);
+        return context == null ? "en_US" : lang;
     }
 }
