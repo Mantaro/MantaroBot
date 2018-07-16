@@ -111,7 +111,7 @@ public class CurrencyCmds {
                         long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
                         long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
                         fields.add(new MessageEmbed.Field(String.format("%s %s x %d", stack.getItem().getEmoji(), stack.getItem().getName(), stack.getAmount()),
-                                String.format(languageContext.get("commands.inventory.format"), buyValue, sellValue, stack.getItem().getDesc()), false));
+                                String.format(languageContext.get("commands.inventory.format"), buyValue, sellValue, languageContext.get(stack.getItem().getDesc())), false));
                     });
                 }
 
@@ -747,7 +747,7 @@ public class CurrencyCmds {
                                 .append(item.getName())
                                 .append("**\n")
                                 .append("      - ")
-                                .append(item.getDesc())
+                                .append(languageContext.get(item.getDesc()))
                                 .append("\n");
                     }
 
