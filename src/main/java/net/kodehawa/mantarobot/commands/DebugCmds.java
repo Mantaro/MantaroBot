@@ -255,7 +255,7 @@ public class DebugCmds {
                                 "JDA Version: %s\n" +
                                 "LP Version: %s\n\n" +
                                 "* Average Ping: %dms.\n" +
-                                "* Ping Breakdown: %s\n" +
+                                "* (High) Ping Breakdown: %s\n" +
                                 "* Dead Shards: %s shards.\n" +
                                 "* Zero Voice Connections: %s shards.\n" +
                                 "* Shards Reconnecting: %s shards.\n" +
@@ -264,7 +264,11 @@ public class DebugCmds {
                                 "--- Guilds: %-4s | Users: %-8s | Shards: %-3s"
                         ,
                         Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()), MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION, ping,
-                        bot.getShardList().stream().filter(Objects::nonNull).map(shard -> shard.getId() + ": " + shard.getPing() + "ms").collect(Collectors.joining(", ")),
+                        bot.getShardList().stream().filter(Objects::nonNull)
+                                //"high" ping shards
+                                .filter(shard -> shard.getPing() > 350)
+                                .map(shard -> shard.getId() + ": " + shard.getPing() + "ms")
+                                .collect(Collectors.joining(", ")),
                         dead, zeroVoiceConnections, reconnecting, connecting, high, String.format("%,d", bot.getGuildCache().size()),
                         String.format("%,d", bot.getUserCache().size()), bot.getShardList().size()));
 

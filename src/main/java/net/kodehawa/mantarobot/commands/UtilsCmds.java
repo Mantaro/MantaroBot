@@ -89,7 +89,7 @@ public class UtilsCmds {
 
     @Subscribe
     public void birthday(CommandRegistry registry) {
-        TreeCommand birthdayCommand = registry.register("birthday", new TreeCommand() {
+        TreeCommand birthdayCommand = (TreeCommand) registry.register("birthday", new TreeCommand(Category.UTILS) {
             @Override
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
