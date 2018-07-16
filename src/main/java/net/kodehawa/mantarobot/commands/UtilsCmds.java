@@ -89,126 +89,41 @@ public class UtilsCmds {
 
     @Subscribe
     public void birthday(CommandRegistry registry) {
-        registry.register("birthday", new SimpleCommand(Category.UTILS) {
+        TreeCommand birthdayCommand = registry.register("birthday", new TreeCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
-                DBUser user = MantaroData.db().getUser(event.getAuthor());
-                if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.no_content"), EmoteReference.ERROR).queue();
-                    return;
-                }
+            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+                return new SubCommand() {
+                    @Override
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        if(content.isEmpty()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.no_content"), EmoteReference.ERROR).queue();
+                            return;
+                        }
 
-                if(content.startsWith("remove")) {
-                    user.getData().setBirthday(null);
-                    user.save();
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.reset"), EmoteReference.CORRECT)
-                            .queue();
-                    return;
-                }
-
-                if(content.startsWith("month")) {
-                    BirthdayCacher cacher = MantaroBot.getInstance().getBirthdayCacher();
-
-                    String m1 = "";
-                    if(args.length == 2) {
-                        m1 = args[1];
-                    }
-
-                    Calendar calendar = Calendar.getInstance();
-                    int month = calendar.get(Calendar.MONTH);
-
-                    if(!m1.isEmpty()) {
+                        String[] args = StringUtils.splitArgs(content, 0);
+                        SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+                        DBUser user = MantaroData.db().getUser(event.getAuthor());
+                        Date bd1;
                         try {
-                            month = Integer.parseInt(m1);
-                            if(month < 1 || month > 12) {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.invalid_month"), EmoteReference.ERROR).queue();
+                            String bd;
+                            bd = content.replace("/", "-");
+                            String[] parts = bd.split("-");
+                            if(Integer.parseInt(parts[0]) > 31 || Integer.parseInt(parts[1]) > 12 || Integer.parseInt(parts[2]) > 3000) {
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.invalid_date"), EmoteReference.ERROR).queue();
                                 return;
                             }
 
-                            //Substract here so we can do the check properly up there.
-                            month = month - 1;
-                        } catch (NumberFormatException e) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.invalid_month"), EmoteReference.ERROR).queue();
+                            bd1 = format1.parse(bd);
+                        } catch(Exception e) {
+                            Optional.ofNullable(args[0]).ifPresent((s -> event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.error_date"), "\u274C", args[0]).queue()));
+                            return;
                         }
+
+                        user.getData().setBirthday(format1.format(bd1));
+                        user.save();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.added_birthdate"), EmoteReference.CORRECT).queue();
                     }
-
-                    calendar.set(calendar.get(Calendar.YEAR), month, calendar.get(Calendar.DAY_OF_MONTH));
-
-                    try {
-                        if(cacher != null) {
-                            if(cacher.cachedBirthdays.isEmpty()) {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.no_global_birthdays"), EmoteReference.SAD).queue();
-                                return;
-                            }
-
-                            List<String> ids = event.getGuild().getMemberCache().stream().map(m -> m.getUser().getId()).collect(Collectors.toList());
-                            Map<String, String> guildCurrentBirthdays = new HashMap<>();
-                            String calendarMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1);
-                            String currentMonth = (calendarMonth.length() == 1 ? 0 : "") + calendarMonth;
-
-                            for(Map.Entry<String, String> birthdays : cacher.cachedBirthdays.entrySet()) {
-                                if(ids.contains(birthdays.getKey()) && birthdays.getValue().split("-")[1].equals(currentMonth)) {
-                                    guildCurrentBirthdays.put(birthdays.getKey(), birthdays.getValue());
-                                }
-                            }
-
-                            if(guildCurrentBirthdays.isEmpty()) {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.no_guild_month_birthdays"), EmoteReference.ERROR, month + 1, EmoteReference.BLUE_SMALL_MARKER).queue();
-                                return;
-                            }
-
-                            String birthdays = guildCurrentBirthdays.entrySet().stream()
-                                    .sorted(Comparator.comparingInt(entry -> Integer.parseInt(entry.getValue().split("-")[0])))
-                                    .map((entry) -> String.format("+ %-20s : %s ", event.getGuild().getMemberById(entry.getKey()).getEffectiveName(), entry.getValue()))
-                                    .collect(Collectors.joining("\n"));
-
-                            List<String> parts = DiscordUtils.divideString(1000, birthdays);
-                            List<String> messages = new LinkedList<>();
-                            boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
-
-                            for(String s1 : parts) {
-                                messages.add(String.format(languageContext.get("commands.birthday.header"), event.getGuild().getName(), Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH))) +
-                                        (parts.size() > 1 ? (hasReactionPerms ? languageContext.get("general.arrow_react") :
-                                                languageContext.get("general.text_menu")) : "") +
-                                        String.format("```diff\n%s```", s1));
-                            }
-
-                            if(hasReactionPerms) {
-                                DiscordUtils.list(event, 45, false, messages);
-                            } else {
-                                DiscordUtils.listText(event, 45, false, messages);
-                            }
-                        } else {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.cache_not_running"), EmoteReference.SAD).queue();
-                        }
-                    } catch(Exception e) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.error"), EmoteReference.SAD).queue();
-                        e.printStackTrace();
-                    }
-
-                    return;
-                }
-
-                Date bd1;
-                try {
-                    String bd;
-                    bd = content.replace("/", "-");
-                    String[] parts = bd.split("-");
-                    if(Integer.parseInt(parts[0]) > 31 || Integer.parseInt(parts[1]) > 12 || Integer.parseInt(parts[2]) > 3000) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.invalid_date"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-
-                    bd1 = format1.parse(bd);
-                } catch(Exception e) {
-                    Optional.ofNullable(args[0]).ifPresent((s -> event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.error_date"), "\u274C", args[0]).queue()));
-                    return;
-                }
-
-                user.getData().setBirthday(format1.format(bd1));
-                user.save();
-                event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.added_birthdate"), EmoteReference.CORRECT).queue();
+                };
             }
 
             @Override
@@ -225,6 +140,114 @@ public class UtilsCmds {
                         .addField("Tip", "To remove your birthday date do ~>birthday remove", false)
                         .setColor(Color.DARK_GRAY)
                         .build();
+            }
+        });
+
+        birthdayCommand.addSubCommand("remove", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                DBUser user = MantaroData.db().getUser(event.getAuthor());
+                user.getData().setBirthday(null);
+                user.save();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.reset"), EmoteReference.CORRECT).queue();
+            }
+        });
+
+        birthdayCommand.addSubCommand("month", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                String[] args = StringUtils.splitArgs(content, 0);
+                BirthdayCacher cacher = MantaroBot.getInstance().getBirthdayCacher();
+                Calendar calendar = Calendar.getInstance();
+                int month = calendar.get(Calendar.MONTH);
+
+                String m1 = "";
+                if(args.length == 2)
+                    m1 = args[1];
+
+                if(!m1.isEmpty()) {
+                    try {
+                        month = Integer.parseInt(m1);
+                        if(month < 1 || month > 12) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.invalid_month"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
+                        //Substract here so we can do the check properly up there.
+                        month = month - 1;
+                    } catch (NumberFormatException e) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.invalid_month"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+                }
+
+                //Inspection excluded below not needed, I'm passing a proper value.
+                //noinspection MagicConstant
+                calendar.set(calendar.get(Calendar.YEAR), month, calendar.get(Calendar.DAY_OF_MONTH));
+
+                try {
+                    //Why would this happen is out of my understanding.
+                    if(cacher != null) {
+                        //same as above unless testing?
+                        if(cacher.cachedBirthdays.isEmpty()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.no_global_birthdays"), EmoteReference.SAD).queue();
+                            return;
+                        }
+
+                        //O(1) lookups. Probably.
+                        HashSet<String> ids = event.getGuild().getMemberCache().stream().map(m -> m.getUser().getId()).collect(Collectors.toCollection(HashSet::new));
+                        Map<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = new HashMap<>();
+
+                        //Try not to die. I mean get calendar month and sum 1.
+                        String calendarMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1);
+                        String currentMonth = (calendarMonth.length() == 1 ? 0 : "") + calendarMonth;
+
+                        //~100k repetitions rip
+                        for(Map.Entry<String, BirthdayCacher.BirthdayData> birthdays : cacher.cachedBirthdays.entrySet()) {
+                            //Why was the birthday saved on this outdated format again?
+                            //Check if this guild contains x user and that the month matches.
+                            if(ids.contains(birthdays.getKey()) && birthdays.getValue().month.equals(currentMonth)) {
+                                //Insert into current month bds.
+                                guildCurrentBirthdays.put(birthdays.getKey(), birthdays.getValue());
+                            }
+                        }
+
+                        //No birthdays to be seen here? (This month)
+                        if(guildCurrentBirthdays.isEmpty()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.no_guild_month_birthdays"), EmoteReference.ERROR, month + 1, EmoteReference.BLUE_SMALL_MARKER).queue();
+                            return;
+                        }
+
+                        //Build the message.
+                        String birthdays = guildCurrentBirthdays.entrySet().stream()
+                                .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
+                                .map((entry) -> String.format("+ %-20s : %s ", event.getGuild().getMemberById(entry.getKey()).getEffectiveName(), entry.getValue()))
+                                .collect(Collectors.joining("\n"));
+
+                        List<String> parts = DiscordUtils.divideString(1000, birthdays);
+                        boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+
+                        List<String> messages = new LinkedList<>();
+                        for(String s1 : parts) {
+                            messages.add(String.format(languageContext.get("commands.birthday.header"), event.getGuild().getName(),
+                                    Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH))) +
+                                    (parts.size() > 1 ? (hasReactionPerms ? languageContext.get("general.arrow_react") :  languageContext.get("general.text_menu")) : "") +
+                                    String.format("```diff\n%s```", s1));
+                        }
+
+                        //Show the message.
+                        if(hasReactionPerms)
+                            DiscordUtils.list(event, 45, false, messages);
+                        else
+                            DiscordUtils.listText(event, 45, false, messages);
+                        //Probably a p big one tbh.
+                    } else {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.cache_not_running"), EmoteReference.SAD).queue();
+                    }
+                } catch(Exception e) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.error"), EmoteReference.SAD).queue();
+                    log.error("Error on birthday month display!", e);
+                }
             }
         });
     }

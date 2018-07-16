@@ -357,7 +357,8 @@ public class PlayerCmds {
                         return;
                     }
 
-                    content1 = Utils.DISCORD_INVITE.matcher(content1).replaceAll("-discord invite link-").replaceAll(Utils.DISCORD_INVITE_2, "-discord invite link-");
+                    content1 = Utils.DISCORD_INVITE.matcher(content1).replaceAll("-discord invite link-");
+                    content1 = Utils.DISCORD_INVITE_2.matcher(content1).replaceAll("-discord invite link-");
 
                     player.getData().setDescription(content1);
 

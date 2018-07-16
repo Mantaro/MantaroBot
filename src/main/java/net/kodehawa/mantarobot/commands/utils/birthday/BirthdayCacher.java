@@ -18,6 +18,8 @@ package net.kodehawa.mantarobot.commands.utils.birthday;
 
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Cursor;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.data.MantaroData;
 
@@ -36,7 +38,7 @@ import static com.rethinkdb.RethinkDB.r;
  */
 @Slf4j
 public class BirthdayCacher {
-    public Map<String, String> cachedBirthdays = new ConcurrentHashMap<>();
+    public Map<String, BirthdayData> cachedBirthdays = new ConcurrentHashMap<>();
     public volatile boolean isDone;
     private ExecutorService executorService = Executors.newFixedThreadPool(1);
 
@@ -57,7 +59,8 @@ public class BirthdayCacher {
                     String birthday = (String) ((HashMap) r.get("data")).get("birthday");
                     if(birthday != null && !birthday.isEmpty()) {
                         log.debug("-> PROCESS: {}", r);
-                        cachedBirthdays.put(String.valueOf(r.get("id")), birthday);
+                        String[] bd = birthday.split("-");
+                        cachedBirthdays.put(String.valueOf(r.get("id")), new BirthdayData(birthday, bd[0], bd[1]));
                     }
                 }
 
@@ -70,5 +73,13 @@ public class BirthdayCacher {
                 e.printStackTrace();
             }
         });
+    }
+
+    @Data
+    @AllArgsConstructor
+    public class BirthdayData {
+        public String birthday;
+        public String day;
+        public String month;
     }
 }
