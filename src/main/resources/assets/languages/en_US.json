@@ -75,11 +75,11 @@
     "softban": {
       "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
       "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
-      "no_users": "%1$sYou need to give me an user to softban.",
-      "hierarchy_conflict": "%1$sYou cannot softban an user in a higher hierarchy than you",
+      "no_users": "%1$sYou need to give me an user to soft-ban.",
+      "hierarchy_conflict": "%1$sYou cannot soft-ban an user in a higher hierarchy than you",
       "yourself_note": "%1$sWhy are you trying to soft-ban yourself?",
-      "self_hierarchy_conflict": "%1$sCannot softban member: %2$s, they are higher or the same hierarchy than I am!",
-      "success": "%1$s%2$s. **(%3$s got softbanned)**",
+      "self_hierarchy_conflict": "%1$sCannot soft-ban member: %2$s, they are higher or the same hierarchy than I am!",
+      "success": "%1$s%2$s. **(%3$s got soft-banned)**",
       "error": "%1$sError soft-banning [%2$s]: (No permission provided: %3$s)",
       "unknown_error": "%1$sUnknown error while soft-banning %2$s: *(Error? %3$s: %4$s)*"
     },
@@ -108,7 +108,7 @@
     "tempban": {
       "no_time": "%1$sYou cannot temp ban an user without giving me the time.",
       "no_reason": "%2$sYou cannot temp ban someone without a reason.",
-      "success": "%1$s%2$s (%3$s got temporarly banned)"
+      "success": "%1$s%2$s (%3$s got temporally banned)"
     },
     "music_usage": {
       "1": "*How to use music in Mantaro?*",
@@ -125,7 +125,7 @@
       "12": "Enjoy your music and thanks for using Mantaro!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `~>profile lang <language code>`.\n**Avaliable languages:** `%2$s`"
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `~>profile lang <language code>`.\n**Available languages:** `%2$s`"
     },
     "music_general": {
       "no_song": "%1$sYou need to tell me what song you want to play! *(YouTube, Soundcloud, Twitch URL or search queries are allowed)*",
@@ -196,8 +196,8 @@
       "header": "Now Playing"
     },
     "pause": {
-      "paused": "Player paused. *(Player was unpaused previously)*",
-      "unpaused": "Player unpaused *(Player was paused previously)*."
+      "paused": "Player paused. *(Player was un-paused previously)*",
+      "unpaused": "Player un-paused *(Player was paused previously)*."
     },
     "rewind": {
       "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
@@ -279,8 +279,8 @@
       "no_args": "%1$sYou need to specify what you want to do with this command. Check command help for more info!",
       "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
       "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
-      "nsfw_enabled": "%1$sThis command has been succesfully marked as NSFW.",
-      "nsfw_disabled": "%1$sThis command has been succesfully marked as SFW.",
+      "nsfw_enabled": "%1$sThis command has been successfully marked as NSFW.",
+      "nsfw_disabled": "%1$sThis command has been successfully marked as SFW.",
       "nsfw_not_nsfw": "%1$sThis command is marked as NSFW therefore it can only be used on NSFW channels.",
       "ls": {
         "header": "Commands for this guild"
@@ -355,7 +355,7 @@
       "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
       "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
       "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
-      "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to unmute them.",
+      "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to un-mute them.",
       "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
       "user_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
       "success": "%1$sAdded mute role to **%2$s** for around %3$s"
@@ -379,7 +379,7 @@
         "600": "kinda slow.. :frowning2:",
         "700": "slow.. :worried:",
         "800": "too slow. :disappointed:",
-        "900": "bad. :sob: (helpme)",
+        "900": "bad. :sob: (help me)",
         "1600": "#BlameDiscord. :angry:",
         "10000": "this makes no sense :thinking: #BlameSteven",
         "default": "slow af. :dizzy_face:"
@@ -446,15 +446,15 @@
         "locked": "%1$sYou're currently unable to perform this action.",
         "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed.",
         "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s)**",
-        "not_enough_slots": "%1$sYou don't have enough slots avaliable to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
+        "not_enough_slots": "%1$sYou don't have enough slots available to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
         "success": "%1$sSuccessfully claimed %2$s for %3$,d. Slots used: %4$s"
       },
       "unclaim": {
-        "no_user": "%1$sYou need to mention a waifu to unclaim.",
-        "confirmation": "%1$sAre you *sure* you want to unclaim %2$s? The cost to unclaim this waifu is **%3$s credits**. Type *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
-        "not_enough_money": "%1$sYou don't have enough money to unclaim this waifu!",
+        "no_user": "%1$sYou need to mention a waifu to un-claim.",
+        "confirmation": "%1$sAre you *sure* you want to un-claim %2$s? The cost to un-claim this waifu is **%3$s credits**. Type *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
+        "not_enough_money": "%1$sYou don't have enough money to un-claim this waifu!",
         "player_locked": "%1$sYou cannot do this at the moment.",
-        "scrapped": "%1$sCancelled waifu unclaiming.",
+        "scrapped": "%1$sCancelled waifu un-claiming.",
         "success": "%1$sSuccessfully unclaimed **%2$s** with a cost of **%3$s credits**."
       },
       "buyslot": {
@@ -466,7 +466,7 @@
       "header": "Waifu List",
       "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$d waifus as of now.*\n\n",
       "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `~>waifu claim` to get started.",
-      "footer": "Total waifus: %1$d - Avaliable slots: %2$s",
+      "footer": "Total waifus: %1$d - available slots: %2$s",
       "value_format": "**- Value:**",
       "value_b_format": "**- Bought for:**",
       "credits_format": " credits."
@@ -497,7 +497,7 @@
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
       "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
       "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
-      "success": "%1$sYou succesfully **casted %2$s %3$s** for **%4$s credits.**",
+      "success": "%1$sYou successfully **casted %2$s %3$s** for **%4$s credits.**",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
       "item_broke": "\nSadly, your wrench broke in the process, but you got your item!"
     },
@@ -565,7 +565,7 @@
       "receipt_locked_notice": "1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sThis user already has too much money...",
       "success": "%1$sTransferred **%2$,d** *(%3$,d after 10%% tax)* to **%4$s** successfully.",
-      "item_transfer": "%1$sYou cannot transfer items using transfer, use the transferitems command instead.",
+      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `transferitems` command instead.",
       "party": "You can only transfer to the same person (%1$s) once every 4 minutes."
     },
     "useitem": {
@@ -1055,7 +1055,7 @@
         "1": "W-Well, here we go!",
         "2": "**- Website:** <%1$s>"
       },
-      "note": "**If you like Mantaro, please upvote on** <https://discordbots.org/bot/mantaro> **and/or consider donating on Patreon or Paypal! Thanks you~**"
+      "note": "**If you like Mantaro, please up-vote on** <https://discordbots.org/bot/mantaro> **and/or consider donating on Patreon or Paypal! Thanks you~**"
     },
     "avatar": {
       "result": "%1$sAvatar for: **%2$s**\n%3$s"
@@ -1433,7 +1433,7 @@
       "public_role": "%1$sYou cannot set the everyone role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
       "autorole": "%1$sYou cannot set the autorole role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
       "warning": "%sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
-      "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and unassigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
+      "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and un-assigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
       "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users.",
       "warning_3": "Type **yes** if you agree to set the role %s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
       "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
@@ -1463,10 +1463,10 @@
       "success": "%1$sThe autorole for this server has been removed."
     },
     "usermessage_resetchannel": {
-      "success": "%1$sSucessfully reset the join/leave channel."
+      "success": "%1$sSuccessfully reset the join/leave channel."
     },
     "usermessage_resetdata": {
-      "success": "%1$sSucessfully reset the join/leave data."
+      "success": "%1$sSuccessfully reset the join/leave data."
     },
     "usermessage_join_channel": {
       "no_channel": "%1$sYou need to specify what channel you want me to send the join message.",
@@ -1771,7 +1771,7 @@
       "cobweb": "Something a spider left over on the mine. Wonder if it's worth something.",
       "fragment": "Fragment of an ancient gem. Useful for casting.",
       "mop": "A delightful way to clean all the dust you have around. I bet there's a lot of it.",
-      "claim_key": "This item makes you unclaimeable (as a waifu) while having it on your inventory.",
+      "claim_key": "This item makes you un-claimeable (as a waifu) while having it on your inventory.",
       "coffee": "A delightful way to start your day.",
       "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 2 million. Lasts 5 sessions.",
       "bait": "Gives you a higher chance of catching fish.",
