@@ -52,7 +52,8 @@
     "buy_sell_paged_react": "**Total pages: %1$d.**\nUse the message reactions to move between pages.\n%2$s",
     "buy_sell_paged_text": "**Total pages: %1$d.**\nUse **&p >>** and **&p <<** to move across pages.\n%2$s",
     "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**",
-    "cancelled": "%1$sCancelled request."
+    "cancelled": "%1$sCancelled request.",
+    "sellout": "Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive!"
   },
   "commands": {
     "fish": {

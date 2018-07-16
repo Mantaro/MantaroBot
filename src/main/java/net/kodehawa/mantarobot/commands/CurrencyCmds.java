@@ -175,11 +175,13 @@ public class CurrencyCmds {
 
                         if(hasReactionPerms) {
                             embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
-                                    String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)));
+                                    String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)) + "\n"
+                                        + languageContext.get("general.sellout"));
                             DiscordUtils.list(event, 120, false, embed, splitFields);
                         } else {
                             embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
-                                    String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)));
+                                    String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)) + "\n"
+                                        + languageContext.get("general.sellout"));
                             DiscordUtils.listText(event, 120, false, embed, splitFields);
                         }
                     }
