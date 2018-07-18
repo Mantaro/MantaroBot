@@ -53,7 +53,11 @@ public class TextChannelGround {
     }
 
     public List<ItemStack> collectItems() {
-        List<ItemStack> finalStacks = new ArrayList<>(stacks);
+        List<ItemStack> finalStacks = new ArrayList<>();
+        for(ItemStack stack : stacks) {
+            finalStacks.add(new ItemStack(stack.getItem(), Math.min(stack.getAmount(), 50)));
+        }
+
         stacks.clear();
         return finalStacks;
     }
