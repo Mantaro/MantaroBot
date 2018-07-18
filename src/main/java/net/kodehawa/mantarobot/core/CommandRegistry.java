@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.core;
 
 import com.google.common.base.Preconditions;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -43,6 +44,8 @@ public class CommandRegistry {
 
     private final Map<String, Command> commands;
     private final Config conf = MantaroData.config().get();
+    @Setter
+    private boolean logCommands = false;
 
     public CommandRegistry(Map<String, Command> commands) {
         this.commands = Preconditions.checkNotNull(commands);
@@ -137,7 +140,11 @@ public class CommandRegistry {
 
         long end = System.currentTimeMillis();
         MantaroBot.getInstance().getStatsClient().increment("commands");
-        log.debug("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
+        if(logCommands) {
+            log.info("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
+        } else {
+            log.debug("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
+        }
         cmd.run(event, cmdName, content);
 
         if(cmd.category() != null && cmd.category().name() != null && !cmd.category().name().isEmpty()) {
