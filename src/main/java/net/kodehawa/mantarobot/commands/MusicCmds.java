@@ -172,7 +172,6 @@ public class MusicCmds {
                     }
 
                     MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content, false, true);
-                    TextChannelGround.of(event).dropItemWithChance(0, 5);
                 } else {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to be a DJ to use this command!").queue();
                 }

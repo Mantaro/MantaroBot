@@ -136,7 +136,6 @@ public class DebugCmds {
                 event.getChannel().sendTyping().queue(v -> {
                     long ping = System.currentTimeMillis() - start;
                     event.getChannel().sendMessage(EmoteReference.MEGA + "*" + pingQuotes[r.nextInt(pingQuotes.length)] + "* - My ping: " + ping + " ms (" + ratePing(ping) + ")  `Websocket:" + event.getJDA().getPing() + "ms`").queue();
-                    TextChannelGround.of(event).dropItemWithChance(5, 5);
                 });
             }
 

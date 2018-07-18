@@ -312,10 +312,7 @@ public class CustomCmds {
 
                                         event.getChannel().sendMessage(
                                                 EmoteReference.CORRECT + "Saved to command ``" + cmd + "``!").queue();
-
-                                        //easter egg :D
-                                        TextChannelGround.of(event).dropItemWithChance(8, 2);
-                                    }
+                                        }
                                     return Operation.COMPLETED;
                                 }
 
@@ -424,9 +421,6 @@ public class CustomCmds {
                                         .format("Imported custom command ``%s`` from guild `%s` with responses ``%s``", cmdName,
                                                 pair.getKey().getName(), String.join("``, ``", responses)
                                         )).queue();
-
-                                //easter egg :D
-                                TextChannelGround.of(event).dropItemWithChance(8, 2);
                             }
                     );
 
@@ -516,9 +510,6 @@ public class CustomCmds {
 
                     event.getChannel().sendMessage(
                             EmoteReference.CORRECT + "Renamed command ``" + cmd + "`` to ``" + value + "``!").queue();
-
-                    //easter egg :D
-                    TextChannelGround.of(event).dropItemWithChance(8, 2);
                     return;
                 }
 
@@ -562,9 +553,6 @@ public class CustomCmds {
 
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved to command ``" + cmd + "``!")
                             .queue();
-
-                    //easter egg :D
-                    TextChannelGround.of(event).dropItemWithChance(8, 2);
                     return;
                 }
 

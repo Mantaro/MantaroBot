@@ -414,7 +414,6 @@ public class InfoCmds {
                                                         , event.getJDA().getSelfUser().getAvatarUrl())
                                                 .build()
                                 ).override(true).queue();
-                                TextChannelGround.of(event).dropItemWithChance(4, 5);
                             });
                         } else {
                             onError(event);
@@ -447,14 +446,12 @@ public class InfoCmds {
                         .addField("Remaining from assigned:", getFreeMemory() + "MB", true)
                         .build()
                 ).queue();
-                TextChannelGround.of(event).dropItemWithChance(4, 5);
             }
         });
 
         statsCommand.addSubCommand("server", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                TextChannelGround.of(event).dropItemWithChance(4, 5);
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                         .setAuthor("Mantaro's server usage information", null, "https://puu.sh/sMsVC/576856f52b.png")
                         .setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
