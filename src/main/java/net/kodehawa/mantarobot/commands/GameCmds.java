@@ -57,7 +57,7 @@ public class GameCmds {
 
     @Subscribe
     public void game(CommandRegistry cr) {
-        final NewRateLimiter rateLimiter = new NewRateLimiter(Executors.newSingleThreadScheduledExecutor(), 4, 6, TimeUnit.SECONDS, 450, true) {
+        final NewRateLimiter rateLimiter = new NewRateLimiter(Executors.newSingleThreadScheduledExecutor(), 4, 10, TimeUnit.SECONDS, 450, true) {
             @Override
             protected void onSpamDetected(String key, int times) {
                 log.warn("[Game] Spam detected for {} ({} times)!", key, times);
@@ -208,7 +208,7 @@ public class GameCmds {
     @Subscribe
     public void trivia(CommandRegistry cr) {
         cr.register("trivia", new SimpleCommand(Category.GAMES) {
-            final NewRateLimiter rateLimiter = new NewRateLimiter(Executors.newSingleThreadScheduledExecutor(), 3, 7, TimeUnit.SECONDS, 350, true) {
+            final NewRateLimiter rateLimiter = new NewRateLimiter(Executors.newSingleThreadScheduledExecutor(), 3, 15, TimeUnit.SECONDS, 350, true) {
                 @Override
                 protected void onSpamDetected(String key, int times) {
                     log.warn("[Trivia] Spam detected for {} ({} times)!", key, times);

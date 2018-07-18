@@ -119,7 +119,7 @@ public class DebugCmds {
 
     @Subscribe
     public void ping(CommandRegistry cr) {
-        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 25, true);
         final Random r = new Random();
         final String[] pingQuotes = {
                 "W-Was I fast enough?", "What are you doing?", "W-What are you looking at?!", "Huh.", "Did I do well?", "What do you think?",
