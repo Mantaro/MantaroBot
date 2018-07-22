@@ -57,7 +57,7 @@ public class BirthdayTask {
             long start = System.currentTimeMillis();
             Calendar cal = Calendar.getInstance();
             String now = dateFormat.format(cal.getTime()).substring(0, 5);
-            Map<String, String> cached = cache.cachedBirthdays;
+            Map<String, BirthdayCacher.BirthdayData> cached = cache.cachedBirthdays;
             SnowflakeCacheView<Guild> guilds = jda.getGuildCache();
 
             for(Guild guild : guilds) {
@@ -78,12 +78,12 @@ public class BirthdayTask {
                         if(birthdayRole.isManaged())
                             continue;
 
-                        Map<String, String> guildMap = cached.entrySet().stream().filter(map -> guild.getMemberById(map.getKey()) != null)
+                        Map<String, BirthdayCacher.BirthdayData> guildMap = cached.entrySet().stream().filter(map -> guild.getMemberById(map.getKey()) != null)
                                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-                        for(Map.Entry<String, String> data : guildMap.entrySet()) {
+                        for(Map.Entry<String, BirthdayCacher.BirthdayData> data : guildMap.entrySet()) {
                             Member member = guild.getMemberById(data.getKey());
-                            String birthday = data.getValue();
+                            String birthday = data.getValue().birthday;
 
                             if(birthday == null) {
                                 log.debug("Birthday is null? Removing role if present and continuing to next iteration...");
