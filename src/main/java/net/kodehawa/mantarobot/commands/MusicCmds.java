@@ -496,17 +496,17 @@ public class MusicCmds {
                     }
 
                     if(isDJ(event.getMember())) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.queue.header"), EmoteReference.CORRECT).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.queue.header"), EmoteReference.CORRECT).queue();
                         int TEMP_QUEUE_LENGTH = musicManager.getTrackScheduler().getQueue().size();
                         MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
 
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.queue.success"), EmoteReference.CORRECT, TEMP_QUEUE_LENGTH).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.queue.success"), EmoteReference.CORRECT, TEMP_QUEUE_LENGTH).queue();
 
                         MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().stop();
                         return;
                     }
 
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.queue.error"), EmoteReference.ERROR).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.queue.error"), EmoteReference.ERROR).queue();
                     return;
                 }
 

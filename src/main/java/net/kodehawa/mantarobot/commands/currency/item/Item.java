@@ -37,7 +37,6 @@ public class Item {
     protected final long value;
     private final boolean buyable;
     private final String emoji, name, desc;
-    @Getter
     private final boolean hidden;
     private final long maxSize;
     private final boolean sellable;
@@ -143,6 +142,10 @@ public class Item {
 
     public boolean isSellable() {
         return sellable;
+    }
+
+    public boolean isHidden() {
+        return hidden || (!sellable && !buyable);
     }
 
     public long maxSize() {

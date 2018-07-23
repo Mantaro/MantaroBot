@@ -565,7 +565,7 @@
       "no_money_notice": "%1$sYou cannot transfer money you don't have.",
       "receipt_locked_notice": "1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sThis user already has too much money...",
-      "success": "%1$sTransferred **%2$,d** *(%3$,d after 10%% tax)* to **%4$s** successfully.",
+      "success": "%1$sTransferred **%2$d** *(%3$d after 10%% tax)* to **%4$s** successfully.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `transferitems` command instead.",
       "party": "You can only transfer to the same person (%1$s) once every 4 minutes."
     },
@@ -1147,8 +1147,8 @@
       "no_info": "No info."
     },
     "balance": {
-      "external_balance": "%1$s's balance is **$%2$.d credits.**",
-      "own_balance": "Your balance is **$%1$,d credits.**"
+      "external_balance": "%1$s's balance is **$%2$d credits.**",
+      "own_balance": "Your balance is **$%1$d credits.**"
     },
     "daily": {
       "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
@@ -1173,7 +1173,7 @@
     },
     "gamble": {
       "no_credits": "%1$sYou're broke. Maybe search for some credits first.",
-      "too_much_money": "%1$sYou have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs! Thanks for not breaking the local bank. *(Gamble absolute limit: %2,$d credits)*",
+      "too_much_money": "%1$sYou have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs! Thanks for not breaking the local bank. *(Gamble absolute limit: %2$d credits)*",
       "invalid_money_or_modifier": "%1$sPlease type a valid number less than or equal to your current balance or `all` to gamble all your credits.",
       "not_enough_money": "%1$sPlease type a value within your balance.",
       "invalid_percentage": "%1$sPlease type a valid percentage value.",
@@ -1184,7 +1184,7 @@
       "lose": "%1$sSadly, you lost %2$s credits. %3$s",
       "lose_all": "all of your",
       "credits": "credits",
-      "too_much": "%1$sYou can only gamble up to 275 million at once. You don't want to go full broke do you? *(Gamble single limit: %2$,d credits)*",
+      "too_much": "%1$sYou can only gamble up to 275 million at once. You don't want to go full broke do you? *(Gamble single limit: %2$d credits)*",
       "too_little": "%1$sYou cannot gamble so little money (Minimum: 100 credits)"
     },
     "loot": {
@@ -1657,6 +1657,7 @@
   "items": {
     "headphones": "Headphones",
     "ban_hammer": "Ban Hammer",
+    "die": "Loaded Die",
     "kick_boot": "Kick Boot",
     "floppy": "Floppy Disk",
     "maths": "My Maths",
