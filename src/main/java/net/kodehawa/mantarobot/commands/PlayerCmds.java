@@ -230,10 +230,10 @@ public class PlayerCmds {
                                 (marriedTo == null || !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING) +
                                         String.format(languageContext.get("commands.profile.header"), memberLooked.getEffectiveName()), userLooked.getEffectiveAvatarUrl())
                                 .setThumbnail(userLooked.getEffectiveAvatarUrl())
+                                .addField(String.format(languageContext.get("commands.profile.badge_header"), EmoteReference.TROPHY),
+                                        (player.getData().isShowBadge() ? (badges.isEmpty() ? "None" : String.format("**%s**\n", (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()))) : "None") ,false)
                                 .setDescription(
-                                        (player.getData().isShowBadge() ? (badges.isEmpty() ?
-                                                "" : String.format("**%s**\n", (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()))) : "") +
-                                                (player.getData().getDescription() == null ? languageContext.get("commands.profile.no_desc") : player.getData().getDescription())
+                                        player.getData().getDescription() == null ? languageContext.get("commands.profile.no_desc") : player.getData().getDescription()
                                 )
                                 .addField(EmoteReference.DOLLAR + languageContext.get("commands.profile.credits"), "$ " + player.getMoney(), true
                                 )

@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -63,6 +64,7 @@ public class MiscCmds {
     private final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
     private final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
     private final Random rand = new Random();
+    private final Pattern pollOptionSeparator = Pattern.compile(",\\s*");
 
     public static void iamFunction(String autoroleName, GuildMessageReceivedEvent event, I18nContext languageContext) {
         DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
@@ -332,7 +334,7 @@ public class MiscCmds {
                 }
 
 
-                String[] options = opts.get("options").get().replaceAll(String.valueOf('"'), "").split(",");
+                String[] options = pollOptionSeparator.split(opts.get("options").get().replaceAll(String.valueOf('"'), ""));
                 long timeout = Utils.parseTime(opts.get("time").get());
 
                 builder.setEvent(event)

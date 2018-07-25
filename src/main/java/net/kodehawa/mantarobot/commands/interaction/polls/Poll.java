@@ -117,7 +117,7 @@ public class Poll extends Lobby {
             User author = MantaroBot.getInstance().getUserById(owner);
 
             EmbedBuilder builder = new EmbedBuilder().setAuthor(String.format(languageContext.get("commands.poll.header"),
-                    data.getRanPolls(), author.getName()), null, author.getAvatarUrl())
+                        data.getRanPolls(), author.getName()), null, author.getAvatarUrl())
                     .setDescription(String.format(languageContext.get("commands.poll.success"), name))
                     .addField(languageContext.get("general.options"), "```md\n" + toShow + "```", false)
                     .setColor(Color.CYAN)

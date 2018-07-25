@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.guild.GenericGuildEvent;
+import net.kodehawa.mantarobot.utils.LanguageKeyNotFoundException;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -75,7 +76,7 @@ public class I18n {
                 map = (Map<String, ?>)maybeMap;
                 index++;
             } else {
-                if(language.equals("en_US") || recursion) throw new IllegalArgumentException("Missing key " + Arrays.stream(parts).collect(Collectors.joining(".")));
+                if(language.equals("en_US") || recursion) throw new LanguageKeyNotFoundException("Missing i18n key " + Arrays.stream(parts).collect(Collectors.joining(".")));
                 return get(LANGUAGE_MAP.get("en_US").map, parts, true);
             }
         }
@@ -84,7 +85,7 @@ public class I18n {
             return (String)maybeString;
         }
         if(language.equals("en_US") || recursion)
-            throw new IllegalArgumentException("Missing key " + Arrays.stream(parts).collect(Collectors.joining(".")));
+            throw new LanguageKeyNotFoundException("Missing i18n key " + Arrays.stream(parts).collect(Collectors.joining(".")));
 
         return get(LANGUAGE_MAP.get("en_US").map, parts, true);
     }

@@ -430,7 +430,7 @@ public class InfoCmds {
                         .addField(languageContext.get("commands.stats.usage.memory_usage"), getTotalMemory() - getFreeMemory() + "MB/" + getMaxMemory() + "MB", true)
                         .addField(languageContext.get("commands.stats.usage.cores"), getAvailableProcessors() + " Cores", true)
                         .addField(languageContext.get("commands.stats.usage.cpu_usage"), String.format("%.2f", getVpsCPUUsage()) + "%", true)
-                        .addField(languageContext.get("commands.stats.usage.assigned_memory"), getTotalMemory() + "MB", true)
+                        .addField(languageContext.get("commands.stats.usage.assigned_mem"), getTotalMemory() + "MB", true)
                         .addField(languageContext.get("commands.stats.usage.assigned_remaining"), getFreeMemory() + "MB", true)
                         .build()
                 ).queue();

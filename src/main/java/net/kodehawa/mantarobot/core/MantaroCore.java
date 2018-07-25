@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.core;
 import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import io.sentry.Sentry;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,16 +34,12 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
-import org.reflections.Reflections;
-import org.reflections.scanners.MethodAnnotationsScanner;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
 
 import java.lang.annotation.Annotation;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import static net.kodehawa.mantarobot.core.LoadState.*;
 
@@ -124,7 +121,6 @@ public class MantaroCore {
 
     public MantaroCore startMainComponents(boolean single) throws Exception {
         if(config == null) throw new IllegalArgumentException("Config cannot be null!");
-
         if(useSentry)
             Sentry.init(config.sentryDSN);
         if(useBanner)
@@ -135,9 +131,8 @@ public class MantaroCore {
         if(optsPackage == null)
             throw new IllegalArgumentException("Cannot look for options if you don't specify where!");
 
-        Future<Set<Class<?>>> commands = lookForAnnotatedOn(commandsPackage, Module.class);
-        Set<Class<?>> classes = commands.get(); // reflections lib not threadsafe
-        Future<Set<Class<?>>> options = lookForAnnotatedOn(optsPackage, Option.class);
+        Set<Class<?>> commands = lookForAnnotatedOn(commandsPackage, Module.class);
+        Set<Class<?>> options = lookForAnnotatedOn(optsPackage, Option.class);
 
         if(single) {
             startSingleShardInstance();
@@ -146,7 +141,7 @@ public class MantaroCore {
         }
 
         shardEventBus = new EventBus();
-        for(Class<?> aClass : classes) {
+        for(Class<?> aClass : commands) {
             try {
                 shardEventBus.register(aClass.newInstance());
             } catch(Exception e) {
@@ -154,7 +149,7 @@ public class MantaroCore {
             }
         }
 
-        for(Class<?> clazz : options.get()) {
+        for(Class<?> clazz : options) {
             try {
                 shardEventBus.register(clazz.newInstance());
             } catch(Exception e) {
@@ -182,9 +177,12 @@ public class MantaroCore {
         loadState = POSTLOAD;
     }
 
-    private Future<Set<Class<?>>> lookForAnnotatedOn(String packageName, Class<? extends Annotation> annotation) {
-        return Async.future("Annotation Lookup (" + annotation.getSimpleName() + ")", () ->
-                new Reflections(packageName, new MethodAnnotationsScanner(), new TypeAnnotationsScanner(), new SubTypesScanner()).getTypesAnnotatedWith(annotation)
-        );
+    private Set<Class<?>> lookForAnnotatedOn(String packageName, Class<? extends Annotation> annotation) {
+        HashSet<Class<?>> classes = new HashSet<>();
+        new FastClasspathScanner(packageName)
+                .matchClassesWithAnnotation(annotation, classes::add)
+                .scan(2);
+
+        return classes;
     }
 }

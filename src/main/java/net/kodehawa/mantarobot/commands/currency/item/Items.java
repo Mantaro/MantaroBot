@@ -44,7 +44,7 @@ public class Items {
             LOOT_CRATE_KEY, BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
             NECKLACE, ROSE, DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN,
             POTION_STAMINA, FISHING_ROD, FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE,
-            TELEVISION, WRENCH, MOTORCYCLE, GEM1_PICKAXE, GEM2_PICKAXE;
+            TELEVISION, WRENCH, MOTORCYCLE, GEM1_PICKAXE, GEM2_PICKAXE, PIZZA;
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 15);
@@ -127,6 +127,7 @@ public class Items {
             //TODO: proper emojis
             GEM1_PICKAXE = new Item(ItemType.CAST_MINE, "\u2692\ufe0f","Comet Gem Pickaxe", "items.comet_pick", "items.description.comet_pick", 350, true, false, "1;2", 10, 48),
             GEM2_PICKAXE = new Item(ItemType.CAST_MINE, "\u2692\ufe0f","Star Gem Pickaxe", "items.star_pick", "items.description.star_pick", 350, true, false, "1;2", 10, 49),
+            PIZZA = new Item(ItemType.COMMON, "\uD83C\uDF55","Pizza", "items.pizza", "items.description.pizza", 15, true, false, "1;2", 10, 49),
     };
 
 
@@ -212,15 +213,19 @@ public class Items {
                     playerInventory.process(reducedList);
 
                     String itemDisplay = ItemStack.toString(reducedList);
+                    boolean foundFish = !reducedList.isEmpty();
+                    //I check it down there again, I know, but at the same time the other if statement won't run if there's no money but there are fish.
+                    if(foundFish) {
+                        p.getData().addBadgeIfAbsent(Badge.FISHER);
+                    }
 
-                    if(money > 0 && reducedList.isEmpty()) {
+                    if(money > 0 && !foundFish) {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money_noitem"), EmoteReference.POPPER, money).queue();
-
                     } else if(money > 0) {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money"),
                                 EmoteReference.POPPER, itemDisplay, money, (waifuHelp ? "\n" + lang.get("commands.fish.waifu_help") : "")
                         ).queue();
-                    } else if (!reducedList.isEmpty()) {
+                    } else if (foundFish) {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.success"), EmoteReference.POPPER, itemDisplay).queue();
                     } else {
                         //somehow we go all the way back and it's dust again (forgot to handle it?)

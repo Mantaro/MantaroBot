@@ -184,6 +184,11 @@ public enum Badge {
             (player, dbUser) -> false
     ),
 
+    //Find a fish.
+    FISHER("Fisher", "\uD83C\uDFC6", "Find a fish while fishing. How calm.", 91, 92,
+            (player, dbUser) -> false
+    ),
+
     //Self-explanatory. (Description)
     RUNNER("Runner", "\uD83D\uDCCD", "Get to level 50 in Mantaro.", 91, 92,
             (player, dbUser) -> player.getLevel() >= 50

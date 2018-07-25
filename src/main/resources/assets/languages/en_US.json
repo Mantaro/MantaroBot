@@ -677,6 +677,7 @@
         "success": "%1$sMantaro will now talk to you in `%2$s`",
         "invalid": "%1$sThat language doesn't exist! You can use `reset` to reset your language settings."
       },
+      "badge_header": "%1$sDisplay Badge",
       "bot_notice": "%1$sBots don't have profiles.",
       "header": "%1$s's Profile",
       "no_desc": "No description set",
@@ -1035,20 +1036,7 @@
         "header": "Mantaro's server usage information",
         "cpu_usage": "CPU Usage",
         "rem": "RAM (TOTAL/FREE/USED)"
-      },
-      "users_guild": "Users per Guild",
-      "online_users_guild": "Online Users per Guild",
-      "online_users_users_guild": "Online Users per Users per Server",
-      "tc_server": "Text Channels per Server",
-      "vc_server": "Voice Channels per Server",
-      "music_user_server": "Music Listeners per Users per Server",
-      "music_online_user_server": "Music Listeners per Online Users per Server",
-      "music_server": "Music Connections per Server",
-      "queue_size": "Total queue size",
-      "commands": "Total commands (including custom)",
-      "exclusiveness": "Exclusiveness in Total Servers",
-      "big_servers": "Big Servers (>500 users)",
-      "milestone": "! Guilds to next milestone (%1$s): %2$s"
+      }
     },
     "social": {
       "header": "%1$sO-Oh, I see you're interested on seeing my social networks!\n\n",
@@ -1719,6 +1707,7 @@
     "motorcycle": "Motorcycle",
     "comet_pick": "Comet Gem Pickaxe",
     "star_pick": "Star Gem Pickaxe",
+    "pizza": "Pizza",
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
       "ban_hammer": "Left by an admin.",
@@ -1782,7 +1771,8 @@
       "wrench": "Casting tool. Useful to put stuff together.",
       "motorcycle": "Going around, the cool way.",
       "comet_pick": "A very much stronger pick (Comet). (`~>mine` tool).",
-      "star_pick": "A very much stronger pick (Star). (`~>mine` tool)."
+      "star_pick": "A very much stronger pick (Star). (`~>mine` tool).",
+      "pizza": "Yummy."
     }
   }
 }

@@ -472,6 +472,7 @@ public class UtilsCmds {
                         .addField("Usage", "`~>remindme do the laundry -time 1h20m`\n" +
                                 "`~>remindme cancel` to cancel a reminder." +
                                 "\nTime is in this format: 1h20m (1 hour and 20m). You can use h, m and s (hour, minute, second)", false)
+                        .addField("Note", "You can use `~>remindme ls` to check your current reminders.", false)
                         .build();
             }
         });

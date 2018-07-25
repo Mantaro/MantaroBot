@@ -82,7 +82,8 @@ public enum EmoteReference {
     HOUSE(":house:", "\uD83C\uDFE0"),
     MARKER(":large_orange_diamond:", "\uD83D\uDD36"),
     BLUE_SMALL_MARKER(":small_blue_diamond:", "\uD83D\uDD39"),
-    DUST(":dash:", "\uD83D\uDCA8");
+    DUST(":dash:", "\uD83D\uDCA8"),
+    TROPHY(":trophy:", "\uD83C\uDFC6");
 
 
     final String discordNotation;

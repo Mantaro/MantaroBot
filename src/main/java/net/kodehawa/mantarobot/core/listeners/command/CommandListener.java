@@ -39,6 +39,7 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.utils.LanguageKeyNotFoundException;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -178,15 +179,21 @@ public class CommandListener implements EventListener {
             event.getChannel().sendMessage(EmoteReference.ERROR + "Your query returned no results or you used the incorrect arguments, seemingly. Just in case, check command help!").queue();
         } catch(PermissionException e) {
             if(e.getPermission() != Permission.UNKNOWN) {
-                event.getChannel().sendMessage(String.format("%sI don't have permission to do this :<, I need the permission: **%s**%s", EmoteReference.ERROR, e.getPermission().getName(), e.getMessage() != null ? String.format(" | Message: %s", e.getMessage()) : "")).queue();
+                event.getChannel().sendMessage(String.format("%sI don't have permission to do this :(, I need the permission: **%s**%s", EmoteReference.ERROR, e.getPermission().getName(), e.getMessage() != null ? String.format(" | Message: %s", e.getMessage()) : "")).queue();
             } else {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot perform this action due to the lack of permission! Is the role I might be trying to assign" +
                         " higher than my role? Do I have the correct permissions/hierarchy to perform this action?").queue();
             }
+        } catch (LanguageKeyNotFoundException e) {
+            String id = Snow64.toSnow64(event.getMessage().getIdLong());
+            event.getChannel().sendMessageFormat("%sWrong I18n key found, please report on the support server " +
+                    "(Link on `~>about` or at `is.gd/mantaroguild`) with Error ID %s.\n*%s*", EmoteReference.ERROR, id, e.getMessage()).queue();
+            log.warn("Exception caught and alternate message sent. We should look into this. ID: {}", id, e);
         } catch(IllegalArgumentException e) { //NumberFormatException == IllegalArgumentException
             String id = Snow64.toSnow64(event.getMessage().getIdLong());
-            event.getChannel().sendMessage(String.format("%sI think you forgot something on the floor. (Maybe we threw it there? [Error ID: %s]... I hope we didn't)\n" +
-                    "- Incorrect type arguments or the message I'm trying to send exceeds 2048 characters, Just in case, check command help!", EmoteReference.ERROR, id)).queue();
+            event.getChannel().sendMessageFormat("%sI think you forgot something on the floor. (Maybe we threw it there? Just in case, the error id is `%s`)\n" +
+                    "%sCould be an internal error, but check the command arguments or maybe the message I'm trying to send exceeds 2048 characters, Just in case, check command help! " +
+                    "(Support server link can be found on `~>about` or at `is.gd/mantaroguild`)", EmoteReference.ERROR, id, EmoteReference.WARNING).queue();
             log.warn("Exception caught and alternate message sent. We should look into this, anyway (ID: {})", id, e);
         } catch(ReqlError e) {
             //So much just went wrong...
@@ -195,11 +202,11 @@ public class CommandListener implements EventListener {
         } catch(Exception e) {
             String id = Snow64.toSnow64(event.getMessage().getIdLong());
             Player player = MantaroData.db().getPlayer(event.getAuthor());
-            event.getChannel().sendMessage(
-                    String.format("%s%s\n(Error ID: `%s`)\n" +
-                                    "If you want, join our **support server** (Link on `~>about` or at `is.gd/mantaroguild`), or check out our GitHub page (/Mantaro/MantaroBot). " +
-                                    "Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
-                            EmoteReference.ERROR, boomQuotes[rand.nextInt(boomQuotes.length)], id)
+            event.getChannel().sendMessageFormat(
+                    "%s%s\n(Error ID: `%s`)\n" +
+                            "If you want, join our **support server** (Link on `~>about` or at `is.gd/mantaroguild`), or check out our GitHub page (/Mantaro/MantaroBot). " +
+                            "Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
+                            EmoteReference.ERROR, boomQuotes[rand.nextInt(boomQuotes.length)], id
             ).queue();
 
             if(player.getData().addBadgeIfAbsent(Badge.FIRE))
