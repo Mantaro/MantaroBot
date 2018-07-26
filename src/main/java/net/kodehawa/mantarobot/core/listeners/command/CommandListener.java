@@ -187,7 +187,7 @@ public class CommandListener implements EventListener {
         } catch (LanguageKeyNotFoundException e) {
             String id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessageFormat("%sWrong I18n key found, please report on the support server " +
-                    "(Link on `~>about` or at `is.gd/mantaroguild`) with Error ID %s.\n*%s*", EmoteReference.ERROR, id, e.getMessage()).queue();
+                    "(Link on `~>about` or at `is.gd/mantaroguild`) with error ID `%s`.\n%sMessage: *%s*", EmoteReference.ERROR, id, EmoteReference.ZAP, e.getMessage()).queue();
             log.warn("Exception caught and alternate message sent. We should look into this. ID: {}", id, e);
         } catch(IllegalArgumentException e) { //NumberFormatException == IllegalArgumentException
             String id = Snow64.toSnow64(event.getMessage().getIdLong());

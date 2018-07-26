@@ -1277,7 +1277,7 @@
     "server_channel_disallow": {
       "no_channel": "%1$sYou need to specify the channel where you want the bot not to listen to commands.",
       "too_many": "%1$sYou cannot disable more channels since the bot wouldn't be able to talk otherwise :(",
-      "success": "%1$sChannel %2$s will not longer listen to commands"
+      "success": "%1$sChannel %2$s will no longer listen to commands"
     },
     "server_channel_allow": {
       "no_channel": "%1$sYou need to specify the channel where you want the bot to listen to commands. (All channels by default)",
