@@ -14,6 +14,8 @@ import net.kodehawa.mantarobot.commands.custom.kaiperscript.wrapper.SafeGuildMes
 import net.kodehawa.mantarobot.commands.custom.legacy.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import xyz.avarel.kaiper.interpreter.GlobalVisitorSettings;
@@ -97,15 +99,25 @@ public class CustomCommandHandler {
         specialHandlers.put("text", (event, lang, value, args) -> event.getChannel().sendMessage(value).queue());
 
         specialHandlers.put("play", (event, lang, value, args) -> {
+            GuildData data = MantaroData.db().getGuild(event.getGuild()).getData();
+            if (data.getDisabledCommands().contains("play")) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "The play command is disabled on this server. Cannot run this custom command.").queue();
+                return;
+            }
+
+            List<String> channelDisabledCommands = data.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
+            if (channelDisabledCommands != null && channelDisabledCommands.contains("play")) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "The play command is disabled on this channel. Cannot run this custom command.").queue();
+                return;
+            }
+
             try {
                 new URL(value);
             } catch (Exception ignored) {
                 value = "ytsearch: " + value;
             }
 
-            MantaroBot.getInstance()
-                .getAudioManager()
-                .loadAndPlay(event, value, false, false, lang);
+            MantaroBot.getInstance().getAudioManager().loadAndPlay(event, value, false, false, lang);
         });
 
         specialHandlers.put("embed", (event, lang, value, args) -> {
