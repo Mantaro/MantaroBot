@@ -690,7 +690,7 @@
       "header": "**Cumpleaños del servidor %1$s para el mes de %2$s**\n",
       "invalid_date": "%1$sNo es una fecha correcta o no se encuentra en el formato requerido.\nRecuerda que el formato requerido es `dd/mm/yyyy`",
       "error_date": "%1$s%2$s no es una fecha válida o no la puedo entender. Por favor intentalo con el formato correcto. Recuerda incluir el año, aunque este no afecta nada, es necesario.\nRecuerda que el formato es `dd/mm/yyyy`",
-      "added_birthdate": "%1$sHe añadido la fecha de tu cumpleaños.",
+      "added_birthdate": "%1$sHe añadido la fecha de tu cumpleaños. Tu fecha de cumpleaños es: %2$s *(Formato: dd-MM-yyyy)*",
       "invalid_month": "%1$sEse no es un número de mes válido! (Meses válidos son números del 1 al 12)"
     },
     "choose": {

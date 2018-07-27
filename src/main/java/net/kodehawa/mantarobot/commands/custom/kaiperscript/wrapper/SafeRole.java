@@ -45,4 +45,9 @@ public class SafeRole extends SafeJDAObject<Role> {
     public boolean getIsSeparate() {
         return object.isHoisted();
     }
+
+    @Override
+    public String toString() {
+        return "Role(" + getId() + ")";
+    }
 }

@@ -26,4 +26,9 @@ public class SafeUser extends SafeJDAObject<User> {
     public String getMention() {
         return object.getAsMention();
     }
+
+    @Override
+    public String toString() {
+        return "User(" + getId() + ")";
+    }
 }

@@ -119,9 +119,10 @@ public class UtilsCmds {
                             return;
                         }
 
-                        user.getData().setBirthday(format1.format(bd1));
+                        String birthdayFormat = format1.format(bd1);
+                        user.getData().setBirthday(birthdayFormat);
                         user.save();
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.added_birthdate"), EmoteReference.CORRECT).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.added_birthdate"), EmoteReference.CORRECT, birthdayFormat).queue();
                     }
                 };
             }

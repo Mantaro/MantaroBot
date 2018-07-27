@@ -23,4 +23,9 @@ public class SafeChannel extends SafeJDAObject<TextChannel> {
     public String getMention() {
         return object.getAsMention();
     }
+
+    @Override
+    public String toString() {
+        return "Channel(" + getId() + ")";
+    }
 }

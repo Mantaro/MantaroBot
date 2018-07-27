@@ -730,7 +730,7 @@
       "header": "**%1$ss Geburtstage für %2$s**\n",
       "invalid_date": "%1$sUngültiges Datum.\nDas korrekte Format ist `tt/mm/jjjj`",
       "error_date": "%1$s%2$s ist entweder kein gültiges Datum oder nicht analysierbar. Bitte versuchen Sie es mit der korrekten Formatierung. Denken Sie daran, das Jahr einzufügen, obwohl Sie jedes Jahr setzen können und es nichts beeinflussen wird.\nDas korrekte Format ist `tt/mm/jjjj`",
-      "added_birthdate": "%1$sErfolgreich das Geburtsdatum hinzugefügt.",
+      "added_birthdate": "%1$sErfolgreich das Geburtsdatum hinzugefügt. New birthday date: %2$s *(Format: dd-MM-yyyy)*",
       "invalid_month": "%1$sDas ist keine gültige Monatszahl! (Gültige Monate sind Nummern von 1-12)",
       "no_content": "%1$sDu musst deinen Geburtstag angeben, `remove`, um deinen Geburtstag zu entfernen oder `month`, um die Monatsliste zu prüfen."
     },

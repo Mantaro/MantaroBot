@@ -18,4 +18,9 @@ public class SafeMessage extends SafeJDAObject<Message> {
     public String getStripped() {
         return object.getContentStripped();
     }
+
+    @Override
+    public String toString() {
+        return "Message(" + getId() + ")";
+    }
 }

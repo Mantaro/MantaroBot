@@ -57,4 +57,10 @@ public class SafeGuild extends SafeJDAObject<Guild> {
     public String getIconUrl() {
         return object.getIconUrl();
     }
+
+    @Override
+    public String toString() {
+        return "Guild(" + getId() + ")";
+    }
+
 }

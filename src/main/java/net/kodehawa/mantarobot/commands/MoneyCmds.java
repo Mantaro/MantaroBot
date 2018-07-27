@@ -458,6 +458,7 @@ public class MoneyCmds {
                         .setDescription("**Loot the current chat for items, for usage in Mantaro's currency system.**\n"
                                 + "Currently, there are ``" + Items.ALL.length + "`` items available in chance," +
                                 "in which you have a `random chance` of getting one or more.")
+                        .addField("Note", "The channel ground is limited to 25 items per stack.", false)
                         .addField("Usage", "~>loot", false)
                         .build();
             }

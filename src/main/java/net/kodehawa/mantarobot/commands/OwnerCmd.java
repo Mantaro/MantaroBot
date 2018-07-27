@@ -87,26 +87,38 @@ public class OwnerCmd {
                         obj.saveAsync();
                     }
 
+                    event.getChannel().sendMessage("Invalid guild scope. (Valid: add, remove)").queue();
                     return;
                 }
 
                 if(args[0].equals("user")) {
                     if(args[1].equals("add")) {
-                        if(MantaroBot.getInstance().getUserById(args[2]) == null) return;
+                        if(MantaroBot.getInstance().getUserById(args[2]) == null) {
+                            event.getChannel().sendMessage("Can't find user.").queue();
+                            return;
+                        }
+
                         obj.getBlackListedUsers().add(args[2]);
                         event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + MantaroBot.getInstance().getUserById(args[2])).queue();
+
                         obj.saveAsync();
                     } else if(args[1].equals("remove")) {
-                        if(!obj.getBlackListedUsers().contains(args[2])) return;
+                        if(!obj.getBlackListedUsers().contains(args[2])) {
+                            event.getChannel().sendMessage("User not in blacklist.").queue();
+                            return;
+                        }
+
                         obj.getBlackListedUsers().remove(args[2]);
                         event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + MantaroBot.getInstance().getUserById(args[2])).queue();
+
                         obj.saveAsync();
                     }
 
+                    event.getChannel().sendMessage("Invalid user scope. (Valid: add, remove)").queue();
                     return;
                 }
 
-                onHelp(event);
+                event.getChannel().sendMessage("Invalid scope. (Valid: user, guild)").queue();
             }
 
             @Override

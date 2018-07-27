@@ -40,10 +40,10 @@ public class CustomCommandHandler {
         //FIXME on NEXT KAIPER UPDATE:
         //GlobalVisitorSettings will be replaced by VisitorSettings instance
 
-        GlobalVisitorSettings.ITERATION_LIMIT = 200;
-        GlobalVisitorSettings.SIZE_LIMIT = 100;
+        GlobalVisitorSettings.ITERATION_LIMIT = 50;
+        GlobalVisitorSettings.SIZE_LIMIT = 80;
         GlobalVisitorSettings.MILLISECONDS_LIMIT = 200;
-        GlobalVisitorSettings.RECURSION_DEPTH_LIMIT = 100;
+        GlobalVisitorSettings.RECURSION_DEPTH_LIMIT = 50;
 
         // Special handlers
         specialHandlers.put("k", (event, lang, value, args) -> {
@@ -152,9 +152,7 @@ public class CustomCommandHandler {
 
         specialHandlers.put("image", specialHandlers.get("img"));
         specialHandlers.put("imgembed", specialHandlers.get("img"));
-
         specialHandlers.put("iam", (event, lang, value, args) -> MiscCmds.iamFunction(value, event, lang));
-
         specialHandlers.put("iamnot", (event, lang, value, args) -> MiscCmds.iamnotFunction(value, event, lang));
     }
 
@@ -241,7 +239,8 @@ public class CustomCommandHandler {
         String value = response.substring(c + 1);
 
         Func func = specialHandlers.get(prefix);
-        if (func == null) return false;
+        if (func == null)
+            return false;
 
         func.handle(event, langContext, value, args);
 
