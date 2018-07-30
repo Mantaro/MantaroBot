@@ -1133,7 +1133,7 @@
       "lose": "%1$sLamentablemente, perdiste %2$s créditos! %3$s",
       "lose_all": "todos tus",
       "credits": "créditos",
-      "too_much": "%1$sSolo puedes apostar 275 millones de una vez. No creo que quieras quedar en quiebra ¿o si...? *(Límite de apuesta: %2$d credits)*",
+      "too_much": "%1$sSolo puedes apostar 275 millones de una vez. No creo que quieras quedar en quiebra ¿o si...? *(Límite de apuesta: %2$d credits)*"
     },
     "loot": {
       "player_locked": "%1$sNo puedes lootear ahora mismo.",
