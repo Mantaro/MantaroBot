@@ -1132,7 +1132,8 @@
       "win_overflow": "%1$sFelicidades, ganaste %2$d créditos. Pero ya tenias muchos creditos. Tu bolsa explotó.",
       "lose": "%1$sLamentablemente, perdiste %2$s créditos! %3$s",
       "lose_all": "todos tus",
-      "credits": "créditos"
+      "credits": "créditos",
+      "too_much": "%1$sSolo puedes apostar 275 millones de una vez. No creo que quieras quedar en quiebra ¿o si...? *(Límite de apuesta: %2$d credits)*",
     },
     "loot": {
       "player_locked": "%1$sNo puedes lootear ahora mismo.",
@@ -1219,7 +1220,7 @@
       "success": "%1$sEl canal %2$s ya no escuchará comandos."
     },
     "server_channel_allow": {
-      "success": "%sEl canal %s ahora escuchará comandos"
+      "success": "%1$sEl canal %2$s ahora escuchará comandos"
     },
     "category_disable": {
       "no_category": "%1$sNecesitas especificar una categoría para deshabilitar.",
@@ -1282,7 +1283,7 @@
       "success": "%1$sAhora puedo reproducir música en todos los canales"
     },
     "music_vote_toggle": {
-      "success": "%1$sVotos necesarios (para stop/skip) ahora son %s"
+      "success": "%1$sVotos necesarios (para stop/skip) ahora son %2$s"
     },
     "localblacklist_add":{
       "invalid": "%1$s**Necesitas especificar los usuarios que agregar a la lista negra local.**",
@@ -1307,7 +1308,7 @@
       "remove": {
         "success": "%1$sRegistro de mensajes de excepciones removido del canal: %2$s"
       },
-      "success": "%1$sRegistro de mensajes de excepciones agregado al canal: %s",
+      "success": "%1$sRegistro de mensajes de excepciones agregado al canal: %2$s",
       "invalid": "%1$sLongitud incorrecta del argumento."
     },
     "lobby_reset": {
@@ -1337,11 +1338,11 @@
     "linkprotection_user_disallow": {
       "no_mentions": "%1$sNecesitas mencionar a un usuario al cual se le prohiba publicar invitaciones!",
       "not_whitelisted": "%1$sA este usuario no está en la lista que le permite enviar invitaciones!",
-      "success": "%1$sAl usuario %s#%s ahora se le prohibe publicar invitaciones."
+      "success": "%1$sAl usuario %2$s#%3$s ahora se le prohibe publicar invitaciones."
     },
     "imageboard_tags_blacklist_add": {
       "no_tag": "%1$sNecesitas especificar un tag para agregar a la lista negra!",
-      "success": "%1$sEl tag %s ha sido agregado a la lista negra de búsqueda de imágenes."
+      "success": "%1$sEl tag %2$s ha sido agregado a la lista negra de búsqueda de imágenes."
     },
     "imageboard_tags_blacklist_remove": {
       "no_tag": "%1$sNecesitas especificar un tag para remover de la lista negra!",
@@ -1350,10 +1351,10 @@
     "birthday_enable": {
       "public_role": "%1$sNo puedes usar el rol everyone como rol de cumpleaños! Recuerda que el rol de cumpleaños es un rol que se asigna a la persona el día de su cumpleaños, y luego es removida al terminar el día.",
       "autorole": "%1$sNo puedes utilizar un rol autorole como rol de cumpleaños! Recuerda que el rol de cumpleaños es un rol que se asigna a la persona el día de su cumpleaños, y luego es removida al terminar el día.",
-      "warning": "%sRecuerda que el rol de cumpleaños es un rol que se asigna a la persona el día de su cumpleaños, y luego es removida al terminar el día. Si tienes alguna duda de como configurarlo, siempre puedes unirte al servidor de soporte y preguntar. También puedes usar `~>opts help birthday enable` para tener un ejemplo.",
+      "warning": "%1$sRecuerda que el rol de cumpleaños es un rol que se asigna a la persona el día de su cumpleaños, y luego es removida al terminar el día. Si tienes alguna duda de como configurarlo, siempre puedes unirte al servidor de soporte y preguntar. También puedes usar `~>opts help birthday enable` para tener un ejemplo.",
       "warning_1": "Esto es debido a como el asignador de cumpleaños funciona: Le asigna un rol temporal a la persona en su cumpleaños, y lo remueve una vez que termine el día de su cumpleaños. **Esto quiere decir que todos aquellos con el rol de cumpleaños lo tendrán removido una vez que termine el día de su cumpleaños**. Por favor ten cuidado a la hora de elegir el rol a usar, pues un detalle de este tipo puede llegar a causar muchos problemas (en serio)!",
       "warning_2": "El rol *tiene que ser un nuevo rol o un rol que no esté en uso por nadie más*. NO DEBE ser un rol que sea usado por otros usuarios.",
-      "warning_3": "Escribe **yes** si estas de acuerdo con usar el rol %s como rol de cumpleaños, o escribe **no** para cancelar. Este mensaje se cancela en 45 segundos.",
+      "warning_3": "Escribe **yes** si estas de acuerdo con usar el rol %1$s como rol de cumpleaños, o escribe **no** para cancelar. Este mensaje se cancela en 45 segundos.",
       "success": "%1$sRegistro de mensajes de cumpleaños ha sido habilitado en este servidor con los parametros -> Canal: `%2$s (%3$s)` y rol: `%4$s (%5$s)`",
       "error_channel_1": "%1$sNo encontré el canal o el rol!",
       "error_channel_2": "**Recuerda, no tienes que mencionar ni el rol ni el canal, más bien solo escribe su nombre, el orden es <canal> <rol>, sin utilizar \"<>\".**"
@@ -1391,7 +1392,7 @@
       "success": "%1$sReiniciado correctamente el canal de entrada del servidor!"
     },
     "usermessage_leave_channel": {
-      "success": "%1$sEl canal de salida del servidor ahora es: %s"
+      "success": "%1$sEl canal de salida del servidor ahora es: %2$s"
     },
     "usermessage_leave_resetchannel": {
       "success": "%1$sReiniciado correctamente el canal de salida del servidor!"

@@ -1172,7 +1172,7 @@
       "lose": "%1$sLeider verlierst du %2$s Credits. %3$s",
       "lose_all": "alle deine",
       "credits": "Credits",
-      "too_much": "1%sDu kannst nur bis zu 275 Millionen auf einmal setzen. Du möchtest nicht vollkommen pleite gehen, oder? *(Einsatzlimit: %2$d Credits)*",
+      "too_much": "%1$sDu kannst nur bis zu 275 Millionen auf einmal setzen. Du möchtest nicht vollkommen pleite gehen, oder? *(Einsatzlimit: %2$d Credits)*",
       "too_little": "%1$sDu kannst nicht so wenig setzen (Minimum: 100 Credits)"
     },
     "loot": {
@@ -1346,7 +1346,7 @@
       "success": "%1$sIch kann jetzt in allen Kanälen Musik spielen."
     },
     "music_vote_toggle": {
-      "success": "%1$sAbstimmung (zum stoppen/überspringen) ist jetzt auf %s gesetzt."
+      "success": "%1$sAbstimmung (zum stoppen/überspringen) ist jetzt auf %2$s gesetzt."
     },
     "localblacklist_add":{
       "invalid": "%1$s**Du must einen Nutzer zum lokalen Ignorieren lassen angeben.**",
@@ -1373,7 +1373,7 @@
       "remove": {
         "success": "%1$sLogausnahme entfernt in Kanal: %2$s"
       },
-      "success": "%1$sLogausnahme hinzugefügt in Kanal: %s",
+      "success": "%1$sLogausnahme hinzugefügt in Kanal: %2$s",
       "invalid": "%1$sInkorrekte Argumentlänge."
     },
     "lobby_reset": {
@@ -1407,11 +1407,11 @@
       "no_channel": "%1$sDu musst einen Nutzer angeben, der vom Einladungsprüfer nicht ignoriert werden soll. (Alle außer Admins standardmäßig.",
       "no_mentions": "%1$sDu musst einen Nutzer erwähnen, um ihm zu verbieten, Einladungen zu posten!",
       "not_whitelisted": "%1$sDieser Nutzer hat keine Erlaubnis Einladungen zu posten!",
-      "success": "%1$sErfolgreich dem Nutzer %s#%s verboten Discord-Einladungen zu posten."
+      "success": "%1$sErfolgreich dem Nutzer %2$s#%3$s verboten Discord-Einladungen zu posten."
     },
     "imageboard_tags_blacklist_add": {
       "no_tag": "%1$sDu musst mindestens einen Tag zum verbieten angeben!",
-      "success": "%1$sErfolgreich %s für die Bildersuche verboten."
+      "success": "%1$sErfolgreich %2$s für die Bildersuche verboten."
     },
     "imageboard_tags_blacklist_remove": {
       "no_tag": "%1$sDu musst mindestens einen Tag zum Erlauben angeben!",
@@ -1421,10 +1421,10 @@
       "no_args": "%1$sDu musst den Kanal- und Rollennamen angeben.",
       "public_role": "%1$sDu kannst die everyone-Rolle nicht als Geburtstagsrolle setzen! Beachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird.",
       "autorole": "%1$sDu kannst nicht die autorole-Rolle als Geburtstagsrolle setzen! Beachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird.",
-      "warning": "%sBeachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird. Wenn du Zweifel daran hast, wie du sie konfigurieren musst, kannst du immer dem Support-Server beitreten und fragen. Du kannst auch `~>opts help birthday enable` für ein Beispiel anschauen",
+      "warning": "%1$sBeachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird. Wenn du Zweifel daran hast, wie du sie konfigurieren musst, kannst du immer dem Support-Server beitreten und fragen. Du kannst auch `~>opts help birthday enable` für ein Beispiel anschauen",
       "warning_1": "So funktioniert der Geburtstagsanzeiger: Er vergibt eine temporäre Rolle an die Personen, die Geburtstag haben und nimmt ihnen die Rolle ab, wenn der Tag endet. **Das bedeutet, dass jeder mit der Geburtstagrolle die Rolle verliert, wenn der Geburtstag endet**. Bitte sei vorsichtig, wenn du auswählst welche Rolle du nutzen willst, da eine Fehleinstellung böse Folgen haben kann (sehr böse)!",
       "warning_2": "Due Rolle *muss eine neu erstellte Rolle sein, oder eine, die du für niemanden sonst verwendest*. Es DARF KEINE Rolle sein, die du bereits bei deinen Nutzern benutzt.",
-      "warning_3": "Gebe **yes** ein, wenn du zustimmst, die Rolle %s als Geburtstagsrolle zu setzen, und **no** zum abbrechen. Diese Wahl endet in 45 Sekunden.",
+      "warning_3": "Gebe **yes** ein, wenn du zustimmst, die Rolle %1$s als Geburtstagsrolle zu setzen, und **no** zum abbrechen. Diese Wahl endet in 45 Sekunden.",
       "success": "%1$sGeburtstagslogging auf diesem Server mit Parametern aktiviert -> Kanal `%2$s (%3$s)` und Rolle: `%4$s (%5$s)`",
       "error_channel_1": "%1$sIch habe keinen Kanal oder Rolle gefunden!",
       "error_channel_2": "**Beachte, du musst weder den Kanal noch die Rolle erwähnen, sonder nur den Namen schreiben, die Reihenfolge ist <Kanal> <Rolle>, ohne die \"<>\".**"
@@ -1466,7 +1466,7 @@
     },
     "usermessage_leave_channel": {
       "no_channel": "%1$sDu musst mir einen Kanal für die Abschiedsnachrit nennen.",
-      "success": "%1$sDer Nutzeraustrittslogkanal ist jetzt: %s"
+      "success": "%1$sDer Nutzeraustrittslogkanal ist jetzt: %2$s"
     },
     "usermessage_leave_resetchannel": {
       "success": "%1$sErfolgreich den Nutzeraustrittslogkanal zurückgestzt!"
