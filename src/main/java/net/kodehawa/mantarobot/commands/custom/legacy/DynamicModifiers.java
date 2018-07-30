@@ -23,6 +23,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.guild.member.GenericGuildMemberEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
@@ -77,13 +78,13 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
     }
 
     public DynamicModifiers mapEvent(String prefix, GuildMessageReceivedEvent event) {
-        return this
-            .set(prefix, event.getMember().getAsMention() + "@" + event.getChannel().getAsMention())
-            .mapChannel(k(prefix, "channel"), event.getChannel())
-            .mapGuild(k(prefix, "guild"), event.getGuild())
-            .mapMember(k(prefix, "me"), event.getGuild().getSelfMember())
-            .mapMember(k(prefix, "author"), event.getMember())
-            .mapMessage(k(prefix, "message"), event.getMessage());
+        return this.set(prefix, event.getMember().getAsMention() + "@" + event.getChannel().getAsMention())
+                .set(prefix, "timestamp", new Date(System.currentTimeMillis()).toString())
+                .mapChannel(k(prefix, "channel"), event.getChannel())
+                .mapGuild(k(prefix, "guild"), event.getGuild())
+                .mapMember(k(prefix, "me"), event.getGuild().getSelfMember())
+                .mapMember(k(prefix, "author"), event.getMember())
+                .mapMessage(k(prefix, "message"), event.getMessage());
     }
 
     public DynamicModifiers mapEvent(String prefix, GenericGuildMemberEvent event) {

@@ -121,7 +121,7 @@ public class GuildOptions extends OptionHandler {
             }
 
             event.getGuild().getController().addSingleRoleToMember(m, birthdayRole).queue(success ->
-                    birthdayChannel.sendMessage(EmoteReference.POPPER + m.getEffectiveName() + " is a year older now! (test)").queue(s ->
+                    birthdayChannel.sendMessage(String.format("%s%s is a year older now! (test)", EmoteReference.POPPER, m.getEffectiveName())).queue(s ->
                                     event.getChannel().sendMessageFormat(lang.get("options.birthday_test.success"),
                             EmoteReference.CORRECT, birthdayChannel.getName(), m.getEffectiveName(), birthdayRole.getName()
                     ).queue(), error ->

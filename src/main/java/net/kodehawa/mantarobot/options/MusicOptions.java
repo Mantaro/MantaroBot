@@ -75,7 +75,7 @@ public class MusicOptions extends OptionHandler {
             boolean t1 = guildData.isMusicAnnounce();
 
             guildData.setMusicAnnounce(!t1);
-            event.getChannel().sendMessageFormat(lang.get("musicannounce_toggle.success"), EmoteReference.CORRECT, !t1).queue();
+            event.getChannel().sendMessageFormat(lang.get("options.musicannounce_toggle.success"), EmoteReference.CORRECT, !t1).queue();
             dbGuild.save();
         });
 

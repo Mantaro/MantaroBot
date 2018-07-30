@@ -113,7 +113,7 @@ public class ActionCmds {
 
         //stare()
         cr.register("stare", new ImageActionCmd("Stare", "Stares at someone", Color.PINK,
-                "stare", EmoteReference.EYES, "commands.action.smile", "stare", "commands.action.lonely.stare", "commands.action.self.stare", true));
+                "stare", EmoteReference.EYES, "commands.action.stare", "stare", "commands.action.lonely.stare", "commands.action.self.stare", true));
 
         //holdhands()
         cr.register("holdhands", new ImageActionCmd("Hold Hands", "Hold someone's hands", Color.PINK,

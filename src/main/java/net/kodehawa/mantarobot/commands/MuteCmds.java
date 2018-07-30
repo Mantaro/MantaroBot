@@ -52,7 +52,8 @@ import java.util.regex.Pattern;
 @Module
 @SuppressWarnings("unused")
 public class MuteCmds {
-    private static Pattern timePattern = Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
+    private static Pattern timePattern = Pattern.compile("[(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
+    private static Pattern muteTimePattern = Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
 
     @Subscribe
     public void mute(CommandRegistry registry) {
@@ -99,7 +100,7 @@ public class MuteCmds {
 
                 reason = Utils.mentionPattern.matcher(reason).replaceAll("");
                 //Regex from: Fabricio20
-                final String finalReason = timePattern.matcher(reason).replaceAll("");
+                final String finalReason = muteTimePattern.matcher(reason).replaceAll("");
 
                 MantaroObj data = db.getMantaroData();
                 Member member = Utils.findMember(event, event.getMember(), affected);

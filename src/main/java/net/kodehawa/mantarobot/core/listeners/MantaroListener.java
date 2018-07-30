@@ -76,7 +76,7 @@ import static net.kodehawa.mantarobot.utils.Utils.THIRD_PARTY_INVITE;
 @Slf4j
 public class MantaroListener implements EventListener {
     private static final Cache<String, Long> INVITES = CacheBuilder.newBuilder()
-            .maximumSize(10000)
+            .maximumSize(5500)
             .build();
 
     private static int logTotal = 0;
@@ -89,10 +89,6 @@ public class MantaroListener implements EventListener {
     public MantaroListener(int shardId, MantaroShard shard) {
         this.shardId = shardId;
         this.shard = shard;
-    }
-
-    public static String getLogTotal() {
-        return String.valueOf(logTotal);
     }
 
     public static int getLogTotalInt() {
@@ -518,8 +514,7 @@ public class MantaroListener implements EventListener {
                             MantaroBot.getInstance().getStatsClient().increment("join_autorole");
                         }
                     }
-                } catch (Exception ignored) {
-                }
+                } catch (Exception ignored) { }
             }
 
             String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
@@ -536,6 +531,9 @@ public class MantaroListener implements EventListener {
         }
 
         try {
+            if(data.isIgnoreBotsWelcomeMessage())
+                return;
+
             String joinChannel = data.getLogJoinLeaveChannel() != null && event.getGuild().getTextChannelById(data.getLogJoinLeaveChannel()) != null ?
                     data.getLogJoinLeaveChannel() : data.getLogJoinChannel();
             String joinMessage = data.getJoinMessage();
@@ -572,6 +570,9 @@ public class MantaroListener implements EventListener {
         }
 
         try {
+            if(data.isIgnoreBotsWelcomeMessage())
+                return;
+
             String leaveChannel = data.getLogJoinLeaveChannel() != null && event.getGuild().getTextChannelById(data.getLogJoinLeaveChannel()) != null ?
                     data.getLogJoinLeaveChannel() : data.getLogLeaveChannel();
             String leaveMessage = data.getLeaveMessage();

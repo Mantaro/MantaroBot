@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.core;
 
 import com.google.common.base.Preconditions;
+import com.timgroup.statsd.StatsDClient;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
@@ -37,6 +38,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
@@ -66,19 +68,21 @@ public class CommandRegistry {
     //BEWARE OF INSTANCEOF CALLS
     //I know there are better approaches to this, THIS IS JUST A WORKAROUND, DON'T TRY TO REPLICATE THIS.
     public boolean process(GuildMessageReceivedEvent event, String cmdName, String content) {
+        final ManagedDatabase managedDatabase = MantaroData.db();
         long start = System.currentTimeMillis();
+
         Command command = commands.get(cmdName.toLowerCase());
-        if (MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) {
+        if (managedDatabase.getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) {
             return false;
         }
 
-        DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
-        DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
+        DBGuild dbg = managedDatabase.getGuild(event.getGuild());
+        DBUser dbUser = managedDatabase.getUser(event.getAuthor());
         UserData userData = dbUser.getData();
-        GuildData data = dbg.getData();
+        GuildData guildData = dbg.getData();
 
         if (command == null) {
-            CustomCmds.handle(cmdName, event, new I18nContext(data, userData), content);
+            CustomCmds.handle(cmdName, event, new I18nContext(guildData, userData), content);
             return false;
         }
 
@@ -93,20 +97,20 @@ public class CommandRegistry {
         //Variable used in lambda expression should be final or effectively final...
         final Command cmd = command;
 
-        if (data.getDisabledCommands().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) {
+        if (guildData.getDisabledCommands().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) {
             return false;
         }
 
-        List<String> channelDisabledCommands = data.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
+        List<String> channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
         if (channelDisabledCommands != null && channelDisabledCommands.contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) {
             return false;
         }
 
-        if (data.getDisabledUsers().contains(event.getAuthor().getId()) && !isAdmin(event.getMember())) {
+        if (guildData.getDisabledUsers().contains(event.getAuthor().getId()) && !isAdmin(event.getMember())) {
             return false;
         }
 
-        if (data.getDisabledChannels().contains(event.getChannel().getId()) && (cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() != Category.MODERATION : cmd.category() != Category.MODERATION)) {
+        if (guildData.getDisabledChannels().contains(event.getChannel().getId()) && (cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() != Category.MODERATION : cmd.category() != Category.MODERATION)) {
             return false;
         }
 
@@ -114,17 +118,17 @@ public class CommandRegistry {
 //            return false;
 //        }
 
-        if (data.getDisabledCategories().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) {
+        if (guildData.getDisabledCategories().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) {
             return false;
         }
 
-        if (data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), c ->
+        if (guildData.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), c ->
                 new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) {
             return false;
         }
 
-        if (data.getWhitelistedRole() != null) {
-            Role whitelistedRole = event.getGuild().getRoleById(data.getWhitelistedRole());
+        if (guildData.getWhitelistedRole() != null) {
+            Role whitelistedRole = event.getGuild().getRoleById(guildData.getWhitelistedRole());
             if ((whitelistedRole != null && event.getMember().getRoles().stream().noneMatch(r -> whitelistedRole.getId().equalsIgnoreCase(r.getId())) && !isAdmin(event.getMember()))) {
                 return false;
             }
@@ -132,16 +136,16 @@ public class CommandRegistry {
             //else continue.
         }
 
-        if (!data.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream().anyMatch(r -> data.getDisabledRoles().contains(r.getId())) && !isAdmin(event.getMember())) {
+        if (!guildData.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream().anyMatch(r -> guildData.getDisabledRoles().contains(r.getId())) && !isAdmin(event.getMember())) {
             return false;
         }
 
-        HashMap<String, List<String>> roleSpecificDisabledCommands = data.getRoleSpecificDisabledCommands();
+        HashMap<String, List<String>> roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
         if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) && !isAdmin(event.getMember())) {
             return false;
         }
 
-        HashMap<String, List<Category>> roleSpecificDisabledCategories = data.getRoleSpecificDisabledCategories();
+        HashMap<String, List<Category>> roleSpecificDisabledCategories = guildData.getRoleSpecificDisabledCategories();
         if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCategories.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) && !isAdmin(event.getMember())) {
             return false;
         }
@@ -158,17 +162,17 @@ public class CommandRegistry {
             return false;
         }
 
-        PremiumKey currentKey = MantaroData.db().getPremiumKey(userData.getPremiumKey());
+        PremiumKey currentKey = managedDatabase.getPremiumKey(userData.getPremiumKey());
         if(currentKey != null) {
             //10 days before expiration or best fit.
-            if(currentKey.validFor() < 10 && !userData.isReceivedExpirationWarning()) {
+            if(currentKey.validFor() <= 10 && !userData.isReceivedExpirationWarning()) {
                 event.getAuthor().openPrivateChannel().queue(privateChannel ->
                         privateChannel.sendMessage(EmoteReference.WARNING + "Your premium key is about to run out in **" + Math.max(1, currentKey.validFor()) + " days**!\n" +
                                 EmoteReference.HEART + "*If you're still pledging to Mantaro* you can ask Kodehawa#3457 for a key renewal in the #donators channel. " +
                                 "In the case that you're not longer a patron, you cannot renew, but I sincerely hope you had a good time with the bot and its features! " +
                                 "**If you ever want to pledge again you can check the patreon link at <https://patreon.com/mantaro>**\n\n" +
                                 "Thanks you so much for your support to keep Mantaro alive! It wouldn't be possible without the help of all of you.\n" +
-                                "With love, Kodehawa#3457 " + EmoteReference.HEART).queue()
+                                "With love, Kodehawa#3457 " + EmoteReference.HEART + ". This will only be sent once.").queue()
                 );
 
                 //Set expiration warning flag to true and save.
@@ -178,25 +182,26 @@ public class CommandRegistry {
         }
 
         long end = System.currentTimeMillis();
-        MantaroBot.getInstance().getStatsClient().increment("commands");
+        final StatsDClient statsClient = MantaroBot.getInstance().getStatsClient();
+
+        statsClient.increment("commands");
         log.debug("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
-        cmd.run(event, new I18nContext(data, userData), cmdName, content);
+        cmd.run(event, new I18nContext(guildData, userData), cmdName, content);
 
         //Logging
         if(cmd.category() != null && cmd.category().name() != null && !cmd.category().name().isEmpty()) {
-            MantaroBot.getInstance().getStatsClient().increment("command", "name:" + cmdName);
-            MantaroBot.getInstance().getStatsClient().increment("category", "name:" + cmd.category().name().toLowerCase());
+            statsClient.increment("command", "name:" + cmdName);
+            statsClient.increment("category", "name:" + cmd.category().name().toLowerCase());
 
             JDA.ShardInfo shardInfo = event.getJDA().getShardInfo();
             int shardId = shardInfo == null ? 0 : shardInfo.getShardId();
-
-            MantaroBot.getInstance().getStatsClient().increment("shard_command", "id:" + shardId);
+            statsClient.increment("shard_command", "id:" + shardId);
 
             CommandStatsManager.log(cmdName);
             CategoryStatsManager.log(cmd.category().name().toLowerCase());
         }
 
-        MantaroBot.getInstance().getStatsClient().histogram("command_process_time", (end - start));
+        statsClient.histogram("command_process_time", (end - start));
 
         return true;
     }

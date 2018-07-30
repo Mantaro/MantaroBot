@@ -79,8 +79,6 @@ public class MantaroBot extends ShardedJDA {
     private BirthdayCacher birthdayCacher;
     @Getter
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
-    @Getter
-    private TLongIntHashMap pledgers = new TLongIntHashMap();
 
     //just in case
     static {
@@ -153,13 +151,6 @@ public class MantaroBot extends ShardedJDA {
         birthdayCacher = new BirthdayCacher();
         final MuteTask muteTask = new MuteTask();
         Async.task("Mute Handler", muteTask::handle, 1, TimeUnit.MINUTES);
-        refreshPatreonPledges(config);
-    }
-
-    public void refreshPatreonPledges(Config config) {
-        pledgers.clear();
-
-        //todo? 328369 id camp
     }
 
     public static void main(String[] args) {
@@ -235,7 +226,7 @@ public class MantaroBot extends ShardedJDA {
         }
 
         //Start the birthday cacher.
-        executorService.scheduleWithFixedDelay(birthdayCacher::cache, 22, 22, TimeUnit.HOURS);
+        executorService.scheduleWithFixedDelay(birthdayCacher::cache, 22, 23, TimeUnit.HOURS);
     }
 
     @Override

@@ -730,7 +730,7 @@
       "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running (internal error) :(",
       "error": "%1$sSomething went wrong while getting birthdays (internal error) :(",
       "header": "**%1$s's Birthdays for %2$s**\n",
-      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd/mm/yyyy`",
+      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm-yyyy`",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting. Remember to include the year, although you can put any year and it won't affect anything.\nRemember that the date format is `dd/mm/yyyy`",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM-yyyy)*",
       "invalid_month": "%1$sThat's not a valid month number! (Valid months are numbers from 1 to 12)",
@@ -767,7 +767,8 @@
       "header": "Urban Dictionary definition for %1$s",
       "too_many_args": "%1$sToo many arguments! Page format is `name->page number`",
       "main_def": "Main definition.",
-      "footer": "Information by Urban Dictionary"
+      "footer": "Information by Urban Dictionary",
+      "nsfw_notice": "%1$sThis command can only be used in NSFW channels due to the nature of its results."
     },
     "weather": {
       "header": "%1$s Forecast information for %2$s",
@@ -1281,7 +1282,7 @@
     },
     "server_channel_allow": {
       "no_channel": "%1$sYou need to specify the channel where you want the bot to listen to commands. (All channels by default)",
-      "success": "%sChannel %s will now listen to commands"
+      "success": "%1$sChannel %2$s will now listen to commands"
     },
     "category_disable": {
       "no_category": "%1$sYou need to specify a category to disable.",
@@ -1346,7 +1347,7 @@
       "success": "%1$sI can play music on all channels now"
     },
     "music_vote_toggle": {
-      "success": "%1$sVoting (to stop/skip) is now set to %s"
+      "success": "%1$sVoting (to stop/skip) is now set to %2$s"
     },
     "localblacklist_add":{
       "invalid": "%1$s**You need to specify the users to locally blacklist.**",
@@ -1373,7 +1374,7 @@
       "remove": {
         "success": "%1$sRemoved logs exception on channel: %2$s"
       },
-      "success": "%1$sAdded logs exception on channel: %s",
+      "success": "%1$sAdded logs exception on channel: %2$s",
       "invalid": "%1$sIncorrect argument length."
     },
     "lobby_reset": {
@@ -1407,11 +1408,11 @@
       "no_channel": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
       "no_mentions": "%1$sYou need to mention the user to blacklist from posting invites!",
       "not_whitelisted": "%1$sThis user isn't in the invite posting whitelist!",
-      "success": "%1$sSuccessfully blacklisted %s#%s from posting discord invites."
+      "success": "%1$sSuccessfully blacklisted %2$s#%3$s from posting discord invites."
     },
     "imageboard_tags_blacklist_add": {
       "no_tag": "%1$sYou need to specify at least a tag to blacklist!",
-      "success": "%1$sSuccessfully blacklisted %s from image search."
+      "success": "%1$sSuccessfully blacklisted %2$s from image search."
     },
     "imageboard_tags_blacklist_remove": {
       "no_tag": "%1$sYou need to specify at least a tag to un-blacklist!",
@@ -1421,10 +1422,10 @@
       "no_args": "%1$sYou need to specify the channel name and the role name.",
       "public_role": "%1$sYou cannot set the everyone role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
       "autorole": "%1$sYou cannot set the autorole role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
-      "warning": "%sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
+      "warning": "%1$sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
       "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and un-assigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
       "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users.",
-      "warning_3": "Type **yes** if you agree to set the role %s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
+      "warning_3": "Type **yes** if you agree to set the role %1$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
       "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
       "error_channel_1": "%1$sI didn't find a channel or role!",
       "error_channel_2": "**Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".**"
@@ -1466,7 +1467,7 @@
     },
     "usermessage_leave_channel": {
       "no_channel": "%1$sYou need to specify what channel you want me to send the leave message.",
-      "success": "%1$sThe user leave log channel is now set to: %s"
+      "success": "%1$sThe user leave log channel is now set to: %2$s"
     },
     "usermessage_leave_resetchannel": {
       "success": "%1$sSuccessfully reset log leave channel!"
@@ -1477,11 +1478,11 @@
     },
     "usermessage_joinmessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone joins!",
-      "success": "%1$sServer join message set to: %2$s"
+      "success": "%1$sServer join message set to: `%2$s`"
     },
     "usermessage_leavemessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone leaves!",
-      "success": "%1$sServer leave message set to: %2$s"
+      "success": "%1$sServer leave message set to: `%2$s`"
     },
     "autoroles_add": {
       "no_args": "%1$sYou need to specify the name of the iam and the name of the role.",
@@ -1531,7 +1532,7 @@
     },
     "levelupmessages_message_set": {
       "no_message": "%1$sYou need to specify the message you want to show on user level-up. *Tip: The username of the person is done using the $(user) argument on the message*",
-      "success": "%1$sServer level-up message set to: %2$s"
+      "success": "%1$sServer level-up message set to: `%2$s`"
     },
     "levelupmessages_message_clear": {
       "success": "%1$sCleared level-up message!"
@@ -1548,11 +1549,11 @@
       "success": "%1$sCleared birthday message!"
     },
     "defaultmutetimeout_set": {
-      "not_specified": "%1$sYou have to specify a timeout in the format of 1m20s, for example.",
-      "wrong_format": "%1$sWrong time format. You have to specify a timeout in the format of 1m20s, for example.",
+      "not_specified": "%1$sYou have to specify a mute timeout in the format of 1m20s, for example.",
+      "wrong_format": "%1$sWrong time format. You have to specify a mute timeout in the format of 1m20s, for example.",
       "too_long": "%1$sThe time specified is too long...",
       "negative_notice": "You cannot mute someone for negative time!",
-      "success": "%1$sSuccessfully set mod action timeout to `%2$s` (%3$dms)"
+      "success": "%1$sSuccessfully set default mute timeout to *%2$s* (%3$dms)"
     },
     "defaultmutetimeout_reset": {
       "success": "%1$sSuccessfully reset timeout."
@@ -1568,12 +1569,13 @@
       "success": "%1$sCorrectly reset your options!"
     },
     "birthday_test": {
+      "no_user": "%1$sYou need to specify an user to test the assigner with.",
       "no_bd_channel": "%1$sYou don't have any birthday channel set!",
       "no_bd_role": "%1$sYou don't have any role set for the birthday setter!",
       "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel.",
       "cannot_interact": "%1$sThe bot is unable to interact with the birthday role.",
-      "success": "%1$sDone! The message was sent on channel %1$s for user **%2$s**. They got assigned the role %3$s",
-      "error": "%1$sOw... There was an error while sending the message on channel %1$s for user **%2$s** and role %3$s"
+      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role %4$s",
+      "error": "%1$sOw... There was an error while sending the message on channel %2$s for user **%3$s** and role %4$s"
     },
     "usermessage_joinmessage_add": {
       "no_message": "%1$sYou need to specify what extra message you want me to say when someone joins!",

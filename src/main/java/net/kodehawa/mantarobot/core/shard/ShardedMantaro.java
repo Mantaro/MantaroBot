@@ -17,11 +17,7 @@
 package net.kodehawa.mantarobot.core.shard;
 
 import br.com.brjdevs.java.utils.async.Async;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
-import gnu.trove.impl.unmodifiable.TUnmodifiableLongSet;
-import gnu.trove.set.TLongSet;
-import gnu.trove.set.hash.TLongHashSet;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.VoiceChannel;
@@ -40,16 +36,16 @@ import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
-import okhttp3.*;
-import org.json.JSONArray;
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
 
@@ -61,7 +57,6 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
  */
 @Slf4j
 public class ShardedMantaro {
-
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final Carbonitex carbonitex = new Carbonitex();
     private final Config config = MantaroData.config().get();
@@ -73,9 +68,6 @@ public class ShardedMantaro {
     private final MantaroShard[] shards;
     @Getter
     private final int totalShards;
-    @Getter
-    private TUnmodifiableLongSet discordBotsUpvoters = new TUnmodifiableLongSet(new TLongHashSet());
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token, ICommandProcessor commandProcessor) {
         int shardAmount = totalShards;
@@ -183,31 +175,6 @@ public class ShardedMantaro {
                     log.debug("Updated server count ({}) for discordbots.org", count);
                 } catch(Exception ignored) {}
             }, 1, TimeUnit.HOURS);
-
-            Async.task("discordbots.org upvotes task", () -> {
-                if(config.dbotsorgToken == null) return;
-                try {
-                    Request request = new Request.Builder()
-                            .url("https://discordbots.org/api/bots/213466096718708737/votes?onlyids=1")
-                            .addHeader("Authorization", config.dbotsorgToken)
-                            .build();
-
-                    Response r = Utils.httpClient.newCall(request).execute();
-
-                    ResponseBody body = r.body();
-                    if(body == null)
-                        return;
-
-                    @SuppressWarnings("unchecked") //It's definitely String.
-                    List<String> upvoters = objectMapper.readValue(body.string(), List.class);
-                    List<Long> upvotersLong = upvoters.stream().map(Long::parseLong).distinct().collect(Collectors.toList());
-                    TLongSet set = new TLongHashSet();
-                    set.addAll(upvotersLong);
-                    discordBotsUpvoters = new TUnmodifiableLongSet(set);
-
-                    r.close();
-                } catch(Exception ignored) {}
-            }, 5, TimeUnit.MINUTES);
         } else {
             log.warn("discordbots.org token not set in config, cannot start posting stats!");
         }

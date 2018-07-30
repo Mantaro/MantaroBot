@@ -120,7 +120,9 @@ public class MantaroCore {
     }
 
     public MantaroCore startMainComponents(boolean single) throws Exception {
-        if(config == null) throw new IllegalArgumentException("Config cannot be null!");
+        if(config == null)
+            throw new IllegalArgumentException("Config cannot be null!");
+
         if(useSentry)
             Sentry.init(config.sentryDSN);
         if(useBanner)

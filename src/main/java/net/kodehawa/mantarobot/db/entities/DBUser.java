@@ -91,9 +91,7 @@ public class DBUser implements ManagedObject {
     @JsonIgnore
     public boolean isPremium() {
         PremiumKey key = MantaroData.db().getPremiumKey(data.getPremiumKey());
-        boolean premium = MantaroBot.getInstance().getPledgers().containsKey(Long.parseLong(getId()));
-        return premium || currentTimeMillis() < premiumUntil ||
-                (key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.USER));
+        return currentTimeMillis() < premiumUntil || (key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.USER));
     }
 
     @JsonIgnore

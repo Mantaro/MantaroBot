@@ -529,6 +529,11 @@ public class UtilsCmds {
                     return;
                 }
 
+                if(!event.getChannel().isNSFW()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.urban.nsfw_notice"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 String commandArguments[] = content.split("->");
                 EmbedBuilder embed = new EmbedBuilder();
 
