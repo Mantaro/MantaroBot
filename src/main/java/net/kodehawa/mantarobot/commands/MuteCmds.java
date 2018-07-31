@@ -279,7 +279,7 @@ public class MuteCmds {
 
     @Subscribe
     public void unmute(CommandRegistry commandRegistry) {
-        commandRegistry.register("unmute", new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
+        commandRegistry.register("unmute", new SimpleCommand(Category.MODERATION) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
 
