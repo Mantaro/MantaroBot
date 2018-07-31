@@ -820,7 +820,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(!Utils.handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
+                if(!handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
                     return;
 
                 Items.FISHING_ROD.getAction().test(event, languageContext);
@@ -852,7 +852,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(!Utils.handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
+                if(!handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
                     return;
 
                 Item castItem = toCast.get();

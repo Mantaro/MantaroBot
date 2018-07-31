@@ -21,7 +21,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.AssistedCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.InnerCommand;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.data.I18n;
 
 public abstract class SubCommand implements InnerCommand, AssistedCommand {
     private CommandPermission permission = null;

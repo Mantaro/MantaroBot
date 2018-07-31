@@ -630,7 +630,7 @@ public class MoneyCmds {
 
                 if(winCombinations.contains(rows[1])) {
                     isWin = true;
-                    gains = random.nextInt((int) Math.round(money * 1.76)) + 14;
+                    gains = random.nextInt((int) Math.round(money * 1.76)) + 16;
                 }
 
                 rows[1] = rows[1] + " \u2b05";

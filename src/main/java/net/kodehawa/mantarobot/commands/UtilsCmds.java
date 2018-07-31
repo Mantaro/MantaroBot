@@ -39,6 +39,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -364,106 +365,53 @@ public class UtilsCmds {
 
     @Subscribe
     public void remindme(CommandRegistry registry) {
-        registry.register("remindme", new SimpleCommand(Category.UTILS) {
+        ITreeCommand remindme = (ITreeCommand) registry.register("remindme", new TreeCommand(Category.UTILS) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.nothing_specified"), EmoteReference.WARNING).queue();
-                    return;
-                }
+            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+                return new SubCommand() {
+                    @Override
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        Map<String, Optional<String>> t = StringUtils.parse(StringUtils.splitArgs(content, 0));
 
-                if(args[0].equals("list") || args[0].equals("ls")) {
-                    List<Reminder> reminders = Reminder.CURRENT_REMINDERS.get(event.getAuthor().getId());
-
-                    if(reminders == null || reminders.isEmpty()) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_reminders"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-
-                    StringBuilder builder = new StringBuilder();
-                    AtomicInteger i = new AtomicInteger();
-                    for(Reminder r : reminders) {
-                        builder.append("**").append(i.incrementAndGet()).append(".-**").append("R: *").append(r.reminder).append("*, Due in: **")
-                                .append(Utils.getHumanizedTime(r.time - System.currentTimeMillis())).append("**").append("\n");
-                    }
-
-                    Queue<Message> toSend = new MessageBuilder().append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
-                    toSend.forEach(message -> event.getChannel().sendMessage(message).queue());
-
-                    return;
-                }
-
-
-                if(args[0].equals("cancel")) {
-                    try {
-                        List<Reminder> reminders = Reminder.CURRENT_REMINDERS.get(event.getAuthor().getId());
-
-                        if(reminders.isEmpty()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_reminders"), EmoteReference.ERROR).queue();
+                        if(!t.containsKey("time")) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_time"), EmoteReference.ERROR).queue();
                             return;
                         }
 
-                        if(reminders.size() == 1) {
-                            reminders.get(0).cancel();
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.cancel.success"), EmoteReference.CORRECT).queue();
-                        } else {
-                            DiscordUtils.selectList(event, reminders,
-                                    (r) -> String.format("%s, Due in: %s", r.reminder, Utils.getHumanizedTime(r.time - System.currentTimeMillis())),
-                                    r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle(languageContext.get("commands.remindme.cancel.select"), null)
-                                            .setDescription(r1)
-                                            .setFooter(String.format(languageContext.get("general.timeout"), 10), null).build(),
-                                    sr -> {
-                                        sr.cancel();
-                                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder").queue();
-                                    });
+                        if(!t.get("time").isPresent()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_time"), EmoteReference.ERROR).queue();
+                            return;
                         }
-                    } catch(Exception e) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_reminders"), EmoteReference.ERROR).queue();
+
+                        String toRemind = timePattern.matcher(content).replaceAll("");
+                        User user = event.getAuthor();
+                        long time = Utils.parseTime(t.get("time").get());
+
+                        if(time < 10000) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.too_little_time"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
+                        if(System.currentTimeMillis() + time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(90)) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.too_long"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
+                        new MessageBuilder().append(String.format(languageContext.get("commands.remindme.success"), EmoteReference.CORRECT, toRemind, Utils.getHumanizedTime(time)))
+                                .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.ROLE, Message.MentionType.HERE)
+                                .sendTo(event.getChannel()).queue();
+
+                        //TODO save to db
+                        new Reminder.Builder()
+                                .id(user.getId())
+                                .guild(event.getGuild().getId())
+                                .reminder(toRemind)
+                                .current(System.currentTimeMillis())
+                                .time(time + System.currentTimeMillis())
+                                .build()
+                                .schedule(); //automatic
                     }
-
-                    return;
-                }
-
-
-                Map<String, Optional<String>> t = StringUtils.parse(args);
-
-                if(!t.containsKey("time")) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_time"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                if(!t.get("time").isPresent()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_time"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                String toRemind = timePattern.matcher(content).replaceAll("");
-                User user = event.getAuthor();
-                long time = Utils.parseTime(t.get("time").get());
-
-                if(time < 10000) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.too_little_time"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                if(System.currentTimeMillis() + time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(90)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.too_long"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                new MessageBuilder().append(String.format(languageContext.get("commands.remindme.success"), EmoteReference.CORRECT, toRemind, Utils.getHumanizedTime(time)))
-                        .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.ROLE, Message.MentionType.HERE)
-                        .sendTo(event.getChannel()).queue();
-
-                //TODO save to db
-                new Reminder.Builder()
-                        .id(user.getId())
-                        .guild(event.getGuild().getId())
-                        .reminder(toRemind)
-                        .current(System.currentTimeMillis())
-                        .time(time + System.currentTimeMillis())
-                        .build()
-                        .schedule(); //automatic
+                };
             }
 
             @Override
@@ -475,6 +423,59 @@ public class UtilsCmds {
                                 "\nTime is in this format: 1h20m (1 hour and 20m). You can use h, m and s (hour, minute, second)", false)
                         .addField("Note", "You can use `~>remindme ls` to check your current reminders.", false)
                         .build();
+            }
+        });
+
+        remindme.addSubCommand("list", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                List<Reminder> reminders = Reminder.CURRENT_REMINDERS.get(event.getAuthor().getId());
+
+                if(reminders == null || reminders.isEmpty()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_reminders"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                StringBuilder builder = new StringBuilder();
+                AtomicInteger i = new AtomicInteger();
+                for(Reminder r : reminders) {
+                    builder.append("**").append(i.incrementAndGet()).append(".-**").append("R: *").append(r.reminder).append("*, Due in: **")
+                            .append(Utils.getHumanizedTime(r.time - System.currentTimeMillis())).append("**").append("\n");
+                }
+
+                Queue<Message> toSend = new MessageBuilder().append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+                toSend.forEach(message -> event.getChannel().sendMessage(message).queue());
+            }
+        }).createSubCommandAlias("list", "ls");
+
+        remindme.addSubCommand("cancel", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                try {
+                    List<Reminder> reminders = Reminder.CURRENT_REMINDERS.get(event.getAuthor().getId());
+
+                    if(reminders.isEmpty()) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_reminders"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    if(reminders.size() == 1) {
+                        reminders.get(0).cancel();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.cancel.success"), EmoteReference.CORRECT).queue();
+                    } else {
+                        DiscordUtils.selectList(event, reminders,
+                                (r) -> String.format("%s, Due in: %s", r.reminder, Utils.getHumanizedTime(r.time - System.currentTimeMillis())),
+                                r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle(languageContext.get("commands.remindme.cancel.select"), null)
+                                        .setDescription(r1)
+                                        .setFooter(String.format(languageContext.get("general.timeout"), 10), null).build(),
+                                sr -> {
+                                    sr.cancel();
+                                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder").queue();
+                                });
+                    }
+                } catch(Exception e) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_reminders"), EmoteReference.ERROR).queue();
+                }
             }
         });
     }
