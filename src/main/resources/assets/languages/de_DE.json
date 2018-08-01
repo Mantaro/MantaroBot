@@ -1572,7 +1572,7 @@
       "no_bd_role": "%1$sDu hast keine Rolle für den Geburtstag eingestellt!",
       "no_talk_permission": "%1$sDer Bot kann im Geburtstagskanal nicht schreiben.",
       "cannot_interact": "%1$sDer Bot kann nicht mit der Geburtstagsrolle interagieren.",
-      "success": "%1$sErledigt! Die Nachricht wurde in %1$s für den Nutzer **%2$s** geschickt. Er hat die Rolle %3$s bekommen.",
+      "success": "%1$sErledigt! Die Nachricht wurde in %2$s für den Nutzer **%3$s** geschickt. Er hat die Rolle %4$s bekommen.",
       "error": "%1$sOw... Es gab einen Fehler beim Senden der Nachricht in den Kanal %1$s für den Nutzer **%2$s** und die Rolle %3$s"
     },
     "usermessage_joinmessage_add": {

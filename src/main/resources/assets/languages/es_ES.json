@@ -1480,7 +1480,7 @@
       "no_bd_role": "%1$sNo tienes ningún rol designado como rol de cumpleaños!",
       "no_talk_permission": "%1$sEl bot no puede hablar en el canal para mensajes de cumpleaños.",
       "cannot_interact": "%1$sEl bot no puede interactuar con el rol de cumpleaños.",
-      "success": "%1$sListo! El mensaje fue enviado en el canal %1$s para el usuario **%2$s**. Les fue asignado el rol %3$s",
+      "success": "%1$sListo! El mensaje fue enviado en el canal %2$s para el usuario **%3$s**. Les fue asignado el rol %4$s",
       "error": "%1$sOw... Hubo un error mientras se enviaba el mansaje en el canal %1$s para el usuario **%2$s** y el rol %3$s"
     },
     "usermessage_joinmessage_add": {

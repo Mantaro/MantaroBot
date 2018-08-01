@@ -1289,7 +1289,7 @@
     },
     "server_channel_allow": {
       "no_channel": "%1$sJe moet het kanaal specificeren waar je wilt dat de bot naar commandos luistert.. (Standaard is dit in alle kanalen)",
-      "success": "%sChannel %s zal nu luisteren naar commandos"
+      "success": "%1$sChannel %2$s zal nu luisteren naar commandos"
     },
     "category_disable": {
       "no_category": "%1$sJe moet een categorie opgeven om uit te schakelen.",
@@ -1354,7 +1354,7 @@
       "success": "%1$sIk kan nu muziek op alle kanalen afspelen"
     },
     "music_vote_toggle": {
-      "success": "%1$sStemmen (stoppen / overslaan) is nu ingesteld op %s"
+      "success": "%1$sStemmen (stoppen / overslaan) is nu ingesteld op %2$s"
     },
     "localblacklist_add":{
       "invalid": "%1$s**Je moet de gebruikers specificeren voor de lokale blacklist.**",
@@ -1381,7 +1381,7 @@
       "remove": {
         "success": "%1$sHeeft logboek-uitzonderingen verwijderd op kanaal: %2$s"
       },
-      "success": "%1$sHeeft logboek-uitzonderingen toegevoegd op kanaal: %s",
+      "success": "%1$sHeeft logboek-uitzonderingen toegevoegd op kanaal: %2$s",
       "invalid": "%1$sOnjuiste argument lengte."
     },
     "lobby_reset": {
@@ -1415,11 +1415,11 @@
       "no_channel": "%1$sJe moet opgeven welk personen je wilt toevoegen aan de uitnodigingscontrole (Iedereen behalve beheerders wordt standaard toegevoegd)",
       "no_mentions": "%1$sJe moet de gebruiker vermelden die je op de blacklist voor het plaatsen van uitnodigingen wilt toevoegen!",
       "not_whitelisted": "%1$sDeze gebruiker staat niet op de invite posting whitelist!",
-      "success": "%1$sHeeft de volgende gebruikers succesvol op de blacklist voor het posten van discord gezet: %s#%s "
+      "success": "%1$sHeeft de volgende gebruikers succesvol op de blacklist voor het posten van discord gezet: %2$s#%3$s "
     },
     "imageboard_tags_blacklist_add": {
       "no_tag": "%1$sJe moet ten minste een tag opgeven om op de blacklist te zetten!",
-      "success": "%1$sHeeft %s succesvol op de blacklist voor het zoeken van afbeeldingen gezet."
+      "success": "%1$sHeeft %2$s succesvol op de blacklist voor het zoeken van afbeeldingen gezet."
     },
     "imageboard_tags_blacklist_remove": {
       "no_tag": "%1$sJe moet ten minste een tag opgeven om van de blacklist af te halen!",
@@ -1429,10 +1429,10 @@
       "no_args": "%1$sJe moet de kanaalnaam en de rolnaam opgeven.",
       "public_role": "%1$sJe kunt de rol voor iedereen niet instellen als verjaardagsrol! Vergeet niet dat de verjaardagsrol een rol is die wordt toegewezen aan de persoon wanneer de verjaardag is en wordt verwijderd wanneer de dag voorbij is.",
       "autorole": "%1$sYou cannot set the autorole role as a birthday role! Vergeet niet dat de verjaardagsrol een rol is die wordt toegewezen aan de persoon wanneer de verjaardag is en wordt verwijderd wanneer de dag voorbij is..",
-      "warning": "%sVergeet niet dat de verjaardagsrol een rol is die wordt toegewezen aan de persoon wanneer de verjaardag is en wordt verwijderd wanneer de dag voorbij is. Als je twijfels hebt over hoe je het kunt configureren, kun je altijd lid worden van onze support Discord en  daar je vraag stellen. Je kunt ook `~>opts help birthday enable` checken om een voorbeeld te zien.",
+      "warning": "%1$sVergeet niet dat de verjaardagsrol een rol is die wordt toegewezen aan de persoon wanneer de verjaardag is en wordt verwijderd wanneer de dag voorbij is. Als je twijfels hebt over hoe je het kunt configureren, kun je altijd lid worden van onze support Discord en  daar je vraag stellen. Je kunt ook `~>opts help birthday enable` checken om een voorbeeld te zien.",
       "warning_1": "Dit komt door de manier waarop de verjaardagstoewijzer werkt: Het kent een tijdelijke rol toe aan de persoon die jarig is, en maakt de toewijzing ongedaan wanneer de verjaardag is verstreken. **Dit betekent dat iedereen met de verjaardagsrol de rol weer verwijderd krijgt op de dag dat de verjaardag is afgelopen**. Wees voorzichtig bij het kiezen van de te gebruiken rol, want een verkeerde configuratie kan slechte dingen veroorzaken (echt waar)!",
       "warning_2": "De rol *moet een nieuw gecreëerde rol zijn of een rol die je niet voor iemand anders gebruikt*. Het MOET GEEN rol zijn die al gebruikt wordt voor je gebruikers.",
-      "warning_3": "Type **yes** als je ermee instemt om de rol %s in te stellen als verjaardagsrol, en **no** om te annuleren. Deze actie verloopt over 45 seconden.",
+      "warning_3": "Type **yes** als je ermee instemt om de rol %1$s in te stellen als verjaardagsrol, en **no** om te annuleren. Deze actie verloopt over 45 seconden.",
       "success": "%1$sVerjaardagsregistratie ingeschakeld op deze server met parameters -> Kanaal: `%2$s (%3$s)` en rol: `%4$s (%5$s)`",
       "error_channel_1": "%1$sIk heb geen kanaal of rol kunnen vinden!",
       "error_channel_2": "**Onthoud dat je niet de rol of het kanaal hoeft te noemen, maar gewoon de naam moet typen, de volgorde is <kanaal> <rol>, zonder de leidende \"<>\".**"
@@ -1474,7 +1474,7 @@
     },
     "usermessage_leave_channel": {
       "no_channel": "%1$sJe moet opgeven in welk kanaal je wilt dat ik het leave-bericht verzend.",
-      "success": "%1$sHet log-kanaal voor de gebruiker die je server verlaten is nu ingesteld op: %s"
+      "success": "%1$sHet log-kanaal voor de gebruiker die je server verlaten is nu ingesteld op: %2$s"
     },
     "usermessage_leave_resetchannel": {
       "success": "%1$sHet leave log-kanaal is succesvol gereset!"
@@ -1581,7 +1581,7 @@
       "no_talk_permission": "%1$sDe bot kan geen berichten sturen in het verjaardagskanaal.",
       "cannot_interact": "%1$sDe bot kan geen interactie hebben met de verjaardagsrol.",
       "success": "%1$sGelukt! Het bericht was gestuurd in kanaal %1$s voor de gebruiker **%2$s**. Ze hebben de rol %3$s toegewezen gekregen",
-      "error": "%1$sOw... Er is een fout opgetreden tijdens het verzenden van het bericht in het kanaal %1$s voor gebruiker **%2$s** en rol %3$s"
+      "error": "%1$sOw... Er is een fout opgetreden tijdens het verzenden van het bericht in het kanaal %2$s voor gebruiker **%3$s** en rol %4$s"
     },
     "usermessage_joinmessage_add": {
       "no_message": "%1$sJe moet opgeven welk extra bericht je wilt dat ik zeg wanneer iemand de server joined!",
