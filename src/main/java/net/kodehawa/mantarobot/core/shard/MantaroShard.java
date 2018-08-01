@@ -30,6 +30,7 @@ import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.utils.SessionController;
 import net.dv8tion.jda.core.utils.SessionControllerAdapter;
+import net.dv8tion.jda.core.utils.cache.CacheFlag;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
@@ -49,10 +50,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -167,6 +165,7 @@ public class MantaroShard implements JDA {
                 .setSessionController(sessionController)
                 .setBulkDeleteSplittingEnabled(false)
                 .useSharding(shardId, totalShards)
+                .setDisabledCacheFlags(EnumSet.of(CacheFlag.GAME))
                 .setGame(Game.playing("Hold on to your seatbelts!"));
 
         if(shardId < getTotalShards() - 1) {

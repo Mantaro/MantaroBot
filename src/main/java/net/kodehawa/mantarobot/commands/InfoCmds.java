@@ -640,8 +640,6 @@ public class InfoCmds {
                                 MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).size(),
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.vc") + ":** " +
                                 (member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : languageContext.get("general.none")),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.playing") + ":** " +
-                                (member.getGame() == null ? languageContext.get("commands.userinfo.nothing") : member.getGame().getName()),
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.color") + ":** " +
                                 (member.getColor() == null ? languageContext.get("commands.userinfo.default") : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()),
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.status") + ":** " +
