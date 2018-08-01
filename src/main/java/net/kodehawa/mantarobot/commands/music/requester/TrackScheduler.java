@@ -220,10 +220,13 @@ public class TrackScheduler extends AudioEventAdapter {
                         EmoteReference.MEGA, premium ? "" : String.format(language.get("commands.music_general.premium_beg"), EmoteReference.HEART)
                 ).queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             }
-        } catch(Exception ignored) {
-        }
+        } catch(Exception ignored) { }
 
         requestedChannel = 0;
+        //If not set to null, those two objects will always be in scope and dangle around in the heap forever.
+        //Some AudioTrack objects were of almost 500kb of lenght, I guess 100k of those can cause a meme.
+        currentTrack = null;
+        previousTrack = null;
         MantaroBot.getInstance().getCore().getCommonExecutor().execute(m::closeAudioConnection);
     }
 
