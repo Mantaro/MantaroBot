@@ -37,7 +37,7 @@ import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 
 @Slf4j
 public class ImageActionCmd extends NoArgsCommand {
-    public static final URLCache CACHE = new URLCache(20);
+    public static final URLCache CACHE = new URLCache(10);
 
     private final Color color;
     private final String desc;

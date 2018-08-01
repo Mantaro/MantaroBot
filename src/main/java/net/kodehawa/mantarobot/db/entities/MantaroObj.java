@@ -35,11 +35,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MantaroObj implements ManagedObject {
     public static final String DB_TABLE = "mantaro";
     public final String id = "mantaro";
-    public List<String> blackListedGuilds = null;
-    public List<String> blackListedUsers = null;
-    public List<String> patreonUsers = null;
-    private Map<Long, Pair<String, Long>> mutes = null;
-    private Map<String, Long> tempBans = null;
+    public List<String> blackListedGuilds;
+    public List<String> blackListedUsers;
+    public List<String> patreonUsers;
+    private Map<Long, Pair<String, Long>> mutes;
+    private Map<String, Long> tempBans;
 
     @ConstructorProperties({"blackListedGuilds", "blackListedUsers", "patreonUsers", "tempbans", "mutes"})
     @JsonCreator

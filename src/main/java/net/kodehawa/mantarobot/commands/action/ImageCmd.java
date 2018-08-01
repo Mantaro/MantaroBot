@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 
 public class ImageCmd extends NoArgsCommand {
-    public static final URLCache CACHE = new URLCache(20);
+    public static final URLCache CACHE = new URLCache(10);
 
     private final String desc;
     private final String imageName;
