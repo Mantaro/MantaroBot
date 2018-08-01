@@ -126,7 +126,7 @@
       "12": "Enjoy your music and thanks for using Mantaro!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `~>profile lang <language code>`.\n**Available languages:** `%2$s`"
+      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `~>profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "music_general": {
       "no_song": "%1$sYou need to tell me what song you want to play! *(YouTube, Soundcloud, Twitch URL or search queries are allowed)*",
