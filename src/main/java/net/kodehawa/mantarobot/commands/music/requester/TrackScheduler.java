@@ -224,7 +224,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
         requestedChannel = 0;
         //If not set to null, those two objects will always be in scope and dangle around in the heap forever.
-        //Some AudioTrack objects were of almost 500kb of lenght, I guess 100k of those can cause a meme.
+        //Some AudioTrack objects were of almost 500kb of size, I guess 100k of those can cause a meme.
         currentTrack = null;
         previousTrack = null;
         MantaroBot.getInstance().getCore().getCommonExecutor().execute(m::closeAudioConnection);
