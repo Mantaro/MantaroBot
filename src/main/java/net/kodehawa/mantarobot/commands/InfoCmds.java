@@ -200,7 +200,7 @@ public class InfoCmds {
         cr.register("lang", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                event.getChannel().sendMessageFormat(languageContext.get("commands.lang.info"), EmoteReference.ZAP, String.join(", ", I18n.LANGUAGES)).queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.lang.info"), EmoteReference.ZAP, String.join(", ", I18n.LANGUAGES).replace(".json", "")).queue();
             }
 
             @Override
@@ -210,6 +210,8 @@ public class InfoCmds {
                         .build();
             }
         });
+
+        cr.registerAlias("lang", "language");
     }
 
     @Subscribe
