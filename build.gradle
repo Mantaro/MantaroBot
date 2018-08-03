@@ -128,6 +128,9 @@ dependencies {
 	compile 'com.github.natanbc:usage-tracker:0.1.1'
 
     compile 'com.apollographql.apollo:apollo-runtime:0.4.4'
+
+	//Unit tests
+	testCompile 'junit:junit:4.12'
 }
 
 task wrapper(type: Wrapper) {
@@ -149,6 +152,10 @@ tasks.withType(JavaCompile) {
 
 compileJava.dependsOn generateLanguageList
 compileJava.dependsOn.remove(generateApolloClasses)
+
+//This doesn't work?
+test.dependsOn generateLanguageList
+test.dependsOn.remove(generateApolloClasses)
 
 clean {
     delete = []

@@ -1776,5 +1776,8 @@
       "star_pick": "A very much stronger pick (Star). (`~>mine` tool).",
       "pizza": "Yummy."
     }
+  },
+  "test": {
+    "inherited": "owo"
   }
 }
