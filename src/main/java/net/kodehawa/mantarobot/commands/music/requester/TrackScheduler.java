@@ -215,6 +215,8 @@ public class TrackScheduler extends AudioEventAdapter {
         }
 
         requestedChannel = 0;
+        previousTrack = null;
+        currentTrack = null;
         MantaroBot.getInstance().getCore().getCommonExecutor().execute(m::closeAudioConnection);
     }
 
