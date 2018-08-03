@@ -6,11 +6,6 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.MiscCmds;
-import net.kodehawa.mantarobot.commands.custom.kaiperscript.parser.InterpreterEvaluator;
-import net.kodehawa.mantarobot.commands.custom.kaiperscript.parser.KaiperScriptExecutor;
-import net.kodehawa.mantarobot.commands.custom.kaiperscript.parser.internal.LimitReachedException;
-import net.kodehawa.mantarobot.commands.custom.kaiperscript.wrapper.SafeEmbed;
-import net.kodehawa.mantarobot.commands.custom.kaiperscript.wrapper.SafeGuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.custom.legacy.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -18,11 +13,6 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
-import xyz.avarel.kaiper.interpreter.GlobalVisitorSettings;
-import xyz.avarel.kaiper.runtime.Obj;
-import xyz.avarel.kaiper.runtime.Str;
-import xyz.avarel.kaiper.runtime.functions.NativeFunc;
-import xyz.avarel.kaiper.runtime.java.JavaObject;
 
 import java.net.URL;
 import java.util.LinkedHashMap;
@@ -37,65 +27,6 @@ public class CustomCommandHandler {
     private static final Map<String, Func> specialHandlers = new LinkedHashMap<>();
 
     static {
-        //FIXME on NEXT KAIPER UPDATE:
-        //GlobalVisitorSettings will be replaced by VisitorSettings instance
-
-        GlobalVisitorSettings.ITERATION_LIMIT = 50;
-        GlobalVisitorSettings.SIZE_LIMIT = 80;
-        GlobalVisitorSettings.MILLISECONDS_LIMIT = 200;
-        GlobalVisitorSettings.RECURSION_DEPTH_LIMIT = 50;
-
-        // Special handlers
-        specialHandlers.put("k", (event, lang, value, args) -> {
-            //FIXME on NEXT KAIPER UPDATE:
-            //LimitReachedException will be replaced by VisitorException
-
-            try {
-                String code = value.trim();
-                if (code.isEmpty())
-                    return;
-
-                if (!code.startsWith("<$k")) code = "<$k " + code;
-
-                SafeEmbed[] embed = new SafeEmbed[1];
-                String result = new KaiperScriptExecutor(code)
-                    .execute(
-                        new InterpreterEvaluator()
-                            .declare("event", new JavaObject(new SafeGuildMessageReceivedEvent(event)))
-                            .declare("embed", new NativeFunc("embed") {
-                                JavaObject wrap;
-
-                                @Override
-                                protected synchronized Obj eval(List<Obj> arguments) {
-                                    if (wrap == null) {
-                                        embed[0] = new SafeEmbed();
-                                        wrap = new JavaObject(embed[0]);
-                                    }
-                                        return wrap;
-                                }
-                            })
-                            .declare("args", Str.of(args))
-                    )
-                    .trim();
-
-                MessageBuilder message = new MessageBuilder().append(result.replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere"));
-
-                if (embed[0] != null) {
-                    EmbedBuilder builder = SafeEmbed.builder(embed[0]);
-
-                    if (!message.isEmpty()) {
-                        message.setEmbed(builder.build());
-                    }
-                }
-
-                if (!message.isEmpty()) {
-                    event.getChannel().sendMessage(message.build()).queue();
-                }
-            } catch (LimitReachedException e) {
-                event.getChannel().sendMessage("**Error**: " + e.getMessage()).queue();
-            }
-        });
-
         specialHandlers.put("text", (event, lang, value, args) -> event.getChannel().sendMessage(value).queue());
 
         specialHandlers.put("play", (event, lang, value, args) -> {
@@ -194,29 +125,11 @@ public class CustomCommandHandler {
     }
 
     private boolean processResponse() {
-        if (response.startsWith("k:") || response.startsWith("text:")) {
+        if (response.startsWith("text:")) {
             return true;
         }
 
-        if (response.contains("<$")) {
-            //FIXME on NEXT KAIPER UPDATE:
-            //LimitReachedException will be replaced by VisitorException
-
-            try {
-                response = new KaiperScriptExecutor(response)
-                    .mapTextTokens(this::processText)
-                    .execute(
-                        new InterpreterEvaluator()
-                            .declare("event", new JavaObject(new SafeGuildMessageReceivedEvent(event)))
-                            .declare("args", Str.of(args))
-                    ).replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere");
-            } catch (LimitReachedException e) {
-                event.getChannel().sendMessage("**Error**: " + e.getMessage()).queue();
-                return false;
-            }
-        } else {
-            response = processText(response);
-        }
+        response = processText(response);
 
         return true;
     }
