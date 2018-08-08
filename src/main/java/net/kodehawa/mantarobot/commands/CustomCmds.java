@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -31,7 +30,6 @@ import net.kodehawa.mantarobot.commands.custom.CustomCommandHandler;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.MantaroCore;
-import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -66,12 +64,12 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 @SuppressWarnings("unused")
 public class CustomCmds {
     private static final Map<String, CustomCommand> customCommands = new ConcurrentHashMap<>();
-    private final Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+"),
+    private final static Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+"),
             INVALID_CHARACTERS_PATTERN = Pattern.compile("[^a-zA-Z0-9_]"),
             NAME_WILDCARD_PATTERN = Pattern.compile("[a-zA-Z0-9_*]+");
 
     public static boolean handle(String cmdName, GuildMessageReceivedEvent event, I18nContext lang, String args) {
-        CustomCommand customCommand = customCommands.get(event.getGuild().getId() + ":" + cmdName);
+        CustomCommand customCommand = getCustomCommand(event.getGuild().getId(), cmdName);
         if (customCommand == null)
             return false;
 
@@ -120,16 +118,16 @@ public class CustomCmds {
                     }
 
                     String filter = event.getGuild().getId() + ":";
-                    List<String> commands = customCommands.keySet().stream()
-                            .filter(s -> s.startsWith(filter))
-                            .map(s -> s.substring(filter.length()))
+                    //TODO: this is a real issue lol @natan pls find a way to load list without doing like 50k queries in a second?
+                    List<String> commands = db().getCustomCommands(event.getGuild())
+                            .stream()
+                            .map(CustomCommand::getName)
                             .collect(Collectors.toList());
 
                     EmbedBuilder builder = new EmbedBuilder()
                             .setAuthor(languageContext.get("commands.custom.ls.header"), null, event.getGuild().getIconUrl())
-                            .setColor(event.getMember().getColor());
-                    builder.setDescription(
-                            commands.isEmpty() ? languageContext.get("general.dust") : checkString(forType(commands)));
+                            .setColor(event.getMember().getColor())
+                            .setDescription(commands.isEmpty() ? languageContext.get("general.dust") : checkString(forType(commands)));
 
                     event.getChannel().sendMessage(builder.build()).queue();
                     return;
@@ -595,26 +593,35 @@ public class CustomCmds {
         });
     }
 
-    @Subscribe
-    public void onPostLoad(PostLoadEvent e) {
-        Async.thread(() -> db().getCustomCommands().forEach(custom -> {
-            if(!NAME_PATTERN.matcher(custom.getName()).matches()) {
-                String newName = INVALID_CHARACTERS_PATTERN.matcher(custom.getName()).replaceAll("_");
-                log.info("Custom Command with Invalid Characters '%s' found. Replacing with '_'", custom.getName());
+    //Lazy-load custom commands into cache.
+    private static CustomCommand getCustomCommand(String id, String name) {
+        if(customCommands.containsKey(id + ":" + name)) {
+            return customCommands.get(id + ":" + name);
+        }
 
-                custom.deleteAsync();
-                custom = CustomCommand.of(custom.getGuildId(), newName, custom.getValues());
-                custom.saveAsync();
-            }
+        CustomCommand custom = db().getCustomCommand(id, name);
+        //yes
+        if(custom == null)
+            return null;
 
-            if(DefaultCommandProcessor.REGISTRY.commands().containsKey(custom.getName())) {
-                custom.deleteAsync();
-                custom = CustomCommand.of(custom.getGuildId(), "_" + custom.getName(), custom.getValues());
-                custom.saveAsync();
-            }
+        if(!NAME_PATTERN.matcher(name).matches()) {
+            String newName = INVALID_CHARACTERS_PATTERN.matcher(custom.getName()).replaceAll("_");
+            log.info("Custom Command with Invalid Characters '%s' found. Replacing with '_'", custom.getName());
 
-            //add to registry
-            customCommands.put(custom.getId(), custom);
-        }));
+            custom.deleteAsync();
+            custom = CustomCommand.of(custom.getGuildId(), newName, custom.getValues());
+            custom.saveAsync();
+        }
+
+        if(DefaultCommandProcessor.REGISTRY.commands().containsKey(custom.getName())) {
+            custom.deleteAsync();
+            custom = CustomCommand.of(custom.getGuildId(), "_" + custom.getName(), custom.getValues());
+            custom.saveAsync();
+        }
+
+        //add to registry
+        customCommands.put(custom.getId(), custom);
+
+        return custom;
     }
 }
