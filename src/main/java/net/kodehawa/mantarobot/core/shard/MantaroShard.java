@@ -165,7 +165,7 @@ public class MantaroShard implements JDA {
                 .setSessionController(sessionController)
                 .setBulkDeleteSplittingEnabled(false)
                 .useSharding(shardId, totalShards)
-                .setDisabledCacheFlags(EnumSet.of(CacheFlag.GAME))
+                .setDisabledCacheFlags(EnumSet.of(CacheFlag.GAME, CacheFlag.EMOTE))
                 .setGame(Game.playing("Hold on to your seatbelts!"));
 
         if(shardId < getTotalShards() - 1) {
