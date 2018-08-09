@@ -160,7 +160,7 @@ public class MantaroShard implements JDA {
                 .setToken(config().get().token)
                 .setAutoReconnect(true)
                 .setCorePoolSize(6)
-                .setCallbackPool(Executors.newFixedThreadPool(15))
+                .setCallbackPool(Executors.newFixedThreadPool(15), true)
                 .setAudioSendFactory(new NativeAudioSendFactory())
                 .setEventManager(manager)
                 .setSessionController(sessionController)
