@@ -178,11 +178,6 @@ public class MantaroBot extends ShardedJDA {
         return getShardForGuild(guildId).getGuildById(guildId);
     }
 
-    @Override
-    public RestAction<Webhook> getWebhookById(long webhookId) {
-        return null;
-    }
-
     public MantaroShard getShard(int id) {
         return Arrays.stream(shardedMantaro.getShards()).filter(Objects::nonNull).filter(shard -> shard.getId() == id).findFirst().orElse(null);
     }
