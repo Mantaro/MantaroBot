@@ -33,7 +33,7 @@ public class WeebAPIRequester {
     private final String ALL_TAGS = "/tags";
     private final String ALL_TYPES = "/types";
     private final String API_BASE_URL = "https://api.weeb.sh/images";
-    private final String AUTH_HEADER = "Bearer " + MantaroData.config().get().weebapiKey;
+    private final String WEEBSH_TOKEN = MantaroData.config().get().weebapiKey;
     private final String RANDOM_IMAGE = "/random";
     private final OkHttpClient httpClient = new OkHttpClient();
 
@@ -102,7 +102,7 @@ public class WeebAPIRequester {
             Request r = new Request.Builder()
                     .url(API_BASE_URL + builder.toString())
                     .addHeader("User-Agent", MantaroInfo.USER_AGENT)
-                    .addHeader("Authorization", AUTH_HEADER)
+                    .addHeader("Authorization", WEEBSH_TOKEN.startsWith("Wolke ") ? WEEBSH_TOKEN : "Bearer " + WEEBSH_TOKEN)
                     .build();
 
             Response r1 = httpClient.newCall(r).execute();

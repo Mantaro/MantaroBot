@@ -151,5 +151,10 @@ public class ActionCmds {
         //facedesk()
         cr.register("facedesk", new ImageCmd("Facedesk", "When it's just too much to handle.", "facedesk", "banghead",
                 "*facedesks*", true));
+
+        cr.register("beg", new ImageActionCmd(
+                "Beg", "Begs the specified user to pat you.", Color.PINK,
+                "pat", EmoteReference.TALKING + "%s, %s wants you to pat them. :<", "pat", "Aww, I see you are lonely, take a pat <3"
+        ));
     }
 }
