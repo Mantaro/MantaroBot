@@ -22,6 +22,8 @@ import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.SelfUser;
 import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.Webhook;
+import net.dv8tion.jda.core.managers.AudioManager;
 import net.dv8tion.jda.core.managers.Presence;
 import net.dv8tion.jda.core.requests.RestAction;
 import net.dv8tion.jda.core.requests.restaction.GuildAction;
@@ -118,6 +120,27 @@ public interface UnifiedJDA extends JDA, Iterable<JDA> {
     default GuildAction createGuild(String name) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    default RestAction<Webhook> getWebhookById(String webhook) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    default JDA awaitStatus(Status status) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    default JDA awaitReady() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    default List<AudioManager> getAudioManagers() {
+        throw new UnsupportedOperationException();
+    }
+
 
     default Stream<JDA> stream() {
         return StreamSupport.stream(spliterator(), false).filter(Objects::nonNull).sorted(Comparator.comparingInt(jda -> jda.getShardInfo().getShardId()));

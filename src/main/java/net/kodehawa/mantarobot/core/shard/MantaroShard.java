@@ -169,10 +169,10 @@ public class MantaroShard implements JDA {
                 .setGame(Game.playing("Hold on to your seatbelts!"));
 
         if(shardId < getTotalShards() - 1) {
-            jda = jdaBuilder.buildAsync();
+            jda = jdaBuilder.build();
         } else {
             //Block until all shards start up properly.
-            jda = jdaBuilder.buildBlocking();
+            jda = jdaBuilder.build().awaitReady();
         }
 
         //Assume everything is alright~

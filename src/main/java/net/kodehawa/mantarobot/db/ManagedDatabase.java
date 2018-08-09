@@ -90,8 +90,10 @@ public class ManagedDatabase {
     @CheckReturnValue
     public List<CustomCommand> getCustomCommands(@Nonnull String guildId) {
         log("Requesting all custom commands from guild {} from rethink", guildId);
-        String pattern = '^' + guildId + ':';
-        Cursor<CustomCommand> c = r.table(CustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, CustomCommand.class);
+        Cursor<CustomCommand> c = r.table(CustomCommand.DB_TABLE)
+                .getAll(guildId)
+                .optArg("index", "guild")
+                .run(conn, CustomCommand.class);
         return c.toList();
     }
 

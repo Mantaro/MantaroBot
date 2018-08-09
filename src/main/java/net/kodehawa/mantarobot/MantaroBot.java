@@ -24,6 +24,9 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Webhook;
+import net.dv8tion.jda.core.managers.AudioManager;
+import net.dv8tion.jda.core.requests.RestAction;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.moderation.MuteTask;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
@@ -173,6 +176,11 @@ public class MantaroBot extends ShardedJDA {
 
     public Guild getGuildById(String guildId) {
         return getShardForGuild(guildId).getGuildById(guildId);
+    }
+
+    @Override
+    public RestAction<Webhook> getWebhookById(long webhookId) {
+        return null;
     }
 
     public MantaroShard getShard(int id) {
