@@ -86,6 +86,7 @@ public class MantaroShard implements JDA {
     private static final Calendar newYear = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.JANUARY, 1).build();
 
     private final String callbackPoolIdentifierString;
+    private final String ratelimitPoolIdentifierString;
     @Getter
     public final MantaroEventManager manager;
     @Getter
@@ -108,6 +109,7 @@ public class MantaroShard implements JDA {
      */
     public MantaroShard(int shardId, int totalShards, MantaroEventManager manager, ICommandProcessor commandProcessor) throws RateLimitedException, LoginException, InterruptedException {
         this.callbackPoolIdentifierString = "callback-pool-shard-" + shardId;
+        this.ratelimitPoolIdentifierString = "ratelimit-pool-shard-" + shardId;
         this.shardId = shardId;
         this.totalShards = totalShards;
         this.manager = manager;
@@ -164,16 +166,20 @@ public class MantaroShard implements JDA {
         }
 
         ThreadPoolExecutor callbackPool;
+        ScheduledThreadPoolExecutor ratelimitPool;
         synchronized(this) {
             callbackPool = (ThreadPoolExecutor)Executors.newFixedThreadPool(15);
+            ratelimitPool = (ScheduledThreadPoolExecutor)Executors.newScheduledThreadPool(6);
             Prometheus.THREAD_POOL_COLLECTOR.remove(callbackPoolIdentifierString);
             Prometheus.THREAD_POOL_COLLECTOR.add(callbackPoolIdentifierString, callbackPool);
+            Prometheus.THREAD_POOL_COLLECTOR.remove(ratelimitPoolIdentifierString);
+            Prometheus.THREAD_POOL_COLLECTOR.add(ratelimitPoolIdentifierString, ratelimitPool);
         }
 
         JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
                 .setToken(config().get().token)
                 .setAutoReconnect(true)
-                .setCorePoolSize(6)
+                .setRateLimitPool(ratelimitPool, true)
                 .setCallbackPool(callbackPool, true)
                 .setAudioSendFactory(new NativeAudioSendFactory())
                 .setEventManager(manager)
