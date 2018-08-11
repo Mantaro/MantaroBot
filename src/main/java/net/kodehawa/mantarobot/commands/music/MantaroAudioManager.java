@@ -31,6 +31,7 @@ import net.kodehawa.mantarobot.commands.music.requester.AudioLoader;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.utils.Prometheus;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 
@@ -45,7 +46,9 @@ public class MantaroAudioManager {
 
     public MantaroAudioManager() {
         this.musicManagers = new HashMap<>();
-        this.playerManager = new DefaultAudioPlayerManager();
+        DefaultAudioPlayerManager apm = new DefaultAudioPlayerManager();
+        Prometheus.THREAD_POOL_COLLECTOR.add("lavaplayer-track-playback", apm.getExecutor());
+        this.playerManager = apm;
         YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager();
         youtubeAudioSourceManager.configureRequests(config -> RequestConfig.copy(config).setCookieSpec(CookieSpecs.IGNORE_COOKIES).build());
         playerManager.registerSourceManager(youtubeAudioSourceManager);
