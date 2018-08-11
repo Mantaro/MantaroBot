@@ -20,6 +20,7 @@ import lombok.Getter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Prometheus;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -46,6 +47,10 @@ public class RateLimiter {
     @Getter
     private final ConcurrentHashMap<String, Pair<AtomicInteger, Long>> usersRateLimited = new ConcurrentHashMap<>();
     private boolean isPremiumAware = false;
+
+    static {
+        Prometheus.THREAD_POOL_COLLECTOR.add("rate-limiter", ses);
+    }
 
     /**
      * Default constructor normally used in Currency commands to ratelimit all people.

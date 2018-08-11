@@ -33,6 +33,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -53,6 +54,10 @@ public class OsuStatsCmd {
     private final Map<String, Object> map = new HashMap<>();
     private final ExecutorService pool = Executors.newCachedThreadPool();
     private OsuClient osuClient = new OsuClient(MantaroData.config().get().osuApiKey);
+
+    public OsuStatsCmd() {
+        Prometheus.THREAD_POOL_COLLECTOR.add("osu-pool", pool);
+    }
 
     @Subscribe
     public void osustats(CommandRegistry cr) {

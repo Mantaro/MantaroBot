@@ -20,6 +20,7 @@ import com.rethinkdb.net.Connection;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import redis.clients.jedis.JedisPool;
 
@@ -38,6 +39,10 @@ public class MantaroData {
 
     @Getter
     private static JedisPool defaultJedisPool = new JedisPool("127.0.0.1", 6379);
+
+    static {
+        Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-data", exec);
+    }
 
     public static GsonDataManager<Config> config() {
         if(config == null) config = new GsonDataManager<>(Config.class, "config.json", Config::new);

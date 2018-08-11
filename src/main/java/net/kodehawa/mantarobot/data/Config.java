@@ -76,6 +76,7 @@ public class Config {
     public String patreonAccessToken;
     //we need an actual callback url here? yikes.
     public String patreonRedirectUri = "https://mantaro.site";
+    public int prometheusPort = 9091;
 
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());

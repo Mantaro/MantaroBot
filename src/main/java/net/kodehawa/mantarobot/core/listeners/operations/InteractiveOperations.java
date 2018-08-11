@@ -23,6 +23,7 @@ import net.dv8tion.jda.core.hooks.EventListener;
 import net.jodah.expiringmap.ExpiringMap;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
+import net.kodehawa.mantarobot.utils.Prometheus;
 
 import java.util.Collections;
 import java.util.List;
@@ -46,6 +47,8 @@ public class InteractiveOperations {
             t.setName("InteractiveOperations-Timeout-Processor");
             return t;
         });
+
+        Prometheus.THREAD_POOL_COLLECTOR.add("interactive-operations-timeout", s);
 
         s.scheduleAtFixedRate(()->{
             OPS.values().removeIf(list->{

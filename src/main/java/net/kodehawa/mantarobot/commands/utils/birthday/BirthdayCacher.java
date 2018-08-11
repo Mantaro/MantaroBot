@@ -22,6 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Prometheus;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,9 +41,10 @@ import static com.rethinkdb.RethinkDB.r;
 public class BirthdayCacher {
     public Map<String, BirthdayData> cachedBirthdays = new ConcurrentHashMap<>();
     public volatile boolean isDone;
-    private ExecutorService executorService = Executors.newFixedThreadPool(1);
+    private final ExecutorService executorService = Executors.newFixedThreadPool(1);
 
     public BirthdayCacher() {
+        Prometheus.THREAD_POOL_COLLECTOR.add("birthday-cacher", executorService);
         log.info("Caching birthdays...");
         cache();
     }

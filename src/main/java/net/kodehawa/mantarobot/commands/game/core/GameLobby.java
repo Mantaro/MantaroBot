@@ -24,6 +24,7 @@ import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.utils.Prometheus;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -38,7 +39,7 @@ import java.util.stream.Collectors;
 public class GameLobby extends Lobby {
 
     public static final Map<Long, GameLobby> LOBBYS = new ConcurrentHashMap<>();
-    private final ExecutorService executorService = Executors.newCachedThreadPool();
+    private static final ExecutorService executorService = Executors.newCachedThreadPool();
 
     @Getter
     GuildMessageReceivedEvent event;
@@ -50,6 +51,10 @@ public class GameLobby extends Lobby {
     List<String> players;
     @Getter
     I18nContext languageContext;
+
+    static {
+        Prometheus.THREAD_POOL_COLLECTOR.add("game-lobbies", executorService);
+    }
 
     public GameLobby(GuildMessageReceivedEvent event, I18nContext languageContext, List<String> players, LinkedList<Game> games) {
         super(event.getGuild().getId(), event.getChannel().getId());

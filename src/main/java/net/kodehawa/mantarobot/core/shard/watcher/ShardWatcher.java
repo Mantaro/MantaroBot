@@ -27,6 +27,7 @@ import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
+import net.kodehawa.mantarobot.utils.Prometheus;
 
 import java.util.Arrays;
 import java.util.concurrent.*;
@@ -61,6 +62,11 @@ public class ShardWatcher implements Runnable {
 
     //Mantaro's sharded instance
     private ShardedMantaro shardedMantaro;
+
+    public ShardWatcher() {
+        Prometheus.THREAD_POOL_COLLECTOR.add("shard-watcher-thread-pool", THREAD_POOL);
+        Prometheus.THREAD_POOL_COLLECTOR.add("shard-watcher-resume-waiter", RESUME_WAITER);
+    }
 
     @Override
     public void run() {

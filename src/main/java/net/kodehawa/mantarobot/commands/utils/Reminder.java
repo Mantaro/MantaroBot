@@ -22,6 +22,7 @@ import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
@@ -44,6 +45,10 @@ public class Reminder {
     private final String userId;
     private final long offset;
     private final String guildId;
+
+    static {
+        Prometheus.THREAD_POOL_COLLECTOR.add("reminder", service);
+    }
 
     private Reminder(String id, String userId, String guildId, String reminder, long scheduledAt, long time, long offset) {
         this.id = id;

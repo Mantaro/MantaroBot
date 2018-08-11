@@ -41,6 +41,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogFilter;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
+import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import okhttp3.Request;
@@ -164,6 +165,12 @@ public class MantaroBot extends ShardedJDA {
             log.error("Cannot continue! Exiting program...");
             System.exit(FATAL_FAILURE);
         }
+        try {
+            Prometheus.enable();
+        } catch(Exception e) {
+            SentryHelper.captureException("Unable to start prometheus client", e, MantaroBot.class);
+            log.error("Unable to start prometheus client!", e);
+        }
     }
 
     public static boolean isDebug() {
@@ -211,6 +218,7 @@ public class MantaroBot extends ShardedJDA {
 
     public void startCheckingBirthdays() {
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
+        Prometheus.THREAD_POOL_COLLECTOR.add("birthday-tracker", executorService);
 
         //How much until tomorrow? That's the initial delay, then run it once a day.
         ZoneId z = ZoneId.of("America/Chicago");

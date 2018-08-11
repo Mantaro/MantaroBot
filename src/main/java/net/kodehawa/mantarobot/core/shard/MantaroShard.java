@@ -43,6 +43,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.Utils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONObject;
@@ -84,6 +85,7 @@ public class MantaroShard implements JDA {
     //New year date
     private static final Calendar newYear = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.JANUARY, 1).build();
 
+    private final String callbackPoolIdentifierString;
     @Getter
     public final MantaroEventManager manager;
     @Getter
@@ -105,6 +107,7 @@ public class MantaroShard implements JDA {
      * @throws InterruptedException
      */
     public MantaroShard(int shardId, int totalShards, MantaroEventManager manager, ICommandProcessor commandProcessor) throws RateLimitedException, LoginException, InterruptedException {
+        this.callbackPoolIdentifierString = "callback-pool-shard-" + shardId;
         this.shardId = shardId;
         this.totalShards = totalShards;
         this.manager = manager;
@@ -121,6 +124,10 @@ public class MantaroShard implements JDA {
 
         threadPool = Executors.newCachedThreadPool(normalTPNamedFactory);
         commandPool = Executors.newCachedThreadPool(commandTPNamedFactory);
+
+        Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-shard-" + shardId + "-birthday-executor", executorService);
+        Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-shard-" + shardId + "-thread-pool", threadPool);
+        Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-shard-" + shardId + "-command-pool", commandPool);
 
         log = LoggerFactory.getLogger("MantaroShard-" + shardId);
         mantaroListener = new MantaroListener(shardId, this);
@@ -156,11 +163,18 @@ public class MantaroShard implements JDA {
             removeListeners();
         }
 
+        ThreadPoolExecutor callbackPool;
+        synchronized(this) {
+            callbackPool = (ThreadPoolExecutor)Executors.newFixedThreadPool(15);
+            Prometheus.THREAD_POOL_COLLECTOR.remove(callbackPoolIdentifierString);
+            Prometheus.THREAD_POOL_COLLECTOR.add(callbackPoolIdentifierString, callbackPool);
+        }
+
         JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
                 .setToken(config().get().token)
                 .setAutoReconnect(true)
                 .setCorePoolSize(6)
-                .setCallbackPool(Executors.newFixedThreadPool(15), true)
+                .setCallbackPool(callbackPool, true)
                 .setAudioSendFactory(new NativeAudioSendFactory())
                 .setEventManager(manager)
                 .setSessionController(sessionController)

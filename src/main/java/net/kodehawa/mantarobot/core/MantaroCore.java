@@ -33,6 +33,7 @@ import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
+import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
 
 import java.lang.annotation.Annotation;
@@ -69,6 +70,7 @@ public class MantaroCore {
         this.useBanner = useBanner;
         this.useSentry = useSentry;
         this.isDebug = isDebug;
+        Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-core-common-executor", commonExecutor);
     }
 
     public static boolean hasLoadedCompletely() {
