@@ -34,11 +34,17 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class MantaroAudioManager {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MantaroAudioManager.class);
+
     @Getter
     private final Map<String, GuildMusicManager> musicManagers;
     @Getter
@@ -48,6 +54,9 @@ public class MantaroAudioManager {
         this.musicManagers = new HashMap<>();
         DefaultAudioPlayerManager apm = new DefaultAudioPlayerManager();
         Prometheus.THREAD_POOL_COLLECTOR.add("lavaplayer-track-playback", apm.getExecutor());
+        tryTrackingExecutor(apm, "lavaplayer-track-info", "trackInfoExecutorService");
+        tryTrackingExecutor(apm, "lavaplayer-scheduled-executor", "scheduledExecutorService");
+        tryTrackingExecutor(apm, "lavaplayer-ordered-info", "orderedInfoExecutor");
         this.playerManager = apm;
         YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager();
         youtubeAudioSourceManager.configureRequests(config -> RequestConfig.copy(config).setCookieSpec(CookieSpecs.IGNORE_COOKIES).build());
@@ -83,5 +92,15 @@ public class MantaroAudioManager {
             scheduler.setRepeatMode(null);
 
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoader(musicManager, event, skipSelection, addFirst));
+    }
+
+    private static void tryTrackingExecutor(DefaultAudioPlayerManager manager, String key, String fieldName) {
+        try {
+            Field f = DefaultAudioPlayerManager.class.getDeclaredField(fieldName);
+            f.setAccessible(true);
+            Prometheus.THREAD_POOL_COLLECTOR.add(key, (ThreadPoolExecutor)f.get(manager));
+        } catch(Exception e) {
+            LOGGER.error("Unable to retrieve {} executor from player manager!", key, e);
+        }
     }
 }
