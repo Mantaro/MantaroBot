@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.game.core;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -39,7 +40,11 @@ import java.util.stream.Collectors;
 public class GameLobby extends Lobby {
 
     public static final Map<Long, GameLobby> LOBBYS = new ConcurrentHashMap<>();
-    private static final ExecutorService executorService = Executors.newCachedThreadPool();
+    private static final ExecutorService executorService = Executors.newCachedThreadPool(
+            new ThreadFactoryBuilder()
+                .setNameFormat("GameLobby-CachedExecutor")
+                .build()
+    );
 
     @Getter
     GuildMessageReceivedEvent event;
