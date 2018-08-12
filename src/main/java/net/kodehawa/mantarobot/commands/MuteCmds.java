@@ -29,7 +29,6 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
@@ -93,7 +92,7 @@ public class MuteCmds {
                     reason = StringUtils.splitArgs(content, 2)[1];
                 }
 
-                if(!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MANAGE_ROLES)) {
+                if(!event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_ROLES)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_manage_roles"), EmoteReference.ERROR).queue();
                     return;
                 }
@@ -314,7 +313,7 @@ public class MuteCmds {
                     return;
                 }
 
-                if(!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MANAGE_ROLES)) {
+                if(!event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_ROLES)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_manage_roles"), EmoteReference.ERROR).queue();
                     return;
                 }

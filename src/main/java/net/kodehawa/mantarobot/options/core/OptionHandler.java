@@ -24,8 +24,6 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
-
 public abstract class OptionHandler {
     @Setter
     protected OptionType type = OptionType.GENERAL;
