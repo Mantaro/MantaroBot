@@ -151,7 +151,7 @@ public class MantaroShard implements JDA {
      * @throws LoginException
      * @throws InterruptedException
      */
-    public void start(boolean force) throws RateLimitedException, LoginException, InterruptedException {
+    public void start(boolean force) throws LoginException, InterruptedException {
         if(jda != null) {
             log.info("Attempting to drop shard {}...", shardId);
             prepareShutdown();
@@ -168,8 +168,8 @@ public class MantaroShard implements JDA {
         ThreadPoolExecutor callbackPool;
         ScheduledThreadPoolExecutor ratelimitPool;
         synchronized(this) {
-            callbackPool = (ThreadPoolExecutor)Executors.newFixedThreadPool(15);
-            ratelimitPool = (ScheduledThreadPoolExecutor)Executors.newScheduledThreadPool(6);
+            callbackPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(15);
+            ratelimitPool = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool(config.ratelimitPoolSize);
             Prometheus.THREAD_POOL_COLLECTOR.remove(callbackPoolIdentifierString);
             Prometheus.THREAD_POOL_COLLECTOR.add(callbackPoolIdentifierString, callbackPool);
             Prometheus.THREAD_POOL_COLLECTOR.remove(ratelimitPoolIdentifierString);
