@@ -49,12 +49,10 @@ public class InteractiveOperations {
 
         Prometheus.THREAD_POOL_COLLECTOR.add("interactive-operations-timeout", s);
 
-        s.scheduleAtFixedRate(()->{
-            OPS.values().removeIf(list->{
-                list.removeIf(RunningOperation::isTimedOut);
-                return list.isEmpty();
-            });
-        }, 1, 1, TimeUnit.SECONDS);
+        s.scheduleAtFixedRate(()-> OPS.values().removeIf(list->{
+            list.removeIf(RunningOperation::isTimedOut);
+            return list.isEmpty();
+        }), 1, 1, TimeUnit.SECONDS);
     }
 
     /**

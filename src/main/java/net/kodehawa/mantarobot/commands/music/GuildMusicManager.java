@@ -24,7 +24,6 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.handlers.AudioPlayerSendHandler;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
-import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.concurrent.ScheduledFuture;

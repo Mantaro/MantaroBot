@@ -141,7 +141,7 @@ public class StringUtils {
     public static String removeLines(String str, int startline, int numlines) {
         try(BufferedReader br = new BufferedReader(new StringReader(str))) {
             //String buffer to store contents of the file
-            StringBuilder builder = new StringBuilder("");
+            StringBuilder builder = new StringBuilder();
 
             //Keep track of the line number
             int linenumber = 0;

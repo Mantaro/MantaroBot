@@ -413,17 +413,11 @@ public class Items {
             case EPIC:
                 throw new UnsupportedOperationException();
             case PREMIUM:
-                premium.forEach(i-> {
-                    items.add(2, i);
-                });
+                premium.forEach(i-> items.add(2, i));
             case RARE:
-                rare.forEach(i-> {
-                    items.add(5, i);
-                });
+                rare.forEach(i-> items.add(5, i));
             case COMMON:
-                common.forEach(i-> {
-                    items.add(20, i);
-                });
+                common.forEach(i-> items.add(20, i));
         }
 
         List<Item> list = new ArrayList<>(amount);
