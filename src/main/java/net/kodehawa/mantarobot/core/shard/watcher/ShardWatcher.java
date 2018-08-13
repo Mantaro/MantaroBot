@@ -56,7 +56,7 @@ public class ShardWatcher implements Runnable {
     //No longer needed?
     private final ExecutorService THREAD_POOL = Executors.newCachedThreadPool();
     //The scheduler that manages the wait between one shard being resumed and the backoff period to check if it successfully revived.
-    private final ScheduledExecutorService RESUME_WAITER = Executors.newSingleThreadScheduledExecutor();
+    private final ScheduledExecutorService RESUME_WAITER = Executors.newScheduledThreadPool(1);
     //The queue where shards that didn't get revived used a RESUME get added. Here they get completely scrapped and re-built when they get polled from the queue.
     private final ConcurrentLinkedQueue<MantaroShard> RESTART_QUEUE = new ConcurrentLinkedQueue<>();
 

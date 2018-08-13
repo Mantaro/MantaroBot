@@ -41,7 +41,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @since 01-06-2017
  */
 public class RateLimiter {
-    private static final ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
+    private static final ScheduledExecutorService ses = Executors.newScheduledThreadPool(1);
     private final long max;
     private final long timeout;
     @Getter

@@ -35,7 +35,7 @@ import java.util.function.Consumer;
 
 public class Reminder {
     public static final Map<String, List<Reminder>> CURRENT_REMINDERS = new HashMap<>();
-    private static final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+    private static final ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
     private Future<?> scheduledReminder;
 
     public final String id;

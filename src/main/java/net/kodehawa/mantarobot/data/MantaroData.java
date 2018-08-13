@@ -32,7 +32,7 @@ import static com.rethinkdb.RethinkDB.r;
 
 @Slf4j
 public class MantaroData {
-    private static final ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+    private static final ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
     private static GsonDataManager<Config> config;
     private static Connection conn;
     private static ManagedDatabase db;
