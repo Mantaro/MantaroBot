@@ -114,7 +114,9 @@ public class RateLimiter {
     //Method overload.
     public long tryAgainIn(String key) {
         Pair<AtomicInteger, Long> p = usersRateLimited.get(key);
-        if(p == null || p.second == null) return 0;
+        if(p == null || p.second == null)
+            return 0;
+
         return Math.max(p.second - System.currentTimeMillis(), 0);
     }
 

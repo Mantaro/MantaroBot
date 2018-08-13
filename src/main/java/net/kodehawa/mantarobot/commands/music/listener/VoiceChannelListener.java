@@ -40,7 +40,7 @@ public class VoiceChannelListener implements EventListener {
     }
 
     private static boolean isAlone(VoiceChannel vc) {
-        return vc.getMembers().stream().filter(m -> !m.getUser().isBot()).count() == 0;
+        return vc.getMembers().stream().noneMatch(m -> !m.getUser().isBot());
     }
 
     @Override

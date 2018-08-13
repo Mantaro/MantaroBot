@@ -21,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
-import net.kodehawa.mantarobot.commands.OptsCmd;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;

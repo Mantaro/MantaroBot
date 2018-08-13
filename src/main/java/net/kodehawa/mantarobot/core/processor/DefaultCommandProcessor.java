@@ -17,13 +17,11 @@
 package net.kodehawa.mantarobot.core.processor;
 
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 

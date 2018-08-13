@@ -44,7 +44,6 @@ import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;

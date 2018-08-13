@@ -20,7 +20,6 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
-import net.jodah.expiringmap.ExpiringMap;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.utils.Prometheus;
@@ -50,12 +49,10 @@ public class InteractiveOperations {
 
         Prometheus.THREAD_POOL_COLLECTOR.add("interactive-operations-timeout", s);
 
-        s.scheduleAtFixedRate(()->{
-            OPS.values().removeIf(list->{
-                list.removeIf(RunningOperation::isTimedOut);
-                return list.isEmpty();
-            });
-        }, 1, 1, TimeUnit.SECONDS);
+        s.scheduleAtFixedRate(()-> OPS.values().removeIf(list->{
+            list.removeIf(RunningOperation::isTimedOut);
+            return list.isEmpty();
+        }), 1, 1, TimeUnit.SECONDS);
     }
 
     /**

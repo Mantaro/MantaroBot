@@ -88,7 +88,7 @@ public class Items {
             STAR = new Item(ItemType.COLLECTABLE, "\u26A0\uFE0F","Prize", "items.prize", "items.description.prize", 0, false, false, true),
 
             // ---------------------------------- LEFT OVERS FROM CURRENCY V1 END HERE ----------------------------------
-            LOOT_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Loot Crate",  "items.crate","items.description.create", 0, false, false, true, Items::openLootCrate),
+            LOOT_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Loot Crate",  "items.crate","items.description.crate", 0, false, false, true, Items::openLootCrate),
             STAR_2 = new Item(ItemType.COMMON, EmoteReference.STAR.getUnicode(),"Prize 2", "items.prize_2", "items.description.prize_2", 500, true, false, true),
             SLOT_COIN = new Item(ItemType.COMMON, "\uD83C\uDF9F","Slot ticket", "items.slot_ticket","items.description.slot_ticket", 65, true, true),
             HOUSE = new Item(ItemType.COMMON, EmoteReference.HOUSE.getUnicode(), "House", "items.house", "items.description.house", 5000, true, true),
@@ -413,17 +413,11 @@ public class Items {
             case EPIC:
                 throw new UnsupportedOperationException();
             case PREMIUM:
-                premium.forEach(i-> {
-                    items.add(2, i);
-                });
+                premium.forEach(i-> items.add(2, i));
             case RARE:
-                rare.forEach(i-> {
-                    items.add(5, i);
-                });
+                rare.forEach(i-> items.add(5, i));
             case COMMON:
-                common.forEach(i-> {
-                    items.add(20, i);
-                });
+                common.forEach(i-> items.add(20, i));
         }
 
         List<Item> list = new ArrayList<>(amount);
@@ -452,7 +446,7 @@ public class Items {
     }
 
     public static boolean handleBuff(Item i, int maxTimes, Player p) {
-        boolean isBuffPresent = p.getData().getActivePotion() != null && fromId(p.getData().getActiveBuff().getPotion()) == i;
+        boolean isBuffPresent = p.getData().getActiveBuff() != null && fromId(p.getData().getActiveBuff().getPotion()) == i;
         if (isBuffPresent) {
             //counter starts at 0
             if (p.getData().getActiveBuff().getTimesUsed() >= maxTimes) {

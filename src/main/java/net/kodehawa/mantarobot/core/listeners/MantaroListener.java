@@ -67,11 +67,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static net.kodehawa.mantarobot.utils.Utils.DISCORD_INVITE;
-import static net.kodehawa.mantarobot.utils.Utils.DISCORD_INVITE_2;
-import static net.kodehawa.mantarobot.utils.Utils.THIRD_PARTY_INVITE;
+import static net.kodehawa.mantarobot.utils.Utils.*;
 
 @Slf4j
 public class MantaroListener implements EventListener {

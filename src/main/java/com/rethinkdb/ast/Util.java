@@ -67,7 +67,7 @@ public class Util {
 
         if(val instanceof Object[]) {
             Arguments innerValues = new Arguments();
-            for(Object innerValue : Arrays.asList((Object[]) val)) {
+            for(Object innerValue : (Object[]) val) {
                 innerValues.add(toReqlAst(innerValue, remainingDepth - 1));
             }
             return new MakeArray(innerValues, null);
