@@ -28,4 +28,5 @@ public class Waifu {
     private double reputationMultiplier;
     private long claimValue;
     private long finalValue;
+    private long performance;
 }

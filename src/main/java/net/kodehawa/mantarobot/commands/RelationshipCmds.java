@@ -628,6 +628,11 @@ public class RelationshipCmds {
                     return;
 
                 User toLookup = member.getUser();
+                if(toLookup.isBot()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.bot"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 Waifu waifuStats = calculateWaifuValue(toLookup);
 
                 EmbedBuilder statsBuilder = new EmbedBuilder()
@@ -639,7 +644,9 @@ public class RelationshipCmds {
                         .setDescription(String.format(languageContext.get("commands.waifu.stats.format"),
                                  EmoteReference.BLUE_SMALL_MARKER, waifuStats.getMoneyValue(), waifuStats.getBadgeValue(), waifuStats.getExperienceValue(), waifuStats.getClaimValue(), waifuStats.getReputationMultiplier())
                         )
-                        .addField(languageContext.get("commands.waifu.stats.value"), EmoteReference.BUY + String.format(languageContext.get("commands.waifu.stats.credits"), waifuStats.getFinalValue()), false);
+                        .addField(languageContext.get("commands.waifu.stats.performance"), waifuStats.getPerformance() + "wp", true)
+                        .addField(languageContext.get("commands.waifu.stats.value"), EmoteReference.BUY + String.format(languageContext.get("commands.waifu.stats.credits"), waifuStats.getFinalValue()), false)
+                        .setFooter(languageContext.get("commands.waifu.notice"), null);
 
                 event.getChannel().sendMessage(statsBuilder.build()).queue();
             }
@@ -655,6 +662,11 @@ public class RelationshipCmds {
 
                 final ManagedDatabase db = MantaroData.db();
                 User toLookup = event.getMessage().getMentionedUsers().get(0);
+
+                if(toLookup.isBot()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.bot"), EmoteReference.ERROR).queue();
+                    return;
+                }
 
                 final Player claimer = db.getPlayer(event.getAuthor());
                 final DBUser claimerUser = db.getUser(event.getAuthor());
@@ -733,6 +745,10 @@ public class RelationshipCmds {
 
                 final ManagedDatabase db = MantaroData.db();
                 User toLookup = event.getMessage().getMentionedUsers().get(0);
+                if(toLookup.isBot()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.bot"), EmoteReference.ERROR).queue();
+                    return;
+                }
 
                 final DBUser claimerUser = db.getUser(event.getAuthor());
                 final UserData data = claimerUser.getData();
@@ -841,6 +857,7 @@ public class RelationshipCmds {
         UserData waifuUserData = db.getUser(user).getData();
 
         long waifuValue = waifuBaseValue;
+        long performance;
         //For every 120000 money owned, it increases by 7% base value (base: 1300)
         //For every 3 badges, it increases by 17% base value.
         //For every 2580 experience, the value increases by 20% of the base value.
@@ -867,11 +884,14 @@ public class RelationshipCmds {
         double reputationScaling = (reputation / 4.5) / 10;
         long finalValue = (long) (
                 Math.min(Integer.MAX_VALUE,
-                        (waifuValue * (reputationScaling > 1 ? reputationScaling : 1) * (reputation > 6000 ? 1.35 : 1)
+                        (waifuValue * (reputationScaling > 1 ? reputationScaling : 1) * (reputation > 6500 ? 1.1 : 1)
                 )
         ));
 
-        return new Waifu(moneyValue, badgeValue, experienceValue, reputationScaling, claimValue, finalValue);
+        performance = (waifuValue - waifuBaseValue) + (long)((reputationScaling > 1 ? reputationScaling : 1) * 2);
+        if(performance < 0) performance = 0;
+
+        return new Waifu(moneyValue, badgeValue, experienceValue, reputationScaling, claimValue, finalValue, performance);
     }
 
     //Yes, I had to do it, fuck.
