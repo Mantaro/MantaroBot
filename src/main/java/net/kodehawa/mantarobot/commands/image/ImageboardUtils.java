@@ -117,6 +117,11 @@ public class ImageboardUtils {
                                 return;
                             }
 
+                            if(image.getTags().stream().anyMatch(tag -> dbGuild.getData().getBlackListedImageTags().contains(tag))) {
+                                channel.sendMessageFormat(languageContext.get("commands.imageboard.blacklisted_tag"), EmoteReference.ERROR).queue();
+                                return;
+                            }
+
                             imageEmbed(languageContext, image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), imageTags, image.getRating(), imageboard, channel);
                             if(image.getRating().equals(Rating.EXPLICIT)) {
                                 if(playerData.addBadgeIfAbsent(Badge.LEWDIE)) {
@@ -155,6 +160,13 @@ public class ImageboardUtils {
                         int number = r.nextInt(filter.size());
                         BoardImage image = filter.get(number);
                         String tags = image.getTags().stream().collect(Collectors.joining(", "));
+
+                        DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                        if(image.getTags().stream().anyMatch(tag -> dbGuild.getData().getBlackListedImageTags().contains(tag))) {
+                            channel.sendMessageFormat(languageContext.get("commands.imageboard.blacklisted_tag"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
                         imageEmbed(languageContext, image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, image.getRating(), imageboard, channel);
                         if(image.getRating().equals(Rating.EXPLICIT)) {
                             if(playerData.addBadgeIfAbsent(Badge.LEWDIE)) {
