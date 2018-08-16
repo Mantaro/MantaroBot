@@ -222,6 +222,7 @@ public class Utils {
      * @param event guild event
      * @return The object as a parsed UTF-8 string.
      */
+    @Deprecated
     public static String wget(String url, GuildMessageReceivedEvent event) {
         return wgetResty(url, event);
     }

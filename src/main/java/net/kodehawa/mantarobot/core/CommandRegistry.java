@@ -185,7 +185,12 @@ public class CommandRegistry {
         final StatsDClient statsClient = MantaroBot.getInstance().getStatsClient();
 
         statsClient.increment("commands");
-        log.debug("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
+        statsClient.increment("command_track", "guild:" + event.getGuild().getId(), "user:" + event.getAuthor().getId(), "channel:" + event.getChannel().getId());
+        log.debug("COMMAND INVOKE: command:{}, user:{}#{} timestamp:{}, guild:{}, channel:{} ",
+                cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(),
+                new Date(System.currentTimeMillis()), event.getGuild().getId(), event.getChannel().getId()
+        );
+
         cmd.run(event, new I18nContext(guildData, userData), cmdName, content);
 
         //Logging
