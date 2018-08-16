@@ -616,7 +616,15 @@ public class RelationshipCmds {
 
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return null;
+                return helpEmbed(event, "Waifu Command")
+                        .setDescription("**This command is the hub for all waifu operations*\n" +
+                                "`~>waifu` - Shows a list of all your waifus and their current value.\n" +
+                                "`~>waifu stats` - Shows your waifu stats or the stats or someone\n" +
+                                "`~>waifu claim` - Claim a waifu.\n" +
+                                "`~>waifu unclaim` - Unclaim a waifu.\n" +
+                                "`~>waifu buyslot` - Buy a waifu slots. Maximum possible slots are 20.")
+                        .addField("Notice",  "This command is not meant to represent any real life situation, whether real or fake.", true)
+                        .build();
             }
         });
 
@@ -738,13 +746,12 @@ public class RelationshipCmds {
         waifu.addSubCommand("unclaim", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.no_user"), EmoteReference.ERROR).queue();
+                Member member = Utils.findMember(event, event.getMember(), content);
+                if(member == null)
                     return;
-                }
 
                 final ManagedDatabase db = MantaroData.db();
-                User toLookup = event.getMessage().getMentionedUsers().get(0);
+                User toLookup = member.getUser();
                 if(toLookup.isBot()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.bot"), EmoteReference.ERROR).queue();
                     return;
