@@ -191,14 +191,14 @@ public class CommandRegistry {
         statsClient.increment("command_track", "guild:" + event.getGuild().getId(), "user:" + event.getAuthor().getId(), "channel:" + event.getChannel().getId());
 
         if(logCommands) {
-            log.info("COMMAND INVOKE: command:{}, user:{}#{} timestamp:{}, guild:{}, channel:{} ",
-                    cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(),
-                    new Date(System.currentTimeMillis()), event.getGuild().getId(), event.getChannel().getId()
+            log.info("COMMAND INVOKE: command:{}, user:{}#{}, userid:{}, guild:{}, channel:{} ",
+                    cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), event.getAuthor().getId(),
+                    event.getGuild().getId(), event.getChannel().getId()
             );
         } else {
-            log.debug("COMMAND INVOKE: command:{}, user:{}#{} timestamp:{}, guild:{}, channel:{} ",
+            log.debug("COMMAND INVOKE: command:{}, user:{}#{}, guild:{}, channel:{} ",
                     cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(),
-                    new Date(System.currentTimeMillis()), event.getGuild().getId(), event.getChannel().getId()
+                    event.getGuild().getId(), event.getChannel().getId()
             );
         }
 
