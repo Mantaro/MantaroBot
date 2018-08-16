@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.core;
 
 import com.google.common.base.Preconditions;
 import com.timgroup.statsd.StatsDClient;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
@@ -52,6 +53,8 @@ import java.util.*;
 public class CommandRegistry {
     private final Map<String, Command> commands;
     private final Config conf = MantaroData.config().get();
+    @Setter
+    private boolean logCommands = false;
 
     public CommandRegistry(Map<String, Command> commands) {
         this.commands = Preconditions.checkNotNull(commands);
@@ -186,10 +189,18 @@ public class CommandRegistry {
 
         statsClient.increment("commands");
         statsClient.increment("command_track", "guild:" + event.getGuild().getId(), "user:" + event.getAuthor().getId(), "channel:" + event.getChannel().getId());
-        log.debug("COMMAND INVOKE: command:{}, user:{}#{} timestamp:{}, guild:{}, channel:{} ",
-                cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(),
-                new Date(System.currentTimeMillis()), event.getGuild().getId(), event.getChannel().getId()
-        );
+
+        if(logCommands) {
+            log.info("COMMAND INVOKE: command:{}, user:{}#{} timestamp:{}, guild:{}, channel:{} ",
+                    cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(),
+                    new Date(System.currentTimeMillis()), event.getGuild().getId(), event.getChannel().getId()
+            );
+        } else {
+            log.debug("COMMAND INVOKE: command:{}, user:{}#{} timestamp:{}, guild:{}, channel:{} ",
+                    cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(),
+                    new Date(System.currentTimeMillis()), event.getGuild().getId(), event.getChannel().getId()
+            );
+        }
 
         cmd.run(event, new I18nContext(guildData, userData), cmdName, content);
 
