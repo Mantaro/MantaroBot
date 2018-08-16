@@ -52,7 +52,7 @@ import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 @Slf4j
 public class Utils {
     public static final Counter ratelimitCounter = Counter.build()
-            .name("ratelimits")
+            .name("ratelimits").help("Ratelimited Commands")
             .labelNames("userId")
             .register();
 

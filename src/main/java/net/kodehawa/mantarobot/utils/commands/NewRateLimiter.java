@@ -91,7 +91,7 @@ public class NewRateLimiter {
 
     public boolean test(String key) {
         if(executor.isShutdown()) {
-            throw new IllegalStateException("The executor has been shut down! No ratelimitCounter can be processed");
+            throw new IllegalStateException("The executor has been shut down! No ratelimits can be processed");
         }
 
         boolean isPremium = isPremiumAware && MantaroData.db().getUser(key).isPremium();

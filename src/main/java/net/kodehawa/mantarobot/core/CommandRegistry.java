@@ -56,14 +56,14 @@ import java.util.Map;
 public class CommandRegistry {
     //Wiki says they should always be static?
     private static final Histogram commandLatency = Histogram.build()
-            .name("command_latency")
+            .name("command_latency").help("Time it takes for a command to process.")
             .register();
     private static final Counter commandCounter = Counter.build()
-            .name("commands")
+            .name("commands").help("Amounts of commands ran (shardId, userId, guildId, channelId")
             .labelNames("shardId", "userId", "guildId", "channelId")
             .register();
     private static final Counter categoryCounter = Counter.build()
-            .name("categories")
+            .name("categories").help("Amounts of categories ran (name, shardId, userId, guildId, channelId")
             .labelNames("name", "shardId", "userId", "guildId", "channelId")
             .register();
 

@@ -48,7 +48,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class AudioLoader implements AudioLoadResultHandler {
     private static final Counter trackEvents = Counter.build()
-            .name("track_event")
+            .name("track_event").help("Music Track Events (failed/loaded/searched)")
             .labelNames("type")
             .register();
 

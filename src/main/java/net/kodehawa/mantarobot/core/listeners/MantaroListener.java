@@ -80,27 +80,27 @@ public class MantaroListener implements EventListener {
 
     //START OF METRIC COLLECTORS DECLARATION.
     private static final Gauge guildCount = Gauge.build()
-            .name("guilds")
+            .name("guilds").help("Guild Count")
             .register();
     private static final Gauge userCount = Gauge.build()
-            .name("users")
+            .name("users").help("User Count")
             .register();
     private static final Counter httpRequests = Counter.build()
-            .name("http_requests")
+            .name("http_requests").help("Successful HTTP Requests (JDA)")
             .register();
     private static final Counter receivedMessages = Counter.build()
-            .name("messages_received")
+            .name("messages_received").help("Received messages (all users + bots)")
             .register();
     private static final Counter actions = Counter.build()
-            .name("actions")
+            .name("actions").help("Mantaro Actions")
             .labelNames("type")
             .register();
     private static final Counter guildActions = Counter.build()
-            .name("guild_actions")
+            .name("guild_actions").help("Guild Options")
             .labelNames("type")
             .register();
     private static final Counter shardEvent = Counter.build()
-            .name("shard_event")
+            .name("shard_event").help("Shard Events (CONNECT/RESUME/DISCONNECT)")
             .labelNames("type")
             .register();
     //END OF METRIC CONNECTORS DECLARATION.

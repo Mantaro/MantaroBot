@@ -29,7 +29,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 @Slf4j
 public class DefaultCommandProcessor implements ICommandProcessor {
     private static final Histogram commandTime = Histogram.build()
-            .name("command_time")
+            .name("command_time").help("Time it takes for a command to be ran.")
             .register();
 
     public static final CommandRegistry REGISTRY = new CommandRegistry();
