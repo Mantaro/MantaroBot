@@ -662,7 +662,7 @@ public class CurrencyCmds {
                                     + ".**"
                     ).queue();
 
-                    MantaroBot.getInstance().getStatsClient().increment("ratelimits");
+                    Utils.ratelimitCounter.labels(event.getAuthor().getId()).inc();
                     return;
                 }
 

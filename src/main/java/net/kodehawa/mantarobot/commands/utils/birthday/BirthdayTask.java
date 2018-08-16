@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.utils.birthday;
 
+import io.prometheus.client.Counter;
 import io.sentry.Sentry;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
@@ -39,6 +40,10 @@ import java.util.stream.Collectors;
 public class BirthdayTask {
     private static FastDateFormat dateFormat = FastDateFormat.getInstance("dd-MM-yyyy");
     private ManagedDatabase db = MantaroData.db();
+    private static final Counter birthdayCounter = Counter.build()
+            .name("birthdays_logged")
+            .labelNames("guildId")
+            .register();
 
     public void handle(int shardId) {
         try {
@@ -115,7 +120,7 @@ public class BirthdayTask {
                                                 .reason("Birthday assigner. If you see this happening for every member of your server, or in unintended ways, please do ~>opts birthday disable")
                                                 .queue(s -> {
                                                     channel.sendMessage(birthdayMessage).queue();
-                                                    MantaroBot.getInstance().getStatsClient().increment("birthdays_logged");
+                                                    birthdayCounter.labels(guild.getId()).inc();
                                                 }
                                         );
                                         log.debug("Assigned birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());

@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.core.processor;
 
+import io.prometheus.client.Histogram;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -27,6 +28,9 @@ import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 @Slf4j
 public class DefaultCommandProcessor implements ICommandProcessor {
+    private static final Histogram commandTime = Histogram.build()
+            .name("command_time")
+            .register();
 
     public static final CommandRegistry REGISTRY = new CommandRegistry();
 
@@ -65,7 +69,7 @@ public class DefaultCommandProcessor implements ICommandProcessor {
         REGISTRY.process(event, cmdName, content);
 
         long end = System.currentTimeMillis();
-        MantaroBot.getInstance().getStatsClient().histogram("command_query_time", end - start);
+        commandTime.observe(end - start);
 
         return true;
     }

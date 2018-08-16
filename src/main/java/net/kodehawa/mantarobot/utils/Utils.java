@@ -19,11 +19,11 @@ package net.kodehawa.mantarobot.utils;
 import com.google.common.io.CharStreams;
 import com.jagrosh.jdautilities.utils.FinderUtil;
 import com.rethinkdb.net.Connection;
+import io.prometheus.client.Counter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.data.Config;
@@ -51,6 +51,11 @@ import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 
 @Slf4j
 public class Utils {
+    public static final Counter ratelimitCounter = Counter.build()
+            .name("ratelimits")
+            .labelNames("userId")
+            .register();
+
     public static final OkHttpClient httpClient = new OkHttpClient();
     private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
     public static final Pattern mentionPattern = Pattern.compile("<(#|@|@&)?.[0-9]{17,21}>");
@@ -564,8 +569,7 @@ public class Utils {
                             + ".**"
             ).queue();
 
-            MantaroBot.getInstance().getStatsClient().increment("ratelimits");
-
+            ratelimitCounter.labels(u.getId()).inc();
             return false;
         }
 
@@ -579,8 +583,7 @@ public class Utils {
                             EmoteReference.STOPWATCH, ratelimitQuotes[random.nextInt(ratelimitQuotes.length)], Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor())))
             ).queue();
 
-            MantaroBot.getInstance().getStatsClient().increment("ratelimits");
-
+            ratelimitCounter.labels(u.getId()).inc();
             return false;
         }
 
@@ -597,8 +600,7 @@ public class Utils {
                     + (rateLimit.getSpamAttempts() > 4 ? "\nI think stopping is the best option for now..." : "")
             ).queue();
 
-            MantaroBot.getInstance().getStatsClient().increment("ratelimits");
-
+            ratelimitCounter.labels(u.getId()).inc();
             return false;
         }
 

@@ -64,7 +64,7 @@ public class RateLimiter {
 
     /**
      * Defines a premium-aware ratelimiter.
-     * Premium users enjoy 25% less ratelimits on the bot in some commands.
+     * Premium users enjoy 25% less ratelimitCounter on the bot in some commands.
      *
      * @param timeout How much time until the ratelimit gets lifted
      */

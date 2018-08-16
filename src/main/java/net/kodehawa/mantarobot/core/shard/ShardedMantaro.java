@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.core.shard;
 
 import br.com.brjdevs.java.utils.async.Async;
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
+import io.prometheus.client.Gauge;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.VoiceChannel;
@@ -58,6 +59,11 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
 @Slf4j
 public class ShardedMantaro {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final Gauge activeMusicPlayers = Gauge.build()
+            .name("music_players")
+            .help("Active Music Players")
+            .register();
+
     private final Carbonitex carbonitex = new Carbonitex();
     private final Config config = MantaroData.config().get();
     private final DiscordBotsAPI discordBotsAPI = new DiscordBotsAPI.Builder().setToken(MantaroData.config().get().dbotsorgToken).build();
@@ -158,7 +164,7 @@ public class ShardedMantaro {
         Async.task(() -> {
             try {
                 SnowflakeCacheView<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannelCache();
-                MantaroBot.getInstance().getStatsClient().gauge("music_players", vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count());
+                activeMusicPlayers.set(vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count());
             } catch (Exception ignored) {} //Avoid the scheduled task to unexpectedly end on exception (probably ConcurrentModificationException but let's just catch all errors)
         }, 20, TimeUnit.SECONDS);
     }

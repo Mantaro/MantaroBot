@@ -17,7 +17,8 @@
 package net.kodehawa.mantarobot.core;
 
 import com.google.common.base.Preconditions;
-import com.timgroup.statsd.StatsDClient;
+import io.prometheus.client.Counter;
+import io.prometheus.client.Histogram;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
@@ -25,7 +26,6 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.CustomCmds;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
@@ -47,10 +47,26 @@ import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class CommandRegistry {
+    //Wiki says they should always be static?
+    private static final Histogram commandLatency = Histogram.build()
+            .name("command_latency")
+            .register();
+    private static final Counter commandCounter = Counter.build()
+            .name("commands")
+            .labelNames("shardId", "userId", "guildId", "channelId")
+            .register();
+    private static final Counter categoryCounter = Counter.build()
+            .name("categories")
+            .labelNames("name", "shardId", "userId", "guildId", "channelId")
+            .register();
+
     private final Map<String, Command> commands;
     private final Config conf = MantaroData.config().get();
     @Setter
@@ -135,7 +151,6 @@ public class CommandRegistry {
             if ((whitelistedRole != null && event.getMember().getRoles().stream().noneMatch(r -> whitelistedRole.getId().equalsIgnoreCase(r.getId())) && !isAdmin(event.getMember()))) {
                 return false;
             }
-
             //else continue.
         }
 
@@ -184,11 +199,11 @@ public class CommandRegistry {
             }
         }
 
+        //COMMAND LOGGING
         long end = System.currentTimeMillis();
-        final StatsDClient statsClient = MantaroBot.getInstance().getStatsClient();
-
-        statsClient.increment("commands");
-        statsClient.increment("command_track", "guild:" + event.getGuild().getId(), "user:" + event.getAuthor().getId(), "channel:" + event.getChannel().getId());
+        JDA.ShardInfo shardInfo = event.getJDA().getShardInfo();
+        int shardId = shardInfo == null ? 0 : shardInfo.getShardId();
+        commandCounter.labels(String.valueOf(shardId), event.getAuthor().getId(), event.getGuild().getId(), event.getChannel().getId()).inc();
 
         if(logCommands) {
             log.info("COMMAND INVOKE: command:{}, user:{}#{}, userid:{}, guild:{}, channel:{} ",
@@ -206,19 +221,15 @@ public class CommandRegistry {
 
         //Logging
         if(cmd.category() != null && cmd.category().name() != null && !cmd.category().name().isEmpty()) {
-            statsClient.increment("command", "name:" + cmdName);
-            statsClient.increment("category", "name:" + cmd.category().name().toLowerCase());
-
-            JDA.ShardInfo shardInfo = event.getJDA().getShardInfo();
-            int shardId = shardInfo == null ? 0 : shardInfo.getShardId();
-            statsClient.increment("shard_command", "id:" + shardId);
+            categoryCounter.labels(cmd.category().name().toLowerCase(),
+                    String.valueOf(shardId), event.getAuthor().getId(), event.getGuild().getId(), event.getChannel().getId()
+            ).inc();
 
             CommandStatsManager.log(cmdName);
             CategoryStatsManager.log(cmd.category().name().toLowerCase());
         }
 
-        statsClient.histogram("command_process_time", (end - start));
-
+        commandLatency.observe(end - start);
         return true;
     }
 

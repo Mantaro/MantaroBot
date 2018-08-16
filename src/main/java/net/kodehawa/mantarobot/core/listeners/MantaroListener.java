@@ -19,6 +19,8 @@ package net.kodehawa.mantarobot.core.listeners;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
+import io.prometheus.client.Counter;
+import io.prometheus.client.Gauge;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
@@ -76,6 +78,33 @@ public class MantaroListener implements EventListener {
             .maximumSize(5500)
             .build();
 
+    //START OF METRIC COLLECTORS DECLARATION.
+    private static final Gauge guildCount = Gauge.build()
+            .name("guilds")
+            .register();
+    private static final Gauge userCount = Gauge.build()
+            .name("users")
+            .register();
+    private static final Counter httpRequests = Counter.build()
+            .name("http_requests")
+            .register();
+    private static final Counter receivedMessages = Counter.build()
+            .name("messages_received")
+            .register();
+    private static final Counter actions = Counter.build()
+            .name("actions")
+            .labelNames("type")
+            .register();
+    private static final Counter guildActions = Counter.build()
+            .name("guild_actions")
+            .labelNames("type")
+            .register();
+    private static final Counter shardEvent = Counter.build()
+            .name("shard_event")
+            .labelNames("type")
+            .register();
+    //END OF METRIC CONNECTORS DECLARATION.
+
     private static int logTotal = 0;
     private final ManagedDatabase db = MantaroData.db();
     private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
@@ -119,7 +148,7 @@ public class MantaroListener implements EventListener {
         }
 
         if (event instanceof GuildMessageReceivedEvent) {
-            MantaroBot.getInstance().getStatsClient().increment("messages_received");
+            receivedMessages.inc();
             GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
             onMessage(e);
             return;
@@ -171,8 +200,8 @@ public class MantaroListener implements EventListener {
             onJoin(e);
 
             if (MantaroCore.hasLoadedCompletely()) {
-                MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuildCache().size());
-                MantaroBot.getInstance().getStatsClient().gauge("users", MantaroBot.getInstance().getUserCache().size());
+                guildCount.set(MantaroBot.getInstance().getGuildCache().size());
+                userCount.set(MantaroBot.getInstance().getUserCache().size());
             }
 
             return;
@@ -182,8 +211,8 @@ public class MantaroListener implements EventListener {
             onLeave((GuildLeaveEvent) event);
 
             if (MantaroCore.hasLoadedCompletely()) {
-                MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuildCache().size());
-                MantaroBot.getInstance().getStatsClient().gauge("users", MantaroBot.getInstance().getUserCache().size());
+                guildCount.set(MantaroBot.getInstance().getGuildCache().size());
+                userCount.set(MantaroBot.getInstance().getUserCache().size());
             }
 
             return;
@@ -207,12 +236,12 @@ public class MantaroListener implements EventListener {
         }
 
         if (event instanceof HttpRequestEvent) {
-            MantaroBot.getInstance().getStatsClient().incrementCounter("http_requests");
+            httpRequests.inc();
             return;
         }
 
         if (event instanceof ReconnectedEvent) {
-            MantaroBot.getInstance().getStatsClient().increment("shard.reconnect");
+            shardEvent.labels("reconnect").inc();
             MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.reconnect")
                     .withText("Shard reconnected")
                     .withDate(new Date()).build());
@@ -220,7 +249,7 @@ public class MantaroListener implements EventListener {
         }
 
         if (event instanceof ResumedEvent) {
-            MantaroBot.getInstance().getStatsClient().increment("shard.resume");
+            shardEvent.labels("resume").inc();
             MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.resume")
                     .withText("Shard resumed")
                     .withDate(new Date()).build());
@@ -359,10 +388,11 @@ public class MantaroListener implements EventListener {
 
     private void logStatusChange(StatusChangeEvent event) {
         JDA jda = event.getJDA();
-        if (jda.getShardInfo() == null) return;
+        if (jda.getShardInfo() == null)
+            return;
 
         if (event.getNewStatus().equals(JDA.Status.CONNECTED)) {
-            MantaroBot.getInstance().getStatsClient().increment("shard.connect");
+            shardEvent.labels("connect").inc();
             MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.connected")
                     .withText("Shard connected")
                     .withDate(new Date()).build());
@@ -416,7 +446,7 @@ public class MantaroListener implements EventListener {
                 return;
             }
 
-            MantaroBot.getInstance().getStatsClient().increment("guild_join");
+            guildActions.labels("join").inc();
             GuildStatsManager.log(LoggedEvent.JOIN);
         } catch (Exception e) {
             if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
@@ -434,7 +464,7 @@ public class MantaroListener implements EventListener {
                 return;
             }
 
-            MantaroBot.getInstance().getStatsClient().increment("guild_leave");
+            guildActions.labels("leave").inc();
             MantaroBot.getInstance().getAudioManager().getMusicManagers().remove(event.getGuild().getId());
             GuildStatsManager.log(LoggedEvent.LEAVE);
         } catch (Exception e) {
@@ -462,7 +492,7 @@ public class MantaroListener implements EventListener {
                     //If this message has an invite and it's not an invite to the same guild it was sent on, proceed to delete.
                     if (hasInvite(event.getJDA(), event.getGuild(), event.getMessage().getContentRaw())) {
                         Member bot = event.getGuild().getSelfMember();
-                        MantaroBot.getInstance().getStatsClient().increment("links_blocked");
+                        actions.labels("link_block").inc();
                         if (bot.hasPermission(event.getChannel(), Permission.MESSAGE_MANAGE) || bot.hasPermission(Permission.ADMINISTRATOR)) {
                             User author = event.getAuthor();
 
@@ -508,7 +538,7 @@ public class MantaroListener implements EventListener {
                                     .reason("Autorole assigner.")
                                     .queue(s -> log.debug("Successfully added a new role to " + event.getMember()));
 
-                            MantaroBot.getInstance().getStatsClient().increment("join_autorole");
+                            actions.labels("join_autorole").inc();
                         }
                     }
                 } catch (Exception ignored) { }
@@ -535,7 +565,7 @@ public class MantaroListener implements EventListener {
                     data.getLogJoinLeaveChannel() : data.getLogJoinChannel();
             String joinMessage = data.getJoinMessage();
             sendJoinLeaveMessage(event, data.getExtraJoinMessages(), joinMessage, joinChannel);
-            MantaroBot.getInstance().getStatsClient().increment("join_messages");
+            actions.labels("join_messages").inc();
         } catch (Exception e) {
             SentryHelper.captureExceptionContext("Failed to send join message!", e, MantaroListener.class, "Join Handler");
             log.error("Failed to send join message!", e);
@@ -574,7 +604,7 @@ public class MantaroListener implements EventListener {
                     data.getLogJoinLeaveChannel() : data.getLogLeaveChannel();
             String leaveMessage = data.getLeaveMessage();
             sendJoinLeaveMessage(event, data.getExtraLeaveMessages(), leaveMessage, leaveChannel);
-            MantaroBot.getInstance().getStatsClient().increment("leave_messages");
+            actions.labels("leave_messages").inc();
         } catch (Exception e) {
             SentryHelper.captureExceptionContext("Failed to send leave message!", e, MantaroListener.class, "Join Handler");
             log.error("Failed to send leave message!", e);

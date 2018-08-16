@@ -161,11 +161,8 @@ public class OsuStatsCmd {
                 }
             }
 
-            MantaroBot.getInstance().getStatsClient().gauge("osu_user_ping", System.currentTimeMillis() - start);
-
             map.put("m", mode);
             List<UserScore> userBest = osuClient.getUserBest(osuUser, map);
-            MantaroBot.getInstance().getStatsClient().gauge("osu_score_ping", System.currentTimeMillis() - start);
             StringBuilder sb = new StringBuilder();
             StringBuilder modsBuilder = new StringBuilder();
 

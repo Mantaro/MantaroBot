@@ -21,6 +21,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
+import io.prometheus.client.Counter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
@@ -46,6 +47,11 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class AudioLoader implements AudioLoadResultHandler {
+    private static final Counter trackEvents = Counter.build()
+            .name("track_event")
+            .labelNames("type")
+            .register();
+
     private static final int MAX_QUEUE_LENGTH = 350;
     private static final long MAX_SONG_LENGTH = 1920000; //32 minutes
     private final GuildMessageReceivedEvent event;
@@ -125,7 +131,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         if(!exception.severity.equals(FriendlyException.Severity.FAULT)) {
             event.getChannel().sendMessage(String.format(language.get("commands.music_general.loader.error_fetching"), EmoteReference.ERROR, exception.getMessage())).queue();
         } else {
-            MantaroBot.getInstance().getStatsClient().increment("tracks_hard_failed");
+            trackEvents.labels("tracks_failed").inc();
         }
     }
 
@@ -174,7 +180,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                     .sendTo(event.getChannel()).queue();
         }
 
-        MantaroBot.getInstance().getStatsClient().increment("tracks_loaded");
+        trackEvents.labels("tracks_load").inc();
     }
 
     private void onSearch(AudioPlaylist playlist) {
@@ -188,6 +194,6 @@ public class AudioLoader implements AudioLoadResultHandler {
                 selected -> loadSingle(selected, false)
         );
 
-        MantaroBot.getInstance().getStatsClient().increment("tracks_searched");
+        trackEvents.labels("tracks_search").inc();
     }
 }
