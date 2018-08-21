@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import bsh.Interpreter;
 import com.github.natanbc.javaeval.CompilationException;
 import com.github.natanbc.javaeval.CompilationResult;
 import com.github.natanbc.javaeval.JavaEvaluator;
@@ -299,26 +298,6 @@ public class OwnerCmd {
                         code,
                         "}",
                         "})()"
-                ));
-            } catch(Exception e) {
-                return e;
-            }
-        });
-
-        evals.put("bsh", (event, code) -> {
-            Interpreter interpreter = new Interpreter();
-            try {
-                interpreter.set("mantaro", MantaroBot.getInstance());
-                interpreter.set("db", MantaroData.db());
-                interpreter.set("jda", event.getJDA());
-                interpreter.set("event", event);
-                interpreter.set("guild", event.getGuild());
-                interpreter.set("channel", event.getChannel());
-
-                return interpreter.eval(String.join(
-                        "\n",
-                        "import *;",
-                        code
                 ));
             } catch(Exception e) {
                 return e;

@@ -104,7 +104,7 @@ public class ShardWatcher implements Runnable {
 
                 try {
                     //Wait 5 seconds as a backoff.
-                    Thread.sleep(5000);
+                    Thread.sleep(Math.max(Math.min(5000, 5000 * RESTART_QUEUE.size() / 4), 15000));
                 } catch(InterruptedException e) {
                     LogUtils.shard("Shard restarter task interrupted");
                     return;

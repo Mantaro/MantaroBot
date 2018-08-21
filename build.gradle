@@ -84,8 +84,6 @@ dependencies {
 	compile 'io.github.lukehutch:fast-classpath-scanner:3.1.12'
 	compile 'ch.qos.logback:logback-classic:1.2.3'
 
-	compile 'org.apache-extras.beanshell:bsh:2.0b6'
-
 	compile 'us.monoid.web:resty:0.3.2'
 
 	compile 'br.com.brjdevs:utils:1.0.0_15'

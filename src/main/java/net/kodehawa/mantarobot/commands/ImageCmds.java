@@ -293,7 +293,7 @@ public class ImageCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(!event.getChannel().isNSFW()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.imageboard.yandere_notice"), EmoteReference.ERROR).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.imageboard.yandere_nsfw_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
