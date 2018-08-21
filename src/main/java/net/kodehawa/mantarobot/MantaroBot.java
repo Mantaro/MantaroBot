@@ -18,8 +18,6 @@ package net.kodehawa.mantarobot;
 
 import br.com.brjdevs.java.utils.async.Async;
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
-import com.timgroup.statsd.NonBlockingStatsDClient;
-import com.timgroup.statsd.StatsDClient;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
@@ -74,8 +72,6 @@ public class MantaroBot extends ShardedJDA {
     @Getter
     private final ShardedMantaro shardedMantaro;
     @Getter
-    private final StatsDClient statsClient;
-    @Getter
     private BirthdayCacher birthdayCacher;
     @Getter
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
@@ -119,13 +115,6 @@ public class MantaroBot extends ShardedJDA {
 
         core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
         discordBotsAPI = new DiscordBotsAPI.Builder().setToken(config.dbotsorgToken).build();
-
-        statsClient = new NonBlockingStatsDClient(
-                config.isPremiumBot() ? "mantaro-patreon" : "mantaro",
-                "localhost",
-                8125,
-                "tag:value"
-        );
 
         LogUtils.log("Startup", String.format("Starting up MantaroBot %s\n" + "Hold your seatbelts! <3", MantaroInfo.VERSION));
 

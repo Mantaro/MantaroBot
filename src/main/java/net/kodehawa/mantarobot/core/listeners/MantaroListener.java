@@ -103,6 +103,10 @@ public class MantaroListener implements EventListener {
             .name("shard_event").help("Shard Events (CONNECT/RESUME/DISCONNECT)")
             .labelNames("type")
             .register();
+    private static final Counter patronCounter = Counter.build()
+            .name("patrons").help("New patrons")
+            .register();
+
     //END OF METRIC CONNECTORS DECLARATION.
 
     private static int logTotal = 0;
@@ -230,7 +234,7 @@ public class MantaroListener implements EventListener {
         }
 
         if (event instanceof ExceptionEvent) {
-            MantaroBot.getInstance().getStatsClient().increment("exceptions");
+            shardEvent.labels("exception").inc();
             onException((ExceptionEvent) event);
             return;
         }
@@ -242,17 +246,11 @@ public class MantaroListener implements EventListener {
 
         if (event instanceof ReconnectedEvent) {
             shardEvent.labels("reconnect").inc();
-            MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.reconnect")
-                    .withText("Shard reconnected")
-                    .withDate(new Date()).build());
             return;
         }
 
         if (event instanceof ResumedEvent) {
             shardEvent.labels("resume").inc();
-            MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.resume")
-                    .withText("Shard resumed")
-                    .withDate(new Date()).build());
         }
     }
 
@@ -292,7 +290,7 @@ public class MantaroListener implements EventListener {
                                         }
                                 );
 
-                                MantaroBot.getInstance().getStatsClient().increment("new_patrons");
+                                patronCounter.inc();
                                 //Celebrate internally! \ o /
                                 LogUtils.log("Delivered premium key to " + user.getName() + "#" + user.getDiscriminator() + "(" + user.getId() + ")");
                             });
@@ -393,9 +391,6 @@ public class MantaroListener implements EventListener {
 
         if (event.getNewStatus().equals(JDA.Status.CONNECTED)) {
             shardEvent.labels("connect").inc();
-            MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.connected")
-                    .withText("Shard connected")
-                    .withDate(new Date()).build());
         }
 
         log.info(String.format("Shard #%d: Changed from %s to %s", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getNewStatus()));
