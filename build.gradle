@@ -106,7 +106,6 @@ dependencies {
 	compile 'com.github.natanbc:discordbots-api:3.3.3'
 
     compileOnly "org.projectlombok:lombok:1.16.20"
-	compile 'com.datadoghq:java-dogstatsd-client:2.5'
 
 	compile 'com.github.natanbc:java-eval:1.0'
 

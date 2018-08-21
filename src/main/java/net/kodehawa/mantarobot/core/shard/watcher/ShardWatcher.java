@@ -153,7 +153,7 @@ public class ShardWatcher implements Runnable {
                             //If we are dealing with a shard reconnecting, don't make its job harder by rebooting it twice.
                             //But, if the shard has been inactive for too long, we're better off scrapping this session as the shard might be stuck on connecting.
                             if((shard.getStatus() == JDA.Status.RECONNECT_QUEUED || shard.getStatus() == JDA.Status.ATTEMPTING_TO_RECONNECT ||
-                                    shard.getStatus() == JDA.Status.SHUTDOWN) && shard.getEventManager().getLastJDAEventTimeDiff() < 200000) {
+                                    shard.getStatus() == JDA.Status.SHUTDOWN) && shard.getEventManager().getLastJDAEventTimeDiff() < 400000) {
                                 LogUtils.shard(String.format("Skipping shard %d due to it being currently reconnecting to the websocket or was shutdown manually...", id));
                                 continue;
                             }

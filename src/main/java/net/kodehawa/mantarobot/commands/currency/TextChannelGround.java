@@ -88,6 +88,10 @@ public class TextChannelGround {
     }
 
     public TextChannelGround dropItems(List<ItemStack> stacks) {
+        //Don't do anything.
+        if(DROPPED_ITEMS.size() > 3)
+            return this;
+
         List<ItemStack> finalStacks = new ArrayList<>(stacks);
         this.stacks.addAll(finalStacks);
         return this;
