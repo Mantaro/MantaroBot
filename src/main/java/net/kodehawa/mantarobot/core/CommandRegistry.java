@@ -60,11 +60,11 @@ public class CommandRegistry {
             .register();
     private static final Counter commandCounter = Counter.build()
             .name("commands").help("Amounts of commands ran (name, userId, guildId:channelId")
-            .labelNames("name", "userId", "guildId:channelId")
+            .labelNames("name")
             .register();
     private static final Counter categoryCounter = Counter.build()
             .name("categories").help("Amounts of categories ran (name, userId, guildId")
-            .labelNames("name", "userId", "guildId")
+            .labelNames("name")
             .register();
 
     private final Map<String, Command> commands;
@@ -203,9 +203,7 @@ public class CommandRegistry {
         long end = System.currentTimeMillis();
         JDA.ShardInfo shardInfo = event.getJDA().getShardInfo();
         int shardId = shardInfo == null ? 0 : shardInfo.getShardId();
-        commandCounter.labels(cmdName, event.getAuthor().getId(),
-                event.getGuild().getId() + ":" + event.getChannel().getId()
-        ).inc();
+        commandCounter.labels(cmdName).inc();
 
         if(logCommands) {
             log.info("COMMAND INVOKE: command:{}, user:{}#{}, userid:{}, guild:{}, channel:{} ",
@@ -223,9 +221,7 @@ public class CommandRegistry {
 
         //Logging
         if(cmd.category() != null && cmd.category().name() != null && !cmd.category().name().isEmpty()) {
-            categoryCounter.labels(
-                    cmd.category().name().toLowerCase(), event.getAuthor().getId(), event.getGuild().getId()
-            ).inc();
+            categoryCounter.labels(cmd.category().name().toLowerCase()).inc();
 
             CommandStatsManager.log(cmdName);
             CategoryStatsManager.log(cmd.category().name().toLowerCase());
