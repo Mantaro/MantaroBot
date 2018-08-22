@@ -16,27 +16,32 @@
 
 package net.kodehawa.mantarobot.commands.music.handlers;
 
+import com.sedmelluq.discord.lavaplayer.format.StandardAudioDataFormats;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
+import com.sedmelluq.discord.lavaplayer.track.playback.MutableAudioFrame;
 import net.dv8tion.jda.core.audio.AudioSendHandler;
+
+import java.nio.ByteBuffer;
 
 public class AudioPlayerSendHandler implements AudioSendHandler {
     private final AudioPlayer audioPlayer;
-    private AudioFrame lastFrame;
+    private final MutableAudioFrame frame;
 
     public AudioPlayerSendHandler(AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
+        this.frame = new MutableAudioFrame();
+        frame.setFormat(StandardAudioDataFormats.DISCORD_OPUS);
+        frame.setBuffer(ByteBuffer.allocate(StandardAudioDataFormats.DISCORD_OPUS.maximumChunkSize()));
     }
 
     @Override
     public boolean canProvide() {
-        lastFrame = audioPlayer.provide();
-        return lastFrame != null;
+        return audioPlayer.provide(frame);
     }
 
     @Override
     public byte[] provide20MsAudio() {
-        return lastFrame.getData();
+        return frame.getData();
     }
 
     @Override
