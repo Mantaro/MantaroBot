@@ -688,7 +688,7 @@
       "inventory": "Inventory",
       "badges": "Top 5 Badges",
       "no_badges": "(nog!) geen badges",
-      "no_timezone": "Geen tijdzone ingesteld.",
+      "no_timezone": "Geen tijdzone ingesteld",
       "timezone_user": "Gebruiker's tijdzone: %1$s",
       "not_specified": "Niet ingesteld.",
       "potion": "Actieve Potion",

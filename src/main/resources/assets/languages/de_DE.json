@@ -691,7 +691,7 @@
       "inventory": "Inventar",
       "badges": "Top 5 Abzeichen",
       "no_badges": "Keine Abzeichen (noch!)",
-      "no_timezone": "Keine Zeitzone festgelegt.",
+      "no_timezone": "Keine Zeitzone festgelegt",
       "timezone_user": "Zeitzone des Benutzers: %1$s",
       "not_specified": "Nicht angegeben.",
       "potion": "Aktiver Trank",

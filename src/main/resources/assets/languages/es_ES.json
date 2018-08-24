@@ -662,9 +662,9 @@
       "inventory": "Inventario",
       "badges": "Mejores 5 trofeos",
       "no_badges": "Ningún trofeo (¡por ahora!)",
-      "no_timezone": "No se ha establecido ninguna zona horaria.",
+      "no_timezone": "No establecida",
       "timezone_user": "Zona horaria: %1$s",
-      "not_specified": "No especificado.",
+      "not_specified": "No especificado",
       "potion": "Poción activa",
       "no_potion": "No hay pociones activas."
     },

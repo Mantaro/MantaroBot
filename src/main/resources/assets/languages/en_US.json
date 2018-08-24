@@ -706,7 +706,7 @@
       "inventory": "Inventory",
       "badges": "Top 5 Badges",
       "no_badges": "No badges (yet!)",
-      "no_timezone": "No timezone set.",
+      "no_timezone": "Not set",
       "timezone_user": "User's timezone: %1$s",
       "not_specified": "Not specified.",
       "potion": "Active Potion",
