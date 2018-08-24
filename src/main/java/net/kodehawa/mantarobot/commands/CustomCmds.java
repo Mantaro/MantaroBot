@@ -118,7 +118,6 @@ public class CustomCmds {
                     }
 
                     String filter = event.getGuild().getId() + ":";
-                    //TODO: this is a real issue lol @natan pls find a way to load list without doing like 50k queries in a second?
                     List<String> commands = db().getCustomCommands(event.getGuild())
                             .stream()
                             .map(CustomCommand::getName)

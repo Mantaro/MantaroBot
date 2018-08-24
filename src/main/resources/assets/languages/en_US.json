@@ -55,6 +55,18 @@
     "cancelled": "%1$sCancelled request.",
     "sellout": "Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive!"
   },
+  "categories": {
+    "music": "Music",
+    "action": "Action",
+    "misc": "Misc",
+    "moderation": "Moderation",
+    "owner": "Owner",
+    "image": "Image",
+    "utils": "Utils",
+    "fun": "Fun",ha
+    "games": "Games",
+    "info": "Info"
+  },
   "commands": {
     "fish": {
       "dust": "%1$sThe day is over, and your fish bucket only could collect dust.",

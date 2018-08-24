@@ -16,23 +16,25 @@
 
 package net.kodehawa.mantarobot.core.modules.commands.base;
 
+import net.kodehawa.mantarobot.utils.Utils;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum Category {
-    MUSIC(CommandPermission.USER, "Audio"),
-    ACTION(CommandPermission.USER, "Action"),
-    CURRENCY(CommandPermission.USER, "Currency"),
-    GAMES(CommandPermission.USER, "Game"),
-    IMAGE(CommandPermission.USER, "Image"),
-    FUN(CommandPermission.USER, "Fun"),
-    MODERATION(CommandPermission.ADMIN, "Moderation"),
-    OWNER(CommandPermission.OWNER, "Owner"),
-    INFO(CommandPermission.USER, "Info"),
-    UTILS(CommandPermission.USER, "Utility"),
-    MISC(CommandPermission.USER, "Misc");
+    MUSIC(CommandPermission.USER, "categories.audio"),
+    ACTION(CommandPermission.USER, "categories.action"),
+    CURRENCY(CommandPermission.USER, "categories.currency"),
+    GAMES(CommandPermission.USER, "categories.games"),
+    IMAGE(CommandPermission.USER, "categories.image"),
+    FUN(CommandPermission.USER, "categories.fun"),
+    MODERATION(CommandPermission.ADMIN, "categories.moderation"),
+    OWNER(CommandPermission.OWNER, "categories.owner"),
+    INFO(CommandPermission.USER, "categories.info"),
+    UTILS(CommandPermission.USER, "categories.utility"),
+    MISC(CommandPermission.USER, "categories.misc");
 
     public final CommandPermission permission;
     private final String s;
@@ -51,7 +53,7 @@ public enum Category {
      */
     public static Category lookupFromString(String name) {
         for(Category cat : Category.values()) {
-            if(cat.s.equalsIgnoreCase(name)) {
+            if(cat.name().equalsIgnoreCase(name)) {
                 return cat;
             }
         }
@@ -62,7 +64,7 @@ public enum Category {
      * @return The name of the category.
      */
     public static List<String> getAllNames() {
-        return Stream.of(Category.values()).map(category -> category.s).collect(Collectors.toList());
+        return Stream.of(Category.values()).map(category -> Utils.capitalize(category.name().toLowerCase())).collect(Collectors.toList());
     }
 
     /**
