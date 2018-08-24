@@ -36,7 +36,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <p>
  * This class normally does the work of making abusable commands not-so abusable, like ~>loot. Also sorts daily or timely timeouts for other commands like daily and rep.
  * <p>
- * Made by UmModderQualquier (Natan), modified by Kodehawa.
+ * Made by natanbc, modified by Kodehawa.
  *
  * @since 01-06-2017
  */
