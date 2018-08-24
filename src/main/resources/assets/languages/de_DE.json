@@ -126,7 +126,7 @@
       "12": "Genieße deine Musik und danke, dass du Mantaro benutzt!"
     },
     "lang": {
-      "info": "%1$sDu kannst deine Serversprache (sofern anwendbar) mithilfe von `~>opts language set <language code>` ändern. Deine eigene Sprache kannst du mithilfe von `~>profile lang <language code>` ändern.\n**Verfügbare Sprache:** `%2$s`"
+      "info": "%1$sDu kannst deine Serversprache (sofern anwendbar) mithilfe von `~>opts language set <language code>` ändern. Deine eigene Sprache kannst du mithilfe von `~>profile lang <language code>` ändern.\n**Verfügbare Sprache:** `%2$s`\nSollte deine Sprache hier nicht mitaufgeführt sein und du hast Lust zu helfen, kannst du gerne dem Support-Server beitreten und bei der Übersetzung helfen!"
     },
     "music_general": {
       "no_song": "%1$sDu musst mir sagen, welches Lied du spielen möchtest! *(YouTube, Soundcloud, Twitch URL oder Suchanfragensind möglich)*",
@@ -135,7 +135,7 @@
       "enjoy_note": "Genieße die Musik! <3",
       "no_player": "%1$sEs scheint hier keinen Player zu geben...",
       "not_connected": "%1$sDu bist nicht in dem Sprach-Kanal in dem ich gerade spiele! (Wenn du glaubst, dies ist nicht der Fall, melde es bitte in unserem Support Server.)",
-      "np_message": "%1$s Spiele momentan: **%2$s** (%3$s) on **%4$s** | %5$s",
+      "np_message": "%1$s Spiele momentan: **%2$s** (%3$s) auf **%4$s** | %5$s",
       "track_error": "%1$sEtwas lief schief beim Spielen dieses Songs, ich werde den nächsten Song spielen, wenn es einen gibt.",
       "queue_finished": "%1$sBeendete die aktuelle Warteschlange! Ich hoffe es hat dir gefallen.\n%2$s",
       "soundcloud_no_args": "%1$sDu musst mir einen Songnamen nennen, ich bin kein Magier, daher kann ich ihn nicht erraten. :(",
@@ -435,12 +435,15 @@
       "success": "%1$sJetzt bist du Single. Das ist nett, denke ich zumindest."
     },
     "waifu": {
+      "bot": "%1$sEin Bot kann keine Waifu sein, selbst wenn du es willst...",
+      "notice": "Diese Funktion soll keinerlei Verbindung, weder indirekt, noch direkt, mit Geschehnissen im realen Leben haben.",
       "stats": {
         "header": "Deine Waifu Stats",
         "header_other": "%1$ss Waifu Stats",
-        "format": "%1$s.- **Geldgewichtung:** %2$s\n%1$s.- **Ordensgewichtung:** %3$s\n%1$s.- **Erfahrungsgewichtung:** %4$s",
+        "format": "%1$s **Geldbasierter Wert:** %2$s\n%1$s **Ordensbasierter Wert:** %3$s\n%1$s **Erfahrungsbasierter Wert:** %4$,d\n%1$s **Anspruchsbasierter Wert:** %5$,d\n%1$s **Ruffaktor:** %6$.2fx",
         "value": "Gesamter Waifu Wert:",
-        "credits": "%1$d Credits"
+        "credits": "%1$d Credits",
+        "performance": "Waifu Leistungspunkte"
       },
       "claim": {
         "no_user": "%1$sDu hast keinen Nutzer zum Beanspruchen erwähnt.",
@@ -549,7 +552,7 @@
       "locked_notice": "%1$sDu kannst momentan keine Gegenstände senden. (Nutzer gesperrt)",
       "hidden_item": "%1$sDu kannst diesen Gegenstand nicht versenden!",
       "overflow": "%1$sDieser Nutzer hat bereits das Maximum von diesem Gegenstand (5000).",
-      "success": "%1$s%2$s gab **%4$s** **%5$s** an %6$s",
+      "success": "%1$s%2$s gab **%3$s** **%4$s** an %5$s",
       "multiple_items_error": "%1$sDu hast diesen Gegenstand nicht.",
       "error": "%1$sDu hast nicht genügend von diesem Gegenstand!",
       "no_item_mention": "%1$sDu musst die Person und das Item zum versenden angeben."
@@ -677,7 +680,7 @@
         "success": "%1$sMantaro wird jetzt in folgender Sprache mit dir reden: `%2$s`",
         "invalid": "%1$sDiese Sprache ist nicht verfügbar! Du kannst `reset` nutzen, um die Spracheinstellungen zurückzusetzen."
       },
-      "badge_header": "%1$sAngezeige-Abzeichen",
+      "badge_header": "%1$sVorzeige-Abzeichen",
       "bot_notice": "%1$sBots haben keine Profile.",
       "header": "%1$ss Profil",
       "no_desc": "Keine Beschreibung festgelegt",
@@ -721,7 +724,7 @@
         "waiting": "**Du kannst diesn Befehl in %1$s erneut verwenden**",
         "pass": "Du kannst jetzt jemandem Ruf schenken."
       },
-      "success": "%1$sDu hast **%2$s** Ruf geschenkt."
+      "success": "%1$sDu hast **%2$s**s Ruf verbessert."
     },
     "birthday": {
       "reset": "%1$sGeburtsdatum zurücksetzen.",
@@ -730,9 +733,9 @@
       "cache_not_running": "%1$sDer Geburtstag Cacher scheint nicht zu laufen :(",
       "error": "%1$sEtwas ging beim Abrufen der Geburtstage schief. :(",
       "header": "**%1$ss Geburtstage für %2$s**\n",
-      "invalid_date": "%1$sUngültiges Datum.\nDas korrekte Format ist `tt-mm-jjjj`",
+      "invalid_date": "%1$sUngültiges Datum.\nDas korrekte Format ist `tt-MM-jjjj`",
       "error_date": "%1$s%2$s ist entweder kein gültiges Datum oder nicht analysierbar. Bitte versuchen Sie es mit der korrekten Formatierung. Denken Sie daran, das Jahr einzufügen, obwohl Sie jedes Jahr setzen können und es nichts beeinflussen wird.\nDas korrekte Format ist `tt/mm/jjjj`",
-      "added_birthdate": "%1$sErfolgreich das Geburtsdatum hinzugefügt. New birthday date: %2$s *(Format: dd-MM-yyyy)*",
+      "added_birthdate": "%1$sErfolgreich das Geburtsdatum hinzugefügt. Neues Geburtsdatum: %2$s *(Format: tt-MM-JJJJ)*",
       "invalid_month": "%1$sDas ist keine gültige Monatszahl! (Gültige Monate sind Nummern von 1-12)",
       "no_content": "%1$sDu musst deinen Geburtstag angeben, `remove`, um deinen Geburtstag zu entfernen oder `month`, um die Monatsliste zu prüfen."
     },
@@ -752,7 +755,7 @@
         "success": "%1$sDeine Erinnerung wurde abgebrochen.",
         "select": "Wählen Sie die Erinnerung aus, die Sie abbrechen möchten."
       },
-      "no_time":  "Du hast mir kein `-time` argument gegeben! (Beispiel: `-time 1h`)",
+      "no_time":  "Du hast mir kein `-time` Argument gegeben! (Beispiel: `-time 1h`)",
       "too_little_time": "%1$sDas ist zu wenig Zeit!",
       "too_long": "Zu lang (Maximum: 3 Monate)",
       "success": "%1$sIch werde dich an `%2$s` in %3$s erinnern."
@@ -767,7 +770,8 @@
       "header": "Urban Dictionary Definition für %1$s",
       "too_many_args": "%1$sZu viele Argumente! Seitenformat ist `name->page number`",
       "main_def": "Haupt-Definition.",
-      "footer": "Information von Urban Dictionary"
+      "footer": "Information von Urban Dictionary",
+      "nsfw_notice": "%1$sDieser Befehl kann, aufgrund der Art der Ergebnisse, nur in NSFW-Kanälen genutzt werden."
     },
     "weather": {
       "header": "%1$s Prognose für %2$s",
@@ -776,7 +780,7 @@
       "humidity": "Feuchtigkeit",
       "wind_speed": "Wind Geschwindikeit",
       "pressure": "Druck",
-      "footer": "Information gegeben von OpenWeatherMap (Verarbeitungszeit: %1$dms)",
+      "footer": "Information zur Verfügung gestellt von OpenWeatherMap (Verarbeitungszeit: %1$dms)",
       "error": "%1$sFehler beim Abrufen der Ergebnisse... (Nicht gefunden?)",
       "no_content": "%1$sDu musst eine Stadt und ein Land angeben, um das Wetter zu sehen!"
     },
@@ -795,7 +799,7 @@
     "vipstatus": {
       "user": {
         "header": "Dein Premium Status",
-        "header_other": "%1$s Premium Status",
+        "header_other": "%1$ss Premium Status",
         "not_premium": "%1$sDu bist nicht Premium. :c",
         "premium": "**Premiumnutzer! <3**",
         "old_system": "**Premium-Benutzer unter dem alten System! Mach dir keine Sorgen, du bist Premium und deine Vorteile werden richtig funktionieren!**"
@@ -1095,7 +1099,7 @@
       "title": "Mantaro-Hilfe",
       "base": "Befehlsliste. Für eine detailierte Beschreibung bezüglich der Nutzung von Mantaro, schau dir bitte das [Wiki](https://github.com/Mantaro/MantaroBot/wiki) an.\n",
       "support": "Solltest du Probleme oder Anfragen haben, während du Mantaro nutzt, bitte trete dem [Support Server](https://is.gd/mantaroguild) bei.\n",
-      "patreon": "[Wir brauchen deine Hilfe um Mantaro online zu halten! Klicke hier für mehr Informationen.](https://www.patreon.com/mantaro)",
+      "patreon": "[Wir brauchen deine Hilfe, um Mantaro online zu halten! Klicke hier für mehr Informationen.](https://www.patreon.com/mantaro)",
       "disabled_commands": "Zeige nur nicht deaktivierte Befehle. Gesamte deaktivierte Befehle: %1$s",
       "channel_specific_disabled_commands": "\nZeige nur nicht deaktivierte Befehle. Gesamte kanalspezifisch deaktivierte Befehle: %1$s",
       "footer": "Um die Befehlsnutzung anzusehen, nutze %1$shelp <command> // -> Befehle: %2$s",
@@ -1135,7 +1139,7 @@
       "no_info": "Keine Info."
     },
     "balance": {
-      "external_balance": "%1$ss Guthaben ist **$%2$s.**",
+      "external_balance": "%1$ss Guthaben lautet **$%2$s.**",
       "own_balance": "Dein Guthaben ist **$%1$s.**"
     },
     "daily": {
@@ -1477,11 +1481,11 @@
     },
     "usermessage_joinmessage": {
       "no_message": "%1$sDu musst mir eine Nachricht angeben!",
-      "success": "%1$sServerbeitrittsnachricht geändert zu: %2$s"
+      "success": "%1$sServerbeitrittsnachricht geändert zu: `%2$s`"
     },
     "usermessage_leavemessage": {
       "no_message": "%1$sDu musst mir eine Nachricht angeben!",
-      "success": "%1$sServeraustrittsnachricht geändert zu: %2$s"
+      "success": "%1$sServeraustrittsnachricht geändert zu: `%2$s`"
     },
     "autoroles_add": {
       "no_args": "%1$sdu musst mir den Namen und die Rolle für das iam angeben.",
@@ -1499,7 +1503,7 @@
       "success": "%1$sAlle Autorollen entfernt!"
     },
     "admincustom": {
-      "no_args": "%1$sDu musst angeben, ob du es auf true (aktiviert) oder false (deaktiviert) haben willst (Aktivieren, damit es nur für Admins/Bot Commander möglich ist)",
+      "no_args": "%1$sDu musst angeben, ob du es auf true (aktiviert) oder false (deaktiviert) haben willst (Aktivieren, damit es nur für Admins/Bot-Commander möglich ist)",
       "admin_only": "Benutzerdefinierte Befehlserstellung ist jetzt nur noch für Admins möglich.",
       "everyone": "Benutzerdefinierte Befehlserstellung ist jetzt für alle möglich.",
       "not_bool": "%1$sDas ist kein Boolwert (true oder false)!"
@@ -1531,7 +1535,7 @@
     },
     "levelupmessages_message_set": {
       "no_message": "%1$sDu musst die Level-Up-Nachricht angeben. *Tipp: Der Nutzername ist $(user) innerhalb der Nachricht*",
-      "success": "%1$sServer-Level-Up-Nachricht geändert auf: %2$s"
+      "success": "%1$sServer-Level-Up-Nachricht geändert auf: `%2$s`"
     },
     "levelupmessages_message_clear": {
       "success": "%1$sLevel-Up-Nachricht zurückgesetzt!"
@@ -1568,6 +1572,7 @@
       "success": "%1$sErfolgreich deine Optionen zurückgesetzt!"
     },
     "birthday_test": {
+      "no_user": "%1$sDu musst einen Nutzer angeben, mit dem du den Verteiler testen möchtest.",
       "no_bd_channel": "%1$sDu hast keinen Geburtstagskanal eingestellt!",
       "no_bd_role": "%1$sDu hast keine Rolle für den Geburtstag eingestellt!",
       "no_talk_permission": "%1$sDer Bot kann im Geburtstagskanal nicht schreiben.",
@@ -1774,5 +1779,8 @@
       "star_pick": "Eine sehr viel stärkere Spitzhacke (Stern). (`~>mine` Werkzeug).",
       "pizza": "Lecker."
     }
+  },
+  "test": {
+    "inherited": "owo"
   }
 }
