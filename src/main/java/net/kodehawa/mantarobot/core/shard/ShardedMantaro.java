@@ -74,14 +74,21 @@ public class ShardedMantaro {
     private final MantaroShard[] shards;
     @Getter
     private final int totalShards;
+    private final int fromShard;
+    private final int toShard;
 
-    public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token, ICommandProcessor commandProcessor) {
+    public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token, ICommandProcessor commandProcessor, int fromShard, int toShard) {
         int shardAmount = totalShards;
-        if(auto) shardAmount = getRecommendedShards(token);
-        if(isDebug) shardAmount = 2;
+        if(auto)
+            shardAmount = getRecommendedShards(token);
+        if(isDebug)
+            shardAmount = 2;
+
         this.totalShards = shardAmount;
-        processor = commandProcessor;
-        shards = new MantaroShard[this.totalShards];
+        this.processor = commandProcessor;
+        this.fromShard = fromShard;
+        this.toShard = toShard;
+        this.shards = new MantaroShard[this.totalShards];
     }
 
     private static int getRecommendedShards(String token) {
@@ -122,10 +129,10 @@ public class ShardedMantaro {
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
             log.info("Spawning shards...");
             long start = System.currentTimeMillis();
-            for(int i = 0; i < totalShards; i++) {
+            for(int i = fromShard; i < (toShard == 0 ? totalShards : toShard); i++) {
                 if(MantaroData.config().get().upToShard != 0 && i > MantaroData.config().get().upToShard) continue;
 
-                log.info("Starting shard #" + i + " of " + totalShards);
+                log.info("Starting shard #" + i + " of " + (toShard == 0 ? totalShards : toShard - fromShard));
 
                 //The custom event manager instance is important so we can track when we received the last event, or if we're receiving events at all.
                 MantaroEventManager manager = new MantaroEventManager();

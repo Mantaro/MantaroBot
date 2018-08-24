@@ -22,7 +22,14 @@ import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
  * Sharded builder. Has all the necessary stuff to build a new {@link ShardedMantaro} instance to work with.
  */
 public class ShardedBuilder {
+    //How many shards
     private int amount = 1;
+
+    //Start from shard x to shard x.
+    private int fromShard;
+    private int toShard;
+
+    //Automatic sharding
     private boolean auto;
     private ICommandProcessor commandProcessor;
     private boolean debug;
@@ -48,6 +55,12 @@ public class ShardedBuilder {
         return this;
     }
 
+    public ShardedBuilder amountNode(int from, int to) {
+        this.fromShard = from;
+        this.toShard = to;
+        return this;
+    }
+
     public ShardedBuilder commandProcessor(ICommandProcessor processor) {
         this.commandProcessor = processor;
         return this;
@@ -59,6 +72,6 @@ public class ShardedBuilder {
         if(commandProcessor == null)
             throw new IllegalArgumentException("H-How do you expect me to process commands!");
 
-        return new ShardedMantaro(amount, debug, auto, token, commandProcessor);
+        return new ShardedMantaro(amount, debug, auto, token, commandProcessor, fromShard, toShard);
     }
 }

@@ -566,10 +566,6 @@ public class RelationshipCmds {
                         //If the waifu status is mutual, the MP game boost will go up by 20% and giving your daily to that waifu will increase the amount of money that your
                         //waifu will receive.
 
-                        //TODO:
-                        //MP game boost impl.
-                        //Trading with your waifu or partner lifts the "equal value" requirement off it. (requires trading to be implemented)
-
                         //Default call will bring out the waifu list.
                         DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
                         UserData userData = dbUser.getData();
@@ -895,8 +891,12 @@ public class RelationshipCmds {
                 )
         ));
 
-        performance = (waifuValue - waifuBaseValue) + (long)((reputationScaling > 1 ? reputationScaling : 1) * 2);
-        if(performance < 0) performance = 0;
+        //waifu pp, yes btmcLewd
+        performance = (waifuValue - (waifuBaseValue + 150)) + (long)((reputationScaling > 1 ? reputationScaling : 1) * 2);
+        //possible?
+        if(performance < 0)
+            performance = 0;
+
 
         return new Waifu(moneyValue, badgeValue, experienceValue, reputationScaling, claimValue, finalValue, performance);
     }

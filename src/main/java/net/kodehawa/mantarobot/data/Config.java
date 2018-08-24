@@ -65,6 +65,7 @@ public class Config {
     public int totalMusicNodes = 1;
     public int totalNodes = 1;
     public int totalShards = 0;
+    public int fromShard = 0;
     public int upToShard = 0;
     public String weatherAppId;
     public String webhookUrl;

@@ -92,7 +92,7 @@ public class MantaroCore {
         return this;
     }
 
-    private void startShardedInstance() throws Exception {
+    private void startShardedInstance(int fromShard, int toShard) {
         loadState = LOADING;
 
         shardedMantaro = new ShardedBuilder()
@@ -107,12 +107,13 @@ public class MantaroCore {
         loadState = LOADED;
     }
 
-    private void startSingleShardInstance() throws Exception {
+    private void startSingleShardInstance() {
         loadState = LOADING;
 
         shardedMantaro = new ShardedBuilder()
                 .amount(1)
                 .token(config.token)
+                .amountNode(config.fromShard, config.upToShard)
                 .commandProcessor(commandProcessor)
                 .build();
 
@@ -121,7 +122,11 @@ public class MantaroCore {
         loadState = LOADED;
     }
 
-    public MantaroCore startMainComponents(boolean single) throws Exception {
+    public MantaroCore startMainComponents(boolean single) {
+        return startMainComponents(single, 0, 0);
+    }
+
+    public MantaroCore startMainComponents(boolean single, int shardStart, int shardEnd) {
         if(config == null)
             throw new IllegalArgumentException("Config cannot be null!");
 
@@ -141,7 +146,7 @@ public class MantaroCore {
         if(single) {
             startSingleShardInstance();
         } else {
-            startShardedInstance();
+            startShardedInstance(shardStart, shardEnd);
         }
 
         shardEventBus = new EventBus();

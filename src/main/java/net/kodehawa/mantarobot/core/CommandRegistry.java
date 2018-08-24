@@ -190,7 +190,7 @@ public class CommandRegistry {
                                 "In the case that you're not longer a patron, you cannot renew, but I sincerely hope you had a good time with the bot and its features! " +
                                 "**If you ever want to pledge again you can check the patreon link at <https://patreon.com/mantaro>**\n\n" +
                                 "Thanks you so much for your support to keep Mantaro alive! It wouldn't be possible without the help of all of you.\n" +
-                                "With love, Kodehawa#3457 " + EmoteReference.HEART + ". This will only be sent once.").queue()
+                                "With love, Kodehawa#3457 " + EmoteReference.HEART + ". This will only be sent once (hopefully).").queue()
                 );
 
                 //Set expiration warning flag to true and save.
