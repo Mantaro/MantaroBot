@@ -491,6 +491,11 @@ public class MoneyCmds {
                     isExternal = true;
                 }
 
+                if(user.isBot()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.balance.bot_notice"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 long balance = MantaroData.db().getPlayer(user).getMoney();
 
                 event.getChannel().sendMessage(EmoteReference.DIAMOND + (isExternal ?

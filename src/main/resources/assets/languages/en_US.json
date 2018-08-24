@@ -1139,6 +1139,7 @@
       "no_info": "No info."
     },
     "balance": {
+      "bot_notice": "%1$sBots cannot have money.",
       "external_balance": "%1$s's balance is **$%2$d credits.**",
       "own_balance": "Your balance is **$%1$d credits.**"
     },

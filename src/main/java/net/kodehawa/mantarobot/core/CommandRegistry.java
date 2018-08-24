@@ -201,17 +201,15 @@ public class CommandRegistry {
 
         //COMMAND LOGGING
         long end = System.currentTimeMillis();
-        JDA.ShardInfo shardInfo = event.getJDA().getShardInfo();
-        int shardId = shardInfo == null ? 0 : shardInfo.getShardId();
         commandCounter.labels(cmdName).inc();
 
         if(logCommands) {
-            log.info("COMMAND INVOKE: command:{}, user:{}#{}, userid:{}, guild:{}, channel:{} ",
+            log.info("COMMAND INVOKE: command:{}, user:{}#{}, userid:{}, guild:{}, channel:{}",
                     cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), event.getAuthor().getId(),
                     event.getGuild().getId(), event.getChannel().getId()
             );
         } else {
-            log.debug("COMMAND INVOKE: command:{}, user:{}#{}, guild:{}, channel:{} ",
+            log.debug("COMMAND INVOKE: command:{}, user:{}#{}, guild:{}, channel:{}",
                     cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(),
                     event.getGuild().getId(), event.getChannel().getId()
             );
