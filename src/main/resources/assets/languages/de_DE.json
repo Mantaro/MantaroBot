@@ -55,6 +55,18 @@
     "cancelled": "%1$sAnfrage abgebrochen.",
     "sellout": "Erwäge auf patreon.com/mantaro zu spenden, falls du mich magst, selbst eine kleine Spende würde mir helfen den Bot am Laufen zu halten!"
   },
+  "categories": {
+    "music": "Musik",
+    "action": "Aktions",
+    "misc": "Zusätzliche",
+    "moderation": "Moderations",
+    "owner": "Besitzer",
+    "image": "Bild",
+    "utils": "Nützliche",
+    "fun": "Spaß",
+    "games": "Spiel",
+    "info": "Info"
+  },
   "commands": {
     "fish": {
       "dust": "%1$sDer Tag ist zu Ende und dein Eimer hat nur Staub gesammelt.",
@@ -686,7 +698,7 @@
       "no_desc": "Keine Beschreibung festgelegt",
       "credits": "Credits",
       "level": "Level",
-      "xp": "XP",
+      "xp": "EP",
       "rep": "Ruf",
       "birthday": "Geburtstag",
       "married": "Verheiratet mit",
@@ -694,7 +706,7 @@
       "inventory": "Inventar",
       "badges": "Top 5 Abzeichen",
       "no_badges": "Keine Abzeichen (noch!)",
-      "no_timezone": "Keine Zeitzone festgelegt",
+      "no_timezone": "Nicht festgelegt",
       "timezone_user": "Zeitzone des Benutzers: %1$s",
       "not_specified": "Nicht angegeben.",
       "potion": "Aktiver Trank",
@@ -1139,6 +1151,7 @@
       "no_info": "Keine Info."
     },
     "balance": {
+      "bot_notice": "%1$sBots cannot have money.",
       "external_balance": "%1$ss Guthaben lautet **$%2$s.**",
       "own_balance": "Dein Guthaben ist **$%1$s.**"
     },
