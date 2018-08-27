@@ -501,6 +501,7 @@
       "success": "%1$s Your result from **%2$d** time(s) yielded **%3$d** heads and **%4$d** tails"
     },
     "inventory": {
+      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>market dump`",
       "brief": "**%1$s's inventory:** %2$s",
       "calculate": "%1$s%2$s will get **%3$d credits** if all of the items are sold.",
       "header": "%1$s's Inventory",

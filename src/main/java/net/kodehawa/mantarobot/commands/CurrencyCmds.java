@@ -77,6 +77,11 @@ public class CurrencyCmds {
                 if(member == null)
                     return;
 
+                if(member.getUser().isBot()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.inventory.bot_notice"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 Player player = MantaroData.db().getPlayer(member);
                 final Inventory playerInventory = player.getInventory();
                 final List<ItemStack> inventoryList = playerInventory.asList();
