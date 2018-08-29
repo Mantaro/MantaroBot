@@ -216,7 +216,7 @@
             "no_time": "%1$sNecesitas decirme cuanto quieres rebobinar la canción. *(Ejemplo: `~>rewind 1m45s` rebobinará la canción por 1 minuto y 45 segundos)*",
             "negative": "%1$sSólo puedes usar números enteros positivos",
             "before_beginning": "%1$sNo puedes saltarte al momento anterior al principio de la canción...",
-            "success": "%1$sRebobinada la canción actual a: %2$s."
+            "success": "%1$sRebobiné la canción actual a: %2$s."
         },
         "restartsong": {
             "success": "%1$sHe reiniciado la canción actual."
@@ -513,7 +513,7 @@
             "not_enough_money": "%1$sNo tienes suficiente dinero para crear este item. **(Costo: %2$s)**",
             "no_item": "%1$sNo tienes el item necesario (*%2$s*) para proceder con la creación de este ítem.",
             "not_enough_items": "%1$sNo tienes suficiente del item *%2$s* para proceder. **(Necesitas: %3$s, Tienes: %4$s)**",
-            "success": "%1$sCreaste %2$s %3$s** por **%4$s créditos**",
+            "success": "%1$sCreaste **%2$s %3$s** por **%4$s créditos**",
             "no_tool": "%1$sNecesitas tener un %2$s para proceder con la creación de este ítem.",
             "item_broke": "Lamentablemente, tu llave inglesa se rompió, pero lograste crear el item."
         },
