@@ -25,7 +25,7 @@ public class I18nTest {
     @Test
     public void testI18n() throws LanguageKeyNotFoundException {
         //Should default to en_US
-        I18nContext context = new I18nContext(new GuildData(), new UserData());
+        I18nContext context = new I18nContext(new GuildData(), null);
         Assert.assertEquals("en_US", context.getContextLanguage());
 
         String localized = context.get("test.inherited");

@@ -34,6 +34,7 @@ public class UserData {
     private int reminderN;
     private String timezone;
     private String lang;
+    private int dustLevel; //percentage
 
     private boolean receivedExpirationWarning; //premium key about to expire!
 

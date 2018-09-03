@@ -248,43 +248,6 @@ public class MiscCmds {
     }
 
     @Subscribe
-    public void misc(CommandRegistry cr) {
-        ITreeCommand miscCommand = (ITreeCommand) cr.register("misc", new SimpleTreeCommand(Category.MISC) {
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Misc Commands")
-                        .setDescription("**Miscellaneous funny/useful commands.**")
-                        .addField("Usage",
-                                "`~>misc reverse <sentence>` - **Reverses any given sentence.**\n"
-                                        + "`~>misc rndcolor` - **Gives you a random hex color.**\n"
-                                , false)
-                        .addField("Parameter Explanation",
-                                "`sentence` - **A sentence to reverse.**\n"
-                                        + "`@user` - **A user to mention.**", false)
-                        .build();
-            }
-        }.addSubCommand("reverse", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.misc.reverse_missing"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                new MessageBuilder().append(new StringBuilder(content).reverse().toString()).stripMentions(event.getGuild(), Message.MentionType.EVERYONE,
-                        Message.MentionType.HERE).sendTo(event.getChannel()).queue();
-            }
-        }).addSubCommand("rndcolor", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                event.getChannel().sendMessageFormat(languageContext.get("commands.misc.random_color"), EmoteReference.TALKING, randomColor()).queue();
-            }
-        }));
-
-        miscCommand.createSubCommandAlias("rndcolor", "randomcolor");
-    }
-
-    @Subscribe
     public void randomFact(CommandRegistry cr) {
         cr.register("randomfact", new SimpleCommand(Category.MISC) {
             @Override
