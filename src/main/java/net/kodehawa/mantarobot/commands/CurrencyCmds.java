@@ -457,6 +457,8 @@ public class CurrencyCmds {
                 }
             }
         });
+
+        cr.registerAlias("market", "shop");
     }
 
     @Subscribe
