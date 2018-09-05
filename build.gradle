@@ -112,7 +112,7 @@ dependencies {
 	compile 'redis.clients:jedis:2.9.0'
 
 	//Basically for FinderUtil
-	compile 'com.jagrosh:JDA-Utilities:2.1.4'
+	compile 'com.jagrosh:jda-utilities:2.1.4'
 
 	compile 'com.github.natanbc:usage-tracker:0.1.1'
 
