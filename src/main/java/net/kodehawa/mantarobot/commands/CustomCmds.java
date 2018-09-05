@@ -94,7 +94,7 @@ public class CustomCmds {
     @Subscribe
     public void custom(CommandRegistry cr) {
         //People spamming crap... we cant have nice things owo
-        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
 
         String any = "[\\d\\D]*?";
 
@@ -582,7 +582,7 @@ public class CustomCmds {
                                         "`~>custom <list|ls>` - **List all commands. If detailed is supplied, it prints the responses of each command.**\n" +
                                         "`~>custom clear` - **Remove all Custom Commands from this Guild. (ADMIN-ONLY)**\n" +
                                         "`~>custom add <name> <response>` - **Creates or adds the response provided to a custom command.**\n" +
-                                        "`~>custom make <name>` - **Starts a Interactive Operation to create a command with the specified name.**\n" +
+                                        "`~>custom info <name>` - **Checks a custom command's information.**\n" +
                                         "`~>custom <remove|rm> <name>` - **Removes a command with an specific name.**\n" +
                                         "`~>custom import <search>` - **Imports a command from another guild you're in.**\n" +
                                         "`~>custom eval <response>` - **Tests how a custom command response will look**\n" +
