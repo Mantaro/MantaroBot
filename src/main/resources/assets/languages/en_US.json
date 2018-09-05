@@ -1518,7 +1518,7 @@
     },
     "admincustom": {
       "no_args": "%1$sYou need to specify if you want it to be true or false (true to lock CC creation to Admins/Bot Commander only)",
-      "admin_only": "Custom command creation is now admin only.",
+      "admin_only": "Custom command creation is now admin only.\n\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
       "everyone": "Custom command creation can now be done by anyone.",
       "not_bool": "%1$sSilly, that's not a boolean value (true or false)!"
     },

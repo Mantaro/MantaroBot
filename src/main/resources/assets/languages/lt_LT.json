@@ -350,7 +350,7 @@
             "already_exists": "%1$sThe command `%2$s` already exists.",
             "name_too_long": "%1$sName is too long.",
             "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just a bit of dust.",
-            "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.",
+            "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.n\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
             "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
             "invalid_image": "%1$sThis command contains an invalid image, please fix...",
             "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",

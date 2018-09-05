@@ -203,7 +203,7 @@ public class CustomCmds {
                     return;
                 }
 
-                if(db().getGuild(event.getGuild()).getData().isCustomAdminLock() && !CommandPermission.ADMIN.test(event.getMember())) {
+                if(db().getGuild(event.getGuild()).getData().isCustomAdminLockNew() && !CommandPermission.ADMIN.test(event.getMember())) {
                     event.getChannel().sendMessage(languageContext.get("commands.custom.admin_only")).queue();
                     return;
                 }
@@ -324,7 +324,11 @@ public class CustomCmds {
 
                 if(action.equals("eval")) {
                     try {
-                        new CustomCommandHandler(event, languageContext, content.replace(action + " ", "")).handle(true);
+                        String ctn = content.replace(action + " ", "");
+                        ctn = Utils.DISCORD_INVITE.matcher(ctn).replaceAll("-invite link-");
+                        ctn = Utils.DISCORD_INVITE_2.matcher(ctn).replaceAll("-invite link-");
+
+                        new CustomCommandHandler(event, languageContext, ctn).handle(true);
                     } catch (Exception e) {
                         event.getChannel().sendMessage(String.format(languageContext.get("commands.custom.eval.error"), EmoteReference.ERROR, e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")")).queue();
                     }

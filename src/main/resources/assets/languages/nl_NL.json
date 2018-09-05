@@ -1516,7 +1516,7 @@
         },
         "admincustom": {
             "no_args": "%1$sJe moet aangeven of u wilt dat het true of false is (true om CC-creatie alleen aan Admins / Bot Commander te geven)",
-            "admin_only": "Het maken van aangepaste commandos is nu alleen voor Admins beschikbaar.",
+            "admin_only": "Het maken van aangepaste commandos is nu alleen voor Admins beschikbaar.n\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
             "everyone": "Het maken van aangepaste commandos is nu voor iedereen beschikbaar.",
             "not_bool": "%1$sGekkie, dat is geen boolean waarde (true of false)!"
         },

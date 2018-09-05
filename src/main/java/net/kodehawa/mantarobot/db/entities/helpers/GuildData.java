@@ -91,4 +91,5 @@ public class GuildData {
     private List<String> extraLeaveMessages = new ArrayList<>();
     private String whitelistedRole = null;
     private String birthdayMessage = null;
+    private boolean customAdminLockNew = true;
 }

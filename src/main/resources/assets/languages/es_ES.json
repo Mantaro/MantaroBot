@@ -1516,7 +1516,7 @@
         },
         "admincustom": {
             "no_args": "%1$sNecesitas especificar si quieres que sea `true` o `false` (true para bloquear la creación de CC a Administradores/Bot Commanders solamente)",
-            "admin_only": "La creación de comandos personalizados ahora es permitida solo para administradores.",
+            "admin_only": "La creación de comandos personalizados ahora es permitida solo para administradores.n\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
             "everyone": "La creación de comandos personalizados ahora es permitida para todos.",
             "not_bool": "%1$sOye, eso no es un valor boolean! (true o false)"
         },

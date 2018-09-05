@@ -745,7 +745,7 @@ public class GuildOptions extends OptionHandler {
                     GuildData guildData = dbGuild.getData();
 
                     try {
-                        guildData.setCustomAdminLock(Boolean.parseBoolean(action));
+                        guildData.setCustomAdminLockNew(Boolean.parseBoolean(action));
                         dbGuild.save();
                         String toSend = String.format("%s%s", EmoteReference.CORRECT, Boolean.parseBoolean(action) ? lang.get("options.admincustom.admin_only") : lang.get("options.admincustom.everyone"));
                         event.getChannel().sendMessage(toSend).queue();
