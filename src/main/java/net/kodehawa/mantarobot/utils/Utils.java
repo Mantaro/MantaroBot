@@ -17,7 +17,7 @@
 package net.kodehawa.mantarobot.utils;
 
 import com.google.common.io.CharStreams;
-import com.jagrosh.jdautilities.utils.FinderUtil;
+import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import com.rethinkdb.net.Connection;
 import io.prometheus.client.Counter;
 import lombok.SneakyThrows;
