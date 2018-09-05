@@ -892,7 +892,8 @@ public class RelationshipCmds {
         ));
 
         //waifu pp, yes btmcLewd
-        performance = (waifuValue - (waifuBaseValue + 450)) + (long)((reputationScaling > 1 ? reputationScaling : 1) * 1.2);
+        int divide = (int) (moneyValue / 1348);
+        performance = ((waifuValue - (waifuBaseValue + 450)) + (long)((reputationScaling > 1 ? reputationScaling : 1) * 1.2)) / (divide > 1 ? divide : 3);
         //possible?
         if(performance < 0)
             performance = 0;
