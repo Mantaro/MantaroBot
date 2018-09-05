@@ -350,7 +350,7 @@
             "already_exists": "%1$sEl comando `%2$s` ya existe.",
             "name_too_long": "%1$sEl nombre es muy largo.",
             "no_cc": "%1$sNo hay comandos personalizados en este servidor, solamente pude encontrar polvo...",
-            "admin_only": "Este servidor solo permite la creación y evalauación de comandos personalizados para administradores.",
+            "admin_only": "Este servidor solo permite la creación y evalauación de comandos personalizados por administradores.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
             "not_found": "%1$sEl comando personalizado `%2$s` no existe en este servidor.",
             "invalid_image": "%1$sEste comando contiene una imágen invalida, porfavor arreglar...",
             "invalid_string": "%1$sLa cadena de carácteres `{%2$s}` no es válida, o la salida sería mayor de 2000 carácteres.",
@@ -1516,7 +1516,7 @@
         },
         "admincustom": {
             "no_args": "%1$sNecesitas especificar si quieres que sea `true` o `false` (true para bloquear la creación de CC a Administradores/Bot Commanders solamente)",
-            "admin_only": "La creación de comandos personalizados ahora es permitida solo para administradores.n\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
+            "admin_only": "La creación de comandos personalizados ahora es permitida solo para administradores.",
             "everyone": "La creación de comandos personalizados ahora es permitida para todos.",
             "not_bool": "%1$sOye, eso no es un valor boolean! (true o false)"
         },

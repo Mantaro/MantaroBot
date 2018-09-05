@@ -350,7 +350,7 @@
             "already_exists": "%1$sDer Befehl `%2$s` existiert bereits!",
             "name_too_long": "%1$sDer Name ist zu lang.",
             "no_cc": "%1$sIn diesem Server gibt es keine benutzerdefinierten Befehle, nur Staub.",
-            "admin_only": "In diesem Server können nur Administratoren benutzerdefinierte Befehle erstellen, bearbeite, auswerten oder entfernen.",
+            "admin_only": "In diesem Server können nur Administratoren benutzerdefinierte Befehle erstellen, bearbeite, auswerten oder entfernen.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
             "not_found": "%1$sDer Befehl `%2$s` existiert in diesem Server nicht.",
             "invalid_image": "%1$sDieser Befehl enthält ein ungültiges Bild, bitte beheben...",
             "invalid_string": "%1$sDer String `{%2$s}`  ist nicht gültig oder die Ausgabe ist länger als 2000 Zeichen.",
@@ -1516,7 +1516,7 @@
         },
         "admincustom": {
             "no_args": "%1$sDu musst angeben, ob du es auf true (aktiviert) oder false (deaktiviert) haben willst (Aktivieren, damit es nur für Admins/Bot-Commander möglich ist)",
-            "admin_only": "Benutzerdefinierte Befehlserstellung ist jetzt nur noch für Admins möglich.n\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
+            "admin_only": "Benutzerdefinierte Befehlserstellung ist jetzt nur noch für Admins möglich.",
             "everyone": "Benutzerdefinierte Befehlserstellung ist jetzt für alle möglich.",
             "not_bool": "%1$sDas ist kein Boolwert (true oder false)!"
         },

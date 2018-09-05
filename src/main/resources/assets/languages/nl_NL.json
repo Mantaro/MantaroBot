@@ -350,7 +350,7 @@
             "already_exists": "%1$sHet commando `%2$s` bestaat al.",
             "name_too_long": "%1$sNaam is te lang.",
             "no_cc": "%1$sEr zijn geen custom commando's geregisteerd in deze Guild.",
-            "admin_only": "In deze Guild mogen alleen beheerders custom commando's maken, bewerking, importeren en evalueren.",
+            "admin_only": "In deze Guild mogen alleen beheerders custom commando's maken, bewerking, importeren en evalueren.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
             "not_found": "%1$sEr is geen custom commando `%2$s` in deze Guild.",
             "invalid_image": "%1$sDit commando bevat een ongeldige afbeelding, probeer dit aan te passen...",
             "invalid_string": "%1$sDe string `{%2$s}` is niet geldig, of de output is langer dan 2000 karakters.",
@@ -1516,7 +1516,7 @@
         },
         "admincustom": {
             "no_args": "%1$sJe moet aangeven of u wilt dat het true of false is (true om CC-creatie alleen aan Admins / Bot Commander te geven)",
-            "admin_only": "Het maken van aangepaste commandos is nu alleen voor Admins beschikbaar.n\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
+            "admin_only": "Het maken van aangepaste commandos is nu alleen voor Admins beschikbaar.",
             "everyone": "Het maken van aangepaste commandos is nu voor iedereen beschikbaar.",
             "not_bool": "%1$sGekkie, dat is geen boolean waarde (true of false)!"
         },
