@@ -24,24 +24,26 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum Category {
-    MUSIC(CommandPermission.USER, "categories.music"),
-    ACTION(CommandPermission.USER, "categories.action"),
-    CURRENCY(CommandPermission.USER, "categories.currency"),
-    GAMES(CommandPermission.USER, "categories.games"),
-    IMAGE(CommandPermission.USER, "categories.image"),
-    FUN(CommandPermission.USER, "categories.fun"),
-    MODERATION(CommandPermission.ADMIN, "categories.moderation"),
-    OWNER(CommandPermission.OWNER, "categories.owner"),
-    INFO(CommandPermission.USER, "categories.info"),
-    UTILS(CommandPermission.USER, "categories.utils"),
-    MISC(CommandPermission.USER, "categories.misc");
+    MUSIC(CommandPermission.USER, "categories.music", "Audio"),
+    ACTION(CommandPermission.USER, "categories.action", "Action"),
+    CURRENCY(CommandPermission.USER, "categories.currency", "Currency"),
+    GAMES(CommandPermission.USER, "categories.games", "Games"),
+    IMAGE(CommandPermission.USER, "categories.image", "Image"),
+    FUN(CommandPermission.USER, "categories.fun", "Fun"),
+    MODERATION(CommandPermission.ADMIN, "categories.moderation", "Moderation"),
+    OWNER(CommandPermission.OWNER, "categories.owner", "Owner"),
+    INFO(CommandPermission.USER, "categories.info", "Info"),
+    UTILS(CommandPermission.USER, "categories.utils", "Utility"),
+    MISC(CommandPermission.USER, "categories.misc", "Misc");
 
     public final CommandPermission permission;
     private final String s;
+    private final String qualifiedName;
 
-    Category(CommandPermission p, String s) {
+    Category(CommandPermission p, String s, String name) {
         this.permission = p;
         this.s = s;
+        this.qualifiedName = name;
     }
 
     /**
@@ -53,7 +55,7 @@ public enum Category {
      */
     public static Category lookupFromString(String name) {
         for(Category cat : Category.values()) {
-            if(cat.name().equalsIgnoreCase(name)) {
+            if(cat.qualifiedName.equalsIgnoreCase(name)) {
                 return cat;
             }
         }
@@ -64,7 +66,7 @@ public enum Category {
      * @return The name of the category.
      */
     public static List<String> getAllNames() {
-        return Stream.of(Category.values()).map(category -> Utils.capitalize(category.name().toLowerCase())).collect(Collectors.toList());
+        return Stream.of(Category.values()).map(category -> Utils.capitalize(category.qualifiedName.toLowerCase())).collect(Collectors.toList());
     }
 
     /**
