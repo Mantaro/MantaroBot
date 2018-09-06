@@ -381,7 +381,7 @@ public class InfoCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 event.getChannel().sendMessage(new EmbedBuilder().setAuthor("Mantaro's Invite URL.", null, event.getJDA().getSelfUser().getAvatarUrl())
-                        .addField(languageContext.get("commands.invite.url"), "http://is.gd/mantaro", false)
+                        .addField(languageContext.get("commands.invite.url"), "http://add.mantaro.site", false)
                         .addField(languageContext.get("commands.invite.server"), "https://support.mantaro.site", false)
                         .addField(languageContext.get("commands.invite.patreon"), "http://patreon.com/mantaro", false)
                         .setDescription(languageContext.get("commands.invite.description.1") + " " +

@@ -178,7 +178,7 @@ public class ModerationCmds {
 
                 String affected = args[0];
 
-                if(!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.BAN_MEMBERS)) {
+                if(!guild.getMember(author).hasPermission(Permission.BAN_MEMBERS)) {
                     channel.sendMessage(String.format(languageContext.get("commands.ban.no_permission"), EmoteReference.ERROR)).queue();
                     return;
                 }
@@ -276,14 +276,14 @@ public class ModerationCmds {
 
                 String affected = args[0];
 
-                if(!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.KICK_MEMBERS)) {
+                if(!guild.getMember(author).hasPermission(Permission.KICK_MEMBERS)) {
                     channel.sendMessage(String.format(languageContext.get("commands.kick.no_permission"), EmoteReference.ERROR2)).queue();
                     return;
                 }
 
                 Member selfMember = guild.getSelfMember();
 
-                if(!selfMember.hasPermission(net.dv8tion.jda.core.Permission.KICK_MEMBERS)) {
+                if(!selfMember.hasPermission(Permission.KICK_MEMBERS)) {
                     channel.sendMessage(String.format(languageContext.get("commands.kick.no_permission_self"), EmoteReference.ERROR2)).queue();
                     return;
                 }

@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum Category {
-    MUSIC(CommandPermission.USER, "categories.audio"),
+    MUSIC(CommandPermission.USER, "categories.music"),
     ACTION(CommandPermission.USER, "categories.action"),
     CURRENCY(CommandPermission.USER, "categories.currency"),
     GAMES(CommandPermission.USER, "categories.games"),
@@ -33,7 +33,7 @@ public enum Category {
     MODERATION(CommandPermission.ADMIN, "categories.moderation"),
     OWNER(CommandPermission.OWNER, "categories.owner"),
     INFO(CommandPermission.USER, "categories.info"),
-    UTILS(CommandPermission.USER, "categories.utility"),
+    UTILS(CommandPermission.USER, "categories.utils"),
     MISC(CommandPermission.USER, "categories.misc");
 
     public final CommandPermission permission;

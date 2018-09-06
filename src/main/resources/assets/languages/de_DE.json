@@ -65,7 +65,8 @@
         "utils": "Nützliche",
         "fun": "Spaß",
         "games": "Spiel",
-        "info": "Info"
+        "info": "Info",
+        "currency": "Currency"
     },
     "commands": {
         "fish": {

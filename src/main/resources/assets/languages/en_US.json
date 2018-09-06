@@ -65,7 +65,8 @@
     "utils": "Utils",
     "fun": "Fun",
     "games": "Games",
-    "info": "Info"
+    "info": "Info",
+    "currency": "Currency"
   },
   "commands": {
     "fish": {

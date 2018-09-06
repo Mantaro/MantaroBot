@@ -65,7 +65,8 @@
         "utils": "Utils",
         "fun": "Grappig",
         "games": "Spelletjes",
-        "info": "Info"
+        "info": "Info",
+        "currency": "Currency"
     },
     "commands": {
         "fish": {

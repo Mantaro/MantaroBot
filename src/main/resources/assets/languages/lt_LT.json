@@ -65,7 +65,8 @@
         "utils": "Priedai",
         "fun": "Pramogos",
         "games": "Žaidimai",
-        "info": "Informacija"
+        "info": "Informacija",
+        "currency": "Currency"
     },
     "commands": {
         "fish": {

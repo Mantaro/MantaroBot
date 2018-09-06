@@ -65,7 +65,8 @@
         "utils": "Utilidades",
         "fun": "Diversión",
         "games": "Juegos",
-        "info": "Info"
+        "info": "Info",
+        "currency": "Moneda"
     },
     "commands": {
         "fish": {
