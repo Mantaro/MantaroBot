@@ -34,7 +34,6 @@ public class Lobby {
     }
 
     public TextChannel getChannel() {
-
         if(getGuild() == null)
             return null;
 

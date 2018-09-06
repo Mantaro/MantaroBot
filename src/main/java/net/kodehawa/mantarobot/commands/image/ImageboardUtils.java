@@ -162,6 +162,11 @@ public class ImageboardUtils {
                         String tags = image.getTags().stream().collect(Collectors.joining(", "));
 
                         DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+
+                        if(foundMinorTags(event, languageContext, tags, image.getRating())) {
+                            return;
+                        }
+
                         if(image.getTags().stream().anyMatch(tag -> dbGuild.getData().getBlackListedImageTags().contains(tag))) {
                             channel.sendMessageFormat(languageContext.get("commands.imageboard.blacklisted_tag"), EmoteReference.ERROR).queue();
                             return;
@@ -201,7 +206,10 @@ public class ImageboardUtils {
     }
 
     private static boolean foundMinorTags(GuildMessageReceivedEvent event, I18nContext languageContext, String tags, Rating rating) {
-        boolean trigger = (tags.contains("loli") || tags.contains("shota") || tags.contains("lolicon") || tags.contains("shotacon")) && !rating.equals(Rating.SAFE);
+        boolean trigger = (tags.contains("loli") || tags.contains("shota") ||
+                tags.contains("lolicon") || tags.contains("shotacon") ||
+                //lol @ e621
+                tags.contains("child") || tags.contains("young")) && !rating.equals(Rating.SAFE);
 
         if(!trigger) {
             return false;
