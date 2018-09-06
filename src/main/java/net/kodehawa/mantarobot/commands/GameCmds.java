@@ -257,7 +257,7 @@ public class GameCmds {
 
                 TriviaDifficulty difficulty = TriviaDifficulty.lookupFromString(diff);
 
-                if(difficulty == null && (mentions.isEmpty() && roleMentions.isEmpty())) {
+                if(difficulty == null && (mentions.isEmpty() && roleMentions.isEmpty()) && !content.isEmpty()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.game.trivia.wrong_diff"), EmoteReference.ERROR).queue();
                     return;
                 }
