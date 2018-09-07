@@ -179,7 +179,7 @@ public class GuildOptions extends OptionHandler {
                                 guildData.setBirthdayRole(roleId);
                                 dbGuild.saveAsync();
                                 event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.success"), EmoteReference.MEGA,
-                                                channelObj.getAsMention(), channelId, role, roleId
+                                                channelObj.getName(), channelId, role, roleId
                                         ).queue();
                                 return Operation.COMPLETED;
                             } else if (content.equalsIgnoreCase("no")) {

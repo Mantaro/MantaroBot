@@ -1441,7 +1441,7 @@
             "warning": "%1$sBeachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird. Wenn du Zweifel daran hast, wie du sie konfigurieren musst, kannst du immer dem Support-Server beitreten und fragen. Du kannst auch `~>opts help birthday enable` für ein Beispiel anschauen",
             "warning_1": "So funktioniert der Geburtstagsanzeiger: Er vergibt eine temporäre Rolle an die Personen, die Geburtstag haben und nimmt ihnen die Rolle ab, wenn der Tag endet. **Das bedeutet, dass jeder mit der Geburtstagrolle die Rolle verliert, wenn der Geburtstag endet**. Bitte sei vorsichtig, wenn du auswählst welche Rolle du nutzen willst, da eine Fehleinstellung böse Folgen haben kann (sehr böse)!",
             "warning_2": "Due Rolle *muss eine neu erstellte Rolle sein, oder eine, die du für niemanden sonst verwendest*. Es DARF KEINE Rolle sein, die du bereits bei deinen Nutzern benutzt.",
-            "warning_3": "Gebe **yes** ein, wenn du zustimmst, die Rolle %1$s als Geburtstagsrolle zu setzen, und **no** zum abbrechen. Diese Wahl endet in 45 Sekunden.",
+            "warning_3": "Gebe **yes** ein, wenn du zustimmst, die Rolle %2$s als Geburtstagsrolle zu setzen, und **no** zum abbrechen. Diese Wahl endet in 45 Sekunden.",
             "success": "%1$sGeburtstagslogging auf diesem Server mit Parametern aktiviert -> Kanal `%2$s (%3$s)` und Rolle: `%4$s (%5$s)`",
             "error_channel_1": "%1$sIch habe keinen Kanal oder Rolle gefunden!",
             "error_channel_2": "**Beachte, du musst weder den Kanal noch die Rolle erwähnen, sonder nur den Namen schreiben, die Reihenfolge ist <Kanal> <Rolle>, ohne die \"<>\".**"
