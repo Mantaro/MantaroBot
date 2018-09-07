@@ -101,22 +101,22 @@ public class GuildOptions extends OptionHandler {
             Role birthdayRole = guildData.getBirthdayRole() == null ? null : event.getGuild().getRoleById(guildData.getBirthdayRole());
 
             if(birthdayChannel == null) {
-                event.getChannel().sendMessageFormat(lang.get("opts.birthday_test.no_bd_channel"), EmoteReference.ERROR).queue();
+                event.getChannel().sendMessageFormat(lang.get("options.birthday_test.no_bd_channel"), EmoteReference.ERROR).queue();
                 return;
             }
 
             if(birthdayRole == null) {
-                event.getChannel().sendMessageFormat(lang.get("opts.birthday_test.no_bd_role"), EmoteReference.ERROR).queue();
+                event.getChannel().sendMessageFormat(lang.get("options.birthday_test.no_bd_role"), EmoteReference.ERROR).queue();
                 return;
             }
 
             if(!birthdayChannel.canTalk()) {
-                event.getChannel().sendMessageFormat(lang.get("opts.birthday_test.no_talk_permission"), EmoteReference.ERROR).queue();
+                event.getChannel().sendMessageFormat(lang.get("options.birthday_test.no_talk_permission"), EmoteReference.ERROR).queue();
                 return;
             }
 
             if(!event.getGuild().getSelfMember().canInteract(birthdayRole)) {
-                event.getChannel().sendMessageFormat(lang.get("opts.birthday_test.cannot_interact"), EmoteReference.ERROR).queue();
+                event.getChannel().sendMessageFormat(lang.get("options  .birthday_test.cannot_interact"), EmoteReference.ERROR).queue();
                 return;
             }
 
