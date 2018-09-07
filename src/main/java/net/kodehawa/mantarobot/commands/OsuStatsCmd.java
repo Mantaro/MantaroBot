@@ -294,7 +294,7 @@ public class OsuStatsCmd {
             EmbedBuilder builder = new EmbedBuilder();
             builder.setTitle("Error.", null)
                     .setColor(Color.RED)
-                    .addField(languageContext.get("general.description"), String.format(languageContext.get("commands.osustats.user.error_detailed"), e.getMessage()), false);
+                    .addField(languageContext.get("general.description"), String.format(languageContext.get("commands.osustats.error_detailed"), e.getMessage()), false);
             finalMessage = builder.build();
         }
 
