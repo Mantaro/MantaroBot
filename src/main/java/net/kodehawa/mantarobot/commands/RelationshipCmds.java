@@ -681,7 +681,7 @@ public class RelationshipCmds {
                 final DBUser claimedUser = db.getUser(toLookup);
                 final UserData claimedUserData = claimedUser.getData();
 
-                //Waifu object declaration.fuc
+                //Waifu object declaration.
                 final Waifu waifuToClaim = calculateWaifuValue(toLookup);
                 final long waifuFinalValue = waifuToClaim.getFinalValue();
 

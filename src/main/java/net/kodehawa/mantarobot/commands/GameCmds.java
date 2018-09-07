@@ -135,6 +135,11 @@ public class GameCmds {
                     return;
                 }
 
+                if(content.contains("character")) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.multiple.no_character"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 //Trivia difficulty handling.
                 TriviaDifficulty difficulty = null;
                 if(t.containsKey(difficultyArgument) && t.get(difficultyArgument).isPresent()) {
@@ -196,6 +201,11 @@ public class GameCmds {
 
                 if(values.length < 2) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.game.multiple.invalid"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(content.contains("character")) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.multiple.no_character"), EmoteReference.ERROR).queue();
                     return;
                 }
 

@@ -905,7 +905,8 @@
       "multiple": {
         "invalid": "%1$sYou need to specify the game and the number of times to run it",
         "invalid_times": "%1$sInvalid number of times. Remember that it must be an integer.",
-        "too_many_games": "%1$sYou can only start a maximum of 10 games of the same type at a time."
+        "too_many_games": "%1$sYou can only start a maximum of 10 games of the same type at a time.",
+        "no_character": "%1$sYou cannot use character game in game multiple or lobby due to AniList API limitations."
       },
       "trivia": {
         "wrong_diff": "%1$sWrong difficulty specified! (Supported: easy, medium and hard)",
