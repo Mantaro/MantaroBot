@@ -66,7 +66,7 @@
         "fun": "Spaß",
         "games": "Spiel",
         "info": "Info",
-        "currency": "Currency"
+        "currency": "Währungs"
     },
     "commands": {
         "fish": {
@@ -351,7 +351,7 @@
             "already_exists": "%1$sDer Befehl `%2$s` existiert bereits!",
             "name_too_long": "%1$sDer Name ist zu lang.",
             "no_cc": "%1$sIn diesem Server gibt es keine benutzerdefinierten Befehle, nur Staub.",
-            "admin_only": "In diesem Server können nur Administratoren benutzerdefinierte Befehle erstellen, bearbeite, auswerten oder entfernen.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
+            "admin_only": "In diesem Server können nur Administratoren benutzerdefinierte Befehle erstellen, bearbeite, auswerten oder entfernen.\n**Das ist jetzt die STANDARDMÄẞIGE Einstellung.**\n- Wenn du dies alle machen lassen möchtest, und ein Admin bist (Bot Commander-Rolle oder Server verwalten Berechtigung), nutze `~>opts admincustom false`",
             "not_found": "%1$sDer Befehl `%2$s` existiert in diesem Server nicht.",
             "invalid_image": "%1$sDieser Befehl enthält ein ungültiges Bild, bitte beheben...",
             "invalid_string": "%1$sDer String `{%2$s}`  ist nicht gültig oder die Ausgabe ist länger als 2000 Zeichen.",
