@@ -351,7 +351,7 @@
             "already_exists": "%1$sEl comando `%2$s` ya existe.",
             "name_too_long": "%1$sEl nombre es muy largo.",
             "no_cc": "%1$sNo hay comandos personalizados en este servidor, solamente pude encontrar polvo...",
-            "admin_only": "Este servidor solo permite la creación y evalauación de comandos personalizados por administradores.\n**Ahora esta es la opción por defecto.**\n- Si quieres que **todos** usen los comandos personalizados, y eres un administrador (Bot Commander role o el permiso de Administrar Servidor) usa `~>opts admincustom false`",
+            "admin_only": "Este servidor solo permite la creación y evalauación de comandos personalizados por administradores.\n**Ahora esta es la opción por defecto.**\n- Si quieres que **todos** usen los comandos personalizados, y eres un administrador (un rol llamado Bot Commander o uno con el permiso de Administrar Servidor) usa `~>opts admincustom false`",
             "not_found": "%1$sEl comando personalizado `%2$s` no existe en este servidor.",
             "invalid_image": "%1$sEste comando contiene una imágen invalida, porfavor arreglar...",
             "invalid_string": "%1$sLa cadena de carácteres `{%2$s}` no es válida, o la salida sería mayor de 2000 carácteres.",
@@ -723,7 +723,7 @@
             "profile_notice": "Si crees que tienes un trofeo pero no aparece aquí, usa `~>profile` y luego ejecuta este comando denuevo.\n",
             "info_notice": "Usa `~>badges info <nombre del trofeo>` para ver información sobre un trofeo.\n",
             "upvote_notice": "**Puedes conseguir un trofeo gratis por [darle like a Mantaro en discordbots.org](https://discordbots.org/bot/mantaro)!** (Podría tomar unos minutos para procesar)\n\n",
-            "donate_notice": "**¡Puedes conseguir un trofeo por [ayudar a mantener el bot vivo](https://patreon.com/mantaro)!** (Puede que tome unos minutos para procesar)",
+            "donate_notice": "**¡Puedes conseguir un trofeo por [ayudar a mantener el bot vivo](https://patreon.com/mantaro)!** (Puede que tome unos minutos para procesar)\n\n",
             "no_badges": "No hay trofeos para mostrar (¡aún!)",
             "header": "Trofeos logrados por %1$s"
         },

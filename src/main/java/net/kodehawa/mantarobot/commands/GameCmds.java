@@ -63,6 +63,7 @@ public class GameCmds {
                 .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
                 .maxCooldown(10, TimeUnit.MINUTES)
                 .pool(MantaroData.getDefaultJedisPool())
+                .prefix("game")
                 .build();
 
         //Does it even make sense to do this if I only had to add a parameter to one? Oh well...
@@ -240,6 +241,7 @@ public class GameCmds {
                     .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
                     .maxCooldown(15, TimeUnit.MINUTES)
                     .pool(MantaroData.getDefaultJedisPool())
+                    .prefix("trivia")
                     .build();
 
             @Override
