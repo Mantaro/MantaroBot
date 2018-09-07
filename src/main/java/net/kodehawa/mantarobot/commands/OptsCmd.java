@@ -162,7 +162,7 @@ public class OptsCmd {
                 return helpEmbed(event, "Options and Configurations Command")
                         .setDescription("**This command allows you to change Mantaro settings for this server.**\n" +
                                 "All values set are local rather than global, meaning that they will only effect this server.\n" +
-                                "%sHey, if you're lost or want help on using opts, check https://github.com/Mantaro/MantaroBot/wiki/Configuration for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!")
+                                "- Hey, if you're lost or want help on using opts, check https://github.com/Mantaro/MantaroBot/wiki/Configuration for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!")
                         .build();
             }
         }).addOption("check:data", new Option("Data check.",

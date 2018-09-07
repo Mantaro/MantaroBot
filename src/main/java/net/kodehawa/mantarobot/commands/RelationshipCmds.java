@@ -52,11 +52,14 @@ import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import sun.reflect.generics.tree.Tree;
 
 import java.awt.*;
 import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Module
 //In theory fun category, but created this class to avoid FunCmds to go over 1k lines.
@@ -346,10 +349,13 @@ public class RelationshipCmds {
                     }
 
                     //Send a confirmation message.
+                    String finalContent = Utils.DISCORD_INVITE.matcher(content).replaceAll("-invite link-");
+                    finalContent = Utils.DISCORD_INVITE_2.matcher(finalContent).replaceAll("-invite link-");
+
                     new MessageBuilder()
                             .setContent(String.format(languageContext.get("commands.marry.loveletter.confirmation"), EmoteReference.TALKING, marriedTo.getName(),
-                                    marriedTo.getDiscriminator(), content))
-                            .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
+                                    marriedTo.getDiscriminator(), finalContent))
+                            .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.USER)
                             .sendTo(event.getChannel())
                             .queue();
 
@@ -548,7 +554,9 @@ public class RelationshipCmds {
 
     @Subscribe
     public void waifu(CommandRegistry cr) {
-        ITreeCommand waifu = (ITreeCommand) cr.register("waifu", new TreeCommand(Category.FUN) {
+        RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 5);
+
+        TreeCommand waifu = (TreeCommand) cr.register("waifu", new TreeCommand(Category.FUN) {
             @Override
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -624,6 +632,8 @@ public class RelationshipCmds {
                         .build();
             }
         });
+
+        waifu.setPredicate(event -> Utils.handleDefaultRatelimit(rl, event.getAuthor(), event));
 
         waifu.addSubCommand("stats", new SubCommand() {
             @Override
@@ -748,6 +758,11 @@ public class RelationshipCmds {
         waifu.addSubCommand("unclaim", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.no_user"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 Member member = Utils.findMember(event, event.getMember(), content);
                 if(member == null)
                     return;
@@ -888,10 +903,10 @@ public class RelationshipCmds {
         waifuValue += moneyValue + badgeValue + experienceValue + claimValue;
 
         //what is this lol
-        //After all those calculations are complete, the value then is calculated using final * (reputation scale / 10) where reputation scale goes up by 1 every 10 reputation points.
-        //At 6000 reputation points, the waifu value gets multiplied by 1.35. This is the maximum amount it can be multiplied to.
+        //After all those calculations are complete, the value then is calculated using final * (reputation scale / 20) where reputation scale goes up by 1 every 10 reputation points.
+        //At 6000 reputation points, the waifu value gets multiplied by 1.1. This is the maximum amount it can be multiplied to.
         long reputation = waifuPlayer.getReputation();
-        double reputationScaling = (reputation / 4.5) / 10;
+        double reputationScaling = (reputation / 4.5) / 20;
         long finalValue = (long) (
                 Math.min(Integer.MAX_VALUE,
                         (waifuValue * (reputationScaling > 1 ? reputationScaling : 1) * (reputation > 6500 ? 1.1 : 1)

@@ -199,7 +199,7 @@ public class ModerationOptions extends OptionHandler {
             GuildData guildData = dbGuild.getData();
             guildData.setGuildLogChannel(null);
             dbGuild.saveAsync();
-            event.getChannel().sendMessageFormat(lang.get("options.log_disable.success"), EmoteReference.MEGA).queue();
+            event.getChannel().sendMessageFormat(lang.get("options.logs_disable.success"), EmoteReference.MEGA).queue();
         });
     }
 

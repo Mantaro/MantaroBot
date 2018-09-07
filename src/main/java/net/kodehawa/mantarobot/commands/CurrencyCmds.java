@@ -917,6 +917,7 @@ public class CurrencyCmds {
                     message += languageContext.get("commands.cast.item_broke");
                 }
 
+                player.removeMoney(castCost);
                 player.save();
 
                 event.getChannel().sendMessageFormat(languageContext.get("commands.cast.success"),

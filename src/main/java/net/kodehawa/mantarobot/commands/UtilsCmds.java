@@ -223,7 +223,7 @@ public class UtilsCmds {
                         //Build the message.
                         String birthdays = guildCurrentBirthdays.entrySet().stream()
                                 .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
-                                .map((entry) -> String.format("+ %-20s : %s ", event.getGuild().getMemberById(entry.getKey()).getEffectiveName(), entry.getValue()))
+                                .map((entry) -> String.format("+ %-20s : %s ", event.getGuild().getMemberById(entry.getKey()).getEffectiveName(), entry.getValue().getBirthday()))
                                 .collect(Collectors.joining("\n"));
 
                         List<String> parts = DiscordUtils.divideString(1000, birthdays);
@@ -238,11 +238,11 @@ public class UtilsCmds {
                         }
 
                         //Show the message.
+                        //Probably a p big one tbh.
                         if(hasReactionPerms)
                             DiscordUtils.list(event, 45, false, messages);
                         else
                             DiscordUtils.listText(event, 45, false, messages);
-                        //Probably a p big one tbh.
                     } else {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.cache_not_running"), EmoteReference.SAD).queue();
                     }

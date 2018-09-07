@@ -102,14 +102,14 @@ public class PlayerCmds {
 
                 if(user.isBot()) {
                     event.getChannel().sendMessage(String.format(languageContext.get("commands.rep.rep_bot"), EmoteReference.THINKING,
-                            (rl > 0 ? String.format(languageContext.get("commands.rep.cooldown.wait"), Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())))
+                            (rl > 0 ? String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())))
                              : languageContext.get("commands.rep.cooldown.pass")))).queue();
                     return;
                 }
 
                 if(user.equals(event.getAuthor())) {
                     event.getChannel().sendMessage(String.format(languageContext.get("commands.rep.rep_yourself"), EmoteReference.THINKING,
-                            (rl > 0 ?  String.format(languageContext.get("commands.rep.cooldown.wait"), Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())))
+                            (rl > 0 ?  String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())))
                              : languageContext.get("commands.rep.cooldown.pass")))).queue();
                     return;
                 }
