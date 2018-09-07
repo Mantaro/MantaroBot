@@ -481,7 +481,7 @@
                 "too_many": "%1$s¡Ya tienes muchos slots!"
             },
             "header": "Lista Waifu",
-            "description_header": "Aquí está la lista de tus queridas waifus, ordenadas por fecha.\n*Puedes tener un máximo de %1$d waifus en este momento.*\n\n",
+            "description_header": "Aquí está la lista de tus queridas waifus, ordenadas por fecha.\n*Puedes tener un máximo de %1$d waifus en este momento.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
             "no_waifu": "No hay waifus acá, solo polvo :(\nPuedes conseguir waifus si reclamas a alguien! Usa `~>waifu claim` para empezar.",
             "footer": "Total de waifus: %1$d - Espacios disponibles: %2$s",
             "value_format": "**- Valor:**",

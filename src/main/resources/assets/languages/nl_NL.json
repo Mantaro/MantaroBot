@@ -481,7 +481,7 @@
                 "too_many": "%1$sJe hebt al teveel slots!"
             },
             "header": "Waifu Lijst",
-            "description_header": "Hier is een lijst met al je geliefde waifus, gesorteerd op datum.\n*Je kunt op dit moment een maximum van %1$d waifus hebben.*\n\n",
+            "description_header": "Hier is een lijst met al je geliefde waifus, gesorteerd op datum.\n*Je kunt op dit moment een maximum van %1$d waifus hebben.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
             "no_waifu": "Geen waifu te zien hier, alleen maar stof :(\nJe kunt waifus krijgen door iemand te claimen! Gebruik `~>waifu claim` om te beginnen met claimen.",
             "footer": "Totaal aantal waifus: %1$d - Beschikbaar aantal slots: %2$s",
             "value_format": "**- Waarde:**",

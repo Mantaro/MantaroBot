@@ -287,7 +287,9 @@ public class RelationshipCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Marriage command")
                         .setDescription("**Basically marries you with a user.**")
-                        .addField("Usage", "`~>marry <@mention>` - **Propose to someone**", false)
+                        .addField("Usage", "`~>marry <@mention>` - **Propose to someone**\n" +
+                                "`~>marry status` - **Check your marriage status**\n" +
+                                "`~>marry createletter <content>` - **Create a love letter for your marriage**", false)
                         .addField(
                                 "Divorcing", "Well, if you don't want to be married anymore you can just do `~>divorce`",
                                 false
@@ -375,7 +377,6 @@ public class RelationshipCmds {
                         if(c.equalsIgnoreCase("yes")) {
                             final Player playerFinal = db.getPlayer(author);
                             final Inventory inventoryFinal = playerFinal.getInventory();
-                            final DBUser dbUserFinal = db.getUser(author);
                             final Marriage currentMarriageFinal = dbUser.getData().getMarriage();
 
                             //We need to do most of the checks all over again just to make sure nothing important slipped through.
@@ -391,7 +392,7 @@ public class RelationshipCmds {
 
                             //Remove the love letter from the inventory.
                             inventoryFinal.process(new ItemStack(Items.LOVE_LETTER, -1));
-                            player.save();
+                            playerFinal.save();
 
                             //Save the love letter. The content variable is the actual letter, while c is the content of the operation itself.
                             //Yes it's confusing.
@@ -672,11 +673,11 @@ public class RelationshipCmds {
                     return;
                 }
 
-                final Player claimer = db.getPlayer(event.getAuthor());
+                final Player claimerPlayer = db.getPlayer(event.getAuthor());
                 final DBUser claimerUser = db.getUser(event.getAuthor());
                 final UserData claimerUserData = claimerUser.getData();
 
-                final Player claimed = db.getPlayer(toLookup);
+                final Player claimedPlayer = db.getPlayer(toLookup);
                 final DBUser claimedUser = db.getUser(toLookup);
                 final UserData claimedUserData = claimedUser.getData();
 
@@ -687,18 +688,18 @@ public class RelationshipCmds {
                 //Checks.
 
                 //If the to-be claimed has the claim key in their inventory, it cannot be claimed.
-                if(claimed.getInventory().containsItem(Items.CLAIM_KEY)) {
+                if(claimedPlayer.getInventory().containsItem(Items.CLAIM_KEY)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.key_locked"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                if(claimer.isLocked()) {
+                if(claimerPlayer.isLocked()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.locked"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 //Deduct from balance and checks for money.
-                if(!claimer.removeMoney(waifuFinalValue)) {
+                if(!claimerPlayer.removeMoney(waifuFinalValue)) {
                     event.getChannel().sendMessageFormat(
                             languageContext.get("commands.waifu.claim.not_enough_money"), EmoteReference.ERROR, waifuFinalValue
                     ).queue();
@@ -718,17 +719,17 @@ public class RelationshipCmds {
                 claimedUserData.setTimesClaimed(claimedUserData.getTimesClaimed() + 1);
 
                 //Add badges
-                if(claimedUserData.getWaifus().containsKey(claimer.getId())) {
-                    claimer.getData().addBadgeIfAbsent(Badge.MUTUAL);
-                    claimed.getData().addBadgeIfAbsent(Badge.MUTUAL);
+                if(claimedUserData.getWaifus().containsKey(claimerPlayer.getId())) {
+                    claimerPlayer.getData().addBadgeIfAbsent(Badge.MUTUAL);
+                    claimedPlayer.getData().addBadgeIfAbsent(Badge.MUTUAL);
                 }
 
-                claimer.getData().addBadgeIfAbsent(Badge.WAIFU_CLAIMER);
-                claimed.getData().addBadgeIfAbsent(Badge.CLAIMED);
+                claimerPlayer.getData().addBadgeIfAbsent(Badge.WAIFU_CLAIMER);
+                claimedPlayer.getData().addBadgeIfAbsent(Badge.CLAIMED);
 
                 //Massive saving operation owo.
-                claimer.saveAsync();
-                claimed.saveAsync();
+                claimerPlayer.saveAsync();
+                claimedPlayer.saveAsync();
                 claimedUser.saveAsync();
                 claimerUser.saveAsync();
 
