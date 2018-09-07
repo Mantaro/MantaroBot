@@ -801,6 +801,7 @@ public class RelationshipCmds {
                         p.removeMoney(valuePayment);
                         userData.getWaifus().remove(toLookup.getId());
                         user.save();
+                        p.save();
 
                         event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.success"), EmoteReference.CORRECT, toLookup.getName(), valuePayment).queue();
                         return Operation.COMPLETED;
