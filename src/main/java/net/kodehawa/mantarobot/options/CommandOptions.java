@@ -251,7 +251,7 @@ public class CommandOptions extends OptionHandler {
 
             guildData.getDisabledCategories().add(toDisable);
             dbGuild.save();
-            event.getChannel().sendMessageFormat(lang.get("options.category_disable.success"), EmoteReference.CORRECT, toDisable.toString()).queue();
+            event.getChannel().sendMessageFormat(lang.get("options.category_disable.success"), EmoteReference.CORRECT, lang.get(toDisable.toString())).queue();
         });
 
         registerOption("category:enable", "Enable categories",
@@ -279,7 +279,7 @@ public class CommandOptions extends OptionHandler {
 
             guildData.getDisabledCategories().remove(toEnable);
             dbGuild.save();
-            event.getChannel().sendMessageFormat(lang.get("options.category_enable.success"), EmoteReference.CORRECT, toEnable.toString()).queue();
+            event.getChannel().sendMessageFormat(lang.get("options.category_enable.success"), EmoteReference.CORRECT, lang.get(toEnable.toString())).queue();
         });
 
         registerOption("category:specific:disable", "Disable categories on a specific channel",
