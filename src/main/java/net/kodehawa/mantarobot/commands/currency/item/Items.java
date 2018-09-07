@@ -79,7 +79,7 @@ public class Items {
 
             // ---------------------------------- LEFT OVERS FROM CURRENCY V1 STARTS HERE ----------------------------------
             //CANNOT REMOVE BECAUSE WE WERE MEME ENOUGH TO FUCKING SAVE THEM BY THEIR IDS
-            LOADED_DICE_2 = new Item("\uD83C\uDFB2","Special Loaded Die", "items.description.special_die"),
+            LOADED_DICE_2 = new Item("\uD83C\uDFB2","Special Loaded Die", "items.description.die_2"),
             BOOSTER = new Item(EmoteReference.RUNNER.getUnicode(),"Booster", "items.description.booster"),
             BERSERK = new Item(EmoteReference.CROSSED_SWORD.getUnicode(),"Berserk", "items.description.berserk"),
             COMPANION = new Item(EmoteReference.DOG.getUnicode(),"Companion", "items.description.companion"),
