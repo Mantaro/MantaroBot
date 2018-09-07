@@ -193,7 +193,7 @@ public class Poll extends Lobby {
                             .map(r -> String.format(languageContext.get("commands.poll.vote_results"), r.getCount() - 1, options[counter.getAndIncrement()]))
                             .collect(Collectors.joining("\n"));
 
-                    embedBuilder.addField(languageContext.get("commands.poll.result"), "```diff\n" + votes + "```", false);
+                    embedBuilder.addField(languageContext.get("commands.poll.results"), "```diff\n" + votes + "```", false);
                     getChannel().sendMessage(embedBuilder.build()).queue();
                 });
 

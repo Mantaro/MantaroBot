@@ -187,7 +187,7 @@ public class AudioCmdUtils {
         }
 
         if(!event.getGuild().getSelfMember().hasPermission(userChannel, Permission.VOICE_SPEAK)) {
-            event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.missing_permissions_speak"), EmoteReference.ERROR, lang.get("discord_permissions.voice_speak")).queue();
+            event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.missing_permission_speak"), EmoteReference.ERROR, lang.get("discord_permissions.voice_speak")).queue();
             return false;
         }
 

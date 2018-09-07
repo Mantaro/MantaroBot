@@ -116,7 +116,7 @@ public class MiscCmds {
                 }
                 try {
                     event.getGuild().getController().removeRolesFromMember(event.getMember(), role)
-                            .queue(aVoid -> event.getChannel().sendMessageFormat(languageContext.get("commands.iamnot.sucess"), EmoteReference.OK, event.getMember().getEffectiveName(), role.getName()).queue());
+                            .queue(aVoid -> event.getChannel().sendMessageFormat(languageContext.get("commands.iamnot.success"), EmoteReference.OK, event.getMember().getEffectiveName(), role.getName()).queue());
                 } catch(PermissionException pex) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.iam.error"), EmoteReference.ERROR, role.getName()).queue();
                 }

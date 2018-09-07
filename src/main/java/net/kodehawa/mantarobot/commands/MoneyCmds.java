@@ -256,7 +256,7 @@ public class MoneyCmds {
                 }
 
                 if(player.getMoney() > GAMBLE_ABSOLUTE_MAX_MONEY) {
-                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.too_much_credits"), EmoteReference.ERROR2, GAMBLE_ABSOLUTE_MAX_MONEY).queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.too_much_money"), EmoteReference.ERROR2, GAMBLE_ABSOLUTE_MAX_MONEY).queue();
                     return;
                 }
 
@@ -575,7 +575,14 @@ public class MoneyCmds {
 
                 if(args.length == 1 && !coinSelect) {
                     try {
-                        money = Math.abs(new RoundedMetricPrefixFormat().parseObject(args[0], new ParsePosition(0)));
+                        Long parsed = new RoundedMetricPrefixFormat().parseObject(args[0], new ParsePosition(0));
+
+                        if(parsed == null) {
+                            event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "slots.errors.no_valid_amount"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
+                        money = Math.abs(parsed);
 
                         if(money < 25) {
                             event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "slots.errors.below_minimum"), EmoteReference.ERROR).queue();

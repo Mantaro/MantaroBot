@@ -41,6 +41,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class MantaroAudioManager {
@@ -52,7 +53,7 @@ public class MantaroAudioManager {
     private final AudioPlayerManager playerManager;
 
     public MantaroAudioManager() {
-        this.musicManagers = new HashMap<>();
+        this.musicManagers = new ConcurrentHashMap<>();
         DefaultAudioPlayerManager apm = new DefaultAudioPlayerManager();
         Prometheus.THREAD_POOL_COLLECTOR.add("lavaplayer-track-playback", apm.getExecutor());
         tryTrackingExecutor(apm, "lavaplayer-track-info", "trackInfoExecutorService");

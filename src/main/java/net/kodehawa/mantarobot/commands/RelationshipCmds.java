@@ -681,11 +681,16 @@ public class RelationshipCmds {
                 final DBUser claimedUser = db.getUser(toLookup);
                 final UserData claimedUserData = claimedUser.getData();
 
-                //Waifu object declaration.
+                //Waifu object declaration.fuc
                 final Waifu waifuToClaim = calculateWaifuValue(toLookup);
                 final long waifuFinalValue = waifuToClaim.getFinalValue();
 
                 //Checks.
+
+                if(toLookup.getIdLong() == event.getAuthor().getIdLong()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.yourself"), EmoteReference.ERROR).queue();
+                    return;
+                }
 
                 //If the to-be claimed has the claim key in their inventory, it cannot be claimed.
                 if(claimedPlayer.getInventory().containsItem(Items.CLAIM_KEY)) {
