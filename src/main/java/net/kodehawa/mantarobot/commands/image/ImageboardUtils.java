@@ -209,7 +209,12 @@ public class ImageboardUtils {
         boolean trigger = (tags.contains("loli") || tags.contains("shota") ||
                 tags.contains("lolicon") || tags.contains("shotacon") ||
                 //lol @ e621
-                tags.contains("child") || tags.contains("young")) && !rating.equals(Rating.SAFE);
+                tags.contains("child") || tags.contains("young")) ||
+                //lol @ danbooru
+                tags.contains("younger") ||
+                //lol @ rule34
+                tags.contains("underage") || tags.contains("under_age")
+                && !rating.equals(Rating.SAFE);
 
         if(!trigger) {
             return false;

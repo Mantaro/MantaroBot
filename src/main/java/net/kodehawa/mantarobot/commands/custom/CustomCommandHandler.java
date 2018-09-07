@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class CustomCommandHandler {
     private interface Func {
@@ -25,6 +26,9 @@ public class CustomCommandHandler {
     }
 
     private static final Map<String, Func> specialHandlers = new LinkedHashMap<>();
+    //there's no way in hell this would work but ok
+    //actually p sure this is just to make me feel safer and serves no purpose whatsoever.
+    private static final Pattern filtered1 = Pattern.compile("([a-zA-Z0-9]{24}\\.[a-zA-Z0-9]{6}\\.[a-zA-Z0-9_\\-])\\w+");
 
     static {
         specialHandlers.put("text", (event, lang, value, args) -> event.getChannel().sendMessage(value).queue());
@@ -109,11 +113,15 @@ public class CustomCommandHandler {
         if (specialHandling())
             return;
 
-        MessageBuilder builder = new MessageBuilder().setContent(response);
+        MessageBuilder builder = new MessageBuilder().setContent(filtered1.matcher(response).replaceAll("-filtered regex-"));
         if(preview) {
             builder.append("\n\n")
                     .append(EmoteReference.WARNING)
-                    .append("**This is a preview of how a CC with this content would look like, ALL MENTIONS ARE DISABLED ON THIS MODE.**")
+                    .append("**This is a preview of how a CC with this content would look like, ALL MENTIONS ARE DISABLED ON THIS MODE.**\n")
+                    .append("*Command Preview Requested By:*")
+                    .append(event.getAuthor().getName())
+                    .append("#")
+                    .append(event.getAuthor().getDiscriminator())
                     .stripMentions(event.getJDA(), Message.MentionType.ROLE, Message.MentionType.USER);
         }
 

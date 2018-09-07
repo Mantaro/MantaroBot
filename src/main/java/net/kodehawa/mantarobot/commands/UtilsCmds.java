@@ -397,7 +397,12 @@ public class UtilsCmds {
                             return;
                         }
 
-                        new MessageBuilder().append(String.format(languageContext.get("commands.remindme.success"), EmoteReference.CORRECT, toRemind, Utils.getHumanizedTime(time)))
+                        //lol
+                        String displayRemind = Utils.DISCORD_INVITE.matcher(toRemind).replaceAll("discord invite link");
+                        displayRemind = Utils.DISCORD_INVITE_2.matcher(displayRemind).replaceAll("discord invite link");
+
+                        new MessageBuilder().append(String.format(languageContext.get("commands.remindme.success"), EmoteReference.CORRECT, event.getAuthor().getName(),
+                                    event.getAuthor().getDiscriminator(), displayRemind, Utils.getHumanizedTime(time)))
                                 .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.ROLE, Message.MentionType.HERE)
                                 .sendTo(event.getChannel()).queue();
 

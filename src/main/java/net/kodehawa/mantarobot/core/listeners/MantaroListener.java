@@ -334,8 +334,8 @@ public class MantaroListener implements EventListener {
                     }
 
                     logTotal++;
-                    tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` Message created by **%s#%s** in channel **%s** was deleted.\n" +
-                            "```diff\n-%s```", hour, deletedMessage.getAuthor().getName(), deletedMessage.getAuthor().getDiscriminator(), event.getChannel().getName(), deletedMessage.getContent().replace("```", ""))).queue();
+                    tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` Message ID %s created by **%s#%s** (ID: %s) in channel **%s** was deleted.\n" +
+                            "```diff\n-%s```", hour, event.getMessageId(), deletedMessage.getAuthor().getName(), deletedMessage.getAuthor().getDiscriminator(), deletedMessage.getAuthor().getId(), event.getChannel().getName(), deletedMessage.getContent().replace("```", ""))).queue();
                 }
             }
         } catch (Exception e) {
@@ -371,8 +371,8 @@ public class MantaroListener implements EventListener {
                     if(event.getMessage().getContentDisplay().equals(editedMessage.getContent()))
                         return;
 
-                    tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` Message created by **%s#%s** in channel **%s** was modified.\n```diff\n-%s\n+%s```",
-                            hour, author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContentDisplay().replace("```", ""))).queue();
+                    tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` Message (ID: %s) created by **%s#%s** in channel **%s** was modified.\n```diff\n-%s\n+%s```",
+                            hour, event.getMessage().getId(), author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContentDisplay().replace("```", ""))).queue();
 
                     logTotal++;
                 }
