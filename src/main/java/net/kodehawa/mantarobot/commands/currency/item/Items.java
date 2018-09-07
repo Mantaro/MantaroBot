@@ -211,6 +211,7 @@ public class Items {
 
                     List<ItemStack> reducedList = ItemStack.reduce(list);
                     playerInventory.process(reducedList);
+                    p.addMoney(money);
 
                     String itemDisplay = ItemStack.toString(reducedList);
                     boolean foundFish = !reducedList.isEmpty();
