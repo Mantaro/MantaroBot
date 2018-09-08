@@ -945,6 +945,7 @@
       "trivia_end_footer": "You have %1$s attempts and 60 seconds. (Type end to end the game)",
       "error": "%1$sI found an error while setting up the game... (internal error)",
       "character_load_error": "%1$sReport this in the official server please. Failed to setup game for pre-saved character: %2$s",
+      "character_request_error": "%1$sError requesting this character from AniList's API.",
       "character_start": "Guess the character"
     },
     "opencrate": {

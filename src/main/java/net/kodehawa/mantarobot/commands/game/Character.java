@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands.game;
 
 import br.com.brjdevs.java.utils.collections.CollectionUtils;
+import com.apollographql.apollo.exception.ApolloHttpException;
 import com.google.gson.JsonSyntaxException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -101,6 +102,9 @@ public class Character extends ImageGame {
             return true;
         } catch (JsonSyntaxException ex) {
             lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.character_load_error"), EmoteReference.WARNING, characterName).queue();
+            return false;
+        } catch (ApolloHttpException ex) {
+            lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.character_request_error"), EmoteReference.ERROR).queue();
             return false;
         } catch(Exception e) {
             lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.error"), EmoteReference.ERROR).queue();
