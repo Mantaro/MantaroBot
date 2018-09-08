@@ -248,7 +248,9 @@ public class Utils {
             InputStream is = resty.text(url).stream();
             url2 = CharStreams.toString(new InputStreamReader(is, StandardCharsets.UTF_8));
         } catch(IOException e) {
-            log.warn(getFetchDataFailureResponse(url, "Resty"), e);
+            if (!e.getMessage().contains("404")) {
+                log.warn(getFetchDataFailureResponse(url, "Resty"), e);
+            }
         }
 
         return url2;
