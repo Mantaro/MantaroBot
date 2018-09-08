@@ -301,7 +301,7 @@ public class UtilsCmds {
                 String definition, part_of_speech, headword, example;
 
                 try {
-                    main = new JSONObject(Utils.wgetResty("http://api.pearson.com/v2/dictionaries/laes/entries?headword=" + word, event));
+                    main = new JSONObject(Utils.wgetResty("http://api.pearson.com/v2/dictionaries/laes/entries?headword=" + word));
                     JSONArray results = main.getJSONArray("results");
                     JSONObject result = results.getJSONObject(0);
                     JSONArray senses = result.getJSONArray("senses");
@@ -549,7 +549,7 @@ public class UtilsCmds {
                     url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(commandArguments[0], "UTF-8");
                 } catch(UnsupportedEncodingException ignored) { }
 
-                String json = Utils.wgetResty(url, event);
+                String json = Utils.wgetResty(url);
                 UrbanData data = GsonDataManager.GSON_PRETTY.fromJson(json, UrbanData.class);
 
                 if (commandArguments.length > 2) {
@@ -626,7 +626,7 @@ public class UtilsCmds {
                                             "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s",
                                             URLEncoder.encode(content, "UTF-8"),
                                             MantaroData.config().get().weatherAppId
-                                    ), event
+                                    )
                             ),
                             WeatherData.class
                     );

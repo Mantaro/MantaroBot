@@ -228,8 +228,8 @@ public class Utils {
      * @return The object as a parsed UTF-8 string.
      */
     @Deprecated
-    public static String wget(String url, GuildMessageReceivedEvent event) {
-        return wgetResty(url, event);
+    public static String wget(String url) {
+        return wgetResty(url);
     }
 
     /**
@@ -239,7 +239,7 @@ public class Utils {
      * @param event JDA message event.
      * @return The object as a parsed string.
      */
-    public static String wgetResty(String url, GuildMessageReceivedEvent event) {
+    public static String wgetResty(String url) {
         String url2 = null;
         Resty resty = new Resty();
 

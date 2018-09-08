@@ -246,7 +246,7 @@ public class MantaroShard implements JDA {
                     guilds.addAndGet((int) jda.getGuildCache().size());
                 });
             }
-            String newStatus = new JSONObject(Utils.wgetResty(config.apiTwoUrl + "/mantaroapi/splashes/random", null)).getString("splash")
+            String newStatus = new JSONObject(Utils.wgetResty(config.apiTwoUrl + "/mantaroapi/splashes/random")).getString("splash")
                     .replace("%ramgb%", String.valueOf(((long) (Runtime.getRuntime().maxMemory() * 1.2D)) >> 30L))
                     .replace("%usercount%", users.toString())
                     .replace("%guildcount%", guilds.toString())
