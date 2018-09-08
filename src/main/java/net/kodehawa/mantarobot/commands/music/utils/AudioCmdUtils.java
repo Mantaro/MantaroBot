@@ -106,7 +106,7 @@ public class AudioCmdUtils {
             if(line == null || page > total) {
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setAuthor(String.format(lang.get("commands.music_general.queue.header"), guild.getName()), null, guild.getIconUrl())
-                        .setColor(Color.CYAN).setDescription(lang.get("commands.music_general.queue.music_overflow") + "\n" + lang.get("commands.music_general.queue.music_overflow_2"))
+                        .setColor(Color.CYAN).setDescription(lang.get("commands.music_general.queue.page_overflow") + "\n" + lang.get("commands.music_general.queue.page_overflow_2"))
                         .addField(lang.get("commands.music_general.queue.np"), nowPlaying, false)
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png").build()).queue();
             } else {

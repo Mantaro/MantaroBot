@@ -183,7 +183,7 @@ public class CommandRegistry {
         PremiumKey currentKey = managedDatabase.getPremiumKey(userData.getPremiumKey());
         if(currentKey != null) {
             //10 days before expiration or best fit.
-            if(currentKey.validFor() <= 10 && !userData.isReceivedExpirationWarning()) {
+            if(currentKey.validFor() <= 10 && currentKey.validFor() > 1 && !userData.isReceivedExpirationWarning()) {
                 event.getAuthor().openPrivateChannel().queue(privateChannel ->
                         privateChannel.sendMessage(EmoteReference.WARNING + "Your premium key is about to run out in **" + Math.max(1, currentKey.validFor()) + " days**!\n" +
                                 EmoteReference.HEART + "*If you're still pledging to Mantaro* you can ask Kodehawa#3457 for a key renewal in the #donators channel. " +

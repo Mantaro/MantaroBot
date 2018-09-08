@@ -27,6 +27,7 @@ import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.graphql.CharacterSearchQuery;
 import net.kodehawa.mantarobot.utils.Anilist;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -79,7 +80,13 @@ public class Character extends ImageGame {
 
             characterNameL = new ArrayList<>();
             characterName = CollectionUtils.random(NAMES.get());
-            String imageUrl = Anilist.searchCharacters(characterName).get(0).image().large();
+            List<CharacterSearchQuery.Character> characters = Anilist.searchCharacters(characterName);
+            if(characters.isEmpty()) {
+                lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.character_load_error"), EmoteReference.WARNING, characterName).queue();
+                return false;
+            }
+
+            String imageUrl = characters.get(0).image().large();
 
             //Allow for replying with only the first name of the character.
             if(characterName.contains(" ") && !characterName.contains("Sailor")) {

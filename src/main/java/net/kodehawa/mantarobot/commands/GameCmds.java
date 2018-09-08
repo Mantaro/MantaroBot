@@ -162,7 +162,11 @@ public class GameCmds {
 
                 LinkedList<Game> gameList = new LinkedList<>();
                 for(String s : split) {
-                    gameList.add(games.get(s.trim()).apply(difficulty));
+                    Game g = games.get(s.trim()).apply(difficulty);
+                    if(g == null)
+                        continue;
+
+                    gameList.add(g);
                 }
 
                 if(gameList.size() <= 1) {
@@ -224,7 +228,11 @@ public class GameCmds {
 
                 LinkedList<Game> gameList = new LinkedList<>();
                 for(int i = 0; i < number; i++) {
-                    gameList.add(games.get(values[0].trim()).apply(difficulty));
+                    Game g = games.get(values[0].trim()).apply(difficulty);
+                    if(g == null)
+                        continue;
+
+                    gameList.add(g);
                 }
 
                 //No games queued?

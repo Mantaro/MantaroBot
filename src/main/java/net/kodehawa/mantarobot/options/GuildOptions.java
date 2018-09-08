@@ -876,7 +876,7 @@ public class GuildOptions extends OptionHandler {
                     guildData.setEnabledLevelUpMessages(!ignore);
                     dbGuild.saveAsync();
 
-                    event.getChannel().sendMessageFormat(lang.get("options.levelupmessage_toggle.success"), EmoteReference.CORRECT, guildData.isEnabledLevelUpMessages()).queue();
+                    event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_toggle.success"), EmoteReference.CORRECT, guildData.isEnabledLevelUpMessages()).queue();
                 });
 
         registerOption("levelupmessages:message:set", "Level-up message", "Sets the message to display on level up",

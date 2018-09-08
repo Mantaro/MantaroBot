@@ -249,7 +249,6 @@ public class Utils {
             url2 = CharStreams.toString(new InputStreamReader(is, StandardCharsets.UTF_8));
         } catch(IOException e) {
             log.warn(getFetchDataFailureResponse(url, "Resty"), e);
-            Optional.ofNullable(event).ifPresent((evt) -> evt.getChannel().sendMessage("\u274C Error retrieving data from desired URL").queue());
         }
 
         return url2;
