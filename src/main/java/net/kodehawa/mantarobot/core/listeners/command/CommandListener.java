@@ -187,13 +187,13 @@ public class CommandListener implements EventListener {
         } catch (LanguageKeyNotFoundException e) {
             String id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessageFormat("%sWrong I18n key found, please report on the support server " +
-                    "(Link on `~>about` or at `is.gd/mantaroguild`) with error ID `%s`.\n%sMessage: *%s*", EmoteReference.ERROR, id, EmoteReference.ZAP, e.getMessage()).queue();
+                    "(Link on `~>about` or at `support.mantaro.site`) with error ID `%s`.\n%sMessage: *%s*", EmoteReference.ERROR, id, EmoteReference.ZAP, e.getMessage()).queue();
             log.warn("Exception caught and alternate message sent. We should look into this. ID: {}", id, e);
         } catch(IllegalArgumentException e) { //NumberFormatException == IllegalArgumentException
             String id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessageFormat("%sI think you forgot something on the floor. (Maybe we threw it there? Just in case, the error id is `%s`)\n" +
                     "%sCould be an internal error, but check the command arguments or maybe the message I'm trying to send exceeds 2048 characters, Just in case, check command help! " +
-                    "(Support server link can be found on `~>about` or at `is.gd/mantaroguild`)", EmoteReference.ERROR, id, EmoteReference.WARNING).queue();
+                    "(Support server link can be found on `~>about` or at `support.mantaro.site`)", EmoteReference.ERROR, id, EmoteReference.WARNING).queue();
             log.warn("Exception caught and alternate message sent. We should look into this, anyway (ID: {})", id, e);
         } catch(ReqlError e) {
             //So much just went wrong...
@@ -204,7 +204,7 @@ public class CommandListener implements EventListener {
             Player player = MantaroData.db().getPlayer(event.getAuthor());
             event.getChannel().sendMessageFormat(
                     "%s%s\n(Error ID: `%s`)\n" +
-                            "If you want, join our **support server** (Link on `~>about` or at `is.gd/mantaroguild`), or check out our GitHub page (/Mantaro/MantaroBot). " +
+                            "If you want, join our **support server** (Link on `~>about` or at `support.mantaro.site`), or check out our GitHub page (/Mantaro/MantaroBot). " +
                             "Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
                             EmoteReference.ERROR, boomQuotes[rand.nextInt(boomQuotes.length)], id
             ).queue();
