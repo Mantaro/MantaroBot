@@ -322,7 +322,7 @@ public class CommandOptions extends OptionHandler {
                 guildData.getChannelSpecificDisabledCategories().get(selectedChannel.getId()).add(toDisable);
                 dbGuild.save();
                 event.getChannel().sendMessageFormat(lang.get("options.category_specific_disable.success"),
-                        EmoteReference.CORRECT, toDisable.toString(), selectedChannel.getAsMention()
+                        EmoteReference.CORRECT, lang.get(toDisable.toString()), selectedChannel.getAsMention()
                 ).queue();
             };
 
@@ -372,7 +372,7 @@ public class CommandOptions extends OptionHandler {
                 dbGuild.save();
 
                 event.getChannel().sendMessageFormat(lang.get("options.category_specific_enable.success"),
-                        EmoteReference.CORRECT, toEnable.toString(), selectedChannel.getAsMention()
+                        EmoteReference.CORRECT, lang.get(toEnable.toString()), selectedChannel.getAsMention()
                 ).queue();
             };
 

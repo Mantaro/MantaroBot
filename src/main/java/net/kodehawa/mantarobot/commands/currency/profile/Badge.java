@@ -185,7 +185,7 @@ public enum Badge {
     ),
 
     //Find a fish.
-    FISHER("Fisher", "\uD83C\uDFC6", "Find a fish while fishing. How calm.", 91, 92,
+    FISHER("Fisher", "\uD83D\uDC1F", "Find a fish while fishing. How calm.", 91, 92,
             (player, dbUser) -> false
     ),
 

@@ -734,7 +734,7 @@ public class RelationshipCmds {
                 claimedUserData.setTimesClaimed(claimedUserData.getTimesClaimed() + 1);
 
                 //Add badges
-                if(claimedUserData.getWaifus().containsKey(claimerPlayer.getId())) {
+                if(claimedUserData.getWaifus().containsKey(claimerPlayer.getId()) || claimerUserData.getWaifus().containsKey(claimedPlayer.getId())) {
                     claimerPlayer.getData().addBadgeIfAbsent(Badge.MUTUAL);
                     claimedPlayer.getData().addBadgeIfAbsent(Badge.MUTUAL);
                 }
@@ -777,7 +777,13 @@ public class RelationshipCmds {
                 final DBUser claimerUser = db.getUser(event.getAuthor());
                 final UserData data = claimerUser.getData();
 
-                long value = data.getWaifus().get(toLookup.getId());
+                Long value = data.getWaifus().get(toLookup.getId());
+
+                if(value == null) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.not_claimed"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 long valuePayment = (long) (value * 0.15);
 
                 //Send confirmation message.

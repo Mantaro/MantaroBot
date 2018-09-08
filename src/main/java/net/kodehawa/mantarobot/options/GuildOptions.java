@@ -489,22 +489,26 @@ public class GuildOptions extends OptionHandler {
                 return;
             }
 
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-            int index;
             try {
-                index = Integer.parseInt(args[0]);
-            } catch (NumberFormatException ex) {
-                event.getChannel().sendMessageFormat(lang.get("general.invalid_number"), EmoteReference.ERROR2).queue();
-                return;
+                DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                GuildData guildData = dbGuild.getData();
+                int index;
+                try {
+                    index = Integer.parseInt(args[0]);
+                } catch (NumberFormatException ex) {
+                    event.getChannel().sendMessageFormat(lang.get("general.invalid_number"), EmoteReference.ERROR2).queue();
+                    return;
+                }
+
+                String old = guildData.getExtraJoinMessages().get(index);
+
+                guildData.getExtraJoinMessages().remove(index);
+                dbGuild.save();
+
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage_remove.success"), EmoteReference.CORRECT, old, index).queue();
+            } catch (ArrayIndexOutOfBoundsException ex) {
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage_remove.wrong_index"), EmoteReference.ERROR).queue();
             }
-
-            String old = guildData.getExtraJoinMessages().get(index);
-
-            guildData.getExtraJoinMessages().remove(index);
-            dbGuild.save();
-
-            event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage_remove.success"), EmoteReference.CORRECT, old, index).queue();
         }));
 
         registerOption("usermessage:joinmessages:clear", "Join Message extra messages clear", "Clears all extra join messages\n" +
@@ -575,22 +579,26 @@ public class GuildOptions extends OptionHandler {
                 return;
             }
 
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-            int index;
             try {
-                index = Integer.parseInt(args[0]);
-            } catch (NumberFormatException ex) {
-                event.getChannel().sendMessageFormat(lang.get("general.invalid_number"), EmoteReference.ERROR2).queue();
-                return;
+                DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                GuildData guildData = dbGuild.getData();
+                int index;
+                try {
+                    index = Integer.parseInt(args[0]);
+                } catch (NumberFormatException ex) {
+                    event.getChannel().sendMessageFormat(lang.get("general.invalid_number"), EmoteReference.ERROR2).queue();
+                    return;
+                }
+
+                String old = guildData.getExtraLeaveMessages().get(index);
+
+                guildData.getExtraLeaveMessages().remove(index);
+                dbGuild.save();
+
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage_remove.success"), EmoteReference.CORRECT, old, index).queue();
+            } catch (ArrayIndexOutOfBoundsException ae) {
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage_remove.wrong_index"), EmoteReference.ERROR).queue();
             }
-
-            String old = guildData.getExtraLeaveMessages().get(index);
-
-            guildData.getExtraLeaveMessages().remove(index);
-            dbGuild.save();
-
-            event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage_remove.success"), EmoteReference.CORRECT, old, index).queue();
         }));
 
         registerOption("usermessage:leavemessages:clear", "Leave Message extra messages clear", "Clears all extra leave messages\n" +

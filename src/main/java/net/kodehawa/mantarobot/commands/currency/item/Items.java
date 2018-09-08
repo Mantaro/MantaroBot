@@ -115,7 +115,7 @@ public class Items {
             GEM_4 = new Item(ItemType.MINE, "\uD83D\uDCAB", "Gem Fragment", "items.fragment", "items.description.fragment", 50, false),
             // ---------------------------------- 5.0 ITEMS START HERE (again lol) ----------------------------------
             MOP = new Item(ItemType.INTERACTIVE, "\u3030","Mop", "items.mop", "items.description.mop", 10, true),
-            CLAIM_KEY = new Item(ItemType.COMMON, EmoteReference.KEY.getUnicode(),"Claim Key", "items.claim_key", "items.description.claim_key", 1, false, true),
+            CLAIM_KEY = new Item(ItemType.COMMON, "\uD83D\uDDDD","Claim Key", "items.claim_key", "items.description.claim_key", 1, false, true),
             COFFEE = new Item(ItemType.COMMON, "\u2615","Coffee", "items.coffee", "items.description.coffee", 10, true),
             WAIFU_PILL = new Item(ItemType.INTERACTIVE, "\ud83d\udc8a","Waifu Pill", "items.waifu_pill", "items.description.waifu_pill", 670, true),
             FISHING_BAIT = new Item(ItemType.INTERACTIVE, "\uD83D\uDC1B","Fishing bait.", "items.bait", "items.description.bait", 15, true),
@@ -245,22 +245,22 @@ public class Items {
         //START OF PICKAXE ACTION DECLARATION
         BROM_PICKAXE.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            return handlePickaxe(event, lang, BROM_PICKAXE, p, 0.40f);
+            return handlePickaxe(event, lang, BROM_PICKAXE, p, 0.36f); //36%
         });
 
         DIAMOND_PICKAXE.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            return handlePickaxe(event, lang, DIAMOND_PICKAXE, p, 0.29f);
+            return handlePickaxe(event, lang, DIAMOND_PICKAXE, p, 0.26f); //26%
         });
 
         GEM1_PICKAXE.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            return handlePickaxe(event, lang, GEM1_PICKAXE, p, 0.36f);
+            return handlePickaxe(event, lang, GEM1_PICKAXE, p, 0.32f); //32%
         });
 
         GEM2_PICKAXE.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            return handlePickaxe(event, lang, GEM2_PICKAXE, p, 0.35f);
+            return handlePickaxe(event, lang, GEM2_PICKAXE, p, 0.31f); //31%
         });
         //END OF PICKAXE ACTION DECLARATION
 
