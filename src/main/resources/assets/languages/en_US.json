@@ -33,11 +33,14 @@
       "claim_key": "You cannot transfer a claim key."
     },
     "misc_item_usage": {
-      "mop": "%1$sCleaned all the dust on your room. Yay.",
+      "mop": "%1$sYou have (maybe) cleaned all of the dust you have accumulated over all of those mining sessions.",
       "milk": "%1$sCleared potion effects.",
       "stamina": "%1$sActivated stamina for 5 mining sessions.",
+      "stamina_used": "%1$sYou already have an active stamina effect!",
       "haste": "%1$sActivated Haste for 2 sessions.",
+      "haste_used": "%1$sYou already have an active haste effect!",
       "bait": "%1$sInserted a bait in your fishing rod! Good luck fishing. (Activated for 1 use)",
+      "bait_used": "%1$sYou already have an active fishing bait!",
       "crate": {
         "no_key": "%1$sYou need a loot crate key to open a crate. It's locked!",
         "no_crate": "%1$sYou need a loot crate! How else would you use your key >.>... oh",
