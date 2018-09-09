@@ -252,6 +252,7 @@ public class OsuStatsCmd {
                         String.format(languageContext.get("commands.osustats.recent_format"), u.getBeatMap().getTitle().replace("'", ""), mods1,
                                 df.format(u.getBeatMap().getDifficultyRating()), u.getBeatMap().getCreator(), u.getDate(), u.getMaxCombo()));
 
+                //1: mods, 2: diff, 3: creator, 4: date, 5: combo
                 mods1 = "";
             }
 
@@ -260,8 +261,10 @@ public class OsuStatsCmd {
 
         } catch (JSONException jx) {
             finalMessage = String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);
+            jx.printStackTrace();
         } catch(Exception e) {
             finalMessage = String.format(languageContext.get("commands.osustats.error"), EmoteReference.ERROR);
+            e.printStackTrace();
         }
 
         return finalMessage;

@@ -491,7 +491,8 @@
       "footer": "Total waifus: %1$d - available slots: %2$s",
       "value_format": "**- Value:**",
       "value_b_format": "**- Bought for:**",
-      "credits_format": " credits."
+      "credits_format": " credits.",
+      "waifu_header": "**Your waifus:**"
     },
     "ratewaifu": {
       "nothing_specified": "%1$sGive me a waifu to rate!",
@@ -668,7 +669,7 @@
       "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rank: %6$s -> Max Combo: %7$d",
       "best": "**10 best osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
       "error": "%1$sUh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)",
-      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Date: %5$s -> Max Combo: %5$d\n",
+      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Date: %5$s -> Max Combo: %6$s\n",
       "recent": "**10 most recent osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
       "error_detailed": "Uh-oh... seems like I just received scramble soup as a response... (%1$s)"
     },

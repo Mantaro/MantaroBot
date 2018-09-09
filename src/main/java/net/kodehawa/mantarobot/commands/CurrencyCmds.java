@@ -848,10 +848,12 @@ public class CurrencyCmds {
         final RateLimiter ratelimiter = new RateLimiter(TimeUnit.SECONDS, 10);
         final SecureRandom random = new SecureRandom();
 
+        //TODO: add cast ls
         cr.register("cast", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
+
                 Optional<Item> toCast = Items.fromAnyNoId(content);
 
                 if(!toCast.isPresent()) {
@@ -930,7 +932,7 @@ public class CurrencyCmds {
                 return helpEmbed(event, "Cast command")
                         .setDescription("**Allows you to cast any castable item given you have the necessary elements.**\n" +
                                 "Casting requires you to have the necessary materials to cast the item, and it has a cost of `item value / 2`.\n" +
-                                "Cast-able items are only able to be adquired by this command. They're non-buyable items, though you can sell them for a profit.")
+                                "Cast-able items are only able to be acquired by this command. They're non-buyable items, though you can sell them for a profit.")
                         .addField("Usage", "`~>cast <item emoji or name>` - Casts the item you provide.", false)
                         .build();
             }

@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -50,6 +51,7 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
@@ -58,8 +60,11 @@ import sun.reflect.generics.tree.Tree;
 import java.awt.*;
 import java.time.Instant;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 @Module
 //In theory fun category, but created this class to avoid FunCmds to go over 1k lines.
@@ -579,42 +584,46 @@ public class RelationshipCmds {
                         DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
                         UserData userData = dbUser.getData();
 
-                        StringBuilder waifus = new StringBuilder();
+                        String description = userData.getWaifus().isEmpty() ? languageContext.get("commands.waifu.no_waifu") : languageContext.get("commands.waifu.waifu_header");
 
+                        EmbedBuilder waifusEmbed = new EmbedBuilder()
+                                .setAuthor(languageContext.get("commands.waifu.header"), null, event.getAuthor().getEffectiveAvatarUrl())
+                                .setThumbnail("https://i.imgur.com/2JlMtCe.png")
+                                .setColor(Color.CYAN)
+                                .setFooter(String.format(languageContext.get("commands.waifu.footer"), userData.getWaifus().size(), userData.getWaifuSlots() - userData.getWaifus().size()), null);
+
+                        java.util.List<MessageEmbed.Field> fields = new LinkedList<>();
                         for(String waifu : userData.getWaifus().keySet()) {
                             User user = MantaroBot.getInstance().getUserById(waifu);
                             if(user == null)
                                 continue;
 
-                            waifus.append(EmoteReference.BLUE_SMALL_MARKER)
-                                    .append(user.getName())
-                                    .append("#")
-                                    .append(user.getDiscriminator())
-                                    .append(".\n       ")
-                                    .append(languageContext.get("commands.waifu.value_format"))
-                                    .append(" ")
-                                    .append(calculateWaifuValue(user).getFinalValue())
-                                    .append(languageContext.get("commands.waifu.credits_format"))
-                                    .append("\n       ")
-                                    .append(languageContext.get("commands.waifu.value_b_format"))
-                                    .append(" ")
-                                    .append(userData.getWaifus().get(waifu))
-                                    .append(languageContext.get("commands.waifu.credits_format"));
-
-                            //New line owo
-                            waifus.append("\n");
+                            fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + user.getName() + "#" + user.getDiscriminator(),
+                                    languageContext.get("commands.waifu.value_format") + " " + calculateWaifuValue(user).getFinalValue() + " " +
+                                            languageContext.get("commands.waifu.credits_format") + "\n" +
+                                            languageContext.get("commands.waifu.value_b_format") + " " + userData.getWaifus().get(waifu) +
+                                            languageContext.get("commands.waifu.credits_format"), false)
+                            );
                         }
 
-                        String description = userData.getWaifus().isEmpty() ? languageContext.get("commands.waifu.no_waifu") : waifus.toString();
+                        List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
+                        boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
 
-                        EmbedBuilder waifusEmbed = new EmbedBuilder()
-                                .setAuthor(languageContext.get("commands.waifu.header"), null, event.getAuthor().getEffectiveAvatarUrl())
-                                .setDescription(String.format(languageContext.get("commands.waifu.description_header"), userData.getWaifuSlots()) + description)
-                                .setThumbnail("http://www.hey.fr/fun/emoji/twitter/en/twitter/469-emoji_twitter_sparkling_heart.png")
-                                .setColor(Color.CYAN)
-                                .setFooter(String.format(languageContext.get("commands.waifu.footer"), userData.getWaifus().size(), userData.getWaifuSlots() - userData.getWaifus().size()), null);
+                        if(hasReactionPerms) {
+                            waifusEmbed.setDescription(
+                                    languageContext.get("general.arrow_react") + "\n" +
+                                    String.format(languageContext.get("commands.waifu.description_header"), userData.getWaifuSlots()) + description
+                            );
 
-                        event.getChannel().sendMessage(waifusEmbed.build()).queue();
+                            DiscordUtils.list(event, 60, false, waifusEmbed, splitFields);
+                        } else {
+                            waifusEmbed.setDescription(
+                                    languageContext.get("general.text_menu") + "\n" +
+                                    String.format(languageContext.get("commands.waifu.description_header"), userData.getWaifuSlots()) + description
+                            );
+
+                            DiscordUtils.listText(event, 60, false, waifusEmbed, splitFields);
+                        }
                     }
                 };
             }

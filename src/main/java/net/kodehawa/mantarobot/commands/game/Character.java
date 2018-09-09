@@ -18,6 +18,8 @@ package net.kodehawa.mantarobot.commands.game;
 
 import br.com.brjdevs.java.utils.collections.CollectionUtils;
 import com.apollographql.apollo.exception.ApolloHttpException;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.gson.JsonSyntaxException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -36,10 +38,17 @@ import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j(topic = "Game [Character]")
 public class Character extends ImageGame {
     private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
+    //Avoid AniList ratelimits, we don't need more than fetching the image either way and URL shouldn't change in a short amount of time.
+    private static Cache<String, String> imgCache = CacheBuilder.newBuilder()
+            .maximumSize(150)
+            .build();
+
     @Getter
     private final int maxAttempts = 5;
     private String characterName;
@@ -78,16 +87,25 @@ public class Character extends ImageGame {
         final I18nContext languageContext = lobby.getLanguageContext();
         try {
             GameStatsManager.log(name());
-
             characterNameL = new ArrayList<>();
             characterName = CollectionUtils.random(NAMES.get());
-            List<CharacterSearchQuery.Character> characters = Anilist.searchCharacters(characterName);
-            if(characters.isEmpty()) {
-                lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.character_load_error"), EmoteReference.WARNING, characterName).queue();
-                return false;
-            }
 
-            String imageUrl = characters.get(0).image().large();
+            String imageUrl = imgCache.getIfPresent(characterName);
+
+            if(imageUrl == null) {
+                List<CharacterSearchQuery.Character> characters = Anilist.searchCharacters(characterName);
+                if(characters.isEmpty()) {
+                    lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.character_load_error"), EmoteReference.WARNING, characterName).queue();
+                    return false;
+                }
+
+                CharacterSearchQuery.Image img = characters.get(0).image();
+                if(img != null) {
+                    imageUrl = img.large();
+                    //insert into cache
+                    if(imageUrl != null) imgCache.put(characterName, imageUrl);
+                }
+            }
 
             //Allow for replying with only the first name of the character.
             if(characterName.contains(" ") && !characterName.contains("Sailor")) {

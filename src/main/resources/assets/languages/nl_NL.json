@@ -661,7 +661,7 @@
             "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rank: %6$s -> Max Combo: %7$d",
             "best": "**10 beste osu! scores voor: %1$s** (Mode: %2$d)\n```md\n%3$s```",
             "error": "%1$sUh-oh... het lijkt alsof ik net scramblesoep heb ontvangen als reactie ... (Error tijdens het ophalen van resultaten)",
-            "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Datum: %5$s -> Max Combo: %5$d\n",
+            "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Datum: %5$s -> Max Combo: %6$d\n",
             "recent": "**10 meest recente osu! scores voor: %1$s** (Mode: %2$d)\n```md\n%3$s```",
             "error_detailed": "Uh-oh... het lijkt alsof ik net scramblesoep heb ontvangen als reactie... (%1$s)"
         },
