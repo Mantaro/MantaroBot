@@ -481,7 +481,7 @@
                 "too_many": "%1$sDu hast bereits zu viele Plätze!"
             },
             "header": "Waifu-Liste",
-            "description_header": "Hier ist eine Liste mit all deinen geliebten Waifus, nach Hinzufüge-Datum sortiert.\n*Du kannst aktuell maximal %1$d Waifus haben.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
+            "description_header": "Hier ist eine Liste mit all deinen geliebten Waifus, nach Hinzufüge-Datum sortiert.\n*Du kannst aktuell maximal %1$d Waifus haben.*\n\nWenn du deine eigenen Waifu-Werte anschauen möchtest, nutze `~>waifu stats`\n\n",
             "no_waifu": "Keine Waifus zu sehen, nur Staub. :(\nDu kannst Waifus sammeln, indem du jemanden beanspruchst! Nutze dazu `~>waifu claim`, um anzufangen.",
             "footer": "Gesamte Waifus: %1$d - Verfügbare Plätze: %2$s",
             "value_format": "**- Wert:**",
