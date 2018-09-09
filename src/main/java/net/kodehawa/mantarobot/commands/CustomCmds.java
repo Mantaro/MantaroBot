@@ -578,9 +578,7 @@ public class CustomCmds {
                         .addField("Guide", "https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands", false)
                         .addField(
                                 "Usage:",
-                                "`~>custom` - Shows this help\n" +
-                                        "`~>custom <list|ls>` - **List all commands. If detailed is supplied, it prints the responses of each command.**\n" +
-                                        "`~>custom clear` - **Remove all Custom Commands from this Guild. (ADMIN-ONLY)**\n" +
+                                "`~>custom <list|ls>` - **List all commands. If detailed is supplied, it prints the responses of each command.**\n" +
                                         "`~>custom add <name> <response>` - **Creates or adds the response provided to a custom command.**\n" +
                                         "`~>custom info <name>` - **Checks a custom command's information.**\n" +
                                         "`~>custom <remove|rm> <name>` - **Removes a command with an specific name.**\n" +
@@ -591,7 +589,7 @@ public class CustomCmds {
                                         "`~>custom rename <previous name> <new name>` - **Renames a custom command**",
                                 false
                         )
-                        .addField("Considerations", "If you wish to dissallow normal people from making custom commands, run `~>opts admincustom true`", false).build();
+                        .addField("Considerations", "If you wish to allow normal people to make custom commands, run `~>opts admincustom false` (it's locked to admins by default)", false).build();
             }
         });
     }
