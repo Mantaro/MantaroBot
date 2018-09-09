@@ -264,8 +264,11 @@ public class UtilsCmds {
                     return;
                 }
 
-                new MessageBuilder().setContent(String.format(languageContext.get("commands.choose.success"), EmoteReference.EYES, random(args)))
-                        .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE)
+                String send = Utils.DISCORD_INVITE.matcher(random(args)).replaceAll("-inv link-");
+                send = Utils.DISCORD_INVITE_2.matcher(send).replaceAll("-inv link-");
+
+                new MessageBuilder().setContent(String.format(languageContext.get("commands.choose.success"), EmoteReference.EYES, send))
+                        .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE, Message.MentionType.USER)
                         .sendTo(event.getChannel())
                         .queue();
             }

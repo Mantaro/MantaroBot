@@ -198,7 +198,6 @@ public class RelationshipCmds {
                                 DBUser proposingUserDB = managedDatabase.getUser(proposingUser);
                                 DBUser proposedToUserDB = managedDatabase.getUser(proposedToUser);
 
-
                                 // ---------------- START OF FINAL MARRIAGE CHECK ----------------
                                 final Marriage proposingMarriageFinal = proposingUserData.getMarriage();
                                 final Marriage proposedToMarriageFinal = proposedToUserData.getMarriage();

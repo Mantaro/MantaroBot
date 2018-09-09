@@ -556,9 +556,9 @@ public class MantaroListener implements EventListener {
             if(data.isIgnoreBotsWelcomeMessage())
                 return;
 
-            String joinChannel = data.getLogJoinLeaveChannel();
+            String joinChannel = data.getLogJoinChannel();
             if(joinChannel == null || event.getGuild().getTextChannelById(joinChannel) == null) {
-                joinChannel = data.getLogJoinChannel();
+                joinChannel = data.getLogJoinLeaveChannel();
             }
 
             String joinMessage = data.getJoinMessage();
@@ -598,9 +598,9 @@ public class MantaroListener implements EventListener {
             if (data.isIgnoreBotsWelcomeMessage())
                 return;
 
-            String leaveChannel = data.getLogJoinLeaveChannel();
+            String leaveChannel = data.getLogLeaveChannel();
             if(leaveChannel == null || event.getGuild().getTextChannelById(leaveChannel) == null) {
-                leaveChannel = data.getLogLeaveChannel();
+                leaveChannel = data.getLogJoinLeaveChannel();
             }
 
             String leaveMessage = data.getLeaveMessage();
