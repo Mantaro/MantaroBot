@@ -55,7 +55,6 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
-import sun.reflect.generics.tree.Tree;
 
 import java.awt.*;
 import java.time.Instant;
@@ -64,7 +63,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
 @Module
 //In theory fun category, but created this class to avoid FunCmds to go over 1k lines.

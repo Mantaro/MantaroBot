@@ -19,7 +19,8 @@ package net.kodehawa.mantarobot.core;
 import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ClassInfo;
 import io.sentry.Sentry;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,10 +38,10 @@ import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
 
 import java.lang.annotation.Annotation;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.core.LoadState.*;
 
@@ -187,11 +188,11 @@ public class MantaroCore {
     }
 
     private Set<Class<?>> lookForAnnotatedOn(String packageName, Class<? extends Annotation> annotation) {
-        HashSet<Class<?>> classes = new HashSet<>();
-        new FastClasspathScanner(packageName)
-                .matchClassesWithAnnotation(annotation, classes::add)
-                .scan(2);
-
-        return classes;
-    }
+        return new ClassGraph()
+                .whitelistPackages(packageName)
+                .enableAnnotationInfo()
+                .scan(2)
+                .getAllClasses().stream().filter(classInfo -> classInfo.hasAnnotation(annotation.getName())).map(ClassInfo::loadClass)
+                .collect(Collectors.toSet());
+        }
 }
