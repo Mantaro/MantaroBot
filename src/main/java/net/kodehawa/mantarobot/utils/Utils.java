@@ -224,7 +224,6 @@ public class Utils {
      * Can retrieve text, JSON Objects, XML and probably more.
      *
      * @param url   The URL to get the object from.
-     * @param event guild event
      * @return The object as a parsed UTF-8 string.
      */
     @Deprecated
@@ -236,7 +235,6 @@ public class Utils {
      * Same than above, but using resty. Way easier tbh.
      *
      * @param url   The URL to get the object from.
-     * @param event JDA message event.
      * @return The object as a parsed string.
      */
     public static String wgetResty(String url) {

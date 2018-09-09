@@ -79,11 +79,13 @@ public class OwnerCmd {
                         obj.getBlackListedGuilds().add(args[2]);
                         event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + MantaroBot.getInstance().getGuildById(args[2])).queue();
                         obj.saveAsync();
+                        return;
                     } else if(args[1].equals("remove")) {
                         if(!obj.getBlackListedGuilds().contains(args[2])) return;
                         obj.getBlackListedGuilds().remove(args[2]);
                         event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]).queue();
                         obj.saveAsync();
+                        return;
                     }
 
                     event.getChannel().sendMessage("Invalid guild scope. (Valid: add, remove)").queue();
@@ -101,6 +103,7 @@ public class OwnerCmd {
                         event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + MantaroBot.getInstance().getUserById(args[2])).queue();
 
                         obj.saveAsync();
+                        return;
                     } else if(args[1].equals("remove")) {
                         if(!obj.getBlackListedUsers().contains(args[2])) {
                             event.getChannel().sendMessage("User not in blacklist.").queue();
@@ -111,6 +114,7 @@ public class OwnerCmd {
                         event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + MantaroBot.getInstance().getUserById(args[2])).queue();
 
                         obj.saveAsync();
+                        return;
                     }
 
                     event.getChannel().sendMessage("Invalid user scope. (Valid: add, remove)").queue();

@@ -328,6 +328,8 @@ public class GuildOptions extends OptionHandler {
                     GuildData guildData = dbGuild.getData();
                     guildData.setLeaveMessage(null);
                     guildData.setJoinMessage(null);
+                    guildData.setLogJoinLeaveChannel(null);
+
                     dbGuild.save();
                     event.getChannel().sendMessageFormat(lang.get("options.usermessage_resetdata.success"), EmoteReference.CORRECT).queue();
                 });

@@ -518,7 +518,7 @@ public class MantaroListener implements EventListener {
         GuildData data = dbg.getData();
 
         try {
-            String role = MantaroData.db().getGuild(event.getGuild()).getData().getGuildAutoRole();
+            String role = data.getGuildAutoRole();
 
             String hour = df.format(new Date(System.currentTimeMillis()));
             if (role != null) {
@@ -539,7 +539,7 @@ public class MantaroListener implements EventListener {
                 } catch (Exception ignored) { }
             }
 
-            String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
+            String logChannel = data.getGuildLogChannel();
             if (logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
                 if (tc != null && tc.canTalk()) {
@@ -556,8 +556,11 @@ public class MantaroListener implements EventListener {
             if(data.isIgnoreBotsWelcomeMessage())
                 return;
 
-            String joinChannel = data.getLogJoinLeaveChannel() != null && event.getGuild().getTextChannelById(data.getLogJoinLeaveChannel()) != null ?
-                    data.getLogJoinLeaveChannel() : data.getLogJoinChannel();
+            String joinChannel = data.getLogJoinLeaveChannel();
+            if(joinChannel == null || event.getGuild().getTextChannelById(joinChannel) == null) {
+                joinChannel = data.getLogJoinChannel();
+            }
+
             String joinMessage = data.getJoinMessage();
             sendJoinLeaveMessage(event, data.getExtraJoinMessages(), joinMessage, joinChannel);
             actions.labels("join_messages").inc();
@@ -578,7 +581,7 @@ public class MantaroListener implements EventListener {
                 return;
             }
 
-            String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
+            String logChannel = data.getGuildLogChannel();
             if (logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
                 if (tc != null && tc.canTalk()) {
@@ -592,11 +595,14 @@ public class MantaroListener implements EventListener {
         }
 
         try {
-            if(data.isIgnoreBotsWelcomeMessage())
+            if (data.isIgnoreBotsWelcomeMessage())
                 return;
 
-            String leaveChannel = data.getLogJoinLeaveChannel() != null && event.getGuild().getTextChannelById(data.getLogJoinLeaveChannel()) != null ?
-                    data.getLogJoinLeaveChannel() : data.getLogLeaveChannel();
+            String leaveChannel = data.getLogJoinLeaveChannel();
+            if(leaveChannel == null || event.getGuild().getTextChannelById(leaveChannel) == null) {
+                leaveChannel = data.getLogLeaveChannel();
+            }
+
             String leaveMessage = data.getLeaveMessage();
             sendJoinLeaveMessage(event, data.getExtraLeaveMessages(), leaveMessage, leaveChannel);
             actions.labels("leave_messages").inc();

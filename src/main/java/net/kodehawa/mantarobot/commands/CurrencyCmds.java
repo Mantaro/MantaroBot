@@ -464,7 +464,7 @@ public class CurrencyCmds {
     @Subscribe
     public void transferItems(CommandRegistry cr) {
         cr.register("itemtransfer", new SimpleCommand(Category.CURRENCY) {
-            RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 10);
+            RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 20);
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
