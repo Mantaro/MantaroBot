@@ -517,15 +517,23 @@ public class CustomCmds {
                 }
 
                 if(action.equals("add") || action.equals("new")) {
-                    Map<String, Optional<String>> opts = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split(" "));
+                    Map<String, Optional<String>> opts = new HashMap<>();
+                    try {
+                        opts = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split(" "));
+                    } catch (StringIndexOutOfBoundsException ignore) { }
                     String value1 = Utils.replaceArguments(opts, value, "nsfw");
+
+                    if(value1.isEmpty()) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.add.empty_content"), EmoteReference.ERROR).queue();
+                        return;
+                    }
 
                     if(!NAME_PATTERN.matcher(cmd).matches()) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.custom.character_not_allowed"), EmoteReference.ERROR).queue();
                         return;
                     }
 
-                    if(cmd.length() >= 100) {
+                    if(cmd.length() >= 50) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.custom.name_too_long"), EmoteReference.ERROR).queue();
                         return;
                     }

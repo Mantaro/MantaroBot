@@ -348,6 +348,7 @@
         "success": "%1$sRenamed command `%2$s` to `%3$s`"
       },
       "add": {
+        "empty_content": "%1$sYou need to specify the content of this custom command",
         "success": "%1$sSaved to command `%2$s`"
       },
       "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
