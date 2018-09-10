@@ -286,7 +286,7 @@ public class Items {
 
         POTION_STAMINA.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            if(p.getData().getActiveBuff().getPotion() == idOf(FISHING_BAIT)) {
+            if(p.getData().getActivePotion() != null && p.getData().getActivePotion().getPotion() == idOf(FISHING_BAIT)) {
                 event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.stamina_used"), EmoteReference.ERROR).queue();
                 return false;
             }
@@ -300,7 +300,7 @@ public class Items {
 
         POTION_HASTE.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            if(p.getData().getActiveBuff().getPotion() == idOf(POTION_HASTE)) {
+            if(p.getData().getActivePotion() != null && p.getData().getActivePotion().getPotion() == idOf(POTION_HASTE)) {
                 event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.haste_used"), EmoteReference.ERROR).queue();
                 return false;
             }
@@ -316,7 +316,7 @@ public class Items {
 
         FISHING_BAIT.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            if(p.getData().getActiveBuff().getPotion() == idOf(FISHING_BAIT)) {
+            if(p.getData().getActiveBuff() != null && p.getData().getActiveBuff().getPotion() == idOf(FISHING_BAIT)) {
                 event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.bait_used"), EmoteReference.POPPER).queue();
                 return false;
             }
@@ -331,7 +331,7 @@ public class Items {
 
         WAIFU_PILL.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            if(p.getData().getActiveBuff().getPotion() == idOf(WAIFU_PILL)) {
+            if(p.getData().getActiveBuff() != null && p.getData().getActiveBuff().getPotion() == idOf(WAIFU_PILL)) {
                 event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.pill_used"), EmoteReference.POPPER).queue();
                 return false;
             }

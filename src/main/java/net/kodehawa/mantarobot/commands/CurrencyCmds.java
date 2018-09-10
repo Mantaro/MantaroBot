@@ -169,7 +169,7 @@ public class CurrencyCmds {
                                 String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
 
                                 fields.add(new MessageEmbed.Field(String.format("%s %s", item.getEmoji(), item.getName()),
-                                languageContext.getContextLanguage().equals("en_US") ? "" :  " (" + languageContext.get(item.getTranslatedName()) + ")\n" +
+                                        (languageContext.getContextLanguage().equals("en_US") ? "" :  " (" + languageContext.get(item.getTranslatedName()) + ")\n") +
                                         EmoteReference.BUY + buyValue + " " + EmoteReference.SELL + sellValue, true)
                                 );
                             }
