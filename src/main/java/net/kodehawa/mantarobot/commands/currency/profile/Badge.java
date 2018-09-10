@@ -160,7 +160,7 @@ public enum Badge {
     ),
 
     //Get claimed once as a waifu.
-    WAIFU("Waifu", "\ud83d\udda4", "Get waifu claimed.", 91, 92,
+    WAIFU("Waifu", "\ud83d\udda4", "Get waifu claimed once.", 91, 92,
             (player, dbUser) -> dbUser.getData().getTimesClaimed() >= 1
     ),
 

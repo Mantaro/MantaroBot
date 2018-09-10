@@ -218,6 +218,48 @@ public class Utils {
         }
     }
 
+    public static String paste2(String toSend) {
+        try {
+            RequestBody body = new FormBody.Builder()
+                    .add("text", toSend)
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url("https://hastepaste.com/api/create")
+                    .header("User-Agent", MantaroInfo.USER_AGENT)
+                    .post(body)
+                    .build();
+
+            Response r = httpClient.newCall(request).execute();
+            String response = r.body().string();
+            r.close();
+            return response;
+        } catch(Exception e) {
+            return "cannot post data to hastepaste";
+        }
+    }
+
+    public static String paste3(String toSend) {
+        try {
+            RequestBody post = RequestBody.create(MediaType.parse("text/plain"), toSend);
+
+            Request toPost = new Request.Builder()
+                    .url("https://hasteb.in/documents")
+                    .header("User-Agent", MantaroInfo.USER_AGENT)
+                    .header("Content-Type", "text/plain")
+                    .post(post)
+                    .build();
+
+            Response r = httpClient.newCall(toPost).execute();
+            JSONObject response = new JSONObject(r.body().string());
+            r.close();
+            return "https://hasteb.in/" + response.getString("key");
+        } catch (Exception e) {
+            return "cannot post data to hasteb.in";
+        }
+    }
+
+
     /**
      * DEPRECATED - Redirects to wgetResty.
      * Fetches an Object from any given URL. Uses vanilla Java methods.

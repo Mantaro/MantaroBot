@@ -116,7 +116,7 @@ public class GuildOptions extends OptionHandler {
             }
 
             if(!event.getGuild().getSelfMember().canInteract(birthdayRole)) {
-                event.getChannel().sendMessageFormat(lang.get("options  .birthday_test.cannot_interact"), EmoteReference.ERROR).queue();
+                event.getChannel().sendMessageFormat(lang.get("options.birthday_test.cannot_interact"), EmoteReference.ERROR).queue();
                 return;
             }
 

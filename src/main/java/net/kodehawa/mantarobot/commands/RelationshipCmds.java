@@ -631,8 +631,8 @@ public class RelationshipCmds {
                         .setDescription("**This command is the hub for all waifu operations*\n" +
                                 "`~>waifu` - Shows a list of all your waifus and their current value.\n" +
                                 "`~>waifu stats` - Shows your waifu stats or the stats or someone\n" +
-                                "`~>waifu claim` - Claim a waifu.\n" +
-                                "`~>waifu unclaim` - Unclaim a waifu.\n" +
+                                "`~>waifu claim <@mention>` - Claim a waifu.\n" +
+                                "`~>waifu unclaim <@mention>` - Unclaim a waifu.\n" +
                                 "`~>waifu buyslot` - Buy a waifu slots. Maximum possible slots are 20.")
                         .addField("Notice",  "This command is not meant to represent any real life situation, whether real or fake.", true)
                         .build();
@@ -705,6 +705,11 @@ public class RelationshipCmds {
 
                 if(toLookup.getIdLong() == event.getAuthor().getIdLong()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.yourself"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(claimerUser.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getKey().equals(toLookup.getId()))) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.already_claimed"), EmoteReference.ERROR).queue();
                     return;
                 }
 
