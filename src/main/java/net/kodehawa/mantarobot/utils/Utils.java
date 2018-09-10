@@ -277,7 +277,7 @@ public class Utils {
 
         if(found.size() > 1 && !content.isEmpty()) {
             event.getChannel().sendMessage(String.format("%sToo many users found, maybe refine your search? (ex. use name#discriminator)\n**Users found:** %s",
-                    EmoteReference.THINKING, found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))))
+                    EmoteReference.THINKING, found.stream().limit(10).map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))))
                     .queue();
 
             return null;
