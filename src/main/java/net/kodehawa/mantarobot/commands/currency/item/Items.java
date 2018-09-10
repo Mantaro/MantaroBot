@@ -109,8 +109,8 @@ public class Items {
             FISH_2 = new Item(ItemType.FISHING, "\uD83D\uDC20","Tropical Fish", "items.tropical_fish", "items.description.tropical_fish", 30, false),
             FISH_3 = new Item(ItemType.FISHING, "\uD83D\uDC21","Blowfish", "items.blowfish", "items.description.blowfish", 15, false),
             // ---------------------------------- 5.0 MINING ITEMS START HERE ----------------------------------
-            GEM_1 = new Item(ItemType.MINE, "\u2604", "Comet Gem", "items.comet_gem", "items.description.comet_gem", 40, false),
-            GEM_2 = new Item(ItemType.MINE, EmoteReference.STAR.getUnicode(), "Star Gem", "items.star_gem", "items.description.star_gem", 60, false),
+            GEM_1 = new Item(ItemType.CAST_OBTAINABLE, "\u2604", "Comet Gem", "items.comet_gem", "items.description.comet_gem", 40, true, false, "3;1", 51, 24),
+            GEM_2 = new Item(ItemType.CAST_OBTAINABLE, EmoteReference.STAR.getUnicode(), "Star Gem", "items.star_gem", "items.description.star_gem", 60, true, false, "4;1", 51, 25),
             GEM_3 = new Item(ItemType.MINE, "\uD83D\uDD78", "Cobweb", "items.cobweb", "items.description.cobweb", 10, false),
             GEM_4 = new Item(ItemType.MINE, "\uD83D\uDCAB", "Gem Fragment", "items.fragment", "items.description.fragment", 50, false),
             // ---------------------------------- 5.0 ITEMS START HERE (again lol) ----------------------------------
@@ -197,7 +197,7 @@ public class Items {
 
                     boolean waifuHelp = false;
                     if(Items.handlePotion(Items.WAIFU_PILL, 5, p)) {
-                        if(u.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 2_000_000L)) {
+                        if(u.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
                             money += Math.max(10, random.nextInt(100));
                             waifuHelp = true;
                         }
@@ -325,6 +325,21 @@ public class Items {
                     System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
             event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.bait"), EmoteReference.POPPER).queue();
             p.getInventory().process(new ItemStack(FISHING_BAIT, -1));
+            p.save();
+            return true;
+        });
+
+        WAIFU_PILL.setAction((event, lang) -> {
+            Player p = managedDatabase.getPlayer(event.getAuthor());
+            if(p.getData().getActiveBuff().getPotion() == idOf(WAIFU_PILL)) {
+                event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.pill_used"), EmoteReference.POPPER).queue();
+                return false;
+            }
+
+            p.getData().setActiveBuff(new PotionEffect(idOf(WAIFU_PILL),
+                    System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
+            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.pill"), EmoteReference.POPPER).queue();
+            p.getInventory().process(new ItemStack(WAIFU_PILL, -1));
             p.save();
             return true;
         });

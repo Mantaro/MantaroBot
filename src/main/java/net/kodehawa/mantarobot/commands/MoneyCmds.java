@@ -733,7 +733,7 @@ public class MoneyCmds {
 
                 boolean waifuHelp = false;
                 if(Items.handlePotion(Items.WAIFU_PILL, 5, player)) {
-                    if(userData.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 2_000_000L)) {
+                    if(userData.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
                         money += Math.max(45, random.nextInt(200));
                         waifuHelp = true;
                     }

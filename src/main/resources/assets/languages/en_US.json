@@ -428,7 +428,7 @@
         "scrapped": "%1$sYou still have time to think on what to write, no need to rush!"
       },
       "status": {
-        "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\"",
+        "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\" (If you see a marriage in your profile and see this message that means you are in the old system, try remarrying)",
         "header": "Current Marriage Status",
         "description_format": "%1$sMarriage status between **%2$s#%3$s** and **%4$s#%5$s**",
         "date": "Marriage Date",
@@ -1796,7 +1796,7 @@
       "mop": "A delightful way to clean all the dust you have around. I bet there's a lot of it.",
       "claim_key": "This item makes you un-claimeable (as a waifu) while having it on your inventory.",
       "coffee": "A delightful way to start your day.",
-      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 2 million. Lasts 5 sessions.",
+      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 10 million. Lasts 5 sessions.",
       "bait": "Gives you a higher chance of catching fish.",
       "diamond_pick": "A very much stronger pick (Diamond). (`~>mine` tool).",
       "tv": "Must... watch... TV...",

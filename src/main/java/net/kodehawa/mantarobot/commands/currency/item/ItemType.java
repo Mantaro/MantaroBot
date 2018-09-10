@@ -34,7 +34,9 @@ public enum ItemType {
     //Cast-able item.
     CAST(true),
     //Cast-able item, but you can also use it to mine
-    CAST_MINE(true);
+    CAST_MINE(true),
+    //Cast-able item, but you can also obtain it without casting.
+    CAST_OBTAINABLE(true);
 
     private boolean cast;
 
