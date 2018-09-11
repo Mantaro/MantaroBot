@@ -689,7 +689,7 @@ public class MoneyCmds {
     @Subscribe
     public void mine(CommandRegistry cr) {
         cr.register("mine", new SimpleCommand(Category.CURRENCY) {
-            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 6, false);
+            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 5, false);
             final Random r = new Random();
 
             @Override

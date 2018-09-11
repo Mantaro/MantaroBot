@@ -673,7 +673,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                long amountTransfer = Math.round(toSend * 0.90);
+                long amountTransfer = Math.round(toSend * 0.92);
 
                 if(toTransfer.addMoney(amountTransfer)) {
                     transferPlayer.removeMoney(toSend);
@@ -817,7 +817,7 @@ public class CurrencyCmds {
 
     @Subscribe
     public void fish(CommandRegistry cr) {
-        final RateLimiter ratelimiter = new RateLimiter(TimeUnit.MINUTES, 5);
+        final RateLimiter ratelimiter = new RateLimiter(TimeUnit.MINUTES, 4);
         cr.register("fish", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
