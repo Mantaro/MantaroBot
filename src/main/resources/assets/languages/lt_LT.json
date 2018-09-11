@@ -347,7 +347,7 @@
                 "success": "%1$sSaved to command `%2$s`"
             },
             "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
-            "already_exists": "%1$sThe command `%2$s` already exists.",
+            "already_exists": "%1$sThe command `%2$s` already exists and it's a default custom command.",
             "name_too_long": "%1$sName is too long.",
             "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just a bit of dust.",
             "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.",

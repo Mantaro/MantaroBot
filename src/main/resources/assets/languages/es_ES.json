@@ -348,7 +348,7 @@
                 "success": "%1$sHe guardado el comando personalizado `%2$s` exitosamente!"
             },
             "character_not_allowed": "%1$sEste carácter no está habilitado para ser usado en los nombres de comandos personalizados.",
-            "already_exists": "%1$sEl comando `%2$s` ya existe.",
+            "already_exists": "%1$sEl comando `%2$s` ya existe y es un comando predeterminado del bot.",
             "name_too_long": "%1$sEl nombre es muy largo.",
             "no_cc": "%1$sNo hay comandos personalizados en este servidor, solamente pude encontrar polvo...",
             "admin_only": "Este servidor solo permite la creación y evalauación de comandos personalizados por administradores.\n**Ahora esta es la opción por defecto.**\n- Si quieres que **todos** usen los comandos personalizados, y eres un administrador (un rol llamado Bot Commander o uno con el permiso de Administrar Servidor) usa `~>opts admincustom false`",

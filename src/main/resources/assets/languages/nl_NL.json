@@ -348,7 +348,7 @@
                 "success": "%1$sOpgeslagen aan commando `%2$s`"
             },
             "character_not_allowed": "%1$sDit karakter is niet toegestaan in de naam van een custom commando.",
-            "already_exists": "%1$sHet commando `%2$s` bestaat al.",
+            "already_exists": "%1$sHet commando `%2$s` bestaat al and it's a default custom command.",
             "name_too_long": "%1$sNaam is te lang.",
             "no_cc": "%1$sEr zijn geen custom commando's geregisteerd in deze Guild.",
             "admin_only": "In deze Guild mogen alleen beheerders custom commando's maken, bewerking, importeren en evalueren.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
