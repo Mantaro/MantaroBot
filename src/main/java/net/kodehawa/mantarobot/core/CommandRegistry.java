@@ -91,9 +91,6 @@ public class CommandRegistry {
         long start = System.currentTimeMillis();
 
         Command command = commands.get(cmdName.toLowerCase());
-        if (managedDatabase.getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) {
-            return false;
-        }
 
         DBGuild dbg = managedDatabase.getGuild(event.getGuild());
         DBUser dbUser = managedDatabase.getUser(event.getAuthor());
@@ -110,6 +107,13 @@ public class CommandRegistry {
                     "All Commands will be refused until you give me that permission.\n" +
                     "http://i.imgur.com/Ydykxcy.gifv Refer to this on instructions on how to give the bot the permissions. " +
                     "Also check all the other roles the bot has have that permissions and remember to check channel-specific permissions. Thanks you.").queue();
+            return false;
+        }
+
+        if (managedDatabase.getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) {
+            event.getChannel().sendMessage(EmoteReference.ERROR + "You have been blacklisted from using all Mantaro's functions. " +
+                    "If you wish to get more details on why, don't hesitate to join the support server and ask, but be sincere."
+            ).queue();
             return false;
         }
 
