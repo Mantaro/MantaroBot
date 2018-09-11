@@ -348,7 +348,7 @@
                 "success": "%1$sBefehl `%2$s` gespeichert!"
             },
             "character_not_allowed": "%1$sDieses Zeichen ist in benutzerdefinierten Befehlen nicht erlaubt..",
-            "already_exists": "%1$sDer Befehl `%2$s` existiert bereits and it's a default custom command!",
+            "already_exists": "%1$sDer Befehl `%2$s` existiert bereits and it's a default bot command!",
             "name_too_long": "%1$sDer Name ist zu lang.",
             "no_cc": "%1$sIn diesem Server gibt es keine benutzerdefinierten Befehle, nur Staub.",
             "admin_only": "In diesem Server können nur Administratoren benutzerdefinierte Befehle erstellen, bearbeite, auswerten oder entfernen.\n**Das ist jetzt die STANDARDMÄẞIGE Einstellung.**\n- Wenn du dies alle machen lassen möchtest, und ein Admin bist (Bot Commander-Rolle oder Server verwalten Berechtigung), nutze `~>opts admincustom false`",

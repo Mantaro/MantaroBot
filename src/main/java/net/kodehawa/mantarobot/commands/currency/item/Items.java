@@ -256,22 +256,22 @@ public class Items {
         //START OF PICKAXE ACTION DECLARATION
         BROM_PICKAXE.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            return handlePickaxe(event, lang, BROM_PICKAXE, p, 0.36f); //36%
+            return handlePickaxe(event, lang, BROM_PICKAXE, p, 0.29f); //29%
         });
 
         DIAMOND_PICKAXE.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            return handlePickaxe(event, lang, DIAMOND_PICKAXE, p, 0.26f); //26%
+            return handlePickaxe(event, lang, DIAMOND_PICKAXE, p, 0.15f); //15%
         });
 
         GEM1_PICKAXE.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            return handlePickaxe(event, lang, GEM1_PICKAXE, p, 0.32f); //32%
+            return handlePickaxe(event, lang, GEM1_PICKAXE, p, 0.24f); //24%
         });
 
         GEM2_PICKAXE.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            return handlePickaxe(event, lang, GEM2_PICKAXE, p, 0.31f); //31%
+            return handlePickaxe(event, lang, GEM2_PICKAXE, p, 0.21f); //21%
         });
         //END OF PICKAXE ACTION DECLARATION
 
