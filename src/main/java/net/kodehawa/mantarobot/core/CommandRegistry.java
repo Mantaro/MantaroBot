@@ -46,11 +46,13 @@ import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class CommandRegistry {
@@ -71,6 +73,7 @@ public class CommandRegistry {
     private final Config conf = MantaroData.config().get();
     @Setter
     private boolean logCommands = false;
+    private RateLimiter rl = new RateLimiter(TimeUnit.MINUTES, 1);
 
     public CommandRegistry(Map<String, Command> commands) {
         this.commands = Preconditions.checkNotNull(commands);
@@ -111,9 +114,11 @@ public class CommandRegistry {
         }
 
         if (managedDatabase.getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "You have been blacklisted from using all Mantaro's functions. " +
-                    "If you wish to get more details on why, don't hesitate to join the support server and ask, but be sincere."
-            ).queue();
+            if(rl.process(event.getAuthor())) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "You have been blacklisted from using all of Mantaro's functions. " +
+                        "If you wish to get more details on why, don't hesitate to join the support server and ask, but be sincere."
+                ).queue();
+            }
             return false;
         }
 
