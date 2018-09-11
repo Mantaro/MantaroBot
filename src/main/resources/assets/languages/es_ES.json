@@ -153,7 +153,7 @@
             "queue_finished": "%1$sHe finalizado de reproducir toda la cola! Espero que lo hayas disfrutado.\n%2$s",
             "soundcloud_no_args": "%1$sNecesitas darme el nombre de la canción! No puedo adivinarla...",
             "queue": {
-                "no_track_found_np": "Nada o título/duración no encontrada.",
+                "no_track_found_np": "Nada o título/duración no encontrado.",
                 "header": "Cola para el servidor %1$s",
                 "nothing_playing": "Nada por aquí, solo polvo. ¿Por qué no pones algunas canciones en la cola?\nSi crees que hay canciones por aquí pero no aparecen, intenta usar `~>queue 1`.",
                 "nothing_playing_2": "**Si hay una canción reproduciendose y no has añadido más, entonces solamente hay polvo por aquí. Puedes poner más canciones en la cola a tu antojo!**",

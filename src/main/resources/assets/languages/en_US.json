@@ -173,7 +173,8 @@
         "multiple_pages": " -> Use ~>queue <page> to change pages",
         "page_react": " -> React to change pages",
         "no_channel": "No channel :(",
-        "songs": "song(s)"
+        "songs": "song(s)",
+        "clear_error": "%1$sEither you're not connected to the VC or you're not the DJ."
       },
       "connect": {
         "success": "%1$sSuccessfully connected to channel **%2$s**!",

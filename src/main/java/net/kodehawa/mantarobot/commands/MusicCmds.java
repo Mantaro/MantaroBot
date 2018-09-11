@@ -506,7 +506,7 @@ public class MusicCmds {
                         return;
                     }
 
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.queue.error"), EmoteReference.ERROR).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.queue.clear_error"), EmoteReference.ERROR).queue();
                     return;
                 }
 
