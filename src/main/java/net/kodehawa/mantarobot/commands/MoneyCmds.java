@@ -741,7 +741,8 @@ public class MoneyCmds {
 
                 String message = String.format(languageContext.get("commands.mine.success"), EmoteReference.PICK, money, item.getName());
 
-                if(r.nextInt(400) > (Items.handlePotion(Items.POTION_HASTE, 2, player) ? 290 : 350)) {
+                boolean hasPotion = Items.handlePotion(Items.POTION_HASTE, 2, player);
+                if(r.nextInt(400) > (hasPotion ? 290 : 350)) {
                     if(inventory.getAmount(Items.DIAMOND) == 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.diamond.overflow");
                         money += Items.DIAMOND.getValue() * 0.9;

@@ -261,17 +261,19 @@ public class Items {
 
         DIAMOND_PICKAXE.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            return handlePickaxe(event, lang, DIAMOND_PICKAXE, p, 0.15f); //15%
+            return handlePickaxe(event, lang, DIAMOND_PICKAXE, p, 0.23f); //23%
         });
 
+        //comet
         GEM1_PICKAXE.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            return handlePickaxe(event, lang, GEM1_PICKAXE, p, 0.24f); //24%
+            return handlePickaxe(event, lang, GEM1_PICKAXE, p, 0.21f); //21%
         });
 
+        //star
         GEM2_PICKAXE.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            return handlePickaxe(event, lang, GEM2_PICKAXE, p, 0.21f); //21%
+            return handlePickaxe(event, lang, GEM2_PICKAXE, p, 0.15f); //15%
         });
         //END OF PICKAXE ACTION DECLARATION
 
