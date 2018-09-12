@@ -542,7 +542,7 @@
                     "cancelled": "%1$sCancelada correctamente."
                 },
                 "non_existent": "%1$sNo puedes vender un item inexistente.",
-                "no_sell_price": "%1$sNo puedes vender un item que no tenga valor de venta.",
+                "no_sell_price": "%1$sNo puedes vender un item que no tenga valor de venta. (Pero si puedes usar `~>market dump` para tirarlo)",
                 "no_item_player": "%1$sNo puedes vender un item que no tienes.",
                 "more_items_than_player": "%1$sNo puedes vender más items de los que tienes.",
                 "success": "%1$sHas vendido %2$d **%3$s** y ganaste %4$d créditos!"

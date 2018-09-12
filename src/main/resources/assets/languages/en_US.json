@@ -339,7 +339,7 @@
         "header": "`%1$s` - Guild: `%2$s`",
         "selection": "Select the Command:",
         "note": "(You can only select custom commands from guilds that you are a member of)",
-        "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %1$d responses."
+        "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3F$d responses."
       },
       "edit": {
         "invalid_number": "%1$sYou need to specify a correct number to change.",
@@ -554,7 +554,7 @@
           "cancelled": "%1$sCancelled successfully."
         },
         "non_existent": "%1$sYou cannot sell a non-existent item.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold.",
+        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
         "no_item_player": "%1$sYou cannot sell an item you don't have.",
         "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
         "success": "%1$sYou sold %2$d **%3$s** and gained %4$d credits!"

@@ -333,7 +333,7 @@
                 "header": "`%1$s` - Server: `%2$s`",
                 "selection": "Wähle den Befehl:",
                 "note": "(Du kannst nur benutzerdefinierte Befehle von Servern, in denen du dich befindest, auswählen.)",
-                "success": "Benutzerdifinierter Befehl `%1$s` von Server `%2$s` mit folgenden Antworten importiert: `%1$d`"
+                "success": "Benutzerdifinierter Befehl `%1$s` von Server `%2$s` mit folgenden Antworten importiert: `%3$d`"
             },
             "edit": {
                 "invalid_number": "%1$sDu musst eine korrekte Nummer zum Ändern angeben!",
@@ -541,7 +541,7 @@
                     "success": "%1$sDu hast alle deine Items verkauft und %2$d Credits erhalten!",
                     "cancelled": "%1$sErfolgreich abgebrochen."
                 },
-                "non_existent": "%1$sDu kannst kein nicht vorhandendes Item verkaufen.",
+                "non_existent": "%1$sDu kannst kein nicht vorhandendes Item verkaufen. (But you can `~>market dump` it)",
                 "no_sell_price": "%1$sDu kannst kein Item verkaufen, das nicht verkauft werden kann.",
                 "no_item_player": "%1$sDu kannst kein Item verkaufen, das du nicht besitzt.",
                 "more_items_than_player": "%1$sDu kannst nicht mehrverkaufen, als du hast.",

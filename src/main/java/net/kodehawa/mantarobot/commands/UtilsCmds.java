@@ -164,8 +164,8 @@ public class UtilsCmds {
                 int month = calendar.get(Calendar.MONTH);
 
                 String m1 = "";
-                if(args.length == 2)
-                    m1 = args[1];
+                if(args.length == 1)
+                    m1 = args[0];
 
                 if(!m1.isEmpty()) {
                     try {

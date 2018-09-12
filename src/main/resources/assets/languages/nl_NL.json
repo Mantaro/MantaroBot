@@ -333,7 +333,7 @@
                 "header": "`%1$s` - Guild: `%2$s`",
                 "selection": "Selecteer het Commando:",
                 "note": "(Je kunt alleen custom commando's selecteren van de Guild waarvan je lid bent)",
-                "success": "Het custom commando `%1$s` van Guild `%2$s` met een totaal van %1$d antwoorden is geïmporteerd."
+                "success": "Het custom commando `%1$s` van Guild `%2$s` met een totaal van %3$d antwoorden is geïmporteerd."
             },
             "edit": {
                 "invalid_number": "%1$sJe moet een bestaand nummer opgeven om te wijzigen.",
@@ -542,7 +542,7 @@
                     "cancelled": "%1$sSuccesvol gecancelled."
                 },
                 "non_existent": "%1$sJe kunt een niet-bestaand item niet verkopen.",
-                "no_sell_price": "%1$sJe kunt een item niet verkopen dat niet kan worden verkocht.",
+                "no_sell_price": "%1$sJe kunt een item niet verkopen dat niet kan worden verkocht. (But you can `~>market dump` it)",
                 "no_item_player": "%1$sJe kunt geen item verkopen die je niet hebt.",
                 "more_items_than_player": "%1$sJe kunt niet meer items verkopen dan dat je in totaal hebt.",
                 "success": "%1$sJe verkocht %2$d **%3$s** en kreeg %4$d credits!"

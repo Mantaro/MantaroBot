@@ -525,7 +525,8 @@ public class PlayerCmds {
                 }
 
                 Badge badge = Badge.lookupFromString(content);
-                if(badge == null) {
+                //shouldn't NPE bc null check is done first, in order
+                if(badge == null || badge == Badge.DJ) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.badges.info.not_found"), EmoteReference.ERROR).queue();
                     return;
                 }

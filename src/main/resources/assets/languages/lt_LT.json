@@ -332,7 +332,7 @@
                 "header": "`%1$s` - Guild: `%2$s`",
                 "selection": "Select the Command:",
                 "note": "(You can only select custom commands from guilds that you are a member of)",
-                "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %1$d responses."
+                "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3$d responses."
             },
             "edit": {
                 "invalid_number": "%1$sYou need to specify a correct number to change.",
@@ -549,7 +549,7 @@
             "buy": {
                 "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
                 "invalid": "%1$sNot a valid number of items to buy.",
-                "non_existent": "%1$sYou cannot buy an non-existent item.",
+                "non_existent": "%1$sYou cannot buy an non-existent item. (But you can `~>market dump` it)",
                 "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
                 "item_limit_reached": "%1$sYou cannot buy more of that object.",
                 "success": "%1$sBought %2$d %3$s for %4$d credits successfully. You now have %5$d credits.",
