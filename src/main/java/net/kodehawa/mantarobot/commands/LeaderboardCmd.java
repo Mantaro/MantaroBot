@@ -106,7 +106,7 @@ public class LeaderboardCmd {
                                 "`~>leaderboard money` - **Returns the money leaderboard.**\n" +
                                 "`~>leaderboard waifu` - **Returns the waifu value leaderboard.**\n" +
                                 "`~>leaderboard claim` - **Returns the waifu claims leaderboard.**\n" +
-                                "`~>leaderboard games`  - **Returns the games leaderboard.**\n" +
+                                //"`~>leaderboard games`  - **Returns the games leaderboard.**\n" +
                                 "`~>leaderboard streak` - **Returns the daily streak leaderboard.**", false)
                         .build();
             }
