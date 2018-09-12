@@ -60,7 +60,7 @@ public class ModerationCmds {
                 Message receivedMessage = event.getMessage();
                 String reason = content;
 
-                if(args.length == 0) {
+                if(event.getMessage().getMentionedUsers().isEmpty()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.softban.no_users"), EmoteReference.ERROR).queue();
                     return;
                 }
@@ -89,11 +89,8 @@ public class ModerationCmds {
 
                 final String finalReason = String.format("Softbanned by %#s: %s", event.getAuthor(), reason);
 
-                Member member = Utils.findMember(event, event.getMember(), affected);
-                if(member == null)
-                    return;
-
-                User user = member.getUser();
+                User user = event.getMessage().getMentionedUsers().get(0);
+                Member member = guild.getMember(user);
                 if(!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
                     channel.sendMessage(String.format(languageContext.get("commands.softban.hierarchy_conflict"), EmoteReference.ERROR)).queue();
                     return;
@@ -171,7 +168,7 @@ public class ModerationCmds {
                 Message receivedMessage = event.getMessage();
                 String reason = content;
 
-                if(args.length == 0) {
+                if(event.getMessage().getMentionedUsers().isEmpty()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.ban.no_users"), EmoteReference.ERROR).queue();
                     return;
                 }
@@ -199,11 +196,8 @@ public class ModerationCmds {
                 }
 
                 final String finalReason = String.format("Banned by %#s: %s", event.getAuthor(), reason);
-                Member member = Utils.findMember(event, event.getMember(), affected);
-                if(member == null)
-                    return;
-
-                User user = member.getUser();
+                User user = event.getMessage().getMentionedUsers().get(0);
+                Member member = guild.getMember(user);
 
                 if(!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
                     event.getChannel().sendMessage(String.format(languageContext.get("commands.ban.hierarchy_conflict"), EmoteReference.ERROR, EmoteReference.SMILE)).queue();
