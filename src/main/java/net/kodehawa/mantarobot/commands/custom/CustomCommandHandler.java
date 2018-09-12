@@ -118,10 +118,11 @@ public class CustomCommandHandler {
             builder.append("\n\n")
                     .append(EmoteReference.WARNING)
                     .append("**This is a preview of how a CC with this content would look like, ALL MENTIONS ARE DISABLED ON THIS MODE.**\n")
-                    .append("*Command Preview Requested By:*")
+                    .append("`Command Preview Requested By: ")
                     .append(event.getAuthor().getName())
                     .append("#")
                     .append(event.getAuthor().getDiscriminator())
+                    .append("`")
                     .stripMentions(event.getJDA(), Message.MentionType.ROLE, Message.MentionType.USER);
         }
 
