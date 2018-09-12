@@ -139,7 +139,7 @@ public class Items {
         MOP.setAction(((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
             Inventory playerInventory = p.getInventory();
-            if(!playerInventory.containsItem(FISHING_ROD))
+            if(!playerInventory.containsItem(MOP))
                 return false;
 
             event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.mop"), EmoteReference.DUST).queue();
@@ -278,7 +278,7 @@ public class Items {
         POTION_CLEAN.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
             p.getData().setActivePotion(null);
-            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.milk"), EmoteReference.POPPER).queue();
+            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.milk"), EmoteReference.CORRECT).queue();
             p.getInventory().process(new ItemStack(POTION_CLEAN, -1));
             p.save();
             return true;
@@ -292,7 +292,7 @@ public class Items {
             }
 
             p.getData().setActivePotion(new PotionEffect(idOf(POTION_STAMINA), System.currentTimeMillis(), ItemType.PotionType.PLAYER));
-            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.stamina"), EmoteReference.POPPER).queue();
+            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.stamina"), EmoteReference.CORRECT).queue();
             p.getInventory().process(new ItemStack(POTION_STAMINA, -1));
             p.save();
             return true;
@@ -308,7 +308,7 @@ public class Items {
 
             p.getData().setActivePotion(new PotionEffect(idOf(POTION_HASTE),
                     System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
-            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.haste"), EmoteReference.ERROR).queue();
+            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.haste"), EmoteReference.CORRECT).queue();
             p.getInventory().process(new ItemStack(POTION_HASTE, -1));
             p.save();
             return true;
@@ -332,13 +332,13 @@ public class Items {
         WAIFU_PILL.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
             if(p.getData().getActiveBuff() != null && p.getData().getActiveBuff().getPotion() == idOf(WAIFU_PILL)) {
-                event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.pill_used"), EmoteReference.POPPER).queue();
+                event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.pill_used"), EmoteReference.ERROR).queue();
                 return false;
             }
 
             p.getData().setActiveBuff(new PotionEffect(idOf(WAIFU_PILL),
                     System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
-            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.pill"), EmoteReference.POPPER).queue();
+            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.pill"), EmoteReference.CORRECT).queue();
             p.getInventory().process(new ItemStack(WAIFU_PILL, -1));
             p.save();
             return true;
@@ -512,7 +512,7 @@ public class Items {
         if(!playerInventory.containsItem(item))
             return false;
 
-        if(r.nextFloat() < (handlePotion(POTION_STAMINA, 4, player) ? (chance) - 0.05 : chance)) {
+        if(r.nextFloat() < (handlePotion(POTION_STAMINA, 4, player) ? (chance) - 0.07 : chance)) {
             event.getChannel().sendMessageFormat(lang.get("commands.mine.pick_broke"), EmoteReference.SAD).queue();
             playerInventory.process(new ItemStack(item, -1));
             player.save();
