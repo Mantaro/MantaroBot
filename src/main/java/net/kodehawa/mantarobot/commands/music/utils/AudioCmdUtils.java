@@ -132,7 +132,7 @@ public class AudioCmdUtils {
             return;
         }
 
-        DiscordUtils.list(event, 30, false, (p, total) -> {
+        DiscordUtils.list(event, 30, false, MessageEmbed.TEXT_MAX_LENGTH, (p, total) -> {
             long length = trackScheduler.getQueue().stream().mapToLong(value -> value.getInfo().length).sum();
             EmbedBuilder builder = new EmbedBuilder()
                     .setAuthor(String.format(lang.get("commands.music_general.queue.header"), guild.getName()), null, guild.getIconUrl())

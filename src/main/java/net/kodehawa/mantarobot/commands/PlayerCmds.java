@@ -490,17 +490,27 @@ public class PlayerCmds {
 
                         //Show the message that tells the person that they can get a free badge for upvoting mantaro one out of 3 times they use this command.
                         //The message stops appearing when they upvote.
-                        String toShow = languageContext.get("commands.badges.profile_notice") + languageContext.get("commands.badges.info_notice") +
-                                ((r.nextInt(3) == 0 && !playerData.hasBadge(Badge.UPVOTER) ? languageContext.get("commands.badges.upvote_notice") : "\n")) +
-                                ((r.nextInt(2) == 0 ? languageContext.get("commands.badges.donate_notice") : "\n"))
-                                + badges.stream().map(badge -> String.format("**%s:** *%s*", badge, badge.description)).collect(Collectors.joining("\n"));
+                        String toShow = badges.stream().map(badge -> String.format("**%s:** *%s*", badge, badge.description)).collect(Collectors.joining("\n"));
 
-                        if(toShow.isEmpty()) toShow = languageContext.get("commands.badges.no_badges");
-                        List<String> parts = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH, toShow);
-                        DiscordUtils.list(event, 30, false, (current, max) -> new EmbedBuilder()
+                        if(toShow.isEmpty())
+                            toShow = languageContext.get("commands.badges.no_badges");
+
+                        List<String> parts = DiscordUtils.divideString(700, toShow);
+                        List<String> messages = new LinkedList<>();
+
+                        for(String s : parts) {
+                            messages.add(languageContext.get("commands.badges.profile_notice") + languageContext.get("commands.badges.info_notice") +
+                                    ((r.nextInt(3) == 0 && !playerData.hasBadge(Badge.UPVOTER) ? languageContext.get("commands.badges.upvote_notice") : "\n")) +
+                                    ((r.nextInt(2) == 0 ? languageContext.get("commands.badges.donate_notice") : "\n")) + s);
+                        }
+
+                        DiscordUtils.list(event, 30, false, 700, (current, max) ->
+                                new EmbedBuilder()
                                 .setAuthor(String.format(languageContext.get("commands.badges.header"), toLookup.getName()))
                                 .setColor(event.getMember().getColor() == null ? Color.PINK : event.getMember().getColor())
-                                .setThumbnail(toLookup.getEffectiveAvatarUrl()), parts);
+                                .setThumbnail(toLookup.getEffectiveAvatarUrl()), messages);
+
+                        System.out.println(messages.size());
                     }
                 };
             }
