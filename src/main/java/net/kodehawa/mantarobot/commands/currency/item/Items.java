@@ -512,7 +512,7 @@ public class Items {
         if(!playerInventory.containsItem(item))
             return false;
 
-        if(r.nextFloat() < (handlePotion(POTION_STAMINA, 4, player) ? (chance) + 0.05 : chance)) {
+        if(r.nextFloat() < (handlePotion(POTION_STAMINA, 4, player) ? (chance) - 0.05 : chance)) {
             event.getChannel().sendMessageFormat(lang.get("commands.mine.pick_broke"), EmoteReference.SAD).queue();
             playerInventory.process(new ItemStack(item, -1));
             player.save();
