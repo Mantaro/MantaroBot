@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.log;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.webhook.WebhookClient;
 import net.dv8tion.jda.webhook.WebhookClientBuilder;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -25,24 +26,30 @@ import net.kodehawa.mantarobot.utils.SentryHelper;
 
 import java.awt.*;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 public class LogUtils {
     private final static String ICON_URL = "https://totally-not.a-sketchy.site/985414.png";
     private static final String WEBHOOK_START = "https://discordapp.com/api/webhooks/";
-    private static WebhookClient LOGBACK_WEBHOOK = null;
-    private static WebhookClient SHARD_WEBHOOK = null;
+    private static WebhookClient LOGBACK_WEBHOOK;
+    private static WebhookClient SHARD_WEBHOOK;
+    private static WebhookClient SPAMBOT_WEBHOOK;
 
     static {
         String shardWebhook = MantaroData.config().get().getShardWebhookUrl();
         String logWebhook = MantaroData.config().get().getWebhookUrl();
+        String spambotWebhook = MantaroData.config().get().getSpambotUrl();
         if(shardWebhook != null) {
-            String[] parts1 = shardWebhook.replace(WEBHOOK_START, "").split("/");
-            SHARD_WEBHOOK = new WebhookClientBuilder(Long.parseLong(parts1[0]), parts1[1]).build();
+            String[] parts = shardWebhook.replace(WEBHOOK_START, "").split("/");
+            SHARD_WEBHOOK = new WebhookClientBuilder(Long.parseLong(parts[0]), parts[1]).build();
         }
-
         if(logWebhook != null) {
-            String[] parts2 = logWebhook.replace(WEBHOOK_START, "").split("/");
-            LOGBACK_WEBHOOK = new WebhookClientBuilder(Long.parseLong(parts2[0]), parts2[1]).build();
+            String[] parts = logWebhook.replace(WEBHOOK_START, "").split("/");
+            LOGBACK_WEBHOOK = new WebhookClientBuilder(Long.parseLong(parts[0]), parts[1]).build();
+        }
+        if(spambotWebhook != null) {
+            String[] parts = spambotWebhook.replace(WEBHOOK_START, "").split("/");
+            SPAMBOT_WEBHOOK = new WebhookClientBuilder(Long.parseLong(parts[0]), parts[1]).build();
         }
     }
 
@@ -117,6 +124,27 @@ public class LogUtils {
             SHARD_WEBHOOK.send(message);
         } catch(Exception e) {
             SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
+        }
+    }
+
+    public static void spambot(User user) {
+        if(SPAMBOT_WEBHOOK == null) return;
+        try {
+            SPAMBOT_WEBHOOK.send(new EmbedBuilder()
+                    .setTitle("Possible spambot detected")
+                    .setThumbnail(user.getEffectiveAvatarUrl())
+                    .addField("Tag", String.format("%#s", user), true)
+                    .addField("ID", user.getId(), true)
+                    .addField("Account creation", user.getCreationTime().toString(), true)
+                    .addField("Mutual Guilds", user.getMutualGuilds().stream().map(g->
+                        g.getId() + ": " + g.getMemberCache().size() + " members"
+                    ).collect(Collectors.joining("\n")), false)
+                    .setColor(Color.PINK)
+                    .setFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL)
+                    .build()
+            );
+        } catch(Exception e) {
+            SentryHelper.captureException("Cannot post to spambot webhook", e, LogUtils.class);
         }
     }
 }

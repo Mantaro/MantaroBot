@@ -28,6 +28,7 @@ import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.commands.*;
 import okhttp3.*;
 import org.json.JSONObject;
@@ -36,6 +37,7 @@ import us.monoid.web.Resty;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -230,10 +232,9 @@ public class Utils {
                     .post(body)
                     .build();
 
-            Response r = httpClient.newCall(request).execute();
-            String response = r.body().string();
-            r.close();
-            return response;
+            try(Response r = httpClient.newCall(request).execute()) {
+                return r.body().string();
+            }
         } catch(Exception e) {
             return "cannot post data to hastepaste";
         }
@@ -250,10 +251,10 @@ public class Utils {
                     .post(post)
                     .build();
 
-            Response r = httpClient.newCall(toPost).execute();
-            JSONObject response = new JSONObject(r.body().string());
-            r.close();
-            return "https://hasteb.in/" + response.getString("key");
+            try(Response r = httpClient.newCall(toPost).execute()) {
+                return "https://hasteb.in/" + new JSONObject(r.body().string()).getString("key");
+            }
+
         } catch (Exception e) {
             return "cannot post data to hasteb.in";
         }
@@ -610,7 +611,7 @@ public class Utils {
                             + ".**"
             ).queue();
 
-            ratelimitCounter.labels(u.getId()).inc();
+            onRateLimit(u);
             return false;
         }
 
@@ -624,7 +625,7 @@ public class Utils {
                             EmoteReference.STOPWATCH, ratelimitQuotes[random.nextInt(ratelimitQuotes.length)], Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor())))
             ).queue();
 
-            ratelimitCounter.labels(u.getId()).inc();
+            onRateLimit(u);
             return false;
         }
 
@@ -641,13 +642,26 @@ public class Utils {
                     + (rateLimit.getSpamAttempts() > 4 ? "\nI think stopping is the best option for now..." : "")
             ).queue();
 
-            ratelimitCounter.labels(u.getId()).inc();
+            onRateLimit(u);
             return false;
         }
 
         return true;
     }
 
+    private static void onRateLimit(User user) {
+        Counter.Child c = ratelimitCounter.labels(user.getId());
+        c.inc();
+        double ratelimitedTimes = c.get();
+        if(ratelimitedTimes > 1000 && ratelimitedTimes > 1000 * uptimeInDays()) {
+            LogUtils.spambot(user);
+        }
+    }
+
+    public static double uptimeInDays() {
+        int millisPerDay = 24 /* hours in day */ * 60 /* minutes in hour */ * 60 /* seconds in minute */ * 1000 /* millis in second */;
+        return ManagementFactory.getRuntimeMXBean().getUptime() / (double)millisPerDay;
+    }
 
     public static String replaceArguments(Map<String, Optional<String>> args, String content, String... toReplace) {
         if(args == null || args.isEmpty()) {
