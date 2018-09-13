@@ -244,7 +244,7 @@ public class CommandOptions extends OptionHandler {
                 return;
             }
 
-            if(toDisable.toString().equals("Moderation")) {
+            if(toDisable == Category.MODERATION) {
                 event.getChannel().sendMessageFormat(lang.get("options.category_disable.moderation_notice"), EmoteReference.WARNING).queue();
                 return;
             }
@@ -314,7 +314,7 @@ public class CommandOptions extends OptionHandler {
                     return;
                 }
 
-                if(toDisable.toString().equals("Moderation")) {
+                if(toDisable == Category.MODERATION) {
                     event.getChannel().sendMessageFormat(lang.get("options.category_specific_disable.moderation_notice"), EmoteReference.WARNING).queue();
                     return;
                 }
@@ -527,7 +527,7 @@ public class CommandOptions extends OptionHandler {
                     return;
                 }
 
-                if(toDisable.toString().equals("Moderation")) {
+                if(toDisable == Category.MODERATION) {
                     event.getChannel().sendMessageFormat(lang.get("options.category_role_specific_disable.moderation_notice"), EmoteReference.WARNING).queue();
                     return;
                 }

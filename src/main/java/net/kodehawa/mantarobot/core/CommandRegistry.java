@@ -146,12 +146,16 @@ public class CommandRegistry {
 //            return false;
 //        }
 
-        if (guildData.getDisabledCategories().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) {
+        if (guildData.getDisabledCategories().contains(
+                cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category()
+        )  && !cmdName.toLowerCase().equals("opts")) {
             return false;
         }
 
         if (guildData.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), c ->
-                new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) {
+                new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() :
+                    cmd.category())
+                &&  !cmdName.toLowerCase().equals("opts")) {
             return false;
         }
 
