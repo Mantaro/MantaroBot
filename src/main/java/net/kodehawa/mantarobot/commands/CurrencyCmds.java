@@ -937,7 +937,8 @@ public class CurrencyCmds {
                         .setDescription("**Allows you to cast any castable item given you have the necessary elements.**\n" +
                                 "Casting requires you to have the necessary materials to cast the item, and it has a cost of `item value / 2`.\n" +
                                 "Cast-able items are only able to be acquired by this command. They're non-buyable items, though you can sell them for a profit.")
-                        .addField("Usage", "`~>cast <item emoji or name>` - Casts the item you provide.", false)
+                        .addField("Usage", "`~>cast <item emoji or name>` - Casts the item you provide.\n" +
+                                "`~>cast ls` - Shows you a list of castable items, with the recipe.", false)
                         .build();
             }
         });
