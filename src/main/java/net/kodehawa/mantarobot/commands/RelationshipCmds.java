@@ -581,13 +581,19 @@ public class RelationshipCmds {
                         DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
                         UserData userData = dbUser.getData();
 
-                        String description = userData.getWaifus().isEmpty() ? languageContext.get("commands.waifu.no_waifu") : languageContext.get("commands.waifu.waifu_header");
+                        String description = userData.getWaifus().isEmpty() ? languageContext.get("commands.waifu.waifu_header") + "\n" + languageContext.get("commands.waifu.no_waifu") : languageContext.get("commands.waifu.waifu_header");
 
                         EmbedBuilder waifusEmbed = new EmbedBuilder()
                                 .setAuthor(languageContext.get("commands.waifu.header"), null, event.getAuthor().getEffectiveAvatarUrl())
                                 .setThumbnail("https://i.imgur.com/2JlMtCe.png")
                                 .setColor(Color.CYAN)
                                 .setFooter(String.format(languageContext.get("commands.waifu.footer"), userData.getWaifus().size(), userData.getWaifuSlots() - userData.getWaifus().size()), null);
+
+                        if(userData.getWaifus().isEmpty()) {
+                            waifusEmbed.setDescription(description);
+                            event.getChannel().sendMessage(waifusEmbed.build()).queue();
+                            return;
+                        }
 
                         java.util.List<MessageEmbed.Field> fields = new LinkedList<>();
                         for(String waifu : userData.getWaifus().keySet()) {
@@ -639,6 +645,7 @@ public class RelationshipCmds {
             }
         });
 
+        cr.registerAlias("waifu", "waifus");
         waifu.setPredicate(event -> Utils.handleDefaultRatelimit(rl, event.getAuthor(), event));
 
         waifu.addSubCommand("stats", new SubCommand() {
