@@ -111,7 +111,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                EmbedBuilder builder = baseEmbed(event, String.format(languageContext.get("commands.inventory.header"), member.getEffectiveName()), member.getEffectiveName());
+                EmbedBuilder builder = baseEmbed(event, String.format(languageContext.get("commands.inventory.header"), member.getEffectiveName()), member.getUser().getEffectiveAvatarUrl());
 
                 List<MessageEmbed.Field> fields = new LinkedList<>();
                 if(inventoryList.isEmpty())
