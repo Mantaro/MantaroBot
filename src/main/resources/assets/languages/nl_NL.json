@@ -464,7 +464,7 @@
                 "key_locked": "%1$sDe gebruiker die je probeert te claimen is key-locked en kan niet geclaimed worden.",
                 "not_enough_money": "%1$sJe hebt niet genoeg geld om deze waifu te claimen **(Kosten: %2$s)**",
                 "not_enough_slots": "%1$sJe hebt niet genoeg plek beschikbaar om deze waifu te claimen (Totaal aantal slots: %2$s, Gebruikt aantal slots: %3$s)",
-                "success": "%1$sHeeft %2$s succesvol geclaimed voor %3$,d. Slots gebruikt: %4$s"
+                "success": "%1$sHeeft `%2$s` succesvol geclaimed voor %3$,d. Slots gebruikt: %4$s"
             },
             "unclaim": {
                 "no_user": "%1$sJe hebt geen gebruiker genoemd om te unclaim.",
@@ -472,7 +472,7 @@
                 "not_enough_money": "%1$sJe hebt niet genoeg geld om deze waifu te unclaimen!",
                 "player_locked": "%1$sJe kunt dit niet doen op dit moment.",
                 "scrapped": "%1$sHet unclaimen van deze waifu is gecancelled.",
-                "success": "%1$sHeeft **%2$s** succesvol ge-unclaimed voor **%3$s credits**."
+                "success": "%1$sHeeft `%2$s` succesvol ge-unclaimed voor **%3$s credits**."
             },
             "buyslot": {
                 "locked": "%1$sJe kunt deze actie op dit moment niet uitvoeren.",

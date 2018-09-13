@@ -19,8 +19,10 @@ package net.kodehawa.mantarobot.commands;
 import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -92,7 +94,7 @@ public class CurrencyCmds {
                             .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
                             .sum();
 
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.inventory.calculate"), EmoteReference.DIAMOND, member.getEffectiveName(), all).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.inventory.calculate"), EmoteReference.DIAMOND, member.getUser().getName(), all).queue();
                     return;
                 }
 
@@ -102,11 +104,14 @@ public class CurrencyCmds {
                 }
 
                 if(t.containsKey("brief")) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.inventory.brief"), member.getEffectiveName(), ItemStack.toString(playerInventory.asList())).queue();
+                    new MessageBuilder().setContent(String.format(languageContext.get("commands.inventory.brief"), member.getEffectiveName(), ItemStack.toString(playerInventory.asList())))
+                            .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
+                            .sendTo(event.getChannel())
+                            .queue();
                     return;
                 }
 
-                EmbedBuilder builder = baseEmbed(event, String.format(languageContext.get("commands.inventory.header"), member.getEffectiveName()), member.getUser().getEffectiveAvatarUrl());
+                EmbedBuilder builder = baseEmbed(event, String.format(languageContext.get("commands.inventory.header"), member.getEffectiveName()), member.getEffectiveName());
 
                 List<MessageEmbed.Field> fields = new LinkedList<>();
                 if(inventoryList.isEmpty())
@@ -524,8 +529,11 @@ public class CurrencyCmds {
 
                                 player.getInventory().process(new ItemStack(item, -1));
                                 giveToPlayer.getInventory().process(new ItemStack(item, 1));
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.success"), EmoteReference.OK, event.getMember().getEffectiveName(),
-                                        1, item.getName(), event.getGuild().getMember(giveTo).getEffectiveName()).queue();
+                                new MessageBuilder().setContent(String.format(languageContext.get("commands.itemtransfer.success"),
+                                            EmoteReference.OK, event.getMember().getEffectiveName(), 1, item.getName(), event.getGuild().getMember(giveTo).getEffectiveName()))
+                                        .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
+                                        .sendTo(event.getChannel())
+                                        .queue();
                             } else {
                                 event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.multiple_items_error"), EmoteReference.ERROR).queue();
                             }
@@ -551,8 +559,11 @@ public class CurrencyCmds {
                                 player.getInventory().process(new ItemStack(item, amount * -1));
                                 giveToPlayer.getInventory().process(new ItemStack(item, amount));
 
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.success"), EmoteReference.OK,
-                                        event.getMember().getEffectiveName(), amount, item.getName(), event.getGuild().getMember(giveTo).getEffectiveName()).queue();
+                                new MessageBuilder().setContent(String.format(languageContext.get("commands.itemtransfer.success"), EmoteReference.OK,
+                                            event.getMember().getEffectiveName(), amount, item.getName(), event.getGuild().getMember(giveTo).getEffectiveName()))
+                                        .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
+                                        .sendTo(event.getChannel())
+                                        .queue();
                             } else {
                                 event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.error"), EmoteReference.ERROR).queue();
                             }
@@ -755,8 +766,11 @@ public class CurrencyCmds {
                                 .append(" **")
                                 .append(item.getName())
                                 .append("**\n")
-                                .append("      - ")
+                                .append("**")
+                                .append(languageContext.get("general.description"))
+                                .append(": **\u2009*")
                                 .append(languageContext.get(item.getDesc()))
+                                .append("*")
                                 .append("\n");
                     }
 
@@ -970,15 +984,17 @@ public class CurrencyCmds {
                             .append(item.getEmoji())
                             .append(" **")
                             .append(item.getName())
-                            .append("**\n")
-                            .append("**Description: **\u2009")
-                            .append("*")
+                            .append("**\n**")
+                            .append(languageContext.get("general.description"))
+                            .append(": **\u2009\"*")
                             .append(languageContext.get(item.getDesc()))
-                            .append("*\n")
-                            .append("**Cast Cost: **")
+                            .append("*\n**")
+                            .append(languageContext.get("commands.cast.ls.cost"))
+                            .append("**")
                             .append(item.getValue() / 2)
-                            .append(" credits.")
-                            .append("\n**Recipe: **")
+                            .append(" ")
+                            .append(languageContext.get("commands.gamble.credits"))
+                            .append(".\n**Recipe: **")
                             .append(recipe.toString())
                             .append("\n");
                 }

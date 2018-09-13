@@ -464,7 +464,7 @@
                 "key_locked": "%1$sDer Nutzer, den du versucht hast zu beanspruchen, ist verschlossen und kann nicht beansprucht werden.",
                 "not_enough_money": "%1$sDu hast nicht genug Geld, um diese Waifu zu beanspruchen **(Kosten: %2$s)**",
                 "not_enough_slots": "%1$sDu hast nicht genug Plätze verfügbar, um diese Waifu zu beanspruchen. (Plätze: %2$s, Benutzt: %3$s)",
-                "success": "%1$s%2$s erfolgreich für %3$,d Credits beansprucht. Plätze benutzt: %4$s"
+                "success": "%1$s`%2$s` erfolgreich für %3$,d Credits beansprucht. Plätze benutzt: %4$s"
             },
             "unclaim": {
                 "no_user": "%1$sDu musst eine Waifu erwähnen, auf die du verzichten willst.",
@@ -472,7 +472,7 @@
                 "not_enough_money": "%1$sDu hast nicht genug Geld, um auf diese Waifu zu verzichten!",
                 "player_locked": "%1$sDu kannst das aktuell nicht tun.",
                 "scrapped": "%1$sWaifu-Verzicht abgebrochen.",
-                "success": "%1$sErfolgreich auf **%2$s** verzichtet, mit den Kosten von **%3$s Credits**."
+                "success": "%1$sErfolgreich auf `%2$s` verzichtet, mit den Kosten von **%3$s Credits**."
             },
             "buyslot": {
                 "locked": "%1$sDu kannst das aktuell nicht tun.",

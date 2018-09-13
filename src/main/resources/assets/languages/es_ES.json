@@ -464,7 +464,7 @@
                 "key_locked": "%1$sEl usuario que intentaste reclamar está bloqueado por llave y no puede ser reclamado.",
                 "not_enough_money": "%1$sNo tienes dinero suficiente para reclamar esta waifu **(Valor: %2$s)**",
                 "not_enough_slots": "%1$sNo tienes suficiente espacio para reclamar esta waifu. (Total de espacios: %2$s, Espacios usados: %3$s)",
-                "success": "%1$sWaifu reclamada exitosamente! %2$s for %3$s. Espacios usados: %4$s"
+                "success": "%1$sWaifu reclamada exitosamente! `%2$s` for %3$s. Espacios usados: %4$s"
             },
             "unclaim": {
                 "no_user": "%1$sNecesitas mencionar una waifu para remover.",

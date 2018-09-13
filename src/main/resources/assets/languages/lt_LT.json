@@ -463,7 +463,7 @@
                 "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed.",
                 "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s)**",
                 "not_enough_slots": "%1$sYou don't have enough slots available to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
-                "success": "%1$sSuccessfully claimed %2$s for %3$,d. Slots used: %4$s"
+                "success": "%1$sSuccessfully claimed `%2$s` for %3$,d. Slots used: %4$s"
             },
             "unclaim": {
                 "no_user": "%1$sYou need to mention a waifu to un-claim.",
@@ -471,7 +471,7 @@
                 "not_enough_money": "%1$sYou don't have enough money to un-claim this waifu!",
                 "player_locked": "%1$sYou cannot do this at the moment.",
                 "scrapped": "%1$sCancelled waifu un-claiming.",
-                "success": "%1$sSuccessfully unclaimed **%2$s** with a cost of **%3$s credits**."
+                "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**."
             },
             "buyslot": {
                 "locked": "%1$sYou're currently unable to perform this action.",

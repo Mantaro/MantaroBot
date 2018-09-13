@@ -580,7 +580,6 @@ public class RelationshipCmds {
                         //Default call will bring out the waifu list.
                         DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
                         UserData userData = dbUser.getData();
-
                         String description = userData.getWaifus().isEmpty() ? languageContext.get("commands.waifu.waifu_header") + "\n" + languageContext.get("commands.waifu.no_waifu") : languageContext.get("commands.waifu.waifu_header");
 
                         EmbedBuilder waifusEmbed = new EmbedBuilder()
@@ -709,7 +708,6 @@ public class RelationshipCmds {
                 final long waifuFinalValue = waifuToClaim.getFinalValue();
 
                 //Checks.
-
                 if(toLookup.getIdLong() == event.getAuthor().getIdLong()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.yourself"), EmoteReference.ERROR).queue();
                     return;
@@ -929,6 +927,7 @@ public class RelationshipCmds {
         //what is this lol
         //After all those calculations are complete, the value then is calculated using final * (reputation scale / 20) where reputation scale goes up by 1 every 10 reputation points.
         //At 6000 reputation points, the waifu value gets multiplied by 1.1. This is the maximum amount it can be multiplied to.
+        //to implement later: Reputation scaling is capped at 3.9k. Then at 6.5k the multiplier is applied.
         long reputation = waifuPlayer.getReputation();
         double reputationScaling = (reputation / 4.5) / 20;
         long finalValue = (long) (

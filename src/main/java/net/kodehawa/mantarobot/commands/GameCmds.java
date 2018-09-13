@@ -19,10 +19,8 @@ package net.kodehawa.mantarobot.commands;
 import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.Character;
 import net.kodehawa.mantarobot.commands.game.*;
@@ -116,9 +114,11 @@ public class GameCmds {
                 if(member == null)
                     return;
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.game.won_games"),
-                        EmoteReference.POPPER, member.getEffectiveName(), MantaroData.db().getPlayer(member).getData().getGamesWon()
-                ).queue();
+                new MessageBuilder().setContent(String.format(languageContext.get("commands.game.won_games"),
+                            EmoteReference.POPPER, member.getEffectiveName(), MantaroData.db().getPlayer(member).getData().getGamesWon()))
+                        .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE)
+                        .sendTo(event.getChannel())
+                        .queue();
             }
         });
 

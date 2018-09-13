@@ -339,7 +339,7 @@
         "header": "`%1$s` - Guild: `%2$s`",
         "selection": "Select the Command:",
         "note": "(You can only select custom commands from guilds that you are a member of)",
-        "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3F$d responses."
+        "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3$d responses."
       },
       "edit": {
         "invalid_number": "%1$sYou need to specify a correct number to change.",
@@ -471,7 +471,7 @@
         "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed.",
         "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s)**",
         "not_enough_slots": "%1$sYou don't have enough slots available to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
-        "success": "%1$sSuccessfully claimed %2$s for %3$,d. Slots used: %4$s",
+        "success": "%1$sSuccessfully claimed `%2$s` for %3$,d. Slots used: %4$s",
         "yourself": "%1$sYou cannot claim yourself!",
         "already_claimed": "%1$sYou already claimed this waifu."
       },
@@ -482,7 +482,7 @@
         "not_enough_money": "%1$sYou don't have enough money to un-claim this waifu!",
         "player_locked": "%1$sYou cannot do this at the moment.",
         "scrapped": "%1$sCancelled waifu un-claiming.",
-        "success": "%1$sSuccessfully unclaimed **%2$s** with a cost of **%3$s credits**."
+        "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**."
       },
       "buyslot": {
         "locked": "%1$sYou're currently unable to perform this action.",
@@ -531,6 +531,7 @@
       "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
       "ls": {
         "header": "Castable Item List",
+        "cost": "Cast Cost: ",
         "desc": "This is a list of the items you can cast using `~>cast`. You have to use the full name or the short name to cast it (example: `~>cast diamond pickaxe` or `~>cast diamond p` works)\n**Casting has a cost of half the price of the item. The casting price will be shown down below.**"
       }
     },

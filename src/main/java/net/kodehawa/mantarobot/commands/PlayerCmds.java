@@ -122,7 +122,10 @@ public class PlayerCmds {
                 Player player = MantaroData.db().getPlayer(user);
                 player.addReputation(1L);
                 player.save();
-                event.getChannel().sendMessageFormat(languageContext.get("commands.rep.success"), EmoteReference.CORRECT,  member.getEffectiveName()).queue();
+                new MessageBuilder().setContent(String.format(languageContext.get("commands.rep.success"), EmoteReference.CORRECT,  member.getEffectiveName()))
+                        .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
+                        .sendTo(event.getChannel())
+                        .queue();
             }
 
             @Override
@@ -478,11 +481,11 @@ public class PlayerCmds {
                         PlayerData playerData = player.getData();
 
                         if(!t.isEmpty() && t.containsKey("brief")) {
-                            event.getChannel().sendMessageFormat(
-                                    languageContext.get("commands.badges.brief_success"), member.getEffectiveName(),
-                                    playerData.getBadges().stream().map(b -> "*" + b.display + "*").collect(Collectors.joining(", "))
-                            ).queue();
-
+                            new MessageBuilder().setContent(String.format(languageContext.get("commands.badges.brief_success"), member.getEffectiveName(),
+                                        playerData.getBadges().stream().map(b -> "*" + b.display + "*").collect(Collectors.joining(", "))))
+                                    .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
+                                    .sendTo(event.getChannel())
+                                    .queue();
                             return;
                         }
 
