@@ -21,6 +21,7 @@ import com.google.common.eventbus.Subscribe;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -488,29 +489,39 @@ public class PlayerCmds {
                         List<Badge> badges = playerData.getBadges();
                         Collections.sort(badges);
 
-                        //Show the message that tells the person that they can get a free badge for upvoting mantaro one out of 3 times they use this command.
-                        //The message stops appearing when they upvote.
-                        String toShow = badges.stream().map(badge -> String.format("**%s:** *%s*", badge, badge.description)).collect(Collectors.joining("\n"));
-
-                        if(toShow.isEmpty())
-                            toShow = languageContext.get("commands.badges.no_badges");
-
-                        List<String> parts = DiscordUtils.divideString(700, toShow);
-                        List<String> messages = new LinkedList<>();
-
-                        for(String s : parts) {
-                            messages.add(languageContext.get("commands.badges.profile_notice") + languageContext.get("commands.badges.info_notice") +
-                                    ((r.nextInt(3) == 0 && !playerData.hasBadge(Badge.UPVOTER) ? languageContext.get("commands.badges.upvote_notice") : "\n")) +
-                                    ((r.nextInt(2) == 0 ? languageContext.get("commands.badges.donate_notice") : "\n")) + s);
-                        }
-
-                        DiscordUtils.list(event, 30, false, 700, (current, max) ->
-                                new EmbedBuilder()
+                        EmbedBuilder embed = new EmbedBuilder()
                                 .setAuthor(String.format(languageContext.get("commands.badges.header"), toLookup.getName()))
                                 .setColor(event.getMember().getColor() == null ? Color.PINK : event.getMember().getColor())
-                                .setThumbnail(toLookup.getEffectiveAvatarUrl()), messages);
+                                .setThumbnail(toLookup.getEffectiveAvatarUrl());
+                        List<MessageEmbed.Field> fields = new LinkedList<>();
 
-                        System.out.println(messages.size());
+                        for(Badge b : badges) {
+                            //God DAMNIT discord, I want it to look cute, stop trimming my spaces.
+                            fields.add(new MessageEmbed.Field(b.toString(), "**\u2009\u2009\u2009\u2009- " + b.description + "**", false));
+                        }
+
+                        if(badges.isEmpty()) {
+                            embed.setDescription(languageContext.get("commands.badges.no_badges"));
+                            event.getChannel().sendMessage(embed.build()).queue();
+                            return;
+                        }
+
+                        List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
+                        boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+
+                        embed.setFooter(languageContext.get("commands.badges.footer"), null);
+
+                        String common = languageContext.get("commands.badges.profile_notice") + languageContext.get("commands.badges.info_notice") +
+                                ((r.nextInt(3) == 0 && !playerData.hasBadge(Badge.UPVOTER) ? languageContext.get("commands.badges.upvote_notice") : "\n")) +
+                                ((r.nextInt(2) == 0 ? languageContext.get("commands.badges.donate_notice") : "\n") +
+                                        String.format(languageContext.get("commands.badges.total_badges"), badges.size()) + "\n");
+                        if(hasReactionPerms) {
+                            embed.setDescription(languageContext.get("general.arrow_react") + "\n" + common);
+                            DiscordUtils.list(event, 60, false, embed, splitFields);
+                        } else {
+                            embed.setDescription(languageContext.get("general.text_menu") + "\n" + common);
+                            DiscordUtils.listText(event, 60, false, embed, splitFields);
+                        }
                     }
                 };
             }

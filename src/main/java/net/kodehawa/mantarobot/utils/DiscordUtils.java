@@ -144,9 +144,16 @@ public class DiscordUtils {
             total = t;
         }
 
+        System.out.println("Total: " + total);
+
+        int loops = 1;
+        System.out.println("Part size:" + parts.length);
+        //this should loop twice?
         for(String s : parts) {
+            System.out.println("Loop N: " + loops++); // should max at two
             int l = s.length() + 1;
             if(l > MessageEmbed.TEXT_MAX_LENGTH)
+                //why
                 throw new IllegalArgumentException("Length for one of the pages is greater than the maximum");
             if(sb.length() + l > length) {
                 EmbedBuilder eb = supplier.apply(embeds.size() + 1, total);
@@ -156,6 +163,12 @@ public class DiscordUtils {
             }
             sb.append(s).append('\n');
         }
+
+        //should be two
+        System.out.println("Embed amount: " + embeds.size());
+
+        //is sb empty?
+        System.out.println("SB size: " + sb.length());
 
         if(sb.length() > 0) {
             EmbedBuilder eb = supplier.apply(embeds.size() + 1, total);

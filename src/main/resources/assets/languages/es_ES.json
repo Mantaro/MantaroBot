@@ -725,7 +725,9 @@
             "upvote_notice": "**Puedes conseguir un trofeo gratis por [darle like a Mantaro en discordbots.org](https://discordbots.org/bot/mantaro)!** (Podría tomar unos minutos para procesar)\n\n",
             "donate_notice": "**¡Puedes conseguir un trofeo por [ayudar a mantener el bot vivo](https://patreon.com/mantaro)!** (Puede que tome unos minutos para procesar)\n\n",
             "no_badges": "No hay trofeos para mostrar (¡aún!)",
-            "header": "Trofeos logrados por %1$s"
+            "header": "Trofeos logrados por %1$s",
+            "total_badges": "**Total de trofeos obtenidos:** %1$s",
+            "footer": "Los trofeos son logros que obtienes usando el bot o progresando en el juego de Mantaro."
         },
         "rep": {
             "no_mentions": "%1$sNecesitas mencionar o escribir el nombre de un usuario.\n%2$s",
