@@ -50,7 +50,7 @@ apply plugin: 'com.apollographql.android'
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 
 //Use an unified versioning system
-def ver = new Version(major: 5, minor: 0, revision: 2f)
+def ver = new Version(major: 5, minor: 0, revision: 2)
 version ver.toString()
 
 //We are going to use Java 8
