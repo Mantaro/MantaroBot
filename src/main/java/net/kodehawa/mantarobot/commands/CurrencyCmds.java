@@ -24,7 +24,6 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
@@ -55,6 +54,7 @@ import java.text.ParsePosition;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -763,7 +763,6 @@ public class CurrencyCmds {
                     event.getChannel().sendMessage(new EmbedBuilder()
                             .setAuthor(languageContext.get("commands.useitem.ls.header"), null, event.getAuthor().getEffectiveAvatarUrl())
                             .setDescription(show.toString())
-                            .setThumbnail("https://png.icons8.com/metro/540/shopping-cart.png")
                             .setColor(Color.PINK)
                             .setFooter(String.format(languageContext.get("general.requested_by"), event.getMember().getEffectiveName()), null)
                             .build()
@@ -848,83 +847,88 @@ public class CurrencyCmds {
         final RateLimiter ratelimiter = new RateLimiter(TimeUnit.SECONDS, 10);
         final SecureRandom random = new SecureRandom();
 
-        //TODO: add cast ls
-        cr.register("cast", new SimpleCommand(Category.CURRENCY) {
+        TreeCommand castCommand = (TreeCommand) cr.register("cast", new TreeCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Player player = MantaroData.db().getPlayer(event.getAuthor());
+            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+                return new SubCommand() {
+                    @Override
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        Player player = MantaroData.db().getPlayer(event.getAuthor());
+                        Optional<Item> toCast = Items.fromAnyNoId(content);
 
-                Optional<Item> toCast = Items.fromAnyNoId(content);
+                        if(!toCast.isPresent()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_item_found"), EmoteReference.ERROR).queue();
+                            return;
+                        }
 
-                if(!toCast.isPresent()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_item_found"), EmoteReference.ERROR).queue();
-                    return;
-                }
+                        if(!handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
+                            return;
 
-                if(!handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
-                    return;
+                        Item castItem = toCast.get();
+                        if(!castItem.getItemType().isCastable()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.item_not_cast"), EmoteReference.ERROR).queue();
+                            return;
+                        }
 
-                Item castItem = toCast.get();
-                if(!castItem.getItemType().isCastable()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.cast.item_not_cast"), EmoteReference.ERROR).queue();
-                    return;
-                }
+                        Map<Item, Integer> castMap = new HashMap<>();
+                        String recipe = castItem.getRecipe();
+                        String[] splitRecipe = recipe.split(";");
+                        long castCost = castItem.getValue() / 2;
 
-                Map<Item, Integer> castMap = new HashMap<>();
-                String recipe = castItem.getRecipe();
-                String[] splitRecipe = recipe.split(";");
-                long castCost = castItem.getValue() / 2;
+                        if(player.getMoney() < castCost) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_money"), EmoteReference.ERROR, castCost).queue();
+                            return;
+                        }
 
-                if(player.getMoney() < castCost) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_money"), EmoteReference.ERROR, castCost).queue();
-                    return;
-                }
+                        if(!player.getInventory().containsItem(Items.WRENCH)) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_tool"), EmoteReference.ERROR, Items.WRENCH.getName()).queue();
+                            return;
+                        }
 
-                if(!player.getInventory().containsItem(Items.WRENCH)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_tool"), EmoteReference.ERROR, Items.WRENCH.getName()).queue();
-                    return;
-                }
+                        int increment = 0;
+                        //build recipe
+                        for(int i : castItem.getRecipeTypes()) {
+                            Item item = Items.fromId(i);
+                            int amount = Integer.valueOf(splitRecipe[increment]);
 
-                int increment = 0;
-                for(int i : castItem.getRecipeTypes()) {
-                    Item item = Items.fromId(i);
-                    int amount = Integer.valueOf(splitRecipe[increment]);
+                            if(!player.getInventory().containsItem(item)) {
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_item"), EmoteReference.ERROR, item.getName()).queue();
+                                return;
+                            }
 
-                    if(!player.getInventory().containsItem(item)) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_item"), EmoteReference.ERROR, item.getName()).queue();
-                        return;
+                            int inventoryAmount = player.getInventory().getAmount(item);
+                            if(inventoryAmount < amount) {
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_items"), EmoteReference.ERROR, item.getName(), amount, inventoryAmount).queue();
+                                return;
+                            }
+
+                            castMap.put(item, amount);
+                            increment++;
+                        }
+
+                        for(Map.Entry<Item, Integer> entry : castMap.entrySet()) {
+                            Item i = entry.getKey();
+                            int amount = entry.getValue();
+                            player.getInventory().process(new ItemStack(i, -amount));
+                        }
+                        //end of recipe build
+
+                        player.getInventory().process(new ItemStack(castItem, 1));
+
+                        String message = "";
+                        if(random.nextInt(100) > 75) {
+                            player.getInventory().process(new ItemStack(Items.WRENCH, -1));
+                            message += languageContext.get("commands.cast.item_broke");
+                        }
+
+                        player.removeMoney(castCost);
+                        player.save();
+
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.cast.success"),
+                                EmoteReference.POPPER, castItem.getEmoji(), castItem.getName(), castCost, message
+                        ).queue();
                     }
-
-                    int inventoryAmount = player.getInventory().getAmount(item);
-                    if(inventoryAmount < amount) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_items"), EmoteReference.ERROR, item.getName(), amount, inventoryAmount).queue();
-                        return;
-                    }
-
-                    castMap.put(item, amount);
-                    increment++;
-                }
-
-                for(Map.Entry<Item, Integer> entry : castMap.entrySet()) {
-                    Item i = entry.getKey();
-                    int amount = entry.getValue();
-                    player.getInventory().process(new ItemStack(i, -amount));
-                }
-
-                player.getInventory().process(new ItemStack(castItem, 1));
-
-                String message = "";
-                if(random.nextInt(100) > 75) {
-                    player.getInventory().process(new ItemStack(Items.WRENCH, -1));
-                    message += languageContext.get("commands.cast.item_broke");
-                }
-
-                player.removeMoney(castCost);
-                player.save();
-
-                event.getChannel().sendMessageFormat(languageContext.get("commands.cast.success"),
-                        EmoteReference.POPPER, castItem.getEmoji(), castItem.getName(), castCost, message
-                ).queue();
+                };
             }
 
             @Override
@@ -937,5 +941,58 @@ public class CurrencyCmds {
                         .build();
             }
         });
+
+        castCommand.addSubCommand("ls", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                List<Item> castableItems = Arrays.stream(Items.ALL)
+                        .filter(i -> i.getItemType() == ItemType.CAST_MINE || i.getItemType() == ItemType.CAST_OBTAINABLE || i.getItemType() == ItemType.CAST)
+                        .collect(Collectors.toList());
+
+                StringBuilder show = new StringBuilder();
+                show.append(EmoteReference.TALKING)
+                        .append(languageContext.get("commands.cast.ls.desc"))
+                        .append("\n\n");
+
+                for (Item item : castableItems) {
+                    //Build recipe explanation
+                    StringBuilder recipe = new StringBuilder();
+                    String[] recipeAmount = item.getRecipe().split(";");
+                    AtomicInteger ai = new AtomicInteger();
+                    for(int i : item.getRecipeTypes()) {
+                        Item recipeItem = Items.fromId(i);
+                        recipe.append(recipeAmount[ai.getAndIncrement()]).append("x ").append(recipeItem.getEmoji()).append("\u2009").append(recipeItem.getName()).append(" ");
+                    }
+                    //End of build recipe explanation
+
+                    show.append(EmoteReference.BLUE_SMALL_MARKER)
+                            .append(item.getEmoji())
+                            .append(" **")
+                            .append(item.getName())
+                            .append("**\n")
+                            .append("**Description: **\u2009")
+                            .append("*")
+                            .append(languageContext.get(item.getDesc()))
+                            .append("*\n")
+                            .append("**Cast Cost: **")
+                            .append(item.getValue() / 2)
+                            .append(" credits.")
+                            .append("\n**Recipe: **")
+                            .append(recipe.toString())
+                            .append("\n");
+                }
+
+                event.getChannel().sendMessage(new EmbedBuilder()
+                        .setAuthor(languageContext.get("commands.cast.ls.header"), null, event.getAuthor().getEffectiveAvatarUrl())
+                        .setDescription(show.toString())
+                        .setColor(Color.PINK)
+                        .setFooter(String.format(languageContext.get("general.requested_by"), event.getMember().getEffectiveName()), null)
+                        .build()
+                ).queue();
+                return;
+            }
+        });
+
+        castCommand.createSubCommandAlias("ls", "list");
     }
 }
