@@ -201,13 +201,13 @@ public class Items {
                     int amount = handleBuff(FISHING_BAIT, 1, p) ? Math.max(1, random.nextInt(6)) : random.nextInt(4);
                     fish.forEach((item) -> fishItems.add(3, item));
 
-                    if(select > 75) {
+                    if (select > 75) {
                         money = Math.max(5, random.nextInt(85));
                     }
 
                     boolean waifuHelp = false;
-                    if(Items.handlePotion(Items.WAIFU_PILL, 5, p)) {
-                        if(u.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
+                    if (Items.handlePotion(Items.WAIFU_PILL, 5, p)) {
+                        if (u.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
                             money += Math.max(10, random.nextInt(100));
                             waifuHelp = true;
                         }
@@ -217,9 +217,9 @@ public class Items {
                     //TODO: Needs proper handling on crates on Items.java.
                     DBUser dbUser = managedDatabase.getUser(event.getAuthor());
                     PremiumKey key = managedDatabase.getPremiumKey(dbUser.getData().getPremiumKey());
-                    if(r.nextInt(400) > 340) {
+                    if (r.nextInt(400) > 340) {
                         Item crate = (key != null && key.getDurationDays() > 1) ? Items.FISH_PREMIUM_CRATE : Items.FISH_CRATE;
-                        if(playerInventory.getAmount(crate) + 1 > 5000) {
+                        if (playerInventory.getAmount(crate) + 1 > 5000) {
                             message += "\n" + lang.get("commands.fish.crate.overflow");
                         } else {
                             playerInventory.process(new ItemStack(crate, 1));
@@ -229,10 +229,10 @@ public class Items {
 
                     List<ItemStack> list = new ArrayList<>(amount);
                     boolean overflow = false;
-                    for(int i = 0; i < amount; i++) {
+                    for (int i = 0; i < amount; i++) {
                         Item it = fishItems.next();
 
-                        if(playerInventory.getAmount(it) >= 5000) {
+                        if (playerInventory.getAmount(it) >= 5000) {
                             overflow = true;
                             continue;
                         }
@@ -247,13 +247,17 @@ public class Items {
                     String itemDisplay = ItemStack.toString(reducedList);
                     boolean foundFish = !reducedList.isEmpty();
                     //I check it down there again, I know, but at the same time the other if statement won't run if there's no money but there are fish.
-                    if(foundFish) {
+                    if (foundFish) {
                         p.getData().addBadgeIfAbsent(Badge.FISHER);
                     }
 
-                    if(money > 0 && !foundFish) {
+                    if(overflow) {
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.overflow"), EmoteReference.SAD).queue();
+                    }
+
+                    if (money > 0 && !foundFish) {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money_noitem") + message, EmoteReference.POPPER, money).queue();
-                    } else if(money > 0) {
+                    } else if (money > 0 && foundFish) {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money") + message,
                                 EmoteReference.POPPER, itemDisplay, money, (waifuHelp ? "\n" + lang.get("commands.fish.waifu_help") : "")
                         ).queue();
@@ -262,16 +266,9 @@ public class Items {
                     } else {
                         //somehow we go all the way back and it's dust again (forgot to handle it?)
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING).queue();
-                    }
-
-                    //TODO: fix this
-                    if(overflow)
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.overflow"), EmoteReference.SAD).queue();
-                    } else {
-                        //lol, somehow running into this
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING).queue();
                         return false;
                     }
+                }
 
                 p.save();
                 return true;
