@@ -1759,6 +1759,11 @@
     "sparkle": "Sparkle Matter",
     "sparkle_pick": "Sparkle Matter Pickaxe",
     "pizza": "Pizza",
+    "mine_crate": "Mine Crate",
+    "fish_crate": "Fish Treasure",
+    "mine_premium_crate": "Mine (Premium) Crate",
+    "fish_premium_crate": "Fish (Premium) Treasure",
+
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
       "ban_hammer": "Left by an admin.",
@@ -1825,7 +1830,11 @@
       "star_pick": "A very much stronger pick (Star). (`~>mine` tool).",
       "sparkle": "One of the rarest gems around. Make sure to keep it. (Used to cast sparkle pickaxe)",
       "sparkle_pick": "The strongest pick out there. (`~>mine` tool)",
-      "pizza": "Yummy."
+      "pizza": "Yummy.",
+      "mine_crate": "A crate you find while mining. Might have some nice stuff inside.",
+      "fish_crate": "A treasure you find while fishing. Might have some nice stuff inside.",
+      "mine_premium_crate": "A crate you find while mining. Might have some nice stuff inside.",
+      "fish_premium_crate": "A treasure you find while fishing. Might have some nice stuff inside."
     }
   },
   "test": {

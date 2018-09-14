@@ -133,11 +133,11 @@ public class Items {
             GEM_5 = new Item(ItemType.MINE, "\uE32E", "Sparkle Matter Fragment", "items.sparkle", "items.description.sparkle", 605, false),
             GEM5_PICKAXE = new Item(ItemType.CAST_MINE, "\u2692\ufe0f","Sparkle Matter Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 550, true, false, "1;4;1", 10, 64, 18),
 
-            //TODO: Handle this properly. (Proper emojis, handle picking the items)
-            MINE_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Mine Loot Crate",  "items.mine_crate","items.description.mine_crate", 0, false, false, true, Items::openLootCrate),
-            FISH_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Fish Loot Crate",  "items.fish_crate","items.description.fish_crate", 0, false, false, true, Items::openLootCrate),
-            FISH_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Mine (Premium) Loot Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true, Items::openLootCrate),
-            MINE_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Fish (Premium) Loot Crate",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true, Items::openLootCrate),
+            //TODO: Handle this properly. (handle picking the items)
+            MINE_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Mine Crate",  "items.mine_crate","items.description.mine_crate", 0, false, false, true),
+            FISH_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Fish Treasure",  "items.fish_crate","items.description.fish_crate", 0, false, false, true),
+            FISH_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Mine (Premium) Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true),
+            MINE_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Fish (Premium) Treasure",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true),
     };
 
 
