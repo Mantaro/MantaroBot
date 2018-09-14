@@ -175,11 +175,11 @@ public class Items {
             } else {
                 int select = random.nextInt(100);
 
-                if(select < 25) {
+                if(select < 10) {
                     //we need to continue the dust meme
                     event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING).queue();
                     return false;
-                } else if(select < 45) {
+                } else if(select < 35) {
                     List<Item> common = Stream.of(ALL)
                             .filter(i -> i.getItemType() == ItemType.COMMON && !i.isHidden() && i.isSellable() && i.value < 45)
                             .collect(Collectors.toList());
@@ -191,7 +191,7 @@ public class Items {
 
                     playerInventory.process(new ItemStack(selected, 1));
                     event.getChannel().sendMessageFormat(lang.get("commands.fish.trash.success"), EmoteReference.EYES, selected.getEmoji()).queue();
-                } else if (select > 45) {
+                } else if (select > 35) {
                     List<Item> fish = Stream.of(ALL)
                             .filter(i -> i.getItemType() == ItemType.FISHING && !i.isHidden() && i.isSellable())
                             .collect(Collectors.toList());
@@ -264,13 +264,14 @@ public class Items {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING).queue();
                     }
 
+                    //TODO: fix this
                     if(overflow)
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.overflow"), EmoteReference.SAD).queue();
-                } else {
-                    //lol, somehow running into this
-                    event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING).queue();
-                    return false;
-                }
+                    } else {
+                        //lol, somehow running into this
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING).queue();
+                        return false;
+                    }
 
                 p.save();
                 return true;
