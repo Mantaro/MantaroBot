@@ -42,6 +42,7 @@ import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -57,6 +58,7 @@ public class Utils {
             .name("ratelimits").help("Ratelimited Commands")
             .labelNames("userId")
             .register();
+    private static Set<String> loggedUsers = ConcurrentHashMap.newKeySet();
 
     public static final OkHttpClient httpClient = new OkHttpClient();
     private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
@@ -653,7 +655,8 @@ public class Utils {
         Counter.Child c = ratelimitCounter.labels(user.getId());
         c.inc();
         double ratelimitedTimes = c.get();
-        if(ratelimitedTimes > 1000 && ratelimitedTimes > 1000 * uptimeInDays()) {
+        if((ratelimitedTimes > 1000 && ratelimitedTimes > 1000 * uptimeInDays()) && !loggedUsers.contains(user.getId())) {
+            loggedUsers.add(user.getId());
             LogUtils.spambot(user);
         }
     }
