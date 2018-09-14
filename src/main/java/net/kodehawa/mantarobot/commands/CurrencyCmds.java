@@ -478,7 +478,7 @@ public class CurrencyCmds {
                     .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
                     .maxCooldown(20, TimeUnit.MINUTES)
                     .pool(MantaroData.getDefaultJedisPool())
-                    .prefix("transfer")
+                    .prefix("itemtransfer")
                     .build();
 
             @Override
