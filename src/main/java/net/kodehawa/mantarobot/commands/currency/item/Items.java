@@ -24,6 +24,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -32,6 +33,7 @@ import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import java.security.SecureRandom;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -44,7 +46,7 @@ public class Items {
             LOOT_CRATE_KEY, BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
             NECKLACE, ROSE, DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN,
             POTION_STAMINA, FISHING_ROD, FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE,
-            TELEVISION, WRENCH, MOTORCYCLE, GEM1_PICKAXE, GEM2_PICKAXE, PIZZA;
+            TELEVISION, WRENCH, MOTORCYCLE, GEM1_PICKAXE, GEM2_PICKAXE, PIZZA, GEM_5, GEM5_PICKAXE, MINE_CRATE, FISH_CRATE, FISH_PREMIUM_CRATE, MINE_PREMIUM_CRATE;
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 15);
@@ -127,7 +129,15 @@ public class Items {
             //TODO: proper emojis
             GEM1_PICKAXE = new Item(ItemType.CAST_MINE, "\u2692\ufe0f","Comet Gem Pickaxe", "items.comet_pick", "items.description.comet_pick", 350, true, false, "1;2", 10, 48),
             GEM2_PICKAXE = new Item(ItemType.CAST_MINE, "\u2692\ufe0f","Star Gem Pickaxe", "items.star_pick", "items.description.star_pick", 350, true, false, "1;2", 10, 49),
-            PIZZA = new Item(ItemType.COMMON, "\uD83C\uDF55","Pizza", "items.pizza", "items.description.pizza", 15, true, false, "1;2", 10, 49),
+            PIZZA = new Item(ItemType.COMMON, "\uD83C\uDF55","Pizza", "items.pizza", "items.description.pizza", 15, true, false),
+            GEM_5 = new Item(ItemType.MINE, "\uE32E", "Sparkle Matter Fragment", "items.sparkle", "items.description.sparkle", 605, false),
+            GEM5_PICKAXE = new Item(ItemType.CAST_MINE, "\u2692\ufe0f","Sparkle Matter Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 550, true, false, "1;4;1", 10, 64, 18),
+
+            //TODO: Handle this properly. (Proper emojis, handle picking the items)
+            MINE_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Mine Loot Crate",  "items.mine_crate","items.description.mine_crate", 0, false, false, true, Items::openLootCrate),
+            FISH_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Fish Loot Crate",  "items.fish_crate","items.description.fish_crate", 0, false, false, true, Items::openLootCrate),
+            FISH_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Mine (Premium) Loot Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true, Items::openLootCrate),
+            MINE_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Fish (Premium) Loot Crate",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true, Items::openLootCrate),
     };
 
 
@@ -203,6 +213,20 @@ public class Items {
                         }
                     }
 
+                    String message = "";
+                    //TODO: Needs proper handling on crates on Items.java.
+                    DBUser dbUser = managedDatabase.getUser(event.getAuthor());
+                    PremiumKey key = managedDatabase.getPremiumKey(dbUser.getData().getPremiumKey());
+                    if(r.nextInt(400) > 340) {
+                        Item crate = (key != null && key.getDurationDays() > 1) ? Items.FISH_PREMIUM_CRATE : Items.FISH_CRATE;
+                        if(playerInventory.getAmount(crate) + 1 > 5000) {
+                            message += "\n" + lang.get("commands.fish.crate.overflow");
+                        } else {
+                            playerInventory.process(new ItemStack(crate, 1));
+                            message += "\n" + EmoteReference.MEGA + lang.get("commands.fish.crate.success");
+                        }
+                    }
+
                     List<ItemStack> list = new ArrayList<>(amount);
                     boolean overflow = false;
                     for(int i = 0; i < amount; i++) {
@@ -228,13 +252,13 @@ public class Items {
                     }
 
                     if(money > 0 && !foundFish) {
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money_noitem"), EmoteReference.POPPER, money).queue();
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money_noitem") + message, EmoteReference.POPPER, money).queue();
                     } else if(money > 0) {
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money"),
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money") + message,
                                 EmoteReference.POPPER, itemDisplay, money, (waifuHelp ? "\n" + lang.get("commands.fish.waifu_help") : "")
                         ).queue();
                     } else if (foundFish) {
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success"), EmoteReference.POPPER, itemDisplay).queue();
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success") + message, EmoteReference.POPPER, itemDisplay).queue();
                     } else {
                         //somehow we go all the way back and it's dust again (forgot to handle it?)
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING).queue();
@@ -275,6 +299,13 @@ public class Items {
             Player p = managedDatabase.getPlayer(event.getAuthor());
             return handlePickaxe(event, lang, GEM2_PICKAXE, p, 0.15f); //15%
         });
+
+        //sparkle
+        GEM5_PICKAXE.setAction((event, lang) -> {
+            Player p = managedDatabase.getPlayer(event.getAuthor());
+            return handlePickaxe(event, lang, GEM5_PICKAXE, p, 0.05f); //5%
+        });
+
         //END OF PICKAXE ACTION DECLARATION
 
         POTION_CLEAN.setAction((event, lang) -> {
@@ -436,20 +467,15 @@ public class Items {
     }
 
     private static List<Item> selectItems(int amount, ItemType.LootboxType type) {
-        List<Item> all = Arrays.stream(Items.ALL).filter(i->i.isBuyable() || i.isSellable()).collect(Collectors.toList());
-
-        List<Item> common = all.stream()
-                .filter(i->i.getItemType() == ItemType.COMMON)
-                .sorted(Comparator.comparingLong(i->i.value))
-                .collect(Collectors.toList());
-        List<Item> rare = all.stream()
-                .filter(i->i.getItemType() == ItemType.RARE)
-                .sorted(Comparator.comparingLong(i->i.value))
-                .collect(Collectors.toList());
-        List<Item> premium = all.stream()
-                .filter(i->i.getItemType() == ItemType.PREMIUM)
-                .sorted(Comparator.comparingLong(i->i.value))
-                .collect(Collectors.toList());
+        List<Item> common = handleItemDrop(i -> i.getItemType() == ItemType.COMMON);
+        List<Item> rare = handleItemDrop(i -> i.getItemType() == ItemType.RARE);
+        List<Item> premium = handleItemDrop(i -> i.getItemType() == ItemType.PREMIUM);
+        List<Item> mine = handleItemDrop(i -> i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.CAST_OBTAINABLE);
+        List<Item> fish = handleItemDrop(i -> i.getItemType() == ItemType.FISHING);
+        List<Item> premiumMine = handleItemDrop(i -> i.getItemType() == ItemType.CAST_MINE ||
+                i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.CAST_OBTAINABLE);
+        List<Item> premiumFish = handleItemDrop(i -> i.getItemType() == ItemType.FISHING_CASTABLE ||
+                i.getItemType() == ItemType.FISHING || i.getItemType() == ItemType.FISHING_RARE);
 
         RandomCollection<Item> items = new RandomCollection<>();
 
@@ -463,6 +489,14 @@ public class Items {
                 rare.forEach(i-> items.add(5, i));
             case COMMON:
                 common.forEach(i-> items.add(20, i));
+            case FISH_PREMIUM:
+                premiumFish.forEach(i -> items.add(5, i));
+            case MINE_PREMIUM:
+                premiumMine.forEach(i -> items.add(5, i));
+            case MINE:
+                mine.forEach(i -> items.add(8, i));
+            case FISH:
+                fish.forEach(i -> items.add(8, i));
         }
 
         List<Item> list = new ArrayList<>(amount);
@@ -471,6 +505,14 @@ public class Items {
         }
 
         return list;
+    }
+
+    private static List<Item> handleItemDrop(Predicate<Item> predicate) {
+        List<Item> all = Arrays.stream(Items.ALL).filter(i->i.isBuyable() || i.isSellable()).collect(Collectors.toList());
+
+        return all.stream().filter(predicate)
+                .sorted(Comparator.comparingLong(i->i.value))
+                .collect(Collectors.toList());
     }
 
     public static boolean handlePotion(Item i, int maxTimes, Player p) {

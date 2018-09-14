@@ -36,7 +36,9 @@ public enum ItemType {
     //Cast-able item, but you can also use it to mine
     CAST_MINE(true),
     //Cast-able item, but you can also obtain it without casting.
-    CAST_OBTAINABLE(true);
+    CAST_OBTAINABLE(true),
+    FISHING_CASTABLE(true),
+    FISHING_RARE(false);
 
     private boolean cast;
 
@@ -51,6 +53,10 @@ public enum ItemType {
     public enum LootboxType {
         COMMON,
         RARE,
+        MINE,
+        MINE_PREMIUM,
+        FISH,
+        FISH_PREMIUM,
         PREMIUM,
         //-insert ea logo here-
         EPIC

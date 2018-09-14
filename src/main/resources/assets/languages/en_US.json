@@ -1243,6 +1243,10 @@
         "overflow": "Huh, you found *%1$s* while mining, but you already had too much of that gem, so I sold it for you.",
         "success": "Huh! You got lucky and found *%1$s* while mining, check your inventory."
       },
+      "sparkle": {
+        "overflow": "You found a sparkling gem, but it seems like you had too much of it already, so we sold it for you.",
+        "success": "Hurray! You found one %1$s sparkling gem. Make sure to keep it around, check your inventory."
+      },
       "pick_broke": "%1$sOne of your picks broke while mining.",
       "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!"
     },
@@ -1751,6 +1755,8 @@
     "motorcycle": "Motorcycle",
     "comet_pick": "Comet Gem Pickaxe",
     "star_pick": "Star Gem Pickaxe",
+    "sparkle": "Sparkle Matter",
+    "sparkle_pick": "Sparkle Matter Pickaxe",
     "pizza": "Pizza",
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
@@ -1816,6 +1822,8 @@
       "motorcycle": "Going around, the cool way.",
       "comet_pick": "A very much stronger pick (Comet). (`~>mine` tool).",
       "star_pick": "A very much stronger pick (Star). (`~>mine` tool).",
+      "sparkle": "One of the rarest gems around. Make sure to keep it. (Used to cast sparkle pickaxe)",
+      "sparkle_pick": "The strongest pick out there. (`~>mine` tool)",
       "pizza": "Yummy."
     }
   },

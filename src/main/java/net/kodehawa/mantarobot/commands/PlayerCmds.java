@@ -51,6 +51,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -145,6 +146,15 @@ public class PlayerCmds {
     @Subscribe
     public void profile(CommandRegistry cr) {
         final ManagedDatabase managedDatabase = MantaroData.db();
+        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                .limit(2) //twice every 10m
+                .spamTolerance(1)
+                .cooldown(10, TimeUnit.MINUTES)
+                .cooldownPenaltyIncrease(10, TimeUnit.SECONDS)
+                .maxCooldown(15, TimeUnit.MINUTES)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("profile")
+                .build();
 
         ITreeCommand profileCommand = (TreeCommand) cr.register("profile", new TreeCommand(Category.CURRENCY) {
             @Override
@@ -339,6 +349,9 @@ public class PlayerCmds {
         profileCommand.addSubCommand("description", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event))
+                    return;
+
                 String[] args = content.split(" ");
                 User author = event.getAuthor();
                 Player player = managedDatabase.getPlayer(author);
