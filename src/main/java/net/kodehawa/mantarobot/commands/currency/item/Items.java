@@ -112,7 +112,7 @@ public class Items {
             FISH_3 = new Item(ItemType.FISHING, "\uD83D\uDC21","Blowfish", "items.blowfish", "items.description.blowfish", 15, false),
             // ---------------------------------- 5.0 MINING ITEMS START HERE ----------------------------------
             GEM_1 = new Item(ItemType.CAST_OBTAINABLE, "\u2604", "Comet Gem", "items.comet_gem", "items.description.comet_gem", 40, true, false, "3;1", 51, 24),
-            GEM_2 = new Item(ItemType.CAST_OBTAINABLE, EmoteReference.STAR.getUnicode(), "Star Gem", "items.star_gem", "items.description.star_gem", 60, true, false, "4;1", 51, 25),
+            GEM_2 = new Item(ItemType.CAST_OBTAINABLE, "\uE335", "Star Gem", "items.star_gem", "items.description.star_gem", 60, true, false, "4;1", 51, 25),
             GEM_3 = new Item(ItemType.MINE, "\uD83D\uDD78", "Cobweb", "items.cobweb", "items.description.cobweb", 10, false),
             GEM_4 = new Item(ItemType.MINE, "\uD83D\uDCAB", "Gem Fragment", "items.fragment", "items.description.fragment", 50, false),
             // ---------------------------------- 5.0 ITEMS START HERE (again lol) ----------------------------------
