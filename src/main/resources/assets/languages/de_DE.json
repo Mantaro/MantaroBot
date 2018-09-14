@@ -33,11 +33,14 @@
             "claim_key": "Du kannst einen Anspruchsschlüssel nicht transferieren."
         },
         "misc_item_usage": {
-            "mop": "%1$sAll der Staub weggewischt. Yay.",
+            "mop": "%1$sDu hast all der Staub, den du während deinen Minengängen gesammelt hast, weggewischt.",
             "milk": "%1$sTrankeffekte entfernt.",
             "stamina": "%1$sAusdauer für 5 Bergbaurunden aktiviert.",
-            "haste": "%1$sHast für 2 Minuten aktiviert.",
+            "stamina_used": "%1$sDu hast bereits den Ausdauereffekt aktiv!",
+            "haste": "%1$sHast für 2 Runden aktiviert.",
+            "haste_used": "%1$sDu hast bereits den Hasteffekt aktiv!",
             "bait": "%1$sEin Köder wurde an deiner Angel befestigt! Viel Glück beim Fischen! (Aktiviert für 1 Benutzung.)",
+            "bait_used": "%1$sDu hast bereits einen Fischköder befestigt!",
             "crate": {
                 "no_key": "%1$sDu brauchst einen Truhenschlüssel, um eine Truhe zu öffnen. Sie ist verschlossen!",
                 "no_crate": "%1$sDu brauchst eine Truhe! Wie sonst möchtest du deinen Schlüssel benutzen >.>... oh",
@@ -345,6 +348,7 @@
                 "success": "%1$sBefehl `%2$s` zu `%3$s` umbennant!"
             },
             "add": {
+                "empty_content": "%1$sDu musst den Inhalt für diesen benutzerdefinierten Befehl angeben.",
                 "success": "%1$sBefehl `%2$s` gespeichert!"
             },
             "character_not_allowed": "%1$sDieses Zeichen ist in benutzerdefinierten Befehlen nicht erlaubt..",
@@ -425,7 +429,7 @@
             },
             "status": {
                 "no_marriage": "%1$sDu bist nicht verheiratet, also denke ich dein Status ist uh... \"unverheiratet\"",
-                "header": "Aktueller Ehestatus",
+                "header": "Aktueller Ehestatus (Wenn du eine Ehe in in deinem Profil und diese Nachricht hier siehst, heißt das, dass du im alten System verheiratet bist. Versucht nochmal zu heiraten)",
                 "description_format": "%1$sEhestatus von **%2$s#%3$s** und **%4$s#%5$s**",
                 "date": "Hochzeitstag",
                 "love_letter": "Liebesbrief",
@@ -464,10 +468,13 @@
                 "key_locked": "%1$sDer Nutzer, den du versucht hast zu beanspruchen, ist verschlossen und kann nicht beansprucht werden.",
                 "not_enough_money": "%1$sDu hast nicht genug Geld, um diese Waifu zu beanspruchen **(Kosten: %2$s)**",
                 "not_enough_slots": "%1$sDu hast nicht genug Plätze verfügbar, um diese Waifu zu beanspruchen. (Plätze: %2$s, Benutzt: %3$s)",
-                "success": "%1$s`%2$s` erfolgreich für %3$,d Credits beansprucht. Plätze benutzt: %4$s"
+                "success": "%1$s`%2$s` erfolgreich für %3$,d Credits beansprucht. Plätze benutzt: %4$s",
+                "yourself": "%1$sDu kannst dich nicht selbst beanspruchen!",
+                "already_claimed": "%1$sDu hast diese Waifu bereits beansprucht."
             },
             "unclaim": {
                 "no_user": "%1$sDu musst eine Waifu erwähnen, auf die du verzichten willst.",
+                "not_claimed": "%1$sDieser Nutzer ist nicht deine Waifu!",
                 "confirmation": "%1$sBist du *sicher*, dass du auf %2$s verzichten willst? Die kosten, um auf diese Waifu zu verzichten sind **%3$s Credits**. Gebe *yes* zum bestätigen oder *no* zum abbrechen ein\n%4$sDies endet in einer Minute.",
                 "not_enough_money": "%1$sDu hast nicht genug Geld, um auf diese Waifu zu verzichten!",
                 "player_locked": "%1$sDu kannst das aktuell nicht tun.",
@@ -486,7 +493,8 @@
             "footer": "Gesamte Waifus: %1$d - Verfügbare Plätze: %2$s",
             "value_format": "**- Wert:**",
             "value_b_format": "**- gekauft für:**",
-            "credits_format": " Credits."
+            "credits_format": " Credits.",
+            "waifu_header": "**Deine Waifus:**"
         },
         "ratewaifu": {
             "nothing_specified": "%1$sGib mir eine Waifu zum Bewerten!",
@@ -902,7 +910,8 @@
             "multiple": {
                 "invalid": "%1$sDu musst das Spiel und die Häufigkeit angeben.",
                 "invalid_times": "%1$sUngültige Anzahl von Malen!",
-                "too_many_games": "%1$sDu kannst maximal 10 Spiele desselben Typs gleichzeitig starten!"
+                "too_many_games": "%1$sDu kannst maximal 10 Spiele desselben Typs gleichzeitig starten!",
+                "no_character": "%1$sYou cannot use character game in game multiple or lobby due to AniList API limitations."
             },
             "trivia": {
                 "wrong_diff": "%1$sFalsche Schwierigkeit angegeben! (Unterstützt: easy (einfach), medium (mittel) and hard (schwer))",
@@ -941,6 +950,7 @@
             "trivia_end_footer": "Du hast %1$s Versuche und 60 Sekunden. (Gebe end ein, um das Spiel zu beenden)",
             "error": "%1$sFehler beim Einrichten eines Spiels. (internal error)",
             "character_load_error": "%1$sMelden Sie dies bitte im offiziellen Server. Fehler beim Einrichten des Spiels für den zuvor gespeicherten Charakter: %2$s",
+            "character_request_error": "%1$sFehler beim Anfordern des Charakters von der AniList API.",
             "character_start": "Rate den Charakter"
         },
         "opencrate": {
@@ -1231,7 +1241,8 @@
                 "not_enough_money": "%1$sDu hast nicht genügend Geld, um an diesem Automaten zu spielen!",
                 "below_minimum": "%1$sDer Mindestwert beträgt 25 Credits.",
                 "no_tickets": "%1$sDu willst Tickets benutzen, hast aber keine :<",
-                "no_amount": "%1$sDu hast keine Anzahl angegeben!"
+                "no_amount": "%1$sDu hast keine Anzahl angegeben!",
+                "no_valid_amount": "%1$sDas ist keine gültige Menge an Geld! (Beispiele: 1000, 1K, 1.8, 14000, 2M)"
             },
             "roll": "%1$s**Du hast %2$s genutzt und an dem Automaten gespielt**\n",
             "win": "Und du hast **%1$d** Credits gewonnen und behältst, was du gesetzt hast (%2$d Credits)! Glück!",
@@ -1599,7 +1610,8 @@
         },
         "usermessage_joinmessage_remove": {
             "no_message": "%1$sDu musst mir die Nummer der Nachricht angeben!",
-            "success": "%1$s`%2$s (Nummer %3$d)` von den zusätzlichen Beitrittsnachrichten entfernt."
+            "success": "%1$s`%2$s (Nummer %3$d)` von den zusätzlichen Beitrittsnachrichten entfernt.",
+            "wrong_index": "%1$sDiese Nummer existiert nicht! Nutze `~>opts usermessage joinmessage list`, um alle gültigen Nummern zu sehen!"
         },
         "usermessage_joinmessage_clear": {
             "success": "%1$sAlle zusätzlichen Beitrittsnachrichten entfernt."
@@ -1614,7 +1626,8 @@
         },
         "usermessage_leavemessage_remove": {
             "no_message": "%1$sDu musst mir eine zusätzliche Austrittsnachricht angeben!",
-            "success": "%1$s`%2$s (Nummer %3$d)` von den zusätzlichen Austrittsnachrichten entfernt."
+            "success": "%1$s`%2$s (Nummer %3$d)` von den zusätzlichen Austrittsnachrichten entfernt.",
+            "wrong_index": "%1$sDiese Nummer existiert nicht! Nutze `~>opts usermessage leavemessage list`, um alle gültigen Nummern zu sehen!"
         },
         "usermessage_leavemessage_clear": {
             "success": "%1$sAlle zusätzlichen Austrittsnachrichten entfernt."
