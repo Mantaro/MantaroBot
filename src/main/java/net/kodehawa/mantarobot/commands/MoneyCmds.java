@@ -793,7 +793,7 @@ public class MoneyCmds {
                 //TODO: Needs proper handling on crates on Items.java.
                 DBUser dbUser = db.getUser(event.getAuthor());
                 PremiumKey key = db.getPremiumKey(dbUser.getData().getPremiumKey());
-                if(r.nextInt(400) > 350) {
+                if(r.nextInt(400) > 392) {
                     Item crate = (key != null && key.getDurationDays() > 1) ? Items.MINE_PREMIUM_CRATE : Items.MINE_CRATE;
                     if(inventory.getAmount(crate) + 1 > 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.crate.overflow");
