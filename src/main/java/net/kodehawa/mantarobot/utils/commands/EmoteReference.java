@@ -84,8 +84,8 @@ public enum EmoteReference {
     BLUE_SMALL_MARKER(":small_blue_diamond:", "\uD83D\uDD39"),
     DUST(":dash:", "\uD83D\uDCA8"),
     TROPHY(":trophy:", "\uD83C\uDFC6"),
-    MINE_CRATE("<:shiny_stone:316053940305133568>", null),
-    FISH_CRATE("<:treasure:316053940305133568>", null);
+    MINE_CRATE("<:shiny_stone:490258140462579712>", null),
+    FISH_CRATE("<:treasure:490258123966119958>", null);
 
 
     final String discordNotation;
