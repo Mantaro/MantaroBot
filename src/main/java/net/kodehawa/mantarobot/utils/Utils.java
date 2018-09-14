@@ -652,13 +652,13 @@ public class Utils {
     }
 
     private static void onRateLimit(User user) {
-        Counter.Child c = ratelimitCounter.labels(user.getId());
-        c.inc();
-        double ratelimitedTimes = c.get();
-        if((ratelimitedTimes > 1000 && ratelimitedTimes > 1000 * uptimeInDays()) && !loggedUsers.contains(user.getId())) {
-            loggedUsers.add(user.getId());
-            LogUtils.spambot(user);
-        }
+            Counter.Child c = ratelimitCounter.labels(user.getId());
+            c.inc();
+            double ratelimitedTimes = c.get();
+            if((ratelimitedTimes > 1000 && ratelimitedTimes > 1000 * uptimeInDays()) && !loggedUsers.contains(user.getId())) {
+                loggedUsers.add(user.getId());
+                LogUtils.spambot(user);
+            }
     }
 
     public static double uptimeInDays() {

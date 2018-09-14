@@ -48,6 +48,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.awt.*;
@@ -60,6 +61,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 @Module
@@ -469,7 +471,15 @@ public class CurrencyCmds {
     @Subscribe
     public void transferItems(CommandRegistry cr) {
         cr.register("itemtransfer", new SimpleCommand(Category.CURRENCY) {
-            RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 20);
+            final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                    .spamTolerance(2)
+                    .limit(1)
+                    .cooldown(20, TimeUnit.SECONDS)
+                    .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
+                    .maxCooldown(20, TimeUnit.MINUTES)
+                    .pool(MantaroData.getDefaultJedisPool())
+                    .prefix("transfer")
+                    .build();
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
@@ -495,7 +505,7 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    if(!handleDefaultRatelimit(rl, event.getAuthor(), event))
+                    if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event))
                         return;
 
                     Item item = Items.fromAnyNoId(args[1]).orElse(null);
@@ -597,8 +607,18 @@ public class CurrencyCmds {
     //Should be called return land tbh, what the fuck.
     public void transfer(CommandRegistry cr) {
         cr.register("transfer", new SimpleCommand(Category.CURRENCY) {
-            RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 10);
-            RateLimiter partyRateLimiter = new RateLimiter(TimeUnit.MINUTES, 4);
+            final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                    .spamTolerance(2)
+                    .limit(1)
+                    .cooldown(10, TimeUnit.SECONDS)
+                    .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
+                    .maxCooldown(10, TimeUnit.MINUTES)
+                    .pool(MantaroData.getDefaultJedisPool())
+                    .prefix("transfer")
+                    .build();
+
+            //this still uses a normal RL
+            RateLimiter partyRateLimiter = new RateLimiter(TimeUnit.MINUTES, 3);
 
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
@@ -619,7 +639,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rl, event.getAuthor(), event))
+                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event))
                     return;
 
                 long toSend; // = 0 at the start
@@ -695,7 +715,7 @@ public class CurrencyCmds {
                     ).queue();
 
                     toTransfer.saveAsync();
-                    rl.process(toTransfer.getUserId());
+                    rateLimiter.limit(toTransfer.getUserId());
                 } else {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.receipt_overflow_notice"), EmoteReference.ERROR).queue();
                 }
