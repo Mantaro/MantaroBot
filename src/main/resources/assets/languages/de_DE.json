@@ -336,7 +336,7 @@
                 "header": "`%1$s` - Server: `%2$s`",
                 "selection": "Wähle den Befehl:",
                 "note": "(Du kannst nur benutzerdefinierte Befehle von Servern, in denen du dich befindest, auswählen.)",
-                "success": "Benutzerdifinierter Befehl `%1$s` von Server `%2$s` mit folgenden Antworten importiert: `%1$d`"
+                "success": "Benutzerdifinierter Befehl `%1$s` von Server `%2$s` mit folgenden Antworten importiert: `%3$d`"
             },
             "edit": {
                 "invalid_number": "%1$sDu musst eine korrekte Nummer zum Ändern angeben!",
@@ -352,7 +352,7 @@
                 "success": "%1$sBefehl `%2$s` gespeichert!"
             },
             "character_not_allowed": "%1$sDieses Zeichen ist in benutzerdefinierten Befehlen nicht erlaubt..",
-            "already_exists": "%1$sDer Befehl `%2$s` existiert bereits!",
+            "already_exists": "%1$sDer Befehl `%2$s` existiert bereits and it's a default bot command!",
             "name_too_long": "%1$sDer Name ist zu lang.",
             "no_cc": "%1$sIn diesem Server gibt es keine benutzerdefinierten Befehle, nur Staub.",
             "admin_only": "In diesem Server können nur Administratoren benutzerdefinierte Befehle erstellen, bearbeite, auswerten oder entfernen.\n**Das ist jetzt die STANDARDMÄẞIGE Einstellung.**\n- Wenn du dies alle machen lassen möchtest, und ein Admin bist (Bot Commander-Rolle oder Server verwalten Berechtigung), nutze `~>opts admincustom false`",
@@ -468,7 +468,7 @@
                 "key_locked": "%1$sDer Nutzer, den du versucht hast zu beanspruchen, ist verschlossen und kann nicht beansprucht werden.",
                 "not_enough_money": "%1$sDu hast nicht genug Geld, um diese Waifu zu beanspruchen **(Kosten: %2$s)**",
                 "not_enough_slots": "%1$sDu hast nicht genug Plätze verfügbar, um diese Waifu zu beanspruchen. (Plätze: %2$s, Benutzt: %3$s)",
-                "success": "%1$s%2$s erfolgreich für %3$,d Credits beansprucht. Plätze benutzt: %4$s",
+                "success": "%1$s`%2$s` erfolgreich für %3$,d Credits beansprucht. Plätze benutzt: %4$s",
                 "yourself": "%1$sDu kannst dich nicht selbst beanspruchen!",
                 "already_claimed": "%1$sDu hast diese Waifu bereits beansprucht."
             },
@@ -479,7 +479,7 @@
                 "not_enough_money": "%1$sDu hast nicht genug Geld, um auf diese Waifu zu verzichten!",
                 "player_locked": "%1$sDu kannst das aktuell nicht tun.",
                 "scrapped": "%1$sWaifu-Verzicht abgebrochen.",
-                "success": "%1$sErfolgreich auf **%2$s** verzichtet, mit den Kosten von **%3$s Credits**."
+                "success": "%1$sErfolgreich auf `%2$s` verzichtet, mit den Kosten von **%3$s Credits**."
             },
             "buyslot": {
                 "locked": "%1$sDu kannst das aktuell nicht tun.",
@@ -549,7 +549,7 @@
                     "success": "%1$sDu hast alle deine Items verkauft und %2$d Credits erhalten!",
                     "cancelled": "%1$sErfolgreich abgebrochen."
                 },
-                "non_existent": "%1$sDu kannst kein nicht vorhandendes Item verkaufen.",
+                "non_existent": "%1$sDu kannst kein nicht vorhandendes Item verkaufen. (But you can `~>market dump` it)",
                 "no_sell_price": "%1$sDu kannst kein Item verkaufen, das nicht verkauft werden kann.",
                 "no_item_player": "%1$sDu kannst kein Item verkaufen, das du nicht besitzt.",
                 "more_items_than_player": "%1$sDu kannst nicht mehrverkaufen, als du hast.",
@@ -588,7 +588,7 @@
             "no_money_notice": "%1$sDu kannst Geld, das du nicht hast, nicht versenden.",
             "receipt_locked_notice": "1$sDieser Nutzer kann jetzt kein Geld erhalten.",
             "receipt_over_limit": "%1$sDieser Nutzer hat bereits zu viel Geld...",
-            "success": "%1$sEs wurden **%2$d** *(%3$d nach 10%% Steuern)* an **%4$s** erfolgreich überwiesen.",
+            "success": "%1$sEs wurden **%2$d** *(%3$d nach 8%% Steuern)* an **%4$s** erfolgreich überwiesen.",
             "item_transfer": "%1$sDu kannst Gegenstände nicht mit transfer verschicken, benutze stattdessen den `transferitems` Befehl.",
             "party": "Du kannst nur einmal alle 4 Minuten an eine Person (%1$s) überweisen."
         },

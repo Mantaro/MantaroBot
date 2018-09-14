@@ -50,7 +50,7 @@ apply plugin: 'com.apollographql.android'
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 
 //Use an unified versioning system
-def ver = new Version(major: 5, minor: 0, revision: 0)
+def ver = new Version(major: 5, minor: 0, revision: 2)
 version ver.toString()
 
 //We are going to use Java 8
@@ -88,8 +88,6 @@ dependencies {
 	compile 'us.monoid.web:resty:0.3.2'
 
 	compile 'br.com.brjdevs:utils:1.0.0_15'
-	compile 'br.com.brjdevs:network:1.0.0_2'
-	compile 'br.com.brjdevs:trove-utils:1.0.0_4'
 
 	compile 'com.google.guava:guava:26.0-jre'
 	compile 'com.google.code.gson:gson:2.8.5'

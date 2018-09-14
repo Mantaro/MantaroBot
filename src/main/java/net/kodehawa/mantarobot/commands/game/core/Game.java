@@ -18,6 +18,8 @@ package net.kodehawa.mantarobot.commands.game.core;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
@@ -44,6 +46,10 @@ public abstract class Game<T> {
     protected int callDefault(GuildMessageReceivedEvent e,
                               GameLobby lobby, List<String> players, List<T> expectedAnswer, int attempts, int maxAttempts, int extra) {
         if(!e.getChannel().getId().equals(lobby.getChannel().getId())) {
+            return Operation.IGNORED;
+        }
+
+        if(!lobby.isGameLoaded()) {
             return Operation.IGNORED;
         }
 
@@ -87,7 +93,11 @@ public abstract class Game<T> {
                 player.save();
 
                 TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
-                lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.won_game"), EmoteReference.MEGA, e.getMember().getEffectiveName(), gains).queue();
+                new MessageBuilder().setContent(String.format(lobby.getLanguageContext().get("commands.game.lobby.won_game"), EmoteReference.MEGA, e.getMember().getEffectiveName(), gains))
+                        .stripMentions(e.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
+                        .sendTo(lobby.getChannel())
+                        .queue();
+
                 lobby.startNextGame(true);
                 return Operation.COMPLETED;
             }

@@ -46,11 +46,13 @@ import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class CommandRegistry {
@@ -71,6 +73,7 @@ public class CommandRegistry {
     private final Config conf = MantaroData.config().get();
     @Setter
     private boolean logCommands = false;
+    private RateLimiter rl = new RateLimiter(TimeUnit.MINUTES, 1);
 
     public CommandRegistry(Map<String, Command> commands) {
         this.commands = Preconditions.checkNotNull(commands);
@@ -91,9 +94,6 @@ public class CommandRegistry {
         long start = System.currentTimeMillis();
 
         Command command = commands.get(cmdName.toLowerCase());
-        if (managedDatabase.getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) {
-            return false;
-        }
 
         DBGuild dbg = managedDatabase.getGuild(event.getGuild());
         DBUser dbUser = managedDatabase.getUser(event.getAuthor());
@@ -110,6 +110,15 @@ public class CommandRegistry {
                     "All Commands will be refused until you give me that permission.\n" +
                     "http://i.imgur.com/Ydykxcy.gifv Refer to this on instructions on how to give the bot the permissions. " +
                     "Also check all the other roles the bot has have that permissions and remember to check channel-specific permissions. Thanks you.").queue();
+            return false;
+        }
+
+        if (managedDatabase.getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) {
+            if(rl.process(event.getAuthor())) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "You have been blacklisted from using all of Mantaro's functions. " +
+                        "If you wish to get more details on why, don't hesitate to join the support server and ask, but be sincere."
+                ).queue();
+            }
             return false;
         }
 
@@ -137,12 +146,16 @@ public class CommandRegistry {
 //            return false;
 //        }
 
-        if (guildData.getDisabledCategories().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) {
+        if (guildData.getDisabledCategories().contains(
+                cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category()
+        )  && !cmdName.toLowerCase().equals("opts")) {
             return false;
         }
 
         if (guildData.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), c ->
-                new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) {
+                new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() :
+                    cmd.category())
+                &&  !cmdName.toLowerCase().equals("opts")) {
             return false;
         }
 

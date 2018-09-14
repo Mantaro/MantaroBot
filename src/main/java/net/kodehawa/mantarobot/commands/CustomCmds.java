@@ -30,8 +30,6 @@ import net.kodehawa.mantarobot.commands.custom.CustomCommandHandler;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.MantaroCore;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
-import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
@@ -233,95 +231,6 @@ public class CustomCmds {
 
                 String cmd = args[1];
 
-                if(action.equals("make")) {
-                    if(!NAME_PATTERN.matcher(cmd).matches()) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.character_not_allowed"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-
-                    List<String> responses = new ArrayList<>();
-                    boolean created = InteractiveOperations.create(
-                            event.getChannel(), event.getAuthor().getIdLong(),60, e -> {
-                                if(!e.getAuthor().equals(event.getAuthor()))
-                                    return Operation.IGNORED;
-
-                                String c = e.getMessage().getContentRaw();
-                                if(!c.startsWith("&"))
-                                    return Operation.IGNORED;
-                                c = c.substring(1);
-
-                                boolean nsfw = false;
-
-                                if(c.startsWith("~>cancel") || c.startsWith("~>stop")) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.make.cancel"), EmoteReference.CORRECT).queue();
-                                    return Operation.COMPLETED;
-                                }
-
-                                if(c.startsWith("~>nsfw")) {
-                                    nsfw = true;
-                                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.nsfw_enabled"), EmoteReference.CORRECT).queue();
-                                    return Operation.RESET_TIMEOUT;
-                                }
-
-                                if(c.startsWith("~>sfw")) {
-                                    nsfw = false;
-                                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.nsfw_disabled"), EmoteReference.CORRECT).queue();
-                                    return Operation.RESET_TIMEOUT;
-                                }
-
-                                if(c.startsWith("~>save")) {
-                                    String arg = c.substring(6).trim();
-                                    String saveTo = !arg.isEmpty() ? arg : cmd;
-
-                                    if(!NAME_PATTERN.matcher(cmd).matches()) {
-                                        event.getChannel().sendMessageFormat(languageContext.get("general.invalid_character"), EmoteReference.ERROR).queue();
-                                        return Operation.RESET_TIMEOUT;
-                                    }
-
-                                    if(cmd.length() >= 100) {
-                                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.name_too_long"), EmoteReference.ERROR).queue();
-                                        return Operation.RESET_TIMEOUT;
-                                    }
-
-                                    if(DefaultCommandProcessor.REGISTRY.commands().containsKey(saveTo)) {
-                                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.already_exists"), EmoteReference.ERROR).queue();
-                                        return Operation.RESET_TIMEOUT;
-                                    }
-
-                                    if(responses.isEmpty()) {
-                                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.make.no_responses_added"), EmoteReference.ERROR).queue();
-                                    } else {
-                                        CustomCommand custom = CustomCommand.of(event.getGuild().getId(), cmd, responses);
-                                        custom.getData().setOwner(event.getAuthor().getId());
-                                        custom.getData().setNsfw(nsfw);
-                                        //save at DB
-                                        custom.saveAsync();
-
-                                        //reflect at local
-                                        customCommands.put(custom.getId(), custom);
-
-                                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.make.success"), EmoteReference.CORRECT, cmd).queue();
-
-                                        //easter egg :D
-                                        TextChannelGround.of(event).dropItemWithChance(8, 2);
-                                    }
-                                    return Operation.COMPLETED;
-                                }
-
-                                responses.add(c.replace("@everyone", "[nice meme]").replace("@here", "[you tried]"));
-                                e.getMessage().addReaction(EmoteReference.CORRECT.getUnicode()).queue();
-                                return Operation.RESET_TIMEOUT;
-                            }) != null;
-
-                    if(created) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.make.start_text"), EmoteReference.PENCIL, cmd).queue();
-                    } else {
-                        event.getChannel().sendMessageFormat(languageContext.get("general.interactive_running"), EmoteReference.ERROR).queue();
-                    }
-
-                    return;
-                }
-
                 if(action.equals("eval")) {
                     try {
                         String ctn = content.replace(action + " ", "");
@@ -342,7 +251,13 @@ public class CustomCmds {
                         return;
                     }
 
-                    CustomCommand custom = db().getCustomCommand(event.getGuild(), cmd);
+                    //hint: always check for this
+                    if(DefaultCommandProcessor.REGISTRY.commands().containsKey(cmd)) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.already_exists"), EmoteReference.ERROR, cmd).queue();
+                        return;
+                    }
+
+                    CustomCommand custom = getCustomCommand(event.getGuild().getId(), cmd);
                     if(custom == null) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.custom.not_found"), EmoteReference.ERROR2, cmd).queue();
                         return;
@@ -356,7 +271,7 @@ public class CustomCmds {
 
                     //clear commands if none
                     if(customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
-                        DefaultCommandProcessor.REGISTRY.commands().remove(cmd);
+                        customCommands.remove(cmd);
 
                     event.getChannel().sendMessageFormat(languageContext.get("commands.custom.remove.success"), EmoteReference.PENCIL, cmd).queue();
 
@@ -507,7 +422,7 @@ public class CustomCmds {
 
                     //clear commands if none
                     if(customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
-                        DefaultCommandProcessor.REGISTRY.commands().remove(cmd);
+                        customCommands.remove(cmd);
 
                     event.getChannel().sendMessageFormat(languageContext.get("commands.custom.rename.success"), EmoteReference.CORRECT, cmd, value).queue();
 
@@ -604,6 +519,11 @@ public class CustomCmds {
 
     //Lazy-load custom commands into cache.
     private static CustomCommand getCustomCommand(String id, String name) {
+        //lol
+        if(DefaultCommandProcessor.REGISTRY.commands().containsKey(name)) {
+            return null;
+        }
+
         if(customCommands.containsKey(id + ":" + name)) {
             return customCommands.get(id + ":" + name);
         }

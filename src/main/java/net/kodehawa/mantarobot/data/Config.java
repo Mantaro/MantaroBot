@@ -69,6 +69,7 @@ public class Config {
     public int upToShard = 0;
     public String weatherAppId;
     public String webhookUrl;
+    public String spambotUrl;
     public String weebapiKey;
     public String apiTwoUrl = "http://127.0.0.1:5874";
     public boolean needApi = true;

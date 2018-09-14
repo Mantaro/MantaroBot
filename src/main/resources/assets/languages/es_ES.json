@@ -153,7 +153,7 @@
             "queue_finished": "%1$sHe finalizado de reproducir toda la cola! Espero que lo hayas disfrutado.\n%2$s",
             "soundcloud_no_args": "%1$sNecesitas darme el nombre de la canción! No puedo adivinarla...",
             "queue": {
-                "no_track_found_np": "Nada o título/duración no encontrada.",
+                "no_track_found_np": "Nada o título/duración no encontrado.",
                 "header": "Cola para el servidor %1$s",
                 "nothing_playing": "Nada por aquí, solo polvo. ¿Por qué no pones algunas canciones en la cola?\nSi crees que hay canciones por aquí pero no aparecen, intenta usar `~>queue 1`.",
                 "nothing_playing_2": "**Si hay una canción reproduciendose y no has añadido más, entonces solamente hay polvo por aquí. Puedes poner más canciones en la cola a tu antojo!**",
@@ -348,7 +348,7 @@
                 "success": "%1$sHe guardado el comando personalizado `%2$s` exitosamente!"
             },
             "character_not_allowed": "%1$sEste carácter no está habilitado para ser usado en los nombres de comandos personalizados.",
-            "already_exists": "%1$sEl comando `%2$s` ya existe.",
+            "already_exists": "%1$sEl comando `%2$s` ya existe y es un comando predeterminado del bot.",
             "name_too_long": "%1$sEl nombre es muy largo.",
             "no_cc": "%1$sNo hay comandos personalizados en este servidor, solamente pude encontrar polvo...",
             "admin_only": "Este servidor solo permite la creación y evalauación de comandos personalizados por administradores.\n**Ahora esta es la opción por defecto.**\n- Si quieres que **todos** usen los comandos personalizados, y eres un administrador (un rol llamado Bot Commander o uno con el permiso de Administrar Servidor) usa `~>opts admincustom false`",
@@ -464,7 +464,7 @@
                 "key_locked": "%1$sEl usuario que intentaste reclamar está bloqueado por llave y no puede ser reclamado.",
                 "not_enough_money": "%1$sNo tienes dinero suficiente para reclamar esta waifu **(Valor: %2$s)**",
                 "not_enough_slots": "%1$sNo tienes suficiente espacio para reclamar esta waifu. (Total de espacios: %2$s, Espacios usados: %3$s)",
-                "success": "%1$sWaifu reclamada exitosamente! %2$s for %3$s. Espacios usados: %4$s"
+                "success": "%1$sWaifu reclamada exitosamente! `%2$s` for %3$s. Espacios usados: %4$s"
             },
             "unclaim": {
                 "no_user": "%1$sNecesitas mencionar una waifu para remover.",
@@ -542,7 +542,7 @@
                     "cancelled": "%1$sCancelada correctamente."
                 },
                 "non_existent": "%1$sNo puedes vender un item inexistente.",
-                "no_sell_price": "%1$sNo puedes vender un item que no tenga valor de venta.",
+                "no_sell_price": "%1$sNo puedes vender un item que no tenga valor de venta. (Pero si puedes usar `~>market dump` para tirarlo)",
                 "no_item_player": "%1$sNo puedes vender un item que no tienes.",
                 "more_items_than_player": "%1$sNo puedes vender más items de los que tienes.",
                 "success": "%1$sHas vendido %2$d **%3$s** y ganaste %4$d créditos!"
@@ -580,7 +580,7 @@
             "no_money_notice": "%1$sNo puedes transferir créditos que no posees.",
             "receipt_locked_notice": "1$sEse usuario no puede recibir créditos ahora.",
             "receipt_over_limit": "%1$sEse usuario ya tiene muchos créditos...",
-            "success": "%1$sHas transferido **%2$d** *(%3$d despues de 10%% de impuestos)* créditos a **%4$s** correctamente.",
+            "success": "%1$sHas transferido **%2$d** *(%3$d despues de 8%% de impuestos)* créditos a **%4$s** correctamente.",
             "item_transfer": "%1$sNo puedes transferir items usando este comando, debes usar `transferitems`!",
             "party": "Le puedes transferir a la misma persona (%1$s) una vez cada 4 minutos."
         },
@@ -725,7 +725,9 @@
             "upvote_notice": "**Puedes conseguir un trofeo gratis por [darle like a Mantaro en discordbots.org](https://discordbots.org/bot/mantaro)!** (Podría tomar unos minutos para procesar)\n\n",
             "donate_notice": "**¡Puedes conseguir un trofeo por [ayudar a mantener el bot vivo](https://patreon.com/mantaro)!** (Puede que tome unos minutos para procesar)\n\n",
             "no_badges": "No hay trofeos para mostrar (¡aún!)",
-            "header": "Trofeos logrados por %1$s"
+            "header": "Trofeos logrados por %1$s",
+            "total_badges": "**Total de trofeos obtenidos:** %1$s",
+            "footer": "Los trofeos son logros que obtienes usando el bot o progresando en el juego de Mantaro."
         },
         "rep": {
             "no_mentions": "%1$sNecesitas mencionar o escribir el nombre de un usuario.\n%2$s",

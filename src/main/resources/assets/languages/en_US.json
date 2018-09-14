@@ -41,6 +41,8 @@
       "haste_used": "%1$sYou already have an active haste effect!",
       "bait": "%1$sInserted a bait in your fishing rod! Good luck fishing. (Activated for 1 use)",
       "bait_used": "%1$sYou already have an active fishing bait!",
+      "pill": "%1$sYou drank a waifu pill! (Activated for 5 sessions)",
+      "pill_used": "%1$sYou already have an active waifu pill!",
       "crate": {
         "no_key": "%1$sYou need a loot crate key to open a crate. It's locked!",
         "no_crate": "%1$sYou need a loot crate! How else would you use your key >.>... oh",
@@ -171,7 +173,8 @@
         "multiple_pages": " -> Use ~>queue <page> to change pages",
         "page_react": " -> React to change pages",
         "no_channel": "No channel :(",
-        "songs": "song(s)"
+        "songs": "song(s)",
+        "clear_error": "%1$sEither you're not connected to the VC or you're not the DJ."
       },
       "connect": {
         "success": "%1$sSuccessfully connected to channel **%2$s**!",
@@ -336,7 +339,7 @@
         "header": "`%1$s` - Guild: `%2$s`",
         "selection": "Select the Command:",
         "note": "(You can only select custom commands from guilds that you are a member of)",
-        "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %1$d responses."
+        "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3$d responses."
       },
       "edit": {
         "invalid_number": "%1$sYou need to specify a correct number to change.",
@@ -352,7 +355,7 @@
         "success": "%1$sSaved to command `%2$s`"
       },
       "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
-      "already_exists": "%1$sThe command `%2$s` already exists.",
+      "already_exists": "%1$sThe command `%2$s` already exists and it's a default bot command.",
       "name_too_long": "%1$sName is too long.",
       "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just a bit of dust.",
       "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
@@ -468,7 +471,7 @@
         "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed.",
         "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s)**",
         "not_enough_slots": "%1$sYou don't have enough slots available to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
-        "success": "%1$sSuccessfully claimed %2$s for %3$,d. Slots used: %4$s",
+        "success": "%1$sSuccessfully claimed `%2$s` for %3$,d. Slots used: %4$s",
         "yourself": "%1$sYou cannot claim yourself!",
         "already_claimed": "%1$sYou already claimed this waifu."
       },
@@ -479,7 +482,7 @@
         "not_enough_money": "%1$sYou don't have enough money to un-claim this waifu!",
         "player_locked": "%1$sYou cannot do this at the moment.",
         "scrapped": "%1$sCancelled waifu un-claiming.",
-        "success": "%1$sSuccessfully unclaimed **%2$s** with a cost of **%3$s credits**."
+        "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**."
       },
       "buyslot": {
         "locked": "%1$sYou're currently unable to perform this action.",
@@ -525,7 +528,12 @@
       "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
       "success": "%1$sYou successfully **casted %2$s %3$s** for **%4$s credits.**",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
-      "item_broke": "\nSadly, your wrench broke in the process, but you got your item!"
+      "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
+      "ls": {
+        "header": "Castable Item List",
+        "cost": "Cast Cost: ",
+        "desc": "This is a list of the items you can cast using `~>cast`. You have to use the full name or the short name to cast it (example: `~>cast diamond pickaxe` or `~>cast diamond p` works)\n**Casting has a cost of half the price of the item. The casting price will be shown down below.**"
+      }
     },
     "market": {
       "dump": {
@@ -551,7 +559,7 @@
           "cancelled": "%1$sCancelled successfully."
         },
         "non_existent": "%1$sYou cannot sell a non-existent item.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold.",
+        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
         "no_item_player": "%1$sYou cannot sell an item you don't have.",
         "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
         "success": "%1$sYou sold %2$d **%3$s** and gained %4$d credits!"
@@ -590,7 +598,7 @@
       "no_money_notice": "%1$sYou cannot transfer money you don't have.",
       "receipt_locked_notice": "1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sThis user already has too much money...",
-      "success": "%1$sTransferred **%2$d** *(%3$d after 10%% tax)* to **%4$s** successfully.",
+      "success": "%1$sTransferred **%2$d** *(%3$d after 8%% tax)* to **%4$s** successfully.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `transferitems` command instead.",
       "party": "You can only transfer to the same person (%1$s) once every 4 minutes."
     },
@@ -735,7 +743,10 @@
       "upvote_notice": "**You can get a free badge for [up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!** (It might take some minutes to process)\n\n",
       "donate_notice": "**You can get a badge for [supporting the development of Mantaro!](https://patreon.com/mantaro)!** (It might take some minutes to process)\n\n",
       "no_badges": "No badges to show (yet!)",
-      "header": "Badges achieved by %1$s"
+      "no_badges": "No badges to show (yet!)",
+      "header": "Badges achieved by %1$s",
+      "total_badges": "**Total achieved badges:** %1$s",
+      "footer": "Badges are like achievements, and they're gained through progression in Mantaro's game or by just using the bot."
     },
     "rep": {
       "no_mentions": "%1$sYou need to mention or put the name of one user.\n%2$s",
@@ -912,7 +923,7 @@
       "multiple": {
         "invalid": "%1$sYou need to specify the game and the number of times to run it",
         "invalid_times": "%1$sInvalid number of times. Remember that it must be an integer.",
-        "too_many_games": "%1$sYou can only start a maximum of 10 games of the same type at a time.",
+        "too_many_games": "%1$sYou can only start a maximum of 5 games of the same type at a time.",
         "no_character": "%1$sYou cannot use character game in game multiple or lobby due to AniList API limitations."
       },
       "trivia": {
@@ -953,7 +964,8 @@
       "error": "%1$sI found an error while setting up the game... (internal error)",
       "character_load_error": "%1$sReport this in the official server please. Failed to setup game for pre-saved character: %2$s",
       "character_request_error": "%1$sError requesting this character from AniList's API.",
-      "character_start": "Guess the character"
+      "character_start": "Guess the character",
+      "too_many_games": "%1$sYou can start a maximum of 4 games at the same time with game lobby/multiple. (With Premium: 8)"
     },
     "opencrate": {
       "no_crate": "%1$sYou don't have any loot crate to open :("
@@ -1231,6 +1243,10 @@
       "gem": {
         "overflow": "Huh, you found *%1$s* while mining, but you already had too much of that gem, so I sold it for you.",
         "success": "Huh! You got lucky and found *%1$s* while mining, check your inventory."
+      },
+      "sparkle": {
+        "overflow": "You found a sparkling gem, but it seems like you had too much of it already, so we sold it for you.",
+        "success": "Hurray! You found one %1$s sparkling gem. Make sure to keep it around, check your inventory."
       },
       "pick_broke": "%1$sOne of your picks broke while mining.",
       "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!"
@@ -1740,7 +1756,14 @@
     "motorcycle": "Motorcycle",
     "comet_pick": "Comet Gem Pickaxe",
     "star_pick": "Star Gem Pickaxe",
+    "sparkle": "Sparkle Matter",
+    "sparkle_pick": "Sparkle Matter Pickaxe",
     "pizza": "Pizza",
+    "mine_crate": "Mine Crate",
+    "fish_crate": "Fish Treasure",
+    "mine_premium_crate": "Mine (Premium) Crate",
+    "fish_premium_crate": "Fish (Premium) Treasure",
+
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
       "ban_hammer": "Left by an admin.",
@@ -1805,7 +1828,13 @@
       "motorcycle": "Going around, the cool way.",
       "comet_pick": "A very much stronger pick (Comet). (`~>mine` tool).",
       "star_pick": "A very much stronger pick (Star). (`~>mine` tool).",
-      "pizza": "Yummy."
+      "sparkle": "One of the rarest gems around. Make sure to keep it. (Used to cast sparkle pickaxe)",
+      "sparkle_pick": "The strongest pick out there. (`~>mine` tool)",
+      "pizza": "Yummy.",
+      "mine_crate": "A crate you find while mining. Might have some nice stuff inside.",
+      "fish_crate": "A treasure you find while fishing. Might have some nice stuff inside.",
+      "mine_premium_crate": "A crate you find while mining. Might have some nice stuff inside.",
+      "fish_premium_crate": "A treasure you find while fishing. Might have some nice stuff inside."
     }
   },
   "test": {

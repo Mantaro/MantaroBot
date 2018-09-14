@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 public class IncreasingRateLimiter {
@@ -57,7 +58,7 @@ public class IncreasingRateLimiter {
                         Arrays.asList(
                                 String.valueOf(limit),
                                 String.valueOf(start),
-                                String.valueOf(cooldown),
+                                String.valueOf(cooldown + ThreadLocalRandom.current().nextInt(cooldown / 4)),
                                 String.valueOf(spamBeforeCooldownIncrease),
                                 String.valueOf(cooldownIncrease),
                                 String.valueOf(maxCooldown)

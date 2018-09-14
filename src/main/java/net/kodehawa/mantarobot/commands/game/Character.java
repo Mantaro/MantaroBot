@@ -116,7 +116,7 @@ public class Character extends ImageGame {
             sendEmbedImage(lobby.getChannel(), imageUrl, eb -> eb
                     .setTitle(languageContext.get("commands.game.character_start"), null)
                     .setFooter(languageContext.get("commands.game.end_footer"), null)
-            ).queue();
+            ).queue(success -> lobby.setGameLoaded(true));
             return true;
         } catch (JsonSyntaxException ex) {
             lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.character_load_error"), EmoteReference.WARNING, characterName).queue();

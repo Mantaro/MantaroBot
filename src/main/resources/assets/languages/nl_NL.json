@@ -333,7 +333,7 @@
                 "header": "`%1$s` - Guild: `%2$s`",
                 "selection": "Selecteer het Commando:",
                 "note": "(Je kunt alleen custom commando's selecteren van de Guild waarvan je lid bent)",
-                "success": "Het custom commando `%1$s` van Guild `%2$s` met een totaal van %1$d antwoorden is geïmporteerd."
+                "success": "Het custom commando `%1$s` van Guild `%2$s` met een totaal van %3$d antwoorden is geïmporteerd."
             },
             "edit": {
                 "invalid_number": "%1$sJe moet een bestaand nummer opgeven om te wijzigen.",
@@ -348,7 +348,7 @@
                 "success": "%1$sOpgeslagen aan commando `%2$s`"
             },
             "character_not_allowed": "%1$sDit karakter is niet toegestaan in de naam van een custom commando.",
-            "already_exists": "%1$sHet commando `%2$s` bestaat al.",
+            "already_exists": "%1$sHet commando `%2$s` bestaat al and it's a default bot command.",
             "name_too_long": "%1$sNaam is te lang.",
             "no_cc": "%1$sEr zijn geen custom commando's geregisteerd in deze Guild.",
             "admin_only": "In deze Guild mogen alleen beheerders custom commando's maken, bewerking, importeren en evalueren.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
@@ -464,7 +464,7 @@
                 "key_locked": "%1$sDe gebruiker die je probeert te claimen is key-locked en kan niet geclaimed worden.",
                 "not_enough_money": "%1$sJe hebt niet genoeg geld om deze waifu te claimen **(Kosten: %2$s)**",
                 "not_enough_slots": "%1$sJe hebt niet genoeg plek beschikbaar om deze waifu te claimen (Totaal aantal slots: %2$s, Gebruikt aantal slots: %3$s)",
-                "success": "%1$sHeeft %2$s succesvol geclaimed voor %3$,d. Slots gebruikt: %4$s"
+                "success": "%1$sHeeft `%2$s` succesvol geclaimed voor %3$,d. Slots gebruikt: %4$s"
             },
             "unclaim": {
                 "no_user": "%1$sJe hebt geen gebruiker genoemd om te unclaim.",
@@ -472,7 +472,7 @@
                 "not_enough_money": "%1$sJe hebt niet genoeg geld om deze waifu te unclaimen!",
                 "player_locked": "%1$sJe kunt dit niet doen op dit moment.",
                 "scrapped": "%1$sHet unclaimen van deze waifu is gecancelled.",
-                "success": "%1$sHeeft **%2$s** succesvol ge-unclaimed voor **%3$s credits**."
+                "success": "%1$sHeeft `%2$s` succesvol ge-unclaimed voor **%3$s credits**."
             },
             "buyslot": {
                 "locked": "%1$sJe kunt deze actie op dit moment niet uitvoeren.",
@@ -542,7 +542,7 @@
                     "cancelled": "%1$sSuccesvol gecancelled."
                 },
                 "non_existent": "%1$sJe kunt een niet-bestaand item niet verkopen.",
-                "no_sell_price": "%1$sJe kunt een item niet verkopen dat niet kan worden verkocht.",
+                "no_sell_price": "%1$sJe kunt een item niet verkopen dat niet kan worden verkocht. (But you can `~>market dump` it)",
                 "no_item_player": "%1$sJe kunt geen item verkopen die je niet hebt.",
                 "more_items_than_player": "%1$sJe kunt niet meer items verkopen dan dat je in totaal hebt.",
                 "success": "%1$sJe verkocht %2$d **%3$s** en kreeg %4$d credits!"
@@ -580,7 +580,7 @@
             "no_money_notice": "%1$sJe kunt geen geld overmaken dat je niet hebt.",
             "receipt_locked_notice": "1$sDeze persoon kan nu geen geld ontvangen.",
             "receipt_over_limit": "%1$sDeze persoon heeft al te veel geld...",
-            "success": "%1$sEr is succesvol **%2$,d** *(%3$,d na 10%% belasting)* overgemaakt naar **%4$s**.",
+            "success": "%1$sEr is succesvol **%2$,d** *(%3$,d na 8%% belasting)* overgemaakt naar **%4$s**.",
             "item_transfer": "%1$sJe kunt geen items overzetten met behulp 'transfer', gebruik hiervoor het 'itemtransfer' commando.",
             "party": "Je kunt maar één keer per 4 minuten geld overmaken naar dezelfde persoon (%1$s)."
         },

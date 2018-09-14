@@ -43,6 +43,7 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PlayerStats;
+import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
@@ -689,7 +690,7 @@ public class MoneyCmds {
     @Subscribe
     public void mine(CommandRegistry cr) {
         cr.register("mine", new SimpleCommand(Category.CURRENCY) {
-            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 6, false);
+            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 5, false);
             final Random r = new Random();
 
             @Override
@@ -741,7 +742,8 @@ public class MoneyCmds {
 
                 String message = String.format(languageContext.get("commands.mine.success"), EmoteReference.PICK, money, item.getName());
 
-                if(r.nextInt(400) > (Items.handlePotion(Items.POTION_HASTE, 2, player) ? 290 : 350)) {
+                boolean hasPotion = Items.handlePotion(Items.POTION_HASTE, 2, player);
+                if(r.nextInt(400) > (hasPotion ? 290 : 350)) {
                     if(inventory.getAmount(Items.DIAMOND) == 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.diamond.overflow");
                         money += Items.DIAMOND.getValue() * 0.9;
@@ -753,7 +755,7 @@ public class MoneyCmds {
                     player.getData().addBadgeIfAbsent(Badge.MINER);
                 }
 
-                if(r.nextInt(400) > (Items.handlePotion(Items.POTION_HASTE, 2, player) ? 311 : 371)) {
+                if(r.nextInt(400) > (hasPotion ? 311 : 371)) {
                     List<Item> gem = Stream.of(Items.ALL)
                             .filter(i -> i.getItemType() == ItemType.MINE && !i.isHidden() && i.isSellable())
                             .collect(Collectors.toList());
@@ -774,6 +776,31 @@ public class MoneyCmds {
                     }
 
                     player.getData().addBadgeIfAbsent(Badge.GEM_FINDER);
+                }
+
+                if((r.nextInt(400) > 390 && item == Items.GEM2_PICKAXE) || (r.nextInt(400) > 395 && item == Items.GEM1_PICKAXE)) {
+                    Item gem = Items.GEM_5;
+                    if(inventory.getAmount(gem) + 1 >= 5000) {
+                        message += "\n" + languageContext.withRoot("commands", "mine.sparkle.overflow");
+                        money += gem.getValue() * 0.9;
+                    } else {
+                        inventory.process(new ItemStack(gem, 1));
+                        message += "\n" + EmoteReference.MEGA + String.format(languageContext.withRoot("commands", "mine.sparkle.success"), gem.getEmoji());
+                    }
+                    player.getData().addBadgeIfAbsent(Badge.GEM_FINDER);
+                }
+
+                //TODO: Needs proper handling on crates on Items.java.
+                DBUser dbUser = db.getUser(event.getAuthor());
+                PremiumKey key = db.getPremiumKey(dbUser.getData().getPremiumKey());
+                if(r.nextInt(400) > 392) {
+                    Item crate = (key != null && key.getDurationDays() > 1) ? Items.MINE_PREMIUM_CRATE : Items.MINE_CRATE;
+                    if(inventory.getAmount(crate) + 1 > 5000) {
+                        message += "\n" + languageContext.withRoot("commands", "mine.crate.overflow");
+                    } else {
+                        inventory.process(new ItemStack(crate, 1));
+                        message += "\n" + EmoteReference.MEGA + languageContext.withRoot("commands", "mine.crate.success");
+                    }
                 }
 
                 event.getChannel().sendMessage(message).queue();

@@ -16,6 +16,8 @@
 
 package net.kodehawa.mantarobot.commands.game;
 
+import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
@@ -103,7 +105,10 @@ public class GuessTheNumber extends Game<Object> {
                         player.save();
 
                         TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
-                        lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.lobby.won_game"), EmoteReference.MEGA, e.getMember().getEffectiveName(), gains).queue();
+                        new MessageBuilder().setContent(String.format(languageContext.get("commands.game.lobby.won_game"), EmoteReference.MEGA, e.getMember().getEffectiveName(), gains))
+                                .stripMentions(e.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
+                                .sendTo(lobby.getChannel())
+                                .queue();
                         lobby.startNextGame(true);
                         return Operation.COMPLETED;
                     }
@@ -146,9 +151,10 @@ public class GuessTheNumber extends Game<Object> {
     @Override
     public boolean onStart(GameLobby lobby) {
         GameStatsManager.log(name());
-
         number = r.nextInt(150);
-        lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.number.start"), EmoteReference.THINKING).queue();
+        lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.number.start"),
+                EmoteReference.THINKING
+        ).queue(success -> lobby.setGameLoaded(true));
         return true;
     }
 

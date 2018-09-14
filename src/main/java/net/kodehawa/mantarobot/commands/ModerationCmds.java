@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -60,7 +61,7 @@ public class ModerationCmds {
                 Message receivedMessage = event.getMessage();
                 String reason = content;
 
-                if(args.length == 0) {
+                if(event.getMessage().getMentionedUsers().isEmpty()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.softban.no_users"), EmoteReference.ERROR).queue();
                     return;
                 }
@@ -89,11 +90,8 @@ public class ModerationCmds {
 
                 final String finalReason = String.format("Softbanned by %#s: %s", event.getAuthor(), reason);
 
-                Member member = Utils.findMember(event, event.getMember(), affected);
-                if(member == null)
-                    return;
-
-                User user = member.getUser();
+                User user = event.getMessage().getMentionedUsers().get(0);
+                Member member = guild.getMember(user);
                 if(!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
                     channel.sendMessage(String.format(languageContext.get("commands.softban.hierarchy_conflict"), EmoteReference.ERROR)).queue();
                     return;
@@ -118,15 +116,16 @@ public class ModerationCmds {
                                             EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), finalReason, event.getGuild().getName())).queue());
                             db.getData().setCases(db.getData().getCases() + 1);
                             db.saveAsync();
-                            channel.sendMessage(String.format(languageContext.get("commands.softban.success"), EmoteReference.ZAP, modActionQuotes[r.nextInt(modActionQuotes.length)], member.getEffectiveName())).queue();
+
+                            channel.sendMessage(String.format(languageContext.get("commands.softban.success"), EmoteReference.ZAP, modActionQuotes[r.nextInt(modActionQuotes.length)], user.getName())).queue();
                             guild.getController().unban(member.getUser()).reason(finalReason).queue(aVoid -> {
                             }, error -> {
                                 if(error instanceof PermissionException) {
                                     channel.sendMessage(String.format(languageContext.get("commands.softban.error"), EmoteReference.ERROR,
-                                            member.getEffectiveName(), ((PermissionException) error).getPermission())).queue();
+                                            user.getName(), ((PermissionException) error).getPermission())).queue();
                                 } else {
                                     channel.sendMessage(String.format(languageContext.get("commands.softban.unknown_error"), EmoteReference.ERROR,
-                                            member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
+                                            user.getName(), error.getClass().getSimpleName(), error.getMessage())).queue();
                                     log.warn("Unexpected error while unbanning someone.", error);
                                 }
                             });
@@ -137,10 +136,10 @@ public class ModerationCmds {
                         error -> {
                             if(error instanceof PermissionException) {
                                 channel.sendMessage(String.format(languageContext.get("commands.softban.error"), EmoteReference.ERROR,
-                                        member.getEffectiveName(), ((PermissionException) error).getPermission())).queue();
+                                        user.getName(), ((PermissionException) error).getPermission())).queue();
                             } else {
                                 channel.sendMessage(String.format(languageContext.get("commands.softban.unknown_error"), EmoteReference.ERROR,
-                                        member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
+                                        user.getName(), error.getClass().getSimpleName(), error.getMessage())).queue();
                                 log.warn("Unexpected error while soft banning someone.", error);
                             }
                         });
@@ -171,7 +170,7 @@ public class ModerationCmds {
                 Message receivedMessage = event.getMessage();
                 String reason = content;
 
-                if(args.length == 0) {
+                if(event.getMessage().getMentionedUsers().isEmpty()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.ban.no_users"), EmoteReference.ERROR).queue();
                     return;
                 }
@@ -199,11 +198,8 @@ public class ModerationCmds {
                 }
 
                 final String finalReason = String.format("Banned by %#s: %s", event.getAuthor(), reason);
-                Member member = Utils.findMember(event, event.getMember(), affected);
-                if(member == null)
-                    return;
-
-                User user = member.getUser();
+                User user = event.getMessage().getMentionedUsers().get(0);
+                Member member = guild.getMember(user);
 
                 if(!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
                     event.getChannel().sendMessage(String.format(languageContext.get("commands.ban.hierarchy_conflict"), EmoteReference.ERROR, EmoteReference.SMILE)).queue();
@@ -216,7 +212,11 @@ public class ModerationCmds {
                 }
 
                 if(!guild.getSelfMember().canInteract(member)) {
-                    channel.sendMessage(String.format(languageContext.get("commands.ban.self_hierarchy_conflict"), EmoteReference.ERROR, member.getEffectiveName())).queue();
+                    new MessageBuilder().setContent(String.format(languageContext.get("commands.ban.self_hierarchy_conflict"), EmoteReference.ERROR, user.getName()))
+                            .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
+                            .sendTo(event.getChannel())
+                            .queue();
+
                     return;
                 }
 
@@ -241,7 +241,7 @@ public class ModerationCmds {
                                         EmoteReference.ERROR, user.getName(), ((PermissionException) error).getPermission())).queue();
                             } else {
                                 channel.sendMessage(String.format(languageContext.get("commands.ban.unknown_error"),
-                                        EmoteReference.ERROR, member.getEffectiveName())).queue();
+                                        EmoteReference.ERROR, user.getName())).queue();
                                 log.warn("Encountered an unexpected error while trying to ban someone.", error);
                             }
                         });
@@ -316,7 +316,7 @@ public class ModerationCmds {
                 //If one of them is in a higher hierarchy than the bot, cannot kick.
                 if(!selfMember.canInteract(member)) {
                     channel.sendMessage(String.format(languageContext.get("commands.kick.self_hierarchy_conflict"),
-                            EmoteReference.ERROR2, member.getEffectiveName())).queue();
+                            EmoteReference.ERROR2, user.getName())).queue();
                     return;
                 }
                 final DBGuild db = MantaroData.db().getGuild(event.getGuild());
@@ -337,11 +337,11 @@ public class ModerationCmds {
                         error -> {
                             if(error instanceof PermissionException) {
                                 channel.sendMessage(String.format(languageContext.get("commands.kick.error"), EmoteReference.ERROR,
-                                        member.getEffectiveName(), ((PermissionException) error).getPermission().getName())
+                                        user.getName(), ((PermissionException) error).getPermission().getName())
                                 ).queue();
                             } else {
                                 channel.sendMessage(String.format(languageContext.get("commands.kick.unknown_error"),
-                                        EmoteReference.ERROR, member.getEffectiveName())
+                                        EmoteReference.ERROR, user.getName())
                                 ).queue();
 
                                 log.warn("Unexpected error while kicking someone.", error);

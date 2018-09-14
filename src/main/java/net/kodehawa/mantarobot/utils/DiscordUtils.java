@@ -122,7 +122,7 @@ public class DiscordUtils {
         return selectList(event, list, toString, toEmbed, valueConsumer, (o) -> {});
     }
 
-    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
+    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length, IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
         if(parts.length == 0)
             return null;
 
@@ -134,7 +134,7 @@ public class DiscordUtils {
             int t = 0;
             int c = 0;
             for(String s : parts) {
-                if(s.length() + c + 1 > MessageEmbed.TEXT_MAX_LENGTH) {
+                if(s.length() + c + 1 > length) {
                     t++;
                     c = 0;
                 }
@@ -144,11 +144,13 @@ public class DiscordUtils {
             total = t;
         }
 
+        int loops = 1;
         for(String s : parts) {
             int l = s.length() + 1;
             if(l > MessageEmbed.TEXT_MAX_LENGTH)
+                //why
                 throw new IllegalArgumentException("Length for one of the pages is greater than the maximum");
-            if(sb.length() + l > MessageEmbed.TEXT_MAX_LENGTH) {
+            if(sb.length() + l > length) {
                 EmbedBuilder eb = supplier.apply(embeds.size() + 1, total);
                 eb.setDescription(sb.toString());
                 embeds.add(eb.build());
@@ -194,7 +196,7 @@ public class DiscordUtils {
         }, "\u2b05", "\u27a1");
     }
 
-    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
+    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int lenght, IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
         if(parts.length == 0)
             return null;
 
@@ -206,7 +208,7 @@ public class DiscordUtils {
             int t = 0;
             int c = 0;
             for(String s : parts) {
-                if(s.length() + c + 1 > MessageEmbed.TEXT_MAX_LENGTH) {
+                if(s.length() + c + 1 > lenght) {
                     t++;
                     c = 0;
                 }
@@ -220,7 +222,7 @@ public class DiscordUtils {
             int l = s.length() + 1;
             if(l > MessageEmbed.TEXT_MAX_LENGTH)
                 throw new IllegalArgumentException("Length for one of the pages is greater than the maximum");
-            if(sb.length() + l > MessageEmbed.TEXT_MAX_LENGTH) {
+            if(sb.length() + l > lenght) {
                 EmbedBuilder eb = supplier.apply(embeds.size() + 1, total);
                 eb.setDescription(sb.toString());
                 embeds.add(eb.build());
@@ -270,12 +272,20 @@ public class DiscordUtils {
         });
     }
 
+    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
+        return list(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(new String[]{}));
+    }
+
+    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
+        return listText(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(new String[]{}));
+    }
+
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
-        return list(event, timeoutSeconds, canEveryoneUse, supplier, parts.toArray(new String[]{}));
+        return list(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(new String[]{}));
     }
 
     public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
-        return listText(event, timeoutSeconds, canEveryoneUse, supplier, parts.toArray(new String[]{}));
+        return listText(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(new String[]{}));
     }
 
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {

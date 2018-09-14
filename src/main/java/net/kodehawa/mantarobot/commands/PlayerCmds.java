@@ -21,6 +21,7 @@ import com.google.common.eventbus.Subscribe;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -50,6 +51,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -121,7 +123,10 @@ public class PlayerCmds {
                 Player player = MantaroData.db().getPlayer(user);
                 player.addReputation(1L);
                 player.save();
-                event.getChannel().sendMessageFormat(languageContext.get("commands.rep.success"), EmoteReference.CORRECT,  member.getEffectiveName()).queue();
+                new MessageBuilder().setContent(String.format(languageContext.get("commands.rep.success"), EmoteReference.CORRECT,  member.getEffectiveName()))
+                        .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
+                        .sendTo(event.getChannel())
+                        .queue();
             }
 
             @Override
@@ -141,6 +146,15 @@ public class PlayerCmds {
     @Subscribe
     public void profile(CommandRegistry cr) {
         final ManagedDatabase managedDatabase = MantaroData.db();
+        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                .limit(2) //twice every 10m
+                .spamTolerance(1)
+                .cooldown(10, TimeUnit.MINUTES)
+                .cooldownPenaltyIncrease(10, TimeUnit.SECONDS)
+                .maxCooldown(15, TimeUnit.MINUTES)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("profile")
+                .build();
 
         ITreeCommand profileCommand = (TreeCommand) cr.register("profile", new TreeCommand(Category.CURRENCY) {
             @Override
@@ -282,7 +296,7 @@ public class PlayerCmds {
                 return helpEmbed(event, "Profile command.")
                         .setDescription("**Retrieves your current user profile.**")
                         .addField("Usage", "- To retrieve your profile, `~>profile`\n" +
-                                "- To change your description do `~>profile description set <description>`\n" +
+                                "- To change your description do `~>profile description set <description>` (300 chars maximum for normal users, 500 for premium)\n" +
                                 "  -- To clear it, just do `~>profile description clear`\n" +
                                 "- To set your timezone do `~>profile timezone <timezone>`\n" +
                                 "- To set your language do `~>profile lang <lang id>`\n" +
@@ -335,6 +349,9 @@ public class PlayerCmds {
         profileCommand.addSubCommand("description", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event))
+                    return;
+
                 String[] args = content.split(" ");
                 User author = event.getAuthor();
                 Player player = managedDatabase.getPlayer(author);
@@ -363,7 +380,7 @@ public class PlayerCmds {
                     player.getData().setDescription(content1);
 
                     new MessageBuilder().setContent(String.format(languageContext.get("commands.profile.description.success"), EmoteReference.POPPER, content1))
-                            .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE)
+                            .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE, Message.MentionType.USER)
                             .sendTo(event.getChannel())
                             .queue();
 
@@ -477,30 +494,50 @@ public class PlayerCmds {
                         PlayerData playerData = player.getData();
 
                         if(!t.isEmpty() && t.containsKey("brief")) {
-                            event.getChannel().sendMessageFormat(
-                                    languageContext.get("commands.badges.brief_success"), member.getEffectiveName(),
-                                    playerData.getBadges().stream().map(b -> "*" + b.display + "*").collect(Collectors.joining(", "))
-                            ).queue();
-
+                            new MessageBuilder().setContent(String.format(languageContext.get("commands.badges.brief_success"), member.getEffectiveName(),
+                                        playerData.getBadges().stream().map(b -> "*" + b.display + "*").collect(Collectors.joining(", "))))
+                                    .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
+                                    .sendTo(event.getChannel())
+                                    .queue();
                             return;
                         }
 
                         List<Badge> badges = playerData.getBadges();
                         Collections.sort(badges);
 
-                        //Show the message that tells the person that they can get a free badge for upvoting mantaro one out of 3 times they use this command.
-                        //The message stops appearing when they upvote.
-                        String toShow = languageContext.get("commands.badges.profile_notice") + languageContext.get("commands.badges.info_notice") +
-                                ((r.nextInt(3) == 0 && !playerData.hasBadge(Badge.UPVOTER) ? languageContext.get("commands.badges.upvote_notice") : "\n")) +
-                                ((r.nextInt(2) == 0 ? languageContext.get("commands.badges.donate_notice") : "\n"))
-                                + badges.stream().map(badge -> String.format("**%s:** *%s*", badge, badge.description)).collect(Collectors.joining("\n"));
-
-                        if(toShow.isEmpty()) toShow = languageContext.get("commands.badges.no_badges");
-                        List<String> parts = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH, toShow);
-                        DiscordUtils.list(event, 30, false, (current, max) -> new EmbedBuilder()
+                        EmbedBuilder embed = new EmbedBuilder()
                                 .setAuthor(String.format(languageContext.get("commands.badges.header"), toLookup.getName()))
                                 .setColor(event.getMember().getColor() == null ? Color.PINK : event.getMember().getColor())
-                                .setThumbnail(toLookup.getEffectiveAvatarUrl()), parts);
+                                .setThumbnail(toLookup.getEffectiveAvatarUrl());
+                        List<MessageEmbed.Field> fields = new LinkedList<>();
+
+                        for(Badge b : badges) {
+                            //God DAMNIT discord, I want it to look cute, stop trimming my spaces.
+                            fields.add(new MessageEmbed.Field(b.toString(), "**\u2009\u2009\u2009\u2009- " + b.description + "**", false));
+                        }
+
+                        if(badges.isEmpty()) {
+                            embed.setDescription(languageContext.get("commands.badges.no_badges"));
+                            event.getChannel().sendMessage(embed.build()).queue();
+                            return;
+                        }
+
+                        List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
+                        boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+
+                        embed.setFooter(languageContext.get("commands.badges.footer"), null);
+
+                        String common = languageContext.get("commands.badges.profile_notice") + languageContext.get("commands.badges.info_notice") +
+                                ((r.nextInt(3) == 0 && !playerData.hasBadge(Badge.UPVOTER) ? languageContext.get("commands.badges.upvote_notice") : "\n")) +
+                                ((r.nextInt(2) == 0 ? languageContext.get("commands.badges.donate_notice") : "\n") +
+                                        String.format(languageContext.get("commands.badges.total_badges"), badges.size()) + "\n");
+                        if(hasReactionPerms) {
+                            embed.setDescription(languageContext.get("general.arrow_react") + "\n" + common);
+                            DiscordUtils.list(event, 60, false, embed, splitFields);
+                        } else {
+                            embed.setDescription(languageContext.get("general.text_menu") + "\n" + common);
+                            DiscordUtils.listText(event, 60, false, embed, splitFields);
+                        }
                     }
                 };
             }
@@ -525,7 +562,8 @@ public class PlayerCmds {
                 }
 
                 Badge badge = Badge.lookupFromString(content);
-                if(badge == null) {
+                //shouldn't NPE bc null check is done first, in order
+                if(badge == null || badge == Badge.DJ) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.badges.info.not_found"), EmoteReference.ERROR).queue();
                     return;
                 }

@@ -340,7 +340,8 @@ public class MuteCmds {
                                 .reason(String.format("Unmuted by %#s: %s", event.getAuthor(), finalReason))
                                 .queue();
 
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.unmute.success"), EmoteReference.CORRECT, m.getEffectiveName()).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.unmute.success"), EmoteReference.CORRECT, user.getName()).queue();
+
                         dbg.getData().setCases(dbg.getData().getCases() + 1);
                         dbg.saveAsync();
                         ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.UNMUTE, db.getGuild(event.getGuild()).getData().getCases());
