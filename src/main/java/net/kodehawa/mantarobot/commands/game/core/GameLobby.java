@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands.game.core;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.Getter;
+import lombok.Setter;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
@@ -55,6 +56,9 @@ public class GameLobby extends Lobby {
     List<String> players;
     @Getter
     I18nContext languageContext;
+    @Setter
+    @Getter
+    public boolean gameLoaded = false;
 
     static {
         Prometheus.THREAD_POOL_COLLECTOR.add("game-lobbies", executorService);
@@ -76,14 +80,17 @@ public class GameLobby extends Lobby {
     }
 
     public void startFirstGame() {
-        LOBBYS.put(event.getChannel().getIdLong(), this);
         if(gamesToPlay.getFirst().onStart(this)) {
+            setGameLoaded(false);
+            LOBBYS.put(event.getChannel().getIdLong(), this);
             DBGuild dbGuild = MantaroData.db().getGuild(guild);
             dbGuild.getData().setGameTimeoutExpectedAt(String.valueOf(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(70)));
             dbGuild.save();
 
             gamesToPlay.getFirst().call(this, players);
         } else {
+            //if first game fails we need this.
+            LOBBYS.put(event.getChannel().getIdLong(), this);
             startNextGame(false);
         }
     }
@@ -91,6 +98,7 @@ public class GameLobby extends Lobby {
     //This runs async because I need the operation to end *before* this, also if this takes too long games get stuck.
     public void startNextGame(boolean success) {
         executorService.execute(() -> {
+            setGameLoaded(false);
             try {
                 if(!success)
                     gamesToPlay.clear();
@@ -102,6 +110,8 @@ public class GameLobby extends Lobby {
                     return;
                 }
 
+                //fuck userbots
+                Thread.sleep(250); //250ms.
                 if(gamesToPlay.getFirst().onStart(this)) {
                     gamesToPlay.getFirst().call(this, players);
                 } else {

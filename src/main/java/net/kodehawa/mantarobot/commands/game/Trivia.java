@@ -97,7 +97,7 @@ public class Trivia extends Game<String> {
                     .addField(languageContext.get("commands.game.trivia.category"), "`" + category + "`", true)
                     .setFooter(String.format(languageContext.get("commands.game.trivia_end_footer"), isBool ? 1 : 2), lobby.getEvent().getAuthor().getAvatarUrl());
 
-            lobby.getChannel().sendMessage(eb.build()).queue();
+            lobby.getChannel().sendMessage(eb.build()).queue(success -> lobby.setGameLoaded(true));
 
             return true;
         } catch(Exception e) {

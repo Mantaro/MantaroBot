@@ -296,7 +296,7 @@ public class PlayerCmds {
                 return helpEmbed(event, "Profile command.")
                         .setDescription("**Retrieves your current user profile.**")
                         .addField("Usage", "- To retrieve your profile, `~>profile`\n" +
-                                "- To change your description do `~>profile description set <description>`\n" +
+                                "- To change your description do `~>profile description set <description>` (300 chars maximum for normal users, 500 for premium)\n" +
                                 "  -- To clear it, just do `~>profile description clear`\n" +
                                 "- To set your timezone do `~>profile timezone <timezone>`\n" +
                                 "- To set your language do `~>profile lang <lang id>`\n" +
@@ -380,7 +380,7 @@ public class PlayerCmds {
                     player.getData().setDescription(content1);
 
                     new MessageBuilder().setContent(String.format(languageContext.get("commands.profile.description.success"), EmoteReference.POPPER, content1))
-                            .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE)
+                            .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE, Message.MentionType.USER)
                             .sendTo(event.getChannel())
                             .queue();
 

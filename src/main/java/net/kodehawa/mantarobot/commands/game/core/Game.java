@@ -49,6 +49,10 @@ public abstract class Game<T> {
             return Operation.IGNORED;
         }
 
+        if(!lobby.isGameLoaded()) {
+            return Operation.IGNORED;
+        }
+
         for(String s : MantaroData.config().get().getPrefix()) {
             if(e.getMessage().getContentRaw().startsWith(s)) {
                 return Operation.IGNORED;

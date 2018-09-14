@@ -78,7 +78,7 @@ public class Pokemon extends ImageGame {
             sendEmbedImage(lobby.getChannel(), data.getImage(), eb ->
                     eb.setTitle(languageContext.get("commands.game.pokemon.header"), null)
                     .setFooter(languageContext.get("commands.game.pokemon.footer"), null)
-            ).queue();
+            ).queue(success -> lobby.setGameLoaded(true));
             return true;
         } catch(Exception e) {
             lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.error"), EmoteReference.ERROR).queue();

@@ -34,7 +34,11 @@ import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.PremiumKey;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
@@ -63,6 +67,7 @@ public class GameCmds {
                 .pool(MantaroData.getDefaultJedisPool())
                 .prefix("game")
                 .build();
+        final ManagedDatabase db = MantaroData.db();
 
         //Does it even make sense to do this if I only had to add a parameter to one? Oh well...
         games.put("pokemon", (d) -> new Pokemon());
@@ -115,7 +120,7 @@ public class GameCmds {
                     return;
 
                 new MessageBuilder().setContent(String.format(languageContext.get("commands.game.won_games"),
-                            EmoteReference.POPPER, member.getEffectiveName(), MantaroData.db().getPlayer(member).getData().getGamesWon()))
+                            EmoteReference.POPPER, member.getEffectiveName(), db.getPlayer(member).getData().getGamesWon()))
                         .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE)
                         .sendTo(event.getChannel())
                         .queue();
@@ -157,6 +162,14 @@ public class GameCmds {
 
                 if(split.length <= 1) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.game.not_enough_games"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                UserData userData = db.getUser(event.getAuthor()).getData();
+                PremiumKey key = db.getPremiumKey(userData.getPremiumKey());
+                boolean premium = key != null && key.getDurationDays() > 1;
+                if(split.length > (premium ? 8 : 5)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.too_many_games"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -221,7 +234,7 @@ public class GameCmds {
                     return;
                 }
 
-                if(number > 10) {
+                if(number > 5) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.game.multiple.too_many_games"), EmoteReference.ERROR).queue();
                     return;
                 }
