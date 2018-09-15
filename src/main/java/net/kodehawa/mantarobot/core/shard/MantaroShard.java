@@ -74,7 +74,7 @@ public class MantaroShard implements JDA {
     private final int shardId;
     private final int totalShards;
     private BirthdayTask birthdayTask = new BirthdayTask();
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2, new ThreadFactoryBuilder().setNameFormat("Mantaro-ShardExecutor Thread-%d").build());
     private static final Config config = MantaroData.config().get();
     //Message cache of 2500 cached messages per shard. If it reaches 2500 it will delete the first one stored, and continue being 2500.
     @Getter

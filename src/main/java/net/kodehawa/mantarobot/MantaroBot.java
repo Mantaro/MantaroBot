@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot;
 
 import br.com.brjdevs.java.utils.async.Async;
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
@@ -60,7 +61,7 @@ import java.util.concurrent.TimeUnit;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.*;
 
 @Slf4j
-public class MantaroBot extends ShardedJDA {
+public class    MantaroBot extends ShardedJDA {
     @Getter
     private static MantaroBot instance;
     @Getter
@@ -74,7 +75,7 @@ public class MantaroBot extends ShardedJDA {
     @Getter
     private BirthdayCacher birthdayCacher;
     @Getter
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3, new ThreadFactoryBuilder().setNameFormat("Mantaro-ScheduledExecutor Thread-%d").build());
 
     //just in case
     static {
@@ -203,7 +204,7 @@ public class MantaroBot extends ShardedJDA {
     }
 
     public void startCheckingBirthdays() {
-        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2, new ThreadFactoryBuilder().setNameFormat("Mantaro-BirthdayExecutor Thread-%d").build());
         Prometheus.THREAD_POOL_COLLECTOR.add("birthday-tracker", executorService);
 
         //How much until tomorrow? That's the initial delay, then run it once a day.
