@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands.currency.item;
 
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -46,7 +47,8 @@ public class Items {
             LOOT_CRATE_KEY, BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
             NECKLACE, ROSE, DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN,
             POTION_STAMINA, FISHING_ROD, FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE,
-            TELEVISION, WRENCH, MOTORCYCLE, GEM1_PICKAXE, GEM2_PICKAXE, PIZZA, GEM_5, GEM5_PICKAXE, MINE_CRATE, FISH_CRATE, FISH_PREMIUM_CRATE, MINE_PREMIUM_CRATE;
+            TELEVISION, WRENCH, MOTORCYCLE, GEM1_PICKAXE, GEM2_PICKAXE, PIZZA, GEM_5, GEM5_PICKAXE, MINE_CRATE, FISH_CRATE, FISH_PREMIUM_CRATE, MINE_PREMIUM_CRATE,
+            GEM1_ROD, GEM2_ROD, GEM5_ROD;
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 15);
@@ -138,6 +140,11 @@ public class Items {
             FISH_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Fish Treasure",  "items.fish_crate","items.description.fish_crate", 0, false, false, true),
             FISH_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Mine (Premium) Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true),
             MINE_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Fish (Premium) Treasure",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true),
+            //TODO: Proper emojis.
+            GEM1_ROD = new FishRod(ItemType.INTERACTIVE, 2, "\uD83C\uDFA3","Comet Gem Fishing Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 48),
+            GEM2_ROD = new FishRod(ItemType.INTERACTIVE, 2, "\uD83C\uDFA3","Star Gem Fishing Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 49),
+            GEM5_ROD = new FishRod(ItemType.INTERACTIVE, 4, "\uD83C\uDFA3","Sparkle Fishing Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;4", 44, 64),
+
     };
 
 
