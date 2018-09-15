@@ -130,8 +130,8 @@ public class Items {
             GEM1_PICKAXE = new Item(ItemType.CAST_MINE, "\u2692\ufe0f","Comet Gem Pickaxe", "items.comet_pick", "items.description.comet_pick", 350, true, false, "1;2", 10, 48),
             GEM2_PICKAXE = new Item(ItemType.CAST_MINE, "\u2692\ufe0f","Star Gem Pickaxe", "items.star_pick", "items.description.star_pick", 350, true, false, "1;2", 10, 49),
             PIZZA = new Item(ItemType.COMMON, "\uD83C\uDF55","Pizza", "items.pizza", "items.description.pizza", 15, true, false),
-            GEM_5 = new Item(ItemType.MINE, "\uE32E", "Sparkle Matter Fragment", "items.sparkle", "items.description.sparkle", 605, false),
-            GEM5_PICKAXE = new Item(ItemType.CAST_MINE, "\u2692\ufe0f","Sparkle Matter Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 550, true, false, "1;4;1", 10, 64, 18),
+            GEM_5 = new Item(ItemType.MINE_RARE, "\uE32E", "Sparkle Matter Fragment", "items.sparkle", "items.description.sparkle", 605, false),
+            GEM5_PICKAXE = new Item(ItemType.MINE_RARE, "\u2692\ufe0f","Sparkle Matter Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 550, true, false, "1;4;1", 10, 64, 18),
 
             //TODO: Handle this properly. (handle picking the items)
             MINE_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Mine Crate",  "items.mine_crate","items.description.mine_crate", 0, false, false, true),
@@ -148,6 +148,7 @@ public class Items {
 
         MOP.setAction(((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
+            DBUser dbUser = managedDatabase.getUser(event.getAuthor());
             Inventory playerInventory = p.getInventory();
             if(!playerInventory.containsItem(MOP))
                 return false;
@@ -155,6 +156,8 @@ public class Items {
             event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.mop"), EmoteReference.DUST).queue();
             playerInventory.process(new ItemStack(MOP, -1));
             p.save();
+            dbUser.getData().setDustLevel(0);
+            dbUser.save();
             return true;
         }));
 
@@ -178,6 +181,8 @@ public class Items {
                 if(select < 10) {
                     //we need to continue the dust meme
                     event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING).queue();
+                    u.getData().increaseDustLevel(r.nextInt(4));
+                    u.save();
                     return false;
                 } else if(select < 35) {
                     List<Item> common = Stream.of(ALL)
@@ -471,7 +476,7 @@ public class Items {
         List<Item> mine = handleItemDrop(i -> i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.CAST_OBTAINABLE);
         List<Item> fish = handleItemDrop(i -> i.getItemType() == ItemType.FISHING);
         List<Item> premiumMine = handleItemDrop(i -> i.getItemType() == ItemType.CAST_MINE ||
-                i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.CAST_OBTAINABLE);
+                i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.MINE_RARE || i.getItemType() == ItemType.CAST_OBTAINABLE);
         List<Item> premiumFish = handleItemDrop(i -> i.getItemType() == ItemType.FISHING_CASTABLE ||
                 i.getItemType() == ItemType.FISHING || i.getItemType() == ItemType.FISHING_RARE);
 

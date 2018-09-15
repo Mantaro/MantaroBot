@@ -43,6 +43,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
@@ -888,6 +889,7 @@ public class CurrencyCmds {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                         Player player = MantaroData.db().getPlayer(event.getAuthor());
+                        DBUser user = MantaroData.db().getUser(event.getMember());
                         Optional<Item> toCast = Items.fromAnyNoId(content);
 
                         if(!toCast.isPresent()) {
@@ -916,6 +918,12 @@ public class CurrencyCmds {
 
                         if(!player.getInventory().containsItem(Items.WRENCH)) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_tool"), EmoteReference.ERROR, Items.WRENCH.getName()).queue();
+                            return;
+                        }
+
+                        int dust = user.getData().getDustLevel();
+                        if(dust > 96) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.dust"), EmoteReference.ERROR, dust).queue();
                             return;
                         }
 

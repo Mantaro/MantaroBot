@@ -54,4 +54,14 @@ public class UserData {
         return MantaroData.db().getMarriage(marriageId);
     }
 
+    @JsonIgnore
+    public int increaseDustLevel(int by) {
+        int increased = dustLevel + Math.min(1, by);
+        if(increased >= 100)
+            return dustLevel; //same as before, cap at 100.
+
+        dustLevel = increased;
+        return dustLevel;
+    }
+
 }

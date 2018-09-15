@@ -533,7 +533,8 @@
         "header": "Castable Item List",
         "cost": "Cast Cost: ",
         "desc": "This is a list of the items you can cast using `~>cast`. You have to use the full name or the short name to cast it (example: `~>cast diamond pickaxe` or `~>cast diamond p` works)\n**Casting has a cost of half the price of the item. The casting price will be shown down below.**"
-      }
+      },
+      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?"
     },
     "market": {
       "dump": {

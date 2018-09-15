@@ -38,7 +38,9 @@ public enum ItemType {
     //Cast-able item, but you can also obtain it without casting.
     CAST_OBTAINABLE(true),
     FISHING_CASTABLE(true),
-    FISHING_RARE(false);
+    //Rare fishes.
+    FISHING_RARE(false),
+    MINE_RARE(true);
 
     private boolean cast;
 

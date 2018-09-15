@@ -378,6 +378,7 @@ public class MoneyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Player player = MantaroData.db().getPlayer(event.getMember());
+                DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
                 TextChannel channel = event.getChannel();
 
                 if(player.isLocked()) {
@@ -441,12 +442,14 @@ public class MoneyCmds {
                         }
                     } else {
                         String msg = languageContext.withRoot("commands", "loot.dust");
+                        dbUser.getData().increaseDustLevel(r.nextInt(2));
 
                         if(r.nextInt(100) > 93) {
                             msg += languageContext.withRoot("commands", "loot.easter");
                         }
 
                         channel.sendMessage(EmoteReference.SAD + msg).queue();
+                        dbUser.save();
                     }
                 }
 
