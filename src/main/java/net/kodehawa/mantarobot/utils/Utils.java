@@ -44,6 +44,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,10 +55,7 @@ import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 
 @Slf4j
 public class Utils {
-    public static final Counter ratelimitCounter = Counter.build()
-            .name("ratelimits").help("Ratelimited Commands")
-            .labelNames("userId")
-            .register();
+    public static final Map<Long, AtomicInteger> ratelimitedUsers = new ConcurrentHashMap<>();
     private static Set<String> loggedUsers = ConcurrentHashMap.newKeySet();
 
     public static final OkHttpClient httpClient = new OkHttpClient();
@@ -652,13 +650,11 @@ public class Utils {
     }
 
     private static void onRateLimit(User user) {
-            Counter.Child c = ratelimitCounter.labels(user.getId());
-            c.inc();
-            double ratelimitedTimes = c.get();
-            if((ratelimitedTimes > 900 && ratelimitedTimes > 900 * uptimeInDays()) && !loggedUsers.contains(user.getId())) {
-                loggedUsers.add(user.getId());
-                LogUtils.spambot(user);
-            }
+        int ratelimitedTimes = ratelimitedUsers.computeIfAbsent(user.getIdLong(), __ -> new AtomicInteger()).incrementAndGet();;
+        if((ratelimitedTimes > 900 && ratelimitedTimes > 900 * uptimeInDays()) && !loggedUsers.contains(user.getId())) {
+            loggedUsers.add(user.getId());
+            LogUtils.spambot(user);
+        }
     }
 
     public static double uptimeInDays() {
