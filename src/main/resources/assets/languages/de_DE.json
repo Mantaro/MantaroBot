@@ -41,6 +41,8 @@
             "haste_used": "%1$sDu hast bereits den Hasteffekt aktiv!",
             "bait": "%1$sEin Köder wurde an deiner Angel befestigt! Viel Glück beim Fischen! (Aktiviert für 1 Benutzung.)",
             "bait_used": "%1$sDu hast bereits einen Fischköder befestigt!",
+            "pill": "%1$sDu hast eine Waifu-Pille genommen! (Aktiviert für 5 Benutzungen)",
+            "pill_used": "%1$sDu hast bereits eine aktive Waifu-Pille!",
             "crate": {
                 "no_key": "%1$sDu brauchst einen Truhenschlüssel, um eine Truhe zu öffnen. Sie ist verschlossen!",
                 "no_crate": "%1$sDu brauchst eine Truhe! Wie sonst möchtest du deinen Schlüssel benutzen >.>... oh",
@@ -171,7 +173,8 @@
                 "multiple_pages": " -> Nutze ~>queue <page>, um Seiten zu wechseln.",
                 "page_react": " -> Reagiere, um Seiten zu ändern",
                 "no_channel": "Kein Kanal :(",
-                "songs": "Song(s)"
+                "songs": "Song(s)",
+                "clear_error": "%1$sEntweder bist du nicht im Sprachkanal verbunden, oder du bist nicht der DJ."
             },
             "connect": {
                 "success": "%1$sVerbunden mit Kanal **%2$s**!",
@@ -193,7 +196,7 @@
             "loader": {
                 "over_limit": "%1$sDie Warteschlange die du hinzugefügt hast überschreitet %2$d Songs, also habe ich nur so viele hinzugefügt und den Rest ignoriert.",
                 "loaded_playlist": "%1$s**%2$d Songs** der Warteschlange hinzugefügt: **%3$s** *(%4$s)*",
-                "no_matches": "%1$sDie Suche ergab keine Ergebnisse. Wenn dies für *alle Songs* angezeigt wird, nach denen du suchst, benutze stattdessen `~> play soundcloud <Suchbegriff>`. Direkte Links zu YouTube sollten auch funktionieren.",
+                "no_matches": "%1$sDie Suche ergab keine Ergebnisse. Wenn dies für *alle Songs* angezeigt wird, nach denen du suchst, benutze stattdessen `~>play soundcloud <Suchbegriff>`. Direkte Links zu YouTube sollten auch funktionieren.",
                 "error_loading": "%1$sFehler beim Abrufen der Musik: %2$s",
                 "over_queue_limit": "%1$sKonnte %2$s nicht hinzufügen: Songlimit überschritten (%3$s)!",
                 "over_32_minutes": "%1$sKonnte %2$s nicht hinzufügen: Der Song ist länger als 32 Minuten! (%3$s)",
@@ -214,7 +217,7 @@
         },
         "pause": {
             "paused": "Wiedergabe pausiert. *(Wiedergabe wurde zuvor fortgesetzt)*",
-            "unpaused": "Wiedergabe wird fortgesetzt. *(Wiedergabe wurde zuvor pausiert)*"
+            "unpaused": "Wiedergabe wird fortgesetzt *(Wiedergabe wurde zuvor pausiert)*."
         },
         "rewind": {
             "no_time": "%1$sDu musst mir sagen, wie weit das Lied zurückgespult werden soll. *(Beispiel: `~>rewind 1m45s` würde das Lied um 1 Minute und 45 Sekunden zurückspulen)*",
@@ -428,8 +431,8 @@
                 "scrapped": "%1$sDu hast immer noch Zeit, um darüber nachzudenken, was du schreiben willst, kein Grund zur Eile!"
             },
             "status": {
-                "no_marriage": "%1$sDu bist nicht verheiratet, also denke ich dein Status ist uh... \"unverheiratet\"",
-                "header": "Aktueller Ehestatus (Wenn du eine Ehe in in deinem Profil und diese Nachricht hier siehst, heißt das, dass du im alten System verheiratet bist. Versucht nochmal zu heiraten)",
+                "no_marriage": "%1$sDu bist nicht verheiratet, also denke ich dein Status ist uh... \"unverheiratet\"  (Wenn du eine Ehe in deinem Profil und diese Nachricht hier siehst, heißt das, dass du im alten System verheiratet bist. Versucht nochmal zu heiraten)",
+                "header": "Aktueller Ehestatus",
                 "description_format": "%1$sEhestatus von **%2$s#%3$s** und **%4$s#%5$s**",
                 "date": "Hochzeitstag",
                 "love_letter": "Liebesbrief",
@@ -510,6 +513,7 @@
             "success": "%1$s Die Ergebnisse von **%2$d** Wurf/Würfen ergaben **%3$d** Kopf und **%4$d** Zahl"
         },
         "inventory": {
+          "bot_notice": "%1$sHier haben Bots keine Inventare. Manchmal wünschst du dir vielleicht, dass sie eines hätten, aber dann wäre es auch nur `~>market dump`",
             "brief": "**%1$ss Inventar:** %2$s",
             "calculate": "%1$s%2$s erhält **%3$d Credits**, wenn alle Gegenstände verkauft werden!",
             "header": "%1$ss Inventar",
