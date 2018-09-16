@@ -701,7 +701,7 @@ public class CurrencyCmds {
                                     + ".**"
                     ).queue();
 
-                    Utils.ratelimitCounter.labels(event.getAuthor().getId()).inc();
+                    Utils.ratelimitedUsers.computeIfAbsent(event.getAuthor().getIdLong(), __->new AtomicInteger()).incrementAndGet();
                     return;
                 }
 

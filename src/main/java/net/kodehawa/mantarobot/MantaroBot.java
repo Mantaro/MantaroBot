@@ -61,7 +61,7 @@ import java.util.concurrent.TimeUnit;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.*;
 
 @Slf4j
-public class    MantaroBot extends ShardedJDA {
+public class MantaroBot extends ShardedJDA {
     @Getter
     private static MantaroBot instance;
     @Getter
