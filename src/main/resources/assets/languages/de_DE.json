@@ -1263,7 +1263,7 @@
             },
             "roll": "%1$s**Du hast %2$s genutzt und an dem Automaten gespielt**\n",
             "win": "Und du hast **%1$d** Credits gewonnen und behältst, was du gesetzt hast (%2$d Credits)! Glück!",
-            "lose": "Und du hast %1$s verloren\nIch hoffe du hast nächstes Mal mehr Glück!",
+            "lose": "Und du hast verloren %1$s\nIch hoffe du hast nächstes Mal mehr Glück!",
             "tickets": "Automatenticket(s)",
             "credits": "Credits"
         },
