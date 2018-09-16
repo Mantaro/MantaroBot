@@ -1261,7 +1261,7 @@
                 "no_amount": "%1$sDu hast keine Anzahl angegeben!",
                 "no_valid_amount": "%1$sDas ist keine gültige Menge an Geld! (Beispiele: 1000, 1K, 1.8, 14000, 2M)"
             },
-            "roll": "%1$s**Du hast %2$s genutzt und an dem Automaten gespielt**\n",
+            "roll": "%1$s**Du hast %2$s genutzt und am Automaten gespielt**\n",
             "win": "Und du hast **%1$d** Credits gewonnen und behältst, was du gesetzt hast (%2$d Credits)! Glück!",
             "lose": "Und du hast verloren %1$s\nIch hoffe du hast nächstes Mal mehr Glück!",
             "tickets": "Automatenticket(s)",
