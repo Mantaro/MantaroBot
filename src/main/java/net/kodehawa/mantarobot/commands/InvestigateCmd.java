@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
+import lombok.Getter;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
@@ -19,9 +20,9 @@ import org.json.JSONObject;
 
 import java.awt.*;
 import java.nio.charset.StandardCharsets;
-import java.util.LinkedList;
+import java.time.OffsetDateTime;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -175,12 +176,13 @@ public class InvestigateCmd {
 
         public void result(GuildMessageReceivedEvent event) {
             if(file) {
-                JSONObject object = new JSONObject();
-                parts.forEach((k, v) -> {
-                    JSONArray array = new JSONArray();
-                    v.forEach(m->array.put(m.toJson()));
-                    object.put(k, array);
+                JSONObject channels = new JSONObject();
+                parts.forEach((channelId, messages) -> {
+                    channels.put(channelId, convertMessages(messages));
                 });
+                JSONObject object = new JSONObject();
+                object.put("guild_id", event.getGuild().getId())
+                    .put("channels", channels);
                 byte[] bytes = object.toString().getBytes(StandardCharsets.UTF_8);
                 if(bytes.length > 7_800_000) {
                     event.getChannel().sendMessage("Result too big!").queue();
@@ -205,8 +207,34 @@ public class InvestigateCmd {
                 }
             }
         }
+
+        private JSONObject convertMessages(List<InvestigatedMessage> list) {
+            JSONArray messages = new JSONArray();
+            list.forEach(m->messages.put(m.toJson()));
+            JSONObject stats = new JSONObject();
+            JSONObject delays = new JSONObject();
+            list.stream().collect(Collectors.groupingBy(InvestigatedMessage::getAuthorId))
+                    .forEach((author, m)->{
+                        JSONArray d = new JSONArray();
+                        Iterator<InvestigatedMessage> it = m.iterator();
+                        long time = it.next().timestamp().toInstant().toEpochMilli();
+                        while(it.hasNext()) {
+                            InvestigatedMessage msg = it.next();
+                            long creation = msg.timestamp().toInstant().toEpochMilli();
+                            long delta = creation - time;
+                            time = creation;
+                            d.put(delta);
+                        }
+                        delays.put(author, d);
+                    });
+            stats.put("delays", delays);
+            return new JSONObject()
+                    .put("messages", messages)
+                    .put("stats", stats);
+        }
     }
 
+    @Getter
     private static class InvestigatedMessage {
         private final String id;
         private final String authorName;
@@ -215,7 +243,7 @@ public class InvestigateCmd {
         private final boolean bot;
         private final String content;
 
-        private InvestigatedMessage(String id, String authorTag, String authorName, String authorDiscriminator, String authorId, boolean bot, String content) {
+        InvestigatedMessage(String id, String authorName, String authorDiscriminator, String authorId, boolean bot, String content) {
             this.id = id;
             this.authorName = authorName;
             this.authorDiscriminator = authorDiscriminator;
@@ -224,9 +252,13 @@ public class InvestigateCmd {
             this.content = content;
         }
 
+        OffsetDateTime timestamp() {
+            return MiscUtil.getCreationTime(MiscUtil.parseSnowflake(id));
+        }
+
         String format() {
             return String.format("%s - %s - %-37s (%-20s bot = %5s): %s",
-                    MiscUtil.getCreationTime(MiscUtil.parseSnowflake(id)),
+                    timestamp(),
                     id,
                     authorName + "#" + authorDiscriminator,
                     authorId + ",",
@@ -238,7 +270,7 @@ public class InvestigateCmd {
         JSONObject toJson() {
             return new JSONObject()
                     .put("id", id)
-                    .put("timestamp", MiscUtil.getCreationTime(MiscUtil.parseSnowflake(id)))
+                    .put("timestamp", timestamp())
                     .put("author", new JSONObject()
                             .put("name", authorName)
                             .put("discriminator", authorDiscriminator)
@@ -249,8 +281,8 @@ public class InvestigateCmd {
         }
 
         static InvestigatedMessage from(Message message) {
-            return new InvestigatedMessage(message.getId(), String.format("%#s", message.getAuthor()),
-                    message.getAuthor().getName(), message.getAuthor().getDiscriminator(), message.getAuthor().getId(),
+            return new InvestigatedMessage(message.getId(), message.getAuthor().getName(),
+                    message.getAuthor().getDiscriminator(), message.getAuthor().getId(),
                     message.getAuthor().isBot(), message.getContentStripped());
         }
     }
