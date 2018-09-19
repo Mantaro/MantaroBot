@@ -180,9 +180,10 @@ public class InvestigateCmd {
                 parts.forEach((channelId, channel) -> {
                     channels.put(channelId, channel.toJson());
                 });
-                JSONObject object = new JSONObject();
-                object.put("guild_id", event.getGuild().getId())
-                    .put("channels", channels);
+                JSONObject object = new JSONObject()
+                        .put("name", event.getGuild().getName())
+                        .put("id", event.getGuild().getId())
+                        .put("channels", channels);
                 byte[] bytes = object.toString().getBytes(StandardCharsets.UTF_8);
                 if(bytes.length > 7_800_000) {
                     event.getChannel().sendMessage("Result too big!").queue();
