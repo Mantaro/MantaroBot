@@ -26,6 +26,7 @@ import com.sedmelluq.discord.lavaplayer.source.vimeo.VimeoAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.track.playback.NonAllocatingAudioFrameBuffer;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
@@ -45,6 +46,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadPoolExecutor;
 
+@Slf4j
 public class MantaroAudioManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(MantaroAudioManager.class);
 
@@ -69,6 +71,7 @@ public class MantaroAudioManager {
         playerManager.registerSourceManager(new TwitchStreamAudioSourceManager());
         playerManager.registerSourceManager(new BeamAudioSourceManager());
         if(!ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER) {
+            log.info("STARTUP: Disabled non-allocating buffer.");
             playerManager.getConfiguration().setFrameBufferFactory(NonAllocatingAudioFrameBuffer::new);
         }
         //playerManager.getConfiguration().setFilterHotSwapEnabled(true);

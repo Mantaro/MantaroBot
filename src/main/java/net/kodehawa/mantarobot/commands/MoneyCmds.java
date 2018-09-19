@@ -802,7 +802,7 @@ public class MoneyCmds {
                         message += "\n" + languageContext.withRoot("commands", "mine.crate.overflow");
                     } else {
                         inventory.process(new ItemStack(crate, 1));
-                        message += "\n" + EmoteReference.MEGA + languageContext.withRoot("commands", "mine.crate.success");
+                        message += "\n" + EmoteReference.MEGA + String.format(languageContext.withRoot("commands", "mine.crate.success"), crate.getEmoji());
                     }
                 }
 

@@ -136,10 +136,10 @@ public class Items {
             GEM5_PICKAXE = new Item(ItemType.MINE_RARE, "\u2692\ufe0f","Sparkle Matter Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 550, true, false, "1;4;1", 10, 64, 18),
 
             //TODO: Handle this properly. (handle picking the items)
-            MINE_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Mine Crate",  "items.mine_crate","items.description.mine_crate", 0, false, false, true),
-            FISH_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Fish Treasure",  "items.fish_crate","items.description.fish_crate", 0, false, false, true),
-            FISH_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Mine (Premium) Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true),
-            MINE_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Fish (Premium) Treasure",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true),
+            MINE_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Mine Crate",  "items.mine_crate","items.description.mine_crate", 0, false, false, true),
+            FISH_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Treasure",  "items.fish_crate","items.description.fish_crate", 0, false, false, true),
+            FISH_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish (Premium) Crate",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true),
+            MINE_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Mine (Premium) Treasure",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true),
             //TODO: Proper emojis.
             GEM1_ROD = new FishRod(ItemType.INTERACTIVE, 2, "\uD83C\uDFA3","Comet Gem Fishing Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 48),
             GEM2_ROD = new FishRod(ItemType.INTERACTIVE, 2, "\uD83C\uDFA3","Star Gem Fishing Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 49),
@@ -229,13 +229,13 @@ public class Items {
                     //TODO: Needs proper handling on crates on Items.java.
                     DBUser dbUser = managedDatabase.getUser(event.getAuthor());
                     PremiumKey key = managedDatabase.getPremiumKey(dbUser.getData().getPremiumKey());
-                    if (r.nextInt(400) > 340) {
+                    if (r.nextInt(400) > 380) {
                         Item crate = (key != null && key.getDurationDays() > 1) ? Items.FISH_PREMIUM_CRATE : Items.FISH_CRATE;
                         if (playerInventory.getAmount(crate) + 1 > 5000) {
                             message += "\n" + lang.get("commands.fish.crate.overflow");
                         } else {
                             playerInventory.process(new ItemStack(crate, 1));
-                            message += "\n" + EmoteReference.MEGA + lang.get("commands.fish.crate.success");
+                            message += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.crate.success"), crate.getEmoji());
                         }
                     }
 
