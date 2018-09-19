@@ -44,6 +44,11 @@ public enum Badge {
             ((player, dbUser) -> false)
     ),
 
+    //Contributed in any way to Mantaro's development.
+    TRANSLATOR("Translator", "\uD83C\uDF10", "Helped translate part of Mantaro to another language.", 92, 91,
+            ((player, dbUser) -> false)
+    ),
+
     //Is a helper, owo.
     HELPER_2("Helper", "\uD83D\uDC9A", "Helps to maintain the support influx on Mantaro Hub.", 92, 94,
             ((player, dbUser) -> false)
