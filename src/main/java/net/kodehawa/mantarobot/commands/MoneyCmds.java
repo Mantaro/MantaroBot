@@ -441,8 +441,8 @@ public class MoneyCmds {
                             channel.sendMessageFormat(languageContext.withRoot("commands", "loot.without_item.found_but_overflow"), EmoteReference.POPPER, moneyFound).queue();
                         }
                     } else {
-                        String msg = languageContext.withRoot("commands", "loot.dust");
-                        dbUser.getData().increaseDustLevel(r.nextInt(2));
+                        int dust = dbUser.getData().increaseDustLevel(r.nextInt(2));
+                        String msg = String.format(languageContext.withRoot("commands", "loot.dust"), dust);
 
                         if(r.nextInt(100) > 93) {
                             msg += languageContext.withRoot("commands", "loot.easter");

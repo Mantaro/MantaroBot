@@ -1206,7 +1206,7 @@
                 "found": "%1$sCavando entre los mensajes, you found **$%2$s credits!**",
                 "found_but_overflow_no_item": "%1$sCavando entre los mensajes, encontraste **$%2$d créditos.** Pero ya tenías muchos creditos, así que doné el exceso."
             },
-            "dust": "Cavando entre los mensajes, sólo lograste encontrar algo de polvo acumulado.",
+            "dust": "Cavando entre los mensajes, sólo lograste encontrar algo de polvo acumulado. (Nivel de polvo: %1$s%%)",
             "easter": "\n¡Parece que hay mucho polvo por aquí! Te recomendaría limpiar un poquito esto..."
         },
         "mine": {

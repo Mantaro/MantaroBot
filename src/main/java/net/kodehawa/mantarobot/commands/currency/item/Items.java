@@ -187,8 +187,8 @@ public class Items {
 
                 if(select < 10) {
                     //we need to continue the dust meme
-                    event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING).queue();
-                    u.getData().increaseDustLevel(r.nextInt(4));
+                    int level = u.getData().increaseDustLevel(r.nextInt(4));
+                    event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING, level).queue();
                     u.save();
                     return false;
                 } else if(select < 35) {

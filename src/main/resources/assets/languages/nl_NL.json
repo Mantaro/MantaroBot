@@ -70,7 +70,7 @@
     },
     "commands": {
         "fish": {
-            "dust": "%1$sDe dag is voorbij en je visemmer kon alleen stof verzamelen.",
+            "dust": "%1$sDe dag is voorbij en je visemmer kon alleen stof verzamelen. (Dust level %1$s%%)",
             "no_rod": "%1$sJe hebt geen hengel om mee te vissen!",
             "trash": {
                 "overflow": "%1$sJe vond wat afval tijdens het vissen, maar je inventaris was vol, dus we moesten het terug gooien in het water ...",
@@ -1204,7 +1204,7 @@
                 "found": "%1$sTerwijl je door berichten aan het zoeken was, vond je **$%2$s credits!**",
                 "found_but_overflow_no_item": "%1$sTerwijl je door berichten aan het zoeken was, vond je **$%2$d credits.** Maar je had al te veel credits, dus heb ik wat je teveel had gedoneerd."
             },
-            "dust": "Tijdens het doorzoeken van berichten, vond je niets anders dan stof",
+            "dust": "Tijdens het doorzoeken van berichten, vond je niets anders dan stof (Dust level %1$s%%)",
             "easter": "\nHet lijkt erop dat je hier zoveel stof hebt ... Misschien wil je dit opruimen voordat het te rommelig wordt!"
         },
         "mine": {

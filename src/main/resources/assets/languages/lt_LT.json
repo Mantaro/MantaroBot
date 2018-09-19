@@ -69,7 +69,7 @@
     },
     "commands": {
         "fish": {
-            "dust": "%1$sDiena pasibaigė, tad kuo gali papildyti savo kibirą yra dulkės.",
+            "dust": "%1$sDiena pasibaigė, tad kuo gali papildyti savo kibirą yra dulkės. (Dust level %1$s%%)",
             "no_rod": "%1$sTu neturi jokios meškerės, su kuria galėtum žvejoti.",
             "trash": {
                 "overflow": "%1$sTu sugavai šiukšlių, bet tavo inventorius buvo pilnas, taigi mes turėjome jas išmesti atgal į vandenį...",
@@ -1203,7 +1203,7 @@
                 "found": "%1$sDigging through messages, you found **$%2$s credits!**",
                 "found_but_overflow_no_item": "%1$sDigging through messages, you found **$%2$d credits.** But you already had too many credits, so I donated the excess."
             },
-            "dust": "Digging through messages, you found nothing but dust",
+            "dust": "Digging through messages, you found nothing but dust (Dust level %1$s%%)",
             "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
         },
         "mine": {

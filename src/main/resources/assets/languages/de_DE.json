@@ -73,7 +73,7 @@
     },
     "commands": {
         "fish": {
-            "dust": "%1$sDer Tag ist zu Ende und dein Eimer hat nur Staub gesammelt.",
+            "dust": "%1$sDer Tag ist zu Ende und dein Eimer hat nur Staub gesammelt. (Dust level %1$s%%)",
             "no_rod": "%1$sDu hast keine Angel mit der du Angeln kannst!",
             "trash": {
                 "overflow": "%1$sDu hast beim Angeln etwas Müll gefunden, aber dein Inventar war voll, also mussten wir es ins Wasser werfen...",
@@ -1214,7 +1214,7 @@
                 "found": "%1$sBeim Graben durch die Nachrichten hast du **$%2$s Credits** gefunden!",
                 "found_but_overflow_no_item": "%1$sBeim Graben durch die Nachrichten hast du **$%2$d Credits** gefunden. Aber du hattest schon zu viele Credits, also habe ich den Überschuss gespendet."
             },
-            "dust": "Beim Graben durch die Nachrichten hast du nichts als Staub gefunden.",
+            "dust": "Beim Graben durch die Nachrichten hast du nichts als Staub gefunden. (Dust level %1$s%%)",
             "easter": "\nSchaut so aus, als ob du hier sehr viel Staub hast... Du solltest hier vielleicht mal putzen, bevor es hier zu unordentlich wird!"
         },
         "mine": {
