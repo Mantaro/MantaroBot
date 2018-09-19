@@ -117,7 +117,7 @@ public class InvestigateCmd {
             return f;
         }).toArray(CompletableFuture[]::new))
             .thenRun(()->{
-                investigation.result(event);
+                investigation.result(guild, event);
             })
             .exceptionally(e -> {
                 e.printStackTrace();
@@ -153,7 +153,7 @@ public class InvestigateCmd {
                     });
                 })
                 .thenRun(()->{
-                    investigation.result(event);
+                    investigation.result(channel.getGuild(), event);
                 })
                 .exceptionally(e -> {
                     e.printStackTrace();
@@ -171,18 +171,18 @@ public class InvestigateCmd {
         }
 
         public List<InvestigatedMessage> get(TextChannel key) {
-            return parts.computeIfAbsent(key.getName(), __ -> new ChannelData(key)).messages;
+            return parts.computeIfAbsent(key.getId(), __ -> new ChannelData(key)).messages;
         }
 
-        public void result(GuildMessageReceivedEvent event) {
+        public void result(Guild target, GuildMessageReceivedEvent event) {
             if(file) {
                 JSONObject channels = new JSONObject();
                 parts.forEach((channelId, channel) -> {
                     channels.put(channelId, channel.toJson());
                 });
                 JSONObject object = new JSONObject()
-                        .put("name", event.getGuild().getName())
-                        .put("id", event.getGuild().getId())
+                        .put("name", target.getName())
+                        .put("id", target.getId())
                         .put("channels", channels);
                 byte[] bytes = object.toString().getBytes(StandardCharsets.UTF_8);
                 if(bytes.length > 7_800_000) {
