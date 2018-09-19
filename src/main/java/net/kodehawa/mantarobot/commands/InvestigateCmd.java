@@ -104,7 +104,7 @@ public class InvestigateCmd {
             CompletableFuture<?> f = new CompletableFuture<>();
             tc.getIterableHistory().takeAsync(200)
                     .thenAccept(messages -> {
-                        List<InvestigatedMessage> res = investigation.get(tc.getId());
+                        List<InvestigatedMessage> res = investigation.get(tc);
                         messages.forEach(m->{
                             res.add(0, InvestigatedMessage.from(m));
                         });
@@ -147,7 +147,7 @@ public class InvestigateCmd {
         Investigation investigation = new Investigation(file);
         channel.getIterableHistory().takeAsync(200)
                 .thenAccept(messages -> {
-                    List<InvestigatedMessage> res = investigation.get(channel.getId());
+                    List<InvestigatedMessage> res = investigation.get(channel);
                     messages.forEach(m->{
                         res.add(0, InvestigatedMessage.from(m));
                     });
@@ -163,22 +163,22 @@ public class InvestigateCmd {
     }
 
     private static class Investigation {
-        private final Map<String, List<InvestigatedMessage>> parts = new ConcurrentHashMap<>();
+        private final Map<String, ChannelData> parts = new ConcurrentHashMap<>();
         private final boolean file;
 
         private Investigation(boolean file) {
             this.file = file;
         }
 
-        public List<InvestigatedMessage> get(String key) {
-            return parts.computeIfAbsent(key, __ -> new LinkedList<>());
+        public List<InvestigatedMessage> get(TextChannel key) {
+            return parts.computeIfAbsent(key.getName(), __ -> new ChannelData(key)).messages;
         }
 
         public void result(GuildMessageReceivedEvent event) {
             if(file) {
                 JSONObject channels = new JSONObject();
-                parts.forEach((channelId, messages) -> {
-                    channels.put(channelId, convertMessages(messages));
+                parts.forEach((channelId, channel) -> {
+                    channels.put(channelId, channel.toJson());
                 });
                 JSONObject object = new JSONObject();
                 object.put("guild_id", event.getGuild().getId())
@@ -192,14 +192,14 @@ public class InvestigateCmd {
             } else {
                 if(parts.size() == 1) {
                     event.getChannel().sendMessage(Utils.paste3(
-                            parts.entrySet().iterator().next().getValue().stream()
+                            parts.entrySet().iterator().next().getValue().messages.stream()
                             .map(InvestigatedMessage::format)
                             .collect(Collectors.joining("\n"))
                     )).queue();
                 } else {
                     event.getChannel().sendMessage(parts.entrySet().stream().map(entry->
                         entry.getKey() + ": " + Utils.paste3(
-                                entry.getValue().stream()
+                                entry.getValue().messages.stream()
                                         .map(InvestigatedMessage::format)
                                         .collect(Collectors.joining("\n"))
                         )
@@ -207,13 +207,22 @@ public class InvestigateCmd {
                 }
             }
         }
+    }
 
-        private JSONObject convertMessages(List<InvestigatedMessage> list) {
-            JSONArray messages = new JSONArray();
-            list.forEach(m->messages.put(m.toJson()));
+    private static class ChannelData {
+        private final List<InvestigatedMessage> messages = new LinkedList<>();
+        private final String name;
+
+        private ChannelData(TextChannel channel) {
+            this.name = channel.getName();
+        }
+
+        public JSONObject toJson() {
+            JSONArray array = new JSONArray();
+            messages.forEach(m->array.put(m.toJson()));
             JSONObject stats = new JSONObject();
             JSONObject delays = new JSONObject();
-            list.stream().collect(Collectors.groupingBy(InvestigatedMessage::getAuthorId))
+            messages.stream().collect(Collectors.groupingBy(InvestigatedMessage::getAuthorId))
                     .forEach((author, m)->{
                         JSONArray d = new JSONArray();
                         Iterator<InvestigatedMessage> it = m.iterator();
@@ -229,7 +238,8 @@ public class InvestigateCmd {
                     });
             stats.put("delays", delays);
             return new JSONObject()
-                    .put("messages", messages)
+                    .put("name", name)
+                    .put("messages", array)
                     .put("stats", stats);
         }
     }
@@ -241,14 +251,16 @@ public class InvestigateCmd {
         private final String authorDiscriminator;
         private final String authorId;
         private final boolean bot;
+        private final String raw;
         private final String content;
 
-        InvestigatedMessage(String id, String authorName, String authorDiscriminator, String authorId, boolean bot, String content) {
+        InvestigatedMessage(String id, String authorName, String authorDiscriminator, String authorId, boolean bot, String raw, String content) {
             this.id = id;
             this.authorName = authorName;
             this.authorDiscriminator = authorDiscriminator;
             this.authorId = authorId;
             this.bot = bot;
+            this.raw = raw;
             this.content = content;
         }
 
@@ -277,13 +289,14 @@ public class InvestigateCmd {
                             .put("id", authorId)
                             .put("bot", bot)
                     )
-                    .put("content", content);
+                    .put("content", content)
+                    .put("raw", raw);
         }
 
         static InvestigatedMessage from(Message message) {
             return new InvestigatedMessage(message.getId(), message.getAuthor().getName(),
                     message.getAuthor().getDiscriminator(), message.getAuthor().getId(),
-                    message.getAuthor().isBot(), message.getContentStripped());
+                    message.getAuthor().isBot(), message.getContentRaw(), message.getContentStripped());
         }
     }
 }
