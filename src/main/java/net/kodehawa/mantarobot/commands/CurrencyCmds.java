@@ -128,7 +128,7 @@ public class CurrencyCmds {
                     });
                 }
 
-                List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(9, fields);
+                List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
                 boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
 
                 if(hasReactionPerms) {

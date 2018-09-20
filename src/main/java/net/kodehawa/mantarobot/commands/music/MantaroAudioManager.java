@@ -59,8 +59,8 @@ public class MantaroAudioManager {
         this.musicManagers = new ConcurrentHashMap<>();
         DefaultAudioPlayerManager apm = new DefaultAudioPlayerManager();
         Prometheus.THREAD_POOL_COLLECTOR.add("lavaplayer-track-playback", apm.getExecutor());
-        tryTrackingExecutor(apm, "lavaplayer-track-info", "trackInfoExecutorService");
-        tryTrackingExecutor(apm, "lavaplayer-scheduled-executor", "scheduledExecutorService");
+        //tryTrackingExecutor(apm, "lavaplayer-track-info", "trackInfoExecutorService");
+        //tryTrackingExecutor(apm, "lavaplayer-scheduled-executor", "scheduledExecutorService");
         this.playerManager = apm;
         YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager();
         youtubeAudioSourceManager.configureRequests(config -> RequestConfig.copy(config).setCookieSpec(CookieSpecs.IGNORE_COOKIES).build());

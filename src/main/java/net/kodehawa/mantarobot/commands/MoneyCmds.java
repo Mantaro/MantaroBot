@@ -443,13 +443,13 @@ public class MoneyCmds {
                     } else {
                         int dust = dbUser.getData().increaseDustLevel(r.nextInt(2));
                         String msg = String.format(languageContext.withRoot("commands", "loot.dust"), dust);
+                        dbUser.save();
 
                         if(r.nextInt(100) > 93) {
                             msg += languageContext.withRoot("commands", "loot.easter");
                         }
 
                         channel.sendMessage(EmoteReference.SAD + msg).queue();
-                        dbUser.save();
                     }
                 }
 

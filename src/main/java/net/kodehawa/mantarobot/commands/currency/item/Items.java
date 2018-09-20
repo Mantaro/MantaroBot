@@ -142,8 +142,8 @@ public class Items {
             MINE_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Mine (Premium) Treasure",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true),
             //TODO: Proper emojis.
             GEM1_ROD = new FishRod(ItemType.INTERACTIVE, 2, "\uD83C\uDFA3","Comet Gem Fishing Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 48),
-            GEM2_ROD = new FishRod(ItemType.INTERACTIVE, 2, "\uD83C\uDFA3","Star Gem Fishing Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 49),
-            GEM5_ROD = new FishRod(ItemType.INTERACTIVE, 4, "\uD83C\uDFA3","Sparkle Fishing Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;4", 44, 64),
+            GEM2_ROD = new FishRod(ItemType.INTERACTIVE, 2, "\uD83C\uDFA3","Star Gem Fishing Rod", "items.star_rod", "items.description.star_rod", 65, "1;3", 44, 49),
+            GEM5_ROD = new FishRod(ItemType.INTERACTIVE, 4, "\uD83C\uDFA3","Sparkle Fishing Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4", 44, 64),
 
     };
 
