@@ -1034,10 +1034,41 @@ public class CurrencyCmds {
                         .setFooter(String.format(languageContext.get("general.requested_by"), event.getMember().getEffectiveName()), null)
                         .build()
                 ).queue();
-                return;
             }
         });
 
         castCommand.createSubCommandAlias("ls", "list");
+    }
+
+    @Subscribe
+    public void iteminfo(CommandRegistry registry) {
+        registry.register("iteminfo", new SimpleCommand(Category.CURRENCY) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.iteminfo.no_content"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Optional<Item> itemOptional = Items.fromAnyNoId(content);
+
+                if(!itemOptional.isPresent()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.iteminfo.no_item"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Item item = itemOptional.get();
+                String description = languageContext.get(item.getDesc());
+                event.getChannel().sendMessageFormat(languageContext.get("commands.iteminfo.success"), EmoteReference.BLUE_SMALL_MARKER, item.getEmoji(), item.getName(), item.getItemType(), description).queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Item Info Command")
+                        .setDescription("**Shows the info of an item**")
+                        .addField("Usage", "`~>iteminfo <item name>`", false)
+                        .build();
+            }
+        });
     }
 }

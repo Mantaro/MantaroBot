@@ -1300,6 +1300,11 @@
         "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `~>help gamble` for details on gamble.",
         "slots": "%1sThis page shows the top 10 people with the most slots runs won.\n\nCheck out `~>help slots` for details on slots."
       }
+    },
+    "iteminfo": {
+      "no_content": "%1$sYou didn't specify any item to look for!",
+      "no_item": "%1$sThere's no item matching your search query.",
+      "success": "%1$s**Item Info for** %2$s **%3$s** (Type: %4$s): *%5$s*"
     }
   },
   "options": {
