@@ -973,7 +973,8 @@
       "too_many_games": "%1$sYou can start a maximum of 4 games at the same time with game lobby/multiple. (With Premium: 8)"
     },
     "opencrate": {
-      "no_crate": "%1$sYou don't have any loot crate to open :("
+      "no_crate": "%1$sYou don't have any loot crate to open :(",
+      "not_crate": "%1$sThat is not a valid loot crate."
     },
     "prune": {
       "no_messages_specified": "%1$sYou specified no messages to prune.",

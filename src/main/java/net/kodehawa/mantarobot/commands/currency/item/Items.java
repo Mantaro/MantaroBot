@@ -92,7 +92,7 @@ public class Items {
             STAR = new Item(ItemType.COLLECTABLE, "\uE335","Prize", "items.prize", "items.description.prize", 0, false, false, true),
 
             // ---------------------------------- LEFT OVERS FROM CURRENCY V1 END HERE ----------------------------------
-            LOOT_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Loot Crate",  "items.crate","items.description.crate", 0, false, false, true, (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.RARE, 33, EmoteReference.LOOT_CRATE, 3)),
+            LOOT_CRATE = new Item(ItemType.CRATE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Loot Crate",  "items.crate","items.description.crate", 0, false, false, true, (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.RARE, 33, EmoteReference.LOOT_CRATE, 3)),
             STAR_2 = new Item(ItemType.COMMON, EmoteReference.STAR.getUnicode(),"Prize 2", "items.prize_2", "items.description.prize_2", 500, true, false, true),
             SLOT_COIN = new Item(ItemType.COMMON, "\uD83C\uDF9F","Slot ticket", "items.slot_ticket","items.description.slot_ticket", 65, true, true),
             HOUSE = new Item(ItemType.COMMON, EmoteReference.HOUSE.getUnicode(), "House", "items.house", "items.description.house", 5000, true, true),
@@ -141,9 +141,9 @@ public class Items {
             FISH_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Premium Treasure",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true, (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.FISH_PREMIUM, 68, EmoteReference.FISH_CRATE, 5)),
             MINE_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Mine Premium Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true, (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.MINE_CRATE, 5)),
             //TODO: Proper emojis.
-            GEM1_ROD = new FishRod(ItemType.INTERACTIVE, 2, "\uD83C\uDFA3","Comet Gem Fishing Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 48),
-            GEM2_ROD = new FishRod(ItemType.INTERACTIVE, 2, "\uD83C\uDFA3","Star Gem Fishing Rod", "items.star_rod", "items.description.star_rod", 65, "1;3", 44, 49),
-            GEM5_ROD = new FishRod(ItemType.INTERACTIVE, 4, "\uD83C\uDFA3","Sparkle Fishing Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4", 44, 64),
+            GEM1_ROD = new FishRod(ItemType.CRATE, 2, "\uD83C\uDFA3","Comet Gem Fishing Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 48),
+            GEM2_ROD = new FishRod(ItemType.CRATE, 2, "\uD83C\uDFA3","Star Gem Fishing Rod", "items.star_rod", "items.description.star_rod", 65, "1;3", 44, 49),
+            GEM5_ROD = new FishRod(ItemType.CRATE, 4, "\uD83C\uDFA3","Sparkle Fishing Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4", 44, 64),
 
     };
 

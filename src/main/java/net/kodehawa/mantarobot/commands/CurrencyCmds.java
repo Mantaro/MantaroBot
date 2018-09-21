@@ -743,13 +743,22 @@ public class CurrencyCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Player p = MantaroData.db().getPlayer(event.getAuthor());
-                if(!p.getInventory().containsItem(Items.LOOT_CRATE)) {
+                Item item = Items.fromAnyNoId(content).orElse(null);
+                if(item == null)
+                    item = Items.LOOT_CRATE;
+
+                if(item.getItemType() != ItemType.CRATE) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.opencrate.not_crate"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(!p.getInventory().containsItem(item)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.opencrate.no_crate"), EmoteReference.SAD).queue();
                     return;
                 }
 
                 //Ratelimit handled here
-                Items.LOOT_CRATE.getAction().test(event, languageContext);
+                item.getAction().test(event, languageContext);
             }
 
             @Override
@@ -812,7 +821,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(item.getItemType() != ItemType.INTERACTIVE) {
+                if(item.getItemType() != ItemType.INTERACTIVE && item.getItemType() != ItemType.CRATE) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.not_interactive"), EmoteReference.ERROR).queue();
                     return;
                 }

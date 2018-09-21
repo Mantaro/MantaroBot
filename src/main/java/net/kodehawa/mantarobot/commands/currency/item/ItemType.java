@@ -40,7 +40,8 @@ public enum ItemType {
     FISHING_CASTABLE(true),
     //Rare fishes.
     FISHING_RARE(false),
-    MINE_RARE(true);
+    MINE_RARE(true),
+    CRATE(false);
 
     private boolean cast;
 
