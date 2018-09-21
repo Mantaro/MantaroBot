@@ -136,14 +136,14 @@ public class Items {
             GEM5_PICKAXE = new Item(ItemType.MINE_RARE, "\u2692\ufe0f","Sparkle Matter Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 550, true, false, "1;4;1", 10, 64, 18),
 
             //TODO: Handle this properly. (handle picking the items)
-            MINE_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Mine Crate",  "items.mine_crate","items.description.mine_crate", 0, false, false, true,  (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.MINE, 66, EmoteReference.MINE_CRATE, 3)),
-            FISH_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Treasure",  "items.fish_crate","items.description.fish_crate", 0, false, false, true,  (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.FISH, 67, EmoteReference.FISH_CRATE, 3)),
-            FISH_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Premium Treasure",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true, (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.FISH_PREMIUM, 68, EmoteReference.FISH_CRATE, 5)),
-            MINE_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Mine Premium Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true, (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.MINE_CRATE, 5)),
+            MINE_CRATE = new Item(ItemType.CRATE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Mine Crate",  "items.mine_crate","items.description.mine_crate", 0, false, false, true,  (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.MINE, 66, EmoteReference.MINE_CRATE, 3)),
+            FISH_CRATE = new Item(ItemType.CRATE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Treasure",  "items.fish_crate","items.description.fish_crate", 0, false, false, true,  (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.FISH, 67, EmoteReference.FISH_CRATE, 3)),
+            FISH_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Premium Treasure",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true, (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.FISH_PREMIUM, 68, EmoteReference.FISH_CRATE, 5)),
+            MINE_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Mine Premium Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true, (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.MINE_CRATE, 5)),
             //TODO: Proper emojis.
-            GEM1_ROD = new FishRod(ItemType.CRATE, 2, "\uD83C\uDFA3","Comet Gem Fishing Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 48),
-            GEM2_ROD = new FishRod(ItemType.CRATE, 2, "\uD83C\uDFA3","Star Gem Fishing Rod", "items.star_rod", "items.description.star_rod", 65, "1;3", 44, 49),
-            GEM5_ROD = new FishRod(ItemType.CRATE, 4, "\uD83C\uDFA3","Sparkle Fishing Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4", 44, 64),
+            GEM1_ROD = new FishRod(ItemType.INTERACTIVE, 2, "\uD83C\uDFA3","Comet Gem Fishing Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 48),
+            GEM2_ROD = new FishRod(ItemType.INTERACTIVE, 2, "\uD83C\uDFA3","Star Gem Fishing Rod", "items.star_rod", "items.description.star_rod", 65, "1;3", 44, 49),
+            GEM5_ROD = new FishRod(ItemType.INTERACTIVE, 4, "\uD83C\uDFA3","Sparkle Fishing Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4", 44, 64),
 
     };
 
