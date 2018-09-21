@@ -70,7 +70,7 @@
     },
     "commands": {
         "fish": {
-            "dust": "%1$sDe dag is voorbij en je visemmer kon alleen stof verzamelen. (Dust level %1$s%%)",
+            "dust": "%1$sDe dag is voorbij en je visemmer kon alleen stof verzamelen. (Dust level %2$s%%)",
             "no_rod": "%1$sJe hebt geen hengel om mee te vissen!",
             "trash": {
                 "overflow": "%1$sJe vond wat afval tijdens het vissen, maar je inventaris was vol, dus we moesten het terug gooien in het water ...",

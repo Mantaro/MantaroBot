@@ -75,7 +75,7 @@
     },
     "commands": {
         "fish": {
-            "dust": "%1$sDer Tag ist zu Ende und dein Eimer hat nur Staub gesammelt. (Dust level %1$s%%)",
+            "dust": "%1$sDer Tag ist zu Ende und dein Eimer hat nur Staub gesammelt. (Dust level %2$s%%)",
             "no_rod": "%1$sDu hast keine Angel mit der du Angeln kannst!",
             "trash": {
                 "overflow": "%1$sDu hast beim Angeln etwas Müll gefunden, aber dein Inventar war voll, also mussten wir es ins Wasser werfen...",

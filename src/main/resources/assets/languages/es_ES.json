@@ -70,7 +70,7 @@
     },
     "commands": {
         "fish": {
-            "dust": "%1$sEl sol se pone, y tu tarro para recolectar pescados solo logró acumular polvo :(",
+            "dust": "%1$sEl sol se pone, y tu tarro para recolectar pescados solo logró acumular polvo. (Dust level: %2$s%%)",
             "no_rod": "%1$sNo tienes una caña de pescar para pescar!",
             "trash": {
                 "overflow": "%1$sEncontraste un poco de basura pescando, pero tu inventario está lleno, asi que no puedes recogerla...",

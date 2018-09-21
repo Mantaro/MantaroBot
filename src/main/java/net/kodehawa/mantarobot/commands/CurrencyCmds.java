@@ -806,7 +806,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                Item item = Items.fromAnyNoId(args[0]).orElse(null);
+                Item item = Items.fromAnyNoId(content).orElse(null);
                 if(item == null) {
                     event.getChannel().sendMessageFormat(languageContext.get("general.item_lookup.not_found"), EmoteReference.ERROR).queue();
                     return;

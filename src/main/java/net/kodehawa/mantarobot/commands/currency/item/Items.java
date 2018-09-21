@@ -51,7 +51,7 @@ public class Items {
             GEM1_ROD, GEM2_ROD, GEM5_ROD;
 
     private static final Random r = new Random();
-    private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 15);
+    private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 4);
 
     public static final Item[] ALL = {
             HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7", "Headphones", "items.headphones", "items.description.headphones", 5, true, false, false),
@@ -92,7 +92,7 @@ public class Items {
             STAR = new Item(ItemType.COLLECTABLE, "\uE335","Prize", "items.prize", "items.description.prize", 0, false, false, true),
 
             // ---------------------------------- LEFT OVERS FROM CURRENCY V1 END HERE ----------------------------------
-            LOOT_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Loot Crate",  "items.crate","items.description.crate", 0, false, false, true, Items::openLootCrate),
+            LOOT_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Loot Crate",  "items.crate","items.description.crate", 0, false, false, true, (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.RARE, 33, EmoteReference.LOOT_CRATE, 3)),
             STAR_2 = new Item(ItemType.COMMON, EmoteReference.STAR.getUnicode(),"Prize 2", "items.prize_2", "items.description.prize_2", 500, true, false, true),
             SLOT_COIN = new Item(ItemType.COMMON, "\uD83C\uDF9F","Slot ticket", "items.slot_ticket","items.description.slot_ticket", 65, true, true),
             HOUSE = new Item(ItemType.COMMON, EmoteReference.HOUSE.getUnicode(), "House", "items.house", "items.description.house", 5000, true, true),
@@ -136,10 +136,10 @@ public class Items {
             GEM5_PICKAXE = new Item(ItemType.MINE_RARE, "\u2692\ufe0f","Sparkle Matter Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 550, true, false, "1;4;1", 10, 64, 18),
 
             //TODO: Handle this properly. (handle picking the items)
-            MINE_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Mine Crate",  "items.mine_crate","items.description.mine_crate", 0, false, false, true),
-            FISH_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Treasure",  "items.fish_crate","items.description.fish_crate", 0, false, false, true),
-            FISH_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish (Premium) Crate",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true),
-            MINE_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Mine (Premium) Treasure",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true),
+            MINE_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Mine Crate",  "items.mine_crate","items.description.mine_crate", 0, false, false, true,  (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.MINE, 66, EmoteReference.MINE_CRATE, 3)),
+            FISH_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Treasure",  "items.fish_crate","items.description.fish_crate", 0, false, false, true,  (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.FISH, 67, EmoteReference.FISH_CRATE, 3)),
+            FISH_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Premium Treasure",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true, (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.FISH_PREMIUM, 68, EmoteReference.FISH_CRATE, 5)),
+            MINE_PREMIUM_CRATE = new Item(ItemType.INTERACTIVE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Mine Premium Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true, (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.MINE_CRATE, 5)),
             //TODO: Proper emojis.
             GEM1_ROD = new FishRod(ItemType.INTERACTIVE, 2, "\uD83C\uDFA3","Comet Gem Fishing Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 48),
             GEM2_ROD = new FishRod(ItemType.INTERACTIVE, 2, "\uD83C\uDFA3","Star Gem Fishing Rod", "items.star_rod", "items.description.star_rod", 65, "1;3", 44, 49),
@@ -267,6 +267,8 @@ public class Items {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.overflow"), EmoteReference.SAD).queue();
                     }
 
+                    System.out.println(money + " " + foundFish);
+                    System.out.println(reducedList);
                     if (money > 0 && !foundFish) {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money_noitem") + message, EmoteReference.POPPER, money).queue();
                     } else if (money > 0 && foundFish) {
@@ -277,7 +279,9 @@ public class Items {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.success") + message, EmoteReference.POPPER, itemDisplay).queue();
                     } else {
                         //somehow we go all the way back and it's dust again (forgot to handle it?)
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING).queue();
+                        int level = u.getData().increaseDustLevel(r.nextInt(4));
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING, level).queue();
+                        u.save();
                         return false;
                     }
                 }
@@ -434,21 +438,23 @@ public class Items {
         return Arrays.asList(ALL).indexOf(item);
     }
 
-    private static boolean openLootCrate(GuildMessageReceivedEvent event, I18nContext lang) {
+    private static boolean openLootCrate(GuildMessageReceivedEvent event, I18nContext lang, ItemType.LootboxType type, int item, EmoteReference typeEmote, int bound) {
         Player player = MantaroData.db().getPlayer(event.getAuthor());
         Inventory inventory = player.getInventory();
-        if(inventory.containsItem(Items.LOOT_CRATE)) {
+        Item crate = fromId(item);
+        if(inventory.containsItem(crate)) {
             if(inventory.containsItem(Items.LOOT_CRATE_KEY)) {
                 if(!handleDefaultRatelimit(lootCrateRatelimiter, event.getAuthor(), event))
                     return false;
 
                 inventory.process(new ItemStack(Items.LOOT_CRATE_KEY, -1));
-                inventory.process(new ItemStack(Items.LOOT_CRATE, -1));
+                inventory.process(new ItemStack(crate, -1));
 
-                player.getData().addBadgeIfAbsent(Badge.THE_SECRET);
+                if(crate == LOOT_CRATE)
+                    player.getData().addBadgeIfAbsent(Badge.THE_SECRET);
                 player.save();
 
-                openLootBox(event, true, lang);
+                openLootBox(event, lang, type, typeEmote, bound);
                 return true;
             } else {
                 event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.crate.no_key"), EmoteReference.ERROR).queue();
@@ -460,10 +466,9 @@ public class Items {
         }
     }
 
-    private static void openLootBox(GuildMessageReceivedEvent event, boolean special, I18nContext lang) {
-        List<Item> toAdd = selectItems(r.nextInt(3) + 3, special ? ItemType.LootboxType.RARE : ItemType.LootboxType.COMMON);
-
-        Player player = MantaroData.db().getPlayer(event.getMember());
+    private static void openLootBox(GuildMessageReceivedEvent event, I18nContext lang, ItemType.LootboxType type, EmoteReference typeEmote, int bound) {
+        List<Item> toAdd = selectItems(r.nextInt(bound) + bound, type);
+        Player player = MantaroData.db().getPlayer(event.getAuthor());
         ArrayList<ItemStack> ita = new ArrayList<>();
 
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
@@ -472,10 +477,11 @@ public class Items {
         player.saveAsync();
 
         event.getChannel().sendMessage(String.format(lang.get("general.misc_item_usage.crate.success"),
-                EmoteReference.LOOT_CRATE.getDiscordNotation(), toAdd.stream().map(Item::toString).collect(Collectors.joining(", ")),
+                typeEmote.getDiscordNotation(), toAdd.stream().map(Item::toString).collect(Collectors.joining(", ")),
                 overflow ? ". " + lang.get("general.misc_item_usage.crate.overflow") : "")).queue();
     }
 
+    //Maybe compact this a bit? works fine, just icks me a bit.
     private static List<Item> selectItems(int amount, ItemType.LootboxType type) {
         List<Item> common = handleItemDrop(i -> i.getItemType() == ItemType.COMMON);
         List<Item> rare = handleItemDrop(i -> i.getItemType() == ItemType.RARE);
