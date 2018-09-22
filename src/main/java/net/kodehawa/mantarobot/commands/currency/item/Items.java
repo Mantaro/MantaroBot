@@ -327,7 +327,7 @@ public class Items {
 
         POTION_STAMINA.setAction((event, lang) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            if(p.getData().getActivePotion() != null && p.getData().getActivePotion().getPotion() == idOf(FISHING_BAIT)) {
+            if(p.getData().getActivePotion() != null && p.getData().getActivePotion().getPotion() == idOf(POTION_STAMINA)) {
                 event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.stamina_used"), EmoteReference.ERROR).queue();
                 return false;
             }
