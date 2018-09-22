@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot;
 
-import br.com.brjdevs.java.utils.async.Async;
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.Getter;
@@ -140,7 +139,8 @@ public class MantaroBot extends ShardedJDA {
 
         birthdayCacher = new BirthdayCacher();
         final MuteTask muteTask = new MuteTask();
-        Async.task("Mute Handler", muteTask::handle, 1, TimeUnit.MINUTES);
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mute Handler"))
+        .scheduleAtFixedRate(muteTask::handle, 0, 1, TimeUnit.MINUTES);
     }
 
     public static void main(String[] args) {

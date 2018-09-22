@@ -16,16 +16,21 @@
 
 package net.kodehawa.mantarobot.commands.info;
 
-import br.com.brjdevs.java.utils.async.Async;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.management.ThreadMXBean;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class AsyncInfoMonitor {
+    private static final ScheduledExecutorService POOL = Executors.newSingleThreadScheduledExecutor(task -> {
+        return new Thread(task, "AsyncInfoMonitor");
+    });
+
     private static final double gb = 1024 * 1024 * 1024;
     private static int availableProcessors = Runtime.getRuntime().availableProcessors();
     private static double cpuUsage = 0;
@@ -103,7 +108,7 @@ public class AsyncInfoMonitor {
         lastSystemTime = System.nanoTime();
         lastProcessCpuTime = calculateProcessCpuTime(os);
 
-        Async.task("AsyncInfoMonitorThread", () -> {
+        POOL.scheduleAtFixedRate(()->{
             threadCount = thread.getThreadCount();
             availableProcessors = r.availableProcessors();
             freeMemory = Runtime.getRuntime().freeMemory() / mb;
@@ -114,7 +119,7 @@ public class AsyncInfoMonitor {
             vpsFreeMemory = calculateVPSFreeMemory(os);
             vpsMaxMemory = calculateVPSMaxMemory(os);
             vpsUsedMemory = vpsMaxMemory - vpsFreeMemory;
-        }, 1, TimeUnit.SECONDS);
+        }, 1, 1, TimeUnit.SECONDS);
         started = true;
     }
 

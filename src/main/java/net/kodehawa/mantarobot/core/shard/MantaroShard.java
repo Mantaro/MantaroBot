@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.core.shard;
 
-import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -147,7 +146,6 @@ public class MantaroShard implements JDA {
      * variables.
      *
      * @param force Whether we will call {@link JDA#shutdown()} or {@link JDA#shutdownNow()}
-     * @throws RateLimitedException
      * @throws LoginException
      * @throws InterruptedException
      */
@@ -259,7 +257,8 @@ public class MantaroShard implements JDA {
         };
 
         changeStatus.run();
-        Async.task("Splash Thread", changeStatus, 10, TimeUnit.MINUTES);
+        Executors.newSingleThreadScheduledExecutor(r->new Thread(r, "Splash Thread"))
+                .scheduleAtFixedRate(changeStatus, 10, 10, TimeUnit.MINUTES);
     }
 
     /**
