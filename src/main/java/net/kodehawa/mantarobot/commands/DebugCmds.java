@@ -58,7 +58,7 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 @Module
 @SuppressWarnings("unused")
 public class DebugCmds {
-    @Subscribe
+    //@Subscribe
     public void info(CommandRegistry cr) {
         cr.register("info", new SimpleCommand(Category.INFO) {
             @Override
