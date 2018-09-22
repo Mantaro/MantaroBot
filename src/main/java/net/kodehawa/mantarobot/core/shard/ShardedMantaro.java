@@ -168,12 +168,12 @@ public class ShardedMantaro {
         startUpdaters();
         bot.startCheckingBirthdays();
 
-        Async.task(() -> {
+        /*Async.task(() -> {
             try {
                 SnowflakeCacheView<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannelCache();
                 activeMusicPlayers.set(vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count());
             } catch (Exception ignored) {} //Avoid the scheduled task to unexpectedly end on exception (probably ConcurrentModificationException but let's just catch all errors)
-        }, 20, TimeUnit.SECONDS);
+        }, 20, TimeUnit.SECONDS);*/
     }
 
     private void startUpdaters() {
