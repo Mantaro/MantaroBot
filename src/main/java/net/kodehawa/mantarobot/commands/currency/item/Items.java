@@ -268,16 +268,14 @@ public class Items {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.overflow"), EmoteReference.SAD).queue();
                     }
 
-                    System.out.println(money + " " + foundFish);
-                    System.out.println(reducedList);
                     if (money > 0 && !foundFish) {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money_noitem") + message, EmoteReference.POPPER, money).queue();
+                    } else if (foundFish && money == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success") + message, EmoteReference.POPPER, itemDisplay).queue();
                     } else if (money > 0 && foundFish) {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money") + message,
                                 EmoteReference.POPPER, itemDisplay, money, (waifuHelp ? "\n" + lang.get("commands.fish.waifu_help") : "")
                         ).queue();
-                    } else if (foundFish) {
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success") + message, EmoteReference.POPPER, itemDisplay).queue();
                     } else {
                         //somehow we go all the way back and it's dust again (forgot to handle it?)
                         int level = u.getData().increaseDustLevel(r.nextInt(4));
