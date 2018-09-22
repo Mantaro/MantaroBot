@@ -743,7 +743,7 @@ public class MoneyCmds {
                     }
                 }
 
-                String message = String.format(languageContext.get("commands.mine.success"), EmoteReference.PICK, money, item.getName());
+                String message = String.format(languageContext.get("commands.mine.success"), item.getEmoji(), money, item.getName());
 
                 boolean hasPotion = Items.handlePotion(Items.POTION_HASTE, 2, player);
                 if(r.nextInt(400) > (hasPotion ? 290 : 350)) {

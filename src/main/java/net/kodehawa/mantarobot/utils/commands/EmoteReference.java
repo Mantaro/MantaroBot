@@ -77,16 +77,23 @@ public enum EmoteReference {
     SHOES(":athletic_shoe:", "\uD83D\uDC5F"),
     ROSE(":rose:", "\uD83C\uDF39"),
     PARTY(":tada:", "\uD83C\uDF89"),
-    LOOT_CRATE("<:crate1:316053940305133568>", null),
     STAR(":star:", "\u2b50"),
     HOUSE(":house:", "\uD83C\uDFE0"),
     MARKER(":large_orange_diamond:", "\uD83D\uDD36"),
     BLUE_SMALL_MARKER(":small_blue_diamond:", "\uD83D\uDD39"),
     DUST(":dash:", "\uD83D\uDCA8"),
     TROPHY(":trophy:", "\uD83C\uDFC6"),
+    //Custom emotes.
+    LOOT_CRATE("<:crate1:316053940305133568>", null),
     MINE_CRATE("<:shiny_stone:490258140462579712>", null),
-    FISH_CRATE("<:treasure:490258123966119958>", null);
-
+    FISH_CRATE("<:treasure:490258123966119958>", null),
+    DIAMOND_PICK("<:diamond_pick:492882142557372458>", null),
+    STAR_PICK("<:star_pick:492882142993580038>", null),
+    COMET_PICK("<:comet_pick:492882142788059146>", null),
+    SPARKLE_PICK("<:sparkle_pick:492882143404359690>", null),
+    STAR_ROD("<:star_rod:492882143354028064>", null),
+    COMET_ROD("<:comet_rod:492882142779670528>", null),
+    SPARKLE_ROD("<:sparkle_rod:492882143505154048>", null);
 
     final String discordNotation;
     final String unicode;

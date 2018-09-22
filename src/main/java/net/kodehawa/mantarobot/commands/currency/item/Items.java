@@ -123,28 +123,24 @@ public class Items {
             CLAIM_KEY = new Item(ItemType.COMMON, "\uD83D\uDDDD","Claim Key", "items.claim_key", "items.description.claim_key", 1, false, true),
             COFFEE = new Item(ItemType.COMMON, "\u2615","Coffee", "items.coffee", "items.description.coffee", 10, true),
             WAIFU_PILL = new Item(ItemType.INTERACTIVE, "\ud83d\udc8a","Waifu Pill", "items.waifu_pill", "items.description.waifu_pill", 670, true),
-            FISHING_BAIT = new Item(ItemType.INTERACTIVE, "\uD83D\uDC1B","Fishing bait.", "items.bait", "items.description.bait", 15, true),
-            DIAMOND_PICKAXE = new Item(ItemType.CAST_MINE, "\u2692\ufe0f","Diamond Pickaxe", "items.diamond_pick", "items.description.diamond_pick", 450, true, false, "1;2", 10, 18),
+            FISHING_BAIT = new Item(ItemType.INTERACTIVE, "\uD83D\uDC1B","Fishing Bait", "items.bait", "items.description.bait", 15, true),
+            DIAMOND_PICKAXE = new Item(ItemType.CAST_MINE, EmoteReference.DIAMOND_PICK.getDiscordNotation(),"Diamond Pickaxe", "items.diamond_pick", "items.description.diamond_pick", 450, true, false, "1;2", 10, 18),
             TELEVISION = new Item(ItemType.COMMON, "\uD83D\uDCFA","Television", "items.tv", "items.description.tv", 45, true),
             WRENCH = new Item(ItemType.COMMON, "\ud83d\udd27","Wrench", "items.wrench", "items.description.wrench", 50, true),
             //car is 1000 credits, so this is 350
             MOTORCYCLE = new Item(ItemType.COMMON, "\uD83C\uDFCD","Motorcycle",  "items.motorcycle","items.description.motorcycle", 350, true),
-            //TODO: proper emojis
-            GEM1_PICKAXE = new Item(ItemType.CAST_MINE, "\u2692\ufe0f","Comet Gem Pickaxe", "items.comet_pick", "items.description.comet_pick", 350, true, false, "1;2", 10, 48),
-            GEM2_PICKAXE = new Item(ItemType.CAST_MINE, "\u2692\ufe0f","Star Gem Pickaxe", "items.star_pick", "items.description.star_pick", 350, true, false, "1;2", 10, 49),
+            GEM1_PICKAXE = new Item(ItemType.CAST_MINE, EmoteReference.COMET_PICK.getDiscordNotation(),"Comet Pickaxe", "items.comet_pick", "items.description.comet_pick", 350, true, false, "1;2", 10, 48),
+            GEM2_PICKAXE = new Item(ItemType.CAST_MINE, EmoteReference.STAR_PICK.getDiscordNotation(),"Star Pickaxe", "items.star_pick", "items.description.star_pick", 350, true, false, "1;2", 10, 49),
             PIZZA = new Item(ItemType.COMMON, "\uD83C\uDF55","Pizza", "items.pizza", "items.description.pizza", 15, true, false),
-            GEM_5 = new Item(ItemType.MINE_RARE, "\uE32E", "Sparkle Matter Fragment", "items.sparkle", "items.description.sparkle", 605, false),
-            GEM5_PICKAXE = new Item(ItemType.MINE_RARE, "\u2692\ufe0f","Sparkle Matter Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 550, true, false, "1;4;1", 10, 64, 18),
-
-            //TODO: Handle this properly. (handle picking the items)
+            GEM_5 = new Item(ItemType.MINE_RARE, "\u2728", "Sparkle Fragment", "items.sparkle", "items.description.sparkle", 605, false),
+            GEM5_PICKAXE = new Item(ItemType.MINE_RARE, EmoteReference.SPARKLE_PICK.getDiscordNotation(),"Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 550, true, false, "1;4;1", 10, 64, 18),
             MINE_CRATE = new Item(ItemType.CRATE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Mine Crate",  "items.mine_crate","items.description.mine_crate", 0, false, false, true,  (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.MINE, 66, EmoteReference.MINE_CRATE, 3)),
             FISH_CRATE = new Item(ItemType.CRATE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Treasure",  "items.fish_crate","items.description.fish_crate", 0, false, false, true,  (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.FISH, 67, EmoteReference.FISH_CRATE, 3)),
             FISH_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Premium Treasure",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true, (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.FISH_PREMIUM, 68, EmoteReference.FISH_CRATE, 5)),
             MINE_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Mine Premium Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true, (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.MINE_CRATE, 5)),
-            //TODO: Proper emojis.
-            GEM1_ROD = new FishRod(ItemType.INTERACTIVE, 2, "\uD83C\uDFA3","Comet Gem Fishing Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 48),
-            GEM2_ROD = new FishRod(ItemType.INTERACTIVE, 2, "\uD83C\uDFA3","Star Gem Fishing Rod", "items.star_rod", "items.description.star_rod", 65, "1;3", 44, 49),
-            GEM5_ROD = new FishRod(ItemType.INTERACTIVE, 4, "\uD83C\uDFA3","Sparkle Fishing Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4", 44, 64),
+            GEM1_ROD = new FishRod(ItemType.INTERACTIVE, 2, EmoteReference.COMET_ROD.getDiscordNotation(),"Comet Gem Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 48),
+            GEM2_ROD = new FishRod(ItemType.INTERACTIVE, 2, EmoteReference.STAR_ROD.getDiscordNotation(),"Star Gem Rod", "items.star_rod", "items.description.star_rod", 65, "1;3", 44, 49),
+            GEM5_ROD = new FishRod(ItemType.INTERACTIVE, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(),"Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4", 44, 64),
 
     };
 
