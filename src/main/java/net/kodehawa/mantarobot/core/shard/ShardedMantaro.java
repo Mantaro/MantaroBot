@@ -59,10 +59,6 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
 @Slf4j
 public class ShardedMantaro {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private static final Gauge activeMusicPlayers = Gauge.build()
-            .name("music_players")
-            .help("Active Music Players")
-            .register();
 
     private final Carbonitex carbonitex = new Carbonitex();
     private final Config config = MantaroData.config().get();
@@ -167,13 +163,6 @@ public class ShardedMantaro {
 
         startUpdaters();
         bot.startCheckingBirthdays();
-
-        Async.task(() -> {
-            try {
-                SnowflakeCacheView<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannelCache();
-                activeMusicPlayers.set(vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count());
-            } catch (Exception ignored) {} //Avoid the scheduled task to unexpectedly end on exception (probably ConcurrentModificationException but let's just catch all errors)
-        }, 20, TimeUnit.SECONDS);
     }
 
     private void startUpdaters() {

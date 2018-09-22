@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.osu.api.ciyfhx.*;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -52,7 +53,11 @@ import java.util.concurrent.*;
 @SuppressWarnings("unused")
 public class OsuStatsCmd {
     private final Map<String, Object> map = new HashMap<>();
-    private final ExecutorService pool = Executors.newCachedThreadPool();
+    private final ExecutorService pool = Executors.newCachedThreadPool(
+            new ThreadFactoryBuilder()
+                    .setNameFormat("OsuStats-CachedPool")
+                    .build()
+    );
     private OsuClient osuClient = new OsuClient(MantaroData.config().get().osuApiKey);
 
     public OsuStatsCmd() {
