@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.core;
 
-import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.classgraph.ClassGraph;
@@ -103,7 +102,7 @@ public class MantaroCore {
                 .commandProcessor(commandProcessor)
                 .build();
 
-        Async.thread("MantaroCore-ShardInit", () -> shardedMantaro.shard());
+        new Thread(shardedMantaro::shard, "MantaroCore-ShardInit").start();
 
         loadState = LOADED;
     }
@@ -118,7 +117,7 @@ public class MantaroCore {
                 .commandProcessor(commandProcessor)
                 .build();
 
-        Async.thread("MantaroCore-ShardInit", () -> shardedMantaro.shard());
+        new Thread(shardedMantaro::shard, "MantaroCore-ShardInit").start();
 
         loadState = LOADED;
     }
@@ -167,14 +166,14 @@ public class MantaroCore {
             }
         }
 
-        Async.thread("Mantaro EventBus-Post", () -> {
+        new Thread(() -> {
             //For now, only used by AsyncInfoMonitor startup and Anime Login Task.
             shardEventBus.post(new PreLoadEvent());
             //Registers all commands
             shardEventBus.post(DefaultCommandProcessor.REGISTRY);
             //Registers all options
             shardEventBus.post(new OptionRegistryEvent());
-        });
+        }, "Mantaro EventBus-Post").start();
 
         return this;
     }
