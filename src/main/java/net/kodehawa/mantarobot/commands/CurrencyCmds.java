@@ -998,7 +998,7 @@ public class CurrencyCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Item> castableItems = Arrays.stream(Items.ALL)
-                        .filter(i -> i.getItemType() == ItemType.CAST_MINE || i.getItemType() == ItemType.CAST_OBTAINABLE || i.getItemType() == ItemType.CAST)
+                        .filter(i -> i.getItemType().isCastable() && i.getRecipeTypes() != null && i.getRecipe() != null)
                         .collect(Collectors.toList());
 
                 StringBuilder show = new StringBuilder();
