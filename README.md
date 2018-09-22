@@ -6,9 +6,6 @@
         <p><b>Complete and configurable music, currency and games multipurpose Discord bot!</b></p>
     </header>
     <body>
-        <hr>
-        <h4>Check the 4.9 branch for the current development status</h4>
-        <hr>
         <h2>Using the Official Mantaro Bot</h2>
         <p><b><i>Just one <a href="https://is.gd/mantaro">click</a> and you can add Mantaro to your own server and enjoy its full feature set!</i></b></p>
         <hr>
