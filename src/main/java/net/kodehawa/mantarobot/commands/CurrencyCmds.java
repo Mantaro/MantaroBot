@@ -744,7 +744,7 @@ public class CurrencyCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Player p = MantaroData.db().getPlayer(event.getAuthor());
                 Item item = Items.fromAnyNoId(content).orElse(null);
-                if(item == null)
+                if(item == null || content.isEmpty())
                     item = Items.LOOT_CRATE;
 
                 if(item.getItemType() != ItemType.CRATE) {

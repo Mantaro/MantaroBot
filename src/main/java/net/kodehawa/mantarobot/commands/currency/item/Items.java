@@ -27,6 +27,7 @@ import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
@@ -443,11 +444,11 @@ public class Items {
         Inventory inventory = player.getInventory();
         Item crate = fromId(item);
         if(inventory.containsItem(crate)) {
-            if(inventory.containsItem(Items.LOOT_CRATE_KEY)) {
+            if(inventory.containsItem(LOOT_CRATE_KEY)) {
                 if(!handleDefaultRatelimit(lootCrateRatelimiter, event.getAuthor(), event))
                     return false;
 
-                inventory.process(new ItemStack(Items.LOOT_CRATE_KEY, -1));
+                inventory.process(new ItemStack(LOOT_CRATE_KEY, -1));
                 inventory.process(new ItemStack(crate, -1));
 
                 if(crate == LOOT_CRATE)
@@ -532,15 +533,16 @@ public class Items {
     }
 
     public static boolean handlePotion(Item i, int maxTimes, Player p) {
-        boolean isPotionPresent = p.getData().getActivePotion() != null && fromId(p.getData().getActivePotion().getPotion()) == i;
+        final PlayerData playerData = p.getData();
+        boolean isPotionPresent = playerData.getActivePotion() != null && fromId(playerData.getActivePotion().getPotion()) == i;
         if (isPotionPresent) {
             //counter starts at 0
-            if (p.getData().getActivePotion().getTimesUsed() >= maxTimes) {
-                p.getData().setActivePotion(null);
+            if (playerData.getActivePotion().getTimesUsed() >= maxTimes) {
+                playerData.setActivePotion(null);
                 p.save();
             } else {
-                long timesUsed = p.getData().getActivePotion().getTimesUsed();
-                p.getData().getActivePotion().setTimesUsed(timesUsed + 1);
+                long timesUsed = playerData.getActivePotion().getTimesUsed();
+                playerData.getActivePotion().setTimesUsed(timesUsed + 1);
                 p.save();
             }
         }
@@ -549,15 +551,16 @@ public class Items {
     }
 
     public static boolean handleBuff(Item i, int maxTimes, Player p) {
-        boolean isBuffPresent = p.getData().getActiveBuff() != null && fromId(p.getData().getActiveBuff().getPotion()) == i;
+        final PlayerData playerData = p.getData();
+        boolean isBuffPresent = playerData.getActiveBuff() != null && fromId(playerData.getActiveBuff().getPotion()) == i;
         if (isBuffPresent) {
             //counter starts at 0
-            if (p.getData().getActiveBuff().getTimesUsed() >= maxTimes) {
-                p.getData().setActiveBuff(null);
+            if (playerData.getActiveBuff().getTimesUsed() >= maxTimes) {
+                playerData.setActiveBuff(null);
                 p.save();
             } else {
-                long timesUsed = p.getData().getActiveBuff().getTimesUsed();
-                p.getData().getActiveBuff().setTimesUsed(timesUsed + 1);
+                long timesUsed = playerData.getActiveBuff().getTimesUsed();
+                playerData.getActiveBuff().setTimesUsed(timesUsed + 1);
                 p.save();
             }
         }
