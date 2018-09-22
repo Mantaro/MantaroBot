@@ -140,7 +140,7 @@ public class Items {
             MINE_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Mine Premium Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true, (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.MINE_CRATE, 5)),
             GEM1_ROD = new FishRod(ItemType.CAST_FISH, 2, EmoteReference.COMET_ROD.getDiscordNotation(),"Comet Gem Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 48),
             GEM2_ROD = new FishRod(ItemType.CAST_FISH, 2, EmoteReference.STAR_ROD.getDiscordNotation(),"Star Gem Rod", "items.star_rod", "items.description.star_rod", 65, "1;3", 44, 49),
-            GEM5_ROD = new FishRod(ItemType.CAST_FISH, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(),"Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4", 44, 64),
+            GEM5_ROD = new FishRod(ItemType.CAST_FISH, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(),"Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4;1", 44, 64, 18),
 
     };
 
