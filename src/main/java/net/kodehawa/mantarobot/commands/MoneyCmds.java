@@ -710,7 +710,7 @@ public class MoneyCmds {
                 //why is the item optional present when there's no content?
                 if(itemOpt.isPresent() && !content.isEmpty()) {
                     Item temp = itemOpt.get();
-                    if(temp.getItemType() != ItemType.CAST_MINE) {
+                    if(temp.getItemType() != ItemType.CAST_MINE && temp.getItemType() != ItemType.MINE_RARE_PICK) {
                         event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "mine.not_suitable"), EmoteReference.ERROR).queue();
                         return;
                     }
@@ -734,6 +734,8 @@ public class MoneyCmds {
                     return;
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
+                if(item == Items.GEM5_PICKAXE)
+                    money += r.nextInt(50);
 
                 boolean waifuHelp = false;
                 if(Items.handlePotion(Items.WAIFU_PILL, 5, player)) {
