@@ -522,7 +522,8 @@
       "calculate": "%1$s%2$s will get **%3$d credits** if all of the items are sold.",
       "header": "%1$s's Inventory",
       "format": "**Price**: 📥 %1$d 📤 %2$d\n%3$s",
-      "empty": "%1$sYour inventory is empty! :("
+      "empty": "%1$sYour inventory is empty! :(",
+      "brief_notice": "You can use `~>inventory -brief` to get a mobile friendly version."
     },
     "cast": {
       "no_item_found": "%1$sI didn't find any item matching that.",

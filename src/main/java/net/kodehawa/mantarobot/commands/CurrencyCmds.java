@@ -72,6 +72,7 @@ public class CurrencyCmds {
 
     @Subscribe
     public void inventory(CommandRegistry cr) {
+        final Random r = new Random();
         cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
@@ -134,13 +135,15 @@ public class CurrencyCmds {
                 if(hasReactionPerms) {
                     if(builder.getDescriptionBuilder().length() == 0) {
                         builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
-                                String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)));
+                                String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
+                                + "\n" + languageContext.get("commands.inventory.brief_notice")+ ((r.nextInt(3) == 0 ? languageContext.get("general.sellout")));
                     }
                     DiscordUtils.list(event, 45, false, builder, splitFields);
                 } else {
                     if(builder.getDescriptionBuilder().length() == 0) {
                         builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
-                                String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)));
+                                String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
+                                + "\n" + languageContext.get("commands.inventory.brief_notice") + ((r.nextInt(3) == 0 ? languageContext.get("general.sellout"));
                     }
                     DiscordUtils.listText(event, 45, false, builder, splitFields);
                 }
