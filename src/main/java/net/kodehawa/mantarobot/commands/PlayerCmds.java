@@ -205,6 +205,8 @@ public class PlayerCmds {
                             String marriedToId = currentMarriage.getOtherPlayer(memberLooked.getUser().getId());
                             if(marriedToId != null) {
                                 marriedToNew = MantaroBot.getInstance().getUserById(marriedToId);
+                                player.getData().setMarriedWith(null); //delete old marriage
+                                marriedTo = null;
                                 isNewMarriage = true;
                             }
                         }
@@ -264,7 +266,6 @@ public class PlayerCmds {
                                         languageContext.get("commands.profile.nobody") :
                                         isNewMarriage ? String.format("%s#%s", marriedToNew.getName(), marriedToNew.getDiscriminator()) :
                                                 String.format("%s#%s", marriedTo.getName(), marriedTo.getDiscriminator()), false
-
                                 )
                                 .addField(EmoteReference.POUCH + languageContext.get("commands.profile.inventory"), ItemStack.toString(inv.asList()), false
                                 )

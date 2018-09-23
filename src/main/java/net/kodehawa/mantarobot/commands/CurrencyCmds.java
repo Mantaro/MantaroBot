@@ -975,6 +975,8 @@ public class CurrencyCmds {
                             message += languageContext.get("commands.cast.item_broke");
                         }
 
+                        user.getData().increaseDustLevel(3);
+                        user.save();
                         player.removeMoney(castCost);
                         player.save();
 

@@ -795,7 +795,6 @@ public class MoneyCmds {
                     player.getData().addBadgeIfAbsent(Badge.GEM_FINDER);
                 }
 
-                //TODO: Needs proper handling on crates on Items.java.
                 DBUser dbUser = db.getUser(event.getAuthor());
                 PremiumKey key = db.getPremiumKey(dbUser.getData().getPremiumKey());
                 if(r.nextInt(400) > 392) {
@@ -804,7 +803,7 @@ public class MoneyCmds {
                         message += "\n" + languageContext.withRoot("commands", "mine.crate.overflow");
                     } else {
                         inventory.process(new ItemStack(crate, 1));
-                        message += "\n" + EmoteReference.MEGA + String.format(languageContext.withRoot("commands", "mine.crate.success"), crate.getEmoji());
+                        message += "\n" + EmoteReference.MEGA + String.format(languageContext.withRoot("commands", "mine.crate.success"), crate.getEmoji(), crate.getName());
                     }
                 }
 

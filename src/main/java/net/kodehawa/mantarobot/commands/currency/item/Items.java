@@ -222,7 +222,6 @@ public class Items {
                     }
 
                     String message = "";
-                    //TODO: Needs proper handling on crates on Items.java.
                     DBUser dbUser = managedDatabase.getUser(event.getAuthor());
                     PremiumKey key = managedDatabase.getPremiumKey(dbUser.getData().getPremiumKey());
                     if (r.nextInt(400) > 380) {
@@ -231,7 +230,7 @@ public class Items {
                             message += "\n" + lang.get("commands.fish.crate.overflow");
                         } else {
                             playerInventory.process(new ItemStack(crate, 1));
-                            message += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.crate.success"), crate.getEmoji());
+                            message += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.crate.success"), crate.getEmoji(), crate.getName());
                         }
                     }
 
@@ -480,31 +479,34 @@ public class Items {
         List<Item> common = handleItemDrop(i -> i.getItemType() == ItemType.COMMON);
         List<Item> rare = handleItemDrop(i -> i.getItemType() == ItemType.RARE);
         List<Item> premium = handleItemDrop(i -> i.getItemType() == ItemType.PREMIUM);
+
         List<Item> mine = handleItemDrop(i -> i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.CAST_OBTAINABLE);
         List<Item> fish = handleItemDrop(i -> i.getItemType() == ItemType.FISHING);
+
         List<Item> premiumMine = handleItemDrop(i -> i.getItemType() == ItemType.CAST_MINE ||
-                i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.MINE_RARE || i.getItemType() == ItemType.CAST_OBTAINABLE);
-        List<Item> premiumFish = handleItemDrop(i -> i.getItemType() == ItemType.FISHING_CASTABLE ||
+                i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.MINE_RARE || i.getItemType() == ItemType.CAST_OBTAINABLE || i.getItemType() == ItemType.MINE_RARE_PICK);
+        List<Item> premiumFish = handleItemDrop(i -> i.getItemType() == ItemType.CAST_FISH ||
                 i.getItemType() == ItemType.FISHING || i.getItemType() == ItemType.FISHING_RARE);
 
         RandomCollection<Item> items = new RandomCollection<>();
 
-        //fallthrough intended
         switch(type) {
-            case EPIC:
-                throw new UnsupportedOperationException();
             case PREMIUM:
                 premium.forEach(i-> items.add(2, i));
             case RARE:
                 rare.forEach(i-> items.add(5, i));
             case COMMON:
                 common.forEach(i-> items.add(20, i));
+                break; //fallthrough intended until here.
             case FISH_PREMIUM:
                 premiumFish.forEach(i -> items.add(5, i));
+                break;
             case MINE_PREMIUM:
                 premiumMine.forEach(i -> items.add(5, i));
+                break;
             case MINE:
                 mine.forEach(i -> items.add(8, i));
+                break;
             case FISH:
                 fish.forEach(i -> items.add(8, i));
         }

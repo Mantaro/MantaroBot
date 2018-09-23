@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.utils.commands;
 import java.util.Optional;
 
 public enum EmoteReference {
-
     ERROR(":heavy_multiplication_x:", "\u2716"),
     ERROR2(":x:", "\u274C"),
     DICE(":game_die:", "\uD83C\uDFB2"),
@@ -93,7 +92,9 @@ public enum EmoteReference {
     SPARKLE_PICK("<:sparkle_pick:492882143404359690>", null),
     STAR_ROD("<:star_rod:492882143354028064>", null),
     COMET_ROD("<:comet_rod:492882142779670528>", null),
-    SPARKLE_ROD("<:sparkle_rod:492882143505154048>", null);
+    SPARKLE_ROD("<:sparkle_rod:492882143505154048>", null),
+    PREMIUM_MINE_CRATE("<:premium_stone:493561539215753236>", null),
+    PREMIUM_FISH_CRATE("<:premium_treasure:493561539450896394>", null);
 
     final String discordNotation;
     final String unicode;
