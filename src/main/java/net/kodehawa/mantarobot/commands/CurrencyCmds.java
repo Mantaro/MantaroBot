@@ -141,7 +141,7 @@ public class CurrencyCmds {
                     DiscordUtils.list(event, 45, false, builder, splitFields);
                 } else {
                     if(builder.getDescriptionBuilder().length() == 0) {
-                        builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
+                        builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
                                 String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
                                 + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 ? languageContext.get("general.sellout") : ""));
                     }
@@ -941,6 +941,7 @@ public class CurrencyCmds {
 
                         int increment = 0;
                         //build recipe
+                        StringBuilder recipeString = new StringBuilder();
                         for(int i : castItem.getRecipeTypes()) {
                             Item item = Items.fromId(i);
                             int amount = Integer.valueOf(splitRecipe[increment]);
@@ -957,6 +958,7 @@ public class CurrencyCmds {
                             }
 
                             castMap.put(item, amount);
+                            recipeString.append(amount).append("x ").append(item.getName()).append(" ");
                             increment++;
                         }
 
@@ -980,8 +982,8 @@ public class CurrencyCmds {
                         player.removeMoney(castCost);
                         player.save();
 
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.cast.success"),
-                                EmoteReference.POPPER, castItem.getEmoji(), castItem.getName(), castCost, message
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.cast.success") + "\n" + message,
+                                EmoteReference.WRENCH, castItem.getEmoji(), castItem.getName(), castCost, recipeString
                         ).queue();
                     }
                 };
@@ -1006,11 +1008,11 @@ public class CurrencyCmds {
                         .filter(i -> i.getItemType().isCastable() && i.getRecipeTypes() != null && i.getRecipe() != null)
                         .collect(Collectors.toList());
 
-                StringBuilder show = new StringBuilder();
-                show.append(EmoteReference.TALKING)
-                        .append(languageContext.get("commands.cast.ls.desc"))
-                        .append("\n\n");
-
+                List<MessageEmbed.Field> fields = new LinkedList<>();
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setAuthor(languageContext.get("commands.cast.ls.header"), null, event.getAuthor().getEffectiveAvatarUrl())
+                        .setColor(Color.PINK)
+                        .setFooter(String.format(languageContext.get("general.requested_by"), event.getMember().getEffectiveName()), null);
                 for (Item item : castableItems) {
                     //Build recipe explanation
                     StringBuilder recipe = new StringBuilder();
@@ -1022,32 +1024,20 @@ public class CurrencyCmds {
                     }
                     //End of build recipe explanation
 
-                    show.append(EmoteReference.BLUE_SMALL_MARKER)
-                            .append(item.getEmoji())
-                            .append(" **")
-                            .append(item.getName())
-                            .append("**\n**")
-                            .append(languageContext.get("general.description"))
-                            .append(": **\u2009\"*")
-                            .append(languageContext.get(item.getDesc()))
-                            .append("*\n**")
-                            .append(languageContext.get("commands.cast.ls.cost"))
-                            .append("**")
-                            .append(item.getValue() / 2)
-                            .append(" ")
-                            .append(languageContext.get("commands.gamble.credits"))
-                            .append(".\n**Recipe: **")
-                            .append(recipe.toString())
-                            .append("\n");
+                    fields.add(new MessageEmbed.Field(item.getEmoji() + " " + item.getName(),
+                            languageContext.get(item.getDesc()) + "\n**" + languageContext.get("commands.cast.ls.cost") + "**" +
+                                    item.getValue() / 2 + " " + languageContext.get("commands.gamble.credits") + ".\n**Recipe: **" + recipe.toString(), true));
                 }
 
-                event.getChannel().sendMessage(new EmbedBuilder()
-                        .setAuthor(languageContext.get("commands.cast.ls.header"), null, event.getAuthor().getEffectiveAvatarUrl())
-                        .setDescription(show.toString())
-                        .setColor(Color.PINK)
-                        .setFooter(String.format(languageContext.get("general.requested_by"), event.getMember().getEffectiveName()), null)
-                        .build()
-                ).queue();
+                List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
+                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                if(hasReactionPerms) {
+                    builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.cast.ls.desc")));
+                    DiscordUtils.list(event, 45, false, builder, splitFields);
+                } else {
+                    builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.cast.ls.desc")));
+                    DiscordUtils.listText(event, 45, false, builder, splitFields);
+                }
             }
         });
 

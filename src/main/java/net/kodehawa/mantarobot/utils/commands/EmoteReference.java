@@ -82,6 +82,7 @@ public enum EmoteReference {
     BLUE_SMALL_MARKER(":small_blue_diamond:", "\uD83D\uDD39"),
     DUST(":dash:", "\uD83D\uDCA8"),
     TROPHY(":trophy:", "\uD83C\uDFC6"),
+    WRENCH(":wrench:", "\ud83d\udd27"),
     //Custom emotes.
     LOOT_CRATE("<:crate1:316053940305133568>", null),
     MINE_CRATE("<:shiny_stone:490258140462579712>", null),

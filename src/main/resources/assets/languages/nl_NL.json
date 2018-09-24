@@ -514,7 +514,7 @@
             "not_enough_money": "%1$sJe hebt niet genoeg geld om dit te casten. **(Kosten: %2$s)**",
             "no_item": "%1$sJe hebt niet het item *%2$s* dat nodig is om verder te gaan met deze cast.",
             "not_enough_items": "%1$sJe hebt niet genoeg van het item *%2$s* om verder te gaan. **(Nodig: %3$s, Huidig: %4$s)**",
-            "success": "%1$sJe hebt succesvol **%2$s %3$s gecast** voor **%4$s credits.**",
+            "success": "%1$sJe hebt succesvol *%2$s %3$s gecast* voor %4$s credits. *Cast used: %5$s*",
             "no_tool": "%1$sJe hebt %2$s nodig om verder te gaan met deze cast!",
             "item_broke": "\nHelaas, je wrench brak tijdens het proces, maar je hebt wel je item gekregen!"
         },
