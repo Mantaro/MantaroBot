@@ -918,6 +918,11 @@ public class CurrencyCmds {
                             return;
                         }
 
+                        if(castItem.getRecipe() == null || castItem.getRecipe().isEmpty()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.item_not_cast"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
                         Map<Item, Integer> castMap = new HashMap<>();
                         String recipe = castItem.getRecipe();
                         String[] splitRecipe = recipe.split(";");
