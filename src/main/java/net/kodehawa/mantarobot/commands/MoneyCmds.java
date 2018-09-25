@@ -734,7 +734,7 @@ public class MoneyCmds {
                     return;
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
-                if(item == Items.GEM5_PICKAXE)
+                if(item == Items.GEM5_PICKAXE_2)
                     money += r.nextInt(50);
 
                 boolean waifuHelp = false;
