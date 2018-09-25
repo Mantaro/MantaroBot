@@ -784,7 +784,7 @@ public class MoneyCmds {
                 }
 
                 if((r.nextInt(400) > 390 && item == Items.GEM2_PICKAXE) || (r.nextInt(400) > 395 && item == Items.GEM1_PICKAXE)) {
-                    Item gem = Items.GEM_5;
+                    Item gem = Items.GEM5_2;
                     if(inventory.getAmount(gem) + 1 >= 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.sparkle.overflow");
                         money += gem.getValue() * 0.9;
