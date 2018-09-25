@@ -1020,6 +1020,9 @@ public class CurrencyCmds {
                         .setFooter(String.format(languageContext.get("general.requested_by"), event.getMember().getEffectiveName()), null);
                 for (Item item : castableItems) {
                     //Build recipe explanation
+                    if(item.getRecipe().isEmpty())
+                        continue;
+
                     StringBuilder recipe = new StringBuilder();
                     String[] recipeAmount = item.getRecipe().split(";");
                     AtomicInteger ai = new AtomicInteger();
