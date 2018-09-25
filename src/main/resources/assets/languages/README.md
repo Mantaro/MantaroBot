@@ -13,10 +13,6 @@
 
  ![](https://i.imgur.com/jpf8qmo.png)  ![](https://i.imgur.com/KgxBlB2.png) ![](https://i.imgur.com/LPihVzy.png)
 
- - Choose 4.9 as active Branch.
-
- ![](https://i.imgur.com/pFqFgh8.png)
-
  - Browse the Local Folder of it and go to `\src\main\resources\assets\languages`.
 
  - When creating a new translation, copy the en_US.json and rename the copy to your language (i.e German (Germany) would be de_DE.json) otherwise edit the file you want to contribute to.
@@ -46,8 +42,7 @@
 
  ![](https://i.imgur.com/HROt9B4.png)
 
- - Make sure you are making a pull request from your Fork 4.9 to MantaroBot 4.9.
-![](https://desii.is-a-good-waifu.com/659de7.gif)
+ - **Make sure you are making a pull request from your Fork master to MantaroBot master.** (Screenshots say 4.9 but you want to do master anyway)
 
  - Give the Pull request a reasonable name.
 
