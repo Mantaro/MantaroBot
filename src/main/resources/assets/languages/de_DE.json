@@ -46,7 +46,7 @@
             "crate": {
                 "no_key": "%1$sDu brauchst einen Truhenschlüssel, um eine Truhe zu öffnen. Sie ist verschlossen!",
                 "no_crate": "%1$sDu brauchst eine Truhe! Wie sonst möchtest du deinen Schlüssel benutzen >.>... oh",
-                "success": "%1$s**Du hast folgendes gewonnen:** %2$s%3$s",
+                "success": "%1$sDu hast eine Truge geöffnet und folgendes gewonnen: %2$s%3$s. Glückwunsch!",
                 "overflow": "Aber du hattest schon zu viel, also hast du dich dazu entschlossen, den Rest weg zu werfen."
             }
         },
@@ -87,7 +87,7 @@
             },
             "crate": {
                 "overflow": "Du hast eine **%1$s** beim Fischen gefunden, aber du hattest bereits zu viele, daher haben wir sie zurück in den Ozean geworfen...",
-                "success": "Du hast eine %1$s **%2$s** beim Fischen gefunden und hast sie mitgenommen. Los, öffne sie mit `~>opencrate`. Du brauchst dazu einen Truhenschlüssel!"
+                "success": "Du hast eine %1$s **%2$s** beim Fischen gefunden und hast sie mitgenommen. Los, öffne sie mit `~>opencrate <Truhenname>`. Du brauchst dazu einen Truhenschlüssel!"
           },
             "overflow": "%1$sDu hast Fische gefangen, aber dein Inventar war voll, also mussten wir es ins Wasser werfen ...",
             "success": "%1$sWährend du ruhig angelst findest du %2$s und fährst fort, sie in deinem Fischeimer zu lagern.",
@@ -951,8 +951,8 @@
                 "header": "Welches Pokémon ist das?",
                 "footer": "Sie haben 5 Versuche und 75 Sekunden. (Schreibe end um das Spiel zu beenden)"
             },
-            "started_mp_role": "%1$sBegann eine MP-Lobby mit allen Benutzern mit der angegebenen Rolle: %2$s",
-            "started_mp_user": "%1$sBegann eine MP-Lobby mit den Nutzern: %2$s",
+            "started_mp_role": "%1$sBegann eine MP-Lobby mit allen Benutzern mit der angegebenen Rolle: **%2$s**",
+            "started_mp_user": "%1$sBegann eine MP-Lobby mit den Nutzern: **%2$s**",
             "lobby_started": "%1$sBegann eine neue Lobby! **Spiele: %2$s**\nDu kannst `endlobby` schreiben um alle Spiele zu beenden.",
             "game_timeout_drop": "%1$sScheint so, als hätte ich hier ein Spiel fallen lassen, aber vergessen, es aufzuheben. Ich werde dein neues Spiel beginnen!",
             "other_lobby_running": "%1$sEine neue Spielelobby kann nicht gestartet werden, wenn gerade ein Spiel läuft. (Sollte dies ein Fehler sein, bitte einen Admin darum `~>opts lobby reset` auszuführen.)",
@@ -973,7 +973,7 @@
             "too_many_games": "%1$sDu kannst maximal 4 Spiele auf einmal mit lobby/multiple starten. (Mit Premium: 8)"
         },
         "opencrate": {
-            "no_crate": "%1$sDu hast keine Truhe, die du öffnen könntest. :( (If you're trying to open a crate of any other than the default type, use the name of the crate after the command)"
+            "no_crate": "%1$sDu hast keine Truhe, dieser Art. :( (Wenn du versuchst eine spezielle Truhe zu öffnen, verwende den Namen nach dem Befehl)",
             "not_crate": "%1$sDas ist keine gültige Truhe."
         },
         "prune": {
@@ -1238,7 +1238,7 @@
             "easter": "\nSchaut so aus, als ob du hier sehr viel Staub hast... Du solltest hier vielleicht mal putzen, bevor es hier zu unordentlich wird!"
         },
         "mine": {
-            "no_pick": "%1$sDu hast keine Spitzhacke zum Abbauen. If you want to use any other pick use `~>mine <pick name>`",
+            "no_pick": "%1$sDu hast keine Spitzhacke zum Abbauen. Wenn du eine andere Spitzhacke verwenden willst nutze `~>mine <Spitzhacke>`",
             "not_suitable": "%1$sDas ist keine Spitzhacke, die du zum Abbauen nutzen kannst!",
             "not_in_inventory": "%1$sDu hast diese Spitzhacke nicht im Inventar, wechsle zur Standardspitzhacke.",
             "success": "%1$sDu hast Mineralien im Wert von **$%2$s Credits abgebaut**, indem du %3$s genutzt hast.",
@@ -1256,7 +1256,7 @@
             },
             "crate": {
                 "overflow": "Du hast eine **%1$s** beim Graben gefunden, aber du hattest schon zu viele, also hast du sie zurückgelassen...",
-                "success": "Du hast eine %1$s **%2$s** beim Graben gefunden und mitgenommen. Los, öffne sie mit `~>opencrate`. Du brauchst einen Truhenschlüssel!"
+                "success": "Du hast eine %1$s **%2$s** beim Graben gefunden und mitgenommen. Los, öffne sie mit `~>opencrate <Truhenname>`. Du brauchst einen Truhenschlüssel!"
             },
             "pick_broke": "%1$sEine deiner Spitzhacken ist beim Abbauen zerbrochen.",
             "waifu_help": "Deine Waifu gesellte sich zu deinem Minenabenteuer und ihr habt beide eine größere Beute bekommen!"
