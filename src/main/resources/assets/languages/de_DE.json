@@ -58,7 +58,8 @@
         "buy_sell_paged_text": "**Seiten: %1$d.**\nVerwende **&p >>** und **&p <<** um die Seite zu wechseln.\n%2$s",
         "buy_sell_paged_reference": "**Referenz %1$s Kauf %2$s Verkauf.**",
         "cancelled": "%1$sAnfrage abgebrochen.",
-        "sellout": "Erwäge auf patreon.com/mantaro zu spenden, falls du mich magst, selbst eine kleine Spende würde mir helfen den Bot am Laufen zu halten!"
+        "sellout": "Erwäge auf patreon.com/mantaro zu spenden, falls du mich magst, selbst eine kleine Spende würde mir helfen den Bot am Laufen zu halten!",
+        "deprecated": "Nicht länger genutzt"
     },
     "categories": {
         "music": "Musik",
@@ -75,7 +76,7 @@
     },
     "commands": {
         "fish": {
-            "dust": "%1$sDer Tag ist zu Ende und dein Eimer hat nur Staub gesammelt. (Dust level %2$s%%)",
+            "dust": "%1$sDer Tag ist zu Ende und dein Eimer hat nur Staub gesammelt. (Verstaubung %2$s%%)",
             "no_rod": "%1$sDu hast keine Angel mit der du Angeln kannst!",
             "trash": {
                 "overflow": "%1$sDu hast beim Angeln etwas Müll gefunden, aber dein Inventar war voll, also mussten wir es ins Wasser werfen...",
@@ -84,6 +85,10 @@
             "tier3": {
                 "extra": "Außerdem findest du %1$s, was ein Glück!"
             },
+            "crate": {
+                "overflow": "Du hast eine **%1$s** beim Fischen gefunden, aber du hattest bereits zu viele, daher haben wir sie zurück in den Ozean geworfen...",
+                "success": "Du hast eine %1$s **%2$s** beim Fischen gefunden und hast sie mitgenommen. Los, öffne sie mit `~>opencrate`. Du brauchst dazu einen Truhenschlüssel!"
+          },
             "overflow": "%1$sDu hast Fische gefangen, aber dein Inventar war voll, also mussten wir es ins Wasser werfen ...",
             "success": "%1$sWährend du ruhig angelst findest du %2$s und fährst fort, sie in deinem Fischeimer zu lagern.",
             "success_money": "%1$sWährend du ruhig angelst findest du %2$s und **$%3$d Credits** und du bewahrst es weiter in deinem Eimer auf.%4$s",
@@ -518,7 +523,8 @@
             "calculate": "%1$s%2$s erhält **%3$d Credits**, wenn alle Gegenstände verkauft werden!",
             "header": "%1$ss Inventar",
             "format": "**Preis**: 📥 %1$d 📤 %2$d\n%3$s",
-            "empty": "%1$sDein Inventar ist leer! :("
+            "empty": "%1$sDein Inventar ist leer! :(",
+            "brief_notice": "Du kannst `~>inventory -brief` nutzen, um eine mobilfreundliche Version zu bekommen."
         },
         "cast": {
             "no_item_found": "%1$sIch habe keine passenden Gegenstände gefunden.",
@@ -526,7 +532,7 @@
             "not_enough_money": "%1$sDu hast nicht genug Geld, um dies herzustellen. **(Kosten: %2$s)**",
             "no_item": "%1$sDu hast nicht den benötigten Gegenstand *%2$s*, um fortzufahren.",
             "not_enough_items": "%1$sDu hast nicht  genug von *%2$s*, um fortzufahren. **(Benötigt: %3$s, Aktuell: %4$s)**",
-            "success": "%1$sDu hast erfolgreich *%2$s %3$s* für %4$s Credits hergestellt. *Cast used: %5$s*",
+            "success": "%1$sDu hast erfolgreich *%2$s %3$s* für %4$s Credits hergestellt. *Herstellung kostete: %5$s*",
             "no_tool": "%1$sDu musst %2$s haben, um die Herstellung durchführen zu können!",
             "item_broke": "\nLeider broch dein Schraubenschlüssel, aber du bekamst deinen Gegenstand!",
             "ls": {
@@ -968,6 +974,7 @@
         },
         "opencrate": {
             "no_crate": "%1$sDu hast keine Truhe, die du öffnen könntest. :( (If you're trying to open a crate of any other than the default type, use the name of the crate after the command)"
+            "not_crate": "%1$sDas ist keine gültige Truhe."
         },
         "prune": {
             "no_messages_specified": "%1$sDu hast keine zu löschenden Nachrichten angegeben.",
@@ -1227,7 +1234,7 @@
                 "found": "%1$sBeim Graben durch die Nachrichten hast du **$%2$s Credits** gefunden!",
                 "found_but_overflow_no_item": "%1$sBeim Graben durch die Nachrichten hast du **$%2$d Credits** gefunden. Aber du hattest schon zu viele Credits, also habe ich den Überschuss gespendet."
             },
-            "dust": "Beim Graben durch die Nachrichten hast du nichts als Staub gefunden. (Dust level %1$s%%)",
+            "dust": "Beim Graben durch die Nachrichten hast du nichts als Staub gefunden. (Verstaubung %1$s%%)",
             "easter": "\nSchaut so aus, als ob du hier sehr viel Staub hast... Du solltest hier vielleicht mal putzen, bevor es hier zu unordentlich wird!"
         },
         "mine": {
@@ -1246,6 +1253,10 @@
             "sparkle": {
                 "overflow": "Du hast ein glitzerndes Juwel gefunden, aber es sah so aus, als hättest du schon zu viele davon, also haben wir es verkauft.",
                 "success": "Juhu! Du hast ein %1$s glitzerndes Juwel gefunden. Pass drauf auf und schau in dein Inventar."
+            },
+            "crate": {
+                "overflow": "Du hast eine **%1$s** beim Graben gefunden, aber du hattest schon zu viele, also hast du sie zurückgelassen...",
+                "success": "Du hast eine %1$s **%2$s** beim Graben gefunden und mitgenommen. Los, öffne sie mit `~>opencrate`. Du brauchst einen Truhenschlüssel!"
             },
             "pick_broke": "%1$sEine deiner Spitzhacken ist beim Abbauen zerbrochen.",
             "waifu_help": "Deine Waifu gesellte sich zu deinem Minenabenteuer und ihr habt beide eine größere Beute bekommen!"
@@ -1290,6 +1301,11 @@
                 "gamble": "%1sDiese Seite zeigt die Top 10 Personen an, welche die meisten Automatensiege haben.\n\nSchau unter `~>help gamble` für Details bezüglich Automaten.",
                 "slots": "%1sDiese Seite zeigt die Top 10 Personen an, welche die meisten Glücksspiele gewonnen haben.\n\nSchau unter `~>help slots` für Details bezüglich Glücksspielen."
             }
+        },
+        "iteminfo": {
+            "no_content": "%1$sDu hast kein Item zum Suchen angegeben!",
+            "no_item": "%1$sEs gibt kein Item, das zu deiner Suchanfrage passt.",
+            "success": "%1$s**Iteminfo für** %2$s **%3$s** (Typ: %4$s): *%5$s*"
         }
     },
     "options": {
@@ -1619,7 +1635,7 @@
             "no_talk_permission": "%1$sDer Bot kann im Geburtstagskanal nicht schreiben.",
             "cannot_interact": "%1$sDer Bot kann nicht mit der Geburtstagsrolle interagieren.",
             "success": "%1$sErledigt! Die Nachricht wurde in %2$s für den Nutzer **%3$s** geschickt. Er hat die Rolle %4$s bekommen.",
-            "error": "%1$sOw... Es gab einen Fehler beim Senden der Nachricht in den Kanal %1$s für den Nutzer **%2$s** und die Rolle %3$s"
+            "error": "%1$sOw... Es gab einen Fehler beim Senden der Nachricht in den Kanal %2$s für den Nutzer **%3$s** und die Rolle %4$s"
         },
         "usermessage_joinmessage_add": {
             "no_message": "%1$sDu musst mir eine zusätzliche Beitrittsnachricht angeben!",
@@ -1762,6 +1778,9 @@
         "fish_crate": "Schatz vom Meeresgrund",
         "mine_premium_crate": "Kiste aus der Mine (Premium)",
         "fish_premium_crate": "Schatz vom Meeresgrund (Premium)",
+        "comet_rod": "Kometenjuwelenangel",
+        "star_rod": "Sternenjuwelenangel",
+        "sparkle_rod": "Glitzermaterienangel",
         "description": {
             "headphones": "Das passiert, wenn du zu viel Musik hörst. Sollte aber was wert sein.",
             "ban_hammer": "Von einem Admin da gelassen.",
@@ -1832,7 +1851,10 @@
             "mine_crate": "Eine Kiste, die du beim Bergbau gefunden hast. Möglicherweise ist was nettes drin.",
             "fish_crate": "Eine Kiste, die du beim Fischen gefunden hast. Möglicherweise ist was nettes drin.",
             "mine_premium_crate": "Eine Kiste, die du beim Bergbau gefunden hast. Möglicherweise ist was nettes drin.",
-            "fish_premium_crate": "Eine Kiste, die du beim Fischen gefunden hast. Möglicherweise ist was nettes drin."
+            "fish_premium_crate": "Eine Kiste, die du beim Fischen gefunden hast. Möglicherweise ist was nettes drin.",
+            "comet_rod": "Eine etwas stärkere Angel (Komet)",
+            "star_rod": "Eine stäkere Angel (Stern)",
+            "sparkle_rod": "Eine viel stärkere Angel (Glitzer)"
         }
     },
     "test": {
