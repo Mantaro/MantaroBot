@@ -41,7 +41,7 @@
             "crate": {
                 "no_key": "%1$sNecesitas una loot crate key para abrir una loot crate. ¡Está bloqueada!",
                 "no_crate": "%1$sNecesitas una loot crate! De que otra forma podría usar esa llave >.>... oh",
-                "success": "%1$s**Ganaste:** %2$s%3$s",
+                "success": "%1$sAbriste una loot crate y ganaste: %2$s%3$s. ¡Felicidades!",
                 "overflow": "Pero ya tenías demasiado, así que decidiste tirar el exceso."
             }
         },
@@ -946,7 +946,7 @@
             "character_start": "¡Adivina el personaje!"
         },
         "opencrate": {
-            "no_crate": "%1$sNo tienes ninguna loot crate para abrir :("
+            "no_crate": "%1$sNo tienes ninguna loot crate para abrir :( (If you're trying to open a crate of any other than the default type, use the name of the crate after the command)"
         },
         "prune": {
             "no_messages_specified": "%1$sNo especificaste mensajes para eliminar en masa.",
@@ -1210,7 +1210,7 @@
             "easter": "\n¡Parece que hay mucho polvo por aquí! Te recomendaría limpiar un poquito esto..."
         },
         "mine": {
-            "no_pick": "%1$sNo tienes ningún pico para minar!",
+            "no_pick": "%1$sNo tienes ningún pico para minar! Si quieres usar otra picota, usa `~>mine <nombre de la picota>`",
             "not_suitable": "%1$sNo puedes minar con esto!",
             "not_in_inventory": "%1$sNo tienes esta picota en tu inventario, usaré la picota por defecto.",
             "success": "%1$sMinastes piedras preciosas con un valor de **$%2$s créditos**, utlilizando un *%3$s*",

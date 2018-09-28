@@ -46,7 +46,7 @@
       "crate": {
         "no_key": "%1$sYou need a loot crate key to open a crate. It's locked!",
         "no_crate": "%1$sYou need a loot crate! How else would you use your key >.>... oh",
-        "success": "%1$s**You won:** %2$s%3$s",
+        "success": "%1$sYou opened a crate and won: %2$s%3$s. Congratulations!",
         "overflow": "But you already had too much, so you decided to throw away the excess"
       }
     },
@@ -87,7 +87,7 @@
       },
       "crate": {
         "overflow": "You found a **%1$s** while fishing, but you had too many already, so we threw it back into the ocean...",
-        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `~>opencrate`. You need a crate key!"
+        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
       "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water...",
       "success": "%1$sWhile calmly fishing, you found %2$s and you proceed to save them into your bucket.",
@@ -975,7 +975,7 @@
       "too_many_games": "%1$sYou can start a maximum of 4 games at the same time with game lobby/multiple. (With Premium: 8)"
     },
     "opencrate": {
-      "no_crate": "%1$sYou don't have any loot crate to open :(",
+      "no_crate": "%1$sYou don't have any loot crate of this type to open :( (If you're trying to open a crate of any other than the default type, use the name of the crate after the command)",
       "not_crate": "%1$sThat is not a valid loot crate."
     },
     "prune": {
@@ -1240,7 +1240,7 @@
       "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
     },
     "mine": {
-      "no_pick": "%1$sYou don't have any pick to mine.",
+      "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`",
       "not_suitable": "%1$sThis is not a pick you can use to mine!",
       "not_in_inventory": "%1$sYou don't have this pick on your inventory, switching to the default pick.",
       "success": "%1$sYou mined minerals worth **$%2$s credits**, using a *%3$s*",
@@ -1258,7 +1258,7 @@
       },
       "crate": {
         "overflow": "You found a **%1$s** while mining, but you had too many and left it behind...",
-        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate`. You need a crate key!"
+        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
       "pick_broke": "%1$sOne of your picks broke while mining.",
       "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!"

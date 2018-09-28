@@ -473,7 +473,7 @@ public class Items {
         player.saveAsync();
 
         event.getChannel().sendMessage(String.format(lang.get("general.misc_item_usage.crate.success"),
-                typeEmote.getDiscordNotation(), toAdd.stream().map(Item::toString).collect(Collectors.joining(", ")),
+                typeEmote.getDiscordNotation() + " ", toAdd.stream().map(item -> item.getEmoji() + " " + item.getName()).collect(Collectors.joining(", ")),
                 overflow ? ". " + lang.get("general.misc_item_usage.crate.overflow") : "")).queue();
     }
 

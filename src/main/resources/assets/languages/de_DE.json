@@ -973,7 +973,7 @@
             "too_many_games": "%1$sDu kannst maximal 4 Spiele auf einmal mit lobby/multiple starten. (Mit Premium: 8)"
         },
         "opencrate": {
-            "no_crate": "%1$sDu hast keine Truhe, die du öffnen könntest. :(",
+            "no_crate": "%1$sDu hast keine Truhe, die du öffnen könntest. :( (If you're trying to open a crate of any other than the default type, use the name of the crate after the command)"
             "not_crate": "%1$sDas ist keine gültige Truhe."
         },
         "prune": {
@@ -1238,7 +1238,7 @@
             "easter": "\nSchaut so aus, als ob du hier sehr viel Staub hast... Du solltest hier vielleicht mal putzen, bevor es hier zu unordentlich wird!"
         },
         "mine": {
-            "no_pick": "%1$sDu hast keine Spitzhacke zum Abbauen.",
+            "no_pick": "%1$sDu hast keine Spitzhacke zum Abbauen. If you want to use any other pick use `~>mine <pick name>`",
             "not_suitable": "%1$sDas ist keine Spitzhacke, die du zum Abbauen nutzen kannst!",
             "not_in_inventory": "%1$sDu hast diese Spitzhacke nicht im Inventar, wechsle zur Standardspitzhacke.",
             "success": "%1$sDu hast Mineralien im Wert von **$%2$s Credits abgebaut**, indem du %3$s genutzt hast.",
