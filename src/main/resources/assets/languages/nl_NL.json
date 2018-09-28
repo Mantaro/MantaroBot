@@ -1208,7 +1208,7 @@
             "easter": "\nHet lijkt erop dat je hier zoveel stof hebt ... Misschien wil je dit opruimen voordat het te rommelig wordt!"
         },
         "mine": {
-            "no_pick": "%1$sJe hebt geen pickaxe om te mijnen.",
+            "no_pick": "%1$sJe hebt geen pickaxe om te mijnen. If you want to use any other pick use `~>mine <pick name>`",
             "not_suitable": "%1$sDit is geen pikhouweel die je kunt gebruiken om te minen!",
             "not_in_inventory": "%1$sJe hebt deze pikhouweel niet in je inventory. Je wordt omgeschakeld naar de standaard pikhouweel.",
             "success": "%1$sJe hebt mineralen gemijnd met een waarde van **$%2$s credits!**",

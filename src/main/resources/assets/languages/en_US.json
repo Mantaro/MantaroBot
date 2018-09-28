@@ -46,7 +46,7 @@
       "crate": {
         "no_key": "%1$sYou need a loot crate key to open a crate. It's locked!",
         "no_crate": "%1$sYou need a loot crate! How else would you use your key >.>... oh",
-        "success": "%1$s**You won:** %2$s%3$s",
+        "success": "%1$sYou opened a crate and won: %2$s%3$s. Congratulations!",
         "overflow": "But you already had too much, so you decided to throw away the excess"
       }
     },
@@ -1240,7 +1240,7 @@
       "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
     },
     "mine": {
-      "no_pick": "%1$sYou don't have any pick to mine.",
+      "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`",
       "not_suitable": "%1$sThis is not a pick you can use to mine!",
       "not_in_inventory": "%1$sYou don't have this pick on your inventory, switching to the default pick.",
       "success": "%1$sYou mined minerals worth **$%2$s credits**, using a *%3$s*",
