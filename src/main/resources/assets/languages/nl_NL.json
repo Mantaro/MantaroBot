@@ -944,7 +944,7 @@
             "character_start": "Raad het personage"
         },
         "opencrate": {
-            "no_crate": "%1$sJe hebt geen loot-crate om te openen :("
+            "no_crate": "%1$sJe hebt geen loot-crate om te openen :( (If you're trying to open a crate of any other than the default type, use the name of the crate after the command)"
         },
         "prune": {
             "no_messages_specified": "%1$sJe hebt geen berichten opgegeven om te verwijderen.",

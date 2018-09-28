@@ -946,7 +946,7 @@
             "character_start": "¡Adivina el personaje!"
         },
         "opencrate": {
-            "no_crate": "%1$sNo tienes ninguna loot crate para abrir :("
+            "no_crate": "%1$sNo tienes ninguna loot crate para abrir :( (If you're trying to open a crate of any other than the default type, use the name of the crate after the command)"
         },
         "prune": {
             "no_messages_specified": "%1$sNo especificaste mensajes para eliminar en masa.",

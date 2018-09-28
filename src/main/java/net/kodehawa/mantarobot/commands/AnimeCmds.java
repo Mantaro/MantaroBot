@@ -182,6 +182,11 @@ public class AnimeCmds {
         genres.removeAll(Collections.singleton(""));
         String GENRES = String.join(", ", genres);
 
+        if(genres.contains("Hentai") && !event.getChannel().isNSFW()) {
+            event.getChannel().sendMessageFormat(lang.get("commands.anime.hentai"), EmoteReference.ERROR).queue();
+            return;
+        }
+
         //Start building the embedded message.
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(Color.LIGHT_GRAY)
@@ -191,7 +196,7 @@ public class AnimeCmds {
                 .setDescription(ANIME_DESCRIPTION.length() <= 1024 ? ANIME_DESCRIPTION : ANIME_DESCRIPTION.substring(0, 1020) + "...")
                 .addField(lang.get("commands.anime.release_date"), "`" + RELEASE_DATE + "`", true)
                 .addField(lang.get("commands.anime.end_date"), "`" + (END_DATE == null || END_DATE.equals("null") ? lang.get("commands.anime.airing") : END_DATE) + "`", true)
-                .addField(lang.get("commands.anime.average_score"), "`" + AVERAGE_SCORE + "/100" + "`", true)
+                .addField(lang.get("commands.anime.average_s+-core"), "`" + AVERAGE_SCORE + "/100" + "`", true)
                 .addField(lang.get("commands.anime.type"), "`" + TYPE + "`", true)
                 .addField(lang.get("commands.anime.episodes"), "`" + EPISODES + "`", true)
                 .addField(lang.get("commands.anime.episode_duration"), "`" + DURATION + " " + lang.get("commands.anime.minutes") + "." + "`", true)

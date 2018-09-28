@@ -967,7 +967,7 @@
             "too_many_games": "%1$sDu kannst maximal 4 Spiele auf einmal mit lobby/multiple starten. (Mit Premium: 8)"
         },
         "opencrate": {
-            "no_crate": "%1$sDu hast keine Truhe, die du öffnen könntest. :("
+            "no_crate": "%1$sDu hast keine Truhe, die du öffnen könntest. :( (If you're trying to open a crate of any other than the default type, use the name of the crate after the command)"
         },
         "prune": {
             "no_messages_specified": "%1$sDu hast keine zu löschenden Nachrichten angegeben.",
