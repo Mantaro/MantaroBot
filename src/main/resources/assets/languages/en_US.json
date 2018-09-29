@@ -502,7 +502,8 @@
       "value_format": "**- Value:**",
       "value_b_format": "**- Bought for:**",
       "credits_format": " credits.",
-      "waifu_header": "**Your waifus:**"
+      "waifu_header": "**Your waifus:**",
+      "not_claimed": "%1$sYou haven't claimed this waifu."
     },
     "ratewaifu": {
       "nothing_specified": "%1$sGive me a waifu to rate!",
