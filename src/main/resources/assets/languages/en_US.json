@@ -580,7 +580,6 @@
         "item_limit_reached": "%1$sYou cannot buy more of that object.",
         "success": "%1$sBought %2$d %3$s for %4$d credits successfully. You now have %5$d credits.",
         "not_enough_money": "%1$sYou don't have enough money to buy this item."
-
       },
       "header": "Mantaro's Market"
     },
@@ -750,7 +749,6 @@
       "info_notice": "Use `~>badges info <badge name>` to get more information about a badge.\n",
       "upvote_notice": "**You can get a free badge for [up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!** (It might take some minutes to process)\n\n",
       "donate_notice": "**You can get a badge for [supporting the development of Mantaro!](https://patreon.com/mantaro)!** (It might take some minutes to process)\n\n",
-      "no_badges": "No badges to show (yet!)",
       "no_badges": "No badges to show (yet!)",
       "header": "Badges achieved by %1$s",
       "total_badges": "**Total achieved badges:** %1$s",
