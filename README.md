@@ -37,9 +37,12 @@
         <ul>
             <li><a href="https://github.com/DV8FromTheWorld/JDA">JDA by DV8FromTheWorld and MinnDevelopment</a></li>
             <li><a href="https://github.com/sedmelluq/lavaplayer">Lavaplayer by sedmelluq</a></li>
-            <li><a href="http://rethinkdb.com">RethinkDB by the RethinkDB team</a></li>
             <li><a href="https://redis.io">Redis by the redis team.</a></li>
             <li>And a lot more!</li>
+        </ul>
+        <h2>Mantaro Uses and regrets</h2>
+        <ul>
+             <li><a href="http://rethinkdb.com">RethinkDB by the RethinkDB team</a></li>
         </ul>
         <hr>
         <p>Give credit where credit is due. If you wish to use our code in a project, <b>please</b> credit us, and take your time to read our full license. We don't mind you using Mantaro code, <b>as it is</b> open-source for a reason, as long as you don't blatantly copy it or refrain from crediting us.</p>
