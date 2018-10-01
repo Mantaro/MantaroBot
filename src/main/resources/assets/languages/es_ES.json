@@ -1087,7 +1087,6 @@
             "account_age": "Edad de la Cuenta",
             "mutual_guilds": "Servidores en Común",
             "vc": "Canal de Voz",
-            "playing": "Actividad",
             "color": "Color",
             "status": "Status",
             "nothing": "Nada",
@@ -1660,7 +1659,8 @@
         "manage_roles": "Administrar Roles",
         "manage_permissions": "Administrar Permisos",
         "manage_webhooks": "Administrar Webhooks",
-        "manage_emotes": "Administrar emojis"
+        "manage_emotes": "Administrar emojis",
+        "priority_speaker": "Priority Speaker"
     },
     "items": {
         "headphones": "Audífonos",

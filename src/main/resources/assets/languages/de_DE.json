@@ -1116,7 +1116,6 @@
             "account_age": "Account Alter",
             "mutual_guilds": "Gemeinsame Gilden",
             "vc": "Sprachkanäle",
-            "playing": "Aktivität",
             "color": "Farbe",
             "status": "Status",
             "nothing": "Nichts",
@@ -1705,7 +1704,8 @@
         "manage_roles": "Rollen verwalten",
         "manage_permissions": "Rechte verwalten",
         "manage_webhooks": "Webhooks verwalten",
-        "manage_emotes": "Emojis verwalten"
+        "manage_emotes": "Emojis verwalten",
+        "priority_speaker": "Priority Speaker"
     },
     "items": {
         "headphones": "Kopfhörer",
