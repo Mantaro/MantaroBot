@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.utils;
 
 import io.sentry.Sentry;
+import io.sentry.context.Context;
 import io.sentry.event.BreadcrumbBuilder;
 import io.sentry.event.Event;
 import io.sentry.event.EventBuilder;
@@ -44,13 +45,15 @@ public class SentryHelper {
     }
 
     public static void breadcrumb(String breadcrumb) {
-        Sentry.record(
+        final Context context = Sentry.getContext();
+        context.recordBreadcrumb(
                 new BreadcrumbBuilder().setMessage(breadcrumb).build()
         );
     }
 
     public static void captureExceptionContext(String message, Throwable t, Class clazz, String user) {
-        Sentry.setUser(new UserBuilder().setUsername(user).build());
+        final Context context = Sentry.getContext();
+        context.setUser(new UserBuilder().setUsername(user).build());
         EventBuilder eventBuilder = new EventBuilder()
                 .withMessage(message)
                 .withLevel(Event.Level.ERROR)
@@ -61,7 +64,8 @@ public class SentryHelper {
     }
 
     public static void captureMessageContext(String message, Class clazz, String user) {
-        Sentry.setUser(new UserBuilder().setUsername(user).build());
+        final Context context = Sentry.getContext();
+        context.setUser(new UserBuilder().setUsername(user).build());
         EventBuilder eventBuilder = new EventBuilder()
                 .withMessage(message)
                 .withLevel(Event.Level.INFO)
@@ -72,7 +76,8 @@ public class SentryHelper {
     }
 
     public static void captureMessageErrorContext(String message, Class clazz, String user) {
-        Sentry.setUser(new UserBuilder().setUsername(user).build());
+        final Context context = Sentry.getContext();
+        context.setUser(new UserBuilder().setUsername(user).build());
         EventBuilder eventBuilder = new EventBuilder()
                 .withMessage(message)
                 .withLevel(Event.Level.ERROR)
@@ -83,8 +88,9 @@ public class SentryHelper {
     }
 
     public static void breadcrumbContext(String breadcrumb, String user) {
-        Sentry.setUser(new UserBuilder().setUsername(user).build());
-        Sentry.record(
+        final Context context = Sentry.getContext();
+        context.setUser(new UserBuilder().setUsername(user).build());
+        context.recordBreadcrumb(
                 new BreadcrumbBuilder().setMessage(breadcrumb).build()
         );
         Sentry.clearContext();

@@ -22,7 +22,6 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.hooks.IEventManager;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.moderation.MuteTask;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
