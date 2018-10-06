@@ -23,6 +23,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.SelfUser;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.entities.Webhook;
+import net.dv8tion.jda.core.hooks.IEventManager;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.dv8tion.jda.core.managers.Presence;
 import net.dv8tion.jda.core.requests.RestAction;
@@ -138,6 +139,11 @@ public interface UnifiedJDA extends JDA, Iterable<JDA> {
 
     @Override
     default List<AudioManager> getAudioManagers() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    default IEventManager getEventManager() {
         throw new UnsupportedOperationException();
     }
 
