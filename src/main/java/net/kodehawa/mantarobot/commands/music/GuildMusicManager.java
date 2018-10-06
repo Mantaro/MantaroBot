@@ -38,11 +38,13 @@ public class GuildMusicManager {
     @Setter
     public boolean isAwaitingDeath;
     private ScheduledFuture<?> leaveTask = null;
+    private AudioPlayerSendHandler audioSendHandler;
 
     public GuildMusicManager(AudioPlayerManager manager, String guildId) {
         audioPlayer = manager.createPlayer();
         trackScheduler = new TrackScheduler(audioPlayer, guildId);
         audioPlayer.addListener(trackScheduler);
+        audioSendHandler = new AudioPlayerSendHandler(audioPlayer);
     }
 
     private void leave() {
@@ -74,6 +76,6 @@ public class GuildMusicManager {
     }
 
     public AudioPlayerSendHandler getAudioPlayerSendHandler() {
-        return new AudioPlayerSendHandler(audioPlayer);
+        return audioSendHandler;
     }
 }
