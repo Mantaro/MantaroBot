@@ -56,7 +56,7 @@ public class MantaroAudioManager {
     private final AudioPlayerManager playerManager;
 
     public MantaroAudioManager() {
-        this.musicManagers = new ConcurrentHashMap<>();
+        this.musicManagers = new HashMap<>();
         DefaultAudioPlayerManager apm = new DefaultAudioPlayerManager();
         Prometheus.THREAD_POOL_COLLECTOR.add("lavaplayer-track-playback", apm.getExecutor());
         //tryTrackingExecutor(apm, "lavaplayer-track-info", "trackInfoExecutorService");
