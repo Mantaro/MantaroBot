@@ -94,7 +94,9 @@
             "success_money": "%1$sWährend du ruhig angelst findest du %2$s und **$%3$d Credits** und du bewahrst es weiter in deinem Eimer auf.%4$s",
             "success_money_noitem": "%1$s Während du ruhig angelst findest du **$%2$d Credits** und fährst fort, das Geld in deiner Tasche zu sparen.",
             "rod_broke": "%1$sDeine Angelrute brach beim Versuch, einen Fisch zu fangen. :(",
-            "waifu_help": "Deine Waifu kam und gesellte sich zu deinem Angelabenteuer dazu und ihr habt beide eine größere Beute erhalten!"
+            "waifu_help": "Deine Waifu kam und gesellte sich zu deinem Angelabenteuer dazu und ihr habt beide eine größere Beute erhalten!",
+            "not_suitable": "%1$sDu kannst das nicht zum Fischen benutzen.",
+            "shark_success": "%1$sDu hast es irgendwie geschaft einen Hai zu fangen. Was eine tolle Angel, wa?"
         },
         "softban": {
             "no_permission": "%1$sKann nicht softbannen: Sie haben keine Rechte Mitglider zu bannen.",
@@ -179,7 +181,8 @@
                 "page_react": " -> Reagiere, um Seiten zu ändern",
                 "no_channel": "Kein Kanal :(",
                 "songs": "Song(s)",
-                "clear_error": "%1$sEntweder bist du nicht im Sprachkanal verbunden, oder du bist nicht der DJ."
+                "clear_error": "%1$sEntweder bist du nicht im Sprachkanal verbunden, oder du bist nicht der DJ.",
+                "clear_success": "%1$sAktuelle Warteschlange erfolgreich geleert."
             },
             "connect": {
                 "success": "%1$sVerbunden mit Kanal **%2$s**!",
@@ -930,7 +933,7 @@
                 "invalid": "%1$sDu musst das Spiel und die Häufigkeit angeben.",
                 "invalid_times": "%1$sUngültige Anzahl von Malen!",
                 "too_many_games": "%1$sDu kannst maximal 5 Spiele desselben Typs gleichzeitig starten!",
-                "no_character": "%1$sYou cannot use character game in game multiple or lobby due to AniList API limitations."
+                "no_character": "%1$sDu kannst keine character Runden in game multiple oder einer Lobby aufgrund von AniList API Limitationen nutzen."
             },
             "trivia": {
                 "wrong_diff": "%1$sFalsche Schwierigkeit angegeben! (Unterstützt: easy (einfach), medium (mittel) and hard (schwer))",
@@ -1782,6 +1785,8 @@
         "comet_rod": "Kometenjuwelenangel",
         "star_rod": "Sternenjuwelenangel",
         "sparkle_rod": "Glitzermaterienangel",
+        "shell": "Muschel",
+        "shark": "Hai",
         "description": {
             "headphones": "Das passiert, wenn du zu viel Musik hörst. Sollte aber was wert sein.",
             "ban_hammer": "Von einem Admin da gelassen.",
@@ -1855,7 +1860,9 @@
             "fish_premium_crate": "Eine Kiste, die du beim Fischen gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate premium treasure` geöffnet werden",
             "comet_rod": "Eine etwas stärkere Angel (Komet)",
             "star_rod": "Eine stäkere Angel (Stern)",
-            "sparkle_rod": "Eine viel stärkere Angel (Glitzer)"
+            "sparkle_rod": "Eine viel stärkere Angel (Glitzer)",
+            "shell": "Am Grunde des Ozeans gefunden. Wofür könnte es nützlich sein?",
+            "shark": "Woah. Wie hast du *das* gefangen?"
         }
     },
     "test": {
