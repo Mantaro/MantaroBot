@@ -48,7 +48,7 @@ public class Items {
             NECKLACE, ROSE, DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN,
             POTION_STAMINA, FISHING_ROD, FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE,
             TELEVISION, WRENCH, MOTORCYCLE, GEM1_PICKAXE, GEM2_PICKAXE, PIZZA, GEM_5, GEM5_PICKAXE, MINE_CRATE, FISH_CRATE, FISH_PREMIUM_CRATE, MINE_PREMIUM_CRATE,
-            GEM1_ROD, GEM2_ROD, GEM5_ROD, GEM5_PICKAXE_2, GEM5_2, GEM5_ROD_2;
+            GEM1_ROD, GEM2_ROD, GEM5_ROD, GEM5_PICKAXE_2, GEM5_2, GEM5_ROD_2, FISH_4, FISH_5;
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 4);
@@ -142,8 +142,9 @@ public class Items {
             GEM5_ROD = new FishRod(ItemType.COMMON, 7, "\uD83C\uDFA3","Broken Sparkle Rod", "general.deprecated", "general.deprecated", 65, "",2),
             GEM5_PICKAXE_2 = new Item(ItemType.MINE_RARE_PICK, EmoteReference.SPARKLE_PICK.getDiscordNotation(),"Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 2550, true, false, "1;4;1", 10, 74, 18),
             GEM5_2 = new Item(ItemType.MINE_RARE, "\u2728", "Sparkle Fragment", "items.sparkle", "items.description.sparkle", 605, false),
-            GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(),"Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4;1", 44, 74, 18)
-    };
+            GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(),"Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4;1", 44, 74, 18),
+            FISH_4 = new Item(ItemType.FISHING_RARE, "\uD83D\uDC1A","Shell", "items.shell", "items.description.shell", 30, false),
+            FISH_5 = new Item(ItemType.FISHING_RARE, "\uD83E\uDD88","Shark", "items.shark", "items.description.shark", 15, false),};
 
 
     public static void setItemActions() {
@@ -286,6 +287,11 @@ public class Items {
                     //Add fisher badge if the player found fish succesfully.
                     if (foundFish) {
                         p.getData().addBadgeIfAbsent(Badge.FISHER);
+                    }
+
+                    if(item == GEM5_ROD_2 && r.nextInt(30) > 20) {
+                        playerInventory.process(new ItemStack(FISH_5, 1));
+                        extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.shark_success"), FISH_5.getEmoji());
                     }
 
                     //START OF REPLY HANDLING

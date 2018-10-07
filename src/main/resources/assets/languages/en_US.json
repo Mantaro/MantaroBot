@@ -94,7 +94,9 @@
       "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$d credits** and you proceed to save them into your bucket.%4$s",
       "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$d credits** and you proceed to save them into your pocket.",
       "rod_broke": "%1$sYour fishing rod broke while trying to catch a fish :(",
-      "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!"
+      "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!",
+      "not_suitable": "%1$sYou can't use this to fish.",
+      "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?"
     },
     "softban": {
       "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
@@ -1783,6 +1785,8 @@
     "comet_rod": "Comet Gem Rod",
     "star_rod": "Star Gem Rod",
     "sparkle_rod": "Sparkle Rod",
+    "shell": "Shell",
+    "shark": "Shark",
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
       "ban_hammer": "Left by an admin.",
@@ -1856,7 +1860,9 @@
       "fish_premium_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
       "comet_rod": "A slightly stronger rod (Comet)",
       "star_rod": "A stronger rod (Star)",
-      "sparkle_rod": "A way stronger rod (Sparkle)"
+      "sparkle_rod": "A way stronger rod (Sparkle)",
+      "shell": "Found at the bottom of the ocean. What could it be worth for?",
+      "shark": "Woah. How did you catch *this*?"
     }
   },
   "test": {
