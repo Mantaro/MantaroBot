@@ -96,7 +96,8 @@
       "rod_broke": "%1$sYour fishing rod broke while trying to catch a fish :(",
       "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!",
       "not_suitable": "%1$sYou can't use this to fish.",
-      "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?"
+      "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?",
+      "fossil_success": "%1$sYou caught a fossil while trying to find a fish. This might be worth a fair bit or be used for casting, I believe."
     },
     "softban": {
       "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",

@@ -143,8 +143,9 @@ public class Items {
             GEM5_PICKAXE_2 = new Item(ItemType.MINE_RARE_PICK, EmoteReference.SPARKLE_PICK.getDiscordNotation(),"Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 2550, true, false, "1;4;1", 10, 74, 18),
             GEM5_2 = new Item(ItemType.MINE_RARE, "\u2728", "Sparkle Fragment", "items.sparkle", "items.description.sparkle", 605, false),
             GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(),"Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4;1", 44, 74, 18),
-            FISH_4 = new Item(ItemType.FISHING_RARE, "\uD83D\uDC1A","Shell", "items.shell", "items.description.shell", 30, false),
-            FISH_5 = new Item(ItemType.FISHING_RARE, "\uD83E\uDD88","Shark", "items.shark", "items.description.shark", 15, false),};
+            FISH_4 = new Item(ItemType.FISHING_RARE, "\uD83D\uDC1A","Shell", "items.shell", "items.description.shell", 1150, false),
+            FISH_5 = new Item(ItemType.FISHING_RARE, "\uD83E\uDD88","Shark", "items.shark", "items.description.shark", 600, false),
+    };
 
 
     public static void setItemActions() {
@@ -187,13 +188,16 @@ public class Items {
                 item = (FishRod) i;
             }
 
+            //Level but starting at 0.
             int nominalLevel = item.getLevel() - 3;
             String extraMessage = "";
 
             if(!playerInventory.containsItem(item))
                 return false;
 
-            if(r.nextInt(100) > (handlePotion(POTION_STAMINA, 4, p) ? item.getBreakRatio() + 7 : item.getBreakRatio())) { //20% chance for the rod to break on usage (10% with stamina).
+            //Rod break ratio is as follows: with stamina it's break ratio (73 + (level + 4)) plus 7 more, while without stamina is just the break ratio.
+            if(r.nextInt(100) > (handlePotion(POTION_STAMINA, 4, p) ? item.getBreakRatio() + 7 : item.getBreakRatio())) {
+                //Your rod is done for, rip.
                 event.getChannel().sendMessageFormat(lang.get("commands.fish.rod_broke"), EmoteReference.SAD).queue();
                 //Remove the item from the player inventory.
                 playerInventory.process(new ItemStack(item, -1));
@@ -289,9 +293,14 @@ public class Items {
                         p.getData().addBadgeIfAbsent(Badge.FISHER);
                     }
 
-                    if(item == GEM5_ROD_2 && r.nextInt(30) > 20) {
+                    if(item == GEM5_ROD_2 && r.nextInt(30) > 25) {
                         playerInventory.process(new ItemStack(FISH_5, 1));
                         extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.shark_success"), FISH_5.getEmoji());
+                    }
+
+                    if(nominalLevel >= 2 && r.nextInt(110) > 90) {
+                        playerInventory.process(new ItemStack(FISH_4, 1));
+                        extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.fossil_success"), FISH_4.getEmoji());
                     }
 
                     //START OF REPLY HANDLING
