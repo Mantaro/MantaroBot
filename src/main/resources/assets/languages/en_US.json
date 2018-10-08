@@ -1833,7 +1833,7 @@
       "haste": "Allows you to collect more stuff from lootable commands for 2 sessions.",
       "milky": "Clears all potion effects.",
       "energy": "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.",
-      "rod": "Enables you to fish.",
+      "rod": "Enables you to fish. (20% breaking chance)",
       "fish": "Fish. Caught in fishing.",
       "tropical_fish": "A very tropical fish. Caught in fishing.",
       "blowfish": "I wonder... is this good? Caught in fishing.",
@@ -1859,9 +1859,9 @@
       "fish_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
       "mine_premium_crate": "A gem you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
       "fish_premium_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
-      "comet_rod": "A slightly stronger rod (Comet)",
-      "star_rod": "A stronger rod (Star)",
-      "sparkle_rod": "A way stronger rod (Sparkle)",
+      "comet_rod": "A slightly stronger rod. (17% breaking chance)",
+      "star_rod": "A stronger rod. (14% breaking chance)",
+      "sparkle_rod": "A way stronger rod. (9% breaking chance)",
       "shell": "Found at the bottom of the ocean. What could it be worth for?",
       "shark": "Woah. How did you catch *this*?"
     }

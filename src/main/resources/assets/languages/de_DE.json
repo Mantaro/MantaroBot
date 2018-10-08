@@ -1827,7 +1827,7 @@
             "haste": "Ermöglicht es dir mehr Zeug durch ausbeutbare Befehle für zwei Versuch zu erhalten.",
             "milky": "Entfernt alle Trankeffekte.",
             "energy": "Verringert die Wahrscheinlichkeit, dass deine Spitzhacke zerbricht. Hält nur 5 mal.",
-            "rod": "Lässt dich fischen.",
+            "rod": "Lässt dich fischen. (20% Bruchrate)",
             "fish": "Fisch. Beim Fischen gefangen.",
             "tropical_fish": "Ein sehr tropischer Fisch. Beim Fischen gefangen.",
             "blowfish": "Ich frage mich... ist das gut? Beim Fischen gefangen.",
@@ -1853,9 +1853,9 @@
             "fish_crate": "Eine Kiste, die du beim Fischen gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate treasure` geöffnet werden",
             "mine_premium_crate": "Eine Kiste, die du beim Bergbau gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate gem premium crate` geöffnet werden",
             "fish_premium_crate": "Eine Kiste, die du beim Fischen gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate premium treasure` geöffnet werden",
-            "comet_rod": "Eine etwas stärkere Angel (Komet)",
-            "star_rod": "Eine stäkere Angel (Stern)",
-            "sparkle_rod": "Eine viel stärkere Angel (Glitzer)"
+            "comet_rod": "Eine etwas stärkere Angel. (17% Bruchrate)",
+            "star_rod": "Eine stäkere Angel. (14% Bruchrate)",
+            "sparkle_rod": "Eine viel stärkere Angel. (9% Bruchrate)"
         }
     },
     "test": {
