@@ -51,6 +51,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.awt.*;
 import java.security.SecureRandom;
@@ -761,7 +762,7 @@ public class CurrencyCmds {
                 }
 
                 //Ratelimit handled here
-                item.getAction().test(event, languageContext);
+                item.getAction().test(event, Pair.of(languageContext, content));
             }
 
             @Override
@@ -845,7 +846,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                item.getAction().test(event, languageContext);
+                item.getAction().test(event, Pair.of(languageContext, content));
             }
 
             @Override
@@ -873,8 +874,8 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
-                    return;
+                //if(!handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
+                //    return;
 
                 Items.FISHING_ROD.getAction().test(event, languageContext);
             }

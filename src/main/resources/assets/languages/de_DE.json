@@ -80,7 +80,7 @@
             "no_rod": "%1$sDu hast keine Angel mit der du Angeln kannst!",
             "trash": {
                 "overflow": "%1$sDu hast beim Angeln etwas Müll gefunden, aber dein Inventar war voll, also mussten wir es ins Wasser werfen...",
-                "success": "%1$sWährend du ruhig angelst findest du %2$s, aber es scheint nur Müll zu sein :("
+                "success": "%1$sWährend du ruhig angelst findest du %2$s aber es scheint nur Müll zu sein :("
             },
             "tier3": {
                 "extra": "Außerdem findest du %1$s, was ein Glück!"
@@ -90,8 +90,8 @@
                 "success": "Du hast eine %1$s **%2$s** beim Fischen gefunden und hast sie mitgenommen. Los, öffne sie mit `~>opencrate <Truhenname>`. Du brauchst dazu einen Truhenschlüssel!"
           },
             "overflow": "%1$sDu hast Fische gefangen, aber dein Inventar war voll, also mussten wir es ins Wasser werfen ...",
-            "success": "%1$sWährend du ruhig angelst findest du %2$s und fährst fort, sie in deinem Fischeimer zu lagern.",
-            "success_money": "%1$sWährend du ruhig angelst findest du %2$s und **$%3$d Credits** und du bewahrst es weiter in deinem Eimer auf.%4$s",
+            "success": "%1$s Während du ruhig angelst findest du %2$s und fährst fort, sie in deinem Fischeimer zu lagern.",
+            "success_money": "%1$s Während du ruhig angelst findest du %2$s und **$%3$d Credits** und du bewahrst es weiter in deinem Eimer auf.%4$s",
             "success_money_noitem": "%1$s Während du ruhig angelst findest du **$%2$d Credits** und fährst fort, das Geld in deiner Tasche zu sparen.",
             "rod_broke": "%1$sDeine Angelrute brach beim Versuch, einen Fisch zu fangen. :(",
             "waifu_help": "Deine Waifu kam und gesellte sich zu deinem Angelabenteuer dazu und ihr habt beide eine größere Beute erhalten!"
