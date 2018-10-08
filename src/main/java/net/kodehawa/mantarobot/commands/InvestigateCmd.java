@@ -12,6 +12,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -31,7 +32,7 @@ import java.util.stream.Collectors;
 public class InvestigateCmd {
     @Subscribe
     public void investigate(CommandRegistry cr) {
-        cr.register("investigate", new SimpleCommand(Category.OWNER) {
+        cr.register("investigate", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length == 0) {

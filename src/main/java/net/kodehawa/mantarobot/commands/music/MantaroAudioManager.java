@@ -56,11 +56,9 @@ public class MantaroAudioManager {
     private final AudioPlayerManager playerManager;
 
     public MantaroAudioManager() {
-        this.musicManagers = new ConcurrentHashMap<>();
+        this.musicManagers = new HashMap<>();
         DefaultAudioPlayerManager apm = new DefaultAudioPlayerManager();
         Prometheus.THREAD_POOL_COLLECTOR.add("lavaplayer-track-playback", apm.getExecutor());
-        //tryTrackingExecutor(apm, "lavaplayer-track-info", "trackInfoExecutorService");
-        //tryTrackingExecutor(apm, "lavaplayer-scheduled-executor", "scheduledExecutorService");
         this.playerManager = apm;
         YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager();
         youtubeAudioSourceManager.configureRequests(config -> RequestConfig.copy(config).setCookieSpec(CookieSpecs.IGNORE_COOKIES).build());
@@ -79,8 +77,10 @@ public class MantaroAudioManager {
 
     public GuildMusicManager getMusicManager(Guild guild) {
         GuildMusicManager musicManager = musicManagers.computeIfAbsent(guild.getId(), id -> new GuildMusicManager(playerManager, guild.getId()));
-        if(guild.getAudioManager().getSendingHandler() == null)
+        if(guild.getAudioManager().getSendingHandler() == null) {
             guild.getAudioManager().setSendingHandler(musicManager.getAudioPlayerSendHandler());
+        }
+
         return musicManager;
     }
 
@@ -101,15 +101,5 @@ public class MantaroAudioManager {
             scheduler.setRepeatMode(null);
 
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoader(musicManager, event, skipSelection, addFirst));
-    }
-
-    private static void tryTrackingExecutor(DefaultAudioPlayerManager manager, String key, String fieldName) {
-        try {
-            Field f = DefaultAudioPlayerManager.class.getDeclaredField(fieldName);
-            f.setAccessible(true);
-            Prometheus.THREAD_POOL_COLLECTOR.add(key, (ThreadPoolExecutor)f.get(manager));
-        } catch(Exception e) {
-            LOGGER.error("Unable to retrieve {} executor from player manager!", key, e);
-        }
     }
 }

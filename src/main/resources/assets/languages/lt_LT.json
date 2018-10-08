@@ -79,9 +79,9 @@
                 "extra": "Tu taip pat radai %1$s, sėkmingai!"
             },
             "overflow": "%1$sTu radai kažkiek žuvies, bet inventorius buvo beveik pilnas, taigi mes turėjome išmesti dalį žuvies atgal į vandenį...",
-            "success": "%1$sKol ramiai žvejojai, tu radai %2$s ir tu įsimetei tai į savo kibirą.",
-            "success_money": "%1$sKol ramiai žvejojai, tu radai %2$s ir **$%3$d kreditų**, ir tu tai įsimeteį į savo kibirą.%4$s",
-            "success_money_noitem": "%1$sKol ramiai žvejojai, tu radai **$%2$d kreditų** ir tu juos įsidėjai į savo kišenę.",
+            "success": "%1$s Kol ramiai žvejojai, tu radai %2$s ir tu įsimetei tai į savo kibirą.",
+            "success_money": "%1$s Kol ramiai žvejojai, tu radai %2$s ir **$%3$d kreditų**, ir tu tai įsimeteį į savo kibirą.%4$s",
+            "success_money_noitem": "%1$s Kol ramiai žvejojai, tu radai **$%2$d kreditų** ir tu juos įsidėjai į savo kišenę.",
             "rod_broke": "%1$sTavo meškerė sulūžo bandant sugauti žuvį :(",
             "waifu_help": "Tavo Waifu atėjo tau į pagalbą žvejybos nuotykyje ir abu sugavote didesnį laimikį!"
         },

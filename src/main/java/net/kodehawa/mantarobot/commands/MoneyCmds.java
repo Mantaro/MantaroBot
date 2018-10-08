@@ -50,6 +50,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.security.SecureRandom;
 import java.text.NumberFormat;
@@ -730,7 +731,7 @@ public class MoneyCmds {
                 if(!handleDefaultRatelimit(rateLimiter, user, event))
                     return;
 
-                if(!item.getAction().test(event, languageContext))
+                if(!item.getAction().test(event, Pair.of(languageContext, content)))
                     return;
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.

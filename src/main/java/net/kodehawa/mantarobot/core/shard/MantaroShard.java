@@ -264,7 +264,7 @@ public class MantaroShard implements JDA {
     /**
      * @return The current {@link MantaroEventManager} for this specific instance.
      */
-    public MantaroEventManager getEventManager() {
+    public MantaroEventManager getShardEventManager() {
         return manager;
     }
 

@@ -140,7 +140,7 @@ public class MantaroListener implements EventListener {
     @Override
     public void onEvent(Event event) {
         if (event instanceof ShardMonitorEvent) {
-            if (MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 30000)
+            if (MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getShardEventManager().getLastJDAEventTimeDiff() > 30000)
                 return;
             ((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.MANTARO_LISTENER);
             return;

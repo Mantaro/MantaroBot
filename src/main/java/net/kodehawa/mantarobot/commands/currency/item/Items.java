@@ -25,7 +25,6 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.RandomCollection;
@@ -49,7 +48,7 @@ public class Items {
             NECKLACE, ROSE, DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN,
             POTION_STAMINA, FISHING_ROD, FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE,
             TELEVISION, WRENCH, MOTORCYCLE, GEM1_PICKAXE, GEM2_PICKAXE, PIZZA, GEM_5, GEM5_PICKAXE, MINE_CRATE, FISH_CRATE, FISH_PREMIUM_CRATE, MINE_PREMIUM_CRATE,
-            GEM1_ROD, GEM2_ROD, GEM5_ROD, GEM5_PICKAXE_2, GEM5_2, GEM5_ROD_2;
+            GEM1_ROD, GEM2_ROD, GEM5_ROD, GEM5_PICKAXE_2, GEM5_2, GEM5_ROD_2, FISH_4, FISH_5;
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 4);
@@ -93,7 +92,7 @@ public class Items {
             STAR = new Item(ItemType.COLLECTABLE, "\uE335","Prize", "items.prize", "items.description.prize", 0, false, false, true),
 
             // ---------------------------------- LEFT OVERS FROM CURRENCY V1 END HERE ----------------------------------
-            LOOT_CRATE = new Item(ItemType.CRATE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Loot Crate",  "items.crate","items.description.crate", 0, false, false, true, (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.RARE, 33, EmoteReference.LOOT_CRATE, 3)),
+            LOOT_CRATE = new Item(ItemType.CRATE, EmoteReference.LOOT_CRATE.getDiscordNotation(),"Loot Crate",  "items.crate","items.description.crate", 0, false, false, true, (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.RARE, 33, EmoteReference.LOOT_CRATE, 3)),
             STAR_2 = new Item(ItemType.COMMON, EmoteReference.STAR.getUnicode(),"Prize 2", "items.prize_2", "items.description.prize_2", 500, true, false, true),
             SLOT_COIN = new Item(ItemType.COMMON, "\uD83C\uDF9F","Slot ticket", "items.slot_ticket","items.description.slot_ticket", 65, true, true),
             HOUSE = new Item(ItemType.COMMON, EmoteReference.HOUSE.getUnicode(), "House", "items.house", "items.description.house", 5000, true, true),
@@ -109,7 +108,7 @@ public class Items {
             POTION_HASTE = new Item(ItemType.INTERACTIVE, "\uD83C\uDF76","Haste Potion", "items.haste", "items.description.haste", 490, true),
             POTION_CLEAN = new Item(ItemType.INTERACTIVE, "\uD83C\uDF7C","Milky Potion", "items.milky", "items.description.milky", 50, true),
             POTION_STAMINA = new Item(ItemType.INTERACTIVE, "\uD83C\uDFFA","Energy Beverage", "items.energy", "items.description.energy", 450, true),
-            FISHING_ROD = new Item(ItemType.INTERACTIVE, "\uD83C\uDFA3","Fishing Rod", "items.rod", "items.description.rod", 65, true),
+            FISHING_ROD = new FishRod(ItemType.INTERACTIVE, 3, "\uD83C\uDFA3","Fishing Rod", "items.rod", "items.description.rod", 65, true, "", 0),
             FISH_1 = new Item(ItemType.FISHING, "\uD83D\uDC1F","Fish", "items.fish", "items.description.fish", 10, false),
             FISH_2 = new Item(ItemType.FISHING, "\uD83D\uDC20","Tropical Fish", "items.tropical_fish", "items.description.tropical_fish", 30, false),
             FISH_3 = new Item(ItemType.FISHING, "\uD83D\uDC21","Blowfish", "items.blowfish", "items.description.blowfish", 15, false),
@@ -134,16 +133,18 @@ public class Items {
             PIZZA = new Item(ItemType.COMMON, "\uD83C\uDF55","Pizza", "items.pizza", "items.description.pizza", 15, true, false),
             GEM_5 = new Item(ItemType.COMMON, "\u2728", "Sparkle Fragment", "general.deprecated", "general.deprecated", 0, false, false),
             GEM5_PICKAXE = new Item(ItemType.COMMON, "\u26cf","Broken Sparkle Pickaxe", "general.deprecated", "general.deprecated", 550, true, false),
-            MINE_CRATE = new Item(ItemType.CRATE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Gem Crate",  "items.mine_crate","items.description.mine_crate", 0, false, false, true,  (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.MINE, 66, EmoteReference.MINE_CRATE, 3)),
-            FISH_CRATE = new Item(ItemType.CRATE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Treasure",  "items.fish_crate","items.description.fish_crate", 0, false, false, true,  (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.FISH, 67, EmoteReference.FISH_CRATE, 3)),
-            FISH_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_FISH_CRATE.getDiscordNotation(),"Fish Premium Treasure",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true, (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.FISH_PREMIUM, 68, EmoteReference.FISH_CRATE, 5)),
-            MINE_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_MINE_CRATE.getDiscordNotation(),"Gem Premium Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true, (event, lang) -> openLootCrate(event, lang, ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.MINE_CRATE, 5)),
-            GEM1_ROD = new FishRod(ItemType.CAST_FISH, 2, EmoteReference.COMET_ROD.getDiscordNotation(),"Comet Gem Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 48),
-            GEM2_ROD = new FishRod(ItemType.CAST_FISH, 2, EmoteReference.STAR_ROD.getDiscordNotation(),"Star Gem Rod", "items.star_rod", "items.description.star_rod", 65, "1;3", 44, 49),
-            GEM5_ROD = new FishRod(ItemType.COMMON, 4, "\uD83C\uDFA3","Broken Sparkle Rod", "general.deprecated", "general.deprecated", 65, "",2),
+            MINE_CRATE = new Item(ItemType.CRATE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Gem Crate",  "items.mine_crate","items.description.mine_crate", 0, false, false, true,  (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.MINE, 66, EmoteReference.MINE_CRATE, 3)),
+            FISH_CRATE = new Item(ItemType.CRATE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Treasure",  "items.fish_crate","items.description.fish_crate", 0, false, false, true,  (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.FISH, 67, EmoteReference.FISH_CRATE, 3)),
+            FISH_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_FISH_CRATE.getDiscordNotation(),"Fish Premium Treasure",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true, (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.FISH_PREMIUM, 68, EmoteReference.FISH_CRATE, 5)),
+            MINE_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_MINE_CRATE.getDiscordNotation(),"Gem Premium Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true, (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.MINE_CRATE, 5)),
+            GEM1_ROD = new FishRod(ItemType.CAST_FISH, 6, EmoteReference.COMET_ROD.getDiscordNotation(),"Comet Gem Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 48),
+            GEM2_ROD = new FishRod(ItemType.CAST_FISH, 9, EmoteReference.STAR_ROD.getDiscordNotation(),"Star Gem Rod", "items.star_rod", "items.description.star_rod", 65, "1;3", 44, 49),
+            GEM5_ROD = new FishRod(ItemType.COMMON, 14, "\uD83C\uDFA3","Broken Sparkle Rod", "general.deprecated", "general.deprecated", 65, "",2),
             GEM5_PICKAXE_2 = new Item(ItemType.MINE_RARE_PICK, EmoteReference.SPARKLE_PICK.getDiscordNotation(),"Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 2550, true, false, "1;4;1", 10, 74, 18),
             GEM5_2 = new Item(ItemType.MINE_RARE, "\u2728", "Sparkle Fragment", "items.sparkle", "items.description.sparkle", 605, false),
-            GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(),"Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4;1", 44, 74, 18)
+            GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(),"Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4;1", 44, 74, 18),
+            FISH_4 = new Item(ItemType.FISHING_RARE, "\uD83D\uDC1A","Shell", "items.shell", "items.description.shell", 1150, false),
+            FISH_5 = new Item(ItemType.FISHING_RARE, "\uD83E\uDD88","Shark", "items.shark", "items.description.shark", 600, false),
     };
 
 
@@ -152,9 +153,11 @@ public class Items {
         log.info("Registering item actions...");
         final ManagedDatabase managedDatabase = MantaroData.db();
 
-        MOP.setAction(((event, lang) -> {
+        MOP.setAction(((event, ctx) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
             DBUser dbUser = managedDatabase.getUser(event.getAuthor());
+            I18nContext lang = ctx.getLeft();
+
             Inventory playerInventory = p.getInventory();
             if(!playerInventory.containsItem(MOP))
                 return false;
@@ -168,54 +171,83 @@ public class Items {
         }));
 
         //Basically fish command.
-        FISHING_ROD.setAction((event, lang) -> {
+        FISHING_ROD.setAction((event, context) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
             DBUser u = managedDatabase.getUser(event.getAuthor());
             Inventory playerInventory = p.getInventory();
 
-            if(!playerInventory.containsItem(FISHING_ROD))
+            I18nContext lang = context.getLeft();
+            String itemString = context.getRight();
+
+            //casting bc old stuff :clap:, the FishRod object is so we can handle level and stuff w/o that many issues
+            FishRod item = (FishRod) FISHING_ROD;
+            if(!itemString.isEmpty()) {
+                Optional<Item> opt = Items.fromAnyNoId(itemString);
+                Item i = opt.orElse(FISHING_ROD); //default to normal rod again if it doesn't properly find a fitting item
+                if(!(i instanceof FishRod)) {
+                    event.getChannel().sendMessageFormat(lang.get("commands.fish.not_suitable"), EmoteReference.ERROR).queue();
+                    return true;
+                }
+
+                item = (FishRod) i;
+            }
+
+            //Level but starting at 0.
+            int nominalLevel = item.getLevel() - 3;
+            String extraMessage = "";
+
+            if(!playerInventory.containsItem(item))
                 return false;
 
-            if(r.nextInt(100) > (handlePotion(POTION_STAMINA, 4, p) ? 90 : 80)) { //20% chance for the rod to break on usage (10% with stamina).
+            //Rod break ratio is as follows: with stamina it's break ratio (73 + (level + 4)) plus 7 more, while without stamina is just the break ratio.
+            int breakRatio = item.getBreakRatio();
+            if(r.nextInt(100) > (handlePotion(POTION_STAMINA, 4, p) ? breakRatio + 7 : breakRatio)) {
+                //Your rod is done for, rip.
                 event.getChannel().sendMessageFormat(lang.get("commands.fish.rod_broke"), EmoteReference.SAD).queue();
-                playerInventory.process(new ItemStack(FISHING_ROD, -1));
+                //Remove the item from the player inventory.
+                playerInventory.process(new ItemStack(item, -1));
                 p.save();
                 return false;
             } else {
                 int select = random.nextInt(100);
 
                 if(select < 10) {
-                    //we need to continue the dust meme
+                    //Here your fish rod got dusty. Yes, on the sea.
                     int level = u.getData().increaseDustLevel(r.nextInt(4));
                     event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING, level).queue();
                     u.save();
                     return false;
                 } else if(select < 35) {
+                    //Here you found trash.
                     List<Item> common = Stream.of(ALL)
                             .filter(i -> i.getItemType() == ItemType.COMMON && !i.isHidden() && i.isSellable() && i.value < 45)
                             .collect(Collectors.toList());
+
                     Item selected = common.get(random.nextInt(common.size()));
-                    if(playerInventory.getAmount(selected) == 5000) {
+                    if(playerInventory.getAmount(selected) >= 5000) {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.trash.overflow"), EmoteReference.SAD).queue();
                         return true;
                     }
 
                     playerInventory.process(new ItemStack(selected, 1));
                     event.getChannel().sendMessageFormat(lang.get("commands.fish.trash.success"), EmoteReference.EYES, selected.getEmoji()).queue();
-                } else if (select > 35) {
+                } else {
+                    //Here you actually caught fish, congrats.
                     List<Item> fish = Stream.of(ALL)
                             .filter(i -> i.getItemType() == ItemType.FISHING && !i.isHidden() && i.isSellable())
                             .collect(Collectors.toList());
                     RandomCollection<Item> fishItems = new RandomCollection<>();
 
                     int money = 0;
-                    int amount = handleBuff(FISHING_BAIT, 1, p) ? Math.max(1, random.nextInt(6)) : random.nextInt(4);
-                    fish.forEach((item) -> fishItems.add(3, item));
+                    int amount = handleBuff(FISHING_BAIT, 1, p) ? Math.max(1, random.nextInt(item.getLevel() + 4)) : Math.max(1, random.nextInt(item.getLevel()));
+                    fish.forEach((i1) -> fishItems.add(3, i1));
 
-                    if (select > 75) {
-                        money = Math.max(5, random.nextInt(85));
+                    //Basically more chance if you have a better rod.
+                    if (select > (75 - nominalLevel)) {
+                        money = Math.max(5, random.nextInt(85 + (3 * nominalLevel)));
                     }
 
+                    //START OF WAIFU HELP IMPLEMENTATION
                     boolean waifuHelp = false;
                     if (Items.handlePotion(Items.WAIFU_PILL, 5, p)) {
                         if (u.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
@@ -223,25 +255,25 @@ public class Items {
                             waifuHelp = true;
                         }
                     }
+                    //END OF WAIFU HELP IMPLEMENTATION
 
-                    String message = "";
-                    DBUser dbUser = managedDatabase.getUser(event.getAuthor());
-                    PremiumKey key = managedDatabase.getPremiumKey(dbUser.getData().getPremiumKey());
+                    //START OF FISH LOOT CRATE HANDLING
                     if (r.nextInt(400) > 380) {
-                        Item crate = (key != null && key.getDurationDays() > 1) ? Items.FISH_PREMIUM_CRATE : Items.FISH_CRATE;
-                        if (playerInventory.getAmount(crate) + 1 > 5000) {
-                            message += "\n" + lang.get("commands.fish.crate.overflow");
+                        Item crate = u.isPremium() ? Items.FISH_PREMIUM_CRATE : Items.FISH_CRATE;
+                        if (playerInventory.getAmount(crate) >= 5000) {
+                            extraMessage += "\n" + lang.get("commands.fish.crate.overflow");
                         } else {
                             playerInventory.process(new ItemStack(crate, 1));
-                            message += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.crate.success"), crate.getEmoji(), crate.getName());
+                            extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.crate.success"), crate.getEmoji(), crate.getName());
                         }
                     }
+                    //END OF FISH LOOT CRATE HANDLING
 
+                    //START OF ITEM ADDING HANDLING
                     List<ItemStack> list = new ArrayList<>(amount);
                     boolean overflow = false;
                     for (int i = 0; i < amount; i++) {
                         Item it = fishItems.next();
-
                         if (playerInventory.getAmount(it) >= 5000) {
                             overflow = true;
                             continue;
@@ -250,75 +282,98 @@ public class Items {
                         list.add(new ItemStack(it, 1));
                     }
 
+                    if(overflow) {
+                        extraMessage += "\n" + String.format(lang.get("commands.fish.overflow"), EmoteReference.SAD);
+                    }
+
                     List<ItemStack> reducedList = ItemStack.reduce(list);
                     playerInventory.process(reducedList);
                     p.addMoney(money);
 
                     String itemDisplay = ItemStack.toString(reducedList);
                     boolean foundFish = !reducedList.isEmpty();
-                    //I check it down there again, I know, but at the same time the other if statement won't run if there's no money but there are fish.
+                    //END OF ITEM ADDING HANDLING
+
+                    //Add fisher badge if the player found fish succesfully.
                     if (foundFish) {
                         p.getData().addBadgeIfAbsent(Badge.FISHER);
                     }
 
-                    if(overflow) {
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.overflow"), EmoteReference.SAD).queue();
+                    if(item == GEM5_ROD_2 && r.nextInt(30) > 25) {
+                        playerInventory.process(new ItemStack(FISH_5, 1));
+                        extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.shark_success"), FISH_5.getEmoji());
                     }
 
-                    if (money > 0 && !foundFish) {
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money_noitem") + message, EmoteReference.POPPER, money).queue();
-                    } else if (foundFish && money == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success") + message, EmoteReference.POPPER, itemDisplay).queue();
-                    } else if (money > 0 && foundFish) {
-                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money") + message,
-                                EmoteReference.POPPER, itemDisplay, money, (waifuHelp ? "\n" + lang.get("commands.fish.waifu_help") : "")
-                        ).queue();
-                    } else {
-                        //somehow we go all the way back and it's dust again (forgot to handle it?)
+                    if(nominalLevel >= 2 && r.nextInt(110) > 90) {
+                        playerInventory.process(new ItemStack(FISH_4, 1));
+                        extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.fossil_success"), FISH_4.getEmoji());
+                    }
+
+                    //START OF REPLY HANDLING
+                    //Didn't find a thingy thing.
+                    if(money == 0 && !foundFish) {
                         int level = u.getData().increaseDustLevel(r.nextInt(4));
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING, level).queue();
                         u.save();
                         return false;
                     }
+
+                    //if there's money, but not fish
+                    if (money > 0 && !foundFish) {
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money_noitem") + extraMessage, item.getEmoji(), money).queue();
+                    } else if (foundFish && money == 0) { //there's fish, but no money
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success") + extraMessage, item.getEmoji(), itemDisplay).queue();
+                    } else if (money > 0 && foundFish) { //there's money and fish
+                        event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money") + extraMessage,
+                                item.getEmoji(), itemDisplay, money, (waifuHelp ? "\n" + lang.get("commands.fish.waifu_help") : "")
+                        ).queue();
+                    }
+                    //END OF REPLY HANDLING
                 }
 
+                //Save all changes to the player object.
                 p.save();
                 return true;
             }
         });
 
         //START OF PICKAXE ACTION DECLARATION
-        BROM_PICKAXE.setAction((event, lang) -> {
+        BROM_PICKAXE.setAction((event, ctx) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
+            I18nContext lang = ctx.getLeft();
             return handlePickaxe(event, lang, BROM_PICKAXE, p, 0.29f); //29%
         });
 
-        DIAMOND_PICKAXE.setAction((event, lang) -> {
+        DIAMOND_PICKAXE.setAction((event, ctx) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
+            I18nContext lang = ctx.getLeft();
             return handlePickaxe(event, lang, DIAMOND_PICKAXE, p, 0.23f); //23%
         });
 
         //comet
-        GEM1_PICKAXE.setAction((event, lang) -> {
+        GEM1_PICKAXE.setAction((event, ctx) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
+            I18nContext lang = ctx.getLeft();
             return handlePickaxe(event, lang, GEM1_PICKAXE, p, 0.21f); //21%
         });
 
         //star
-        GEM2_PICKAXE.setAction((event, lang) -> {
+        GEM2_PICKAXE.setAction((event, ctx) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
+            I18nContext lang = ctx.getLeft();
             return handlePickaxe(event, lang, GEM2_PICKAXE, p, 0.15f); //15%
         });
 
         //sparkle
-        GEM5_PICKAXE_2.setAction((event, lang) -> {
+        GEM5_PICKAXE_2.setAction((event, ctx) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
+            I18nContext lang = ctx.getLeft();
             return handlePickaxe(event, lang, GEM5_PICKAXE_2, p, 0.07f); //7%
         });
-
         //END OF PICKAXE ACTION DECLARATION
 
-        POTION_CLEAN.setAction((event, lang) -> {
+        POTION_CLEAN.setAction((event, ctx) -> {
+            I18nContext lang = ctx.getLeft();
             Player p = managedDatabase.getPlayer(event.getAuthor());
             p.getData().setActivePotion(null);
             event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.milk"), EmoteReference.CORRECT).queue();
@@ -327,7 +382,8 @@ public class Items {
             return true;
         });
 
-        POTION_STAMINA.setAction((event, lang) -> {
+        POTION_STAMINA.setAction((event, ctx) -> {
+            I18nContext lang = ctx.getLeft();
             Player p = managedDatabase.getPlayer(event.getAuthor());
             if(p.getData().getActivePotion() != null && p.getData().getActivePotion().getPotion() == idOf(POTION_STAMINA)) {
                 event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.stamina_used"), EmoteReference.ERROR).queue();
@@ -341,7 +397,8 @@ public class Items {
             return true;
         });
 
-        POTION_HASTE.setAction((event, lang) -> {
+        POTION_HASTE.setAction((event, ctx) -> {
+            I18nContext lang = ctx.getLeft();
             Player p = managedDatabase.getPlayer(event.getAuthor());
             if(p.getData().getActivePotion() != null && p.getData().getActivePotion().getPotion() == idOf(POTION_HASTE)) {
                 event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.haste_used"), EmoteReference.ERROR).queue();
@@ -357,7 +414,8 @@ public class Items {
             return true;
         });
 
-        FISHING_BAIT.setAction((event, lang) -> {
+        FISHING_BAIT.setAction((event, ctx) -> {
+            I18nContext lang = ctx.getLeft();
             Player p = managedDatabase.getPlayer(event.getAuthor());
             if(p.getData().getActiveBuff() != null && p.getData().getActiveBuff().getPotion() == idOf(FISHING_BAIT)) {
                 event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.bait_used"), EmoteReference.POPPER).queue();
@@ -372,7 +430,8 @@ public class Items {
             return true;
         });
 
-        WAIFU_PILL.setAction((event, lang) -> {
+        WAIFU_PILL.setAction((event, ctx) -> {
+            I18nContext lang = ctx.getLeft();
             Player p = managedDatabase.getPlayer(event.getAuthor());
             if(p.getData().getActiveBuff() != null && p.getData().getActiveBuff().getPotion() == idOf(WAIFU_PILL)) {
                 event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.pill_used"), EmoteReference.ERROR).queue();
