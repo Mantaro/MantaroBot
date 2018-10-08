@@ -1266,7 +1266,7 @@
       "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!"
     },
     "slots": {
-      "errors" : {
+      "errors": {
         "amount_not_ticket": "%1$sYou cannot specify how many tickets you're gonna use if you're not using tickets!",
         "not_enough_tickets": "%1$sYou don't have enough slots tickets.",
         "too_much_money": "%1$sThis machine cannot dispense that much money!",
