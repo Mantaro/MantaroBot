@@ -1859,7 +1859,7 @@
             "mine_premium_crate": "Eine Kiste, die du beim Bergbau gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate gem premium crate` geöffnet werden",
             "fish_premium_crate": "Eine Kiste, die du beim Fischen gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate premium treasure` geöffnet werden",
             "shell": "Am Grunde des Ozeans gefunden. Wofür könnte es nützlich sein?",
-            "shark": "Woah. Wie hast du *das* gefangen?"
+            "shark": "Woah. Wie hast du *das* gefangen?",
             "comet_rod": "Eine etwas stärkere Angel. (17% Bruchrate)",
             "star_rod": "Eine stäkere Angel. (14% Bruchrate)",
             "sparkle_rod": "Eine viel stärkere Angel. (9% Bruchrate)"
