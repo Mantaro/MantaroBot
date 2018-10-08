@@ -80,9 +80,9 @@
                 "extra": "En je vond ook %1$s, je hebt geluk!"
             },
             "overflow": "%1$sJe hebt wat vis gevonden, maar een deel van je inventaris was vol, dus we moesten een deel ervan terug in het water gooien ...",
-            "success": "%1$sTerwijl je rustig aan het vissen was, vond je %2$s en deze heb je in je emmer bewaard.",
-            "success_money": "%1$sTerwijl je rustig aan het vissen was, vond je %2$s en **$%3$d credits** en deze heb je in je emmer bewaard.%4$s",
-            "success_money_noitem": "%1$sTerwijl je rustig aan het vissen was, vond je **$%2$d credits** en deze heb je in je zak bewaard.",
+            "success": "%1$s Terwijl je rustig aan het vissen was, vond je %2$s en deze heb je in je emmer bewaard.",
+            "success_money": "%1$s Terwijl je rustig aan het vissen was, vond je %2$s en **$%3$d credits** en deze heb je in je emmer bewaard.%4$s",
+            "success_money_noitem": "%1$s Terwijl je rustig aan het vissen was, vond je **$%2$d credits** en deze heb je in je zak bewaard.",
             "rod_broke": "%1$sJe vishengel ging kapot terwijl je een vis probeerde te vangen :(",
             "waifu_help": "Je waifu kwam langs en deed mee aan je visavontuur waardoor jullie allebei een grotere vangst krijgen!"
         },
@@ -1085,7 +1085,6 @@
             "account_age": "Account leeftijd",
             "mutual_guilds": "Wederzijdse Servers",
             "vc": "Spraakkanaal",
-            "playing": "Activiteit",
             "color": "Kleur",
             "status": "Status",
             "nothing": "Niets",
@@ -1658,7 +1657,8 @@
         "manage_roles": "Beheer Rollen",
         "manage_permissions": "Beheer Machtigingen",
         "manage_webhooks": "Beheer Webhooks",
-        "manage_emotes": "Beheer Emojis"
+        "manage_emotes": "Beheer Emojis",
+        "priority_speaker": "Priority Speaker"
     },
     "items": {
         "headphones": "Koptelefoon",
