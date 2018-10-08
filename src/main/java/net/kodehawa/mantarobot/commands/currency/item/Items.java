@@ -139,10 +139,10 @@ public class Items {
             MINE_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_MINE_CRATE.getDiscordNotation(),"Gem Premium Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true, (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.MINE_CRATE, 5)),
             GEM1_ROD = new FishRod(ItemType.CAST_FISH, 6, EmoteReference.COMET_ROD.getDiscordNotation(),"Comet Gem Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 48),
             GEM2_ROD = new FishRod(ItemType.CAST_FISH, 9, EmoteReference.STAR_ROD.getDiscordNotation(),"Star Gem Rod", "items.star_rod", "items.description.star_rod", 65, "1;3", 44, 49),
-            GEM5_ROD = new FishRod(ItemType.COMMON, 14, "\uD83C\uDFA3","Broken Sparkle Rod", "general.deprecated", "general.deprecated", 65, "",2),
+            GEM5_ROD = new FishRod(ItemType.COMMON, 3, "\uD83C\uDFA3","Broken Sparkle Rod", "general.deprecated", "general.deprecated", 65, "",2),
             GEM5_PICKAXE_2 = new Item(ItemType.MINE_RARE_PICK, EmoteReference.SPARKLE_PICK.getDiscordNotation(),"Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 2550, true, false, "1;4;1", 10, 74, 18),
             GEM5_2 = new Item(ItemType.MINE_RARE, "\u2728", "Sparkle Fragment", "items.sparkle", "items.description.sparkle", 605, false),
-            GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(),"Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4;1", 44, 74, 18),
+            GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 14, EmoteReference.SPARKLE_ROD.getDiscordNotation(),"Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4;1", 44, 74, 18),
             FISH_4 = new Item(ItemType.FISHING_RARE, "\uD83D\uDC1A","Shell", "items.shell", "items.description.shell", 1150, false),
             FISH_5 = new Item(ItemType.FISHING_RARE, "\uD83E\uDD88","Shark", "items.shark", "items.description.shark", 600, false),
     };
@@ -304,7 +304,7 @@ public class Items {
                         extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.shark_success"), FISH_5.getEmoji());
                     }
 
-                    if(nominalLevel >= 2 && r.nextInt(110) > 90) {
+                    if(nominalLevel >= 3 && r.nextInt(110) > 96) {
                         playerInventory.process(new ItemStack(FISH_4, 1));
                         extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.fossil_success"), FISH_4.getEmoji());
                     }
