@@ -137,9 +137,9 @@ public class Items {
             FISH_CRATE = new Item(ItemType.CRATE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Treasure",  "items.fish_crate","items.description.fish_crate", 0, false, false, true,  (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.FISH, 67, EmoteReference.FISH_CRATE, 3)),
             FISH_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_FISH_CRATE.getDiscordNotation(),"Fish Premium Treasure",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true, (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.FISH_PREMIUM, 68, EmoteReference.FISH_CRATE, 5)),
             MINE_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_MINE_CRATE.getDiscordNotation(),"Gem Premium Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true, (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.MINE_CRATE, 5)),
-            GEM1_ROD = new FishRod(ItemType.CAST_FISH, 4, EmoteReference.COMET_ROD.getDiscordNotation(),"Comet Gem Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 48),
-            GEM2_ROD = new FishRod(ItemType.CAST_FISH, 5, EmoteReference.STAR_ROD.getDiscordNotation(),"Star Gem Rod", "items.star_rod", "items.description.star_rod", 65, "1;3", 44, 49),
-            GEM5_ROD = new FishRod(ItemType.COMMON, 7, "\uD83C\uDFA3","Broken Sparkle Rod", "general.deprecated", "general.deprecated", 65, "",2),
+            GEM1_ROD = new FishRod(ItemType.CAST_FISH, 6, EmoteReference.COMET_ROD.getDiscordNotation(),"Comet Gem Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 48),
+            GEM2_ROD = new FishRod(ItemType.CAST_FISH, 9, EmoteReference.STAR_ROD.getDiscordNotation(),"Star Gem Rod", "items.star_rod", "items.description.star_rod", 65, "1;3", 44, 49),
+            GEM5_ROD = new FishRod(ItemType.COMMON, 14, "\uD83C\uDFA3","Broken Sparkle Rod", "general.deprecated", "general.deprecated", 65, "",2),
             GEM5_PICKAXE_2 = new Item(ItemType.MINE_RARE_PICK, EmoteReference.SPARKLE_PICK.getDiscordNotation(),"Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 2550, true, false, "1;4;1", 10, 74, 18),
             GEM5_2 = new Item(ItemType.MINE_RARE, "\u2728", "Sparkle Fragment", "items.sparkle", "items.description.sparkle", 605, false),
             GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(),"Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4;1", 44, 74, 18),
@@ -181,20 +181,15 @@ public class Items {
 
             //casting bc old stuff :clap:, the FishRod object is so we can handle level and stuff w/o that many issues
             FishRod item = (FishRod) FISHING_ROD;
-            System.out.println("------------");
             if(!itemString.isEmpty()) {
-                System.out.println("got here?");
                 Optional<Item> opt = Items.fromAnyNoId(itemString);
-                System.out.println(opt + " from: " + itemString);
                 Item i = opt.orElse(FISHING_ROD); //default to normal rod again if it doesn't properly find a fitting item
-                System.out.println(i);
                 if(!(i instanceof FishRod)) {
                     event.getChannel().sendMessageFormat(lang.get("commands.fish.not_suitable"), EmoteReference.ERROR).queue();
                     return true;
                 }
 
                 item = (FishRod) i;
-                System.out.println(item);
             }
 
             //Level but starting at 0.
@@ -206,7 +201,6 @@ public class Items {
 
             //Rod break ratio is as follows: with stamina it's break ratio (73 + (level + 4)) plus 7 more, while without stamina is just the break ratio.
             int breakRatio = item.getBreakRatio();
-            System.out.println(breakRatio + " lvl:" + item.getLevel() + " name: " + item.getName());
             if(r.nextInt(100) > (handlePotion(POTION_STAMINA, 4, p) ? breakRatio + 7 : breakRatio)) {
                 //Your rod is done for, rip.
                 event.getChannel().sendMessageFormat(lang.get("commands.fish.rod_broke"), EmoteReference.SAD).queue();
