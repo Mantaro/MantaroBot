@@ -376,7 +376,6 @@ public class Items {
             I18nContext lang = ctx.getLeft();
             return handlePickaxe(event, lang, GEM5_PICKAXE_2, p, 0.07f); //7%
         });
-
         //END OF PICKAXE ACTION DECLARATION
 
         POTION_CLEAN.setAction((event, ctx) -> {
