@@ -1120,7 +1120,6 @@
       "account_age": "Account Age",
       "mutual_guilds": "Mutual Guilds",
       "vc": "Voice Channel",
-      "playing": "Activity",
       "color": "Color",
       "status": "Status",
       "nothing": "Nothing",
@@ -1352,7 +1351,7 @@
     "category_disable": {
       "no_category": "%1$sYou need to specify a category to disable.",
       "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
+      "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
       "success": "%1$sDisabled category `%2$s`"
     },
     "category_enable": {
@@ -1362,7 +1361,7 @@
     "category_specific_disable": {
       "invalid": "%1$sYou need to specify a category to disable and the channel where.",
       "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
+      "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
       "success": "%1$sDisabled category `%2$s` on channel %3$s"
     },
     "category_specific_enable": {
@@ -1394,7 +1393,7 @@
     },
     "fairqueue_max": {
       "invalid": "%1$sYou need to specify a positive integer.",
-      "success": "%1$sSet max fair queue size to %2$d"
+      "success": "%1$sSet max fair queue (max duplicated songs) size to %2$d"
     },
     "musicannounce_toggle": {
       "success": "%1$sSet music announce to **%2$s**"
@@ -1551,7 +1550,7 @@
     },
     "autoroles_add": {
       "no_args": "%1$sYou need to specify the name of the iam and the name of the role.",
-      "no_role_found": "%1$sI didn't find a role with that name!",
+      "no_role_found": "%1$sI didn't find a role with that name!\nIf the role name has spaces wrap it in quotes like this: \"Role Name\"",
       "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!",
       "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as an auto-assignable role!",
       "success": "%1$sAdded auto-assignable role **%2$s**, which gives the role **%3$s**"
@@ -1709,7 +1708,8 @@
     "manage_roles": "Manage Roles",
     "manage_permissions": "Manage Permissions",
     "manage_webhooks": "Manage Webhooks",
-    "manage_emotes": "Manage Emojis"
+    "manage_emotes": "Manage Emojis",
+    "priority_speaker": "Priority Speaker"
   },
   "items": {
     "headphones": "Headphones",
@@ -1833,7 +1833,7 @@
       "haste": "Allows you to collect more stuff from lootable commands for 2 sessions.",
       "milky": "Clears all potion effects.",
       "energy": "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.",
-      "rod": "Enables you to fish.",
+      "rod": "Enables you to fish. (20% breaking chance)",
       "fish": "Fish. Caught in fishing.",
       "tropical_fish": "A very tropical fish. Caught in fishing.",
       "blowfish": "I wonder... is this good? Caught in fishing.",
@@ -1859,9 +1859,9 @@
       "fish_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
       "mine_premium_crate": "A gem you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
       "fish_premium_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
-      "comet_rod": "A slightly stronger rod (Comet)",
-      "star_rod": "A stronger rod (Star)",
-      "sparkle_rod": "A way stronger rod (Sparkle)",
+      "comet_rod": "A slightly stronger rod. (17% breaking chance)",
+      "star_rod": "A stronger rod. (14% breaking chance)",
+      "sparkle_rod": "A way stronger rod. (9% breaking chance)",
       "shell": "Found at the bottom of the ocean. What could it be worth for?",
       "shark": "Woah. How did you catch *this*?"
     }

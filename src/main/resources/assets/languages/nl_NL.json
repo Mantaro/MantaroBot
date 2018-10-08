@@ -1085,7 +1085,6 @@
             "account_age": "Account leeftijd",
             "mutual_guilds": "Wederzijdse Servers",
             "vc": "Spraakkanaal",
-            "playing": "Activiteit",
             "color": "Kleur",
             "status": "Status",
             "nothing": "Niets",
@@ -1658,7 +1657,8 @@
         "manage_roles": "Beheer Rollen",
         "manage_permissions": "Beheer Machtigingen",
         "manage_webhooks": "Beheer Webhooks",
-        "manage_emotes": "Beheer Emojis"
+        "manage_emotes": "Beheer Emojis",
+        "priority_speaker": "Priority Speaker"
     },
     "items": {
         "headphones": "Koptelefoon",

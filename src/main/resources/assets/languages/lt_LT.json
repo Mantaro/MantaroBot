@@ -1084,7 +1084,6 @@
             "account_age": "Account Age",
             "mutual_guilds": "Mutual Guilds",
             "vc": "Voice Channel",
-            "playing": "Activity",
             "color": "Color",
             "status": "Status",
             "nothing": "Nothing",
@@ -1657,7 +1656,8 @@
         "manage_roles": "Tvarkyti roles",
         "manage_permissions": "Tvarkyti leidimus",
         "manage_webhooks": "Tvarkyti Webhook'us",
-        "manage_emotes": "Tvarkyti reakcijas"
+        "manage_emotes": "Tvarkyti reakcijas",
+        "priority_speaker": "Priority Speaker"
     },
     "items": {
         "headphones": "Ausinės",
