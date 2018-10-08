@@ -874,8 +874,8 @@ public class CurrencyCmds {
                     return;
                 }
 
-                //if(!handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
-                //    return;
+                if(!handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
+                    return;
 
                 Items.FISHING_ROD.getAction().test(event, Pair.of(languageContext, content));
             }
