@@ -52,6 +52,7 @@ public class Items {
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 4);
+    private static final RateLimiter fishRatelimiter = new RateLimiter(TimeUnit.MINUTES, 4);
 
     public static final Item[] ALL = {
             HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7", "Headphones", "items.headphones", "items.description.headphones", 5, true, false, false),
@@ -192,12 +193,18 @@ public class Items {
                 item = (FishRod) i;
             }
 
+            if(!playerInventory.containsItem(item)) {
+                event.getChannel().sendMessageFormat(lang.get("commands.fish.no_rod"), EmoteReference.SAD).queue();
+                return false;
+            }
+
+            if(!handleDefaultRatelimit(fishRatelimiter, event.getAuthor(), event))
+                return false;
+
+
             //Level but starting at 0.
             int nominalLevel = item.getLevel() - 3;
             String extraMessage = "";
-
-            if(!playerInventory.containsItem(item))
-                return false;
 
             //Rod break ratio is as follows: with stamina it's break ratio (73 + (level + 4)) plus 7 more, while without stamina is just the break ratio.
             int breakRatio = item.getBreakRatio();

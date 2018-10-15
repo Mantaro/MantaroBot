@@ -864,19 +864,10 @@ public class CurrencyCmds {
 
     @Subscribe
     public void fish(CommandRegistry cr) {
-        final RateLimiter ratelimiter = new RateLimiter(TimeUnit.MINUTES, 4);
         cr.register("fish", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Player p = MantaroData.db().getPlayer(event.getAuthor());
-                if(!p.getInventory().containsItem(Items.FISHING_ROD)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.fish.no_rod"), EmoteReference.SAD).queue();
-                    return;
-                }
-
-                if(!handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
-                    return;
-
                 Items.FISHING_ROD.getAction().test(event, Pair.of(languageContext, content));
             }
 
