@@ -258,126 +258,126 @@
          "success": "%1$sSumaišyta dainų tvarka dabartiniame grojarašyje."
       },
       "skip": {
-         "dj_skip": "%1$sThe DJ has decided to skip",
+         "dj_skip": "%1$sDJ nusprendė praleisti",
          "vote": {
-            "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!",
-            "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to skip!"
+            "submit": "%1$s**Tavo balsas buvo įrašytas!** Tau reikia dar %2$d balsų(-o), kad praleistum!",
+            "remove": "%1$s**Tavo balsas buvo pašalintas!** Tau reikia dar %2$d balsų(o), kad praleistum!"
          },
-         "success": "%1$sReached the required amount of votes, skipping song...",
-         "no_track": "%1$sThere seems to be no track to skip, so I cannot do anything..."
+         "success": "%1$sPasiektas reikiamų balsų skaičius, daina praleidžiama...",
+         "no_track": "%1$sAtrodo, kad nėra jokios dainos, kurią galėčiau praleisti, tai aš nieko negaliu padaryti..."
       },
       "removetrack": {
-         "invalid_range": "%1$s`%2$s` is not a valid range.",
-         "no_track": "%1$sThere isn't a queued track at the position `%2$d`!",
-         "invalid_number": "(%1$s`%2$s`) One of the ranges is not a valid number!",
-         "invalid_number_range": "%1$s`%2$s` is not a valid number or range!",
-         "success": "%1$sRemoved **%2$d** track(s) from the queue."
+         "invalid_range": "%1$s`%2$s` nėra teisinga apimtis.",
+         "no_track": "%1$sNėra jokio įrašo `%2$d` pozicijoje!",
+         "invalid_number": "(%1$s`%2$s`) Vienas iš apimčių nėra teisingas skaičius!",
+         "invalid_number_range": "%1$s`%2$s` nėra teisingas skaičius arba apimtis!",
+         "success": "%1$sPašalintas(-i) **%2$d** įrašas(-ai) iš sąrašo."
       },
       "stop": {
-         "dj_stop": "%1$sThe server DJ has decided to stop",
+         "dj_stop": "%1$sServerio DJ nusprendė sustabdyti",
          "vote": {
-            "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to stop!",
-            "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to stop!"
+            "submit": "%1$s**Tavo balsas buvo įrašytas** Tau reikia dar %2$d daugiau balso(ų), kad sustabdytum!",
+            "remove": "%1$s**Tavo balsas buvo pašalintas** Tau reikia dar %2$d daugiau balso(ų), kad sustabdytum!"
          },
-         "success": "%1$sReached the required amount of votes, stopping player...",
-         "no_player": "%1$sThere seems to be no player to stop, so I cannot do anything...",
-         "cleanup": "%1$sRemoved **%2$d songs** from the queue."
+         "success": "%1$sPasiektas reikalingų taškų kiekis, stabdomas grotuvas...",
+         "no_player": "%1$sAtrodo, negroja joks grotuvas, taigi aš nieko negaliu padaryti...",
+         "cleanup": "%1$sPašalintos **%2$d dainos** iš sąrašo."
       },
       "volume": {
-         "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
-         "success": "%1$sVolume set to %2$d\n\n%3$s",
-         "no_args": "%1$sYou need to tell me what volume you want me to set the music to (5 to 100)."
+         "check": "%1$sDabartinis garsumas šiai sesijai yra: %2$d\n\n%3$s",
+         "success": "%1$sGarsumas nustatytas į %2$d\n\n%3$s",
+         "no_args": "%1$sTuri nurodyti, kokiu garsumu man groti muziką (nuo 5 iki 100)."
       },
       "custom": {
-         "no_args": "%1$sYou need to specify what you want to do with this command. Check command help for more info!",
-         "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
-         "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
-         "nsfw_enabled": "%1$sThis command has been successfully marked as NSFW.",
-         "nsfw_disabled": "%1$sThis command has been successfully marked as SFW.",
-         "nsfw_not_nsfw": "%1$sThis command is marked as NSFW therefore it can only be used on NSFW channels.",
+         "no_args": "%1$sTu turi nurodyti, ką man daryti su šia komanda. Patikrink komandos pagalbą, kad sužinotum, kaip tai veikia!",
+         "error_running": "%1$sKlaida apdorojant pasirinktinę komandą... prašau patikrinti atsakymo turinį ir ilgį (negali būti daugiau negu 2000 simbolių).",
+         "not_loaded": "Bot'as dar pilnai neužsikrovė... pasirinktinės komandos jau greitai bus pasiekiamos!",
+         "nsfw_enabled": "%1$sŠi komanda sėkmingai pažymėta kaip NDA.",
+         "nsfw_disabled": "%1$sŠi komanda sėkmingai pažymėta kaip SDA.",
+         "nsfw_not_nsfw": "%1$sŠi komanda yra pažymėta kaip NDA, taigi ji gali būti naudojama tik NDA kanaluose.",
          "ls": {
-            "header": "Commands for this guild"
+            "header": "Komandos šiame serveryje"
          },
-         "invalid": "%1$sInvalid command selection. Check command help (`help custom`).",
+         "invalid": "%1$sNeteisingas komandos pasirinkimas. Patikrink komandos pagalbą (`help custom`).",
          "view": {
-            "invalid": "%1$sYou need to specify the command and the response number!",
-            "not_found": "%1$sThere isn't a custom command with that name here.",
-            "less_than_specified": "%1$sThis command has less responses than the number you specified...",
-            "success": "**Response `%1$d` for custom command `%2$s`:** \n```\n%3$s```"
+            "invalid": "%1$sTuri nurodyti komandą ir atsakymo numerį!",
+            "not_found": "%1$sNėra pasirinktinės komandos šiuo pavadinimu.",
+            "less_than_specified": "%1$sŠi komanda turi mažiau atsakymų, negu tu nurodei...",
+            "success": "**`%1$d` atsakymas `%2$s` pasirinktinei komandai:** \n```\n%3$s```"
          },
          "raw": {
-            "no_command": "%1$sYou need to tell me what command you want to look at.",
-            "header": "Command \"%1$s\":",
-            "amount": "(Showing %1$d responses of %2$d)",
-            "pasted": "Pasted content"
+            "no_command": "%1$sTuri man pasakyti, į kurią komandą tu nori pažiūrėti.",
+            "header": "Komanda \"%1$s\":",
+            "amount": "(Rodomi %1$d atsakymai į %2$d)",
+            "pasted": "Įdėtas turinys"
          },
          "clear": {
-            "success": "%1$sCleared **%2$d Custom Commands**"
+            "success": "%1$sIšvalytos **%2$d pasirinktinės komandos**"
          },
          "make": {
-            "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses. Use `~>nsfw` to mark this command as NSFW and `~>sfw` to revert.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
-            "cancel": "%1$sCommand Creation canceled.",
-            "no_responses_added": "%1$sNo responses were added. Stopping creation without saving...",
-            "success": "%1$sSaved to command `%2$s`.",
-            "no_name_specified": "%1$sYou didn't specify the name of the custom command to create!"
+            "start_text": "%1$sPradėtas **\"`%2$s` pasirinktinės komandos kūrimas\"**!\nParašyk `&~>stop`, kad sustabdytum kūrimą **neišsaugojant duomenų**.\nParašyk `&~>save`, kad sustabdytum kūrimą ir **išsaugotum naują komandą**. Išsiųsk bet kokį tekstą, prasidedantį `&`, kad pridėtum **naują komandos atsakymą**. Naudok `~>nsfw`, kad pažymėtum šią komandą kaip NDA ir atvirkštiniam variantui - `~>sfw`.\nŠis interaktyvus procesas pasibaigs po 60 sekundžių neaktyvumo neišsaugojant duomenų.",
+            "cancel": "%1$sKomandos kūrimas atšauktas.",
+            "no_responses_added": "%1$sNepridėta jokių atsakymų. Stabdomas kūrimas neišsaugojant duomenų...",
+            "success": "%1$sIšsaugota komandoje `%2$s`.",
+            "no_name_specified": "%1$sTu nenurodei pavadinimo, kuriuo norėtum sukurti pasirinktinę komandą!"
          },
          "eval": {
-            "error": "%1$sThere was an error while evaluating your command!%2$s"
+            "error": "%1$sĮvyko klaida testuojant tavo komandą!%2$s"
          },
          "remove": {
-            "success": "%1$sRemoved Custom Command `%2$s`."
+            "success": "%1$sPašalinta pasirinktinė komanda `%2$s`."
          },
          "import": {
-            "not_found": "%1$sThere are no custom commands matching your search query.",
-            "header": "`%1$s` - Guild: `%2$s`",
-            "selection": "Select the Command:",
-            "note": "(You can only select custom commands from guilds that you are a member of)",
-            "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %1$d responses."
+            "not_found": "%1$sNėra jokios pasirinktinės komandos, atitinkančios tavo paieškos kriterijus.",
+            "header": "`%1$s` - Serveris: `%2$s`",
+            "selection": "Pasirink komandą:",
+            "note": "(Tu matai tik tų serverių pasirinktines komandas, kuriuose tu esi)",
+            "success": "Importuota `%1$s` pasirinktinė komanda iš `%2$s` serverio su %1$d atsakymais."
          },
          "edit": {
-            "invalid_number": "%1$sYou need to specify a correct number to change.",
-            "no_index": "%1$sYou cannot edit a non-existent index.",
-            "empty_response": "%1$sCannot edit to an empty response",
-            "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly"
+            "invalid_number": "%1$sTuri nurodyti numerį, kurį pakeisti.",
+            "no_index": "%1$sNegali redaguoti neegzistuojančio indekso.",
+            "empty_response": "%1$sNegali redaguoti į tuščią atsakymą.",
+            "success": "%1$sSėkmingai redaguotas `%3$s` komandos **#%2$d** atsakymas."
          },
          "rename": {
-            "success": "%1$sRenamed command `%2$s` to `%3$s`"
+            "success": "%1$sKomanda `%2$s` pervadinta į `%3$s`"
          },
          "add": {
-            "success": "%1$sSaved to command `%2$s`"
+            "success": "%1$sIšsaugota komandoje `%2$s`"
          },
-         "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
-         "already_exists": "%1$sThe command `%2$s` already exists.",
-         "name_too_long": "%1$sName is too long.",
-         "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just a bit of dust.",
-         "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.",
-         "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
-         "invalid_image": "%1$sThis command contains an invalid image, please fix...",
-         "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
-         "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
-         "invalid_link": "%1$sThe string `%2$s` isn't a valid link."
+         "character_not_allowed": "%1$sŠis simbolis neleistinas pasirinktinių komandų pavadinimuose.",
+         "already_exists": "%1$sKomanda `%2$s` jau egzistuoja.",
+         "name_too_long": "%1$sPavadinimas per ilgas.",
+         "no_cc": "%1$sNėra jokių pasirinktinių komandų, egzistuojančių šiame serveryje. Čia tikrai dulkės. Jėtus, reikėtų čia apsivalyti...",
+         "admin_only": "Šis serveris priima pasirinktinių komandų kūrimus, redagavimus, importavimus ir testinius vykdymus iš administratorių.",
+         "not_found": "%1$sŠiame serveryje pasirinktinė komanda `%2$s` neegzistuoja.",
+         "invalid_image": "%1$sŠioje komandoje egzistuoja neveikianti nuotrauka, prašome pataisyti...",
+         "invalid_string": "%1$sString'as `{%2$s}` nėra teisingas, arba atsakymas yra ilgesnis negu 2000 simbolių.",
+         "invalid_json": "%1$sString'as `{%2$s}` nėra teisingas JSON.",
+         "invalid_link": "%1$sString'as `%2$s` nėra teisinga nuoroda."
       },
       "mute": {
-         "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
-         "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`",
-         "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent.",
-         "no_users": "%1$sYou need to give me an user to mute.",
-         "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server.",
-         "no_time": "%1$sYou didn't specify any time. Remember that you need to add the `-time` argument and specify it there.",
-         "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
-         "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
-         "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
-         "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
-         "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to un-mute them.",
-         "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
-         "user_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
-         "success": "%1$sAdded mute role to **%2$s** for around %3$s"
+         "no_permissions": "%1$sTau reikia \"Išmesti narius\" arba \"Užblokuoti narius\" leidimo, kad galėtum nutildyti narius.",
+         "no_mute_role": "%1$sUžtildymo rolė nenustatyta šiame serveryje, tu gali tai padaryti naudojant `~>opts muterole set <rolė>`",
+         "null_mute_role": "%1$sAnkščiau nustatyta užtildymo rolė šiame serveryje jau nebeegzistuoja.",
+         "no_users": "%1$sTuri nurodyti narius, kuriuos užtildyti.",
+         "no_manage_roles": "%1$sNeturiu leidimo tvarkyti rolių šiame serveryje.",
+         "no_time": "%1$sNenurodei jokio laiko. Primenu, kad tau reikia pridėti `-time` argumentą ir nurodyti laiką tenais.",
+         "time_not_specified": "%1$sTu norėjai laiko, bet nenurodei, kiek ilgai.",
+         "negative_time_notice": "%1$sTu negali užtildyti nario negatyviam laikui. Nebent tu gali valdyti laiką...",
+         "default_time_too_long": "%1$sUžtildymo laikas per ilgas (Daugiausiai: 10 dienų)...",
+         "time_too_long": "%1$sNurodytas užtildymo laikas per ilgas (Daugiausiai: 10 dienų)...",
+         "already_muted": "%1$sŠis narys jau turi užtildymo rolę. Panaudok `~>unmute`, kad nuimtum nariui nutildymo rolę.",
+         "self_hierarchy_error": "%1$sAš negaliu priskirti užtuldymo rolės nariui, nes jis/ji yra aukščiau serverio hierarchijoje negu aš, arba rolė yra aukštesnėje hierarchijoje!",
+         "user_hierarchy_error": "%1$sAš negaliu priskirti užtuldymo rolės nariui, nes jis/ji yra aukščiau serverio hierarchijoje negu aš, arba rolė yra aukštesnėje hierarchijoje negu tu!",
+         "success": "%1$sPridėta užtildymo rolė **%2$s** apytiksliai %3$s"
       },
       "unmute": {
-         "no_permissions": "%1$sYou need to have either ban or kick members permission to un-mute!",
-         "no_mentions": "%1$sYou need to mention at least one user to un-mute.",
-         "success": "%1$sRemoved mute role from **%2$s**",
-         "no_role_assigned": "%1$sThis user doesn't have the mute role assigned to them."
+         "no_permissions": "%1$sTu turi turėti leidimą \"Išmesti narius\" arba \"Užblokuoti narius\", kad gamėtum nuimti užtildymo rolę!",
+         "no_mentions": "%1$sTuri paminėti bent vieną narį, kuriam nuimti užtildymo rolę.",
+         "success": "%1$sNuimta užtildymo rolė iš **%2$s**",
+         "no_role_assigned": "%1$sŠis narys neturi priskirtos užtildymo rolės."
       },
       "ping": {
          "quotes": {
@@ -400,27 +400,27 @@
          "text": "%1$s*%2$s* - Mano greitis: %3$d ms (%4$s) `Websocket'as:%5$dms`"
       },
       "love": {
-         "no_mention": "%1$sYou need to mention at least 1 user.",
-         "not_ideal": "Try again next time...",
-         "decent": "Good enough!",
-         "nice": "Good match!",
-         "perfect": "Perfect match!",
-         "yourself_note": "You're a special creature and you should love yourself more than anyone <3",
-         "header": "Love Meter",
-         "result": "Result:"
+         "no_mention": "%1$sTuri paminėti bent vieną narį.",
+         "not_ideal": "Pabandyk dar kartą vėliau...",
+         "decent": "Užtektinai gerai!",
+         "nice": "Geras pasirinkimas!",
+         "perfect": "Tiesiog nuostabu!",
+         "yourself_note": "Tu esi ypatinga būtybė ir turėtum mylėti save labiausiai <3",
+         "header": "Meilė-metris",
+         "result": "Rezultatas:"
       },
       "marry": {
          "loveletter": {
-            "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on.",
-            "empty": "%1$sYou cannot leave the love letter empty.",
-            "no_marriage": "%1$sYou aren't married, you cannot write a love letter for yourself...",
+            "no_letter": "%1$sTu neturi jokio meilės laiškelio savo inventoriuje, tad neturi ant ko rašyti.",
+            "empty": "%1$sMeilės laiškelis negali būti tuščias.",
+            "no_marriage": "%1$sTu nesusituokei/neištekėjai, tad negali rašyti meilės laiškelių...",
             "not_proposing_player": "%1$sYou aren't the player who proposed this marriage!",
             "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`.",
             "too_long": "%1$sThe love letter is too long (maximum is 500 characters)",
             "cannot_see": "%1$sI cannot find the user that you're married to... Probably they aren't in any server with me.",
             "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s",
             "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `marry status`.",
-            "scrapped": "%1$sYou still have time to think on what to write, no need to rush!"
+            "scrapped": "%1$sTu dar turi laiko pagalvoti, ką rašyti, tad neskubėk!"
          },
          "status": {
             "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\"",
@@ -555,7 +555,7 @@
             "success": "%1$sBought %2$d %3$s for %4$d credits successfully. You now have %5$d credits.",
             "not_enough_money": "%1$sYou don't have enough money to buy this item."
          },
-         "header": "Mantaro's Market"
+         "header": "Mantaro parduotuvė"
       },
       "itemtransfer": {
          "transfer_yourself_note": "%1$sYou cannot transfer items to yourself.",
@@ -603,8 +603,8 @@
          "invalid_args": "%1$sInvalid option or arguments."
       },
       "8ball": {
-         "no_args": "%1$sYou need to specify what you want the 8ball to answer.",
-         "error": "%1$sI ran into an error while fetching the 8ball results."
+         "no_args": "%1$sTuri nurodyti, jo nori paklausti 8ball.",
+         "error": "%1$sĮvyko klaida apdorojant 8ball rezultatus."
       },
       "iam": {
          "list": {
@@ -666,50 +666,50 @@
       },
       "profile": {
          "timezone": {
-            "not_specified": "%1$sYou need to specify the timezone.",
-            "reset": "%1$sReset timezone.",
-            "invalid": "%1$sInvalid timezone.",
-            "success": "%1$sSaved timezone, your profile timezone is now: **%2$s**"
+            "not_specified": "%1$sTuri nurodyti laiko zoną.",
+            "reset": "%1$sLaiko zona atstatyta.",
+            "invalid": "%1$sNeteisinga laiko zona.",
+            "success": "%1$sLaiko zona išsaugota, tavo profilio laiko zona nuo šiol yra: **%2$s**"
          },
          "description": {
-            "no_argument": "%1$sYou need to provide an argument! (set or remove)\nfor example, ~>profile description set Hi there!",
-            "too_long": "%1$sThe description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`",
-            "success": "%1$sSet description to: **%2$s**\nCheck your shiny new profile with `~>profile`",
-            "clear_success": "%1$sSuccessfully cleared description."
+            "no_argument": "%1$sTu turi nurodyti argumentą! (set arba remove)\npavyzdžiui, ~>profile description set Sveiki visi!",
+            "too_long": "%1$sAprašymas per ilgas! `(300 simbolių limitas visiems ir 500 Premium naudotojams)`",
+            "success": "%1$sAprašymas nustatytas į: **%2$s**\nApžiurėk savo naująjį spindintį profilį naudodamas(-a) `~>profile`",
+            "clear_success": "%1$sSėkmingai išvalytas aprašymas."
          },
          "displaybadge": {
-            "not_specified": "%1$sYou need to specify your main badge!",
-            "reset_success": "%1$sNo badge will show on the top of your profile now!",
-            "important_success": "%1$sYour display badge is now the most important one.",
-            "no_such_badge": "%1$sThere's no such badge...\nYour available badges: %2$s",
-            "player_missing_badge": "%1$sYou don't have that badge.\nYour available badges: %2$s",
-            "success": "%1$sYour display badge is now: **%2$s**"
+            "not_specified": "%1$sTu turi nurodyti pagrindinį ženkliuką!",
+            "reset_success": "%1$sNuo šiol joks ženkliukas nebus rodomas profilio viršuje!",
+            "important_success": "%1$sTavo rodomas ženkliukas nuo šiol yra pats svarbiausias ženkliukas.",
+            "no_such_badge": "%1$sČia nėra tokio ženkliuko...\nTavo galimi ženkliukai: %2$s",
+            "player_missing_badge": "%1$sTu neturi tokio ženkliuko.\nTavo galimi ženkliukai: %2$s",
+            "success": "%1$sTav orodomas ženkliukas nuo šiol yra: **%2$s**"
          },
          "lang": {
-            "nothing_specified": "%1$sYou have to specify a language to use or `reset` to reset your language settings.",
-            "reset_success": "%1$sSuccessfully reset your personal language settings.",
-            "success": "%1$sMantaro will now talk to you in `%2$s`",
-            "invalid": "%1$sThat language doesn't exist! You can use `reset` to reset your language settings."
+            "nothing_specified": "%1$sYou have to specify a language to use or `reset` to reset your language settings. | Turi nurodyti kalbą, kurią nori naudoti arba `reset`, kad atstatytum savo kalbos parametrus.",
+            "reset_success": "%1$sSuccessfully reset your personal language settings. | Sėkmingai atstatyti tavo kalbos nustatymai.",
+            "success": "%1$sMantaro will now talk to you in `%2$s` | Mantaro nuo šiol su tavim kalbės `%2$s` kalba",
+            "invalid": "%1$sThat language doesn't exist! You can use `reset` to reset your language settings. | Ši kalba neegzistuoja! Tu gali naudoti `reset`, kad atstatytum savo kalbos nustatymus."
          },
-         "badge_header": "%1$sDisplay Badge",
-         "bot_notice": "%1$sBots don't have profiles.",
-         "header": "%1$s's Profile",
-         "no_desc": "No description set",
-         "credits": "Credits",
-         "level": "Level",
+         "badge_header": "%1$sRodomas ženkliukas",
+         "bot_notice": "%1$sBot'ai neturi profilių.",
+         "header": "%1$s profilis",
+         "no_desc": "Nenustatytas joks aprašymas",
+         "credits": "Kreditai",
+         "level": "Lygis",
          "xp": "XP",
-         "rep": "Reputation",
-         "birthday": "Birthday",
-         "married": "Married with",
-         "nobody": "Nobody",
-         "inventory": "Inventory",
-         "badges": "Top 5 Badges",
-         "no_badges": "No badges (yet!)",
-         "no_timezone": "Not set",
-         "timezone_user": "User's timezone: %1$s",
-         "not_specified": "Not specified.",
-         "potion": "Active Potion",
-         "no_potion": "No active potions."
+         "rep": "Reputacija",
+         "birthday": "Gimtadienis",
+         "married": "Antroji pusė",
+         "nobody": "Niekas",
+         "inventory": "Inventorius",
+         "badges": "Top 5 ženkliukai",
+         "no_badges": "Jokių ženkliukų (kolkas!)",
+         "no_timezone": "Nenustatyta",
+         "timezone_user": "Nario laiko juosta: %1$s",
+         "not_specified": "Nenurodyta.",
+         "potion": "Aktyvus eliksyras",
+         "no_potion": "Jokių aktyvių eliksyrų."
       },
       "badges": {
          "info": {
@@ -990,49 +990,49 @@
          "yandere_nsfw_notice": "%1$sYande.re command can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!"
       },
       "about": {
-         "title": "About Mantaro",
+         "title": "Apie Mantaro",
          "description": {
-            "1": "Hello, I'm **Mantaro**! I'm here to make your life a little easier. To get started, type `~>help`!",
-            "2": "Some of my features include:",
-            "3": "**Moderation made easy** (`Mass kick/ban, prune commands, logs and more!`)",
-            "4": "**Funny and useful commands**, see `~>help remindme` or `~>help hug` for examples.",
-            "5": "**First quality music**, check out `~>music`!.",
-            "support": "**[Support server](https://discordapp.com/invite/cMTmuPa)! | [Support Mantaro development!](https://www.patreon.com/mantaro)**",
-            "credits": "%1$sCheck ~>about credits!"
+            "1": "Labas, aš **Mantaro**! Aš čia, kad padaryčiau tavo gyvenimą bent kiek lengvesnį. Kad pradėtum, parašyk `~>help`!",
+            "2": "Į mano funkcijas įeina:",
+            "3": "**Moderavimas lengvai!** (`Masiniai išmetimai/užblokavimai, išvalymo komandos, veiksmų žurnalai ir daugiau!`)",
+            "4": "**Linksmos ir naudingos komandos**, patikrink `~>help remindme` ar `~>help hug` pavyzdžiams.",
+            "5": "**Aukščiausios kokybės muzika**, išbandyk `~>music`!.",
+            "support": "**[Pagalbos serveris](https://discordapp.com/invite/cMTmuPa)! | [Paremk Mantaro kūrimą!](https://www.patreon.com/mantaro)**",
+            "credits": "%1$sPatikrink `~>about credits`!"
          },
          "patreon": {
-            "header": "**Mantaro's Patreon Pledgers**"
+            "header": "**Mantaro Patreon'ai**"
          },
          "credits": {
-            "main_dev": "Main developer",
-            "dev": "Developer",
-            "docs": "Documentation",
-            "translators": "Translators",
-            "community_admin": "Community Admin",
-            "special_mentions": "Thanks to bots.discord.pw, Carbonitex and discordbots.org for helping us with increasing the bot's visibility.",
-            "thank_note": "Much thanks to everyone above for helping make Mantaro better!"
+            "main_dev": "Pagrindinis programuotojas",
+            "dev": "Programuotojas",
+            "docs": "Dokumentacija",
+            "translators": "Vertėjai",
+            "community_admin": "Bendruomenės administratorius",
+            "special_mentions": "Dėkojame bots.discord.pw, Carbonitex ir discordbots.org, už pagalbą populiarinant bot'ą.",
+            "thank_note": "Didelis Ačiū visiems aukščiau už pagalbą tobulinant Mantaro!"
          },
-         "version": "MantaroBot Version",
-         "uptime": "Uptime",
-         "shards": "Shards",
-         "threads": "Threads",
-         "guilds": "Servers",
-         "users": "Users (Unique)",
-         "tc": "Text Channels",
-         "vc": "Voice Channels",
-         "invite": "Invite link: http://is.gd/mantaro (Commands this session: %1$,d | Current shard: %2$d)"
+         "version": "MantaroBot Versija",
+         "uptime": "Veikimo laikas",
+         "shards": "Shard'ai",
+         "threads": "Thread'ai",
+         "guilds": "Serveriai",
+         "users": "Nariai (Unikalūs)",
+         "tc": "Teksto kanalai",
+         "vc": "Balso kanalai",
+         "invite": "Pakvietimo nuoroda: http://is.gd/mantaro (Komandų dabartinėje sesijoje: %1$,d | Dabartinis shard'as: %2$d)"
       },
       "invite": {
-         "url": "Invite URL",
-         "server": "Support Server",
-         "patreon": "Patreon URL",
+         "url": "Pakvietimo nuoroda",
+         "server": "Pagalbos serveris",
+         "patreon": "Patreon nuoroda",
          "description": {
-            "1": "Here are some useful links!",
-            "2": "**If you have any questions about the bot, feel free to join the support guild and ask**!.",
-            "3": "We provided a patreon link in case you would like to help Mantaro keep running by donating [and getting perks by doing so!].",
-            "4": "Thanks you for using the bot! **<3 from the developers and the Mantaro team**"
+            "1": "Štai keletas naudingų nuorodų!",
+            "2": "**Jeigu turi kokių klausimų apie bot'ą, nesidrovėk, prisijunk prie pagalbos serverio ir paklausk**!.",
+            "3": "Mes pateikėme nuorodą į Patreon, jeigu kartais norėtum palaikyti Mantaro gyvą paremdamas(-a) mus [taip pat ir gaunant privilegijas!].",
+            "4": "Ačiū, kad naudojates bot'u! **<3 iš kūrėjų ir Mantaro komandos**"
          },
-         "footer": "We hope you have fun with the bot."
+         "footer": "Tikimės, jog tau nenuobodu su bot'u!"
       },
       "stats": {
          "header": "Mantaro Statistics",
@@ -1065,52 +1065,52 @@
          "result": "%1$sAvatar for: **%2$s**\n%3$s"
       },
       "serverinfo": {
-         "header": "Server Information",
-         "description": "Server information for %1$s",
-         "users": "Users (Online/Unique)",
-         "created": "Creation Date",
-         "channels": "Voice/Text Channels",
-         "owner": "Owner",
-         "region": "Region",
-         "roles": "Roles (%1$d)",
-         "id_show": "Server ID: %1$s"
+         "header": "Serverio informacija",
+         "description": "%1$s serverio informacija",
+         "users": "Nariai (Prisijungę/Viso)",
+         "created": "Sukūrimo data",
+         "channels": "Balso/Teksto kanalai",
+         "owner": "Savininkas",
+         "region": "Regionas",
+         "roles": "Rolės (%1$d)",
+         "id_show": "Serverio ID: %1$s"
       },
       "userinfo": {
-         "header": "User info for %1$s#%2$s",
-         "roles": "Roles: [%1$d]",
-         "id": "User ID",
-         "join_date": "Join Date",
-         "created": "Account Created",
-         "account_age": "Account Age",
-         "mutual_guilds": "Mutual Guilds",
-         "vc": "Voice Channel",
-         "playing": "Activity",
-         "color": "Color",
-         "status": "Status",
-         "nothing": "Nothing",
-         "default": "Default"
+         "header": "%1$s#%2$s nario informacija",
+         "roles": "Rolės: [%1$d]",
+         "id": "Vartotojo ID",
+         "join_date": "Prisijungimo data",
+         "created": "Paskyra sukurta",
+         "account_age": "Paskyra amžius",
+         "mutual_guilds": "Bendri serveriai",
+         "vc": "Balso kanalas",
+         "playing": "Aktyvumas",
+         "color": "Spalva",
+         "status": "Statusas",
+         "nothing": "Nieko",
+         "default": "Įprastas"
       },
       "roleinfo": {
-         "header": "Role info for %1$s",
-         "id": "Role ID",
-         "created": "Role Created",
-         "age": "Role Age",
-         "color": "Color",
-         "members": "Members",
-         "position": "Position",
+         "header": "%1$s rolės informacija",
+         "id": "Rolės ID",
+         "created": "Rolės sukurta",
+         "age": "Rolės amžius",
+         "color": "Spalva",
+         "members": "Nariai",
+         "position": "Pozicija",
          "hoisted": "Hoisted",
          "managed": "Managed",
-         "permissions": "Permissions: [%1$d]"
+         "permissions": "Leidimai: [%1$d]"
       },
       "donate": {
-         "beg": "%1$sOh hi! If you are interested in donating, please check the links below. Running Mantaro takes time and money, and every dollar is highly appreciated!\n\n%2$s",
-         "methods": "**Donation Methods**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
+         "beg": "%1$sOh labas! Jeigu nori paremti mane, patikrink nuorodas žemiau. Mantaro palaikymas reikalauja laiko ir pinigų, ir kiekvienas euras arba doleris reikalingas!\n\n%2$s",
+         "methods": "**Rėmimo metodai**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
       },
       "help": {
          "title": "Mantaro Pagalba",
          "base": "Komandų sąrašas. Detalesniam naudojimo gidui, patikrink Mantaro [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
          "support": "Jeigu turite kokių nors problemų ar klausimų naudojantis Mantaro, prisijunkite prie [pagalbos serverio](https://is.gd/mantaroguild)\n",
-         "patreon": "[Mums reikia pagalbos palaikyti Mantaro gyvą! Nuspausk čia, kad gautum daugiau informacijos.](https://www.patreon.com/mantaro)\n",
+         "patreon": "[Mums reikia pagalbos palaikyti Mantaro gyvą! Nuspausk čia, kad gautum daugiau informacijos.](https://www.patreon.com/mantaro)",
          "disabled_commands": "Rodomos tik neišjungtos komandos. Viso išjungtų komandų: %1$s",
          "channel_specific_disabled_commands": "Rodomos tik neišjungtos komandos. Viso kanalui išjungtų komandų: %1$s",
          "footer": "Kad pamatytum komandos naudojimą, naudok %1$shelp <komanda> // -> Komandų: %2$s",
@@ -1239,26 +1239,26 @@
          "credits": "credits"
       },
       "leaderboard": {
-         "header": "Mantaro's Leaderboard",
-         "money": "Money Leaderboard",
-         "reputation": "Reputation Leaderboard",
-         "gamble": "Gamble Wins Leaderboard",
+         "header": "Mantaro geriausieji",
+         "money": "Turtingiausieji",
+         "reputation": "Turintys daugiausiai reputacijos",
+         "gamble": "Geriausieji lošimuose",
          "slots": "Slots Wins Leaderboard",
-         "daily": "Daily Streak Leaderboard",
-         "level": "Level leaderboard",
-         "game": "Game Wins leaderboard",
-         "waifu": "Waifu Value leaderboard",
-         "claim": "Waifu Claim leaderboard",
+         "daily": "Ilgiausi kasdieniniai atlygiai",
+         "level": "Aukščiausi lygiai",
+         "game": "Laimėję daugiausiai žaidimų",
+         "waifu": "Waifu vertingiausieji",
+         "claim": "Waifu esantys",
          "inner": {
-            "experience": "Experience",
-            "game": "%1sThis page shows the top 10 people who have won the most games.\n\nCheck out `~>help game` or `~>help trivia` for details on how games work!",
-            "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `~>help waifu` for details on the waifu system.",
-            "money": "%1$sThis page shows the top 10 richest people on Mantaro.\nThis leaderboard has been stale for a while, but never give up!",
-            "rep": "%1sThis page shows the top 10 people with the most reputation.",
-            "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `~>help daily` for more info",
-            "lvl": "%1sThis page shows the top 10 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
-            "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `~>help waifu` for details on the waifu system.",
-            "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `~>help gamble` for details on gamble.",
+            "experience": "Patirtis",
+            "game": "%1sŠis puslapis rodo 10 žmonių, kurie laimėjo daugiausiai žaidimų.\n\nPatikrink `~>help game` arba `~>help trivia` kad pamatytum, kaip veikia žaidimai!",
+            "claim": "%1sŠis puslapis rodo 10 žmonių, kurie buvo daugiausiai paimti kaip Waifu.\n\nPatikrink `~>help waifu` kad sužinotum, kaip veikia Waifu sistema.",
+            "money": "%1$sŠis puslapis rodo 10 turtingiausiųjų žmonių per Mantaro.\nŠios pozicijos kurį laiką nepasikeitė, bet niekada nepasiduok!",
+            "rep": "%1sŠis puslapis rodo 10 žmonių, kurie turi daugiausiai reputacijos.",
+            "streak": "%1sŠis puslapis rodo 10 žmonių, kurie ilgiausiai nenutrūkstamai kasdien atsiėmė kasdieninį atlygį.\n\nPatikrink `~>help daily`, kad gautum daugiau informacijos.",
+            "lvl": "%1sŠis puslapis rodo 10 žmonių, kurie turi aukščiausią lygį.\n\nLygį gali keltis kalbėdamasis. Komandų naudojimas nesuteikia patirties, ir patirties gauni tik ne dažniau kaip 30 sekundžių.",
+            "waifu": "%1sŠis puslapis rodo 10 žmonių, kurie turi brangiausius Waifu.\n\nPatikrink `~>help waifu` kad sužinotum, kaip veikia Waifu sistema.",
+            "gamble": "%1sŠis puslapis rodo 10 žmonių, kurie daugiausiai laimėjo lošiant.\n\nPatikrink `~>help gamble` kad sužinotum, kaip lošti.",
             "slots": "%1sThis page shows the top 10 people with the most slots runs won.\n\nCheck out `~>help slots` for details on slots."
          }
       }
