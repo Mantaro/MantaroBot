@@ -420,7 +420,7 @@ public class PlayerCmds {
                 if(args[0].equalsIgnoreCase("reset")) {
                     data.setMainBadge(null);
                     data.setShowBadge(true);
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.displaybadge.important_sucess"), EmoteReference.CORRECT).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.displaybadge.important_success"), EmoteReference.CORRECT).queue();
                     player.saveAsync();
                     return;
                 }
