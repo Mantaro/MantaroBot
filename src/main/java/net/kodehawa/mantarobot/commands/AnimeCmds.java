@@ -196,12 +196,12 @@ public class AnimeCmds {
                 .setDescription(ANIME_DESCRIPTION.length() <= 1024 ? ANIME_DESCRIPTION : ANIME_DESCRIPTION.substring(0, 1020) + "...")
                 .addField(lang.get("commands.anime.release_date"), "`" + RELEASE_DATE + "`", true)
                 .addField(lang.get("commands.anime.end_date"), "`" + (END_DATE == null || END_DATE.equals("null") ? lang.get("commands.anime.airing") : END_DATE) + "`", true)
-                .addField(lang.get("commands.anime.average_s+-core"), "`" + AVERAGE_SCORE + "/100" + "`", true)
+                .addField(lang.get("commands.anime.average_score"), "`" + AVERAGE_SCORE + "/100" + "`", true)
                 .addField(lang.get("commands.anime.type"), "`" + TYPE + "`", true)
                 .addField(lang.get("commands.anime.episodes"), "`" + EPISODES + "`", true)
                 .addField(lang.get("commands.anime.episode_duration"), "`" + DURATION + " " + lang.get("commands.anime.minutes") + "." + "`", true)
                 .addField(lang.get("commands.anime.genres"), "`" + GENRES + "`", false);
-        event.getChannel().sendMessage(embed.build()).queue();
+        event.getChannel().sendMessage(embed.build()).queue(success -> {}, error -> error.printStackTrace());
     }
 
     private void characterData(GuildMessageReceivedEvent event, I18nContext lang, CharacterSearchQuery.Character character) {
