@@ -201,7 +201,7 @@ public class AnimeCmds {
                 .addField(lang.get("commands.anime.episodes"), "`" + EPISODES + "`", true)
                 .addField(lang.get("commands.anime.episode_duration"), "`" + DURATION + " " + lang.get("commands.anime.minutes") + "." + "`", true)
                 .addField(lang.get("commands.anime.genres"), "`" + GENRES + "`", false);
-        event.getChannel().sendMessage(embed.build()).queue(success -> {}, error -> error.printStackTrace());
+        event.getChannel().sendMessage(embed.build()).queue();
     }
 
     private void characterData(GuildMessageReceivedEvent event, I18nContext lang, CharacterSearchQuery.Character character) {
