@@ -45,6 +45,7 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.PlayerStats;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
@@ -60,6 +61,7 @@ import okhttp3.ResponseBody;
 
 import java.awt.*;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -67,6 +69,7 @@ import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
+import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
 
 @Module
 @SuppressWarnings("unused")
@@ -471,6 +474,68 @@ public class PlayerCmds {
                 } else {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.profile.lang.invalid"), EmoteReference.ERROR).queue();
                 }
+            }
+        });
+
+        profileCommand.addSubCommand("stats", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                Map<String, Optional<String>> t = StringUtils.parse(content.isEmpty() ? new String[]{} : content.split("\\s+"));
+                content = Utils.replaceArguments(t, content, "brief");
+                Member member = Utils.findMember(event, event.getMember(), content);
+                if(member == null) return;
+
+                User toLookup = member.getUser();
+
+                Player player = managedDatabase.getPlayer(toLookup);
+                DBUser dbUser = managedDatabase.getUser(toLookup);
+                UserData data = dbUser.getData();
+                PlayerData playerData = player.getData();
+                PlayerStats playerStats = managedDatabase.getPlayerStats(toLookup);
+
+                Item potion = playerData.getActivePotion() == null ? null : Items.fromId(playerData.getActivePotion().getPotion());
+                Item buff = playerData.getActiveBuff() == null ? null : Items.fromId(playerData.getActiveBuff().getPotion());
+                //no need for decimals
+                long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
+
+                String s = String.join("\n",
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.market") + ":** "  +
+                                playerData.getMarketUsed() + " " + languageContext.get("commands.profile.stats.times"),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.potion") + ":** " +
+                                (potion == null ? "None" : potion.getName()),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.potion_type") + ":** " +
+                                (potion == null ? "None" : Utils.capitalize(potion.getItemType().toString())),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.buff") + ":** " +
+                                (buff == null ? "None" : buff.getName()),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.buff_type") + ":** " +
+                                (buff == null ? "None" : Utils.capitalize(buff.getItemType().toString())),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.experience") + ":** " +
+                                playerData.getExperience() + "/" + experienceNext + " XP",
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.daily") + ":** " +
+                                playerData.getDailyStreak() + " " + languageContext.get("commands.profile.stats.days"),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.daily_at") + ":** " +
+                                new Date(playerData.getLastDailyAt()).toString(),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.waifu_claimed") + ":** " +
+                                data.getTimesClaimed() + " " + languageContext.get("commands.profile.stats.times"),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.dust") + ":** " +
+                                data.getDustLevel() + "%",
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.reminders") + ":** " +
+                                data.getReminderN() + " " + languageContext.get("commands.profile.stats.times"),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.lang") + ":** " +
+                                (data.getLang() == null ? "en_US" : data.getLang()),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.wins") + ":** " +
+                                String.format("\n\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009" +
+                                        "%1$sGamble: %2$d, Slots: %3$d, Game: %4$d (times)", EmoteReference.CREDITCARD, playerStats.getGambleWins(), playerStats.getSlotsWins(), playerData.getGamesWon())
+                        );
+
+
+                event.getChannel().sendMessage(new EmbedBuilder()
+                        .setThumbnail(toLookup.getEffectiveAvatarUrl())
+                        .setAuthor(String.format(languageContext.get("commands.profile.stats.header"), toLookup.getName()), null, toLookup.getEffectiveAvatarUrl())
+                        .setDescription("\n" + s)
+                        .setFooter("This shows stuff usually not shown on the profile card. Content might change", null)
+                        .build()
+                ).queue();
             }
         });
     }
