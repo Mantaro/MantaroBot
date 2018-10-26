@@ -59,7 +59,8 @@
     "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**",
     "cancelled": "%1$sCancelled request.",
     "sellout": "Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive!",
-    "deprecated": "No longer used"
+    "deprecated": "No longer used",
+    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\""
   },
   "categories": {
     "music": "Audio",
@@ -528,7 +529,7 @@
       "calculate": "%1$s%2$s will get **%3$d credits** if all of the items are sold.",
       "header": "%1$s's Inventory",
       "format": "**Price**: 📥 %1$d 📤 %2$d\n%3$s",
-      "empty": "%1$sYour inventory is empty! :(",
+      "empty": "%1$sThis inventory is empty! :(",
       "brief_notice": "You can use `~>inventory -brief` to get a mobile friendly version."
     },
     "cast": {

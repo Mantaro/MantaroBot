@@ -583,7 +583,7 @@ public class CurrencyCmds {
                                 event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.error"), EmoteReference.ERROR).queue();
                             }
                         } catch(NumberFormatException nfe) {
-                            event.getChannel().sendMessageFormat(languageContext.get("general.invalid_number"), EmoteReference.ERROR).queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("general.invalid_number") + " " + languageContext.get("general.space_notice"), EmoteReference.ERROR).queue();
                         }
 
                         player.saveAsync();

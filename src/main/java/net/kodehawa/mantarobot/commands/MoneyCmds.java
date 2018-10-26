@@ -828,7 +828,7 @@ public class MoneyCmds {
 
         if(luck > r.nextInt(140)) {
             if(player.addMoney(gains)) {
-                if(gains > Integer.MAX_VALUE) {
+                if(gains > Integer.MAX_VALUE / 2) {
                     if(!player.getData().hasBadge(Badge.GAMBLER)) {
                         player.getData().addBadgeIfAbsent(Badge.GAMBLER);
                         player.saveAsync();
