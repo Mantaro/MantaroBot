@@ -59,7 +59,8 @@
         "buy_sell_paged_reference": "**Referenz %1$s Kauf %2$s Verkauf.**",
         "cancelled": "%1$sAnfrage abgebrochen.",
         "sellout": "Erwäge auf patreon.com/mantaro zu spenden, falls du mich magst, selbst eine kleine Spende würde mir helfen den Bot am Laufen zu halten!",
-        "deprecated": "Nicht länger genutzt"
+        "deprecated": "Nicht länger genutzt",
+        "space_notice": "Sollte der Name Leerzeichen beinhalten, versuche \"ihn in Anführungszeichen zu schreiben.\""
     },
     "categories": {
         "music": "Musik",
@@ -80,7 +81,7 @@
             "no_rod": "%1$sDu hast keine Angel mit der du Angeln kannst!",
             "trash": {
                 "overflow": "%1$sDu hast beim Angeln etwas Müll gefunden, aber dein Inventar war voll, also mussten wir es ins Wasser werfen...",
-                "success": "%1$sWährend du ruhig angelst findest du %2$s aber es scheint nur Müll zu sein :("
+                "success": "%1$sWährend du ruhig angelst findest du %2$s, aber es scheint nur Müll zu sein :("
             },
             "tier3": {
                 "extra": "Außerdem findest du %1$s, was ein Glück!"
@@ -96,7 +97,8 @@
             "rod_broke": "%1$sDeine Angelrute brach beim Versuch, einen Fisch zu fangen. :(",
             "waifu_help": "Deine Waifu kam und gesellte sich zu deinem Angelabenteuer dazu und ihr habt beide eine größere Beute erhalten!",
             "not_suitable": "%1$sDu kannst das nicht zum Fischen benutzen.",
-            "shark_success": "%1$sDu hast es irgendwie geschaft einen Hai zu fangen. Was eine tolle Angel, wa?"
+            "shark_success": "%1$sDu hast es irgendwie geschaft einen Hai zu fangen. Was eine tolle Angel, wa?",
+            "fossil_success": "%1$sDu hast ein Fossil beim Fischen gefangen. Das könnte ein bisschen was Wert sein, oder vielleicht zum Herstellen gebraucht werden, denke ich."
         },
         "softban": {
             "no_permission": "%1$sKann nicht softbannen: Sie haben keine Rechte Mitglider zu bannen.",
@@ -527,7 +529,7 @@
             "calculate": "%1$s%2$s erhält **%3$d Credits**, wenn alle Gegenstände verkauft werden!",
             "header": "%1$ss Inventar",
             "format": "**Preis**: 📥 %1$d 📤 %2$d\n%3$s",
-            "empty": "%1$sDein Inventar ist leer! :(",
+            "empty": "%1$sDieses Inventar ist leer! :(",
             "brief_notice": "Du kannst `~>inventory -brief` nutzen, um eine mobilfreundliche Version zu bekommen."
         },
         "cast": {
