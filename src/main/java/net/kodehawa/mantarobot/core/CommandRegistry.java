@@ -214,7 +214,7 @@ public class CommandRegistry {
 
         //COMMAND LOGGING
         long end = System.currentTimeMillis();
-        commandCounter.labels(cmdName).inc();
+        commandCounter.labels(cmdName.toLowerCase()).inc();
 
         if(logCommands) {
             log.info("COMMAND INVOKE: command:{}, user:{}#{}, userid:{}, guild:{}, channel:{}",

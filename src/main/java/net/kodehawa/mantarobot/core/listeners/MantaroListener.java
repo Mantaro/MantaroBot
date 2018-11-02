@@ -99,14 +99,9 @@ public class MantaroListener implements EventListener {
             .name("guild_actions").help("Guild Options")
             .labelNames("type")
             .register();
-    private static final Counter shardEvent = Counter.build()
-            .name("shard_event").help("Shard Events (CONNECT/RESUME/DISCONNECT)")
-            .labelNames("type")
-            .register();
     private static final Counter patronCounter = Counter.build()
             .name("patrons").help("New patrons")
             .register();
-
     //END OF METRIC CONNECTORS DECLARATION.
 
     private static int logTotal = 0;
@@ -145,7 +140,7 @@ public class MantaroListener implements EventListener {
     @Override
     public void onEvent(Event event) {
         if (event instanceof ShardMonitorEvent) {
-            if (MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 30000)
+            if (MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getShardEventManager().getLastJDAEventTimeDiff() > 30000)
                 return;
             ((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.MANTARO_LISTENER);
             return;
@@ -234,23 +229,12 @@ public class MantaroListener implements EventListener {
         }
 
         if (event instanceof ExceptionEvent) {
-            shardEvent.labels("exception").inc();
             onException((ExceptionEvent) event);
             return;
         }
 
         if (event instanceof HttpRequestEvent) {
             httpRequests.inc();
-            return;
-        }
-
-        if (event instanceof ReconnectedEvent) {
-            shardEvent.labels("reconnect").inc();
-            return;
-        }
-
-        if (event instanceof ResumedEvent) {
-            shardEvent.labels("resume").inc();
         }
     }
 
@@ -388,10 +372,6 @@ public class MantaroListener implements EventListener {
         JDA jda = event.getJDA();
         if (jda.getShardInfo() == null)
             return;
-
-        if (event.getNewStatus().equals(JDA.Status.CONNECTED)) {
-            shardEvent.labels("connect").inc();
-        }
 
         log.info(String.format("Shard #%d: Changed from %s to %s", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getNewStatus()));
     }

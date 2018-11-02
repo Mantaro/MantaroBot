@@ -44,6 +44,11 @@ public enum Badge {
             ((player, dbUser) -> false)
     ),
 
+    //Contributed in any way to Mantaro's development.
+    TRANSLATOR("Translator", "\uD83C\uDF10", "Helped translate part of Mantaro to another language.", 92, 91,
+            ((player, dbUser) -> false)
+    ),
+
     //Is a helper, owo.
     HELPER_2("Helper", "\uD83D\uDC9A", "Helps to maintain the support influx on Mantaro Hub.", 92, 94,
             ((player, dbUser) -> false)
@@ -257,20 +262,24 @@ public enum Badge {
             (player, dbUser) -> false
     ),
 
-    //Queued more than 3000 songs. Won't do.
-    DJ("DJ", "\uD83C\uDFB6", "Too many songs.", 91, 92,
+    // ---------------------------------- LEGACY BADGES START HERE ----------------------------------
+
+    //Legacy Badge DJ
+    DJ("DJ", "\uD83C\uDFB6", "Legacy Badge (Unused and unobtainable)", 91, 92,
             (player, dbUser) -> false
     ),
 
-    //Is a helper, owo.
-    HELPER("Bugged", "\uD83D\uDC1B", "Get a bugged badge. (Helper)", 92, 94,
+    //Legacy Broken Helper Badge
+    HELPER("Bugged", "\uD83D\uDC1B", "Bugged Helper. (Old Broken Helper Badge)", 92, 94,
             (player, dbUser) -> false
     ),
 
-    //Self-explanatory.
-    DONATOR("Bugged 2", "\uD83D\uDC1B", "Get a bugged badge. (Donator)", 92, 94,
+    //Legacy Broken Donor Badge
+    DONATOR("Bugged 2", "\uD83D\uDC1B", "Bugged Donor. (Old Broken Donator Badge)", 92, 94,
             (player, dbUser) -> false
     );
+
+    // ---------------------------------- LEGACY BADGES END HERE ----------------------------------
 
     //What does the fox say?
     @Getter

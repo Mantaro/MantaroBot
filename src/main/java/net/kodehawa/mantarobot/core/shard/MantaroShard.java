@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.core.shard;
 
-import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -74,7 +73,7 @@ public class MantaroShard implements JDA {
     private final int shardId;
     private final int totalShards;
     private BirthdayTask birthdayTask = new BirthdayTask();
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2, new ThreadFactoryBuilder().setNameFormat("Mantaro-ShardExecutor Thread-%d").build());
     private static final Config config = MantaroData.config().get();
     //Message cache of 2500 cached messages per shard. If it reaches 2500 it will delete the first one stored, and continue being 2500.
     @Getter
@@ -147,7 +146,6 @@ public class MantaroShard implements JDA {
      * variables.
      *
      * @param force Whether we will call {@link JDA#shutdown()} or {@link JDA#shutdownNow()}
-     * @throws RateLimitedException
      * @throws LoginException
      * @throws InterruptedException
      */
@@ -241,7 +239,7 @@ public class MantaroShard implements JDA {
 
             AtomicInteger users = new AtomicInteger(0), guilds = new AtomicInteger(0);
             if(MantaroBot.getInstance() != null) {
-                Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).filter(Objects::nonNull).map(MantaroShard::getJDA).forEach(jda -> {
+                Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).filter(Objects::nonNull).filter(mantaroShard -> mantaroShard.getJDA() != null).map(MantaroShard::getJDA).forEach(jda -> {
                     users.addAndGet((int) jda.getUserCache().size());
                     guilds.addAndGet((int) jda.getGuildCache().size());
                 });
@@ -259,13 +257,14 @@ public class MantaroShard implements JDA {
         };
 
         changeStatus.run();
-        Async.task("Splash Thread", changeStatus, 10, TimeUnit.MINUTES);
+        Executors.newSingleThreadScheduledExecutor(r->new Thread(r, "Splash Thread"))
+                .scheduleAtFixedRate(changeStatus, 10, 10, TimeUnit.MINUTES);
     }
 
     /**
      * @return The current {@link MantaroEventManager} for this specific instance.
      */
-    public MantaroEventManager getEventManager() {
+    public MantaroEventManager getShardEventManager() {
         return manager;
     }
 

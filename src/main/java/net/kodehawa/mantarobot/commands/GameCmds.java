@@ -241,10 +241,12 @@ public class GameCmds {
 
                 LinkedList<Game> gameList = new LinkedList<>();
                 for(int i = 0; i < number; i++) {
-                    Game g = games.get(values[0].trim()).apply(difficulty);
-                    if(g == null)
+                    String value = values[0];
+                    Function<TriviaDifficulty, Game> f = games.get(value.trim());
+                    if(f == null)
                         continue;
 
+                    Game g = f.apply(difficulty);
                     gameList.add(g);
                 }
 

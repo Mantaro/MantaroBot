@@ -64,6 +64,7 @@ public class OwnerCmd {
             "import net.kodehawa.mantarobot.data.*;\n" +
             "import net.kodehawa.mantarobot.db.*;\n" +
             "import net.kodehawa.mantarobot.db.entities.*;\n" +
+            "import net.kodehawa.mantarobot.commands.currency.*;\n" +
             "import net.kodehawa.mantarobot.utils.*;\n" +
             "import net.dv8tion.jda.core.entities.*;\n";
 

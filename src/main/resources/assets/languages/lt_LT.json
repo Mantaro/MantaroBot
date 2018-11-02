@@ -69,7 +69,7 @@
     },
     "commands": {
         "fish": {
-            "dust": "%1$sDiena pasibaigė, tad kuo gali papildyti savo kibirą yra dulkės.",
+            "dust": "%1$sDiena pasibaigė, tad kuo gali papildyti savo kibirą yra dulkės. (Dust level %2$s%%)",
             "no_rod": "%1$sTu neturi jokios meškerės, su kuria galėtum žvejoti.",
             "trash": {
                 "overflow": "%1$sTu sugavai šiukšlių, bet tavo inventorius buvo pilnas, taigi mes turėjome jas išmesti atgal į vandenį...",
@@ -79,9 +79,9 @@
                 "extra": "Tu taip pat radai %1$s, sėkmingai!"
             },
             "overflow": "%1$sTu radai kažkiek žuvies, bet inventorius buvo beveik pilnas, taigi mes turėjome išmesti dalį žuvies atgal į vandenį...",
-            "success": "%1$sKol ramiai žvejojai, tu radai %2$s ir tu įsimetei tai į savo kibirą.",
-            "success_money": "%1$sKol ramiai žvejojai, tu radai %2$s ir **$%3$d kreditų**, ir tu tai įsimeteį į savo kibirą.%4$s",
-            "success_money_noitem": "%1$sKol ramiai žvejojai, tu radai **$%2$d kreditų** ir tu juos įsidėjai į savo kišenę.",
+            "success": "%1$s Kol ramiai žvejojai, tu radai %2$s ir tu įsimetei tai į savo kibirą.",
+            "success_money": "%1$s Kol ramiai žvejojai, tu radai %2$s ir **$%3$d kreditų**, ir tu tai įsimeteį į savo kibirą.%4$s",
+            "success_money_noitem": "%1$s Kol ramiai žvejojai, tu radai **$%2$d kreditų** ir tu juos įsidėjai į savo kišenę.",
             "rod_broke": "%1$sTavo meškerė sulūžo bandant sugauti žuvį :(",
             "waifu_help": "Tavo Waifu atėjo tau į pagalbą žvejybos nuotykyje ir abu sugavote didesnį laimikį!"
         },
@@ -513,7 +513,7 @@
             "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
             "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
             "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
-            "success": "%1$sYou successfully **casted %2$s %3$s** for **%4$s credits.**",
+            "success": "%1$sYou successfully *casted %2$s %3$s* for %4$s credits. *Cast used: %5$s*",
             "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
             "item_broke": "\nSadly, your wrench broke in the process, but you got your item!"
         },
@@ -943,7 +943,7 @@
             "character_start": "Guess the character"
         },
         "opencrate": {
-            "no_crate": "%1$sTu neturi jokio daiktadėžės, kurią galėtum atidaryti :("
+            "no_crate": "%1$sTu neturi jokio daiktadėžės, kurią galėtum atidaryti :( (If you're trying to open a crate of any other than the default type, use the name of the crate after the command)"
         },
         "prune": {
             "no_messages_specified": "%1$sYou specified no messages to prune.",
@@ -1203,7 +1203,7 @@
                 "found": "%1$sDigging through messages, you found **$%2$s credits!**",
                 "found_but_overflow_no_item": "%1$sDigging through messages, you found **$%2$d credits.** But you already had too many credits, so I donated the excess."
             },
-            "dust": "Digging through messages, you found nothing but dust",
+            "dust": "Digging through messages, you found nothing but dust (Dust level %1$s%%)",
             "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
         },
         "mine": {
@@ -1657,7 +1657,8 @@
         "manage_roles": "Tvarkyti roles",
         "manage_permissions": "Tvarkyti leidimus",
         "manage_webhooks": "Tvarkyti Webhook'us",
-        "manage_emotes": "Tvarkyti reakcijas"
+        "manage_emotes": "Tvarkyti reakcijas",
+        "priority_speaker": "Priority Speaker"
     },
     "items": {
         "headphones": "Ausinės",

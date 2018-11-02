@@ -182,6 +182,11 @@ public class AnimeCmds {
         genres.removeAll(Collections.singleton(""));
         String GENRES = String.join(", ", genres);
 
+        if(genres.contains("Hentai") && !event.getChannel().isNSFW()) {
+            event.getChannel().sendMessageFormat(lang.get("commands.anime.hentai"), EmoteReference.ERROR).queue();
+            return;
+        }
+
         //Start building the embedded message.
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(Color.LIGHT_GRAY)

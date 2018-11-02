@@ -50,6 +50,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.security.SecureRandom;
 import java.text.NumberFormat;
@@ -441,15 +442,15 @@ public class MoneyCmds {
                             channel.sendMessageFormat(languageContext.withRoot("commands", "loot.without_item.found_but_overflow"), EmoteReference.POPPER, moneyFound).queue();
                         }
                     } else {
-                        String msg = languageContext.withRoot("commands", "loot.dust");
-                        dbUser.getData().increaseDustLevel(r.nextInt(2));
+                        int dust = dbUser.getData().increaseDustLevel(r.nextInt(2));
+                        String msg = String.format(languageContext.withRoot("commands", "loot.dust"), dust);
+                        dbUser.save();
 
                         if(r.nextInt(100) > 93) {
                             msg += languageContext.withRoot("commands", "loot.easter");
                         }
 
                         channel.sendMessage(EmoteReference.SAD + msg).queue();
-                        dbUser.save();
                     }
                 }
 
@@ -710,7 +711,7 @@ public class MoneyCmds {
                 //why is the item optional present when there's no content?
                 if(itemOpt.isPresent() && !content.isEmpty()) {
                     Item temp = itemOpt.get();
-                    if(temp.getItemType() != ItemType.CAST_MINE) {
+                    if(temp.getItemType() != ItemType.CAST_MINE && temp.getItemType() != ItemType.MINE_RARE_PICK) {
                         event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "mine.not_suitable"), EmoteReference.ERROR).queue();
                         return;
                     }
@@ -730,10 +731,12 @@ public class MoneyCmds {
                 if(!handleDefaultRatelimit(rateLimiter, user, event))
                     return;
 
-                if(!item.getAction().test(event, languageContext))
+                if(!item.getAction().test(event, Pair.of(languageContext, content)))
                     return;
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
+                if(item == Items.GEM5_PICKAXE_2)
+                    money += r.nextInt(50);
 
                 boolean waifuHelp = false;
                 if(Items.handlePotion(Items.WAIFU_PILL, 5, player)) {
@@ -743,7 +746,7 @@ public class MoneyCmds {
                     }
                 }
 
-                String message = String.format(languageContext.get("commands.mine.success"), EmoteReference.PICK, money, item.getName());
+                String message = String.format(languageContext.get("commands.mine.success"), item.getEmoji(), money, item.getName());
 
                 boolean hasPotion = Items.handlePotion(Items.POTION_HASTE, 2, player);
                 if(r.nextInt(400) > (hasPotion ? 290 : 350)) {
@@ -782,7 +785,7 @@ public class MoneyCmds {
                 }
 
                 if((r.nextInt(400) > 390 && item == Items.GEM2_PICKAXE) || (r.nextInt(400) > 395 && item == Items.GEM1_PICKAXE)) {
-                    Item gem = Items.GEM_5;
+                    Item gem = Items.GEM5_2;
                     if(inventory.getAmount(gem) + 1 >= 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.sparkle.overflow");
                         money += gem.getValue() * 0.9;
@@ -793,7 +796,6 @@ public class MoneyCmds {
                     player.getData().addBadgeIfAbsent(Badge.GEM_FINDER);
                 }
 
-                //TODO: Needs proper handling on crates on Items.java.
                 DBUser dbUser = db.getUser(event.getAuthor());
                 PremiumKey key = db.getPremiumKey(dbUser.getData().getPremiumKey());
                 if(r.nextInt(400) > 392) {
@@ -802,7 +804,7 @@ public class MoneyCmds {
                         message += "\n" + languageContext.withRoot("commands", "mine.crate.overflow");
                     } else {
                         inventory.process(new ItemStack(crate, 1));
-                        message += "\n" + EmoteReference.MEGA + languageContext.withRoot("commands", "mine.crate.success");
+                        message += "\n" + EmoteReference.MEGA + String.format(languageContext.withRoot("commands", "mine.crate.success"), crate.getEmoji(), crate.getName());
                     }
                 }
 
@@ -826,7 +828,7 @@ public class MoneyCmds {
 
         if(luck > r.nextInt(140)) {
             if(player.addMoney(gains)) {
-                if(gains > Integer.MAX_VALUE) {
+                if(gains > Integer.MAX_VALUE / 2) {
                     if(!player.getData().hasBadge(Badge.GAMBLER)) {
                         player.getData().addBadgeIfAbsent(Badge.GAMBLER);
                         player.saveAsync();

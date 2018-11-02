@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.utils;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
@@ -35,7 +36,7 @@ import java.util.function.Consumer;
 
 public class Reminder {
     public static final Map<String, List<Reminder>> CURRENT_REMINDERS = new HashMap<>();
-    private static final ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
+    private static final ScheduledExecutorService service = Executors.newScheduledThreadPool(1, new ThreadFactoryBuilder().setNameFormat("Mantaro-ReminderPool Thread-%d").build());
     private Future<?> scheduledReminder;
 
     public final String id;

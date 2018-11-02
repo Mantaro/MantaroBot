@@ -41,7 +41,7 @@
             "crate": {
                 "no_key": "%1$sNecesitas una loot crate key para abrir una loot crate. ¡Está bloqueada!",
                 "no_crate": "%1$sNecesitas una loot crate! De que otra forma podría usar esa llave >.>... oh",
-                "success": "%1$s**Ganaste:** %2$s%3$s",
+                "success": "%1$sAbriste una loot crate y ganaste: %2$s%3$s. ¡Felicidades!",
                 "overflow": "Pero ya tenías demasiado, así que decidiste tirar el exceso."
             }
         },
@@ -70,7 +70,7 @@
     },
     "commands": {
         "fish": {
-            "dust": "%1$sEl sol se pone, y tu tarro para recolectar pescados solo logró acumular polvo :(",
+            "dust": "%1$sEl sol se pone, y tu tarro para recolectar pescados solo logró acumular polvo. (Dust level: %2$s%%)",
             "no_rod": "%1$sNo tienes una caña de pescar para pescar!",
             "trash": {
                 "overflow": "%1$sEncontraste un poco de basura pescando, pero tu inventario está lleno, asi que no puedes recogerla...",
@@ -80,9 +80,9 @@
                 "extra": "También encontraste %1$s, que suerte!"
             },
             "overflow": "%1$sEncontraste unos pescados, pero tu inventario está lleno, asi que no puedes recogerlos y los devuelves al agua.",
-            "success": "%1$sMientras pescabas calmadamente, encontraste %2$s y los guardas en tu tarro.",
-            "success_money": "%1$sMientras pescabas calmadamente, encontraste %2$s y **$%3$d créditos** y los guardas en tu tarro.",
-            "success_money_noitem": "%1$sMientras pescabas calmadamente, encontraste **$%2$d créditos** y los guardas en tu bolsillo.",
+            "success": "%1$s Mientras pescabas calmadamente, encontraste %2$s y los guardas en tu tarro.",
+            "success_money": "%1$s Mientras pescabas calmadamente, encontraste %2$s y **$%3$d créditos** y los guardas en tu tarro.",
+            "success_money_noitem": "%1$s Mientras pescabas calmadamente, encontraste **$%2$d créditos** y los guardas en tu bolsillo.",
             "rod_broke": "%1$sTu caña de pescar se ha roto mientras intentabas atrapar un pez :(",
             "waifu_help": "Tu waifu te vino a ayudar en tu aventura de pesca y ambos colectan más loot!"
         },
@@ -506,7 +506,7 @@
             "calculate": "%1$s%2$s conseguirá **%3$d creditos** si vende todos los items!",
             "header": "Inventario de %1$s",
             "format": "**Precio**: 📥 %1$d 📤 %2$d\n%3$s",
-            "empty": "%1$sTu inventario está vacío! :("
+            "empty": "%1$sEste inventario está vacío! :("
         },
         "cast": {
             "no_item_found": "%1$sNo encontré ningún item así.",
@@ -514,7 +514,7 @@
             "not_enough_money": "%1$sNo tienes suficiente dinero para crear este item. **(Costo: %2$s)**",
             "no_item": "%1$sNo tienes el item necesario (*%2$s*) para proceder con la creación de este ítem.",
             "not_enough_items": "%1$sNo tienes suficiente del item *%2$s* para proceder. **(Necesitas: %3$s, Tienes: %4$s)**",
-            "success": "%1$sCreaste **%2$s %3$s** por **%4$s créditos**",
+            "success": "%1$sCreaste *%2$s %3$s* por %4$s créditos. *Receta usada: %5$s*",
             "no_tool": "%1$sNecesitas tener un %2$s para proceder con la creación de este ítem.",
             "item_broke": "Lamentablemente, tu llave inglesa se rompió, pero lograste crear el item."
         },
@@ -946,7 +946,7 @@
             "character_start": "¡Adivina el personaje!"
         },
         "opencrate": {
-            "no_crate": "%1$sNo tienes ninguna loot crate para abrir :("
+            "no_crate": "%1$sNo tienes ninguna loot crate para abrir :( (If you're trying to open a crate of any other than the default type, use the name of the crate after the command)"
         },
         "prune": {
             "no_messages_specified": "%1$sNo especificaste mensajes para eliminar en masa.",
@@ -1087,7 +1087,6 @@
             "account_age": "Edad de la Cuenta",
             "mutual_guilds": "Servidores en Común",
             "vc": "Canal de Voz",
-            "playing": "Actividad",
             "color": "Color",
             "status": "Status",
             "nothing": "Nada",
@@ -1206,11 +1205,11 @@
                 "found": "%1$sCavando entre los mensajes, you found **$%2$s credits!**",
                 "found_but_overflow_no_item": "%1$sCavando entre los mensajes, encontraste **$%2$d créditos.** Pero ya tenías muchos creditos, así que doné el exceso."
             },
-            "dust": "Cavando entre los mensajes, sólo lograste encontrar algo de polvo acumulado.",
+            "dust": "Cavando entre los mensajes, sólo lograste encontrar algo de polvo acumulado. (Nivel de polvo: %1$s%%)",
             "easter": "\n¡Parece que hay mucho polvo por aquí! Te recomendaría limpiar un poquito esto..."
         },
         "mine": {
-            "no_pick": "%1$sNo tienes ningún pico para minar!",
+            "no_pick": "%1$sNo tienes ningún pico para minar! Si quieres usar otra picota, usa `~>mine <nombre de la picota>`",
             "not_suitable": "%1$sNo puedes minar con esto!",
             "not_in_inventory": "%1$sNo tienes esta picota en tu inventario, usaré la picota por defecto.",
             "success": "%1$sMinastes piedras preciosas con un valor de **$%2$s créditos**, utlilizando un *%3$s*",
@@ -1660,7 +1659,8 @@
         "manage_roles": "Administrar Roles",
         "manage_permissions": "Administrar Permisos",
         "manage_webhooks": "Administrar Webhooks",
-        "manage_emotes": "Administrar emojis"
+        "manage_emotes": "Administrar emojis",
+        "priority_speaker": "Priority Speaker"
     },
     "items": {
         "headphones": "Audífonos",

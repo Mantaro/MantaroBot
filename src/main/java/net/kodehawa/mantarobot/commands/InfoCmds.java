@@ -70,7 +70,7 @@ public class InfoCmds {
     private final GuildStatsManager guildStatsManager = new GuildStatsManager();
     private final List<String> tips = new SimpleFileDataManager("assets/mantaro/texts/tips.txt").get();
 
-    @Subscribe
+    //@Subscribe
     public void about(CommandRegistry cr) {
         TreeCommand aboutCommand = (TreeCommand) cr.register("about", new TreeCommand(Category.INFO) {
             @Override

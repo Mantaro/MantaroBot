@@ -60,8 +60,8 @@ public class UserData {
         if(increased >= 100)
             return dustLevel; //same as before, cap at 100.
 
-        dustLevel = increased;
-        return dustLevel;
+        this.setDustLevel(increased);
+        return this.dustLevel;
     }
 
 }

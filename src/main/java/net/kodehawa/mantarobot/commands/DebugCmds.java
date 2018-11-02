@@ -58,7 +58,7 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 @Module
 @SuppressWarnings("unused")
 public class DebugCmds {
-    @Subscribe
+    //@Subscribe
     public void info(CommandRegistry cr) {
         cr.register("info", new SimpleCommand(Category.INFO) {
             @Override
@@ -169,7 +169,7 @@ public class DebugCmds {
                             jda.getStatus(),
                             jda.getUserCache().size(),
                             jda.getGuildCache().size(),
-                            shard.getEventManager().getLastJDAEventTimeDiff() + " ms",
+                            shard.getShardEventManager().getLastJDAEventTimeDiff() + " ms",
                             jda.getPing(),
                             jda.getVoiceChannelCache().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count()
                     ));
@@ -225,13 +225,13 @@ public class DebugCmds {
                     }
 
                     boolean reconnect = shard.getStatus().equals(JDA.Status.RECONNECT_QUEUED);
-                    if(shard.getEventManager().getLastJDAEventTimeDiff() > 50000 && !reconnect)
+                    if(shard.getShardEventManager().getLastJDAEventTimeDiff() > 50000 && !reconnect)
                         dead++;
                     if(reconnect)
                         reconnecting++;
                     if(shard.getVoiceChannelCache().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count() == 0)
                         zeroVoiceConnections++;
-                    if(shard.getEventManager().getLastJDAEventTimeDiff() > 1650 && !reconnect)
+                    if(shard.getShardEventManager().getLastJDAEventTimeDiff() > 1650 && !reconnect)
                         high++;
                 }
 

@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.core.shard.watcher;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
@@ -56,7 +57,7 @@ public class ShardWatcher implements Runnable {
     //No longer needed?
     private final ExecutorService THREAD_POOL = Executors.newCachedThreadPool();
     //The scheduler that manages the wait between one shard being resumed and the backoff period to check if it successfully revived.
-    private final ScheduledExecutorService RESUME_WAITER = Executors.newScheduledThreadPool(1);
+    private final ScheduledExecutorService RESUME_WAITER = Executors.newScheduledThreadPool(1, new ThreadFactoryBuilder().setNameFormat("Mantaro-ResumeWaiter Thread-%d").build());
     //The queue where shards that didn't get revived used a RESUME get added. Here they get completely scrapped and re-built when they get polled from the queue.
     private final ConcurrentLinkedQueue<MantaroShard> RESTART_QUEUE = new ConcurrentLinkedQueue<>();
 
@@ -153,7 +154,7 @@ public class ShardWatcher implements Runnable {
                             //If we are dealing with a shard reconnecting, don't make its job harder by rebooting it twice.
                             //But, if the shard has been inactive for too long, we're better off scrapping this session as the shard might be stuck on connecting.
                             if((shard.getStatus() == JDA.Status.RECONNECT_QUEUED || shard.getStatus() == JDA.Status.ATTEMPTING_TO_RECONNECT ||
-                                    shard.getStatus() == JDA.Status.SHUTDOWN) && shard.getEventManager().getLastJDAEventTimeDiff() < 400000) {
+                                    shard.getStatus() == JDA.Status.SHUTDOWN) && shard.getShardEventManager().getLastJDAEventTimeDiff() < 400000) {
                                 LogUtils.shard(String.format("Skipping shard %d due to it being currently reconnecting to the websocket or was shutdown manually...", id));
                                 continue;
                             }
@@ -166,7 +167,7 @@ public class ShardWatcher implements Runnable {
                             ((JDAImpl)(shard.getJDA())).getClient().close(4000);
 
                             RESUME_WAITER.schedule(() -> {
-                                if(shard.getEventManager().getLastJDAEventTimeDiff() > 18000) {
+                                if(shard.getShardEventManager().getLastJDAEventTimeDiff() > 18000) {
                                     RESTART_QUEUE.add(shard);
                                 }
                             }, 20, TimeUnit.SECONDS);

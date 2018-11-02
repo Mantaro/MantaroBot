@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.data;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.rethinkdb.net.Connection;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ import static com.rethinkdb.RethinkDB.r;
 
 @Slf4j
 public class MantaroData {
-    private static final ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
+    private static final ScheduledExecutorService exec = Executors.newScheduledThreadPool(1, new ThreadFactoryBuilder().setNameFormat("MantaroData-Executor Thread-%d").build());
     private static GsonDataManager<Config> config;
     private static Connection conn;
     private static ManagedDatabase db;

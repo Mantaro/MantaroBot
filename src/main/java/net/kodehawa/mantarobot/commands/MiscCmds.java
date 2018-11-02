@@ -82,7 +82,7 @@ public class MiscCmds {
                     event.getGuild().getController().addSingleRoleToMember(event.getMember(), role)
                             //don't translate the reason!
                             .reason("Auto-assignable roles assigner (~>iam)")
-                            .queue(aVoid -> event.getChannel().sendMessageFormat(languageContext.get("commands.iam.success"), EmoteReference.OK, event.getMember().getEffectiveName(), role.getName()).queue());
+                            .queue(aVoid -> event.getChannel().sendMessageFormat(languageContext.get("commands.iam.success"), EmoteReference.OK, event.getAuthor().getName(), role.getName()).queue());
                 } catch(PermissionException pex) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.iam.error"), EmoteReference.ERROR, role.getName()).queue();
                 }
@@ -111,7 +111,7 @@ public class MiscCmds {
                 }
                 try {
                     event.getGuild().getController().removeRolesFromMember(event.getMember(), role)
-                            .queue(aVoid -> event.getChannel().sendMessageFormat(languageContext.get("commands.iamnot.success"), EmoteReference.OK, event.getMember().getEffectiveName(), role.getName()).queue());
+                            .queue(aVoid -> event.getChannel().sendMessageFormat(languageContext.get("commands.iamnot.success"), EmoteReference.OK, event.getAuthor().getName(), role.getName()).queue());
                 } catch(PermissionException pex) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.iam.error"), EmoteReference.ERROR, role.getName()).queue();
                 }

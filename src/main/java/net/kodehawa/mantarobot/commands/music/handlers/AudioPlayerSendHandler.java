@@ -18,30 +18,47 @@ package net.kodehawa.mantarobot.commands.music.handlers;
 
 import com.sedmelluq.discord.lavaplayer.format.StandardAudioDataFormats;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
 import com.sedmelluq.discord.lavaplayer.track.playback.MutableAudioFrame;
+import lombok.Getter;
 import net.dv8tion.jda.core.audio.AudioSendHandler;
+import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 
 import java.nio.ByteBuffer;
 
 public class AudioPlayerSendHandler implements AudioSendHandler {
     private final AudioPlayer audioPlayer;
     private final MutableAudioFrame frame;
+    private AudioFrame lastFrame;
+    @Getter
+    private int lost;
+    @Getter
+    private int total;
 
     public AudioPlayerSendHandler(AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
-        this.frame = new MutableAudioFrame();
-        frame.setFormat(StandardAudioDataFormats.DISCORD_OPUS);
-        frame.setBuffer(ByteBuffer.allocate(StandardAudioDataFormats.DISCORD_OPUS.maximumChunkSize()));
+        if(ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER) {
+            this.frame = null;
+        } else {
+            this.frame = new MutableAudioFrame();
+            frame.setFormat(StandardAudioDataFormats.DISCORD_OPUS);
+            frame.setBuffer(ByteBuffer.allocate(StandardAudioDataFormats.DISCORD_OPUS.maximumChunkSize()));
+        }
     }
 
     @Override
     public boolean canProvide() {
-        return audioPlayer.provide(frame);
+        boolean provided = ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER ? (lastFrame = audioPlayer.provide()) != null : audioPlayer.provide(frame);
+        if(!audioPlayer.isPaused()) {
+            total++;
+            if(!provided) lost++;
+        }
+        return provided;
     }
 
     @Override
     public byte[] provide20MsAudio() {
-        return frame.getData();
+        return (ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER ? lastFrame : frame).getData();
     }
 
     @Override

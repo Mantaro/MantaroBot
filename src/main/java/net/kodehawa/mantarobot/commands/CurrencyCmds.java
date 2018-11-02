@@ -51,6 +51,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.awt.*;
 import java.security.SecureRandom;
@@ -72,6 +73,7 @@ public class CurrencyCmds {
 
     @Subscribe
     public void inventory(CommandRegistry cr) {
+        final Random r = new Random();
         cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
@@ -128,19 +130,21 @@ public class CurrencyCmds {
                     });
                 }
 
-                List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(9, fields);
+                List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
                 boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
 
                 if(hasReactionPerms) {
                     if(builder.getDescriptionBuilder().length() == 0) {
                         builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
-                                String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)));
+                                String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
+                                + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 ? languageContext.get("general.sellout") : ""));
                     }
                     DiscordUtils.list(event, 45, false, builder, splitFields);
                 } else {
                     if(builder.getDescriptionBuilder().length() == 0) {
-                        builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
-                                String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)));
+                        builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
+                                String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
+                                + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 ? languageContext.get("general.sellout") : ""));
                     }
                     DiscordUtils.listText(event, 45, false, builder, splitFields);
                 }
@@ -579,7 +583,7 @@ public class CurrencyCmds {
                                 event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.error"), EmoteReference.ERROR).queue();
                             }
                         } catch(NumberFormatException nfe) {
-                            event.getChannel().sendMessageFormat(languageContext.get("general.invalid_number"), EmoteReference.ERROR).queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("general.invalid_number") + " " + languageContext.get("general.space_notice"), EmoteReference.ERROR).queue();
                         }
 
                         player.saveAsync();
@@ -701,7 +705,7 @@ public class CurrencyCmds {
                                     + ".**"
                     ).queue();
 
-                    Utils.ratelimitCounter.labels(event.getAuthor().getId()).inc();
+                    Utils.ratelimitedUsers.computeIfAbsent(event.getAuthor().getIdLong(), __->new AtomicInteger()).incrementAndGet();
                     return;
                 }
 
@@ -743,13 +747,22 @@ public class CurrencyCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Player p = MantaroData.db().getPlayer(event.getAuthor());
-                if(!p.getInventory().containsItem(Items.LOOT_CRATE)) {
+                Item item = Items.fromAnyNoId(content).orElse(null);
+                if(item == null || content.isEmpty())
+                    item = Items.LOOT_CRATE;
+
+                if(item.getItemType() != ItemType.CRATE) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.opencrate.not_crate"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(!p.getInventory().containsItem(item)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.opencrate.no_crate"), EmoteReference.SAD).queue();
                     return;
                 }
 
                 //Ratelimit handled here
-                Items.LOOT_CRATE.getAction().test(event, languageContext);
+                item.getAction().test(event, Pair.of(languageContext, content));
             }
 
             @Override
@@ -806,13 +819,13 @@ public class CurrencyCmds {
                     return;
                 }
 
-                Item item = Items.fromAnyNoId(args[0]).orElse(null);
+                Item item = Items.fromAnyNoId(content).orElse(null);
                 if(item == null) {
                     event.getChannel().sendMessageFormat(languageContext.get("general.item_lookup.not_found"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                if(item.getItemType() != ItemType.INTERACTIVE) {
+                if(item.getItemType() != ItemType.INTERACTIVE && item.getItemType() != ItemType.CRATE) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.not_interactive"), EmoteReference.ERROR).queue();
                     return;
                 }
@@ -833,7 +846,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                item.getAction().test(event, languageContext);
+                item.getAction().test(event, Pair.of(languageContext, content));
             }
 
             @Override
@@ -851,20 +864,11 @@ public class CurrencyCmds {
 
     @Subscribe
     public void fish(CommandRegistry cr) {
-        final RateLimiter ratelimiter = new RateLimiter(TimeUnit.MINUTES, 4);
         cr.register("fish", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Player p = MantaroData.db().getPlayer(event.getAuthor());
-                if(!p.getInventory().containsItem(Items.FISHING_ROD)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.fish.no_rod"), EmoteReference.SAD).queue();
-                    return;
-                }
-
-                if(!handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
-                    return;
-
-                Items.FISHING_ROD.getAction().test(event, languageContext);
+                Items.FISHING_ROD.getAction().test(event, Pair.of(languageContext, content));
             }
 
             @Override
@@ -906,6 +910,11 @@ public class CurrencyCmds {
                             return;
                         }
 
+                        if(castItem.getRecipe() == null || castItem.getRecipe().isEmpty()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.item_not_cast"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
                         Map<Item, Integer> castMap = new HashMap<>();
                         String recipe = castItem.getRecipe();
                         String[] splitRecipe = recipe.split(";");
@@ -929,6 +938,7 @@ public class CurrencyCmds {
 
                         int increment = 0;
                         //build recipe
+                        StringBuilder recipeString = new StringBuilder();
                         for(int i : castItem.getRecipeTypes()) {
                             Item item = Items.fromId(i);
                             int amount = Integer.valueOf(splitRecipe[increment]);
@@ -945,6 +955,7 @@ public class CurrencyCmds {
                             }
 
                             castMap.put(item, amount);
+                            recipeString.append(amount).append("x ").append(item.getName()).append(" ");
                             increment++;
                         }
 
@@ -963,11 +974,13 @@ public class CurrencyCmds {
                             message += languageContext.get("commands.cast.item_broke");
                         }
 
+                        user.getData().increaseDustLevel(3);
+                        user.save();
                         player.removeMoney(castCost);
                         player.save();
 
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.cast.success"),
-                                EmoteReference.POPPER, castItem.getEmoji(), castItem.getName(), castCost, message
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.cast.success") + "\n" + message,
+                                EmoteReference.WRENCH, castItem.getEmoji(), castItem.getName(), castCost, recipeString
                         ).queue();
                     }
                 };
@@ -989,16 +1002,19 @@ public class CurrencyCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Item> castableItems = Arrays.stream(Items.ALL)
-                        .filter(i -> i.getItemType() == ItemType.CAST_MINE || i.getItemType() == ItemType.CAST_OBTAINABLE || i.getItemType() == ItemType.CAST)
+                        .filter(i -> i.getItemType().isCastable() && i.getRecipeTypes() != null && i.getRecipe() != null)
                         .collect(Collectors.toList());
 
-                StringBuilder show = new StringBuilder();
-                show.append(EmoteReference.TALKING)
-                        .append(languageContext.get("commands.cast.ls.desc"))
-                        .append("\n\n");
-
+                List<MessageEmbed.Field> fields = new LinkedList<>();
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setAuthor(languageContext.get("commands.cast.ls.header"), null, event.getAuthor().getEffectiveAvatarUrl())
+                        .setColor(Color.PINK)
+                        .setFooter(String.format(languageContext.get("general.requested_by"), event.getMember().getEffectiveName()), null);
                 for (Item item : castableItems) {
                     //Build recipe explanation
+                    if(item.getRecipe().isEmpty())
+                        continue;
+
                     StringBuilder recipe = new StringBuilder();
                     String[] recipeAmount = item.getRecipe().split(";");
                     AtomicInteger ai = new AtomicInteger();
@@ -1008,36 +1024,55 @@ public class CurrencyCmds {
                     }
                     //End of build recipe explanation
 
-                    show.append(EmoteReference.BLUE_SMALL_MARKER)
-                            .append(item.getEmoji())
-                            .append(" **")
-                            .append(item.getName())
-                            .append("**\n**")
-                            .append(languageContext.get("general.description"))
-                            .append(": **\u2009\"*")
-                            .append(languageContext.get(item.getDesc()))
-                            .append("*\n**")
-                            .append(languageContext.get("commands.cast.ls.cost"))
-                            .append("**")
-                            .append(item.getValue() / 2)
-                            .append(" ")
-                            .append(languageContext.get("commands.gamble.credits"))
-                            .append(".\n**Recipe: **")
-                            .append(recipe.toString())
-                            .append("\n");
+                    fields.add(new MessageEmbed.Field(item.getEmoji() + " " + item.getName(),
+                            languageContext.get(item.getDesc()) + "\n**" + languageContext.get("commands.cast.ls.cost") + "**" +
+                                    item.getValue() / 2 + " " + languageContext.get("commands.gamble.credits") + ".\n**Recipe: **" + recipe.toString(), true));
                 }
 
-                event.getChannel().sendMessage(new EmbedBuilder()
-                        .setAuthor(languageContext.get("commands.cast.ls.header"), null, event.getAuthor().getEffectiveAvatarUrl())
-                        .setDescription(show.toString())
-                        .setColor(Color.PINK)
-                        .setFooter(String.format(languageContext.get("general.requested_by"), event.getMember().getEffectiveName()), null)
-                        .build()
-                ).queue();
-                return;
+                List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
+                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                if(hasReactionPerms) {
+                    builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.cast.ls.desc")));
+                    DiscordUtils.list(event, 45, false, builder, splitFields);
+                } else {
+                    builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.cast.ls.desc")));
+                    DiscordUtils.listText(event, 45, false, builder, splitFields);
+                }
             }
         });
 
         castCommand.createSubCommandAlias("ls", "list");
+    }
+
+    @Subscribe
+    public void iteminfo(CommandRegistry registry) {
+        registry.register("iteminfo", new SimpleCommand(Category.CURRENCY) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.iteminfo.no_content"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Optional<Item> itemOptional = Items.fromAnyNoId(content);
+
+                if(!itemOptional.isPresent()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.iteminfo.no_item"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Item item = itemOptional.get();
+                String description = languageContext.get(item.getDesc());
+                event.getChannel().sendMessageFormat(languageContext.get("commands.iteminfo.success"), EmoteReference.BLUE_SMALL_MARKER, item.getEmoji(), item.getName(), item.getItemType(), description).queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Item Info Command")
+                        .setDescription("**Shows the info of an item**")
+                        .addField("Usage", "`~>iteminfo <item name>`", false)
+                        .build();
+            }
+        });
     }
 }

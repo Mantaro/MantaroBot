@@ -26,8 +26,10 @@ import com.sedmelluq.discord.lavaplayer.source.vimeo.VimeoAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.track.playback.NonAllocatingAudioFrameBuffer;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.commands.music.requester.AudioLoader;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
@@ -44,6 +46,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadPoolExecutor;
 
+@Slf4j
 public class MantaroAudioManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(MantaroAudioManager.class);
 
@@ -53,11 +56,9 @@ public class MantaroAudioManager {
     private final AudioPlayerManager playerManager;
 
     public MantaroAudioManager() {
-        this.musicManagers = new ConcurrentHashMap<>();
+        this.musicManagers = new HashMap<>();
         DefaultAudioPlayerManager apm = new DefaultAudioPlayerManager();
         Prometheus.THREAD_POOL_COLLECTOR.add("lavaplayer-track-playback", apm.getExecutor());
-        tryTrackingExecutor(apm, "lavaplayer-track-info", "trackInfoExecutorService");
-        tryTrackingExecutor(apm, "lavaplayer-scheduled-executor", "scheduledExecutorService");
         this.playerManager = apm;
         YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager();
         youtubeAudioSourceManager.configureRequests(config -> RequestConfig.copy(config).setCookieSpec(CookieSpecs.IGNORE_COOKIES).build());
@@ -67,14 +68,19 @@ public class MantaroAudioManager {
         playerManager.registerSourceManager(new VimeoAudioSourceManager());
         playerManager.registerSourceManager(new TwitchStreamAudioSourceManager());
         playerManager.registerSourceManager(new BeamAudioSourceManager());
-        playerManager.getConfiguration().setFrameBufferFactory(NonAllocatingAudioFrameBuffer::new);
-        playerManager.getConfiguration().setFilterHotSwapEnabled(true);
+        if(!ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER) {
+            log.info("STARTUP: Disabled non-allocating buffer.");
+            playerManager.getConfiguration().setFrameBufferFactory(NonAllocatingAudioFrameBuffer::new);
+        }
+        //playerManager.getConfiguration().setFilterHotSwapEnabled(true);
     }
 
     public GuildMusicManager getMusicManager(Guild guild) {
         GuildMusicManager musicManager = musicManagers.computeIfAbsent(guild.getId(), id -> new GuildMusicManager(playerManager, guild.getId()));
-        if(guild.getAudioManager().getSendingHandler() == null)
+        if(guild.getAudioManager().getSendingHandler() == null) {
             guild.getAudioManager().setSendingHandler(musicManager.getAudioPlayerSendHandler());
+        }
+
         return musicManager;
     }
 
@@ -95,15 +101,5 @@ public class MantaroAudioManager {
             scheduler.setRepeatMode(null);
 
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoader(musicManager, event, skipSelection, addFirst));
-    }
-
-    private static void tryTrackingExecutor(DefaultAudioPlayerManager manager, String key, String fieldName) {
-        try {
-            Field f = DefaultAudioPlayerManager.class.getDeclaredField(fieldName);
-            f.setAccessible(true);
-            Prometheus.THREAD_POOL_COLLECTOR.add(key, (ThreadPoolExecutor)f.get(manager));
-        } catch(Exception e) {
-            LOGGER.error("Unable to retrieve {} executor from player manager!", key, e);
-        }
     }
 }

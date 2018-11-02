@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.utils.birthday;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Cursor;
 import lombok.AllArgsConstructor;
@@ -41,7 +42,7 @@ import static com.rethinkdb.RethinkDB.r;
 public class BirthdayCacher {
     public Map<String, BirthdayData> cachedBirthdays = new ConcurrentHashMap<>();
     public volatile boolean isDone;
-    private final ExecutorService executorService = Executors.newFixedThreadPool(1);
+    private final ExecutorService executorService = Executors.newFixedThreadPool(1, new ThreadFactoryBuilder().setNameFormat("Mantaro-BirthdayAssignerExecutor Thread-%d").build());
 
     public BirthdayCacher() {
         Prometheus.THREAD_POOL_COLLECTOR.add("birthday-cacher", executorService);
