@@ -3,7 +3,7 @@
         "invalid_number": "%1$sDas ist keine Nummer!",
         "requested_by": "Angefordert von %1$s.",
         "operation_timed_out": "%1$sDie Zeit, um diese Operation zu beantworten, ist abgelaufen.",
-        "too_many_users_found": "%1$sZu viele Benutzer gefunden, versuchen Sie es etwas genuaer? (zum Beispiel: name#discriminator)\n**Gefundene Benutzer:** %2$s",
+        "too_many_users_found": "%1$sZu viele Benutzer gefunden, versuchen Sie es etwas genauer? (zum Beispiel: name#discriminator)\n**Gefundene Benutzer:** %2$s",
         "search_no_result": "%1$sIhre Suche ergab keine Ergebnisse. :(",
         "unknown": "Unbekannt",
         "days": "Tage",
@@ -13,7 +13,7 @@
         "daily": "Täglich",
         "total": "Total",
         "arrow_react": "Verwenden Sie die Pfeilreaktionen, um die Seite zu wechseln.",
-        "text_menu": "Verwenden Sie &page >> und &page <<, um Seiten zu wechseln oder &cancel, um die Aktion zu enden.",
+        "text_menu": "Verwenden Sie &page >> und &page <<, um Seiten zu wechseln oder &cancel, um die Aktion zu beenden.",
         "not_found": "Nicht(s) gefunden.",
         "no_results": "Keine Ergebnisse gefunden.",
         "timeout": "Dies läuft in %1$d Sekunden ab.",
@@ -46,7 +46,7 @@
             "crate": {
                 "no_key": "%1$sDu brauchst einen Truhenschlüssel, um eine Truhe zu öffnen. Sie ist verschlossen!",
                 "no_crate": "%1$sDu brauchst eine Truhe! Wie sonst möchtest du deinen Schlüssel benutzen >.>... oh",
-                "success": "%1$sDu hast eine Truge geöffnet und folgendes gewonnen: %2$s%3$s. Glückwunsch!",
+                "success": "%1$sDu hast eine Truhe geöffnet und folgendes gewonnen: %2$s%3$s. Glückwunsch!",
                 "overflow": "Aber du hattest schon zu viel, also hast du dich dazu entschlossen, den Rest weg zu werfen."
             }
         },
@@ -327,7 +327,7 @@
                 "pasted": "Hochgeladener Inhalt"
             },
             "clear": {
-                "success": "%1$s**%2$d benutzerdefinierte Befehle** gelöchst!"
+                "success": "%1$s**%2$d benutzerdefinierte Befehle** gelöschst!"
             },
             "make": {
                 "start_text": "%1$s**\"Erstellung vom benutzerdefinierten Befehl `%2$s`\"** gestartet!\nSchreibe `&~>stop` um die Erstellung **ohne zu speichern** abzubrehcen.\nSchreibe `&~>save` um die Erstellung abzubrechen **und den Befehl zu speichern**. Beginne jeden Text, den du als Antwort für diesen Befehl hinzufügen möchtest, mit `&`. Nutze `~>nsfw`, um diesen Befehl als NSFW zu markieren, und `~>sfw`, um dies rückgängig zu machen.\nDiese interaktive Aktion endet nach 60 Sekunden, wenn inaktiv.",
