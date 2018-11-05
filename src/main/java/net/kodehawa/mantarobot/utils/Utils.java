@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -34,6 +35,7 @@ import okhttp3.*;
 import org.json.JSONObject;
 import us.monoid.web.Resty;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -678,6 +680,35 @@ public class Utils {
         return contentReplaced;
     }
 
+    @Nullable
+    public static Badge getHushBadge(String name, HushType type) {
+        if(!config.needApi)
+            return null; //nothing to query on.
+
+        try {
+            Request request = new Request.Builder()
+                    .url(config.apiTwoUrl + "/mantaroapi/hush")
+                    .post(RequestBody.create(
+                            okhttp3.MediaType.parse("application/json"),
+                            new JSONObject()
+                                    .put("type", type) //lowercase -> subcat in json
+                                    .put("name", name) //key, will return result from type.name
+                                    .toString()
+                    ))
+                    .build();
+
+            Response response = httpClient.newCall(request).execute();
+            String body = response.body().string();
+            response.close();
+
+            return Badge.lookupFromString(new JSONObject(body).getString("badge"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+
     public static boolean isValidTimeZone(final String timeZone) {
         final String DEFAULT_GMT_TIMEZONE = "GMT";
         if (timeZone.equals(DEFAULT_GMT_TIMEZONE)) {
@@ -687,5 +718,9 @@ public class Utils {
             return !id.equals(DEFAULT_GMT_TIMEZONE);
         }
 
+    }
+
+    public enum HushType {
+        ANIME, CHARACTER, MUSIC
     }
 }

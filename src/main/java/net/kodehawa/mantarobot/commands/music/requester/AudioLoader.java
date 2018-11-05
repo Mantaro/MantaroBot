@@ -28,12 +28,14 @@ import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
@@ -174,6 +176,14 @@ public class AudioLoader implements AudioLoadResultHandler {
         musicManager.getTrackScheduler().setRequestedChannel(event.getChannel().getIdLong());
 
         if(!silent) {
+            //Hush from here babe, hehe.
+            Player player = MantaroData.db().getPlayer(event.getAuthor());
+            Badge badge = Utils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
+            if(badge != null) {
+                player.getData().addBadgeIfAbsent(badge);
+                player.save();
+            }
+
             new MessageBuilder().append(
                     String.format(language.get("commands.music_general.loader.loaded_song"), EmoteReference.CORRECT, title, AudioUtils.getLength(length)))
                     .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)

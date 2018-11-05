@@ -23,11 +23,15 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.graphql.CharacterSearchQuery;
 import net.kodehawa.mantarobot.graphql.MediaSearchQuery;
 import net.kodehawa.mantarobot.graphql.type.MediaType;
@@ -35,9 +39,15 @@ import net.kodehawa.mantarobot.utils.Anilist;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import okhttp3.*;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import org.json.JSONObject;
 
+import javax.annotation.Nullable;
 import java.awt.*;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,6 +57,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("all" /* NO IT WONT FUCKING NPE */)
 public class AnimeCmds {
     private final static OkHttpClient client = new OkHttpClient();
+    private final Config config = MantaroData.config().get();
 
     @Subscribe
     public void anime(CommandRegistry cr) {
@@ -168,15 +179,15 @@ public class AnimeCmds {
     }
 
     private void animeData(GuildMessageReceivedEvent event, I18nContext lang, MediaSearchQuery.Medium type) {
-        String ANIME_TITLE = type.title().english() == null || type.title().english().isEmpty() ? type.title().romaji() : type.title().english();
-        String RELEASE_DATE = type.startDate() == null ? null : type.startDate().day() + "/" + type.startDate().month() + "/" + type.startDate().year();
-        String END_DATE = type.endDate() == null ? null : type.endDate().day() + "/" + type.endDate().month() + "/" + type.endDate().year();
-        String ANIME_DESCRIPTION = type.description().replace("<br>", "\n");
-        String AVERAGE_SCORE = String.valueOf(type.averageScore());
-        String IMAGE_URL = type.coverImage().large();
-        String TYPE = Utils.capitalize(type.format().name().toLowerCase());
-        String EPISODES = type.episodes().toString();
-        String DURATION = type.duration().toString();
+        String title = type.title().english() == null || type.title().english().isEmpty() ? type.title().romaji() : type.title().english();
+        String releaseDate = type.startDate() == null ? null : type.startDate().day() + "/" + type.startDate().month() + "/" + type.startDate().year();
+        String endDate = type.endDate() == null ? null : type.endDate().day() + "/" + type.endDate().month() + "/" + type.endDate().year();
+        String animeDescription = type.description().replace("<br>", "\n");
+        String averageScore = String.valueOf(type.averageScore());
+        String imageUrl = type.coverImage().large();
+        String animeType = Utils.capitalize(type.format().name().toLowerCase());
+        String episodes = type.episodes().toString();
+        String episodeDuration = type.duration().toString();
 
         List<String> genres = Lists.newArrayList(type.genres());
         genres.removeAll(Collections.singleton(""));
@@ -187,37 +198,51 @@ public class AnimeCmds {
             return;
         }
 
+        Player p = MantaroData.db().getPlayer(event.getAuthor());
+        Badge badge = Utils.getHushBadge(title, Utils.HushType.ANIME);
+        if(badge != null) {
+            p.getData().addBadgeIfAbsent(badge);
+            p.save();
+        }
+
         //Start building the embedded message.
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(Color.LIGHT_GRAY)
-                .setAuthor(String.format(lang.get("commands.anime.information_header"), ANIME_TITLE), type.siteUrl(), type.coverImage().medium())
+                .setAuthor(String.format(lang.get("commands.anime.information_header"), title), type.siteUrl(), type.coverImage().medium())
                 .setFooter(lang.get("commands.anime.information_notice"), null)
-                .setThumbnail(IMAGE_URL)
-                .setDescription(ANIME_DESCRIPTION.length() <= 1024 ? ANIME_DESCRIPTION : ANIME_DESCRIPTION.substring(0, 1020) + "...")
-                .addField(lang.get("commands.anime.release_date"), "`" + RELEASE_DATE + "`", true)
-                .addField(lang.get("commands.anime.end_date"), "`" + (END_DATE == null || END_DATE.equals("null") ? lang.get("commands.anime.airing") : END_DATE) + "`", true)
-                .addField(lang.get("commands.anime.average_score"), "`" + AVERAGE_SCORE + "/100" + "`", true)
-                .addField(lang.get("commands.anime.type"), "`" + TYPE + "`", true)
-                .addField(lang.get("commands.anime.episodes"), "`" + EPISODES + "`", true)
-                .addField(lang.get("commands.anime.episode_duration"), "`" + DURATION + " " + lang.get("commands.anime.minutes") + "." + "`", true)
+                .setThumbnail(imageUrl)
+                .setDescription(animeDescription.length() <= 1024 ? animeDescription : animeDescription.substring(0, 1020) + "...")
+                .addField(lang.get("commands.anime.release_date"), "`" + releaseDate + "`", true)
+                .addField(lang.get("commands.anime.end_date"), "`" + (endDate == null || endDate.equals("null") ? lang.get("commands.anime.airing") : endDate) + "`", true)
+                .addField(lang.get("commands.anime.average_score"), "`" + averageScore + "/100" + "`", true)
+                .addField(lang.get("commands.anime.type"), "`" + animeType + "`", true)
+                .addField(lang.get("commands.anime.episodes"), "`" + episodes + "`", true)
+                .addField(lang.get("commands.anime.episode_duration"), "`" + episodeDuration + " " + lang.get("commands.anime.minutes") + "." + "`", true)
                 .addField(lang.get("commands.anime.genres"), "`" + GENRES + "`", false);
         event.getChannel().sendMessage(embed.build()).queue();
     }
 
     private void characterData(GuildMessageReceivedEvent event, I18nContext lang, CharacterSearchQuery.Character character) {
-        String JAP_NAME = character.name().native_() == null ? "" : "\n(" + character.name().native_() + ")";
-        String CHAR_NAME = character.name().first() + ((character.name().last() == null ? "" : " " + character.name().last()) + JAP_NAME);
-        String ALIASES = character.name().alternative() == null || character.name().alternative().isEmpty() ? lang.get("commands.character.no_aliases") : lang.get("commands.character.alias_start") + " " + character.name().alternative().stream().collect(Collectors.joining(", "));
-        String IMAGE_URL = character.image().medium();
-        String CHAR_DESCRIPTION = character.description() == null || character.description().isEmpty() ? lang.get("commands.character.no_info")
+        String japName = character.name().native_() == null ? "" : "\n(" + character.name().native_() + ")";
+        String charName = character.name().first() + ((character.name().last() == null ? "" : " " + character.name().last()) + japName);
+        String aliases = character.name().alternative() == null || character.name().alternative().isEmpty() ? lang.get("commands.character.no_aliases") : lang.get("commands.character.alias_start") + " " + character.name().alternative().stream().collect(Collectors.joining(", "));
+        String imageUrl = character.image().medium();
+        String charDescription = character.description() == null || character.description().isEmpty() ? lang.get("commands.character.no_info")
                 : character.description().length() <= 1024 ? character.description() : character.description().substring(0, 1020 - 1) + "...";
+
+        Player p = MantaroData.db().getPlayer(event.getAuthor());
+        Badge badge = Utils.getHushBadge(charName, Utils.HushType.CHARACTER);
+        if(badge != null) {
+            p.getData().addBadgeIfAbsent(badge);
+            p.save();
+        }
 
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(Color.LIGHT_GRAY)
-                .setThumbnail(IMAGE_URL)
-                .setAuthor(String.format(lang.get("commands.character.information_header"), CHAR_NAME), character.siteUrl(), IMAGE_URL)
-                .setDescription(ALIASES)
-                .addField(lang.get("commands.character.information"), CHAR_DESCRIPTION, true)
+                .setThumbnail(imageUrl)
+                .setAuthor(String.format(lang.get("commands.character.information_header"), charName), character.siteUrl(), imageUrl)
+                .setDescription(aliases)
+                .addField(lang.get("commands.character.information"), charDescription, true)
                 .setFooter(lang.get("commands.anime.information_notice"), null);
 
         event.getChannel().sendMessage(embed.build()).queue();

@@ -535,6 +535,14 @@ public class Items {
 
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
 
+        if((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM) && toAdd.contains(GEM5_PICKAXE) && toAdd.contains(GEM5_PICKAXE_2)) {
+            player.getData().addBadgeIfAbsent(Badge.DESTINY_REACHES);
+        }
+
+        if((type == ItemType.LootboxType.FISH || type == ItemType.LootboxType.FISH_PREMIUM) && toAdd.contains(FISH_5)) {
+            player.getData().addBadgeIfAbsent(Badge.TOO_BIG);
+        }
+
         boolean overflow = player.getInventory().merge(ita);
         player.saveAsync();
 

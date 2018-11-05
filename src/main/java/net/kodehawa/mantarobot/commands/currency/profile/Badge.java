@@ -84,11 +84,6 @@ public enum Badge {
             (player, dbUser) -> false
     ),
 
-    //Upvote Mantaro on discordbots.org.
-    UPVOTER("Upvoter", "\u2b06", "Upvote Mantaro on discordbots.org.", 92, 92,
-            (player, dbUser) -> false
-    ),
-
     //Have more than 5000 items stacked.
     SHOPPER("Shopper", "\uD83D\uDED2", "Have more than 5000 items of any kind.", 91, 92,
             (player, dbUser) -> player.getInventory().asList().stream().anyMatch(stack -> stack.getAmount() == 5000)
@@ -262,6 +257,71 @@ public enum Badge {
             (player, dbUser) -> false
     ),
 
+    //Hush-Hush (Mask-y)
+    NUMERIC_LUCK("Numeric Luck", "", "All the numbers had a party, somehow they all ended up with the same dress.", 91, 92,
+            (player, dbUser) -> false
+    ),
+
+    NUMERIC_PATHWAY("Numeric Pathway", "", "A lucky and sad destiny with six equal people meeting, who slowly fade away as you spend.", 91, 92,
+            (player, dbUser) -> player.getMoney().toString().matches("([1-9]){6}")
+    ),
+
+    DESTINY_REACHES("Destiny Reaches", "", "Good and bad luck meeting together, with a little gem as a mediator.", 91, 92,
+            (player, dbUser) -> false
+    ),
+
+    HACKING_ADDICTION("Hacking Addiction", "", "Playing and slashing away your time, with a thousand addictions and thirty-something deeds, meeting together.", 91, 92,
+            (player, dbUser) -> player.getData().getGamesWon() == 1337 //lol
+    ),
+
+    PATHWAY_SKY("The Pathway to Sky", "", "With a heavenly beat we shall approach destiny, drums slowly fading between a piano melody, peaceful and chaotic in nature.", 91, 92,
+            (player, dbUser) -> false
+    ),
+
+    HAPPINESS_BETWEEN("Happiness Found Between", "", "The sour line between happiness and sadness approaches between beats, with a single one we shall decide which prevails.", 91, 92,
+            (player, dbUser) -> false
+    ),
+
+    APPROACHING_DESTINY("Slowly Approaching Destiny", "", "One in 90, or more. Luck shall decide, you have no choice but go with it.", 91, 92,
+            (player, dbUser) -> false
+    ),
+
+    REVELATION("Revelation", "", "A gun as a weapon, a chessboard as a world, passing through universes and flying through emotions.", 91, 92,
+            (player, dbUser) -> false
+    ),
+
+    FINDING_WAIFU("Finding a Waifu", "", "Two Xs and some horns, what a deal.", 91, 92,
+            (player, dbUser) -> false
+    ),
+
+    FLYING_MALWARE("Flying Malware", "", "Finding a piece of flying malware on your e-mail it's quite the deal, isn't it? And it talks!", 91, 92,
+            (player, dbUser) -> false
+    ),
+
+    GOLD_VALUE("Gold Value", "", "Nine gold tails and a person. Finding it might not be an ordeal, but the deal is not favorable.", 91, 92,
+            (player, dbUser) -> false
+    ),
+
+    LUCK_BEHIND("Luck Behind", "", "A one-in-six chance of counting the tale, maybe slightly too much, maybe slightly too little.", 91, 92,
+            (player, dbUser) -> false
+    ),
+
+    TOO_BIG("Too Big To Fit", "", "Finding a piece of flying malware on your e-mail it's quite the deal, isn't it? And it talks.", 91, 92,
+            (player, dbUser) -> false
+    ),
+
+    RISKY_ORDEAL("Risky Ordeal", "", "Finding a piece of flying malware on your e-mail it's quite the deal, isn't it? And it talks.", 91, 92,
+            (player, dbUser) -> false
+    ),
+
+    SENSELESS_HOARDING("Senseless Hoarding", "", "With the hoarding comes a line, overflowing in mindless casino paper, fading away in a heartbeat.", 91, 92,
+            (player, dbUser) -> false
+    ),
+
+    CPU("The CPU Inside", "", "I'm also a CPU. No, really!", 91, 92,
+            (player, dbUser) -> false
+    ),
+
     // ---------------------------------- LEGACY BADGES START HERE ----------------------------------
 
     //Legacy Badge DJ
@@ -274,10 +334,17 @@ public enum Badge {
             (player, dbUser) -> false
     ),
 
+    //Upvote Mantaro on discordbots.org. No longer queried.
+    UPVOTER("Upvoter", "\u2b06", "Upvote Mantaro on discordbots.org.", 92, 92,
+            (player, dbUser) -> false
+    ),
+
     //Legacy Broken Donor Badge
     DONATOR("Bugged 2", "\uD83D\uDC1B", "Bugged Donor. (Old Broken Donator Badge)", 92, 94,
             (player, dbUser) -> false
     );
+
+
 
     // ---------------------------------- LEGACY BADGES END HERE ----------------------------------
 

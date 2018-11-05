@@ -745,6 +745,10 @@ public class RelationshipCmds {
                     return;
                 }
 
+                if(waifuFinalValue > 1000000000) {
+                    claimerPlayer.getData().addBadgeIfAbsent(Badge.GOLD_VALUE);
+                }
+
                 //Add waifu to claimer list.
                 claimerUser.getData().getWaifus().put(toLookup.getId(), waifuFinalValue);
                 claimedUserData.setTimesClaimed(claimedUserData.getTimesClaimed() + 1);

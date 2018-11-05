@@ -102,6 +102,9 @@ public class GuessTheNumber extends Game<Object> {
                         if(player.getData().getGamesWon() == 1000)
                             player.getData().addBadgeIfAbsent(Badge.ADDICTED_GAMER);
 
+                        if(number > 90)
+                            player.getData().addBadgeIfAbsent(Badge.APPROACHING_DESTINY);
+
                         player.save();
 
                         TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);

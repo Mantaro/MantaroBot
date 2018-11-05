@@ -332,7 +332,7 @@ public class MoneyCmds {
                         public int run(GuildMessageReceivedEvent e) {
                             if(e.getAuthor().getId().equals(user.getId())) {
                                 if(e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
-                                    proceedGamble(event, languageContext, player, finalLuck, random, i, finalGains);
+                                    proceedGamble(event, languageContext, player, finalLuck, random, i, finalGains, i);
                                     return COMPLETED;
                                 } else if(e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
                                     e.getChannel().sendMessage(EmoteReference.ZAP + "Cancelled bet.").queue();
@@ -355,7 +355,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                proceedGamble(event, languageContext, player, luck, random, i, gains);
+                proceedGamble(event, languageContext, player, luck, random, i, gains, i);
             }
 
             @Override
@@ -626,6 +626,7 @@ public class MoneyCmds {
                     player.saveAsync();
                 }
 
+
                 StringBuilder message = new StringBuilder(String.format(languageContext.withRoot("commands", "slots.roll"), EmoteReference.DICE, coinSelect ? amountN + " " + languageContext.get("commands.slots.tickets") : money + " " + languageContext.get("commands.slots.credits")));
                 StringBuilder builder = new StringBuilder();
 
@@ -663,6 +664,9 @@ public class MoneyCmds {
                     if((gains + money) > SLOTS_MAX_MONEY) {
                         player.getData().addBadgeIfAbsent(Badge.LUCKY_SEVEN);
                     }
+
+                    if(coinSelect && amountN > ItemStack.MAX_STACK_SIZE - random.nextInt(650))
+                        player.getData().addBadgeIfAbsent(Badge.SENSELESS_HOARDING);
 
                     player.saveAsync();
                 } else {
@@ -823,7 +827,7 @@ public class MoneyCmds {
         });
     }
 
-    private void proceedGamble(GuildMessageReceivedEvent event, I18nContext languageContext, Player player, int luck, Random r, long i, long gains) {
+    private void proceedGamble(GuildMessageReceivedEvent event, I18nContext languageContext, Player player, int luck, Random r, long i, long gains, long bet) {
         PlayerStats stats = MantaroData.db().getPlayerStats(event.getMember());
 
         if(luck > r.nextInt(140)) {
@@ -843,6 +847,10 @@ public class MoneyCmds {
                 event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.win_overflow"), EmoteReference.DICE, gains).queue();
             }
         } else {
+            if(bet > GAMBLE_MAX_MONEY) {
+                player.getData().addBadgeIfAbsent(Badge.RISKY_ORDEAL);
+            }
+
             long oldMoney = player.getMoney();
             player.setMoney(Math.max(0, player.getMoney() - i));
 
