@@ -701,7 +701,7 @@ public class Utils {
             String body = response.body().string();
             response.close();
 
-            return Badge.lookupFromString(new JSONObject(body).getString("badge"));
+            return Badge.lookupFromString(new JSONObject(body).getString("hush"));
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
