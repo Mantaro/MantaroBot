@@ -258,67 +258,67 @@ public enum Badge {
     ),
 
     //Hush-Hush (Mask-y)
-    NUMERIC_LUCK("Numeric Luck", "", "All the numbers had a party, somehow they all ended up with the same dress.", 91, 92,
+    NUMERIC_LUCK("Numeric Luck", "\uD83D\uDD36", "All the numbers had a party, somehow they all ended up with the same dress.", 91, 92,
             (player, dbUser) -> false
     ),
 
-    NUMERIC_PATHWAY("Numeric Pathway", "", "A lucky and sad destiny with six equal people meeting, who slowly fade away as you spend.", 91, 92,
+    NUMERIC_PATHWAY("Numeric Pathway", "\uD83D\uDD36", "A lucky and sad destiny with six equal people meeting, who slowly fade away as you spend.", 91, 92,
             (player, dbUser) -> player.getMoney().toString().matches("([1-9]){6}")
     ),
 
-    DESTINY_REACHES("Destiny Reaches", "", "Good and bad luck meeting together, with a little gem as a mediator.", 91, 92,
+    DESTINY_REACHES("Destiny Reaches", "\uD83D\uDD36", "Good and bad luck meeting together, with a little gem as a mediator.", 91, 92,
             (player, dbUser) -> false
     ),
 
-    HACKING_ADDICTION("Hacking Addiction", "", "Playing and slashing away your time, with a thousand addictions and thirty-something deeds, meeting together.", 91, 92,
+    HACKING_ADDICTION("Hacking Addiction", "\uD83D\uDD36", "Playing and slashing away your time, with a thousand addictions and thirty-something deeds, meeting together.", 91, 92,
             (player, dbUser) -> player.getData().getGamesWon() == 1337 //lol
     ),
 
-    PATHWAY_SKY("The Pathway to Sky", "", "With a heavenly beat we shall approach destiny, drums slowly fading between a piano melody, peaceful and chaotic in nature.", 91, 92,
+    PATHWAY_SKY("The Pathway to Sky", "\uD83D\uDD36", "With a heavenly beat we shall approach destiny, drums slowly fading between a piano melody, peaceful and chaotic in nature.", 91, 92,
             (player, dbUser) -> false
     ),
 
-    HAPPINESS_BETWEEN("Happiness Found Between", "", "The sour line between happiness and sadness approaches between beats, with a single one we shall decide which prevails.", 91, 92,
+    HAPPINESS_BETWEEN("Happiness Found Between", "\uD83D\uDD36", "The sour line between happiness and sadness approaches between beats, with a single one we shall decide which prevails.", 91, 92,
             (player, dbUser) -> false
     ),
 
-    APPROACHING_DESTINY("Slowly Approaching Destiny", "", "One in 90, or more. Luck shall decide, you have no choice but go with it.", 91, 92,
+    APPROACHING_DESTINY("Slowly Approaching Destiny", "\uD83D\uDD36", "One in 90, or more. Luck shall decide, you have no choice but go with it.", 91, 92,
             (player, dbUser) -> false
     ),
 
-    REVELATION("Revelation", "", "A gun as a weapon, a chessboard as a world, passing through universes and flying through emotions.", 91, 92,
+    REVELATION("Revelation", "\uD83D\uDD36", "A gun as a weapon, a chessboard as a world, passing through universes and flying through emotions.", 91, 92,
             (player, dbUser) -> false
     ),
 
-    FINDING_WAIFU("Finding a Waifu", "", "Two Xs and some horns, what a deal.", 91, 92,
+    FINDING_WAIFU("Finding a Waifu", "\uD83D\uDD36", "Two Xs and some horns, what a deal.", 91, 92,
             (player, dbUser) -> false
     ),
 
-    FLYING_MALWARE("Flying Malware", "", "Finding a piece of flying malware on your e-mail it's quite the deal, isn't it? And it talks!", 91, 92,
+    FLYING_MALWARE("Flying Malware", "\uD83D\uDD36", "Finding a piece of flying malware on your e-mail it's quite the deal, isn't it? And it talks!", 91, 92,
             (player, dbUser) -> false
     ),
 
-    GOLD_VALUE("Gold Value", "", "Nine gold tails and a person. Finding it might not be an ordeal, but the deal is not favorable.", 91, 92,
+    GOLD_VALUE("Gold Value", "\uD83D\uDD36", "Nine gold tails and a person. Finding it might not be an ordeal, but the deal is not favorable.", 91, 92,
             (player, dbUser) -> false
     ),
 
-    LUCK_BEHIND("Luck Behind", "", "A one-in-six chance of counting the tale, maybe slightly too much, maybe slightly too little.", 91, 92,
+    LUCK_BEHIND("Luck Behind", "\uD83D\uDD36", "A one-in-six chance of counting the tale, maybe slightly too much, maybe slightly too little.", 91, 92,
             (player, dbUser) -> false
     ),
 
-    TOO_BIG("Too Big To Fit", "", "Finding a piece of flying malware on your e-mail it's quite the deal, isn't it? And it talks.", 91, 92,
+    TOO_BIG("Too Big To Fit", "\uD83D\uDD36", "Finding a piece of flying malware on your e-mail it's quite the deal, isn't it? And it talks.", 91, 92,
             (player, dbUser) -> false
     ),
 
-    RISKY_ORDEAL("Risky Ordeal", "", "Finding a piece of flying malware on your e-mail it's quite the deal, isn't it? And it talks.", 91, 92,
+    RISKY_ORDEAL("Risky Ordeal", "\uD83D\uDD36", "Finding a piece of flying malware on your e-mail it's quite the deal, isn't it? And it talks.", 91, 92,
             (player, dbUser) -> false
     ),
 
-    SENSELESS_HOARDING("Senseless Hoarding", "", "With the hoarding comes a line, overflowing in mindless casino paper, fading away in a heartbeat.", 91, 92,
+    SENSELESS_HOARDING("Senseless Hoarding", "\uD83D\uDD36", "With the hoarding comes a line, overflowing in mindless casino paper, fading away in a heartbeat.", 91, 92,
             (player, dbUser) -> false
     ),
 
-    CPU("The CPU Inside", "", "I'm also a CPU. No, really!", 91, 92,
+    CPU("The CPU Inside", "\uD83D\uDD36", "I'm also a CPU. No, really!", 91, 92,
             (player, dbUser) -> false
     ),
 
