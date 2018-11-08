@@ -708,6 +708,35 @@ public class Utils {
         }
     }
 
+    public static Pair<Boolean, Integer> getPledgeInformation(String user) {
+        if(!config.needApi)
+            return null; //nothing to query on.
+
+        try {
+            Request request = new Request.Builder()
+                    .url(config.apiTwoUrl + "/mantaroapi/patreon")
+                    .post(RequestBody.create(
+                            okhttp3.MediaType.parse("application/json"),
+                            new JSONObject()
+                                    .put("id", user)
+                                    .put("context", config.isPremiumBot())
+                                    .toString()
+                    ))
+                    .build();
+
+            Response response = httpClient.newCall(request).execute();
+            String body = response.body().string();
+            response.close();
+
+            JSONObject reply = new JSONObject(body);
+
+            return new Pair<>(reply.getBoolean("active"), reply.getInt("amount"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
 
     public static boolean isValidTimeZone(final String timeZone) {
         final String DEFAULT_GMT_TIMEZONE = "GMT";

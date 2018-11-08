@@ -36,7 +36,7 @@ public class CustomCommand implements ManagedObject {
     public static final String DB_TABLE = "commands";
     private final String id;
     private final List<String> values;
-    //Setting a default to avoid backwards compat.
+    //Setting a default to avoid backwards compat issues.
     private CustomCommandData data = new CustomCommandData();
 
     @ConstructorProperties({"id", "values"})

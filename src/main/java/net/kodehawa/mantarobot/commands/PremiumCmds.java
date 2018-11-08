@@ -235,13 +235,14 @@ public class PremiumCmds {
         cr.register("createkey", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(args.length < 2) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a scope and an id (example: guild 1558674582032875529)").queue();
+                if(args.length < 3) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a scope, an id and whether this key is linked (example: guild 1558674582032875529 true)").queue();
                     return;
                 }
 
                 String scope = args[0];
                 String owner = args[1];
+                boolean linked = Boolean.parseBoolean(args[2]);
 
                 PremiumKey.Type scopeParsed = null;
                 try {
@@ -249,12 +250,12 @@ public class PremiumCmds {
                 } catch(IllegalArgumentException ignored) {}
 
                 if(scopeParsed == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid scope (Valid ones are: `user`, `guild` or `master`)").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid scope (Valid ones are: `user` or `guild`)").queue();
                     return;
                 }
 
                 //This method generates a premium key AND saves it on the database! Please use this result!
-                PremiumKey generated = PremiumKey.generatePremiumKey(owner, scopeParsed);
+                PremiumKey generated = PremiumKey.generatePremiumKey(owner, scopeParsed, linked);
                 event.getChannel().sendMessage(EmoteReference.CORRECT + String.format("Generated: `%s` (S: %s) **[NOT ACTIVATED]**",
                         generated.getId(), generated.getParsedType())).queue();
             }
