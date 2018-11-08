@@ -124,7 +124,12 @@ public class CustomCmds {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setAuthor(languageContext.get("commands.custom.ls.header"), null, event.getGuild().getIconUrl())
                             .setColor(event.getMember().getColor())
-                            .setDescription(commands.isEmpty() ? languageContext.get("general.dust") : checkString(forType(commands)));
+                            .setThumbnail("https://images.emojiterra.com/twitter/v11/512px/1f6e0.png")
+                            .setDescription(languageContext.get("commands.custom.ls.description") + "\n" +
+                                    (commands.isEmpty() ? languageContext.get("general.dust") :
+                                            checkString(commands.stream().map(cc -> "*`" + cc + "`*").collect(Collectors.joining(", "))
+                                    ))
+                            ).setFooter(String.format(languageContext.get("commands.custom.ls.footer"), commands.size()), event.getAuthor().getEffectiveAvatarUrl());
 
                     event.getChannel().sendMessage(builder.build()).queue();
                     return;

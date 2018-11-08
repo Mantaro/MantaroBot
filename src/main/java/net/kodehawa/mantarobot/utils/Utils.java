@@ -322,7 +322,7 @@ public class Utils {
 
         if(found.size() > 1 && !content.isEmpty()) {
             event.getChannel().sendMessage(String.format("%sToo many users found, maybe refine your search? (ex. use name#discriminator)\n**Users found:** %s",
-                    EmoteReference.THINKING, found.stream().limit(10).map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))))
+                    EmoteReference.THINKING, found.stream().limit(7).map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))))
                     .queue();
 
             return null;
@@ -344,7 +344,7 @@ public class Utils {
 
         if(found.size() > 1 && !content.isEmpty()) {
             event.getChannel().sendMessage(String.format("%sToo many roles found, maybe refine your search?\n**Roles found:** %s",
-                    EmoteReference.THINKING, found.stream().map(Role::getName).collect(Collectors.joining(", ")))).queue();
+                    EmoteReference.THINKING, found.stream().limit(7).map(Role::getName).collect(Collectors.joining(", ")))).queue();
 
             return null;
         }
@@ -366,7 +366,7 @@ public class Utils {
         if(found.size() > 1 && !content.isEmpty()) {
             event.getChannel().sendMessage(String.format("%sToo many roles found, maybe refine your search?\n**Roles found:** %s\n" +
                             "If the role you're trying to search contain spaces, wrap it in quotes `\"like this\"`",
-                    EmoteReference.THINKING, found.stream().map(Role::getName).collect(Collectors.joining(", ")))).queue();
+                    EmoteReference.THINKING, found.stream().limit(7).map(Role::getName).collect(Collectors.joining(", ")))).queue();
 
             return null;
         }
@@ -439,7 +439,7 @@ public class Utils {
 
         if(found.size() > 1 && !content.isEmpty()) {
             event.getChannel().sendMessage(String.format("%sToo many channels found, maybe refine your search?\n**Voice Channels found:** %s",
-                    EmoteReference.THINKING, found.stream().map(VoiceChannel::getName).collect(Collectors.joining(", ")))).queue();
+                    EmoteReference.THINKING, found.stream().limit(7).map(VoiceChannel::getName).collect(Collectors.joining(", ")))).queue();
 
             return null;
         }
