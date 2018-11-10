@@ -714,7 +714,7 @@ public class Utils {
 
         try {
             Request request = new Request.Builder()
-                    .url(config.apiTwoUrl + "/mantaroapi/patreon")
+                    .url(config.apiTwoUrl + "/mantaroapi/patreon/check")
                     .post(RequestBody.create(
                             okhttp3.MediaType.parse("application/json"),
                             new JSONObject()

@@ -980,7 +980,7 @@ public class CurrencyCmds {
                         player.save();
 
                         event.getChannel().sendMessageFormat(languageContext.get("commands.cast.success") + "\n" + message,
-                                EmoteReference.WRENCH, castItem.getEmoji(), castItem.getName(), castCost, recipeString
+                                EmoteReference.WRENCH, castItem.getEmoji(), castItem.getName(), castCost, recipeString.toString().trim()
                         ).queue();
                     }
                 };
