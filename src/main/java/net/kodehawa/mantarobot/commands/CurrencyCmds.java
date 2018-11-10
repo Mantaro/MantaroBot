@@ -225,7 +225,7 @@ public class CurrencyCmds {
         });
 
         marketCommand.setPredicate((event) -> {
-            if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+            if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, null))
                 return false;
 
             Player player = MantaroData.db().getPlayer(event.getMember());
@@ -510,7 +510,7 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event))
+                    if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                         return;
 
                     Item item = Items.fromAnyNoId(args[1]).orElse(null);
@@ -644,7 +644,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event))
+                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 long toSend; // = 0 at the start
@@ -901,7 +901,7 @@ public class CurrencyCmds {
                             return;
                         }
 
-                        if(!handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
+                        if(!handleDefaultRatelimit(ratelimiter, event.getAuthor(), event, languageContext))
                             return;
 
                         Item castItem = toCast.get();

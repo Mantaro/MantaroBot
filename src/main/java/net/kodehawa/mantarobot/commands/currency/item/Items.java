@@ -198,7 +198,7 @@ public class Items {
                 return false;
             }
 
-            if(!handleDefaultRatelimit(fishRatelimiter, event.getAuthor(), event))
+            if(!handleDefaultRatelimit(fishRatelimiter, event.getAuthor(), event, lang))
                 return false;
 
 
@@ -506,7 +506,7 @@ public class Items {
         Item crate = fromId(item);
         if(inventory.containsItem(crate)) {
             if(inventory.containsItem(LOOT_CRATE_KEY)) {
-                if(!handleDefaultRatelimit(lootCrateRatelimiter, event.getAuthor(), event))
+                if(!handleDefaultRatelimit(lootCrateRatelimiter, event.getAuthor(), event, lang))
                     return false;
 
                 inventory.process(new ItemStack(LOOT_CRATE_KEY, -1));

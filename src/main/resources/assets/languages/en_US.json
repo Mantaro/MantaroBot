@@ -60,7 +60,12 @@
     "cancelled": "%1$sCancelled request.",
     "sellout": "Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive!",
     "deprecated": "No longer used",
-    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\""
+    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\"",
+    "ratelimit": {
+      "header": "%1$s%2$s (Ratelimited)\n **You'll be able to use this command again in %3$s.**",
+      "spam_1": "Please rest, it's good for your health :( *Remember that Ratelimit will keep increasing if you try before the cooldown resets!*",
+      "spam_2": "\nI think stopping is the best option for now..."
+    }
   },
   "categories": {
     "music": "Audio",

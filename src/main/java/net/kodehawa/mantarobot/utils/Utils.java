@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.utils;
 import com.google.common.io.CharStreams;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import com.rethinkdb.net.Connection;
-import io.prometheus.client.Counter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.*;
@@ -27,10 +26,14 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
-import net.kodehawa.mantarobot.utils.commands.*;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.RateLimit;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import okhttp3.*;
 import org.json.JSONObject;
 import us.monoid.web.Resty;
@@ -594,23 +597,20 @@ public class Utils {
                 (seconds == 0 ? "" : seconds + " second" + (seconds == 1 ? "" : "s"))).replaceAll(", (\\d{1,2} \\S+)$", " and $1");
     }
 
-    public static void dbConnection(Consumer<Connection> consumer) {
-        try(Connection conn = r.connection().hostname(config.dbHost).port(config.dbPort).db(config.dbDb).user(config.dbUser, config.dbPassword).connect()) {
-            consumer.accept(conn);
-        }
-    }
-
     public static Connection newDbConnection() {
         return r.connection().hostname(config.dbHost).port(config.dbPort).db(config.dbDb).user(config.dbUser, config.dbPassword).connect();
     }
 
-    public static boolean handleDefaultRatelimit(RateLimiter rateLimiter, User u, GuildMessageReceivedEvent event) {
+    public static boolean handleDefaultRatelimit(RateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context) {
+        if(context == null) {
+            //en_US
+            context = new I18nContext(null, null);
+        }
+
         if(!rateLimiter.process(u.getId())) {
-            event.getChannel().sendMessage(
-                    EmoteReference.STOPWATCH +
-                            ratelimitQuotes[random.nextInt(ratelimitQuotes.length)] + " (Ratelimited)" +
-                            "\n **You'll be able to use this command again in " + Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor()))
-                            + ".**"
+
+            event.getChannel().sendMessageFormat(context.get("general.ratelimit.header"),
+                    EmoteReference.STOPWATCH, ratelimitQuotes[random.nextInt(ratelimitQuotes.length)],  Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor()))
             ).queue();
 
             onRateLimit(u);
@@ -620,28 +620,19 @@ public class Utils {
         return true;
     }
 
-    public static boolean handleDefaultNewRatelimit(NewRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event) {
-        if(!rateLimiter.test(u.getId())) {
-            event.getChannel().sendMessage(
-                    String.format("%s%s (Ratelimited)\n **You'll be able to use this command again in %s.**",
-                            EmoteReference.STOPWATCH, ratelimitQuotes[random.nextInt(ratelimitQuotes.length)], Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor())))
-            ).queue();
-
-            onRateLimit(u);
-            return false;
+    public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context) {
+        if(context == null) {
+            //en_US
+            context = new I18nContext(null, null);
         }
 
-        return true;
-    }
-
-    public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event) {
         RateLimit rateLimit = rateLimiter.limit(u.getId());
         if(rateLimit.getTriesLeft() < 1) {
             event.getChannel().sendMessage(
-                    String.format("%s%s (Ratelimited)\n **You'll be able to use this command again in %s.**",
+                    String.format(context.get("general.ratelimit.header"),
                             EmoteReference.STOPWATCH, ratelimitQuotes[random.nextInt(ratelimitQuotes.length)], Utils.getHumanizedTime(rateLimit.getCooldown()))
-                    + (rateLimit.getSpamAttempts() > 2 ? "\n\n" + EmoteReference.STOP + "Please rest, it's good for your health :( *Remember that Ratelimit will keep increasing if you try before the cooldown resets!*" : "")
-                    + (rateLimit.getSpamAttempts() > 4 ? "\nI think stopping is the best option for now..." : "")
+                    + (rateLimit.getSpamAttempts() > 2 ? "\n\n" + EmoteReference.STOP + context.get("general.ratelimit.spam_1") : "")
+                    + (rateLimit.getSpamAttempts() > 4 ? context.get("general.ratelimit.spam_2") : "")
             ).queue();
 
             onRateLimit(u);
@@ -732,6 +723,7 @@ public class Utils {
 
             return new Pair<>(reply.getBoolean("active"), reply.getInt("amount"));
         } catch (IOException ex) {
+            //don't disable premium if the api is wonky, no need to be a meanie.
             ex.printStackTrace();
             return null;
         }

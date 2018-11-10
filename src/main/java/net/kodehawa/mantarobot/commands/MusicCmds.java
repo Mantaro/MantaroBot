@@ -94,7 +94,8 @@ public class MusicCmds {
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Guild guild = event.getGuild();
 
-                if(!handleDefaultRatelimit(rl, event.getAuthor(), event)) return;
+                if(!handleDefaultRatelimit(rl, event.getAuthor(), event, languageContext))
+                    return;
 
                 if(content.isEmpty()) {
                     AudioManager am = guild.getAudioManager();

@@ -128,7 +128,7 @@ public class FunCmds {
         registry.register("roll", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 Map<String, Optional<String>> opts = StringUtils.parse(args);

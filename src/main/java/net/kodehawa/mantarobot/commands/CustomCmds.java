@@ -99,7 +99,7 @@ public class CustomCmds {
         cr.register("custom", new SimpleCommand(Category.UTILS) {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 if(args.length < 1) {

@@ -119,7 +119,7 @@ public class PlayerCmds {
                 }
 
                 //Check for RL.
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 Player player = MantaroData.db().getPlayer(user);
@@ -352,7 +352,7 @@ public class PlayerCmds {
         profileCommand.addSubCommand("description", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event))
+                if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 String[] args = content.split(" ");

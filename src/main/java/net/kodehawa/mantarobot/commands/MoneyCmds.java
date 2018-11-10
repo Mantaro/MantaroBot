@@ -117,7 +117,8 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                    return;
 
                 PlayerData playerData = player.getData();
                 String streak;
@@ -262,7 +263,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 double multiplier;
@@ -387,7 +388,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 LocalDate today = LocalDate.now(zoneId);
@@ -610,7 +611,8 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                    return;
 
                 if(coinSelect) {
                     if(player.getInventory().containsItem(Items.SLOT_COIN)) {
@@ -732,7 +734,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, user, event))
+                if(!handleDefaultRatelimit(rateLimiter, user, event, languageContext))
                     return;
 
                 if(!item.getAction().test(event, Pair.of(languageContext, content)))

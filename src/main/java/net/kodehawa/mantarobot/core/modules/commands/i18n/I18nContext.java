@@ -37,6 +37,10 @@ public class I18nContext {
     }
 
     public String getContextLanguage() {
+        if(guildData == null && userData == null) {
+            return "en_US";
+        }
+
         String lang;
         if(userData == null)
             lang = guildData.getLang();
