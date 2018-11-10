@@ -721,7 +721,7 @@
             },
             "brief_success": "**Trofeos de %1$s**\n%2$s",
             "profile_notice": "Si crees que tienes un trofeo pero no aparece aquí, usa `~>profile` y luego ejecuta este comando denuevo.\n",
-            "info_notice": "Usa `~>badges info <nombre del trofeo>` para ver información sobre un trofeo.\n",
+                "info_notice": "Usa `~>badges info <nombre del trofeo>` para ver información sobre un trofeo. [También puedes revisar la documentación online.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
             "upvote_notice": "**Puedes conseguir un trofeo gratis por [darle like a Mantaro en discordbots.org](https://discordbots.org/bot/mantaro)!** (Podría tomar unos minutos para procesar)\n\n",
             "donate_notice": "**¡Puedes conseguir un trofeo por [ayudar a mantener el bot vivo](https://patreon.com/mantaro)!** (Puede que tome unos minutos para procesar)\n\n",
             "no_badges": "No hay trofeos para mostrar (¡aún!)",
@@ -1111,7 +1111,7 @@
         "help": {
             "title": "Ayuda de Mantaro",
             "base": "Lista de comandos. Para una guía detallada de como usar Mantaro, revisa la [wiki](https://github.com/Mantaro/MantaroBot/wiki) (sólo en inglés).\n",
-            "support": "Si tienes dudas o problemas usando Mantaro, puedes pedir ayuda en el [servidor de soporte](https://is.gd/mantaroguild)\n",
+            "support": "Si tienes dudas o problemas usando Mantaro, puedes pedir ayuda en el [servidor de soporte](https://is.gd/mantaroguild). [¡Sígueme en twitter para estar en contacto!](https://twitter.com/mantarodiscord)\n",
             "patreon": "[¡Necesitamos tu ayuda para mantener Mantaro a flote! Clickea aquí para más info.](https://www.patreon.com/mantaro)",
             "disabled_commands": "Solo mostrando los comandos habilitados. Comandos deshabilitados: %1$s",
             "channel_specific_disabled_commands": "\nSolo mostrando los comandos habilitados. Comandos deshabilitados en este canal: %1$s",
