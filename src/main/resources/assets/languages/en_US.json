@@ -17,6 +17,7 @@
     "not_found": "Not found",
     "no_results": "No results.",
     "timeout": "This timeouts in %1$d seconds.",
+    "reaction_timeout": "Reactions will timeout in %1$d seconds.",
     "example": "Example",
     "definition": "Definition",
     "name": "Name",
