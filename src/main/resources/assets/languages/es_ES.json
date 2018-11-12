@@ -835,9 +835,12 @@
           "old_days_more": "%1$d más días",
           "thank_note": "Gracias por tu apoyo <3",
           "expire": "Expira en",
-          "key_duration": "Duración total de la licencia",
-          "key_owner": "Dueño de la licencia",
-          "wrong_args": "%1$sArgumentos inválidos..."
+          "key_duration": "Duración de la llave",
+          "key_owner": "Dueño de la llave",
+          "wrong_args": "%1$sArgumentos inválidos...",
+          "patreon": "Patrocinio",
+          "linked": "Enlazada",
+          "linked_to": "Enlazada a"
       },
       "action": {
           "no_mention": "%1$sNecesitas mencionar un usuario",

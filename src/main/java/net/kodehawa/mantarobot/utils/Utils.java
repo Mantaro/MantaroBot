@@ -608,7 +608,6 @@ public class Utils {
         }
 
         if(!rateLimiter.process(u.getId())) {
-
             event.getChannel().sendMessageFormat(context.get("general.ratelimit.header"),
                     EmoteReference.STOPWATCH, ratelimitQuotes[random.nextInt(ratelimitQuotes.length)],  Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor()))
             ).queue();
@@ -699,7 +698,7 @@ public class Utils {
         }
     }
 
-    public static Pair<Boolean, Integer> getPledgeInformation(String user) {
+    public static Pair<Boolean, String> getPledgeInformation(String user) {
         if(!config.needApi)
             return null; //nothing to query on.
 
@@ -721,8 +720,8 @@ public class Utils {
 
             JSONObject reply = new JSONObject(body);
 
-            return new Pair<>(reply.getBoolean("active"), reply.getInt("amount"));
-        } catch (IOException ex) {
+            return new Pair<>(reply.getBoolean("active"), reply.getString("amount"));
+        } catch (Exception ex) {
             //don't disable premium if the api is wonky, no need to be a meanie.
             ex.printStackTrace();
             return null;

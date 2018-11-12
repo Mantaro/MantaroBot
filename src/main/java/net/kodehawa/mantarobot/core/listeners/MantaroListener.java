@@ -267,7 +267,8 @@ public class MantaroListener implements EventListener {
                                         "This key is a 365-day long subscription to Mantaro Premium. If you want more keys (>$2 donation) " +
                                         "or want to enable the patreon bot (>$4 donation) you need to contact Kodehawa to deliver your keys.\n" +
                                         "To apply this key, run the following command in any channel `~>activatekey " +
-                                        PremiumKey.generatePremiumKey(user.getId(), PremiumKey.Type.USER).getId() + "`\n" +
+                                        //will eventually get linked (see DBUser.java, lines 103-107), patreon webhook can be slower and clash with what I need here.
+                                        PremiumKey.generatePremiumKey(user.getId(), PremiumKey.Type.USER, false).getId() + "`\n" +
                                         "Thanks you soo much for donating and helping to keep Mantaro alive! :heart:").queue(sent -> {
                                             dbUser.getData().setHasReceivedFirstKey(true);
                                             dbUser.saveAsync();

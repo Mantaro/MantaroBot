@@ -886,7 +886,10 @@
       "expire": "Expires in",
       "key_duration": "Key total duration",
       "key_owner": "Key owner",
-      "wrong_args": "%1$sWrong arguments..."
+      "wrong_args": "%1$sWrong arguments...",
+      "patreon": "Pledge",
+      "linked": "Linked",
+      "linked_to": "Linked to"
     },
     "action": {
       "no_mention": "%1$sYou need to mention a user",

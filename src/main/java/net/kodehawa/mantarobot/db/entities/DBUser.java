@@ -27,7 +27,10 @@ import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
+import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.Pair;
+import net.kodehawa.mantarobot.utils.Utils;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
@@ -89,15 +92,35 @@ public class DBUser implements ManagedObject {
     }
 
     @JsonIgnore
+    //Slowly convert old key system to new key system (link old accounts).
     public boolean isPremium() {
         PremiumKey key = MantaroData.db().getPremiumKey(data.getPremiumKey());
-        return currentTimeMillis() < premiumUntil || (key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.USER));
+        boolean isActive = false;
+
+        if(key != null) {
+            //Link key to owner if key == owner and key holder is on patreon.
+            //Sadly gotta skip of holder isnt patron here bc there are some bought keys (paypal) which I can't convert without invalidating
+            Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(key.getOwner());
+            if(pledgeInfo != null && pledgeInfo.getLeft()) {
+                key.getData().setLinkedTo(key.getOwner());
+                key.save(); //doesn't matter if it doesnt save immediately, will do later anyway (key is usually immutable in db)
+            }
+
+            isActive = key.getData().getLinkedTo() == null || (pledgeInfo != null ? pledgeInfo.getLeft() : true); //default to true if no link
+            //System.out.println(pledgeInfo);
+            //System.out.println(isActive);
+        }
+
+        return  //old system, deprecated, maybe remove later?
+                currentTimeMillis() < premiumUntil ||
+                //Key parsing
+                (key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.USER) && isActive);
     }
 
     @JsonIgnore
     public PremiumKey generateAndApplyPremiumKey(int days, String owner) {
         String premiumId = UUID.randomUUID().toString();
-        PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days), currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.USER, true, owner);
+        PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days), currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.USER, true, owner, new PremiumKeyData());
         data.setPremiumKey(premiumId);
         newKey.saveAsync();
         saveAsync();
