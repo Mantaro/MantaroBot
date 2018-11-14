@@ -62,7 +62,7 @@ public class CommandOptions extends OptionHandler {
             }
 
             if(commandName.equals("opts") || commandName.equals("help")) {
-                event.getChannel().sendMessageFormat(lang.get("options.opts_help_notice"), EmoteReference.ERROR).queue();
+                event.getChannel().sendMessageFormat(lang.get("options.help_opts_notice"), EmoteReference.ERROR).queue();
                 return;
             }
 
