@@ -107,8 +107,6 @@ public class DBUser implements ManagedObject {
             }
 
             isActive = key.getData().getLinkedTo() == null || (pledgeInfo != null ? pledgeInfo.getLeft() : true); //default to true if no link
-            //System.out.println(pledgeInfo);
-            //System.out.println(isActive);
         }
 
         return  //old system, deprecated, maybe remove later?

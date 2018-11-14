@@ -246,7 +246,8 @@ public class Items {
                     RandomCollection<Item> fishItems = new RandomCollection<>();
 
                     int money = 0;
-                    int amount = handleBuff(FISHING_BAIT, 1, p) ? Math.max(1, random.nextInt(item.getLevel() + 4)) : Math.max(1, random.nextInt(item.getLevel()));
+                    boolean buff = handleBuff(FISHING_BAIT, 1, p);
+                    int amount = buff ? Math.max(1, random.nextInt(item.getLevel() + 4)) : Math.max(1, random.nextInt(item.getLevel()));
                     fish.forEach((i1) -> fishItems.add(3, i1));
 
                     //Basically more chance if you have a better rod.
@@ -289,6 +290,10 @@ public class Items {
                         list.add(new ItemStack(it, 1));
                     }
 
+                    if(buff) {
+                        extraMessage += "\n" + lang.get("commands.fish.bait");
+                    }
+
                     if(overflow) {
                         extraMessage += "\n" + String.format(lang.get("commands.fish.overflow"), EmoteReference.SAD);
                     }
@@ -324,6 +329,7 @@ public class Items {
                         u.save();
                         return false;
                     }
+
 
                     //if there's money, but not fish
                     if (money > 0 && !foundFish) {

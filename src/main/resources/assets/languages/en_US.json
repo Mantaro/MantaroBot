@@ -104,7 +104,8 @@
       "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!",
       "not_suitable": "%1$sYou can't use this to fish.",
       "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?",
-      "fossil_success": "%1$sYou caught a fossil while trying to find a fish. This might be worth a fair bit or be used for casting, I believe."
+      "fossil_success": "%1$sYou caught a fossil while trying to find a fish. This might be worth a fair bit or be used for casting, I believe.",
+      "bait": "The fish ate your bait in the process!"
     },
     "softban": {
       "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
@@ -542,7 +543,7 @@
     },
     "cast": {
       "no_item_found": "%1$sI didn't find any item matching that.",
-      "item_not_cast": "%1$sYou cannot cast this item.",
+      "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items.",
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
       "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
       "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
@@ -1522,7 +1523,7 @@
       "warning_3": "Type **yes** if you agree to set the role %2$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
       "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
       "error_channel_1": "%1$sI didn't find a channel or role!",
-      "error_channel_2": "**Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".**"
+      "error_channel_2": "*Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".* If the role contains spaces \"wrap it in quotes like this\""
     },
     "birthday_disable": {
       "success": "%1$sBirthday logging has been disabled on this server"

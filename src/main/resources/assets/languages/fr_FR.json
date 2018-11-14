@@ -516,13 +516,19 @@
     },
     "cast": {
       "no_item_found": "%1$sI didn't find any item matching that.",
-      "item_not_cast": "%1$sYou cannot cast this item.",
+      "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items.",
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
       "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
       "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
       "success": "%1$sYou successfully **casted %2$s %3$s** for **%4$s credits.**",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
-      "item_broke": "\nSadly, your wrench broke in the process, but you got your item!"
+      "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
+      "ls": {
+        "header": "Castable Item List",
+        "cost": "Cast Cost: ",
+        "desc": "This is a list of the items you can cast using `~>cast`. You have to use the full name or the short name to cast it (example: `~>cast diamond pickaxe` or `~>cast diamond p` works)\n**Casting has a cost of half the price of the item. The casting price will be shown down below.**"
+      },
+      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?"
     },
     "market": {
       "dump": {
