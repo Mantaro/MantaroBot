@@ -510,13 +510,20 @@
         },
         "cast": {
             "no_item_found": "%1$sIk kan geen items vinden die hieraan voldoen.",
-            "item_not_cast": "%1$sJe kunt dit item niet casten.",
+            "item_not_cast": "%1$sJe kunt dit item niet casten. You can check `~>cast ls` for a list of castable items.",
             "not_enough_money": "%1$sJe hebt niet genoeg geld om dit te casten. **(Kosten: %2$s)**",
             "no_item": "%1$sJe hebt niet het item *%2$s* dat nodig is om verder te gaan met deze cast.",
             "not_enough_items": "%1$sJe hebt niet genoeg van het item *%2$s* om verder te gaan. **(Nodig: %3$s, Huidig: %4$s)**",
             "success": "%1$sJe hebt succesvol *%2$s %3$s gecast* voor %4$s credits. *Cast used: %5$s*",
             "no_tool": "%1$sJe hebt %2$s nodig om verder te gaan met deze cast!",
-            "item_broke": "\nHelaas, je wrench brak tijdens het proces, maar je hebt wel je item gekregen!"
+            "item_broke": "\nHelaas, je wrench brak tijdens het proces, maar je hebt wel je item gekregen!",
+            "ls": {
+                "header": "Castable Item List",
+                "cost": "Cast Cost: ",
+                "desc": "This is a list of the items you can cast using `~>cast`. You have to use the full name or the short name to cast it (example: `~>cast diamond pickaxe` or `~>cast diamond p` works)\n**Casting has a cost of half the price of the item. The casting price will be shown down below.**"
+            },
+            "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?"
+
         },
         "market": {
             "dump": {

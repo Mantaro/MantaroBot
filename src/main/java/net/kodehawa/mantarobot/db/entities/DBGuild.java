@@ -27,6 +27,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
@@ -95,7 +96,7 @@ public class DBGuild implements ManagedObject {
     public PremiumKey generateAndApplyPremiumKey(int days) {
         String premiumId = UUID.randomUUID().toString();
         PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days),
-                currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.GUILD, true, id);
+                currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.GUILD, true, id, new PremiumKeyData());
         data.setPremiumKey(premiumId);
         newKey.saveAsync();
         saveAsync();

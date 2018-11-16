@@ -26,6 +26,7 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -34,6 +35,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
@@ -126,7 +128,7 @@ public class FunCmds {
         registry.register("roll", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 Map<String, Optional<String>> opts = StringUtils.parse(args);
@@ -151,7 +153,14 @@ public class FunCmds {
                 if(amount >= 100)
                     amount = 100;
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.roll.success"), EmoteReference.DICE, diceRoll(size, amount), amount == 1 ? "!" : (String.format("\nDoing **%d** rolls.", amount))).queue();
+                long result = diceRoll(size, amount);
+                if(size == 6 && result == 6) {
+                    Player p = MantaroData.db().getPlayer(event.getAuthor());
+                    p.getData().addBadgeIfAbsent(Badge.LUCK_BEHIND);
+                    p.save();
+                }
+
+                event.getChannel().sendMessageFormat(languageContext.get("commands.roll.success"), EmoteReference.DICE, result, amount == 1 ? "!" : (String.format("\nDoing **%d** rolls.", amount))).queue();
 
                 TextChannelGround.of(event.getChannel()).dropItemWithChance(Items.LOADED_DICE, 5);
             }

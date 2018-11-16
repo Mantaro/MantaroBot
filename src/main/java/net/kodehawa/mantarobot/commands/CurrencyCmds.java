@@ -192,12 +192,12 @@ public class CurrencyCmds {
 
                         if(hasReactionPerms) {
                             embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
-                                    String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)) + "\n"
+                                    String.format(languageContext.get("general.buy_sell_paged_reference") + "\n" + String.format(languageContext.get("general.reaction_timeout"), 120), EmoteReference.BUY, EmoteReference.SELL)) + "\n"
                                         + languageContext.get("general.sellout"));
                             DiscordUtils.list(event, 120, false, embed, splitFields);
                         } else {
                             embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
-                                    String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)) + "\n"
+                                    String.format(languageContext.get("general.buy_sell_paged_reference") + "\n" + String.format(languageContext.get("general.reaction_timeout"), 120), EmoteReference.BUY, EmoteReference.SELL)) + "\n"
                                         + languageContext.get("general.sellout"));
                             DiscordUtils.listText(event, 120, false, embed, splitFields);
                         }
@@ -225,7 +225,7 @@ public class CurrencyCmds {
         });
 
         marketCommand.setPredicate((event) -> {
-            if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+            if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, null))
                 return false;
 
             Player player = MantaroData.db().getPlayer(event.getMember());
@@ -510,7 +510,7 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event))
+                    if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                         return;
 
                     Item item = Items.fromAnyNoId(args[1]).orElse(null);
@@ -644,7 +644,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event))
+                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 long toSend; // = 0 at the start
@@ -901,7 +901,7 @@ public class CurrencyCmds {
                             return;
                         }
 
-                        if(!handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
+                        if(!handleDefaultRatelimit(ratelimiter, event.getAuthor(), event, languageContext))
                             return;
 
                         Item castItem = toCast.get();
@@ -980,7 +980,7 @@ public class CurrencyCmds {
                         player.save();
 
                         event.getChannel().sendMessageFormat(languageContext.get("commands.cast.success") + "\n" + message,
-                                EmoteReference.WRENCH, castItem.getEmoji(), castItem.getName(), castCost, recipeString
+                                EmoteReference.WRENCH, castItem.getEmoji(), castItem.getName(), castCost, recipeString.toString().trim()
                         ).queue();
                     }
                 };

@@ -22,6 +22,7 @@ import com.github.natanbc.javaeval.JavaEvaluator;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -35,6 +36,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
@@ -393,6 +395,48 @@ public class OwnerCmd {
         });
     }
 
+    @Subscribe
+    public void link(CommandRegistry cr) {
+        cr.register("link", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                final Config config = MantaroData.config().get();
+
+                if(!config.isPremiumBot()) {
+                    event.getChannel().sendMessage("This command can only be ran in MP, as it'll link a guild to an MP holder.").queue();
+                    return;
+                }
+
+                if(args.length < 2) {
+                    event.getChannel().sendMessage("You need to enter both the user and the guild id (example: 132584525296435200 493297606311542784).").queue();
+                    return;
+                }
+
+                String userString = args[0];
+                String guildString = args[1];
+                Guild guild = MantaroBot.getInstance().getGuildById(guildString);
+                User user = MantaroBot.getInstance().getUserById(userString);
+                if(guild == null || user == null) {
+                    event.getChannel().sendMessage("User or guild not found.").queue();
+                    return;
+                }
+
+                //Guild assignment.
+                final DBGuild dbGuild = MantaroData.db().getGuild(guildString);
+                dbGuild.getData().setMpLinkedTo(userString); //Patreon check will run from this user.
+                dbGuild.save();
+
+                event.getChannel().sendMessageFormat("Linked MP for guild %s (%s) to user %s (%s). Including this guild in pledge check (id -> user -> pledge).").queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return null;
+            }
+        });
+    }
+
+    //TODO: deprecated, see MP link procedure ("link" command). REMOVE WHEN PATREON CHECKS ARE CONFIRMED TO WORK
     @Subscribe
     public void owner(CommandRegistry cr) {
         cr.register("owner", new SimpleCommand(Category.OWNER) {

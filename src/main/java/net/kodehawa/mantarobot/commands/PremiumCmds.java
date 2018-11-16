@@ -35,8 +35,11 @@ import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.Pair;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.awt.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -168,10 +171,21 @@ public class PremiumCmds {
                                 p.saveAsync();
                         }
 
-                        embedBuilder.setDescription(languageContext.get("commands.vipstatus.user.premium"))
-                                .addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " " + languageContext.get("general.days"), false)
-                                .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " " + languageContext.get("general.days"), false)
-                                .addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), false);
+                        Pair<Boolean, String> patreonInformation = Utils.getPledgeInformation(owner.getId());
+                        String linkedTo = currentKey.getData().getLinkedTo();
+                        embedBuilder.setColor(Color.CYAN)
+                                .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
+                                .setDescription(languageContext.get("commands.vipstatus.user.premium"))
+                                .addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " " + languageContext.get("general.days"), true)
+                                .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " " + languageContext.get("general.days"), true)
+                                .addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
+                                .addField(languageContext.get("commands.vipstatus.patreon"), patreonInformation.getLeft() + " ($" + patreonInformation.getRight() + ")", true)
+                                .addField(languageContext.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), true);
+
+                        if(linkedTo != null) {
+                            User linkedUser = MantaroBot.getInstance().getUserById(currentKey.getOwner());
+                            embedBuilder.addField(languageContext.get("commands.vipstatus.linked_to"), linkedUser.getName() + "#" + linkedUser.getDiscriminator(), true);
+                        }
                     } else {
                         embedBuilder.setDescription(languageContext.get("commands.vipstatus.user.old_system"))
                                 .addField(languageContext.get("commands.vipstatus.valid_for_old"),
@@ -196,10 +210,21 @@ public class PremiumCmds {
                             if(owner == null)
                                 owner = event.getGuild().getOwner().getUser();
 
-                            embedBuilder.setDescription(languageContext.get("commands.vipstatus.guild.premium"))
-                                    .addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " days", false)
-                                    .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " days", false)
-                                    .addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), false);
+                            Pair<Boolean, String> patreonInformation = Utils.getPledgeInformation(owner.getId());
+                            String linkedTo = currentKey.getData().getLinkedTo();
+                            embedBuilder.setColor(Color.CYAN)
+                                    .setThumbnail(event.getGuild().getIconUrl())
+                                    .setDescription(languageContext.get("commands.vipstatus.guild.premium"))
+                                    .addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " days", true)
+                                    .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " days", true)
+                                    .addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
+                                    .addField(languageContext.get("commands.vipstatus.patreon"), languageContext.get("commands.vipstatus.active_pledge") + ": " + patreonInformation.getLeft(), true)
+                                    .addField(languageContext.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), false);
+
+                            if(linkedTo != null) {
+                                User linkedUser = MantaroBot.getInstance().getUserById(currentKey.getOwner());
+                                embedBuilder.addField(languageContext.get("commands.vipstatus.linked_to"), linkedUser.getName() + "#" + linkedUser.getDiscriminator(), false);
+                            }
                         } else {
                             embedBuilder.setDescription(languageContext.get("commands.vipstatus.guild.old_system"))
                                     .addField(languageContext.get("commands.vipstatus.valid_for_old"),
@@ -235,13 +260,14 @@ public class PremiumCmds {
         cr.register("createkey", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(args.length < 2) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a scope and an id (example: guild 1558674582032875529)").queue();
+                if(args.length < 3) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a scope, an id and whether this key is linked (example: guild 1558674582032875529 true)").queue();
                     return;
                 }
 
                 String scope = args[0];
                 String owner = args[1];
+                boolean linked = Boolean.parseBoolean(args[2]);
 
                 PremiumKey.Type scopeParsed = null;
                 try {
@@ -249,14 +275,14 @@ public class PremiumCmds {
                 } catch(IllegalArgumentException ignored) {}
 
                 if(scopeParsed == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid scope (Valid ones are: `user`, `guild` or `master`)").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid scope (Valid ones are: `user` or `guild`)").queue();
                     return;
                 }
 
                 //This method generates a premium key AND saves it on the database! Please use this result!
-                PremiumKey generated = PremiumKey.generatePremiumKey(owner, scopeParsed);
-                event.getChannel().sendMessage(EmoteReference.CORRECT + String.format("Generated: `%s` (S: %s) **[NOT ACTIVATED]**",
-                        generated.getId(), generated.getParsedType())).queue();
+                PremiumKey generated = PremiumKey.generatePremiumKey(owner, scopeParsed, linked);
+                event.getChannel().sendMessage(EmoteReference.CORRECT + String.format("Generated: `%s` (S: %s) **[NOT ACTIVATED]** (Linked: %s)",
+                        generated.getId(), generated.getParsedType(), linked)).queue();
             }
 
             @Override

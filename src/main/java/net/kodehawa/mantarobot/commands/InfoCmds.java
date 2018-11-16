@@ -707,7 +707,8 @@ public class InfoCmds {
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.age") + ":** " +
                                 TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - r.getCreationTime().toInstant().toEpochMilli()) + " " + languageContext.get("general.days"),
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.color") + ":** " +
-                                (r.getColor() == null ? languageContext.get("general.none") : ("#" +  Integer.toHexString(r.getColor().getRGB()))),
+                                //Here: remove first two parts of the hex code, which contains transparency data and therefore it's not needed (discord role color transparency is always ff)
+                                (r.getColor() == null ? languageContext.get("general.none") : ("#" +  Integer.toHexString(r.getColor().getRGB()).substring(2))),
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.members") + ":** " +
                                 event.getGuild().getMembers().stream().filter(member -> member.getRoles().contains(r)).count(),
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.position") + ":** " +

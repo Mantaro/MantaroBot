@@ -92,4 +92,5 @@ public class GuildData {
     private String whitelistedRole = null;
     private String birthdayMessage = null;
     private boolean customAdminLockNew = true;
+    private String mpLinkedTo = null; //user id of the person who linked MP to a specific server (used for patreon checks)
 }

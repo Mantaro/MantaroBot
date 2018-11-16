@@ -112,7 +112,7 @@ public class LeaderboardCmd {
             }
         });
 
-        leaderboards.setPredicate(event -> handleDefaultRatelimit(rateLimiter, event.getAuthor(), event));
+        leaderboards.setPredicate(event -> handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, null));
 
         leaderboards.addSubCommand("gamble", new SubCommand() {
             @Override

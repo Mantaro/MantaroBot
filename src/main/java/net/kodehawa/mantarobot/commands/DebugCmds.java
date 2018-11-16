@@ -131,7 +131,8 @@ public class DebugCmds {
         cr.register("ping", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                    return;
 
                 long start = System.currentTimeMillis();
                 event.getChannel().sendTyping().queue(v -> {

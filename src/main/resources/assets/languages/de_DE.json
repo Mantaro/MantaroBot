@@ -534,7 +534,7 @@
         },
         "cast": {
             "no_item_found": "%1$sIch habe keine passenden Gegenstände gefunden.",
-            "item_not_cast": "%1$sDu kannst diesen Gegenstand nicht herstellen.",
+            "item_not_cast": "%1$sDu kannst diesen Gegenstand nicht herstellen. You can check `~>cast ls` for a list of castable items.",
             "not_enough_money": "%1$sDu hast nicht genug Geld, um dies herzustellen. **(Kosten: %2$s)**",
             "no_item": "%1$sDu hast nicht den benötigten Gegenstand *%2$s*, um fortzufahren.",
             "not_enough_items": "%1$sDu hast nicht  genug von *%2$s*, um fortzufahren. **(Benötigt: %3$s, Aktuell: %4$s)**",
@@ -751,7 +751,7 @@
             },
             "brief_success": "**%1$ss Abzeichen:**\n%2$s",
             "profile_notice": "Wenn du der Meinung bist, dass du ein neues Abzeichen erhalten hast und es hier nicht angezeigt wird, verwende bitte `~>profile` und führe den Befehl erneut aus.\n",
-            "info_notice": "Verwende `~>badges info <Abzeichenname>` um mehr Information über ein Abzeichen zu erhalten.\n",
+            "info_notice": "Verwende `~>badges info <Abzeichenname>` um mehr Information über ein Abzeichen zu erhalten. [You can also check the wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
             "upvote_notice": "**Du kannst ein kostenloses Abzeichen für das [Up-Voten von Mantaro auf discordbots.org](https://discordbots.org/bot/mantaro) erhalten!** (Die Verarbeitung kann einige Minuten dauern)\n\n\n",
             "donate_notice": "**Du kannst ein Abzeichen für das [Unterstützung von Mantaros Entwicklung bekommen](https://patreon.com/mantaro)!** (Es könnte ein paar Minuten zum Verarbeiten brauchen)\n\n",
             "no_badges": "Keine Abzeichen (noch!)",
@@ -1145,7 +1145,7 @@
         "help": {
             "title": "Mantaro-Hilfe",
             "base": "Befehlsliste. Für eine detailierte Beschreibung bezüglich der Nutzung von Mantaro, schau dir bitte das [Wiki](https://github.com/Mantaro/MantaroBot/wiki) an.\n",
-            "support": "Solltest du Probleme oder Anfragen haben, während du Mantaro nutzt, bitte trete dem [Support Server](https://is.gd/mantaroguild) bei.\n",
+            "support": "Solltest du Probleme oder Anfragen haben, während du Mantaro nutzt, bitte trete dem [Support Server](https://is.gd/mantaroguild) bei.. [Follow me in twitter for updates!](https://twitter.com/mantarodiscord)\n",
             "patreon": "[Wir brauchen deine Hilfe, um Mantaro online zu halten! Klicke hier für mehr Informationen.](https://www.patreon.com/mantaro)",
             "disabled_commands": "Zeige nur nicht deaktivierte Befehle. Gesamte deaktivierte Befehle: %1$s",
             "channel_specific_disabled_commands": "\nZeige nur nicht deaktivierte Befehle. Gesamte kanalspezifisch deaktivierte Befehle: %1$s",
@@ -1493,7 +1493,7 @@
             "warning_3": "Gebe **yes** ein, wenn du zustimmst, die Rolle %2$s als Geburtstagsrolle zu setzen, und **no** zum abbrechen. Diese Wahl endet in 45 Sekunden.",
             "success": "%1$sGeburtstagslogging auf diesem Server mit Parametern aktiviert -> Kanal `%2$s (%3$s)` und Rolle: `%4$s (%5$s)`",
             "error_channel_1": "%1$sIch habe keinen Kanal oder Rolle gefunden!",
-            "error_channel_2": "**Beachte, du musst weder den Kanal noch die Rolle erwähnen, sonder nur den Namen schreiben, die Reihenfolge ist <Kanal> <Rolle>, ohne die \"<>\".**"
+            "error_channel_2": "*Beachte, du musst weder den Kanal noch die Rolle erwähnen, sonder nur den Namen schreiben, die Reihenfolge ist <Kanal> <Rolle>, ohne die \"<>\".* If the role contains spaces \"wrap it in quotes like this\""
         },
         "birthday_disable": {
             "success": "%1$sGeburtstagslogging wurde auf diesem Server deaktiviert."

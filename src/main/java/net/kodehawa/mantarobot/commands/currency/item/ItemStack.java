@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 public class ItemStack {
     private final int amount;
     private final Item item;
+    public static int MAX_STACK_SIZE = 5000;
 
     public ItemStack(Item item, int amount) {
         this.item = item;
@@ -78,6 +79,6 @@ public class ItemStack {
 
     public boolean canJoin(ItemStack other) {
         int amountAfter = amount + other.amount;
-        return amountAfter >= 0 && amountAfter <= 5000;
+        return amountAfter >= 0 && amountAfter <= MAX_STACK_SIZE;
     }
 }

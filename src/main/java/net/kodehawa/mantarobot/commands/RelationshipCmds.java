@@ -645,7 +645,7 @@ public class RelationshipCmds {
         });
 
         cr.registerAlias("waifu", "waifus");
-        waifu.setPredicate(event -> Utils.handleDefaultRatelimit(rl, event.getAuthor(), event));
+        waifu.setPredicate(event -> Utils.handleDefaultRatelimit(rl, event.getAuthor(), event, null));
 
         waifu.addSubCommand("stats", new SubCommand() {
             @Override
@@ -743,6 +743,10 @@ public class RelationshipCmds {
                             EmoteReference.ERROR, claimerUserData.getWaifuSlots(), claimerUserData.getWaifus().size()
                     ).queue();
                     return;
+                }
+
+                if(waifuFinalValue > 1000000000) {
+                    claimerPlayer.getData().addBadgeIfAbsent(Badge.GOLD_VALUE);
                 }
 
                 //Add waifu to claimer list.

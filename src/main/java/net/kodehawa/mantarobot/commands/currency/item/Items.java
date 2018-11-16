@@ -198,7 +198,7 @@ public class Items {
                 return false;
             }
 
-            if(!handleDefaultRatelimit(fishRatelimiter, event.getAuthor(), event))
+            if(!handleDefaultRatelimit(fishRatelimiter, event.getAuthor(), event, lang))
                 return false;
 
 
@@ -246,7 +246,8 @@ public class Items {
                     RandomCollection<Item> fishItems = new RandomCollection<>();
 
                     int money = 0;
-                    int amount = handleBuff(FISHING_BAIT, 1, p) ? Math.max(1, random.nextInt(item.getLevel() + 4)) : Math.max(1, random.nextInt(item.getLevel()));
+                    boolean buff = handleBuff(FISHING_BAIT, 1, p);
+                    int amount = buff ? Math.max(1, random.nextInt(item.getLevel() + 4)) : Math.max(1, random.nextInt(item.getLevel()));
                     fish.forEach((i1) -> fishItems.add(3, i1));
 
                     //Basically more chance if you have a better rod.
@@ -289,6 +290,10 @@ public class Items {
                         list.add(new ItemStack(it, 1));
                     }
 
+                    if(buff) {
+                        extraMessage += "\n" + lang.get("commands.fish.bait");
+                    }
+
                     if(overflow) {
                         extraMessage += "\n" + String.format(lang.get("commands.fish.overflow"), EmoteReference.SAD);
                     }
@@ -324,6 +329,7 @@ public class Items {
                         u.save();
                         return false;
                     }
+
 
                     //if there's money, but not fish
                     if (money > 0 && !foundFish) {
@@ -506,7 +512,7 @@ public class Items {
         Item crate = fromId(item);
         if(inventory.containsItem(crate)) {
             if(inventory.containsItem(LOOT_CRATE_KEY)) {
-                if(!handleDefaultRatelimit(lootCrateRatelimiter, event.getAuthor(), event))
+                if(!handleDefaultRatelimit(lootCrateRatelimiter, event.getAuthor(), event, lang))
                     return false;
 
                 inventory.process(new ItemStack(LOOT_CRATE_KEY, -1));
@@ -534,6 +540,14 @@ public class Items {
         ArrayList<ItemStack> ita = new ArrayList<>();
 
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
+
+        if((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM) && toAdd.contains(GEM5_PICKAXE) && toAdd.contains(GEM5_PICKAXE_2)) {
+            player.getData().addBadgeIfAbsent(Badge.DESTINY_REACHES);
+        }
+
+        if((type == ItemType.LootboxType.FISH || type == ItemType.LootboxType.FISH_PREMIUM) && toAdd.contains(FISH_5)) {
+            player.getData().addBadgeIfAbsent(Badge.TOO_BIG);
+        }
 
         boolean overflow = player.getInventory().merge(ita);
         player.saveAsync();

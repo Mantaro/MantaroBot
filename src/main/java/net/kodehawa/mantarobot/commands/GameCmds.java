@@ -109,7 +109,7 @@ public class GameCmds {
             }
         }));
 
-        gameCommand.setPredicate(event -> Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event));
+        gameCommand.setPredicate(event -> Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, null));
 
         //Sub-commands.
         gameCommand.addSubCommand("wins", new SubCommand() {
@@ -279,7 +279,7 @@ public class GameCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event))
+                if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 String diff = "";
