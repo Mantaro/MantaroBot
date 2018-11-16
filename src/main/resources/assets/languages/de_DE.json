@@ -17,6 +17,7 @@
         "not_found": "Nicht(s) gefunden.",
         "no_results": "Keine Ergebnisse gefunden.",
         "timeout": "Dies läuft in %1$d Sekunden ab.",
+        "reaction_timeout": "Reaktionen werden in %1$d Sekunden auslaufen.",
         "example": "Beispiel",
         "definition": "Definition",
         "name": "Name",
@@ -60,7 +61,12 @@
         "cancelled": "%1$sAnfrage abgebrochen.",
         "sellout": "Erwäge auf patreon.com/mantaro zu spenden, falls du mich magst, selbst eine kleine Spende würde mir helfen den Bot am Laufen zu halten!",
         "deprecated": "Nicht länger genutzt",
-        "space_notice": "Sollte der Name Leerzeichen beinhalten, versuche \"ihn in Anführungszeichen zu schreiben.\""
+        "space_notice": "Sollte der Name Leerzeichen beinhalten, versuche \"ihn in Anführungszeichen zu schreiben.\"",
+        "ratelimit": {
+            "header": "%1$s%2$s (Ratelimited)\n **Du kannst den Befehl in %3$s wieder nutzen.**",
+            "spam_1": "Mach bitte eine Pause, das wäre auch für deine Gesundheit gut :( *Beachte, dass das Ratelimit weiter erhöht wird, wenn du es, bevor es ausläuft, weiterversuchst!*",
+            "spam_2": "\nIch denke aufhören ist jetzt die beste Option..."
+      }
     },
     "categories": {
         "music": "Musik",
@@ -98,7 +104,8 @@
             "waifu_help": "Deine Waifu kam und gesellte sich zu deinem Angelabenteuer dazu und ihr habt beide eine größere Beute erhalten!",
             "not_suitable": "%1$sDu kannst das nicht zum Fischen benutzen.",
             "shark_success": "%1$sDu hast es irgendwie geschaft einen Hai zu fangen. Was eine tolle Angel, wa?",
-            "fossil_success": "%1$sDu hast ein Fossil beim Fischen gefangen. Das könnte ein bisschen was Wert sein, oder vielleicht zum Herstellen gebraucht werden, denke ich."
+            "fossil_success": "%1$sDu hast ein Fossil beim Fischen gefangen. Das könnte ein bisschen was Wert sein, oder vielleicht zum Herstellen gebraucht werden, denke ich.",
+            "bait": "Der Fisch hat deinen Köder geschluckt!"
         },
         "softban": {
             "no_permission": "%1$sKann nicht softbannen: Sie haben keine Rechte Mitglider zu bannen.",
@@ -140,7 +147,7 @@
         },
         "music_usage": {
             "1": "*Wie benutze ich Mantaros Musik?*",
-            "2": "- Um **Songs von YouTube oder SoundCloud hinzuzufügen** nutze `~>play` For example: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *Es wird automatish dem Kanal in dem du dich befindest beitreten*",
+            "2": "- Um **Songs von YouTube oder SoundCloud hinzuzufügen** nutze `~>play` Zum Beispiel: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *Es wird automatish dem Kanal in dem du dich befindest beitreten*",
             "3": "- Um **Songs von YouTube zu suchen** nutze `~>play <suche>` (ohne das < und >) Zum Beispiel: `~>play see you again` (Du musst eine Nummer wählen, *schreibe* einfach die Nummer, wenn es auftaucht!)",
             "4": "- Um **Songs von SoundCloud zu suchen** nutze `~>play soundcloud <suche>` Zum Beispiel: `~>play soundcloud hot milk`",
             "5": "- Um **die Warteschlange einzusehen** nutze einfach `~>queue`",
@@ -313,7 +320,9 @@
             "nsfw_disabled": "%1$sDieser Befehl wurde erfolgreich als SFW markiert.",
             "nsfw_not_nsfw": "%1$sDieser Befehl ist als NSFW markiert, daher kannst du ihn nur in NSFW-Kanälen verwenden.",
             "ls": {
-                "header": "Befehle für diesen Server"
+                "header": "Befehle für diesen Server",
+                "description": "**Dies zeigt all die benutzerdefinierten Befehle (von Benutzern) auf diesem Server.** Jeder hier aufgelistete Befehl hat keinerlei Verbindung zum Bot oder seinen Entwicklern.\n\nBenutzerdefinierte Befehle sind von Benutzern erstellt (normalerweise Serveradministratoren), welche verschiedenste Situationen händeln können, bis hin zum Emulieren von Aktions-Befehlen.\nFür mehr Informationen über die Befehlserstellung siehe [hier.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Liste:**",
+                "footer": "Anzahl aller benutzerdefinierten Befehle dieses Servers: %1$s"
             },
             "invalid": "%1$sUngültige Befehlsauswahl. Prüfe die Befehlshilfe (`help custom`).",
             "view": {
@@ -534,7 +543,7 @@
         },
         "cast": {
             "no_item_found": "%1$sIch habe keine passenden Gegenstände gefunden.",
-            "item_not_cast": "%1$sDu kannst diesen Gegenstand nicht herstellen. You can check `~>cast ls` for a list of castable items.",
+            "item_not_cast": "%1$sDu kannst diesen Gegenstand nicht herstellen. Du kannst `~>cast ls` nutzen, um eine Liste der herstellbaren Gegenständen zu sehen.",
             "not_enough_money": "%1$sDu hast nicht genug Geld, um dies herzustellen. **(Kosten: %2$s)**",
             "no_item": "%1$sDu hast nicht den benötigten Gegenstand *%2$s*, um fortzufahren.",
             "not_enough_items": "%1$sDu hast nicht  genug von *%2$s*, um fortzufahren. **(Benötigt: %3$s, Aktuell: %4$s)**",
@@ -572,7 +581,7 @@
                     "cancelled": "%1$sErfolgreich abgebrochen."
                 },
                 "non_existent": "%1$sDu kannst keinen nicht vorhandenden Gegenstand verkaufen. (Aber du kannst ihn mit `~>market dump` wegwerfen)",
-                "no_sell_price": "%1$sDu kannst keinen Gegenstand verkaufen, der nicht verkauft werden kann. (Aber du kannst ihn mit `~market dump` wegwerfen.)",
+                "no_sell_price": "%1$sDu kannst keinen Gegenstand verkaufen, der nicht verkauft werden kann. (Aber du kannst ihn mit `~>market dump` wegwerfen.)",
                 "no_item_player": "%1$sDu kannst keinen Gegenstand verkaufen, den du nicht besitzt.",
                 "more_items_than_player": "%1$sDu kannst nicht mehrverkaufen, als du hast.",
                 "success": "%1$sDu hast %2$d **%3$s** verkauft und erhältst %4$d Credits!"
@@ -703,7 +712,7 @@
                 "success": "%1$sZeitzone gespeichert, Ihre Profilzeitzone ist jetzt: **%2$s**"
             },
             "description": {
-                "no_argument": "%1$sSie müssen ein Argument angeben! (set (setzen) oder remove (entfernen))\nzum Beispiel, ~>profile description set Hi there!",
+                "no_argument": "%1$sSie müssen ein Argument angeben! (set (setzen) oder remove (entfernen))\nzum Beispiel, ~>profile description set Hallo du da!",
                 "too_long": "%1$sDie Beschreibung ist zu lang! `(Limit von 300 Zeichen für alle und 500 für Premium-Nutzer)`",
                 "success": "%1$sDeine Beschreibung ist nun: **%2$s**\nÜberprüfe dein glänzendes neues Profil mit `~>profile`",
                 "clear_success": "%1$sBeschreibung erfolgreich gelöscht."
@@ -721,6 +730,24 @@
                 "reset_success": "%1$sDeine persönlichen Spracheinstellungen wurden erfolgreich zurückgesetzt.",
                 "success": "%1$sMantaro wird jetzt in folgender Sprache mit dir reden: `%2$s`",
                 "invalid": "%1$sDiese Sprache ist nicht verfügbar! Du kannst `reset` nutzen, um die Spracheinstellungen zurückzusetzen."
+            },
+            "stats": {
+                "header": "Profilstatistiken für %1$s",
+                "wins": "Casinogewinne",
+                "market": "Marktnutzungen",
+                "potion": "Aktiver Trank",
+                "potion_type": "Trankart",
+                "buff": "Verbesserung",
+                "buff_type": "Verbesserungsart",
+                "experience": "Erfahrung",
+                "daily": "Täglicher Streak",
+                "daily_at": "Letzer Streak",
+                "waifu_claimed": "Häufigkeit der Waifubeanspruchung",
+                "dust": "Staubniveau",
+                "lang": "Anzeigesprache",
+                "reminders": "Anzahl der bisherigen Erinnerungen",
+                "times": "Male(e)",
+                "days": "Tag(e)"
             },
             "badge_header": "%1$sVorzeige-Abzeichen",
             "bot_notice": "%1$sBots haben keine Profile.",
@@ -751,7 +778,7 @@
             },
             "brief_success": "**%1$ss Abzeichen:**\n%2$s",
             "profile_notice": "Wenn du der Meinung bist, dass du ein neues Abzeichen erhalten hast und es hier nicht angezeigt wird, verwende bitte `~>profile` und führe den Befehl erneut aus.\n",
-            "info_notice": "Verwende `~>badges info <Abzeichenname>` um mehr Information über ein Abzeichen zu erhalten. [You can also check the wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+            "info_notice": "Verwende `~>badges info <Abzeichenname>` um mehr Information über ein Abzeichen zu erhalten. [Du kannst auch ins Wiki schauen.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
             "upvote_notice": "**Du kannst ein kostenloses Abzeichen für das [Up-Voten von Mantaro auf discordbots.org](https://discordbots.org/bot/mantaro) erhalten!** (Die Verarbeitung kann einige Minuten dauern)\n\n\n",
             "donate_notice": "**Du kannst ein Abzeichen für das [Unterstützung von Mantaros Entwicklung bekommen](https://patreon.com/mantaro)!** (Es könnte ein paar Minuten zum Verarbeiten brauchen)\n\n",
             "no_badges": "Keine Abzeichen (noch!)",
@@ -860,7 +887,10 @@
             "expire": "Läuft ab in",
             "key_duration": "Gesamtdauer",
             "key_owner": "Schlüsselinhaber",
-            "wrong_args": "%1$sFalsche Argumente..."
+            "wrong_args": "%1$sFalsche Argumente...",
+            "patreon": "Unterstützung",
+            "linked": "Verlinkt",
+            "linked_to": "Verlinkt mit"
         },
         "action": {
             "no_mention": "%1$sDu musst mindestens einen Nutzer erwähnen.",
@@ -1094,7 +1124,7 @@
             "header": "%1$sO-Oh, ich sehe, dass du daran interessiert bist, meine sozialen Netzwerke zu sehen!\n\n",
             "description": {
                 "1": "Nun, dann!",
-                "2": "**- Website:** <%1$s>"
+                "2": "**- Webseite:** <%1$s>"
             },
             "note": "**Wenn du Mantaro magst, bitte upvote auf **<https://discordbots.org/bot/mantaro>** und/oder denke drüber nach auf Patreon oder Paypal zu spenden! Danke~**"
         },
@@ -1145,7 +1175,7 @@
         "help": {
             "title": "Mantaro-Hilfe",
             "base": "Befehlsliste. Für eine detailierte Beschreibung bezüglich der Nutzung von Mantaro, schau dir bitte das [Wiki](https://github.com/Mantaro/MantaroBot/wiki) an.\n",
-            "support": "Solltest du Probleme oder Anfragen haben, während du Mantaro nutzt, bitte trete dem [Support Server](https://is.gd/mantaroguild) bei.. [Follow me in twitter for updates!](https://twitter.com/mantarodiscord)\n",
+            "support": "Solltest du Probleme oder Anfragen haben, während du Mantaro nutzt, bitte trete dem [Support Server](https://is.gd/mantaroguild) bei.. [Folge mir auf Twitter für Updates!](https://twitter.com/mantarodiscord)\n",
             "patreon": "[Wir brauchen deine Hilfe, um Mantaro online zu halten! Klicke hier für mehr Informationen.](https://www.patreon.com/mantaro)",
             "disabled_commands": "Zeige nur nicht deaktivierte Befehle. Gesamte deaktivierte Befehle: %1$s",
             "channel_specific_disabled_commands": "\nZeige nur nicht deaktivierte Befehle. Gesamte kanalspezifisch deaktivierte Befehle: %1$s",
@@ -1187,7 +1217,7 @@
         },
         "balance": {
             "bot_notice": "%1$sBots können kein Geld haben.",
-            "external_balance": "%1$ss Guthaben lautet **$%2$s.**",
+            "external_balance": "%1$ss Guthaben lautet **$%2$d Credits.**",
             "own_balance": "Dein Guthaben ist **$%1$s.**"
         },
         "daily": {
@@ -1493,7 +1523,7 @@
             "warning_3": "Gebe **yes** ein, wenn du zustimmst, die Rolle %2$s als Geburtstagsrolle zu setzen, und **no** zum abbrechen. Diese Wahl endet in 45 Sekunden.",
             "success": "%1$sGeburtstagslogging auf diesem Server mit Parametern aktiviert -> Kanal `%2$s (%3$s)` und Rolle: `%4$s (%5$s)`",
             "error_channel_1": "%1$sIch habe keinen Kanal oder Rolle gefunden!",
-            "error_channel_2": "*Beachte, du musst weder den Kanal noch die Rolle erwähnen, sonder nur den Namen schreiben, die Reihenfolge ist <Kanal> <Rolle>, ohne die \"<>\".* If the role contains spaces \"wrap it in quotes like this\""
+            "error_channel_2": "*Beachte, du musst weder den Kanal noch die Rolle erwähnen, sonder nur den Namen schreiben, die Reihenfolge ist <Kanal> <Rolle>, ohne die \"<>\".* Wenn der Rollenname Leerzeichen enthält, \"pack sie, wie das hier in Anführungsstriche\""
         },
         "birthday_disable": {
             "success": "%1$sGeburtstagslogging wurde auf diesem Server deaktiviert."
@@ -1860,11 +1890,11 @@
             "fish_crate": "Eine Kiste, die du beim Fischen gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate treasure` geöffnet werden",
             "mine_premium_crate": "Eine Kiste, die du beim Bergbau gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate gem premium crate` geöffnet werden",
             "fish_premium_crate": "Eine Kiste, die du beim Fischen gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate premium treasure` geöffnet werden",
-            "shell": "Am Grunde des Ozeans gefunden. Wofür könnte es nützlich sein?",
-            "shark": "Woah. Wie hast du *das* gefangen?",
             "comet_rod": "Eine etwas stärkere Angel. (17% Bruchrate)",
             "star_rod": "Eine stäkere Angel. (14% Bruchrate)",
-            "sparkle_rod": "Eine viel stärkere Angel. (9% Bruchrate)"
+            "sparkle_rod": "Eine viel stärkere Angel. (9% Bruchrate)",
+            "shell": "Am Grunde des Ozeans gefunden. Wofür könnte es nützlich sein?",
+            "shark": "Woah. Wie hast du *das* gefangen?"
         }
     },
     "test": {
