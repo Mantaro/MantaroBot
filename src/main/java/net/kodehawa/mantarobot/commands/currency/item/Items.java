@@ -106,9 +106,9 @@ public class Items {
 
             // ---------------------------------- 5.0 ITEMS START HERE ----------------------------------
             PANTS = new Item(ItemType.COMMON, "\uD83D\uDC56", "Pants", "items.pants", "items.description.pants", 20, true),
-            POTION_HASTE = new Item(ItemType.INTERACTIVE, "\uD83C\uDF76","Haste Potion", "items.haste", "items.description.haste", 490, true),
-            POTION_CLEAN = new Item(ItemType.INTERACTIVE, "\uD83C\uDF7C","Milky Potion", "items.milky", "items.description.milky", 50, true),
-            POTION_STAMINA = new Item(ItemType.INTERACTIVE, "\uD83C\uDFFA","Energy Beverage", "items.energy", "items.description.energy", 450, true),
+            POTION_HASTE = new Item(ItemType.POTION, "\uD83C\uDF76","Haste Potion", "items.haste", "items.description.haste", 490, true),
+            POTION_CLEAN = new Item(ItemType.POTION, "\uD83C\uDF7C","Milky Potion", "items.milky", "items.description.milky", 50, true),
+            POTION_STAMINA = new Item(ItemType.POTION, "\uD83C\uDFFA","Energy Beverage", "items.energy", "items.description.energy", 450, true),
             FISHING_ROD = new FishRod(ItemType.INTERACTIVE, 3, "\uD83C\uDFA3","Fishing Rod", "items.rod", "items.description.rod", 65, true, "", 0),
             FISH_1 = new Item(ItemType.FISHING, "\uD83D\uDC1F","Fish", "items.fish", "items.description.fish", 10, false),
             FISH_2 = new Item(ItemType.FISHING, "\uD83D\uDC20","Tropical Fish", "items.tropical_fish", "items.description.tropical_fish", 30, false),
@@ -123,7 +123,7 @@ public class Items {
             CLAIM_KEY = new Item(ItemType.COMMON, "\uD83D\uDDDD","Claim Key", "items.claim_key", "items.description.claim_key", 1, false, true),
             COFFEE = new Item(ItemType.COMMON, "\u2615","Coffee", "items.coffee", "items.description.coffee", 10, true),
             WAIFU_PILL = new Item(ItemType.INTERACTIVE, "\ud83d\udc8a","Waifu Pill", "items.waifu_pill", "items.description.waifu_pill", 670, true),
-            FISHING_BAIT = new Item(ItemType.INTERACTIVE, "\uD83D\uDC1B","Fishing Bait", "items.bait", "items.description.bait", 15, true),
+            FISHING_BAIT = new Item(ItemType.BUFF, "\uD83D\uDC1B","Fishing Bait", "items.bait", "items.description.bait", 15, true),
             DIAMOND_PICKAXE = new Item(ItemType.CAST_MINE, EmoteReference.DIAMOND_PICK.getDiscordNotation(),"Diamond Pickaxe", "items.diamond_pick", "items.description.diamond_pick", 450, true, false, "1;2", 10, 18),
             TELEVISION = new Item(ItemType.COMMON, "\uD83D\uDCFA","Television", "items.tv", "items.description.tv", 45, true),
             WRENCH = new Item(ItemType.COMMON, "\ud83d\udd27","Wrench", "items.wrench", "items.description.wrench", 50, true),
@@ -182,13 +182,13 @@ public class Items {
 
             //casting bc old stuff :clap:, the FishRod object is so we can handle level and stuff w/o that many issues
             FishRod item = (FishRod) FISHING_ROD;
-            int equipped = u.getData().getEquippedRod();
+            int equipped = u.getData().getEquippedItems().of(PlayerEquipment.EquipmentType.ROD);
 
             if(equipped != 0) {
                 Item temp = Items.fromId(equipped);
                 if(!playerInventory.containsItem(temp)) {
-                    event.getChannel().sendMessageFormat(lang.get("commands.fish.missing_equipped"), EmoteReference.ERROR, temp).queue();
-                    u.getData().setEquippedRod(0);
+                    event.getChannel().sendMessageFormat(lang.get("commands.fish.missing_equipped"), EmoteReference.ERROR, temp.getName()).queue();
+                    u.getData().getEquippedItems().resetOfType(PlayerEquipment.EquipmentType.ROD);
                     u.save();
                 } else {
                     item = (FishRod) temp;

@@ -786,7 +786,9 @@ public class CurrencyCmds {
                 }
 
                 if(args[0].equalsIgnoreCase("ls")) {
-                    List<Item> interactiveItems = Arrays.stream(Items.ALL).filter(i -> i.getItemType() == ItemType.INTERACTIVE).collect(Collectors.toList());
+                    List<Item> interactiveItems = Arrays.stream(Items.ALL).filter(
+                            i -> i.getItemType() == ItemType.INTERACTIVE || i.getItemType() == ItemType.POTION || i.getItemType() == ItemType.CRATE || i.getItemType() == ItemType.BUFF
+                    ).collect(Collectors.toList());
 
                     StringBuilder show = new StringBuilder();
 
@@ -825,7 +827,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(item.getItemType() != ItemType.INTERACTIVE && item.getItemType() != ItemType.CRATE) {
+                if(item.getItemType() != ItemType.INTERACTIVE && item.getItemType() != ItemType.CRATE && item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.not_interactive"), EmoteReference.ERROR).queue();
                     return;
                 }

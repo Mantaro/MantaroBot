@@ -43,7 +43,9 @@ public enum ItemType {
     MINE_RARE_PICK(true),
     MINE_PICK(true),
     CRATE(false),
-    CAST_FISH(true);
+    CAST_FISH(true),
+    POTION(false),
+    BUFF(false);
 
     private boolean cast;
 

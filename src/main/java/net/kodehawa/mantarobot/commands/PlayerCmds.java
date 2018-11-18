@@ -334,20 +334,12 @@ public class PlayerCmds {
                     return;
                 }
 
-                //this can definitely be improved later on if we wanna add more stuff you can equip (could do Predicate -> filter item type -> equip to x based on item type?)
-                if(item.getItemType() == ItemType.CAST_MINE || item.getItemType() == ItemType.MINE_RARE_PICK) {
-                    user.getData().setEquippedPick(Items.idOf(item));
+                if(user.getData().getEquippedItems().equipItem(item)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.success"), EmoteReference.CORRECT, item.getEmoji(), item.getName()).queue();
-                } else if(item instanceof FishRod) {
-                    user.getData().setEquippedRod(Items.idOf(item));
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.success"), EmoteReference.CORRECT, item.getEmoji(), item.getName()).queue();
+                    user.save();
                 } else {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.not_suitable"), EmoteReference.ERROR).queue();
-                    //no need to save here
-                    return;
                 }
-
-                user.save();
             }
         });
 

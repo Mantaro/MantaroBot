@@ -25,10 +25,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.currency.item.Item;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.ItemType;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
@@ -715,14 +712,14 @@ public class MoneyCmds {
                 UserData userData = dbUser.getData();
 
                 Item item = Items.BROM_PICKAXE; //default pick
-                int equipped = userData.getEquippedPick();
+                int equipped = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK);
                 Optional<Item> itemOpt = Items.fromAnyNoId(content);
 
                 if(equipped != 0) {
                     Item temp = Items.fromId(equipped);
                     if(!inventory.containsItem(temp)) {
-                        event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "mine.missing_equipped"), EmoteReference.ERROR, temp).queue();
-                        userData.setEquippedPick(0);
+                        event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "mine.missing_equipped"), EmoteReference.ERROR, temp.getName()).queue();
+                        userData.getEquippedItems().resetOfType(PlayerEquipment.EquipmentType.PICK);
                         dbUser.save();
                     } else {
                         item = temp;
