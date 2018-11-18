@@ -105,7 +105,8 @@
       "not_suitable": "%1$sYou can't use this to fish.",
       "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?",
       "fossil_success": "%1$sYou caught a fossil while trying to find a fish. This might be worth a fair bit or be used for casting, I believe.",
-      "bait": "The fish ate your bait in the process!"
+      "bait": "The fish ate your bait in the process!",
+      "missing_equipped": "%1$sYou had an equipped %2$s rod, but you no longer have any of its kind on your inventory! Equipped rod has been reset."
     },
     "softban": {
       "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
@@ -749,6 +750,13 @@
         "times": "time(s)",
         "days": "day(s)"
       },
+      "equip": {
+        "no_content": "%1$sYou have to specify which item to equip!",
+        "no_item": "%1$sThis item doesn't exist",
+        "not_owned": "%1$sYou don't own this item!",
+        "success": "%1$sYou successfully equipped %2$s *%3$s*, which will be remembered next time you use the proper currency command.",
+        "not_suitable": "%1$sYou can't equip this."
+      },
       "badge_header": "%1$sDisplay Badge",
       "bot_notice": "%1$sBots don't have profiles.",
       "header": "%1$s's Profile",
@@ -1294,7 +1302,8 @@
         "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
       "pick_broke": "%1$sOne of your picks broke while mining.",
-      "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!"
+      "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!",
+      "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset."
     },
     "slots": {
       "errors": {

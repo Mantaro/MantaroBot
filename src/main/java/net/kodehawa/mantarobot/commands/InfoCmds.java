@@ -85,7 +85,7 @@ public class InfoCmds {
 
                         event.getChannel().sendMessage(new EmbedBuilder()
                                 .setColor(Color.PINK)
-                                .setAuthor(languageContext.get("commands.about.title"), "http://is.gd/mantaro", event.getJDA().getSelfUser().getEffectiveAvatarUrl())
+                                .setAuthor(languageContext.get("commands.about.title"), "https://add.mantaro.site", event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                                 .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                                 .setDescription(languageContext.get("commands.about.description.1") + "\n" +
                                         languageContext.get("commands.about.description.2") + "\n" +
@@ -101,7 +101,7 @@ public class InfoCmds {
                                 .addField(languageContext.get("commands.about.shards"), String.valueOf(MantaroBot.getInstance().getShardedMantaro().getTotalShards()), true)
                                 .addField(languageContext.get("commands.about.threads"), String.format("%,d", Thread.activeCount()), true)
                                 .addField(languageContext.get("commands.about.guilds"), String.format("%,d", guilds.size()), true)
-                                .addField(languageContext.get("commands.about.users"), String.format("%,d", users.stream().mapToLong(ISnowflake::getIdLong).distinct().count()), true)
+                                .addField(languageContext.get("commands.about.users"), String.format("%,d", users.size()), true)
                                 .addField(languageContext.get("commands.about.tc"), String.format("%,d", textChannels.size()), true)
                                 .addField(languageContext.get("commands.about.vc"), String.format("%,d", voiceChannels.size()), true)
                                 .setFooter(String.format(languageContext.get("commands.about.invite"), CommandListener.getCommandTotalInt(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())

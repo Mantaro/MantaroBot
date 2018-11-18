@@ -28,7 +28,9 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
+import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -167,7 +169,6 @@ public class PlayerCmds {
                         User userLooked = event.getAuthor();
                         Player player = managedDatabase.getPlayer(userLooked);
                         DBUser dbUser = managedDatabase.getUser(userLooked);
-
                         Member memberLooked = event.getMember();
 
                         List<Member> found = FinderUtil.findMembers(content, event.getGuild());
@@ -310,6 +311,45 @@ public class PlayerCmds {
             }
         });
 
+
+        profileCommand.addSubCommand("equip", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.no_content"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Item item = Items.fromAnyNoId(content).orElse(null);
+                Player player = MantaroData.db().getPlayer(event.getAuthor());
+                DBUser user = MantaroData.db().getUser(event.getAuthor());
+
+                if(item == null) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.no_item"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(!player.getInventory().containsItem(item)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.not_owned"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                //this can definitely be improved later on if we wanna add more stuff you can equip (could do Predicate -> filter item type -> equip to x based on item type?)
+                if(item.getItemType() == ItemType.CAST_MINE || item.getItemType() == ItemType.MINE_RARE_PICK) {
+                    user.getData().setEquippedPick(Items.idOf(item));
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.success"), EmoteReference.CORRECT, item.getEmoji(), item.getName()).queue();
+                } else if(item instanceof FishRod) {
+                    user.getData().setEquippedRod(Items.idOf(item));
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.success"), EmoteReference.CORRECT, item.getEmoji(), item.getName()).queue();
+                } else {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.not_suitable"), EmoteReference.ERROR).queue();
+                    //no need to save here
+                    return;
+                }
+
+                user.save();
+            }
+        });
 
         profileCommand.addSubCommand("timezone", new SubCommand() {
             @Override

@@ -182,6 +182,19 @@ public class Items {
 
             //casting bc old stuff :clap:, the FishRod object is so we can handle level and stuff w/o that many issues
             FishRod item = (FishRod) FISHING_ROD;
+            int equipped = u.getData().getEquippedRod();
+
+            if(equipped != 0) {
+                Item temp = Items.fromId(equipped);
+                if(!playerInventory.containsItem(temp)) {
+                    event.getChannel().sendMessageFormat(lang.get("commands.fish.missing_equipped"), EmoteReference.ERROR, temp).queue();
+                    u.getData().setEquippedRod(0);
+                    u.save();
+                } else {
+                    item = (FishRod) temp;
+                }
+            }
+
             if(!itemString.isEmpty()) {
                 Optional<Item> opt = Items.fromAnyNoId(itemString);
                 Item i = opt.orElse(FISHING_ROD); //default to normal rod again if it doesn't properly find a fitting item

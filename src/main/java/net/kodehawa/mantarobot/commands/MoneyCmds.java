@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -709,11 +710,25 @@ public class MoneyCmds {
                 final ManagedDatabase db = MantaroData.db();
 
                 Player player = db.getPlayer(user);
+                DBUser dbUser = db.getUser(user);
                 Inventory inventory = player.getInventory();
-                UserData userData = db.getUser(user).getData();
-                Item item = Items.BROM_PICKAXE; //default pick
+                UserData userData = dbUser.getData();
 
+                Item item = Items.BROM_PICKAXE; //default pick
+                int equipped = userData.getEquippedPick();
                 Optional<Item> itemOpt = Items.fromAnyNoId(content);
+
+                if(equipped != 0) {
+                    Item temp = Items.fromId(equipped);
+                    if(!inventory.containsItem(temp)) {
+                        event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "mine.missing_equipped"), EmoteReference.ERROR, temp).queue();
+                        userData.setEquippedPick(0);
+                        dbUser.save();
+                    } else {
+                        item = temp;
+                    }
+                }
+
                 //why is the item optional present when there's no content?
                 if(itemOpt.isPresent() && !content.isEmpty()) {
                     Item temp = itemOpt.get();
@@ -802,7 +817,6 @@ public class MoneyCmds {
                     player.getData().addBadgeIfAbsent(Badge.GEM_FINDER);
                 }
 
-                DBUser dbUser = db.getUser(event.getAuthor());
                 PremiumKey key = db.getPremiumKey(dbUser.getData().getPremiumKey());
                 if(r.nextInt(400) > 392) {
                     Item crate = (key != null && key.getDurationDays() > 1) ? Items.MINE_PREMIUM_CRATE : Items.MINE_CRATE;

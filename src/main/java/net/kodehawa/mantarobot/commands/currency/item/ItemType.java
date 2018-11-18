@@ -41,6 +41,7 @@ public enum ItemType {
     FISHING_RARE(false),
     MINE_RARE(true),
     MINE_RARE_PICK(true),
+    MINE_PICK(true),
     CRATE(false),
     CAST_FISH(true);
 

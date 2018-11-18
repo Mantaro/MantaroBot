@@ -58,13 +58,12 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 @Module
 @SuppressWarnings("unused")
 public class DebugCmds {
-    //@Subscribe
+    @Subscribe
     public void info(CommandRegistry cr) {
         cr.register("info", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 SnowflakeCacheView<Guild> guilds = MantaroBot.getInstance().getGuildCache();
-                SnowflakeCacheView<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannelCache();
                 SnowflakeCacheView<User> users = MantaroBot.getInstance().getUserCache();
 
                 event.getChannel().sendMessage("```prolog\n"
@@ -85,9 +84,6 @@ public class DebugCmds {
                         + "Executed Commands: " + String.format("%,d", CommandListener.getCommandTotalInt()) + "\n"
                         + "Logs: " + String.format("%,d", MantaroListener.getLogTotalInt()) + "\n"
                         + "Memory: " + String.format("%,dMB/%,dMB", (int)(getTotalMemory() - getFreeMemory()), (int)getMaxMemory()) + "\n"
-                        + "Music Connections: " + (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count() + "\n"
-                        + "Active Connections: " + (int) vc.stream().filter(voiceChannel ->
-                        voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember()) && voiceChannel.getMembers().size() > 1).count() + "\n"
                         + "Queue Size: " + String.format("%,d", MantaroBot.getInstance().getAudioManager().getTotalQueueSize())
                         + "```").queue();
             }
@@ -230,7 +226,8 @@ public class DebugCmds {
                         dead++;
                     if(reconnect)
                         reconnecting++;
-                    if(shard.getVoiceChannelCache().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count() == 0)
+                    //this can take about forever
+                    if(shard.getVoiceChannelCache().stream().noneMatch(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())))
                         zeroVoiceConnections++;
                     if(shard.getShardEventManager().getLastJDAEventTimeDiff() > 1650 && !reconnect)
                         high++;

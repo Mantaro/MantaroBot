@@ -35,6 +35,8 @@ public class UserData {
     private String timezone;
     private String lang;
     private int dustLevel; //percentage
+    private int equippedPick; //item id, 0 = nothing (even tho in theory 0 its headphones...)
+    private int equippedRod; //item id, 0 = nothing
 
     private boolean receivedExpirationWarning; //premium key about to expire!
 
