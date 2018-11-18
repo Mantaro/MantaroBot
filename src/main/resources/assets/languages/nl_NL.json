@@ -1116,7 +1116,7 @@
         "help": {
             "title": "Mantaro Help",
             "base": "Commando lijst. Voor een gedetailleerde handleiding over het gebruik van Mantaro, raadpleeg de [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
-            "support": "Als je problemen ondervindt of vragen hebt tijdens het gebruik van Mantaro, kunt je deelnemen aan de [support server](https://support.mantaro.size)\n",
+            "support": "Als je problemen ondervindt of vragen hebt tijdens het gebruik van Mantaro, kunt je deelnemen aan de [support server](https://support.mantaro.site)\n",
             "patreon": "[We hebben je hulp nodig om Mantaro online te houden! Klik hier voor meer info](https://www.patreon.com/mantaro)",
             "disabled_commands": "Alleen niet-geblokkeerde commandos weergeven. Totaal uitgeschakelde commandos: %1$s",
             "channel_specific_disabled_commands": "\nAlleen niet-geblokkeerde commandos weergeven. Totaal aantal kanaal-specifieke uitgeschakelde commandos: %1$s",
