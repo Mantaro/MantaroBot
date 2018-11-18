@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands.currency.item;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
+import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -27,6 +28,7 @@ import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
@@ -106,9 +108,9 @@ public class Items {
 
             // ---------------------------------- 5.0 ITEMS START HERE ----------------------------------
             PANTS = new Item(ItemType.COMMON, "\uD83D\uDC56", "Pants", "items.pants", "items.description.pants", 20, true),
-            POTION_HASTE = new Item(ItemType.POTION, "\uD83C\uDF76","Haste Potion", "items.haste", "items.description.haste", 490, true),
+            POTION_HASTE = new Potion(ItemType.POTION, 2, "\uD83C\uDF76","Haste Potion", "items.haste", "items.description.haste", 490, true),
             POTION_CLEAN = new Item(ItemType.POTION, "\uD83C\uDF7C","Milky Potion", "items.milky", "items.description.milky", 50, true),
-            POTION_STAMINA = new Item(ItemType.POTION, "\uD83C\uDFFA","Energy Beverage", "items.energy", "items.description.energy", 450, true),
+            POTION_STAMINA = new Potion(ItemType.POTION, 3, "\uD83C\uDFFA","Energy Beverage", "items.energy", "items.description.energy", 450, true),
             FISHING_ROD = new FishRod(ItemType.INTERACTIVE, 3, "\uD83C\uDFA3","Fishing Rod", "items.rod", "items.description.rod", 65, true, "", 0),
             FISH_1 = new Item(ItemType.FISHING, "\uD83D\uDC1F","Fish", "items.fish", "items.description.fish", 10, false),
             FISH_2 = new Item(ItemType.FISHING, "\uD83D\uDC20","Tropical Fish", "items.tropical_fish", "items.description.tropical_fish", 30, false),
@@ -122,8 +124,8 @@ public class Items {
             MOP = new Item(ItemType.INTERACTIVE, "\u3030","Mop", "items.mop", "items.description.mop", 10, true),
             CLAIM_KEY = new Item(ItemType.COMMON, "\uD83D\uDDDD","Claim Key", "items.claim_key", "items.description.claim_key", 1, false, true),
             COFFEE = new Item(ItemType.COMMON, "\u2615","Coffee", "items.coffee", "items.description.coffee", 10, true),
-            WAIFU_PILL = new Item(ItemType.INTERACTIVE, "\ud83d\udc8a","Waifu Pill", "items.waifu_pill", "items.description.waifu_pill", 670, true),
-            FISHING_BAIT = new Item(ItemType.BUFF, "\uD83D\uDC1B","Fishing Bait", "items.bait", "items.description.bait", 15, true),
+            WAIFU_PILL = new Potion(ItemType.POTION, 2, "\ud83d\udc8a","Waifu Pill", "items.waifu_pill", "items.description.waifu_pill", 670, true),
+            FISHING_BAIT = new Potion(ItemType.BUFF, 1, "\uD83D\uDC1B", "Fishing Bait", "items.bait", "items.description.bait", 15, true),
             DIAMOND_PICKAXE = new Item(ItemType.CAST_MINE, EmoteReference.DIAMOND_PICK.getDiscordNotation(),"Diamond Pickaxe", "items.diamond_pick", "items.description.diamond_pick", 450, true, false, "1;2", 10, 18),
             TELEVISION = new Item(ItemType.COMMON, "\uD83D\uDCFA","Television", "items.tv", "items.description.tv", 45, true),
             WRENCH = new Item(ItemType.COMMON, "\ud83d\udd27","Wrench", "items.wrench", "items.description.wrench", 50, true),
@@ -221,7 +223,8 @@ public class Items {
 
             //Rod break ratio is as follows: with stamina it's break ratio (73 + (level + 4)) plus 7 more, while without stamina is just the break ratio.
             int breakRatio = item.getBreakRatio();
-            if(r.nextInt(100) > (handlePotion(POTION_STAMINA, 4, p) ? breakRatio + 7 : breakRatio)) {
+            //old: handlePotion(POTION_STAMINA, 4, p)
+            if(r.nextInt(100) > (handleEffect(PlayerEquipment.EquipmentType.POTION, u.getData().getEquippedItems(), POTION_STAMINA, u) ? breakRatio + 7 : breakRatio)) {
                 //Your rod is done for, rip.
                 event.getChannel().sendMessageFormat(lang.get("commands.fish.rod_broke"), EmoteReference.SAD).queue();
                 //Remove the item from the player inventory.
@@ -259,7 +262,8 @@ public class Items {
                     RandomCollection<Item> fishItems = new RandomCollection<>();
 
                     int money = 0;
-                    boolean buff = handleBuff(FISHING_BAIT, 1, p);
+                    //old: handleBuff(FISHING_BAIT, 1, p)
+                    boolean buff = handleEffect(PlayerEquipment.EquipmentType.BUFF, u.getData().getEquippedItems(), FISHING_BAIT, u);
                     int amount = buff ? Math.max(1, random.nextInt(item.getLevel() + 4)) : Math.max(1, random.nextInt(item.getLevel()));
                     fish.forEach((i1) -> fishItems.add(3, i1));
 
@@ -270,7 +274,8 @@ public class Items {
 
                     //START OF WAIFU HELP IMPLEMENTATION
                     boolean waifuHelp = false;
-                    if (Items.handlePotion(Items.WAIFU_PILL, 5, p)) {
+                    //old: handlePotion(Items.WAIFU_PILL, 5, p)
+                    if (handleEffect(PlayerEquipment.EquipmentType.POTION, u.getData().getEquippedItems(), WAIFU_PILL, u)) {
                         if (u.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
                             money += Math.max(10, random.nextInt(100));
                             waifuHelp = true;
@@ -364,111 +369,63 @@ public class Items {
         });
 
         //START OF PICKAXE ACTION DECLARATION
+        //TODO: make this a lil' better lol (probably make pickaxes their own class so they can have the chance saved n stuff, too lazy to do now at 2am)
         BROM_PICKAXE.setAction((event, ctx) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
+            DBUser u = managedDatabase.getUser(event.getAuthor());
             I18nContext lang = ctx.getLeft();
-            return handlePickaxe(event, lang, BROM_PICKAXE, p, 0.29f); //29%
+
+            return handlePickaxe(event, lang, BROM_PICKAXE, p, u, 0.29f); //29%
         });
 
         DIAMOND_PICKAXE.setAction((event, ctx) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
+            DBUser u = managedDatabase.getUser(event.getAuthor());
             I18nContext lang = ctx.getLeft();
-            return handlePickaxe(event, lang, DIAMOND_PICKAXE, p, 0.23f); //23%
+
+            return handlePickaxe(event, lang, DIAMOND_PICKAXE, p, u, 0.23f); //23%
         });
 
         //comet
         GEM1_PICKAXE.setAction((event, ctx) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
+            DBUser u = managedDatabase.getUser(event.getAuthor());
             I18nContext lang = ctx.getLeft();
-            return handlePickaxe(event, lang, GEM1_PICKAXE, p, 0.21f); //21%
+
+            return handlePickaxe(event, lang, GEM1_PICKAXE, p, u, 0.21f); //21%
         });
 
         //star
         GEM2_PICKAXE.setAction((event, ctx) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
+            DBUser u = managedDatabase.getUser(event.getAuthor());
             I18nContext lang = ctx.getLeft();
-            return handlePickaxe(event, lang, GEM2_PICKAXE, p, 0.15f); //15%
+
+            return handlePickaxe(event, lang, GEM2_PICKAXE, p, u, 0.15f); //15%
         });
 
         //sparkle
         GEM5_PICKAXE_2.setAction((event, ctx) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
+            DBUser u = managedDatabase.getUser(event.getAuthor());
             I18nContext lang = ctx.getLeft();
-            return handlePickaxe(event, lang, GEM5_PICKAXE_2, p, 0.07f); //7%
+
+            return handlePickaxe(event, lang, GEM5_PICKAXE_2, p, u, 0.07f); //7%
         });
         //END OF PICKAXE ACTION DECLARATION
 
         POTION_CLEAN.setAction((event, ctx) -> {
             I18nContext lang = ctx.getLeft();
             Player p = managedDatabase.getPlayer(event.getAuthor());
-            p.getData().setActivePotion(null);
-            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.milk"), EmoteReference.CORRECT).queue();
+            DBUser u = managedDatabase.getUser(event.getAuthor());
+
+            u.getData().getEquippedItems().resetEffect(PlayerEquipment.EquipmentType.POTION);
+            u.save();
+
             p.getInventory().process(new ItemStack(POTION_CLEAN, -1));
             p.save();
-            return true;
-        });
 
-        POTION_STAMINA.setAction((event, ctx) -> {
-            I18nContext lang = ctx.getLeft();
-            Player p = managedDatabase.getPlayer(event.getAuthor());
-            if(p.getData().getActivePotion() != null && p.getData().getActivePotion().getPotion() == idOf(POTION_STAMINA)) {
-                event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.stamina_used"), EmoteReference.ERROR).queue();
-                return false;
-            }
-
-            p.getData().setActivePotion(new PotionEffect(idOf(POTION_STAMINA), System.currentTimeMillis(), ItemType.PotionType.PLAYER));
-            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.stamina"), EmoteReference.CORRECT).queue();
-            p.getInventory().process(new ItemStack(POTION_STAMINA, -1));
-            p.save();
-            return true;
-        });
-
-        POTION_HASTE.setAction((event, ctx) -> {
-            I18nContext lang = ctx.getLeft();
-            Player p = managedDatabase.getPlayer(event.getAuthor());
-            if(p.getData().getActivePotion() != null && p.getData().getActivePotion().getPotion() == idOf(POTION_HASTE)) {
-                event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.haste_used"), EmoteReference.ERROR).queue();
-                return false;
-            }
-
-
-            p.getData().setActivePotion(new PotionEffect(idOf(POTION_HASTE),
-                    System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
-            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.haste"), EmoteReference.CORRECT).queue();
-            p.getInventory().process(new ItemStack(POTION_HASTE, -1));
-            p.save();
-            return true;
-        });
-
-        FISHING_BAIT.setAction((event, ctx) -> {
-            I18nContext lang = ctx.getLeft();
-            Player p = managedDatabase.getPlayer(event.getAuthor());
-            if(p.getData().getActiveBuff() != null && p.getData().getActiveBuff().getPotion() == idOf(FISHING_BAIT)) {
-                event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.bait_used"), EmoteReference.POPPER).queue();
-                return false;
-            }
-
-            p.getData().setActiveBuff(new PotionEffect(idOf(FISHING_BAIT),
-                    System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
-            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.bait"), EmoteReference.POPPER).queue();
-            p.getInventory().process(new ItemStack(FISHING_BAIT, -1));
-            p.save();
-            return true;
-        });
-
-        WAIFU_PILL.setAction((event, ctx) -> {
-            I18nContext lang = ctx.getLeft();
-            Player p = managedDatabase.getPlayer(event.getAuthor());
-            if(p.getData().getActiveBuff() != null && p.getData().getActiveBuff().getPotion() == idOf(WAIFU_PILL)) {
-                event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.pill_used"), EmoteReference.ERROR).queue();
-                return false;
-            }
-
-            p.getData().setActiveBuff(new PotionEffect(idOf(WAIFU_PILL),
-                    System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
-            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.pill"), EmoteReference.CORRECT).queue();
-            p.getInventory().process(new ItemStack(WAIFU_PILL, -1));
-            p.save();
+            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.milk"), EmoteReference.CORRECT).queue();
             return true;
         });
     }
@@ -623,50 +580,42 @@ public class Items {
                 .collect(Collectors.toList());
     }
 
-    public static boolean handlePotion(Item i, int maxTimes, Player p) {
-        final PlayerData playerData = p.getData();
-        boolean isPotionPresent = playerData.getActivePotion() != null && fromId(playerData.getActivePotion().getPotion()) == i;
-        if (isPotionPresent) {
-            //counter starts at 0
-            if (playerData.getActivePotion().getTimesUsed() >= maxTimes) {
-                playerData.setActivePotion(null);
-                p.save();
+    public static boolean handleEffect(PlayerEquipment.EquipmentType type, PlayerEquipment equipment, Item item, DBUser user) {
+        boolean isEffectPresent = equipment.getCurrentEffect(type) != null;
+
+        if(isEffectPresent) {
+            //Not the correct item to handle the effect of = not handling this call.
+            if(item != equipment.getEffectItem(type)) {
+                return false;
+            }
+
+            //Effect is active when it's been used less than the max amount
+            if(!equipment.isEffectActive(type, ((Potion) item).getMaxUses())) {
+                //Reset effect and save.
+                equipment.resetEffect(type);
+                user.save();
+
+                return false;
             } else {
-                long timesUsed = playerData.getActivePotion().getTimesUsed();
-                playerData.getActivePotion().setTimesUsed(timesUsed + 1);
-                p.save();
+                equipment.incrementEffectUses(type);
+                user.save();
+
+                return true;
             }
         }
 
-        return isPotionPresent;
+        return false;
     }
 
-    public static boolean handleBuff(Item i, int maxTimes, Player p) {
-        final PlayerData playerData = p.getData();
-        boolean isBuffPresent = playerData.getActiveBuff() != null && fromId(playerData.getActiveBuff().getPotion()) == i;
-        if (isBuffPresent) {
-            //counter starts at 0
-            if (playerData.getActiveBuff().getTimesUsed() >= maxTimes) {
-                playerData.setActiveBuff(null);
-                p.save();
-            } else {
-                long timesUsed = playerData.getActiveBuff().getTimesUsed();
-                playerData.getActiveBuff().setTimesUsed(timesUsed + 1);
-                p.save();
-            }
-        }
-
-        return isBuffPresent;
-    }
-
-    private static boolean handlePickaxe(GuildMessageReceivedEvent event, I18nContext lang, Item item, Player player, float chance) {
+    private static boolean handlePickaxe(GuildMessageReceivedEvent event, I18nContext lang, Item item, Player player, DBUser user, float chance) {
         Inventory playerInventory = player.getInventory();
 
         //Defensive programming :D
         if(!playerInventory.containsItem(item))
             return false;
 
-        if(r.nextFloat() < (handlePotion(POTION_STAMINA, 4, player) ? (chance) - 0.07 : chance)) {
+        //old: handlePotion(POTION_STAMINA, 4, player)
+        if(r.nextFloat() < (handleEffect(PlayerEquipment.EquipmentType.POTION, user.getData().getEquippedItems(), POTION_STAMINA, user) ? (chance) - 0.07 : chance)) {
             event.getChannel().sendMessageFormat(lang.get("commands.mine.pick_broke"), EmoteReference.SAD).queue();
             playerInventory.process(new ItemStack(item, -1));
             player.save();

@@ -26,11 +26,9 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
-import net.kodehawa.mantarobot.commands.currency.item.Item;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.ItemType;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
+import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -524,8 +522,12 @@ public class PlayerCmds {
                 PlayerData playerData = player.getData();
                 PlayerStats playerStats = managedDatabase.getPlayerStats(toLookup);
 
-                Item potion = playerData.getActivePotion() == null ? null : Items.fromId(playerData.getActivePotion().getPotion());
-                Item buff = playerData.getActiveBuff() == null ? null : Items.fromId(playerData.getActiveBuff().getPotion());
+                PlayerEquipment equippedItems = data.getEquippedItems();
+                Potion potion = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.POTION);
+                Potion buff = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.BUFF);
+                boolean isPotionActive = potion != null && equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses());
+                boolean isBuffActive = buff != null && equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses());
+
                 //no need for decimals
                 long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
 
@@ -533,13 +535,13 @@ public class PlayerCmds {
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.market") + ":** "  +
                                 playerData.getMarketUsed() + " " + languageContext.get("commands.profile.stats.times"),
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.potion") + ":** " +
-                                (potion == null ? "None" : potion.getName()),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.potion_type") + ":** " +
-                                (potion == null ? "None" : Utils.capitalize(potion.getItemType().toString())),
+                                ((potion == null || !isPotionActive) ? "None" : potion.getName()),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.times_used") + ":** " +
+                                ((potion == null || !isPotionActive) ? "None" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION).getTimesUsed()  + " " + languageContext.get("commands.profile.stats.times")),
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.buff") + ":** " +
-                                (buff == null ? "None" : buff.getName()),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.buff_type") + ":** " +
-                                (buff == null ? "None" : Utils.capitalize(buff.getItemType().toString())),
+                                ((buff == null || !isBuffActive) ? "None" : buff.getName()),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.times_used") + ":** " +
+                                ((buff == null || !isBuffActive) ? "None" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF).getTimesUsed()  + " " + languageContext.get("commands.profile.stats.times")),
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.experience") + ":** " +
                                 playerData.getExperience() + "/" + experienceNext + " XP",
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.daily") + ":** " +

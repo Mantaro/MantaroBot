@@ -49,7 +49,10 @@
         "no_crate": "%1$sYou need a loot crate! How else would you use your key >.>... oh",
         "success": "%1$sYou opened a crate and won: %2$s%3$s. Congratulations!",
         "overflow": "But you already had too much, so you decided to throw away the excess"
-      }
+      },
+      "potion_active": "%1$sYou already have an active **%2$s** potion effect!",
+      "potion_not_found": "%1$sI can't find that potion or equipment type!",
+      "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s*. Check your shiny new effect on `~>profile stats`"
     },
     "mention_user_required": "%1$sYou need to mention one user.",
     "invalid_character": "%1$sThat is not an allowed character.",
@@ -748,7 +751,8 @@
         "lang": "Display Language",
         "reminders": "Times Reminded",
         "times": "time(s)",
-        "days": "day(s)"
+        "days": "day(s)",
+        "times_used": "Times Used"
       },
       "equip": {
         "no_content": "%1$sYou have to specify which item to equip!",

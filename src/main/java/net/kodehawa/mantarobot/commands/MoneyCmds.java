@@ -757,7 +757,8 @@ public class MoneyCmds {
                     money += r.nextInt(50);
 
                 boolean waifuHelp = false;
-                if(Items.handlePotion(Items.WAIFU_PILL, 5, player)) {
+                //old: Items.handlePotion(Items.WAIFU_PILL, 5, player)
+                if(Items.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), Items.WAIFU_PILL, dbUser)) {
                     if(userData.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
                         money += Math.max(45, random.nextInt(200));
                         waifuHelp = true;
@@ -766,7 +767,8 @@ public class MoneyCmds {
 
                 String message = String.format(languageContext.get("commands.mine.success"), item.getEmoji(), money, item.getName());
 
-                boolean hasPotion = Items.handlePotion(Items.POTION_HASTE, 2, player);
+                //old: Items.handlePotion(Items.POTION_HASTE, 2, player)
+                boolean hasPotion = Items.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), Items.POTION_HASTE, dbUser);
                 if(r.nextInt(400) > (hasPotion ? 290 : 350)) {
                     if(inventory.getAmount(Items.DIAMOND) == 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.diamond.overflow");

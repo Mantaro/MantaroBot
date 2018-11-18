@@ -26,10 +26,8 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.currency.item.Item;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.ItemType;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.*;
+import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -43,9 +41,11 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -780,6 +780,8 @@ public class CurrencyCmds {
         cr.register("useitem", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                final ManagedDatabase db = MantaroData.db();
+
                 if(args.length < 1) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_items_specified"), EmoteReference.ERROR).queue();
                     return;
@@ -837,14 +839,35 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(item.getAction() == null) {
+                //handled here
+                if(item.getAction() == null && (item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.interactive_no_action"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                Player p = MantaroData.db().getPlayer(event.getAuthor());
+                Player p = db.getPlayer(event.getAuthor());
                 if(!p.getInventory().containsItem(item)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_item"), EmoteReference.SAD).queue();
+                    return;
+                }
+
+                if((item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.BUFF) && item instanceof Potion) {
+                    DBUser dbUser = db.getUser(event.getAuthor());
+                    UserData userData = dbUser.getData();
+
+                    PlayerEquipment.EquipmentType type = userData.getEquippedItems().getTypeFor(item);
+                    if(userData.getEquippedItems().isEffectActive(type, ((Potion) item).getMaxUses())) {
+                        event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_active"), EmoteReference.ERROR, item.getName()).queue();
+                        return;
+                    }
+
+                    userData.getEquippedItems().applyEffect(new PotionEffect(Items.idOf(item), System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
+                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied"), EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString())).queue();
+
+                    p.getInventory().process(new ItemStack(item, -1));
+                    p.save();
+                    dbUser.save();
+
                     return;
                 }
 
