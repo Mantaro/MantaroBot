@@ -362,7 +362,7 @@ public class PlayerCmds {
                     return;
                 }
 
-                String timezone = args[0];
+                String timezone = args[0].replace("UTC", "GMT").toUpperCase();
 
                 if(timezone.equalsIgnoreCase("reset")) {
                     dbUser.getData().setTimezone(null);
@@ -377,7 +377,7 @@ public class PlayerCmds {
                 }
 
                 try {
-                    UtilsCmds.dateGMT(event.getGuild(),timezone);
+                    UtilsCmds.dateGMT(event.getGuild(), timezone);
                 } catch(Exception e) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.profile.timezone.invalid"), EmoteReference.ERROR).queue();
                     return;
