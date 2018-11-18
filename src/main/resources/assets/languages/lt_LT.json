@@ -1115,7 +1115,7 @@
         "help": {
             "title": "Mantaro Pagalba",
             "base": "Komandų sąrašas. Detalesniam naudojimo gidui, patikrink Mantaro [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
-            "support": "Jeigu turite kokių nors problemų ar klausimų naudojantis Mantaro, prisijunkite prie [pagalbos serverio](https://is.gd/mantaroguild)\n",
+            "support": "Jeigu turite kokių nors problemų ar klausimų naudojantis Mantaro, prisijunkite prie [pagalbos serverio](https://support.mantaro.size)\n",
             "patreon": "[Mums reikia pagalbos palaikyti Mantaro gyvą! Nuspausk čia, kad gautum daugiau informacijos.](https://www.patreon.com/mantaro)",
             "disabled_commands": "Rodomos tik neišjungtos komandos. Viso išjungtų komandų: %1$s",
             "channel_specific_disabled_commands": "Rodomos tik neišjungtos komandos. Viso kanalui išjungtų komandų: %1$s",
