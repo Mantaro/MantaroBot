@@ -16,6 +16,10 @@
 
 package net.kodehawa.mantarobot.core.modules.commands.base;
 
+import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+
 public abstract class AbstractCommand implements AssistedCommand {
     private final Category category;
     private final CommandPermission permission;
@@ -37,5 +41,17 @@ public abstract class AbstractCommand implements AssistedCommand {
     @Override
     public CommandPermission permission() {
         return permission;
+    }
+
+    //defaults to empty for now
+    @Override
+    public HelpContent help() {
+        return new HelpContent.Builder().build();
+    }
+
+    //if null = new format.
+    @Override
+    public MessageEmbed help(GuildMessageReceivedEvent event) {
+        return null;
     }
 }

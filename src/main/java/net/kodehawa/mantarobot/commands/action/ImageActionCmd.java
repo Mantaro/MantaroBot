@@ -23,6 +23,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
@@ -155,10 +156,10 @@ public class ImageActionCmd extends NoArgsCommand {
     }
 
     @Override
-    public MessageEmbed help(GuildMessageReceivedEvent event) {
-        return helpEmbed(event, name)
+    public HelpContent help() {
+        return new HelpContent.Builder()
                 .setDescription(desc)
-                .setColor(color)
+                .setUsagePrefixed(name + " @user")
                 .build();
     }
 

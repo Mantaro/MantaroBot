@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.core.modules.commands.base;
 
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 
 public interface InnerCommand extends Command {
     @Override
@@ -29,4 +30,15 @@ public interface InnerCommand extends Command {
     default MessageEmbed help(GuildMessageReceivedEvent event) {
         return null;
     }
+
+    @Override
+    default HelpContent help() {
+        return null;
+    }
+
+    //Override this for the subcommand usage to appear on help!
+    default String description() {
+        return "";
+    }
+
 }

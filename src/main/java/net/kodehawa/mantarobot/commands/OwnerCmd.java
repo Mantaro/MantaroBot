@@ -43,6 +43,8 @@ import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.utils.Pair;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import javax.script.ScriptEngine;
@@ -418,6 +420,13 @@ public class OwnerCmd {
                 User user = MantaroBot.getInstance().getUserById(userString);
                 if(guild == null || user == null) {
                     event.getChannel().sendMessage("User or guild not found.").queue();
+                    return;
+                }
+
+                Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(user.getId());
+                //guaranteed to be an integer
+                if(pledgeInfo == null || !pledgeInfo.getLeft() || Integer.parseInt(pledgeInfo.getRight()) < 4) {
+                    event.getChannel().sendMessage("Pledge not found, pledge amount not enough or pledge was cancelled.").queue();
                     return;
                 }
 
