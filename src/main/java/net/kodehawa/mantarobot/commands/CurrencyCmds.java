@@ -858,17 +858,17 @@ public class CurrencyCmds {
 
                         item.getAction().test(event, Pair.of(languageContext, content));
                     }
-
-                    @Override
-                    public HelpContent help() {
-                        return new HelpContent.Builder()
-                                .setDescription("Uses an item.\n" +
-                                        "You need to have the item to use it, and the item has to be marked as *interactive*.")
-                                .setUsage("`~>useitem <item>` - Uses the specified item")
-                                .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
-                                .build();
-                    }
                 };
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Uses an item.\n" +
+                                "You need to have the item to use it, and the item has to be marked as *interactive*.")
+                        .setUsage("`~>useitem <item>` - Uses the specified item")
+                        .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
+                        .build();
             }
         });
 
