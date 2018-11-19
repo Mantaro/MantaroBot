@@ -70,7 +70,7 @@ public class GuildData {
     private Set<String> slowModeChannels = new HashSet<>();
     private Set<String> spamModeChannels = new HashSet<>();
     private int timeDisplay = 0; //0 = 24h, 1 = 12h
-    private Map<Long, WarnAction> warnActions = new HashMap<>(); //TODO add config for this!
+    private Map<Long, WarnAction> warnActions = new HashMap<>();
     private Map<String, Long> warnCount = new HashMap<>();
     private String gameTimeoutExpectedAt;
     private boolean ignoreBotsWelcomeMessage = false;

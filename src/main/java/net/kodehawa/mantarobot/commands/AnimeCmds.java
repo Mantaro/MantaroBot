@@ -28,6 +28,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -106,13 +107,11 @@ public class AnimeCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Anime command")
-                        .setDescription("**Get anime info from AniList (For anime characters use ~>character).**")
-                        .addField("Usage", "`~>anime <animename>` - **Retrieve information of an anime based on the name.**", false)
-                        .addField("Parameters",
-                                "`animename` - **The name of the anime you are looking for. Keep queries similar to their english names!**", false)
-                        .setColor(Color.PINK)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Get anime info from AniList (For anime characters use ~>character).")
+                        .setUsage("`~>anime <name>` - Retrieve information of an anime based on the name")
+                        .addParameter("name", "The name of the anime you're looking for.")
                         .build();
             }
         });
@@ -164,13 +163,11 @@ public class AnimeCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Character command")
-                        .setDescription("**Get character info from AniList (For anime use `~>anime`).**")
-                        .addField("Usage", "`~>character <name>` - **Retrieve information of a charactrer based on the name.**", false)
-                        .addField("Parameters",
-                                "`name` - **The name of the character you are looking for. Keep queries similar to their romanji names!**", false)
-                        .setColor(Color.PINK)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Get character info from AniList (For anime use `~>anime`).")
+                        .setUsage("`~>character <name>` - Retrieve information of a charactrer based on the name")
+                        .addParameter("name", "The name of the character you are looking for.")
                         .build();
             }
         });

@@ -49,7 +49,10 @@
         "no_crate": "%1$sYou need a loot crate! How else would you use your key >.>... oh",
         "success": "%1$sYou opened a crate and won: %2$s%3$s. Congratulations!",
         "overflow": "But you already had too much, so you decided to throw away the excess"
-      }
+      },
+      "potion_active": "%1$sYou already have an active **%2$s** potion effect!",
+      "potion_not_found": "%1$sI can't find that potion or equipment type!",
+      "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s*. Check your shiny new effect on `~>profile stats`"
     },
     "mention_user_required": "%1$sYou need to mention one user.",
     "invalid_character": "%1$sThat is not an allowed character.",
@@ -105,7 +108,8 @@
       "not_suitable": "%1$sYou can't use this to fish.",
       "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?",
       "fossil_success": "%1$sYou caught a fossil while trying to find a fish. This might be worth a fair bit or be used for casting, I believe.",
-      "bait": "The fish ate your bait in the process!"
+      "bait": "The fish ate your bait in the process!",
+      "missing_equipped": "%1$sYou had an equipped %2$s rod, but you no longer have any of its kind on your inventory! Equipped rod has been reset."
     },
     "softban": {
       "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
@@ -747,7 +751,15 @@
         "lang": "Display Language",
         "reminders": "Times Reminded",
         "times": "time(s)",
-        "days": "day(s)"
+        "days": "day(s)",
+        "times_used": "Times Used"
+      },
+      "equip": {
+        "no_content": "%1$sYou have to specify which item to equip!",
+        "no_item": "%1$sThis item doesn't exist",
+        "not_owned": "%1$sYou don't own this item!",
+        "success": "%1$sYou successfully equipped %2$s *%3$s*, which will be remembered next time you use the proper currency command.",
+        "not_suitable": "%1$sYou can't equip this."
       },
       "badge_header": "%1$sDisplay Badge",
       "bot_notice": "%1$sBots don't have profiles.",
@@ -1175,7 +1187,7 @@
     "help": {
       "title": "Mantaro Help",
       "base": "Command list. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
-      "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://is.gd/mantaroguild). [Follow me in twitter for updates!](https://twitter.com/mantarodiscord)\n",
+      "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://support.mantaro.site). [Follow me in twitter for updates!](https://twitter.com/mantarodiscord)\n",
       "patreon": "[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)",
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
       "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
@@ -1294,7 +1306,8 @@
         "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
       "pick_broke": "%1$sOne of your picks broke while mining.",
-      "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!"
+      "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!",
+      "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset."
     },
     "slots": {
       "errors": {

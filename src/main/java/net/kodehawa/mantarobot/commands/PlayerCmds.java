@@ -26,9 +26,9 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
-import net.kodehawa.mantarobot.commands.currency.item.Item;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.*;
+import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
+import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -38,6 +38,7 @@ import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -132,12 +133,12 @@ public class PlayerCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Reputation command")
-                        .setDescription("**Reps an user**")
-                        .addField("Usage", "`~>rep <@user>` - **Gives reputation to x user**", false)
-                        .addField("Parameters", "`@user` - user to mention", false)
-                        .addField("Important", "Only usable every 12 hours.", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Gives 1 reputation to an user")
+                        .setUsage("`~>rep <@user>` - Gives reputation to x user\n" +
+                                "This command is only usable every 12 hours")
+                        .addParameter("@user", "User to mention")
                         .build();
             }
         });
@@ -167,7 +168,6 @@ public class PlayerCmds {
                         User userLooked = event.getAuthor();
                         Player player = managedDatabase.getPlayer(userLooked);
                         DBUser dbUser = managedDatabase.getUser(userLooked);
-
                         Member memberLooked = event.getMember();
 
                         List<Member> found = FinderUtil.findMembers(content, event.getGuild());
@@ -294,24 +294,61 @@ public class PlayerCmds {
                 };
             }
 
+            //If you wonder why is this so short compared to before, subcommand descriptions will do the trick on telling me what they do.
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Profile command.")
-                        .setDescription("**Retrieves your current user profile.**")
-                        .addField("Usage", "- To retrieve your profile, `~>profile`\n" +
-                                "- To change your description do `~>profile description set <description>` (300 chars maximum for normal users, 500 for premium)\n" +
-                                "  -- To clear it, just do `~>profile description clear`\n" +
-                                "- To set your timezone do `~>profile timezone <timezone>`\n" +
-                                "- To set your language do `~>profile lang <lang id>`\n" +
-                                "- To set your display badge use `~>profile displaybadge` and `~>profile displaybadge reset` to reset it.\n" +
-                                "  -- You can also use `~>profile displaybadge none` to display no badge on your profile.\n" +
-                                "**The profile only shows the 5 most important badges!.** Use `~>badges` to get a complete list.", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Retrieves your current user profile.")
+                        .setUsage("To retrieve your profile use `~>profile`. You can also use `~>profile @mention`\n" +
+                                "*The profile command only shows the 5 most important badges.* Use `~>badges` to get a complete list!")
+                        .addParameter("@mention", "A user mention (ping)")
                         .build();
             }
         });
 
 
+        profileCommand.addSubCommand("equip", new SubCommand() {
+            @Override
+            public String description() {
+                return "Equips an item in your inventory. Usage: `~>profile equip <item name>`";
+            }
+
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.no_content"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Item item = Items.fromAnyNoId(content).orElse(null);
+                Player player = MantaroData.db().getPlayer(event.getAuthor());
+                DBUser user = MantaroData.db().getUser(event.getAuthor());
+
+                if(item == null) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.no_item"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(!player.getInventory().containsItem(item)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.not_owned"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(user.getData().getEquippedItems().equipItem(item)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.success"), EmoteReference.CORRECT, item.getEmoji(), item.getName()).queue();
+                    user.save();
+                } else {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.not_suitable"), EmoteReference.ERROR).queue();
+                }
+            }
+        });
+
         profileCommand.addSubCommand("timezone", new SubCommand() {
+            @Override
+            public String description() {
+                return "Sets your profile timezone. Usage: `~>profile timezone <timezone>`";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 DBUser dbUser = managedDatabase.getUser(event.getAuthor());
@@ -322,7 +359,7 @@ public class PlayerCmds {
                     return;
                 }
 
-                String timezone = args[0];
+                String timezone = args[0].replace("UTC", "GMT").toUpperCase();
 
                 if(timezone.equalsIgnoreCase("reset")) {
                     dbUser.getData().setTimezone(null);
@@ -337,7 +374,7 @@ public class PlayerCmds {
                 }
 
                 try {
-                    UtilsCmds.dateGMT(event.getGuild(),timezone);
+                    UtilsCmds.dateGMT(event.getGuild(), timezone);
                 } catch(Exception e) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.profile.timezone.invalid"), EmoteReference.ERROR).queue();
                     return;
@@ -350,6 +387,12 @@ public class PlayerCmds {
         });
 
         profileCommand.addSubCommand("description", new SubCommand() {
+            @Override
+            public String description() {
+                return "Sets your profile description. Usage: `~>profile description set <description>`\n" +
+                        "To reset it, you can use `~>profile description clear`";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
@@ -402,6 +445,12 @@ public class PlayerCmds {
 
         profileCommand.addSubCommand("displaybadge", new SubCommand() {
             @Override
+            public String description() {
+                return "Sets your profile badge. Usage: `~>profile displaybadge <badge name>`\n" +
+                        "To reset it use `~>profile displaybadge reset` and to show no badge use `~>profile displaybadge none`";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = content.split(" ");
                 if(args.length == 0) {
@@ -448,6 +497,11 @@ public class PlayerCmds {
 
         profileCommand.addSubCommand("lang", new SubCommand() {
             @Override
+            public String description() {
+                return "Sets your profile language. This is the language Mantaro will use to talk to *you*. To change it, use `~>profile lang <language id>`. You can check a list of avaliable languages using `~>lang`";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(content.isEmpty()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.profile.lang.nothing_specified"), EmoteReference.ERROR).queue();
@@ -478,6 +532,11 @@ public class PlayerCmds {
 
         profileCommand.addSubCommand("stats", new SubCommand() {
             @Override
+            public String description() {
+                return "Checks your profile stats or the stats of other players. Usage: `~>profile stats [@mention]`";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Map<String, Optional<String>> t = StringUtils.parse(content.isEmpty() ? new String[]{} : content.split("\\s+"));
                 content = Utils.replaceArguments(t, content, "brief");
@@ -492,8 +551,12 @@ public class PlayerCmds {
                 PlayerData playerData = player.getData();
                 PlayerStats playerStats = managedDatabase.getPlayerStats(toLookup);
 
-                Item potion = playerData.getActivePotion() == null ? null : Items.fromId(playerData.getActivePotion().getPotion());
-                Item buff = playerData.getActiveBuff() == null ? null : Items.fromId(playerData.getActiveBuff().getPotion());
+                PlayerEquipment equippedItems = data.getEquippedItems();
+                Potion potion = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.POTION);
+                Potion buff = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.BUFF);
+                boolean isPotionActive = potion != null && equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses());
+                boolean isBuffActive = buff != null && equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses());
+
                 //no need for decimals
                 long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
 
@@ -501,13 +564,13 @@ public class PlayerCmds {
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.market") + ":** "  +
                                 playerData.getMarketUsed() + " " + languageContext.get("commands.profile.stats.times"),
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.potion") + ":** " +
-                                (potion == null ? "None" : potion.getName()),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.potion_type") + ":** " +
-                                (potion == null ? "None" : Utils.capitalize(potion.getItemType().toString())),
+                                ((potion == null || !isPotionActive) ? "None" : potion.getName()),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.times_used") + ":** " +
+                                ((potion == null || !isPotionActive) ? "None" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION).getTimesUsed()  + " " + languageContext.get("commands.profile.stats.times")),
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.buff") + ":** " +
-                                (buff == null ? "None" : buff.getName()),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.buff_type") + ":** " +
-                                (buff == null ? "None" : Utils.capitalize(buff.getItemType().toString())),
+                                ((buff == null || !isBuffActive) ? "None" : buff.getName()),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.times_used") + ":** " +
+                                ((buff == null || !isBuffActive) ? "None" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF).getTimesUsed()  + " " + languageContext.get("commands.profile.stats.times")),
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.experience") + ":** " +
                                 playerData.getExperience() + "/" + experienceNext + " XP",
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.daily") + ":** " +
@@ -608,17 +671,22 @@ public class PlayerCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Badge list")
-                        .setDescription("**Shows your (or another person)'s badges**\n" +
-                                "If you want to check out the badges of another person just mention them.\n" +
-                                "`~>badges info <name>` - Shows info about a badge.\n" +
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows your (or another person)'s badges.")
+                        .setUsage("If you want to check out the badges of another person just mention them.\n" +
                                 "You can use `~>badges -brief` to get a brief versions of the badge showcase.")
                         .build();
             }
+
         });
 
         badgeCommand.addSubCommand("info", new SubCommand() {
+            @Override
+            public String description() {
+                return "Shows info about a badge. Usage: `~>badges info <name>`";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(content.isEmpty()) {

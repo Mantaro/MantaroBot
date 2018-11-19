@@ -34,9 +34,9 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.I18n;
@@ -85,7 +85,7 @@ public class InfoCmds {
 
                         event.getChannel().sendMessage(new EmbedBuilder()
                                 .setColor(Color.PINK)
-                                .setAuthor(languageContext.get("commands.about.title"), "http://is.gd/mantaro", event.getJDA().getSelfUser().getEffectiveAvatarUrl())
+                                .setAuthor(languageContext.get("commands.about.title"), "https://add.mantaro.site", event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                                 .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                                 .setDescription(languageContext.get("commands.about.description.1") + "\n" +
                                         languageContext.get("commands.about.description.2") + "\n" +
@@ -101,7 +101,7 @@ public class InfoCmds {
                                 .addField(languageContext.get("commands.about.shards"), String.valueOf(MantaroBot.getInstance().getShardedMantaro().getTotalShards()), true)
                                 .addField(languageContext.get("commands.about.threads"), String.format("%,d", Thread.activeCount()), true)
                                 .addField(languageContext.get("commands.about.guilds"), String.format("%,d", guilds.size()), true)
-                                .addField(languageContext.get("commands.about.users"), String.format("%,d", users.stream().mapToLong(ISnowflake::getIdLong).distinct().count()), true)
+                                .addField(languageContext.get("commands.about.users"), String.format("%,d", users.size()), true)
                                 .addField(languageContext.get("commands.about.tc"), String.format("%,d", textChannels.size()), true)
                                 .addField(languageContext.get("commands.about.vc"), String.format("%,d", voiceChannels.size()), true)
                                 .setFooter(String.format(languageContext.get("commands.about.invite"), CommandListener.getCommandTotalInt(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())
@@ -349,7 +349,48 @@ public class InfoCmds {
                         if(help != null) {
                             event.getChannel().sendMessage(help).queue();
                         } else {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.help.extended.no_help"), EmoteReference.ERROR).queue();
+                            if(command.help() != null && command.help().getDescription() != null) {
+                                HelpContent newHelp = command.help();
+                                EmbedBuilder builder = new EmbedBuilder()
+                                        .setColor(Color.PINK)
+                                        .setAuthor("Command Help", null, event.getAuthor().getEffectiveAvatarUrl())
+                                        .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
+                                        .setDescription(newHelp.getDescription())
+                                        .setFooter("Don't include <> or [] on the command itself.", event.getAuthor().getEffectiveAvatarUrl());
+
+                                if(newHelp.getUsage() != null) {
+                                    builder.addField("Usage", newHelp.getUsage(), false);
+                                }
+
+                                if(newHelp.getParameters().size() > 0) {
+                                    builder.addField("Parameters", newHelp.getParameters().entrySet().stream()
+                                            .map(entry -> "`" + entry.getKey() + "` - *" + entry.getValue() + "*")
+                                            .collect(Collectors.joining("\n")), false);
+
+                                }
+
+                                if(command instanceof TreeCommand) {
+                                    Map<String, InnerCommand> subCommands = ((TreeCommand) command).getSubCommands();
+                                    StringBuilder stringBuilder = new StringBuilder();
+
+                                    for(Map.Entry<String, InnerCommand> inners : subCommands.entrySet()) {
+                                        String name = inners.getKey();
+                                        InnerCommand inner = inners.getValue();
+
+                                        if(inner.description() != null) {
+                                            stringBuilder.append(EmoteReference.BLUE_SMALL_MARKER).append("`").append(name).append("` - ").append(inner.description()).append("\n");
+                                        }
+                                    }
+
+                                    if(stringBuilder.length() > 0) {
+                                        builder.addField("Sub-commands", "**Append the main command to use any of this.**\n" + stringBuilder.toString(), false);
+                                    }
+                                }
+
+                                event.getChannel().sendMessage(builder.build()).queue();
+                            } else {
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.help.extended.no_help"), EmoteReference.ERROR).queue();
+                            }
                         }
                     } else {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.help.extended.not_found"), EmoteReference.ERROR).queue();

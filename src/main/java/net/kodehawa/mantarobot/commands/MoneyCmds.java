@@ -25,10 +25,8 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.currency.item.Item;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.ItemType;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.*;
+import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -709,11 +707,25 @@ public class MoneyCmds {
                 final ManagedDatabase db = MantaroData.db();
 
                 Player player = db.getPlayer(user);
+                DBUser dbUser = db.getUser(user);
                 Inventory inventory = player.getInventory();
-                UserData userData = db.getUser(user).getData();
-                Item item = Items.BROM_PICKAXE; //default pick
+                UserData userData = dbUser.getData();
 
+                Item item = Items.BROM_PICKAXE; //default pick
+                int equipped = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK);
                 Optional<Item> itemOpt = Items.fromAnyNoId(content);
+
+                if(equipped != 0) {
+                    Item temp = Items.fromId(equipped);
+                    if(!inventory.containsItem(temp)) {
+                        event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "mine.missing_equipped"), EmoteReference.ERROR, temp.getName()).queue();
+                        userData.getEquippedItems().resetOfType(PlayerEquipment.EquipmentType.PICK);
+                        dbUser.save();
+                    } else {
+                        item = temp;
+                    }
+                }
+
                 //why is the item optional present when there's no content?
                 if(itemOpt.isPresent() && !content.isEmpty()) {
                     Item temp = itemOpt.get();
@@ -745,7 +757,8 @@ public class MoneyCmds {
                     money += r.nextInt(50);
 
                 boolean waifuHelp = false;
-                if(Items.handlePotion(Items.WAIFU_PILL, 5, player)) {
+                //old: Items.handlePotion(Items.WAIFU_PILL, 5, player)
+                if(Items.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), Items.WAIFU_PILL, dbUser)) {
                     if(userData.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
                         money += Math.max(45, random.nextInt(200));
                         waifuHelp = true;
@@ -754,7 +767,8 @@ public class MoneyCmds {
 
                 String message = String.format(languageContext.get("commands.mine.success"), item.getEmoji(), money, item.getName());
 
-                boolean hasPotion = Items.handlePotion(Items.POTION_HASTE, 2, player);
+                //old: Items.handlePotion(Items.POTION_HASTE, 2, player)
+                boolean hasPotion = Items.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), Items.POTION_HASTE, dbUser);
                 if(r.nextInt(400) > (hasPotion ? 290 : 350)) {
                     if(inventory.getAmount(Items.DIAMOND) == 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.diamond.overflow");
@@ -802,7 +816,6 @@ public class MoneyCmds {
                     player.getData().addBadgeIfAbsent(Badge.GEM_FINDER);
                 }
 
-                DBUser dbUser = db.getUser(event.getAuthor());
                 PremiumKey key = db.getPremiumKey(dbUser.getData().getPremiumKey());
                 if(r.nextInt(400) > 392) {
                     Item crate = (key != null && key.getDurationDays() > 1) ? Items.MINE_PREMIUM_CRATE : Items.MINE_CRATE;
