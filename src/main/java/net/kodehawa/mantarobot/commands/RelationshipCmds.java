@@ -778,17 +778,25 @@ public class RelationshipCmds {
         waifu.addSubCommand("unclaim", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                if(content.isEmpty()) {
+                boolean isId = content.matches("\\d{16,22}");
+
+                if(content.isEmpty() && !isId) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.no_user"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 Member member = Utils.findMember(event, event.getMember(), content);
-                if(member == null)
+                if(member == null && !isId)
                     return;
 
                 final ManagedDatabase db = MantaroData.db();
-                User toLookup = member.getUser();
+                User toLookup = isId ? MantaroBot.getInstance().getUserById(content) : member.getUser();
+
+                if(toLookup == null) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.not_found"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 if(toLookup.isBot()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.bot"), EmoteReference.ERROR).queue();
                     return;
