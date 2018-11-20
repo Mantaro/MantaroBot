@@ -111,18 +111,19 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "About Command")
-                        .setDescription("**Read info about Mantaro!**")
-                        .addField("Information",
-                                "`~>about credits` - **Lists everyone who has helped on the bot's development**, " +
-                                        "`~>about patreon` - **Lists our patreon supporters**", false)
-                        .setColor(Color.PINK)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Read information about Mantaro.")
                         .build();
             }
         });
 
         aboutCommand.addSubCommand("patreon", new SubCommand() {
+            @Override
+            public String description() {
+                return "Lists the known Patreon supporters.";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Guild mantaroGuild = MantaroBot.getInstance().getGuildById("213468583252983809");
@@ -156,6 +157,11 @@ public class InfoCmds {
 
         aboutCommand.addSubCommand("credits", new SubCommand() {
             @Override
+            public String description() {
+                return "Lists the bot's credits and who made it. Or me, well yes, who made me.";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 EmbedBuilder builder = new EmbedBuilder();
                 builder.setAuthor("Credits.", null, event.getJDA().getSelfUser().getEffectiveAvatarUrl())
@@ -179,6 +185,7 @@ public class InfoCmds {
     @Subscribe
     public void donate(CommandRegistry cr) {
         cr.register("donate", new SimpleCommand(Category.INFO) {
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 event.getChannel().sendMessageFormat(
@@ -187,9 +194,9 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Donation Methods")
-                        .setDescription("**Shows the donation methods in case you want to support Mantaro!**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows the donation methods in case you want to support Mantaro.")
                         .build();
             }
         });
@@ -204,9 +211,9 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Localization Help")
-                        .setDescription("**Shows how to change the server and user languages, along with a language list.**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows how to change the server and user languages, along with a language list.")
                         .build();
             }
         });
@@ -229,12 +236,11 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Avatar")
-                        .setDescription("**Get a user's avatar URL**")
-                        .addField("Usage",
-                                "`~>avatar` - **Get your avatar url**" +
-                                        "\n `~>avatar <mention, nickname or name#discriminator>` - **Get a user's avatar url.**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Get a user's avatar URL.")
+                        .setUsage("`~>avatar [@user]` - Returns the requested avatar URL")
+                        .addParameter("@user", "The user you want to check the avatar URL of. Can be a mention, or name#discrim")
                         .build();
             }
         });
@@ -279,10 +285,9 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Server Info Command")
-                        .setDescription("**See your server's current stats.**")
-                        .setColor(event.getGuild().getOwner().getColor() == null ? Color.ORANGE : event.getGuild().getOwner().getColor())
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("See your server's current stats.")
                         .build();
             }
         });
@@ -399,16 +404,12 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Help Command")
-                        .setColor(Color.PINK)
-                        .setDescription("**" + jokes.get(r.nextInt(jokes.size())) + "**")
-                        .addField(
-                                "Usage",
-                                "`~>help` - **Returns a list of commands that you can use**.\n" +
-                                        "`~>help <command>` - **Return information about the command specified**.",
-                                false
-                        ).build();
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("I wonder if this is what you are looking for...")
+                        .setUsage("`~>help <command>` - Returns information about the command you want")
+                        .addParameter("command", "The command name of the command you want to check information about.")
+                        .build();
             }
         });
 
@@ -434,8 +435,10 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Invite command").setDescription("**Gives you a bot OAuth invite link.**").build();
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Gives you a bot OAuth invite link and some other important links.")
+                        .build();
             }
         });
     }
@@ -453,16 +456,23 @@ public class InfoCmds {
                 };
             }
 
+
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Statistics command")
-                        .setDescription("**See the bot, usage or vps statistics**")
-                        .addField("Usage", "`~>stats <usage/server/cmds/guilds>` - **Returns statistical information**", true)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("See the bot, usage or vps statistics.")
+                        .setUsage("~>stats <option>` - Returns statistical information.")
+                        .addParameter("option", "What to check for. See subcommands")
                         .build();
             }
         });
 
         statsCommand.addSubCommand("usage", new SubCommand() {
+            @Override
+            public String description() {
+                return "The bot's (and JVM) hardware usage";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 event.getChannel().sendMessage(new EmbedBuilder()
@@ -483,6 +493,11 @@ public class InfoCmds {
 
         statsCommand.addSubCommand("server", new SubCommand() {
             @Override
+            public String description() {
+                return "The bot's hardware usage";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 TextChannelGround.of(event).dropItemWithChance(4, 5);
                 EmbedBuilder embedBuilder = new EmbedBuilder()
@@ -497,6 +512,11 @@ public class InfoCmds {
         });
 
         statsCommand.addSubCommand("cmds", new SubCommand() {
+            @Override
+            public String description() {
+                return "The bot's command usage";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = content.split(" ");
@@ -534,46 +554,12 @@ public class InfoCmds {
             }
         });
 
-        statsCommand.addSubCommand("guilds", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                String[] args = content.split(" ");
-                if(args.length > 0) {
-                    String what = args[0];
-                    if(what.equals("total")) {
-                        event.getChannel().sendMessage(guildStatsManager.fillEmbed(GuildStatsManager.TOTAL_EVENTS, baseEmbed(event, "Guild Stats | Total")).build()).queue();
-                        return;
-                    }
-
-                    if(what.equals("daily")) {
-                        event.getChannel().sendMessage(guildStatsManager.fillEmbed(GuildStatsManager.DAY_EVENTS, baseEmbed(event, "Guild Stats | Daily")).build()).queue();
-                        return;
-                    }
-
-                    if(what.equals("hourly")) {
-                        event.getChannel().sendMessage(guildStatsManager.fillEmbed(GuildStatsManager.HOUR_EVENTS, baseEmbed(event, "Guild Stats | Hourly")).build()).queue();
-                        return;
-                    }
-
-                    if(what.equals("now")) {
-                        event.getChannel().sendMessage(guildStatsManager.fillEmbed(GuildStatsManager.MINUTE_EVENTS, baseEmbed(event, "Guild Stats | Now")).build()).queue();
-                        return;
-                    }
-                }
-
-                //Default
-                event.getChannel().sendMessage(baseEmbed(event, "Guild Stats")
-                        .addField(languageContext.get("general.now"), guildStatsManager.resume(GuildStatsManager.MINUTE_EVENTS), false)
-                        .addField(languageContext.get("general.hourly"), guildStatsManager.resume(GuildStatsManager.HOUR_EVENTS), false)
-                        .addField(languageContext.get("general.daily"), guildStatsManager.resume(GuildStatsManager.DAY_EVENTS), false)
-                        .addField(languageContext.get("general.total"), guildStatsManager.resume(GuildStatsManager.TOTAL_EVENTS), false)
-                        .setFooter("Guilds: " + MantaroBot.getInstance().getGuildCache().size(), null)
-                        .build()
-                ).queue();
-            }
-        });
-
         statsCommand.addSubCommand("category", new SubCommand() {
+            @Override
+            public String description() {
+                return "The bot's category usage";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = content.split(" ");
@@ -610,22 +596,6 @@ public class InfoCmds {
                 ).queue();
             }
         });
-
-        statsCommand.addSubCommand("custom", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                event.getChannel().sendMessage(
-                        customCommandStatsManager.fillEmbed(CustomCommandStatsManager.TOTAL_CUSTOM_CMDS, baseEmbed(event, "CCS Stats | Total")
-                        ).build()).queue();
-            }
-        });
-
-        statsCommand.addSubCommand("game", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                event.getChannel().sendMessage(baseEmbed(event, "Game Stats").setDescription(gameStatsManager.resume(GameStatsManager.TOTAL_GAMES)).build()).queue();
-            }
-        });
     }
 
     @Subscribe
@@ -642,9 +612,9 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Social")
-                        .setDescription("**Shows Mantaro's social networks.**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows Mantaro's social networks.")
                         .build();
             }
         });
@@ -698,12 +668,11 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "User Info Command")
-                        .setDescription("**See information about specific users.**")
-                        .addField("Usage:",
-                                "`~>userinfo @user (or user#disciminator, or nickname)` - **Get information about the specific user.**" +
-                                        "\n`~>userinfo` - **Get information about yourself!**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("See information about specific users.")
+                        .setUsage("`~>userinfo <@user>` - Get information about an user.")
+                        .addParameter("user", "The user you want to look for. Mentions, nickname and user#discriminator work.")
                         .build();
             }
         });
@@ -721,9 +690,9 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Tips Command")
-                        .setDescription("**Shows tips about the bot!**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows tips about the bot.")
                         .build();
             }
         });
@@ -773,12 +742,11 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "User Info Command")
-                        .setDescription("**See information about specific users.**")
-                        .addField("Usage:",
-                                "`~>roleinfo role` - **Get information about the specific role.**" +
-                                        "\n`~>roleinfo` - **Get information about top role!**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("See information about specific role.")
+                        .setUsage("`~>roleinfo <role>` - Get information about a role.")
+                        .addParameter("role", "The role you want to look for. Mentions, id and name work.")
                         .build();
             }
         });
