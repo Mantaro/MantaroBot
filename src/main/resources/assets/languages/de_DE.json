@@ -49,7 +49,10 @@
                 "no_crate": "%1$sDu brauchst eine Truhe! Wie sonst möchtest du deinen Schlüssel benutzen >.>... oh",
                 "success": "%1$sDu hast eine Truhe geöffnet und folgendes gewonnen: %2$s%3$s. Glückwunsch!",
                 "overflow": "Aber du hattest schon zu viel, also hast du dich dazu entschlossen, den Rest weg zu werfen."
-            }
+            },
+        "potion_active": "%1$sDu hast bereits einen aktiven **%2$s** Trankeffekt!",
+        "potion_not_found": "%1$sIch kann diesen Trank- bzw. Equipmenttyp nicht finden!",
+        "potion_applied": "%1$sErfolgreich den Effekt **%2$s** des Types *%3$s* angewendet. Schau dir deinen tollen neuen Effekt unter `~>profile stats` an!"
         },
         "mention_user_required": "%1$sDu musst einen Benutzer erwähnen.",
         "invalid_character": "%1$sDas ist kein erlaubtes Zeichen.",
@@ -105,7 +108,8 @@
             "not_suitable": "%1$sDu kannst das nicht zum Fischen benutzen.",
             "shark_success": "%1$sDu hast es irgendwie geschaft einen Hai zu fangen. Was eine tolle Angel, wa?",
             "fossil_success": "%1$sDu hast ein Fossil beim Fischen gefangen. Das könnte ein bisschen was Wert sein, oder vielleicht zum Herstellen gebraucht werden, denke ich.",
-            "bait": "Der Fisch hat deinen Köder geschluckt!"
+            "bait": "Der Fisch hat deinen Köder geschluckt!",
+            "missing_equipped": "%1$sDu hattest eine %2$s Angelrute ausgerüstet, aber keine Angelrute der Art im Inventar! Die ausgerüstete Angelrute wurde zurückgesetzt."
         },
         "softban": {
             "no_permission": "%1$sKann nicht softbannen: Sie haben keine Rechte Mitglider zu bannen.",
@@ -747,7 +751,15 @@
                 "lang": "Anzeigesprache",
                 "reminders": "Anzahl der bisherigen Erinnerungen",
                 "times": "Male(e)",
-                "days": "Tag(e)"
+                "days": "Tag(e)",
+                "times_used": "Anzahl der Nutzungen"
+            },
+            "equip": {
+                "no_content": "%1$sDu musst den auszurüstenden Gegenstand angeben!",
+                "no_item": "%1$sDieser Gegenstand existiert nicht!",
+                "not_owned": "%1$sDu besitzt diesen Gegenstand nicht!",
+                "success": "%1$sDu hast erfolgreich %2$s *%3$s* ausgerüstet, was beim nächsten Ausführen des zugehörigen Befehls beachtet wird.",
+                "not_suitable": "%1$sDu kannst das nicht ausrüsten."
             },
             "badge_header": "%1$sVorzeige-Abzeichen",
             "bot_notice": "%1$sBots haben keine Profile.",
@@ -1294,7 +1306,8 @@
                 "success": "Du hast eine %1$s **%2$s** beim Graben gefunden und mitgenommen. Los, öffne sie mit `~>opencrate <Truhenname>`. Du brauchst einen Truhenschlüssel!"
             },
             "pick_broke": "%1$sEine deiner Spitzhacken ist beim Abbauen zerbrochen.",
-            "waifu_help": "Deine Waifu gesellte sich zu deinem Minenabenteuer und ihr habt beide eine größere Beute bekommen!"
+            "waifu_help": "Deine Waifu gesellte sich zu deinem Minenabenteuer und ihr habt beide eine größere Beute bekommen!",
+            "missing_equipped": "%1$sDu hattest eine %2$s Spitzhacke ausgerüstet, aber keine Spitzhacke der Art im Inventar! Die ausgerüstete Spitzhacke wurde zurückgesetzt."
         },
         "slots": {
             "errors": {
