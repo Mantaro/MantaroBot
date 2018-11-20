@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -84,10 +85,11 @@ public class FunCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Coinflip command")
-                        .setDescription("**Flips a coin with a defined number of repetitions**")
-                        .addField("Usage", "`~>coinflip <number of times>` - **Flips a coin x number of times**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Flips a coin with a defined number of repetitions.")
+                        .setUsage("`~>coinflip <times>` - Flips a coin x number of times")
+                        .addParameter("times", "Amount of times you want to flip the coin.")
                         .build();
             }
         });
@@ -111,9 +113,11 @@ public class FunCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Rate your waifu")
-                        .setDescription("**Just rates your waifu from zero to 100. Results may vary.**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Just rates your waifu from zero to 100. Results may vary.")
+                        .setUsage("`~>ratewaifu <@user>` - Rates your waifu.")
+                        .addParameter("@user", "The waifu to rate (results may vary, not dependant on profile waifu score)")
                         .build();
             }
         });
@@ -163,6 +167,17 @@ public class FunCmds {
                 event.getChannel().sendMessageFormat(languageContext.get("commands.roll.success"), EmoteReference.DICE, result, amount == 1 ? "!" : (String.format("\nDoing **%d** rolls.", amount))).queue();
 
                 TextChannelGround.of(event.getChannel()).dropItemWithChance(Items.LOADED_DICE, 5);
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Roll a any-sided dice a 1 or more times. By default, this command will roll a 6-sized dice 1 time.")
+                        .setUsage("`~>roll [-amount <number>] [-size <number>]`: Rolls a dice of the specified size the specified times.\n" +
+                                "D20 Format: For this, 1d20 would be `~>roll -size 20 -amount 1`")
+                        .addParameter("-amount", "The amount you want (example: -amount 20)")
+                        .addParameter("-size", "The size of the dice (example: -size 7)")
+                        .build();
             }
 
             @Override
@@ -240,10 +255,12 @@ public class FunCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Love Meter")
-                        .setDescription("**Calculates the love between 2 discord users**")
-                        .addField("Considerations", "You can either mention one user (matches with yourself) or two (matches 2 users)", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Calculates the love between 2 discord users. Results may vary.\n" +
+                                "You can either mention one user (matches with yourself) or two (matches 2 users)")
+                        .setUsage("`~>love <@user>`")
+                        .addParameter("@user", "The user to check against.")
                         .build();
             }
         });

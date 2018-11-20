@@ -48,6 +48,12 @@ public class HelpContent {
             return this;
         }
 
+        //I was lazy to make last one take a boolean bc that'd mean replacing existing ones, bleh.
+        public Builder addParameterOptional(String parameterName, String content) {
+            parameters.put(parameterName, content + " This is *optional*");
+            return this;
+        }
+
         public Builder setUsage(String usage) {
             this.usage = usage;
             return this;

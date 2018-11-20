@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -77,9 +78,9 @@ public class ImageCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Cat command")
-                        .setDescription("Sends a random cat image.")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Sends a random cat image. Really cute stuff, you know?")
                         .build();
             }
         });
@@ -111,11 +112,11 @@ public class ImageCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Catgirl command")
-                        .setDescription("**Sends catgirl images**")
-                        .addField("Usage", "`~>catgirl` - **Sends a catgirl image.**" +
-                                "\n`~>catgirl nsfw` - **Sends a lewd or questionable catgirl image.**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Sends images of catgirl(s). Maybe.")
+                        .setUsage("`~>catgirl` - Sends images of normal catgirls.\n" +
+                                "\"`~>catgirl nsfw` - Sends images of lewd catgirls. (Only works on NSFW channels)")
                         .build();
             }
         });
@@ -139,16 +140,13 @@ public class ImageCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "e621 commmand")
-                        .setColor(Color.PINK)
-                        .setDescription("**Retrieves images from the e621 (furry) image board.**")
-                        .addField("Usage",
-                                "`~>e621 random` - **Retrieves a random image**\n"
-                                        + "`~>e621 tags <tag>` or `~>e621 <tag>` - **Fetches an image with the respective tag and specified parameters.**\n\n"
-                                        + "**WARNING**: This command can be only used in NSFW channels!", false)
-                        .addField("Parameters",
-                                "`tag` - **Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)**\n", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Retrieves images from the e621 (furry) image board. (Why is the IB name so unrelated?).\n" +
+                                "This command can be only used in NSFW channels.")
+                        .setUsage("`~>e621` - Retrieves a random image.\n" +
+                                "`~>e621 <tag>` - Fetches an image with the respective tag and specified parameters.")
+                        .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on e621's website (NSFW).")
                         .build();
             }
         });
@@ -172,17 +170,14 @@ public class ImageCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Konachan commmand")
-                        .setColor(Color.PINK)
-                        .setDescription("**Retrieves images from the Konachan image board.**")
-                        .addField("Usage",
-                                "`~>konachan random` - **Gets you a completely random image.**\n"
-                                        + "`~>konachan tags <tag> <rating>` - **Gets you an image with the respective tag and specified parameters.**\n\n"
-                                        + "**WARNING**: If the rating is explicit/questionable this command can be only used in NSFW channels! (Unless rating has been specified as safe or not specified at all)", false)
-                        .addField("Parameters",
-                                "`tag` - **Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)**\n"
-                                        + "`rating` - **(OPTIONAL) Can be either safe, questionable or explicit, depends on the type of image you want to get.**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Retrieves images from the Konachan image board.\n" +
+                                "If the rating is explicit/questionable this command can be only used in NSFW channels.")
+                        .setUsage("`~>konachan` - Retrieves a random image.\n" +
+                                "`~>konachan <tag> <rating>` - Fetches an image with the respective tag and specified parameters.")
+                        .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on konachan's website.")
+                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit.")
                         .build();
             }
         });
@@ -206,15 +201,12 @@ public class ImageCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Safebooru commmand")
-                        .setColor(Color.PINK)
-                        .setDescription("**Retrieves images from the Safebooru image board.**")
-                        .addField("Usage",
-                                "`~>safebooru` - **Gets you a completely random image.**\n"
-                                        + "`~>safebooru tags <tag>` - **Gets you an image with the respective tag and specified parameters.**\n\n", false)
-                        .addField("Parameters",
-                                "`tag` - **Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)**\n", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Retrieves images from the Safebooru image board.")
+                        .setUsage("`~>safebooru` - Retrieves a random image.\n" +
+                                "`~>safebooru <tag>` - Fetches an image with the respective tag and specified parameters.")
+                        .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on safebooru's website.")
                         .build();
             }
         });
@@ -232,23 +224,20 @@ public class ImageCmds {
                         getImage(danbooru, ImageRequestType.RANDOM, false, "danbooru", args, content, event, languageContext);
                         break;
                     default:
-                        getImage(safebooru, ImageRequestType.TAGS, false, "safebooru", args, content, event, languageContext);
+                        getImage(safebooru, ImageRequestType.TAGS, false, "danbooru", args, content, event, languageContext);
                         break;
                 }
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Danbooru commmand")
-                        .setColor(Color.PINK)
-                        .setDescription("**Retrieves images from the danbooru image board.**")
-                        .addField("Usage",
-                                "`~>danbooru` - **Gets you a completely random image.**\n"
-                                        + "`~>danbooru tags <tag> <rating>` - **Gets you an image with the respective tag and specified parameters.**\n\n"
-                                        + "**WARNING**: If rating is explicit/questionable, the command can be only used in NSFW channels! (Unless rating has been specified as safe or not specified at all)", false)
-                        .addField("Parameters",
-                                "`tag` - **Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)**\n"
-                                        + "`rating` - **(OPTIONAL) Can be either safe, questionable or explicit, depends on the type of image you want to get.**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Retrieves images from the Danbooru image board.\n" +
+                                "If the rating is explicit/questionable this command can be only used in NSFW channels.")
+                        .setUsage("`~>danbooru` - Retrieves a random image.\n" +
+                                "`~>danbooru <tag> <rating>` - Fetches an image with the respective tag and specified parameters.")
+                        .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on danbooru's website.")
+                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit.")
                         .build();
             }
         });
@@ -270,6 +259,18 @@ public class ImageCmds {
                         break;
                 }
             }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Retrieves images from the Danbooru image board.\n" +
+                                "This command only works in NSFW channels. You could guess it from the name though ;)")
+                        .setUsage("`~>rule34` - Retrieves a random image.\n" +
+                                "`~>rule34 <tag>` - Fetches an image with the respective tag and specified parameters.")
+                        .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on rule34's website (NSFW).")
+                        .build();
+            }
+
 
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
@@ -310,18 +311,15 @@ public class ImageCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Yande.re command")
-                        .setColor(Color.DARK_GRAY)
-                        .setDescription("**This command fetches images from the image board yande.re. Normally used to store NSFW images, "
-                                + "but tags can be set to safe if you so desire.**")
-                        .addField("Usage",
-                                "`~>yandere` - **Gets you a completely random image.**\n"
-                                        + "`~>yandere tags <tag> <rating>` - **Gets you an image with the respective tag and specified parameters.**\n\n"
-                                        + "**WARNING**: This command can be only used in NSFW channels! (Unless rating has been specified as safe or not specified at all)", false)
-                        .addField("Parameters",
-                                    "`tag` - **Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)**\n"
-                                        + "`rating` - **(OPTIONAL) Can be either safe, questionable or explicit, depends on the type of image you want to get.**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Retrieves images from the Yande.re image board.\n" +
+                                "This command only works on NSFW channels, regarding of rating " +
+                                "(because of course the maintainers think really harsh sexual acts qualify as enough to give it a safe rating I mean, sure).")
+                        .setUsage("`~>yandere` - Retrieves a random image.\n" +
+                                "`~>yandere <tag> <rating>` - Fetches an image with the respective tag and specified parameters.")
+                        .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on yande.re's website.")
+                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit.")
                         .build();
             }
         });

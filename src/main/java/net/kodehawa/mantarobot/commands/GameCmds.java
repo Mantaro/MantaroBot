@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
@@ -77,32 +78,40 @@ public class GameCmds {
 
         SimpleTreeCommand gameCommand = (SimpleTreeCommand) cr.register("game", new SimpleTreeCommand(Category.GAMES) {
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Guessing games.")
-                        .addField("Games", "`~>game character` - **Starts an instance of Guess the character (anime)**.\n"
-                                + "`~>game pokemon` - **Starts an instance of who's that pokemon?**\n" +
-                                "`~>game number` - **Starts an instance of Guess The Number**`\n" +
-                                "`~>game lobby` - **Starts a chunk of different games, for example `~>game lobby pokemon, trivia` will start pokemon and then trivia.**\n" +
-                                "`~>game multiple` - **Starts multiple instances of one game, for example `~>game multiple trivia 5` will start trivia 5 times.**\n" +
-                                "`~>game wins` - **Shows how many times you've won in games**", false)
-                        .addField("Considerations", "The pokemon guessing game has around *900 different pokemon* to guess, " +
-                                "where the anime guessing game has around 60. The number in the number guessing game is a random number between 0 and 150.\n" +
-                                "To start multiple trivia sessions please use `~>game trivia multiple`, not `~>trivia multiple`", false)
-                        .addField("Multiple games and trivia difficulty", "If you want to specify the difficulty of trivia on a `game lobby` call, you can use the `-diff` parameter.\n" +
-                                "Example: `~>game lobby trivia, trivia, pokemon, trivia -diff hard`. You can do the same with `game multiple`.", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Plays a little game. Maybe a big game, who knows, life is full of surprises.")
+                        .setUsage("`~>game <game> [@user]`")
+                        .addParameter("game", "The game you want to play, refer to subcommands.")
+                        .addParameterOptional("user", "Whoever you want to play this game with.")
                         .build();
             }
         }.addSubCommand("character", new SubCommand() {
+            @Override
+            public String description() {
+                return "Starts an instance of Guess the character (anime)";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 startGames(createLinkedList(new Character()), event, languageContext);
             }
         }).addSubCommand("pokemon", new SubCommand() {
             @Override
+            public String description() {
+                return "Starts an instance of \"Guess that Pokemon / Who's that Pokemon?\"";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 startGames(createLinkedList(new Pokemon()), event, languageContext);
             }
         }).addSubCommand("number", new SubCommand() {
+            @Override
+            public String description() {
+                return "Starts an instance of Guess the Number!";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 startGames(createLinkedList(new GuessTheNumber()), event, languageContext);
@@ -113,6 +122,11 @@ public class GameCmds {
 
         //Sub-commands.
         gameCommand.addSubCommand("wins", new SubCommand() {
+            @Override
+            public String description() {
+                return "Shows how many games you've won.";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Member member = Utils.findMember(event, event.getMember(), content);
@@ -128,6 +142,12 @@ public class GameCmds {
         });
 
         gameCommand.addSubCommand("lobby", new SubCommand() {
+            @Override
+            public String description() {
+                return "Starts a game lobby. For example `~>game lobby pokemon, trivia` will start pokemon and then trivia\n" +
+                        "If you want to specify the difficulty of trivia, you can use the `-diff` parameter. Example: `~>game lobby pokemon, trivia -diff hard`";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = net.kodehawa.mantarobot.utils.StringUtils.advancedSplitArgs(content, 0);
@@ -192,6 +212,11 @@ public class GameCmds {
         });
 
         gameCommand.addSubCommand("multiple", new SubCommand() {
+            @Override
+            public String description() {
+                return "Starts multiple instances of one game, for example `~>game multiple trivia 5` will start trivia 5 times.";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = net.kodehawa.mantarobot.utils.StringUtils.advancedSplitArgs(content, 0);
@@ -301,12 +326,12 @@ public class GameCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Trivia command.")
-                        .setDescription("**Starts an instance of trivia.**\n" +
-                                "Optionally, you can specify the difficulty (easy, medium or hard) to play.")
-                        .addField("Rules", "You have 10 attempts and 60 seconds to answer, otherwise the game ends.", false)
-                        .addField("Considerations", "To start multiple trivia sessions please use `~>game multiple trivia`, not `~>trivia multiple`", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Starts an instance of trivia. You have 10 attempts and 60 seconds to answer, otherwise the game ends.")
+                        .setUsage("`~>trivia [@user] [difficulty]` - Starts a new game of trivia")
+                        .addParameterOptional("@user", "Whoever you want to play trivia with.")
+                        .addParameterOptional("difficulty", "The difficulty of the game, it can be easy, medium or hard.")
                         .build();
             }
         });
