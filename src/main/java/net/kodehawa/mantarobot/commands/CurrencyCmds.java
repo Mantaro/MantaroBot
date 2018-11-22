@@ -929,8 +929,8 @@ public class CurrencyCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Starts a fishing session.")
-                        .setUsage("`~>fish <rod>` - Starts fishing.")
-                        .addParameter("rod", "Rod name. Optional, if not provided or not found, will default to the default fishing rod.")
+                        .setUsage("`~>fish <rod>` - Starts fishing. You can gain credits and fish items by fishing, which can be used later on for casting.")
+                        .addParameter("rod", "Rod name. Optional, if not provided or not found, will default to the default fishing rod or your equipped rod.")
                         .build();
             }
         });
