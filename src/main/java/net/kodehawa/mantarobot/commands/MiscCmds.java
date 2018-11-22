@@ -31,6 +31,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -146,12 +147,11 @@ public class MiscCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "8ball")
-                        .setDescription("**Retrieves an answer from the almighty 8ball.**")
-                        .addField("Usage",
-                                "`~>8ball <question>` - **Retrieves an answer from 8ball based on the question or sentence provided.**",
-                                false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Retrieves an answer from the almighty 8ball.")
+                        .setUsage("`~>8ball <question>` - Retrieves an answer from 8ball based on the question or sentence provided.")
+                        .addParameter("question", "The question to ask.")
                         .build();
             }
         });
@@ -208,13 +208,15 @@ public class MiscCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Iam (autoroles)")
-                        .setDescription("**Get an autorole that your server administrators have set up!**")
-                        .addField("Usage", "`~>iam <name>` - **Get the role with the specified name**.\n"
-                                + "`~>iam list` - **List all the available autoroles in this server**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Get an autorole that your server administrators have set up.")
+                        .setUsage("`~>iam <name>` - Get the role with the specified name.\n"
+                                + "`~>iam list` - List all the available autoroles in this server. Use this to check which autoroles you can get!")
+                        .addParameter("name", "The name of the autorole to get.")
                         .build();
             }
+
         });
     }
 
@@ -232,11 +234,11 @@ public class MiscCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Iamnot (autoroles)")
-                        .setDescription("**Remove an autorole from yourself that your server administrators have set up!**")
-                        .addField("Usage", "~>iamnot <name>. Remove the role from yourself with the specified name.\n"
-                                + "~>iamnot list. List all the available autoroles in this server", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Remove an autorole from yourself that your server administrators have set up.")
+                        .setUsage("`~>iamnot <name>` - Remove the role from yourself with the specified name.")
+                        .addParameter("name", "The name of the autorole to remove.")
                         .build();
             }
         });
@@ -251,9 +253,9 @@ public class MiscCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Random Fact")
-                        .setDescription("**Sends a random fact.**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Sends a random fact.")
                         .build();
             }
         });
@@ -304,16 +306,16 @@ public class MiscCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Poll Command")
-                        .setDescription("**Creates a poll**")
-                        .addField("Usage", "`~>poll [-options <options>] [-time <time>] [-name <name>] [-image <image>]`", false)
-                        .addField("Parameters", "`-options` The options to add. Minimum is 2 and maximum is 9. For instance: `Pizza,Spaghetti,Pasta,\"Spiral Nudels\"` (Enclose options with multiple words in double quotes).\n" +
-                                "`-time` The time the operation is gonna take. The format is as follows `1m29s` for 1 minute and 21 seconds. Maximum poll runtime is 45 minutes.\n" +
-                                "`-name` The name of the poll for reference.\n" +
-                                "`-image` The image to embed to the poll. Optional.", false)
-                        .addField("Considerations", "To cancel the running poll type &cancelpoll. Only the person who started it or an Admin can cancel it.", false)
-                        .addField("Example", "~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Creates a poll.")
+                        .setUsage("`~>poll [-options <options>] [-time <time>] [-name <name>] [-image <image>]`\n" +
+                                "To cancel the running poll type &cancelpoll. Only the person who started it or an Admin can cancel it.\n" +
+                                "Example: `~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"`")
+                        .addParameter("-options", "The options to add. Minimum is 2 and maximum is 9. For instance: `Pizza,Spaghetti,Pasta,\"Spiral Nudels\"` (Enclose options with multiple words in double quotes, there has to be no spaces between the commas)")
+                        .addParameter("time", "The time the operation is gonna take. The format is as follows `1m29s` for 1 minute and 21 seconds. Maximum poll runtime is 45 minutes.")
+                        .addParameter("-name", "The name of the poll.")
+                        .addParameter("-image", "The image to embed to the poll.")
                         .build();
             }
         });

@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -95,6 +96,13 @@ public class LeaderboardCmd {
             }
 
             @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Returns the currency leaderboard.")
+                        .build();
+            }
+
+            @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Leaderboard")
                         .setDescription("**Returns the leaderboard.**")
@@ -116,6 +124,11 @@ public class LeaderboardCmd {
 
         leaderboards.addSubCommand("gamble", new SubCommand() {
             @Override
+            public String description() {
+                return "Returns the gamble (times) leaderboard";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Map> c = getLeaderboard("playerstats", "gambleWins",
                         player -> player.pluck("id", "gambleWins"), 10
@@ -131,6 +144,11 @@ public class LeaderboardCmd {
         });
 
         leaderboards.addSubCommand("slots", new SubCommand() {
+            @Override
+            public String description() {
+                return "Returns the slots (times) leaderboard";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Map> c = getLeaderboard("playerstats", "slotsWins",
@@ -148,6 +166,11 @@ public class LeaderboardCmd {
 
         leaderboards.addSubCommand("money", new SubCommand() {
             @Override
+            public String description() {
+                return "Returns the money leaderboard";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Map> c = getLeaderboard("players", "money",
                         player -> player.g("id").match(pattern),
@@ -164,6 +187,11 @@ public class LeaderboardCmd {
         });
 
         leaderboards.addSubCommand("lvl", new SubCommand() {
+            @Override
+            public String description() {
+                return "Returns the level leaderboard";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Map> c = getLeaderboard("players", "level",
@@ -183,6 +211,11 @@ public class LeaderboardCmd {
 
         leaderboards.addSubCommand("rep", new SubCommand() {
             @Override
+            public String description() {
+                return "Returns the reputation leaderboard";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Map> c = getLeaderboard("players", "reputation",
                         player -> player.g("id").match(pattern),
@@ -199,6 +232,11 @@ public class LeaderboardCmd {
         });
 
         leaderboards.addSubCommand("streak", new SubCommand() {
+            @Override
+            public String description() {
+                return "Returns the daily streak leaderboard";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Map> c = getLeaderboard("players", "userDailyStreak",
@@ -217,6 +255,11 @@ public class LeaderboardCmd {
 
         leaderboards.addSubCommand("waifuvalue", new SubCommand() {
             @Override
+            public String description() {
+                return "Returns the waifu value leaderboard";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Map> c = getLeaderboard("players", "waifuCachedValue",
                         player -> player.g("id").match(pattern),
@@ -233,6 +276,11 @@ public class LeaderboardCmd {
         });
 
         leaderboards.addSubCommand("claim", new SubCommand() {
+            @Override
+            public String description() {
+                return "Returns the waifu claim leaderboard";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Map> c = getLeaderboard("users", "timesClaimed",

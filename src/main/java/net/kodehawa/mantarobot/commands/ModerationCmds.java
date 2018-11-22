@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -147,15 +148,15 @@ public class ModerationCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Softban")
-                        .setDescription("**Softban the mentioned user and clears their messages from the past week. (You need Ban " +
-                                "Members)**")
-                        .addField("Summarizing", "A soft ban is a ban & instant unban, normally used to clear " +
-                                "the user's messages but **without banning the person permanently**.", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Softban the mentioned user and clears their messages from the past week. (You need the Ban Members permission, so does the bot)♥n" +
+                                "A soft ban is a ban & instant unban, usually useful to kick and clear messages.")
+                        .setUsage("`~>softban <@user> [reason]`")
+                        .addParameter("@user", "The user to softban.")
+                        .addParameter("reason", "The reason of the softban. This is optional.")
                         .build();
             }
-
         });
     }
 
@@ -249,10 +250,12 @@ public class ModerationCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Ban")
-                        .setDescription("**Bans the mentioned users. (You need Ban Members)**")
-                        .addField("Usage", "`~>ban <@user> <reason>` - **Bans the specified user**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Bans the mentioned user.")
+                        .setUsage("`~>ban <@user> [reason]`")
+                        .addParameter("@user", "The user to ban.")
+                        .addParameter("reason", "The reason of the ban. This is optional.")
                         .build();
             }
         });
@@ -351,10 +354,12 @@ public class ModerationCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Kick")
-                        .setDescription("**Kicks the mentioned users. (You need Kick Members)**")
-                        .addField("Usage", "`~>kick <@user> <reason> - **Kicks the mentioned user   **", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Kicks the mentioned user.")
+                        .setUsage("`~>kick <@user> [reason]`")
+                        .addParameter("@user", "The kick to ban.")
+                        .addParameter("reason", "The reason of the kick. This is optional.")
                         .build();
             }
         });

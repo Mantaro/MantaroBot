@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
@@ -175,15 +176,13 @@ public class MuteCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Mute")
-                        .setDescription("**Mutes the specified users**")
-                        .addField("Usage", "`~>mute <user> <reason> [-time <time>]` - Mutes the specified users.", false)
-                        .addField("Parameters", "`users` - The users to mute. Needs to be mentions.\n" +
-                                "`[-time <time>]` - The time to mute an user for. For example `~>mute @Natan#1289 wew, nice -time 1m20s` will mute Natan for 1 minute and 20 seconds.", false)
-                        .addField("Considerations", "To unmute an user, do `~>unmute`.", false)
-                        .addField("Extended usage", "`time` - can be used with the following parameters: " +
-                                "d (days), s (second), m (minutes), h (hour). **For example -time 1d1h will mute for one day and one hour.**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Mutes the specified users.")
+                        .setUsage("`~>mute <@user> [reason] [-time <time>]`")
+                        .addParameter("@user", "The users to mute. Needs to be mentions (pings)")
+                        .addParameter("reason", "The mute reason. This is optional.")
+                        .addParameter("-time", "The time to mute an user for. For example `~>mute @Natan#1289 wew, nice -time 1m20s` will mute Natan for 1 minute and 20 seconds.")
                         .build();
             }
         });
@@ -352,12 +351,12 @@ public class MuteCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Un-mute")
-                        .setDescription("**Un-mutes the specified users**")
-                        .addField("Usage", "`~>unmute <user> <reason>` - Un-mutes the specified users.", false)
-                        .addField("Parameters", "`users` - The users to un-mute. Needs to be mentions.", false)
-                        .addField("Considerations", "To mute an user, do `~>mute`.", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Un-mutes the specified users.")
+                        .setUsage("`~>unmute <@user> [reason]`")
+                        .addParameter("@user", "The users to un-mute. Needs to be mentions (pings)")
+                        .addParameter("reason", "The reason for the un-mute. This is optional.")
                         .build();
             }
         });

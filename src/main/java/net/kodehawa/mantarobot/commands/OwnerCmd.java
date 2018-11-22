@@ -35,6 +35,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -359,13 +360,13 @@ public class OwnerCmd {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Evaluator evaluator = evals.get(args[0]);
                 if(evaluator == null) {
-                    onHelp(event);
+                    event.getChannel().sendMessage("That's not a valid evaluator, silly.").queue();
                     return;
                 }
 
                 String[] values = SPLIT_PATTERN.split(content, 2);
                 if(values.length < 2) {
-                    onHelp(event);
+                    event.getChannel().sendMessage("Not enough arguments.").queue();
                     return;
                 }
 
@@ -389,9 +390,9 @@ public class OwnerCmd {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Eval cmd")
-                        .setDescription("**Evaluates stuff (A: js/bsh)**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Evaluates stuff (A: js/bsh).")
                         .build();
             }
         });
@@ -439,8 +440,10 @@ public class OwnerCmd {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return null;
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Links a guild to a patreon owner (user id).")
+                        .build();
             }
         });
     }
@@ -455,16 +458,16 @@ public class OwnerCmd {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Owner command")
-                        .setDescription("`~>owner premium add <id> <days>` - Adds premium to the specified user for x days.")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("`~>owner premium guild <id> <days>` - Adds premium to the specified guild for x days.")
                         .build();
             }
 
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length < 1) {
-                    onHelp(event);
+                    event.getChannel().sendMessage("Not enough arguments.").queue();
                     return;
                 }
 
@@ -472,37 +475,6 @@ public class OwnerCmd {
 
                 if(option.equals("premium")) {
                     String sub = args[1].substring(0, args[1].indexOf(' '));
-                    if(sub.equals("add")) {
-                        try {
-                            String userId;
-                            String[] values = SPLIT_PATTERN.split(args[1], 3);
-                            try {
-                                Long.parseLong(values[1]);
-                                userId = values[1];
-                            } catch(Exception e) {
-                                if(!event.getMessage().getMentionedUsers().isEmpty()) {
-                                    userId = event.getMessage().getMentionedUsers().get(0).getId();
-                                    return;
-                                } else {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid user id").queue();
-                                    return;
-                                }
-                            }
-                            DBUser db = MantaroData.db().getUser(userId);
-                            db.incrementPremium(TimeUnit.DAYS.toMillis(Long.parseLong(values[2])));
-                            db.saveAsync();
-                            event.getChannel().sendMessage(EmoteReference.CORRECT +
-                                    "The premium feature for user " + db.getId() + " now is until " +
-                                    new Date(db.getPremiumUntil())).queue();
-                            return;
-                        } catch(IndexOutOfBoundsException e) {
-                            event.getChannel().sendMessage(
-                                    EmoteReference.ERROR + "You need to specify id and number of days").queue();
-                            e.printStackTrace();
-                            return;
-                        }
-                    }
-
                     if(sub.equals("guild")) {
                         try {
                             String[] values = SPLIT_PATTERN.split(args[1], 3);
@@ -522,7 +494,7 @@ public class OwnerCmd {
                     }
                 }
 
-                onHelp(event);
+                event.getChannel().sendMessage("You're not meant to use this incorrectly, silly.").queue();
             }
 
             @Override

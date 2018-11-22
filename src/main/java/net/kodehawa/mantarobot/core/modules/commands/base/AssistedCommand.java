@@ -59,19 +59,6 @@ public interface AssistedCommand extends Command {
         }
     }
 
-    default void onHelp(GuildMessageReceivedEvent event) {
-        MessageEmbed helpEmbed = help(event);
-
-        if(helpEmbed == null) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "There's no extended help set for this command.").queue(
-                    message -> message.delete().queueAfter(20, TimeUnit.SECONDS)
-            );
-            return;
-        }
-
-        event.getChannel().sendMessage(help(event)).queue();
-    }
-
     @Override
     default Command addOption(String call, Option option) {
         Option.addOption(call, option);

@@ -28,6 +28,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -119,18 +120,19 @@ public class PremiumCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Premium Key Actvation")
-                        .setDescription("Activates a premium key!\n" +
-                                "Example: `~>activatekey a4e98f07-1a32-4dcc-b53f-c540214d54ec`\n" +
-                                "No, that isn't a valid key.")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Activates a premium key.\n" +
+                                "Example: `~>activatekey a4e98f07-1a32-4dcc-b53f-c540214d54ec`. No, that isn't a valid key.")
+                        .setUsage("`~>activatekey <key>`")
+                        .addParameter("key", "The key to use. If it's a server key, make sure to run this command in the server where you want to enable premium on.")
                         .build();
             }
         });
     }
 
     @Subscribe
-    public void checkpremium(CommandRegistry cr) {
+    public void vipstatus(CommandRegistry cr) {
         cr.register("vipstatus", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
@@ -243,12 +245,13 @@ public class PremiumCmds {
                 }
             }
 
+
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Check premium status")
-                        .setDescription("**Checks your premium status or the guild status**")
-                        .addField("Arguments", "`~>vipstatus` - Returns your premium key status\n" +
-                                "`~>vipstatus guild` - Return this guild's premium status.", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Checks your premium status or the guild status.")
+                        .setUsage("`~>vipstatus` - Returns your premium key status\n" +
+                                "`~>vipstatus guild` - Return this guild's premium status.")
                         .build();
             }
         });
@@ -286,8 +289,10 @@ public class PremiumCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Makes a premium key, what else? Needs scope (user or guild) and id.").build();
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Makes a premium key, what else? Needs scope (user or guild) and id. Also add true or false for linking status at the end")
+                        .build();
             }
         });
     }

@@ -36,6 +36,7 @@ import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
@@ -87,11 +88,10 @@ public class DebugCmds {
                         + "Queue Size: " + String.format("%,d", MantaroBot.getInstance().getAudioManager().getTotalQueueSize())
                         + "```").queue();
             }
-
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return baseEmbed(event, "Info")
-                        .setDescription("**Gets the bot technical information**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Gets the bot technical information. Nothing all that interesting, but shows cute stats.")
                         .build();
             }
         });
@@ -106,9 +106,9 @@ public class DebugCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Shard")
-                        .setDescription("**Returns in what shard I am**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Returns in what shard I am.")
                         .build();
             }
         });
@@ -138,9 +138,9 @@ public class DebugCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Ping Command")
-                        .setDescription("**Plays Ping-Pong with Discord and prints out the result.**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Plays Ping-Pong with Discord and prints out the result.")
                         .build();
             }
         });
@@ -192,9 +192,9 @@ public class DebugCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Shard info")
-                        .setDescription("**Returns information about shards**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Returns information about shards.")
                         .build();
             }
         });
@@ -277,9 +277,9 @@ public class DebugCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Debug")
-                        .setDescription("**Is the bot doing fine?**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Is the bot doing fine? Oh who am I kidding, it's probably fire. Or an earthquake, who knows (not really, it's probably doing ok)")
                         .build();
             }
         });

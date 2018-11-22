@@ -20,7 +20,6 @@ import br.com.brjdevs.java.utils.functions.interfaces.TriConsumer;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -29,6 +28,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -54,10 +54,6 @@ import static net.kodehawa.mantarobot.utils.Utils.mapObjects;
 public class OptsCmd {
     public static Command optsCmd;
 
-    public static void onHelp(GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage(String.format("%sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!", EmoteReference.HEART)).queue();
-    }
-
     public static SimpleCommand getOpts() {
         return (SimpleCommand) optsCmd;
     }
@@ -68,7 +64,7 @@ public class OptsCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length == 0) {
-                    onHelp(event);
+                    event.getChannel().sendMessage(String.format("%sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!", EmoteReference.HEART)).queue();
                     return;
                 }
 
@@ -157,12 +153,14 @@ public class OptsCmd {
                 event.getChannel().sendMessage(help(event)).queue();
             }
 
+
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Options and Configurations Command")
-                        .setDescription("**This command allows you to change Mantaro settings for this server.**\n" +
-                                "All values set are local rather than global, meaning that they will only effect this server.\n" +
-                                "- Hey, if you're lost or want help on using opts, check https://github.com/Mantaro/MantaroBot/wiki/Configuration for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("This command allows you to change Mantaro settings for this server.\n" +
+                                "All values set are local and NOT global, meaning that they will only effect this server. " +
+                                "No, you can't give away currency or give yourself coins or anything like that.")
+                        .setUsage("Check https://github.com/Mantaro/MantaroBot/wiki/Configuration for a guide on how to use opts. Welcome to the jungle.")
                         .build();
             }
         }).addOption("check:data", new Option("Data check.",

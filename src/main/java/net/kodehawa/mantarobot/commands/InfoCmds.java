@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.*;
@@ -358,7 +359,8 @@ public class InfoCmds {
                                 HelpContent newHelp = command.help();
                                 EmbedBuilder builder = new EmbedBuilder()
                                         .setColor(Color.PINK)
-                                        .setAuthor("Command Help", null, event.getAuthor().getEffectiveAvatarUrl())
+                                        //asume content = command name
+                                        .setAuthor(Utils.capitalize(content) + " Command Help", null, event.getAuthor().getEffectiveAvatarUrl())
                                         .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
                                         .setDescription(newHelp.getDescription())
                                         .setFooter("Don't include <> or [] on the command itself.", event.getAuthor().getEffectiveAvatarUrl());
@@ -445,18 +447,7 @@ public class InfoCmds {
 
     @Subscribe
     public void stats(CommandRegistry cr) {
-        TreeCommand statsCommand = (TreeCommand) cr.register("stats", new TreeCommand(Category.INFO) {
-            @Override
-            public Command defaultTrigger(GuildMessageReceivedEvent event, String currentCommand, String attemptedCommand) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        onHelp(event);
-                    }
-                };
-            }
-
-
+        SimpleTreeCommand statsCommand = (SimpleTreeCommand) cr.register("stats", new SimpleTreeCommand(Category.INFO) {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()

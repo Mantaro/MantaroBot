@@ -40,6 +40,7 @@ import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -289,6 +290,17 @@ public class RelationshipCmds {
             }
 
             @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Basically marries you with a user.")
+                        .setUsage("`~>marry <@mention>` - Propose to someone\n" +
+                                "`~>marry <command>`")
+                        .addParameter("@mention", "The person to propose to")
+                        .addParameter("command", "The subcommand you can use. Check the subcommands section for a list and usage of each.")
+                        .build();
+            }
+
+            @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Marriage command")
                         .setDescription("**Basically marries you with a user.**")
@@ -304,6 +316,11 @@ public class RelationshipCmds {
         });
 
         marryCommand.addSubCommand("createletter", new SubCommand() {
+            @Override
+            public String description() {
+                return "Create a love letter for your marriage. Usage: `~>marry createletter <content>`";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 final ManagedDatabase db = MantaroData.db();
@@ -423,6 +440,11 @@ public class RelationshipCmds {
         });
 
         marryCommand.addSubCommand("status", new SubCommand() {
+            @Override
+            public String description() {
+                return "Check your marriage status.";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 final ManagedDatabase db = MantaroData.db();
@@ -546,9 +568,9 @@ public class RelationshipCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Divorce command")
-                        .setDescription("**Basically divorces you from whoever you were married to.**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Basically divorces you from whoever you were married to.")
                         .build();
             }
         });
@@ -631,15 +653,13 @@ public class RelationshipCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Waifu Command")
-                        .setDescription("**This command is the hub for all waifu operations*\n" +
-                                "`~>waifu` - Shows a list of all your waifus and their current value.\n" +
-                                "`~>waifu stats` - Shows your waifu stats or the stats or someone\n" +
-                                "`~>waifu claim <@mention>` - Claim a waifu.\n" +
-                                "`~>waifu unclaim <@mention>` - Unclaim a waifu.\n" +
-                                "`~>waifu buyslot` - Buy a waifu slots. Maximum possible slots are 20.")
-                        .addField("Notice",  "This command is not meant to represent any real life situation, whether real or fake.", true)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("This command is the hub for all waifu operations. Yeah, it's all fiction.")
+                        .setUsage("`~>waifu` - Shows a list of all your waifus and their current value.\n" +
+                                "`~>waifu <command> [@user]`")
+                        .addParameter("command", "The subcommand to use. Check the sub-command section for more information on which ones you can use.")
+                        .addParameter("@user", "The user you want to do the action with.")
                         .build();
             }
         });
@@ -648,6 +668,11 @@ public class RelationshipCmds {
         waifu.setPredicate(event -> Utils.handleDefaultRatelimit(rl, event.getAuthor(), event, null));
 
         waifu.addSubCommand("stats", new SubCommand() {
+            @Override
+            public String description() {
+                return "Shows your waifu stats or the stats or someone's (by mentioning them)";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Member member = Utils.findMember(event, event.getMember(), content);
@@ -680,6 +705,11 @@ public class RelationshipCmds {
         });
 
         waifu.addSubCommand("claim", new SubCommand() {
+            @Override
+            public String description() {
+                return "Claim a waifu. You need to mention the person you want to claim. Usage: `~>waifu claim <@mention>`";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
@@ -777,6 +807,11 @@ public class RelationshipCmds {
 
         waifu.addSubCommand("unclaim", new SubCommand() {
             @Override
+            public String description() {
+                return "Unclaims a waifu. You need to mention them, or you can also use their user id if they're not in any servers you share. Usage: `~>waifu unclaim <@mention>`";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 boolean isId = content.matches("\\d{16,22}");
 
@@ -871,6 +906,11 @@ public class RelationshipCmds {
         });
 
         waifu.addSubCommand("buyslot", new SubCommand() {
+            @Override
+            public String description() {
+                return "Buys a new waifu slot. Maximum slots are 20, costs get increasingly higher.";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 final ManagedDatabase db = MantaroData.db();

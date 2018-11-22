@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -148,17 +149,14 @@ public class MessageCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Prune command")
-                        .setDescription("**Prunes a specific amount of messages.**")
-                        .addField("Usage", "`~>prune <x>/<@user>` - **Prunes messages**", false)
-                        .addField("Parameters", "x = **number of messages to delete**", false)
-                        .addField("Important", "You need to provide *at least* 3 messages. I'd say better 10 or more.\n" +
-                                "You can use `~>prune bot` to remove all bot messages and bot calls.\n" +
-                                "You can use `~>prune nopins` to avoid pruning pinned messages.", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Prunes a specific amount of messages.")
+                        .setUsage("`~>prune <x>/<@user>` - Prunes messages (can be either x parameter or @user)")
+                        .addParameter("x", "Can be either the number of messages to delete (ex: 50), or `bot` (prune bot messages) or `nopins` (won't prune pinned messages)")
+                        .addParameter("@user", "The user to prune messages from.")
                         .build();
             }
-
         });
     }
 

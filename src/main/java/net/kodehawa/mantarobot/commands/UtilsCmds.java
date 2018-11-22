@@ -40,6 +40,7 @@ import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -423,18 +424,23 @@ public class UtilsCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Remind me")
-                        .setDescription("**Reminds you of something**")
-                        .addField("Usage", "`~>remindme do the laundry -time 1h20m`\n" +
-                                "`~>remindme cancel` to cancel a reminder." +
-                                "\nTime is in this format: 1h20m (1 hour and 20m). You can use h, m and s (hour, minute, second)", false)
-                        .addField("Note", "You can use `~>remindme ls` to check your current reminders.", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Reminds you of something.")
+                        .setUsage("`~>remindme <reminder> <-time>`\n" +
+                                "Check subcommands for more. Append the subcommand after the main command.")
+                        .addParameter("reminder", "What to remind you of.")
+                        .addParameter("-time", "How much time until I remind you of it. Time is in this format: 1h20m (1 hour and 20m). You can use h, m and s (hour, minute, second)")
                         .build();
             }
         });
 
         remindme.addSubCommand("list", new SubCommand() {
+            @Override
+            public String description() {
+                return "Lists current reminders.";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Reminder> reminders = Reminder.CURRENT_REMINDERS.get(event.getAuthor().getId());
@@ -457,6 +463,11 @@ public class UtilsCmds {
         }).createSubCommandAlias("list", "ls");
 
         remindme.addSubCommand("cancel", new SubCommand() {
+            @Override
+            public String description() {
+                return "Cancel a reminder. You'll be given a list if you have more than one.";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 try {
@@ -511,18 +522,11 @@ public class UtilsCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Time")
-                        .setDescription("**Get the time in a specific timezone**.\n")
-                        .addField(
-                                "Usage",
-                                "`~>time <timezone>` - **Retrieves the time in the specified timezone [Don't write a country!]**.",
-                                false
-                        )
-                        .addField(
-                                "Parameters", "`timezone` - **A valid timezone [no countries!] between GMT-12 and GMT+14**",
-                                false
-                        )
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Get the time in a specific timezone (GMT).")
+                        .setUsage("`~>time <timezone>`")
+                        .addParameter("timezone", "The timezone in GMT or UTC offset (Example: GMT-3)")
                         .build();
             }
         });
@@ -597,15 +601,13 @@ public class UtilsCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Urban dictionary")
-                        .setColor(Color.CYAN)
-                        .setDescription("Retrieves definitions from **Urban Dictionary**.")
-                        .addField("Usage",
-                                "`~>urban <term>-><number>` - **Retrieve a definition based on the given parameters.**", false)
-                        .addField("Parameters", "term - **The term you want to look up**\n"
-                                + "number - **(OPTIONAL) Parameter defined with the modifier '->' after the term. You don't need to use it.**\n"
-                                + "e.g. putting 2 will fetch the second result on Urban Dictionary", false).build();
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Retrieves definitions from **Urban Dictionary.")
+                        .setUsage("`~>urban <term>-><number>`. Yes, the arrow is needed if you put a number, idk why, I probably liked arrows 2 years ago.")
+                        .addParameter("term", "The term to look for")
+                        .addParameter("number", "The definition number to show. (Usually tops at around 5)")
+                        .build();
             }
         });
     }
@@ -666,16 +668,14 @@ public class UtilsCmds {
                 }
             }
 
+
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Weather command")
-                        .setDescription(
-                                "This command retrieves information from OpenWeatherMap. Used to check **forecast information.**")
-                        .addField("Usage",
-                                "`~>weather <city>,<countrycode>` - **Retrieves the forecast information for the given location.**",false)
-                        .addField("Parameters", "`city` - **Your city name, e.g. New York, **\n"
-                                        + "`countrycode` - **(OPTIONAL) The abbreviation for your country, for example US (USA) or MX (Mexico).**",false)
-                        .addField("Example", "`~>weather New York, US`", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("This command retrieves information from OpenWeatherMap. Used to check forecast information.")
+                        .setUsage("`~>weather <city>,<country code>`")
+                        .addParameter("city", "The city to look for, example: Concepción")
+                        .addParameter("country code", "The country code of the country where the city is located, example: CL")
                         .build();
             }
         });
@@ -696,12 +696,12 @@ public class UtilsCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Wiki command")
-                        .setDescription("**Shows a bunch of things related to mantaro's wiki.**\n" +
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows a bunch of things related to Mantaro's wiki.\n" +
                                 "Avaliable subcommands: `opts`, `custom`, `faq`, `commands`, `modifiers`, `tos`, `usermessage`, `premium`, `items`")
                         .build();
-            } //addSubCommand meme incoming...
+            }//addSubCommand meme incoming...
         }.addSubCommand("opts", (event, s) -> event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation on `~>opts` and general bot options please visit:** https://github.com/Mantaro/MantaroBot/wiki/Configuration").queue())
         .addSubCommand("custom", (event, s) -> event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation on custom commands please visit:** https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands").queue())
         .addSubCommand("modifiers", (event, s) -> event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation in custom commands modifiers please visit:** https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-Modifiers").queue())

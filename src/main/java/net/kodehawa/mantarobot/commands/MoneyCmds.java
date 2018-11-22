@@ -35,6 +35,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperati
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
@@ -230,10 +231,12 @@ public class MoneyCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Daily command")
-                        .setDescription("**Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person)**.\n" +
-                                "This command gives a reward for claiming it every day.")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person). Maximum amount it can give is 1000 credits (a bit more for shared dailies)\n" +
+                                "This command gives a reward for claiming it every day (daily streak)")
+                        .setUsage("`~>daily [@user]`")
+                        .addParameter("@user", "The user to give your daily to. This is optional, without this it gives it to yourself.")
                         .build();
             }
         });
@@ -358,11 +361,13 @@ public class MoneyCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Gamble command")
-                        .setDescription("Gambles your money")
-                        .addField("Usage", "~>gamble <all/half/quarter> or ~>gamble <amount>\n" +
-                                "You can also use percentages now, for example `~>gamble 35%`", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Gambles your money away. It's like Vegas, but without real money and without the impending doom. Kinda.")
+                        .setUsage("`~>gamble <all/half/quarter>` or `~>gamble <amount>` or `~>gamble <percentage>`")
+                        .addParameter("amount", "How much money you want to gamble. You can also express this on K or M (100K is 100000, 1M is 1000000, 100M is well, you know how it goes from here)")
+                        .addParameter("all/half/quarter", "How much of your money you want to gamble, but if you're too lazy to type the number (half = 50% of all of your money)")
+                        .addParameter("percentage", "The percentage of money you want to gamble. Works anywhere from 1% to 100%.")
                         .build();
             }
         });
@@ -457,13 +462,9 @@ public class MoneyCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Loot command")
-                        .setDescription("**Loot the current chat for items, for usage in Mantaro's currency system.**\n"
-                                + "Currently, there are ``" + Items.ALL.length + "`` items available in chance," +
-                                "in which you have a `random chance` of getting one or more.")
-                        .addField("Note", "The channel ground is limited to 25 items per stack.", false)
-                        .addField("Usage", "~>loot", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Loot the current chat for items, for usage in Mantaro's currency system. You have a random chance of getting collectible items from here.")
                         .build();
             }
         });
@@ -508,9 +509,11 @@ public class MoneyCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return baseEmbed(event, "Balance command")
-                        .setDescription("**Shows your current balance or another person's balance.**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows your current balance or another person's balance.")
+                        .setUsage("`~>balance [@user]`")
+                        .addParameter("@user", "The user to check the balance of. This is optional.")
                         .build();
             }
         });
@@ -681,15 +684,13 @@ public class MoneyCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Slots Command")
-                        .setDescription("**Rolls the slot machine. Requires a default of 50 coins to roll.**")
-                        .addField("Considerations", "You can gain a maximum of put credits * 1.76 coins from it.\n" +
-                                "You can use the `-useticket` argument to use a slot ticket (slightly bigger chance)", false)
-                        .addField("Usage", "`~>slots` - Default one, 50 coins.\n" +
-                                "`~>slots <credits>` - Puts x credits on the slot machine. Max of " + SLOTS_MAX_MONEY + " coins.\n" +
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Rolls the slot machine. Requires a default of 50 coins to roll.")
+                        .setUsage("`~>slots` - Default one, 50 coins.\n" +
+                                "`~>slots <credits>` - Puts x credits on the slot machine. You can put a maximum of " + SLOTS_MAX_MONEY + " coins.\n" +
                                 "`~>slots -useticket` - Rolls the slot machine with one slot coin.\n" +
-                                "You can specify the amount of tickets to use using `-amount` (for example `~>slots -useticket -amount 10`)", false)
+                                "You can specify the amount of tickets to use using `-amount` (for example `~>slots -useticket -amount 10`)")
                         .build();
             }
         });
@@ -833,10 +834,12 @@ public class MoneyCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Mine command")
-                        .setDescription("**Mines minerals to gain some credits. A bit more lucrative than loot, but needs pickaxes.**\n" +
-                                "Has a random chance of finding diamonds.")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Mines minerals to gain some credits. A bit more lucrative than loot, but needs pickaxes.")
+                        .setUsage("`~>mine [pick]` - Mines. You can gain minerals or mineral fragments by mining. This can used later on to cast rods or picks for better chances.")
+                        .addParameter("pick", "The pick to use to mine. You can either use the emoji or the full name. " +
+                                "This is optional, not specifying it will cause the command to use the default pick or your equipped pick.")
                         .build();
             }
         });

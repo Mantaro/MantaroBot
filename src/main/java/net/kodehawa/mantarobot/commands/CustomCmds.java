@@ -230,7 +230,7 @@ public class CustomCmds {
                 }
 
                 if(args.length < 2) {
-                    onHelp(event);
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.incorrect_args"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -354,7 +354,7 @@ public class CustomCmds {
                 }
 
                 if(args.length < 3) {
-                    onHelp(event);
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.incorrect_args"), EmoteReference.ERROR).queue();
                     return;
                 }
 

@@ -195,8 +195,7 @@ public class GuildOptions extends OptionHandler {
                                 EmoteReference.ERROR
                         ).queue();
                     } catch (Exception ex) {
-                        event.getChannel().sendMessage(lang.get("general.invalid_syntax")).queue();
-                        OptsCmd.onHelp(event);
+                        event.getChannel().sendMessage(lang.get("general.invalid_syntax") + "\nCheck https://github.com/Mantaro/MantaroBot/wiki/Configuration for more information.").queue();
                     }
                 });
 
