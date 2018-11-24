@@ -31,10 +31,7 @@ import net.kodehawa.mantarobot.commands.info.stats.manager.*;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.*;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -379,13 +376,21 @@ public class InfoCmds {
 
                             }
 
+                            //Ensure sub-commands show in help.
+                            //Only god shall help me now with all of this casting lol.
+                            if(command instanceof AliasCommand) {
+                                command = ((AliasCommand) command).getCommand();
+                            }
+
                             if(command instanceof ITreeCommand) {
-                                Map<String, InnerCommand> subCommands = ((ITreeCommand) command).getSubCommands();
+                                Map<String, SubCommand> subCommands = ((ITreeCommand) command).getSubCommands();
                                 StringBuilder stringBuilder = new StringBuilder();
 
-                                for(Map.Entry<String, InnerCommand> inners : subCommands.entrySet()) {
+                                for(Map.Entry<String, SubCommand> inners : subCommands.entrySet()) {
                                     String name = inners.getKey();
                                     InnerCommand inner = inners.getValue();
+                                    if(inner.isChild())
+                                        continue;
 
                                     if(inner.description() != null) {
                                         stringBuilder.append(EmoteReference.BLUE_SMALL_MARKER).append("`").append(name).append("` - ").append(inner.description()).append("\n");
@@ -395,6 +400,14 @@ public class InfoCmds {
                                 if(stringBuilder.length() > 0) {
                                     builder.addField("Sub-commands", "**Append the main command to use any of this.**\n" + stringBuilder.toString(), false);
                                 }
+                            }
+
+                            //Known command aliases.
+                            List<String> commandAliases = command.getAliases();
+                            if(!commandAliases.isEmpty()) {
+                                builder.addField("Aliases", commandAliases.stream().filter(
+                                        alias -> !alias.equalsIgnoreCase(content)).map(alias -> "`" + alias + "`"
+                                ).collect(Collectors.joining(" ")), false);
                             }
 
                             event.getChannel().sendMessage(builder.build()).queue();

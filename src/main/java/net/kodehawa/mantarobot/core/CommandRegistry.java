@@ -33,6 +33,7 @@ import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.base.AbstractCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
@@ -253,7 +254,10 @@ public class CommandRegistry {
             log.error(command + " isn't in the command map...");
         }
 
-        register(alias, new AliasCommand(alias, command, commands.get(command)));
+        Command parent = commands.get(command);
+        parent.getAliases().add(alias);
+
+        register(alias, new AliasCommand(alias, command, parent));
     }
 
     public void addSubCommandTo(TreeCommand command, String name, SubCommand subCommand) {

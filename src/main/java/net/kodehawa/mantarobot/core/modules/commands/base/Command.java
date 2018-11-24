@@ -21,6 +21,8 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.options.core.Option;
 
+import java.util.List;
+
 /**
  * Interface used for handling commands within the bot.
  */
@@ -46,4 +48,6 @@ public interface Command {
     HelpContent help();
 
     Command addOption(String call, Option option);
+
+    List<String> getAliases();
 }

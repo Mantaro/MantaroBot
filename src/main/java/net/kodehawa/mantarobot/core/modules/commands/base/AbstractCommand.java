@@ -16,11 +16,17 @@
 
 package net.kodehawa.mantarobot.core.modules.commands.base;
 
+import lombok.Getter;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class AbstractCommand implements AssistedCommand {
+    public List<String> aliases = new ArrayList<>();
+
     private final Category category;
     private final CommandPermission permission;
 
@@ -47,5 +53,10 @@ public abstract class AbstractCommand implements AssistedCommand {
     @Override
     public HelpContent help() {
         return new HelpContent.Builder().build();
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return aliases;
     }
 }

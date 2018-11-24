@@ -20,6 +20,9 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 
+import java.util.Collections;
+import java.util.List;
+
 public interface InnerCommand extends Command {
     @Override
     default Category category() {
@@ -36,4 +39,11 @@ public interface InnerCommand extends Command {
         return "";
     }
 
+    default boolean isChild() {
+        return false;
+    }
+
+    default List<String> getAliases() {
+        return Collections.emptyList();
+    }
 }

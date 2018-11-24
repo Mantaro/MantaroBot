@@ -26,7 +26,7 @@ public interface ITreeCommand extends Command {
 
     ITreeCommand addSubCommand(String name, SubCommand command);
 
-    Map<String, InnerCommand> getSubCommands();
+    Map<String, SubCommand> getSubCommands();
 
     Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName);
 }
