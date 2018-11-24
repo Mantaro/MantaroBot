@@ -405,9 +405,10 @@ public class InfoCmds {
                             //Known command aliases.
                             List<String> commandAliases = command.getAliases();
                             if(!commandAliases.isEmpty()) {
-                                builder.addField("Aliases", commandAliases.stream().filter(
-                                        alias -> !alias.equalsIgnoreCase(content)).map(alias -> "`" + alias + "`"
-                                ).collect(Collectors.joining(" ")), false);
+                                String aliases = commandAliases.stream().filter(alias -> !alias.equalsIgnoreCase(content)).map(alias -> "`" + alias + "`").collect(Collectors.joining(" "));
+                                if(!aliases.trim().isEmpty()) {
+                                    builder.addField("Aliases", aliases, false);
+                                }
                             }
 
                             event.getChannel().sendMessage(builder.build()).queue();
