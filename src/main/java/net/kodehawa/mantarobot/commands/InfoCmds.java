@@ -380,7 +380,7 @@ public class InfoCmds {
                             }
 
                             if(command instanceof ITreeCommand) {
-                                Map<String, InnerCommand> subCommands = ((TreeCommand) command).getSubCommands();
+                                Map<String, InnerCommand> subCommands = ((ITreeCommand) command).getSubCommands();
                                 StringBuilder stringBuilder = new StringBuilder();
 
                                 for(Map.Entry<String, InnerCommand> inners : subCommands.entrySet()) {
