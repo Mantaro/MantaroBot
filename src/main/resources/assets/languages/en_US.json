@@ -317,7 +317,7 @@
       "no_args": "%1$sYou need to tell me what volume you want me to set the music to (5 to 100)."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s (I respond to any of those!). The server prefix is `%2$s` (Only works on this server). You can set a new prefix by using `~>opts prefix set <prefix>`"
+      "header": "%1$sThe default prefixes are %2$s (I respond to any of those!). The server prefix is `%2$s` (Only works on this server). You can set a new prefix by using `~>opts prefix set <prefix>`",
       "none": "There's no custom prefix set on this server."
     },
     "custom": {

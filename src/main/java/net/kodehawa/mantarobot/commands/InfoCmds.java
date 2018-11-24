@@ -354,7 +354,11 @@ public class InfoCmds {
 
                     if(command != null) {
                         final MessageEmbed help = command.help(event);
-                        
+                        if(command.category() == Category.OWNER && !CommandPermission.OWNER.test(event.getMember())) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.help.extended.not_found"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
                         if(help != null) {
                             event.getChannel().sendMessage(help).queue();
                         } else {
@@ -456,7 +460,7 @@ public class InfoCmds {
                 final ManagedDatabase db = MantaroData.db();
                 DBGuild dbGuild = db.getGuild(event.getGuild());
                 Config config = MantaroData.config().get();
-                String defaultPrefix = Stream.of(config.getPrefix()).map(prefix -> "`" + prefix + "`").collect(Collectors.joining(" ");
+                String defaultPrefix = Stream.of(config.getPrefix()).map(prefix -> "`" + prefix + "`").collect(Collectors.joining(" "));
                 String guildPrefix = dbGuild.getData().getGuildCustomPrefix();
 
                 event.getChannel().sendMessageFormat(
