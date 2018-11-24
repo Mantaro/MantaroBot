@@ -39,6 +39,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.CustomCommand;
+import net.kodehawa.mantarobot.db.entities.helpers.CustomCommandData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -417,6 +418,10 @@ public class CustomCmds {
                     }
 
                     CustomCommand newCustom = CustomCommand.of(event.getGuild().getId(), value, oldCustom.getValues());
+
+                    final CustomCommandData oldCustomData = oldCustom.getData();
+                    newCustom.getData().setNsfw(oldCustomData.isNsfw());
+                    newCustom.getData().setOwner(oldCustomData.getOwner());
 
                     //change at DB
                     oldCustom.deleteAsync();
