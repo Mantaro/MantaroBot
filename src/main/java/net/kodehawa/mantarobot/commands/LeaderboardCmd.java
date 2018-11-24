@@ -281,6 +281,11 @@ public class LeaderboardCmd {
 
         leaderboards.addSubCommand("games", new SubCommand() {
             @Override
+            public String description() {
+                return "Returns the games wins leaderboard";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Map> c = getLeaderboard("players", "gameWins",
                         player -> player.g("id").match(pattern),
