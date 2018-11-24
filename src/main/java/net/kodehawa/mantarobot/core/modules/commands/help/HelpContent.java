@@ -50,7 +50,7 @@ public class HelpContent {
 
         //I was lazy to make last one take a boolean bc that'd mean replacing existing ones, bleh.
         public Builder addParameterOptional(String parameterName, String content) {
-            parameters.put(parameterName, content + " This is *optional*");
+            parameters.put(parameterName, content + " This is optional");
             return this;
         }
 

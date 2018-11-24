@@ -35,8 +35,8 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
@@ -379,7 +379,7 @@ public class InfoCmds {
 
                             }
 
-                            if(command instanceof TreeCommand) {
+                            if(command instanceof ITreeCommand) {
                                 Map<String, InnerCommand> subCommands = ((TreeCommand) command).getSubCommands();
                                 StringBuilder stringBuilder = new StringBuilder();
 
