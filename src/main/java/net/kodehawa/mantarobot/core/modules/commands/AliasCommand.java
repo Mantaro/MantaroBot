@@ -52,11 +52,6 @@ public class AliasCommand implements Command {
     }
 
     @Override
-    public MessageEmbed help(GuildMessageReceivedEvent event) {
-        return command.help(event);
-    }
-
-    @Override
     public HelpContent help() {
         return command.help();
     }

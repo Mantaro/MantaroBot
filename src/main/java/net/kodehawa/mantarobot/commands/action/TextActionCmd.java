@@ -20,6 +20,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.awt.*;
@@ -49,10 +50,9 @@ public class TextActionCmd extends NoArgsCommand {
     }
 
     @Override
-    public MessageEmbed help(GuildMessageReceivedEvent event) {
-        return helpEmbed(event, name)
+    public HelpContent help() {
+        return new HelpContent.Builder()
                 .setDescription(desc)
-                .setColor(color)
                 .build();
     }
 }

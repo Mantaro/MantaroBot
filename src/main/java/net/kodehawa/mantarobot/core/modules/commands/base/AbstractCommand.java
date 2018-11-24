@@ -48,10 +48,4 @@ public abstract class AbstractCommand implements AssistedCommand {
     public HelpContent help() {
         return new HelpContent.Builder().build();
     }
-
-    //if null = new format.
-    @Override
-    public MessageEmbed help(GuildMessageReceivedEvent event) {
-        return null;
-    }
 }

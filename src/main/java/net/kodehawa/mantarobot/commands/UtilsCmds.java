@@ -130,23 +130,21 @@ public class UtilsCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Birthday")
-                        .setDescription("**Sets your birthday date.**\n")
-                        .addField(
-                                "Usage",
-                                "~>birthday <date>. Set your birthday date using this. Only useful if the server has " +
-                                        "enabled this functionality\n"
-                                        + "**Parameter explanation:**\n"
-                                        + "date. A date in dd-mm-yyyy format (13-02-1998 for example)", false
-                        )
-                        .addField("Tip", "To remove your birthday date do ~>birthday remove", false)
-                        .setColor(Color.DARK_GRAY)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Sets your birthday date. Only useful if the server has enabled this functionality")
+                        .setUsage("`~>birthday <date>`")
+                        .addParameter("date", "A date in dd-mm-yyyy format (13-02-1998 for example). Check subcommands for more options.")
                         .build();
             }
         });
 
         birthdayCommand.addSubCommand("remove", new SubCommand() {
+            @Override
+            public String description() {
+                return "Removes your set birthday date.";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 DBUser user = MantaroData.db().getUser(event.getAuthor());
@@ -157,6 +155,11 @@ public class UtilsCmds {
         });
 
         birthdayCommand.addSubCommand("month", new SubCommand() {
+            @Override
+            public String description() {
+                return "Checks the current birthday date for the specified month. Example: `~>birthday month 1`";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = StringUtils.splitArgs(content, 0);
@@ -280,10 +283,11 @@ public class UtilsCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return baseEmbed(event, "Choose Command")
-                        .setDescription("**Choose between 1 or more things\n" +
-                                "It accepts all parameters it gives (Also in quotes to account for spaces if used) and chooses a random one.**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Choose between 2 or more things.")
+                        .setUsage("`~>choose <parameters>`")
+                        .addParameter("parameters", "The parameters. Example `pat hello \"go watch the movies\"`.")
                         .build();
             }
         });
@@ -357,11 +361,11 @@ public class UtilsCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Dictionary command")
-                        .setDescription("**Looks up a word in the dictionary.**")
-                        .addField("Usage", "`~>dictionary <word>` - Searches a word in the dictionary.", false)
-                        .addField("Parameters", "`word` - The word to look for", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Looks up a word in the dictionary.")
+                        .setUsage("`~>dictionary <word>`")
+                        .addParameter("word", "The word to look for.")
                         .build();
             }
         });

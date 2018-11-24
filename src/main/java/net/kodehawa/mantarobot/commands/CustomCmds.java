@@ -34,6 +34,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -500,24 +501,22 @@ public class CustomCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "CustomCommand Manager")
-                        .setDescription("**Manages the Custom Commands of the Guild.**")
-                        .addField("Guide", "https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands", false)
-                        .addField(
-                                "Usage:",
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Manages the Custom Commands of the Guild. If you wish to allow normal people to make custom commands, run `~>opts admincustom false` (it's locked to admins by default)")
+                        .setUsage("`~>custom <option>`")
+                        .addParameter("option",
+                                //I need to convert this to a TreeCommand someday...
                                 "`~>custom <list|ls>` - **List all commands. If detailed is supplied, it prints the responses of each command.**\n" +
-                                        "`~>custom add <name> <response>` - **Creates or adds the response provided to a custom command.**\n" +
-                                        "`~>custom info <name>` - **Checks a custom command's information.**\n" +
-                                        "`~>custom <remove|rm> <name>` - **Removes a command with an specific name.**\n" +
-                                        "`~>custom import <search>` - **Imports a command from another guild you're in.**\n" +
-                                        "`~>custom eval <response>` - **Tests how a custom command response will look**\n" +
-                                        "`~>custom edit <name> <response number> <new content>` - **Edits one response of the specified command**\n" +
-                                        "`~>custom view <name> <response number>` - **Views the content of one response**\n" +
-                                        "`~>custom rename <previous name> <new name>` - **Renames a custom command**",
-                                false
-                        )
-                        .addField("Considerations", "If you wish to allow normal people to make custom commands, run `~>opts admincustom false` (it's locked to admins by default)", false).build();
+                                "`~>custom add <name> <response>` - **Creates or adds the response provided to a custom command.**\n" +
+                                "`~>custom info <name>` - **Checks a custom command's information.**\n" +
+                                "`~>custom <remove|rm> <name>` - **Removes a command with an specific name.**\n" +
+                                "`~>custom import <search>` - **Imports a command from another guild you're in.**\n" +
+                                "`~>custom eval <response>` - **Tests how a custom command response will look**\n" +
+                                "`~>custom edit <name> <response number> <new content>` - **Edits one response of the specified command**\n" +
+                                "`~>custom view <name> <response number>` - **Views the content of one response**\n" +
+                                "`~>custom rename <previous name> <new name>` - **Renames a custom command**")
+                        .build();
             }
         });
     }

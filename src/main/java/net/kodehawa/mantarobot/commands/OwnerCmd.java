@@ -131,11 +131,10 @@ public class OwnerCmd {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Blacklist command")
-                        .setDescription("**Blacklists a user (user argument) or a guild (guild argument) by id.**")
-                        .addField("Examples", "~>blacklist user add/remove 293884638101897216\n" +
-                                "~>blacklist guild add/remove 305408763915927552", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Blacklists a user (user argument) or a guild (guild argument) by id.\n" +
+                                "Examples: ~>blacklist user add/remove 293884638101897216, ~>blacklist guild add/remove 305408763915927552")
                         .build();
             }
         });
@@ -194,11 +193,6 @@ public class OwnerCmd {
                     return Operation.IGNORED;
                 });
             }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return null;
-            }
         });
     }
 
@@ -236,11 +230,6 @@ public class OwnerCmd {
                         EmoteReference.CORRECT + "Added badge " + badge + " to " + users.stream().map(User::getName).collect(Collectors.joining(" ,"))
                 ).queue();
             }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return null;
-            }
         });
 
         cr.register("removebadge", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
@@ -274,11 +263,6 @@ public class OwnerCmd {
                 event.getChannel().sendMessage(
                         String.format("%sRemoved badge %s from %s", EmoteReference.CORRECT, badge, users.stream().map(User::getName).collect(Collectors.joining(" ,")))
                 ).queue();
-            }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return null;
             }
         });
     }

@@ -38,11 +38,15 @@ import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -134,20 +138,14 @@ public class MusicCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return baseEmbed(event, "Voice Channel move command")
-                        .setDescription("Move me from one VC to another")
-                        .addField("Usage", "~>move <vc>", false)
-                        .addField(
-                                "Parameters", "vc: voice channel to move the bot to (exact name, case-insensitive).", false)
-                        .addField(
-                                "Special cases",
-                                "If you don't specify a channel name, I will try to move to the channel you're in, " +
-                                        "as long as it's not the same one I'm in currently!", false
-                        )
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Move me from one VC to another.")
+                        .setUsage("`~>move <vc>`")
+                        .addParameter("vc", "The voice channel to move to (exact name, case-insensitive). " +
+                                "If you don't specify this, I'll try to move to the channel you're currently in.")
                         .build();
             }
-
         });
     }
 
@@ -187,9 +185,11 @@ public class MusicCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Play Now command")
-                        .setDescription("**Puts a song on the front of the queue and plays it immediately**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Puts a song on the front of the queue. Run `~>skip` after this to play it.")
+                        .setUsage("`~>playnow <song>`")
+                        .addParameter("song", "The song to play, can be either a soundcloud or youtube link, or a search query.")
                         .build();
             }
         });
@@ -224,9 +224,10 @@ public class MusicCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return baseEmbed(event, "Now Playing (np) Command")
-                        .addField("Description", "See what track is playing now.", false).build();
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("See what track is playing now.")
+                        .build();
             }
         });
     }
@@ -235,13 +236,6 @@ public class MusicCmds {
     @Subscribe
     public void pause(CommandRegistry cr) {
         cr.register("pause", new SimpleCommand(Category.MUSIC) {
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Pause Command")
-                        .addField("Description", "Pause or unpause the current track.", false)
-                        .addField("Usage:", "~>pause (if paused, I will unpause, vice versa)", false).build();
-            }
-
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(!isInConditionTo(event, languageContext))
@@ -255,9 +249,19 @@ public class MusicCmds {
                 event.getChannel().sendMessage(toSend).queue();
                 TextChannelGround.of(event).dropItemWithChance(0, 10);
             }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Pause or unpause the current track. (If paused, will resume, if playing, will pause)")
+                        .build();
+            }
         });
 
+
+        //Glowing brain meme
         cr.registerAlias("pause", "resume");
+        cr.registerAlias("pause", "unpause");
     }
 
     @Subscribe
@@ -292,16 +296,13 @@ public class MusicCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Play Command")
-                        .addField("Description", "Play songs! This connects to the voice channel the user that triggers it it's connected to, *only* if there is" +
-                                " no song playing currently and Mantaro isn't bound to any channel. Basically this works as a join command on the first song.", false)
-                        .addField("Usage", "~>play <song url> (playlists and song names are also acceptable)", false)
-                        .addField(
-                                "Tip", "If you do ~>play <search term> I'll search youtube (default), " +
-                                        "but if you do ~>play soundcloud <search term> It will search soundcloud (not for usage w/links).",
-                                false
-                        )
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Play songs! This connects to the voice channel the user that triggers it it's connected to, *only* if there is " +
+                                "no song playing currently and Mantaro isn't bound to any channel. Basically this works as a join command on the first song. If you're lost, use `~>music` for examples.\n" +
+                                "You can use `~>play soundcloud <search>` to search in soundcloud's library.")
+                        .setUsage("~>play <song>")
+                        .addParameter("song", "The song to play. Can be a youtube or soundcloud URL, or a search result (Example: `~>play despacito` or `~>play https://www.youtube.com/watch?v=jjDO91gNiCU`)")
                         .build();
             }
         });
@@ -329,15 +330,14 @@ public class MusicCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Forceplay Command")
-                        .addField("Description", "**This command doesn't put the song at the start of the queue, for that use `~>playnow`!**\n" +
-                                "Play the first song I find in your search. This connects to the voice channel the user that triggers it it's connected to, *only* if there is" +
-                                " no song playing currently and Mantaro isn't bound to any channel. Basically this works as a join command on the first song.", false)
-                        .addField("Usage", "~>forceplay <song url> (playlists and song names are also acceptable)", false)
-                        .addField("Tip", "If you do ~>forceplay <search term> I'll search youtube (default), " +
-                                        "but if you do ~>forceplay soundcloud <search term> It will search soundcloud (not for usage w/links).",
-                                false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("**This command doesn't put the song at the start of the queue, for that use `~>playnow`!**\n" +
+                                "Play the first song I find in your search. This connects to the voice channel the user that triggers it it's connected to, *only* if there is " +
+                                "no song playing currently and Mantaro isn't bound to any channel. Basically this works as a join command on the first song. If you're lost, use `~>music` for examples.\n" +
+                                "You can use `~>forceplay soundcloud <search>` to search in soundcloud's library.")
+                        .setUsage("~>forceplay <song>")
+                        .addParameter("song", "The song to play. Can be a youtube or soundcloud URL, or a search result (Example: `~>play despacito` or `~>play https://www.youtube.com/watch?v=jjDO91gNiCU`)")
                         .build();
             }
         });
@@ -386,10 +386,11 @@ public class MusicCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Rewind Command")
-                        .addField("Description", "Rewind the current song a specified amount of seconds", false)
-                        .addField("Usage", "~>rewind <time>\nTime is in this format: 1m29s (1 minute and 29s)", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Rewind the current song a specified amount of time.")
+                        .setUsage("~>rewind <time>")
+                        .addParameter("time", "The amount of minutes to rewind. Time is in this format: 1m29s (1 minute and 29s), for example.")
                         .build();
             }
         });
@@ -416,9 +417,9 @@ public class MusicCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Song restart")
-                        .setDescription("**Restarts the playback of the current song**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Restarts the playback of the current song.")
                         .build();
             }
         });
@@ -466,10 +467,11 @@ public class MusicCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Skip Ahead Command")
-                        .addField("Description", "Fast forward the current song a specified amount of time", false)
-                        .addField("Usage", "~>skipahead <time>\nTime is in this format: 1m29s (1 minute and 29s)", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Fast forwards the current song a specified amount of time.")
+                        .setUsage("~>skipahead <time>")
+                        .addParameter("time", "The amount of minutes to rewind. Time is in this format: 1m29s (1 minute and 29s), for example.")
                         .build();
             }
         });
@@ -480,51 +482,61 @@ public class MusicCmds {
 
     @Subscribe
     public void queue(CommandRegistry cr) {
-        cr.register("queue", new SimpleCommand(Category.MUSIC) {
+        TreeCommand queueCommand = (TreeCommand) cr.register("queue", new TreeCommand(Category.MUSIC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(
-                        event.getGuild());
-                int page = 0;
-                try {
-                    page = Math.max(Integer.parseInt(args[0]), 1);
-                } catch(Exception ignored) {
-                }
+            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+                return new SubCommand() {
+                    @Override
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
+                        int page = 0;
 
-                if(content.startsWith("clear")) {
-                    if(!isInConditionTo(event, languageContext)) {
-                        return;
+                        try {
+                            page = Math.max(Integer.parseInt(content), 1);
+                        } catch(Exception ignored) { }
+
+                        embedForQueue(page, event, musicManager, languageContext);
+                        TextChannelGround.of(event).dropItemWithChance(0, 10);
                     }
-
-                    if(isDJ(event.getMember())) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.queue.header"), EmoteReference.CORRECT).queue();
-                        int TEMP_QUEUE_LENGTH = musicManager.getTrackScheduler().getQueue().size();
-                        MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
-
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.queue.clear_success"), EmoteReference.CORRECT, TEMP_QUEUE_LENGTH).queue();
-
-                        MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().stop();
-                        return;
-                    }
-
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.queue.clear_error"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                embedForQueue(page, event, musicManager, languageContext);
-                TextChannelGround.of(event).dropItemWithChance(0, 10);
+                };
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Queue Command")
-                        .setDescription("**Either returns the current queue playing on the server or clears it.**")
-                        .addField("Usage:", "`~>queue` - **Shows the queue**\n" +
-                                        "`~>queue clear` - **Clears the queue**",
-                                false
-                        )
-                        .addField("Considerations", "If music is playing at 2x speed please do `~>opts musicspeedup fix`", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows you the current queue.")
+                        .setUsage("`~>queue [page]`")
+                        .addParameter("page", "The page of the queue you want to see. This is optional.")
                         .build();
+            }
+        });
+
+        queueCommand.addSubCommand("clear", new SubCommand() {
+            @Override
+            public String description() {
+                return "Clears the queue.";
+            }
+
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                if(!isInConditionTo(event, languageContext)) {
+                    return;
+                }
+
+                GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
+
+                if(isDJ(event.getMember())) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.queue.header"), EmoteReference.CORRECT).queue();
+
+                    int tempLenght = musicManager.getTrackScheduler().getQueue().size();
+                    MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
+
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.queue.clear_success"), EmoteReference.CORRECT, tempLenght).queue();
+                    MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().stop();
+                    return;
+                }
+
+                event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.queue.clear_error"), EmoteReference.ERROR).queue();
             }
         });
 
@@ -616,18 +628,14 @@ public class MusicCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Remove Track Command")
-                        .setDescription("**Remove the specified track from the queue.**")
-                        .addField(
-                                "Usage:", "`~>removetrack <tracknumber/first/next/last>` (as specified on the ~>queue command)",
-                                false
-                        )
-                        .addField("Parameters:", "`tracknumber`: the number of the track to remove\n" +
-                                "`first`: remove the first track\n"
-                                + "`next`: remove the next track\n"
-                                + "`last`: remove the last track\n"
-                                + "You can also specify a range (1-10, for example) to delete the first 10 tracks of the queue.", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Remove the specified track from the queue.")
+                        .setUsage("`~>removetrack <track number/first/next/last>` (Any of them, only one at a time)")
+                        .addParameter("track number", "The position of the track in the current queue. You can also specify a range (1-10, for example) to delete the first 10 tracks of the queue.")
+                        .addParameter("first", "The first track of the queue.")
+                        .addParameter("next", "The next track of the queue.")
+                        .addParameter("last", "The last track of the queue.")
                         .build();
             }
         });
@@ -671,16 +679,11 @@ public class MusicCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Repeat command")
-                        .setDescription("**Repeats a song.**")
-                        .addField("Usage", "`~>repeat` - **Toggles repeat**\n" +
-                                "`~>repeat queue` - **Repeats the entire queue**.", false)
-                        .addField(
-                                "Warning",
-                                "Might not work correctly if I leave the voice channel after you have disabled repeat. *To fix, just " +
-                                        "add a song to the queue*", true
-                        )
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Repeats a song.")
+                        .setUsage("`~>repeat [queue]`")
+                        .addParameter("queue", "Add this if you want to repeat the queue (`~>repeat queue`). This is optional.")
                         .build();
             }
         });
@@ -706,9 +709,9 @@ public class MusicCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Next Song Command")
-                        .addField("Description", "**Shows the next song in queue!**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows the next song in queue.")
                         .build();
             }
         });
@@ -730,9 +733,9 @@ public class MusicCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Shuffle Command")
-                        .addField("Description", "**Shuffle the current queue!**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shuffle the current queue.")
                         .build();
             }
         });
@@ -786,9 +789,9 @@ public class MusicCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Skip Command")
-                        .setDescription("**Stops the current track and continues to the next, if one exists.**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Stops the current track and continues to the next, if one exists.")
                         .build();
             }
         });
@@ -838,10 +841,9 @@ public class MusicCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Stop Command")
-                        .setDescription("**Clears the queue and leaves the voice channel.**\n" +
-                                "If this won't work but the bot is in a channel, tell an admin/bot commander to run `forcestop`")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Clears the queue and leaves the voice channel.")
                         .build();
             }
         });
@@ -849,59 +851,67 @@ public class MusicCmds {
 
     @Subscribe
     public void volume(CommandRegistry cr) {
-        cr.register("volume", new SimpleCommand(Category.MUSIC) {
+        TreeCommand volumeCommand = (TreeCommand) cr.register("volume", new TreeCommand(Category.MUSIC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(MantaroData.db().getUser(event.getMember()).isPremium() ||
-                        MantaroData.db().getGuild(event.getMember()).isPremium() ||
-                        MantaroData.config().get().getOwners().contains(event.getAuthor().getId())) {
+            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+                return new SubCommand() {
+                    @Override
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        final ManagedDatabase db = MantaroData.db();
 
-                    if(!isInConditionTo(event, languageContext))
-                        return;
+                        if(db.getUser(event.getMember()).isPremium() || db.getGuild(event.getMember()).isPremium() || MantaroData.config().get().getOwners().contains(event.getAuthor().getId())) {
+                            if(!isInConditionTo(event, languageContext))
+                                return;
 
-                    if(args.length == 0) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.volume.no_args"), EmoteReference.ERROR).queue();
-                        return;
+                            if(content.isEmpty()) {
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.volume.no_args"), EmoteReference.ERROR).queue();
+                                return;
+                            }
+
+                            AudioPlayer player = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getAudioPlayer();
+
+                            int volume;
+                            try {
+                                volume = Math.max(4, Math.min(100, Integer.parseInt(content)));
+                            } catch(Exception e) {
+                                event.getChannel().sendMessageFormat(languageContext.get("general.invalid_number"), EmoteReference.ERROR).queue();
+                                return;
+                            }
+
+                            player.setVolume(volume);
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.volume.success"),
+                                    EmoteReference.OK, volume, StatsManager.bar(volume, 50)
+                            ).queue();
+                        } else {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.volume.premium_only"), EmoteReference.ERROR).queue();
+                        }
                     }
-
-                    AudioPlayer player = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getAudioPlayer();
-
-                    if(args[0].equals("check")) {
-                        event.getChannel().sendMessageFormat(
-                                languageContext.get("commands.volume.check"), EmoteReference.ZAP, player.getVolume(), StatsManager.bar(player.getVolume(), 50)
-                        ).queue();
-                        return;
-                    }
-
-                    int volume;
-                    try {
-                        volume = Math.max(4, Math.min(100, Integer.parseInt(args[0])));
-                    } catch(Exception e) {
-                        event.getChannel().sendMessageFormat(languageContext.get("general.invalid_number"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-
-                    player.setVolume(volume);
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.volume.success"),
-                            EmoteReference.OK, volume, StatsManager.bar(volume, 50)
-                    ).queue();
-                } else {
-                    event.getChannel().sendMessage(
-                            EmoteReference.ERROR + "This is a premium-only feature. In order to get" +
-                                    " donator benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\n" +
-                                    "Premium features can be either bound to an user or a server, please, if you donate, join the support guild and ask for it.")
-                            .queue();
-                }
+                };
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Volume command")
-                        .addField("Usage", "`~>volume <number>` - **Sets the volume**", false)
-                        .addField("Parameters", "`number` - **An integer between 1 and 100**", false)
-                        .addField("Notice", "**This is a *donator-only* feature!**" +
-                                "\nTo check the current volume, do `~>volume check. Minimum volume is 4.`", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Sets the playback volume. **This is a *donator-only* feature!**")
+                        .setUsage("`~>volume <number>`")
+                        .addParameter("number", "The number, 4 to 100 that you want to set the volume to.")
                         .build();
+            }
+        });
+
+        volumeCommand.addSubCommand("check", new SubCommand() {
+            @Override
+            public String description() {
+                return "Checks the current volume";
+            }
+
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                AudioPlayer player = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getAudioPlayer();
+
+                event.getChannel().sendMessageFormat(
+                        languageContext.get("commands.volume.check"), EmoteReference.ZAP, player.getVolume(), StatsManager.bar(player.getVolume(), 50)
+                ).queue();
             }
         });
     }
@@ -930,9 +940,9 @@ public class MusicCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Music")
-                        .setDescription("**Tells you how to use music.**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Tells you how to use music. Yes, this is only a guide.")
                         .build();
             }
         });

@@ -93,7 +93,7 @@ public class OptsCmd {
                 }
 
                 if(args.length < 2) {
-                    event.getChannel().sendMessage(help(event)).queue();
+                    event.getChannel().sendMessage(String.format("%sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!", EmoteReference.HEART)).queue();
                     return;
                 }
 
@@ -150,7 +150,8 @@ public class OptsCmd {
                 event.getChannel().sendMessageFormat(languageContext.get("commands.opts.invalid_args"), EmoteReference.ERROR).queue(
                         message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
                 );
-                event.getChannel().sendMessage(help(event)).queue();
+
+                event.getChannel().sendMessage(String.format("%sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!", EmoteReference.HEART)).queue();
             }
 
 

@@ -101,23 +101,6 @@ public class LeaderboardCmd {
                         .setDescription("Returns the currency leaderboard.")
                         .build();
             }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Leaderboard")
-                        .setDescription("**Returns the leaderboard.**")
-                        .addField("Usage", "`~>leaderboard` - **Returns the main leaderboard.**\n" +
-                                "`~>leaderboard rep` - **Returns the reputation leaderboard.**\n" +
-                                "`~>leaderboard lvl` - **Returns the level leaderboard.**\n" +
-                                "`~>leaderboard gamble` - **Returns the gamble (times) leaderboard.**\n" +
-                                "`~>leaderboard slots` - **Returns the slots (times) leaderboard.**\n" +
-                                "`~>leaderboard money` - **Returns the money leaderboard.**\n" +
-                                "`~>leaderboard waifu` - **Returns the waifu value leaderboard.**\n" +
-                                "`~>leaderboard claim` - **Returns the waifu claims leaderboard.**\n" +
-                                //"`~>leaderboard games`  - **Returns the games leaderboard.**\n" +
-                                "`~>leaderboard streak` - **Returns the daily streak leaderboard.**", false)
-                        .build();
-            }
         });
 
         leaderboards.setPredicate(event -> handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, null));

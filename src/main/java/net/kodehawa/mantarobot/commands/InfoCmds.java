@@ -353,58 +353,53 @@ public class InfoCmds {
                     Command command = DefaultCommandProcessor.REGISTRY.commands().get(content);
 
                     if(command != null) {
-                        final MessageEmbed help = command.help(event);
                         if(command.category() == Category.OWNER && !CommandPermission.OWNER.test(event.getMember())) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.help.extended.not_found"), EmoteReference.ERROR).queue();
                             return;
                         }
 
-                        if(help != null) {
-                            event.getChannel().sendMessage(help).queue();
-                        } else {
-                            if(command.help() != null && command.help().getDescription() != null) {
-                                HelpContent newHelp = command.help();
-                                EmbedBuilder builder = new EmbedBuilder()
-                                        .setColor(Color.PINK)
-                                        //asume content = command name
-                                        .setAuthor(Utils.capitalize(content) + " Command Help", null, event.getAuthor().getEffectiveAvatarUrl())
-                                        .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
-                                        .setDescription(newHelp.getDescription())
-                                        .setFooter("Don't include <> or [] on the command itself.", event.getAuthor().getEffectiveAvatarUrl());
+                        if(command.help() != null && command.help().getDescription() != null) {
+                            HelpContent newHelp = command.help();
+                            EmbedBuilder builder = new EmbedBuilder()
+                                    .setColor(Color.PINK)
+                                    //asume content = command name
+                                    .setAuthor(Utils.capitalize(content) + " Command Help", null, event.getAuthor().getEffectiveAvatarUrl())
+                                    .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
+                                    .setDescription(newHelp.getDescription())
+                                    .setFooter("Don't include <> or [] on the command itself.", event.getAuthor().getEffectiveAvatarUrl());
 
-                                if(newHelp.getUsage() != null) {
-                                    builder.addField("Usage", newHelp.getUsage(), false);
-                                }
-
-                                if(newHelp.getParameters().size() > 0) {
-                                    builder.addField("Parameters", newHelp.getParameters().entrySet().stream()
-                                            .map(entry -> "`" + entry.getKey() + "` - *" + entry.getValue() + "*")
-                                            .collect(Collectors.joining("\n")), false);
-
-                                }
-
-                                if(command instanceof TreeCommand) {
-                                    Map<String, InnerCommand> subCommands = ((TreeCommand) command).getSubCommands();
-                                    StringBuilder stringBuilder = new StringBuilder();
-
-                                    for(Map.Entry<String, InnerCommand> inners : subCommands.entrySet()) {
-                                        String name = inners.getKey();
-                                        InnerCommand inner = inners.getValue();
-
-                                        if(inner.description() != null) {
-                                            stringBuilder.append(EmoteReference.BLUE_SMALL_MARKER).append("`").append(name).append("` - ").append(inner.description()).append("\n");
-                                        }
-                                    }
-
-                                    if(stringBuilder.length() > 0) {
-                                        builder.addField("Sub-commands", "**Append the main command to use any of this.**\n" + stringBuilder.toString(), false);
-                                    }
-                                }
-
-                                event.getChannel().sendMessage(builder.build()).queue();
-                            } else {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.help.extended.no_help"), EmoteReference.ERROR).queue();
+                            if(newHelp.getUsage() != null) {
+                                builder.addField("Usage", newHelp.getUsage(), false);
                             }
+
+                            if(newHelp.getParameters().size() > 0) {
+                                builder.addField("Parameters", newHelp.getParameters().entrySet().stream()
+                                        .map(entry -> "`" + entry.getKey() + "` - *" + entry.getValue() + "*")
+                                        .collect(Collectors.joining("\n")), false);
+
+                            }
+
+                            if(command instanceof TreeCommand) {
+                                Map<String, InnerCommand> subCommands = ((TreeCommand) command).getSubCommands();
+                                StringBuilder stringBuilder = new StringBuilder();
+
+                                for(Map.Entry<String, InnerCommand> inners : subCommands.entrySet()) {
+                                    String name = inners.getKey();
+                                    InnerCommand inner = inners.getValue();
+
+                                    if(inner.description() != null) {
+                                        stringBuilder.append(EmoteReference.BLUE_SMALL_MARKER).append("`").append(name).append("` - ").append(inner.description()).append("\n");
+                                    }
+                                }
+
+                                if(stringBuilder.length() > 0) {
+                                    builder.addField("Sub-commands", "**Append the main command to use any of this.**\n" + stringBuilder.toString(), false);
+                                }
+                            }
+
+                            event.getChannel().sendMessage(builder.build()).queue();
+                        } else {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.help.extended.no_help"), EmoteReference.ERROR).queue();
                         }
                     } else {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.help.extended.not_found"), EmoteReference.ERROR).queue();
@@ -416,7 +411,7 @@ public class InfoCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("I wonder if this is what you are looking for...")
-                        .setUsage("`~>help <command>` - Returns information about the command you want")
+                        .setUsage("`~>help <command>`")
                         .addParameter("command", "The command name of the command you want to check information about.")
                         .build();
             }

@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.core.modules.commands.base;
 
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -32,14 +31,6 @@ public interface Command {
      * @return a Nullable {@link Category}. Null means that the command should be hidden from Help.
      */
     Category category();
-
-    /**
-     * Embed to be used on help command
-     *
-     * @param event the event that triggered the help
-     * @return a Nullable {@link MessageEmbed}
-     */
-    MessageEmbed help(GuildMessageReceivedEvent event);
 
     CommandPermission permission();
 

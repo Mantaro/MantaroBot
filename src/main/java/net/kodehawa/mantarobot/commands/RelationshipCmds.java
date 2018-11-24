@@ -299,20 +299,6 @@ public class RelationshipCmds {
                         .addParameter("command", "The subcommand you can use. Check the subcommands section for a list and usage of each.")
                         .build();
             }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Marriage command")
-                        .setDescription("**Basically marries you with a user.**")
-                        .addField("Usage", "`~>marry <@mention>` - **Propose to someone**\n" +
-                                "`~>marry status` - **Check your marriage status**\n" +
-                                "`~>marry createletter <content>` - **Create a love letter for your marriage**", false)
-                        .addField(
-                                "Divorcing", "Well, if you don't want to be married anymore you can just do `~>divorce`",
-                                false
-                        )
-                        .build();
-            }
         });
 
         marryCommand.addSubCommand("createletter", new SubCommand() {

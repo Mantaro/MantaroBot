@@ -27,11 +27,6 @@ public interface InnerCommand extends Command {
     }
 
     @Override
-    default MessageEmbed help(GuildMessageReceivedEvent event) {
-        return null;
-    }
-
-    @Override
     default HelpContent help() {
         return null;
     }

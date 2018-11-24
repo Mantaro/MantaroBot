@@ -270,21 +270,6 @@ public class ImageCmds {
                         .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on rule34's website (NSFW).")
                         .build();
             }
-
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "rule34.xxx commmand")
-                        .setColor(Color.PINK)
-                        .setDescription("**Retrieves images from the rule34 (hentai) image board.**")
-                        .addField("Usage",
-                                "`~>rule34` - **Gets you a completely random image.**\n"
-                                        + "`~>rule34 tags <tag>` - **Gets you an image with the respective tag and specified parameters.**\n\n"
-                                        + "**WARNING**: This command can be only used in NSFW channels!", false)
-                        .addField("Parameters",
-                                "`tag` - **Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)**\n", false)
-                        .build();
-            }
         });
     }
 

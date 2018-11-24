@@ -179,17 +179,6 @@ public class FunCmds {
                         .addParameter("-size", "The size of the dice (example: -size 7)")
                         .build();
             }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Dice command")
-                        .setDescription(
-                                "Roll a any-sided dice a 1 or more times\n" +
-                                        "`~>roll [-amount <number>] [-size <number>]`: Rolls a dice of the specified size the specified times.\n" +
-                                        "(By default, this command will roll a 6-sized dice 1 time.)"
-                        )
-                        .build();
-            }
         });
     }
 
