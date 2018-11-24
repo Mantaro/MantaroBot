@@ -40,8 +40,10 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
@@ -56,6 +58,7 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
@@ -440,6 +443,32 @@ public class InfoCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Gives you a bot OAuth invite link and some other important links.")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void prefix(CommandRegistry cr) {
+        cr.register("prefix", new SimpleCommand(Category.INFO) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                final ManagedDatabase db = MantaroData.db();
+                DBGuild dbGuild = db.getGuild(event.getGuild());
+                Config config = MantaroData.config().get();
+                String defaultPrefix = Stream.of(config.getPrefix()).map(prefix -> "`" + prefix + "`").collect(Collectors.joining(" ");
+                String guildPrefix = dbGuild.getData().getGuildCustomPrefix();
+
+                event.getChannel().sendMessageFormat(
+                        languageContext.get("commands.prefix.header"), EmoteReference.HEART, defaultPrefix, guildPrefix == null ? languageContext.get("commands.prefix.none") : guildPrefix
+                ).queue();
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Gives you information on how to change the prefix and what's the current prefix. If you looked at help, to change the prefix " +
+                                "use `~>opts prefix set <prefix>`")
                         .build();
             }
         });

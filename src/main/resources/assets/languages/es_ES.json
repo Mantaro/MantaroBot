@@ -300,6 +300,10 @@
           "success": "%1$sVolumen ajustado a %2$d\n\n%3$s",
           "no_args": "%1$sNecesitas decirme a que volumen deseas escuchar la música (5 a 100)"
       },
+      "prefix": {
+          "header": "%1$sTLos prefijos por defecto son %2$s (¡Respondo a todos ellos!). El prefijo del servidor es `%2$s` (Solo sirve en este servidor). Puedes cambiar el prefijo usando `~>opts prefix set <prefijo>`",
+          "none": "No hay un prefijo customizado en este servidor."
+      },
       "custom": {
           "no_args": "%1$sNecesitas decirme que quieres hacer aquí! Revisa la ayuda del comando para más información.",
           "error_running": "%1$sHe encontrado un error mientras intentaba ejecutar un comando personalizado... porfavor revisa el contenido y su extensión (no puede ser más de 2000 caracteres).",

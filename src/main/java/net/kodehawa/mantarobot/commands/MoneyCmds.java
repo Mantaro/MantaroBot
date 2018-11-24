@@ -464,7 +464,8 @@ public class MoneyCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Loot the current chat for items, for usage in Mantaro's currency system. You have a random chance of getting collectible items from here.")
+                        .setDescription("Loot the current chat for items, for usage in Mantaro's currency system. " +
+                                "You have a random chance of getting collectible items from here.")
                         .build();
             }
         });

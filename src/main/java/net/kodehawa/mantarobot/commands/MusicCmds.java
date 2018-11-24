@@ -40,6 +40,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -74,10 +75,9 @@ public class MusicCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Force skip")
-                        .setDescription("Well, administrators should be able to forceskip, shouldn't they?\n" +
-                                "`~>skip` has the same effect if you're a DJ.")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Well, administrators should be able to forceskip, shouldn't they?. `~>skip` has the same effect if you have the DJ role")
                         .build();
             }
         });
