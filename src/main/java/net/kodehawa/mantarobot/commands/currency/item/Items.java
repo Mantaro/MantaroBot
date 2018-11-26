@@ -44,6 +44,7 @@ import java.util.stream.Stream;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 @Slf4j
+@SuppressWarnings("WeakerAccess")
 public class Items {
     public static final Item HEADPHONES, BAN_HAMMER, KICK_BOOT, FLOPPY_DISK, MY_MATHS, PING_RACKET,
             LOADED_DICE, FORGOTTEN_MUSIC, CC_PENCIL, OVERFLOWED_BAG, BROM_PICKAXE, MILK, ALCOHOL, LEWD_MAGAZINE, RING,
