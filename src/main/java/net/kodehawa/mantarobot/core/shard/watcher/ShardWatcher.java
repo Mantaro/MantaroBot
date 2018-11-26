@@ -158,7 +158,7 @@ public class ShardWatcher implements Runnable {
                                 continue;
                             }
 
-                            log.info("Found dead shard (#{})... attempting RESUME request and waiting 20 seconds to validate.", id);
+                            log.info("Found dead shard (#{})... attempting RESUME request and waiting 30 seconds to validate.", id);
 
                             //Send the RESUME request.
                             ((JDAImpl)(shard.getJDA())).getClient().close(4000);

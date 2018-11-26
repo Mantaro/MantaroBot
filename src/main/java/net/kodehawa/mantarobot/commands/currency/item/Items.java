@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands.currency.item;
 
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.currency.item.special.Fish;
 import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -112,9 +113,9 @@ public class Items {
             POTION_CLEAN = new Item(ItemType.POTION, "\uD83C\uDF7C","Milky Potion", "items.milky", "items.description.milky", 50, true),
             POTION_STAMINA = new Potion(ItemType.POTION, 3, "\uD83C\uDFFA","Energy Beverage", "items.energy", "items.description.energy", 450, true),
             FISHING_ROD = new FishRod(ItemType.INTERACTIVE, 3, "\uD83C\uDFA3","Fishing Rod", "items.rod", "items.description.rod", 65, true, "", 0),
-            FISH_1 = new Item(ItemType.FISHING, "\uD83D\uDC1F","Fish", "items.fish", "items.description.fish", 10, false),
-            FISH_2 = new Item(ItemType.FISHING, "\uD83D\uDC20","Tropical Fish", "items.tropical_fish", "items.description.tropical_fish", 30, false),
-            FISH_3 = new Item(ItemType.FISHING, "\uD83D\uDC21","Blowfish", "items.blowfish", "items.description.blowfish", 15, false),
+            FISH_1 = new Fish(ItemType.FISHING, 1, "\uD83D\uDC1F","Fish", "items.fish", "items.description.fish", 10, false),
+            FISH_2 = new Fish(ItemType.FISHING, 2, "\uD83D\uDC20","Tropical Fish", "items.tropical_fish", "items.description.tropical_fish", 30, false),
+            FISH_3 = new Fish(ItemType.FISHING, 3, "\uD83D\uDC21","Blowfish", "items.blowfish", "items.description.blowfish", 15, false),
             // ---------------------------------- 5.0 MINING ITEMS START HERE ----------------------------------
             GEM_1 = new Item(ItemType.CAST_OBTAINABLE, "\u2604", "Comet Gem", "items.comet_gem", "items.description.comet_gem", 40, true, false, "3;1", 51, 24),
             GEM_2 = new Item(ItemType.CAST_OBTAINABLE, EmoteReference.STAR.getUnicode(), "Star Gem", "items.star_gem", "items.description.star_gem", 60, true, false, "4;1", 51, 25),
@@ -146,8 +147,8 @@ public class Items {
             GEM5_PICKAXE_2 = new Item(ItemType.MINE_RARE_PICK, EmoteReference.SPARKLE_PICK.getDiscordNotation(),"Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 2550, true, false, "1;4;1", 10, 74, 18),
             GEM5_2 = new Item(ItemType.MINE_RARE, "\u2728", "Sparkle Fragment", "items.sparkle", "items.description.sparkle", 605, false),
             GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 14, EmoteReference.SPARKLE_ROD.getDiscordNotation(),"Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4;1", 44, 74, 18),
-            FISH_4 = new Item(ItemType.FISHING_RARE, "\uD83D\uDC1A","Shell", "items.shell", "items.description.shell", 1150, false),
-            FISH_5 = new Item(ItemType.FISHING_RARE, "\uD83E\uDD88","Shark", "items.shark", "items.description.shark", 600, false),
+            FISH_4 = new Fish(ItemType.FISHING_RARE, 5, "\uD83D\uDC1A","Shell", "items.shell", "items.description.shell", 1150, false),
+            FISH_5 = new Fish(ItemType.FISHING_RARE, 10, "\uD83E\uDD88","Shark", "items.shark", "items.description.shark", 600, false),
     };
 
 

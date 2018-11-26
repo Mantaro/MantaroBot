@@ -46,6 +46,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
 import java.awt.*;
@@ -298,6 +299,7 @@ public class InfoCmds {
 
     @Subscribe
     public void help(CommandRegistry cr) {
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 4);
         Random r = new Random();
         List<String> jokes = Collections.unmodifiableList(Arrays.asList(
                 "Yo damn I heard you like help, because you just issued the help command to get the help about the help command.",
@@ -311,6 +313,9 @@ public class InfoCmds {
         cr.register("help", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                    return;
+
                 if(content.isEmpty()) {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     String defaultPrefix = MantaroData.config().get().prefix[0], guildPrefix = dbGuild.getData().getGuildCustomPrefix();
