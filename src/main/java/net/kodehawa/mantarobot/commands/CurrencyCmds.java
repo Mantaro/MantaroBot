@@ -323,7 +323,7 @@ public class CurrencyCmds {
         marketCommand.addSubCommand("sell", new SubCommand() {
             @Override
             public String description() {
-                return "Sells an item. Usage: `~>market sell <item>`. You can sell multiple items if you put the amount after the item.\n" +
+                return "Sells an item. Usage: `~>market sell <item>`. You can sell multiple items if you put the amount before the item.\n" +
                         "Use `~>market sell all` to sell all of your items.";
             }
 
@@ -338,10 +338,11 @@ public class CurrencyCmds {
                 String[] args = content.split(" ");
                 String itemName = content;
                 int itemNumber = 1;
-                boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
+                String split = args[0];
+                boolean isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
                 if(isMassive) {
                     try {
-                        itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
+                        itemNumber = Math.abs(Integer.valueOf(split));
                         itemName = itemName.replace(args[0], "").trim();
                     } catch (NumberFormatException e) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.invalid"), EmoteReference.ERROR).queue();
@@ -425,7 +426,8 @@ public class CurrencyCmds {
         marketCommand.addSubCommand("buy", new SubCommand() {
             @Override
             public String description() {
-                return "Buys an item. Usage: `~>market sell <item>`. You can buy multiple items if you put the amount after the item.";
+                return "Buys an item. Usage: `~>market sell <item>`. You can buy multiple items if you put the amount before the item. " +
+                        "You can use all, half and quarter to buy for ex., a quarter of 5000 items.";
             }
 
             @Override
@@ -439,14 +441,35 @@ public class CurrencyCmds {
                 String[] args = content.split(" ");
                 String itemName = content;
                 int itemNumber = 1;
-                boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
+                String split = args[0];
+                boolean isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
                 if(isMassive) {
                     try {
-                        itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
+                        itemNumber = Math.abs(Integer.valueOf(split));
                         itemName = itemName.replace(args[0], "").trim();
                     } catch (NumberFormatException e) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.invalid"), EmoteReference.ERROR).queue();
                         return;
+                    }
+                } else {
+                    //This is silly but works, people can stop asking about this now :o
+                    if(!itemName.isEmpty()) {
+                        switch (split) {
+                            case "all":
+                                itemNumber = ItemStack.MAX_STACK_SIZE;
+                                break;
+                            case "half":
+                                itemNumber = ItemStack.MAX_STACK_SIZE / 2;
+                                break;
+                            case "quarter":
+                                itemNumber = ItemStack.MAX_STACK_SIZE / 4;
+                                break;
+                            default:
+                                break;
+                        }
+
+                        if(itemNumber > 1)
+                            itemName = itemName.replace(args[0], "").trim();
                     }
                 }
 
