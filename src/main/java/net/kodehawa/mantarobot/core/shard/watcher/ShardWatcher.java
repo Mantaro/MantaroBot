@@ -71,7 +71,8 @@ public class ShardWatcher implements Runnable {
 
     @Override
     public void run() {
-        LogUtils.shard("ShardWatcherThread started");
+        final int wait = MantaroData.config().get().shardWatcherWait;
+        LogUtils.shard(String.format("ShardWatcherThread started. Configured to run every %d minutes on this instance.", (wait / 60000)));
         //Executes the restart queue handler. For the actual logic behind all this, check the next while(true) loop.
         THREAD_POOL.execute(()->{
             while(true) {
@@ -112,7 +113,6 @@ public class ShardWatcher implements Runnable {
             }
         });
 
-        final int wait = MantaroData.config().get().shardWatcherWait;
         while(true) {
             try {
                 //Run every x ms (usually every 10 minutes unless changed)
