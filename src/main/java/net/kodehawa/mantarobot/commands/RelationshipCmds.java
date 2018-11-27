@@ -200,8 +200,8 @@ public class RelationshipCmds {
                                 DBUser proposedToUserDB = managedDatabase.getUser(proposedToUser);
 
                                 // ---------------- START OF FINAL MARRIAGE CHECK ----------------
-                                final Marriage proposingMarriageFinal = proposingUserData.getMarriage();
-                                final Marriage proposedToMarriageFinal = proposedToUserData.getMarriage();
+                                final Marriage proposingMarriageFinal = proposingUserDB.getData().getMarriage();
+                                final Marriage proposedToMarriageFinal = proposedToUserDB.getData().getMarriage();
 
                                 if(proposingMarriageFinal != null) {
                                     event.getChannel().sendMessageFormat(languageContext.get("commands.marry.already_married"), EmoteReference.ERROR).queue();
