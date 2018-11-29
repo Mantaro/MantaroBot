@@ -304,7 +304,7 @@ public class OwnerCmd {
                         .addCompilerOptions("-Xlint:unchecked")
                         .source("Eval", JAVA_EVAL_IMPORTS + "\n\n" +
                                 "public class Eval {\n" +
-                                "   public static Object run(GuildMessageReceivedEvent event) {\n" +
+                                "   public static Object run(GuildMessageReceivedEvent event) throws Throwable {\n" +
                                 "       try {\n" +
                                 "           return null;\n" +
                                 "       } finally {\n" +
