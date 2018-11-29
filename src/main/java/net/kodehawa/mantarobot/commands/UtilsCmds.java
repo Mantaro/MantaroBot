@@ -117,7 +117,12 @@ public class UtilsCmds {
 
                             bd1 = format1.parse(bd);
                         } catch(Exception e) {
-                            Optional.ofNullable(args[0]).ifPresent((s -> event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.error_date"), "\u274C", args[0]).queue()));
+                            Optional.ofNullable(args[0]).ifPresent(s ->
+                                    new MessageBuilder().append(String.format(languageContext.get("commands.birthday.error_date"), "\u274C", args[0]))
+                                            .stripMentions(event.getJDA())
+                                            .sendTo(event.getChannel())
+                                    .queue()
+                            );
                             return;
                         }
 

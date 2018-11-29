@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
@@ -72,7 +73,9 @@ public class GuildOptions extends OptionHandler {
             String language = args[0];
 
             if(!I18n.isValidLanguage(language)) {
-                event.getChannel().sendMessageFormat("%s`%s` is not a valid language or it's not yet supported by Mantaro.", EmoteReference.ERROR2, language).queue();
+                new MessageBuilder().append(String.format("%s`%s` is not a valid language or it's not yet supported by Mantaro.", EmoteReference.ERROR2, language))
+                        .stripMentions(event.getJDA())
+                        .sendTo(event.getChannel()).queue();
                 return;
             }
 
@@ -235,7 +238,10 @@ public class GuildOptions extends OptionHandler {
                     GuildData guildData = dbGuild.getData();
                     guildData.setGuildCustomPrefix(prefix);
                     dbGuild.save();
-                    event.getChannel().sendMessageFormat(lang.get("options.prefix_set.success"), EmoteReference.MEGA, prefix).queue();
+
+                    new MessageBuilder().append(String.format(lang.get("options.prefix_set.success"), EmoteReference.MEGA, prefix))
+                            .stripMentions(event.getJDA())
+                            .sendTo(event.getChannel()).queue();
                 });//endregion
 
         //region clear

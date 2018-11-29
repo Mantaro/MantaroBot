@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
@@ -49,11 +50,18 @@ import static java.lang.System.currentTimeMillis;
 @Module
 @SuppressWarnings("unused")
 public class PremiumCmds {
+    private Config config = MantaroData.config().get();
+
     @Subscribe
     public void comprevip(CommandRegistry cr) {
         cr.register("activatekey", new SimpleCommand(Category.UTILS) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                if(config.isPremiumBot()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.mp"), EmoteReference.WARNING).queue();
+                    return;
+                }
+
                 if(!(args.length == 0) && args[0].equalsIgnoreCase("check")) {
                     PremiumKey currentKey = MantaroData.db().getPremiumKey(MantaroData.db().getUser(event.getAuthor()).getData().getPremiumKey());
 

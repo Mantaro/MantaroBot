@@ -556,10 +556,12 @@ public class PlayerCmds {
                 Potion buff = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.BUFF);
                 boolean isPotionActive = potion != null && equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses());
                 boolean isBuffActive = buff != null && equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses());
+                boolean equipmentEmpty = equippedItems.getEquipment().isEmpty();
 
                 //no need for decimals
                 long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
 
+                //TODO: helper method for this, since we do similar stuff in roleinfo and userinfo
                 String s = String.join("\n",
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.market") + ":** "  +
                                 playerData.getMarketUsed() + " " + languageContext.get("commands.profile.stats.times"),
@@ -571,6 +573,8 @@ public class PlayerCmds {
                                 ((buff == null || !isBuffActive) ? "None" : buff.getName()),
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.times_used") + ":** " +
                                 ((buff == null || !isBuffActive) ? "None" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF).getTimesUsed()  + " " + languageContext.get("commands.profile.stats.times")),
+                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.equipment") + ":** " +
+                                ((equipmentEmpty) ? "None" : equippedItems.getEquipment().entrySet().stream().map((entry) -> Utils.capitalize(entry.getKey().toString()) + ": " + Items.fromId(entry.getValue()).toDisplayString()).collect(Collectors.joining(", "))),
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.experience") + ":** " +
                                 playerData.getExperience() + "/" + experienceNext + " XP",
                         BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.daily") + ":** " +

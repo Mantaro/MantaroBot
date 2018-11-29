@@ -25,10 +25,13 @@ import lombok.Getter;
 import lombok.ToString;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
+import net.kodehawa.mantarobot.utils.Pair;
+import net.kodehawa.mantarobot.utils.Utils;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
@@ -46,6 +49,9 @@ public class DBGuild implements ManagedObject {
     private final GuildData data;
     private final String id;
     private long premiumUntil;
+
+    @JsonIgnore
+    private Config config = MantaroData.config().get();
 
     @JsonCreator
     @ConstructorProperties({"id", "premiumUntil", "data"})
@@ -91,6 +97,15 @@ public class DBGuild implements ManagedObject {
     @JsonIgnore
     public boolean isPremium() {
         PremiumKey key = MantaroData.db().getPremiumKey(data.getPremiumKey());
+
+        String linkedTo = getData().getMpLinkedTo();
+        if(config.isPremiumBot() && linkedTo != null && key == null) { //Key should always be null in MP anyway.
+            Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(linkedTo);
+            if(pledgeInfo != null && pledgeInfo.getLeft() && Integer.parseInt(pledgeInfo.getRight()) >= 4) {
+                return true;
+            }
+        }
+
         return currentTimeMillis() < premiumUntil || (key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.GUILD));
     }
 

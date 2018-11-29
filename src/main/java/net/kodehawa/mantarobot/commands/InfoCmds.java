@@ -367,7 +367,7 @@ public class InfoCmds {
                                     //asume content = command name
                                     .setAuthor(Utils.capitalize(content) + " Command Help", null, event.getAuthor().getEffectiveAvatarUrl())
                                     .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
-                                    .setDescription(newHelp.getDescription())
+                                    .setDescription((r.nextBoolean() ? languageContext.get("commands.help.patreon") + "\n" : "") + newHelp.getDescription())
                                     .setFooter("Don't include <> or [] on the command itself.", event.getAuthor().getEffectiveAvatarUrl());
 
                             if(newHelp.getUsage() != null) {

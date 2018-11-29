@@ -427,6 +427,7 @@ public class OwnerCmd {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Links a guild to a patreon owner (user id).")
+                        .setUsage("`~>link <user id> <guild id>`")
                         .build();
             }
         });

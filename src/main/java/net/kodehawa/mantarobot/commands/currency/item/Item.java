@@ -117,6 +117,10 @@ public class Item {
         return "**" + name + "** ($" + value + ")";
     }
 
+    public String toDisplayString() {
+        return emoji + " " + name;
+    }
+
     public String toVerboseString() {
         return String.format("Item{name:%s, type:%s, value:%s, buyable:%s, sellable:%s}", name, itemType, value, buyable, sellable);
     }

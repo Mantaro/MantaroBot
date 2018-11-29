@@ -318,7 +318,7 @@
       "premium_only": "%1$sThis is a premium-only feature. In order to get donator benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to an user or a server, please, if you donate, join the support guild and ask for it."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s (I respond to any of those!). The server prefix is `%2$s` (Only works on this server). You can set a new prefix by using `~>opts prefix set <prefix>`",
+      "header": "%1$sThe default prefixes are %2$s (I respond to any of those!). The server prefix is `%3$s` (Only works on this server). You can set a new prefix by using `~>opts prefix set <prefix>`",
       "none": "There's no custom prefix set on this server."
     },
     "custom": {
@@ -759,7 +759,8 @@
         "reminders": "Times Reminded",
         "times": "time(s)",
         "days": "day(s)",
-        "times_used": "Times Used"
+        "times_used": "Times Used",
+        "equipment": "Equipment"
       },
       "equip": {
         "no_content": "%1$sYou have to specify which item to equip!",
@@ -884,7 +885,8 @@
       "guild_already_premium": "%1$sThis server already has a premium subscription",
       "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)",
       "user_already_premium": "%1$sYou're already premium :heart:",
-      "user_successful": "%1$sYou're now **Premium** :heart: (For: %2$d days)"
+      "user_successful": "%1$sYou're now **Premium** :heart: (For: %2$d days)",
+      "mp": "Mantaro Patreon uses no keys, instead, it's a given that it's premium by the fact that the bot itself works."
     },
     "vipstatus": {
       "user": {
@@ -1194,8 +1196,8 @@
     "help": {
       "title": "Mantaro Help",
       "base": "Command list. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
-      "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://support.mantaro.site). [**Follow me on twitter for updates!**](https://twitter.com/mantarodiscord)\n",
-      "patreon": "[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)",
+      "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://support.mantaro.site). [*Follow me on twitter for updates!*](https://twitter.com/mantarodiscord)\n",
+      "patreon": "[**We need your help to keep Mantaro online! Click here for more info.**](https://www.patreon.com/mantaro)",
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
       "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
       "footer": "To check command usage, type %1$shelp <command> // -> Commands: %2$s",
