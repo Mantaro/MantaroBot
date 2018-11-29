@@ -112,7 +112,7 @@ public class DBUser implements ManagedObject {
             if(!getId().equals(key.getOwner()) && keyLinkedTo != null && keyLinkedTo.equals(key.getOwner())) {
                 DBUser owner = MantaroData.db().getUser(key.getOwner());
                 UserData ownerData = owner.getData();
-                if(ownerData.getKeysClaimed().containsKey(getId())) {
+                if(!ownerData.getKeysClaimed().containsKey(getId())) {
                     ownerData.getKeysClaimed().put(getId(), key.getId());
                     owner.save();
                 }
