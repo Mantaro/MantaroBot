@@ -42,6 +42,7 @@ public class UserData {
     private PlayerEquipment equippedItems = new PlayerEquipment(new HashMap<>(), new HashMap<>()); //hashmap is type -> itemId
 
     private boolean receivedExpirationWarning; //premium key about to expire!
+    private Map<String, String> keysClaimed = new HashMap<>(); //Map of user -> key. Will be used to account for keys the user can create themselves.
 
     //NEW MARRIAGE SYSTEM
     private String marriageId;

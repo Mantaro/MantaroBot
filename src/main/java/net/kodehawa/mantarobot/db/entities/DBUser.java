@@ -106,6 +106,18 @@ public class DBUser implements ManagedObject {
                 key.save(); //doesn't matter if it doesnt save immediately, will do later anyway (key is usually immutable in db)
             }
 
+            //If the receipt is not the owner, account them to the keys the owner has claimed.
+            //This has usage later when seeing how many keys can they take. The second/third check is kind of redundant, but necessary anyway to see if it works.
+            String keyLinkedTo = key.getData().getLinkedTo();
+            if(!getId().equals(key.getOwner()) && keyLinkedTo != null && keyLinkedTo.equals(key.getOwner())) {
+                DBUser owner = MantaroData.db().getUser(key.getOwner());
+                UserData ownerData = owner.getData();
+                if(ownerData.getKeysClaimed().containsKey(getId())) {
+                    ownerData.getKeysClaimed().put(getId(), key.getId());
+                    owner.save();
+                }
+            }
+
             isActive = key.getData().getLinkedTo() == null || (pledgeInfo != null ? pledgeInfo.getLeft() : true); //default to true if no link
         }
 
