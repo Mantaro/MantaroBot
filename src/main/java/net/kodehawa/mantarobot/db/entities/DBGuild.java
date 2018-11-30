@@ -97,6 +97,13 @@ public class DBGuild implements ManagedObject {
     @JsonIgnore
     public boolean isPremium() {
         PremiumKey key = MantaroData.db().getPremiumKey(data.getPremiumKey());
+        if(key != null) {
+            boolean isKeyActive = currentTimeMillis() < key.getExpiration();
+            if(!isKeyActive) {
+                key.delete();
+                return false;
+            }
+        }
 
         String linkedTo = getData().getMpLinkedTo();
         if(config.isPremiumBot() && linkedTo != null && key == null) { //Key should always be null in MP anyway.
