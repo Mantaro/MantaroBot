@@ -410,7 +410,7 @@ public class OwnerCmd {
 
                 Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(user.getId());
                 //guaranteed to be an integer
-                if(pledgeInfo == null || !pledgeInfo.getLeft() || Integer.parseInt(pledgeInfo.getRight()) < 4) {
+                if(pledgeInfo == null || !pledgeInfo.getLeft() || Double.parseDouble(pledgeInfo.getRight()) < 4) {
                     event.getChannel().sendMessage("Pledge not found, pledge amount not enough or pledge was cancelled.").queue();
                     return;
                 }

@@ -103,13 +103,16 @@ public class DBUser implements ManagedObject {
             if(!isKeyActive) {
                 DBUser owner = MantaroData.db().getUser(key.getOwner());
                 UserData ownerData = owner.getData();
-                if(!ownerData.getKeysClaimed().containsKey(getId())) {
+
+                //Remove from owner's key ownership storage if key owner != key holder.
+                if(!key.getOwner().equals(getId()) && !ownerData.getKeysClaimed().containsKey(getId())) {
                     ownerData.getKeysClaimed().remove(getId());
                     owner.save();
                 }
 
-                //Handle this so we don't go over this check again.
+                //Handle this so we don't go over this check again. Remove premium key from user object.
                 key.delete();
+                removePremiumKey();
 
                 //User is not premium.
                 return false;

@@ -97,6 +97,7 @@ public class DBGuild implements ManagedObject {
     @JsonIgnore
     public boolean isPremium() {
         PremiumKey key = MantaroData.db().getPremiumKey(data.getPremiumKey());
+        //Key validation check (is it still active? delete otherwise)
         if(key != null) {
             boolean isKeyActive = currentTimeMillis() < key.getExpiration();
             if(!isKeyActive) {
@@ -105,15 +106,17 @@ public class DBGuild implements ManagedObject {
             }
         }
 
+        //Patreon bot link check.
         String linkedTo = getData().getMpLinkedTo();
         if(config.isPremiumBot() && linkedTo != null && key == null) { //Key should always be null in MP anyway.
             Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(linkedTo);
-            if(pledgeInfo != null && pledgeInfo.getLeft() && Integer.parseInt(pledgeInfo.getRight()) >= 4) {
+            if(pledgeInfo != null && pledgeInfo.getLeft() && Double.parseDouble(pledgeInfo.getRight()) >= 4) {
+                //Subscribed to MP properly, return true.
                 return true;
             }
         }
 
-        //TODO: remove currentTimeMillis() < premiumUntil check whenever you're done transfering MP guilds to the new system.
+        //TODO: remove currentTimeMillis() < premiumUntil check whenever you're done transferring MP guilds to the new system.
         return currentTimeMillis() < premiumUntil || (key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.GUILD));
     }
 

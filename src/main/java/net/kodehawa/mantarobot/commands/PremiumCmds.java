@@ -43,6 +43,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.*;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.currentTimeMillis;
@@ -122,6 +123,7 @@ public class PremiumCmds {
                         player.saveAsync();
                     }
 
+                    //Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
                     if(!event.getAuthor().getId().equals(key.getOwner())) {
                         DBUser ownerUser = db.getUser(key.getOwner());
                         ownerUser.getData().getKeysClaimed().put(event.getAuthor().getId(), key.getId());
@@ -147,7 +149,7 @@ public class PremiumCmds {
         });
     }
 
-    //TODO: uncomment when you know this works.
+    //TODO: uncomment when you know most keys are registered.
     //@Subscribe
     public void claimkey(CommandRegistry cr) {
         cr.register("claimkey", new SimpleCommand(Category.UTILS) {
@@ -168,28 +170,31 @@ public class PremiumCmds {
                     return;
                 }
 
-                int pledgeAmount = Integer.parseInt(pledgeInfo.getRight());
+                double pledgeAmount = Double.parseDouble(pledgeInfo.getRight());
                 DBUser dbUser = db.getUser(author);
-                final UserData data = dbUser.getData();
+                UserData data = dbUser.getData();
 
                 //Check for pledge changes on DBUser#isPremium
-                if(pledgeAmount == 1 || (pledgeAmount / 2) >= data.getKeysClaimed().size()) {
+                if(pledgeAmount == 1 || data.getKeysClaimed().size() >= (pledgeAmount / 2)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.claimkey.already_top"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                PremiumKey newKey = PremiumKey.generatePremiumKey(author.getName(), PremiumKey.Type.USER, true);
+                PremiumKey newKey = PremiumKey.generatePremiumKey(author.getId(), PremiumKey.Type.USER, true);
 
-                //Placeholder so they don't spam key creation.
-                data.getKeysClaimed().put("1", newKey.getId());
+                //Placeholder so they don't spam key creation. Save as random UUID first, to avoid conflicting.
+                data.getKeysClaimed().put(UUID.randomUUID().toString(), newKey.getId());
 
-                dbUser.saveAsync();
-                newKey.save();
-
+                //Send message in a DM (it's private after all)
                 int amountClaimed = data.getKeysClaimed().size();
-                event.getChannel().sendMessageFormat(languageContext.get("commands.claimkey.successful"),
-                        EmoteReference.HEART, newKey.getId(), amountClaimed, ((pledgeAmount / 2) - amountClaimed)
-                ).queue();
+                event.getAuthor().openPrivateChannel()
+                        .queue(privateChannel -> {
+                            privateChannel.sendMessageFormat(languageContext.get("commands.claimkey.successful"),
+                            EmoteReference.HEART, newKey.getId(), amountClaimed, (int) ((pledgeAmount / 2) - amountClaimed)).queue();
+                            dbUser.saveAsync();
+                            newKey.saveAsync();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.claimkey.success"), EmoteReference.CORRECT).queue();
+                        }, error -> event.getChannel().sendMessageFormat(languageContext.get("commands.claimkey.cant_dm"), EmoteReference.ERROR).queue());
             }
         });
     }
