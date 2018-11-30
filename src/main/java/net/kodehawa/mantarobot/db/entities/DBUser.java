@@ -98,6 +98,23 @@ public class DBUser implements ManagedObject {
         boolean isActive = false;
 
         if(key != null) {
+            //Check for this because there's no need to check if this key is active.
+            boolean isKeyActive = currentTimeMillis() < key.getExpiration();
+            if(!isKeyActive) {
+                DBUser owner = MantaroData.db().getUser(key.getOwner());
+                UserData ownerData = owner.getData();
+                if(!ownerData.getKeysClaimed().containsKey(getId())) {
+                    ownerData.getKeysClaimed().remove(getId());
+                    owner.save();
+                }
+
+                //Handle this so we don't go over this check again.
+                key.delete();
+
+                //User is not premium.
+                return false;
+            }
+
             //Link key to owner if key == owner and key holder is on patreon.
             //Sadly gotta skip of holder isnt patron here bc there are some bought keys (paypal) which I can't convert without invalidating
             Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(key.getOwner());
