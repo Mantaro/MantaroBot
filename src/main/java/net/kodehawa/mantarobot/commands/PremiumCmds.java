@@ -18,7 +18,6 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -32,6 +31,7 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -57,13 +57,15 @@ public class PremiumCmds {
         cr.register("activatekey", new SimpleCommand(Category.UTILS) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                final ManagedDatabase db = MantaroData.db();
+
                 if(config.isPremiumBot()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.mp"), EmoteReference.WARNING).queue();
                     return;
                 }
 
                 if(!(args.length == 0) && args[0].equalsIgnoreCase("check")) {
-                    PremiumKey currentKey = MantaroData.db().getPremiumKey(MantaroData.db().getUser(event.getAuthor()).getData().getPremiumKey());
+                    PremiumKey currentKey = db.getPremiumKey(db.getUser(event.getAuthor()).getData().getPremiumKey());
 
                     if(currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()) { //Should always be enabled...
                         event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.check.key_valid_for"), EmoteReference.EYES, currentKey.validFor()).queue();
@@ -78,7 +80,7 @@ public class PremiumCmds {
                     return;
                 }
 
-                PremiumKey key = MantaroData.db().getPremiumKey(args[0]);
+                PremiumKey key = db.getPremiumKey(args[0]);
 
                 if(key == null || (key.isEnabled() && !(key.getParsedType().equals(PremiumKey.Type.MASTER)))) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.invalid_key"), EmoteReference.ERROR).queue();
@@ -88,9 +90,9 @@ public class PremiumCmds {
                 PremiumKey.Type scopeParsed = key.getParsedType();
 
                 if(scopeParsed.equals(PremiumKey.Type.GUILD)) {
-                    DBGuild guild = MantaroData.db().getGuild(event.getGuild());
+                    DBGuild guild = db.getGuild(event.getGuild());
 
-                    PremiumKey currentKey = MantaroData.db().getPremiumKey(guild.getData().getPremiumKey());
+                    PremiumKey currentKey = db.getPremiumKey(guild.getData().getPremiumKey());
 
                     if(currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()) { //Should always be enabled...
                         event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.guild_already_premium"), EmoteReference.POPPER).queue();
@@ -105,10 +107,10 @@ public class PremiumCmds {
                 }
 
                 if(scopeParsed.equals(PremiumKey.Type.USER)) {
-                    DBUser user = MantaroData.db().getUser(event.getAuthor());
-                    Player player = MantaroData.db().getPlayer(event.getAuthor());
+                    DBUser user = db.getUser(event.getAuthor());
+                    Player player = db.getPlayer(event.getAuthor());
 
-                    PremiumKey currentUserKey = MantaroData.db().getPremiumKey(user.getData().getPremiumKey());
+                    PremiumKey currentUserKey = db.getPremiumKey(user.getData().getPremiumKey());
 
                     if(currentUserKey != null && currentUserKey.isEnabled() && currentTimeMillis() < currentUserKey.getExpiration()) { //Should always be enabled...
                         event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.user_already_premium"), EmoteReference.POPPER).queue();
@@ -118,6 +120,12 @@ public class PremiumCmds {
                     if(event.getAuthor().getId().equals(key.getOwner())) {
                         player.getData().addBadgeIfAbsent(Badge.DONATOR);
                         player.saveAsync();
+                    }
+
+                    if(!event.getAuthor().getId().equals(key.getOwner())) {
+                        DBUser ownerUser = db.getUser(key.getOwner());
+                        ownerUser.getData().getKeysClaimed().put(event.getAuthor().getId(), key.getId());
+                        ownerUser.saveAsync();
                     }
 
                     key.activate(event.getAuthor().getId().equals(key.getOwner()) ? 365 : 180);
@@ -135,6 +143,53 @@ public class PremiumCmds {
                         .setUsage("`~>activatekey <key>`")
                         .addParameter("key", "The key to use. If it's a server key, make sure to run this command in the server where you want to enable premium on.")
                         .build();
+            }
+        });
+    }
+
+    //TODO: uncomment when you know this works.
+    //@Subscribe
+    public void claimkey(CommandRegistry cr) {
+        cr.register("claimkey", new SimpleCommand(Category.UTILS) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                if(config.isPremiumBot()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.mp"), EmoteReference.WARNING).queue();
+                    return;
+                }
+
+                final ManagedDatabase db = MantaroData.db();
+                final User author = event.getAuthor();
+
+                //left: isPatron, right: pledgeAmount, basically.
+                Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(author.getId());
+                if(pledgeInfo == null || !pledgeInfo.getLeft()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.claimkey.not_patron"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                int pledgeAmount = Integer.parseInt(pledgeInfo.getRight());
+                DBUser dbUser = db.getUser(author);
+                final UserData data = dbUser.getData();
+
+                //Check for pledge changes on DBUser#isPremium
+                if(pledgeAmount == 1 || (pledgeAmount / 2) >= data.getKeysClaimed().size()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.claimkey.already_top"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                PremiumKey newKey = PremiumKey.generatePremiumKey(author.getName(), PremiumKey.Type.USER, true);
+
+                //Placeholder so they don't spam key creation.
+                data.getKeysClaimed().put("1", newKey.getId());
+
+                dbUser.saveAsync();
+                newKey.save();
+
+                int amountClaimed = data.getKeysClaimed().size();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.claimkey.successful"),
+                        EmoteReference.HEART, newKey.getId(), amountClaimed, ((pledgeAmount / 2) - amountClaimed)
+                ).queue();
             }
         });
     }
@@ -189,7 +244,8 @@ public class PremiumCmds {
                                 .addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " " + languageContext.get("general.days"), true)
                                 .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " " + languageContext.get("general.days"), true)
                                 .addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
-                                .addField(languageContext.get("commands.vipstatus.patreon"), patreonInformation.getLeft() + " ($" + patreonInformation.getRight() + ")", true)
+                                .addField(languageContext.get("commands.vipstatus.patreon"), patreonInformation == null ? "Error" : patreonInformation.getLeft() + " ($" + patreonInformation.getRight() + ")", true)
+                                .addField(languageContext.get("commands.vipstatus.keys_claimed"), String.valueOf(data.getKeysClaimed().size()), true)
                                 .addField(languageContext.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), true);
 
                         if(linkedTo != null) {
@@ -228,7 +284,7 @@ public class PremiumCmds {
                                     .addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " days", true)
                                     .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " days", true)
                                     .addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
-                                    .addField(languageContext.get("commands.vipstatus.patreon"), languageContext.get("commands.vipstatus.active_pledge") + ": " + patreonInformation.getLeft(), true)
+                                    .addField(languageContext.get("commands.vipstatus.patreon"), patreonInformation == null ? "Error" : patreonInformation.getLeft() + " ($" + patreonInformation.getRight() + ")", true)
                                     .addField(languageContext.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), false);
 
                             if(linkedTo != null) {
@@ -236,6 +292,7 @@ public class PremiumCmds {
                                 embedBuilder.addField(languageContext.get("commands.vipstatus.linked_to"), linkedUser.getName() + "#" + linkedUser.getDiscriminator(), false);
                             }
                         } else {
+                            //TODO: remove
                             embedBuilder.setDescription(languageContext.get("commands.vipstatus.guild.old_system"))
                                     .addField(languageContext.get("commands.vipstatus.valid_for_old"),
                                             String.format(languageContext.get("commands.vipstatus.old_days_more"),
