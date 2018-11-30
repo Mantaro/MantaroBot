@@ -249,7 +249,7 @@ public class PremiumCmds {
                                 .addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " " + languageContext.get("general.days"), true)
                                 .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " " + languageContext.get("general.days"), true)
                                 .addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
-                                .addField(languageContext.get("commands.vipstatus.patreon"), patreonInformation == null ? "Error" : patreonInformation.getLeft() + " ($" + patreonInformation.getRight() + ")", true)
+                                .addField(languageContext.get("commands.vipstatus.patreon"), patreonInformation == null ? "Error" : String.valueOf(patreonInformation.getLeft()), true)
                                 .addField(languageContext.get("commands.vipstatus.keys_claimed"), String.valueOf(data.getKeysClaimed().size()), true)
                                 .addField(languageContext.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), true);
 
@@ -289,7 +289,7 @@ public class PremiumCmds {
                                     .addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " days", true)
                                     .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " days", true)
                                     .addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
-                                    .addField(languageContext.get("commands.vipstatus.patreon"), patreonInformation == null ? "Error" : patreonInformation.getLeft() + " ($" + patreonInformation.getRight() + ")", true)
+                                    .addField(languageContext.get("commands.vipstatus.patreon"), patreonInformation == null ? "Error" : String.valueOf(patreonInformation.getLeft()), true)
                                     .addField(languageContext.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), false);
 
                             if(linkedTo != null) {
