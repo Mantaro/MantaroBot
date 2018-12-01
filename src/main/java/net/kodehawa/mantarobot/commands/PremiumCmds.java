@@ -206,6 +206,11 @@ public class PremiumCmds {
         cr.register("vipstatus", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                if(config.isPremiumBot()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.mp"), EmoteReference.WARNING).queue();
+                    return;
+                }
+
                 EmbedBuilder embedBuilder = new EmbedBuilder();
 
                 List<User> mentionedUsers = event.getMessage().getMentionedUsers();
