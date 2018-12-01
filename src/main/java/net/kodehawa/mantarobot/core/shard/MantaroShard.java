@@ -31,6 +31,7 @@ import net.dv8tion.jda.core.utils.SessionController;
 import net.dv8tion.jda.core.utils.SessionControllerAdapter;
 import net.dv8tion.jda.core.utils.cache.CacheFlag;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
@@ -44,6 +45,8 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.Utils;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -55,6 +58,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static net.kodehawa.mantarobot.data.MantaroData.config;
+import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 import static net.kodehawa.mantarobot.utils.Utils.pretty;
 
 /**
@@ -244,7 +248,29 @@ public class MantaroShard implements JDA {
                     guilds.addAndGet((int) jda.getGuildCache().size());
                 });
             }
-            String newStatus = new JSONObject(Utils.wgetResty(config.apiTwoUrl + "/mantaroapi/splashes/random")).getString("splash")
+
+            JSONObject reply;
+
+            try {
+                Request request = new Request.Builder()
+                        .url(config.apiTwoUrl + "/mantaroapi/splashes/random")
+                        .addHeader("Authorization", config.getApiAuthKey())
+                        .addHeader("User-Agent", MantaroInfo.USER_AGENT)
+                        .get()
+                        .build();
+
+                Response response = httpClient.newCall(request).execute();
+                String body = response.body().string();
+                response.close();
+
+                reply = new JSONObject(body);
+            } catch (Exception e) {
+                //I had to, lol.
+                reply = new JSONObject().put("splash", "With a missing status!");
+            }
+
+            String newStatus = reply.getString("splash")
+                    //Replace fest.
                     .replace("%ramgb%", String.valueOf(((long) (Runtime.getRuntime().maxMemory() * 1.2D)) >> 30L))
                     .replace("%usercount%", users.toString())
                     .replace("%guildcount%", guilds.toString())

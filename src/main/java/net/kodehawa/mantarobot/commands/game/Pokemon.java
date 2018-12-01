@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands.game;
 
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.game.core.ImageGame;
 import net.kodehawa.mantarobot.commands.game.core.PokemonGameData;
@@ -30,8 +31,14 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import org.json.JSONObject;
 
 import java.util.List;
+
+import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 
 @Slf4j(topic = "Game [Pokemon Trivia]")
 public class Pokemon extends ImageGame {
@@ -72,8 +79,20 @@ public class Pokemon extends ImageGame {
 
         try {
             GameStatsManager.log(name());
+            Request request = new Request.Builder()
+                    .url(config.apiTwoUrl + "/mantaroapi/pokemon")
+                    .addHeader("Authorization", config.getApiAuthKey())
+                    .addHeader("User-Agent", MantaroInfo.USER_AGENT)
+                    .get()
+                    .build();
 
-            PokemonGameData data = GsonDataManager.GSON_PRETTY.fromJson(Utils.wgetResty(config.apiTwoUrl + "/mantaroapi/pokemon/random"), PokemonGameData.class);
+            Response response = httpClient.newCall(request).execute();
+            String body = response.body().string();
+            response.close();
+
+            JSONObject reply = new JSONObject(body);
+
+            PokemonGameData data = GsonDataManager.GSON_PRETTY.fromJson(reply.toString(), PokemonGameData.class);
             expectedAnswer = data.getNames();
             sendEmbedImage(lobby.getChannel(), data.getImage(), eb ->
                     eb.setTitle(languageContext.get("commands.game.pokemon.header"), null)

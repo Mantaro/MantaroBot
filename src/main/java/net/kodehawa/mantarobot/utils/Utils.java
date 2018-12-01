@@ -678,6 +678,8 @@ public class Utils {
         try {
             Request request = new Request.Builder()
                     .url(config.apiTwoUrl + "/mantaroapi/hush")
+                    .addHeader("Authorization", config.getApiAuthKey())
+                    .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                     .post(RequestBody.create(
                             okhttp3.MediaType.parse("application/json"),
                             new JSONObject()
@@ -705,6 +707,8 @@ public class Utils {
         try {
             Request request = new Request.Builder()
                     .url(config.apiTwoUrl + "/mantaroapi/patreon/check")
+                    .addHeader("Authorization", config.getApiAuthKey())
+                    .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                     .post(RequestBody.create(
                             okhttp3.MediaType.parse("application/json"),
                             new JSONObject()
