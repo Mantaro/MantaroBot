@@ -258,7 +258,7 @@ public class PremiumCmds {
 
                         try {
                             double patreonAmount = Double.parseDouble(patreonInformation.getRight());
-                            if((patreonAmount / 2) - amountClaimed < 0) {
+                            if((patreonAmount / 2) - amountClaimed < 0 && patreonInformation.getLeft()) {
                                 LogUtils.log(String.format("%s has more keys claimed than given keys, dumping keys:\n%s", owner.getId(),
                                         Utils.paste2(data.getKeysClaimed().entrySet().stream().map(entry -> "to:" + entry.getKey() + ", key:" + entry.getValue()).collect(Collectors.joining("\n"))))
                                 );
