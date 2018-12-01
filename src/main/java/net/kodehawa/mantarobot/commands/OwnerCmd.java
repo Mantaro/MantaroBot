@@ -420,7 +420,7 @@ public class OwnerCmd {
                 dbGuild.getData().setMpLinkedTo(userString); //Patreon check will run from this user.
                 dbGuild.save();
 
-                event.getChannel().sendMessageFormat("Linked MP for guild %s (%s) to user %s (%s). Including this guild in pledge check (id -> user -> pledge).").queue();
+                event.getChannel().sendMessageFormat("Linked MP for guild %s (%s) to user %s (%s). Including this guild in pledge check (id -> user -> pledge).", guild.getId(), user.getId()).queue();
             }
 
             @Override
