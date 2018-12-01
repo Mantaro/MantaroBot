@@ -28,13 +28,10 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperati
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -90,9 +87,7 @@ public class Pokemon extends ImageGame {
             String body = response.body().string();
             response.close();
 
-            JSONObject reply = new JSONObject(body);
-
-            PokemonGameData data = GsonDataManager.GSON_PRETTY.fromJson(reply.toString(), PokemonGameData.class);
+            PokemonGameData data = GsonDataManager.GSON_PRETTY.fromJson(body, PokemonGameData.class);
             expectedAnswer = data.getNames();
             sendEmbedImage(lobby.getChannel(), data.getImage(), eb ->
                     eb.setTitle(languageContext.get("commands.game.pokemon.header"), null)
