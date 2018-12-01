@@ -301,7 +301,7 @@
           "no_args": "%1$sNecesitas decirme a que volumen deseas escuchar la música (5 a 100)"
       },
       "prefix": {
-          "header": "%1$sTLos prefijos por defecto son %2$s (¡Respondo a todos ellos!). El prefijo del servidor es `%2$s` (Solo sirve en este servidor). Puedes cambiar el prefijo usando `~>opts prefix set <prefijo>`",
+          "header": "%1$sLos prefijos por defecto son %2$s (¡Respondo a todos ellos!). El prefijo del servidor es `%3$s` (Solo sirve en este servidor). Puedes cambiar el prefijo usando `~>opts prefix set <prefijo>`",
           "none": "No hay un prefijo customizado en este servidor."
       },
       "custom": {
