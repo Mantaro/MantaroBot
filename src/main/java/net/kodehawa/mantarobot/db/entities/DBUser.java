@@ -25,6 +25,7 @@ import lombok.ToString;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
@@ -47,6 +48,9 @@ public class DBUser implements ManagedObject {
     private final UserData data;
     private final String id;
     private long premiumUntil;
+
+    @JsonIgnore
+    private Config config = MantaroData.config().get();
 
     @JsonCreator
     @ConstructorProperties({"id", "premiumUntil", "data"})
@@ -94,6 +98,10 @@ public class DBUser implements ManagedObject {
     @JsonIgnore
     //Slowly convert old key system to new key system (link old accounts).
     public boolean isPremium() {
+        //Return true if this is running in MP, as all users are considered Premium on it.
+        if(config.isPremiumBot())
+            return true;
+
         PremiumKey key = MantaroData.db().getPremiumKey(data.getPremiumKey());
         boolean isActive = false;
 
