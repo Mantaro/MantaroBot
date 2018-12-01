@@ -37,6 +37,7 @@ import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -45,6 +46,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -243,6 +245,7 @@ public class PremiumCmds {
 
                         Pair<Boolean, String> patreonInformation = Utils.getPledgeInformation(owner.getId());
                         String linkedTo = currentKey.getData().getLinkedTo();
+                        int amountClaimed = data.getKeysClaimed().size();
                         embedBuilder.setColor(Color.CYAN)
                                 .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
                                 .setDescription(languageContext.get("commands.vipstatus.user.premium"))
@@ -250,8 +253,17 @@ public class PremiumCmds {
                                 .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " " + languageContext.get("general.days"), true)
                                 .addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
                                 .addField(languageContext.get("commands.vipstatus.patreon"), patreonInformation == null ? "Error" : String.valueOf(patreonInformation.getLeft()), true)
-                                .addField(languageContext.get("commands.vipstatus.keys_claimed"), String.valueOf(data.getKeysClaimed().size()), true)
+                                .addField(languageContext.get("commands.vipstatus.keys_claimed"), String.valueOf(amountClaimed), true)
                                 .addField(languageContext.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), true);
+
+                        try {
+                            double patreonAmount = Double.parseDouble(patreonInformation.getRight());
+                            if((patreonAmount / 2) - amountClaimed < 0) {
+                                LogUtils.log(String.format("%s has more keys claimed than given keys, dumping keys:\n%s", owner.getId(),
+                                        Utils.paste2(data.getKeysClaimed().entrySet().stream().map(entry -> "to:" + entry.getKey() + ", key:" + entry.getValue()).collect(Collectors.joining("\n"))))
+                                );
+                            }
+                        } catch (Exception ignored) { }
 
                         if(linkedTo != null) {
                             User linkedUser = MantaroBot.getInstance().getUserById(currentKey.getOwner());
