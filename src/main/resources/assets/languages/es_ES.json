@@ -1191,7 +1191,7 @@
           "streak": {
               "up": "¡Subiste tu racha! Racha actual: `%1$sx`",
               "first_time": "Primera vez que sacas tus créditos diarios, ¡diviertete! (¡Vuelve mañana para aumentar tu racha!)",
-              "lost_streak": "Más de 2 dias han pasado desde que acumulaste tus créditos diarios por ultima vez, por lo que has perdido tu tu racha de `%1$dx` :(",
+              "lost_streak": "Más de 2 dias han pasado desde que acumulaste tus créditos diarios por ultima vez, por lo que has perdido tu racha de `%1$dx` :(",
               "bonus": "\n¡Ganaste un bonus de $%1$s por acumular tus créditos diarios por 5 días seguidos o más! (Va incluido en el dinero que se muestra)",
               "given": {
                   "up": "Racha aumentada! Racha actual: `%1$dx`.\n*La racha ha sido aplicada en tu profile!*",
