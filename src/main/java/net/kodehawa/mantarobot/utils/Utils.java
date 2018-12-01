@@ -677,7 +677,7 @@ public class Utils {
 
         try {
             Request request = new Request.Builder()
-                    .url(config.apiTwoUrl + "/mantaroapi/hush")
+                    .url(config.apiTwoUrl + "/mantaroapi/bot/hush")
                     .addHeader("Authorization", config.getApiAuthKey())
                     .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                     .post(RequestBody.create(
@@ -706,7 +706,7 @@ public class Utils {
 
         try {
             Request request = new Request.Builder()
-                    .url(config.apiTwoUrl + "/mantaroapi/patreon/check")
+                    .url(config.apiTwoUrl + "/mantaroapi/bot/patreon/check")
                     .addHeader("Authorization", config.getApiAuthKey())
                     .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                     .post(RequestBody.create(

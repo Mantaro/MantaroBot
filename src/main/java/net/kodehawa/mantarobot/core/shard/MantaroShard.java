@@ -253,7 +253,7 @@ public class MantaroShard implements JDA {
 
             try {
                 Request request = new Request.Builder()
-                        .url(config.apiTwoUrl + "/mantaroapi/splashes/random")
+                        .url(config.apiTwoUrl + "/mantaroapi/bot/splashes/random")
                         .addHeader("Authorization", config.getApiAuthKey())
                         .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                         .get()

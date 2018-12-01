@@ -77,7 +77,7 @@ public class Pokemon extends ImageGame {
         try {
             GameStatsManager.log(name());
             Request request = new Request.Builder()
-                    .url(config.apiTwoUrl + "/mantaroapi/pokemon")
+                    .url(config.apiTwoUrl + "/mantaroapi/bot/pokemon")
                     .addHeader("Authorization", config.getApiAuthKey())
                     .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                     .get()
