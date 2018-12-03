@@ -228,7 +228,7 @@ public class AnimeCmds {
                 : character.description().length() <= 1024 ? character.description() : character.description().substring(0, 1020 - 1) + "...";
 
         Player p = MantaroData.db().getPlayer(event.getAuthor());
-        Badge badge = Utils.getHushBadge(charName, Utils.HushType.CHARACTER);
+        Badge badge = Utils.getHushBadge(charName.replace(japName, "").trim(), Utils.HushType.CHARACTER);
         if(badge != null) {
             p.getData().addBadgeIfAbsent(badge);
             p.save();

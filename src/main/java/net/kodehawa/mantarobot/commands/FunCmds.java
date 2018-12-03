@@ -161,7 +161,7 @@ public class FunCmds {
                 if(size == 6 && result == 6) {
                     Player p = MantaroData.db().getPlayer(event.getAuthor());
                     p.getData().addBadgeIfAbsent(Badge.LUCK_BEHIND);
-                    p.save();
+                    p.saveAsync();
                 }
 
                 event.getChannel().sendMessageFormat(languageContext.get("commands.roll.success"), EmoteReference.DICE, result, amount == 1 ? "!" : (String.format("\nDoing **%d** rolls.", amount))).queue();
