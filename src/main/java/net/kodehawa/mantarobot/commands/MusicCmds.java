@@ -200,15 +200,19 @@ public class MusicCmds {
         cr.register("np", new SimpleCommand(Category.MUSIC) {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
-                if(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() == null) {
+                final GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
+                final TrackScheduler trackScheduler = musicManager.getTrackScheduler();
+                final AudioPlayer audioPlayer = trackScheduler.getAudioPlayer();
+
+                if(audioPlayer == null || audioPlayer.getPlayingTrack() == null) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.np.no_track"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 EmbedBuilder npEmbed = new EmbedBuilder();
-                long now = musicManager.getTrackScheduler().getCurrentTrack().getPosition();
-                long total = musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getDuration();
+                long now = trackScheduler.getCurrentTrack().getPosition();
+                long total = audioPlayer.getPlayingTrack().getDuration();
+
                 npEmbed.setAuthor(languageContext.get("commands.np.header"), null, event.getGuild().getIconUrl())
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                         .setDescription("\n\u23ef " + AudioCmdUtils.getProgressBar(now, total) + "\n\n" +
