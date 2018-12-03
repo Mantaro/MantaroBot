@@ -314,10 +314,16 @@
     "volume": {
       "check": "%1$sDie momentane Lautstärke ist: %2$d\n\n%3$s",
       "success": "%1$sLautstärke ist nun %2$d\n\n%3$s",
-      "no_args": "%1$sDu musst mir sagen, auf welche Lautstärke du die Musik stellen willst (5 bis 100)."
+      "no_args": "%1$sDu musst mir sagen, auf welche Lautstärke du die Musik stellen willst (5 bis 100).",
+      "premium_only": "%1$sDies ist eine Premiumfunktion. Um solche Vorteile zu bekommen, spende auf Patreon (https://www.patreon.com/mantaro). Danke für dein Verständnis.\nPremiumfunktionen können entweder für Nutzer oder für Server freigeschalten werden, solltest du spenden, tritt bitte dem Support-Server bei und frage nach deinem entsprechenden Schlüssel."
+    },
+    "prefix": {
+      "header": "%1$sDie Standardpräfixe lauten: %2$s (Ich reagiere auf all diese!). Das Serverpräfix ist `%3$s` (Funktioniert nur auf diesem Server). Du kannst mit `~>opts prefix set <Präfix>` ein neues Präfix setzen.",
+      "none": "Es gibt kein benutzerdefiniertes Präfix auf diesem Server."
     },
     "custom": {
       "no_args": "%1$sDu musst angeben, was du mit dem Befehl tun willst. Schau dir die Befehlshilfe für mehr Infos an!",
+      "incorrect_args": "%1$sFalsche Argumente. Schau unter `~>help custom` oder https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands für mehr Hilfe bei der Benutzung dieses Befehls.",
       "error_running": "%1$sFehler beim Ausführen eines benutzerdefinierten Befehls ... Bitte überprüfe den Inhalt und die Länge der Antwort (max. 2000 Zeichen).",
       "not_loaded": "Der Bot wurde noch nicht vollständig gebootet ... benutzerdefinierte Befehle werden in Kürze verfügbar sein!",
       "nsfw_enabled": "%1$sDieser Befehl wurde erfolgreich als NSFW markiert.",
@@ -496,7 +502,8 @@
         "not_enough_slots": "%1$sDu hast nicht genug Plätze verfügbar, um diese Waifu zu beanspruchen. (Plätze: %2$s, Benutzt: %3$s)",
         "success": "%1$s`%2$s` erfolgreich für %3$,d Credits beansprucht. Plätze benutzt: %4$s",
         "yourself": "%1$sDu kannst dich nicht selbst beanspruchen!",
-        "already_claimed": "%1$sDu hast diese Waifu bereits beansprucht."
+        "already_claimed": "%1$sDu hast diese Waifu bereits beansprucht.",
+        "not_found": "%1$sIch kann keinen Nutzer mit diesen Angaben finden."
       },
       "unclaim": {
         "no_user": "%1$sDu musst eine Waifu erwähnen, auf die du verzichten willst.",
@@ -752,7 +759,8 @@
         "reminders": "Anzahl der bisherigen Erinnerungen",
         "times": "Male(e)",
         "days": "Tag(e)",
-        "times_used": "Anzahl der Nutzungen"
+        "times_used": "Anzahl der Nutzungen",
+        "equipment": "Equipment"
       },
       "equip": {
         "no_content": "%1$sDu musst den auszurüstenden Gegenstand angeben!",
@@ -877,7 +885,15 @@
       "guild_already_premium": "%1$sDieser Server hat bereits ein Premium-Abonnement!",
       "guild_successful": "%1$sDieser Server ist jetzt **Premium** :heart: (Für: %2$d Tage)",
       "user_already_premium": "%1$sDu bist bereits Premium :heart:!",
-      "user_successful": "%1$sDu bist nun **Premium** :heart: (Für: %2$d Tage)"
+      "user_successful": "%1$sDu bist nun **Premium** :heart: (Für: %2$d Tage)",
+      "mp": "Mantaro Patreon nutzt keine Schlüssel, stattdessen ist es ein Fakt, da der Bot funktioniert."
+    },
+    "claimkey": {
+      "not_patron": "%1$sDu bist kein Unterstützer. Wenn du Mantaro unterstützen und Boni erhalten willst, besuche <https://www.patreon.com/mantaro>",
+      "already_top": "%1$sDu hast bereits all deine Schlüssel beansprucht. Wenn einer von ihnen ausgelaufen ist und du ihn erneuern willst, bitte besuche unseren Support-Server <https://support.mantaro.site>",
+      "successful": "%1$sErfolgreich den Schlüssel `%2$s` beansprucht. Du hast %3$s Schlüssel beansprucht und hast %4$s übrig.",
+      "cant_dm": "%1%sIch kann dir aufgrund deiner Privatsphäre-Einstellungen keinen Schlüssel per Direktnachricht zukommen lassen.",
+      "success": "%1$sInformation per Direktnachricht versendet."
     },
     "vipstatus": {
       "user": {
@@ -902,7 +918,8 @@
       "wrong_args": "%1$sFalsche Argumente...",
       "patreon": "Unterstützung",
       "linked": "Verlinkt",
-      "linked_to": "Verlinkt mit"
+      "linked_to": "Verlinkt mit",
+      "keys_claimed": "Schlüssel beansprucht"
     },
     "action": {
       "no_mention": "%1$sDu musst mindestens einen Nutzer erwähnen.",
