@@ -961,7 +961,16 @@ public class CurrencyCmds {
 
     @Subscribe
     public void cast(CommandRegistry cr) {
-        final RateLimiter ratelimiter = new RateLimiter(TimeUnit.SECONDS, 10);
+        final IncreasingRateLimiter ratelimiter = new IncreasingRateLimiter.Builder()
+                .spamTolerance(3)
+                .limit(1)
+                .cooldown(10, TimeUnit.SECONDS)
+                .cooldownPenaltyIncrease(2, TimeUnit.SECONDS)
+                .maxCooldown(2, TimeUnit.MINUTES)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("cast")
+                .build();
+
         final SecureRandom random = new SecureRandom();
 
         TreeCommand castCommand = (TreeCommand) cr.register("cast", new TreeCommand(Category.CURRENCY) {
@@ -979,7 +988,7 @@ public class CurrencyCmds {
                             return;
                         }
 
-                        if(!handleDefaultRatelimit(ratelimiter, event.getAuthor(), event, languageContext))
+                        if(!handleDefaultIncreasingRatelimit(ratelimiter, event.getAuthor(), event, languageContext))
                             return;
 
                         Item castItem = toCast.get();

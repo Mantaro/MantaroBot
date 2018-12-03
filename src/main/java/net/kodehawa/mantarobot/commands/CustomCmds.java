@@ -44,6 +44,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -94,14 +95,22 @@ public class CustomCmds {
     @Subscribe
     public void custom(CommandRegistry cr) {
         //People spamming crap... we cant have nice things owo
-        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
+        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                .spamTolerance(2)
+                .limit(1)
+                .cooldown(10, TimeUnit.SECONDS)
+                .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
+                .maxCooldown(2, TimeUnit.MINUTES)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("custom")
+                .build();
 
         String any = "[\\d\\D]*?";
 
         cr.register("custom", new SimpleCommand(Category.UTILS) {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 if(args.length < 1) {

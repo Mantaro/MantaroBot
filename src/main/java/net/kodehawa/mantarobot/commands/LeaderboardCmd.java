@@ -22,7 +22,6 @@ import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -34,9 +33,10 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -49,13 +49,22 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.rethinkdb.RethinkDB.r;
-import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
+import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
 
 @Module
 public class LeaderboardCmd {
     @Subscribe
     public void richest(CommandRegistry cr) {
-        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
+        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                .spamTolerance(3)
+                .limit(1)
+                .cooldown(10, TimeUnit.SECONDS)
+                .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
+                .maxCooldown(5, TimeUnit.MINUTES)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("leaderboard")
+                .build();
+
         final String pattern = ":g$";
 
         TreeCommand leaderboards = (TreeCommand) cr.register("leaderboard", new TreeCommand(Category.CURRENCY) {
@@ -103,7 +112,7 @@ public class LeaderboardCmd {
             }
         });
 
-        leaderboards.setPredicate(event -> handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, null));
+        leaderboards.setPredicate(event -> handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, null));
 
         leaderboards.addSubCommand("gamble", new SubCommand() {
             @Override

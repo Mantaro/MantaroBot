@@ -48,6 +48,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -63,6 +64,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 /**
@@ -247,7 +249,16 @@ public class MoneyCmds {
     @Subscribe
     public void gamble(CommandRegistry cr) {
         cr.register("gamble", new SimpleCommand(Category.CURRENCY) {
-            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 35, true);
+            final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                    .spamTolerance(3)
+                    .limit(1)
+                    .cooldown(30, TimeUnit.SECONDS)
+                    .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
+                    .maxCooldown(5, TimeUnit.MINUTES)
+                    .pool(MantaroData.getDefaultJedisPool())
+                    .prefix("gamble")
+                    .build();
+
             SecureRandom r = new SecureRandom();
 
             @Override
@@ -264,7 +275,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 double multiplier;
@@ -525,7 +536,16 @@ public class MoneyCmds {
 
     @Subscribe
     public void slots(CommandRegistry cr) {
-        RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 35);
+        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                .spamTolerance(4)
+                .limit(1)
+                .cooldown(35, TimeUnit.SECONDS)
+                .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
+                .maxCooldown(5, TimeUnit.MINUTES)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("slots")
+                .build();
+
         String[] emotes = {"\uD83C\uDF52", "\uD83D\uDCB0", "\uD83D\uDCB2", "\uD83E\uDD55", "\uD83C\uDF7F", "\uD83C\uDF75", "\uD83C\uDFB6"};
         Random random = new SecureRandom();
         List<String> winCombinations = new ArrayList<>();
@@ -613,7 +633,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 if(coinSelect) {
