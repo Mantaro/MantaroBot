@@ -183,7 +183,7 @@ public class OptsCmd {
 
                     AtomicInteger ai = new AtomicInteger();
 
-                    for(Entry e : fieldMap.entrySet()) {
+                    for(Entry<String, Object> e : fieldMap.entrySet()) {
                         if(e.getKey().equals("localPlayerExperience")) {
                             continue;
                         }

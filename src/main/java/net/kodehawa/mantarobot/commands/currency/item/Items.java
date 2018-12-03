@@ -530,6 +530,7 @@ public class Items {
     }
 
     //Maybe compact this a bit? works fine, just icks me a bit.
+    @SuppressWarnings("fallthrough")
     private static List<Item> selectItems(int amount, ItemType.LootboxType type) {
         List<Item> common = handleItemDrop(i -> i.getItemType() == ItemType.COMMON);
         List<Item> rare = handleItemDrop(i -> i.getItemType() == ItemType.RARE);

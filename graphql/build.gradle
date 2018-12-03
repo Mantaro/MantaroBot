@@ -1,0 +1,28 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.apollographql.apollo:apollo-gradle-plugin:1.0.0-alpha3'
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+apply plugin: 'com.apollographql.android'
+
+version '5.1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile 'com.apollographql.apollo:apollo-runtime:1.0.0-alpha3'
+}

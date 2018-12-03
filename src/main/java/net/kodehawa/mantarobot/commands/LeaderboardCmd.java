@@ -73,11 +73,11 @@ public class LeaderboardCmd {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        List<Map> lb1 = getLeaderboard("playerstats", "gambleWinAmount",
+                        List<Map<?, ?>> lb1 = getLeaderboard("playerstats", "gambleWinAmount",
                                 stats -> stats.pluck("id", "gambleWinAmount"), 5
                         );
 
-                        List<Map> lb2 = getLeaderboard("playerstats", "slotsWinAmount",
+                        List<Map<?, ?>> lb2 = getLeaderboard("playerstats", "slotsWinAmount",
                                 stats -> stats.pluck("id", "slotsWinAmount"), 5
                         );
 
@@ -122,7 +122,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map> c = getLeaderboard("playerstats", "gambleWins",
+                List<Map<?, ?>> c = getLeaderboard("playerstats", "gambleWins",
                         player -> player.pluck("id", "gambleWins"), 10
                 );
 
@@ -143,7 +143,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map> c = getLeaderboard("playerstats", "slotsWins",
+                List<Map<?, ?>> c = getLeaderboard("playerstats", "slotsWins",
                         player -> player.pluck("id", "slotsWins"), 10
                 );
 
@@ -164,7 +164,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map> c = getLeaderboard("players", "money",
+                List<Map<?, ?>> c = getLeaderboard("players", "money",
                         player -> player.g("id").match(pattern),
                         player -> player.pluck("id", "money"), 10
                 );
@@ -186,7 +186,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map> c = getLeaderboard("players", "level",
+                List<Map<?, ?>> c = getLeaderboard("players", "level",
                         player -> player.g("id").match(pattern),
                         player -> player.pluck("id", "level", r.hashMap("data", "experience")), 10
                 );
@@ -209,7 +209,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map> c = getLeaderboard("players", "reputation",
+                List<Map<?, ?>> c = getLeaderboard("players", "reputation",
                         player -> player.g("id").match(pattern),
                         player -> player.pluck("id", "reputation"), 10
                 );
@@ -231,7 +231,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map> c = getLeaderboard("players", "userDailyStreak",
+                List<Map<?, ?>> c = getLeaderboard("players", "userDailyStreak",
                         player -> player.g("id").match(pattern),
                         player -> player.pluck("id", r.hashMap("data", "dailyStrike")), 10
                 );
@@ -253,7 +253,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map> c = getLeaderboard("players", "waifuCachedValue",
+                List<Map<?, ?>> c = getLeaderboard("players", "waifuCachedValue",
                         player -> player.g("id").match(pattern),
                         player -> player.pluck("id", r.hashMap("data", "waifuCachedValue")), 10
                 );
@@ -275,7 +275,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map> c = getLeaderboard("users", "timesClaimed",
+                List<Map<?, ?>> c = getLeaderboard("users", "timesClaimed",
                         player -> player.pluck("id", r.hashMap("data", "timesClaimed")), 10
                 );
 
@@ -296,7 +296,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map> c = getLeaderboard("players", "gameWins",
+                List<Map<?, ?>> c = getLeaderboard("players", "gameWins",
                         player -> player.g("id").match(pattern),
                         player -> player.pluck("id", r.hashMap("data", "gamesWon")), 10
                 );
@@ -320,12 +320,12 @@ public class LeaderboardCmd {
         cr.registerAlias("leaderboard", "lb");
     }
 
-    private List<Map> getLeaderboard(String table, String index, ReqlFunction1 mapFunction, int limit) {
+    private List<Map<?, ?>> getLeaderboard(String table, String index, ReqlFunction1 mapFunction, int limit) {
         return getLeaderboard(table, index, m -> true, mapFunction, limit);
     }
 
-    private List<Map> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction, int limit) {
-        Cursor<Map> m;
+    private List<Map<?, ?>> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction, int limit) {
+        Cursor<Map<?, ?>> m;
         try(Connection conn = Utils.newDbConnection()) {
             m = r.table(table)
                     .orderBy()
@@ -336,13 +336,13 @@ public class LeaderboardCmd {
                     .run(conn, OptArgs.of("read_mode", "outdated"));
         }
 
-        List<Map> c = m.toList();
+        List<Map<?, ?>> c = m.toList();
         m.close();
 
         return c;
     }
 
-    private EmbedBuilder generateLeaderboardEmbed(GuildMessageReceivedEvent event, I18nContext languageContext, String description, String leaderboardKey, List<Map> lb, Function<Map, Pair<User, String>> mapFunction, String format) {
+    private EmbedBuilder generateLeaderboardEmbed(GuildMessageReceivedEvent event, I18nContext languageContext, String description, String leaderboardKey, List<Map<?, ?>> lb, Function<Map<?, ?>, Pair<User, String>> mapFunction, String format) {
         return new EmbedBuilder().setAuthor(languageContext.get("commands.leaderboard.header"), null, event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                 .setDescription(description)
                 .addField(languageContext.get(leaderboardKey), lb.stream()

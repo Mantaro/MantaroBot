@@ -55,7 +55,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 @Module
 @SuppressWarnings("unused")
 public class GameCmds {
-    private final Map<String, Function<TriviaDifficulty, Game>> games = new HashMap<>();
+    private final Map<String, Function<TriviaDifficulty, Game<?>>> games = new HashMap<>();
 
     @Subscribe
     public void game(CommandRegistry cr) {
@@ -193,9 +193,9 @@ public class GameCmds {
                     return;
                 }
 
-                LinkedList<Game> gameList = new LinkedList<>();
+                LinkedList<Game<?>> gameList = new LinkedList<>();
                 for(String s : split) {
-                    Game g = games.get(s.trim()).apply(difficulty);
+                    Game<?> g = games.get(s.trim()).apply(difficulty);
                     if(g == null)
                         continue;
 
@@ -264,14 +264,14 @@ public class GameCmds {
                     return;
                 }
 
-                LinkedList<Game> gameList = new LinkedList<>();
+                LinkedList<Game<?>> gameList = new LinkedList<>();
                 for(int i = 0; i < number; i++) {
                     String value = values[0];
-                    Function<TriviaDifficulty, Game> f = games.get(value.trim());
+                    Function<TriviaDifficulty, Game<?>> f = games.get(value.trim());
                     if(f == null)
                         continue;
 
-                    Game g = f.apply(difficulty);
+                    Game<?> g = f.apply(difficulty);
                     gameList.add(g);
                 }
 
@@ -337,7 +337,7 @@ public class GameCmds {
         });
     }
 
-    private void startGames(LinkedList<Game> games, GuildMessageReceivedEvent event, I18nContext languageContext) {
+    private void startGames(LinkedList<Game<?>> games, GuildMessageReceivedEvent event, I18nContext languageContext) {
         if(checkRunning(event, languageContext))
             return;
 
@@ -403,11 +403,11 @@ public class GameCmds {
     }
 
     @SafeVarargs
-    private final <T> LinkedList<T> createLinkedList(T... elements) {
-        LinkedList<T> newList = new LinkedList<>();
-        newList.addAll(Arrays.asList(elements));
-
-        return newList;
+    @SuppressWarnings("varargs")
+    private static <T> LinkedList<T> createLinkedList(T... elements) {
+        LinkedList<T> list = new LinkedList<>();
+        Collections.addAll(list, elements);
+        return list;
     }
 
 }

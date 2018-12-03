@@ -15,18 +15,6 @@
  */
 
 /* Mantaro's build.gradle */
-//Imports
-import org.apache.tools.ant.filters.ReplaceTokens
-
-buildscript {
-    repositories {
-        jcenter()
-        mavenCentral()
-	}
-    dependencies {
-        classpath 'com.apollographql.apollo:apollo-gradle-plugin:0.4.4'
-    }
-}
 
 //Plugins
 plugins {
@@ -38,13 +26,11 @@ plugins {
 	id 'com.github.johnrengelman.shadow' version '2.0.4'
 	//Checks for RestActions
 	//aka did you queue but harsh
-	id 'com.sedmelluq.jdaction' version '1.0.1'
+	//RIP jdaction 2017-2018
+	//id 'com.sedmelluq.jdaction' version '1.0.1'
 	//Tell me when smth is outdated
 	id 'com.github.ben-manes.versions' version '0.16.0'
 }
-
-//graphql
-apply plugin: 'com.apollographql.android'
 
 //Define the Main Class
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
@@ -116,107 +102,92 @@ dependencies {
 
 	compile 'com.github.natanbc:usage-tracker:0.1.1'
 
-    compile 'com.apollographql.apollo:apollo-runtime:0.4.4'
-
     compile 'io.prometheus:simpleclient:0.5.0'
     compile 'io.prometheus:simpleclient_hotspot:0.5.0'
     compile 'io.prometheus:simpleclient_httpserver:0.5.0'
 
+    compile project(':graphql')
+    
 	//Unit tests
 	testCompile 'junit:junit:4.12'
 }
 
-task wrapper(type: Wrapper) {
-	gradleVersion = '4.6'
-}
-
-tasks.withType(JavaCompile) {
-	options.compilerArgs <<
-            "-Xlint:deprecation" <<
-            "-Xlint:unchecked" <<
-            "-Xlint:divzero" <<
-            "-Xlint:cast" <<
-            "-Xlint:empty" <<
-            "-Xlint:fallthrough" <<
-            "-Xlint:finally" <<
-            "-Xlint:overrides"
-	options.encoding = 'UTF-8'
-}
-
 compileJava.dependsOn generateLanguageList
-compileJava.dependsOn.remove(generateApolloClasses)
 
 //This doesn't work?
 test.dependsOn generateLanguageList
-test.dependsOn.remove(generateApolloClasses)
 
-clean {
-    delete = []
-    def file = new File("build")
-    if(file.listFiles() != null) {
-        file.listFiles().each {
-            if(it.name == "generated") {
-                if(it.listFiles() != null) {
-                    it.listFiles().each {
-                        if(it.name == "source") {
-                            if(it.listFiles() != null) {
-                                it.listFiles().each {
-                                    if(it.name != "apollo") {
-                                        delete it.name
-                                    }
-                                }
-                            }
-                        } else {
-                            delete it.name
-                        }
-                    }
-                }
-            } else {
-                delete it.name
-            }
-        }
-    }
+def lint = [
+		"auxiliaryclass",
+		"cast",
+		"classfile",
+		"deprecation",
+		"dep-ann",
+		"divzero",
+		"empty",
+		"exports",
+		"fallthrough",
+		"finally",
+		"module",
+		"opens",
+		"options",
+		"overloads",
+		"overrides",
+		"path",
+        //removed because of "No processor claimed any of these annotations: ..."
+		//"processing",
+		"rawtypes",
+		"removal",
+		"requires-automatic",
+		"requires-transitive-automatic",
+		"serial",
+		"static",
+		"try",
+		"unchecked",
+		"varargs",
+		"preview"
+]
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+task sourcesForRelease(type: Copy) {
+	from ('src/main/java') {
+		include '**/MantaroInfo.java'
+		filter(ReplaceTokens, tokens: [
+				version: ver.toString()
+		])
+	}
+	into 'build/filteredSrc'
+
+	includeEmptyDirs = false
 }
 
-//Task for the versioning system
-task prepareSource(type: Copy) {
-	from 'src/main/java'
-    from 'build/generated/source/apollo/'
-	into 'build/prepared-src'
-	filter(ReplaceTokens, tokens: [
-		version: ver.toString()
-	])
-	dependsOn clean
+task generateJavaSources(type: SourceTask) {
+	def javaSources = sourceSets.main.allJava.filter {
+		it.name != 'MantaroInfo.java'
+	}
+	source = javaSources + sourcesForRelease.destinationDir
+
+	dependsOn sourcesForRelease
 }
-prepareSource.dependsOn clean
 
 compileJava {
-	source = prepareSource.destinationDir
+	source = generateJavaSources.source
 	classpath = sourceSets.main.compileClasspath
+	options.compilerArgs += ["-Xlint:${lint.join(",")}", "-Werror"]
+
+	dependsOn generateJavaSources
+}
+
+tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
-	dependsOn prepareSource
+	options.incremental = true
 }
 
 build.dependsOn shadowJar
 
-artifacts {
-	archives shadowJar
-}
-
-task cleanDistTar(type: Delete) { delete files(distTar) }
-distTar { classifier = "trash" }
-distTar.finalizedBy cleanDistTar
-
-task cleanDistZip(type: Delete) { delete files(distZip) }
-distZip { classifier = "trash" }
-distZip.finalizedBy cleanDistZip
-
-task cleanUnshadedJar(type: Delete) { delete files(jar) }
-jar { classifier = "trash" }
-jar.finalizedBy cleanUnshadedJar
-
 shadowJar {
-	classifier = ""
+	classifier = null
 }
 
 class Version {

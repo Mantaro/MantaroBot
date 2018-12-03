@@ -49,7 +49,7 @@ public class GameLobby extends Lobby {
     @Getter
     GuildMessageReceivedEvent event;
     @Getter
-    LinkedList<Game> gamesToPlay;
+    LinkedList<Game<?>> gamesToPlay;
     @Getter
     Guild guild;
     @Getter
@@ -64,7 +64,7 @@ public class GameLobby extends Lobby {
         Prometheus.THREAD_POOL_COLLECTOR.add("game-lobbies", executorService);
     }
 
-    public GameLobby(GuildMessageReceivedEvent event, I18nContext languageContext, List<String> players, LinkedList<Game> games) {
+    public GameLobby(GuildMessageReceivedEvent event, I18nContext languageContext, List<String> players, LinkedList<Game<?>> games) {
         super(event.getGuild().getId(), event.getChannel().getId());
         this.guild = event.getGuild();
         this.event = event;

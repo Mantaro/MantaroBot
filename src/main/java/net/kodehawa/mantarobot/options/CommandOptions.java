@@ -363,7 +363,7 @@ public class CommandOptions extends OptionHandler {
                     return;
                 }
 
-                List l = guildData.getChannelSpecificDisabledCategories().computeIfAbsent(selectedChannel.getId(), uwu -> new ArrayList<>());
+                List<?> l = guildData.getChannelSpecificDisabledCategories().computeIfAbsent(selectedChannel.getId(), uwu -> new ArrayList<>());
                 if(l.isEmpty() || !l.contains(toEnable)) {
                     event.getChannel().sendMessageFormat(lang.get("options.category_specific_enable.not_disabled"), EmoteReference.THINKING).queue();
                     return;
@@ -466,7 +466,7 @@ public class CommandOptions extends OptionHandler {
                     return;
                 }
 
-                List l = guildData.getRoleSpecificDisabledCommands().computeIfAbsent(role.getId(), key -> new ArrayList<>());
+                List<?> l = guildData.getRoleSpecificDisabledCommands().computeIfAbsent(role.getId(), key -> new ArrayList<>());
                 if(l.isEmpty() || !l.contains(commandAllow)) {
                     event.getChannel().sendMessageFormat(lang.get("options.server_role_specific_allow.not_disabled"), EmoteReference.THINKING).queue();
                     return;
@@ -572,7 +572,7 @@ public class CommandOptions extends OptionHandler {
                     return;
                 }
 
-                List l = guildData.getRoleSpecificDisabledCategories().computeIfAbsent(role.getId(), cat -> new ArrayList<>());
+                List<?> l = guildData.getRoleSpecificDisabledCategories().computeIfAbsent(role.getId(), cat -> new ArrayList<>());
                 if(l.isEmpty() || !l.contains(toEnable)) {
                     event.getChannel().sendMessageFormat(lang.get("options.category_role_specific_enable.not_disabled"), EmoteReference.THINKING).queue();
                     return;
