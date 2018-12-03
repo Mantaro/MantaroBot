@@ -282,6 +282,18 @@ public enum Badge {
             (player, dbUser) -> false, true
     ),
 
+    COLDER_SUMMER("A Cold Summer", "\uD83D\uDD36", "With a drum beat we approach a cold summertime, a place where nobody can catch you, feeling a bit safer with you.", 91, 92,
+            (player, dbUser) -> false, true
+    ),
+
+    SLOW("Slow", "\uD83D\uDD36", "Alexa, how did we get here again? ", 91, 92,
+            (player, dbUser) -> false, true
+    ),
+
+    SMALL_SCIENTIST("Small Scientist", "\uD83D\uDD36", "A child scientist, a robot and a cat, what could go wrong?", 91, 92,
+            (player, dbUser) -> false, true
+    ),
+
     APPROACHING_DESTINY("Slowly Approaching Destiny", "\uD83D\uDD36", "One in 90, or more. Luck shall decide, you have no choice but go with it.", 91, 92,
             (player, dbUser) -> false, true
     ),
