@@ -18,8 +18,11 @@ package net.kodehawa.mantarobot.commands.music.utils;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.audio.hooks.ConnectionListener;
+import net.dv8tion.jda.core.audio.hooks.ConnectionStatus;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
@@ -31,12 +34,21 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
+import static java.util.concurrent.CompletableFuture.completedFuture;
+import static java.util.concurrent.CompletableFuture.failedFuture;
 import static net.kodehawa.mantarobot.utils.data.SimpleFileDataManager.NEWLINE_PATTERN;
 
 public class AudioCmdUtils {
+    private static final int MAX_TIMEOUTS = 3;
+    private static final Throwable ERROR_TIMEOUT = new Throwable(null, null, false, false){};
+    private static final Throwable ERROR_UNKNOWN = new Throwable(null, null, false, false){};
 
     private final static String BLOCK_INACTIVE = "\u25AC";
     private final static String BLOCK_ACTIVE = "\uD83D\uDD18";
@@ -155,40 +167,49 @@ public class AudioCmdUtils {
         }, lines);
     }
 
-    public static void openAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager, VoiceChannel userChannel, I18nContext lang) {
+    public static CompletionStage<Void> openAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager, VoiceChannel userChannel, I18nContext lang) {
         if(userChannel.getUserLimit() <= userChannel.getMembers().size() && userChannel.getUserLimit() > 0 && !event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_CHANNEL)) {
             event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.full_channel"), EmoteReference.ERROR).queue();
-            return;
+            return completedFuture(null);
         }
 
         try {
-            audioManager.openAudioConnection(userChannel);
-            event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.success"), EmoteReference.CORRECT, userChannel.getName()).queue();
+            return joinVoiceChannel(audioManager, userChannel)
+                    .thenRun(() -> {
+                        event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.success"), EmoteReference.CORRECT, userChannel.getName()).queue();
+                    })
+                    .exceptionally(e -> {
+                        event.getChannel().sendMessageFormat(getErrorMessage(lang, e), EmoteReference.ERROR, userChannel.getName()).queue();
+                        return null;
+                    });
         } catch(NullPointerException e) {
             event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.non_existing_channel"), EmoteReference.ERROR).queue();
             //Reset custom channel.
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             dbGuild.getData().setMusicChannel(null);
             dbGuild.saveAsync();
+            CompletableFuture<Void> future = new CompletableFuture<>();
+            future.completeExceptionally(e);
+            return future;
         }
     }
 
-    public static boolean connectToVoiceChannel(GuildMessageReceivedEvent event, I18nContext lang) {
+    public static CompletionStage<Boolean> connectToVoiceChannel(GuildMessageReceivedEvent event, I18nContext lang) {
         VoiceChannel userChannel = event.getMember().getVoiceState().getChannel();
 
         if(userChannel == null) {
             event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.user_no_vc"), EmoteReference.ERROR).queue();
-            return false;
+            return completedFuture(false);
         }
 
         if(!event.getGuild().getSelfMember().hasPermission(userChannel, Permission.VOICE_CONNECT)) {
             event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.missing_permissions_connect"), EmoteReference.ERROR, lang.get("discord_permissions.voice_connect")).queue();
-            return false;
+            return completedFuture(false);
         }
 
         if(!event.getGuild().getSelfMember().hasPermission(userChannel, Permission.VOICE_SPEAK)) {
             event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.missing_permission_speak"), EmoteReference.ERROR, lang.get("discord_permissions.voice_speak")).queue();
-            return false;
+            return completedFuture(false);
         }
 
         VoiceChannel guildMusicChannel = null;
@@ -201,32 +222,40 @@ public class AudioCmdUtils {
         if(guildMusicChannel != null) {
             if(!userChannel.equals(guildMusicChannel)) {
                 event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.channel_locked"), EmoteReference.ERROR, guildMusicChannel.getName()).queue();
-                return false;
+                return completedFuture(false);
             }
 
             if(!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
-                audioManager.openAudioConnection(userChannel);
-                event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.success"), EmoteReference.CORRECT, userChannel.getName()).queue();
+                return joinVoiceChannel(audioManager, userChannel)
+                        .thenRun(() -> {
+                            event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.success"), EmoteReference.CORRECT, userChannel.getName()).queue();
+                        })
+                        .thenApply(__ -> true)
+                        .exceptionally(e -> {
+                            event.getChannel().sendMessageFormat(getErrorMessage(lang, e), EmoteReference.ERROR, userChannel.getName()).queue();
+                            return false;
+                        });
             }
 
-            return true;
+            return completedFuture(true);
         }
 
         if(audioManager.isConnected() && !audioManager.getConnectedChannel().equals(userChannel)) {
             event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.already_connected"), EmoteReference.WARNING, audioManager.getConnectedChannel().getName()).queue();
-            return false;
+            return completedFuture(false);
         }
 
         if(audioManager.isAttemptingToConnect() && !audioManager.getQueuedAudioConnection().equals(userChannel)) {
             event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.attempting_to_connect"), EmoteReference.ERROR, audioManager.getQueuedAudioConnection().getName()).queue();
-            return false;
+            return completedFuture(false);
         }
 
         if(!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
-            openAudioConnection(event, audioManager, userChannel, lang);
+            return openAudioConnection(event, audioManager, userChannel, lang)
+                    .thenApply(__ -> true);
         }
 
-        return true;
+        return completedFuture(true);
     }
 
     public static String getProgressBar(long now, long total) {
@@ -234,5 +263,59 @@ public class AudioCmdUtils {
         StringBuilder builder = new StringBuilder();
         for(int i = 0; i < TOTAL_BLOCKS; i++) builder.append(activeBlocks == i ? BLOCK_ACTIVE : BLOCK_INACTIVE);
         return builder.append(BLOCK_INACTIVE).toString();
+    }
+
+    private static CompletionStage<Void> joinVoiceChannel(AudioManager manager, VoiceChannel channel) {
+        JoinListener listener = new JoinListener(manager.getGuild().getIdLong());
+        manager.setConnectionListener(listener);
+        manager.openAudioConnection(channel);
+        return listener.thenRun(() -> manager.setConnectionListener(null));
+    }
+
+    public static String getErrorMessage(I18nContext context, Throwable cause) {
+        if(cause == ERROR_TIMEOUT) {
+            return context.get("commands.music_general.music_error.timeout");
+        }
+        return context.get("commands.music_general.music_error.unknown");
+    }
+
+    private static class JoinListener extends CompletableFuture<Void> implements ConnectionListener {
+        private static final Logger log = LoggerFactory.getLogger(JoinListener.class);
+
+        private final long guildId;
+        private int timeouts;
+
+        private JoinListener(long guildId) {
+            this.guildId = guildId;
+        }
+
+        @Override
+        public void onPing(long ping) {
+
+        }
+
+        @Override
+        public void onStatusChange(ConnectionStatus status) {
+            if(status == ConnectionStatus.CONNECTED) {
+                complete(null);
+            }
+            if(!status.shouldReconnect()) {
+                log.error("Unexpected status found while trying to connect (guild = {}): {}", guildId, status);
+                completeExceptionally(ERROR_UNKNOWN);
+            }
+            if(status == ConnectionStatus.ERROR_CONNECTION_TIMEOUT) {
+                log.warn("Connection timed out (guild = {})", guildId);
+                timeouts++;
+                if(timeouts >= MAX_TIMEOUTS) {
+                    log.error("Maximum amount of timeouts reached, aborting connection (guild = {})", guildId);
+                    completeExceptionally(ERROR_TIMEOUT);
+                }
+            }
+        }
+
+        @Override
+        public void onUserSpeaking(User user, boolean speaking) {
+
+        }
     }
 }

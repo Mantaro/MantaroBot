@@ -89,17 +89,18 @@ public class MantaroAudioManager {
     }
 
     public void loadAndPlay(GuildMessageReceivedEvent event, String trackUrl, boolean skipSelection, boolean addFirst, I18nContext lang) {
-        if(!AudioCmdUtils.connectToVoiceChannel(event, lang))
-            return;
+        AudioCmdUtils.connectToVoiceChannel(event, lang).thenAccept(b -> {
+            if(b) {
+                GuildMusicManager musicManager = getMusicManager(event.getGuild());
+                TrackScheduler scheduler = musicManager.getTrackScheduler();
 
-        GuildMusicManager musicManager = getMusicManager(event.getGuild());
-        TrackScheduler scheduler = musicManager.getTrackScheduler();
+                scheduler.getAudioPlayer().setPaused(false);
 
-        scheduler.getAudioPlayer().setPaused(false);
+                if(scheduler.getQueue().isEmpty())
+                    scheduler.setRepeatMode(null);
 
-        if(scheduler.getQueue().isEmpty())
-            scheduler.setRepeatMode(null);
-
-        playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoader(musicManager, event, skipSelection, addFirst));
+                playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoader(musicManager, event, skipSelection, addFirst));
+            }
+        });
     }
 }

@@ -167,6 +167,10 @@
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `~>profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "music_general": {
+      "music_error": {
+        "timeout": "%1$sUnable to connect to %2$s: connection timed out. Try changing the server region and running the command again.",
+        "unknown": "%1$sUnable to connect to %2$s: unknown error"
+      },
       "no_song": "%1$sYou need to tell me what song you want to play! *(YouTube, Soundcloud, Twitch URL or search queries are allowed)*",
       "not_playing": "%1$sI'm not currently playing anything",
       "dj_only": "%1$sYou need to be a DJ to use this command!",
