@@ -7,7 +7,7 @@
 
  ![](https://i.imgur.com/Zl7Sr70.png)
 
- - Download [GitHub Desktop](https://desktop.github.com/) (if you dont know what you are doing).
+ - Download [GitHub Desktop](https://desktop.github.com/) (if you don't know what you are doing).
 
  - Clone the Fork into GitHub Desktop.
 
@@ -18,7 +18,7 @@
  - When creating a new translation, copy the en_US.json and rename the copy to your language (i.e German (Germany) would be de_DE.json) otherwise edit the file you want to contribute to.
     - When editing please use an actual code Editor to edit and not notepad. We suggest [IntelliJ](https://www.jetbrains.com/idea/) or [VSCode](https://code.visualstudio.com/).
 
- - Replace all english sentences with the coresponding translation. Follow the guide below while translating.
+ - Replace all english sentences with the corresponding translation. Follow the guide below while translating.
    + Keep the overall feeling of the bot consistent with the english version.
    + Don't "paste old translations" into your translation file. All new translations will be added *at the top of the category*, which means you can just paste from en_US the missing ones until the one you have. (and at the bottom of the command in the case of new command strings)
    + Keep the translation clean.
@@ -26,13 +26,17 @@
    + Don't change the formatting marks (\*\*, \*, etc). If a word is \*\*like this\*\* translate it \*\*como esto\*\*, for example.
    + We're gonna review translation files before going to production, so no worries if something happens to go wrong we will point it out and assist you.
    + If you're unsure what a parameter is, you can try using the command or contact MrLar#2565 or Kodehawa#3457.
-   + For languages that are read backwards (compared to english), the %\<number\>$s-alike parameters can be moved to accomodate your language reading. You can contact MrLar#2565 or Kodehawa#3457 on Discord if you're lost.
+   + For languages that are read backwards (compared to english), the %\<number\>$s-alike parameters can be moved to accommodate your language reading. You can contact MrLar#2565 or Kodehawa#3457 on Discord if you're lost.
+ 
+ - (if applicable) Multiple versions of the same string can be provided by making the value an array of strings. A random element of the array is selected when used.
+    - To make it an array, simply surround it with `[]` (`"key": "value"` -> `"key": ["value"]`).
+    - To add elements to the array, separate them with a comma (`"key": ["value"]` -> `"key": ["value", "other value"]`).
    
- - After you are done, send the changed file to Kodehawa#3457 or MrLar#2565 on Discord for review (Please include a message on why you are sending it, aswell as the langauge you translated to).
+ - After you are done, send the changed file to Kodehawa#3457 or MrLar#2565 on Discord for review (Please include a message on why you are sending it, as well as the language you translated to).
  
  - Once reviewed and being given the ok, go back to your Github desktop client.
 
- - You'll see changes made. UNTICK everything thats not your langauge file (or the README incase you edited the table below).
+ - You'll see changes made. UNTICK everything that's not your language file (or the README in case you edited the table below).
 
  - Give the commit a name and hit commit to.
 
