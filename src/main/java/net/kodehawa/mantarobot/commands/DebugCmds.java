@@ -22,9 +22,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -49,7 +47,6 @@ import java.lang.management.ManagementFactory;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -117,12 +114,6 @@ public class DebugCmds {
     @Subscribe
     public void ping(CommandRegistry cr) {
         final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 15, true);
-        final Random r = new Random();
-        final String[] pingQuotes = {
-                "W-Was I fast enough?", "What are you doing?", "W-What are you looking at?!", "Huh.", "Did I do well?", "What do you think?",
-                "Does this happen often?", "Am I performing p-properly?", "<3", "*pats*", "Pong.", "Pang.", "Pung.", "Peng.", "Ping-pong? Yay!",
-                "U-Uh... h-hi"
-        };
 
         cr.register("ping", new SimpleCommand(Category.INFO) {
             @Override
@@ -133,7 +124,8 @@ public class DebugCmds {
                 long start = System.currentTimeMillis();
                 event.getChannel().sendTyping().queue(v -> {
                     long ping = System.currentTimeMillis() - start;
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.ping.text"), EmoteReference.MEGA, pingQuotes[r.nextInt(pingQuotes.length)], ping, ratePing(ping, languageContext), event.getJDA().getPing()).queue();
+                    //display: show a random quote, translated.
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.ping.text"), EmoteReference.MEGA, languageContext.get("commands.ping.display"), ping, ratePing(ping, languageContext), event.getJDA().getPing()).queue();
                 });
             }
 

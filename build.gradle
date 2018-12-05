@@ -29,7 +29,7 @@ plugins {
 	//RIP jdaction 2017-2018
 	//id 'com.sedmelluq.jdaction' version '1.0.1'
 	//Tell me when smth is outdated
-	id 'com.github.ben-manes.versions' version '0.16.0'
+	id 'com.github.ben-manes.versions' version '0.20.0'
 }
 
 //Define the Main Class
@@ -39,7 +39,7 @@ mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 def ver = new Version(major: 5, minor: 1, revision: 0)
 version ver.toString()
 
-//We are going to use Java 8
+//We are going to use Java 8 (compile on 11)
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -69,29 +69,29 @@ dependencies {
 	compile 'com.sedmelluq:jda-nas:1.0.6'
 
 	//before: classpathscanner
-	compile 'io.github.classgraph:classgraph:4.1.6'
+	compile 'io.github.classgraph:classgraph:4.6.3'
 	compile 'ch.qos.logback:logback-classic:1.2.3'
 
 	compile 'us.monoid.web:resty:0.3.2'
 
 	compile 'br.com.brjdevs:utils:1.0.0_15'
 
-	compile 'com.google.guava:guava:26.0-jre'
+	compile 'com.google.guava:guava:27.0.1-jre'
 	compile 'com.google.code.gson:gson:2.8.5'
-	compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.4'
+	compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.7'
 
 	compile 'com.rethinkdb:rethinkdb-driver:2.3.3'
 
 	compile 'io.sentry:sentry:1.7.10'
 
 	compile 'net.jodah:expiringmap:0.5.8'
-	compile 'org.apache.commons:commons-lang3:3.6'
+	compile 'org.apache.commons:commons-lang3:3.8.1'
 
     compile fileTree(dir: 'lib', include: '*.jar')
     compile 'net.kodehawa:imageboard-api:2.0.5'
 	compile 'com.github.natanbc:discordbots-api:3.3.3'
 
-    compileOnly "org.projectlombok:lombok:1.18.2"
+    compileOnly "org.projectlombok:lombok:1.18.4"
 
 	compile 'com.github.natanbc:java-eval:1.0'
 

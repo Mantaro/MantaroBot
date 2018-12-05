@@ -60,7 +60,11 @@
           "header": "%1$s%2$s (Ratelimited)\n **Podrás usar este comando en %3$s.**",
           "spam_1": "Descansa, es bueno para tu salud :( *Recuerda que el ratelimit seguirá subiendo si sigues intentando antes de que termine!*",
           "spam_2": "\nCreo que la mejor opción sería tomar un descanso..."
-      }
+      },
+      "generic_error": "Si quieres, únete a nuestro **servidor de soporte** (Link en `support.mantaro.site`), o revisa nuestra página en GitHub (`https://github.com/Kodehawa/MantaroBot`). Por favor diles que dejen de hacerme explotar ¡y no olvides Error ID cuando reportes este incidente!",
+      "boom_quotes": ["Parece que Megumín explotó nuestro castillo...", "Uh-oh, parece que mi dueño olvidó unos unos y ceros en el suelo :<", "E-Espera, ¿qué acaba de pasar?", "C-Creo que hay un poco de fuego por aquí... parece que deberías decirle a mi dueño que mire esto.", "He hecho maestría en magia de explosión, ¿lo ves?", "Algo salió mal aquí, pero, u-uh, ¡lo puedo arreglar!", "U-Uhh.. ¿que era lo que querías?"],
+      "ratelimit_quotes": ["Woah... me estás llamando muy rápido... ¡Puede que me maree!", "¡No seas acumulador!", "M-Me estás llamando tan rápido que me mareo...", "¡Para ahí amigo!", "Espera solo un poquuiito más.", "¡Parece que vamos a agarrar un parte si vamos tan rápido!", "Quiero hacer esto... pero espera un poquito, porfavor.", "¡Oye, esperate, que aun no termino mi descanso!", "¿Puedes bajar la velocidad un poquito?"],
+      "mod_quotes": ["Uh-oh, ¡parece que le dieron duro a alguien!", "Solo un poco de trabajo de moderadores por aquí...", "¡Han lanzado la bota!", "Te vamos a extrañar... nah.", "Espero que haya hecho lo correcto...", "Mira ahí, ¡los mods han hablado!", "U-Uh... b-bueno, alguien ha salido por la puerta."]
   },
   "categories": {
       "music": "Musica",
@@ -413,6 +417,7 @@
               "10000": "esto no tiene mucho sentido :thinking: #BlameSteven",
               "default": "jodidamente lento. :dizzy_face:"
           },
+          "display": ["¿Fui lo suficientemente rápida?", "¿Que haces?", "!¿Q-Que crees que estás mirando?!", "Huh.", "¿Lo hice bien?", "¿Qué piensas?", "¿Esto pasa muy seguido?", "¿Estoy funcionando bien?", "<3", "*pats*", "Pong.", "Pang.", "Pung.", "Peng.", "Ping-pong? Yay!", "U-Uh... h-holi"],
           "text": "%1$s*%2$s* - Mi ping: %3$d ms (%4$s) `Websocket:%5$dms`"
       },
       "love": {

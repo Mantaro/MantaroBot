@@ -44,13 +44,6 @@ import java.util.Random;
 @SuppressWarnings("unused")
 public class ModerationCmds {
 
-    private final String[] modActionQuotes = {
-            "Uh-oh, seems like someone just got hit hard!", "Just wholesome admin work happening over here...", "The boot has been thrown!",
-            "You'll be missed... not really", "I hope I did the right thing...", "Woah there, mods have spoken!", "U-Uh... w-well, someone just went through the door."
-    };
-
-    private final Random r = new Random();
-
     @Subscribe
     public void softban(CommandRegistry cr) {
         cr.register("softban", new SimpleCommand(Category.MODERATION) {
@@ -118,7 +111,7 @@ public class ModerationCmds {
                             db.getData().setCases(db.getData().getCases() + 1);
                             db.saveAsync();
 
-                            channel.sendMessage(String.format(languageContext.get("commands.softban.success"), EmoteReference.ZAP, modActionQuotes[r.nextInt(modActionQuotes.length)], user.getName())).queue();
+                            channel.sendMessage(String.format(languageContext.get("commands.softban.success"), EmoteReference.ZAP, languageContext.get("general.mod_quotes"), user.getName())).queue();
                             guild.getController().unban(member.getUser()).reason(finalReason).queue(aVoid -> {
                             }, error -> {
                                 if(error instanceof PermissionException) {
@@ -231,7 +224,7 @@ public class ModerationCmds {
                             }
                             db.getData().setCases(db.getData().getCases() + 1);
                             db.saveAsync();
-                            channel.sendMessage(String.format(languageContext.get("commands.ban.success"), EmoteReference.ZAP, modActionQuotes[r.nextInt(modActionQuotes.length)], user.getName())).queue();
+                            channel.sendMessage(String.format(languageContext.get("commands.ban.success"), EmoteReference.ZAP, languageContext.get("general.mod_quotes"), user.getName())).queue();
                             ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.BAN, db.getData().getCases());
                             TextChannelGround.of(event).dropItemWithChance(1, 2);
                         }),
@@ -333,7 +326,7 @@ public class ModerationCmds {
                             }
                             db.getData().setCases(db.getData().getCases() + 1);
                             db.saveAsync();
-                            channel.sendMessage(String.format(languageContext.get("commands.kick.success"), EmoteReference.ZAP, modActionQuotes[r.nextInt(modActionQuotes.length)], user.getName())).queue();
+                            channel.sendMessage(String.format(languageContext.get("commands.kick.success"), EmoteReference.ZAP, languageContext.get("general.mod_quotes"), user.getName())).queue();
                             ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.KICK, db.getData().getCases());
                             TextChannelGround.of(event).dropItemWithChance(2, 2);
                         },

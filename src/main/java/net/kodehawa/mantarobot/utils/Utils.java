@@ -80,13 +80,6 @@ public class Utils {
             "(https?://)?discord(\\.|\\s*?dot\\s*?)(me|io)\\s*?/\\s*?([a-zA-Z0-9\\-_]+)"
     );
 
-
-    private static final String[] ratelimitQuotes = {
-            "Woah... you're calling me a bit too fast... I might get dizzy!", "Don't be greedy!", "Y-You're calling me so fast that I'm getting dizzy...",
-            "Halt in there buddy!", "Wait just a tiiiiny bit more uwu", "Seems like we're gonna get a speed ticket if we continue going this fast!",
-            "I wanna do this... but halt for a bit please.", "Hey, wait up, I'm not done with my break yet!", "Can you slow down a little bit?"
-    };
-
     private static final Random random = new Random();
 
     /**
@@ -609,7 +602,7 @@ public class Utils {
 
         if(!rateLimiter.process(u.getId())) {
             event.getChannel().sendMessageFormat(context.get("general.ratelimit.header"),
-                    EmoteReference.STOPWATCH, ratelimitQuotes[random.nextInt(ratelimitQuotes.length)],  Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor()))
+                    EmoteReference.STOPWATCH, context.get("general.ratelimit_quotes"),  Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor()))
             ).queue();
 
             onRateLimit(u);
@@ -629,7 +622,7 @@ public class Utils {
         if(rateLimit.getTriesLeft() < 1) {
             event.getChannel().sendMessage(
                     String.format(context.get("general.ratelimit.header"),
-                            EmoteReference.STOPWATCH, ratelimitQuotes[random.nextInt(ratelimitQuotes.length)], Utils.getHumanizedTime(rateLimit.getCooldown()))
+                            EmoteReference.STOPWATCH, context.get("general.ratelimit_quotes"), Utils.getHumanizedTime(rateLimit.getCooldown()))
                     + (rateLimit.getSpamAttempts() > 2 ? "\n\n" + EmoteReference.STOP + context.get("general.ratelimit.spam_1") : "")
                     + (rateLimit.getSpamAttempts() > 4 ? context.get("general.ratelimit.spam_2") : "")
             ).queue();
