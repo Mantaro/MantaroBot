@@ -89,7 +89,7 @@ public class CommandListener implements EventListener {
     @Override
     public void onEvent(Event event) {
         if(event instanceof ShardMonitorEvent) {
-            if(MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getShardEventManager().getLastJDAEventTimeDiff() > 30000)
+            if(MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getShardEventManager().getLastJDAEventTimeDiff() > 50000)
                 return;
 
             //Stopped receiving message events?

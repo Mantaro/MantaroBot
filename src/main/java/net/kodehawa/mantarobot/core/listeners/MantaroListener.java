@@ -53,6 +53,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.log.LogUtils;
@@ -145,8 +146,9 @@ public class MantaroListener implements EventListener {
     @Override
     public void onEvent(Event event) {
         if (event instanceof ShardMonitorEvent) {
-            if (MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getShardEventManager().getLastJDAEventTimeDiff() > 30000)
+            if (MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getShardEventManager().getLastJDAEventTimeDiff() > 50000)
                 return;
+
             ((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.MANTARO_LISTENER);
             return;
         }
@@ -453,10 +455,10 @@ public class MantaroListener implements EventListener {
             log.info("Got a guild join event with null guild? Shard {}", shardId);
         }
 
+        final MantaroObj mantaroData = MantaroData.db().getMantaroData();
+
         try {
-            if (MantaroData.db().getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
-                    || MantaroData.db().getMantaroData().getBlackListedUsers().contains(
-                    event.getGuild().getOwner().getUser().getId())) {
+            if (mantaroData.getBlackListedGuilds().contains(event.getGuild().getId()) || mantaroData.getBlackListedUsers().contains(event.getGuild().getOwner().getUser().getId())) {
                 event.getGuild().leave().queue();
                 return;
             }
@@ -472,11 +474,9 @@ public class MantaroListener implements EventListener {
 
     private void onLeave(GuildLeaveEvent event) {
         try {
-            final ManagedDatabase db = MantaroData.db();
+            final MantaroObj mantaroData = MantaroData.db().getMantaroData();
 
-            if (db.getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
-                    || db.getMantaroData().getBlackListedUsers().contains(
-                    event.getGuild().getOwner().getUser().getId())) {
+            if (mantaroData.getBlackListedGuilds().contains(event.getGuild().getId()) || mantaroData.getBlackListedUsers().contains(event.getGuild().getOwner().getUser().getId())) {
                 log.info("Left " + event.getGuild() + " because of a blacklist entry. (O:" + event.getGuild().getOwner() + ")");
                 return;
             }
