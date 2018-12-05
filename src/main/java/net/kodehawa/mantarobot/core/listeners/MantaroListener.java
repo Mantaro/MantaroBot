@@ -95,6 +95,10 @@ public class MantaroListener implements EventListener {
             .name("actions").help("Mantaro Actions")
             .labelNames("type")
             .register();
+    private static final Counter shardEvents = Counter.build()
+            .name("shard_events").help("Shard Events")
+            .labelNames("type")
+            .register();
     private static final Counter guildActions = Counter.build()
             .name("guild_actions").help("Guild Options")
             .labelNames("type")
@@ -224,9 +228,16 @@ public class MantaroListener implements EventListener {
         }
 
         if (event instanceof DisconnectEvent) {
+            shardEvents.labels("disconnect").inc();
             onDisconnect((DisconnectEvent) event);
             return;
         }
+
+        if (event instanceof ResumedEvent) {
+            shardEvents.labels("resume").inc();
+            return;
+        }
+
 
         if (event instanceof ExceptionEvent) {
             onException((ExceptionEvent) event);
@@ -260,6 +271,7 @@ public class MantaroListener implements EventListener {
                         //Attempt to open a PM and send a key!
                         user.openPrivateChannel().queue(channel -> {
                             //Sellout message :^)
+                            //TODO: Add claimkey whenever it's active.
                             channel.sendMessage(EmoteReference.EYES + "Thanks you for donating, we'll deliver your premium key shortly! :heart:").queue(message -> {
                                 message.editMessage(EmoteReference.POPPER + "You received a premium key due to your donation to mantaro. " +
                                         "If any doubts, please contact Kodehawa#3457.\n" +

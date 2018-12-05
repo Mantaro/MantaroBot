@@ -42,7 +42,6 @@ public class BirthdayTask {
     private ManagedDatabase db = MantaroData.db();
     private static final Counter birthdayCounter = Counter.build()
             .name("birthdays_logged").help("Logged birthdays (guild id)")
-            .labelNames("guildId")
             .register();
 
     public void handle(int shardId) {
@@ -120,7 +119,7 @@ public class BirthdayTask {
                                                 .reason("Birthday assigner. If you see this happening for every member of your server, or in unintended ways, please do ~>opts birthday disable")
                                                 .queue(s -> {
                                                     channel.sendMessage(birthdayMessage).queue();
-                                                    birthdayCounter.labels(guild.getId()).inc();
+                                                    birthdayCounter.inc();
                                                 }
                                         );
                                         log.debug("Assigned birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
