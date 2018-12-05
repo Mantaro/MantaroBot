@@ -22,7 +22,6 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.kodehawa.mantarobot.commands.OptsCmd;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -432,7 +431,7 @@ public class GuildOptions extends OptionHandler {
                     if (channel != null) {
                         consumer.accept(channel);
                     }
-                });//endregion
+        });//endregion
 
         //region joinmessage
         registerOption("usermessage:joinmessage", "User join message",
@@ -451,7 +450,7 @@ public class GuildOptions extends OptionHandler {
                     guildData.setJoinMessage(joinMessage);
                     dbGuild.save();
                     event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage.success"), EmoteReference.CORRECT, joinMessage).queue();
-                });//endregion
+        });//endregion
 
         //region leavemessage
         registerOption("usermessage:leavemessage", "User leave message",
@@ -470,7 +469,7 @@ public class GuildOptions extends OptionHandler {
                     guildData.setLeaveMessage(leaveMessage);
                     dbGuild.save();
                     event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage.success"), EmoteReference.CORRECT, leaveMessage).queue();
-                });//endregion
+        });//endregion
 
         registerOption("usermessage:joinmessages:add", "Join Message extra messages add", "Adds a new join message\n" +
                 "**Example**: `~>opts usermessage joinmessages add hi`" , "Adds a new join message", ((event, args, lang) -> {
@@ -972,6 +971,50 @@ public class GuildOptions extends OptionHandler {
 
                     event.getChannel().sendMessageFormat(lang.get("options.birthday_message_clear.success"), EmoteReference.CORRECT).queue();
         });
+
+        //region joinmessage
+        registerOption("modlog:blacklistwords:add", "Modlog Word Blacklist add",
+                "Adds a word to the modlog word blacklist (won't add any messages with that word). Can contain spaces.\n" +
+                        "**Example:** `~>opts modlog blacklistwords add mood`",
+                "Sets the join message.", (event, args, lang) -> {
+                    if (args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_add.no_word"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    String word = String.join(" ", args);
+                    guildData.getModLogBlacklistWords().add(word);
+                    dbGuild.save();
+                    event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_add.success"), EmoteReference.CORRECT, word).queue();
+        });//endregion
+
+        //region joinmessage
+        registerOption("modlog:blacklistwords:remove", "Modlog Word Blacklist remove",
+                "Removes a word from the modlog word blacklist. Can contain spaces\n" +
+                        "**Example:** `~>opts modlog blacklistwords remove mood`",
+                "Sets the join message.", (event, args, lang) -> {
+                    if (args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_add.no_word"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    String word = String.join(" ", args);
+
+                    if(!guildData.getModLogBlacklistWords().contains(word)) {
+                        event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_remove.not_in"), EmoteReference.ERROR, word).queue();
+                        return;
+                    }
+
+                    guildData.getModLogBlacklistWords().remove(word);
+                    dbGuild.save();
+                    event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_remove.success"), EmoteReference.CORRECT, word).queue();
+        });//endregion
     }
 
     @Override
