@@ -1740,7 +1740,8 @@
     },
     "modlog_blacklistwords_add": {
       "no_word": "%1$sYou didn't specify any word to add to the modlog blacklist.",
-      "success": "%1$sWord `%2$s` successfully added to the modlog blacklist."
+      "success": "%1$sWord `%2$s` successfully added to the modlog blacklist.",
+      "too_many": "%1$sThere are already too many words on the blacklist (more than 20)."
     },
     "modlog_blacklistwords_remove": {
       "not_in": "%1$sWord `%2$s` isn't in the blacklist.",

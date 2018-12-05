@@ -985,6 +985,11 @@ public class GuildOptions extends OptionHandler {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
 
+                    if(guildData.getModLogBlacklistWords().size() > 20) {
+                        event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_add.too_many"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
                     String word = String.join(" ", args);
                     guildData.getModLogBlacklistWords().add(word);
                     dbGuild.save();
