@@ -27,9 +27,9 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 
 public class ConditionalCustoms {
-    private static final Pattern GETTER_MODIFIER = Pattern.compile("@[a-z]+\\{.*?}"),
-            FUNCNAME = Pattern.compile("\\{"),
-            SPLITTER = Pattern.compile(";", Pattern.LITERAL);
+    private static final Pattern GETTER_MODIFIER = Pattern.compile("@[a-z]+\\{.*?}", Pattern.MULTILINE),
+            FUNCNAME = Pattern.compile("\\{", Pattern.MULTILINE),
+            SPLITTER = Pattern.compile(";", Pattern.LITERAL | Pattern.MULTILINE);
     private static final Map<String, Function<String[], String>> functions = new HashMap<>();
 
     static {
@@ -98,7 +98,7 @@ public class ConditionalCustoms {
             if(parts.length == 0)
                 return "`function name is empty`";
 
-            String name = parts[0];
+            String name = parts[0].replace("\n", "");
 
             if(!functions.containsKey(name))
                 return "`" + s + " isn't a function`";
