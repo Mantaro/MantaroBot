@@ -1384,6 +1384,7 @@
   },
   "options": {
     "options": "Mantaro Options",
+    "error_general": "%1$sIncorrect usage or missing arguments.\nIf you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.",
     "check_data": {
       "retrieve_failure": "%1$sCannot retrieve values. Weird thing...",
       "header": "Options set for server **%1$s**",

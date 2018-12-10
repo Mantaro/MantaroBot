@@ -64,7 +64,7 @@ public class OptsCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length == 0) {
-                    event.getChannel().sendMessage(String.format("%sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!", EmoteReference.HEART)).queue();
+                    event.getChannel().sendMessage(String.format(languageContext.get("options.error_general"), EmoteReference.WARNING)).queue();
                     return;
                 }
 
@@ -93,7 +93,7 @@ public class OptsCmd {
                 }
 
                 if(args.length < 2) {
-                    event.getChannel().sendMessage(String.format("%sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!", EmoteReference.HEART)).queue();
+                    event.getChannel().sendMessage(String.format(languageContext.get("options.error_general"), EmoteReference.WARNING)).queue();
                     return;
                 }
 
@@ -151,7 +151,7 @@ public class OptsCmd {
                         message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
                 );
 
-                event.getChannel().sendMessage(String.format("%sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!", EmoteReference.HEART)).queue();
+                event.getChannel().sendMessage(String.format(languageContext.get("options.error_general"), EmoteReference.WARNING)).queue();
             }
 
 
