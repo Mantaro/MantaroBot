@@ -605,15 +605,20 @@ public class RelationshipCmds {
                         java.util.List<MessageEmbed.Field> fields = new LinkedList<>();
                         for(String waifu : userData.getWaifus().keySet()) {
                             User user = MantaroBot.getInstance().getUserById(waifu);
-                            if(user == null)
-                                continue;
-
-                            fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + user.getName() + "#" + user.getDiscriminator(),
-                                    languageContext.get("commands.waifu.value_format") + " " + calculateWaifuValue(user).getFinalValue() + " " +
-                                            languageContext.get("commands.waifu.credits_format") + "\n" +
-                                            languageContext.get("commands.waifu.value_b_format") + " " + userData.getWaifus().get(waifu) +
-                                            languageContext.get("commands.waifu.credits_format"), false)
-                            );
+                            if(user == null) {
+                                fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + String.format("Unknown User (ID: %s)", waifu),
+                                        languageContext.get("commands.waifu.value_format") + " unknown\n" +
+                                                languageContext.get("commands.waifu.value_b_format") + " " + userData.getWaifus().get(waifu) +
+                                                languageContext.get("commands.waifu.credits_format"), false)
+                                );
+                            } else {
+                                fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + user.getName() + "#" + user.getDiscriminator(),
+                                        languageContext.get("commands.waifu.value_format") + " " + calculateWaifuValue(user).getFinalValue() + " " +
+                                                languageContext.get("commands.waifu.credits_format") + "\n" +
+                                                languageContext.get("commands.waifu.value_b_format") + " " + userData.getWaifus().get(waifu) +
+                                                languageContext.get("commands.waifu.credits_format"), false)
+                                );
+                            }
                         }
 
                         List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
