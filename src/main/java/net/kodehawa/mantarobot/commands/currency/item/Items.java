@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.special.Fish;
 import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
+import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -28,8 +29,6 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
-import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
@@ -69,7 +68,7 @@ public class Items {
             FORGOTTEN_MUSIC = new Item(ItemType.COLLECTABLE, "\uD83C\uDFB5", "Forgotten Music", "items.forgotten", "items.description.forgotten", 15, false, false),
             CC_PENCIL = new Item(ItemType.COLLECTABLE, "\u270f", "Pencil", "items.pencil", "items.description.pencil", 15, false, false),
             OVERFLOWED_BAG = new Item(ItemType.COLLECTABLE, "\uD83D\uDCB0","Moneybag", "items.moneybag", "items.description.moneybag", 95, true),
-            BROM_PICKAXE = new Item(ItemType.INTERACTIVE, "\u26cf","Brom's Pickaxe", "items.pick", "items.description.pick", 100, true),
+            BROM_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.29f, "\u26cf","Brom's Pickaxe", "items.pick", "items.description.pick", 100, true),
             MILK = new Item(ItemType.COMMON, EmoteReference.POTION1.getUnicode(),"Milk", "items.milk", "items.description.milk", 25, true),
             ALCOHOL = new Item(ItemType.COMMON, EmoteReference.POTION2.getUnicode(),"Beverage", "items.beverage", "items.description.beverage", 25, true),
             LEWD_MAGAZINE = new Item(ItemType.COMMON, EmoteReference.MAGAZINE.getUnicode(),"Lewd Magazine", "items.lewd", "items.description.lewd", 25, true),
@@ -128,13 +127,13 @@ public class Items {
             COFFEE = new Item(ItemType.COMMON, "\u2615","Coffee", "items.coffee", "items.description.coffee", 10, true),
             WAIFU_PILL = new Potion(ItemType.POTION, 2, "\ud83d\udc8a","Waifu Pill", "items.waifu_pill", "items.description.waifu_pill", 670, true),
             FISHING_BAIT = new Potion(ItemType.BUFF, 1, "\uD83D\uDC1B", "Fishing Bait", "items.bait", "items.description.bait", 15, true),
-            DIAMOND_PICKAXE = new Item(ItemType.CAST_MINE, EmoteReference.DIAMOND_PICK.getDiscordNotation(),"Diamond Pickaxe", "items.diamond_pick", "items.description.diamond_pick", 450, true, false, "1;2", 10, 18),
+            DIAMOND_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.23f, EmoteReference.DIAMOND_PICK.getDiscordNotation(),"Diamond Pickaxe", "items.diamond_pick", "items.description.diamond_pick", 450, true, false, "1;2", 10, 18),
             TELEVISION = new Item(ItemType.COMMON, "\uD83D\uDCFA","Television", "items.tv", "items.description.tv", 45, true),
             WRENCH = new Item(ItemType.COMMON, "\ud83d\udd27","Wrench", "items.wrench", "items.description.wrench", 50, true),
             //car is 1000 credits, so this is 350
             MOTORCYCLE = new Item(ItemType.COMMON, "\uD83C\uDFCD","Motorcycle",  "items.motorcycle","items.description.motorcycle", 350, true),
-            GEM1_PICKAXE = new Item(ItemType.CAST_MINE, EmoteReference.COMET_PICK.getDiscordNotation(),"Comet Pickaxe", "items.comet_pick", "items.description.comet_pick", 350, true, false, "1;2", 10, 48),
-            GEM2_PICKAXE = new Item(ItemType.CAST_MINE, EmoteReference.STAR_PICK.getDiscordNotation(),"Star Pickaxe", "items.star_pick", "items.description.star_pick", 350, true, false, "1;2", 10, 49),
+            GEM1_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.21f, EmoteReference.COMET_PICK.getDiscordNotation(),"Comet Pickaxe", "items.comet_pick", "items.description.comet_pick", 350, true, false, "1;2", 10, 48),
+            GEM2_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.15f, EmoteReference.STAR_PICK.getDiscordNotation(),"Star Pickaxe", "items.star_pick", "items.description.star_pick", 350, true, false, "1;2", 10, 49),
             PIZZA = new Item(ItemType.COMMON, "\uD83C\uDF55","Pizza", "items.pizza", "items.description.pizza", 15, true, false),
             GEM_5 = new Item(ItemType.COMMON, "\u200B", "Old Sparkle Fragment", "general.deprecated", "general.deprecated", 0, false, false),
             GEM5_PICKAXE = new Item(ItemType.COMMON, "\u26cf","Broken Sparkle Pickaxe", "general.deprecated", "general.deprecated", 550, true, false),
@@ -145,7 +144,7 @@ public class Items {
             GEM1_ROD = new FishRod(ItemType.CAST_FISH, 6, EmoteReference.COMET_ROD.getDiscordNotation(),"Comet Gem Rod", "items.comet_rod", "items.description.comet_rod", 65, "1;3", 44, 48),
             GEM2_ROD = new FishRod(ItemType.CAST_FISH, 9, EmoteReference.STAR_ROD.getDiscordNotation(),"Star Gem Rod", "items.star_rod", "items.description.star_rod", 65, "1;3", 44, 49),
             GEM5_ROD = new FishRod(ItemType.COMMON, 3, "\uD83C\uDFA3","Broken Sparkle Rod", "general.deprecated", "general.deprecated", 65, "",2),
-            GEM5_PICKAXE_2 = new Item(ItemType.MINE_RARE_PICK, EmoteReference.SPARKLE_PICK.getDiscordNotation(),"Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 2550, true, false, "1;4;1", 10, 74, 18),
+            GEM5_PICKAXE_2 = new Pickaxe(ItemType.MINE_RARE_PICK, 0.07f, EmoteReference.SPARKLE_PICK.getDiscordNotation(),"Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 2550, true, false, "1;4;1", 10, 74, 18),
             GEM5_2 = new Item(ItemType.MINE_RARE, "\u2728", "Sparkle Fragment", "items.sparkle", "items.description.sparkle", 605, false),
             GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 14, EmoteReference.SPARKLE_ROD.getDiscordNotation(),"Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 65, "1;4;1", 44, 74, 18),
             FISH_4 = new Fish(ItemType.FISHING_RARE, 5, "\uD83D\uDC1A","Shell", "items.shell", "items.description.shell", 1150, false),
@@ -370,52 +369,6 @@ public class Items {
             }
         });
 
-        //START OF PICKAXE ACTION DECLARATION
-        //TODO: make this a lil' better lol (probably make pickaxes their own class so they can have the chance saved n stuff, too lazy to do now at 2am)
-        BROM_PICKAXE.setAction((event, ctx) -> {
-            Player p = managedDatabase.getPlayer(event.getAuthor());
-            DBUser u = managedDatabase.getUser(event.getAuthor());
-            I18nContext lang = ctx.getLeft();
-
-            return handlePickaxe(event, lang, BROM_PICKAXE, p, u, 0.29f); //29%
-        });
-
-        DIAMOND_PICKAXE.setAction((event, ctx) -> {
-            Player p = managedDatabase.getPlayer(event.getAuthor());
-            DBUser u = managedDatabase.getUser(event.getAuthor());
-            I18nContext lang = ctx.getLeft();
-
-            return handlePickaxe(event, lang, DIAMOND_PICKAXE, p, u, 0.23f); //23%
-        });
-
-        //comet
-        GEM1_PICKAXE.setAction((event, ctx) -> {
-            Player p = managedDatabase.getPlayer(event.getAuthor());
-            DBUser u = managedDatabase.getUser(event.getAuthor());
-            I18nContext lang = ctx.getLeft();
-
-            return handlePickaxe(event, lang, GEM1_PICKAXE, p, u, 0.21f); //21%
-        });
-
-        //star
-        GEM2_PICKAXE.setAction((event, ctx) -> {
-            Player p = managedDatabase.getPlayer(event.getAuthor());
-            DBUser u = managedDatabase.getUser(event.getAuthor());
-            I18nContext lang = ctx.getLeft();
-
-            return handlePickaxe(event, lang, GEM2_PICKAXE, p, u, 0.15f); //15%
-        });
-
-        //sparkle
-        GEM5_PICKAXE_2.setAction((event, ctx) -> {
-            Player p = managedDatabase.getPlayer(event.getAuthor());
-            DBUser u = managedDatabase.getUser(event.getAuthor());
-            I18nContext lang = ctx.getLeft();
-
-            return handlePickaxe(event, lang, GEM5_PICKAXE_2, p, u, 0.07f); //7%
-        });
-        //END OF PICKAXE ACTION DECLARATION
-
         POTION_CLEAN.setAction((event, ctx) -> {
             I18nContext lang = ctx.getLeft();
             Player p = managedDatabase.getPlayer(event.getAuthor());
@@ -610,7 +563,7 @@ public class Items {
         return false;
     }
 
-    private static boolean handlePickaxe(GuildMessageReceivedEvent event, I18nContext lang, Item item, Player player, DBUser user, float chance) {
+    public static boolean handlePickaxe(GuildMessageReceivedEvent event, I18nContext lang, Item item, Player player, DBUser user, float chance) {
         Inventory playerInventory = player.getInventory();
 
         //Defensive programming :D

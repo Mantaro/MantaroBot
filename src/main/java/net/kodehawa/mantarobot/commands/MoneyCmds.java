@@ -20,13 +20,12 @@ import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.*;
-import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
+import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -50,7 +49,6 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.security.SecureRandom;
 import java.text.NumberFormat;
@@ -733,7 +731,7 @@ public class MoneyCmds {
                 Inventory inventory = player.getInventory();
                 UserData userData = dbUser.getData();
 
-                Item item = Items.BROM_PICKAXE; //default pick
+                Pickaxe item = (Pickaxe) Items.BROM_PICKAXE; //default pick
                 int equipped = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK);
                 Optional<Item> itemOpt = Items.fromAnyNoId(content);
 
@@ -744,14 +742,14 @@ public class MoneyCmds {
                         userData.getEquippedItems().resetOfType(PlayerEquipment.EquipmentType.PICK);
                         dbUser.save();
                     } else {
-                        item = temp;
+                        item = (Pickaxe) temp;
                     }
                 }
 
                 //why is the item optional present when there's no content?
                 if(itemOpt.isPresent() && !content.isEmpty()) {
                     Item temp = itemOpt.get();
-                    if(temp.getItemType() != ItemType.CAST_MINE && temp.getItemType() != ItemType.MINE_RARE_PICK) {
+                    if(temp.getItemType() != ItemType.MINE_PICK && temp.getItemType() != ItemType.MINE_RARE_PICK) {
                         event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "mine.not_suitable"), EmoteReference.ERROR).queue();
                         return;
                     }
@@ -759,7 +757,7 @@ public class MoneyCmds {
                     if(!inventory.containsItem(temp)) {
                         event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "mine.not_in_inventory"), EmoteReference.ERROR, temp).queue();
                     } else {
-                        item = temp;
+                        item = (Pickaxe) temp;
                     }
                 }
 
@@ -771,8 +769,9 @@ public class MoneyCmds {
                 if(!handleDefaultRatelimit(rateLimiter, user, event, languageContext))
                     return;
 
-                if(!item.getAction().test(event, Pair.of(languageContext, content)))
+                if(!Items.handlePickaxe(event, languageContext, item, player, dbUser, item.getChance())) {
                     return;
+                }
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
                 if(item == Items.GEM5_PICKAXE_2)

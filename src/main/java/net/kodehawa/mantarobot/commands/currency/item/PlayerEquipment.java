@@ -118,7 +118,7 @@ public class PlayerEquipment {
     }
 
     public enum EquipmentType {
-        ROD(item -> item instanceof FishRod, 0), PICK(item -> item.getItemType() == ItemType.CAST_MINE || item.getItemType() == ItemType.MINE_RARE_PICK, 0),
+        ROD(item -> item instanceof FishRod, 0), PICK(item -> item.getItemType() == ItemType.MINE_PICK || item.getItemType() == ItemType.MINE_RARE_PICK, 0),
         POTION(item -> item.getItemType() == ItemType.POTION, 1), BUFF(item -> item.getItemType() == ItemType.BUFF, 1);
 
         @Getter
