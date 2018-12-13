@@ -29,11 +29,6 @@ public class Pickaxe extends Item {
         this.chance = chance;
     }
 
-    public Pickaxe(ItemType type, float chance, String emoji, String name, String translatedName, String desc, long value, boolean buyable, String recipe, int... recipeTypes) {
-        super(type, emoji, name, translatedName, desc, value, true, buyable, recipe, recipeTypes);
-        this.chance = chance;
-    }
-
     public Pickaxe(ItemType type, float chance, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.chance = chance;
