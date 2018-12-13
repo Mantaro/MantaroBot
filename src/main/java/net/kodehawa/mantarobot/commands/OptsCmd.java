@@ -147,7 +147,7 @@ public class OptsCmd {
                     }
                 }
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.opts.invalid_args"), EmoteReference.ERROR).queue(
+                event.getChannel().sendMessageFormat(languageContext.get("options.error_general"), EmoteReference.ERROR).queue(
                         message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
                 );
 
