@@ -458,7 +458,7 @@ public class PlayerCmds {
         profileCommand.addSubCommand("lang", new SubCommand() {
             @Override
             public String description() {
-                return "Sets your profile language. This is the language Mantaro will use to talk to *you*. To change it, use `~>profile lang <language id>`. You can check a list of avaliable languages using `~>lang`";
+                return "Sets your profile language. Usage: `~>profile lang <language id>`. You can check a list of avaliable languages using `~>lang`";
             }
 
             @Override
@@ -557,7 +557,12 @@ public class PlayerCmds {
             }
         });
 
-        profileCommand.addSubCommand("display", new SubCommand() {
+        profileCommand.addSubCommand("widgets", new SubCommand() {
+            @Override
+            public String description() {
+                return "Sets the profile widget order. Usage: `~>profile widgets <name of widget>` or `~>profile widgets <ls/reset>`";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 DBUser user = managedDatabase.getUser(event.getAuthor());
@@ -578,7 +583,7 @@ public class PlayerCmds {
                 }
 
                 if(content.equalsIgnoreCase("reset")) {
-                    data.setProfileComponents(defaultOrder);
+                    data.getProfileComponents().clear();
                     player.saveAsync();
 
                     event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.reset"), EmoteReference.CORRECT).queue();
