@@ -886,7 +886,7 @@
       "guild_successful": "%1$sDieser Server ist jetzt **Premium** :heart: (Für: %2$d Tage)",
       "user_already_premium": "%1$sDu bist bereits Premium :heart:!",
       "user_successful": "%1$sDu bist nun **Premium** :heart: (Für: %2$d Tage)",
-      "mp": "Mantaro Patreon nutzt keine Schlüssel, stattdessen ist es ein Fakt, da der Bot funktioniert."
+      "mp": "Mantaro Patreon nutzt keine Schlüssel, da es ein Fakt ist, dass es Premium ist dadurch, dass der Bot funktioniert."
     },
     "claimkey": {
       "not_patron": "%1$sDu bist kein Unterstützer. Wenn du Mantaro unterstützen und Boni erhalten willst, besuche <https://www.patreon.com/mantaro>",
