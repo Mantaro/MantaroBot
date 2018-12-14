@@ -60,7 +60,7 @@ import java.util.stream.Stream;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
-import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
+import static net.kodehawa.mantarobot.utils.Utils.prettyDisplay;
 
 @Module
 @SuppressWarnings("unused")
@@ -677,22 +677,20 @@ public class InfoCmds {
                     roles = roles.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 4) + "...";
 
                 String s = String.join("\n",
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.id") + ":** " +
-                                user.getId(),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.join_date") + ":** "  +
-                                member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", ""),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.created") + ":** " +
-                                user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", ""),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.account_age") + ":** " +
-                                TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getCreationTime().toInstant().toEpochMilli()) + " " + languageContext.get("general.days"),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.mutual_guilds") + ":** " +
-                                MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).size(),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.vc") + ":** " +
-                                (member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : languageContext.get("general.none")),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.color") + ":** " +
-                                (member.getColor() == null ? languageContext.get("commands.userinfo.default") : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.status") + ":** " +
-                                Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase())
+                        prettyDisplay(languageContext.get("commands.userinfo.id"), user.getId()),
+                        prettyDisplay(languageContext.get("commands.userinfo.join_date"),
+                                member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", "")),
+                        prettyDisplay(languageContext.get("commands.userinfo.created"),
+                                user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", "")),
+                        prettyDisplay(languageContext.get("commands.userinfo.account_age"),
+                                TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getCreationTime().toInstant().toEpochMilli())
+                                        + " " + languageContext.get("general.days")),
+                        prettyDisplay(languageContext.get("commands.userinfo.mutual_guilds"), String.valueOf(MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).size())),
+                        prettyDisplay(languageContext.get("commands.userinfo.vc"),
+                                member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : languageContext.get("general.none")),
+                        prettyDisplay(languageContext.get("commands.userinfo.color"),
+                                member.getColor() == null ? languageContext.get("commands.userinfo.default") : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()),
+                        prettyDisplay(languageContext.get("commands.userinfo.status"), Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase()))
                 );
 
                 event.getChannel().sendMessage(new EmbedBuilder()
@@ -748,23 +746,18 @@ public class InfoCmds {
                     return;
 
                 String s = String.join("\n",
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.id") + ":** " +
-                                r.getId(),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.created") + ":** " +
-                                r.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", ""),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.age") + ":** " +
-                                TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - r.getCreationTime().toInstant().toEpochMilli()) + " " + languageContext.get("general.days"),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.color") + ":** " +
-                                //Here: remove first two parts of the hex code, which contains transparency data and therefore it's not needed (discord role color transparency is always ff)
-                                (r.getColor() == null ? languageContext.get("general.none") : ("#" +  Integer.toHexString(r.getColor().getRGB()).substring(2))),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.members") + ":** " +
-                                event.getGuild().getMembers().stream().filter(member -> member.getRoles().contains(r)).count(),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.position") + ":** " +
-                                r.getPosition(),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.managed") + ":** " +
-                                r.isManaged(),
-                        BLUE_SMALL_MARKER +"**" + languageContext.get("commands.roleinfo.hoisted") + ":** " +
-                                r.isHoisted()
+                        prettyDisplay(languageContext.get("commands.roleinfo.id"), r.getId()),
+                        prettyDisplay(languageContext.get("commands.roleinfo.created"),
+                                r.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", "")),
+                        prettyDisplay(languageContext.get("commands.roleinfo.age"),
+                                TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - r.getCreationTime().toInstant().toEpochMilli()) +
+                                        " " + languageContext.get("general.days")),
+                        prettyDisplay(languageContext.get("commands.roleinfo.color"),
+                                r.getColor() == null ? languageContext.get("general.none") : ("#" +  Integer.toHexString(r.getColor().getRGB()).substring(2))),
+                        prettyDisplay(languageContext.get("commands.roleinfo.members"),
+                                String.valueOf(event.getGuild().getMembers().stream().filter(member -> member.getRoles().contains(r)).count())),
+                        prettyDisplay(languageContext.get("commands.roleinfo.position"), String.valueOf(r.getPosition())),
+                        prettyDisplay(languageContext.get("commands.roleinfo.hoisted"), String.valueOf(r.isHoisted()))
                 );
 
                 event.getChannel().sendMessage(new EmbedBuilder()
