@@ -47,7 +47,9 @@ public enum ProfileComponent {
             return String.format("**%s**\n", holder.getBadges().get(0));
     }, false, false),
     CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.credits"), (holder, i18nContext) -> "$ " + holder.getPlayer().getMoney()),
-    REPUTATION(EmoteReference.REP, i18nContext -> i18nContext.get("commands.profile.rep"), (holder, i18nContext) -> String.valueOf(holder.getPlayer().getReputation())),
+    REPUTATION(EmoteReference.REP, i18nContext -> i18nContext.get("commands.profile.rep"), (holder, i18nContext) ->
+            String.valueOf(holder.getPlayer().getReputation())
+    ),
     LEVEL(EmoteReference.ZAP, i18nContext -> i18nContext.get("commands.profile.level"), (holder, i18nContext) -> {
         Player player = holder.getPlayer();
         return String.format("%d (%s: %d)", player.getLevel(), i18nContext.get("commands.profile.xp"), player.getData().getExperience());
@@ -90,7 +92,9 @@ public enum ProfileComponent {
             return String.format("%s#%s", marriedTo.getName(), marriedTo.getDiscriminator());
         }
     }),
-    INVENTORY(EmoteReference.POUCH, i18nContext -> i18nContext.get("commands.profile.inventory"), (holder, i18nContext) -> ItemStack.toString(holder.getPlayer().getInventory().asList())),
+    INVENTORY(EmoteReference.POUCH, i18nContext -> i18nContext.get("commands.profile.inventory"),
+            (holder, i18nContext) -> holder.getPlayer().getInventory().asList().stream().map(i -> i.getItem().getEmoji()).collect(Collectors.joining("  "))
+    ),
     BADGES(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.badges"), (holder, i18nContext) -> {
         String displayBadges = holder.getBadges().stream().map(Badge::getUnicode).limit(5).collect(Collectors.joining("  "));
 

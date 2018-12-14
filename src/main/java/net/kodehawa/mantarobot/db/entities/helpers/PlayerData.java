@@ -22,8 +22,10 @@ import lombok.Data;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Data
@@ -47,6 +49,7 @@ public class PlayerData {
     private PotionEffect activePotion;
     private PotionEffect activeBuff;
     private long waifuCachedValue;
+    private List<ProfileComponent> profileComponents = new LinkedList<>();
 
     @JsonIgnore
     //LEGACY SUPPORT
