@@ -71,9 +71,8 @@ public class OptsCmd {
                 if(args.length == 1 && args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("ls")) {
                     StringBuilder builder = new StringBuilder();
 
-                    for(String s : Option.getAvaliableOptions()) {
+                    for(String s : Option.getAvaliableOptions())
                         builder.append(s).append("\n");
-                    }
 
                     List<String> m = DiscordUtils.divideString(builder);
                     List<String> messages = new LinkedList<>();
@@ -102,7 +101,9 @@ public class OptsCmd {
                 if(args[0].equalsIgnoreCase("help")) {
                     for(int i = 1; i < args.length; i++) {
                         String s = args[i];
-                        if(name.length() > 0) name.append(":");
+                        if(name.length() > 0)
+                            name.append(":");
+
                         name.append(s);
                         Option option = Option.getOptionMap().get(name.toString());
 
@@ -135,10 +136,14 @@ public class OptsCmd {
                         TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> callable = Option.getOptionMap().get(name.toString()).getEventConsumer();
                         try {
                             String[] a;
-                            if(++i < args.length) a = Arrays.copyOfRange(args, i, args.length);
-                            else a = new String[0];
+                            if(++i < args.length)
+                                a = Arrays.copyOfRange(args, i, args.length);
+                            else
+                                a = new String[0];
+
                             callable.accept(event, a, new I18nContext(MantaroData.db().getGuild(event.getGuild()).getData(), MantaroData.db().getUser(event.getAuthor().getId()).getData()));
                             Player p = MantaroData.db().getPlayer(event.getAuthor());
+
                             if(p.getData().addBadgeIfAbsent(Badge.DID_THIS_WORK)) {
                                 p.saveAsync();
                             }

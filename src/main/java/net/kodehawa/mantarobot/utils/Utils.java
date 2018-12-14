@@ -57,6 +57,7 @@ import java.util.stream.Collectors;
 
 import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
+import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
 
 @Slf4j
 public class Utils {
@@ -735,6 +736,10 @@ public class Utils {
             return !id.equals(DEFAULT_GMT_TIMEZONE);
         }
 
+    }
+
+    public static String prettyDisplay(String header, String body) {
+        return BLUE_SMALL_MARKER + "**" + header + "**: " + body;
     }
 
     public enum HushType {

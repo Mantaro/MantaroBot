@@ -26,10 +26,12 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
-import net.kodehawa.mantarobot.commands.currency.item.*;
-import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
+import net.kodehawa.mantarobot.commands.currency.item.Item;
+import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -44,7 +46,6 @@ import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PlayerStats;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
@@ -67,9 +68,10 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.*;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
-import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
+import static net.kodehawa.mantarobot.utils.Utils.prettyDisplay;
 
 @Module
 @SuppressWarnings("unused")
@@ -160,6 +162,11 @@ public class PlayerCmds {
                 .build();
 
         ITreeCommand profileCommand = (TreeCommand) cr.register("profile", new TreeCommand(Category.CURRENCY) {
+            //Default profile display order. Can be changed with premium stuff.
+            final ProfileComponent[] defaultOrder = {
+                    CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES
+            };
+
             @Override
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -196,23 +203,6 @@ public class PlayerCmds {
                             player = managedDatabase.getPlayer(memberLooked);
                         }
 
-                        //LEGACY SUPPORT
-                        User marriedTo = (player.getData().getMarriedWith() == null || player.getData().getMarriedWith().isEmpty()) ? null : MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
-
-                        //New marriage support.
-                        Marriage currentMarriage = managedDatabase.getUser(userLooked).getData().getMarriage();
-                        User marriedToNew = null;
-                        boolean isNewMarriage = false;
-                        if(currentMarriage != null) {
-                            String marriedToId = currentMarriage.getOtherPlayer(memberLooked.getUser().getId());
-                            if(marriedToId != null) {
-                                marriedToNew = MantaroBot.getInstance().getUserById(marriedToId);
-                                player.getData().setMarriedWith(null); //delete old marriage
-                                marriedTo = null;
-                                isNewMarriage = true;
-                            }
-                        }
-
                         PlayerData playerData = player.getData();
                         UserData userData = dbUser.getData();
                         Inventory inv = player.getInventory();
@@ -238,58 +228,28 @@ public class PlayerCmds {
                             playerData.addBadgeIfAbsent(Badge.DONATOR_2);
                         //end of badge assigning
 
-                        player.saveAsync();
-
                         List<Badge> badges = playerData.getBadges();
                         Collections.sort(badges);
-                        String displayBadges = badges.stream().map(Badge::getUnicode).limit(5).collect(Collectors.joining("  "));
 
-                        EmbedBuilder builder = baseEmbed(event,
-                                (marriedTo == null || !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING) +
-                                        String.format(languageContext.get("commands.profile.header"), memberLooked.getEffectiveName()), userLooked.getEffectiveAvatarUrl())
-                                .setThumbnail(userLooked.getEffectiveAvatarUrl())
-                                .addField(String.format(languageContext.get("commands.profile.badge_header"), EmoteReference.TROPHY),
-                                        (player.getData().isShowBadge() ? (badges.isEmpty() ? "None" : String.format("**%s**\n", (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()))) : "None") ,false)
-                                .setDescription(
-                                        player.getData().getDescription() == null ? languageContext.get("commands.profile.no_desc") : player.getData().getDescription()
-                                )
-                                .addField(EmoteReference.DOLLAR + languageContext.get("commands.profile.credits"), "$ " + player.getMoney(), true
-                                )
-                                .addField(EmoteReference.ZAP + languageContext.get("commands.profile.level"),
-                                        String.format("%d (%s: %d)", player.getLevel(), languageContext.get("commands.profile.xp"), player.getData().getExperience()), true
-                                )
-                                .addField(EmoteReference.REP + languageContext.get("commands.profile.rep"), String.valueOf(player.getReputation()), true
-                                )
-                                .addField(EmoteReference.POPPER + languageContext.get("commands.profile.birthday"),
-                                        userData.getBirthday() != null ? userData.getBirthday().substring(0, 5) : languageContext.get("commands.profile.not_specified"), true
-                                )
-                                //VERY readable stuff. God fuck I need to rewrite the profile command SOME day.
-                                .addField(EmoteReference.HEART + languageContext.get("commands.profile.married"), (marriedTo == null && marriedToNew == null) ?
-                                        languageContext.get("commands.profile.nobody") :
-                                        isNewMarriage ? String.format("%s#%s", marriedToNew.getName(), marriedToNew.getDiscriminator()) :
-                                                String.format("%s#%s", marriedTo.getName(), marriedTo.getDiscriminator()), false
-                                )
-                                .addField(EmoteReference.POUCH + languageContext.get("commands.profile.inventory"), ItemStack.toString(inv.asList()), false
-                                )
-                                .addField(EmoteReference.HEART + languageContext.get("commands.profile.badges"),
-                                        displayBadges.isEmpty() ? languageContext.get("commands.profile.no_badges") : displayBadges, false
-                                )
-                                .setFooter(String.format("%s | %s", String.format(languageContext.get("commands.profile.timezone_user"),
-                                        (userData.getTimezone() == null ? languageContext.get("commands.profile.no_timezone") : userData.getTimezone())), String.format(languageContext.get("general.requested_by"), event.getAuthor().getName())), null
-                                );
+                        boolean ringHolder = player.getInventory().containsItem(Items.RING) && userData.getMarriage() != null;
+                        ProfileComponent.Holder holder = new ProfileComponent.Holder(userLooked, player, dbUser, badges);
 
+                        EmbedBuilder profileBuilder = new EmbedBuilder();
+                        profileBuilder.setAuthor(ringHolder ? "" : EmoteReference.RING + String.format(languageContext.get("commands.profile.header"),
+                                        memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl())
+                                .addField(ProfileComponent.BADGE.getTitle(languageContext), ProfileComponent.BADGE.content.apply(holder, languageContext), false)
+                                .setDescription(player.getData().getDescription() == null ? languageContext.get("commands.profile.no_desc") : player.getData().getDescription())
+                                .setFooter(ProfileComponent.FOOTER.content.apply(holder, languageContext), null);
 
-                        if(player.getData().getActivePotion() != null) {
-                            Item potion = Items.fromId(player.getData().getActivePotion().getPotion());
-                            builder.addField(EmoteReference.RUNNER + languageContext.get("commands.profile.potion"),
-                                   potion.getEmoji() + " " + potion.getName(), false);
+                        for(ProfileComponent component : defaultOrder) {
+                            profileBuilder.addField(component.getTitle(languageContext), component.content.apply(holder, languageContext), component.inline);
                         }
 
-
                         applyBadge(event.getChannel(),
-                                badges.isEmpty() ? null : (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()), userLooked,
-                                builder
+                                badges.isEmpty() ? null : (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()), userLooked, profileBuilder
                         );
+
+                        player.saveAsync();
                     }
                 };
             }
@@ -537,7 +497,7 @@ public class PlayerCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext ctx, String content) {
                 Map<String, Optional<String>> t = StringUtils.parse(content.isEmpty() ? new String[]{} : content.split("\\s+"));
                 content = Utils.replaceArguments(t, content, "brief");
                 Member member = Utils.findMember(event, event.getMember(), content);
@@ -560,44 +520,36 @@ public class PlayerCmds {
 
                 //no need for decimals
                 long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
+                boolean noPotion = potion == null || !isPotionActive;
+                boolean noBuff = buff == null || !isBuffActive;
 
-                //TODO: helper method for this, since we do similar stuff in roleinfo and userinfo
                 String s = String.join("\n",
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.market") + ":** "  +
-                                playerData.getMarketUsed() + " " + languageContext.get("commands.profile.stats.times"),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.potion") + ":** " +
-                                ((potion == null || !isPotionActive) ? "None" : potion.getName()),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.times_used") + ":** " +
-                                ((potion == null || !isPotionActive) ? "None" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION).getTimesUsed()  + " " + languageContext.get("commands.profile.stats.times")),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.buff") + ":** " +
-                                ((buff == null || !isBuffActive) ? "None" : buff.getName()),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.times_used") + ":** " +
-                                ((buff == null || !isBuffActive) ? "None" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF).getTimesUsed()  + " " + languageContext.get("commands.profile.stats.times")),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.equipment") + ":** " +
-                                ((equipmentEmpty) ? "None" : equippedItems.getEquipment().entrySet().stream().map((entry) -> Utils.capitalize(entry.getKey().toString()) + ": " + Items.fromId(entry.getValue()).toDisplayString()).collect(Collectors.joining(", "))),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.experience") + ":** " +
-                                playerData.getExperience() + "/" + experienceNext + " XP",
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.daily") + ":** " +
-                                playerData.getDailyStreak() + " " + languageContext.get("commands.profile.stats.days"),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.daily_at") + ":** " +
-                                new Date(playerData.getLastDailyAt()).toString(),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.waifu_claimed") + ":** " +
-                                data.getTimesClaimed() + " " + languageContext.get("commands.profile.stats.times"),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.dust") + ":** " +
-                                data.getDustLevel() + "%",
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.reminders") + ":** " +
-                                data.getReminderN() + " " + languageContext.get("commands.profile.stats.times"),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.lang") + ":** " +
-                                (data.getLang() == null ? "en_US" : data.getLang()),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.wins") + ":** " +
+                        prettyDisplay(ctx.get("commands.profile.stats.market"), playerData.getMarketUsed() + " " + ctx.get("commands.profile.stats.times")),
+                        prettyDisplay(ctx.get("commands.profile.stats.potion"), noPotion ? "None" : potion.getName()),
+                        prettyDisplay(ctx.get("commands.profile.stats.times_used"), noPotion ? "Never" :
+                                equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION).getTimesUsed() + " " + ctx.get("commands.profile.stats.times")),
+                        prettyDisplay(ctx.get("commands.profile.stats.buff"), noBuff ? "None" : buff.getName()),
+                        prettyDisplay(ctx.get("commands.profile.stats.times_used"),
+                                noBuff ? "None" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF).getTimesUsed()  + " " + ctx.get("commands.profile.stats.times")),
+                        prettyDisplay(ctx.get("commands.profile.stats.equipment"), ((equipmentEmpty) ? "None" :
+                                        equippedItems.getEquipment().entrySet().stream().map((entry) -> Utils.capitalize(entry.getKey().toString()) + ": " +
+                                                Items.fromId(entry.getValue()).toDisplayString()).collect(Collectors.joining(", ")))),
+                        prettyDisplay(ctx.get("commands.profile.stats.experience"), playerData.getExperience() + "/" + experienceNext + " XP"),
+                        prettyDisplay(ctx.get("commands.profile.stats.daily"), playerData.getDailyStreak() + " " + ctx.get("commands.profile.stats.days")),
+                        prettyDisplay(ctx.get("commands.profile.stats.daily_at"), new Date(playerData.getLastDailyAt()).toString()),
+                        prettyDisplay(ctx.get("commands.profile.stats.waifu_claimed"), data.getTimesClaimed() + " " + ctx.get("commands.profile.stats.times")),
+                        prettyDisplay(ctx.get("commands.profile.stats.dust"), data.getDustLevel() + "%"),
+                        prettyDisplay(ctx.get("commands.profile.stats.reminders"), data.getReminderN() + " " + ctx.get("commands.profile.stats.times")),
+                        prettyDisplay(ctx.get("commands.profile.stats.lang"), (data.getLang() == null ? "en_US" : data.getLang())),
+                        prettyDisplay(ctx.get("commands.profile.stats.wins"),
                                 String.format("\n\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009" +
-                                        "%1$sGamble: %2$d, Slots: %3$d, Game: %4$d (times)", EmoteReference.CREDITCARD, playerStats.getGambleWins(), playerStats.getSlotsWins(), playerData.getGamesWon())
+                                        "%1$sGamble: %2$d, Slots: %3$d, Game: %4$d (times)", EmoteReference.CREDITCARD, playerStats.getGambleWins(), playerStats.getSlotsWins(), playerData.getGamesWon()))
                         );
 
 
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setThumbnail(toLookup.getEffectiveAvatarUrl())
-                        .setAuthor(String.format(languageContext.get("commands.profile.stats.header"), toLookup.getName()), null, toLookup.getEffectiveAvatarUrl())
+                        .setAuthor(String.format(ctx.get("commands.profile.stats.header"), toLookup.getName()), null, toLookup.getEffectiveAvatarUrl())
                         .setDescription("\n" + s)
                         .setFooter("This shows stuff usually not shown on the profile card. Content might change", null)
                         .build()
