@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands.currency.profile;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -110,11 +111,16 @@ public enum ProfileComponent {
         return String.format("%s", String.format(i18nContext.get("commands.profile.timezone_user"), timezone));
     }, false);
 
-    public EmoteReference emoji;
-    public Function<I18nContext, String> title;
-    public BiFunction<Holder, I18nContext, String> content;
-    public boolean assignable;
-    public boolean inline;
+    //See: getTitle()
+    private EmoteReference emoji;
+    private Function<I18nContext, String> title;
+
+    @Getter
+    private BiFunction<Holder, I18nContext, String> content;
+    @Getter
+    private boolean assignable;
+    @Getter
+    private boolean inline;
 
     ProfileComponent(EmoteReference emoji, Function<I18nContext, String> title, BiFunction<Holder, I18nContext, String> content, boolean isAssignable, boolean inline) {
         this.emoji = emoji;

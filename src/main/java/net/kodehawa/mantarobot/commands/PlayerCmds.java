@@ -237,12 +237,12 @@ public class PlayerCmds {
                         EmbedBuilder profileBuilder = new EmbedBuilder();
                         profileBuilder.setAuthor(ringHolder ? "" : EmoteReference.RING + String.format(languageContext.get("commands.profile.header"),
                                         memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl())
-                                .addField(ProfileComponent.BADGE.getTitle(languageContext), ProfileComponent.BADGE.content.apply(holder, languageContext), false)
+                                .addField(ProfileComponent.BADGE.getTitle(languageContext), ProfileComponent.BADGE.getContent().apply(holder, languageContext), false)
                                 .setDescription(player.getData().getDescription() == null ? languageContext.get("commands.profile.no_desc") : player.getData().getDescription())
-                                .setFooter(ProfileComponent.FOOTER.content.apply(holder, languageContext), null);
+                                .setFooter(ProfileComponent.FOOTER.getContent().apply(holder, languageContext), null);
 
                         for(ProfileComponent component : defaultOrder) {
-                            profileBuilder.addField(component.getTitle(languageContext), component.content.apply(holder, languageContext), component.inline);
+                            profileBuilder.addField(component.getTitle(languageContext), component.getContent().apply(holder, languageContext), component.isInline());
                         }
 
                         applyBadge(event.getChannel(),
