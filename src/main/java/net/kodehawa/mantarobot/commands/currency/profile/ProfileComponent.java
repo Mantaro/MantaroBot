@@ -45,7 +45,7 @@ public enum ProfileComponent {
             return String.format("**%s**\n", playerData.getMainBadge());
         else
             return String.format("**%s**\n", holder.getBadges().get(0));
-    }, false),
+    }, false, false),
     CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.credits"), (holder, i18nContext) -> "$ " + holder.getPlayer().getMoney()),
     REPUTATION(EmoteReference.REP, i18nContext -> i18nContext.get("commands.profile.rep"), (holder, i18nContext) -> String.valueOf(holder.getPlayer().getReputation())),
     LEVEL(EmoteReference.ZAP, i18nContext -> i18nContext.get("commands.profile.level"), (holder, i18nContext) -> {

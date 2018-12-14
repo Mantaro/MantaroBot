@@ -164,7 +164,7 @@ public class PlayerCmds {
         ITreeCommand profileCommand = (TreeCommand) cr.register("profile", new TreeCommand(Category.CURRENCY) {
             //Default profile display order. Can be changed with premium stuff.
             final ProfileComponent[] defaultOrder = {
-                    CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES
+                    BADGE, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES
             };
 
             @Override
@@ -237,7 +237,6 @@ public class PlayerCmds {
                         EmbedBuilder profileBuilder = new EmbedBuilder();
                         profileBuilder.setAuthor(ringHolder ? "" : EmoteReference.RING + String.format(languageContext.get("commands.profile.header"),
                                         memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl())
-                                .addField(ProfileComponent.BADGE.getTitle(languageContext), ProfileComponent.BADGE.getContent().apply(holder, languageContext), false)
                                 .setDescription(player.getData().getDescription() == null ? languageContext.get("commands.profile.no_desc") : player.getData().getDescription())
                                 .setFooter(ProfileComponent.FOOTER.getContent().apply(holder, languageContext), null);
 
