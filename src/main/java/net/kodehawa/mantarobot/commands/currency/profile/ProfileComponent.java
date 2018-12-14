@@ -21,7 +21,6 @@ import lombok.Data;
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Marriage;
@@ -36,7 +35,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum ProfileComponent {
-    BADGE(null, i18nContext -> String.format(i18nContext.get("commands.profile.badge_header"), EmoteReference.TROPHY), (holder, i18nContext) -> {
+    HEADER(null, i18nContext -> String.format(i18nContext.get("commands.profile.badge_header"), EmoteReference.TROPHY), (holder, i18nContext) -> {
         PlayerData playerData = holder.getPlayer().getData();
         if(holder.getBadges().isEmpty() || !playerData.isShowBadge())
             return "None";
@@ -45,7 +44,7 @@ public enum ProfileComponent {
             return String.format("**%s**\n", playerData.getMainBadge());
         else
             return String.format("**%s**\n", holder.getBadges().get(0));
-    }, false, false),
+    }, true, false),
     CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.credits"), (holder, i18nContext) -> "$ " + holder.getPlayer().getMoney()),
     REPUTATION(EmoteReference.REP, i18nContext -> i18nContext.get("commands.profile.rep"), (holder, i18nContext) ->
             String.valueOf(holder.getPlayer().getReputation())
@@ -152,6 +151,21 @@ public enum ProfileComponent {
 
     public String getTitle(I18nContext context) {
         return (emoji == null ? "" : emoji) + title.apply(context);
+    }
+
+    /**
+     * Looks up the component based on a String value, if nothing is found returns null.
+     *
+     * @param name The String value to match
+     * @return The component, or null if nothing is found.
+     */
+    public static ProfileComponent lookupFromString(String name) {
+        for(ProfileComponent c : ProfileComponent.values()) {
+            if (c.name().equalsIgnoreCase(name)) {
+                return c;
+            }
+        }
+        return null;
     }
 
     @AllArgsConstructor

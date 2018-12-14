@@ -70,8 +70,7 @@ import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.*;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
-import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
-import static net.kodehawa.mantarobot.utils.Utils.prettyDisplay;
+import static net.kodehawa.mantarobot.utils.Utils.*;
 
 @Module
 @SuppressWarnings("unused")
@@ -161,11 +160,10 @@ public class PlayerCmds {
                 .prefix("profile")
                 .build();
 
+        //I actually do need this, sob.
+        final LinkedList<ProfileComponent> defaultOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
+
         ITreeCommand profileCommand = (TreeCommand) cr.register("profile", new TreeCommand(Category.CURRENCY) {
-            //Default profile display order. Can be changed with premium stuff.
-            final ProfileComponent[] defaultOrder = {
-                    BADGE, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES
-            };
 
             @Override
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
@@ -240,7 +238,10 @@ public class PlayerCmds {
                                 .setDescription(player.getData().getDescription() == null ? languageContext.get("commands.profile.no_desc") : player.getData().getDescription())
                                 .setFooter(ProfileComponent.FOOTER.getContent().apply(holder, languageContext), null);
 
-                        for(ProfileComponent component : defaultOrder) {
+                        boolean hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
+                        List<ProfileComponent> usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
+
+                        for(ProfileComponent component : usedOrder) {
                             profileBuilder.addField(component.getTitle(languageContext), component.getContent().apply(holder, languageContext), component.isInline());
                         }
 
@@ -552,6 +553,58 @@ public class PlayerCmds {
                         .setDescription("\n" + s)
                         .setFooter("This shows stuff usually not shown on the profile card. Content might change", null)
                         .build()
+                ).queue();
+            }
+        });
+
+        profileCommand.addSubCommand("display", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                DBUser user = managedDatabase.getUser(event.getAuthor());
+                if(!user.isPremium()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.not_premium"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Player player = managedDatabase.getPlayer(event.getAuthor());
+                PlayerData data = player.getData();
+
+                if(content.equalsIgnoreCase("ls")) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.ls"), EmoteReference.ZAP,
+                            EmoteReference.BLUE_SMALL_MARKER, defaultOrder.stream().map(Enum::name).collect(Collectors.joining(", ")),
+                            data.getProfileComponents().size() == 0 ? "Not personalized" : data.getProfileComponents().stream().map(Enum::name).collect(Collectors.joining(", "))
+                    ).queue();
+                    return;
+                }
+
+                if(content.equalsIgnoreCase("reset")) {
+                    data.setProfileComponents(defaultOrder);
+                    player.saveAsync();
+
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.reset"), EmoteReference.CORRECT).queue();
+                    return;
+                }
+
+                String[] splitContent = content.split("\\s+");
+                List<ProfileComponent> newComponents = new LinkedList<>(); //new list of profile components
+
+                for(String c : splitContent) {
+                    ProfileComponent component = ProfileComponent.lookupFromString(c);
+                    if(component != null && component.isAssignable()) {
+                        newComponents.add(component);
+                    }
+                }
+
+                if(newComponents.size() < 3) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.not_enough"), EmoteReference.WARNING).queue();
+                    return;
+                }
+
+                data.setProfileComponents(newComponents);
+                player.saveAsync();
+
+                event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.success"),
+                        EmoteReference.CORRECT, newComponents.stream().map(Enum::name).collect(Collectors.joining(", "))
                 ).queue();
             }
         });

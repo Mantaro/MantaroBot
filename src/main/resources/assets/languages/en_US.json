@@ -778,6 +778,13 @@
         "success": "%1$sYou successfully equipped %2$s *%3$s*, which will be remembered next time you use the proper currency command.",
         "not_suitable": "%1$sYou can't equip this."
       },
+      "display": {
+        "not_premium": "%1$sProfile widget personalization is only available to premium users.",
+        "not_enough": "%1$sNot enough valid components to put on your profile (minimum: 2). If you're lost, check `~>profile display ls`",
+        "success": "%1$sSuccessfully set your new profile layout. New layout is `%2$s`",
+        "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your components:** `%4$s`\nYou can use `~>profile display reset` to reset your profile display references",
+        "reset": "%1$sSuccessfully reset profile widget order."
+      },
       "badge_header": "%1$sDisplay Badge",
       "bot_notice": "%1$sBots don't have profiles.",
       "header": "%1$s's Profile",

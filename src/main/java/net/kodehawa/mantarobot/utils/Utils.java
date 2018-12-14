@@ -742,6 +742,14 @@ public class Utils {
         return BLUE_SMALL_MARKER + "**" + header + "**: " + body;
     }
 
+    @SafeVarargs
+    @SuppressWarnings("varargs")
+    public static <T> LinkedList<T> createLinkedList(T... elements) {
+        LinkedList<T> list = new LinkedList<>();
+        Collections.addAll(list, elements);
+        return list;
+    }
+
     public enum HushType {
         ANIME, CHARACTER, MUSIC
     }

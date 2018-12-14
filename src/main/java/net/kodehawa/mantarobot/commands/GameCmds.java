@@ -50,6 +50,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
+import static net.kodehawa.mantarobot.utils.Utils.createLinkedList;
 
 @Slf4j
 @Module
@@ -401,13 +402,4 @@ public class GameCmds {
         //not currently running
         return false;
     }
-
-    @SafeVarargs
-    @SuppressWarnings("varargs")
-    private static <T> LinkedList<T> createLinkedList(T... elements) {
-        LinkedList<T> list = new LinkedList<>();
-        Collections.addAll(list, elements);
-        return list;
-    }
-
 }
