@@ -1715,7 +1715,7 @@
       "no_bd_channel": "%1$sYou don't have any birthday channel set!",
       "no_bd_role": "%1$sYou don't have any role set for the birthday setter!",
       "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel.",
-      "cannot_interact": "%1$sThe bot is unable to interact with the birthday role.",
+      "cannot_interact": "%1$sThe bot is unable to interact with the birthday role. (This means the birthday role is higher than the bot's highest role on the role hierarchy, put it below and try again)",
       "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role %4$s",
       "error": "%1$sOw... There was an error while sending the message on channel %2$s for user **%3$s** and role %4$s"
     },
