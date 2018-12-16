@@ -780,11 +780,11 @@
       },
       "display": {
         "not_premium": "%1$sProfile widget personalization is only available to premium users.",
-        "not_enough": "%1$sNot enough valid components to put on your profile (minimum: 3). If you're lost, check `~>profile widgets ls`",
+        "not_enough": "%1$sNot enough valid widgets to put on your profile (minimum: 3). If you're lost, check `~>profile widgets ls`",
         "success": "%1$sSuccessfully set your new profile layout. New layout is `%2$s`",
-        "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your components:** `%4$s`\nYou can use `~>profile widgets reset` to reset your profile display references",
+        "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `~>profile widgets reset` to reset your profile display references",
         "reset": "%1$sSuccessfully reset profile widget order.",
-        "example": "\nExample: `~>profile widgets header credits reputation birthday marriage badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
+        "example": "\nExample: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
       },
       "badge_header": "%1$sDisplay Badge",
       "bot_notice": "%1$sBots don't have profiles.",
