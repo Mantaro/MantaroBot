@@ -233,7 +233,7 @@ public class PlayerCmds {
                         ProfileComponent.Holder holder = new ProfileComponent.Holder(userLooked, player, dbUser, badges);
 
                         EmbedBuilder profileBuilder = new EmbedBuilder();
-                        profileBuilder.setAuthor(ringHolder ? "" : EmoteReference.RING +
+                        profileBuilder.setAuthor((ringHolder ? "" : EmoteReference.RING) +
                                     String.format(languageContext.get("commands.profile.header"), memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl())
                                 .setDescription(player.getData().getDescription() == null ? languageContext.get("commands.profile.no_desc") : player.getData().getDescription())
                                 .setFooter(ProfileComponent.FOOTER.getContent().apply(holder, languageContext), null);
@@ -575,7 +575,7 @@ public class PlayerCmds {
                 PlayerData data = player.getData();
 
                 if(content.equalsIgnoreCase("ls")) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.ls"), EmoteReference.ZAP,
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.ls") + languageContext.get("commands.profile.display.example"), EmoteReference.ZAP,
                             EmoteReference.BLUE_SMALL_MARKER, defaultOrder.stream().map(Enum::name).collect(Collectors.joining(", ")),
                             data.getProfileComponents().size() == 0 ? "Not personalized" : data.getProfileComponents().stream().map(Enum::name).collect(Collectors.joining(", "))
                     ).queue();
@@ -601,7 +601,7 @@ public class PlayerCmds {
                 }
 
                 if(newComponents.size() < 3) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.not_enough"), EmoteReference.WARNING).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.not_enough") + languageContext.get("commands.profile.display.example"), EmoteReference.WARNING).queue();
                     return;
                 }
 
