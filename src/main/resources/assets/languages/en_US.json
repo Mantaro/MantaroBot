@@ -1660,7 +1660,7 @@
     },
     "server_role_allow": {
       "no_name": "%1$sYou need to specify the name of the role you want to allow (has to be disallowed already for this to do anything, since allow is default)!",
-      "not_disabled": "%1$sThis role isn't disabled!",
+      "not_disabled": "%1$sThis role isn't disabled! (All roles are enabled by default)",
       "success": "%1$sAllowed role %2$s to execute commands."
     },
     "server_ignorebots_autoroles_toggle": {
