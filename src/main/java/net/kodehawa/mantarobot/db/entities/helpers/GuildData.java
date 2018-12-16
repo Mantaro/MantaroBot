@@ -178,7 +178,7 @@ public class GuildData {
     @ConfigName("Extra leave messages")
     private List<String> extraLeaveMessages = new ArrayList<>();
 
-    @UnusedConfig() //we don't set this anywhere?
+    @UnusedConfig //we don't set this anywhere?
     private String whitelistedRole = null;
 
     @ConfigName("Birthday message")
