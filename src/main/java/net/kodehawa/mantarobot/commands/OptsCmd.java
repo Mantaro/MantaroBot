@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.functions.interfaces.TriConsumer;
+import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
@@ -39,12 +40,10 @@ import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Pair;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static java.util.Map.Entry;
@@ -172,7 +171,7 @@ public class OptsCmd {
             }
         }).addOption("check:data", new Option("Data check.",
                 "Checks the data values you have set on this server. **THIS IS NOT USER-FRIENDLY**", OptionType.GENERAL)
-                .setActionLang((event, lang) -> {
+                .setActionLang((event, args, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
 
@@ -182,6 +181,17 @@ public class OptsCmd {
 
                     if(fieldMap == null) {
                         event.getChannel().sendMessage(String.format(lang.get("options.check_data.retrieve_failure"), EmoteReference.ERROR)).queue();
+                        return;
+                    }
+
+                    Map<String, Optional<String>> opts = StringUtils.parse(args);
+                    if(opts.containsKey("print")) {
+                        StringBuilder builder = new StringBuilder();
+                        for(Entry<String, Pair<String, Object>> e : fieldMap.entrySet()) {
+                            builder.append("* ").append(e.getKey()).append(": ").append(e.getValue().getRight()).append("\n");
+                        }
+
+                        event.getChannel().sendMessage("Send this: " + Utils.paste3(builder.toString())).queue();
                         return;
                     }
 
