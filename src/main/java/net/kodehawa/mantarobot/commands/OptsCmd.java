@@ -20,6 +20,7 @@ import br.com.brjdevs.java.utils.functions.interfaces.TriConsumer;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -37,6 +38,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Arrays;
@@ -44,10 +46,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Map.Entry;
-import static net.kodehawa.mantarobot.utils.Utils.mapObjects;
+import static net.kodehawa.mantarobot.utils.Utils.mapConfigObjects;
 
 @Module
 @SuppressWarnings("unused")
@@ -174,45 +175,37 @@ public class OptsCmd {
                 .setActionLang((event, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
+
                     //Map as follows: name, value
-                    Map<String, Object> fieldMap = mapObjects(guildData);
+                    //This filters out unused configs.
+                    Map<String, Pair<String, Object>> fieldMap = mapConfigObjects(guildData);
 
                     if(fieldMap == null) {
                         event.getChannel().sendMessage(String.format(lang.get("options.check_data.retrieve_failure"), EmoteReference.ERROR)).queue();
                         return;
                     }
 
-                    StringBuilder show = new StringBuilder();
-                    show.append(String.format(lang.get("options.check_data.header"), event.getGuild().getName()))
-                            .append("\n\n");
+                    EmbedBuilder embedBuilder = new EmbedBuilder();
+                    embedBuilder.setAuthor("Option Debug", null, event.getAuthor().getEffectiveAvatarUrl())
+                            .setDescription(String.format(lang.get("options.check_data.header") + lang.get("options.check_data.terminology"), event.getGuild().getName()))
+                            .setThumbnail(event.getGuild().getIconUrl())
+                            .setFooter(lang.get("options.check_data.footer"), null);
+                    List<MessageEmbed.Field> fields = new LinkedList<>();
 
-                    AtomicInteger ai = new AtomicInteger();
-
-                    for(Entry<String, Object> e : fieldMap.entrySet()) {
-                        if(e.getKey().equals("localPlayerExperience")) {
-                            continue;
-                        }
-
-                        show.append(ai.incrementAndGet())
-                                .append(".- `")
-                                .append(e.getKey())
-                                .append("`");
-
-                        if(e.getValue() == null) {
-                            show.append(" **")
-                                    .append(lang.get("options.check_data.null_set"))
-                                    .append("**\n");
-                        } else {
-                            show.append(" **")
-                                    .append(lang.get("options.check_data.set_to"))
-                                    .append(" ")
-                                    .append(e.getValue())
-                                    .append("**\n");
-                        }
+                    for(Entry<String, Pair<String, Object>> e : fieldMap.entrySet()) {
+                        fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + e.getKey() + ":\n" + e.getValue().getLeft() + "",
+                                e.getValue() == null ? lang.get("options.check_data.null_set") : String.valueOf(e.getValue().getRight()),
+                                false)
+                        );
                     }
 
-                    List<String> toSend = DiscordUtils.divideString(1600, show);
-                    toSend.forEach(message -> event.getChannel().sendMessage(message).queue());
+                    List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
+                    boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+
+                    if(hasReactionPerms)
+                        DiscordUtils.list(event, 100, false, embedBuilder, splitFields);
+                    else
+                        DiscordUtils.listText(event, 100, false, embedBuilder, splitFields);
                 }).setShortDescription("Checks the data values you have set on this server.")
         ).addOption("reset:all", new Option("Options reset.",
                 "Resets all options set on this server.", OptionType.GENERAL)

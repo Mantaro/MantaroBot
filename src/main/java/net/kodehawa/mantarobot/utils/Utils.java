@@ -30,6 +30,8 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
+import net.kodehawa.mantarobot.utils.annotations.ConfigName;
+import net.kodehawa.mantarobot.utils.annotations.UnusedConfig;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimit;
@@ -500,18 +502,27 @@ public class Utils {
      * @author Narendra
      * @since Aug 27, 2011 5:27:19 AM
      */
-    public static HashMap<String, Object> mapObjects(Object valueObj) {
+    public static HashMap<String, Pair<String, Object>> mapConfigObjects(Object valueObj) {
         try {
             Class<?> c1 = valueObj.getClass();
-            HashMap<String, Object> fieldMap = new HashMap<>();
+            HashMap<String, Pair<String, Object>> fieldMap = new HashMap<>();
             Field[] valueObjFields = c1.getDeclaredFields();
 
             for(Field valueObjField : valueObjFields) {
                 String fieldName = valueObjField.getName();
+                String fieldDescription = "unknown";
                 valueObjField.setAccessible(true);
                 Object newObj = valueObjField.get(valueObj);
 
-                fieldMap.put(fieldName, newObj);
+                if(valueObjField.getAnnotation(UnusedConfig.class) != null) {
+                    continue;
+                }
+
+                if(valueObjField.getAnnotation(ConfigName.class) != null) {
+                    fieldDescription = valueObjField.getAnnotation(ConfigName.class).value();
+                }
+
+                fieldMap.put(fieldName, Pair.of(fieldDescription, newObj));
             }
 
             return fieldMap;

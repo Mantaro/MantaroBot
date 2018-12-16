@@ -1395,7 +1395,9 @@
     "error_general": "%1$sIncorrect usage or missing arguments.\nIf you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sCannot retrieve values. Weird thing...",
-      "header": "Options set for server **%1$s**",
+      "header": "Options set for server **%1$s**.",
+      "terminology": "\n\n**Useful terminology:** [] = empty list, null = not set, {} = empty object. If you see numbers=[...] it means that for that id, it applies what's inside the brackets. Objects are usually comma-separated",
+      "footer": "This is a debug command, therefore it's not 100% user-friendly",
       "null_set": "is not set to anything.",
       "set_to": "is set to:"
     },

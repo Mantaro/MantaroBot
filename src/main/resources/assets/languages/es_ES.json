@@ -1299,6 +1299,7 @@
       "check_data": {
           "retrieve_failure": "%1$sDatos no encontrados. Que raro...",
           "header": "Configuraciones para este servidor **%1$s**",
+          "footer": "Este es un comando de debug, asi que no es 100% amigable",
           "null_set": "no tiene ninguna configuración.",
           "set_to": "está configurado a:"
       },
