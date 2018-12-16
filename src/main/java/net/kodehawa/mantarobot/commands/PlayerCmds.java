@@ -590,7 +590,7 @@ public class PlayerCmds {
                     return;
                 }
 
-                String[] splitContent = content.split("\\s+");
+                String[] splitContent = content.replace(",", "").split("\\s+");
                 List<ProfileComponent> newComponents = new LinkedList<>(); //new list of profile components
 
                 for(String c : splitContent) {

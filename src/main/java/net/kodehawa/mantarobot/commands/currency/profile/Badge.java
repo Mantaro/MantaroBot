@@ -318,11 +318,11 @@ public enum Badge {
             (player, dbUser) -> false, true
     ),
 
-    TOO_BIG("Too Big To Fit", "\uD83D\uDD36", "Finding a piece of flying malware on your e-mail it's quite the deal, isn't it? And it talks.", 91, 92,
+    TOO_BIG("Too Big To Fit", "\uD83D\uDD36", "The small magical box contained between dimensions, soon forever gone.", 91, 92,
             (player, dbUser) -> false, true
     ),
 
-    RISKY_ORDEAL("Risky Ordeal", "\uD83D\uDD36", "Finding a piece of flying malware on your e-mail it's quite the deal, isn't it? And it talks.", 91, 92,
+    RISKY_ORDEAL("Risky Ordeal", "\uD83D\uDD36", "It isn't about how fast you climb, it's about the steps it takes.", 91, 92,
             (player, dbUser) -> false, true
     ),
 
