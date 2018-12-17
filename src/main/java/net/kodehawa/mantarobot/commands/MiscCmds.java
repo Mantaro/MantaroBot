@@ -30,7 +30,10 @@ import net.kodehawa.mantarobot.commands.interaction.polls.PollBuilder;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -161,50 +164,22 @@ public class MiscCmds {
 
     @Subscribe
     public void iam(CommandRegistry cr) {
-        cr.register("iam", new SimpleCommand(Category.MISC) {
+        TreeCommand iamCommand = (TreeCommand) cr.register("iam", new TreeCommand(Category.MISC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                Map<String, String> autoroles = dbGuild.getData().getAutoroles();
-                if(args.length == 0 || content.length() == 0) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.iam.no_iam"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                StringBuilder stringBuilder = new StringBuilder();
-                if(content.equals("list") || content.equals("ls")) {
-                    EmbedBuilder embed = null;
-                    boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
-                    if(!hasReactionPerms)
-                        stringBuilder.append(languageContext.get("general.text_menu")).append("\n");
-
-                    if(autoroles.size() > 0) {
-                        autoroles.forEach((name, roleId) -> {
-                            Role role = event.getGuild().getRoleById(roleId);
-                            if(role != null) {
-                                stringBuilder.append(languageContext.get("commands.iam.list.name")).append(name).append(languageContext.get("commands.iam.list.role")).append(role.getName()).append("**");
-                            }
-                        });
-
-                        List<String> parts = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH, stringBuilder);
-                        if(hasReactionPerms) {
-                            DiscordUtils.list(event, 30, false, (current, max) -> baseEmbed(event, languageContext.get("commands.iam.list.header")), parts);
-                        } else {
-                            DiscordUtils.listText(event, 30, false, (current, max) -> baseEmbed(event, languageContext.get("commands.iam.list.header")), parts);
+            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+                return new SubCommand() {
+                    @Override
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                        Map<String, String> autoroles = dbGuild.getData().getAutoroles();
+                        if(content.trim().isEmpty()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.iam.no_iam"), EmoteReference.ERROR).queue();
+                            return;
                         }
-                    } else {
-                        embed = baseEmbed(event, languageContext.get("commands.iam.list.header"));
-                        embed.setDescription(languageContext.get("commands.iam.list.no_autoroles"));
+
+                        iamFunction(content.trim().replace("\"", ""), event, languageContext);
                     }
-
-                    if(embed != null) {
-                        event.getChannel().sendMessage(embed.build()).queue();
-                    }
-
-                    return;
-                }
-
-                iamFunction(content.trim().replace("\"", ""), event, languageContext);
+                };
             }
 
             @Override
@@ -216,8 +191,53 @@ public class MiscCmds {
                         .addParameter("name", "The name of the autorole to get.")
                         .build();
             }
-
         });
+
+        iamCommand.addSubCommand("ls", new SubCommand() {
+            @Override
+            public String description() {
+                return "Lists all the available autoroles for this server.";
+            }
+
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                EmbedBuilder embed = null;
+                DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                Map<String, String> autoroles = dbGuild.getData().getAutoroles();
+
+                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                StringBuilder stringBuilder = new StringBuilder();
+
+                if(!hasReactionPerms)
+                    stringBuilder.append(languageContext.get("general.text_menu")).append("\n");
+
+                if(autoroles.size() > 0) {
+                    autoroles.forEach((name, roleId) -> {
+                        Role role = event.getGuild().getRoleById(roleId);
+                        if(role != null) {
+                            stringBuilder.append(languageContext.get("commands.iam.list.name")).append(name).append(languageContext.get("commands.iam.list.role")).append(role.getName()).append("**");
+                        }
+                    });
+
+                    List<String> parts = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH, stringBuilder);
+                    if(hasReactionPerms) {
+                        DiscordUtils.list(event, 30, false, (current, max) -> baseEmbed(event, languageContext.get("commands.iam.list.header")), parts);
+                    } else {
+                        DiscordUtils.listText(event, 30, false, (current, max) -> baseEmbed(event, languageContext.get("commands.iam.list.header")), parts);
+                    }
+                } else {
+                    embed = baseEmbed(event, languageContext.get("commands.iam.list.header"));
+                    embed.setDescription(languageContext.get("commands.iam.list.no_autoroles"));
+                }
+
+                if(embed != null) {
+                    event.getChannel().sendMessage(embed.build()).queue();
+                }
+            }
+        });
+
+        iamCommand.createSubCommandAlias("ls", "list");
+        iamCommand.createSubCommandAlias("ls", "is");
     }
 
     @Subscribe

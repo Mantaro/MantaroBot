@@ -574,7 +574,7 @@ public class PlayerCmds {
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData data = player.getData();
 
-                if(content.equalsIgnoreCase("ls")) {
+                if(content.equalsIgnoreCase("ls") || content.equalsIgnoreCase("is")) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.ls") + languageContext.get("commands.profile.display.example"), EmoteReference.ZAP,
                             EmoteReference.BLUE_SMALL_MARKER, defaultOrder.stream().map(Enum::name).collect(Collectors.joining(", ")),
                             data.getProfileComponents().size() == 0 ? "Not personalized" : data.getProfileComponents().stream().map(Enum::name).collect(Collectors.joining(", "))

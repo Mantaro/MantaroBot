@@ -469,7 +469,10 @@ public class UtilsCmds {
                 Queue<Message> toSend = new MessageBuilder().append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
                 toSend.forEach(message -> event.getChannel().sendMessage(message).queue());
             }
-        }).createSubCommandAlias("list", "ls");
+        });
+
+        remindme.createSubCommandAlias("list", "ls");
+        remindme.createSubCommandAlias("list", "is");
 
         remindme.addSubCommand("cancel", new SubCommand() {
             @Override
