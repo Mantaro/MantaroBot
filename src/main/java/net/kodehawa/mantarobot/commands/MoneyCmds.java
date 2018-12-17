@@ -786,7 +786,8 @@ public class MoneyCmds {
                     }
                 }
 
-                String message = String.format(languageContext.get("commands.mine.success"), item.getEmoji(), money, item.getName());
+                String reminder = r.nextInt(6) == 0 ? languageContext.get("commands.mine.reminder") : "";
+                String message = String.format(languageContext.get("commands.mine.success") + reminder, item.getEmoji(), money, item.getName());
 
                 //old: Items.handlePotion(Items.POTION_HASTE, 2, player)
                 boolean hasPotion = Items.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), Items.POTION_HASTE, dbUser);
