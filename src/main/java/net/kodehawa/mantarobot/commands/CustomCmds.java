@@ -120,7 +120,7 @@ public class CustomCmds {
 
                 String action = args[0];
 
-                if(action.equals("list") || action.equals("ls") || action.equals("is")) {
+                if(action.equals("list") || action.equals("ls") || action.equals("Is")) {
                     if(!MantaroCore.hasLoadedCompletely()) {
                         event.getChannel().sendMessage(languageContext.get("commands.custom.not_loaded")).queue();
                         return;

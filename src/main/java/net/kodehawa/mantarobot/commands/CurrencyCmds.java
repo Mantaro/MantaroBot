@@ -938,7 +938,7 @@ public class CurrencyCmds {
         });
 
         ui.createSubCommandAlias("ls", "list");
-        ui.createSubCommandAlias("ls", "is");
+        ui.createSubCommandAlias("ls", "Is");
     }
 
     @Subscribe
@@ -1137,7 +1137,7 @@ public class CurrencyCmds {
         });
 
         castCommand.createSubCommandAlias("ls", "list");
-        castCommand.createSubCommandAlias("ls", "is"); //people, smh.
+        castCommand.createSubCommandAlias("ls", "Is"); //people, smh.
     }
 
     @Subscribe

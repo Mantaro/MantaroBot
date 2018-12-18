@@ -472,7 +472,7 @@ public class UtilsCmds {
         });
 
         remindme.createSubCommandAlias("list", "ls");
-        remindme.createSubCommandAlias("list", "is");
+        remindme.createSubCommandAlias("list", "Is");
 
         remindme.addSubCommand("cancel", new SubCommand() {
             @Override

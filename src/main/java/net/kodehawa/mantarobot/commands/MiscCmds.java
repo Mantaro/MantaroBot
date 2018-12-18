@@ -237,7 +237,7 @@ public class MiscCmds {
         });
 
         iamCommand.createSubCommandAlias("ls", "list");
-        iamCommand.createSubCommandAlias("ls", "is");
+        iamCommand.createSubCommandAlias("ls", "Is");
     }
 
     @Subscribe
