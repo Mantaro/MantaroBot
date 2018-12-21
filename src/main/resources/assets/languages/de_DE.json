@@ -69,7 +69,11 @@
       "header": "%1$s%2$s (Ratelimited)\n **Du kannst den Befehl in %3$s wieder nutzen.**",
       "spam_1": "Mach bitte eine Pause, das wäre auch für deine Gesundheit gut :( *Beachte, dass das Ratelimit weiter erhöht wird, wenn du es, bevor es ausläuft, weiterversuchst!*",
       "spam_2": "\nIch denke aufhören ist jetzt die beste Option..."
-    }
+    },
+    "generic_error": "Wenn du willst, tritt unserem **Support Server** bei (Link auf `support.mantaro.site` zu finden), oder schau auf unserer GitHub Seite nach (`https://github.com/Kodehawa/MantaroBot`). Bitte sag denen, dass sie aufhören sollen mich hochzujagen und bitte vergiss nicht die Fehler-ID beim Melden eines Fehlers!",
+    "boom_quotes": ["Offenbar hat Megumin unser Schloss in die Luft gejagt...", "Uh-oh, offenbar hat unser Meister ein paar Nullen und Einsen auf dem Boden vergessen :<", "W-Warte, was ist gerade passiert?", "I-Ich denke hier brennt's... Du solltest vielleicht meinen Meister bitten, sich das anzuschauen.", "Ich habe Explosionsmagie gemeistert, siehst du?", "Vielleicht ist hier einfach etwas schiefgelaufen, aber, u-uh, Ich kann es nicht richtigstellen!", "U-Uhh.. Was wolltest du?"],
+    "ratelimit_quotes": ["Woah... you're calling me a bit too fast... I might get dizzy!", "Sei nicht gierig!", "Y-You're calling me so fast that I'm getting dizzy...", "Wart mal!", "Warte nur einen kleeiinen Augenblick länger uwu", "Schaut so aus, als würden wir noch ein Bußgeld bekommen, wenn wir so schnell weitermachen!", "Ich will das machen... aber warte noch einen Moment bitte.", "Hey, wart mal, Ich bin mit meiner Pause noch nicht fertig!", "Kannst du ein bisschen langsamer machen?"],
+    "mod_quotes": ["Uh-oh, schaut so aus, als wäre jemand hart getroffen worden!", "Hier passiert nur normale Adminarbeit...", "Der Stiefel wurde geworfen!", "Wir werden dich vermissen... okay, vielleicht auch nicht.", "Ich hoffe Ich habe das richtige getan...", "Woah, da haben die Moderatoren gesprochen!", "U-Uh... g-gut, jemand flog grad durch die Tür."]
   },
   "categories": {
     "music": "Musik",
@@ -167,6 +171,10 @@
       "info": "%1$sDu kannst deine Serversprache (sofern anwendbar) mithilfe von `~>opts language set <language code>` ändern. Deine eigene Sprache kannst du mithilfe von `~>profile lang <language code>` ändern.\n**Verfügbare Sprache:** `%2$s`\nSollte deine Sprache hier nicht mitaufgeführt sein und du hast Lust zu helfen, kannst du gerne dem Support-Server beitreten und bei der Übersetzung helfen!"
     },
     "music_general": {
+      "music_error": {
+        "timeout": "%1$sNicht in der Lage zu %2$s zu verbinden: connection timed out. Versuche die Serverregion zu ändern und versuch den Befehl erneut.",
+        "unknown": "%1$sNicht in der Lage zu %2$s zu verbinden: unknown error"
+      },
       "no_song": "%1$sDu musst mir sagen, welches Lied du spielen möchtest! *(YouTube, Soundcloud, Twitch URL oder Suchanfragensind möglich)*",
       "not_playing": "%1$sIch spiele momentan keine Musik",
       "dj_only": "%1$sDu musst ein DJ sein, um diesen Befehl zu nutzen.!",
@@ -314,7 +322,7 @@
     "volume": {
       "check": "%1$sDie momentane Lautstärke ist: %2$d\n\n%3$s",
       "success": "%1$sLautstärke ist nun %2$d\n\n%3$s",
-      "no_args": "%1$sDu musst mir sagen, auf welche Lautstärke du die Musik stellen willst (5 bis 100).",
+      "no_args": "%1$sDu musst mir sagen, auf welche Lautstärke du die Musik stellen willst (4 bis 100).",
       "premium_only": "%1$sDies ist eine Premiumfunktion. Um solche Vorteile zu bekommen, spende auf Patreon (https://www.patreon.com/mantaro). Danke für dein Verständnis.\nPremiumfunktionen können entweder für Nutzer oder für Server freigeschalten werden, solltest du spenden, tritt bitte dem Support-Server bei und frage nach deinem entsprechenden Schlüssel."
     },
     "prefix": {
@@ -434,6 +442,7 @@
         "10000": "Dies ergibt kein Sinn :thinking: #BlameSteven",
         "default": "Viel zu langsam. :dizzy_face:"
       },
+      "display": ["W-War Ich schnell genug?", "Was tust du?", "W-Who schaust du hin?!", "Huh.", "War Ich gut?", "Was denkst du?", "Passiert das häufiger?", "Leiste Ich g-genug?", "<3", "*tätschel*", "Pong.", "Pang.", "Pung.", "Peng.", "Ping-pong? Yay!", "U-Uh... h-hi"],
       "text": "%1$s*%2$s* - Meine Latenz: %3$d ms (%4$s) `Websocket:%5$dms`"
     },
     "love": {
@@ -769,6 +778,14 @@
         "success": "%1$sDu hast erfolgreich %2$s *%3$s* ausgerüstet, was beim nächsten Ausführen des zugehörigen Befehls beachtet wird.",
         "not_suitable": "%1$sDu kannst das nicht ausrüsten."
       },
+      "display": {
+        "not_premium": "%1$sProfilwidgetpersonalisierung ist ur für Premiumnutzer zugänglich.",
+        "not_enough": "%1$sNicht genügend gültige Widgets für dein Profil (Minimum: 3). Wenn du nicht weiter bist, schau dir `~>profile widgets ls` an",
+        "success": "%1$sDein neues Profillayout wurde erfolgreich angewendet. Das neue Layout ist `%2$s`",
+        "ls": "%1$sListe der Profilkomponenten:\n%2$s **Widgets in Standardreihenfolge:** `%3$s`\n%2$s **Deine Widgets:** `%4$s`\nDu kannst `~>profile widgets reset` nutzen, um deine Profilanzeigepräferenzen zurückzusetzen.",
+        "reset": "%1$sErfolgreich die Profilwidgetreihenfolge zurückgesetzt.",
+        "example": "\nBeispiel: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Jede Reihenfolge funktioniert, die Reihenfolge hier ist die, die in deinem Profil genutzt wird.*"
+      },
       "badge_header": "%1$sVorzeige-Abzeichen",
       "bot_notice": "%1$sBots haben keine Profile.",
       "header": "%1$ss Profil",
@@ -1064,6 +1081,7 @@
       "cat": {
         "error": "%1$sFehler beim Abrufen von niedlichen Katzenbildern :("
       },
+      "too_many_tags": "%1$sDu hast zu viele Tags für das aktuelle Imageboard! Imageboard %2$s akzeptiert höchstens %3$d Tags.",
       "invalid_rating": "%1$sSie haben eine ungültige Bewertung angegeben (Verfügbare Arten: questionable (fraglich), explicit (explizit), safe (sicher))!",
       "nsfw_no_nsfw": "%1$sEs kann kein NSFW-Bild in einem Nicht-Nsfw-Kanal gesendet werden :(",
       "no_images": "%1$sEs gibt keine Bilder, die Ihren Suchkriterien entsprechen...",
@@ -1306,6 +1324,7 @@
       "not_suitable": "%1$sDas ist keine Spitzhacke, die du zum Abbauen nutzen kannst!",
       "not_in_inventory": "%1$sDu hast diese Spitzhacke nicht im Inventar, wechsle zur Standardspitzhacke.",
       "success": "%1$sDu hast Mineralien im Wert von **$%2$s Credits abgebaut**, indem du %3$s genutzt hast.",
+      "reminder": "\n*Du kannst bessere Spitzhacken mit den Edelsteinen herstellen, die du beim Abbauen bekommst. Schau unter `~>cast ls` für eine Liste an Dingen, die du herstellen kannst*",
       "diamond": {
         "overflow": "Huch, du hast einen Diamanten während des Abbauens gefunden, aber du hattest schon zu viele, also habe ich ihn für dich verkauft.",
         "success": "Huch! Du hattest Glück und hast beim Abbauen einen Diamanten gefunden, schau in dein Inventar!"
@@ -1375,9 +1394,12 @@
   },
   "options": {
     "options": "Mantaro Optionen",
+    "error_general": "%1$sFalsche oder fehlende Argumente.\nWenn du nicht weiter weißt, oder du Hilfe beim Konfigurieren brauchst, schau unter <https://github.com/Mantaro/MantaroBot/wiki/Configuration> für eine Konfigurationsanleitung. Wenn du nach dem Lesen des Wikis noch Probleme hast, geh auf <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sKann keine Werten empfangen. Merwürdige Sache...",
       "header": "Optionen für Server **%1$s** gesetzt",
+      "terminology": "\n\n**Nützlicher Wortschatz:** [] = leere Liste, null = nicht gesetztt, {} = leeres Objekt. Wenn du für Nummern=[...] siehst, bedeutet das für diese ID, dass das was in den Klammern steht genutzt wird. Objekte werden normalerweise Komma getrennt.",
+      "footer": "Das hier ist ein Debug-Befehl, daher nicht 100% nutzerfreundlich",
       "null_set": "ist auf nichts gesetzt.",
       "set_to": "ist gesetzt auf:"
     },
@@ -1733,6 +1755,15 @@
     "usermessage_leavemessage_list": {
       "header": "Liste der zusätzlichen Austrittsnachrichten. %1$s\n%2$s",
       "no_extras": "%1$sEs gibt keine zusätzlichen Nachrichten..."
+    },
+    "modlog_blacklistwords_add": {
+      "no_word": "%1$sDu hast kein Wort angegeben, das du zur Modlog-Blacklist hinzufügen möchtest.",
+      "success": "%1$sWort `%2$s` erfolgreich zur Modlog-Blacklist hinzugefügt.",
+      "too_many": "%1$sEs sind bereits zu viele Worte auf der Blacklist (mehr als 20)."
+    },
+    "modlog_blacklistwords_remove": {
+      "not_in": "%1$sWort `%2$s` ist nicht auf der Blacklist.",
+      "success": "%1$sErfolgreich das Wort `%2$s` von der Modlog-Blacklist entfernt."
     },
     "invalid_category": "%1$sDu hast eine ungültige Kategorie eingegeben. Eine Liste gültiger Kategorien zum deaktivieren (Groß- und Kleinschreibung beachten) wird unten angezeit```md\n%2$s```",
     "help_opts_notice": "%1$sDu kannst den options oder help Befehl nicht deaktivieren.",
