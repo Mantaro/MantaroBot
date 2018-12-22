@@ -171,7 +171,8 @@ public class GuildOptions extends OptionHandler {
                                 String.join("\n", lang.get("options.birthday_enable.warning"),
                                         lang.get("options.birthday_enable.warning_1"),
                                         lang.get("options.birthday_enable.warning_2"),
-                                        lang.get("options.birthday_enable.warning_3")), EmoteReference.WARNING, roleObj.getName()
+                                        lang.get("options.birthday_enable.warning_3"),
+                                        lang.get("options.birthday_enable.warning_4")), EmoteReference.WARNING, roleObj.getName()
                         ).queue();
                         InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 45, interactiveEvent -> {
                             String content = interactiveEvent.getMessage().getContentRaw();
