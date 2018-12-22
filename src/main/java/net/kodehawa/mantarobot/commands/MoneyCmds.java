@@ -886,7 +886,7 @@ public class MoneyCmds {
                 event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.win_overflow"), EmoteReference.DICE, gains).queue();
             }
         } else {
-            if(bet > GAMBLE_MAX_MONEY) {
+            if(bet == GAMBLE_MAX_MONEY) {
                 player.getData().addBadgeIfAbsent(Badge.RISKY_ORDEAL);
             }
 
