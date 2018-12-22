@@ -525,15 +525,21 @@ public class PlayerCmds {
 
                 String s = String.join("\n",
                         prettyDisplay(ctx.get("commands.profile.stats.market"), playerData.getMarketUsed() + " " + ctx.get("commands.profile.stats.times")),
+
+                        //Potion display
                         prettyDisplay(ctx.get("commands.profile.stats.potion"), noPotion ? "None" : potion.getName()),
-                        prettyDisplay(ctx.get("commands.profile.stats.times_used"), noPotion ? "Never" :
-                                equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION).getTimesUsed() + " " + ctx.get("commands.profile.stats.times")),
+                        "\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009" +
+                                ctx.get("commands.profile.stats.times_used") +
+                                (noPotion ? "Never" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION).getTimesUsed() + " " + ctx.get("commands.profile.stats.times"))),
                         prettyDisplay(ctx.get("commands.profile.stats.buff"), noBuff ? "None" : buff.getName()),
-                        prettyDisplay(ctx.get("commands.profile.stats.times_used"),
-                                noBuff ? "None" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF).getTimesUsed()  + " " + ctx.get("commands.profile.stats.times")),
+                        "\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009" +
+                                ctx.get("commands.profile.stats.times_used") +
+                                (noBuff ? "None" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF).getTimesUsed()  + " " + ctx.get("commands.profile.stats.times")),
+                        //End of potion display
+
                         prettyDisplay(ctx.get("commands.profile.stats.equipment"), ((equipmentEmpty) ? "None" :
-                                        equippedItems.getEquipment().entrySet().stream().map((entry) -> Utils.capitalize(entry.getKey().toString()) + ": " +
-                                                Items.fromId(entry.getValue()).toDisplayString()).collect(Collectors.joining(", ")))),
+                                equippedItems.getEquipment().entrySet().stream().map((entry) -> Utils.capitalize(entry.getKey().toString()) + ": " +
+                                        Items.fromId(entry.getValue()).toDisplayString()).collect(Collectors.joining(", ")))),
                         prettyDisplay(ctx.get("commands.profile.stats.experience"), playerData.getExperience() + "/" + experienceNext + " XP"),
                         prettyDisplay(ctx.get("commands.profile.stats.daily"), playerData.getDailyStreak() + " " + ctx.get("commands.profile.stats.days")),
                         prettyDisplay(ctx.get("commands.profile.stats.daily_at"), new Date(playerData.getLastDailyAt()).toString()),
