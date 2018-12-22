@@ -60,7 +60,7 @@ public enum Badge {
     ),
 
     //Helps find important bugs.
-    BUG_HUNTER("Bug Hunter", "\uD83D\uDC1B", "Has reported one or more important bugs with details.", 92, 94,
+    BUG_HUNTER("Bug Hunter", "\uD83D\uDC7E", "Has reported one or more important bugs with details.", 92, 94,
             ((player, dbUser) -> false), false
     ),
 
@@ -263,7 +263,7 @@ public enum Badge {
     ),
 
     NUMERIC_PATHWAY("Numeric Pathway", "\uD83D\uDD36", "A lucky and sad destiny with six equal people meeting, who slowly fade away as you spend.", 91, 92,
-            (player, dbUser) -> player.getMoney().toString().matches("([1-9]){6}"), true
+            (player, dbUser) -> player.getMoney().toString().matches("([1-9])\\1{6,}"), true
     ),
 
     DESTINY_REACHES("Destiny Reaches", "\uD83D\uDD36", "Good and bad luck meeting together, with a little gem as a mediator.", 91, 92,

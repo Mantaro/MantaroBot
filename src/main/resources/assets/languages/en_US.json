@@ -797,7 +797,7 @@
       "birthday": "Birthday",
       "married": "Married with",
       "nobody": "Nobody",
-      "inventory": "Simple Inventory",
+      "inventory": "Item Collection",
       "badges": "Top 5 Badges",
       "no_badges": "No badges (yet!)",
       "no_timezone": "Not set",
@@ -1052,7 +1052,7 @@
       "character_load_error": "%1$sReport this in the official server please. Failed to setup game for pre-saved character: %2$s",
       "character_request_error": "%1$sError requesting this character from AniList's API.",
       "character_start": "Guess the character",
-      "too_many_games": "%1$sYou can start a maximum of 4 games at the same time with game lobby/multiple. (With Premium: 8)"
+      "too_many_games": "%1$sYou can start a maximum of 4 games at the same time with game lobby. (With Premium: 8)"
     },
     "opencrate": {
       "no_crate": "%1$sYou don't have any loot crate of this type to open :( (If you're trying to open a crate of any other than the default type, use the name of the crate after the command)",
@@ -1076,7 +1076,7 @@
     },
     "imageboard": {
       "catgirl": {
-        "error": "Unable to get image."
+        "error": "Error retrieving cute catgirl images :("
       },
       "cat": {
         "error": "%1$sError retrieving cute cat images :("
@@ -1572,7 +1572,8 @@
       "warning": "%1$sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
       "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and un-assigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
       "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users.",
-      "warning_3": "Type **yes** if you agree to set the role %2$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
+      "warning_3": "Additionally the birthday cache (what is used to store them) is only updated every 23 hours. Meaning if you set your birthday today to tomorrow to test this announcer it will **not** work.",
+      "warning_4": "Type **yes** if you agree to set the role %2$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
       "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
       "error_channel_1": "%1$sI didn't find a channel or role!",
       "error_channel_2": "*Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".* If the role contains spaces \"wrap it in quotes like this\""
