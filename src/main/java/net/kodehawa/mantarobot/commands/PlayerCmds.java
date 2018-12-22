@@ -529,12 +529,10 @@ public class PlayerCmds {
                         //Potion display
                         prettyDisplay(ctx.get("commands.profile.stats.potion"), noPotion ? "None" : potion.getName()),
                         "\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009" +
-                                ctx.get("commands.profile.stats.times_used") +
-                                (noPotion ? "Never" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION).getTimesUsed() + " " + ctx.get("commands.profile.stats.times"))),
+                                ctx.get("commands.profile.stats.times_used") + (noPotion ? "Never" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION).getTimesUsed() + " " + ctx.get("commands.profile.stats.times")),
                         prettyDisplay(ctx.get("commands.profile.stats.buff"), noBuff ? "None" : buff.getName()),
                         "\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009" +
-                                ctx.get("commands.profile.stats.times_used") +
-                                (noBuff ? "None" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF).getTimesUsed()  + " " + ctx.get("commands.profile.stats.times")),
+                                ctx.get("commands.profile.stats.times_used") + (noBuff ? "None" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF).getTimesUsed()  + " " + ctx.get("commands.profile.stats.times")),
                         //End of potion display
 
                         prettyDisplay(ctx.get("commands.profile.stats.equipment"), ((equipmentEmpty) ? "None" :
