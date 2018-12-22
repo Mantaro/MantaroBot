@@ -797,7 +797,7 @@
       "birthday": "Geburtstag",
       "married": "Verheiratet mit",
       "nobody": "Niemandem",
-      "inventory": "Inventar",
+      "inventory": "Gegenstandssammlung",
       "badges": "Top 5 Abzeichen",
       "no_badges": "Keine Abzeichen (noch!)",
       "no_timezone": "Nicht festgelegt",
@@ -1052,7 +1052,7 @@
       "character_load_error": "%1$sMelden Sie dies bitte im offiziellen Server. Fehler beim Einrichten des Spiels für den zuvor gespeicherten Charakter: %2$s",
       "character_request_error": "%1$sFehler beim Anfordern des Charakters von der AniList API.",
       "character_start": "Rate den Charakter",
-      "too_many_games": "%1$sDu kannst maximal 4 Spiele auf einmal mit lobby/multiple starten. (Mit Premium: 8)"
+      "too_many_games": "%1$sDu kannst maximal 4 Spiele auf einmal mit lobby starten. (Mit Premium: 8)"
     },
     "opencrate": {
       "no_crate": "%1$sDu hast keine Truhe, dieser Art. :( (Wenn du versuchst eine spezielle Truhe zu öffnen, verwende den Namen nach dem Befehl)",
@@ -1076,7 +1076,7 @@
     },
     "imageboard": {
       "catgirl": {
-        "error": "Das Bild konnte nicht abgerufen werden."
+        "error": "Fehler beim Abrufen von niedlichen Katzenmädchenbildern :("
       },
       "cat": {
         "error": "%1$sFehler beim Abrufen von niedlichen Katzenbildern :("
@@ -1572,7 +1572,8 @@
       "warning": "%1$sBeachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird. Wenn du Zweifel daran hast, wie du sie konfigurieren musst, kannst du immer dem Support-Server beitreten und fragen. Du kannst auch `~>opts help birthday enable` für ein Beispiel anschauen",
       "warning_1": "So funktioniert der Geburtstagsanzeiger: Er vergibt eine temporäre Rolle an die Personen, die Geburtstag haben und nimmt ihnen die Rolle ab, wenn der Tag endet. **Das bedeutet, dass jeder mit der Geburtstagrolle die Rolle verliert, wenn der Geburtstag endet**. Bitte sei vorsichtig, wenn du auswählst welche Rolle du nutzen willst, da eine Fehleinstellung böse Folgen haben kann (sehr böse)!",
       "warning_2": "Due Rolle *muss eine neu erstellte Rolle sein, oder eine, die du für niemanden sonst verwendest*. Es DARF KEINE Rolle sein, die du bereits bei deinen Nutzern benutzt.",
-      "warning_3": "Gebe **yes** ein, wenn du zustimmst, die Rolle %2$s als Geburtstagsrolle zu setzen, und **no** zum abbrechen. Diese Wahl endet in 45 Sekunden.",
+      "warning_3": "Außerdem wird der Cache (das was benutzt wird um die Geburtstage zu speichern) nur alle 23 Stunden aktualisiert. Das bedeutet wenn du heute deinen Geburtstag auf Morgen setzt wird es **nicht** funktionieren",
+      "warning_4": "Gebe **yes** ein, wenn du zustimmst, die Rolle %2$s als Geburtstagsrolle zu setzen, und **no** zum abbrechen. Diese Wahl endet in 45 Sekunden.",
       "success": "%1$sGeburtstagslogging auf diesem Server mit Parametern aktiviert -> Kanal `%2$s (%3$s)` und Rolle: `%4$s (%5$s)`",
       "error_channel_1": "%1$sIch habe keinen Kanal oder Rolle gefunden!",
       "error_channel_2": "*Beachte, du musst weder den Kanal noch die Rolle erwähnen, sonder nur den Namen schreiben, die Reihenfolge ist <Kanal> <Rolle>, ohne die \"<>\".* Wenn der Rollenname Leerzeichen enthält, \"pack sie, wie das hier in Anführungsstriche\""
