@@ -804,16 +804,20 @@ public class RelationshipCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                boolean isId = content.matches("\\d{16,22}");
+                boolean isId = content.matches("\\d{16,20}");
 
                 if(content.isEmpty() && !isId) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.no_user"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                Member member = Utils.findMember(event, event.getMember(), content);
-                if(member == null && !isId)
-                    return;
+                //We don't look this up if it's by-id.
+                Member member = null;
+                if(!isId) {
+                    member = Utils.findMember(event, event.getMember(), content);
+                    if(member == null)
+                        return;
+                }
 
                 final ManagedDatabase db = MantaroData.db();
                 User toLookup = isId ? MantaroBot.getInstance().getUserById(content) : member.getUser();
