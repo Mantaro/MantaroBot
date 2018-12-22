@@ -528,11 +528,11 @@ public class PlayerCmds {
 
                         //Potion display
                         prettyDisplay(ctx.get("commands.profile.stats.potion"), noPotion ? "None" : potion.getName()),
-                        "\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009" +
-                                ctx.get("commands.profile.stats.times_used") + (noPotion ? "Never" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION).getTimesUsed() + " " + ctx.get("commands.profile.stats.times")),
+                        "\u3000 " +
+                                EmoteReference.BOOSTER + ctx.get("commands.profile.stats.times_used") + ": " + (noPotion ? "Not equipped" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION).getTimesUsed() + " " + ctx.get("commands.profile.stats.times")),
                         prettyDisplay(ctx.get("commands.profile.stats.buff"), noBuff ? "None" : buff.getName()),
-                        "\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009" +
-                                ctx.get("commands.profile.stats.times_used") + (noBuff ? "None" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF).getTimesUsed()  + " " + ctx.get("commands.profile.stats.times")),
+                        "\u3000 " +
+                                EmoteReference.BOOSTER + ctx.get("commands.profile.stats.times_used") + ": " + (noBuff ? "Not equipped" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF).getTimesUsed()  + " " + ctx.get("commands.profile.stats.times")),
                         //End of potion display
 
                         prettyDisplay(ctx.get("commands.profile.stats.equipment"), ((equipmentEmpty) ? "None" :
@@ -546,7 +546,7 @@ public class PlayerCmds {
                         prettyDisplay(ctx.get("commands.profile.stats.reminders"), data.getReminderN() + " " + ctx.get("commands.profile.stats.times")),
                         prettyDisplay(ctx.get("commands.profile.stats.lang"), (data.getLang() == null ? "en_US" : data.getLang())),
                         prettyDisplay(ctx.get("commands.profile.stats.wins"),
-                                String.format("\n\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009" +
+                                String.format("\n\u3000\u2009\u2009\u2009\u2009" +
                                         "%1$sGamble: %2$d, Slots: %3$d, Game: %4$d (times)", EmoteReference.CREDITCARD, playerStats.getGambleWins(), playerStats.getSlotsWins(), playerData.getGamesWon()))
                         );
 
