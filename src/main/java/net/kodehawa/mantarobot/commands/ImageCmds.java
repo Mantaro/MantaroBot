@@ -224,7 +224,7 @@ public class ImageCmds {
                         getImage(danbooru, ImageRequestType.RANDOM, false, "danbooru", args, content, event, languageContext);
                         break;
                     default:
-                        getImage(safebooru, ImageRequestType.TAGS, false, "danbooru", args, content, event, languageContext);
+                        getImage(danbooru, ImageRequestType.TAGS, false, "danbooru", args, content, event, languageContext);
                         break;
                 }
             }
