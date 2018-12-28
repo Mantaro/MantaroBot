@@ -17,6 +17,7 @@
     "not_found": "Non trouvé",
     "no_results": "Pas de résultats.",
     "timeout": "Cela expire dans %1$d secondes.",
+    "reaction_timeout": "Les réactions expireront dans %1$d seconde(s).",
     "example": "Exemple",
     "definition": "Définition",
     "name": "Nom",
@@ -41,12 +42,17 @@
       "haste_used": "%1$sTu as déjà un effet de hâte actif!",
       "bait": "%1$sAppât fixé à ta canne à pêche! Bonne chance à la pêche ! (Activé pour 1 utilisation)",
       "bait_used": "%1$sTu as déjà un appât de pêche actif!",
+      "pill": "%1$sTu as bu une pilule waifu! (Activé pour 5 sessions)",
+      "pill_used": "%1$sTu as déjà une pilule de waifu active!",
       "crate": {
         "no_key": "%1$sTu as besoin d'une clé de caisse de butin pour ouvrir la caisse. Elle est verrouillé!",
         "no_crate": "%1$sTu as besoin d'une caisse de butin! Sinon, comment utiliserai-tu ta clé >.> ... oh",
         "success": "%1$s**Tu as gagné:** %2$s%3$s",
         "overflow": "Mais tu en avais déjà trop, alors tu as décidé de jeter l'excédent"
-      }
+      },
+      "potion_active": "%1$sTu as déjà un effet de potion **%2$s** active!",
+      "potion_not_found": "%1$sJe ne trouve pas ce type de potion ou d'équipement!",
+      "potion_applied": "%1$sEffet **%2$s** du type *%3$s* appliqué avec succès. Regarde ton nouvel effet avec `~>profile stats`"
     },
     "mention_user_required": "%1$sTu as besoin de mentionner un utilisateur.",
     "invalid_character": "%1$sCe n'est pas un caractère autorisé.",
@@ -56,7 +62,18 @@
     "buy_sell_paged_text": "**Pages total: %1$d.**\nUtilises **&p >>** et **&p <<**  pour te déplacer entre les pages.\n%2$s",
     "buy_sell_paged_reference": "**Réference %1$s Acheter %2$s Vendre.**",
     "cancelled": "%1$sDemande annulée.",
-    "sellout": "Penses à faire un don sur patreon.com/mantaro si tu m'aimes, même un petit don aidera à garder le bot en vie!"
+    "sellout": "Penses à faire un don sur patreon.com/mantaro si tu m'aimes, même un petit don aidera à garder le bot en vie!",
+    "deprecated": "Ce n'est plus utilisé'",
+    "space_notice": "Si le nom de celui-ci contient des espaces, essaies \"de le placer entre guillemets\"",
+    "ratelimit": {
+      "header": "%1$s%2$s (Ratelimited)\n **Tu pourras utiliser cette commande à nouveau dans %3$s.**",
+      "spam_1": "S'il te plait repose toi, c'est bon pour ta santé :( *N'oublies pas que le taux limite continuera d'augmenter si tu essaies avant la fin du temps imparti!*",
+      "spam_2": "\nJe pense que s'arrêter est la meilleure option pour le moment..."
+    },
+    "generic_error": "Si tu veux, tu peux rejoindre notre **serveur de support** (Lien sur `support.mantaro.site`), et consulter notre page GitHub (`https://github.com/Kodehawa/MantaroBot`). s'il te plait dis leur d'arrêter de m'exploiter, et stp n'oublies pas le code de l'erreur en rapportant le problème !",
+    "boom_quotes": ["Apparemment, Megumin a fait exploser notre château ... "," Uh-oh, de toute évidence mon maître a oublié des zéros et des zéros sur le sol: <"," A-Attends, qu'est-ce qui vient de se passer? "," Je pense que nous avons un début de feu ici ... tu pourrais demander à mon maître de jeter un coup d'œil. "," Je maîtrise la magie de l'explosion, tu vois? "," Peut-être que quelque chose s'est mal passé ici, mais, euh, je peux le réparer ! "," U-Uhh .. Qu'est-ce que tu voulais?"],
+    "ratelimit_quotes": ["Woah ... tu m'appelles un peu trop vite ... je vais avoir la tête qui tourne! "," Ne sois pas si impatient! "," T-Tu m'appelles si vite que je suis pris de vertige .. . "," Attends! "," Attends juste un peu plus uwu, "," On va avoir une amende si on continue à aller aussi vite! "," Je veux le faire ... mais attends un peu s'il te plaît. "," Hey, attends, je n'ai pas encore fini ma pause! "," Tu peux ralentir un peu?"],
+    "mod_quotes": ["Uh-oh, on dirait que quelqu'un vient de recevoir un gros coup! "," C'est juste un travail administratif normal ... "," La botte a été lancée! "," Tu vas nous manquer ... pas vraiment en fait "," J'espère que j'ai fait ce qu'il fallait faire ... "," Woah, là, les modérateurs ont parlé! "," U-Uh ... E-Eh bien, quelqu'un vient de voler à travers la porte."]
   },
   "categories": {
     "music": "Audio",
@@ -82,13 +99,22 @@
       "tier3": {
         "extra": "Et tu as aussi trouvé %1$s, la chance!"
       },
+      "crate": {
+        "overflow": "Tu as trouvé **%1$s** en pêchant, mais tu en avais déjà trop, donc nous avons tout rejeté dans l'océan...",
+        "success": "Tu as trouvé %1$s **%2$s** en pêchant et tu le ramasses. Allez ouvre le en écrivant `~>opencrate <nom de la caisse>`. Tu auras besoin d'une clé de caisse pour l'ouvrir!"
+      },
       "overflow": "%1$sTu as trouvé des poissons, mais une partie de ton inventaire était pleine, nous avons donc dû en jeter une partie dans l’eau....",
       "success": "%1$sEn pêchant tranquillement, tu as trouvé %2$s et tu les as gardé dans ton seau.",
       "success_money": "%1$sEn pêchant tranquillement, tu as trouvé %2$s et **$%3$d credits** et tu les as gardé dans ton seau.%4$s",
       "success_money_noitem": "%1$sEn pêchant tranquillement, tu as trouvé **$%2$d credits** et tu les as gardé dans ton seau.",
       "rod_broke": "%1$sTa canne à pêche s'est cassée en essayant d'attraper un poisson:(",
-      "waifu_help": "Ton waifu est venu et t'as rejoint dans ton aventure de pêche et vous arrivez tous les deux à obtenir un plus grand butin!"
-    },
+      "waifu_help": "Ton waifu est venu et t'as rejoint dans ton aventure de pêche et vous arrivez tous les deux à obtenir un plus grand butin!",
+      "not_suitable": "%1$sTu ne peux pas utiliser ça pour pêcher.",
+      "shark_success": "%1$sTu as réussi à attraper un requin. Quelle bonne canne à pêche, hein?",
+      "fossil_success": "%1$sTu as attrapé un fossile en pêchant. Cela pourrait avoir un peu de valeur ou même être utile à la fabrication, je pense",
+      "bait": "Le poisson a avalé ton appât!",
+      "missing_equipped": "%1$sTu étais équipé d'une canne à pêche %2$s, mais tu n'en as plus de comme ça dans ton inventaire! Ta canne à pêche par défault a donc été réinitialisée."
+  },
     "softban": {
       "no_permission": "%1$sSoft ban impossible: Tu n'as pas la permission de bannir les membres.",
       "no_permission_self": "%1$sDésolé! Je n'ai pas la permission de bannir les membres de ce serveur.",
@@ -145,6 +171,10 @@
       "info": "%1$sTu peux changer la langue du serveur (si applicable) en utilisant `~>opts language set <language code>`. Pour changer ta langue de préférence, utilises `~>profile lang <language code>`.\n**Langues disponibles:** `%2$s`\nSi ta langue n'est pas dans la liste et que tu as envie d'aider, n'hésites pas à rejoindre serveur de support de Mantaro et à aider à la traduction!"
     },
     "music_general": {
+      "music_error": {
+        "timeout": "%1$sImpossible de se connecter à %2$s: la connexion a expiré. Essaies de changer la région du serveur et d'exécuter à nouveau la commande.",
+        "unknown": "%1$sImpossible de se connecter à %2$s: erreur inconnue"
+      },
       "no_song": "%1$sTu dois me dire quelle chanson tu veux jouer! *(YouTube, Soundcloud, Twitch URL ou les requêtes de recherche sont autorisées)*",
       "not_playing": "%1$sJe ne joue rien en ce moment",
       "dj_only": "%1$sTu as besoin d'être DJ pour utiliser cette commande!",
@@ -163,7 +193,7 @@
         "np": "Joue en ce moment",
         "page_overflow": "Rien ici, que de la poussière. Pourquoi ne pas revenir en arrière de quelques pages?",
         "page_overflow_2": "Si tu penses qu'il y a des chansons ici mais qu'elles n'apparaissent pas, essaies d'utiliser `~>queue 1`.",
-        "total_queue_time": "Temps total de la liste de lecture",
+        "total_queue_time": "Durée total de la liste de lecture",
         "total_size": "Taille totale de la liste de lecture",
         "togglers": "Répéter / Pause",
         "playing_in": "Jouer dans",
@@ -171,7 +201,9 @@
         "multiple_pages": " -> Utilises ~>queue <page> pour changer de page",
         "page_react": " -> Réagis avec les emojis de réaction pour changer de page",
         "no_channel": "Aucun salon vocal :(",
-        "songs": "chanson(s)"
+        "songs": "chanson(s)",
+        "clear_error": "%1$sSoit tu n'es pas connecté au salon vocal, soit tu n'es pas DJ.",
+        "clear_success": "%1$sListe de lecture en cours effacée avec succès."
       },
       "connect": {
         "success": "%1$sConnecté avec succès au salon vocal **%2$s**!",
@@ -226,7 +258,7 @@
       "success": "%1$sChanson actuel redémarré."
     },
     "skipahead": {
-      "no_time": "%1$sTu dois me dire de combien tu veux avancer la chanson. *(Exemple: `~>skipahead 1m45s` va avancer la chanson d' 1 minutes et 45 secondes à partir du moment où tu es actuellement)*",
+      "no_time": "%1$sTu dois me dire de combien tu veux avancer la chanson. *(Exemple: `~>skipahead 1m45s` va avancer la chanson d' 1 minute et 45 secondes à partir du moment où tu es actuellement)*",
       "past_duration": "%1$sTu ne peux pas avancer d'avantage que la durée de la chanson",
       "success": "%1$sChanson avancé à %2$s."
     },
@@ -259,7 +291,7 @@
       "format": "%1$sProchaine chanson dans la file d'attente: **%2$s** (%3$s) | *Nombre total de titres dans la file d'attente: %4$d*"
     },
     "shuffle": {
-      "success": "%1$sMélange de la file d'attente actuelle."
+      "success": "%1$sFile d'attente actuelle mélangée avec succès."
     },
     "skip": {
       "dj_skip": "%1$sLe DJ a décidé de passer cette chanson",
@@ -290,17 +322,25 @@
     "volume": {
       "check": "%1$sLe volume actuel de cette session est: %2$d\n\n%3$s",
       "success": "%1$sVolume défini à %2$d\n\n%3$s",
-      "no_args": "%1$sTu dois me dire le volume tu souhaites (de 5 à 100)."
+      "no_args": "%1$sTu dois me dire le volume tu souhaites (de 5 à 100).",
+      "premium_only": "%1$sCeci est une fonctionnalité premium uniquement. Pour bénéficier d'avantages comme celui-ci, tu peux faire un don sur le site patreon (https://www.patreon.com/mantaro). Merci de ta compréhension.\nLes fonctionnalités premiums peuvent être liées à un utilisateur ou à un serveur. Si tu fais un don, rejoins la guilde d'assistance et demande ta clé premium.."
+    },
+    "prefix": {
+      "header": "%1$sLes préfixes par défaut sont %2$s (Je réponds à chacun d'eux!). Le préfixe du serveur est `%3$s` (Cela ne fonctionne que sur ce serveur). Tu peux définir un nouveau préfixe en écrivant `~>opts prefix set <préfixe>`",
+      "none": "Il n'y a pas de préfixe personnalisé défini sur ce serveur."
     },
     "custom": {
       "no_args": "%1$sTu dois préciser ce que tu veux faire avec cette commande. Consultes l'aide de la commande pour plus d'infos.!",
       "error_running": "%1$sErreur lors de l'exécution de la commande personnalisée ... Vérifies le contenu et la longueur de la réponse (elle ne peut pas dépasser 2000 caractères)..",
+      "incorrect_args": "%1$sArguments incorrects. Regardes `~>help custom` ou sur https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands pour obtenir d'avantage d'aide sur comment utiliser cet commande. Si tu rencontres d'autres problèmes après avoir lu wiki, consultes <https://support.mantaro.site>",
       "not_loaded": "Le bot n'a pas encore démarré complètement ... les commandes personnalisées seront bientôt disponibles!",
       "nsfw_enabled": "%1$sCette commande a bien été identifiée comme NSFW.",
       "nsfw_disabled": "%1$sCette commande a bien été identifiée comme SFW.",
       "nsfw_not_nsfw": "%1$sCette commande est identifiée comme NSFW , tu peux l'utiliser uniquement dans un salon NSFW..",
       "ls": {
-        "header": "Commandes pour cette guilde"
+        "header": "Commandes pour cette guilde",
+        "description": "**Cela affiche toutes les commandes personnalisées (faites par des utilisateurs) de ce serveur. ** Chaque commande répertoriée ici n’a aucun lien avec le bot ou ses développeurs. .\n\nLes commandes personnalisées sont des commandes créées par les utilisateurs (généralement les administrateurs de serveur) capablent de gérer un grand nombre de situations différentes, allant même jusqu'à imiter des commandes d'action.\nPour plus d'informations sur la création de commandes personnalisées, tu peux consulter [cette page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Liste:**",
+        "footer": "Total des commandes personnalisées sur ce serveur: %1$s"
       },
       "invalid": "%1$sSélection de commande non valide. Vérifies l'aide à la commande (`help custom`).",
       "view": {
@@ -348,6 +388,7 @@
         "success": "%1$sCommande renommée de `%2$s` à `%3$s`"
       },
       "add": {
+        "empty_content": "%1$sTu dois spécifier le contenu de cette commande personnalisée.",
         "success": "%1$sCommande `%2$s` sauvegardée"
       },
       "character_not_allowed": "%1$sCe caractère n'est pas autorisé pour les noms de commandes personnalisées.",
@@ -385,23 +426,24 @@
     },
     "ping": {
       "quotes": {
-        "1": "supersonic speed! :upside_down:",
-        "10": "faster than Sonic! :smiley:",
+        "1": "vitesse supersonique! :upside_down:",
+        "10": "plus rapide que Sonic! :smiley:",
         "69": "l-lewd! <:MantaroGasm:318869352851963904>",
-        "100": "great! :smiley:",
-        "200": "nice! :slight_smile:",
-        "300": "decent. :neutral_face:",
-        "400": "average... :confused:",
-        "500": "slightly slow. :slight_frown:",
-        "600": "kinda slow.. :frowning2:",
-        "700": "slow.. :worried:",
-        "800": "too slow. :disappointed:",
-        "900": "bad. :sob: (help me)",
-        "1600": "#BlameDiscord. :angry:",
-        "10000": "this makes no sense :thinking: #BlameSteven",
-        "default": "slow af. :dizzy_face:"
+        "100": "génial! :smiley:",
+        "200": "cool! :slight_smile:",
+        "300": "décent. :neutral_face:",
+        "400": "moyen moyen... :confused:",
+        "500": "légèrement lent. :slight_frown:",
+        "600": "assez lent.. :frowning2:",
+        "700": "lent.. :worried:",
+        "800": "trop lent. :disappointed:",
+        "900": "mauvais. :sob: (help me)",
+        "1600": "#BlâmeDiscord. :angry:",
+        "10000": "ça n'a aucun sens :thinking: #BlameSteven",
+        "default": "bien trop lent. :dizzy_face:"
       },
-      "text": "%1$s*%2$s* - My ping: %3$d ms (%4$s) `Websocket:%5$dms`"
+      "display": ["J-J'ai été assez rapide? "," Qu'est-ce que tu fais? "," Q-Qu'est-ce que tu regardes?! "," Huh. "," Est-ce que je m'en suis bien sorti? "," Qu'est-ce que t'en penses? ", "Est-ce que ça souvent?", "Est-ce que je fonctionne c-correctement?", "<3", "* tapote *", "Pong.", "Pang.", "Pung.", "Peng.", " Ping pong? Yay! "," U-Uh ... s-salut"],
+      "text": "%1$s*%2$s* - Mon temps de réponse: %3$d ms (%4$s) `Websocket:%5$dms`"
     },
     "love": {
       "no_mention": "%1$sYou need to mention at least 1 user.",
@@ -427,7 +469,7 @@
         "scrapped": "%1$sYou still have time to think on what to write, no need to rush!"
       },
       "status": {
-        "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\"",
+        "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\" (If you see a marriage in your profile and see this message that means you are in the old system, try remarrying)",
         "header": "Current Marriage Status",
         "description_format": "%1$sMarriage status between **%2$s#%3$s** and **%4$s#%5$s**",
         "date": "Marriage Date",
@@ -467,8 +509,10 @@
         "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed.",
         "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s)**",
         "not_enough_slots": "%1$sYou don't have enough slots available to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
-        "success": "%1$sSuccessfully claimed %2$s for %3$,d. Slots used: %4$s",
-        "yourself": "%1$sYou cannot claim yourself!"
+        "success": "%1$sSuccessfully claimed `%2$s` for %3$,d. Slots used: %4$s",
+        "yourself": "%1$sYou cannot claim yourself!",
+        "already_claimed": "%1$sYou already claimed this waifu.",
+        "not_found": "%1$sI can't find any user with this query."
       },
       "unclaim": {
         "no_user": "%1$sYou need to mention a waifu to un-claim.",
@@ -477,7 +521,7 @@
         "not_enough_money": "%1$sYou don't have enough money to un-claim this waifu!",
         "player_locked": "%1$sYou cannot do this at the moment.",
         "scrapped": "%1$sCancelled waifu un-claiming.",
-        "success": "%1$sSuccessfully unclaimed **%2$s** with a cost of **%3$s credits**."
+        "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**."
       },
       "buyslot": {
         "locked": "%1$sYou're currently unable to perform this action.",
@@ -491,7 +535,9 @@
       "footer": "Total waifus: %1$d - available slots: %2$s",
       "value_format": "**- Value:**",
       "value_b_format": "**- Bought for:**",
-      "credits_format": " credits."
+      "credits_format": " credits.",
+      "waifu_header": "**Your waifus:**",
+      "not_claimed": "%1$sYou haven't claimed this waifu."
     },
     "ratewaifu": {
       "nothing_specified": "%1$sGive me a waifu to rate!",
@@ -512,17 +558,24 @@
       "calculate": "%1$s%2$s will get **%3$d credits** if all of the items are sold.",
       "header": "%1$s's Inventory",
       "format": "**Price**: 📥 %1$d 📤 %2$d\n%3$s",
-      "empty": "%1$sYour inventory is empty! :("
+      "empty": "%1$sThis inventory is empty! :(",
+      "brief_notice": "You can use `~>inventory -brief` to get a mobile friendly version."
     },
     "cast": {
       "no_item_found": "%1$sI didn't find any item matching that.",
-      "item_not_cast": "%1$sYou cannot cast this item.",
+      "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items.",
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
       "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
       "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
-      "success": "%1$sYou successfully **casted %2$s %3$s** for **%4$s credits.**",
+      "success": "%1$sYou successfully *casted %2$s %3$s* for %4$s credits. *Cast used: %5$s*",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
-      "item_broke": "\nSadly, your wrench broke in the process, but you got your item!"
+      "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
+      "ls": {
+        "header": "Castable Item List",
+        "cost": "Cast Cost: ",
+        "desc": "This is a list of the items you can cast using `~>cast`. You have to use the full name or the short name to cast it (example: `~>cast diamond pickaxe` or `~>cast diamond p` works)\n**Casting has a cost of half the price of the item. The casting price will be shown down below.**"
+      },
+      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?"
     },
     "market": {
       "dump": {
@@ -548,7 +601,7 @@
           "cancelled": "%1$sCancelled successfully."
         },
         "non_existent": "%1$sYou cannot sell a non-existent item.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold.",
+        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
         "no_item_player": "%1$sYou cannot sell an item you don't have.",
         "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
         "success": "%1$sYou sold %2$d **%3$s** and gained %4$d credits!"
@@ -561,7 +614,6 @@
         "item_limit_reached": "%1$sYou cannot buy more of that object.",
         "success": "%1$sBought %2$d %3$s for %4$d credits successfully. You now have %5$d credits.",
         "not_enough_money": "%1$sYou don't have enough money to buy this item."
-
       },
       "header": "Mantaro's Market"
     },
@@ -587,7 +639,7 @@
       "no_money_notice": "%1$sYou cannot transfer money you don't have.",
       "receipt_locked_notice": "1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sThis user already has too much money...",
-      "success": "%1$sTransferred **%2$d** *(%3$d after 10%% tax)* to **%4$s** successfully.",
+      "success": "%1$sTransferred **%2$d** *(%3$d after 8%% tax)* to **%4$s** successfully.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `transferitems` command instead.",
       "party": "You can only transfer to the same person (%1$s) once every 4 minutes."
     },
@@ -639,7 +691,7 @@
     },
     "poll": {
       "missing": "%1$sYou didn't include either the %2$s argument or it was empty!\n%3$s",
-      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3`. For spaced stuff use quotation marks at the start and end of the sentence.",
+      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `~>help poll`",
       "other_poll_running": "%1$sThere seems to be another poll running here...",
       "no_reaction_perms": "%1$sSeems like I cannot add reactions here...",
       "too_long": "This was too long to show, so I pasted it: %1$s",
@@ -668,7 +720,7 @@
       "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rank: %6$s -> Max Combo: %7$d",
       "best": "**10 best osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
       "error": "%1$sUh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)",
-      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Date: %5$s -> Max Combo: %5$d\n",
+      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Date: %5$s -> Max Combo: %6$s\n",
       "recent": "**10 most recent osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
       "error_detailed": "Uh-oh... seems like I just received scramble soup as a response... (%1$s)"
     },
@@ -699,6 +751,41 @@
         "success": "%1$sMantaro will now talk to you in `%2$s`",
         "invalid": "%1$sThat language doesn't exist! You can use `reset` to reset your language settings."
       },
+      "stats": {
+        "header": "Profile Statistics for %1$s",
+        "wins": "Casino Wins",
+        "market": "Market Used",
+        "potion": "Active Potion",
+        "potion_type": "Potion Type",
+        "buff": "Buff",
+        "buff_type": "Buff Type",
+        "experience": "Experience",
+        "daily": "Daily Streak",
+        "daily_at": "Last Daily",
+        "waifu_claimed": "Times Waifu Claimed",
+        "dust": "Dust Level",
+        "lang": "Display Language",
+        "reminders": "Times Reminded",
+        "times": "time(s)",
+        "days": "day(s)",
+        "times_used": "Times Used",
+        "equipment": "Equipment"
+      },
+      "equip": {
+        "no_content": "%1$sYou have to specify which item to equip!",
+        "no_item": "%1$sThis item doesn't exist",
+        "not_owned": "%1$sYou don't own this item!",
+        "success": "%1$sYou successfully equipped %2$s *%3$s*, which will be remembered next time you use the proper currency command.",
+        "not_suitable": "%1$sYou can't equip this."
+      },
+      "display": {
+        "not_premium": "%1$sProfile widget personalization is only available to premium users.",
+        "not_enough": "%1$sNot enough valid widgets to put on your profile (minimum: 3). If you're lost, check `~>profile widgets ls`",
+        "success": "%1$sSuccessfully set your new profile layout. New layout is `%2$s`",
+        "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `~>profile widgets reset` to reset your profile display references",
+        "reset": "%1$sSuccessfully reset profile widget order.",
+        "example": "\nExample: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
+      },
       "badge_header": "%1$sDisplay Badge",
       "bot_notice": "%1$sBots don't have profiles.",
       "header": "%1$s's Profile",
@@ -710,7 +797,7 @@
       "birthday": "Birthday",
       "married": "Married with",
       "nobody": "Nobody",
-      "inventory": "Inventory",
+      "inventory": "Item Collection",
       "badges": "Top 5 Badges",
       "no_badges": "No badges (yet!)",
       "no_timezone": "Not set",
@@ -728,11 +815,13 @@
       },
       "brief_success": "**%1$s's badges:**\n%2$s",
       "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n",
-      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge.\n",
+      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "upvote_notice": "**You can get a free badge for [up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!** (It might take some minutes to process)\n\n",
       "donate_notice": "**You can get a badge for [supporting the development of Mantaro!](https://patreon.com/mantaro)!** (It might take some minutes to process)\n\n",
       "no_badges": "No badges to show (yet!)",
-      "header": "Badges achieved by %1$s"
+      "header": "Badges achieved by %1$s",
+      "total_badges": "**Total achieved badges:** %1$s",
+      "footer": "Badges are like achievements, and they're gained through progression in Mantaro's game or by just using the bot."
     },
     "rep": {
       "no_mentions": "%1$sYou need to mention or put the name of one user.\n%2$s",
@@ -813,7 +902,15 @@
       "guild_already_premium": "%1$sThis server already has a premium subscription",
       "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)",
       "user_already_premium": "%1$sYou're already premium :heart:",
-      "user_successful": "%1$sYou're now **Premium** :heart: (For: %2$d days)"
+      "user_successful": "%1$sYou're now **Premium** :heart: (For: %2$d days)",
+      "mp": "Mantaro Patreon uses no keys, instead, it's a given that it's premium by the fact that the bot itself works."
+    },
+    "claimkey": {
+      "not_patron": "%1$sYou're not a patron, so you can't do this. If you want to support Mantaro and get perks along with it, head over to <https://www.patreon.com/mantaro>",
+      "already_top": "%1$sYou already claimed all the keys you had. If any of them expired and you want to renew them, please head over to the support server at <https://support.mantaro.site>",
+      "successful": "%1$sSuccessfully claimed key `%2$s`. You have claimed a total of %3$s keys and have %4$s left keys to claim.",
+      "cant_dm": "%1%sI can't DM you the key because of your privacy settings, seemingly.",
+      "success": "%1$sSent the information via DM."
     },
     "vipstatus": {
       "user": {
@@ -835,7 +932,11 @@
       "expire": "Expires in",
       "key_duration": "Key total duration",
       "key_owner": "Key owner",
-      "wrong_args": "%1$sWrong arguments..."
+      "wrong_args": "%1$sWrong arguments...",
+      "patreon": "Pledge",
+      "linked": "Linked",
+      "linked_to": "Linked to",
+      "keys_claimed": "Keys Claimed"
     },
     "action": {
       "no_mention": "%1$sYou need to mention a user",
@@ -909,7 +1010,7 @@
       "multiple": {
         "invalid": "%1$sYou need to specify the game and the number of times to run it",
         "invalid_times": "%1$sInvalid number of times. Remember that it must be an integer.",
-        "too_many_games": "%1$sYou can only start a maximum of 10 games of the same type at a time.",
+        "too_many_games": "%1$sYou can only start a maximum of 5 games of the same type at a time.",
         "no_character": "%1$sYou cannot use character game in game multiple or lobby due to AniList API limitations."
       },
       "trivia": {
@@ -950,10 +1051,12 @@
       "error": "%1$sI found an error while setting up the game... (internal error)",
       "character_load_error": "%1$sReport this in the official server please. Failed to setup game for pre-saved character: %2$s",
       "character_request_error": "%1$sError requesting this character from AniList's API.",
-      "character_start": "Guess the character"
+      "character_start": "Guess the character",
+      "too_many_games": "%1$sYou can start a maximum of 4 games at the same time with game lobby. (With Premium: 8)"
     },
     "opencrate": {
-      "no_crate": "%1$sYou don't have any loot crate to open :("
+      "no_crate": "%1$sYou don't have any loot crate of this type to open :( (If you're trying to open a crate of any other than the default type, use the name of the crate after the command)",
+      "not_crate": "%1$sThat is not a valid loot crate."
     },
     "prune": {
       "no_messages_specified": "%1$sYou specified no messages to prune.",
@@ -973,11 +1076,12 @@
     },
     "imageboard": {
       "catgirl": {
-        "error": "Unable to get image."
+        "error": "Error retrieving cute catgirl images :("
       },
       "cat": {
         "error": "%1$sError retrieving cute cat images :("
       },
+      "too_many_tags": "%1$sYou specified too many tags for the current imageboard! Imageboard %2$s accepts a maximum of %3$d tags.",
       "invalid_rating": "%1$sYou provided an invalid rating (Available types: questionable, explicit, safe)",
       "nsfw_no_nsfw": "%1$sI cannot send a NSFW image in a non-nsfw channel :(",
       "no_images": "%1$sThere are no images matching your search criteria...",
@@ -1094,7 +1198,6 @@
       "account_age": "Account Age",
       "mutual_guilds": "Mutual Guilds",
       "vc": "Voice Channel",
-      "playing": "Activity",
       "color": "Color",
       "status": "Status",
       "nothing": "Nothing",
@@ -1119,8 +1222,8 @@
     "help": {
       "title": "Mantaro Help",
       "base": "Command list. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
-      "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://is.gd/mantaroguild)\n",
-      "patreon": "[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)",
+      "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://support.mantaro.site). [*Follow me on twitter for updates!*](https://twitter.com/mantarodiscord)\n",
+      "patreon": "[**We need your help to keep Mantaro online! Click here for more info.**](https://www.patreon.com/mantaro)",
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
       "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
       "footer": "To check command usage, type %1$shelp <command> // -> Commands: %2$s",
@@ -1213,14 +1316,15 @@
         "found": "%1$sDigging through messages, you found **$%2$s credits!**",
         "found_but_overflow_no_item": "%1$sDigging through messages, you found **$%2$d credits.** But you already had too many credits, so I donated the excess."
       },
-      "dust": "Digging through messages, you found nothing but dust",
+      "dust": "Digging through messages, you found nothing but dust (Dust level %1$s%%)",
       "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
     },
     "mine": {
-      "no_pick": "%1$sYou don't have any pick to mine.",
+      "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`",
       "not_suitable": "%1$sThis is not a pick you can use to mine!",
       "not_in_inventory": "%1$sYou don't have this pick on your inventory, switching to the default pick.",
       "success": "%1$sYou mined minerals worth **$%2$s credits**, using a *%3$s*",
+      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*",
       "diamond": {
         "overflow": "Huh, you found a diamond while mining, but you already had too much, so I sold it for you.",
         "success": "Huh! You got lucky and found a diamond while mining, check your inventory!"
@@ -1229,11 +1333,20 @@
         "overflow": "Huh, you found *%1$s* while mining, but you already had too much of that gem, so I sold it for you.",
         "success": "Huh! You got lucky and found *%1$s* while mining, check your inventory."
       },
+      "sparkle": {
+        "overflow": "You found a sparkling gem, but it seems like you had too much of it already, so we sold it for you.",
+        "success": "Hurray! You found one %1$s sparkling gem. Make sure to keep it around, check your inventory."
+      },
+      "crate": {
+        "overflow": "You found a **%1$s** while mining, but you had too many and left it behind...",
+        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+      },
       "pick_broke": "%1$sOne of your picks broke while mining.",
-      "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!"
+      "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!",
+      "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset."
     },
     "slots": {
-      "errors" : {
+      "errors": {
         "amount_not_ticket": "%1$sYou cannot specify how many tickets you're gonna use if you're not using tickets!",
         "not_enough_tickets": "%1$sYou don't have enough slots tickets.",
         "too_much_money": "%1$sThis machine cannot dispense that much money!",
@@ -1272,13 +1385,21 @@
         "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `~>help gamble` for details on gamble.",
         "slots": "%1sThis page shows the top 10 people with the most slots runs won.\n\nCheck out `~>help slots` for details on slots."
       }
+    },
+    "iteminfo": {
+      "no_content": "%1$sYou didn't specify any item to look for!",
+      "no_item": "%1$sThere's no item matching your search query.",
+      "success": "%1$s**Item Info for** %2$s **%3$s** (Type: %4$s): *%5$s*"
     }
   },
   "options": {
     "options": "Mantaro Options",
+    "error_general": "%1$sIncorrect usage or missing arguments.\nIf you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sCannot retrieve values. Weird thing...",
-      "header": "Options set for server **%1$s**",
+      "header": "Options set for server **%1$s**.",
+      "terminology": "\n\n**Useful terminology:** [] = empty list, null = not set, {} = empty object. If you see numbers=[...] it means that for that id, it applies what's inside the brackets. Objects are usually comma-separated",
+      "footer": "This is a debug command, therefore it's not 100% user-friendly",
       "null_set": "is not set to anything.",
       "set_to": "is set to:"
     },
@@ -1313,7 +1434,7 @@
     "category_disable": {
       "no_category": "%1$sYou need to specify a category to disable.",
       "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
+      "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
       "success": "%1$sDisabled category `%2$s`"
     },
     "category_enable": {
@@ -1323,7 +1444,7 @@
     "category_specific_disable": {
       "invalid": "%1$sYou need to specify a category to disable and the channel where.",
       "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
+      "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
       "success": "%1$sDisabled category `%2$s` on channel %3$s"
     },
     "category_specific_enable": {
@@ -1355,7 +1476,7 @@
     },
     "fairqueue_max": {
       "invalid": "%1$sYou need to specify a positive integer.",
-      "success": "%1$sSet max fair queue size to %2$d"
+      "success": "%1$sSet max fair queue (max duplicated songs) size to %2$d"
     },
     "musicannounce_toggle": {
       "success": "%1$sSet music announce to **%2$s**"
@@ -1451,10 +1572,11 @@
       "warning": "%1$sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
       "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and un-assigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
       "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users.",
-      "warning_3": "Type **yes** if you agree to set the role %2$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
+      "warning_3": "Additionally the birthday cache (what is used to store them) is only updated every 23 hours. Meaning if you set your birthday today to tomorrow to test this announcer it will **not** work.",
+      "warning_4": "Type **yes** if you agree to set the role %2$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
       "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
       "error_channel_1": "%1$sI didn't find a channel or role!",
-      "error_channel_2": "**Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".**"
+      "error_channel_2": "*Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".* If the role contains spaces \"wrap it in quotes like this\""
     },
     "birthday_disable": {
       "success": "%1$sBirthday logging has been disabled on this server"
@@ -1512,7 +1634,7 @@
     },
     "autoroles_add": {
       "no_args": "%1$sYou need to specify the name of the iam and the name of the role.",
-      "no_role_found": "%1$sI didn't find a role with that name!",
+      "no_role_found": "%1$sI didn't find a role with that name!\nIf the role name has spaces wrap it in quotes like this: \"Role Name\"",
       "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!",
       "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as an auto-assignable role!",
       "success": "%1$sAdded auto-assignable role **%2$s**, which gives the role **%3$s**"
@@ -1544,7 +1666,7 @@
     },
     "server_role_allow": {
       "no_name": "%1$sYou need to specify the name of the role you want to allow (has to be disallowed already for this to do anything, since allow is default)!",
-      "not_disabled": "%1$sThis role isn't disabled!",
+      "not_disabled": "%1$sThis role isn't disabled! (All roles are enabled by default)",
       "success": "%1$sAllowed role %2$s to execute commands."
     },
     "server_ignorebots_autoroles_toggle": {
@@ -1595,12 +1717,12 @@
       "success": "%1$sCorrectly reset your options!"
     },
     "birthday_test": {
-      "no_user": "%1$sYou need to specify an user to test the assigner with.",
+      "no_user": "%1$sYou need to specify an user to test the assigner with. Just mention them.",
       "no_bd_channel": "%1$sYou don't have any birthday channel set!",
-      "no_bd_role": "%1$sYou don't have any role set for the birthday setter!",
-      "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel.",
-      "cannot_interact": "%1$sThe bot is unable to interact with the birthday role.",
-      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role %4$s",
+      "no_bd_role": "%1$sYou don't have any role set for the birthday setter! Make sure you create a new role for it.",
+      "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel. Check channel permissions.",
+      "cannot_interact": "%1$sThe bot is unable to interact with the birthday role. (This means the birthday role is higher than the bot's highest role on the role hierarchy, put it below and try again)",
+      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role %4$s\n\nNote: This doesn't show the custom birthday message you might have set.",
       "error": "%1$sOw... There was an error while sending the message on channel %2$s for user **%3$s** and role %4$s"
     },
     "usermessage_joinmessage_add": {
@@ -1635,6 +1757,15 @@
       "header": "Extra leave messages list. %1$s\n%2$s",
       "no_extras": "%1$sThere isn't any extra leave messages here..."
     },
+    "modlog_blacklistwords_add": {
+      "no_word": "%1$sYou didn't specify any word to add to the modlog blacklist.",
+      "success": "%1$sWord `%2$s` successfully added to the modlog blacklist.",
+      "too_many": "%1$sThere are already too many words on the blacklist (more than 20)."
+    },
+    "modlog_blacklistwords_remove": {
+      "not_in": "%1$sWord `%2$s` isn't in the blacklist.",
+      "success": "%1$sSuccesfully removed word `%2$s` from the modlog blacklist."
+     },
     "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
     "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
     "no_command": "%1$sNo command called %2$s",
@@ -1670,7 +1801,8 @@
     "manage_roles": "Manage Roles",
     "manage_permissions": "Manage Permissions",
     "manage_webhooks": "Manage Webhooks",
-    "manage_emotes": "Manage Emojis"
+    "manage_emotes": "Manage Emojis",
+    "priority_speaker": "Priority Speaker"
   },
   "items": {
     "headphones": "Headphones",
@@ -1737,7 +1869,18 @@
     "motorcycle": "Motorcycle",
     "comet_pick": "Comet Gem Pickaxe",
     "star_pick": "Star Gem Pickaxe",
+    "sparkle": "Sparkle Matter",
+    "sparkle_pick": "Sparkle Pickaxe",
     "pizza": "Pizza",
+    "mine_crate": "Gem Crate",
+    "fish_crate": "Fish Treasure",
+    "mine_premium_crate": "Gem Premium Crate",
+    "fish_premium_crate": "Fish Premium Treasure",
+    "comet_rod": "Comet Gem Rod",
+    "star_rod": "Star Gem Rod",
+    "sparkle_rod": "Sparkle Rod",
+    "shell": "Shell",
+    "shark": "Shark",
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
       "ban_hammer": "Left by an admin.",
@@ -1749,13 +1892,13 @@
       "forgotten": "Never downloaded. Probably has been copyrighted.",
       "pencil": "We have plenty of those!",
       "moneybag": "What else?",
-      "pick": "That guy liked Minecraft way too much. (`~>mine` tool)",
+      "pick": "That guy liked Minecraft way too much (29% breaking chance). (`~>mine` tool)",
       "milk": "Maybe it's okay to have some.",
       "beverage": "Does really weird stuff in big quantities. Well, depends on what kind ;)",
       "lewd": "Too many lewd commands. Way too many. Had fun?",
       "ring": "Basically what makes your marriage official.",
       "letter": "A letter from your loved one.",
-      "key": "Used to open loot boxes with `~>opencrate` or `~>useitem loot crate`.",
+      "key": "Used to open various crates with `~>opencrate <crate name>` or `~>useitem <crate name>`.",
       "clothes": "Basically what you wear. Hopefully...",
       "diamond": "Basically a better way of saving your money. It's shiny too. And let's you cast shiny stuff. How nice.",
       "dress": "Isn't it cute?",
@@ -1772,7 +1915,7 @@
       "special_ring": "It's so special, it's not even a ring. `Leftover from Currency version 1. No longer obtainable.`",
       "enchancer": "A broken enchanter, I wonder if it could be fixed? `Leftover from Currency version 1. No longer obtainable.`",
       "prize": "Pretty much, huh? `Leftover from Currency version 1. No longer obtainable.`",
-      "crate": "You can use this along with a loot key to open a loot crate! `~>opencrate`",
+      "crate": "You can use this along with a loot key to open a loot crate! Can be opened with `~>opencrate`",
       "prize_2": "In the first place, how did you get so much money?",
       "slot_ticket": "Gives you extra chance in slots, also works as bulk storage.",
       "house": "Cozy place to live in.",
@@ -1783,7 +1926,7 @@
       "haste": "Allows you to collect more stuff from lootable commands for 2 sessions.",
       "milky": "Clears all potion effects.",
       "energy": "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.",
-      "rod": "Enables you to fish.",
+      "rod": "Enables you to fish. (20% breaking chance)",
       "fish": "Fish. Caught in fishing.",
       "tropical_fish": "A very tropical fish. Caught in fishing.",
       "blowfish": "I wonder... is this good? Caught in fishing.",
@@ -1794,15 +1937,26 @@
       "mop": "A delightful way to clean all the dust you have around. I bet there's a lot of it.",
       "claim_key": "This item makes you un-claimeable (as a waifu) while having it on your inventory.",
       "coffee": "A delightful way to start your day.",
-      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 2 million. Lasts 5 sessions.",
+      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 10 million. Lasts 5 sessions.",
       "bait": "Gives you a higher chance of catching fish.",
-      "diamond_pick": "A very much stronger pick (Diamond). (`~>mine` tool).",
+      "diamond_pick": "A very much stronger pick (23% breaking chance). (`~>mine` tool).",
       "tv": "Must... watch... TV...",
       "wrench": "Casting tool. Useful to put stuff together.",
       "motorcycle": "Going around, the cool way.",
-      "comet_pick": "A very much stronger pick (Comet). (`~>mine` tool).",
-      "star_pick": "A very much stronger pick (Star). (`~>mine` tool).",
-      "pizza": "Yummy."
+      "comet_pick": "A very much stronger pick (21% breaking chance). (`~>mine` tool).",
+      "star_pick": "A very much stronger pick (15% breaking chance). (`~>mine` tool).",
+      "sparkle": "One of the rarest gems around. Make sure to keep it. (Used to cast sparkle pickaxe & sparkle rods)",
+      "sparkle_pick": "The strongest pick out there (7% breaking chance). (`~>mine` tool)",
+      "pizza": "Yummy.",
+      "mine_crate": "A gem, you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
+      "fish_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
+      "mine_premium_crate": "A gem you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
+      "fish_premium_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
+      "comet_rod": "A slightly stronger rod. (17% breaking chance)",
+      "star_rod": "A stronger rod. (14% breaking chance)",
+      "sparkle_rod": "A way stronger rod. (9% breaking chance)",
+      "shell": "Found at the bottom of the ocean. What could it be worth for?",
+      "shark": "Woah. How did you catch *this*?"
     }
   },
   "test": {
