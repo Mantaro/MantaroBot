@@ -228,7 +228,7 @@ public class PremiumCmds {
 
                     embedBuilder.setAuthor(isMention ?
                             String.format(languageContext.get("commands.vipstatus.user.header_other"), toCheck.getName()) :
-                            languageContext.get("commands.vipstatus.user.header"), null, event.getAuthor().getEffectiveAvatarUrl()
+                            languageContext.get("commands.vipstatus.user.header"), null, toCheck.getEffectiveAvatarUrl()
                     );
 
                     final UserData data = dbUser.getData();
@@ -252,7 +252,7 @@ public class PremiumCmds {
                         String linkedTo = currentKey.getData().getLinkedTo();
                         int amountClaimed = data.getKeysClaimed().size();
                         embedBuilder.setColor(Color.CYAN)
-                                .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
+                                .setThumbnail(toCheck.getEffectiveAvatarUrl())
                                 .setDescription(languageContext.get("commands.vipstatus.user.premium"))
                                 .addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " " + languageContext.get("general.days"), true)
                                 .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " " + languageContext.get("general.days"), true)

@@ -109,46 +109,47 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(t.containsKey("brief")) {
-                    new MessageBuilder().setContent(String.format(languageContext.get("commands.inventory.brief"), member.getEffectiveName(), ItemStack.toString(playerInventory.asList())))
-                            .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
-                            .sendTo(event.getChannel())
-                            .queue();
+                if(t.containsKey("info") || t.containsKey("full")) {
+                    EmbedBuilder builder = baseEmbed(event, String.format(languageContext.get("commands.inventory.header"), member.getEffectiveName()), member.getUser().getEffectiveAvatarUrl());
+
+                    List<MessageEmbed.Field> fields = new LinkedList<>();
+                    if(inventoryList.isEmpty())
+                        builder.setDescription(languageContext.get("general.dust"));
+                    else {
+                        playerInventory.asList().forEach(stack -> {
+                            long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
+                            long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
+                            fields.add(new MessageEmbed.Field(String.format("%s %s x %d", stack.getItem().getEmoji(), stack.getItem().getName(), stack.getAmount()),
+                                    String.format(languageContext.get("commands.inventory.format"), buyValue, sellValue, languageContext.get(stack.getItem().getDesc())), false));
+                        });
+                    }
+
+                    List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
+                    boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+
+                    if(hasReactionPerms) {
+                        if(builder.getDescriptionBuilder().length() == 0) {
+                            builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
+                                    String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
+                                    + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 ? languageContext.get("general.sellout") : ""));
+                        }
+                        DiscordUtils.list(event, 100, false, builder, splitFields);
+                    } else {
+                        if(builder.getDescriptionBuilder().length() == 0) {
+                            builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
+                                    String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
+                                    + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 ? languageContext.get("general.sellout") : ""));
+                        }
+                        DiscordUtils.listText(event, 100, false, builder, splitFields);
+                    }
+
                     return;
                 }
 
-                EmbedBuilder builder = baseEmbed(event, String.format(languageContext.get("commands.inventory.header"), member.getEffectiveName()), member.getUser().getEffectiveAvatarUrl());
-
-                List<MessageEmbed.Field> fields = new LinkedList<>();
-                if(inventoryList.isEmpty())
-                    builder.setDescription(languageContext.get("general.dust"));
-                else {
-                    playerInventory.asList().forEach(stack -> {
-                        long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
-                        long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
-                        fields.add(new MessageEmbed.Field(String.format("%s %s x %d", stack.getItem().getEmoji(), stack.getItem().getName(), stack.getAmount()),
-                                String.format(languageContext.get("commands.inventory.format"), buyValue, sellValue, languageContext.get(stack.getItem().getDesc())), false));
-                    });
-                }
-
-                List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
-                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
-
-                if(hasReactionPerms) {
-                    if(builder.getDescriptionBuilder().length() == 0) {
-                        builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
-                                String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
-                                + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 ? languageContext.get("general.sellout") : ""));
-                    }
-                    DiscordUtils.list(event, 45, false, builder, splitFields);
-                } else {
-                    if(builder.getDescriptionBuilder().length() == 0) {
-                        builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
-                                String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
-                                + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 ? languageContext.get("general.sellout") : ""));
-                    }
-                    DiscordUtils.listText(event, 45, false, builder, splitFields);
-                }
+                new MessageBuilder().setContent(String.format(languageContext.get("commands.inventory.brief"), member.getEffectiveName(), ItemStack.toString(playerInventory.asList())))
+                        .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
+                        .sendTo(event.getChannel())
+                        .queue();
             }
 
             @Override
@@ -156,7 +157,7 @@ public class CurrencyCmds {
                 return new HelpContent.Builder()
                         .setDescription("Shows your current inventory.")
                         .setUsage("You can mention someone on this command to see their inventory.\n" +
-                                "You can use `~>inventory -brief` to get a mobile friendly version.\n" +
+                                "You can use `~>inventory -full` to a more detailed version.\n" +
                                 "Use `~>inventory -calculate` to see how much you'd get if you sell every sellable item on your inventory.")
                         .build();
             }

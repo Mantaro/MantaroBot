@@ -522,7 +522,7 @@
           "success": "%1$s Tu resultado por **%2$d** veces sacó **%3$d** caras y **%4$d** sellos"
       },
       "inventory": {
-          "brief": "**Inventario de %1$s:** %2$s",
+          "brief": "**Inventario de %1$s:** %2$s\n\n*Si quieres una versión mas completa, usa `~>inventory -info`. ¡Disfruta tu día!",
           "calculate": "%1$s%2$s conseguirá **%3$d creditos** si vende todos los items!",
           "header": "Inventario de %1$s",
           "format": "**Precio**: 📥 %1$d 📤 %2$d\n%3$s",

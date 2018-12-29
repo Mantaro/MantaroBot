@@ -60,8 +60,7 @@ public class PremiumKey implements ManagedObject {
     }
 
     @JsonIgnore
-    public PremiumKey() {
-    }
+    public PremiumKey() { }
 
     @JsonIgnore
     public static PremiumKey generatePremiumKey(String owner, Type type, boolean linked) {

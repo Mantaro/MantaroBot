@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Utils;
 
@@ -101,8 +102,37 @@ public class DBGuild implements ManagedObject {
         if(key != null) {
             boolean isKeyActive = currentTimeMillis() < key.getExpiration();
             if(!isKeyActive) {
+                DBUser owner = MantaroData.db().getUser(key.getOwner());
+                UserData ownerData = owner.getData();
+
+                //Remove from owner's key ownership storage if key owner != key holder.
+                if(!key.getOwner().equals(getId()) && !ownerData.getKeysClaimed().containsKey(getId())) {
+                    ownerData.getKeysClaimed().remove(getId());
+                    owner.save();
+                }
+
                 key.delete();
                 return false;
+            }
+
+            //Link key to owner if key == owner and key holder is on patreon.
+            //Sadly gotta skip of holder isn't patron here bc there are some bought keys (paypal) which I can't convert without invalidating
+            Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(key.getOwner());
+            if(pledgeInfo != null && pledgeInfo.getLeft()) {
+                key.getData().setLinkedTo(key.getOwner());
+                key.save(); //doesn't matter if it doesn't save immediately, will do later anyway (key is usually immutable in db)
+            }
+
+            //If the receipt is not the owner, account them to the keys the owner has claimed.
+            //This has usage later when seeing how many keys can they take. The second/third check is kind of redundant, but necessary anyway to see if it works.
+            String keyLinkedTo = key.getData().getLinkedTo();
+            if(!getId().equals(key.getOwner()) && keyLinkedTo != null && keyLinkedTo.equals(key.getOwner())) {
+                DBUser owner = MantaroData.db().getUser(key.getOwner());
+                UserData ownerData = owner.getData();
+                if(!ownerData.getKeysClaimed().containsKey(getId())) {
+                    ownerData.getKeysClaimed().put(getId(), key.getId());
+                    owner.save();
+                }
             }
         }
 

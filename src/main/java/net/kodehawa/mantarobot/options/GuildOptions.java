@@ -22,6 +22,7 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -122,13 +123,22 @@ public class GuildOptions extends OptionHandler {
                 return;
             }
 
+            User user = m.getUser();
+            String message = String.format("%s%s is a year older now! (test)", EmoteReference.POPPER, m.getEffectiveName());
+            if(dbGuild.getData().getBirthdayMessage() != null) {
+                message = dbGuild.getData().getBirthdayMessage().replace("$(user)", user.getName() + "#" + user.getDiscriminator());
+            }
+
+            //Value used in lambda... blabla :c
+            final String finalMessage = message;
+
             event.getGuild().getController().addSingleRoleToMember(m, birthdayRole).queue(success ->
-                    birthdayChannel.sendMessage(String.format("%s%s is a year older now! (test)", EmoteReference.POPPER, m.getEffectiveName())).queue(s ->
-                                    event.getChannel().sendMessageFormat(lang.get("options.birthday_test.success"),
-                            EmoteReference.CORRECT, birthdayChannel.getName(), m.getEffectiveName(), birthdayRole.getName()
+                    new MessageBuilder(finalMessage).stripMentions(event.getJDA()).sendTo(birthdayChannel).queue(s ->
+                            event.getChannel().sendMessageFormat(lang.get("options.birthday_test.success"),
+                                    EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
                     ).queue(), error ->
                             event.getChannel().sendMessageFormat(lang.get("options.birthday_test.error"),
-                                    EmoteReference.CORRECT, birthdayChannel.getName(), m.getEffectiveName(), birthdayRole.getName()
+                                    EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
                     ).queue())
             );
         });
