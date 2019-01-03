@@ -44,7 +44,7 @@
         <hr>
         <p>Give credit where credit is due. If you wish to use our code in a project, <b>please</b> credit us, and take your time to read our full license. We don't mind you using Mantaro code, <b>as it is</b> open-source for a reason, as long as you don't blatantly copy it or refrain from crediting us.</p>
         <h2>License</h2>
-        <p>Copyright (C) 2016-2018 <b>David Alejandro Rubio Escares</b>/<b>Kodehawa</b></p>
+        <p>Copyright (C) 2016-2019 <b>David Alejandro Rubio Escares</b>/<b>Kodehawa</b></p>
         <code>
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
