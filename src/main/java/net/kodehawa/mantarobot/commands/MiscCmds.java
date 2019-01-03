@@ -20,6 +20,7 @@ import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.Role;
@@ -92,7 +93,11 @@ public class MiscCmds {
                 }
             }
         } else {
-            event.getChannel().sendMessageFormat(languageContext.get("commands.iam.no_role"), EmoteReference.ERROR, autoroleName).queue();
+            new MessageBuilder().
+                    append(String.format(languageContext.get("commands.iam.no_role"), EmoteReference.ERROR, autoroleName))
+                    .stripMentions(event.getJDA())
+                    .sendTo(event.getChannel())
+                    .queue();
         }
     }
 
@@ -121,7 +126,11 @@ public class MiscCmds {
                 }
             }
         } else {
-            event.getChannel().sendMessageFormat(languageContext.get("commands.iam.no_role"), EmoteReference.ERROR, autoroleName).queue();
+            new MessageBuilder().
+                    append(String.format(languageContext.get("commands.iam.no_role"), EmoteReference.ERROR, autoroleName))
+                    .stripMentions(event.getJDA())
+                    .sendTo(event.getChannel())
+                    .queue();
         }
     }
 
