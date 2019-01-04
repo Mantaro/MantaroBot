@@ -172,7 +172,7 @@ public class MuteCmds {
 
                 dbg.getData().setCases(dbg.getData().getCases() + 1);
                 dbg.saveAsync();
-                ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.MUTE, dbg.getData().getCases());
+                ModLog.log(event.getMember(), user, finalReason, event.getChannel().getName(), ModLog.ModAction.MUTE, dbg.getData().getCases());
             }
 
             @Override
@@ -343,7 +343,7 @@ public class MuteCmds {
 
                         dbg.getData().setCases(dbg.getData().getCases() + 1);
                         dbg.saveAsync();
-                        ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.UNMUTE, db.getGuild(event.getGuild()).getData().getCases());
+                        ModLog.log(event.getMember(), user, finalReason, "none", ModLog.ModAction.UNMUTE, db.getGuild(event.getGuild()).getData().getCases());
                     } else {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.unmute.no_role_assigned"), EmoteReference.ERROR).queue();
                     }

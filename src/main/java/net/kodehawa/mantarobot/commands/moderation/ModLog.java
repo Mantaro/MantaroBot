@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands.moderation;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -26,12 +27,12 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.utils.Utils;
 
 public class ModLog {
-
     private static ManagedDatabase db = MantaroData.db();
 
-    public static void log(Member author, User target, String reason, ModAction action, long caseN, String... time) {
+    public static void log(Member author, User target, String reason, String channel, ModAction action, long caseNumber, int messagesDeleted) {
         DBGuild guildDB = db.getGuild(author.getGuild());
         Player player = db.getPlayer(author);
         PlayerData playerData = player.getData();
@@ -39,42 +40,23 @@ public class ModLog {
 
         embedBuilder.addField("Responsible Moderator", author.getEffectiveName(), true);
 
-        if(target != null)
-            embedBuilder.addField("Member", target.getName(), true);
-
-        embedBuilder.addField("Reason", reason, false);
-
         if(target != null) {
+            embedBuilder.addField("Member", target.getName(), true);
             embedBuilder.setThumbnail(target.getEffectiveAvatarUrl());
         } else {
             embedBuilder.setThumbnail(author.getUser().getEffectiveAvatarUrl());
         }
 
-        switch(action) {
-            case BAN:
-                embedBuilder.setAuthor("Ban | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
-                break;
-            case TEMP_BAN:
-                embedBuilder.setAuthor("Temp Ban | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl())
-                        .addField("Time", time[0], true);
-                break;
-            case KICK:
-                embedBuilder.setAuthor("Kick | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
-                break;
-            case MUTE:
-                embedBuilder.setAuthor("Mute | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
-                break;
-            case UNMUTE:
-                embedBuilder.setAuthor("Un-mute | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
-                break;
-            case PRUNE:
-                embedBuilder.setAuthor("Prune | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
-                break;
-            case WARN:
-                embedBuilder.setAuthor("Warn | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
-                break;
+        embedBuilder.addField("Reason", reason, false);
+        embedBuilder.addField("Channel", channel, true);
 
+        if(action == ModAction.PRUNE) {
+            embedBuilder.addField("Messages Deleted", String.valueOf(messagesDeleted), true);
         }
+
+        //Why was this a giant switch statement?
+        embedBuilder.setAuthor(String.format("%s | Case #%s", Utils.capitalize(action.name()), caseNumber),
+                null, author.getUser().getEffectiveAvatarUrl());
 
         if(!playerData.hasBadge(Badge.POWER_USER)) {
             playerData.addBadgeIfAbsent(Badge.POWER_USER);
@@ -82,22 +64,16 @@ public class ModLog {
         }
 
         if(guildDB.getData().getGuildLogChannel() != null) {
-            if(MantaroBot.getInstance().getTextChannelById(guildDB.getData().getGuildLogChannel()) != null) {
-                MantaroBot.getInstance().getTextChannelById(guildDB.getData().getGuildLogChannel()).sendMessage(embedBuilder.build()).queue();
+            TextChannel logChannel = MantaroBot.getInstance().getTextChannelById(guildDB.getData().getGuildLogChannel());
+            if(logChannel != null) {
+                logChannel.sendMessage(embedBuilder.build()).queue();
             }
         }
     }
 
-    public static void logUnban(Member author, String target, String reason) {
-        DBGuild guildDB = MantaroData.db().getGuild(author.getGuild());
-        EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.addField("Responsible Moderator", author.getEffectiveName(), true);
-        embedBuilder.addField("Member ID", target, true);
-        embedBuilder.addField("Reason", reason, false);
-        embedBuilder.setAuthor("Unban", null, author.getUser().getEffectiveAvatarUrl());
-        if(guildDB.getData().getGuildLogChannel() != null) {
-            MantaroBot.getInstance().getTextChannelById(guildDB.getData().getGuildLogChannel()).sendMessage(embedBuilder.build()).queue();
-        }
+    //Overload
+    public static void log(Member author, User target, String reason, String channel, ModAction action, long caseNumber) {
+        log(author, target, reason, channel, action, caseNumber, 0);
     }
 
     public enum ModAction {

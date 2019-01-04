@@ -152,10 +152,6 @@ public class OptsCmd {
                     }
                 }
 
-                event.getChannel().sendMessageFormat(languageContext.get("options.error_general"), EmoteReference.ERROR).queue(
-                        message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                );
-
                 event.getChannel().sendMessage(String.format(languageContext.get("options.error_general"), EmoteReference.WARNING)).queue();
             }
 

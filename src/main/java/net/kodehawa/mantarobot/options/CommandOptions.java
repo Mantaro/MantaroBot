@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.options;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.kodehawa.mantarobot.commands.CustomCmds;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -56,7 +57,10 @@ public class CommandOptions extends OptionHandler {
             }
 
             String commandName = args[0];
-            if(DefaultCommandProcessor.REGISTRY.commands().get(commandName) == null) {
+            //Check for CCs too
+            boolean noCommand = DefaultCommandProcessor.REGISTRY.commands().get(commandName) == null &&
+                    CustomCmds.getCustomCommand(event.getGuild().getId(), commandName) == null;
+            if(noCommand) {
                 event.getChannel().sendMessageFormat(lang.get("options.no_command"), EmoteReference.ERROR, commandName).queue();
                 return;
             }
@@ -81,8 +85,14 @@ public class CommandOptions extends OptionHandler {
                 event.getChannel().sendMessageFormat(lang.get("options.server_command_allow.no_command"), EmoteReference.ERROR).queue();
                 return;
             }
+
             String commandName = args[0];
-            if(DefaultCommandProcessor.REGISTRY.commands().get(commandName) == null) {
+
+            //Check for CCs too
+            boolean noCommand = DefaultCommandProcessor.REGISTRY.commands().get(commandName) == null &&
+                CustomCmds.getCustomCommand(event.getGuild().getId(), commandName) == null;
+
+            if(noCommand) {
                 event.getChannel().sendMessageFormat(lang.get("options.no_command"), EmoteReference.ERROR, commandName).queue();
                 return;
             }
@@ -105,7 +115,11 @@ public class CommandOptions extends OptionHandler {
             String channelName = args[0];
             String commandName = args[1];
 
-            if(DefaultCommandProcessor.REGISTRY.commands().get(commandName) == null) {
+            //Check for CCs too
+            boolean noCommand = DefaultCommandProcessor.REGISTRY.commands().get(commandName) == null &&
+                    CustomCmds.getCustomCommand(event.getGuild().getId(), commandName) == null;
+
+            if(noCommand) {
                 event.getChannel().sendMessageFormat(lang.get("options.no_command"), EmoteReference.ERROR, commandName).queue();
                 return;
             }
@@ -140,12 +154,14 @@ public class CommandOptions extends OptionHandler {
 
             String channelName = args[0];
             String commandName = args[1];
+            //Check for CCs too
+            boolean noCommand = DefaultCommandProcessor.REGISTRY.commands().get(commandName) == null &&
+                CustomCmds.getCustomCommand(event.getGuild().getId(), commandName) == null;
 
-            if(DefaultCommandProcessor.REGISTRY.commands().get(commandName) == null) {
+            if(noCommand) {
                 event.getChannel().sendMessageFormat(lang.get("options.no_command"), EmoteReference.ERROR, commandName).queue();
                 return;
             }
-
 
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
@@ -410,7 +426,11 @@ public class CommandOptions extends OptionHandler {
                 DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                 GuildData guildData = dbGuild.getData();
 
-                if(!DefaultCommandProcessor.REGISTRY.commands().containsKey(commandDisallow)) {
+                //Check for CCs too
+                boolean noCommand = DefaultCommandProcessor.REGISTRY.commands().get(commandDisallow) == null &&
+                        CustomCmds.getCustomCommand(event.getGuild().getId(), commandDisallow) == null;
+
+                if(noCommand) {
                     event.getChannel().sendMessageFormat(lang.get("options.no_command"), EmoteReference.ERROR, commandDisallow).queue();
                     return;
                 }
@@ -461,7 +481,11 @@ public class CommandOptions extends OptionHandler {
                 DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                 GuildData guildData = dbGuild.getData();
 
-                if(!DefaultCommandProcessor.REGISTRY.commands().containsKey(commandAllow)) {
+                //Check for CCs too
+                boolean noCommand = DefaultCommandProcessor.REGISTRY.commands().get(commandAllow) == null &&
+                        CustomCmds.getCustomCommand(event.getGuild().getId(), commandAllow) == null;
+
+                if(noCommand) {
                     event.getChannel().sendMessageFormat(lang.get("options.no_command"), EmoteReference.ERROR, commandAllow).queue();
                     return;
                 }

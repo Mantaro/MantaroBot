@@ -21,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.ISnowflake;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -29,8 +28,8 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.CustomCommandHandler;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.modules.Module;
+import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
@@ -40,12 +39,12 @@ import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.CustomCommand;
 import net.kodehawa.mantarobot.db.entities.helpers.CustomCommandData;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
@@ -56,7 +55,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
-import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.data.MantaroData.db;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
@@ -71,8 +69,26 @@ public class CustomCmds {
 
     public static boolean handle(String cmdName, GuildMessageReceivedEvent event, I18nContext lang, String args) {
         CustomCommand customCommand = getCustomCommand(event.getGuild().getId(), cmdName);
+        GuildData guildData = db().getGuild(event.getGuild()).getData();
+
         if (customCommand == null)
             return false;
+
+        //CCS disable check start.
+        if (guildData.getDisabledCommands().contains(cmdName)) {
+            return false;
+        }
+
+        List<String> channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
+        if (channelDisabledCommands != null && channelDisabledCommands.contains(cmdName)) {
+            return false;
+        }
+
+        HashMap<String, List<String>> roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
+        if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmdName)) && !CommandPermission.ADMIN.test(event.getMember())) {
+                return false;
+        }
+        //CCS disable check end.
 
         List<String> values = customCommand.getValues();
         if(customCommand.getData().isNsfw() && !event.getChannel().isNSFW()) {
@@ -531,7 +547,7 @@ public class CustomCmds {
     }
 
     //Lazy-load custom commands into cache.
-    private static CustomCommand getCustomCommand(String id, String name) {
+    public static CustomCommand getCustomCommand(String id, String name) {
         //lol
         if(DefaultCommandProcessor.REGISTRY.commands().containsKey(name)) {
             return null;

@@ -37,8 +37,6 @@ import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.Random;
-
 @Slf4j(topic = "Moderation")
 @Module
 @SuppressWarnings("unused")
@@ -124,7 +122,7 @@ public class ModerationCmds {
                                 }
                             });
 
-                            ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.KICK, db.getData().getCases());
+                            ModLog.log(event.getMember(), user, finalReason, event.getChannel().getName(), ModLog.ModAction.KICK, db.getData().getCases());
                             TextChannelGround.of(event).dropItemWithChance(2, 2);
                         },
                         error -> {
@@ -225,7 +223,7 @@ public class ModerationCmds {
                             db.getData().setCases(db.getData().getCases() + 1);
                             db.saveAsync();
                             channel.sendMessage(String.format(languageContext.get("commands.ban.success"), EmoteReference.ZAP, languageContext.get("general.mod_quotes"), user.getName())).queue();
-                            ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.BAN, db.getData().getCases());
+                            ModLog.log(event.getMember(), user, finalReason, event.getChannel().getName(), ModLog.ModAction.BAN, db.getData().getCases());
                             TextChannelGround.of(event).dropItemWithChance(1, 2);
                         }),
                         error ->
@@ -327,7 +325,7 @@ public class ModerationCmds {
                             db.getData().setCases(db.getData().getCases() + 1);
                             db.saveAsync();
                             channel.sendMessage(String.format(languageContext.get("commands.kick.success"), EmoteReference.ZAP, languageContext.get("general.mod_quotes"), user.getName())).queue();
-                            ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.KICK, db.getData().getCases());
+                            ModLog.log(event.getMember(), user, finalReason, event.getChannel().getName(), ModLog.ModAction.KICK, db.getData().getCases());
                             TextChannelGround.of(event).dropItemWithChance(2, 2);
                         },
                         error -> {

@@ -24,16 +24,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 public class ConditionalCustoms {
     private static final Pattern GETTER_MODIFIER = Pattern.compile("@[a-z]+\\{.*?}", Pattern.MULTILINE),
             FUNCNAME = Pattern.compile("\\{", Pattern.MULTILINE),
             SPLITTER = Pattern.compile(";", Pattern.LITERAL | Pattern.MULTILINE);
+    private static final Pattern userMentionPattern = Pattern.compile("(?:<@!?)?(\\d{1,20})>?");
     private static final Map<String, Function<String[], String>> functions = new HashMap<>();
 
     static {
         Map<String, BiPredicate<String, String>> comparators = new HashMap<>();
+        Map<String, Predicate<String>> predicates = new HashMap<>(); //1 = this is silly, 2 = we need to remake this
+
+        predicates.put("usermention", s -> userMentionPattern.matcher(s).find());
 
         comparators.put("equals", String::equals);
         comparators.put("ignorecase-equals", String::equalsIgnoreCase);
@@ -52,24 +57,50 @@ public class ConditionalCustoms {
 
         //@{if;INPUT1;COMPARE;INPUT2;OUTPUT_TRUE[;OUTPUT_FALSE]}
         functions.put("if", args -> {
-            if(args.length < 4) return "`if requires at least 6 parameters`";
+            if(args.length < 4)
+                return "`if requires at least 6 parameters`";
             String input1 = args[0], compare = args[1], input2 = args[2], outputTrue = args[3];
+
             BiPredicate<String, String> comparator = comparators.get(compare);
-            if(comparator == null) return "`'The " + compare + "' comparator doesn't exist`";
-            if(comparator.test(input1, input2)) return outputTrue;
-            if(args.length >= 5) return args[4];
+            Predicate<String> predicate = predicates.get(compare);
+
+            if(comparator == null) {
+                if(predicate == null) {
+                    return "`'The " + compare + "' comparator doesn't exist`";
+                }
+            }
+
+            if(predicate != null) {
+                if(predicate.test(input1))
+                    return outputTrue;
+            }
+
+            if(comparator != null) {
+                if(comparator.test(input1, input2))
+                    return outputTrue;
+            }
+
+            if(args.length >= 5)
+                return args[4];
+
             return "";
         });
 
         //@{ne[;arg]+?}
         functions.put("ne", args -> {
-            for(String arg : args) if(!arg.isEmpty()) return arg;
+            for(String arg : args)
+                if(!arg.isEmpty())
+                    return arg;
+
             return "";
         });
 
         //@{nes[;arg]+?}
         functions.put("nes", args -> {
-            for(String arg : args) if(!arg.trim().isEmpty()) return arg;
+            for(String arg : args)
+                if(!arg.trim().isEmpty())
+                    return arg;
+
             return "";
         });
 
@@ -84,8 +115,10 @@ public class ConditionalCustoms {
     }
 
     public static String resolve(String string, int depth) {
-        if(!string.contains("@") || !string.contains("{") || !string.contains("}")) return string;
-        if(depth > 4) return string;
+        if(!string.contains("@") || !string.contains("{") || !string.contains("}"))
+            return string;
+        if(depth > 4)
+            return string;
 
         return MatcherUtils.replaceAll(GETTER_MODIFIER.matcher(string), s -> {
             s = s.substring(1, s.length() - 1);

@@ -63,9 +63,12 @@ import okhttp3.ResponseBody;
 
 import java.awt.*;
 import java.io.IOException;
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.*;
@@ -85,6 +88,7 @@ public class PlayerCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 long rl = rateLimiter.tryAgainIn(event.getMember());
+
                 User user;
 
                 if(content.isEmpty()) {
@@ -105,6 +109,20 @@ public class PlayerCmds {
                     return;
 
                 user = member.getUser();
+                User author = event.getAuthor();
+                Predicate<User> oldEnough = (u -> u.getCreationTime().isBefore(OffsetDateTime.now().minus(5, ChronoUnit.DAYS)));
+
+                //Didn't want to repeat the code twice, lol.
+                if(!oldEnough.test(user)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.rep.new_account_notice"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(!oldEnough.test(author)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.rep.new_account_notice"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
 
                 if(user.isBot()) {
                     event.getChannel().sendMessage(String.format(languageContext.get("commands.rep.rep_bot"), EmoteReference.THINKING,

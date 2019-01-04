@@ -123,7 +123,7 @@ public class CustomCommandHandler {
                     .append("#")
                     .append(event.getAuthor().getDiscriminator())
                     .append("`")
-                    .stripMentions(event.getJDA(), Message.MentionType.ROLE, Message.MentionType.USER);
+                    .stripMentions(event.getJDA());
         }
 
         builder.stripMentions(event.getJDA(), Message.MentionType.HERE, Message.MentionType.EVERYONE).sendTo(event.getChannel()).queue();

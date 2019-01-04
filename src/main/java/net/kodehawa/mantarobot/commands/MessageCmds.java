@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -202,7 +201,7 @@ public class MessageCmds {
                     DBGuild db = MantaroData.db().getGuild(event.getGuild());
                     db.getData().setCases(db.getData().getCases() + 1);
                     db.saveAsync();
-                    ModLog.log(event.getMember(), null, "Pruned Messages", ModLog.ModAction.PRUNE, db.getData().getCases());
+                    ModLog.log(event.getMember(), null, "Pruned Messages", event.getChannel().getName(), ModLog.ModAction.PRUNE, db.getData().getCases(), size);
                 },
                 error -> {
                     if(error instanceof PermissionException) {

@@ -1411,7 +1411,7 @@
           "success": "%1$sRegistro de mensajes ha sido habilitado con los parametros -> `Canal #%2$s (%3$s)`"
       },
       "logs_disable": {
-          "success": "%1$sRegistro de mensajes ha sido deshabilitado."
+          "success": "%1$sEl registro de mensajes ha sido deshabilitado."
       },
       "logs_exclude": {
           "no_args": "%1$sNecesitas especificar que canal excluir, o `clearchannels` para remover todas las exclusiones, o `remove` para remover un canal de la lista de exclusion.",
