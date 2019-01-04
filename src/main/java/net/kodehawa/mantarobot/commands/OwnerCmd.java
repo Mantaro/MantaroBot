@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.github.natanbc.javaeval.CompilationException;
 import com.github.natanbc.javaeval.CompilationResult;
 import com.github.natanbc.javaeval.JavaEvaluator;
@@ -23,7 +24,6 @@ import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -40,7 +40,6 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
@@ -408,6 +407,16 @@ public class OwnerCmd {
                     return;
                 }
 
+                final DBGuild dbGuild = MantaroData.db().getGuild(guildString);
+                Map<String, Optional<String>> t = StringUtils.parse(args);
+                if(t.containsKey("u")) {
+                    dbGuild.getData().setMpLinkedTo(null);
+                    dbGuild.save();
+
+                    event.getChannel().sendMessageFormat("Un-linked MP for guild %s (%s).", guild.getName(), guild.getId()).queue();
+                    return;
+                }
+
                 Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(user.getId());
                 //guaranteed to be an integer
                 if(pledgeInfo == null || !pledgeInfo.getLeft() || Double.parseDouble(pledgeInfo.getRight()) < 4) {
@@ -416,7 +425,6 @@ public class OwnerCmd {
                 }
 
                 //Guild assignment.
-                final DBGuild dbGuild = MantaroData.db().getGuild(guildString);
                 dbGuild.getData().setMpLinkedTo(userString); //Patreon check will run from this user.
                 dbGuild.save();
 
@@ -426,14 +434,13 @@ public class OwnerCmd {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Links a guild to a patreon owner (user id).")
+                        .setDescription("Links a guild to a patreon owner (user id). Use -u to unlink.")
                         .setUsage("`~>link <user id> <guild id>`")
                         .build();
             }
         });
     }
 
-    //TODO: deprecated, see MP link procedure ("link" command). REMOVE WHEN PATREON CHECKS ARE CONFIRMED TO WORK
     @Subscribe
     public void owner(CommandRegistry cr) {
         cr.register("owner", new SimpleCommand(Category.OWNER) {
@@ -471,8 +478,7 @@ public class OwnerCmd {
                                     new Date(db.getPremiumUntil())).queue();
                             return;
                         } catch(IndexOutOfBoundsException e) {
-                            event.getChannel().sendMessage(
-                                    EmoteReference.ERROR + "You need to specify id and number of days").queue();
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify id and number of days").queue();
                             e.printStackTrace();
                             return;
                         }

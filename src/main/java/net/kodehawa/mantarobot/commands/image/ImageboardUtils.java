@@ -170,7 +170,7 @@ public class ImageboardUtils {
 
                 break;
             case RANDOM:
-                api.get(page, finalRating).async(requestedImages -> {
+                api.search(list, finalRating).async(requestedImages -> {
                     try {
                         if(isListNull(requestedImages, languageContext, event)) return;
 
