@@ -27,6 +27,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("Duplicates")
 public class ConditionalCustoms {
     private static final Pattern GETTER_MODIFIER = Pattern.compile("@[a-z]+\\{.*?}", Pattern.MULTILINE),
             FUNCNAME = Pattern.compile("\\{", Pattern.MULTILINE),
@@ -42,10 +43,10 @@ public class ConditionalCustoms {
 
         comparators.put("equals", String::equals);
         comparators.put("ignorecase-equals", String::equalsIgnoreCase);
-        comparators.put("greater-than", (s1, s2) -> s1.compareTo(s2) < 1);
-        comparators.put("less-than", (s1, s2) -> s1.compareTo(s2) > 1);
-        comparators.put("ignorecase-greater-than", (s1, s2) -> s1.compareToIgnoreCase(s2) < 1);
-        comparators.put("ignorecase-less-than", (s1, s2) -> s1.compareToIgnoreCase(s2) > 1);
+        comparators.put("greater-than", (s1, s2) -> s1.compareTo(s2) < 0);
+        comparators.put("less-than", (s1, s2) -> s1.compareTo(s2) > 0);
+        comparators.put("ignorecase-greater-than", (s1, s2) -> s1.compareToIgnoreCase(s2) < 0);
+        comparators.put("ignorecase-less-than", (s1, s2) -> s1.compareToIgnoreCase(s2) > 0);
         comparators.put("not-equals", comparators.get("equals").negate());
         comparators.put("ignorecase-not-equals", comparators.get("ignorecase-equals").negate());
         comparators.put("not-greater-than", comparators.get("greater-than").negate());
