@@ -88,7 +88,7 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.8.1'
 
     compile fileTree(dir: 'lib', include: '*.jar')
-    compile 'net.kodehawa:imageboard-api:2.0.6'
+    compile 'net.kodehawa:imageboard-api:2.0.7'
     compile 'com.github.natanbc:discordbots-api:3.3.3'
 
     compileOnly "org.projectlombok:lombok:1.18.4"
