@@ -13,6 +13,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -70,11 +71,12 @@ public class InvestigateCmd {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "investigate")
-                        .setDescription("Investigate suspicious users, guilds or channels")
-                        .addField("Usage", "~>investigate <id> [type]\n~>investigate <id> [type] file\n" +
-                                "\nwhere type is one of: guild, user, channel. defaults to guild", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Investigate suspicious users, guilds or channels.")
+                        .setUsage("~>investigate <id> [type]\n~>investigate <id> [type] file")
+                        .addParameter("id", "The guild, user or channel id")
+                        .addParameter("type", "guild, user or channel, defaults to guild")
                         .build();
             }
         });

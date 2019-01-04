@@ -27,9 +27,11 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
+import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -38,12 +40,12 @@ import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PlayerStats;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
@@ -61,14 +63,17 @@ import okhttp3.ResponseBody;
 
 import java.awt.*;
 import java.io.IOException;
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.*;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
-import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
-import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
+import static net.kodehawa.mantarobot.utils.Utils.*;
 
 @Module
 @SuppressWarnings("unused")
@@ -83,6 +88,7 @@ public class PlayerCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 long rl = rateLimiter.tryAgainIn(event.getMember());
+
                 User user;
 
                 if(content.isEmpty()) {
@@ -103,6 +109,20 @@ public class PlayerCmds {
                     return;
 
                 user = member.getUser();
+                User author = event.getAuthor();
+                Predicate<User> oldEnough = (u -> u.getCreationTime().isBefore(OffsetDateTime.now().minus(5, ChronoUnit.DAYS)));
+
+                //Didn't want to repeat the code twice, lol.
+                if(!oldEnough.test(user)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.rep.new_account_notice"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(!oldEnough.test(author)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.rep.new_account_notice"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
 
                 if(user.isBot()) {
                     event.getChannel().sendMessage(String.format(languageContext.get("commands.rep.rep_bot"), EmoteReference.THINKING,
@@ -119,7 +139,7 @@ public class PlayerCmds {
                 }
 
                 //Check for RL.
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 Player player = MantaroData.db().getPlayer(user);
@@ -132,12 +152,12 @@ public class PlayerCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Reputation command")
-                        .setDescription("**Reps an user**")
-                        .addField("Usage", "`~>rep <@user>` - **Gives reputation to x user**", false)
-                        .addField("Parameters", "`@user` - user to mention", false)
-                        .addField("Important", "Only usable every 12 hours.", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Gives 1 reputation to an user")
+                        .setUsage("`~>rep <@user>` - Gives reputation to x user\n" +
+                                "This command is only usable every 12 hours")
+                        .addParameter("@user", "User to mention")
                         .build();
             }
         });
@@ -158,7 +178,11 @@ public class PlayerCmds {
                 .prefix("profile")
                 .build();
 
+        //I actually do need this, sob.
+        final LinkedList<ProfileComponent> defaultOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
+
         ITreeCommand profileCommand = (TreeCommand) cr.register("profile", new TreeCommand(Category.CURRENCY) {
+
             @Override
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -167,7 +191,6 @@ public class PlayerCmds {
                         User userLooked = event.getAuthor();
                         Player player = managedDatabase.getPlayer(userLooked);
                         DBUser dbUser = managedDatabase.getUser(userLooked);
-
                         Member memberLooked = event.getMember();
 
                         List<Member> found = FinderUtil.findMembers(content, event.getGuild());
@@ -196,23 +219,6 @@ public class PlayerCmds {
                             player = managedDatabase.getPlayer(memberLooked);
                         }
 
-                        //LEGACY SUPPORT
-                        User marriedTo = (player.getData().getMarriedWith() == null || player.getData().getMarriedWith().isEmpty()) ? null : MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
-
-                        //New marriage support.
-                        Marriage currentMarriage = managedDatabase.getUser(userLooked).getData().getMarriage();
-                        User marriedToNew = null;
-                        boolean isNewMarriage = false;
-                        if(currentMarriage != null) {
-                            String marriedToId = currentMarriage.getOtherPlayer(memberLooked.getUser().getId());
-                            if(marriedToId != null) {
-                                marriedToNew = MantaroBot.getInstance().getUserById(marriedToId);
-                                player.getData().setMarriedWith(null); //delete old marriage
-                                marriedTo = null;
-                                isNewMarriage = true;
-                            }
-                        }
-
                         PlayerData playerData = player.getData();
                         UserData userData = dbUser.getData();
                         Inventory inv = player.getInventory();
@@ -238,80 +244,89 @@ public class PlayerCmds {
                             playerData.addBadgeIfAbsent(Badge.DONATOR_2);
                         //end of badge assigning
 
-                        player.saveAsync();
-
                         List<Badge> badges = playerData.getBadges();
                         Collections.sort(badges);
-                        String displayBadges = badges.stream().map(Badge::getUnicode).limit(5).collect(Collectors.joining("  "));
 
-                        EmbedBuilder builder = baseEmbed(event,
-                                (marriedTo == null || !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING) +
-                                        String.format(languageContext.get("commands.profile.header"), memberLooked.getEffectiveName()), userLooked.getEffectiveAvatarUrl())
-                                .setThumbnail(userLooked.getEffectiveAvatarUrl())
-                                .addField(String.format(languageContext.get("commands.profile.badge_header"), EmoteReference.TROPHY),
-                                        (player.getData().isShowBadge() ? (badges.isEmpty() ? "None" : String.format("**%s**\n", (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()))) : "None") ,false)
-                                .setDescription(
-                                        player.getData().getDescription() == null ? languageContext.get("commands.profile.no_desc") : player.getData().getDescription()
-                                )
-                                .addField(EmoteReference.DOLLAR + languageContext.get("commands.profile.credits"), "$ " + player.getMoney(), true
-                                )
-                                .addField(EmoteReference.ZAP + languageContext.get("commands.profile.level"),
-                                        String.format("%d (%s: %d)", player.getLevel(), languageContext.get("commands.profile.xp"), player.getData().getExperience()), true
-                                )
-                                .addField(EmoteReference.REP + languageContext.get("commands.profile.rep"), String.valueOf(player.getReputation()), true
-                                )
-                                .addField(EmoteReference.POPPER + languageContext.get("commands.profile.birthday"),
-                                        userData.getBirthday() != null ? userData.getBirthday().substring(0, 5) : languageContext.get("commands.profile.not_specified"), true
-                                )
-                                //VERY readable stuff. God fuck I need to rewrite the profile command SOME day.
-                                .addField(EmoteReference.HEART + languageContext.get("commands.profile.married"), (marriedTo == null && marriedToNew == null) ?
-                                        languageContext.get("commands.profile.nobody") :
-                                        isNewMarriage ? String.format("%s#%s", marriedToNew.getName(), marriedToNew.getDiscriminator()) :
-                                                String.format("%s#%s", marriedTo.getName(), marriedTo.getDiscriminator()), false
-                                )
-                                .addField(EmoteReference.POUCH + languageContext.get("commands.profile.inventory"), ItemStack.toString(inv.asList()), false
-                                )
-                                .addField(EmoteReference.HEART + languageContext.get("commands.profile.badges"),
-                                        displayBadges.isEmpty() ? languageContext.get("commands.profile.no_badges") : displayBadges, false
-                                )
-                                .setFooter(String.format("%s | %s", String.format(languageContext.get("commands.profile.timezone_user"),
-                                        (userData.getTimezone() == null ? languageContext.get("commands.profile.no_timezone") : userData.getTimezone())), String.format(languageContext.get("general.requested_by"), event.getAuthor().getName())), null
-                                );
+                        boolean ringHolder = player.getInventory().containsItem(Items.RING) && userData.getMarriage() != null;
+                        ProfileComponent.Holder holder = new ProfileComponent.Holder(userLooked, player, dbUser, badges);
 
+                        EmbedBuilder profileBuilder = new EmbedBuilder();
+                        profileBuilder.setAuthor((ringHolder ? "" : EmoteReference.RING) +
+                                    String.format(languageContext.get("commands.profile.header"), memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl())
+                                .setDescription(player.getData().getDescription() == null ? languageContext.get("commands.profile.no_desc") : player.getData().getDescription())
+                                .setFooter(ProfileComponent.FOOTER.getContent().apply(holder, languageContext), null);
 
-                        if(player.getData().getActivePotion() != null) {
-                            Item potion = Items.fromId(player.getData().getActivePotion().getPotion());
-                            builder.addField(EmoteReference.RUNNER + languageContext.get("commands.profile.potion"),
-                                   potion.getEmoji() + " " + potion.getName(), false);
+                        boolean hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
+                        List<ProfileComponent> usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
+
+                        for(ProfileComponent component : usedOrder) {
+                            profileBuilder.addField(component.getTitle(languageContext), component.getContent().apply(holder, languageContext), component.isInline());
                         }
 
-
                         applyBadge(event.getChannel(),
-                                badges.isEmpty() ? null : (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()), userLooked,
-                                builder
+                                badges.isEmpty() ? null : (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()), userLooked, profileBuilder
                         );
+
+                        player.saveAsync();
                     }
                 };
             }
 
+            //If you wonder why is this so short compared to before, subcommand descriptions will do the trick on telling me what they do.
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Profile command.")
-                        .setDescription("**Retrieves your current user profile.**")
-                        .addField("Usage", "- To retrieve your profile, `~>profile`\n" +
-                                "- To change your description do `~>profile description set <description>` (300 chars maximum for normal users, 500 for premium)\n" +
-                                "  -- To clear it, just do `~>profile description clear`\n" +
-                                "- To set your timezone do `~>profile timezone <timezone>`\n" +
-                                "- To set your language do `~>profile lang <lang id>`\n" +
-                                "- To set your display badge use `~>profile displaybadge` and `~>profile displaybadge reset` to reset it.\n" +
-                                "  -- You can also use `~>profile displaybadge none` to display no badge on your profile.\n" +
-                                "**The profile only shows the 5 most important badges!.** Use `~>badges` to get a complete list.", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Retrieves your current user profile.")
+                        .setUsage("To retrieve your profile use `~>profile`. You can also use `~>profile @mention`\n" +
+                                "*The profile command only shows the 5 most important badges.* Use `~>badges` to get a complete list!")
+                        .addParameter("@mention", "A user mention (ping)")
                         .build();
             }
         });
 
 
+        profileCommand.addSubCommand("equip", new SubCommand() {
+            @Override
+            public String description() {
+                return "Equips an item in your inventory. Usage: `~>profile equip <item name>`";
+            }
+
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.no_content"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Item item = Items.fromAnyNoId(content).orElse(null);
+                Player player = MantaroData.db().getPlayer(event.getAuthor());
+                DBUser user = MantaroData.db().getUser(event.getAuthor());
+
+                if(item == null) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.no_item"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(!player.getInventory().containsItem(item)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.not_owned"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(user.getData().getEquippedItems().equipItem(item)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.success"), EmoteReference.CORRECT, item.getEmoji(), item.getName()).queue();
+                    user.save();
+                } else {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.not_suitable"), EmoteReference.ERROR).queue();
+                }
+            }
+        });
+
         profileCommand.addSubCommand("timezone", new SubCommand() {
+            @Override
+            public String description() {
+                return "Sets your profile timezone. Usage: `~>profile timezone <timezone>`";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 DBUser dbUser = managedDatabase.getUser(event.getAuthor());
@@ -322,7 +337,7 @@ public class PlayerCmds {
                     return;
                 }
 
-                String timezone = args[0];
+                String timezone = args[0].replace("UTC", "GMT").toUpperCase();
 
                 if(timezone.equalsIgnoreCase("reset")) {
                     dbUser.getData().setTimezone(null);
@@ -337,7 +352,7 @@ public class PlayerCmds {
                 }
 
                 try {
-                    UtilsCmds.dateGMT(event.getGuild(),timezone);
+                    UtilsCmds.dateGMT(event.getGuild(), timezone);
                 } catch(Exception e) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.profile.timezone.invalid"), EmoteReference.ERROR).queue();
                     return;
@@ -351,8 +366,14 @@ public class PlayerCmds {
 
         profileCommand.addSubCommand("description", new SubCommand() {
             @Override
+            public String description() {
+                return "Sets your profile description. Usage: `~>profile description set <description>`\n" +
+                        "To reset it, you can use `~>profile description clear`";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event))
+                if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 String[] args = content.split(" ");
@@ -402,6 +423,12 @@ public class PlayerCmds {
 
         profileCommand.addSubCommand("displaybadge", new SubCommand() {
             @Override
+            public String description() {
+                return "Sets your profile badge. Usage: `~>profile displaybadge <badge name>`\n" +
+                        "To reset it use `~>profile displaybadge reset` and to show no badge use `~>profile displaybadge none`";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = content.split(" ");
                 if(args.length == 0) {
@@ -448,6 +475,11 @@ public class PlayerCmds {
 
         profileCommand.addSubCommand("lang", new SubCommand() {
             @Override
+            public String description() {
+                return "Sets your profile language. Usage: `~>profile lang <language id>`. You can check a list of avaliable languages using `~>lang`";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(content.isEmpty()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.profile.lang.nothing_specified"), EmoteReference.ERROR).queue();
@@ -478,7 +510,12 @@ public class PlayerCmds {
 
         profileCommand.addSubCommand("stats", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+            public String description() {
+                return "Checks your profile stats or the stats of other players. Usage: `~>profile stats [@mention]`";
+            }
+
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext ctx, String content) {
                 Map<String, Optional<String>> t = StringUtils.parse(content.isEmpty() ? new String[]{} : content.split("\\s+"));
                 content = Utils.replaceArguments(t, content, "brief");
                 Member member = Utils.findMember(event, event.getMember(), content);
@@ -492,48 +529,109 @@ public class PlayerCmds {
                 PlayerData playerData = player.getData();
                 PlayerStats playerStats = managedDatabase.getPlayerStats(toLookup);
 
-                Item potion = playerData.getActivePotion() == null ? null : Items.fromId(playerData.getActivePotion().getPotion());
-                Item buff = playerData.getActiveBuff() == null ? null : Items.fromId(playerData.getActiveBuff().getPotion());
+                PlayerEquipment equippedItems = data.getEquippedItems();
+                Potion potion = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.POTION);
+                Potion buff = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.BUFF);
+                boolean isPotionActive = potion != null && equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses());
+                boolean isBuffActive = buff != null && equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses());
+                boolean equipmentEmpty = equippedItems.getEquipment().isEmpty();
+
                 //no need for decimals
                 long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
+                boolean noPotion = potion == null || !isPotionActive;
+                boolean noBuff = buff == null || !isBuffActive;
 
                 String s = String.join("\n",
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.market") + ":** "  +
-                                playerData.getMarketUsed() + " " + languageContext.get("commands.profile.stats.times"),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.potion") + ":** " +
-                                (potion == null ? "None" : potion.getName()),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.potion_type") + ":** " +
-                                (potion == null ? "None" : Utils.capitalize(potion.getItemType().toString())),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.buff") + ":** " +
-                                (buff == null ? "None" : buff.getName()),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.buff_type") + ":** " +
-                                (buff == null ? "None" : Utils.capitalize(buff.getItemType().toString())),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.experience") + ":** " +
-                                playerData.getExperience() + "/" + experienceNext + " XP",
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.daily") + ":** " +
-                                playerData.getDailyStreak() + " " + languageContext.get("commands.profile.stats.days"),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.daily_at") + ":** " +
-                                new Date(playerData.getLastDailyAt()).toString(),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.waifu_claimed") + ":** " +
-                                data.getTimesClaimed() + " " + languageContext.get("commands.profile.stats.times"),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.dust") + ":** " +
-                                data.getDustLevel() + "%",
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.reminders") + ":** " +
-                                data.getReminderN() + " " + languageContext.get("commands.profile.stats.times"),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.lang") + ":** " +
-                                (data.getLang() == null ? "en_US" : data.getLang()),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.profile.stats.wins") + ":** " +
-                                String.format("\n\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009" +
-                                        "%1$sGamble: %2$d, Slots: %3$d, Game: %4$d (times)", EmoteReference.CREDITCARD, playerStats.getGambleWins(), playerStats.getSlotsWins(), playerData.getGamesWon())
+                        prettyDisplay(ctx.get("commands.profile.stats.market"), playerData.getMarketUsed() + " " + ctx.get("commands.profile.stats.times")),
+
+                        //Potion display
+                        prettyDisplay(ctx.get("commands.profile.stats.potion"), noPotion ? "None" : potion.getName()),
+                        "\u3000 " +
+                                EmoteReference.BOOSTER + ctx.get("commands.profile.stats.times_used") + ": " + (noPotion ? "Not equipped" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION).getTimesUsed() + " " + ctx.get("commands.profile.stats.times")),
+                        prettyDisplay(ctx.get("commands.profile.stats.buff"), noBuff ? "None" : buff.getName()),
+                        "\u3000 " +
+                                EmoteReference.BOOSTER + ctx.get("commands.profile.stats.times_used") + ": " + (noBuff ? "Not equipped" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF).getTimesUsed()  + " " + ctx.get("commands.profile.stats.times")),
+                        //End of potion display
+
+                        prettyDisplay(ctx.get("commands.profile.stats.equipment"), ((equipmentEmpty) ? "None" :
+                                equippedItems.getEquipment().entrySet().stream().map((entry) -> Utils.capitalize(entry.getKey().toString()) + ": " +
+                                        Items.fromId(entry.getValue()).toDisplayString()).collect(Collectors.joining(", ")))),
+                        prettyDisplay(ctx.get("commands.profile.stats.experience"), playerData.getExperience() + "/" + experienceNext + " XP"),
+                        prettyDisplay(ctx.get("commands.profile.stats.daily"), playerData.getDailyStreak() + " " + ctx.get("commands.profile.stats.days")),
+                        prettyDisplay(ctx.get("commands.profile.stats.daily_at"), new Date(playerData.getLastDailyAt()).toString()),
+                        prettyDisplay(ctx.get("commands.profile.stats.waifu_claimed"), data.getTimesClaimed() + " " + ctx.get("commands.profile.stats.times")),
+                        prettyDisplay(ctx.get("commands.profile.stats.dust"), data.getDustLevel() + "%"),
+                        prettyDisplay(ctx.get("commands.profile.stats.reminders"), data.getReminderN() + " " + ctx.get("commands.profile.stats.times")),
+                        prettyDisplay(ctx.get("commands.profile.stats.lang"), (data.getLang() == null ? "en_US" : data.getLang())),
+                        prettyDisplay(ctx.get("commands.profile.stats.wins"),
+                                String.format("\n\u3000\u2009\u2009\u2009\u2009" +
+                                        "%1$sGamble: %2$d, Slots: %3$d, Game: %4$d (times)", EmoteReference.CREDITCARD, playerStats.getGambleWins(), playerStats.getSlotsWins(), playerData.getGamesWon()))
                         );
 
 
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setThumbnail(toLookup.getEffectiveAvatarUrl())
-                        .setAuthor(String.format(languageContext.get("commands.profile.stats.header"), toLookup.getName()), null, toLookup.getEffectiveAvatarUrl())
+                        .setAuthor(String.format(ctx.get("commands.profile.stats.header"), toLookup.getName()), null, toLookup.getEffectiveAvatarUrl())
                         .setDescription("\n" + s)
                         .setFooter("This shows stuff usually not shown on the profile card. Content might change", null)
                         .build()
+                ).queue();
+            }
+        });
+
+        profileCommand.addSubCommand("widgets", new SubCommand() {
+            @Override
+            public String description() {
+                return "Sets the profile widget order. Usage: `~>profile widgets <name of widget>` or `~>profile widgets <ls/reset>`";
+            }
+
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                DBUser user = managedDatabase.getUser(event.getAuthor());
+                if(!user.isPremium()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.not_premium"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Player player = managedDatabase.getPlayer(event.getAuthor());
+                PlayerData data = player.getData();
+
+                if(content.equalsIgnoreCase("ls") || content.equalsIgnoreCase("is")) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.ls") + languageContext.get("commands.profile.display.example"), EmoteReference.ZAP,
+                            EmoteReference.BLUE_SMALL_MARKER, defaultOrder.stream().map(Enum::name).collect(Collectors.joining(", ")),
+                            data.getProfileComponents().size() == 0 ? "Not personalized" : data.getProfileComponents().stream().map(Enum::name).collect(Collectors.joining(", "))
+                    ).queue();
+                    return;
+                }
+
+                if(content.equalsIgnoreCase("reset")) {
+                    data.getProfileComponents().clear();
+                    player.saveAsync();
+
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.reset"), EmoteReference.CORRECT).queue();
+                    return;
+                }
+
+                String[] splitContent = content.replace(",", "").split("\\s+");
+                List<ProfileComponent> newComponents = new LinkedList<>(); //new list of profile components
+
+                for(String c : splitContent) {
+                    ProfileComponent component = ProfileComponent.lookupFromString(c);
+                    if(component != null && component.isAssignable()) {
+                        newComponents.add(component);
+                    }
+                }
+
+                if(newComponents.size() < 3) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.not_enough") + languageContext.get("commands.profile.display.example"), EmoteReference.WARNING).queue();
+                    return;
+                }
+
+                data.setProfileComponents(newComponents);
+                player.saveAsync();
+
+                event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.success"),
+                        EmoteReference.CORRECT, newComponents.stream().map(Enum::name).collect(Collectors.joining(", "))
                 ).queue();
             }
         });
@@ -608,17 +706,22 @@ public class PlayerCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Badge list")
-                        .setDescription("**Shows your (or another person)'s badges**\n" +
-                                "If you want to check out the badges of another person just mention them.\n" +
-                                "`~>badges info <name>` - Shows info about a badge.\n" +
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows your (or another person)'s badges.")
+                        .setUsage("If you want to check out the badges of another person just mention them.\n" +
                                 "You can use `~>badges -brief` to get a brief versions of the badge showcase.")
                         .build();
             }
+
         });
 
         badgeCommand.addSubCommand("info", new SubCommand() {
+            @Override
+            public String description() {
+                return "Shows info about a badge. Usage: `~>badges info <name>`";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(content.isEmpty()) {

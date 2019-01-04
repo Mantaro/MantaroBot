@@ -80,6 +80,7 @@ public class Config {
     public String patreonRedirectUri = "https://mantaro.site";
     public int prometheusPort = 9091;
     public int ratelimitPoolSize = 4;
+    public String apiAuthKey;
 
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());

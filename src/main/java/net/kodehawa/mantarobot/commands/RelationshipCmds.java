@@ -40,6 +40,7 @@ import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -199,8 +200,8 @@ public class RelationshipCmds {
                                 DBUser proposedToUserDB = managedDatabase.getUser(proposedToUser);
 
                                 // ---------------- START OF FINAL MARRIAGE CHECK ----------------
-                                final Marriage proposingMarriageFinal = proposingUserData.getMarriage();
-                                final Marriage proposedToMarriageFinal = proposedToUserData.getMarriage();
+                                final Marriage proposingMarriageFinal = proposingUserDB.getData().getMarriage();
+                                final Marriage proposedToMarriageFinal = proposedToUserDB.getData().getMarriage();
 
                                 if(proposingMarriageFinal != null) {
                                     event.getChannel().sendMessageFormat(languageContext.get("commands.marry.already_married"), EmoteReference.ERROR).queue();
@@ -289,21 +290,23 @@ public class RelationshipCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Marriage command")
-                        .setDescription("**Basically marries you with a user.**")
-                        .addField("Usage", "`~>marry <@mention>` - **Propose to someone**\n" +
-                                "`~>marry status` - **Check your marriage status**\n" +
-                                "`~>marry createletter <content>` - **Create a love letter for your marriage**", false)
-                        .addField(
-                                "Divorcing", "Well, if you don't want to be married anymore you can just do `~>divorce`",
-                                false
-                        )
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Basically marries you with a user.")
+                        .setUsage("`~>marry <@mention>` - Propose to someone\n" +
+                                "`~>marry <command>`")
+                        .addParameter("@mention", "The person to propose to")
+                        .addParameter("command", "The subcommand you can use. Check the subcommands section for a list and usage of each.")
                         .build();
             }
         });
 
         marryCommand.addSubCommand("createletter", new SubCommand() {
+            @Override
+            public String description() {
+                return "Create a love letter for your marriage. Usage: `~>marry createletter <content>`";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 final ManagedDatabase db = MantaroData.db();
@@ -423,6 +426,11 @@ public class RelationshipCmds {
         });
 
         marryCommand.addSubCommand("status", new SubCommand() {
+            @Override
+            public String description() {
+                return "Check your marriage status.";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 final ManagedDatabase db = MantaroData.db();
@@ -546,9 +554,9 @@ public class RelationshipCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Divorce command")
-                        .setDescription("**Basically divorces you from whoever you were married to.**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Basically divorces you from whoever you were married to.")
                         .build();
             }
         });
@@ -597,15 +605,20 @@ public class RelationshipCmds {
                         java.util.List<MessageEmbed.Field> fields = new LinkedList<>();
                         for(String waifu : userData.getWaifus().keySet()) {
                             User user = MantaroBot.getInstance().getUserById(waifu);
-                            if(user == null)
-                                continue;
-
-                            fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + user.getName() + "#" + user.getDiscriminator(),
-                                    languageContext.get("commands.waifu.value_format") + " " + calculateWaifuValue(user).getFinalValue() + " " +
-                                            languageContext.get("commands.waifu.credits_format") + "\n" +
-                                            languageContext.get("commands.waifu.value_b_format") + " " + userData.getWaifus().get(waifu) +
-                                            languageContext.get("commands.waifu.credits_format"), false)
-                            );
+                            if(user == null) {
+                                fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + String.format("Unknown User (ID: %s)", waifu),
+                                        languageContext.get("commands.waifu.value_format") + " unknown\n" +
+                                                languageContext.get("commands.waifu.value_b_format") + " " + userData.getWaifus().get(waifu) +
+                                                languageContext.get("commands.waifu.credits_format"), false)
+                                );
+                            } else {
+                                fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + user.getName() + "#" + user.getDiscriminator(),
+                                        languageContext.get("commands.waifu.value_format") + " " + calculateWaifuValue(user).getFinalValue() + " " +
+                                                languageContext.get("commands.waifu.credits_format") + "\n" +
+                                                languageContext.get("commands.waifu.value_b_format") + " " + userData.getWaifus().get(waifu) +
+                                                languageContext.get("commands.waifu.credits_format"), false)
+                                );
+                            }
                         }
 
                         List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
@@ -631,23 +644,26 @@ public class RelationshipCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Waifu Command")
-                        .setDescription("**This command is the hub for all waifu operations*\n" +
-                                "`~>waifu` - Shows a list of all your waifus and their current value.\n" +
-                                "`~>waifu stats` - Shows your waifu stats or the stats or someone\n" +
-                                "`~>waifu claim <@mention>` - Claim a waifu.\n" +
-                                "`~>waifu unclaim <@mention>` - Unclaim a waifu.\n" +
-                                "`~>waifu buyslot` - Buy a waifu slots. Maximum possible slots are 20.")
-                        .addField("Notice",  "This command is not meant to represent any real life situation, whether real or fake.", true)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("This command is the hub for all waifu operations. Yeah, it's all fiction.")
+                        .setUsage("`~>waifu` - Shows a list of all your waifus and their current value.\n" +
+                                "`~>waifu <command> [@user]`")
+                        .addParameter("command", "The subcommand to use. Check the sub-command section for more information on which ones you can use.")
+                        .addParameter("@user", "The user you want to do the action with.")
                         .build();
             }
         });
 
         cr.registerAlias("waifu", "waifus");
-        waifu.setPredicate(event -> Utils.handleDefaultRatelimit(rl, event.getAuthor(), event));
+        waifu.setPredicate(event -> Utils.handleDefaultRatelimit(rl, event.getAuthor(), event, null));
 
         waifu.addSubCommand("stats", new SubCommand() {
+            @Override
+            public String description() {
+                return "Shows your waifu stats or the stats or someone's (by mentioning them)";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Member member = Utils.findMember(event, event.getMember(), content);
@@ -680,6 +696,11 @@ public class RelationshipCmds {
         });
 
         waifu.addSubCommand("claim", new SubCommand() {
+            @Override
+            public String description() {
+                return "Claim a waifu. You need to mention the person you want to claim. Usage: `~>waifu claim <@mention>`";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
@@ -777,18 +798,35 @@ public class RelationshipCmds {
 
         waifu.addSubCommand("unclaim", new SubCommand() {
             @Override
+            public String description() {
+                return "Unclaims a waifu. You need to mention them, or you can also use their user id if they're not in any servers you share. Usage: `~>waifu unclaim <@mention>`";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                if(content.isEmpty()) {
+                boolean isId = content.matches("\\d{16,20}");
+
+                if(content.isEmpty() && !isId) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.no_user"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                Member member = Utils.findMember(event, event.getMember(), content);
-                if(member == null)
-                    return;
+                //We don't look this up if it's by-id.
+                Member member = null;
+                if(!isId) {
+                    member = Utils.findMember(event, event.getMember(), content);
+                    if(member == null)
+                        return;
+                }
 
                 final ManagedDatabase db = MantaroData.db();
-                User toLookup = member.getUser();
+                User toLookup = isId ? MantaroBot.getInstance().getUserById(content) : member.getUser();
+
+                if(toLookup == null) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.not_found"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 if(toLookup.isBot()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.bot"), EmoteReference.ERROR).queue();
                     return;
@@ -863,6 +901,11 @@ public class RelationshipCmds {
         });
 
         waifu.addSubCommand("buyslot", new SubCommand() {
+            @Override
+            public String description() {
+                return "Buys a new waifu slot. Maximum slots are 20, costs get increasingly higher.";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 final ManagedDatabase db = MantaroData.db();

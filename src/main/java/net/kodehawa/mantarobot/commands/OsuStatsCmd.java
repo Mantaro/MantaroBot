@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Prometheus;
@@ -68,22 +69,25 @@ public class OsuStatsCmd {
     public void osustats(CommandRegistry cr) {
         ITreeCommand osuCommand = (SimpleTreeCommand) cr.register("osustats", new SimpleTreeCommand(Category.GAMES) {
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "osu! command")
-                        .setDescription("**Retrieves information from osu! (Players and scores)**.")
-                        .addField("Usage", "`~>osu best <player>` - **Retrieves best scores of the user specified in the specified game mode**.\n"
-                                        + "`~>osu recent <player>` - **Retrieves recent scores of the user specified in the specified game mode.**\n"
-                                        + "`~>osu user <player>` - **Retrieves information about a osu! player**.\n"
-                                , false)
-                        .addField("Parameters", "`player` - **The osu! player to look info for.**", false)
-                        .addField("Considerations", "You can specify the mode by using `-mode` at the end. For example -mode 3 will look up for mania scores.9\n" +
-                                "0: standard, 1: taiko, 2: ctb, 3: mania", false)
-                        .addField("Example", "`~>osustats best snoverpk -mode 3` (mania scores)", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Retrieves information from osu! (Players and scores). If this is slow, at least it's faster than the rise of my ranks.\n" +
+                                "You can specify the mode by using `-mode` at the end. For example -mode 3 will look up for mania scores. 0: standard, 1: taiko, 2: ctb, 3: mania\n" +
+                                "Example: `~>osustats best snoverpk -mode 3` (mania scores)")
+                        .setUsage("`~>osustats <command> <player> [-mode]`")
+                        .addParameter("command", "What to look for, see sub-commands for information. Can be either best, recent or user.")
+                        .addParameter("player", "Who to check stats for.")
+                        .addParameter("-mode", "Which mode to checks. Defaults to ~~the only game mode~~ standard.")
                         .build();
             }
         });
 
         osuCommand.addSubCommand("best", new SubCommand() {
+            @Override
+            public String description() {
+                return "Retrieves best scores of the user specified in the specified game mode.";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 event.getChannel().sendMessageFormat(languageContext.get("commands.osustats.retrieving_info"), EmoteReference.STOPWATCH).queue(sentMessage -> {
@@ -104,6 +108,11 @@ public class OsuStatsCmd {
 
         osuCommand.addSubCommand("recent", new SubCommand() {
             @Override
+            public String description() {
+                return "Retrieves recent scores of the user specified in the specified game mode.";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 event.getChannel().sendMessageFormat(languageContext.get("commands.osustats.retrieving_info"), EmoteReference.STOPWATCH).queue(sentMessage -> {
                     Future<String> task = pool.submit(() -> recent(content, languageContext));
@@ -120,6 +129,11 @@ public class OsuStatsCmd {
         });
 
         osuCommand.addSubCommand("user", new SubCommand() {
+            @Override
+            public String description() {
+                return "Retrieves information about an user in the specific game mode.";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 event.getChannel().sendMessage(user(content, languageContext)).queue();

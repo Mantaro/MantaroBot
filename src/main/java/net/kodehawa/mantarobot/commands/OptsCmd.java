@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.functions.interfaces.TriConsumer;
+import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
@@ -29,6 +30,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -37,26 +39,20 @@ import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.Pair;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Map.Entry;
-import static net.kodehawa.mantarobot.utils.Utils.mapObjects;
+import static net.kodehawa.mantarobot.utils.Utils.mapConfigObjects;
 
 @Module
 @SuppressWarnings("unused")
 public class OptsCmd {
     public static Command optsCmd;
-
-    public static void onHelp(GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage(String.format("%sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!", EmoteReference.HEART)).queue();
-    }
 
     public static SimpleCommand getOpts() {
         return (SimpleCommand) optsCmd;
@@ -68,16 +64,15 @@ public class OptsCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length == 0) {
-                    onHelp(event);
+                    event.getChannel().sendMessage(String.format(languageContext.get("options.error_general"), EmoteReference.WARNING)).queue();
                     return;
                 }
 
                 if(args.length == 1 && args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("ls")) {
                     StringBuilder builder = new StringBuilder();
 
-                    for(String s : Option.getAvaliableOptions()) {
+                    for(String s : Option.getAvaliableOptions())
                         builder.append(s).append("\n");
-                    }
 
                     List<String> m = DiscordUtils.divideString(builder);
                     List<String> messages = new LinkedList<>();
@@ -97,7 +92,7 @@ public class OptsCmd {
                 }
 
                 if(args.length < 2) {
-                    event.getChannel().sendMessage(help(event)).queue();
+                    event.getChannel().sendMessage(String.format(languageContext.get("options.error_general"), EmoteReference.WARNING)).queue();
                     return;
                 }
 
@@ -106,7 +101,9 @@ public class OptsCmd {
                 if(args[0].equalsIgnoreCase("help")) {
                     for(int i = 1; i < args.length; i++) {
                         String s = args[i];
-                        if(name.length() > 0) name.append(":");
+                        if(name.length() > 0)
+                            name.append(":");
+
                         name.append(s);
                         Option option = Option.getOptionMap().get(name.toString());
 
@@ -139,10 +136,14 @@ public class OptsCmd {
                         TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> callable = Option.getOptionMap().get(name.toString()).getEventConsumer();
                         try {
                             String[] a;
-                            if(++i < args.length) a = Arrays.copyOfRange(args, i, args.length);
-                            else a = new String[0];
+                            if(++i < args.length)
+                                a = Arrays.copyOfRange(args, i, args.length);
+                            else
+                                a = new String[0];
+
                             callable.accept(event, a, new I18nContext(MantaroData.db().getGuild(event.getGuild()).getData(), MantaroData.db().getUser(event.getAuthor().getId()).getData()));
                             Player p = MantaroData.db().getPlayer(event.getAuthor());
+
                             if(p.getData().addBadgeIfAbsent(Badge.DID_THIS_WORK)) {
                                 p.saveAsync();
                             }
@@ -151,64 +152,66 @@ public class OptsCmd {
                     }
                 }
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.opts.invalid_args"), EmoteReference.ERROR).queue(
-                        message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                );
-                event.getChannel().sendMessage(help(event)).queue();
+                event.getChannel().sendMessage(String.format(languageContext.get("options.error_general"), EmoteReference.WARNING)).queue();
             }
 
+
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Options and Configurations Command")
-                        .setDescription("**This command allows you to change Mantaro settings for this server.**\n" +
-                                "All values set are local rather than global, meaning that they will only effect this server.\n" +
-                                "- Hey, if you're lost or want help on using opts, check https://github.com/Mantaro/MantaroBot/wiki/Configuration for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("This command allows you to change Mantaro settings for this server.\n" +
+                                "All values set are local and NOT global, meaning that they will only effect this server. " +
+                                "No, you can't give away currency or give yourself coins or anything like that.")
+                        .setUsage("Check https://github.com/Mantaro/MantaroBot/wiki/Configuration for a guide on how to use opts. Welcome to the jungle.")
                         .build();
             }
         }).addOption("check:data", new Option("Data check.",
                 "Checks the data values you have set on this server. **THIS IS NOT USER-FRIENDLY**", OptionType.GENERAL)
-                .setActionLang((event, lang) -> {
+                .setActionLang((event, args, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
+
                     //Map as follows: name, value
-                    Map<String, Object> fieldMap = mapObjects(guildData);
+                    //This filters out unused configs.
+                    Map<String, Pair<String, Object>> fieldMap = mapConfigObjects(guildData);
 
                     if(fieldMap == null) {
                         event.getChannel().sendMessage(String.format(lang.get("options.check_data.retrieve_failure"), EmoteReference.ERROR)).queue();
                         return;
                     }
 
-                    StringBuilder show = new StringBuilder();
-                    show.append(String.format(lang.get("options.check_data.header"), event.getGuild().getName()))
-                            .append("\n\n");
-
-                    AtomicInteger ai = new AtomicInteger();
-
-                    for(Entry e : fieldMap.entrySet()) {
-                        if(e.getKey().equals("localPlayerExperience")) {
-                            continue;
+                    Map<String, Optional<String>> opts = StringUtils.parse(args);
+                    if(opts.containsKey("print")) {
+                        StringBuilder builder = new StringBuilder();
+                        for(Entry<String, Pair<String, Object>> e : fieldMap.entrySet()) {
+                            builder.append("* ").append(e.getKey()).append(": ").append(e.getValue().getRight()).append("\n");
                         }
 
-                        show.append(ai.incrementAndGet())
-                                .append(".- `")
-                                .append(e.getKey())
-                                .append("`");
-
-                        if(e.getValue() == null) {
-                            show.append(" **")
-                                    .append(lang.get("options.check_data.null_set"))
-                                    .append("**\n");
-                        } else {
-                            show.append(" **")
-                                    .append(lang.get("options.check_data.set_to"))
-                                    .append(" ")
-                                    .append(e.getValue())
-                                    .append("**\n");
-                        }
+                        event.getChannel().sendMessage("Send this: " + Utils.paste3(builder.toString())).queue();
+                        return;
                     }
 
-                    List<String> toSend = DiscordUtils.divideString(1600, show);
-                    toSend.forEach(message -> event.getChannel().sendMessage(message).queue());
+                    EmbedBuilder embedBuilder = new EmbedBuilder();
+                    embedBuilder.setAuthor("Option Debug", null, event.getAuthor().getEffectiveAvatarUrl())
+                            .setDescription(String.format(lang.get("options.check_data.header") + lang.get("options.check_data.terminology"), event.getGuild().getName()))
+                            .setThumbnail(event.getGuild().getIconUrl())
+                            .setFooter(lang.get("options.check_data.footer"), null);
+                    List<MessageEmbed.Field> fields = new LinkedList<>();
+
+                    for(Entry<String, Pair<String, Object>> e : fieldMap.entrySet()) {
+                        fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + e.getKey() + ":\n" + e.getValue().getLeft() + "",
+                                e.getValue() == null ? lang.get("options.check_data.null_set") : String.valueOf(e.getValue().getRight()),
+                                false)
+                        );
+                    }
+
+                    List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
+                    boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+
+                    if(hasReactionPerms)
+                        DiscordUtils.list(event, 100, false, embedBuilder, splitFields);
+                    else
+                        DiscordUtils.listText(event, 100, false, embedBuilder, splitFields);
                 }).setShortDescription("Checks the data values you have set on this server.")
         ).addOption("reset:all", new Option("Options reset.",
                 "Resets all options set on this server.", OptionType.GENERAL)

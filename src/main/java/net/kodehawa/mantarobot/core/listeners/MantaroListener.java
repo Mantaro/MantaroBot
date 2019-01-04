@@ -53,6 +53,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.log.LogUtils;
@@ -64,6 +65,7 @@ import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -93,6 +95,10 @@ public class MantaroListener implements EventListener {
             .register();
     private static final Counter actions = Counter.build()
             .name("actions").help("Mantaro Actions")
+            .labelNames("type")
+            .register();
+    private static final Counter shardEvents = Counter.build()
+            .name("shard_events").help("Shard Events")
             .labelNames("type")
             .register();
     private static final Counter guildActions = Counter.build()
@@ -140,8 +146,9 @@ public class MantaroListener implements EventListener {
     @Override
     public void onEvent(Event event) {
         if (event instanceof ShardMonitorEvent) {
-            if (MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getShardEventManager().getLastJDAEventTimeDiff() > 30000)
+            if (MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getShardEventManager().getLastJDAEventTimeDiff() > 50000)
                 return;
+
             ((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.MANTARO_LISTENER);
             return;
         }
@@ -224,9 +231,16 @@ public class MantaroListener implements EventListener {
         }
 
         if (event instanceof DisconnectEvent) {
+            shardEvents.labels("disconnect").inc();
             onDisconnect((DisconnectEvent) event);
             return;
         }
+
+        if (event instanceof ResumedEvent) {
+            shardEvents.labels("resume").inc();
+            return;
+        }
+
 
         if (event instanceof ExceptionEvent) {
             onException((ExceptionEvent) event);
@@ -260,6 +274,7 @@ public class MantaroListener implements EventListener {
                         //Attempt to open a PM and send a key!
                         user.openPrivateChannel().queue(channel -> {
                             //Sellout message :^)
+                            //TODO: Add claimkey whenever it's active.
                             channel.sendMessage(EmoteReference.EYES + "Thanks you for donating, we'll deliver your premium key shortly! :heart:").queue(message -> {
                                 message.editMessage(EmoteReference.POPPER + "You received a premium key due to your donation to mantaro. " +
                                         "If any doubts, please contact Kodehawa#3457.\n" +
@@ -267,7 +282,8 @@ public class MantaroListener implements EventListener {
                                         "This key is a 365-day long subscription to Mantaro Premium. If you want more keys (>$2 donation) " +
                                         "or want to enable the patreon bot (>$4 donation) you need to contact Kodehawa to deliver your keys.\n" +
                                         "To apply this key, run the following command in any channel `~>activatekey " +
-                                        PremiumKey.generatePremiumKey(user.getId(), PremiumKey.Type.USER).getId() + "`\n" +
+                                        //will eventually get linked (see DBUser.java, lines 103-107), patreon webhook can be slower and clash with what I need here.
+                                        PremiumKey.generatePremiumKey(user.getId(), PremiumKey.Type.USER, false).getId() + "`\n" +
                                         "Thanks you soo much for donating and helping to keep Mantaro alive! :heart:").queue(sent -> {
                                             dbUser.getData().setHasReceivedFirstKey(true);
                                             dbUser.saveAsync();
@@ -301,20 +317,33 @@ public class MantaroListener implements EventListener {
     private void logDelete(GuildMessageDeleteEvent event) {
         try {
             String hour = df.format(new Date(System.currentTimeMillis()));
-            String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
+            final ManagedDatabase db = MantaroData.db();
 
+            final DBGuild dbGuild = db.getGuild(event.getGuild());
+            final GuildData data = dbGuild.getData();
+
+            String logChannel = data.getGuildLogChannel();
             if (logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-                if (tc == null) return;
-                CachedMessage deletedMessage = shard.getMessageCache().get(event.getMessageId(), Optional::empty).orElse(null);
+                if (tc == null)
+                    return;
 
+                CachedMessage deletedMessage = shard.getMessageCache().get(event.getMessageId(), Optional::empty).orElse(null);
                 if (deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel) && !deletedMessage.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
-                    if (MantaroData.db().getGuild(event.getGuild()).getData().getModlogBlacklistedPeople().contains(deletedMessage.getAuthor().getId())) {
+                    if (data.getModlogBlacklistedPeople().contains(deletedMessage.getAuthor().getId())) {
                         return;
                     }
 
-                    if (MantaroData.db().getGuild(event.getGuild()).getData().getLogExcludedChannels().contains(event.getChannel().getId())) {
+                    if (data.getLogExcludedChannels().contains(event.getChannel().getId())) {
                         return;
+                    }
+
+                    if(!data.getModLogBlacklistWords().isEmpty()) {
+                        //This is not efficient at all I'm pretty sure, is there a better way?
+                        List<String> splitMessage = Arrays.asList(deletedMessage.getContent().split("\\s+"));
+                        if(data.getModLogBlacklistWords().stream().anyMatch(splitMessage::contains)) {
+                            return;
+                        }
                     }
 
                     logTotal++;
@@ -332,28 +361,41 @@ public class MantaroListener implements EventListener {
     private void logEdit(GuildMessageUpdateEvent event) {
         try {
             String hour = df.format(new Date(System.currentTimeMillis()));
-            String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
+            final ManagedDatabase db = MantaroData.db();
+            final GuildData guildData = db.getGuild(event.getGuild()).getData();
+            String logChannel = guildData.getGuildLogChannel();
 
             if (logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-                if (tc == null) return;
+                if (tc == null)
+                    return;
+
                 User author = event.getAuthor();
                 CachedMessage editedMessage = shard.getMessageCache().get(event.getMessage().getId(), Optional::empty).orElse(null);
 
                 if (editedMessage != null && !editedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
-
-                    if (MantaroData.db().getGuild(event.getGuild()).getData().getLogExcludedChannels().contains(event.getChannel().getId())) {
-                        return;
-                    }
-
-                    if (MantaroData.db().getGuild(event.getGuild()).getData().getModlogBlacklistedPeople().contains(editedMessage.getAuthor().getId())) {
-                        return;
-                    }
-
+                    //Update message in cache in any case.
                     shard.getMessageCache().put(event.getMessage().getId(), Optional.of(new CachedMessage(event.getAuthor().getIdLong(), event.getMessage().getContentDisplay())));
+
+                    if (guildData.getLogExcludedChannels().contains(event.getChannel().getId())) {
+                        return;
+                    }
+
+                    if (guildData.getModlogBlacklistedPeople().contains(editedMessage.getAuthor().getId())) {
+                        return;
+                    }
+
                     //Don't log if content is equal but update in cache (cc: message is still relevant).
                     if(event.getMessage().getContentDisplay().equals(editedMessage.getContent()))
                         return;
+
+                    if(!guildData.getModLogBlacklistWords().isEmpty()) {
+                        //This is not efficient at all I'm pretty sure, is there a better way?
+                        List<String> splitMessage = Arrays.asList(editedMessage.getContent().split("\\s+"));
+                        if(guildData.getModLogBlacklistWords().stream().anyMatch(splitMessage::contains)) {
+                            return;
+                        }
+                    }
 
                     tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` Message (ID: %s) created by **%s#%s** in channel **%s** was modified.\n```diff\n-%s\n+%s```",
                             hour, event.getMessage().getId(), author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContentDisplay().replace("```", ""))).queue();
@@ -413,10 +455,10 @@ public class MantaroListener implements EventListener {
             log.info("Got a guild join event with null guild? Shard {}", shardId);
         }
 
+        final MantaroObj mantaroData = MantaroData.db().getMantaroData();
+
         try {
-            if (MantaroData.db().getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
-                    || MantaroData.db().getMantaroData().getBlackListedUsers().contains(
-                    event.getGuild().getOwner().getUser().getId())) {
+            if (mantaroData.getBlackListedGuilds().contains(event.getGuild().getId()) || mantaroData.getBlackListedUsers().contains(event.getGuild().getOwner().getUser().getId())) {
                 event.getGuild().leave().queue();
                 return;
             }
@@ -432,9 +474,9 @@ public class MantaroListener implements EventListener {
 
     private void onLeave(GuildLeaveEvent event) {
         try {
-            if (MantaroData.db().getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
-                    || MantaroData.db().getMantaroData().getBlackListedUsers().contains(
-                    event.getGuild().getOwner().getUser().getId())) {
+            final MantaroObj mantaroData = MantaroData.db().getMantaroData();
+
+            if (mantaroData.getBlackListedGuilds().contains(event.getGuild().getId()) || mantaroData.getBlackListedUsers().contains(event.getGuild().getOwner().getUser().getId())) {
                 log.info("Left " + event.getGuild() + " because of a blacklist entry. (O:" + event.getGuild().getOwner() + ")");
                 return;
             }

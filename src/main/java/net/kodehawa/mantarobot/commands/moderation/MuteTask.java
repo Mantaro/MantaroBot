@@ -80,7 +80,7 @@ public class MuteTask {
                             guild.getController().removeRolesFromMember(guild.getMemberById(id), guild.getRoleById(guildData.getMutedRole())).queue();
                             guildData.setCases(guildData.getCases() + 1);
                             dbGuild.saveAsync();
-                            ModLog.log(guild.getSelfMember(), MantaroBot.getInstance().getUserById(id), "Mute timeout expired", ModLog.ModAction.UNMUTE, guildData.getCases());
+                            ModLog.log(guild.getSelfMember(), MantaroBot.getInstance().getUserById(id), "Mute timeout expired", "none", ModLog.ModAction.UNMUTE, guildData.getCases());
                         }
                     }
                 } catch(Exception ignored) {}

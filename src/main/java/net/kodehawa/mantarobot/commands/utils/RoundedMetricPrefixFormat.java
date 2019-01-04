@@ -34,6 +34,7 @@ import java.util.regex.Pattern;
  * Decided to take this answer as I felt like it was the most complete one and had support for reversal.
  */
 public class RoundedMetricPrefixFormat extends Format {
+    private static final long serialVersionUID = 1;
 
     private static final String[] METRIC_PREFIXES = new String[]{"", "k", "M", "G", "T"};
 

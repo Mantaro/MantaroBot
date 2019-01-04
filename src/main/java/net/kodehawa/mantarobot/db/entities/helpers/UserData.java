@@ -17,7 +17,9 @@
 package net.kodehawa.mantarobot.db.entities.helpers;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 
@@ -35,8 +37,12 @@ public class UserData {
     private String timezone;
     private String lang;
     private int dustLevel; //percentage
+    private int equippedPick; //item id, 0 = nothing (even tho in theory 0 its headphones...)
+    private int equippedRod; //item id, 0 = nothing
+    private PlayerEquipment equippedItems = new PlayerEquipment(new HashMap<>(), new HashMap<>()); //hashmap is type -> itemId
 
     private boolean receivedExpirationWarning; //premium key about to expire!
+    private Map<String, String> keysClaimed = new HashMap<>(); //Map of user -> key. Will be used to account for keys the user can create themselves.
 
     //NEW MARRIAGE SYSTEM
     private String marriageId;

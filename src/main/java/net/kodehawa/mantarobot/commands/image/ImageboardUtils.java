@@ -16,9 +16,11 @@
 
 package net.kodehawa.mantarobot.commands.image;
 
+import com.google.common.collect.ImmutableMap;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.lib.imageboards.DefaultImageBoards;
 import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.lib.imageboards.entities.BoardImage;
 import net.kodehawa.lib.imageboards.entities.Rating;
@@ -31,15 +33,24 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class ImageboardUtils {
     private static final Random r = new Random();
+    private static final Map<ImageBoard<?>, Integer> maxQuerySize = ImmutableMap.of(
+            DefaultImageBoards.KONACHAN, 5,
+            DefaultImageBoards.YANDERE, 5,
+            DefaultImageBoards.DANBOORU, 1,
+            DefaultImageBoards.SAFEBOORU, 1
+    );
+
+    private static final Map<ImageBoard<?>, Boolean> imageboardUsesRating = ImmutableMap.of(
+            DefaultImageBoards.SAFEBOORU, false,
+            DefaultImageBoards.RULE34, false,
+            DefaultImageBoards.E621, false
+    );
 
     @SuppressWarnings("unchecked")
     public static void getImage(ImageBoard<?> api, ImageRequestType type, boolean nsfwOnly, String imageboard, String[] args, String content, GuildMessageReceivedEvent event, I18nContext languageContext) {
@@ -52,26 +63,43 @@ public class ImageboardUtils {
         final Player player = MantaroData.db().getPlayer(event.getAuthor());
         final PlayerData playerData = player.getData();
 
-        if(needRating && !nsfwOnly)
+        if(needRating && !nsfwOnly) {
             rating = Rating.lookupFromString(list.get(1));
-
-        if(nsfwOnly)
-            rating = Rating.EXPLICIT;
-
-        if(rating == null) {
-            channel.sendMessageFormat(languageContext.get("commands.imageboard.invalid_rating"), EmoteReference.ERROR).queue();
-            return;
         }
 
-        final Rating finalRating = rating;
+        if(rating == null) {
+            //Try with short name
+            rating = Rating.lookupFromStringShort(list.get(1));
+
+            if(rating != null) {
+                list.remove(rating.getShortName());
+            }
+        }
+
+        //Allow for more tags after declaration.
+        Rating finalRating = rating;
+        if(finalRating != null) {
+            list.remove(rating.getLongName());
+        } else {
+            finalRating = Rating.SAFE;
+        }
 
         if(!nsfwCheck(event, languageContext, nsfwOnly, false, finalRating)) {
             channel.sendMessageFormat(languageContext.get("commands.imageboard.nsfw_no_nsfw"), EmoteReference.ERROR).queue();
             return;
         }
 
+        if(!Optional.ofNullable(imageboardUsesRating.get(api)).orElse(true)) {
+            finalRating = null;
+        }
+
         int page = Math.max(1, r.nextInt(25));
-        String queryRating = nsfwOnly ? null : rating.getLongName();
+        int limit = Optional.ofNullable(maxQuerySize.get(api)).orElse(10);
+
+        if(list.size() > limit) {
+            channel.sendMessageFormat(languageContext.get("commands.imageboard.too_many_tags"), EmoteReference.ERROR, imageboard, limit).queue();
+            return;
+        }
 
         switch(type) {
             case TAGS:
@@ -88,14 +116,12 @@ public class ImageboardUtils {
                         return;
                     }
 
-                    api.search(tags, queryRating).async(requestedImages -> {
+                    api.search(list, finalRating).async(requestedImages -> {
                         //account for this
                         if(isListNull(requestedImages, languageContext, event)) return;
 
                         try {
                             List<BoardImage> filter = (List<BoardImage>) requestedImages;
-                            if(!nsfwOnly)
-                                filter = requestedImages.stream().filter(data -> data.getRating().equals(finalRating)).collect(Collectors.toList());
 
                             //We didn't find anything after filtering?
                             if(filter.isEmpty()) {
@@ -144,13 +170,11 @@ public class ImageboardUtils {
 
                 break;
             case RANDOM:
-                api.get(page, queryRating).async(requestedImages -> {
+                api.get(page, finalRating).async(requestedImages -> {
                     try {
                         if(isListNull(requestedImages, languageContext, event)) return;
 
                         List<BoardImage> filter = (List<BoardImage>) requestedImages;
-                        if(!nsfwOnly)
-                            filter = requestedImages.stream().filter(data -> data.getRating().equals(finalRating)).collect(Collectors.toList());
 
                         if(filter.isEmpty()) {
                             channel.sendMessageFormat(languageContext.get("commands.imageboard.no_images"), EmoteReference.SAD).queue();

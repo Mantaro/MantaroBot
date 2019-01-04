@@ -152,7 +152,7 @@ public class MantaroCore {
         shardEventBus = new EventBus();
         for(Class<?> aClass : commands) {
             try {
-                shardEventBus.register(aClass.newInstance());
+                shardEventBus.register(aClass.getDeclaredConstructor().newInstance());
             } catch(Exception e) {
                 log.error("Invalid module: no zero arg public constructor found for " + aClass);
             }
@@ -160,7 +160,7 @@ public class MantaroCore {
 
         for(Class<?> clazz : options) {
             try {
-                shardEventBus.register(clazz.newInstance());
+                shardEventBus.register(clazz.getDeclaredConstructor().newInstance());
             } catch(Exception e) {
                 log.error("Invalid module: no zero arg public constructor found for " + clazz);
             }

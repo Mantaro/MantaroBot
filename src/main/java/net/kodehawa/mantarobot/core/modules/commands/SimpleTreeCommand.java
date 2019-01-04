@@ -29,7 +29,7 @@ import java.util.function.Predicate;
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public abstract class SimpleTreeCommand extends AbstractCommand implements ITreeCommand {
-    private Map<String, InnerCommand> subCommands = new HashMap<>();
+    private Map<String, SubCommand> subCommands = new HashMap<>();
     private Predicate<GuildMessageReceivedEvent> predicate = event -> true;
 
     public SimpleTreeCommand(Category category) {
@@ -47,9 +47,10 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
      * @param commandName the Name of the not-found command.
      */
     public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+        //why?
         if(commandName.isEmpty()) commandName = "none";
-        event.getChannel().sendMessage(String.format("%sNo subcommand `%s` found in the `%s` command! Help for this command will be shown below.", EmoteReference.ERROR, commandName, mainCommand)).queue();
-        onHelp(event);
+
+        event.getChannel().sendMessage(String.format("%1$sNo subcommand `%2$s` found in the `%3$s` command!. Check `~>help %3$s` for available subcommands", EmoteReference.ERROR, commandName, mainCommand)).queue();
 
         return null;
     }
@@ -101,19 +102,21 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
     }
 
     @Override
-    public Map<String, InnerCommand> getSubCommands() {
+    public Map<String, SubCommand> getSubCommands() {
         return subCommands;
     }
 
     @Override
     public SimpleTreeCommand createSubCommandAlias(String name, String alias) {
-        InnerCommand cmd = subCommands.get(name);
-
+        SubCommand cmd = subCommands.get(name);
         if(cmd == null) {
             throw new IllegalArgumentException("Cannot create an alias of a non-existent sub command!");
         }
 
-        subCommands.put(alias, cmd);
+        //Creates a fully new instance. Without this, it'd be dependant on the original instance, and changing the child status would change it's parent's status too.
+        SubCommand clone = SubCommand.copy(cmd);
+        clone.setChild(true);
+        subCommands.put(alias, clone);
 
         return this;
     }

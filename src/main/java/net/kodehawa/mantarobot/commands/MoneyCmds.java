@@ -20,15 +20,12 @@ import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.currency.item.Item;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.ItemType;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.*;
+import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -37,6 +34,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperati
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
@@ -49,8 +47,8 @@ import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.security.SecureRandom;
 import java.text.NumberFormat;
@@ -64,6 +62,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 /**
@@ -117,7 +116,8 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                    return;
 
                 PlayerData playerData = player.getData();
                 String streak;
@@ -231,10 +231,12 @@ public class MoneyCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Daily command")
-                        .setDescription("**Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person)**.\n" +
-                                "This command gives a reward for claiming it every day.")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person). Maximum amount it can give is 1000 credits (a bit more for shared dailies)\n" +
+                                "This command gives a reward for claiming it every day (daily streak)")
+                        .setUsage("`~>daily [@user]`")
+                        .addParameter("@user", "The user to give your daily to. This is optional, without this it gives it to yourself.")
                         .build();
             }
         });
@@ -245,7 +247,16 @@ public class MoneyCmds {
     @Subscribe
     public void gamble(CommandRegistry cr) {
         cr.register("gamble", new SimpleCommand(Category.CURRENCY) {
-            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 35, true);
+            final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                    .spamTolerance(3)
+                    .limit(1)
+                    .cooldown(30, TimeUnit.SECONDS)
+                    .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
+                    .maxCooldown(5, TimeUnit.MINUTES)
+                    .pool(MantaroData.getDefaultJedisPool())
+                    .prefix("gamble")
+                    .build();
+
             SecureRandom r = new SecureRandom();
 
             @Override
@@ -262,7 +273,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 double multiplier;
@@ -359,11 +370,13 @@ public class MoneyCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Gamble command")
-                        .setDescription("Gambles your money")
-                        .addField("Usage", "~>gamble <all/half/quarter> or ~>gamble <amount>\n" +
-                                "You can also use percentages now, for example `~>gamble 35%`", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Gambles your money away. It's like Vegas, but without real money and without the impending doom. Kinda.")
+                        .setUsage("`~>gamble <all/half/quarter>` or `~>gamble <amount>` or `~>gamble <percentage>`")
+                        .addParameter("amount", "How much money you want to gamble. You can also express this on K or M (100K is 100000, 1M is 1000000, 100M is well, you know how it goes from here)")
+                        .addParameter("all/half/quarter", "How much of your money you want to gamble, but if you're too lazy to type the number (half = 50% of all of your money)")
+                        .addParameter("percentage", "The percentage of money you want to gamble. Works anywhere from 1% to 100%.")
                         .build();
             }
         });
@@ -387,7 +400,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 LocalDate today = LocalDate.now(zoneId);
@@ -458,13 +471,10 @@ public class MoneyCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Loot command")
-                        .setDescription("**Loot the current chat for items, for usage in Mantaro's currency system.**\n"
-                                + "Currently, there are ``" + Items.ALL.length + "`` items available in chance," +
-                                "in which you have a `random chance` of getting one or more.")
-                        .addField("Note", "The channel ground is limited to 25 items per stack.", false)
-                        .addField("Usage", "~>loot", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Loot the current chat for items, for usage in Mantaro's currency system. " +
+                                "You have a random chance of getting collectible items from here.")
                         .build();
             }
         });
@@ -509,9 +519,11 @@ public class MoneyCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return baseEmbed(event, "Balance command")
-                        .setDescription("**Shows your current balance or another person's balance.**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows your current balance or another person's balance.")
+                        .setUsage("`~>balance [@user]`")
+                        .addParameter("@user", "The user to check the balance of. This is optional.")
                         .build();
             }
         });
@@ -522,7 +534,16 @@ public class MoneyCmds {
 
     @Subscribe
     public void slots(CommandRegistry cr) {
-        RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 35);
+        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                .spamTolerance(4)
+                .limit(1)
+                .cooldown(35, TimeUnit.SECONDS)
+                .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
+                .maxCooldown(5, TimeUnit.MINUTES)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("slots")
+                .build();
+
         String[] emotes = {"\uD83C\uDF52", "\uD83D\uDCB0", "\uD83D\uDCB2", "\uD83E\uDD55", "\uD83C\uDF7F", "\uD83C\uDF75", "\uD83C\uDFB6"};
         Random random = new SecureRandom();
         List<String> winCombinations = new ArrayList<>();
@@ -610,7 +631,8 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                    return;
 
                 if(coinSelect) {
                     if(player.getInventory().containsItem(Items.SLOT_COIN)) {
@@ -681,15 +703,13 @@ public class MoneyCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Slots Command")
-                        .setDescription("**Rolls the slot machine. Requires a default of 50 coins to roll.**")
-                        .addField("Considerations", "You can gain a maximum of put credits * 1.76 coins from it.\n" +
-                                "You can use the `-useticket` argument to use a slot ticket (slightly bigger chance)", false)
-                        .addField("Usage", "`~>slots` - Default one, 50 coins.\n" +
-                                "`~>slots <credits>` - Puts x credits on the slot machine. Max of " + SLOTS_MAX_MONEY + " coins.\n" +
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Rolls the slot machine. Requires a default of 50 coins to roll.")
+                        .setUsage("`~>slots` - Default one, 50 coins.\n" +
+                                "`~>slots <credits>` - Puts x credits on the slot machine. You can put a maximum of " + SLOTS_MAX_MONEY + " coins.\n" +
                                 "`~>slots -useticket` - Rolls the slot machine with one slot coin.\n" +
-                                "You can specify the amount of tickets to use using `-amount` (for example `~>slots -useticket -amount 10`)", false)
+                                "You can specify the amount of tickets to use using `-amount` (for example `~>slots -useticket -amount 10`)")
                         .build();
             }
         });
@@ -707,15 +727,29 @@ public class MoneyCmds {
                 final ManagedDatabase db = MantaroData.db();
 
                 Player player = db.getPlayer(user);
+                DBUser dbUser = db.getUser(user);
                 Inventory inventory = player.getInventory();
-                UserData userData = db.getUser(user).getData();
-                Item item = Items.BROM_PICKAXE; //default pick
+                UserData userData = dbUser.getData();
 
+                Pickaxe item = (Pickaxe) Items.BROM_PICKAXE; //default pick
+                int equipped = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK);
                 Optional<Item> itemOpt = Items.fromAnyNoId(content);
+
+                if(equipped != 0) {
+                    Item temp = Items.fromId(equipped);
+                    if(!inventory.containsItem(temp)) {
+                        event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "mine.missing_equipped"), EmoteReference.ERROR, temp.getName()).queue();
+                        userData.getEquippedItems().resetOfType(PlayerEquipment.EquipmentType.PICK);
+                        dbUser.save();
+                    } else {
+                        item = (Pickaxe) temp;
+                    }
+                }
+
                 //why is the item optional present when there's no content?
                 if(itemOpt.isPresent() && !content.isEmpty()) {
                     Item temp = itemOpt.get();
-                    if(temp.getItemType() != ItemType.CAST_MINE && temp.getItemType() != ItemType.MINE_RARE_PICK) {
+                    if(temp.getItemType() != ItemType.MINE_PICK && temp.getItemType() != ItemType.MINE_RARE_PICK) {
                         event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "mine.not_suitable"), EmoteReference.ERROR).queue();
                         return;
                     }
@@ -723,7 +757,7 @@ public class MoneyCmds {
                     if(!inventory.containsItem(temp)) {
                         event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "mine.not_in_inventory"), EmoteReference.ERROR, temp).queue();
                     } else {
-                        item = temp;
+                        item = (Pickaxe) temp;
                     }
                 }
 
@@ -732,27 +766,31 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, user, event))
+                if(!handleDefaultRatelimit(rateLimiter, user, event, languageContext))
                     return;
 
-                if(!item.getAction().test(event, Pair.of(languageContext, content)))
+                if(!Items.handlePickaxe(event, languageContext, item, player, dbUser, item.getChance())) {
                     return;
+                }
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
                 if(item == Items.GEM5_PICKAXE_2)
                     money += r.nextInt(50);
 
                 boolean waifuHelp = false;
-                if(Items.handlePotion(Items.WAIFU_PILL, 5, player)) {
+                //old: Items.handlePotion(Items.WAIFU_PILL, 5, player)
+                if(Items.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), Items.WAIFU_PILL, dbUser)) {
                     if(userData.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
                         money += Math.max(45, random.nextInt(200));
                         waifuHelp = true;
                     }
                 }
 
-                String message = String.format(languageContext.get("commands.mine.success"), item.getEmoji(), money, item.getName());
+                String reminder = r.nextInt(6) == 0 ? languageContext.get("commands.mine.reminder") : "";
+                String message = String.format(languageContext.get("commands.mine.success") + reminder, item.getEmoji(), money, item.getName());
 
-                boolean hasPotion = Items.handlePotion(Items.POTION_HASTE, 2, player);
+                //old: Items.handlePotion(Items.POTION_HASTE, 2, player)
+                boolean hasPotion = Items.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), Items.POTION_HASTE, dbUser);
                 if(r.nextInt(400) > (hasPotion ? 290 : 350)) {
                     if(inventory.getAmount(Items.DIAMOND) == 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.diamond.overflow");
@@ -800,7 +838,6 @@ public class MoneyCmds {
                     player.getData().addBadgeIfAbsent(Badge.GEM_FINDER);
                 }
 
-                DBUser dbUser = db.getUser(event.getAuthor());
                 PremiumKey key = db.getPremiumKey(dbUser.getData().getPremiumKey());
                 if(r.nextInt(400) > 392) {
                     Item crate = (key != null && key.getDurationDays() > 1) ? Items.MINE_PREMIUM_CRATE : Items.MINE_CRATE;
@@ -818,10 +855,12 @@ public class MoneyCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Mine command")
-                        .setDescription("**Mines minerals to gain some credits. A bit more lucrative than loot, but needs pickaxes.**\n" +
-                                "Has a random chance of finding diamonds.")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Mines minerals to gain some credits. A bit more lucrative than loot, but needs pickaxes.")
+                        .setUsage("`~>mine [pick]` - Mines. You can gain minerals or mineral fragments by mining. This can used later on to cast rods or picks for better chances.")
+                        .addParameter("pick", "The pick to use to mine. You can either use the emoji or the full name. " +
+                                "This is optional, not specifying it will cause the command to use the default pick or your equipped pick.")
                         .build();
             }
         });
@@ -847,7 +886,7 @@ public class MoneyCmds {
                 event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "gamble.win_overflow"), EmoteReference.DICE, gains).queue();
             }
         } else {
-            if(bet > GAMBLE_MAX_MONEY) {
+            if(bet == GAMBLE_MAX_MONEY) {
                 player.getData().addBadgeIfAbsent(Badge.RISKY_ORDEAL);
             }
 

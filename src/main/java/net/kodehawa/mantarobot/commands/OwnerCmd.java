@@ -22,6 +22,7 @@ import com.github.natanbc.javaeval.JavaEvaluator;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -34,13 +35,17 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.utils.Pair;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import javax.script.ScriptEngine;
@@ -126,11 +131,10 @@ public class OwnerCmd {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Blacklist command")
-                        .setDescription("**Blacklists a user (user argument) or a guild (guild argument) by id.**")
-                        .addField("Examples", "~>blacklist user add/remove 293884638101897216\n" +
-                                "~>blacklist guild add/remove 305408763915927552", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Blacklists a user (user argument) or a guild (guild argument) by id.\n" +
+                                "Examples: ~>blacklist user add/remove 293884638101897216, ~>blacklist guild add/remove 305408763915927552")
                         .build();
             }
         });
@@ -189,11 +193,6 @@ public class OwnerCmd {
                     return Operation.IGNORED;
                 });
             }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return null;
-            }
         });
     }
 
@@ -231,11 +230,6 @@ public class OwnerCmd {
                         EmoteReference.CORRECT + "Added badge " + badge + " to " + users.stream().map(User::getName).collect(Collectors.joining(" ,"))
                 ).queue();
             }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return null;
-            }
         });
 
         cr.register("removebadge", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
@@ -269,11 +263,6 @@ public class OwnerCmd {
                 event.getChannel().sendMessage(
                         String.format("%sRemoved badge %s from %s", EmoteReference.CORRECT, badge, users.stream().map(User::getName).collect(Collectors.joining(" ,")))
                 ).queue();
-            }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return null;
             }
         });
     }
@@ -315,7 +304,7 @@ public class OwnerCmd {
                         .addCompilerOptions("-Xlint:unchecked")
                         .source("Eval", JAVA_EVAL_IMPORTS + "\n\n" +
                                 "public class Eval {\n" +
-                                "   public static Object run(GuildMessageReceivedEvent event) {\n" +
+                                "   public static Object run(GuildMessageReceivedEvent event) throws Throwable {\n" +
                                 "       try {\n" +
                                 "           return null;\n" +
                                 "       } finally {\n" +
@@ -355,13 +344,13 @@ public class OwnerCmd {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Evaluator evaluator = evals.get(args[0]);
                 if(evaluator == null) {
-                    onHelp(event);
+                    event.getChannel().sendMessage("That's not a valid evaluator, silly.").queue();
                     return;
                 }
 
                 String[] values = SPLIT_PATTERN.split(content, 2);
                 if(values.length < 2) {
-                    onHelp(event);
+                    event.getChannel().sendMessage("Not enough arguments.").queue();
                     return;
                 }
 
@@ -385,14 +374,66 @@ public class OwnerCmd {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Eval cmd")
-                        .setDescription("**Evaluates stuff (A: js/bsh)**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Evaluates stuff (A: js/bsh).")
                         .build();
             }
         });
     }
 
+    @Subscribe
+    public void link(CommandRegistry cr) {
+        cr.register("link", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                final Config config = MantaroData.config().get();
+
+                if(!config.isPremiumBot()) {
+                    event.getChannel().sendMessage("This command can only be ran in MP, as it'll link a guild to an MP holder.").queue();
+                    return;
+                }
+
+                if(args.length < 2) {
+                    event.getChannel().sendMessage("You need to enter both the user and the guild id (example: 132584525296435200 493297606311542784).").queue();
+                    return;
+                }
+
+                String userString = args[0];
+                String guildString = args[1];
+                Guild guild = MantaroBot.getInstance().getGuildById(guildString);
+                User user = MantaroBot.getInstance().getUserById(userString);
+                if(guild == null || user == null) {
+                    event.getChannel().sendMessage("User or guild not found.").queue();
+                    return;
+                }
+
+                Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(user.getId());
+                //guaranteed to be an integer
+                if(pledgeInfo == null || !pledgeInfo.getLeft() || Double.parseDouble(pledgeInfo.getRight()) < 4) {
+                    event.getChannel().sendMessage("Pledge not found, pledge amount not enough or pledge was cancelled.").queue();
+                    return;
+                }
+
+                //Guild assignment.
+                final DBGuild dbGuild = MantaroData.db().getGuild(guildString);
+                dbGuild.getData().setMpLinkedTo(userString); //Patreon check will run from this user.
+                dbGuild.save();
+
+                event.getChannel().sendMessageFormat("Linked MP for guild %s (%s) to user %s (%s). Including this guild in pledge check (id -> user -> pledge).", guild.getName(), guild.getId(), user.getName(), user.getId()).queue();
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Links a guild to a patreon owner (user id).")
+                        .setUsage("`~>link <user id> <guild id>`")
+                        .build();
+            }
+        });
+    }
+
+    //TODO: deprecated, see MP link procedure ("link" command). REMOVE WHEN PATREON CHECKS ARE CONFIRMED TO WORK
     @Subscribe
     public void owner(CommandRegistry cr) {
         cr.register("owner", new SimpleCommand(Category.OWNER) {
@@ -402,16 +443,16 @@ public class OwnerCmd {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Owner command")
-                        .setDescription("`~>owner premium add <id> <days>` - Adds premium to the specified user for x days.")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("`~>owner premium guild <id> <days>` - Adds premium to the specified guild for x days.")
                         .build();
             }
 
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length < 1) {
-                    onHelp(event);
+                    event.getChannel().sendMessage("Not enough arguments.").queue();
                     return;
                 }
 
@@ -419,37 +460,6 @@ public class OwnerCmd {
 
                 if(option.equals("premium")) {
                     String sub = args[1].substring(0, args[1].indexOf(' '));
-                    if(sub.equals("add")) {
-                        try {
-                            String userId;
-                            String[] values = SPLIT_PATTERN.split(args[1], 3);
-                            try {
-                                Long.parseLong(values[1]);
-                                userId = values[1];
-                            } catch(Exception e) {
-                                if(!event.getMessage().getMentionedUsers().isEmpty()) {
-                                    userId = event.getMessage().getMentionedUsers().get(0).getId();
-                                    return;
-                                } else {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid user id").queue();
-                                    return;
-                                }
-                            }
-                            DBUser db = MantaroData.db().getUser(userId);
-                            db.incrementPremium(TimeUnit.DAYS.toMillis(Long.parseLong(values[2])));
-                            db.saveAsync();
-                            event.getChannel().sendMessage(EmoteReference.CORRECT +
-                                    "The premium feature for user " + db.getId() + " now is until " +
-                                    new Date(db.getPremiumUntil())).queue();
-                            return;
-                        } catch(IndexOutOfBoundsException e) {
-                            event.getChannel().sendMessage(
-                                    EmoteReference.ERROR + "You need to specify id and number of days").queue();
-                            e.printStackTrace();
-                            return;
-                        }
-                    }
-
                     if(sub.equals("guild")) {
                         try {
                             String[] values = SPLIT_PATTERN.split(args[1], 3);
@@ -469,7 +479,7 @@ public class OwnerCmd {
                     }
                 }
 
-                onHelp(event);
+                event.getChannel().sendMessage("You're not meant to use this incorrectly, silly.").queue();
             }
 
             @Override

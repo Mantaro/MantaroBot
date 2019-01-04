@@ -53,11 +53,11 @@ public class BirthdayCacher {
     public void cache() {
         executorService.submit(() -> {
             try {
-                Cursor<Map> m = r.table("users").run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
+                Cursor<Map<?, ?>> m = r.table("users").run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
                 cachedBirthdays.clear();
-                List<Map> m1 = m.toList();
+                List<Map<?, ?>> m1 = m.toList();
 
-                for(Map r : m1) {
+                for(Map<?, ?> r : m1) {
                     //Blame rethinkdb for the casting hell thx
                     String birthday = (String) ((HashMap) r.get("data")).get("birthday");
                     if(birthday != null && !birthday.isEmpty()) {

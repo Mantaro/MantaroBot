@@ -31,21 +31,22 @@ import net.kodehawa.mantarobot.commands.info.stats.manager.*;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.*;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.base.*;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
 import java.awt.*;
@@ -55,10 +56,11 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
-import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
+import static net.kodehawa.mantarobot.utils.Utils.prettyDisplay;
 
 @Module
 @SuppressWarnings("unused")
@@ -85,7 +87,7 @@ public class InfoCmds {
 
                         event.getChannel().sendMessage(new EmbedBuilder()
                                 .setColor(Color.PINK)
-                                .setAuthor(languageContext.get("commands.about.title"), "http://is.gd/mantaro", event.getJDA().getSelfUser().getEffectiveAvatarUrl())
+                                .setAuthor(languageContext.get("commands.about.title"), "https://add.mantaro.site", event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                                 .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                                 .setDescription(languageContext.get("commands.about.description.1") + "\n" +
                                         languageContext.get("commands.about.description.2") + "\n" +
@@ -101,7 +103,7 @@ public class InfoCmds {
                                 .addField(languageContext.get("commands.about.shards"), String.valueOf(MantaroBot.getInstance().getShardedMantaro().getTotalShards()), true)
                                 .addField(languageContext.get("commands.about.threads"), String.format("%,d", Thread.activeCount()), true)
                                 .addField(languageContext.get("commands.about.guilds"), String.format("%,d", guilds.size()), true)
-                                .addField(languageContext.get("commands.about.users"), String.format("%,d", users.stream().mapToLong(ISnowflake::getIdLong).distinct().count()), true)
+                                .addField(languageContext.get("commands.about.users"), String.format("%,d", users.size()), true)
                                 .addField(languageContext.get("commands.about.tc"), String.format("%,d", textChannels.size()), true)
                                 .addField(languageContext.get("commands.about.vc"), String.format("%,d", voiceChannels.size()), true)
                                 .setFooter(String.format(languageContext.get("commands.about.invite"), CommandListener.getCommandTotalInt(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())
@@ -111,18 +113,19 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "About Command")
-                        .setDescription("**Read info about Mantaro!**")
-                        .addField("Information",
-                                "`~>about credits` - **Lists everyone who has helped on the bot's development**, " +
-                                        "`~>about patreon` - **Lists our patreon supporters**", false)
-                        .setColor(Color.PINK)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Read information about Mantaro.")
                         .build();
             }
         });
 
         aboutCommand.addSubCommand("patreon", new SubCommand() {
+            @Override
+            public String description() {
+                return "Lists the known Patreon supporters.";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Guild mantaroGuild = MantaroBot.getInstance().getGuildById("213468583252983809");
@@ -156,6 +159,11 @@ public class InfoCmds {
 
         aboutCommand.addSubCommand("credits", new SubCommand() {
             @Override
+            public String description() {
+                return "Lists the bot's credits and who made it. Or me, well yes, who made me.";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 EmbedBuilder builder = new EmbedBuilder();
                 builder.setAuthor("Credits.", null, event.getJDA().getSelfUser().getEffectiveAvatarUrl())
@@ -179,6 +187,7 @@ public class InfoCmds {
     @Subscribe
     public void donate(CommandRegistry cr) {
         cr.register("donate", new SimpleCommand(Category.INFO) {
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 event.getChannel().sendMessageFormat(
@@ -187,9 +196,9 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Donation Methods")
-                        .setDescription("**Shows the donation methods in case you want to support Mantaro!**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows the donation methods in case you want to support Mantaro.")
                         .build();
             }
         });
@@ -204,9 +213,9 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Localization Help")
-                        .setDescription("**Shows how to change the server and user languages, along with a language list.**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows how to change the server and user languages, along with a language list.")
                         .build();
             }
         });
@@ -229,12 +238,11 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Avatar")
-                        .setDescription("**Get a user's avatar URL**")
-                        .addField("Usage",
-                                "`~>avatar` - **Get your avatar url**" +
-                                        "\n `~>avatar <mention, nickname or name#discriminator>` - **Get a user's avatar url.**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Get a user's avatar URL.")
+                        .setUsage("`~>avatar [@user]` - Returns the requested avatar URL")
+                        .addParameter("@user", "The user you want to check the avatar URL of. Can be a mention, or name#discrim")
                         .build();
             }
         });
@@ -279,10 +287,9 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Server Info Command")
-                        .setDescription("**See your server's current stats.**")
-                        .setColor(event.getGuild().getOwner().getColor() == null ? Color.ORANGE : event.getGuild().getOwner().getColor())
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("See your server's current stats.")
                         .build();
             }
         });
@@ -292,6 +299,7 @@ public class InfoCmds {
 
     @Subscribe
     public void help(CommandRegistry cr) {
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 4);
         Random r = new Random();
         List<String> jokes = Collections.unmodifiableList(Arrays.asList(
                 "Yo damn I heard you like help, because you just issued the help command to get the help about the help command.",
@@ -305,6 +313,9 @@ public class InfoCmds {
         cr.register("help", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                    return;
+
                 if(content.isEmpty()) {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     String defaultPrefix = MantaroData.config().get().prefix[0], guildPrefix = dbGuild.getData().getGuildCustomPrefix();
@@ -344,10 +355,68 @@ public class InfoCmds {
                     Command command = DefaultCommandProcessor.REGISTRY.commands().get(content);
 
                     if(command != null) {
-                        final MessageEmbed help = command.help(event);
-                        
-                        if(help != null) {
-                            event.getChannel().sendMessage(help).queue();
+                        if(command.category() == Category.OWNER && !CommandPermission.OWNER.test(event.getMember())) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.help.extended.not_found"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
+                        if(command.help() != null && command.help().getDescription() != null) {
+                            HelpContent newHelp = command.help();
+                            EmbedBuilder builder = new EmbedBuilder()
+                                    .setColor(Color.PINK)
+                                    //asume content = command name
+                                    .setAuthor(Utils.capitalize(content) + " Command Help", null, event.getAuthor().getEffectiveAvatarUrl())
+                                    .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
+                                    .setDescription((r.nextBoolean() ? languageContext.get("commands.help.patreon") + "\n" : "") + newHelp.getDescription())
+                                    .setFooter("Don't include <> or [] on the command itself.", event.getAuthor().getEffectiveAvatarUrl());
+
+                            if(newHelp.getUsage() != null) {
+                                builder.addField("Usage", newHelp.getUsage(), false);
+                            }
+
+                            if(newHelp.getParameters().size() > 0) {
+                                builder.addField("Parameters", newHelp.getParameters().entrySet().stream()
+                                        .map(entry -> "`" + entry.getKey() + "` - *" + entry.getValue() + "*")
+                                        .collect(Collectors.joining("\n")), false);
+
+                            }
+
+                            //Ensure sub-commands show in help.
+                            //Only god shall help me now with all of this casting lol.
+                            if(command instanceof AliasCommand) {
+                                command = ((AliasCommand) command).getCommand();
+                            }
+
+                            if(command instanceof ITreeCommand) {
+                                Map<String, SubCommand> subCommands = ((ITreeCommand) command).getSubCommands();
+                                StringBuilder stringBuilder = new StringBuilder();
+
+                                for(Map.Entry<String, SubCommand> inners : subCommands.entrySet()) {
+                                    String name = inners.getKey();
+                                    InnerCommand inner = inners.getValue();
+                                    if(inner.isChild())
+                                        continue;
+
+                                    if(inner.description() != null) {
+                                        stringBuilder.append(EmoteReference.BLUE_SMALL_MARKER).append("`").append(name).append("` - ").append(inner.description()).append("\n");
+                                    }
+                                }
+
+                                if(stringBuilder.length() > 0) {
+                                    builder.addField("Sub-commands", "**Append the main command to use any of this.**\n" + stringBuilder.toString(), false);
+                                }
+                            }
+
+                            //Known command aliases.
+                            List<String> commandAliases = command.getAliases();
+                            if(!commandAliases.isEmpty()) {
+                                String aliases = commandAliases.stream().filter(alias -> !alias.equalsIgnoreCase(content)).map(alias -> "`" + alias + "`").collect(Collectors.joining(" "));
+                                if(!aliases.trim().isEmpty()) {
+                                    builder.addField("Aliases", aliases, false);
+                                }
+                            }
+
+                            event.getChannel().sendMessage(builder.build()).queue();
                         } else {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.help.extended.no_help"), EmoteReference.ERROR).queue();
                         }
@@ -358,16 +427,12 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Help Command")
-                        .setColor(Color.PINK)
-                        .setDescription("**" + jokes.get(r.nextInt(jokes.size())) + "**")
-                        .addField(
-                                "Usage",
-                                "`~>help` - **Returns a list of commands that you can use**.\n" +
-                                        "`~>help <command>` - **Return information about the command specified**.",
-                                false
-                        ).build();
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("I wonder if this is what you are looking for...")
+                        .setUsage("`~>help <command>`")
+                        .addParameter("command", "The command name of the command you want to check information about.")
+                        .build();
             }
         });
 
@@ -393,35 +458,59 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Invite command").setDescription("**Gives you a bot OAuth invite link.**").build();
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Gives you a bot OAuth invite link and some other important links.")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void prefix(CommandRegistry cr) {
+        cr.register("prefix", new SimpleCommand(Category.INFO) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                final ManagedDatabase db = MantaroData.db();
+                DBGuild dbGuild = db.getGuild(event.getGuild());
+                Config config = MantaroData.config().get();
+                String defaultPrefix = Stream.of(config.getPrefix()).map(prefix -> "`" + prefix + "`").collect(Collectors.joining(" "));
+                String guildPrefix = dbGuild.getData().getGuildCustomPrefix();
+
+                event.getChannel().sendMessageFormat(
+                        languageContext.get("commands.prefix.header"), EmoteReference.HEART, defaultPrefix, guildPrefix == null ? languageContext.get("commands.prefix.none") : guildPrefix
+                ).queue();
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Gives you information on how to change the prefix and what's the current prefix. If you looked at help, to change the prefix " +
+                                "use `~>opts prefix set <prefix>`")
+                        .build();
             }
         });
     }
 
     @Subscribe
     public void stats(CommandRegistry cr) {
-        TreeCommand statsCommand = (TreeCommand) cr.register("stats", new TreeCommand(Category.INFO) {
+        SimpleTreeCommand statsCommand = (SimpleTreeCommand) cr.register("stats", new SimpleTreeCommand(Category.INFO) {
             @Override
-            public Command defaultTrigger(GuildMessageReceivedEvent event, String currentCommand, String attemptedCommand) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        onHelp(event);
-                    }
-                };
-            }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Statistics command")
-                        .setDescription("**See the bot, usage or vps statistics**")
-                        .addField("Usage", "`~>stats <usage/server/cmds/guilds>` - **Returns statistical information**", true)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("See the bot, usage or vps statistics.")
+                        .setUsage("~>stats <option>` - Returns statistical information.")
+                        .addParameter("option", "What to check for. See subcommands")
                         .build();
             }
         });
 
         statsCommand.addSubCommand("usage", new SubCommand() {
+            @Override
+            public String description() {
+                return "The bot's (and JVM) hardware usage";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 event.getChannel().sendMessage(new EmbedBuilder()
@@ -442,6 +531,11 @@ public class InfoCmds {
 
         statsCommand.addSubCommand("server", new SubCommand() {
             @Override
+            public String description() {
+                return "The bot's hardware usage";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 TextChannelGround.of(event).dropItemWithChance(4, 5);
                 EmbedBuilder embedBuilder = new EmbedBuilder()
@@ -456,6 +550,11 @@ public class InfoCmds {
         });
 
         statsCommand.addSubCommand("cmds", new SubCommand() {
+            @Override
+            public String description() {
+                return "The bot's command usage";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = content.split(" ");
@@ -493,46 +592,12 @@ public class InfoCmds {
             }
         });
 
-        statsCommand.addSubCommand("guilds", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                String[] args = content.split(" ");
-                if(args.length > 0) {
-                    String what = args[0];
-                    if(what.equals("total")) {
-                        event.getChannel().sendMessage(guildStatsManager.fillEmbed(GuildStatsManager.TOTAL_EVENTS, baseEmbed(event, "Guild Stats | Total")).build()).queue();
-                        return;
-                    }
-
-                    if(what.equals("daily")) {
-                        event.getChannel().sendMessage(guildStatsManager.fillEmbed(GuildStatsManager.DAY_EVENTS, baseEmbed(event, "Guild Stats | Daily")).build()).queue();
-                        return;
-                    }
-
-                    if(what.equals("hourly")) {
-                        event.getChannel().sendMessage(guildStatsManager.fillEmbed(GuildStatsManager.HOUR_EVENTS, baseEmbed(event, "Guild Stats | Hourly")).build()).queue();
-                        return;
-                    }
-
-                    if(what.equals("now")) {
-                        event.getChannel().sendMessage(guildStatsManager.fillEmbed(GuildStatsManager.MINUTE_EVENTS, baseEmbed(event, "Guild Stats | Now")).build()).queue();
-                        return;
-                    }
-                }
-
-                //Default
-                event.getChannel().sendMessage(baseEmbed(event, "Guild Stats")
-                        .addField(languageContext.get("general.now"), guildStatsManager.resume(GuildStatsManager.MINUTE_EVENTS), false)
-                        .addField(languageContext.get("general.hourly"), guildStatsManager.resume(GuildStatsManager.HOUR_EVENTS), false)
-                        .addField(languageContext.get("general.daily"), guildStatsManager.resume(GuildStatsManager.DAY_EVENTS), false)
-                        .addField(languageContext.get("general.total"), guildStatsManager.resume(GuildStatsManager.TOTAL_EVENTS), false)
-                        .setFooter("Guilds: " + MantaroBot.getInstance().getGuildCache().size(), null)
-                        .build()
-                ).queue();
-            }
-        });
-
         statsCommand.addSubCommand("category", new SubCommand() {
+            @Override
+            public String description() {
+                return "The bot's category usage";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = content.split(" ");
@@ -569,22 +634,6 @@ public class InfoCmds {
                 ).queue();
             }
         });
-
-        statsCommand.addSubCommand("custom", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                event.getChannel().sendMessage(
-                        customCommandStatsManager.fillEmbed(CustomCommandStatsManager.TOTAL_CUSTOM_CMDS, baseEmbed(event, "CCS Stats | Total")
-                        ).build()).queue();
-            }
-        });
-
-        statsCommand.addSubCommand("game", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                event.getChannel().sendMessage(baseEmbed(event, "Game Stats").setDescription(gameStatsManager.resume(GameStatsManager.TOTAL_GAMES)).build()).queue();
-            }
-        });
     }
 
     @Subscribe
@@ -601,9 +650,9 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Social")
-                        .setDescription("**Shows Mantaro's social networks.**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows Mantaro's social networks.")
                         .build();
             }
         });
@@ -628,22 +677,20 @@ public class InfoCmds {
                     roles = roles.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 4) + "...";
 
                 String s = String.join("\n",
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.id") + ":** " +
-                                user.getId(),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.join_date") + ":** "  +
-                                member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", ""),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.created") + ":** " +
-                                user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", ""),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.account_age") + ":** " +
-                                TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getCreationTime().toInstant().toEpochMilli()) + " " + languageContext.get("general.days"),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.mutual_guilds") + ":** " +
-                                MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).size(),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.vc") + ":** " +
-                                (member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : languageContext.get("general.none")),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.color") + ":** " +
-                                (member.getColor() == null ? languageContext.get("commands.userinfo.default") : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.userinfo.status") + ":** " +
-                                Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase())
+                        prettyDisplay(languageContext.get("commands.userinfo.id"), user.getId()),
+                        prettyDisplay(languageContext.get("commands.userinfo.join_date"),
+                                member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", "")),
+                        prettyDisplay(languageContext.get("commands.userinfo.created"),
+                                user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", "")),
+                        prettyDisplay(languageContext.get("commands.userinfo.account_age"),
+                                TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getCreationTime().toInstant().toEpochMilli())
+                                        + " " + languageContext.get("general.days")),
+                        prettyDisplay(languageContext.get("commands.userinfo.mutual_guilds"), String.valueOf(MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).size())),
+                        prettyDisplay(languageContext.get("commands.userinfo.vc"),
+                                member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : languageContext.get("general.none")),
+                        prettyDisplay(languageContext.get("commands.userinfo.color"),
+                                member.getColor() == null ? languageContext.get("commands.userinfo.default") : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()),
+                        prettyDisplay(languageContext.get("commands.userinfo.status"), Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase()))
                 );
 
                 event.getChannel().sendMessage(new EmbedBuilder()
@@ -657,12 +704,11 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "User Info Command")
-                        .setDescription("**See information about specific users.**")
-                        .addField("Usage:",
-                                "`~>userinfo @user (or user#disciminator, or nickname)` - **Get information about the specific user.**" +
-                                        "\n`~>userinfo` - **Get information about yourself!**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("See information about specific users.")
+                        .setUsage("`~>userinfo <@user>` - Get information about an user.")
+                        .addParameter("user", "The user you want to look for. Mentions, nickname and user#discriminator work.")
                         .build();
             }
         });
@@ -680,9 +726,9 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Tips Command")
-                        .setDescription("**Shows tips about the bot!**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows tips about the bot.")
                         .build();
             }
         });
@@ -700,22 +746,18 @@ public class InfoCmds {
                     return;
 
                 String s = String.join("\n",
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.id") + ":** " +
-                                r.getId(),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.created") + ":** " +
-                                r.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", ""),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.age") + ":** " +
-                                TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - r.getCreationTime().toInstant().toEpochMilli()) + " " + languageContext.get("general.days"),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.color") + ":** " +
-                                (r.getColor() == null ? languageContext.get("general.none") : ("#" +  Integer.toHexString(r.getColor().getRGB()))),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.members") + ":** " +
-                                event.getGuild().getMembers().stream().filter(member -> member.getRoles().contains(r)).count(),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.position") + ":** " +
-                                r.getPosition(),
-                        BLUE_SMALL_MARKER + "**" + languageContext.get("commands.roleinfo.managed") + ":** " +
-                                r.isManaged(),
-                        BLUE_SMALL_MARKER +"**" + languageContext.get("commands.roleinfo.hoisted") + ":** " +
-                                r.isHoisted()
+                        prettyDisplay(languageContext.get("commands.roleinfo.id"), r.getId()),
+                        prettyDisplay(languageContext.get("commands.roleinfo.created"),
+                                r.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", "")),
+                        prettyDisplay(languageContext.get("commands.roleinfo.age"),
+                                TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - r.getCreationTime().toInstant().toEpochMilli()) +
+                                        " " + languageContext.get("general.days")),
+                        prettyDisplay(languageContext.get("commands.roleinfo.color"),
+                                r.getColor() == null ? languageContext.get("general.none") : ("#" +  Integer.toHexString(r.getColor().getRGB()).substring(2))),
+                        prettyDisplay(languageContext.get("commands.roleinfo.members"),
+                                String.valueOf(event.getGuild().getMembers().stream().filter(member -> member.getRoles().contains(r)).count())),
+                        prettyDisplay(languageContext.get("commands.roleinfo.position"), String.valueOf(r.getPosition())),
+                        prettyDisplay(languageContext.get("commands.roleinfo.hoisted"), String.valueOf(r.isHoisted()))
                 );
 
                 event.getChannel().sendMessage(new EmbedBuilder()
@@ -731,12 +773,11 @@ public class InfoCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "User Info Command")
-                        .setDescription("**See information about specific users.**")
-                        .addField("Usage:",
-                                "`~>roleinfo role` - **Get information about the specific role.**" +
-                                        "\n`~>roleinfo` - **Get information about top role!**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("See information about specific role.")
+                        .setUsage("`~>roleinfo <role>` - Get information about a role.")
+                        .addParameter("role", "The role you want to look for. Mentions, id and name work.")
                         .build();
             }
         });

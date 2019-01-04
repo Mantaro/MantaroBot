@@ -16,6 +16,8 @@
 
 package net.kodehawa.mantarobot.core.modules.commands;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.AssistedCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
@@ -23,6 +25,10 @@ import net.kodehawa.mantarobot.core.modules.commands.base.InnerCommand;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 public abstract class SubCommand implements InnerCommand, AssistedCommand {
+    @Setter
+    @Getter
+    public boolean child;
+
     private CommandPermission permission = null;
 
     public SubCommand() {}
@@ -41,5 +47,24 @@ public abstract class SubCommand implements InnerCommand, AssistedCommand {
     @Override
     public void run(GuildMessageReceivedEvent event, I18nContext languageContext, String commandName, String content) {
         call(event, languageContext, content);
+    }
+
+    /**
+     * Creates a copy of a SubCommand, usually to assign child status to it.
+     * @param original The original SubCommand to copy.
+     * @return The copy of the original SubCommand, without the description.
+     */
+    public static SubCommand copy(SubCommand original) {
+        return new SubCommand(original.permission) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                original.call(event, languageContext, content);
+            }
+
+            @Override
+            public String description() {
+                return null;
+            }
+        };
     }
 }

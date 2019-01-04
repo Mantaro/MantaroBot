@@ -71,7 +71,8 @@ public class ShardWatcher implements Runnable {
 
     @Override
     public void run() {
-        LogUtils.shard("ShardWatcherThread started");
+        final int wait = MantaroData.config().get().shardWatcherWait;
+        LogUtils.shard(String.format("ShardWatcherThread started.\nConfigured to run every %d minutes on this instance.", (wait / 60000)));
         //Executes the restart queue handler. For the actual logic behind all this, check the next while(true) loop.
         THREAD_POOL.execute(()->{
             while(true) {
@@ -91,8 +92,7 @@ public class ShardWatcher implements Runnable {
 
                 //Alert us, plz no panic
                 LogUtils.shard(
-                        String.format("(Resume request failed or errored) " +
-                                "Dead shard? Starting automatic shard restart on shard #%d due to it being inactive for longer than 30 seconds.", shard.getId())
+                        String.format("(RESUME request failed) Dead shard? Starting automatic shard restart on shard #%d due to it being inactive for longer than 30 seconds.", shard.getId())
                 );
 
                 try {
@@ -113,7 +113,6 @@ public class ShardWatcher implements Runnable {
             }
         });
 
-        final int wait = MantaroData.config().get().shardWatcherWait;
         while(true) {
             try {
                 //Run every x ms (usually every 10 minutes unless changed)
@@ -159,18 +158,16 @@ public class ShardWatcher implements Runnable {
                                 continue;
                             }
 
-                            LogUtils.shard(
-                                    String.format("Found dead shard (#%d)... attempting RESUME request and waiting 20 seconds to validate.", id)
-                            );
+                            log.info("Found dead shard (#{})... attempting RESUME request and waiting 30 seconds to validate.", id);
 
                             //Send the RESUME request.
                             ((JDAImpl)(shard.getJDA())).getClient().close(4000);
 
                             RESUME_WAITER.schedule(() -> {
-                                if(shard.getShardEventManager().getLastJDAEventTimeDiff() > 18000) {
+                                if(shard.getShardEventManager().getLastJDAEventTimeDiff() > 27000) {
                                     RESTART_QUEUE.add(shard);
                                 }
-                            }, 20, TimeUnit.SECONDS);
+                            }, 30, TimeUnit.SECONDS);
                         } catch(Exception e) {
                             //Print the exception so we can look at it later...
                             e.printStackTrace();

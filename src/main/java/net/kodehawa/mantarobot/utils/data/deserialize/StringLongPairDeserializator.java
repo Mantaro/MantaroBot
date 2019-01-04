@@ -23,16 +23,16 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.IOException;
 
-public class StringLongPairDeserializator extends JsonDeserializer<Pair> {
+public class StringLongPairDeserializator extends JsonDeserializer<Pair<String, Long>> {
     @Override
-    public Pair deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-        String tmp = jp.getText(); // {
+    public Pair<String, Long> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+        jp.getText(); // {
         jp.nextToken();
         String key = jp.getText();
         jp.nextToken();
         Long value = Long.parseLong(jp.getText());
         jp.nextToken();
-        tmp = jp.getText(); // }
+        jp.getText(); // }
 
         return Pair.of(key, value);
     }

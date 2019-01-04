@@ -87,8 +87,8 @@ public class CustomCommandHandler {
 
         specialHandlers.put("image", specialHandlers.get("img"));
         specialHandlers.put("imgembed", specialHandlers.get("img"));
-        specialHandlers.put("iam", (event, lang, value, args) -> MiscCmds.iamFunction(value, event, lang));
-        specialHandlers.put("iamnot", (event, lang, value, args) -> MiscCmds.iamnotFunction(value, event, lang));
+        specialHandlers.put("iam", (event, lang, value, args) -> MiscCmds.iamFunction(value.trim().replace("\"", ""), event, lang));
+        specialHandlers.put("iamnot", (event, lang, value, args) -> MiscCmds.iamnotFunction(value.trim().replace("\"", ""), event, lang));
     }
 
     private final String args;
@@ -123,7 +123,7 @@ public class CustomCommandHandler {
                     .append("#")
                     .append(event.getAuthor().getDiscriminator())
                     .append("`")
-                    .stripMentions(event.getJDA(), Message.MentionType.ROLE, Message.MentionType.USER);
+                    .stripMentions(event.getJDA());
         }
 
         builder.stripMentions(event.getJDA(), Message.MentionType.HERE, Message.MentionType.EVERYONE).sendTo(event.getChannel()).queue();

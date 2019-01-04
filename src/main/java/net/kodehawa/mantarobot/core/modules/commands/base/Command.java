@@ -16,10 +16,12 @@
 
 package net.kodehawa.mantarobot.core.modules.commands.base;
 
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.options.core.Option;
+
+import java.util.List;
 
 /**
  * Interface used for handling commands within the bot.
@@ -32,14 +34,6 @@ public interface Command {
      */
     Category category();
 
-    /**
-     * Embed to be used on help command
-     *
-     * @param event the event that triggered the help
-     * @return a Nullable {@link MessageEmbed}
-     */
-    MessageEmbed help(GuildMessageReceivedEvent event);
-
     CommandPermission permission();
 
     /**
@@ -51,5 +45,9 @@ public interface Command {
      */
     void run(GuildMessageReceivedEvent event, I18nContext languageContext, String commandName, String content);
 
+    HelpContent help();
+
     Command addOption(String call, Option option);
+
+    List<String> getAliases();
 }

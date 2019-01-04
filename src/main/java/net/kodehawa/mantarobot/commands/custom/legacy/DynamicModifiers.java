@@ -34,6 +34,7 @@ import static net.kodehawa.mantarobot.utils.Utils.iterate;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 
 public class DynamicModifiers extends LinkedHashMap<String, String> {
+    private static final long serialVersionUID = 1;
     private static final Pattern GETTER_MODIFIER = Pattern.compile("\\$\\([A-Za-z0-9.]+?\\)");
 
     private static String k(String... parts) {
@@ -95,6 +96,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
             .mapMember(k(prefix, "user"), event.getMember());
     }
 
+    //TODO: handle prefixes properly. We could just pass a mock Message object to handle this if we really need raw/stripped/display.
     public DynamicModifiers mapMessage(String prefix, Message message) {
         return this
             .set(prefix, splitArgs(message.getContentRaw(), 2)[1])

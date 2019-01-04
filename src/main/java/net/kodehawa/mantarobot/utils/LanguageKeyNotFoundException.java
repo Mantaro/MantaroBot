@@ -17,6 +17,8 @@
 package net.kodehawa.mantarobot.utils;
 
 public class LanguageKeyNotFoundException extends IllegalArgumentException {
+    private static final long serialVersionUID = 1;
+
     public LanguageKeyNotFoundException(String message) {
         super(message);
     }

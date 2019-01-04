@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MapObject<K, V> extends LinkedHashMap<K, V> {
+    private static final long serialVersionUID = 1;
+
     public MapObject() {
     }
 

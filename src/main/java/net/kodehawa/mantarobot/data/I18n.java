@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class I18n {
@@ -83,6 +84,13 @@ public class I18n {
         Object maybeString = map.get(parts[index]);
         if(maybeString instanceof String) {
             return (String)maybeString;
+        }
+        if(maybeString instanceof Collection) {
+            Collection<String> c = ((Collection<String>)maybeString);
+            return c.stream()
+                    .skip(ThreadLocalRandom.current().nextInt(c.size()))
+                    .findFirst()
+                    .orElseThrow(AssertionError::new);
         }
         if(language.equals("en_US") || recursion)
             throw new LanguageKeyNotFoundException("Missing i18n key " + Arrays.stream(parts).collect(Collectors.joining(".")));

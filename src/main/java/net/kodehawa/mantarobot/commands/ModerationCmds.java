@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -36,19 +37,10 @@ import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.Random;
-
 @Slf4j(topic = "Moderation")
 @Module
 @SuppressWarnings("unused")
 public class ModerationCmds {
-
-    private final String[] modActionQuotes = {
-            "Uh-oh, seems like someone just got hit hard!", "Just wholesome admin work happening over here...", "The boot has been thrown!",
-            "You'll be missed... not really", "I hope I did the right thing...", "Woah there, mods have spoken!", "U-Uh... w-well, someone just went through the door."
-    };
-
-    private final Random r = new Random();
 
     @Subscribe
     public void softban(CommandRegistry cr) {
@@ -117,7 +109,7 @@ public class ModerationCmds {
                             db.getData().setCases(db.getData().getCases() + 1);
                             db.saveAsync();
 
-                            channel.sendMessage(String.format(languageContext.get("commands.softban.success"), EmoteReference.ZAP, modActionQuotes[r.nextInt(modActionQuotes.length)], user.getName())).queue();
+                            channel.sendMessage(String.format(languageContext.get("commands.softban.success"), EmoteReference.ZAP, languageContext.get("general.mod_quotes"), user.getName())).queue();
                             guild.getController().unban(member.getUser()).reason(finalReason).queue(aVoid -> {
                             }, error -> {
                                 if(error instanceof PermissionException) {
@@ -130,7 +122,7 @@ public class ModerationCmds {
                                 }
                             });
 
-                            ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.KICK, db.getData().getCases());
+                            ModLog.log(event.getMember(), user, finalReason, event.getChannel().getName(), ModLog.ModAction.KICK, db.getData().getCases());
                             TextChannelGround.of(event).dropItemWithChance(2, 2);
                         },
                         error -> {
@@ -147,15 +139,15 @@ public class ModerationCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Softban")
-                        .setDescription("**Softban the mentioned user and clears their messages from the past week. (You need Ban " +
-                                "Members)**")
-                        .addField("Summarizing", "A soft ban is a ban & instant unban, normally used to clear " +
-                                "the user's messages but **without banning the person permanently**.", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Softban the mentioned user and clears their messages from the past week. (You need the Ban Members permission, so does the bot)♥n" +
+                                "A soft ban is a ban & instant unban, usually useful to kick and clear messages.")
+                        .setUsage("`~>softban <@user> [reason]`")
+                        .addParameter("@user", "The user to softban.")
+                        .addParameter("reason", "The reason of the softban. This is optional.")
                         .build();
             }
-
         });
     }
 
@@ -230,8 +222,8 @@ public class ModerationCmds {
                             }
                             db.getData().setCases(db.getData().getCases() + 1);
                             db.saveAsync();
-                            channel.sendMessage(String.format(languageContext.get("commands.ban.success"), EmoteReference.ZAP, modActionQuotes[r.nextInt(modActionQuotes.length)], user.getName())).queue();
-                            ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.BAN, db.getData().getCases());
+                            channel.sendMessage(String.format(languageContext.get("commands.ban.success"), EmoteReference.ZAP, languageContext.get("general.mod_quotes"), user.getName())).queue();
+                            ModLog.log(event.getMember(), user, finalReason, event.getChannel().getName(), ModLog.ModAction.BAN, db.getData().getCases());
                             TextChannelGround.of(event).dropItemWithChance(1, 2);
                         }),
                         error ->
@@ -249,10 +241,12 @@ public class ModerationCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Ban")
-                        .setDescription("**Bans the mentioned users. (You need Ban Members)**")
-                        .addField("Usage", "`~>ban <@user> <reason>` - **Bans the specified user**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Bans the mentioned user.")
+                        .setUsage("`~>ban <@user> [reason]`")
+                        .addParameter("@user", "The user to ban.")
+                        .addParameter("reason", "The reason of the ban. This is optional.")
                         .build();
             }
         });
@@ -330,8 +324,8 @@ public class ModerationCmds {
                             }
                             db.getData().setCases(db.getData().getCases() + 1);
                             db.saveAsync();
-                            channel.sendMessage(String.format(languageContext.get("commands.kick.success"), EmoteReference.ZAP, modActionQuotes[r.nextInt(modActionQuotes.length)], user.getName())).queue();
-                            ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.KICK, db.getData().getCases());
+                            channel.sendMessage(String.format(languageContext.get("commands.kick.success"), EmoteReference.ZAP, languageContext.get("general.mod_quotes"), user.getName())).queue();
+                            ModLog.log(event.getMember(), user, finalReason, event.getChannel().getName(), ModLog.ModAction.KICK, db.getData().getCases());
                             TextChannelGround.of(event).dropItemWithChance(2, 2);
                         },
                         error -> {
@@ -351,10 +345,12 @@ public class ModerationCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Kick")
-                        .setDescription("**Kicks the mentioned users. (You need Kick Members)**")
-                        .addField("Usage", "`~>kick <@user> <reason> - **Kicks the mentioned user   **", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Kicks the mentioned user.")
+                        .setUsage("`~>kick <@user> [reason]`")
+                        .addParameter("@user", "The kick to ban.")
+                        .addParameter("reason", "The reason of the kick. This is optional.")
                         .build();
             }
         });

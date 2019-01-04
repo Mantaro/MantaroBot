@@ -21,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.ISnowflake;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -29,20 +28,23 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.CustomCommandHandler;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.modules.Module;
+import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.CustomCommand;
+import net.kodehawa.mantarobot.db.entities.helpers.CustomCommandData;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
@@ -53,7 +55,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
-import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.data.MantaroData.db;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
@@ -68,8 +69,26 @@ public class CustomCmds {
 
     public static boolean handle(String cmdName, GuildMessageReceivedEvent event, I18nContext lang, String args) {
         CustomCommand customCommand = getCustomCommand(event.getGuild().getId(), cmdName);
+        GuildData guildData = db().getGuild(event.getGuild()).getData();
+
         if (customCommand == null)
             return false;
+
+        //CCS disable check start.
+        if (guildData.getDisabledCommands().contains(cmdName)) {
+            return false;
+        }
+
+        List<String> channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
+        if (channelDisabledCommands != null && channelDisabledCommands.contains(cmdName)) {
+            return false;
+        }
+
+        HashMap<String, List<String>> roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
+        if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmdName)) && !CommandPermission.ADMIN.test(event.getMember())) {
+                return false;
+        }
+        //CCS disable check end.
 
         List<String> values = customCommand.getValues();
         if(customCommand.getData().isNsfw() && !event.getChannel().isNSFW()) {
@@ -92,14 +111,22 @@ public class CustomCmds {
     @Subscribe
     public void custom(CommandRegistry cr) {
         //People spamming crap... we cant have nice things owo
-        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
+        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                .spamTolerance(2)
+                .limit(1)
+                .cooldown(10, TimeUnit.SECONDS)
+                .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
+                .maxCooldown(2, TimeUnit.MINUTES)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("custom")
+                .build();
 
         String any = "[\\d\\D]*?";
 
         cr.register("custom", new SimpleCommand(Category.UTILS) {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 if(args.length < 1) {
@@ -109,12 +136,7 @@ public class CustomCmds {
 
                 String action = args[0];
 
-                if(action.equals("list") || action.equals("ls")) {
-                    if(!MantaroCore.hasLoadedCompletely()) {
-                        event.getChannel().sendMessage(languageContext.get("commands.custom.not_loaded")).queue();
-                        return;
-                    }
-
+                if(action.equals("list") || action.equals("ls") || action.equals("Is")) {
                     String filter = event.getGuild().getId() + ":";
                     List<String> commands = db().getCustomCommands(event.getGuild())
                             .stream()
@@ -124,7 +146,12 @@ public class CustomCmds {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setAuthor(languageContext.get("commands.custom.ls.header"), null, event.getGuild().getIconUrl())
                             .setColor(event.getMember().getColor())
-                            .setDescription(commands.isEmpty() ? languageContext.get("general.dust") : checkString(forType(commands)));
+                            .setThumbnail("https://images.emojiterra.com/twitter/v11/512px/1f6e0.png")
+                            .setDescription(languageContext.get("commands.custom.ls.description") + "\n" +
+                                    (commands.isEmpty() ? languageContext.get("general.dust") :
+                                            checkString(commands.stream().map(cc -> "*`" + cc + "`*").collect(Collectors.joining(", "))
+                                    ))
+                            ).setFooter(String.format(languageContext.get("commands.custom.ls.footer"), commands.size()), event.getAuthor().getEffectiveAvatarUrl());
 
                     event.getChannel().sendMessage(builder.build()).queue();
                     return;
@@ -225,7 +252,7 @@ public class CustomCmds {
                 }
 
                 if(args.length < 2) {
-                    onHelp(event);
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.incorrect_args"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -349,7 +376,7 @@ public class CustomCmds {
                 }
 
                 if(args.length < 3) {
-                    onHelp(event);
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.incorrect_args"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -411,6 +438,10 @@ public class CustomCmds {
                     }
 
                     CustomCommand newCustom = CustomCommand.of(event.getGuild().getId(), value, oldCustom.getValues());
+
+                    final CustomCommandData oldCustomData = oldCustom.getData();
+                    newCustom.getData().setNsfw(oldCustomData.isNsfw());
+                    newCustom.getData().setOwner(oldCustomData.getOwner());
 
                     //change at DB
                     oldCustom.deleteAsync();
@@ -495,30 +526,28 @@ public class CustomCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "CustomCommand Manager")
-                        .setDescription("**Manages the Custom Commands of the Guild.**")
-                        .addField("Guide", "https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands", false)
-                        .addField(
-                                "Usage:",
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Manages the Custom Commands of the Guild. If you wish to allow normal people to make custom commands, run `~>opts admincustom false` (it's locked to admins by default)")
+                        .setUsage("`~>custom <option>`")
+                        .addParameter("option",
+                                //I need to convert this to a TreeCommand someday...
                                 "`~>custom <list|ls>` - **List all commands. If detailed is supplied, it prints the responses of each command.**\n" +
-                                        "`~>custom add <name> <response>` - **Creates or adds the response provided to a custom command.**\n" +
-                                        "`~>custom info <name>` - **Checks a custom command's information.**\n" +
-                                        "`~>custom <remove|rm> <name>` - **Removes a command with an specific name.**\n" +
-                                        "`~>custom import <search>` - **Imports a command from another guild you're in.**\n" +
-                                        "`~>custom eval <response>` - **Tests how a custom command response will look**\n" +
-                                        "`~>custom edit <name> <response number> <new content>` - **Edits one response of the specified command**\n" +
-                                        "`~>custom view <name> <response number>` - **Views the content of one response**\n" +
-                                        "`~>custom rename <previous name> <new name>` - **Renames a custom command**",
-                                false
-                        )
-                        .addField("Considerations", "If you wish to allow normal people to make custom commands, run `~>opts admincustom false` (it's locked to admins by default)", false).build();
+                                "`~>custom add <name> <response>` - **Creates or adds the response provided to a custom command.**\n" +
+                                "`~>custom info <name>` - **Checks a custom command's information.**\n" +
+                                "`~>custom <remove|rm> <name>` - **Removes a command with an specific name.**\n" +
+                                "`~>custom import <search>` - **Imports a command from another guild you're in.**\n" +
+                                "`~>custom eval <response>` - **Tests how a custom command response will look**\n" +
+                                "`~>custom edit <name> <response number> <new content>` - **Edits one response of the specified command**\n" +
+                                "`~>custom view <name> <response number>` - **Views the content of one response**\n" +
+                                "`~>custom rename <previous name> <new name>` - **Renames a custom command**")
+                        .build();
             }
         });
     }
 
     //Lazy-load custom commands into cache.
-    private static CustomCommand getCustomCommand(String id, String name) {
+    public static CustomCommand getCustomCommand(String id, String name) {
         //lol
         if(DefaultCommandProcessor.REGISTRY.commands().containsKey(name)) {
             return null;

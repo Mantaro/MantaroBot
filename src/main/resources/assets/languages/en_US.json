@@ -17,6 +17,7 @@
     "not_found": "Not found",
     "no_results": "No results.",
     "timeout": "This timeouts in %1$d seconds.",
+    "reaction_timeout": "Reactions will timeout in %1$d seconds.",
     "example": "Example",
     "definition": "Definition",
     "name": "Name",
@@ -48,7 +49,10 @@
         "no_crate": "%1$sYou need a loot crate! How else would you use your key >.>... oh",
         "success": "%1$sYou opened a crate and won: %2$s%3$s. Congratulations!",
         "overflow": "But you already had too much, so you decided to throw away the excess"
-      }
+      },
+      "potion_active": "%1$sYou already have an active **%2$s** potion effect!",
+      "potion_not_found": "%1$sI can't find that potion or equipment type!",
+      "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s*. Check your shiny new effect on `~>profile stats`"
     },
     "mention_user_required": "%1$sYou need to mention one user.",
     "invalid_character": "%1$sThat is not an allowed character.",
@@ -60,7 +64,16 @@
     "cancelled": "%1$sCancelled request.",
     "sellout": "Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive!",
     "deprecated": "No longer used",
-    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\""
+    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\"",
+    "ratelimit": {
+      "header": "%1$s%2$s (Ratelimited)\n **You'll be able to use this command again in %3$s.**",
+      "spam_1": "Please rest, it's good for your health :( *Remember that Ratelimit will keep increasing if you try before the cooldown resets!*",
+      "spam_2": "\nI think stopping is the best option for now..."
+    },
+    "generic_error": "If you want, join our **support server** (Link at `support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
+    "boom_quotes": ["Seemingly Megumin exploded our castle...", "Uh-oh, seemingly my master forgot some zeros and ones on the floor :<", "W-Wait, what just happened?", "I-I think we got some fire going on here... you might want to tell my master to take a look.", "I've mastered explosion magic, you see?", "Maybe something just went wrong on here, but, u-uh, I can fix it!", "U-Uhh.. What did you want?"],
+    "ratelimit_quotes": ["Woah... you're calling me a bit too fast... I might get dizzy!", "Don't be greedy!", "Y-You're calling me so fast that I'm getting dizzy...", "Halt in there buddy!", "Wait just a tiiiiny bit more uwu", "Seems like we're gonna get a speed ticket if we continue going this fast!", "I wanna do this... but halt for a bit please.", "Hey, wait up, I'm not done with my break yet!", "Can you slow down a little bit?"],
+    "mod_quotes": ["Uh-oh, seems like someone just got hit hard!", "Just wholesome admin work happening over here...", "The boot has been thrown!", "You'll be missed... not really", "I hope I did the right thing...", "Woah there, mods have spoken!", "U-Uh... w-well, someone just went through the door."]
   },
   "categories": {
     "music": "Audio",
@@ -98,7 +111,9 @@
       "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!",
       "not_suitable": "%1$sYou can't use this to fish.",
       "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?",
-      "fossil_success": "%1$sYou caught a fossil while trying to find a fish. This might be worth a fair bit or be used for casting, I believe."
+      "fossil_success": "%1$sYou caught a fossil while trying to find a fish. This might be worth a fair bit or be used for casting, I believe.",
+      "bait": "The fish ate your bait in the process!",
+      "missing_equipped": "%1$sYou had an equipped %2$s rod, but you no longer have any of its kind on your inventory! Equipped rod has been reset."
     },
     "softban": {
       "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
@@ -156,6 +171,10 @@
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `~>profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
     },
     "music_general": {
+      "music_error": {
+        "timeout": "%1$sUnable to connect to %2$s: connection timed out. Try changing the server region and running the command again.",
+        "unknown": "%1$sUnable to connect to %2$s: unknown error"
+      },
       "no_song": "%1$sYou need to tell me what song you want to play! *(YouTube, Soundcloud, Twitch URL or search queries are allowed)*",
       "not_playing": "%1$sI'm not currently playing anything",
       "dj_only": "%1$sYou need to be a DJ to use this command!",
@@ -303,17 +322,25 @@
     "volume": {
       "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
       "success": "%1$sVolume set to %2$d\n\n%3$s",
-      "no_args": "%1$sYou need to tell me what volume you want me to set the music to (5 to 100)."
+      "no_args": "%1$sYou need to tell me what volume you want me to set the music to (4 to 100).",
+      "premium_only": "%1$sThis is a premium-only feature. In order to get donator benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to an user or a server, please, if you donate, join the support guild and ask for it."
+    },
+    "prefix": {
+      "header": "%1$sThe default prefixes are %2$s (I respond to any of those!). The server prefix is `%3$s` (Only works on this server). You can set a new prefix by using `~>opts prefix set <prefix>`",
+      "none": "There's no custom prefix set on this server."
     },
     "custom": {
       "no_args": "%1$sYou need to specify what you want to do with this command. Check command help for more info!",
+      "incorrect_args": "%1$sIncorrect arguments. Check `~>help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
       "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
       "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
       "nsfw_enabled": "%1$sThis command has been successfully marked as NSFW.",
       "nsfw_disabled": "%1$sThis command has been successfully marked as SFW.",
       "nsfw_not_nsfw": "%1$sThis command is marked as NSFW therefore it can only be used on NSFW channels.",
       "ls": {
-        "header": "Commands for this guild"
+        "header": "Commands for this guild",
+        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**List:**",
+        "footer": "Total custom commands on this server: %1$s"
       },
       "invalid": "%1$sInvalid command selection. Check command help (`help custom`).",
       "view": {
@@ -415,6 +442,7 @@
         "10000": "this makes no sense :thinking: #BlameSteven",
         "default": "slow af. :dizzy_face:"
       },
+      "display": ["W-Was I fast enough?", "What are you doing?", "W-What are you looking at?!", "Huh.", "Did I do well?", "What do you think?", "Does this happen often?", "Am I performing p-properly?", "<3", "*pats*", "Pong.", "Pang.", "Pung.", "Peng.", "Ping-pong? Yay!", "U-Uh... h-hi"],
       "text": "%1$s*%2$s* - My ping: %3$d ms (%4$s) `Websocket:%5$dms`"
     },
     "love": {
@@ -483,7 +511,8 @@
         "not_enough_slots": "%1$sYou don't have enough slots available to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
         "success": "%1$sSuccessfully claimed `%2$s` for %3$,d. Slots used: %4$s",
         "yourself": "%1$sYou cannot claim yourself!",
-        "already_claimed": "%1$sYou already claimed this waifu."
+        "already_claimed": "%1$sYou already claimed this waifu.",
+        "not_found": "%1$sI can't find any user with this query."
       },
       "unclaim": {
         "no_user": "%1$sYou need to mention a waifu to un-claim.",
@@ -525,7 +554,7 @@
     },
     "inventory": {
       "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>market dump`",
-      "brief": "**%1$s's inventory:** %2$s",
+      "brief": "**%1$s's inventory:** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!",
       "calculate": "%1$s%2$s will get **%3$d credits** if all of the items are sold.",
       "header": "%1$s's Inventory",
       "format": "**Price**: 📥 %1$d 📤 %2$d\n%3$s",
@@ -534,7 +563,7 @@
     },
     "cast": {
       "no_item_found": "%1$sI didn't find any item matching that.",
-      "item_not_cast": "%1$sYou cannot cast this item.",
+      "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items.",
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
       "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
       "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
@@ -662,7 +691,7 @@
     },
     "poll": {
       "missing": "%1$sYou didn't include either the %2$s argument or it was empty!\n%3$s",
-      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence.",
+      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `~>help poll`",
       "other_poll_running": "%1$sThere seems to be another poll running here...",
       "no_reaction_perms": "%1$sSeems like I cannot add reactions here...",
       "too_long": "This was too long to show, so I pasted it: %1$s",
@@ -738,7 +767,24 @@
         "lang": "Display Language",
         "reminders": "Times Reminded",
         "times": "time(s)",
-        "days": "day(s)"
+        "days": "day(s)",
+        "times_used": "Times Used",
+        "equipment": "Equipment"
+      },
+      "equip": {
+        "no_content": "%1$sYou have to specify which item to equip!",
+        "no_item": "%1$sThis item doesn't exist",
+        "not_owned": "%1$sYou don't own this item!",
+        "success": "%1$sYou successfully equipped %2$s *%3$s*, which will be remembered next time you use the proper currency command.",
+        "not_suitable": "%1$sYou can't equip this."
+      },
+      "display": {
+        "not_premium": "%1$sProfile widget personalization is only available to premium users.",
+        "not_enough": "%1$sNot enough valid widgets to put on your profile (minimum: 3). If you're lost, check `~>profile widgets ls`",
+        "success": "%1$sSuccessfully set your new profile layout. New layout is `%2$s`",
+        "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `~>profile widgets reset` to reset your profile display references",
+        "reset": "%1$sSuccessfully reset profile widget order.",
+        "example": "\nExample: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
       },
       "badge_header": "%1$sDisplay Badge",
       "bot_notice": "%1$sBots don't have profiles.",
@@ -751,7 +797,7 @@
       "birthday": "Birthday",
       "married": "Married with",
       "nobody": "Nobody",
-      "inventory": "Inventory",
+      "inventory": "Item Collection",
       "badges": "Top 5 Badges",
       "no_badges": "No badges (yet!)",
       "no_timezone": "Not set",
@@ -769,7 +815,7 @@
       },
       "brief_success": "**%1$s's badges:**\n%2$s",
       "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n",
-      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge.\n",
+      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "upvote_notice": "**You can get a free badge for [up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!** (It might take some minutes to process)\n\n",
       "donate_notice": "**You can get a badge for [supporting the development of Mantaro!](https://patreon.com/mantaro)!** (It might take some minutes to process)\n\n",
       "no_badges": "No badges to show (yet!)",
@@ -778,6 +824,7 @@
       "footer": "Badges are like achievements, and they're gained through progression in Mantaro's game or by just using the bot."
     },
     "rep": {
+      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) giving or receiving rep must be older than 5 days. Try again later.",
       "no_mentions": "%1$sYou need to mention or put the name of one user.\n%2$s",
       "more_than_one": "%1$sYou can only give reputation to one person",
       "rep_bot": "%1$sYou cannot rep a bot.\n%2$s",
@@ -856,7 +903,15 @@
       "guild_already_premium": "%1$sThis server already has a premium subscription",
       "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)",
       "user_already_premium": "%1$sYou're already premium :heart:",
-      "user_successful": "%1$sYou're now **Premium** :heart: (For: %2$d days)"
+      "user_successful": "%1$sYou're now **Premium** :heart: (For: %2$d days)",
+      "mp": "Mantaro Patreon uses no keys, instead, it's a given that it's premium by the fact that the bot itself works."
+    },
+    "claimkey": {
+      "not_patron": "%1$sYou're not a patron, so you can't do this. If you want to support Mantaro and get perks along with it, head over to <https://www.patreon.com/mantaro>",
+      "already_top": "%1$sYou already claimed all the keys you had. If any of them expired and you want to renew them, please head over to the support server at <https://support.mantaro.site>",
+      "successful": "%1$sSuccessfully claimed key `%2$s`. You have claimed a total of %3$s keys and have %4$s left keys to claim.",
+      "cant_dm": "%1%sI can't DM you the key because of your privacy settings, seemingly.",
+      "success": "%1$sSent the information via DM."
     },
     "vipstatus": {
       "user": {
@@ -878,7 +933,11 @@
       "expire": "Expires in",
       "key_duration": "Key total duration",
       "key_owner": "Key owner",
-      "wrong_args": "%1$sWrong arguments..."
+      "wrong_args": "%1$sWrong arguments...",
+      "patreon": "Pledge",
+      "linked": "Linked",
+      "linked_to": "Linked to",
+      "keys_claimed": "Keys Claimed"
     },
     "action": {
       "no_mention": "%1$sYou need to mention a user",
@@ -994,7 +1053,7 @@
       "character_load_error": "%1$sReport this in the official server please. Failed to setup game for pre-saved character: %2$s",
       "character_request_error": "%1$sError requesting this character from AniList's API.",
       "character_start": "Guess the character",
-      "too_many_games": "%1$sYou can start a maximum of 4 games at the same time with game lobby/multiple. (With Premium: 8)"
+      "too_many_games": "%1$sYou can start a maximum of 4 games at the same time with game lobby. (With Premium: 8)"
     },
     "opencrate": {
       "no_crate": "%1$sYou don't have any loot crate of this type to open :( (If you're trying to open a crate of any other than the default type, use the name of the crate after the command)",
@@ -1018,11 +1077,12 @@
     },
     "imageboard": {
       "catgirl": {
-        "error": "Unable to get image."
+        "error": "Error retrieving cute catgirl images :("
       },
       "cat": {
         "error": "%1$sError retrieving cute cat images :("
       },
+      "too_many_tags": "%1$sYou specified too many tags for the current imageboard! Imageboard %2$s accepts a maximum of %3$d tags.",
       "invalid_rating": "%1$sYou provided an invalid rating (Available types: questionable, explicit, safe)",
       "nsfw_no_nsfw": "%1$sI cannot send a NSFW image in a non-nsfw channel :(",
       "no_images": "%1$sThere are no images matching your search criteria...",
@@ -1163,8 +1223,8 @@
     "help": {
       "title": "Mantaro Help",
       "base": "Command list. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
-      "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://is.gd/mantaroguild)\n",
-      "patreon": "[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)",
+      "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://support.mantaro.site). [*Follow me on twitter for updates!*](https://twitter.com/mantarodiscord)\n",
+      "patreon": "[**We need your help to keep Mantaro online! Click here for more info.**](https://www.patreon.com/mantaro)",
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
       "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
       "footer": "To check command usage, type %1$shelp <command> // -> Commands: %2$s",
@@ -1265,6 +1325,7 @@
       "not_suitable": "%1$sThis is not a pick you can use to mine!",
       "not_in_inventory": "%1$sYou don't have this pick on your inventory, switching to the default pick.",
       "success": "%1$sYou mined minerals worth **$%2$s credits**, using a *%3$s*",
+      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*",
       "diamond": {
         "overflow": "Huh, you found a diamond while mining, but you already had too much, so I sold it for you.",
         "success": "Huh! You got lucky and found a diamond while mining, check your inventory!"
@@ -1282,7 +1343,8 @@
         "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
       "pick_broke": "%1$sOne of your picks broke while mining.",
-      "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!"
+      "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!",
+      "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset."
     },
     "slots": {
       "errors": {
@@ -1333,9 +1395,12 @@
   },
   "options": {
     "options": "Mantaro Options",
+    "error_general": "%1$sIncorrect usage or missing arguments.\nIf you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sCannot retrieve values. Weird thing...",
-      "header": "Options set for server **%1$s**",
+      "header": "Options set for server **%1$s**.",
+      "terminology": "\n\n**Useful terminology:** [] = empty list, null = not set, {} = empty object. If you see numbers=[...] it means that for that id, it applies what's inside the brackets. Objects are usually comma-separated",
+      "footer": "This is a debug command, therefore it's not 100% user-friendly",
       "null_set": "is not set to anything.",
       "set_to": "is set to:"
     },
@@ -1508,10 +1573,11 @@
       "warning": "%1$sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
       "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and un-assigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
       "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users.",
-      "warning_3": "Type **yes** if you agree to set the role %2$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
+      "warning_3": "Additionally the birthday cache (what is used to store them) is only updated every 23 hours. Meaning if you set your birthday today to tomorrow to test this announcer it will **not** work.",
+      "warning_4": "Type **yes** if you agree to set the role %2$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
       "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
       "error_channel_1": "%1$sI didn't find a channel or role!",
-      "error_channel_2": "**Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".**"
+      "error_channel_2": "*Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".* If the role contains spaces \"wrap it in quotes like this\""
     },
     "birthday_disable": {
       "success": "%1$sBirthday logging has been disabled on this server"
@@ -1601,7 +1667,7 @@
     },
     "server_role_allow": {
       "no_name": "%1$sYou need to specify the name of the role you want to allow (has to be disallowed already for this to do anything, since allow is default)!",
-      "not_disabled": "%1$sThis role isn't disabled!",
+      "not_disabled": "%1$sThis role isn't disabled! (All roles are enabled by default)",
       "success": "%1$sAllowed role %2$s to execute commands."
     },
     "server_ignorebots_autoroles_toggle": {
@@ -1652,12 +1718,12 @@
       "success": "%1$sCorrectly reset your options!"
     },
     "birthday_test": {
-      "no_user": "%1$sYou need to specify an user to test the assigner with.",
+      "no_user": "%1$sYou need to specify an user to test the assigner with. Just mention them.",
       "no_bd_channel": "%1$sYou don't have any birthday channel set!",
-      "no_bd_role": "%1$sYou don't have any role set for the birthday setter!",
-      "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel.",
-      "cannot_interact": "%1$sThe bot is unable to interact with the birthday role.",
-      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role %4$s",
+      "no_bd_role": "%1$sYou don't have any role set for the birthday setter! Make sure you create a new role for it.",
+      "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel. Check channel permissions.",
+      "cannot_interact": "%1$sThe bot is unable to interact with the birthday role. (This means the birthday role is higher than the bot's highest role on the role hierarchy, put it below and try again)",
+      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role %4$s\n\nNote: This doesn't show the custom birthday message you might have set.",
       "error": "%1$sOw... There was an error while sending the message on channel %2$s for user **%3$s** and role %4$s"
     },
     "usermessage_joinmessage_add": {
@@ -1692,6 +1758,15 @@
       "header": "Extra leave messages list. %1$s\n%2$s",
       "no_extras": "%1$sThere isn't any extra leave messages here..."
     },
+    "modlog_blacklistwords_add": {
+      "no_word": "%1$sYou didn't specify any word to add to the modlog blacklist.",
+      "success": "%1$sWord `%2$s` successfully added to the modlog blacklist.",
+      "too_many": "%1$sThere are already too many words on the blacklist (more than 20)."
+    },
+    "modlog_blacklistwords_remove": {
+      "not_in": "%1$sWord `%2$s` isn't in the blacklist.",
+      "success": "%1$sSuccesfully removed word `%2$s` from the modlog blacklist."
+     },
     "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
     "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
     "no_command": "%1$sNo command called %2$s",

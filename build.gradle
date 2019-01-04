@@ -15,214 +15,185 @@
  */
 
 /* Mantaro's build.gradle */
-//Imports
-import org.apache.tools.ant.filters.ReplaceTokens
-
-buildscript {
-    repositories {
-        jcenter()
-        mavenCentral()
-	}
-    dependencies {
-        classpath 'com.apollographql.apollo:apollo-gradle-plugin:0.4.4'
-    }
-}
 
 //Plugins
 plugins {
-	//Compiles Java
-	id 'java'
-	//Adds an Executable Manifest
-	id 'application'
-	//Creates FatJars
-	id 'com.github.johnrengelman.shadow' version '2.0.4'
-	//Checks for RestActions
-	//aka did you queue but harsh
-	id 'com.sedmelluq.jdaction' version '1.0.1'
-	//Tell me when smth is outdated
-	id 'com.github.ben-manes.versions' version '0.16.0'
+    //Compiles Java
+    id 'java'
+    //Adds an Executable Manifest
+    id 'application'
+    //Creates FatJars
+    id 'com.github.johnrengelman.shadow' version '2.0.4'
+    //Checks for RestActions
+    //aka did you queue but harsh
+    //RIP jdaction 2017-2018
+    //id 'com.sedmelluq.jdaction' version '1.0.1'
+    //Tell me when smth is outdated
+    id 'com.github.ben-manes.versions' version '0.20.0'
 }
-
-//graphql
-apply plugin: 'com.apollographql.android'
 
 //Define the Main Class
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 
 //Use an unified versioning system
-def ver = new Version(major: 5, minor: 0, revision: 4)
+def ver = new Version(major: 5, minor: 1, revision: 0)
 version ver.toString()
 
-//We are going to use Java 8
+//We are going to use Java 8 (compile on 11)
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-	jcenter()
+    jcenter()
     mavenCentral()
-	maven { url 'https://jitpack.io' }
+    maven { url 'https://jitpack.io' }
     maven { url "https://dl.bintray.com/kodehawa/maven" }
-	maven { url 'https://dl.bintray.com/natanbc/maven' }
-	mavenLocal()
+    maven { url 'https://dl.bintray.com/natanbc/maven' }
+    mavenLocal()
 }
 
 task generateLanguageList {
-	def out = new PrintStream(new FileOutputStream("src/main/resources/assets/languages/list.txt"))
-	new File("src/main/resources/assets/languages").listFiles().each {
-		if(it.getName().endsWith("json")) {
-			out.println(it.getName())
-		}
-	}
-	out.close()
+    def out = new PrintStream(new FileOutputStream("src/main/resources/assets/languages/list.txt"))
+    new File("src/main/resources/assets/languages").listFiles().each {
+        if(it.getName().endsWith("json")) {
+            out.println(it.getName())
+        }
+    }
+    out.close()
 }
 
 dependencies {
-	//remember to update this 3 all the time lul
-	compile 'net.dv8tion:JDA:3.8.1_439'
-	compile 'com.sedmelluq:lavaplayer:1.3.10'
-	compile 'com.sedmelluq:jda-nas:1.0.6'
+    //remember to update this 3 all the time lul
+    compile 'net.dv8tion:JDA:3.8.1_447'
+    compile 'com.sedmelluq:lavaplayer:1.3.10'
+    compile 'com.sedmelluq:jda-nas:1.0.6'
 
-	//before: classpathscanner
-	compile 'io.github.classgraph:classgraph:4.1.6'
-	compile 'ch.qos.logback:logback-classic:1.2.3'
+    //before: classpathscanner
+    compile 'io.github.classgraph:classgraph:4.6.3'
+    compile 'ch.qos.logback:logback-classic:1.2.3'
 
-	compile 'us.monoid.web:resty:0.3.2'
+    compile 'us.monoid.web:resty:0.3.2'
 
-	compile 'br.com.brjdevs:utils:1.0.0_15'
+    compile 'br.com.brjdevs:utils:1.0.0_15'
 
-	compile 'com.google.guava:guava:26.0-jre'
-	compile 'com.google.code.gson:gson:2.8.5'
-	compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.4'
+    compile 'com.google.guava:guava:27.0.1-jre'
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.7'
 
-	compile 'com.rethinkdb:rethinkdb-driver:2.3.3'
+    compile 'com.rethinkdb:rethinkdb-driver:2.3.3'
 
-	compile 'io.sentry:sentry:1.7.10'
+    compile 'io.sentry:sentry:1.7.10'
 
-	compile 'net.jodah:expiringmap:0.5.8'
-	compile 'org.apache.commons:commons-lang3:3.6'
+    compile 'net.jodah:expiringmap:0.5.8'
+    compile 'org.apache.commons:commons-lang3:3.8.1'
 
     compile fileTree(dir: 'lib', include: '*.jar')
-    compile 'net.kodehawa:imageboard-api:2.0.5'
-	compile 'com.github.natanbc:discordbots-api:3.3.3'
+    compile 'net.kodehawa:imageboard-api:2.0.6'
+    compile 'com.github.natanbc:discordbots-api:3.3.3'
 
-    compileOnly "org.projectlombok:lombok:1.18.2"
+    compileOnly "org.projectlombok:lombok:1.18.4"
 
-	compile 'com.github.natanbc:java-eval:1.0'
+    compile 'com.github.natanbc:java-eval:1.0'
 
-	compile 'redis.clients:jedis:2.9.0'
+    compile 'redis.clients:jedis:2.9.0'
 
-	//Basically for FinderUtil
-	compile 'com.jagrosh:jda-utilities:2.1.4'
+    //Basically for FinderUtil
+    compile 'com.jagrosh:jda-utilities:2.1.4'
 
-	compile 'com.github.natanbc:usage-tracker:0.1.1'
-
-    compile 'com.apollographql.apollo:apollo-runtime:0.4.4'
+    compile 'com.github.natanbc:usage-tracker:0.1.1'
 
     compile 'io.prometheus:simpleclient:0.5.0'
     compile 'io.prometheus:simpleclient_hotspot:0.5.0'
     compile 'io.prometheus:simpleclient_httpserver:0.5.0'
 
-	//Unit tests
-	testCompile 'junit:junit:4.12'
-}
-
-task wrapper(type: Wrapper) {
-	gradleVersion = '4.6'
-}
-
-tasks.withType(JavaCompile) {
-	options.compilerArgs <<
-            "-Xlint:deprecation" <<
-            "-Xlint:unchecked" <<
-            "-Xlint:divzero" <<
-            "-Xlint:cast" <<
-            "-Xlint:empty" <<
-            "-Xlint:fallthrough" <<
-            "-Xlint:finally" <<
-            "-Xlint:overrides"
-	options.encoding = 'UTF-8'
+    compile project(':graphql')
+    
+    //Unit tests
+    testCompile 'junit:junit:4.12'
 }
 
 compileJava.dependsOn generateLanguageList
-compileJava.dependsOn.remove(generateApolloClasses)
 
 //This doesn't work?
 test.dependsOn generateLanguageList
-test.dependsOn.remove(generateApolloClasses)
 
-clean {
-    delete = []
-    def file = new File("build")
-    if(file.listFiles() != null) {
-        file.listFiles().each {
-            if(it.name == "generated") {
-                if(it.listFiles() != null) {
-                    it.listFiles().each {
-                        if(it.name == "source") {
-                            if(it.listFiles() != null) {
-                                it.listFiles().each {
-                                    if(it.name != "apollo") {
-                                        delete it.name
-                                    }
-                                }
-                            }
-                        } else {
-                            delete it.name
-                        }
-                    }
-                }
-            } else {
-                delete it.name
-            }
-        }
+def lint = [
+        "auxiliaryclass",
+        "cast",
+        "classfile",
+        "deprecation",
+        "dep-ann",
+        "divzero",
+        "empty",
+        "exports",
+        "fallthrough",
+        "finally",
+        "module",
+        "opens",
+        "options",
+        "overloads",
+        "overrides",
+        "path",
+        //removed because of "No processor claimed any of these annotations: ..."
+        //"processing",
+        "rawtypes",
+        "removal",
+        "requires-automatic",
+        "requires-transitive-automatic",
+        "serial",
+        "static",
+        "try",
+        "unchecked",
+        "varargs",
+        "preview"
+]
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+task sourcesForRelease(type: Copy) {
+    from ('src/main/java') {
+        include '**/MantaroInfo.java'
+        filter(ReplaceTokens, tokens: [
+                version: ver.toString()
+        ])
     }
+    into 'build/filteredSrc'
+
+    includeEmptyDirs = false
 }
 
-//Task for the versioning system
-task prepareSource(type: Copy) {
-	from 'src/main/java'
-    from 'build/generated/source/apollo/'
-	into 'build/prepared-src'
-	filter(ReplaceTokens, tokens: [
-		version: ver.toString()
-	])
-	dependsOn clean
+task generateJavaSources(type: SourceTask) {
+    def javaSources = sourceSets.main.allJava.filter {
+        it.name != 'MantaroInfo.java'
+    }
+    source = javaSources + sourcesForRelease.destinationDir
+
+    dependsOn sourcesForRelease
 }
-prepareSource.dependsOn clean
 
 compileJava {
-	source = prepareSource.destinationDir
-	classpath = sourceSets.main.compileClasspath
-	options.encoding = 'UTF-8'
-	dependsOn prepareSource
+    source = generateJavaSources.source
+    classpath = sourceSets.main.compileClasspath
+    options.compilerArgs += ["-Xlint:${lint.join(",")}", "-Werror"]
+
+    dependsOn generateJavaSources
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.incremental = true
 }
 
 build.dependsOn shadowJar
 
-artifacts {
-	archives shadowJar
-}
-
-task cleanDistTar(type: Delete) { delete files(distTar) }
-distTar { classifier = "trash" }
-distTar.finalizedBy cleanDistTar
-
-task cleanDistZip(type: Delete) { delete files(distZip) }
-distZip { classifier = "trash" }
-distZip.finalizedBy cleanDistZip
-
-task cleanUnshadedJar(type: Delete) { delete files(jar) }
-jar { classifier = "trash" }
-jar.finalizedBy cleanUnshadedJar
-
 shadowJar {
-	classifier = ""
+    classifier = null
 }
 
 class Version {
-	String major, minor, revision
+    String major, minor, revision
 
-	String toString() {
-		"${major}.${minor}.${revision}"
-	}
+    String toString() {
+        "${major}.${minor}.${revision}"
+    }
 }

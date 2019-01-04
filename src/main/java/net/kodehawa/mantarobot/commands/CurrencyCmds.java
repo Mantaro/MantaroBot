@@ -26,10 +26,8 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.currency.item.Item;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.ItemType;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.*;
+import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -41,11 +39,14 @@ import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -108,54 +109,57 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(t.containsKey("brief")) {
-                    new MessageBuilder().setContent(String.format(languageContext.get("commands.inventory.brief"), member.getEffectiveName(), ItemStack.toString(playerInventory.asList())))
-                            .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
-                            .sendTo(event.getChannel())
-                            .queue();
+                if(t.containsKey("info") || t.containsKey("full")) {
+                    EmbedBuilder builder = baseEmbed(event, String.format(languageContext.get("commands.inventory.header"), member.getEffectiveName()), member.getUser().getEffectiveAvatarUrl());
+
+                    List<MessageEmbed.Field> fields = new LinkedList<>();
+                    if(inventoryList.isEmpty())
+                        builder.setDescription(languageContext.get("general.dust"));
+                    else {
+                        playerInventory.asList().forEach(stack -> {
+                            long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
+                            long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
+                            fields.add(new MessageEmbed.Field(String.format("%s %s x %d", stack.getItem().getEmoji(), stack.getItem().getName(), stack.getAmount()),
+                                    String.format(languageContext.get("commands.inventory.format"), buyValue, sellValue, languageContext.get(stack.getItem().getDesc())), false));
+                        });
+                    }
+
+                    List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
+                    boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+
+                    if(hasReactionPerms) {
+                        if(builder.getDescriptionBuilder().length() == 0) {
+                            builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
+                                    String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
+                                    + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 ? languageContext.get("general.sellout") : ""));
+                        }
+                        DiscordUtils.list(event, 100, false, builder, splitFields);
+                    } else {
+                        if(builder.getDescriptionBuilder().length() == 0) {
+                            builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
+                                    String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
+                                    + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 ? languageContext.get("general.sellout") : ""));
+                        }
+                        DiscordUtils.listText(event, 100, false, builder, splitFields);
+                    }
+
                     return;
                 }
 
-                EmbedBuilder builder = baseEmbed(event, String.format(languageContext.get("commands.inventory.header"), member.getEffectiveName()), member.getUser().getEffectiveAvatarUrl());
-
-                List<MessageEmbed.Field> fields = new LinkedList<>();
-                if(inventoryList.isEmpty())
-                    builder.setDescription(languageContext.get("general.dust"));
-                else {
-                    playerInventory.asList().forEach(stack -> {
-                        long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
-                        long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
-                        fields.add(new MessageEmbed.Field(String.format("%s %s x %d", stack.getItem().getEmoji(), stack.getItem().getName(), stack.getAmount()),
-                                String.format(languageContext.get("commands.inventory.format"), buyValue, sellValue, languageContext.get(stack.getItem().getDesc())), false));
-                    });
-                }
-
-                List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
-                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
-
-                if(hasReactionPerms) {
-                    if(builder.getDescriptionBuilder().length() == 0) {
-                        builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
-                                String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
-                                + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 ? languageContext.get("general.sellout") : ""));
-                    }
-                    DiscordUtils.list(event, 45, false, builder, splitFields);
-                } else {
-                    if(builder.getDescriptionBuilder().length() == 0) {
-                        builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
-                                String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
-                                + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 ? languageContext.get("general.sellout") : ""));
-                    }
-                    DiscordUtils.listText(event, 45, false, builder, splitFields);
-                }
+                new MessageBuilder().setContent(String.format(languageContext.get("commands.inventory.brief"), member.getEffectiveName(), ItemStack.toString(playerInventory.asList())))
+                        .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
+                        .sendTo(event.getChannel())
+                        .queue();
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Inventory command")
-                        .setDescription("**Shows your current inventory.**\n" +
-                                "You can use `~>inventory -brief` to get a mobile friendly version.\n" +
-                                "Use `~>inventory -calculate` to see how much you'd get if you sell every sellable item on your inventory!").build();
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows your current inventory.")
+                        .setUsage("You can mention someone on this command to see their inventory.\n" +
+                                "You can use `~>inventory -full` to a more detailed version.\n" +
+                                "Use `~>inventory -calculate` to see how much you'd get if you sell every sellable item on your inventory.")
+                        .build();
             }
         });
 
@@ -192,12 +196,12 @@ public class CurrencyCmds {
 
                         if(hasReactionPerms) {
                             embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
-                                    String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)) + "\n"
+                                    String.format(languageContext.get("general.buy_sell_paged_reference") + "\n" + String.format(languageContext.get("general.reaction_timeout"), 120), EmoteReference.BUY, EmoteReference.SELL)) + "\n"
                                         + languageContext.get("general.sellout"));
                             DiscordUtils.list(event, 120, false, embed, splitFields);
                         } else {
                             embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
-                                    String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)) + "\n"
+                                    String.format(languageContext.get("general.buy_sell_paged_reference") + "\n" + String.format(languageContext.get("general.reaction_timeout"), 120), EmoteReference.BUY, EmoteReference.SELL)) + "\n"
                                         + languageContext.get("general.sellout"));
                             DiscordUtils.listText(event, 120, false, embed, splitFields);
                         }
@@ -206,26 +210,20 @@ public class CurrencyCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Mantaro's market")
-                        .setDescription("**List current items for buying and selling.**")
-                        .addField("Buying and selling", "To buy do `~>market buy <item emoji>`. It will subtract the value from your money" +
-                                " and give you the item.\n" +
-                                "To sell do `~>market sell all` to sell all your items or `~>market sell <item emoji>` to sell the specified item. " +
-                                "**You'll get the sell value of the item on coins to spend.**\n" +
-                                "You can check the value of a single item using `~>market price <item emoji>`\n" +
-                                "You can send an item to the trash using `~>market dump <amount> <item emoji>`\n" +
-                                "Use `~>inventory -calculate` to check how much is your inventory worth.", false)
-                        .addField("To know", "If you don't have enough money you cannot buy the items.\n" +
-                                "Note: Don't use the item id, it's just for aesthetic reasons, the internal IDs are different than the ones shown here!", false)
-                        .addField("Information", "To buy and sell multiple items you need to do `~>market <buy/sell> <amount> <item>`",
-                                false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("List current items for buying and selling.")
+                        .setUsage("To buy an item do `~>market buy <item>`. It will subtract the value from your money and give you the item.\n" +
+                                "To sell do `~>market sell all` to sell all your items or `~>market sell <item>` to sell the specified item.\n" +
+                                "If the item name contains spaces, \"wrap it in quotes\".\n" +
+                                "To buy and sell multiple items you need to do `~>market <buy/sell> <amount> <item>`\n")
+                        .addParameter("item", "The item name or emoji")
                         .build();
             }
         });
 
         marketCommand.setPredicate((event) -> {
-            if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+            if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, null))
                 return false;
 
             Player player = MantaroData.db().getPlayer(event.getMember());
@@ -238,6 +236,11 @@ public class CurrencyCmds {
         });
 
         marketCommand.addSubCommand("dump", new SubCommand() {
+            @Override
+            public String description() {
+                return "Dumps an item. Usage: `~>market dump <item>`";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(content.isEmpty()) {
@@ -287,6 +290,11 @@ public class CurrencyCmds {
 
         marketCommand.addSubCommand("price", new SubCommand() {
             @Override
+            public String description() {
+                return "Checks the price of any given item. Usage: `~>market price <item>`";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = content.split(" ");
                 String itemName = content.replace(args[0] + " ", "");
@@ -315,6 +323,12 @@ public class CurrencyCmds {
 
         marketCommand.addSubCommand("sell", new SubCommand() {
             @Override
+            public String description() {
+                return "Sells an item. Usage: `~>market sell <item>`. You can sell multiple items if you put the amount before the item.\n" +
+                        "Use `~>market sell all` to sell all of your items.";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(content.isEmpty()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.no_item_amount"), EmoteReference.ERROR).queue();
@@ -325,10 +339,11 @@ public class CurrencyCmds {
                 String[] args = content.split(" ");
                 String itemName = content;
                 int itemNumber = 1;
-                boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
+                String split = args[0];
+                boolean isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
                 if(isMassive) {
                     try {
-                        itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
+                        itemNumber = Math.abs(Integer.valueOf(split));
                         itemName = itemName.replace(args[0], "").trim();
                     } catch (NumberFormatException e) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.invalid"), EmoteReference.ERROR).queue();
@@ -411,6 +426,12 @@ public class CurrencyCmds {
 
         marketCommand.addSubCommand("buy", new SubCommand() {
             @Override
+            public String description() {
+                return "Buys an item. Usage: `~>market sell <item>`. You can buy multiple items if you put the amount before the item. " +
+                        "You can use all, half and quarter to buy for ex., a quarter of 5000 items.";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(content.isEmpty()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.no_item_amount"), EmoteReference.ERROR).queue();
@@ -421,14 +442,35 @@ public class CurrencyCmds {
                 String[] args = content.split(" ");
                 String itemName = content;
                 int itemNumber = 1;
-                boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
+                String split = args[0];
+                boolean isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
                 if(isMassive) {
                     try {
-                        itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
+                        itemNumber = Math.abs(Integer.valueOf(split));
                         itemName = itemName.replace(args[0], "").trim();
                     } catch (NumberFormatException e) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.invalid"), EmoteReference.ERROR).queue();
                         return;
+                    }
+                } else {
+                    //This is silly but works, people can stop asking about this now :o
+                    if(!itemName.isEmpty()) {
+                        switch (split) {
+                            case "all":
+                                itemNumber = ItemStack.MAX_STACK_SIZE;
+                                break;
+                            case "half":
+                                itemNumber = ItemStack.MAX_STACK_SIZE / 2;
+                                break;
+                            case "quarter":
+                                itemNumber = ItemStack.MAX_STACK_SIZE / 4;
+                                break;
+                            default:
+                                break;
+                        }
+
+                        if(itemNumber > 1)
+                            itemName = itemName.replace(args[0], "").trim();
                     }
                 }
 
@@ -510,7 +552,7 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event))
+                    if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                         return;
 
                     Item item = Items.fromAnyNoId(args[1]).orElse(null);
@@ -593,14 +635,13 @@ public class CurrencyCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Transfer Items command")
-                        .setDescription("**Transfers items from you to another player.**")
-                        .addField("Usage", "`~>itemtransfer <@user> <item emoji or part of the name> <amount (optional)>` - **Transfers the item to player x**", false)
-                        .addField("Parameters", "`@user` - user to send the item to\n" +
-                                "`item emoji` - write out the emoji of the item you want to send, or you can just use part of its name.\n" +
-                                "`amount` - optional, send a specific amount of an item to someone.", false)
-                        .addField("Important", "You cannot send more items than what you already have", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Transfers items from you to another player.")
+                        .setUsage("`~>itemtransfer <@user> <item> <amount>` - Transfers the item to a user.")
+                        .addParameter("@user", "User mention or name.")
+                        .addParameter("item", "The item emoji or name. If the name contains spaces \"wrap it in quotes\"")
+                        .addParameter("amount", "The amount of items you want to transfer. This is optional.")
                         .build();
             }
         });
@@ -644,7 +685,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event))
+                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 long toSend; // = 0 at the start
@@ -727,14 +768,13 @@ public class CurrencyCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Transfer command")
-                        .setDescription("**Transfers money from you to another player.**")
-                        .addField("Usage", "`~>transfer <@user> <money>` - **Transfers money to x player**", false)
-                        .addField("Parameters", "`@user` - user to send money to\n" +
-                                "`money` - money to transfer.", false)
-                        .addField("Important", "You cannot send more money than what you already have\n" +
-                                "The maximum amount you can transfer at once is " + TRANSFER_LIMIT + " credits.", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Transfers money from you to another player.\n" +
+                                "The maximum amount you can transfer at once is " + TRANSFER_LIMIT + " credits.")
+                        .setUsage("`~>transfer <@user> <money>` - Transfers money to x player")
+                        .addParameter("@user", "The user to send the money to. You have to mention (ping) the user.")
+                        .addParameter("money", "How much money to transfer.")
                         .build();
             }
         });
@@ -766,10 +806,12 @@ public class CurrencyCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Open loot crates")
-                        .setDescription("**Yep. It's really that simple**.\n" +
-                                "You need a crate key to open a loot crate. Loot crates are acquired rarely from the loot command.")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Opens a loot crate.")
+                        .setUsage("`~>opencrate <name>` - Opens a loot crate.\n" +
+                                "You need a crate key to open any crate.")
+                        .addParameter("name", "The loot crate name. If you don't provide this, a default loot crate will attempt to open.")
                         .build();
             }
         });
@@ -777,89 +819,127 @@ public class CurrencyCmds {
 
     @Subscribe
     public void useItem(CommandRegistry cr) {
-        cr.register("useitem", new SimpleCommand(Category.CURRENCY) {
+        TreeCommand ui = (TreeCommand) cr.register("useitem", new TreeCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(args.length < 1) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_items_specified"), EmoteReference.ERROR).queue();
-                    return;
-                }
+            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+                return new SubCommand() {
+                    @Override
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        final ManagedDatabase db = MantaroData.db();
 
-                if(args[0].equalsIgnoreCase("ls")) {
-                    List<Item> interactiveItems = Arrays.stream(Items.ALL).filter(i -> i.getItemType() == ItemType.INTERACTIVE).collect(Collectors.toList());
+                        if(content.isEmpty()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_items_specified"), EmoteReference.ERROR).queue();
+                            return;
+                        }
 
-                    StringBuilder show = new StringBuilder();
+                        Item item = Items.fromAnyNoId(content).orElse(null);
+                        if(item == null) {
+                            event.getChannel().sendMessageFormat(languageContext.get("general.item_lookup.not_found"), EmoteReference.ERROR).queue();
+                            return;
+                        }
 
-                    show.append(EmoteReference.TALKING)
-                            .append(languageContext.get("commands.useitem.ls.desc"))
-                            .append("\n\n");
+                        if(item.getItemType() != ItemType.INTERACTIVE && item.getItemType() != ItemType.CRATE && item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.not_interactive"), EmoteReference.ERROR).queue();
+                            return;
+                        }
 
-                    for (Item item : interactiveItems) {
-                        show.append(EmoteReference.BLUE_SMALL_MARKER)
-                                .append(item.getEmoji())
-                                .append(" **")
-                                .append(item.getName())
-                                .append("**\n")
-                                .append("**")
-                                .append(languageContext.get("general.description"))
-                                .append(": **\u2009*")
-                                .append(languageContext.get(item.getDesc()))
-                                .append("*")
-                                .append("\n");
+                        if(item == Items.BROM_PICKAXE || item == Items.FISHING_ROD) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.use_command"), EmoteReference.WARNING).queue();
+                            return;
+                        }
+
+                        //handled here
+                        if(item.getAction() == null && (item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF)) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.interactive_no_action"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
+                        Player p = db.getPlayer(event.getAuthor());
+                        if(!p.getInventory().containsItem(item)) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_item"), EmoteReference.SAD).queue();
+                            return;
+                        }
+
+                        if((item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.BUFF) && item instanceof Potion) {
+                            DBUser dbUser = db.getUser(event.getAuthor());
+                            UserData userData = dbUser.getData();
+
+                            PlayerEquipment.EquipmentType type = userData.getEquippedItems().getTypeFor(item);
+                            if(userData.getEquippedItems().isEffectActive(type, ((Potion) item).getMaxUses())) {
+                                event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_active"), EmoteReference.ERROR, item.getName()).queue();
+                                return;
+                            }
+
+                            userData.getEquippedItems().applyEffect(new PotionEffect(Items.idOf(item), System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
+                            event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied"), EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString())).queue();
+
+                            p.getInventory().process(new ItemStack(item, -1));
+                            p.save();
+                            dbUser.save();
+
+                            return;
+                        }
+
+                        item.getAction().test(event, Pair.of(languageContext, content));
                     }
-
-                    event.getChannel().sendMessage(new EmbedBuilder()
-                            .setAuthor(languageContext.get("commands.useitem.ls.header"), null, event.getAuthor().getEffectiveAvatarUrl())
-                            .setDescription(show.toString())
-                            .setColor(Color.PINK)
-                            .setFooter(String.format(languageContext.get("general.requested_by"), event.getMember().getEffectiveName()), null)
-                            .build()
-                    ).queue();
-
-                    return;
-                }
-
-                Item item = Items.fromAnyNoId(content).orElse(null);
-                if(item == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("general.item_lookup.not_found"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                if(item.getItemType() != ItemType.INTERACTIVE && item.getItemType() != ItemType.CRATE) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.not_interactive"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                if(item == Items.BROM_PICKAXE || item == Items.FISHING_ROD) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.use_command"), EmoteReference.WARNING).queue();
-                    return;
-                }
-
-                if(item.getAction() == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.interactive_no_action"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                Player p = MantaroData.db().getPlayer(event.getAuthor());
-                if(!p.getInventory().containsItem(item)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_item"), EmoteReference.SAD).queue();
-                    return;
-                }
-
-                item.getAction().test(event, Pair.of(languageContext, content));
+                };
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Use Item Command")
-                        .setDescription("**Uses an item**\n" +
-                                "You need to have the item to use it, and the item has to be marked as *interactive*. For a list of interactive items use " +
-                                "`~>useitem ls`")
-                        .addField("Usage", "`~>useitem <item>` - **Uses the specified item**", false)
-                        .addField("Example", "`~>useitem fishing rod`", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Uses an item.\n" +
+                                "You need to have the item to use it, and the item has to be marked as *interactive*.")
+                        .setUsage("`~>useitem <item>` - Uses the specified item")
+                        .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
                         .build();
             }
         });
+
+        ui.addSubCommand("ls", new SubCommand() {
+            @Override
+            public String description() {
+                return "Lists all usable (interactive) items.";
+            }
+
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                List<Item> interactiveItems = Arrays.stream(Items.ALL).filter(
+                        i -> i.getItemType() == ItemType.INTERACTIVE || i.getItemType() == ItemType.POTION || i.getItemType() == ItemType.CRATE || i.getItemType() == ItemType.BUFF
+                ).collect(Collectors.toList());
+
+                StringBuilder show = new StringBuilder();
+
+                show.append(EmoteReference.TALKING)
+                        .append(languageContext.get("commands.useitem.ls.desc"))
+                        .append("\n\n");
+
+                for (Item item : interactiveItems) {
+                    show.append(EmoteReference.BLUE_SMALL_MARKER)
+                            .append(item.getEmoji())
+                            .append(" **")
+                            .append(item.getName())
+                            .append("**\n")
+                            .append("**")
+                            .append(languageContext.get("general.description"))
+                            .append(": **\u2009*")
+                            .append(languageContext.get(item.getDesc()))
+                            .append("*")
+                            .append("\n");
+                }
+
+                event.getChannel().sendMessage(new EmbedBuilder()
+                        .setAuthor(languageContext.get("commands.useitem.ls.header"), null, event.getAuthor().getEffectiveAvatarUrl())
+                        .setDescription(show.toString())
+                        .setColor(Color.PINK)
+                        .setFooter(String.format(languageContext.get("general.requested_by"), event.getMember().getEffectiveName()), null)
+                        .build()
+                ).queue();
+            }
+        });
+
+        ui.createSubCommandAlias("ls", "list");
+        ui.createSubCommandAlias("ls", "Is");
     }
 
     @Subscribe
@@ -871,11 +951,13 @@ public class CurrencyCmds {
                 Items.FISHING_ROD.getAction().test(event, Pair.of(languageContext, content));
             }
 
+
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Fish Command")
-                        .setDescription("**Starts a fishing session**\n" +
-                                "You need a fishing rod to start fishing. The rod has a 20% chance of breaking (10% if you use an stamina potion)")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Starts a fishing session.")
+                        .setUsage("`~>fish <rod>` - Starts fishing. You can gain credits and fish items by fishing, which can be used later on for casting.")
+                        .addParameter("rod", "Rod name. Optional, if not provided or not found, will default to the default fishing rod or your equipped rod.")
                         .build();
             }
         });
@@ -883,7 +965,16 @@ public class CurrencyCmds {
 
     @Subscribe
     public void cast(CommandRegistry cr) {
-        final RateLimiter ratelimiter = new RateLimiter(TimeUnit.SECONDS, 10);
+        final IncreasingRateLimiter ratelimiter = new IncreasingRateLimiter.Builder()
+                .spamTolerance(3)
+                .limit(1)
+                .cooldown(10, TimeUnit.SECONDS)
+                .cooldownPenaltyIncrease(2, TimeUnit.SECONDS)
+                .maxCooldown(2, TimeUnit.MINUTES)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("cast")
+                .build();
+
         final SecureRandom random = new SecureRandom();
 
         TreeCommand castCommand = (TreeCommand) cr.register("cast", new TreeCommand(Category.CURRENCY) {
@@ -901,7 +992,7 @@ public class CurrencyCmds {
                             return;
                         }
 
-                        if(!handleDefaultRatelimit(ratelimiter, event.getAuthor(), event))
+                        if(!handleDefaultIncreasingRatelimit(ratelimiter, event.getAuthor(), event, languageContext))
                             return;
 
                         Item castItem = toCast.get();
@@ -980,25 +1071,30 @@ public class CurrencyCmds {
                         player.save();
 
                         event.getChannel().sendMessageFormat(languageContext.get("commands.cast.success") + "\n" + message,
-                                EmoteReference.WRENCH, castItem.getEmoji(), castItem.getName(), castCost, recipeString
+                                EmoteReference.WRENCH, castItem.getEmoji(), castItem.getName(), castCost, recipeString.toString().trim()
                         ).queue();
                     }
                 };
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Cast command")
-                        .setDescription("**Allows you to cast any castable item given you have the necessary elements.**\n" +
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Allows you to cast any castable item given you have the necessary elements.\n" +
                                 "Casting requires you to have the necessary materials to cast the item, and it has a cost of `item value / 2`.\n" +
                                 "Cast-able items are only able to be acquired by this command. They're non-buyable items, though you can sell them for a profit.")
-                        .addField("Usage", "`~>cast <item emoji or name>` - Casts the item you provide.\n" +
-                                "`~>cast ls` - Shows you a list of castable items, with the recipe.", false)
+                        .setUsage("`~>cast <item>` - Casts the item you provide.")
+                        .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
                         .build();
             }
         });
 
         castCommand.addSubCommand("ls", new SubCommand() {
+            @Override
+            public String description() {
+                return "Lists all of the cast-able items";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Item> castableItems = Arrays.stream(Items.ALL)
@@ -1042,6 +1138,7 @@ public class CurrencyCmds {
         });
 
         castCommand.createSubCommandAlias("ls", "list");
+        castCommand.createSubCommandAlias("ls", "Is"); //people, smh.
     }
 
     @Subscribe
@@ -1067,10 +1164,11 @@ public class CurrencyCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Item Info Command")
-                        .setDescription("**Shows the info of an item**")
-                        .addField("Usage", "`~>iteminfo <item name>`", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows the information of an item")
+                        .setUsage("`~>iteminfo <item name>` - Shows the info of an item.")
+                        .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
                         .build();
             }
         });

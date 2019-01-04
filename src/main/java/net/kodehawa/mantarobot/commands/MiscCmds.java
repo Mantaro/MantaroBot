@@ -20,6 +20,7 @@ import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.Role;
@@ -30,7 +31,11 @@ import net.kodehawa.mantarobot.commands.interaction.polls.PollBuilder;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -88,7 +93,11 @@ public class MiscCmds {
                 }
             }
         } else {
-            event.getChannel().sendMessageFormat(languageContext.get("commands.iam.no_role"), EmoteReference.ERROR, autoroleName).queue();
+            new MessageBuilder().
+                    append(String.format(languageContext.get("commands.iam.no_role"), EmoteReference.ERROR, autoroleName))
+                    .stripMentions(event.getJDA())
+                    .sendTo(event.getChannel())
+                    .queue();
         }
     }
 
@@ -117,7 +126,11 @@ public class MiscCmds {
                 }
             }
         } else {
-            event.getChannel().sendMessageFormat(languageContext.get("commands.iam.no_role"), EmoteReference.ERROR, autoroleName).queue();
+            new MessageBuilder().
+                    append(String.format(languageContext.get("commands.iam.no_role"), EmoteReference.ERROR, autoroleName))
+                    .stripMentions(event.getJDA())
+                    .sendTo(event.getChannel())
+                    .queue();
         }
     }
 
@@ -146,12 +159,11 @@ public class MiscCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "8ball")
-                        .setDescription("**Retrieves an answer from the almighty 8ball.**")
-                        .addField("Usage",
-                                "`~>8ball <question>` - **Retrieves an answer from 8ball based on the question or sentence provided.**",
-                                false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Retrieves an answer from the almighty 8ball.")
+                        .setUsage("`~>8ball <question>` - Retrieves an answer from 8ball based on the question or sentence provided.")
+                        .addParameter("question", "The question to ask.")
                         .build();
             }
         });
@@ -161,61 +173,80 @@ public class MiscCmds {
 
     @Subscribe
     public void iam(CommandRegistry cr) {
-        cr.register("iam", new SimpleCommand(Category.MISC) {
+        TreeCommand iamCommand = (TreeCommand) cr.register("iam", new TreeCommand(Category.MISC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                Map<String, String> autoroles = dbGuild.getData().getAutoroles();
-                if(args.length == 0 || content.length() == 0) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.iam.no_iam"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                StringBuilder stringBuilder = new StringBuilder();
-                if(content.equals("list") || content.equals("ls")) {
-                    EmbedBuilder embed = null;
-                    boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
-                    if(!hasReactionPerms)
-                        stringBuilder.append(languageContext.get("general.text_menu")).append("\n");
-
-                    if(autoroles.size() > 0) {
-                        autoroles.forEach((name, roleId) -> {
-                            Role role = event.getGuild().getRoleById(roleId);
-                            if(role != null) {
-                                stringBuilder.append(languageContext.get("commands.iam.list.name")).append(name).append(languageContext.get("commands.iam.list.role")).append(role.getName()).append("**");
-                            }
-                        });
-
-                        List<String> parts = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH, stringBuilder);
-                        if(hasReactionPerms) {
-                            DiscordUtils.list(event, 30, false, (current, max) -> baseEmbed(event, languageContext.get("commands.iam.list.header")), parts);
-                        } else {
-                            DiscordUtils.listText(event, 30, false, (current, max) -> baseEmbed(event, languageContext.get("commands.iam.list.header")), parts);
+            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+                return new SubCommand() {
+                    @Override
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                        Map<String, String> autoroles = dbGuild.getData().getAutoroles();
+                        if(content.trim().isEmpty()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.iam.no_iam"), EmoteReference.ERROR).queue();
+                            return;
                         }
-                    } else {
-                        embed = baseEmbed(event, languageContext.get("commands.iam.list.header"));
-                        embed.setDescription(languageContext.get("commands.iam.list.no_autoroles"));
+
+                        iamFunction(content.trim().replace("\"", ""), event, languageContext);
                     }
-
-                    if(embed != null) {
-                        event.getChannel().sendMessage(embed.build()).queue();
-                    }
-
-                    return;
-                }
-
-                iamFunction(content.trim().replace("\"", ""), event, languageContext);
+                };
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Iam (autoroles)")
-                        .setDescription("**Get an autorole that your server administrators have set up!**")
-                        .addField("Usage", "`~>iam <name>` - **Get the role with the specified name**.\n"
-                                + "`~>iam list` - **List all the available autoroles in this server**", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Get an autorole that your server administrators have set up.")
+                        .setUsage("`~>iam <name>` - Get the role with the specified name.\n"
+                                + "`~>iam list` - List all the available autoroles in this server. Use this to check which autoroles you can get!")
+                        .addParameter("name", "The name of the autorole to get.")
                         .build();
             }
         });
+
+        iamCommand.addSubCommand("ls", new SubCommand() {
+            @Override
+            public String description() {
+                return "Lists all the available autoroles for this server.";
+            }
+
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                EmbedBuilder embed = null;
+                DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                Map<String, String> autoroles = dbGuild.getData().getAutoroles();
+
+                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                StringBuilder stringBuilder = new StringBuilder();
+
+                if(!hasReactionPerms)
+                    stringBuilder.append(languageContext.get("general.text_menu")).append("\n");
+
+                if(autoroles.size() > 0) {
+                    autoroles.forEach((name, roleId) -> {
+                        Role role = event.getGuild().getRoleById(roleId);
+                        if(role != null) {
+                            stringBuilder.append(languageContext.get("commands.iam.list.name")).append(name).append(languageContext.get("commands.iam.list.role")).append(role.getName()).append("**");
+                        }
+                    });
+
+                    List<String> parts = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH, stringBuilder);
+                    if(hasReactionPerms) {
+                        DiscordUtils.list(event, 30, false, (current, max) -> baseEmbed(event, languageContext.get("commands.iam.list.header")), parts);
+                    } else {
+                        DiscordUtils.listText(event, 30, false, (current, max) -> baseEmbed(event, languageContext.get("commands.iam.list.header")), parts);
+                    }
+                } else {
+                    embed = baseEmbed(event, languageContext.get("commands.iam.list.header"));
+                    embed.setDescription(languageContext.get("commands.iam.list.no_autoroles"));
+                }
+
+                if(embed != null) {
+                    event.getChannel().sendMessage(embed.build()).queue();
+                }
+            }
+        });
+
+        iamCommand.createSubCommandAlias("ls", "list");
+        iamCommand.createSubCommandAlias("ls", "Is");
     }
 
     @Subscribe
@@ -232,11 +263,11 @@ public class MiscCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Iamnot (autoroles)")
-                        .setDescription("**Remove an autorole from yourself that your server administrators have set up!**")
-                        .addField("Usage", "~>iamnot <name>. Remove the role from yourself with the specified name.\n"
-                                + "~>iamnot list. List all the available autoroles in this server", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Remove an autorole from yourself that your server administrators have set up.")
+                        .setUsage("`~>iamnot <name>` - Remove the role from yourself with the specified name.")
+                        .addParameter("name", "The name of the autorole to remove.")
                         .build();
             }
         });
@@ -251,9 +282,9 @@ public class MiscCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Random Fact")
-                        .setDescription("**Sends a random fact.**")
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Sends a random fact.")
                         .build();
             }
         });
@@ -304,16 +335,16 @@ public class MiscCmds {
             }
 
             @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Poll Command")
-                        .setDescription("**Creates a poll**")
-                        .addField("Usage", "`~>poll [-options <options>] [-time <time>] [-name <name>] [-image <image>]`", false)
-                        .addField("Parameters", "`-options` The options to add. Minimum is 2 and maximum is 9. For instance: `Pizza,Spaghetti,Pasta,\"Spiral Nudels\"` (Enclose options with multiple words in double quotes).\n" +
-                                "`-time` The time the operation is gonna take. The format is as follows `1m29s` for 1 minute and 21 seconds. Maximum poll runtime is 45 minutes.\n" +
-                                "`-name` The name of the poll for reference.\n" +
-                                "`-image` The image to embed to the poll. Optional.", false)
-                        .addField("Considerations", "To cancel the running poll type &cancelpoll. Only the person who started it or an Admin can cancel it.", false)
-                        .addField("Example", "~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"", false)
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Creates a poll.")
+                        .setUsage("`~>poll [-options <options>] [-time <time>] [-name <name>] [-image <image>]`\n" +
+                                "To cancel the running poll type &cancelpoll. Only the person who started it or an Admin can cancel it.\n" +
+                                "Example: `~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"`")
+                        .addParameter("-options", "The options to add. Minimum is 2 and maximum is 9. For instance: `Pizza,Spaghetti,Pasta,\"Spiral Nudels\"` (Enclose options with multiple words in double quotes, there has to be no spaces between the commas)")
+                        .addParameter("time", "The time the operation is gonna take. The format is as follows `1m29s` for 1 minute and 21 seconds. Maximum poll runtime is 45 minutes.")
+                        .addParameter("-name", "The name of the poll.")
+                        .addParameter("-image", "The image to embed to the poll.")
                         .build();
             }
         });

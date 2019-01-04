@@ -18,15 +18,21 @@ package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.Pair;
+import net.kodehawa.mantarobot.utils.Utils;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
@@ -38,11 +44,15 @@ import static java.lang.System.currentTimeMillis;
 @Getter
 @ToString
 @EqualsAndHashCode
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DBGuild implements ManagedObject {
     public static final String DB_TABLE = "guilds";
     private final GuildData data;
     private final String id;
     private long premiumUntil;
+
+    @JsonIgnore
+    private Config config = MantaroData.config().get();
 
     @JsonCreator
     @ConstructorProperties({"id", "premiumUntil", "data"})
@@ -88,6 +98,55 @@ public class DBGuild implements ManagedObject {
     @JsonIgnore
     public boolean isPremium() {
         PremiumKey key = MantaroData.db().getPremiumKey(data.getPremiumKey());
+        //Key validation check (is it still active? delete otherwise)
+        if(key != null) {
+            boolean isKeyActive = currentTimeMillis() < key.getExpiration();
+            if(!isKeyActive) {
+                DBUser owner = MantaroData.db().getUser(key.getOwner());
+                UserData ownerData = owner.getData();
+
+                //Remove from owner's key ownership storage if key owner != key holder.
+                if(!key.getOwner().equals(getId()) && !ownerData.getKeysClaimed().containsKey(getId())) {
+                    ownerData.getKeysClaimed().remove(getId());
+                    owner.save();
+                }
+
+                key.delete();
+                return false;
+            }
+
+            //Link key to owner if key == owner and key holder is on patreon.
+            //Sadly gotta skip of holder isn't patron here bc there are some bought keys (paypal) which I can't convert without invalidating
+            Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(key.getOwner());
+            if(pledgeInfo != null && pledgeInfo.getLeft()) {
+                key.getData().setLinkedTo(key.getOwner());
+                key.save(); //doesn't matter if it doesn't save immediately, will do later anyway (key is usually immutable in db)
+            }
+
+            //If the receipt is not the owner, account them to the keys the owner has claimed.
+            //This has usage later when seeing how many keys can they take. The second/third check is kind of redundant, but necessary anyway to see if it works.
+            String keyLinkedTo = key.getData().getLinkedTo();
+            if(!getId().equals(key.getOwner()) && keyLinkedTo != null && keyLinkedTo.equals(key.getOwner())) {
+                DBUser owner = MantaroData.db().getUser(key.getOwner());
+                UserData ownerData = owner.getData();
+                if(!ownerData.getKeysClaimed().containsKey(getId())) {
+                    ownerData.getKeysClaimed().put(getId(), key.getId());
+                    owner.save();
+                }
+            }
+        }
+
+        //Patreon bot link check.
+        String linkedTo = getData().getMpLinkedTo();
+        if(config.isPremiumBot() && linkedTo != null && key == null) { //Key should always be null in MP anyway.
+            Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(linkedTo);
+            if(pledgeInfo != null && pledgeInfo.getLeft() && Double.parseDouble(pledgeInfo.getRight()) >= 4) {
+                //Subscribed to MP properly, return true.
+                return true;
+            }
+        }
+
+        //TODO: remove currentTimeMillis() < premiumUntil check whenever you're done transferring MP guilds to the new system.
         return currentTimeMillis() < premiumUntil || (key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.GUILD));
     }
 
@@ -95,7 +154,7 @@ public class DBGuild implements ManagedObject {
     public PremiumKey generateAndApplyPremiumKey(int days) {
         String premiumId = UUID.randomUUID().toString();
         PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days),
-                currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.GUILD, true, id);
+                currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.GUILD, true, id, new PremiumKeyData());
         data.setPremiumKey(premiumId);
         newKey.saveAsync();
         saveAsync();

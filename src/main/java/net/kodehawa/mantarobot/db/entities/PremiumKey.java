@@ -18,9 +18,11 @@ package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import net.kodehawa.mantarobot.db.ManagedObject;
+import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
@@ -30,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 import static java.lang.System.currentTimeMillis;
 
 @Getter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PremiumKey implements ManagedObject {
     public static final String DB_TABLE = "keys";
     private long duration;
@@ -38,28 +41,34 @@ public class PremiumKey implements ManagedObject {
     private String id;
     private String owner;
     private int type;
+    //Setting a default to avoid backwards compat issues.
+    private PremiumKeyData data = new PremiumKeyData();
 
     @JsonCreator
     @ConstructorProperties({"id", "duration", "expiration", "type", "enabled", "owner"})
     public PremiumKey(@JsonProperty("id") String id, @JsonProperty("duration") long duration,
                       @JsonProperty("expiration") long expiration, @JsonProperty("type") Type type,
-                      @JsonProperty("enabled") boolean enabled, @JsonProperty("owner") String owner) {
+                      @JsonProperty("enabled") boolean enabled, @JsonProperty("owner") String owner, @JsonProperty("data") PremiumKeyData data) {
         this.id = id;
         this.duration = duration;
         this.expiration = expiration;
         this.type = type.ordinal();
         this.enabled = enabled;
         this.owner = owner;
+        if(data != null)
+            this.data = data;
     }
 
     @JsonIgnore
-    public PremiumKey() {
-    }
+    public PremiumKey() { }
 
     @JsonIgnore
-    public static PremiumKey generatePremiumKey(String owner, Type type) {
+    public static PremiumKey generatePremiumKey(String owner, Type type, boolean linked) {
         String premiumId = UUID.randomUUID().toString();
-        PremiumKey newKey = new PremiumKey(premiumId, -1, -1, type, false, owner);
+        PremiumKey newKey = new PremiumKey(premiumId, -1, -1, type, false, owner, new PremiumKeyData());
+        if(linked)
+            newKey.data.setLinkedTo(owner); //used for patreon checks in newly-activated keys (if applicable)
+
         newKey.save();
         return newKey;
     }

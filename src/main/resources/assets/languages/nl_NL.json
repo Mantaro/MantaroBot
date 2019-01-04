@@ -510,13 +510,20 @@
         },
         "cast": {
             "no_item_found": "%1$sIk kan geen items vinden die hieraan voldoen.",
-            "item_not_cast": "%1$sJe kunt dit item niet casten.",
+            "item_not_cast": "%1$sJe kunt dit item niet casten. You can check `~>cast ls` for a list of castable items.",
             "not_enough_money": "%1$sJe hebt niet genoeg geld om dit te casten. **(Kosten: %2$s)**",
             "no_item": "%1$sJe hebt niet het item *%2$s* dat nodig is om verder te gaan met deze cast.",
             "not_enough_items": "%1$sJe hebt niet genoeg van het item *%2$s* om verder te gaan. **(Nodig: %3$s, Huidig: %4$s)**",
             "success": "%1$sJe hebt succesvol *%2$s %3$s gecast* voor %4$s credits. *Cast used: %5$s*",
             "no_tool": "%1$sJe hebt %2$s nodig om verder te gaan met deze cast!",
-            "item_broke": "\nHelaas, je wrench brak tijdens het proces, maar je hebt wel je item gekregen!"
+            "item_broke": "\nHelaas, je wrench brak tijdens het proces, maar je hebt wel je item gekregen!",
+            "ls": {
+                "header": "Castable Item List",
+                "cost": "Cast Cost: ",
+                "desc": "This is a list of the items you can cast using `~>cast`. You have to use the full name or the short name to cast it (example: `~>cast diamond pickaxe` or `~>cast diamond p` works)\n**Casting has a cost of half the price of the item. The casting price will be shown down below.**"
+            },
+            "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?"
+
         },
         "market": {
             "dump": {
@@ -1109,7 +1116,7 @@
         "help": {
             "title": "Mantaro Help",
             "base": "Commando lijst. Voor een gedetailleerde handleiding over het gebruik van Mantaro, raadpleeg de [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
-            "support": "Als je problemen ondervindt of vragen hebt tijdens het gebruik van Mantaro, kunt je deelnemen aan de [support server](https://is.gd/mantaroguild)\n",
+            "support": "Als je problemen ondervindt of vragen hebt tijdens het gebruik van Mantaro, kunt je deelnemen aan de [support server](https://support.mantaro.site)\n",
             "patreon": "[We hebben je hulp nodig om Mantaro online te houden! Klik hier voor meer info](https://www.patreon.com/mantaro)",
             "disabled_commands": "Alleen niet-geblokkeerde commandos weergeven. Totaal uitgeschakelde commandos: %1$s",
             "channel_specific_disabled_commands": "\nAlleen niet-geblokkeerde commandos weergeven. Totaal aantal kanaal-specifieke uitgeschakelde commandos: %1$s",
@@ -1440,7 +1447,8 @@
             "warning": "%1$sVergeet niet dat de verjaardagsrol een rol is die wordt toegewezen aan de persoon wanneer de verjaardag is en wordt verwijderd wanneer de dag voorbij is. Als je twijfels hebt over hoe je het kunt configureren, kun je altijd lid worden van onze support Discord en  daar je vraag stellen. Je kunt ook `~>opts help birthday enable` checken om een voorbeeld te zien.",
             "warning_1": "Dit komt door de manier waarop de verjaardagstoewijzer werkt: Het kent een tijdelijke rol toe aan de persoon die jarig is, en maakt de toewijzing ongedaan wanneer de verjaardag is verstreken. **Dit betekent dat iedereen met de verjaardagsrol de rol weer verwijderd krijgt op de dag dat de verjaardag is afgelopen**. Wees voorzichtig bij het kiezen van de te gebruiken rol, want een verkeerde configuratie kan slechte dingen veroorzaken (echt waar)!",
             "warning_2": "De rol *moet een nieuw gecreëerde rol zijn of een rol die je niet voor iemand anders gebruikt*. Het MOET GEEN rol zijn die al gebruikt wordt voor je gebruikers.",
-            "warning_3": "Type **yes** als je ermee instemt om de rol %2$s in te stellen als verjaardagsrol, en **no** om te annuleren. Deze actie verloopt over 45 seconden.",
+            "warning_3": "Additionally the birthday cache (what is used to store them) is only updated every 23 hours. Meaning if you set your birthday today to tomorrow to test this announcer it will **not** work.",
+            "warning_4": "Type **yes** als je ermee instemt om de rol %2$s in te stellen als verjaardagsrol, en **no** om te annuleren. Deze actie verloopt over 45 seconden.",
             "success": "%1$sVerjaardagsregistratie ingeschakeld op deze server met parameters -> Kanaal: `%2$s (%3$s)` en rol: `%4$s (%5$s)`",
             "error_channel_1": "%1$sIk heb geen kanaal of rol kunnen vinden!",
             "error_channel_2": "**Onthoud dat je niet de rol of het kanaal hoeft te noemen, maar gewoon de naam moet typen, de volgorde is <kanaal> <rol>, zonder de leidende \"<>\".**"

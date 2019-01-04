@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.utils;
 import com.google.common.io.CharStreams;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import com.rethinkdb.net.Connection;
-import io.prometheus.client.Counter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.*;
@@ -27,10 +26,16 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
-import net.kodehawa.mantarobot.utils.commands.*;
+import net.kodehawa.mantarobot.utils.annotations.ConfigName;
+import net.kodehawa.mantarobot.utils.annotations.UnusedConfig;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.RateLimit;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import okhttp3.*;
 import org.json.JSONObject;
 import us.monoid.web.Resty;
@@ -54,6 +59,7 @@ import java.util.stream.Collectors;
 
 import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
+import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
 
 @Slf4j
 public class Utils {
@@ -76,13 +82,6 @@ public class Utils {
     public static final Pattern THIRD_PARTY_INVITE = Pattern.compile(
             "(https?://)?discord(\\.|\\s*?dot\\s*?)(me|io)\\s*?/\\s*?([a-zA-Z0-9\\-_]+)"
     );
-
-
-    private static final String[] ratelimitQuotes = {
-            "Woah... you're calling me a bit too fast... I might get dizzy!", "Don't be greedy!", "Y-You're calling me so fast that I'm getting dizzy...",
-            "Halt in there buddy!", "Wait just a tiiiiny bit more uwu", "Seems like we're gonna get a speed ticket if we continue going this fast!",
-            "I wanna do this... but halt for a bit please.", "Hey, wait up, I'm not done with my break yet!", "Can you slow down a little bit?"
-    };
 
     private static final Random random = new Random();
 
@@ -322,7 +321,7 @@ public class Utils {
 
         if(found.size() > 1 && !content.isEmpty()) {
             event.getChannel().sendMessage(String.format("%sToo many users found, maybe refine your search? (ex. use name#discriminator)\n**Users found:** %s",
-                    EmoteReference.THINKING, found.stream().limit(10).map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))))
+                    EmoteReference.THINKING, found.stream().limit(7).map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))))
                     .queue();
 
             return null;
@@ -344,7 +343,7 @@ public class Utils {
 
         if(found.size() > 1 && !content.isEmpty()) {
             event.getChannel().sendMessage(String.format("%sToo many roles found, maybe refine your search?\n**Roles found:** %s",
-                    EmoteReference.THINKING, found.stream().map(Role::getName).collect(Collectors.joining(", ")))).queue();
+                    EmoteReference.THINKING, found.stream().limit(7).map(Role::getName).collect(Collectors.joining(", ")))).queue();
 
             return null;
         }
@@ -366,7 +365,7 @@ public class Utils {
         if(found.size() > 1 && !content.isEmpty()) {
             event.getChannel().sendMessage(String.format("%sToo many roles found, maybe refine your search?\n**Roles found:** %s\n" +
                             "If the role you're trying to search contain spaces, wrap it in quotes `\"like this\"`",
-                    EmoteReference.THINKING, found.stream().map(Role::getName).collect(Collectors.joining(", ")))).queue();
+                    EmoteReference.THINKING, found.stream().limit(7).map(Role::getName).collect(Collectors.joining(", ")))).queue();
 
             return null;
         }
@@ -439,7 +438,7 @@ public class Utils {
 
         if(found.size() > 1 && !content.isEmpty()) {
             event.getChannel().sendMessage(String.format("%sToo many channels found, maybe refine your search?\n**Voice Channels found:** %s",
-                    EmoteReference.THINKING, found.stream().map(VoiceChannel::getName).collect(Collectors.joining(", ")))).queue();
+                    EmoteReference.THINKING, found.stream().limit(7).map(VoiceChannel::getName).collect(Collectors.joining(", ")))).queue();
 
             return null;
         }
@@ -503,18 +502,27 @@ public class Utils {
      * @author Narendra
      * @since Aug 27, 2011 5:27:19 AM
      */
-    public static HashMap<String, Object> mapObjects(Object valueObj) {
+    public static HashMap<String, Pair<String, Object>> mapConfigObjects(Object valueObj) {
         try {
             Class<?> c1 = valueObj.getClass();
-            HashMap<String, Object> fieldMap = new HashMap<>();
+            HashMap<String, Pair<String, Object>> fieldMap = new HashMap<>();
             Field[] valueObjFields = c1.getDeclaredFields();
 
             for(Field valueObjField : valueObjFields) {
                 String fieldName = valueObjField.getName();
+                String fieldDescription = "unknown";
                 valueObjField.setAccessible(true);
                 Object newObj = valueObjField.get(valueObj);
 
-                fieldMap.put(fieldName, newObj);
+                if(valueObjField.getAnnotation(UnusedConfig.class) != null) {
+                    continue;
+                }
+
+                if(valueObjField.getAnnotation(ConfigName.class) != null) {
+                    fieldDescription = valueObjField.getAnnotation(ConfigName.class).value();
+                }
+
+                fieldMap.put(fieldName, Pair.of(fieldDescription, newObj));
             }
 
             return fieldMap;
@@ -594,23 +602,19 @@ public class Utils {
                 (seconds == 0 ? "" : seconds + " second" + (seconds == 1 ? "" : "s"))).replaceAll(", (\\d{1,2} \\S+)$", " and $1");
     }
 
-    public static void dbConnection(Consumer<Connection> consumer) {
-        try(Connection conn = r.connection().hostname(config.dbHost).port(config.dbPort).db(config.dbDb).user(config.dbUser, config.dbPassword).connect()) {
-            consumer.accept(conn);
-        }
-    }
-
     public static Connection newDbConnection() {
         return r.connection().hostname(config.dbHost).port(config.dbPort).db(config.dbDb).user(config.dbUser, config.dbPassword).connect();
     }
 
-    public static boolean handleDefaultRatelimit(RateLimiter rateLimiter, User u, GuildMessageReceivedEvent event) {
+    public static boolean handleDefaultRatelimit(RateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context) {
+        if(context == null) {
+            //en_US
+            context = new I18nContext(null, null);
+        }
+
         if(!rateLimiter.process(u.getId())) {
-            event.getChannel().sendMessage(
-                    EmoteReference.STOPWATCH +
-                            ratelimitQuotes[random.nextInt(ratelimitQuotes.length)] + " (Ratelimited)" +
-                            "\n **You'll be able to use this command again in " + Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor()))
-                            + ".**"
+            event.getChannel().sendMessageFormat(context.get("general.ratelimit.header"),
+                    EmoteReference.STOPWATCH, context.get("general.ratelimit_quotes"),  Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor()))
             ).queue();
 
             onRateLimit(u);
@@ -620,28 +624,19 @@ public class Utils {
         return true;
     }
 
-    public static boolean handleDefaultNewRatelimit(NewRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event) {
-        if(!rateLimiter.test(u.getId())) {
-            event.getChannel().sendMessage(
-                    String.format("%s%s (Ratelimited)\n **You'll be able to use this command again in %s.**",
-                            EmoteReference.STOPWATCH, ratelimitQuotes[random.nextInt(ratelimitQuotes.length)], Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor())))
-            ).queue();
-
-            onRateLimit(u);
-            return false;
+    public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context) {
+        if(context == null) {
+            //en_US
+            context = new I18nContext(null, null);
         }
 
-        return true;
-    }
-
-    public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event) {
         RateLimit rateLimit = rateLimiter.limit(u.getId());
         if(rateLimit.getTriesLeft() < 1) {
             event.getChannel().sendMessage(
-                    String.format("%s%s (Ratelimited)\n **You'll be able to use this command again in %s.**",
-                            EmoteReference.STOPWATCH, ratelimitQuotes[random.nextInt(ratelimitQuotes.length)], Utils.getHumanizedTime(rateLimit.getCooldown()))
-                    + (rateLimit.getSpamAttempts() > 2 ? "\n\n" + EmoteReference.STOP + "Please rest, it's good for your health :( *Remember that Ratelimit will keep increasing if you try before the cooldown resets!*" : "")
-                    + (rateLimit.getSpamAttempts() > 4 ? "\nI think stopping is the best option for now..." : "")
+                    String.format(context.get("general.ratelimit.header"),
+                            EmoteReference.STOPWATCH, context.get("general.ratelimit_quotes"), Utils.getHumanizedTime(rateLimit.getCooldown()))
+                    + (rateLimit.getSpamAttempts() > 2 ? "\n\n" + EmoteReference.STOP + context.get("general.ratelimit.spam_1") : "")
+                    + (rateLimit.getSpamAttempts() > 4 ? context.get("general.ratelimit.spam_2") : "")
             ).queue();
 
             onRateLimit(u);
@@ -687,7 +682,9 @@ public class Utils {
 
         try {
             Request request = new Request.Builder()
-                    .url(config.apiTwoUrl + "/mantaroapi/hush")
+                    .url(config.apiTwoUrl + "/mantaroapi/bot/hush")
+                    .addHeader("Authorization", config.getApiAuthKey())
+                    .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                     .post(RequestBody.create(
                             okhttp3.MediaType.parse("application/json"),
                             new JSONObject()
@@ -708,6 +705,38 @@ public class Utils {
         }
     }
 
+    public static Pair<Boolean, String> getPledgeInformation(String user) {
+        if(!config.needApi)
+            return null; //nothing to query on.
+
+        try {
+            Request request = new Request.Builder()
+                    .url(config.apiTwoUrl + "/mantaroapi/bot/patreon/check")
+                    .addHeader("Authorization", config.getApiAuthKey())
+                    .addHeader("User-Agent", MantaroInfo.USER_AGENT)
+                    .post(RequestBody.create(
+                            okhttp3.MediaType.parse("application/json"),
+                            new JSONObject()
+                                    .put("id", user)
+                                    .put("context", config.isPremiumBot())
+                                    .toString()
+                    ))
+                    .build();
+
+            Response response = httpClient.newCall(request).execute();
+            String body = response.body().string();
+            response.close();
+
+            JSONObject reply = new JSONObject(body);
+
+            return new Pair<>(reply.getBoolean("active"), reply.getString("amount"));
+        } catch (Exception ex) {
+            //don't disable premium if the api is wonky, no need to be a meanie.
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
 
     public static boolean isValidTimeZone(final String timeZone) {
         final String DEFAULT_GMT_TIMEZONE = "GMT";
@@ -718,6 +747,18 @@ public class Utils {
             return !id.equals(DEFAULT_GMT_TIMEZONE);
         }
 
+    }
+
+    public static String prettyDisplay(String header, String body) {
+        return BLUE_SMALL_MARKER + "**" + header + "**: " + body;
+    }
+
+    @SafeVarargs
+    @SuppressWarnings("varargs")
+    public static <T> LinkedList<T> createLinkedList(T... elements) {
+        LinkedList<T> list = new LinkedList<>();
+        Collections.addAll(list, elements);
+        return list;
     }
 
     public enum HushType {

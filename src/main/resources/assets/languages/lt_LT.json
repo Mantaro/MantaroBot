@@ -509,13 +509,19 @@
         },
         "cast": {
             "no_item_found": "%1$sNeradau jokio panašaus daikto.",
-            "item_not_cast": "%1$sYou cannot cast this item.",
+            "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. You can check `~>cast ls` for a list of castable items.",
             "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
             "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
             "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
             "success": "%1$sYou successfully *casted %2$s %3$s* for %4$s credits. *Cast used: %5$s*",
             "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
-            "item_broke": "\nSadly, your wrench broke in the process, but you got your item!"
+            "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
+            "ls": {
+                "header": "Castable Item List",
+                "cost": "Cast Cost: ",
+                "desc": "This is a list of the items you can cast using `~>cast`. You have to use the full name or the short name to cast it (example: `~>cast diamond pickaxe` or `~>cast diamond p` works)\n**Casting has a cost of half the price of the item. The casting price will be shown down below.**"
+            },
+            "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?"
         },
         "market": {
             "dump": {
@@ -1109,7 +1115,7 @@
         "help": {
             "title": "Mantaro Pagalba",
             "base": "Komandų sąrašas. Detalesniam naudojimo gidui, patikrink Mantaro [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
-            "support": "Jeigu turite kokių nors problemų ar klausimų naudojantis Mantaro, prisijunkite prie [pagalbos serverio](https://is.gd/mantaroguild)\n",
+            "support": "Jeigu turite kokių nors problemų ar klausimų naudojantis Mantaro, prisijunkite prie [pagalbos serverio](https://support.mantaro.site)\n",
             "patreon": "[Mums reikia pagalbos palaikyti Mantaro gyvą! Nuspausk čia, kad gautum daugiau informacijos.](https://www.patreon.com/mantaro)",
             "disabled_commands": "Rodomos tik neišjungtos komandos. Viso išjungtų komandų: %1$s",
             "channel_specific_disabled_commands": "Rodomos tik neišjungtos komandos. Viso kanalui išjungtų komandų: %1$s",
@@ -1440,7 +1446,8 @@
             "warning": "%1$sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
             "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and un-assigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
             "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users.",
-            "warning_3": "Type **yes** if you agree to set the role %1$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
+            "warning_3": "Additionally the birthday cache (what is used to store them) is only updated every 23 hours. Meaning if you set your birthday today to tomorrow to test this announcer it will **not** work.",
+            "warning_4": "Type **yes** if you agree to set the role %1$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
             "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
             "error_channel_1": "%1$sI didn't find a channel or role!",
             "error_channel_2": "**Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".**"

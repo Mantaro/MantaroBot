@@ -17,11 +17,12 @@
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.kodehawa.mantarobot.commands.OptsCmd;
+import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -72,7 +73,9 @@ public class GuildOptions extends OptionHandler {
             String language = args[0];
 
             if(!I18n.isValidLanguage(language)) {
-                event.getChannel().sendMessageFormat("%s`%s` is not a valid language or it's not yet supported by Mantaro.", EmoteReference.ERROR2, language).queue();
+                new MessageBuilder().append(String.format("%s`%s` is not a valid language or it's not yet supported by Mantaro.", EmoteReference.ERROR2, language))
+                        .stripMentions(event.getJDA())
+                        .sendTo(event.getChannel()).queue();
                 return;
             }
 
@@ -120,13 +123,22 @@ public class GuildOptions extends OptionHandler {
                 return;
             }
 
+            User user = m.getUser();
+            String message = String.format("%s%s is a year older now! (test)", EmoteReference.POPPER, m.getEffectiveName());
+            if(dbGuild.getData().getBirthdayMessage() != null) {
+                message = dbGuild.getData().getBirthdayMessage().replace("$(user)", user.getName() + "#" + user.getDiscriminator());
+            }
+
+            //Value used in lambda... blabla :c
+            final String finalMessage = message;
+
             event.getGuild().getController().addSingleRoleToMember(m, birthdayRole).queue(success ->
-                    birthdayChannel.sendMessage(String.format("%s%s is a year older now! (test)", EmoteReference.POPPER, m.getEffectiveName())).queue(s ->
-                                    event.getChannel().sendMessageFormat(lang.get("options.birthday_test.success"),
-                            EmoteReference.CORRECT, birthdayChannel.getName(), m.getEffectiveName(), birthdayRole.getName()
+                    new MessageBuilder(finalMessage).stripMentions(event.getJDA()).sendTo(birthdayChannel).queue(s ->
+                            event.getChannel().sendMessageFormat(lang.get("options.birthday_test.success"),
+                                    EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
                     ).queue(), error ->
                             event.getChannel().sendMessageFormat(lang.get("options.birthday_test.error"),
-                                    EmoteReference.CORRECT, birthdayChannel.getName(), m.getEffectiveName(), birthdayRole.getName()
+                                    EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
                     ).queue())
             );
         });
@@ -169,7 +181,8 @@ public class GuildOptions extends OptionHandler {
                                 String.join("\n", lang.get("options.birthday_enable.warning"),
                                         lang.get("options.birthday_enable.warning_1"),
                                         lang.get("options.birthday_enable.warning_2"),
-                                        lang.get("options.birthday_enable.warning_3")), EmoteReference.WARNING, roleObj.getName()
+                                        lang.get("options.birthday_enable.warning_3"),
+                                        lang.get("options.birthday_enable.warning_4")), EmoteReference.WARNING, roleObj.getName()
                         ).queue();
                         InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 45, interactiveEvent -> {
                             String content = interactiveEvent.getMessage().getContentRaw();
@@ -195,8 +208,7 @@ public class GuildOptions extends OptionHandler {
                                 EmoteReference.ERROR
                         ).queue();
                     } catch (Exception ex) {
-                        event.getChannel().sendMessage(lang.get("general.invalid_syntax")).queue();
-                        OptsCmd.onHelp(event);
+                        event.getChannel().sendMessage(lang.get("general.invalid_syntax") + "\nCheck https://github.com/Mantaro/MantaroBot/wiki/Configuration for more information.").queue();
                     }
                 });
 
@@ -236,7 +248,10 @@ public class GuildOptions extends OptionHandler {
                     GuildData guildData = dbGuild.getData();
                     guildData.setGuildCustomPrefix(prefix);
                     dbGuild.save();
-                    event.getChannel().sendMessageFormat(lang.get("options.prefix_set.success"), EmoteReference.MEGA, prefix).queue();
+
+                    new MessageBuilder().append(String.format(lang.get("options.prefix_set.success"), EmoteReference.MEGA, prefix))
+                            .stripMentions(event.getJDA())
+                            .sendTo(event.getChannel()).queue();
                 });//endregion
 
         //region clear
@@ -427,7 +442,7 @@ public class GuildOptions extends OptionHandler {
                     if (channel != null) {
                         consumer.accept(channel);
                     }
-                });//endregion
+        });//endregion
 
         //region joinmessage
         registerOption("usermessage:joinmessage", "User join message",
@@ -446,7 +461,7 @@ public class GuildOptions extends OptionHandler {
                     guildData.setJoinMessage(joinMessage);
                     dbGuild.save();
                     event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage.success"), EmoteReference.CORRECT, joinMessage).queue();
-                });//endregion
+        });//endregion
 
         //region leavemessage
         registerOption("usermessage:leavemessage", "User leave message",
@@ -465,7 +480,7 @@ public class GuildOptions extends OptionHandler {
                     guildData.setLeaveMessage(leaveMessage);
                     dbGuild.save();
                     event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage.success"), EmoteReference.CORRECT, leaveMessage).queue();
-                });//endregion
+        });//endregion
 
         registerOption("usermessage:joinmessages:add", "Join Message extra messages add", "Adds a new join message\n" +
                 "**Example**: `~>opts usermessage joinmessages add hi`" , "Adds a new join message", ((event, args, lang) -> {
@@ -967,6 +982,55 @@ public class GuildOptions extends OptionHandler {
 
                     event.getChannel().sendMessageFormat(lang.get("options.birthday_message_clear.success"), EmoteReference.CORRECT).queue();
         });
+
+        //region joinmessage
+        registerOption("modlog:blacklistwords:add", "Modlog Word Blacklist add",
+                "Adds a word to the modlog word blacklist (won't add any messages with that word). Can contain spaces.\n" +
+                        "**Example:** `~>opts modlog blacklistwords add mood`",
+                "Sets the join message.", (event, args, lang) -> {
+                    if (args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_add.no_word"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    if(guildData.getModLogBlacklistWords().size() > 20) {
+                        event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_add.too_many"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    String word = String.join(" ", args);
+                    guildData.getModLogBlacklistWords().add(word);
+                    dbGuild.save();
+                    event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_add.success"), EmoteReference.CORRECT, word).queue();
+        });//endregion
+
+        //region joinmessage
+        registerOption("modlog:blacklistwords:remove", "Modlog Word Blacklist remove",
+                "Removes a word from the modlog word blacklist. Can contain spaces\n" +
+                        "**Example:** `~>opts modlog blacklistwords remove mood`",
+                "Sets the join message.", (event, args, lang) -> {
+                    if (args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_add.no_word"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    String word = String.join(" ", args);
+
+                    if(!guildData.getModLogBlacklistWords().contains(word)) {
+                        event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_remove.not_in"), EmoteReference.ERROR, word).queue();
+                        return;
+                    }
+
+                    guildData.getModLogBlacklistWords().remove(word);
+                    dbGuild.save();
+                    event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_remove.success"), EmoteReference.CORRECT, word).queue();
+        });//endregion
     }
 
     @Override

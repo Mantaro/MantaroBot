@@ -22,11 +22,17 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.options.core.Option;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 @Getter
 public class AliasCommand implements Command {
+    private List<String> aliases;
     private final Command command;
     private final String commandName;
     private final String originalName;
@@ -35,6 +41,7 @@ public class AliasCommand implements Command {
         this.commandName = commandName;
         this.command = command;
         this.originalName = originalName;
+        this.aliases = command.getAliases();
     }
 
     public Category parentCategory() {
@@ -51,8 +58,8 @@ public class AliasCommand implements Command {
     }
 
     @Override
-    public MessageEmbed help(GuildMessageReceivedEvent event) {
-        return command.help(event);
+    public HelpContent help() {
+        return command.help();
     }
 
     @Override
@@ -70,4 +77,10 @@ public class AliasCommand implements Command {
         Option.addOption(call, option);
         return this;
     }
+
+    @Override
+    public List<String> getAliases() {
+        return aliases;
+    }
+
 }
