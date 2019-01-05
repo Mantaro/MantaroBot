@@ -79,7 +79,7 @@ public class CurrencyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Map<String, Optional<String>> t = StringUtils.parse(args);
-                content = Utils.replaceArguments(t, content, "brief", "calculate", "calc", "c");
+                content = Utils.replaceArguments(t, content, "brief", "calculate", "calc", "c", "info", "full");
                 Member member = Utils.findMember(event, event.getMember(), content);
 
                 if(member == null)
