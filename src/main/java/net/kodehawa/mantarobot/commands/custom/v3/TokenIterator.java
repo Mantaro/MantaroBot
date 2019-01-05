@@ -73,7 +73,7 @@ public class TokenIterator implements Iterator<Token> {
                     break;
                 }
                 case '@': {
-                    if(i < input.length() - 1 && input.charAt(i + 1) == '(') {
+                    if(i < input.length() - 1 && input.charAt(i + 1) == '{') {
                         if(current.length() > 0) {
                             out.add(new Token(i - current.length(), i - 1, TokenType.LITERAL, current.toString()));
                             current.setLength(0);

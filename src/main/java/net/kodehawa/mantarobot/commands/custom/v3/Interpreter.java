@@ -34,7 +34,7 @@ public class Interpreter {
                     JSONArray data = node.getJSONArray("data");
                     String[] args = new String[data.length()];
                     for(int j = 0; j < args.length; j++) {
-                        args[i] = exec(data.getJSONArray(i));
+                        args[j] = exec(data.getJSONArray(j));
                     }
                     Operation operation = operations.get(name);
                     if(operation != null) {
