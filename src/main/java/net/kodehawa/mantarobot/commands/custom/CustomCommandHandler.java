@@ -9,6 +9,7 @@ import net.kodehawa.mantarobot.commands.MiscCmds;
 import net.kodehawa.mantarobot.commands.custom.legacy.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.commands.custom.v3.CCv3;
+import net.kodehawa.mantarobot.commands.custom.v3.Parser;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -116,7 +117,7 @@ public class CustomCommandHandler {
             return;
 
         if(response.startsWith("v3:")) {
-            CCv3.process(event, new JSONArray(response.substring(3)), preview);
+            CCv3.process(event, new Parser(response.substring(3)).parse(), preview);
             return;
         }
 
