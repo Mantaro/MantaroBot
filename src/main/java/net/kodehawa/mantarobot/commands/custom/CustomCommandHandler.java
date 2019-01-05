@@ -8,11 +8,13 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.MiscCmds;
 import net.kodehawa.mantarobot.commands.custom.legacy.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
+import net.kodehawa.mantarobot.commands.custom.v3.CCv3;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import org.json.JSONArray;
 
 import java.net.URL;
 import java.util.LinkedHashMap;
@@ -113,6 +115,11 @@ public class CustomCommandHandler {
         if (specialHandling())
             return;
 
+        if(response.startsWith("v3:")) {
+            CCv3.process(event, new JSONArray(response.substring(3)), preview);
+            return;
+        }
+
         MessageBuilder builder = new MessageBuilder().setContent(filtered1.matcher(response).replaceAll("-filtered regex-"));
         if(preview) {
             builder.append("\n\n")
@@ -134,6 +141,10 @@ public class CustomCommandHandler {
     }
 
     private boolean processResponse() {
+        if (response.startsWith("v3:")) {
+            return true;
+        }
+
         if (response.startsWith("text:")) {
             return true;
         }
