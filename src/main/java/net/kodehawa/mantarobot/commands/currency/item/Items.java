@@ -547,8 +547,11 @@ public class Items {
 
             //Effect is active when it's been used less than the max amount
             if(!equipment.isEffectActive(type, ((Potion) item).getMaxUses())) {
-                //Reset effect and save.
-                equipment.resetEffect(type);
+                //Reset effect if the current amount equipped is 0. Else, subtract one from the current amount equipped.
+                if(!equipment.getCurrentEffect(type).use()) {
+                    equipment.resetEffect(type);
+                }
+
                 user.save();
 
                 return false;

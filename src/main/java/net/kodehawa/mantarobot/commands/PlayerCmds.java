@@ -545,10 +545,10 @@ public class PlayerCmds {
                         prettyDisplay(ctx.get("commands.profile.stats.market"), playerData.getMarketUsed() + " " + ctx.get("commands.profile.stats.times")),
 
                         //Potion display
-                        prettyDisplay(ctx.get("commands.profile.stats.potion"), noPotion ? "None" : potion.getName()),
+                        prettyDisplay(ctx.get("commands.profile.stats.potion"), noPotion ? "None" : String.format("%s (%dx)", potion.getName(), equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION).getAmountEquipped())),
                         "\u3000 " +
                                 EmoteReference.BOOSTER + ctx.get("commands.profile.stats.times_used") + ": " + (noPotion ? "Not equipped" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION).getTimesUsed() + " " + ctx.get("commands.profile.stats.times")),
-                        prettyDisplay(ctx.get("commands.profile.stats.buff"), noBuff ? "None" : buff.getName()),
+                        prettyDisplay(ctx.get("commands.profile.stats.buff"), noBuff ? "None" : String.format("%s (%dx)", buff.getName(), equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF).getAmountEquipped())),
                         "\u3000 " +
                                 EmoteReference.BOOSTER + ctx.get("commands.profile.stats.times_used") + ": " + (noBuff ? "Not equipped" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF).getTimesUsed()  + " " + ctx.get("commands.profile.stats.times")),
                         //End of potion display

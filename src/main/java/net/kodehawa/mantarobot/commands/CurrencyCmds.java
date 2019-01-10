@@ -863,15 +863,26 @@ public class CurrencyCmds {
                         if((item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.BUFF) && item instanceof Potion) {
                             DBUser dbUser = db.getUser(event.getAuthor());
                             UserData userData = dbUser.getData();
+                            final PlayerEquipment equippedItems = userData.getEquippedItems();
 
-                            PlayerEquipment.EquipmentType type = userData.getEquippedItems().getTypeFor(item);
-                            if(userData.getEquippedItems().isEffectActive(type, ((Potion) item).getMaxUses())) {
-                                event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_active"), EmoteReference.ERROR, item.getName()).queue();
-                                return;
+                            PlayerEquipment.EquipmentType type = equippedItems.getTypeFor(item);
+                            if(equippedItems.isEffectActive(type, ((Potion) item).getMaxUses())) {
+                                PotionEffect currentPotion = equippedItems.getCurrentEffect(type);
+                                if(currentPotion.equip()) {
+                                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied_multiple"),
+                                            EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), currentPotion.getAmountEquipped()
+                                    ).queue();
+                                } else {
+                                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size"), EmoteReference.ERROR, item.getName()).queue();
+                                    return;
+                                }
+                            } else {
+                                equippedItems.applyEffect(new PotionEffect(Items.idOf(item), System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
+                                event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied"),
+                                        EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString())
+                                ).queue();
                             }
 
-                            userData.getEquippedItems().applyEffect(new PotionEffect(Items.idOf(item), System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
-                            event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied"), EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString())).queue();
 
                             p.getInventory().process(new ItemStack(item, -1));
                             p.save();
