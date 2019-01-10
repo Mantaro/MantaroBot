@@ -919,8 +919,9 @@ public class CurrencyCmds {
                 return new HelpContent.Builder()
                         .setDescription("Uses an item.\n" +
                                 "You need to have the item to use it, and the item has to be marked as *interactive*.")
-                        .setUsage("`~>useitem <item>` - Uses the specified item")
+                        .setUsage("`~>useitem <item> [-amount]` - Uses the specified item")
                         .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
+                        .addParameterOptional("-amount", "The amount of items you want to use. Only works with potions/buffs.")
                         .build();
             }
         });
