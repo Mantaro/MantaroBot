@@ -52,7 +52,7 @@
       },
       "potion_active": "%1$sTu as déjà un effet de potion **%2$s** active!",
       "potion_not_found": "%1$sJe ne trouve pas ce type de potion ou d'équipement!",
-      "potion_applied": "%1$sEffet **%2$s** du type *%3$s* appliqué avec succès. Regarde ton nouvel effet avec `~>profile stats`"
+      "potion_applied": "%1$sEffet **%2$s** du type *%3$s* appliqué avec succès (%4$dx). Regarde ton nouvel effet avec `~>profile stats`"
     },
     "mention_user_required": "%1$sTu as besoin de mentionner un utilisateur.",
     "invalid_character": "%1$sCe n'est pas un caractère autorisé.",

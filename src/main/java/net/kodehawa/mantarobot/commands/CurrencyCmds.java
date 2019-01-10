@@ -79,7 +79,7 @@ public class CurrencyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Map<String, Optional<String>> t = StringUtils.parse(args);
-                content = Utils.replaceArguments(t, content, "brief", "calculate", "calc", "c");
+                content = Utils.replaceArguments(t, content, "brief", "calculate", "calc", "c", "info", "full");
                 Member member = Utils.findMember(event, event.getMember(), content);
 
                 if(member == null)
@@ -826,13 +826,15 @@ public class CurrencyCmds {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                         final ManagedDatabase db = MantaroData.db();
+                        String[] args = StringUtils.efficientSplitArgs(content, 2);
+                        Map<String, Optional<String>> t = StringUtils.parse(content.split("\\s+"));
 
                         if(content.isEmpty()) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_items_specified"), EmoteReference.ERROR).queue();
                             return;
                         }
 
-                        Item item = Items.fromAnyNoId(content).orElse(null);
+                        Item item = Items.fromAnyNoId(args[0]).orElse(null);
                         if(item == null) {
                             event.getChannel().sendMessageFormat(languageContext.get("general.item_lookup.not_found"), EmoteReference.ERROR).queue();
                             return;
@@ -863,17 +865,44 @@ public class CurrencyCmds {
                         if((item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.BUFF) && item instanceof Potion) {
                             DBUser dbUser = db.getUser(event.getAuthor());
                             UserData userData = dbUser.getData();
+                            final PlayerEquipment equippedItems = userData.getEquippedItems();
+                            PlayerEquipment.EquipmentType type = equippedItems.getTypeFor(item);
 
-                            PlayerEquipment.EquipmentType type = userData.getEquippedItems().getTypeFor(item);
-                            if(userData.getEquippedItems().isEffectActive(type, ((Potion) item).getMaxUses())) {
-                                event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_active"), EmoteReference.ERROR, item.getName()).queue();
+                            //Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
+                            int amount = t.containsKey("amount") ? Integer.parseInt(t.get("amount").orElse("1")) : 1;
+
+                            if(p.getInventory().getAmount(item) < amount) {
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.not_enough_items"), EmoteReference.SAD).queue();
                                 return;
                             }
 
-                            userData.getEquippedItems().applyEffect(new PotionEffect(Items.idOf(item), System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
-                            event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied"), EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString())).queue();
+                            if(equippedItems.isEffectActive(type, ((Potion) item).getMaxUses())) {
+                                PotionEffect currentPotion = equippedItems.getCurrentEffect(type);
+                                if(currentPotion.equip(amount)) {
+                                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied_multiple"),
+                                            EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), currentPotion.getAmountEquipped()).queue();
+                                } else {
+                                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size"), EmoteReference.ERROR, item.getName()).queue();
+                                    return;
+                                }
+                            } else {
+                                PotionEffect effect = new PotionEffect(Items.idOf(item), 0, ItemType.PotionType.PLAYER);
+                                if(amount > 1)
+                                    effect.equip(amount - 1);
+                                if(amount > 10) {
+                                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size"), EmoteReference.ERROR, item.getName()).queue();
+                                    return;
+                                }
 
-                            p.getInventory().process(new ItemStack(item, -1));
+                                equippedItems.applyEffect(effect);
+
+                                event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied"),
+                                        EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), amount).queue();
+                            }
+
+
+                            //Default: 1
+                            p.getInventory().process(new ItemStack(item, -amount));
                             p.save();
                             dbUser.save();
 
@@ -890,8 +919,9 @@ public class CurrencyCmds {
                 return new HelpContent.Builder()
                         .setDescription("Uses an item.\n" +
                                 "You need to have the item to use it, and the item has to be marked as *interactive*.")
-                        .setUsage("`~>useitem <item>` - Uses the specified item")
+                        .setUsage("`~>useitem <item> [-amount]` - Uses the specified item")
                         .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
+                        .addParameterOptional("-amount", "The amount of items you want to use. Only works with potions/buffs.")
                         .build();
             }
         });

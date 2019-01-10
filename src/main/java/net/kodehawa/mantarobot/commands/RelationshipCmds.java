@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
@@ -59,10 +60,8 @@ import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.awt.*;
 import java.time.Instant;
-import java.util.Date;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Module
@@ -804,6 +803,8 @@ public class RelationshipCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                Map<String, Optional<String>> t = StringUtils.parse(content.split("\\s+"));
+                content = Utils.replaceArguments(t, content, "unknown");
                 boolean isId = content.matches("\\d{16,20}");
 
                 if(content.isEmpty() && !isId) {
@@ -821,21 +822,24 @@ public class RelationshipCmds {
 
                 final ManagedDatabase db = MantaroData.db();
                 User toLookup = isId ? MantaroBot.getInstance().getUserById(content) : member.getUser();
-
-                if(toLookup == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.not_found"), EmoteReference.ERROR).queue();
+                boolean isUnknown = isId && t.containsKey("unknown") && toLookup == null;
+                if(toLookup == null && !isUnknown) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.not_found"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                if(toLookup.isBot()) {
+                //It'll only be null if -unknown is passed with an unknown ID. This is unclaim, so this check is a bit irrelevant though.
+                if(!isUnknown && toLookup.isBot()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.bot"), EmoteReference.ERROR).queue();
                     return;
                 }
 
+                String userId = isUnknown ? content : toLookup.getId();
+                String name = isUnknown ? "Unknown User" : toLookup.getName();
                 final DBUser claimerUser = db.getUser(event.getAuthor());
                 final UserData data = claimerUser.getData();
 
-                Long value = data.getWaifus().get(toLookup.getId());
+                Long value = data.getWaifus().get(userId);
 
                 if(value == null) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.not_claimed"), EmoteReference.ERROR).queue();
@@ -846,7 +850,7 @@ public class RelationshipCmds {
 
                 //Send confirmation message.
                 event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.confirmation"), EmoteReference.MEGA,
-                        toLookup.getName(), valuePayment, EmoteReference.STOPWATCH
+                        name, valuePayment, EmoteReference.STOPWATCH
                 ).queue();
 
                 InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 60, (ie) -> {
@@ -884,11 +888,11 @@ public class RelationshipCmds {
                         }
 
                         p.removeMoney(valuePayment);
-                        userData.getWaifus().remove(toLookup.getId());
+                        userData.getWaifus().remove(userId);
                         user.save();
                         p.save();
 
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.success"), EmoteReference.CORRECT, toLookup.getName(), valuePayment).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.success"), EmoteReference.CORRECT, name, valuePayment).queue();
                         return Operation.COMPLETED;
                     } else if (c.equalsIgnoreCase("no")) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.scrapped"), EmoteReference.CORRECT).queue();

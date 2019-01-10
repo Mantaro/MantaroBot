@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands.currency.item;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.beans.ConstructorProperties;
@@ -29,6 +30,7 @@ public class PotionEffect {
     private long until;
     private ItemType.PotionType type;
     private long timesUsed;
+    private long amountEquipped = 1;
 
     @JsonCreator
     @ConstructorProperties({"potionId", "until", "type"})
@@ -37,5 +39,32 @@ public class PotionEffect {
         this.potion = potionId;
         this.until = until;
         this.type = type;
+    }
+
+    @JsonIgnore
+    public boolean use() {
+        long newAmount = amountEquipped - 1;
+        if(newAmount < 1) {
+            return false;
+        } else {
+            setAmountEquipped(newAmount);
+            return true;
+        }
+    }
+
+    @JsonIgnore
+    public boolean equip(int amount) {
+        long newAmount = amountEquipped + amount;
+        if(newAmount >= 10) {
+            return false;
+        } else {
+            setAmountEquipped(newAmount);
+            return true;
+        }
+    }
+
+    @JsonIgnore
+    public boolean equip() {
+        return equip(1);
     }
 }
