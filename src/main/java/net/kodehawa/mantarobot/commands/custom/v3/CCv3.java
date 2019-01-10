@@ -123,7 +123,7 @@ public class CCv3 {
             }
             String value = args.stream().skip(1).collect(Collectors.joining(";"));
             context.vars().put(args.get(0), value);
-            return value;
+            return "";
         });
     }
 
