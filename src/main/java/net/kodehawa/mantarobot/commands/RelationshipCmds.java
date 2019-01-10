@@ -824,7 +824,7 @@ public class RelationshipCmds {
                 User toLookup = isId ? MantaroBot.getInstance().getUserById(content) : member.getUser();
                 boolean isUnknown = isId && t.containsKey("unknown") && toLookup == null;
                 if(toLookup == null && !isUnknown) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.not_found"), EmoteReference.ERROR).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.not_found"), EmoteReference.ERROR).queue();
                     return;
                 }
 

@@ -512,7 +512,7 @@
         "success": "%1$sSuccessfully claimed `%2$s` for %3$,d. Slots used: %4$s",
         "yourself": "%1$sYou cannot claim yourself!",
         "already_claimed": "%1$sYou already claimed this waifu.",
-        "not_found": "%1$sI can't find any user with this query."
+        "not_found": "%1$sI can't find any user with this query. "
       },
       "unclaim": {
         "no_user": "%1$sYou need to mention a waifu to un-claim.",
@@ -521,7 +521,8 @@
         "not_enough_money": "%1$sYou don't have enough money to un-claim this waifu!",
         "player_locked": "%1$sYou cannot do this at the moment.",
         "scrapped": "%1$sCancelled waifu un-claiming.",
-        "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**."
+        "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**.",
+        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID and append `-unknown` at the end."
       },
       "buyslot": {
         "locked": "%1$sYou're currently unable to perform this action.",
