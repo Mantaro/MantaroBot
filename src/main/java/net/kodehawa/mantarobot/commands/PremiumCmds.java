@@ -115,7 +115,7 @@ public class PremiumCmds {
 
                     PremiumKey currentUserKey = db.getPremiumKey(user.getData().getPremiumKey());
 
-                    if(currentUserKey != null && currentUserKey.isEnabled() && currentTimeMillis() < currentUserKey.getExpiration()) { //Should always be enabled...
+                    if(user.isPremium()) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.user_already_premium"), EmoteReference.POPPER).queue();
                         return;
                     }

@@ -149,6 +149,12 @@ public class DBUser implements ManagedObject {
             isActive = key.getData().getLinkedTo() == null || (pledgeInfo != null ? pledgeInfo.getLeft() : true); //default to true if no link
         }
 
+        if(!isActive && key != null) {
+            //Handle this so we don't go over this check again. Remove premium key from user object.
+            key.delete();
+            removePremiumKey();
+        }
+
         //TODO remove old system check.
         return  //old system, deprecated, maybe remove later?
                 currentTimeMillis() < premiumUntil ||
@@ -162,7 +168,7 @@ public class DBUser implements ManagedObject {
         PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days), currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.USER, true, owner, new PremiumKeyData());
         data.setPremiumKey(premiumId);
         newKey.saveAsync();
-        saveAsync();
+        save();
         return newKey;
     }
 
@@ -170,6 +176,6 @@ public class DBUser implements ManagedObject {
     public void removePremiumKey() {
         data.setPremiumKey(null);
         data.setHasReceivedFirstKey(false);
-        saveAsync();
+        save();
     }
 }
