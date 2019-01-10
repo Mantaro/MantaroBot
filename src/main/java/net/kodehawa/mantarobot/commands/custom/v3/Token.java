@@ -1,24 +1,18 @@
 package net.kodehawa.mantarobot.commands.custom.v3;
 
 public class Token {
-    private final int start;
-    private final int end;
+    private final Position position;
     private final TokenType type;
     private final String value;
 
-    public Token(int start, int end, TokenType type, String value) {
-        this.start = start;
-        this.end = end;
+    public Token(Position position, TokenType type, String value) {
+        this.position = position;
         this.type = type;
         this.value = value;
     }
 
-    public int start() {
-        return start;
-    }
-
-    public int end() {
-        return end;
+    public Position position() {
+        return position;
     }
 
     public TokenType type() {
@@ -31,7 +25,7 @@ public class Token {
 
     @Override
     public int hashCode() {
-        return value.hashCode() ^ start ^ end;
+        return value.hashCode() ^ position.hashCode();
     }
 
     @Override
@@ -41,12 +35,12 @@ public class Token {
         }
 
         Token token = (Token)obj;
-        return token.start == start && token.end == end
+        return token.position.equals(position)
             && token.type == type && token.value.equals(value);
     }
 
     @Override
     public String toString() {
-        return "Token(" + start + "-" + end + ", " + type + ", '" + value + "')";
+        return "Token(" + position + ", " + type + ", '" + value + "')";
     }
 }
