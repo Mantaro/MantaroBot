@@ -877,7 +877,7 @@ public class CurrencyCmds {
                                     return;
                                 }
                             } else {
-                                equippedItems.applyEffect(new PotionEffect(Items.idOf(item), System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2), ItemType.PotionType.PLAYER));
+                                equippedItems.applyEffect(new PotionEffect(Items.idOf(item), 0, ItemType.PotionType.PLAYER));
                                 event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied"),
                                         EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString())
                                 ).queue();

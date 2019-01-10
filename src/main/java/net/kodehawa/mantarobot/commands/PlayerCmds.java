@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
+import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
@@ -519,7 +520,9 @@ public class PlayerCmds {
                 Map<String, Optional<String>> t = StringUtils.parse(content.isEmpty() ? new String[]{} : content.split("\\s+"));
                 content = Utils.replaceArguments(t, content, "brief");
                 Member member = Utils.findMember(event, event.getMember(), content);
-                if(member == null) return;
+
+                if(member == null)
+                    return;
 
                 User toLookup = member.getUser();
 
@@ -530,32 +533,48 @@ public class PlayerCmds {
                 PlayerStats playerStats = managedDatabase.getPlayerStats(toLookup);
 
                 PlayerEquipment equippedItems = data.getEquippedItems();
+
                 Potion potion = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.POTION);
                 Potion buff = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.BUFF);
-                boolean isPotionActive = potion != null && equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses());
-                boolean isBuffActive = buff != null && equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses());
+                PotionEffect potionEffect = equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION);
+                PotionEffect buffEffect = equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF);
+
+                boolean isPotionActive = potion != null && (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses()) || potionEffect.getAmountEquipped() > 1);
+                boolean isBuffActive = buff != null && (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses()) || buffEffect.getAmountEquipped() > 1);
                 boolean equipmentEmpty = equippedItems.getEquipment().isEmpty();
+
+                long potionEquipped = 0;
+                long buffEquipped = 0;
+
+                if(potion != null)
+                    potionEquipped = equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses()) ? potionEffect.getAmountEquipped() : potionEffect.getAmountEquipped() - 1;
+                if(buff != null)
+                    buffEquipped = equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses()) ? potionEffect.getAmountEquipped() : buffEffect.getAmountEquipped() - 1;
 
                 //no need for decimals
                 long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
                 boolean noPotion = potion == null || !isPotionActive;
                 boolean noBuff = buff == null || !isBuffActive;
 
+                //This whole thing is a massive mess lmfao.
                 String s = String.join("\n",
                         prettyDisplay(ctx.get("commands.profile.stats.market"), playerData.getMarketUsed() + " " + ctx.get("commands.profile.stats.times")),
 
                         //Potion display
-                        prettyDisplay(ctx.get("commands.profile.stats.potion"), noPotion ? "None" : String.format("%s (%dx)", potion.getName(), equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION).getAmountEquipped())),
+                        prettyDisplay(ctx.get("commands.profile.stats.potion"), noPotion ? "None" : String.format("%s (%dx)", potion.getName(), potionEquipped)),
                         "\u3000 " +
-                                EmoteReference.BOOSTER + ctx.get("commands.profile.stats.times_used") + ": " + (noPotion ? "Not equipped" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION).getTimesUsed() + " " + ctx.get("commands.profile.stats.times")),
-                        prettyDisplay(ctx.get("commands.profile.stats.buff"), noBuff ? "None" : String.format("%s (%dx)", buff.getName(), equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF).getAmountEquipped())),
+                                EmoteReference.BOOSTER + ctx.get("commands.profile.stats.times_used") + ": " +
+                                    (noPotion ? "Not equipped" : potionEffect.getTimesUsed() + " " + ctx.get("commands.profile.stats.times")),
+                        prettyDisplay(ctx.get("commands.profile.stats.buff"), noBuff ? "None" : String.format("%s (%dx)", buff.getName(), buffEquipped)),
                         "\u3000 " +
-                                EmoteReference.BOOSTER + ctx.get("commands.profile.stats.times_used") + ": " + (noBuff ? "Not equipped" : equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF).getTimesUsed()  + " " + ctx.get("commands.profile.stats.times")),
+                                EmoteReference.BOOSTER + ctx.get("commands.profile.stats.times_used") + ": " +
+                                    (noBuff ? "Not equipped" : buffEffect.getTimesUsed()  + " " + ctx.get("commands.profile.stats.times")),
                         //End of potion display
 
                         prettyDisplay(ctx.get("commands.profile.stats.equipment"), ((equipmentEmpty) ? "None" :
                                 equippedItems.getEquipment().entrySet().stream().map((entry) -> Utils.capitalize(entry.getKey().toString()) + ": " +
                                         Items.fromId(entry.getValue()).toDisplayString()).collect(Collectors.joining(", ")))),
+
                         prettyDisplay(ctx.get("commands.profile.stats.experience"), playerData.getExperience() + "/" + experienceNext + " XP"),
                         prettyDisplay(ctx.get("commands.profile.stats.daily"), playerData.getDailyStreak() + " " + ctx.get("commands.profile.stats.days")),
                         prettyDisplay(ctx.get("commands.profile.stats.daily_at"), new Date(playerData.getLastDailyAt()).toString()),
