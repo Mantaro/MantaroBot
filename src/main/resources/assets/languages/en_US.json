@@ -30,7 +30,7 @@
     "item_lookup": {
       "no_item_emoji": "There isn't an item associated with this emoji.",
       "no_item_name": "There isn't an item associated with this name.",
-      "not_found": "Couldn't find any related items with your search.",
+      "not_found": "Couldn't find any related items with your search. If you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
       "claim_key": "You cannot transfer a claim key."
     },
     "misc_item_usage": {
@@ -52,9 +52,9 @@
       },
       "potion_active": "%1$sYou already have an active **%2$s** potion effect and have the max amount possible of it!",
       "potion_not_found": "%1$sI can't find that potion or equipment type!",
-      "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s*. Check your shiny new effect on `~>profile stats`",
+      "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `~>profile stats`",
       "potion_applied_multiple": "%1$sSuccessfully applied **%2$s** of type *%3$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you can. I don't think your body can handle more :("
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can."
     },
     "mention_user_required": "%1$sYou need to mention one user.",
     "invalid_character": "%1$sThat is not an allowed character.",
@@ -655,7 +655,8 @@
       "no_items_specified": "%1$sYou need to specify what item to use.",
       "not_interactive": "%1$sYou cannot interact with this item...",
       "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set...",
-      "no_item": "%1$sYou don't have this item in your inventory..."
+      "no_item": "%1$sYou don't have this item in your inventory...",
+      "not_enough_items": "%1$sYou don't have enough of this item."
     },
     "opts": {
       "note": "%1$sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",

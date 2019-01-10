@@ -52,7 +52,7 @@
       },
       "potion_active": "%1$sDu hast bereits einen aktiven **%2$s** Trankeffekt!",
       "potion_not_found": "%1$sIch kann diesen Trank- bzw. Equipmenttyp nicht finden!",
-      "potion_applied": "%1$sErfolgreich den Effekt **%2$s** des Types *%3$s* angewendet. Schau dir deinen tollen neuen Effekt unter `~>profile stats` an!"
+      "potion_applied": "%1$sErfolgreich den Effekt **%2$s** des Types *%3$s* angewendet (%4$dx). Schau dir deinen tollen neuen Effekt unter `~>profile stats` an!"
     },
     "mention_user_required": "%1$sDu musst einen Benutzer erwähnen.",
     "invalid_character": "%1$sDas ist kein erlaubtes Zeichen.",

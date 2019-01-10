@@ -53,13 +53,18 @@ public class PotionEffect {
     }
 
     @JsonIgnore
-    public boolean equip() {
-        long newAmount = amountEquipped + 1;
+    public boolean equip(int amount) {
+        long newAmount = amountEquipped + amount;
         if(newAmount >= 10) {
             return false;
         } else {
             setAmountEquipped(newAmount);
             return true;
         }
+    }
+
+    @JsonIgnore
+    public boolean equip() {
+        return equip(1);
     }
 }

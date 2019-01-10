@@ -70,7 +70,7 @@ public class Items {
             OVERFLOWED_BAG = new Item(ItemType.COLLECTABLE, "\uD83D\uDCB0","Moneybag", "items.moneybag", "items.description.moneybag", 95, true),
             BROM_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.29f, "\u26cf","Brom's Pickaxe", "items.pick", "items.description.pick", 100, true),
             MILK = new Item(ItemType.COMMON, EmoteReference.POTION1.getUnicode(),"Milk", "items.milk", "items.description.milk", 25, true),
-            ALCOHOL = new Item(ItemType.COMMON, EmoteReference.POTION2.getUnicode(),"Beverage", "items.beverage", "items.description.beverage", 25, true),
+            ALCOHOL = new Item(ItemType.COMMON, EmoteReference.POTION2.getUnicode(),"Old Beverage", "items.beverage", "items.description.beverage", 25, true),
             LEWD_MAGAZINE = new Item(ItemType.COMMON, EmoteReference.MAGAZINE.getUnicode(),"Lewd Magazine", "items.lewd", "items.description.lewd", 25, true),
             RING = new Item(ItemType.COMMON, EmoteReference.RING.getUnicode(),"Marriage Ring", "items.ring", "items.description.ring", 60, true),
             LOVE_LETTER = new Item(ItemType.COLLECTABLE, EmoteReference.LOVE_LETTER.getUnicode(),"Love Letter", "items.letter", "items.description.letter", 45, false, false),

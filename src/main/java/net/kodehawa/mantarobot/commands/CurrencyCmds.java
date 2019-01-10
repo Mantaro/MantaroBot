@@ -826,13 +826,15 @@ public class CurrencyCmds {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                         final ManagedDatabase db = MantaroData.db();
+                        String[] args = StringUtils.efficientSplitArgs(content, 2);
+                        Map<String, Optional<String>> t = StringUtils.parse(content.split("\\s+"));
 
                         if(content.isEmpty()) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_items_specified"), EmoteReference.ERROR).queue();
                             return;
                         }
 
-                        Item item = Items.fromAnyNoId(content).orElse(null);
+                        Item item = Items.fromAnyNoId(args[0]).orElse(null);
                         if(item == null) {
                             event.getChannel().sendMessageFormat(languageContext.get("general.item_lookup.not_found"), EmoteReference.ERROR).queue();
                             return;
@@ -864,27 +866,43 @@ public class CurrencyCmds {
                             DBUser dbUser = db.getUser(event.getAuthor());
                             UserData userData = dbUser.getData();
                             final PlayerEquipment equippedItems = userData.getEquippedItems();
-
                             PlayerEquipment.EquipmentType type = equippedItems.getTypeFor(item);
+
+                            //Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
+                            int amount = t.containsKey("amount") ? Integer.parseInt(t.get("amount").orElse("1")) : 1;
+
+                            if(p.getInventory().getAmount(item) < amount) {
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.not_enough_items"), EmoteReference.SAD).queue();
+                                return;
+                            }
+
                             if(equippedItems.isEffectActive(type, ((Potion) item).getMaxUses())) {
                                 PotionEffect currentPotion = equippedItems.getCurrentEffect(type);
-                                if(currentPotion.equip()) {
+                                if(currentPotion.equip(amount)) {
                                     event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied_multiple"),
-                                            EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), currentPotion.getAmountEquipped()
-                                    ).queue();
+                                            EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), currentPotion.getAmountEquipped()).queue();
                                 } else {
                                     event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size"), EmoteReference.ERROR, item.getName()).queue();
                                     return;
                                 }
                             } else {
-                                equippedItems.applyEffect(new PotionEffect(Items.idOf(item), 0, ItemType.PotionType.PLAYER));
+                                PotionEffect effect = new PotionEffect(Items.idOf(item), 0, ItemType.PotionType.PLAYER);
+                                if(amount > 1)
+                                    effect.equip(amount - 1);
+                                if(amount > 10) {
+                                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size"), EmoteReference.ERROR, item.getName()).queue();
+                                    return;
+                                }
+
+                                equippedItems.applyEffect(effect);
+
                                 event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied"),
-                                        EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString())
-                                ).queue();
+                                        EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), amount).queue();
                             }
 
 
-                            p.getInventory().process(new ItemStack(item, -1));
+                            //Default: 1
+                            p.getInventory().process(new ItemStack(item, -amount));
                             p.save();
                             dbUser.save();
 
