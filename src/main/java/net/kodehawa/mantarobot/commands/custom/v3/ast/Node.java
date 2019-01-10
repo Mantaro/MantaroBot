@@ -9,6 +9,8 @@ import java.util.List;
 public interface Node {
     <T, C> T accept(NodeVisitor<T, C> visitor, C context);
 
+    Node simplify();
+
     static Node fromJSON(JSONObject serialized) {
         switch(serialized.getString("type")) {
             case "literal": return new LiteralNode(serialized.getString("value"));

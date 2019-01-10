@@ -15,4 +15,9 @@ public class LiteralNode implements Node {
     public <T, C> T accept(NodeVisitor<T, C> visitor, C context) {
         return visitor.visitLiteral(this, context);
     }
+
+    @Override
+    public Node simplify() {
+        return this;
+    }
 }

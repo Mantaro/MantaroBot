@@ -32,7 +32,7 @@ public class Parser {
             if(stack.size() > 0) {
                 throw syntaxError(it, stack.pop(), '(');
             }
-            c.add(new VariableNode(new MultiNode(name)));
+            c.add(new VariableNode(new MultiNode(name).simplify()));
         });
         put(TokenType.START_OP, (it, c, t) -> {
             Stack<Position> stack = new Stack<>();
@@ -60,7 +60,7 @@ public class Parser {
                         if(!hasName) {
                             name = current;
                         } else {
-                            args.add(new MultiNode(current));
+                            args.add(new MultiNode(current).simplify());
                         }
                         current = new ArrayList<>();
                         hasName = true;
@@ -75,9 +75,9 @@ public class Parser {
             if(!hasName) {
                 name = current;
             } else {
-                args.add(new MultiNode(current));
+                args.add(new MultiNode(current).simplify());
             }
-            c.add(new OperationNode(new MultiNode(name), args));
+            c.add(new OperationNode(new MultiNode(name).simplify(), args));
         });
         put(TokenType.RIGHT_PAREN, (__1, c, __2) -> c.add(new LiteralNode(")")));
         put(TokenType.RIGHT_BRACE, (__1, c, __2) -> c.add(new LiteralNode("}")));
@@ -100,7 +100,7 @@ public class Parser {
             Token token = iterator.next();
             PARSELETS.get(token.type()).apply(iterator, code, token);
         }
-        return new MultiNode(code);
+        return new MultiNode(code).simplify();
     }
 
     private interface Parselet {

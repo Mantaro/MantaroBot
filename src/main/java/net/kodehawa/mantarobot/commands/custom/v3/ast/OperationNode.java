@@ -23,4 +23,9 @@ public class OperationNode implements Node {
     public <T, C> T accept(NodeVisitor<T, C> visitor, C context) {
         return visitor.visitOperation(this, context);
     }
+
+    @Override
+    public Node simplify() {
+        return this;
+    }
 }

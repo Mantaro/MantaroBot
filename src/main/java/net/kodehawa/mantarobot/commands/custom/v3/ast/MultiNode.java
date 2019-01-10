@@ -17,4 +17,9 @@ public class MultiNode implements Node {
     public <T, C> T accept(NodeVisitor<T, C> visitor, C context) {
         return visitor.visitMulti(this, context);
     }
+
+    @Override
+    public Node simplify() {
+        return children.size() == 1 ? children.get(0).simplify() : this;
+    }
 }
