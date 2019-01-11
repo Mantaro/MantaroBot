@@ -6,16 +6,20 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
+import net.kodehawa.mantarobot.commands.custom.v3.ast.Node;
+import net.kodehawa.mantarobot.commands.custom.v3.interpreter.InterpreterContext;
+import net.kodehawa.mantarobot.commands.custom.v3.interpreter.InterpreterVisitor;
+import net.kodehawa.mantarobot.commands.custom.v3.interpreter.Operation;
 import net.kodehawa.mantarobot.utils.URLEncoding;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
-import org.json.JSONArray;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("Duplicates")
 public class CCv3 {
@@ -45,9 +49,10 @@ public class CCv3 {
         comparators.put("ignorecase-contains", (s1, s2) -> s1.toLowerCase().contains(s2.toLowerCase()));
 
         DEFAULT_OPERATIONS.put("if", (__, args) -> {
-            if(args.length < 4)
+            if(args.size() < 4)
                 return "`if requires at least 4 parameters`";
-            String input1 = args[0], compare = args[1], input2 = args[2], outputTrue = args[3];
+            String input1 = args.get(0), compare = args.get(1),
+                    input2 = args.get(2), outputTrue = args.get(3);
 
             BiPredicate<String, String> comparator = comparators.get(compare);
             Predicate<String> predicate = predicates.get(compare);
@@ -68,8 +73,8 @@ public class CCv3 {
                     return outputTrue;
             }
 
-            if(args.length >= 5)
-                return args[4];
+            if(args.size() >= 5)
+                return args.get(4);
 
             return "";
         });
@@ -111,13 +116,22 @@ public class CCv3 {
             }
             return "";
         });
+
+        DEFAULT_OPERATIONS.put("set", (context, args) -> {
+            if(args.size() < 2) {
+                return "Usage: set <name> <value>";
+            }
+            String value = args.stream().skip(1).collect(Collectors.joining(";"));
+            context.vars().put(args.get(0), value);
+            return "";
+        });
     }
 
-    public static void process(GuildMessageReceivedEvent event, JSONArray code, boolean preview) {
-        Interpreter interpreter = new Interpreter(new DynamicModifiers()
+    public static void process(GuildMessageReceivedEvent event, Node ast, boolean preview) {
+        InterpreterContext context = new InterpreterContext(new DynamicModifiers()
                 .mapEvent("event", event), DEFAULT_OPERATIONS);
-        String result = interpreter.exec(code);
-        EmbedJSON embed = interpreter.get("embed");
+        String result = ast.accept(new InterpreterVisitor(), context);
+        EmbedJSON embed = context.get("embed");
         if(embed == null && result.isEmpty()) {
             return;
         }

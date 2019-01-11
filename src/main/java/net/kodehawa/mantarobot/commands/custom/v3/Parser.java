@@ -1,19 +1,16 @@
 package net.kodehawa.mantarobot.commands.custom.v3;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import net.kodehawa.mantarobot.commands.custom.v3.ast.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 public class Parser {
     private static final Map<TokenType, Parselet> PARSELETS = new HashMap<TokenType, Parselet>() {{
-        put(TokenType.LITERAL, (__, c, t) -> c.put(new JSONObject().put("type", "literal").put("value", t.value())));
+        put(TokenType.LITERAL, (__, c, t) -> c.add(new LiteralNode(t.value())));
         put(TokenType.START_VAR, (it, c, t) -> {
             Stack<Position> stack = new Stack<>();
             stack.push(t.position());
-            JSONArray name = new JSONArray();
+            List<Node> name = new ArrayList<>();
             while(stack.size() > 0 && it.hasNext()) {
                 t = it.next();
                 switch(t.type()) {
@@ -35,15 +32,15 @@ public class Parser {
             if(stack.size() > 0) {
                 throw syntaxError(it, stack.pop(), '(');
             }
-            c.put(new JSONObject().put("type", "variable").put("name", name));
+            c.add(new VariableNode(new MultiNode(name).simplify()));
         });
         put(TokenType.START_OP, (it, c, t) -> {
             Stack<Position> stack = new Stack<>();
             stack.push(t.position());
             boolean hasName = false;
-            JSONArray name = new JSONArray();
-            JSONArray data = new JSONArray();
-            JSONArray current = new JSONArray();
+            List<Node> name = new ArrayList<>();
+            List<Node> args = new ArrayList<>();
+            List<Node> current = new ArrayList<>();
             while(stack.size() > 0 && it.hasNext()) {
                 t = it.next();
                 switch(t.type()) {
@@ -63,9 +60,9 @@ public class Parser {
                         if(!hasName) {
                             name = current;
                         } else {
-                            data.put(current);
+                            args.add(new MultiNode(current).simplify());
                         }
-                        current = new JSONArray();
+                        current = new ArrayList<>();
                         hasName = true;
                         break;
                     }
@@ -78,13 +75,13 @@ public class Parser {
             if(!hasName) {
                 name = current;
             } else {
-                data.put(current);
+                args.add(new MultiNode(current).simplify());
             }
-            c.put(new JSONObject().put("type", "op").put("name", name).put("data", data));
+            c.add(new OperationNode(new MultiNode(name).simplify(), args));
         });
-        put(TokenType.RIGHT_PAREN, (__1, c, __2) -> c.put(new JSONObject().put("type", "literal").put("value", ")")));
-        put(TokenType.RIGHT_BRACE, (__1, c, __2) -> c.put(new JSONObject().put("type", "literal").put("value", "}")));
-        put(TokenType.SEMICOLON, (__1, c, __2) -> c.put(new JSONObject().put("type", "literal").put("value", ";")));
+        put(TokenType.RIGHT_PAREN, (__1, c, __2) -> c.add(new LiteralNode(")")));
+        put(TokenType.RIGHT_BRACE, (__1, c, __2) -> c.add(new LiteralNode("}")));
+        put(TokenType.SEMICOLON, (__1, c, __2) -> c.add(new LiteralNode(";")));
 
     }};
     private final TokenIterator iterator;
@@ -97,17 +94,17 @@ public class Parser {
         this(new TokenIterator(input));
     }
 
-    public JSONArray parse() {
-        JSONArray code = new JSONArray();
+    public Node parse() {
+        List<Node> code = new ArrayList<>();
         while(iterator.hasNext()) {
             Token token = iterator.next();
             PARSELETS.get(token.type()).apply(iterator, code, token);
         }
-        return code;
+        return new MultiNode(code).simplify();
     }
 
     private interface Parselet {
-        void apply(TokenIterator iterator, JSONArray code, Token token);
+        void apply(TokenIterator iterator, List<Node> code, Token token);
     }
 
     private static void count(Token token, Stack<Position> stack, char c) {
