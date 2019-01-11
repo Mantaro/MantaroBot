@@ -584,13 +584,13 @@
       "dump": {
         "no_item": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to dump.",
         "invalid": "%1$sNot a valid number of items to dump.",
-        "non_existent": "%1$sCannot dump a non-existent item!",
+        "non_existent": "%1$sCannot dump a non-existent item! If you're lost, you can try typing the short name or wrapping the name in quotes.",
         "player_no_item": "%1$sCannot dump an item you don't have!",
         "more_items_than_player": "%1$sYou cannot dump more items than what you have.",
         "success": "%1$sSent %2$dx **%3$s %4$s** to the trash."
       },
       "price": {
-        "non_existent": "%1$sCannot check the price of a non-existent item.",
+        "non_existent": "%1$sCannot check the price of a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
         "no_price": "%1$sThis item is not available neither for sell or buy (could be an exclusive collectible)",
         "collectible": "%1$sThis is a collectible item. (Sell value: %2$d credits)",
         "success": "%1$sThe market value of %2$s**%3$s** is %4$s credits to buy it and you can get %5$s credits if you sell it."
@@ -603,7 +603,7 @@
           "success": "%1$sYou sold all your inventory items and gained %2$d credits!",
           "cancelled": "%1$sCancelled successfully."
         },
-        "non_existent": "%1$sYou cannot sell a non-existent item.",
+        "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
         "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
         "no_item_player": "%1$sYou cannot sell an item you don't have.",
         "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
@@ -612,7 +612,7 @@
       "buy": {
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
         "invalid": "%1$sNot a valid number of items to buy.",
-        "non_existent": "%1$sYou cannot buy an non-existent item.",
+        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
         "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
         "item_limit_reached": "%1$sYou cannot buy more of that object.",
         "success": "%1$sBought %2$d %3$s for %4$d credits successfully. You now have %5$d credits.",
