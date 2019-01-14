@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.User;
@@ -26,6 +27,8 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.CustomCommandHandler;
+import net.kodehawa.mantarobot.commands.custom.v3.Parser;
+import net.kodehawa.mantarobot.commands.custom.v3.SyntaxException;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -101,6 +104,10 @@ public class CustomCmds {
         String response = random(values);
         try {
             new CustomCommandHandler(event, lang, response, args).handle();
+        } catch (SyntaxException e) {
+            new MessageBuilder().append(String.format(lang.get("commands.custom.error_running_new"), EmoteReference.ERROR, e.getMessage()))
+                    .sendTo(event.getChannel())
+                    .queue();
         } catch (Exception e) {
             event.getChannel().sendMessageFormat(lang.get("commands.custom.error_running"), EmoteReference.ERROR).queue();
         }
@@ -265,8 +272,14 @@ public class CustomCmds {
                         ctn = Utils.DISCORD_INVITE_2.matcher(ctn).replaceAll("-invite link-");
 
                         new CustomCommandHandler(event, languageContext, ctn).handle(true);
+                    } catch (SyntaxException e) {
+                        new MessageBuilder().append(String.format(languageContext.get("commands.custom.eval.new_error"), EmoteReference.ERROR, e.getMessage()))
+                                .sendTo(event.getChannel())
+                                .queue();
                     } catch (Exception e) {
-                        event.getChannel().sendMessage(String.format(languageContext.get("commands.custom.eval.error"), EmoteReference.ERROR, e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")")).queue();
+                        new MessageBuilder().append(String.format(languageContext.get("commands.custom.eval.error"), EmoteReference.ERROR, e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")"))
+                                .sendTo(event.getChannel())
+                                .queue();
                     }
 
                     return;
@@ -467,9 +480,9 @@ public class CustomCmds {
                     try {
                         opts = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split(" "));
                     } catch (StringIndexOutOfBoundsException ignore) { }
-                    String value1 = Utils.replaceArguments(opts, value, "nsfw");
+                    String cmdSource = Utils.replaceArguments(opts, value, "nsfw");
 
-                    if(value1.isEmpty()) {
+                    if(cmdSource.isEmpty()) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.custom.add.empty_content"), EmoteReference.ERROR).queue();
                         return;
                     }
@@ -489,9 +502,18 @@ public class CustomCmds {
                         return;
                     }
 
-                    CustomCommand custom = CustomCommand.of(
-                            event.getGuild().getId(), cmd,
-                            Collections.singletonList(value1.replace("@everyone", "[nice meme]").replace("@here", "[you tried]")));
+                    cmdSource = cmdSource.replace("@everyone", "[nice meme]").replace("@here", "[you tried]");
+
+                    if(cmdSource.contains("v3:")) {
+                        try {
+                            new Parser(cmdSource).parse();
+                        } catch (SyntaxException e) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.custom.new_error"), EmoteReference.ERROR, e.getMessage()).queue();
+                            return;
+                        }
+                    }
+
+                    CustomCommand custom = CustomCommand.of(event.getGuild().getId(), cmd, Collections.singletonList(cmdSource));
 
                     if(action.equals("add")) {
                         CustomCommand c = db().getCustomCommand(event, cmd);
