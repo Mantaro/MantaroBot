@@ -130,12 +130,17 @@ public class CCv3 {
     public static void process(GuildMessageReceivedEvent event, Node ast, boolean preview) {
         InterpreterContext context = new InterpreterContext(new DynamicModifiers()
                 .mapEvent("event", event), DEFAULT_OPERATIONS);
+
         String result = ast.accept(new InterpreterVisitor(), context);
         EmbedJSON embed = context.get("embed");
+
         if(embed == null && result.isEmpty()) {
+            event.getChannel().sendMessageFormat("Command response is empty.").queue();
             return;
         }
+
         MessageBuilder builder = new MessageBuilder().setContent(FILTER.matcher(result).replaceAll("-filtered regex-"));
+
         if(preview) {
             builder.append("\n\n")
                     .append(EmoteReference.WARNING)
