@@ -75,7 +75,9 @@ public class Reminder {
         scheduledReminder = service.schedule(() -> {
             User user = MantaroBot.getInstance().getUserById(userId);
             Guild guild = MantaroBot.getInstance().getGuildById(guildId);
-            if(user == null) return;
+            if(user == null)
+                return;
+
             removeCurrent();
 
             //Ignore "cannot open a private channel with this user"

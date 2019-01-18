@@ -19,8 +19,7 @@ package net.kodehawa.mantarobot.db.entities;
 import lombok.Data;
 
 @Data
-//NOTE: This is the database object. Basically a massive TODO owo.
-public class Reminder {
+public class ReminderObj {
 
     public final String id;
     public final String reminder;
@@ -29,7 +28,7 @@ public class Reminder {
     private final String userId;
     private final long offset;
 
-    private Reminder(String id, String userId, String reminder, long scheduledAt, long time, long offset) {
+    public ReminderObj(String id, String userId, String reminder, long scheduledAt, long time, long offset) {
         this.id = id;
         this.userId = userId;
         this.reminder = reminder;

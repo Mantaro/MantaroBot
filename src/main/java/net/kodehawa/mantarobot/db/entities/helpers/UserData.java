@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.db.entities.helpers;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -53,6 +52,10 @@ public class UserData {
 
     //Persistent reminders. UUID is saved here.
     private List<String> reminders = new ArrayList<>();
+
+    //TODO
+    //Persistent reminders, so it works on bot reboot.
+    //private Map<String, ReminderObj> reminderMap = new HashMap<>();
 
     @JsonIgnore
     public Marriage getMarriage() {

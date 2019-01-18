@@ -45,12 +45,6 @@ public interface AssistedCommand extends Command {
         for(int i = 0; i < times; i++) runnable.run();
     }
 
-    default EmbedBuilder helpEmbed(GuildMessageReceivedEvent event, String name) {
-        return baseEmbed(event, name)
-                .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
-                .addField("Permission required", permission().toString(), true);
-    }
-
     default String checkString(String s) {
         if(s.length() > 1700) {
             return Utils.paste3(s);
