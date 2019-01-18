@@ -234,7 +234,7 @@ public class FunCmds {
                         .setAuthor("\u2764 " + languageContext.get("commands.love.header") + " \u2764", null, event.getAuthor().getEffectiveAvatarUrl())
                         .setThumbnail("http://www.hey.fr/fun/emoji/twitter/en/twitter/469-emoji_twitter_sparkling_heart.png")
                         .setDescription("\n**" + toDisplay + "**\n\n" +
-                                percentage + "% ||  " + CommandStatsManager.bar(percentage, 40) + "  **||** \n\n" +
+                                percentage + "% \\|\\|  " + CommandStatsManager.bar(percentage, 40) + "  **\\|\\|** \n\n" +
                                 "**" + languageContext.get("commands.love.result") + "** `"
                                 + result + "`")
                         .setColor(event.getMember().getColor())
