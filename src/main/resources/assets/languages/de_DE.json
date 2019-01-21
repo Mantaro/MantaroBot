@@ -52,7 +52,9 @@
       },
       "potion_active": "%1$sDu hast bereits einen aktiven **%2$s** Trankeffekt!",
       "potion_not_found": "%1$sIch kann diesen Trank- bzw. Equipmenttyp nicht finden!",
-      "potion_applied": "%1$sErfolgreich den Effekt **%2$s** des Types *%3$s* angewendet (%4$dx). Schau dir deinen tollen neuen Effekt unter `~>profile stats` an!"
+      "potion_applied": "%1$sErfolgreich den Effekt **%2$s** des Types *%3$s* angewendet (%4$dx). Schau dir deinen tollen neuen Effekt unter `~>profile stats` an!",
+      "potion_applied_multiple": "%1$sErfolgreich **%2$s** des Types *%3$s* angewendet.\nDu hattest den Effekt bereits, also haben wir ihn gestapelt. Aktuelle Stapelgröße: %4$s",
+      "max_stack_size": "%1$sDu hast bereits die maximale Stapelgröße von %2$s erreicht."
     },
     "mention_user_required": "%1$sDu musst einen Benutzer erwähnen.",
     "invalid_character": "%1$sDas ist kein erlaubtes Zeichen.",
@@ -333,10 +335,12 @@
       "no_args": "%1$sDu musst angeben, was du mit dem Befehl tun willst. Schau dir die Befehlshilfe für mehr Infos an!",
       "incorrect_args": "%1$sFalsche Argumente. Schau unter `~>help custom` oder https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands für mehr Hilfe bei der Benutzung dieses Befehls.",
       "error_running": "%1$sFehler beim Ausführen eines benutzerdefinierten Befehls ... Bitte überprüfe den Inhalt und die Länge der Antwort (max. 2000 Zeichen).",
+      "error_running_new": "%1$sFehler beim ausführen eines benutzerdefinierten Befehls. Prüfe die Antworten, den Inhalt und die Länge (max. 2000 Zeichen).\n**Fehler:**\n```%2$s```",
       "not_loaded": "Der Bot wurde noch nicht vollständig gebootet ... benutzerdefinierte Befehle werden in Kürze verfügbar sein!",
       "nsfw_enabled": "%1$sDieser Befehl wurde erfolgreich als NSFW markiert.",
       "nsfw_disabled": "%1$sDieser Befehl wurde erfolgreich als SFW markiert.",
       "nsfw_not_nsfw": "%1$sDieser Befehl ist als NSFW markiert, daher kannst du ihn nur in NSFW-Kanälen verwenden.",
+      "new_error": "%1$sDer benutzerdefinierte Befehle, den du versuchst zu erstellen hat einen Fehler (v3, prüfe den Inhalt).\n**Fehler:**\n```%2$s```",
       "ls": {
         "header": "Befehle für diesen Server",
         "description": "**Dies zeigt all die benutzerdefinierten Befehle (von Benutzern) auf diesem Server.** Jeder hier aufgelistete Befehl hat keinerlei Verbindung zum Bot oder seinen Entwicklern.\n\nBenutzerdefinierte Befehle sind von Benutzern erstellt (normalerweise Serveradministratoren), welche verschiedenste Situationen händeln können, bis hin zum Emulieren von Aktions-Befehlen.\nFür mehr Informationen über die Befehlserstellung siehe [hier.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Liste:**",
@@ -366,6 +370,7 @@
         "no_name_specified": "%1$sDu hast keinen Namen für die Erstellung angegeben!"
       },
       "eval": {
+        "new_error": "%1$sEs gab einen Fehler beim Evaluieren des benutzerdefinierten Befehls.\n**Fehler**:\n```%2$s```",
         "error": "%1$sBeim Auswerten deines Befehls ist ein Fehler aufgetreten!%2$s"
       },
       "remove": {
@@ -521,7 +526,8 @@
         "not_enough_money": "%1$sDu hast nicht genug Geld, um auf diese Waifu zu verzichten!",
         "player_locked": "%1$sDu kannst das aktuell nicht tun.",
         "scrapped": "%1$sWaifu-Verzicht abgebrochen.",
-        "success": "%1$sErfolgreich auf `%2$s` verzichtet, mit den Kosten von **%3$s Credits**."
+        "success": "%1$sErfolgreich auf `%2$s` verzichtet, mit den Kosten von **%3$s Credits**.",
+        "not_found": "%1$sIch konnte keine Nutzer mit dieser Anfrage finden. Wenn du auf einen unbekannten Nutzer verzichten willst, nutze ihre ID und füge `-unknown` am Ende hinzu."
       },
       "buyslot": {
         "locked": "%1$sDu kannst das aktuell nicht tun.",
@@ -554,7 +560,7 @@
     },
     "inventory": {
       "bot_notice": "%1$sHier haben Bots keine Inventare. Manchmal wünschst du dir vielleicht, dass sie eines hätten, aber dann wäre es auch nur `~>market dump`",
-      "brief": "**%1$ss Inventar:** %2$s",
+      "brief": "**%1$ss Inventar:** %2$s\n\n*Wenn du eine detailiertere Version hiervon willst, nutze `~>inventory -info`. Schönen Tag!*",
       "calculate": "%1$s%2$s erhält **%3$d Credits**, wenn alle Gegenstände verkauft werden!",
       "header": "%1$ss Inventar",
       "format": "**Preis**: 📥 %1$d 📤 %2$d\n%3$s",
@@ -652,7 +658,8 @@
       "no_items_specified": "%1$sDu musst angeben, welcher Gegenstand verwendet werden soll!",
       "not_interactive": "%1$sDu kannst nichts mit diesem Gegenstand machen...",
       "interactive_no_action": "%1$sDieser Gegenstand ist als interaktiv markiert, aber hat keine Aktion...",
-      "no_item": "%1$sDu besitzt diesen Gegenstand nicht..."
+      "no_item": "%1$sDu besitzt diesen Gegenstand nicht...",
+      "not_enough_items": "%1$sDu hast nicht genug von diesem Gegenstand."
     },
     "opts": {
       "note": "%1$sHey, wenn du verloren bist oder Hilfe bei der Verwendung von Optionen benötigst, besuche <https://github.com/Mantaro/MantaroBot/wiki/Configuration>, um eine Anleitung zur Verwendung von Optionen zu erhalten. \nHinweis: Nur Administratoren, Personen mit Server verwalten oder Personen mit der Bot-Commander-Rolle können diesen Befehl verwenden! ",
@@ -824,6 +831,7 @@
       "footer": "Abzeichen sind wie Errungenschaften, und du erhältst sie durch Spiele von Mantaro oder ganz einfach durch das Benutzen des Bots."
     },
     "rep": {
+      "new_account_notice": "%1$sDas Accountalter (Zeit, seitdem der Discordaccount erstellt wurde) muss zum Geben oder erhalten von Ruf mindestens 5 Tage betragen. Versuch es später erneut.",
       "no_mentions": "%1$sDu musst mindestens einen Nutzer erwähnen oder deren Namen angeben.\n%2$s",
       "more_than_one": "%1$sDu kannst nur eine Person gleichzeitig Ruf schenken!",
       "rep_bot": "%1$sDu kannst einem Bot kein Ruf schenken.\n%2$s",
