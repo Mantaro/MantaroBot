@@ -126,12 +126,12 @@ public class CommandRegistry {
         //Variable used in lambda expression should be final or effectively final...
         final Command cmd = command;
 
-        if (guildData.getDisabledCommands().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) {
+        if (guildData.getDisabledCommands().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName.toLowerCase())) {
             return false;
         }
 
         List<String> channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
-        if (channelDisabledCommands != null && channelDisabledCommands.contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) {
+        if (channelDisabledCommands != null && channelDisabledCommands.contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName.toLowerCase())) {
             return false;
         }
 
