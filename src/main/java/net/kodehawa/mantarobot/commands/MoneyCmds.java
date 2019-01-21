@@ -219,7 +219,9 @@ public class MoneyCmds {
                     playerData.setLastDailyAt(System.currentTimeMillis());
                     player.save();
 
-                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "daily.given_credits"), EmoteReference.CORRECT, money, mentionedUser.getName(), streak).queue();
+                    String sellout = random.nextBoolean() ? "" : languageContext.get("commands.daily.sellout");
+
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "daily.given_credits"), EmoteReference.CORRECT, money, mentionedUser.getName(), streak, sellout).queue();
                     return;
                 }
 

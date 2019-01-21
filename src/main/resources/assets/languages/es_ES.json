@@ -1204,7 +1204,8 @@
               }
           },
           "given_credits": "%1$sLe di tus **$%2$s** creditos diarios a %3$s\n\n%4$s",
-          "credits": "%1$sAcumulaste **$%2$s** creditos diarios.\n\n%3$s\n¡Necesitamos tu ayuda para mantener Mantaro a flote! Revisa <https://patreon.com/mantaro> para más información."
+          "credits": "%1$sAcumulaste **$%2$s** creditos diarios.\n\n%3$s%4$s",
+          "sellout": "\n¡Necesitamos tu ayuda para mantener Mantaro a flote! Revisa <https://patreon.com/mantaro> para más información."
       },
       "gamble": {
           "no_credits": "%1$s¡Estás quebrado! Acumula algunos créditos antes de intentar de nuevo",
