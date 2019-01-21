@@ -1294,7 +1294,7 @@
         }
       },
       "given_credits": "%1$sI gave your **$%2$s** daily credits to %3$s\n\n%4$s",
-      "credits": "%1$sYou got **$%2$s** daily credits.\n\n%3$s"
+      "credits": "%1$sYou got **$%2$s** daily credits.\n\n%3$s\nWe need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info."
     },
     "gamble": {
       "no_credits": "%1$sYou're broke. Maybe search for some credits first.",
