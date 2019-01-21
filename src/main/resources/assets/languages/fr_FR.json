@@ -1286,7 +1286,7 @@
         }
       },
       "given_credits": "%1$sI gave your **$%2$s** daily credits to %3$s\n\n%4$s",
-      "credits": "%1$sYou got **$%2$s** daily credits.\n\n%3$s"
+      "credits": "%1$sYou got **$%2$s** daily credits.\n\n%3$s%4$s"
     },
     "gamble": {
       "no_credits": "%1$sYou're broke. Maybe search for some credits first.",

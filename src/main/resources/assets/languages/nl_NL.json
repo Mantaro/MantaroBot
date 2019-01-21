@@ -1180,7 +1180,7 @@
                 }
             },
             "given_credits": "%1$sI gaf je **$%2$s** daily credits aan %3$s\n\n%4$s",
-            "credits": "%1$sJe ontving **$%2$s** daily credits.\n\n%3$s"
+            "credits": "%1$sJe ontving **$%2$s** daily credits.\n\n%3$s%4$s"
         },
         "gamble": {
             "no_credits": "%1$sJe bent blut. Zoek misschien eerst eens naar credits.",
