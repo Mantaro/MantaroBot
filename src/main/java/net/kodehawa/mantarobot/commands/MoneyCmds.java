@@ -193,6 +193,8 @@ public class MoneyCmds {
                     authorPlayer.save();
                 }
 
+                String sellout = random.nextBoolean() ? "" : languageContext.get("commands.daily.sellout");
+
                 if(mentionedUser != null && !mentionedUser.getId().equals(event.getAuthor().getId())) {
                     money = money + r.nextInt(90);
 
@@ -219,8 +221,6 @@ public class MoneyCmds {
                     playerData.setLastDailyAt(System.currentTimeMillis());
                     player.save();
 
-                    String sellout = random.nextBoolean() ? "" : languageContext.get("commands.daily.sellout");
-
                     event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "daily.given_credits"), EmoteReference.CORRECT, money, mentionedUser.getName(), streak, sellout).queue();
                     return;
                 }
@@ -229,7 +229,7 @@ public class MoneyCmds {
                 playerData.setLastDailyAt(System.currentTimeMillis());
                 player.save();
 
-                event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "daily.credits"), EmoteReference.CORRECT, money, streak).queue();
+                event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "daily.credits"), EmoteReference.CORRECT, money, streak, sellout).queue();
             }
 
             @Override

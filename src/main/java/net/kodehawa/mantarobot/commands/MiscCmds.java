@@ -324,7 +324,14 @@ public class MiscCmds {
 
 
                 String[] options = pollOptionSeparator.split(opts.get("options").get().replaceAll(String.valueOf('"'), ""));
-                long timeout = Utils.parseTime(opts.get("time").get());
+                long timeout;
+
+                try {
+                    timeout = Utils.parseTime(opts.get("time").get());
+                } catch (Exception e) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.poll.incorrect_time_format"), EmoteReference.ERROR).queue();
+                    return;
+                }
 
                 builder.setEvent(event)
                         .setTimeout(timeout)

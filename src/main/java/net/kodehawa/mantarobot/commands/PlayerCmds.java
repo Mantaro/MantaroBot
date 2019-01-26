@@ -392,6 +392,11 @@ public class PlayerCmds {
                     if(managedDatabase.getUser(author).isPremium())
                         MAX_LENGTH = 500;
 
+                    if(args.length < 2) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.profile.description.no_content"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
                     String content1 = SPLIT_PATTERN.split(content, 2)[1];
 
                     if(content1.length() > MAX_LENGTH) {

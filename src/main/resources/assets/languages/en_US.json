@@ -711,7 +711,8 @@
       "vote_results": "+Registered %1$d votes for option %2$s",
       "thank_note": "Thanks for your vote",
       "results": "Results",
-      "cancelled": "%1$sCancelled poll"
+      "cancelled": "%1$sCancelled poll",
+      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds). Example: `-time 40m`"
     },
     "osustats": {
       "user": {
@@ -739,7 +740,8 @@
         "success": "%1$sSaved timezone, your profile timezone is now: **%2$s**"
       },
       "description": {
-        "no_argument": "%1$sYou need to provide an argument! (set or remove)\nfor example, ~>profile description set Hi there!",
+        "no_argument": "%1$sYou need to provide an argument! (set or remove)\nFor example, ~>profile description set Hi there!",
+        "no_content": "%1$sYou didn't specify what you want on your description.\nFor example, ~>profile description set Hi there!",
         "too_long": "%1$sThe description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`",
         "success": "%1$sSet description to: **%2$s**\nCheck your shiny new profile with `~>profile`",
         "clear_success": "%1$sSuccessfully cleared description."
