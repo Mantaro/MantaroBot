@@ -89,7 +89,7 @@ public class GuildData {
     private Set<String> modlogBlacklistedPeople = new HashSet<>();
     @ConfigName("Music Announce")
     private boolean musicAnnounce = true;
-    @ConfigName("Channel (id): where to show music announcements")
+    @ConfigName("Channel (id): lock to specific music channel")
     private String musicChannel = null;
 
     @UnusedConfig //I don't think we handle this anymore.
