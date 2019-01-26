@@ -44,12 +44,12 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
+    mavenLocal()
     jcenter()
     mavenCentral()
-    maven { url 'https://jitpack.io' }
     maven { url "https://dl.bintray.com/kodehawa/maven" }
     maven { url 'https://dl.bintray.com/natanbc/maven' }
-    mavenLocal()
+    maven { url 'https://jitpack.io' }
 }
 
 task generateLanguageList {
@@ -105,6 +105,8 @@ dependencies {
     compile 'io.prometheus:simpleclient:0.5.0'
     compile 'io.prometheus:simpleclient_hotspot:0.5.0'
     compile 'io.prometheus:simpleclient_httpserver:0.5.0'
+    
+    compile 'com.github.natanbc.sox:sox-core:14096f6'
 
     compile project(':graphql')
     
