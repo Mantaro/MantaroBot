@@ -1251,16 +1251,17 @@
       "malformed_result": "%1$sI got a wrong API result for this specific search. Maybe try with another search term?",
       "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a ``%2$s`` while trying to process the command. (internal error)",
       "information_header": "Anime information for %1$s",
-      "information_notice": "Information provided by AniList.",
+      "information_notice": "Information provided by AniList. Click the title to go to AniList's page about this anime.",
       "airing": "Airing",
-      "release_date": "Release date",
-      "end_date": "End date",
-      "average_score": "Average score",
+      "release_date": "Release Date",
+      "end_date": "End Date",
+      "average_score": "Average Score",
       "type": "Type",
       "episodes": "Episodes",
       "episode_duration": "Episode Duration",
       "genres": "Genres",
-      "minutes": "minutes"
+      "minutes": "minutes",
+      "description": "Description"
     },
     "character": {
       "no_args": "%1$sYou need to tell me what character you want to look for.",

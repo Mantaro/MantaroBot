@@ -21,7 +21,6 @@ import com.google.common.eventbus.Subscribe;
 import com.google.gson.JsonSyntaxException;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -41,14 +40,9 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import org.json.JSONObject;
+import org.apache.commons.text.StringEscapeUtils;
 
-import javax.annotation.Nullable;
 import java.awt.*;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -179,7 +173,7 @@ public class AnimeCmds {
         String title = type.title().english() == null || type.title().english().isEmpty() ? type.title().romaji() : type.title().english();
         String releaseDate = type.startDate() == null ? null : type.startDate().day() + "/" + type.startDate().month() + "/" + type.startDate().year();
         String endDate = type.endDate() == null ? null : type.endDate().day() + "/" + type.endDate().month() + "/" + type.endDate().year();
-        String animeDescription = type.description().replace("<br>", "\n");
+        String animeDescription = StringEscapeUtils.unescapeHtml4(type.description().replace("<br>", " "));
         String averageScore = String.valueOf(type.averageScore());
         String imageUrl = type.coverImage().large();
         String animeType = Utils.capitalize(type.format().name().toLowerCase());
@@ -188,7 +182,7 @@ public class AnimeCmds {
 
         List<String> genres = Lists.newArrayList(type.genres());
         genres.removeAll(Collections.singleton(""));
-        String GENRES = String.join(", ", genres);
+        String genreString = String.join(", ", genres);
 
         if(genres.contains("Hentai") && !event.getChannel().isNSFW()) {
             event.getChannel().sendMessageFormat(lang.get("commands.anime.hentai"), EmoteReference.ERROR).queue();
@@ -204,18 +198,18 @@ public class AnimeCmds {
 
         //Start building the embedded message.
         EmbedBuilder embed = new EmbedBuilder();
-        embed.setColor(Color.LIGHT_GRAY)
+        embed.setColor(Color.DARK_GRAY)
                 .setAuthor(String.format(lang.get("commands.anime.information_header"), title), type.siteUrl(), type.coverImage().medium())
                 .setFooter(lang.get("commands.anime.information_notice"), null)
                 .setThumbnail(imageUrl)
-                .setDescription(animeDescription.length() <= 1024 ? animeDescription : animeDescription.substring(0, 1020) + "...")
-                .addField(lang.get("commands.anime.release_date"), "`" + releaseDate + "`", true)
-                .addField(lang.get("commands.anime.end_date"), "`" + (endDate == null || endDate.equals("null") ? lang.get("commands.anime.airing") : endDate) + "`", true)
-                .addField(lang.get("commands.anime.average_score"), "`" + averageScore + "/100" + "`", true)
-                .addField(lang.get("commands.anime.type"), "`" + animeType + "`", true)
-                .addField(lang.get("commands.anime.episodes"), "`" + episodes + "`", true)
-                .addField(lang.get("commands.anime.episode_duration"), "`" + episodeDuration + " " + lang.get("commands.anime.minutes") + "." + "`", true)
-                .addField(lang.get("commands.anime.genres"), "`" + GENRES + "`", false);
+                .addField(lang.get("commands.anime.release_date"), releaseDate, true)
+                .addField(lang.get("commands.anime.end_date"), (endDate == null || endDate.equals("null") ? lang.get("commands.anime.airing") : endDate), true)
+                .addField(lang.get("commands.anime.average_score"), averageScore + "/100", true)
+                .addField(lang.get("commands.anime.type"), animeType, true)
+                .addField(lang.get("commands.anime.episodes"), episodes, true)
+                .addField(lang.get("commands.anime.episode_duration"), episodeDuration + " " + lang.get("commands.anime.minutes"), true)
+                .addField(lang.get("commands.anime.genres"), genreString, false)
+                .addField(lang.get("commands.anime.description"), animeDescription.length() <= 850 ? animeDescription : animeDescription.substring(0, 850) + "...", false);
         event.getChannel().sendMessage(embed.build()).queue();
     }
 
@@ -224,8 +218,11 @@ public class AnimeCmds {
         String charName = character.name().first() + ((character.name().last() == null ? "" : " " + character.name().last()) + japName);
         String aliases = character.name().alternative() == null || character.name().alternative().isEmpty() ? lang.get("commands.character.no_aliases") : lang.get("commands.character.alias_start") + " " + character.name().alternative().stream().collect(Collectors.joining(", "));
         String imageUrl = character.image().medium();
+
+        String characterDescription = StringEscapeUtils.escapeHtml4(character.description());
+
         String charDescription = character.description() == null || character.description().isEmpty() ? lang.get("commands.character.no_info")
-                : character.description().length() <= 1024 ? character.description() : character.description().substring(0, 1020 - 1) + "...";
+                : characterDescription.length() <= 1024 ? characterDescription : characterDescription.substring(0, 1020 - 1) + "...";
 
         Player p = MantaroData.db().getPlayer(event.getAuthor());
         Badge badge = Utils.getHushBadge(charName.replace(japName, "").trim(), Utils.HushType.CHARACTER);

@@ -1159,7 +1159,7 @@
           "malformed_result": "%1$sEncontré un resultado incorrecto en la API para este anime. ¿Puedes intentar con otro término de búsqueda?",
           "error": "%1$s**¡Juro que no tiré tu anime favorito!**\nRecibí ``%2$s`` mientras intentaba procesar esto. (error interno)",
           "information_header": "Información del anime %1$s",
-          "information_notice": "Información proporcionada por AniList.",
+          "information_notice": "Información proporcionada por AniList. Clickea el título para ir a la página de AniList sobre este anime.",
           "airing": "Al aire",
           "release_date": "Fecha de Estreno",
           "end_date": "Fecha de Término",
@@ -1168,7 +1168,8 @@
           "episodes": "Episodios",
           "episode_duration": "Duración de los episodios",
           "genres": "Géneros",
-          "minutes": "minutos"
+          "minutes": "minutos",
+          "description": "Descripción"
       },
       "character": {
           "no_args": "%1$sNecesitas decirme que personaje buscar.",

@@ -32,7 +32,6 @@ import net.kodehawa.mantarobot.commands.custom.v3.SyntaxException;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
