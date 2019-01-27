@@ -176,7 +176,8 @@ public class AnimeCmds {
         String animeDescription = StringEscapeUtils.unescapeHtml4(type.description().replace("<br>", " "));
         String averageScore = String.valueOf(type.averageScore());
         String imageUrl = type.coverImage().large();
-        String animeType = Utils.capitalize(type.format().name().toLowerCase());
+        final String typeName = type.format().name();
+        String animeType = typeName.length() > 3 ? Utils.capitalize(typeName.toLowerCase()) : typeName;
         String episodes = type.episodes().toString();
         String episodeDuration = type.duration().toString();
 
