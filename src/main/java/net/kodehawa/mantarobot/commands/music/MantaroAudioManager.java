@@ -37,26 +37,19 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ThreadPoolExecutor;
 
 @Slf4j
 public class MantaroAudioManager {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MantaroAudioManager.class);
-
     @Getter
     private final Map<String, GuildMusicManager> musicManagers;
     @Getter
     private final AudioPlayerManager playerManager;
 
     public MantaroAudioManager() {
-        this.musicManagers = new HashMap<>();
+        this.musicManagers = new ConcurrentHashMap<>();
         DefaultAudioPlayerManager apm = new DefaultAudioPlayerManager();
         Prometheus.THREAD_POOL_COLLECTOR.add("lavaplayer-track-playback", apm.getExecutor());
         this.playerManager = apm;
