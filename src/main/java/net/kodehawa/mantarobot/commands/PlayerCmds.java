@@ -554,7 +554,7 @@ public class PlayerCmds {
                 if(potion != null)
                     potionEquipped = equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses()) ? potionEffect.getAmountEquipped() : potionEffect.getAmountEquipped() - 1;
                 if(buff != null)
-                    buffEquipped = equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses()) ? potionEffect.getAmountEquipped() : buffEffect.getAmountEquipped() - 1;
+                    buffEquipped = equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses()) ? buffEffect.getAmountEquipped() : buffEffect.getAmountEquipped() - 1;
 
                 //no need for decimals
                 long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
