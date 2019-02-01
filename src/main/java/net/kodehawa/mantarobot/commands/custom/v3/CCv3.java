@@ -35,10 +35,10 @@ public class CCv3 {
 
         comparators.put("equals", String::equals);
         comparators.put("ignorecase-equals", String::equalsIgnoreCase);
-        comparators.put("greater-than", (s1, s2) -> s1.compareTo(s2) < 0);
-        comparators.put("less-than", (s1, s2) -> s1.compareTo(s2) > 0);
-        comparators.put("ignorecase-greater-than", (s1, s2) -> s1.compareToIgnoreCase(s2) < 0);
-        comparators.put("ignorecase-less-than", (s1, s2) -> s1.compareToIgnoreCase(s2) > 0);
+        comparators.put("greater-than", (s1, s2) -> s1.compareTo(s2) > 0);
+        comparators.put("less-than", (s1, s2) -> s1.compareTo(s2) < 0);
+        comparators.put("ignorecase-greater-than", (s1, s2) -> s1.compareToIgnoreCase(s2) > 0);
+        comparators.put("ignorecase-less-than", (s1, s2) -> s1.compareToIgnoreCase(s2) < 0);
         comparators.put("not-equals", comparators.get("equals").negate());
         comparators.put("ignorecase-not-equals", comparators.get("ignorecase-equals").negate());
         comparators.put("not-greater-than", comparators.get("greater-than").negate());
