@@ -45,8 +45,8 @@
       "pill": "%1$sTu as bu une pilule waifu! (Activé pour 5 sessions)",
       "pill_used": "%1$sTu as déjà une pilule de waifu active!",
       "crate": {
-        "no_key": "%1$sTu as besoin d'une clé de caisse de butin pour ouvrir la caisse. Elle est verrouillé!",
-        "no_crate": "%1$sTu as besoin d'une caisse de butin! Sinon, comment utiliserai-tu ta clé >.> ... oh",
+        "no_key": "%1$sTu as besoin d'une clé de caisse de butin pour ouvrir la caisse. Elle est verrouillée!",
+        "no_crate": "%1$sTu as besoin d'une caisse de butin! Sinon, comment utiliserais-tu ta clé >.> ... oh",
         "success": "%1$s**Tu as gagné:** %2$s%3$s",
         "overflow": "Mais tu en avais déjà trop, alors tu as décidé de jeter l'excédent"
       },
@@ -58,13 +58,13 @@
     "invalid_character": "%1$sCe n'est pas un caractère autorisé.",
     "invalid_action": "Tu ne peux pas faire ça, idiot.",
     "interactive_running": "%1$sIl y a déjà une opération interactive (qui t'appartient) sur ce salon.",
-    "buy_sell_paged_react": "**Pages total: %1$d.**\nUtilises les réactions aux messages pour te déplacer entre les pages.\n%2$s",
-    "buy_sell_paged_text": "**Pages total: %1$d.**\nUtilises **&p >>** et **&p <<**  pour te déplacer entre les pages.\n%2$s",
+    "buy_sell_paged_react": "**Pages total: %1$d.**\nUtilise les réactions aux messages pour te déplacer entre les pages.\n%2$s",
+    "buy_sell_paged_text": "**Pages total: %1$d.**\nUtilise **&p >>** et **&p <<**  pour te déplacer entre les pages.\n%2$s",
     "buy_sell_paged_reference": "**Réference %1$s Acheter %2$s Vendre.**",
     "cancelled": "%1$sDemande annulée.",
-    "sellout": "Penses à faire un don sur patreon.com/mantaro si tu m'aimes, même un petit don aidera à garder le bot en vie!",
+    "sellout": "Pense à faire un don sur patreon.com/mantaro si tu m'aimes, même un petit don aidera à garder le bot en vie!",
     "deprecated": "Ce n'est plus utilisé'",
-    "space_notice": "Si le nom de celui-ci contient des espaces, essaies \"de le placer entre guillemets\"",
+    "space_notice": "Si le nom de celui-ci contient des espaces, essaie \"de le placer entre guillemets\"",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Tu pourras utiliser cette commande à nouveau dans %3$s.**",
       "spam_1": "S'il te plait repose toi, c'est bon pour ta santé :( *N'oublies pas que le taux limite continuera d'augmenter si tu essaies avant la fin du temps imparti!*",
@@ -446,159 +446,159 @@
       "text": "%1$s*%2$s* - Mon temps de réponse: %3$d ms (%4$s) `Websocket:%5$dms`"
     },
     "love": {
-      "no_mention": "%1$sYou need to mention at least 1 user.",
-      "not_ideal": "Try again next time...",
-      "decent": "Good enough!",
-      "nice": "Good match!",
-      "perfect": "Perfect match!",
-      "yourself_note": "You're a special creature and you should love yourself more than anyone <3",
-      "header": "Love Meter",
-      "result": "Result:"
+      "no_mention": "%1$sTu dois mentionner au moins 1 utilisateur.",
+      "not_ideal": "Rééssaie la prochaine fois...",
+      "decent": "Assez bien!",
+      "nice": "Bon lien!",
+      "perfect": "Lien parfait!",
+      "yourself_note": "Tu est une créature spéciale et tu devrais t'aimer plus que quiconque <3",
+      "header": "Calculateur d'amour",
+      "result": "Resultat:"
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on.",
-        "empty": "%1$sYou cannot leave the love letter empty.",
-        "no_marriage": "%1$sYou aren't married, you cannot write a love letter for yourself...",
-        "not_proposing_player": "%1$sYou aren't the player who proposed this marriage!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`.",
-        "too_long": "%1$sThe love letter is too long (maximum is 500 characters)",
-        "cannot_see": "%1$sI cannot find the user that you're married to... Probably they aren't in any server with me.",
-        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `marry status`.",
-        "scrapped": "%1$sYou still have time to think on what to write, no need to rush!"
+        "no_letter": "%1$sTu n'as pas de lettre d'amour dans ton inventaire, donc tu n'as pas de support pour écrire ta lettre.",
+        "empty": "%1$sTu ne peux pas laisser la lettre d'amour vide.",
+        "no_marriage": "%1$sTu n'es pas marrié, tu ne peux pas écrire une lettre d'amour à toi-même...",
+        "not_proposing_player": "%1$sTu n'es pas le joueur qui à proposé ce mariage!",
+        "already_done": "%1$sCe mariage a déjà une lettre d'amour assignée. Vérifie-la en utilisant `marry status`.",
+        "too_long": "%1$sLa lettre d'amour est trop longue (le maximum est 500 caractères)",
+        "cannot_see": "%1$sJe ne peux pas trouver l'utilisateur auquel vous êtes marrié... Il n'est probablement dans aucun serveur avec moi.",
+        "confirmation": "%1$sÊtes-vous *sûr(e)* de vouloir écrire cette lettre pour votre mariage avec **%2$s#%3$s**? Ceci est PERMANENT quand le mariage se termine. *Contenu de la lettre:* %4$s",
+        "confirmed": "%1$sLa lettre d'amour a été délivrée avec succès à ton amoureux/se! Vérifie-la en utilisant `marry status`.",
+        "scrapped": "%1$sTu as toujours du temps pour réfléchir à ce que tu veux écrire, pas besoin de se dépêcher!"
       },
       "status": {
-        "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\" (If you see a marriage in your profile and see this message that means you are in the old system, try remarrying)",
-        "header": "Current Marriage Status",
-        "description_format": "%1$sMarriage status between **%2$s#%3$s** and **%4$s#%5$s**",
-        "date": "Marriage Date",
-        "love_letter": "Love Letter",
-        "waifus": "Waifu Ownership"
+        "no_marriage": "%1$sTu n'est pas marrié(e), donc je suppose que ton status est euh... \"pas marrié(e)\" (Si tu vois un mariage sur ton profil et que tu vois ce message, cela signifie que tu es sous l'ancien système, essaie de te remarier)",
+        "header": "Status de mariage actuel",
+        "description_format": "%1$sStatus de mariage entre **%2$s#%3$s** et **%4$s#%5$s**",
+        "date": "Date de mariage",
+        "love_letter": "Lettre d'amour",
+        "waifus": "Possession de Waifu"
       },
-      "no_mention": "%1$sMention the user you want to marry.",
-      "marry_yourself_notice": "%1$sYou cannot marry yourself, as much as you may want to.",
-      "marry_bot_notice": "%1$sYou cannot marry a bot. I don't think this is Futurama... yet. Wait, could bots and humans marry there?",
-      "already_married_receipt": "%1$sYou're married with them already, aww.",
-      "already_married": "%1$sYou're married already.",
-      "receipt_married": "%1$sThat user is married already.",
-      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>market buy 2 ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s, type with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
-      "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
-      "accepted": "%1$s**%2$s#%3$s** accepted the proposal of **%4$s#%5$s**!",
-      "denied": "%1$sDenied proposal from **%2$s**"
+      "no_mention": "%1$sMentionne l'utilisateur auquel tu veux te marier.",
+      "marry_yourself_notice": "%1$sTu ne peux pas te marier à toi-même, même si tu le souhaites vraiment.",
+      "marry_bot_notice": "%1$sTu ne peux pas te marrier à un bot. Je ne cois pas que ce soit Futurama... pour l'instant. Attend, est-ce que les bots et les humains peuvent se marier là-bas?",
+      "already_married_receipt": "%1$sTu es déjà marrié à lui/elle, aww.",
+      "already_married": "%1$sTu es déjà marrié(e).",
+      "receipt_married": "%1$sCet utilisateur est déjà marrié(e).",
+      "no_ring": "%1$sTu ne peux pas faire une demande sans deux bagues de mariage! Tu peux les acheter en faisant `~>market buy 2 ring` et ensuite, essaie de refaire ta demande <3",
+      "confirmation": "%1$s%2$s, écris **oui** ou **non** pour la demande en mariage de %3$s\n%4$sIl y a un délai d'attente de 120 secondes.",
+      "ring_check_fail": "%1$sTu ne peux pas te marrier avec moins de deux bagues de mariage dans ton inventaire :(",
+      "accepted": "%1$s**%2$s#%3$s** a accepté la demande de **%4$s#%5$s**!",
+      "denied": "%1$sa refusé la demande de **%2$s**"
     },
     "divorce": {
-      "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?",
-      "success": "%1$sNow you're single. That's nice I guess."
+      "not_married": "%1$sTu n'es marié(e) à personne, pourquoi ne trouves-tu pas cette personne spéciale?",
+      "success": "%1$sMaintenant tu es célibataire. C'est bien je suppose."
     },
     "waifu": {
-      "bot": "%1$sA bot can't be a waifu, even if you want to...",
-      "notice": "This feature isn't meant to have any kind of relationship, either implicit or explicit, with real life events.",
+      "bot": "%1$sUn bot ne peut pas être une waifu, même si tu le souhaites vraiment...",
+      "notice": "Cette fonctionnalité n'est pas faite pour avoir un certain type de realtion, que ce soit implicite ou explicite, avec des évenements de la vie réelle.",
       "stats": {
-        "header": "Your waifu stats",
-        "header_other": "%1$s's waifu stats",
+        "header": "Statistiques de tes waifus",
+        "header_other": "statistiques de la waifu %1$s",
         "format": "%1$s **Money weight value:** %2$,d\n%1$s **Badge weight value:** %3$,d\n%1$s **Experience weight value:** %4$,d\n%1$s **Claim weight value:** %5$,d\n%1$s **Reputation multiplier:** %6$.2fx",
         "value": "Total waifu value",
         "credits": "%1$,d credits",
-        "performance": "Waifu Performance Points"
+        "performance": "Points de Performance Waifu"
       },
       "claim": {
-        "no_user": "%1$sYou didn't mention any user to claim.",
-        "locked": "%1$sYou're currently unable to perform this action.",
-        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed.",
-        "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s)**",
-        "not_enough_slots": "%1$sYou don't have enough slots available to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
-        "success": "%1$sSuccessfully claimed `%2$s` for %3$,d. Slots used: %4$s",
-        "yourself": "%1$sYou cannot claim yourself!",
-        "already_claimed": "%1$sYou already claimed this waifu.",
-        "not_found": "%1$sI can't find any user with this query."
+        "no_user": "%1$sTu n'as mentionné aucun utilisateur à réclamer.",
+        "locked": "%1$sTu es actuellement incapable d'exéctuer cette action.",
+        "key_locked": "%1$sL'utilisateur que tu as essayé de réclamer est verouillé et ne peut être réclamé.",
+        "not_enough_money": "%1$sTu n'as pas assez de monnaie pour réclamer cette waifu **(Coût: %2$s)**",
+        "not_enough_slots": "%1$sTu n'as pas assez d'emplacements disponibles pour réclamer cette waifu. (Emplacements au total: %2$s, Emplacements utilisés: %3$s)",
+        "success": "%1$sRéclamé `%2$s` avec succès pour %3$,d. Emplacements utilisés: %4$s",
+        "yourself": "%1$sTu ne peux pas te réclamer toi-même!",
+        "already_claimed": "%1$sTu as déjà réclamé cette waifu.",
+        "not_found": "%1$sJe ne trouve aucun utilisateur avec cette recherche."
       },
       "unclaim": {
-        "no_user": "%1$sYou need to mention a waifu to un-claim.",
-        "not_claimed": "%1$sThis user isn't your waifu!",
-        "confirmation": "%1$sAre you *sure* you want to un-claim %2$s? The cost to un-claim this waifu is **%3$s credits**. Type *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
-        "not_enough_money": "%1$sYou don't have enough money to un-claim this waifu!",
-        "player_locked": "%1$sYou cannot do this at the moment.",
-        "scrapped": "%1$sCancelled waifu un-claiming.",
-        "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**."
+        "no_user": "%1$sTu dois mentionner une waifu pour la rejeter.",
+        "not_claimed": "%1$sCet utilisateur n'est pas ta waifu!",
+        "confirmation": "%1$sEs-tu *sûr(e)* que tu veux rejeter %2$s? Le coût pour le faire est de **%3$s credits**. Ecris *oui* pour confirmer ou *non* pour annuler\n%4$sLe délai d'attente est d'une minute.",
+        "not_enough_money": "%1$sTu n'as pas assez de monnaie pour rejeter cette waifu!",
+        "player_locked": "%1$sTu ne pas faire ça pour le moment.",
+        "scrapped": "%1$sRejet de waifu annulé.",
+        "success": "%1$s`%2$s` Rejeté avec succès avec un coût de **%3$s credits**."
       },
       "buyslot": {
-        "locked": "%1$sYou're currently unable to perform this action.",
-        "not_enough_money": "%1$sYou don't have enough money to buy more slots! You need %2$d credits.",
-        "success": "%1$sSuccessfully bought this slot for %2$s, you currently have %3s total slots and %4$s available slots.",
-        "too_many": "%1$sYou already have too many slots!"
+        "locked": "%1$sTu n'as mentionné aucun utilisateur à réclamer.",
+        "not_enough_money": "%1$sTu n'as pas assez de monnaie pour acheter plus d'emplacements! Tu as besoin de %2$d credits.",
+        "success": "%1$sAcheté avec succès cet emplacement pour %2$s, tu as actuellement %3s emplacements au total et %4$s emplacements disponibles.",
+        "too_many": "%1$sTu as déjà trop d'emplacements!"
       },
-      "header": "Waifu List",
-      "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$d waifus as of now.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
-      "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `~>waifu claim` to get started.",
-      "footer": "Total waifus: %1$d - available slots: %2$s",
-      "value_format": "**- Value:**",
-      "value_b_format": "**- Bought for:**",
+      "header": "Liste de Waifus",
+      "description_header": "Voici une liste avec toutes tes waifus bien-aimées, triée par date d'ajout.\n*Tu peux avoir au maximum %1$d waifus pour l'instant.*\n\nSi tu souhaites voir les statistiques de tes waifus, utilise `~>waifu stats`\n\n",
+      "no_waifu": "Aucunes waifus à voir ici, juste de la poussière :(\nTu peux avoir des Waifus en réclamant quelqu'un! Utilise `~>waifu claim` pour commencer.",
+      "footer": "Waifus au total: %1$d - emplacements disponibles: %2$s",
+      "value_format": "**- Valeur:**",
+      "value_b_format": "**- Acheté pour:**",
       "credits_format": " credits.",
-      "waifu_header": "**Your waifus:**",
-      "not_claimed": "%1$sYou haven't claimed this waifu."
+      "waifu_header": "**Tes waifus:**",
+      "not_claimed": "%1$sTu n'as pas réclamé cette waifu."
     },
     "ratewaifu": {
-      "nothing_specified": "%1$sGive me a waifu to rate!",
-      "success": "%1$sI rate %2$s with a **%3$d/100**"
+      "nothing_specified": "%1$sDonnez-moi une waifu à noter!",
+      "success": "%1$sJe note %2$s avec un **%3$d/100**"
     },
     "roll": {
-      "success": "%1$sYou got **%2$d**%3$s",
-      "amount": "Doing **%1$d** rolls."
+      "success": "%1$sTu as eu **%2$d**%3$s",
+      "amount": "Faisant **%1$d** tirages."
     },
     "coinflip": {
-      "over_limit": "%1$sHold in there! The limit is 1,000 coin flips",
-      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions",
-      "success": "%1$s Your result from **%2$d** time(s) yielded **%3$d** heads and **%4$d** tails"
+      "over_limit": "%1$sAttend un peu! La limite est de 1,000 pile-ou-faces",
+      "no_repetitions": "%1$sTu dois insérer un nombre entier pour le nombre de répétitions",
+      "success": "%1$s Ton résulat des **%2$d** pile-ou-faces a abouti à **%3$d** piles et **%4$d** faces"
     },
     "inventory": {
-      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>market dump`",
-      "brief": "**%1$s's inventory:** %2$s",
-      "calculate": "%1$s%2$s will get **%3$d credits** if all of the items are sold.",
-      "header": "%1$s's Inventory",
-      "format": "**Price**: 📥 %1$d 📤 %2$d\n%3$s",
-      "empty": "%1$sThis inventory is empty! :(",
-      "brief_notice": "You can use `~>inventory -brief` to get a mobile friendly version."
+      "bot_notice": "%1$sIci, les bots n'ont pas d'inventaire. Eh bien, qeulques fois tu peux souhaiter qu'ils en aient un mais alors ça serait seuelemnt `~>market dump`",
+      "brief": "l'inventaire de **%1$s:** %2$s",
+      "calculate": "%1$s%2$s recevra **%3$d credits** si tous les objets dont vendus.",
+      "header": "inventaire de %1$s",
+      "format": "**Prix**: 📥 %1$d 📤 %2$d\n%3$s",
+      "empty": "%1$sCet inventaire est vide! :(",
+      "brief_notice": "Tu peux utiliser `~>inventory -brief` pour avoir une meilleure version pour mobile."
     },
     "cast": {
-      "no_item_found": "%1$sI didn't find any item matching that.",
-      "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items.",
-      "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
-      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
-      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
-      "success": "%1$sYou successfully *casted %2$s %3$s* for %4$s credits. *Cast used: %5$s*",
-      "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
-      "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
+      "no_item_found": "%1$sJe n'ai trouvé aucun objet qui correspond à ça.",
+      "item_not_cast": "%1$sTu ne peux pas faire fondre cet objet. Tu peux regarder `~>cast ls` pour la liste de tous les objets à fondre.",
+      "not_enough_money": "%1$sTu n'as pas assez de monnaie pour fondre ça. **(Coût: %2$s)**",
+      "no_item": "%1$sTu n'as pas l'objet nécessaire *%2$s* pour procéder à cette fonte.",
+      "not_enough_items": "%1$sTu n'as pas assez de *%2$s* pour le faire. **(Nécessaires: %3$s, Possédés: %4$s)**",
+      "success": "%1$sTu as avec succès *fondu %2$s %3$s* pour %4$s credits. *fonte utilisée: %5$s*",
+      "no_tool": "%1$sTu as besoin d'un(e) %2$s pour procéder à cette fonte!",
+      "item_broke": "\nMalheureusement, ton marteau s'est cassé dans le processus, mais tu as reçu ton objet!",
       "ls": {
-        "header": "Castable Item List",
-        "cost": "Cast Cost: ",
-        "desc": "This is a list of the items you can cast using `~>cast`. You have to use the full name or the short name to cast it (example: `~>cast diamond pickaxe` or `~>cast diamond p` works)\n**Casting has a cost of half the price of the item. The casting price will be shown down below.**"
+        "header": "Liste des objets à fondre",
+        "cost": "Coût de la fonte: ",
+        "desc": "C'est la liste de tous les objets que tu peux fondre un utilisant `~>cast`. Tu dois utiliser le nom complet ou l'abréviation pour le faire (exemple: `~>cast diamond pickaxe` ou `~>cast diamond p` fonctionne)\n**La fonte a un coût de la moitié du prix de l'objet. Le coût de la fonte apparaîtra ci-dessous.**"
       },
-      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?"
+      "dust": "%1$sTu ne peux pas faire fondre avec autant de poussière dans ton inventaire! *(Niveau de poussière: %2$s%%)*. Pourquoi ne pas le laver en utilisant `~>useitem mop`?"
     },
     "market": {
       "dump": {
-        "no_item": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to dump.",
-        "invalid": "%1$sNot a valid number of items to dump.",
-        "non_existent": "%1$sCannot dump a non-existent item!",
-        "player_no_item": "%1$sCannot dump an item you don't have!",
-        "more_items_than_player": "%1$sYou cannot dump more items than what you have.",
-        "success": "%1$sSent %2$dx **%3$s %4$s** to the trash."
+        "no_item": "%1$sTu dois préciser la quantité d'objet (s'il n'y en a qu'un, pas besoin de préciser la quantité) et lequel que tu veux jeter.",
+        "invalid": "%1$sPas un nombre valide d'objets à jeter.",
+        "non_existent": "%1$sImpossible de jeter un élément inexistant!",
+        "player_no_item": "%1$sImpossible de jeter un élément que tu n'as pas!",
+        "more_items_than_player": "%1$sTu ne peux pas jeter plus d'objets que tu en as.",
+        "success": "%1$sEnvoyé %2$dx **%3$s %4$s** à la poubelle."
       },
       "price": {
-        "non_existent": "%1$sCannot check the price of a non-existent item.",
-        "no_price": "%1$sThis item is not available neither for sell or buy (could be an exclusive collectible)",
-        "collectible": "%1$sThis is a collectible item. (Sell value: %2$d credits)",
-        "success": "%1$sThe market value of %2$s**%3$s** is %4$s credits to buy it and you can get %5$s credits if you sell it."
+        "non_existent": "%1$sImpossible de vérifier le prix un élément inexistant.",
+        "no_price": "%1$sCet objet est indisponible soit à la vente soit à l'achat (peut être un objet exclusif)",
+        "collectible": "%1$sC'est un objet exclusif. (Valeur à la vente: %2$d credits)",
+        "success": "%1$sLe prix de %2$s**%3$s** au marché est de %4$s credits à l'achat et tu peux avoir %5$s credits si tu le vends."
       },
       "sell": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
-        "invalid": "%1$sNot a valid number of items to sell.",
+        "no_item_amount": "%1$sTu dois préciser la quantité d'objet (s'il n'y en a qu'un, pas besoin de préciser la quantité) et l'objet que tu veux vendre.",
+        "invalid": "%1$sPas un nombre valide d'objets à vendre.",
         "all": {
-          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? Type *yes* to confirm and *no* to cancel",
-          "success": "%1$sYou sold all your inventory items and gained %2$d credits!",
-          "cancelled": "%1$sCancelled successfully."
+          "confirmation": "%1$sEs-tu *sûr(e)* de vouloir vendre **tous** tes objets? Ecris *oui* pour confirmer et *non* pour annuler",
+          "success": "%1$sTu as vendu tous les objets de ton inventaire et as reçu %2$d credits!",
+          "cancelled": "%1$sAnnulé avec succès."
         },
         "non_existent": "%1$sYou cannot sell a non-existent item.",
         "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
