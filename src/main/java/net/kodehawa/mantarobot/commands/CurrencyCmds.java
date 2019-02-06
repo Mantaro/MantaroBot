@@ -427,7 +427,7 @@ public class CurrencyCmds {
         marketCommand.addSubCommand("buy", new SubCommand() {
             @Override
             public String description() {
-                return "Buys an item. Usage: `~>market sell <item>`. You can buy multiple items if you put the amount before the item. " +
+                return "Buys an item. Usage: `~>market buy <item>`. You can buy multiple items if you put the amount before the item. " +
                         "You can use all, half and quarter to buy for ex., a quarter of 5000 items.";
             }
 
