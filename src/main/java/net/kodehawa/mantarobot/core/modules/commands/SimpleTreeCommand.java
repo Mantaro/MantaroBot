@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.core.modules.commands;
 
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -48,9 +49,14 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
      */
     public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
         //why?
-        if(commandName.isEmpty()) commandName = "none";
+        if(commandName.isEmpty())
+            commandName = "none";
 
-        event.getChannel().sendMessage(String.format("%1$sNo subcommand `%2$s` found in the `%3$s` command!. Check `~>help %3$s` for available subcommands", EmoteReference.ERROR, commandName, mainCommand)).queue();
+        new MessageBuilder()
+                .append(String.format("%1$sNo subcommand `%2$s` found in the `%3$s` command!. Check `~>help %3$s` for available subcommands", EmoteReference.ERROR, commandName, mainCommand))
+                .stripMentions(event.getJDA())
+                .sendTo(event.getChannel())
+                .queue();
 
         return null;
     }

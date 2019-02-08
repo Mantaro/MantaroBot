@@ -97,15 +97,6 @@ public class CCv3 {
             return "";
         });
 
-        //@url
-        DEFAULT_OPERATIONS.put("url", (__, args) -> URLEncoding.encode(String.join(";", args)));
-
-        //@jsonescape
-        DEFAULT_OPERATIONS.put("jsonescape", (__, args) -> {
-            String s = new JsonPrimitive(String.join(";", args)).toString();
-            return s.substring(1, s.length() - 1);
-        });
-
         DEFAULT_OPERATIONS.put("embed", (interpreter, args) -> {
             try {
                 EmbedJSON embed = GsonDataManager.gson(false)
