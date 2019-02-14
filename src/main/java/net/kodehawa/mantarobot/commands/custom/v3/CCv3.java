@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands.custom.v3;
 
-import com.google.gson.JsonPrimitive;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -10,7 +9,6 @@ import net.kodehawa.mantarobot.commands.custom.v3.ast.Node;
 import net.kodehawa.mantarobot.commands.custom.v3.interpreter.InterpreterContext;
 import net.kodehawa.mantarobot.commands.custom.v3.interpreter.InterpreterVisitor;
 import net.kodehawa.mantarobot.commands.custom.v3.interpreter.Operation;
-import net.kodehawa.mantarobot.utils.URLEncoding;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
@@ -51,8 +49,9 @@ public class CCv3 {
         DEFAULT_OPERATIONS.put("if", (__, args) -> {
             if(args.size() < 4)
                 return "`if requires at least 4 parameters`";
-            String input1 = args.get(0), compare = args.get(1),
-                    input2 = args.get(2), outputTrue = args.get(3);
+            String input1 = args.get(0).evaluate();
+            String compare = args.get(1).evaluate();
+            String input2 = args.get(2).evaluate();
 
             BiPredicate<String, String> comparator = comparators.get(compare);
             Predicate<String> predicate = predicates.get(compare);
@@ -65,34 +64,38 @@ public class CCv3 {
 
             if(predicate != null) {
                 if(predicate.test(input1))
-                    return outputTrue;
+                    return args.get(3).evaluate();
             }
 
             if(comparator != null) {
                 if(comparator.test(input1, input2))
-                    return outputTrue;
+                    return args.get(3).evaluate();
             }
 
             if(args.size() >= 5)
-                return args.get(4);
+                return args.get(4).evaluate();
 
             return "";
         });
 
         //@{not-empty[;arg]+?}
         DEFAULT_OPERATIONS.put("not-empty", (__, args) -> {
-            for(String arg : args)
-                if(!arg.isEmpty())
-                    return arg;
+            for(Operation.Argument arg : args) {
+                String value = arg.evaluate();
+                if(!value.isEmpty())
+                    return value;
+            }
 
             return "";
         });
 
         //@{not-empty-strict[;arg]+?}
         DEFAULT_OPERATIONS.put("not-empty-strict", (__, args) -> {
-            for(String arg : args)
-                if(!arg.trim().isEmpty())
-                    return arg;
+            for(Operation.Argument arg : args) {
+                String value = arg.evaluate();
+                if(!value.trim().isEmpty())
+                    return value;
+            }
 
             return "";
         });
@@ -100,7 +103,11 @@ public class CCv3 {
         DEFAULT_OPERATIONS.put("embed", (interpreter, args) -> {
             try {
                 EmbedJSON embed = GsonDataManager.gson(false)
-                        .fromJson('{' + String.join(";", args) + '}', EmbedJSON.class);
+                        .fromJson('{' +
+                                args.stream()
+                                        .map(Operation.Argument::evaluate)
+                                        .collect(Collectors.joining(";"))
+                                + '}', EmbedJSON.class);
                 interpreter.set("embed", embed);
             } catch(Exception e) {
                 return e.toString();
@@ -112,8 +119,9 @@ public class CCv3 {
             if(args.size() < 2) {
                 return "Usage: set <name> <value>";
             }
-            String value = args.stream().skip(1).collect(Collectors.joining(";"));
-            context.vars().put(args.get(0), value);
+            String value = args.stream().skip(1)
+                    .map(Operation.Argument::evaluate).collect(Collectors.joining(";"));
+            context.vars().put(args.get(0).evaluate(), value);
             return "";
         });
     }
