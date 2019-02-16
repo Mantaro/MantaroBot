@@ -587,7 +587,7 @@
         "success": "%1$sEnvoyé %2$dx **%3$s %4$s** à la poubelle."
       },
       "price": {
-        "non_existent": "%1$sImpossible de vérifier le prix un élément inexistant.",
+        "non_existent": "%1$sImpossible de vérifier le prix d'un élément inexistant.",
         "no_price": "%1$sCet objet est indisponible soit à la vente soit à l'achat (peut être un objet exclusif)",
         "collectible": "%1$sC'est un objet exclusif. (Valeur à la vente: %2$d credits)",
         "success": "%1$sLe prix de %2$s**%3$s** au marché est de %4$s credits à l'achat et tu peux avoir %5$s credits si tu le vends."
