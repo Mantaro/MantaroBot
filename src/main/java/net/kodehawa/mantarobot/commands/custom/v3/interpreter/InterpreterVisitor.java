@@ -2,8 +2,7 @@ package net.kodehawa.mantarobot.commands.custom.v3.interpreter;
 
 import net.kodehawa.mantarobot.commands.custom.v3.ast.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.stream.Collectors;
 
 public class InterpreterVisitor implements NodeVisitor<String, InterpreterContext> {
     @Override
@@ -23,11 +22,10 @@ public class InterpreterVisitor implements NodeVisitor<String, InterpreterContex
         if(op == null) {
             return "";
         }
-        List<String> args = new ArrayList<>();
-        for(Node arg : node.args()) {
-            args.add(arg.accept(this, context));
-        }
-        return op.apply(context, args);
+        return op.apply(context, node.args().stream()
+                .map(n -> (Operation.Argument) () -> n.accept(this, context))
+                .collect(Collectors.toList())
+        );
     }
 
     @Override

@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands.custom.v3.ast;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MultiNode implements Node {
     private final List<Node> children;
@@ -20,6 +21,14 @@ public class MultiNode implements Node {
 
     @Override
     public Node simplify() {
-        return children.size() == 1 ? children.get(0).simplify() : this;
+        switch(children.size()) {
+            case 0: return new LiteralNode("");
+            case 1: return children.get(0).simplify();
+            default: return new MultiNode(
+                    children.stream()
+                            .map(Node::simplify)
+                            .collect(Collectors.toList())
+            );
+        }
     }
 }

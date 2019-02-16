@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands.custom.v3.ast;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OperationNode implements Node {
     private final Node name;
@@ -26,6 +27,11 @@ public class OperationNode implements Node {
 
     @Override
     public Node simplify() {
-        return this;
+        return new OperationNode(
+                name.simplify(),
+                args.stream()
+                        .map(Node::simplify)
+                        .collect(Collectors.toList())
+        );
     }
 }

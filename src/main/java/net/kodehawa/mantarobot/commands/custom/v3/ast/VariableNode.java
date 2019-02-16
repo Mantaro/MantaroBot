@@ -18,6 +18,6 @@ public class VariableNode implements Node {
 
     @Override
     public Node simplify() {
-        return this;
+        return new VariableNode(name.simplify());
     }
 }
