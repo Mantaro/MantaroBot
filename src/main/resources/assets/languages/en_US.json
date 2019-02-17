@@ -1366,7 +1366,7 @@
         "below_minimum": "%1$sThe minimum amount is 25 credits",
         "no_tickets": "%1$sYou wanted to use tickets but you don't have any :<",
         "no_amount": "%1$sYou didn't specify the amount!",
-        "no_valid_amount": "%1$sThat's not a valid amount of money! (Example of valid amounts: 1000, 1K, 1.8, 14000, 2M)"
+        "no_valid_amount": "%1$sThat's not a valid amount of money! (Example of valid amounts: 1000, 1k, 14000, 2M)"
       },
       "roll": "%1$s**You used %2$s and rolled the slot machine**\n",
       "win": "And you won **%1$d** credits and got to keep what you bet (%2$d credits)! Lucky!",
