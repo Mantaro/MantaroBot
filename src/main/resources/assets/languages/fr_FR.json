@@ -645,8 +645,8 @@
     },
     "useitem": {
       "ls": {
-        "header": "Interactive Items List",
-        "desc": "This is a list of all interactive items in Mantaro. For more info about interactive items check the wiki!"
+        "header": "Liste des items interactifs",
+        "desc": "Ceci est une liste de tous les items interactifs de Mantaro. Si besoin d'aide, check le wiki!"
       },
       "use_command": "%1$sFor this item you need to use the command that's linked to the item! (mine for pick, fish for the fishing rod)",
       "no_items_specified": "%1$sYou need to specify what item to use.",
@@ -772,11 +772,11 @@
         "equipment": "Equipment"
       },
       "equip": {
-        "no_content": "%1$sYou have to specify which item to equip!",
-        "no_item": "%1$sThis item doesn't exist",
-        "not_owned": "%1$sYou don't own this item!",
-        "success": "%1$sYou successfully equipped %2$s *%3$s*, which will be remembered next time you use the proper currency command.",
-        "not_suitable": "%1$sYou can't equip this."
+        "no_content": "%1$sTu dois spécifier quel item équiper!",
+        "no_item": "%1$sCet item n'existe pas",
+        "not_owned": "%1$sTu ne possède pas cet item!",
+        "success": "%1$sTu as équipé %2$s *%3$s* avec succès, ce qui ne sera pas oublié la prochaine fois que tu utilise une commande monétaire.",
+        "not_suitable": "%1$sTu ne peux pas équiper cela."
       },
       "display": {
         "not_premium": "%1$sProfile widget personalization is only available to premium users.",
@@ -786,25 +786,25 @@
         "reset": "%1$sSuccessfully reset profile widget order.",
         "example": "\nExample: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
       },
-      "badge_header": "%1$sDisplay Badge",
-      "bot_notice": "%1$sBots don't have profiles.",
-      "header": "%1$s's Profile",
-      "no_desc": "No description set",
-      "credits": "Credits",
-      "level": "Level",
+      "badge_header": "%1$sBadge Affiché",
+      "bot_notice": "%1$sLes bots n'ont pas de profil.",
+      "header": "Profil de %1$s",
+      "no_desc": "Aucune description définie",
+      "credits": "Crédits",
+      "level": "Niveau",
       "xp": "XP",
-      "rep": "Reputation",
-      "birthday": "Birthday",
-      "married": "Married with",
-      "nobody": "Nobody",
-      "inventory": "Item Collection",
-      "badges": "Top 5 Badges",
-      "no_badges": "No badges (yet!)",
-      "no_timezone": "Not set",
-      "timezone_user": "User's timezone: %1$s",
-      "not_specified": "Not specified.",
-      "potion": "Active Potion",
-      "no_potion": "No active potions."
+      "rep": "Réputation",
+      "birthday": "Anniversaire",
+      "married": "Marié à",
+      "nobody": "Personne",
+      "inventory": "Collection d'items",
+      "badges": "Top 5 des Badges",
+      "no_badges": "Aucun badge (pour le moment!)",
+      "no_timezone": "Non défini",
+      "timezone_user": "Fuseau horaire: %1$s",
+      "not_specified": "Non spécifié",
+      "potion": "Potion active",
+      "no_potion": "Aucune potion active."
     },
     "badges": {
       "info": {
@@ -869,25 +869,25 @@
       "success": "%1$sI'll remind you (%2$s#%3$s) of `%4$s` in %5$s"
     },
     "time": {
-      "invalid_timezone": "%1$sThat's not a valid timezone.",
-      "success": "%1$sIt's %2$s in the %3$s timezone.",
-      "error": "%1$sI found an error while looking for the timezone in the big book over there... or it could be invalid."
+      "invalid_timezone": "%1$sCe n'est pas un fuseau horaire valide.",
+      "success": "%1$sC'est %2$s dans le %3$s fuseau horaire.",
+      "error": "%1$sUne erreur s'est produite quand j'ai recherché votre fuseau horaire.. il pourraît être invalide."
     },
     "urban": {
-      "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
-      "header": "Urban Dictionary definition for %1$s",
-      "too_many_args": "%1$sToo many arguments! Page format is `name->page number`",
-      "main_def": "Main definition.",
-      "footer": "Information by Urban Dictionary",
-      "nsfw_notice": "%1$sThis command can only be used in NSFW channels due to the nature of its results."
+      "no_args": "%1$sTu dois me spécifier ce que je dois rechercher sur UrbanDictionary.",
+      "header": "Définition Urban Dictionary pour %1$s",
+      "too_many_args": "%1$sTrop d'arguments! Le format est `name->numéro de page`",
+      "main_def": "Définition principale",
+      "footer": "Information par Urban Dictionary",
+      "nsfw_notice": "%1$sCette commande ne peut être utilisée que dans les channels NSFW dû à ses résultats."
     },
     "weather": {
       "header": "%1$s Forecast information for %2$s",
       "clouds": "clouds",
-      "temperature": "Temperature",
-      "humidity": "Humidity",
-      "wind_speed": "Wind Speed",
-      "pressure": "Pressure",
+      "temperature": "Température",
+      "humidity": "Humidité",
+      "wind_speed": "Vitesse du vent",
+      "pressure": "Pression",
       "footer": "Information provided by OpenWeatherMap (Process time: %1$dms)",
       "error": "%1$sError while fetching results. (Not found?)",
       "no_content": "%1$sYou need to specify which city and country to search the weather of!"
@@ -926,112 +926,112 @@
         "premium": "**Premium guild! <3**",
         "old_system": "**Premium guild under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
       },
-      "valid_for_old": "Valid for",
-      "old_days_more": "%1$d days more",
-      "thank_note": "Thanks you for your support <3",
-      "expire": "Expires in",
-      "key_duration": "Key total duration",
-      "key_owner": "Key owner",
-      "wrong_args": "%1$sWrong arguments...",
+      "valid_for_old": "Valid pendant",
+      "old_days_more": "%1$d jours de plus",
+      "thank_note": "Merci pour votre support <3",
+      "expire": "Expires dans",
+      "key_duration": "Durée totale de la clé",
+      "key_owner": "Propriétaire de la clé",
+      "wrong_args": "%1$sMauvais arguments...",
       "patreon": "Pledge",
-      "linked": "Linked",
-      "linked_to": "Linked to",
-      "keys_claimed": "Keys Claimed"
+      "linked": "Lié",
+      "linked_to": "Lié à",
+      "keys_claimed": "Clés validées"
     },
     "action": {
-      "no_mention": "%1$sYou need to mention a user",
-      "error_retrieving": "%1$sI found an error while retrieving the next gif for this action... (external error)",
-      "permission_or_unexpected_error": "%1$sS-Sorry! I dropped the image. (Probably I don't have permissions to send it)",
+      "no_mention": "%1$sTu dois mentionner un utilisateur",
+      "error_retrieving": "%1$sUne erreur s'est produite en recherchant ce gif.",
+      "permission_or_unexpected_error": "%1$sD-Désolé je ne peux pas envoyer l'image. (Je n'en ai probablement pas la permission)",
       "lonely": {
-        "pat": "Aww, I see you are lonely, take a pat <3",
-        "hug": "Aww, I see you are lonely, take a hug <3",
-        "kiss": "Aww, I see you are lonely, *kisses*",
-        "poke": "Aww, I see you are lonely, *pokes you*",
-        "slap": "Hmm, why do you want this? Uh, I guess... *slaps you*",
-        "bite": "*bites you*",
-        "lick": "*licks you*",
-        "tickle": "*tickles you*",
-        "highfive": "*highfives*",
-        "pout": "*pouts, hmph*",
+        "pat": "Ohh, je vois que tu es seul, voici une caresse <3",
+        "hug": "Ohh, je vois que tu es seul, take a hug <3",
+        "kiss": "Ohh, je vois que tu es seul, tiens un baiser *embrasse*",
+        "poke": "Ohh, je vois que tu es seul, tiens un petit coup *te touche*",
+        "slap": "Euh, pourquoi tu veux ça? Bon, bah... *te claque*",
+        "bite": "*te mords*",
+        "lick": "*te lèche*",
+        "tickle": "*te chatouille*",
+        "highfive": "*tape m'en cinq*",
+        "pout": "*Moue, hmph*",
         "teehee": "*teases you*",
-        "smile": "*smiles at you*",
-        "stare": "*stares at you*",
-        "holdhands": "*holds your hand*",
-        "cuddle": "*cuddles you*",
+        "smile": "*te souris*",
+        "stare": "*te regarde*",
+        "holdhands": "*tiens ta main*",
+        "cuddle": "*te câlines*",
         "nuzzle": "*nuzzles you*",
-        "bloodsuck": "J-Just how am I meant to? Oh well.. *sucks your blood*"
+        "bloodsuck": "C-Comment suis-je censé? Bon bah.. *suce ton sang*"
       },
       "self": {
-        "pat": "*is patted*",
-        "hug": "*blushes* o-oh... thanks you",
-        "kiss": "*blushes*... I- uh... don't think you should be kissing a bot but...",
-        "poke": "O-Oh! What do you need?",
+        "pat": "*est caressé*",
+        "hug": "*rougis* o-oh... merci",
+        "kiss": "*rougit*... J- euh... ne pense pas que tu devrais embrasser un bot...",
+        "poke": "O-Oh! Qu'as tu besoin?",
         "slap": ":(",
-        "bite": "T-That hurts!",
-        "lick": "How does metal taste? I don't believe it's too great...",
-        "tickle": "hahahaha... oh god stop >u<",
-        "highfive": "*highfives*",
-        "pout": "Are you mad at me? :(",
+        "bite": "Ç-ça fait mal!",
+        "lick": "Quel goût a le métal? Je ne pense pas que ça soit très bon",
+        "tickle": "hahahaha... oh mon dieu arrêtes! >u<",
+        "highfive": "*tape m'en cinq*",
+        "pout": "Es tu énervé contre moi? :(",
         "teehee": ":eyes:",
-        "smile": "Aww.",
+        "smile": "Ohh.",
         "stare": ":eyes:",
         "holdhands": "o-oh... ;//;",
-        "cuddle": "That's cute!",
-        "nuzzle": "Awwiee, cute!",
-        "bloodsuck": "Are you a vampire now?, oh!"
+        "cuddle": "C'est mignon!",
+        "nuzzle": "Ohhh, trop mignon!",
+        "bloodsuck": "T'es un vampire maintenant, oh!"
       },
-      "pat": "%1$s you have been patted by %2$s",
-      "hug": "%1$s you have been hugged by %2$s",
-      "kiss": "%1$s you have been kissed by %2$s",
-      "poke": "%1$s you have been poked by %2$s :eyes:",
-      "slap": "%1$s you have been slapped by %2$s!",
-      "bite": "%1$s you have been bitten by %2$s :eyes:",
-      "tickle": "%1$s you have been tickled by %2$s",
-      "lick": "%1$s you have been licked by %2$s",
-      "highfive": "%1$s highfives %2$s :heart:",
-      "pout": "%1$s pouts at %2$s *hmph*",
-      "teehee": "%1$s is teasing %2$s",
-      "smile": "%1$s is smiling at %2$s :heart:",
-      "stare": "%1$s is staring at %2$s",
-      "holdhands": "%1$s is holding %2$s's hand",
-      "cuddle": "%1$s you have been cuddled by %2$s",
+      "pat": "%1$s tu as été caressé par %2$s",
+      "hug": "%1$s tu as été câliné par %2$s",
+      "kiss": "%1$s tu as été embrassé par %2$s",
+      "poke": "%1$s tu as été touché par %2$s :eyes:",
+      "slap": "%1$s tu as été claqué par %2$s!",
+      "bite": "%1$s tu as été mordu par %2$s :eyes:",
+      "tickle": "%1$s tu as été chatouillé par %2$s",
+      "lick": "%1$s tu as été léché par %2$s",
+      "highfive": "%1$s fait un tape m'en cinq à %2$s :heart:",
+      "pout": "%1$s s'énerve contre %2$s *hmph*",
+      "teehee": "%1$s taquine%2$s",
+      "smile": "%1$s sourit à %2$s :heart:",
+      "stare": "%1$s regarde %2$s",
+      "holdhands": "%1$s tiens la main de %2$s",
+      "cuddle": "%1$s tu as été câliné par %2$s",
       "nuzzle": "%1$s is nuzzling %2$s",
-      "bloodsuck": "%1$s is sucking the blood of %2$s!",
-      "nom": "Yummy.",
+      "bloodsuck": "%1$s suce le sang de %2$s!",
+      "nom": "Succulent.",
       "facedesk": "*facedesks*",
-      "lewd": "Y-You lewdie!",
-      "meow": "Meow."
+      "lewd": "P-Petit coquin!",
+      "meow": "Miaou."
     },
     "game": {
-      "won_games": "%1$s%2$s has won **%3$s games**",
-      "nothing_specified": "%1$sYou didn't specify anything to play...",
-      "not_enough_games": "%1$sYou need to specify two games at least",
-      "invalid_selection": "%1$sYou need to specify two games at least (Valid games: character, pokemon, number, trivia)!",
+      "won_games": "%1$s%2$s a gagné **%3$s parties**",
+      "nothing_specified": "%1$sTu n'as pas spécifié un jeu à jouer..",
+      "not_enough_games": "%1$sTu dois spécifier au moins deux jeux..",
+      "invalid_selection": "%1$sTu dois spécifier au moins deux jeux.. (Jeux valides: character, pokemon, number, trivia)!",
       "multiple": {
-        "invalid": "%1$sYou need to specify the game and the number of times to run it",
-        "invalid_times": "%1$sInvalid number of times. Remember that it must be an integer.",
-        "too_many_games": "%1$sYou can only start a maximum of 5 games of the same type at a time.",
-        "no_character": "%1$sYou cannot use character game in game multiple or lobby due to AniList API limitations."
+        "invalid": "%1$sTu dois spécifier le jeu et le nombre de fois auquel tu veux y jouer",
+        "invalid_times": "%1$sNombre de parties à jouer invalide.",
+        "too_many_games": "%1$sTu ne peux commencer que 5 parties à la fois.",
+        "no_character": "%1$sTu ne peux pas jouer à character en multijoueur ou en lobby dû à la limitation d'API."
       },
       "trivia": {
-        "wrong_diff": "%1$sWrong difficulty specified! (Supported: easy, medium and hard)",
-        "fetch_error": "%1$sError while starting trivia. Seemingly Open Trivia DB is having trouble.",
-        "possibilities": "Possibilities",
-        "difficulty": "Difficulty",
-        "category": "Category"
+        "wrong_diff": "%1$sDifficulté incorrecte! (Supporté: easy, medium and hard)",
+        "fetch_error": "%1$sErreur rencontrée en commençant le trivia.",
+        "possibilities": "Possibilités",
+        "difficulty": "Difficulté",
+        "category": "Catégorie"
       },
       "number": {
-        "start": "%1$sGuess the number! **You have 5 attempts and 30 seconds. The number is between 0 and 150**",
-        "nan": "%1$sThat's not even a number...",
-        "ended_game": "%1$sEnded game. The number was: %2$d",
-        "all_attempts_used": "%1$sAlready used all attempts, ending game. The number was: %2$d",
-        "hint": "Hint: The number is %1$s than your input number.",
-        "higher": "higher",
-        "lower": "lower"
+        "start": "%1$sDevine ! **You have 5 attempts and 30 seconds. The number is between 0 and 150**",
+        "nan": "%1$sCe n'est même pas un numéro...",
+        "ended_game": "%1$sPartie terminée, le numéro était: %2$d",
+        "all_attempts_used": "%1$sTu n'as plus d'essais. Le numéro était : %2$d",
+        "hint": "Indice: Le numéro est %1$s de ce que tu viens d'écrire.",
+        "higher": "plus",
+        "lower": "moins"
       },
       "pokemon": {
-        "header": "Who's that pokemon?",
-        "footer": "You have 5 attempts and 75 seconds. (Type end to end the game)"
+        "header": "Qui est ce pokémon?",
+        "footer": "Tu as 5 essais et 75 secondes. (Écris end pour arrêter la partie)"
       },
       "started_mp_role": "%1$sStarted a multi-player lobby with all users with the specified role: **%2$s**",
       "started_mp_user": "%1$sStarted a multi-player lobby with users: **%2$s**",
@@ -1059,160 +1059,160 @@
       "not_crate": "%1$sThat is not a valid loot crate."
     },
     "prune": {
-      "no_messages_specified": "%1$sYou specified no messages to prune.",
-      "no_permissions": "%1$sI cannot prune on this server since I don't have the Manage Messages permission.",
-      "bot_no_messages": "%1$sThere are no messages from bots or bot calls here.",
-      "no_pins_no_messages": "%1$sThere are no non-pinned messages here...",
-      "mention_no_messages": "%1$sThere are no messages from users which you mentioned here.",
-      "too_few_messages": "%1$sToo few messages to prune. The minimum is 5.",
-      "error_retrieving": "%1$sI found an unknown error while retrieving the history to prune the messages (Internal: %2$s %3$s)",
-      "invalid_number": "%1$sPlease specify a valid number.",
-      "not_valid": "%1$sThat's not a valid number of messages to delete.",
-      "less_than_five": "%1$sYou need to provide at least 5 messages.",
-      "messages_too_old": "%1$sThere are no messages newer than 2 weeks old, discord won't let me delete them.",
-      "success": "%1$sSuccessfully pruned %2$s messages from this channel.",
-      "lack_perms": "%1$sLack of permission while pruning messages (No permission provided: %2$s)",
-      "error_deleting": "%1$sUnknown error while pruning messages (Internal: %2$s %3$s)"
+      "no_messages_specified": "%1$sVous n'avez spécifié aucun message à purger.",
+      "no_permissions": "%1$sJe ne peux pas purger sur ce serveur car je n'ai pas la permission Gérer les messages.",
+      "bot_no_messages": "%1$sIl n'y a aucun messages de bots ici.",
+      "no_pins_no_messages": "%1$sIl n'y a aucun message non-épinglé ici...",
+      "mention_no_messages": "%1$sIl n'y a aucun message de l'utilisateur mentionné ici.",
+      "too_few_messages": "%1$sTrop peu de messages à purger. Le minimum est de 5.",
+      "error_retrieving": "%1$sJ'ai rencontré une erreur en essayant de purger les messages. (Internal: %2$s %3$s)",
+      "invalid_number": "%1$sMerci de spéciifer un montant valide.",
+      "not_valid": "%1$sCe n'est pas un montant de message à purger valide.",
+      "less_than_five": "%1$sVous devez au moins fournir 5 messages",
+      "messages_too_old": "%1$sIl n'y aucun message datant de moins de 2 semaines, Discord ne m'y laisse pas accès.",
+      "success": "%1$s%2$s messages purgés de ce canal avec succès.",
+      "lack_perms": "%1$sManque de permission pour purger. (Aucune permission fournie: %2$s)",
+      "error_deleting": "%1$sErreur inconnue en purgeant les messages (Internal: %2$s %3$s)"
     },
     "imageboard": {
       "catgirl": {
-        "error": "Error retrieving cute catgirl images :("
+        "error": "Erreur rencontrée en récupérant des images catgirl :("
       },
       "cat": {
-        "error": "%1$sError retrieving cute cat images :("
+        "error": "%1$sErreur rencontrée en récupérant des images de chat :("
       },
-      "too_many_tags": "%1$sYou specified too many tags for the current imageboard! Imageboard %2$s accepts a maximum of %3$d tags.",
-      "invalid_rating": "%1$sYou provided an invalid rating (Available types: questionable, explicit, safe)",
-      "nsfw_no_nsfw": "%1$sI cannot send a NSFW image in a non-nsfw channel :(",
-      "no_images": "%1$sThere are no images matching your search criteria...",
-      "no_results": "%1$s**There aren't any more images or no results found**! Please try with a lower number or another search.",
-      "error": "%1$sThere was an error while looking for an image...",
-      "wrong_argument": "%1$sWrong argument type. Check ~>help %2$s",
-      "blacklisted_tag": "%1$sThis image tag has been blacklisted here by an administrator.",
-      "error_tag": "%1$sThere was an error while looking for this tag...",
-      "error_random": "%1$sThere was an error while looking for a random image...",
-      "non_nsfw_channel": "%1$sNot on an NSFW channel. Cannot send lewd images.\n**Reminder:** You can set this channel as NSFW by going to the channel settings and checking `Set this Channel as NSFW`.",
+      "too_many_tags": "%1$sTu as spécifié trop de tags pour l'imageboard! L'imageboard %2$s n'accepte qu'un maximum de %3$d tags.",
+      "invalid_rating": "%1$sTu as spécifié un argument invalide (Arguments disponibles: questionable, explicit, safe)",
+      "nsfw_no_nsfw": "%1$sJe ne peux pas envoyer du NSFW dans un channel qui n'est pas NSFW :(",
+      "no_images": "%1$sIl n'y a pas d'image répondant à vos critères...",
+      "no_results": "%1$s**Aucune image ou résultat trouvé**! Merci d'essayer un autre nom ou un chiffre plus bas.",
+      "error": "%1$sUne erreur s'est produite en cherchant une image...",
+      "wrong_argument": "%1$sMauvais type d'argument. Fait ~>help %2$s",
+      "blacklisted_tag": "%1$sCette image a été blacklistée par un administrateur.",
+      "error_tag": "%1$sUne erreur s'est produite en cherchant ce tag...",
+      "error_random": "%1$sUne erreur s'est produite en cherchant une image au hasard...",
+      "non_nsfw_channel": "%1$sCe canal n'est pas NSFW. Impossible d'envoyer du lewd.\n**Rappel:** Tu peux le rendre NSFW en modifiant cela dans les paramètres.",
       "loli_content_disallow": "%1$sSadly I cannot display images that allegedly contain `loli` or `shota` lewd/NSFW content because discord prohibits it. (Filter ran: Image contains a loli or shota tag and it's NSFW)",
-      "null_list_notice": "%1$sOops... something went wrong when searching... (If you used a tag, the tag might not exist)",
-      "found_image": "Found an image",
-      "description_image": "Rating: **%1$s**, Imageboard: **%2$s**",
-      "width": "Width",
-      "height": "Height",
+      "null_list_notice": "%1$sOups... something went wrong when searching... (If you used a tag, the tag might not exist)",
+      "found_image": "J'ai trouvé une image",
+      "description_image": "Évaluation: **%1$s**, Imageboard: **%2$s**",
+      "width": "Largeur",
+      "height": "Longueur",
       "tags": "Tags",
-      "load_notice": "If the image doesn't load, click the title.",
+      "load_notice": "Si l'image ne charge pas cliques sur le titre.",
       "rule34_notice": "If you don't like the content on this command, you can use ~>yandere",
       "yandere_nsfw_notice": "%1$sYande.re command can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!"
     },
     "about": {
-      "title": "About Mantaro",
+      "title": "A propos de Mantaro",
       "description": {
-        "1": "Hello, I'm **Mantaro**! I'm here to make your life a little easier. To get started, type `~>help`!",
-        "2": "Some of my features include:",
-        "3": "**Moderation made easy** (`Mass kick/ban, prune commands, logs and more!`)",
-        "4": "**Funny and useful commands**, see `~>help remindme` or `~>help hug` for examples.",
-        "5": "**First quality music**, check out `~>music`!.",
-        "support": "**[Support server](https://discordapp.com/invite/cMTmuPa)! | [Support Mantaro development!](https://www.patreon.com/mantaro)**",
-        "credits": "%1$sCheck ~>about credits!"
+        "1": "Salut, je suis **Mantaro**! Je suis là pour te faciliter la vie. Pour commencer, écrit `~>help`!",
+        "2": "Certaines de mes fonctionnalités comprennent:",
+        "3": "**Modération plus simple** (`Kick/ban en masse, logs et plus!`)",
+        "4": "**Commandes marrantes et utiles**, voir `~>help remindme` ou `~>help hug` pour des exemples.",
+        "5": "**Musique de qualité**, voir `~>music`!.",
+        "support": "**[Serveur support](https://discordapp.com/invite/cMTmuPa)! | [Supporter le développement](https://www.patreon.com/mantaro)**",
+        "credits": "%1$sVoir ~>about credits!"
       },
       "patreon": {
-        "header": "**Mantaro's Patreon Pledgers**"
+        "header": "**Patrons Mantaro**"
       },
       "credits": {
-        "main_dev": "Main developer",
-        "dev": "Developer",
+        "main_dev": "Développeur principall",
+        "dev": "Développeur",
         "docs": "Documentation",
-        "translators": "Translators",
-        "community_admin": "Community Admin",
-        "special_mentions": "Thanks to bots.discord.pw, Carbonitex and discordbots.org for helping us with increasing the bot's visibility.",
-        "thank_note": "Much thanks to everyone above for helping make Mantaro better!"
+        "translators": "Traducteurs",
+        "community_admin": "Admin communautaire",
+        "special_mentions": "Merci à bots.discord.pw, Carbonitex et discordbots.org d'aider au bot à se faire voir aux yeux du public.",
+        "thank_note": "Merci beaucoup à tous les gens du dessus pour rendre Mantaro meilleur."
       },
-      "version": "MantaroBot Version",
-      "uptime": "Uptime",
+      "version": "Version MantaroBot",
+      "uptime": "Durée de fonctionnement",
       "shards": "Shards",
       "threads": "Threads",
-      "guilds": "Servers",
-      "users": "Users (Unique)",
-      "tc": "Text Channels",
-      "vc": "Voice Channels",
-      "invite": "Invite link: http://is.gd/mantaro (Commands this session: %1$,d | Current shard: %2$d)"
+      "guilds": "Serveurs",
+      "users": "Utilisateurs (Uniques)",
+      "tc": "Canaux textuels",
+      "vc": "Canaux vocaux",
+      "invite": "Lien d'invitation: http://is.gd/mantaro (Commandes cette session: %1$,d | Shard actuelle: %2$d)"
     },
     "invite": {
-      "url": "Invite URL",
-      "server": "Support Server",
-      "patreon": "Patreon URL",
+      "url": "URL d'invitation",
+      "server": "Serveur de support",
+      "patreon": "URL Patreon",
       "description" : {
-        "1": "Here are some useful links!",
-        "2": "**If you have any questions about the bot, feel free to join the support guild and ask**!.",
-        "3": "We provided a patreon link in case you would like to help Mantaro keep running by donating [and getting perks by doing so!].",
-        "4": "Thanks you for using the bot! **<3 from the developers and the Mantaro team**"
+        "1": "Voici des liens utiles!",
+        "2": "**Si vous avez des questions sur le bot, n'hésitez pas à rejoindre le serveur et demander**!.",
+        "3": "Nous avons ajouté un lien Patreon au cas où vous voudriez aider le bot à s'émliorer [et recevoir des avantages au passage].",
+        "4": "Merci d'utiliser le BOT! **<3 des développeurs de la team Mantaro**"
       },
-      "footer": "We hope you have fun with the bot."
+      "footer": "Nous espérons que vous vous amusez avec le bot"
     },
     "stats": {
-      "header": "Mantaro Statistics",
-      "description": "Well... I did my math!",
+      "header": "Statistiques Mantaro",
+      "description": "Bon... j'ai fais des maths",
       "usage": {
         "header": "Mantaro's usage information",
         "description": "Hardware and usage information.",
         "threads": "Threads",
-        "memory_usage": "Memory Usage",
-        "cores": "CPU Cores",
-        "cpu_usage": "CPU Usage",
-        "assigned_mem": "Assigned Memory",
-        "assigned_remaining": "Remaining from assigned"
+        "memory_usage": "Usage mémoire",
+        "cores": "Coeurs CPU",
+        "cpu_usage": "Usage CPU",
+        "assigned_mem": "Mémoire dédiée",
+        "assigned_remaining": "Restant du dédié"
       },
       "server": {
-        "header": "Mantaro's server usage information",
-        "cpu_usage": "CPU Usage",
-        "rem": "RAM (TOTAL/FREE/USED)"
+        "header": "Usage du serveur de Mantaro",
+        "cpu_usage": "Usage CPU",
+        "rem": "RAM (TOTAL/LIBRE/UTILISÉ)"
       }
     },
     "social": {
-      "header": "%1$sO-Oh, I see you're interested on seeing my social networks!\n\n",
+      "header": "%1$sO-Oh, je vois que tu es interessé(e) par mes réseaux sociaux!\n\n",
       "description": {
-        "1": "W-Well, here we go!",
-        "2": "**- Website:** <%1$s>"
+        "1": "B-bien, voilà!",
+        "2": "**- Site web:** <%1$s>"
       },
-      "note": "**If you like Mantaro, please up-vote on** <https://discordbots.org/bot/mantaro> **and/or consider donating on Patreon or Paypal! Thanks you~**"
+      "note": "**Si tu aimes Mantaro, merci d'upvote sur ** <https://discordbots.org/bot/mantaro> **et ou songer à donner sur PayPal ou Patreon! Merci~**"
     },
     "avatar": {
-      "result": "%1$sAvatar for: **%2$s**\n%3$s"
+      "result": "%1$sAvatar pour: **%2$s**\n%3$s"
     },
     "serverinfo": {
-      "header": "Server Information",
-      "description": "Server information for %1$s",
-      "users": "Users (Online/Unique)",
-      "created": "Creation Date",
-      "channels": "Voice/Text Channels",
-      "owner": "Owner",
-      "region": "Region",
-      "roles": "Roles (%1$d)",
-      "id_show": "Server ID: %1$s"
+      "header": "Informations du serveur",
+      "description": "Infos pour %1$s",
+      "users": "Utilisateurs (Online/Unique)",
+      "created": "Date de création",
+      "channels": "Canaux voxaux/textuels",
+      "owner": "Propriétaire",
+      "region": "Région",
+      "roles": "Rôles (%1$d)",
+      "id_show": "ID: %1$s"
     },
     "userinfo": {
-      "header": "User info for %1$s#%2$s",
-      "roles": "Roles: [%1$d]",
-      "id": "User ID",
-      "join_date": "Join Date",
-      "created": "Account Created",
-      "account_age": "Account Age",
-      "mutual_guilds": "Mutual Guilds",
-      "vc": "Voice Channel",
-      "color": "Color",
-      "status": "Status",
-      "nothing": "Nothing",
-      "default": "Default"
+      "header": "Infos pour %1$s#%2$s",
+      "roles": "Rôles: [%1$d]",
+      "id": "ID",
+      "join_date": "Date à laquelle l'utilisateur a rejoint",
+      "created": "Date de création",
+      "account_age": "Âge du compte",
+      "mutual_guilds": "Guildes en commun",
+      "vc": "Canal vocal",
+      "color": "Couleur",
+      "status": "Statut",
+      "nothing": "Rien",
+      "default": "Défaut"
     },
     "roleinfo": {
-      "header": "Role info for %1$s",
-      "id": "Role ID",
-      "created": "Role Created",
-      "age": "Role Age",
-      "color": "Color",
-      "members": "Members",
+      "header": "Info du rôle %1$s",
+      "id": "ID",
+      "created": "Role crée",
+      "age": "Âge du rôle",
+      "color": "Couleur",
+      "members": "Membre",
       "position": "Position",
-      "hoisted": "Hoisted",
-      "managed": "Managed",
+      "hoisted": "Séparé",
+      "managed": "Géré",
       "permissions": "Permissions: [%1$d]"
     },
     "donate": {
@@ -1263,30 +1263,30 @@
       "no_info": "No info."
     },
     "balance": {
-      "bot_notice": "%1$sBots cannot have money.",
-      "external_balance": "%1$s's balance is **$%2$d credits.**",
-      "own_balance": "Your balance is **$%1$d credits.**"
+      "bot_notice": "%1$sLes bots ne peuvent pas avoir d'argent.",
+      "external_balance": "Le solde de %1$s est de **$%2$d crédits.**",
+      "own_balance": "Ton solde est de **$%1$d crédits.**"
     },
     "daily": {
-      "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
-      "about_now": "about now",
+      "check": "%1$sTu pourras réclamer ton daily dans : **%2$s.**",
+      "about_now": "à peu près maintenant",
       "errors": {
-        "bot": "%1$sYou cannot transfer your daily to a bot.",
-        "receipt_locked": "That user cannot receive daily credits now.",
-        "own_locked": "You cannot receive your daily now."
+        "bot": "%1$sTu ne peux pas transférer ton daily à un bot.",
+        "receipt_locked": "Cet utilisateur ne peut pas recevoir de daily maintenant.",
+        "own_locked": "Tu ne peux pas recevoir ton daily maintenant."
       },
       "streak": {
-        "up": "Streak up! Current streak: `%1$sx`",
-        "first_time": "First time claiming daily, have fun! (Come back for your streak tomorrow!)",
-        "lost_streak": "2+ days have passed since your last daily, so your streak of `%1$dx` got reset :(",
-        "bonus": "\nYou won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)",
+        "up": "Streak actuel: `%1$sx`",
+        "first_time": "Premier claim de daily, amuses toi bien! (Reviens demain!!)",
+        "lost_streak": "Plus de 2 jours sont passés depuis ta dernière réclamation donc ton streak de `%1$dx` a été remis à 0 :(",
+        "bonus": "\nYou won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Inclut dans l'argent montré!)",
         "given": {
           "up": "Streak up! Current streak: `%1$dx`.\n*The streak was applied to your profile!*",
-          "bonus": "%1$s won a bonus of $%2$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)"
+          "bonus": "%1$s gagne un bonus de $%2$s pour avoir réclamé son streak journalier 5 jours ou plus! (Inclut dans l'argent montré!)"
         }
       },
-      "given_credits": "%1$sI gave your **$%2$s** daily credits to %3$s\n\n%4$s",
-      "credits": "%1$sYou got **$%2$s** daily credits.\n\n%3$s%4$s"
+      "given_credits": "%1$sJ'ai donné **$%2$s** de crédits à %3$s\n\n%4$s",
+      "credits": "%1$sTu reçois **$%2$s** de crédits journaliers.\n\n%3$s%4$s"
     },
     "gamble": {
       "no_credits": "%1$sYou're broke. Maybe search for some credits first.",
@@ -1363,33 +1363,33 @@
       "credits": "credits"
     },
     "leaderboard": {
-      "header": "Mantaro's Leaderboard",
-      "money": "Money Leaderboard",
-      "reputation": "Reputation Leaderboard",
-      "gamble": "Gamble Wins Leaderboard",
-      "slots": "Slots Wins Leaderboard",
-      "daily": "Daily Streak Leaderboard",
-      "level": "Level leaderboard",
-      "game": "Game Wins leaderboard",
-      "waifu": "Waifu Value leaderboard",
-      "claim": "Waifu Claim leaderboard",
+      "header": "Classements Mantaro",
+      "money": "Classements Argent",
+      "reputation": "Classements Réputation",
+      "gamble": "Classements Gains Paris",
+      "slots": "Classements Gains Slots",
+      "daily": "Classement Streak Journalier",
+      "level": "Classement Niveaux",
+      "game": "Classement Parties Gagnées",
+      "waifu": "Classements Valeur Waifu",
+      "claim": "Classements Waifu Appropriée",
       "inner": {
-        "experience": "Experience",
-        "game": "%1sThis page shows the top 10 people who have won the most games.\n\nCheck out `~>help game` or `~>help trivia` for details on how games work!",
-        "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `~>help waifu` for details on the waifu system.",
-        "money": "%1$sThis page shows the top 10 richest people on Mantaro.\nThis leaderboard has been stale for a while, but never give up!",
-        "rep": "%1sThis page shows the top 10 people with the most reputation.",
-        "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `~>help daily` for more info",
-        "lvl": "%1sThis page shows the top 10 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
-        "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `~>help waifu` for details on the waifu system.",
-        "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `~>help gamble` for details on gamble.",
-        "slots": "%1sThis page shows the top 10 people with the most slots runs won.\n\nCheck out `~>help slots` for details on slots."
+        "experience": "Expérience",
+        "game": "%1sCette page montre le top 10 des gens qui ont gagnés le plus de parties.\n\nVas voir `~>help game` ou `~>help trivia` pour les détails!",
+        "claim": "%1sCette page montre le top 10 des gens qui se sont le plus fait appropriés en tant que Waifu.\n\nVas voir `~>help waifu` pour plus de détails.",
+        "money": "%1$sCette page montre le top 10 des gens les plus riches de Mantaro.!",
+        "rep": "%1sCette page montre le top 10 des gens qui ont le plus de réputation.",
+        "streak": "%1sCette page montre le top 10 des gens qui ont le plus gros streak journalier.\n\nVas voir `~>help daily` pour plus de détails",
+        "lvl": "%1sCette page montre le top 10 des gens qui ont le plus de niveaux.\n\nLes niveaux sont gagnés en parlant. Les commandes ne comptent pas et l'expérience a 30 secondes de pause.",
+        "waifu": "%1sCette page montre le top 10 des gens qui ont le plus de valeur Waifu.\n\nVas voir `~>help waifu` pour plus de détails.",
+        "gamble": "%1sCette page montre le top 10 des gens qui ont le plus de paris gagnés.\n\nVas voir `~>help gamble` pour plus de détails.",
+        "slots": "%1sCette page montre le top 10 des gens qui ont le plus de slots gagnés.\n\nVas voir `~>help slots` pour plus de détails."
       }
     },
     "iteminfo": {
-      "no_content": "%1$sYou didn't specify any item to look for!",
-      "no_item": "%1$sThere's no item matching your search query.",
-      "success": "%1$s**Item Info for** %2$s **%3$s** (Type: %4$s): *%5$s*"
+      "no_content": "%1$sTu n'as pas spécifié d'item à chercher!",
+      "no_item": "%1$sAucun item ne correspond à ta recherche",
+      "success": "%1$s**Info Item pour** %2$s **%3$s** (Type: %4$s): *%5$s*"
     }
   },
   "options": {
@@ -1763,13 +1763,13 @@
       "too_many": "%1$sThere are already too many words on the blacklist (more than 20)."
     },
     "modlog_blacklistwords_remove": {
-      "not_in": "%1$sWord `%2$s` isn't in the blacklist.",
-      "success": "%1$sSuccesfully removed word `%2$s` from the modlog blacklist."
+      "not_in": "%1$sLe mot `%2$s` n'est pas dans la blacklist.",
+      "success": "%1$sRetrait avec succès du mot `%2$s` de la blacklist."
      },
-    "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
-    "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
-    "no_command": "%1$sNo command called %2$s",
-    "invalid_role": "%1$sThat's not a valid role!"
+    "invalid_category": "%1$sTu as entré une catégorie invalide. Une liste des catétgoes valides est montrée ci dessous```md\n%2$s```",
+    "help_opts_notice": "%1$sTu ne peux pas désactiver la commande help ou options.",
+    "no_command": "%1$sAucune commande correspondante à %2$s",
+    "invalid_role": "%1$sCe n'est pas un rôle valide!"
   },
   "discord_permissions": {
     "create_instant_invite": "Créer une invitation instantanée",
