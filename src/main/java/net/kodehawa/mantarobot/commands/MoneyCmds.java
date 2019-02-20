@@ -621,7 +621,7 @@ public class MoneyCmds {
                    money += 58 * amountN;
                 }
 
-                if(args.length == 1 && !coinSelect) {
+                if(args.length > 1 && !coinSelect) {
                     try {
                         Long parsed = new RoundedMetricPrefixFormat().parseObject(args[0], new ParsePosition(0));
 
