@@ -27,6 +27,7 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.currency.seasons.helpers.PlayerInterface;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -492,9 +493,12 @@ public class MoneyCmds {
         cr.register("balance", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Map<String, Optional<String>> t = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split("\\s+"));
-                content = Utils.replaceArguments(t, content, "season");
-                boolean isSeasonal = t.containsKey("season");
+                boolean isSeasonal = false;
+                try {
+                    Map<String, Optional<String>> t = StringUtils.parse(content.split(" "));
+                    content = Utils.replaceArguments(t, content, "season").trim();
+                    isSeasonal = t.containsKey("season");
+                } catch (Exception ignored) { } //String index out of range: 0
 
                 ManagedDatabase db = MantaroData.db();
                 User user = event.getAuthor();
@@ -574,11 +578,11 @@ public class MoneyCmds {
                 boolean isWin = false;
                 boolean coinSelect = false;
                 int amountN = 1;
+                boolean isSeasonal = opts.containsKey("season");
 
                 final ManagedDatabase db = MantaroData.db();
-                Player player = db.getPlayer(event.getAuthor());
+                PlayerInterface player = isSeasonal ? db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason()) : db.getPlayer(event.getAuthor());
                 PlayerStats stats = db.getPlayerStats(event.getMember());
-
 
                 if(opts.containsKey("useticket")) {
                     coinSelect = true;
@@ -695,12 +699,17 @@ public class MoneyCmds {
                     stats.incrementSlotsWins();
                     stats.addSlotsWin(gains);
 
+                    Player actualPlayer = db.getPlayer(event.getAuthor());
+
                     if((gains + money) > SLOTS_MAX_MONEY) {
-                        player.getData().addBadgeIfAbsent(Badge.LUCKY_SEVEN);
+                        actualPlayer.getData().addBadgeIfAbsent(Badge.LUCKY_SEVEN);
                     }
 
                     if(coinSelect && amountN > ItemStack.MAX_STACK_SIZE - random.nextInt(650))
-                        player.getData().addBadgeIfAbsent(Badge.SENSELESS_HOARDING);
+                        actualPlayer.getData().addBadgeIfAbsent(Badge.SENSELESS_HOARDING);
+
+                    //No badges on seasonal.
+                    actualPlayer.saveAsync();
 
                     player.saveAsync();
                 } else {
