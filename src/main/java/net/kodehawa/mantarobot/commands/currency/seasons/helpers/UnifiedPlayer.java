@@ -90,4 +90,14 @@ public class UnifiedPlayer {
         return false;
     }
 
+    public void save() {
+        player.save();
+        seasonalPlayer.save();
+    }
+
+    public void saveAsync() {
+        player.saveAsync();
+        seasonalPlayer.saveAsync();
+    }
+
 }
