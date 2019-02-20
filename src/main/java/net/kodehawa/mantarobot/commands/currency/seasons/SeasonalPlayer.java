@@ -44,9 +44,7 @@ public class SeasonalPlayer implements ManagedObject {
     @Getter
     private final String id;
     private final transient Inventory inventory = new Inventory();
-
-    @Getter
-    private Season season;
+    
     @Getter
     private Long money;
     @Getter

@@ -24,6 +24,8 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
+import net.kodehawa.mantarobot.commands.currency.seasons.Season;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonalPlayer;
 import net.kodehawa.mantarobot.db.entities.*;
 
 import javax.annotation.CheckReturnValue;
@@ -170,6 +172,26 @@ public class ManagedDatabase {
     @CheckReturnValue
     public Player getPlayer(@Nonnull Member member) {
         return getPlayer(member.getUser());
+    }
+
+    @Nonnull
+    @CheckReturnValue
+    public SeasonalPlayer getPlayerForSeason(@Nonnull String userId, Season season) {
+        log("Requesting player {} (season {}) from rethink", userId, season);
+        SeasonalPlayer player = r.table(SeasonalPlayer.DB_TABLE).get(userId + ":" + season).run(conn, SeasonalPlayer.class);
+        return player == null ? SeasonalPlayer.of(userId, season) : player;
+    }
+
+    @Nonnull
+    @CheckReturnValue
+    public SeasonalPlayer getPlayerForSeason(@Nonnull User user, Season season) {
+        return getPlayerForSeason(user.getId(), season);
+    }
+
+    @Nonnull
+    @CheckReturnValue
+    public SeasonalPlayer getPlayerForSeason(@Nonnull Member member, Season season) {
+        return getPlayerForSeason(member.getUser(), season);
     }
 
     @Nonnull
