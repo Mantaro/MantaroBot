@@ -40,10 +40,7 @@ import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -164,7 +161,10 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map<?, ?>> c = getLeaderboard("players", "money",
+                Map<String, Optional<String>> t = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split("\\s+"));
+                String tableName = t.containsKey("season") ? "seasonalplayers" : "players";
+
+                List<Map<?, ?>> c = getLeaderboard(tableName, "money",
                         player -> player.g("id").match(pattern),
                         player -> player.pluck("id", "money"), 10
                 );
@@ -209,7 +209,10 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map<?, ?>> c = getLeaderboard("players", "reputation",
+                Map<String, Optional<String>> t = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split("\\s+"));
+                String tableName = t.containsKey("season") ? "seasonalplayers" : "players";
+
+                List<Map<?, ?>> c = getLeaderboard(tableName, "reputation",
                         player -> player.g("id").match(pattern),
                         player -> player.pluck("id", "reputation"), 10
                 );
@@ -253,7 +256,10 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map<?, ?>> c = getLeaderboard("players", "waifuCachedValue",
+                Map<String, Optional<String>> t = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split("\\s+"));
+                String tableName = t.containsKey("season") ? "seasonalplayers" : "players";
+
+                List<Map<?, ?>> c = getLeaderboard(tableName, "waifuCachedValue",
                         player -> player.g("id").match(pattern),
                         player -> player.pluck("id", r.hashMap("data", "waifuCachedValue")), 10
                 );
@@ -296,7 +302,10 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map<?, ?>> c = getLeaderboard("players", "gameWins",
+                Map<String, Optional<String>> t = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split("\\s+"));
+                String tableName = t.containsKey("season") ? "seasonalplayers" : "players";
+
+                List<Map<?, ?>> c = getLeaderboard(tableName, "gameWins",
                         player -> player.g("id").match(pattern),
                         player -> player.pluck("id", r.hashMap("data", "gamesWon")), 10
                 );
