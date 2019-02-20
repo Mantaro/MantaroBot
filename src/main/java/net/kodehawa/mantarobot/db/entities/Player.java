@@ -38,7 +38,7 @@ import java.util.Map;
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.serialize;
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 
-public class Player implements PlayerInterface, ManagedObject {
+public class Player implements PlayerInterface {
     public static final String DB_TABLE = "players";
     @Getter
     private final PlayerData data;
@@ -185,11 +185,6 @@ public class Player implements PlayerInterface, ManagedObject {
     public Player setMoney(long money) {
         this.money = money < 0 ? 0 : money;
         return this;
-    }
-
-    @Override
-    public void savePlayer() {
-        this.save();
     }
 
     //it's 3am and i cba to replace usages of this so whatever

@@ -25,7 +25,6 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.PlayerInterface;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.SeasonalPlayerData;
-import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 
 import javax.annotation.Nonnull;
@@ -36,7 +35,7 @@ import java.util.Map;
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.serialize;
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 
-public class SeasonalPlayer implements PlayerInterface, ManagedObject {
+public class SeasonalPlayer implements PlayerInterface {
     public static final String DB_TABLE = "seasonalplayers";
     @Getter
     private final SeasonalPlayerData data;
@@ -153,11 +152,6 @@ public class SeasonalPlayer implements PlayerInterface, ManagedObject {
     @JsonIgnore
     public Inventory getInventory() {
         return inventory;
-    }
-
-    @Override
-    public void savePlayer() {
-        this.save();
     }
 
     //it's 3am and i cba to replace usages of this so whatever
