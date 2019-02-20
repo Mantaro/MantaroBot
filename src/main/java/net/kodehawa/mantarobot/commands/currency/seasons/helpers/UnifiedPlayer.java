@@ -77,17 +77,18 @@ public class UnifiedPlayer {
      * @param money How much?
      */
     public boolean removeMoney(long money) {
+        if(player.getMoney() - money < 0 && seasonalPlayer.getMoney() - money < 0) {
+            return false;
+        }
         if(seasonalPlayer.getMoney() - money > 0) {
             seasonalPlayer.setMoney(Math.subtractExact(seasonalPlayer.getMoney(), money));
-            return true;
         }
 
         if(player.getMoney() - money > 0) {
             player.setMoney(Math.subtractExact(player.getMoney(), money));
-            return true;
         }
 
-        return false;
+        return true;
     }
 
     public void save() {
