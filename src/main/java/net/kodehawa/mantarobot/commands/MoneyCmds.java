@@ -762,13 +762,20 @@ public class MoneyCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                Map<String, String> t = StringUtils.parse(args);
+                boolean isSeasonal = t.containsKey("season");
+                content = Utils.replaceArguments(t, content, "season").trim();
+
                 final User user = event.getAuthor();
                 final ManagedDatabase db = MantaroData.db();
 
                 Player player = db.getPlayer(user);
+                SeasonalPlayer seasonalPlayer = db.getPlayerForSeason(user, getConfig().getCurrentSeason());
+
                 DBUser dbUser = db.getUser(user);
-                Inventory inventory = player.getInventory();
                 UserData userData = dbUser.getData();
+
+                Inventory inventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
 
                 Pickaxe item = (Pickaxe) Items.BROM_PICKAXE; //default pick
                 int equipped = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK);
@@ -889,7 +896,14 @@ public class MoneyCmds {
                 }
 
                 event.getChannel().sendMessage(message).queue();
-                player.addMoney(money);
+                if(isSeasonal) {
+                    seasonalPlayer.addMoney(money);
+                    seasonalPlayer.saveAsync();
+                } else {
+                    player.addMoney(money);
+                }
+
+                //Due to badges.
                 player.saveAsync();
             }
 

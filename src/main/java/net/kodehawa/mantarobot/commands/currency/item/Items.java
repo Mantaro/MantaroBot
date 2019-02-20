@@ -23,13 +23,17 @@ import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonalPlayer;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.RandomCollection;
+import net.kodehawa.mantarobot.utils.StringUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
@@ -56,6 +60,7 @@ public class Items {
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 4);
     private static final RateLimiter fishRatelimiter = new RateLimiter(TimeUnit.MINUTES, 4);
+    private static final Config config = MantaroData.config().get();
 
     public static final Item[] ALL = {
             HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7", "Headphones", "items.headphones", "items.description.headphones", 5, true, false, false),
@@ -176,9 +181,13 @@ public class Items {
 
         //Basically fish command.
         FISHING_ROD.setAction((event, context) -> {
+            Map<String, String> t = StringUtils.parse(event.getMessage().getContentRaw().split("\\s+")); //idc about anything but the argument itself here.
+            boolean isSeasonal = t.containsKey("season");
+
             Player p = managedDatabase.getPlayer(event.getAuthor());
+            SeasonalPlayer sp = managedDatabase.getPlayerForSeason(event.getAuthor(), config.getCurrentSeason());
             DBUser u = managedDatabase.getUser(event.getAuthor());
-            Inventory playerInventory = p.getInventory();
+            Inventory playerInventory = isSeasonal ? sp.getInventory() : p.getInventory();
 
             I18nContext lang = context.getLeft();
             String itemString = context.getRight();
@@ -230,7 +239,11 @@ public class Items {
                 event.getChannel().sendMessageFormat(lang.get("commands.fish.rod_broke"), EmoteReference.SAD).queue();
                 //Remove the item from the player inventory.
                 playerInventory.process(new ItemStack(item, -1));
-                p.save();
+                if(isSeasonal)
+                    sp.save();
+                else
+                    p.save();
+
                 return false;
             } else {
                 int select = random.nextInt(100);
@@ -319,7 +332,10 @@ public class Items {
 
                     List<ItemStack> reducedList = ItemStack.reduce(list);
                     playerInventory.process(reducedList);
-                    p.addMoney(money);
+                    if(isSeasonal)
+                        sp.addMoney(money);
+                    else
+                        p.addMoney(money);
 
                     String itemDisplay = ItemStack.toString(reducedList);
                     boolean foundFish = !reducedList.isEmpty();
@@ -365,6 +381,9 @@ public class Items {
 
                 //Save all changes to the player object.
                 p.save();
+                if(isSeasonal)
+                    sp.save();
+
                 return true;
             }
         });

@@ -251,7 +251,7 @@ public class CurrencyCmds {
 
                 Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
                 boolean isSeasonal = t.containsKey("season");
-                content = Utils.replaceArguments(t, content, "season");
+                content = Utils.replaceArguments(t, content, "season").trim();
 
                 String[] args = content.split(" ");
                 String itemName = content;
@@ -350,7 +350,7 @@ public class CurrencyCmds {
                 SeasonalPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
                 Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
                 boolean isSeasonal = t.containsKey("season");
-                content = Utils.replaceArguments(t, content, "season");
+                content = Utils.replaceArguments(t, content, "season").trim();
 
                 String[] args = content.split(" ");
                 String itemName = content;
@@ -466,7 +466,7 @@ public class CurrencyCmds {
                 SeasonalPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
                 Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
                 boolean isSeasonal = t.containsKey("season");
-                content = Utils.replaceArguments(t, content, "season");
+                content = Utils.replaceArguments(t, content, "season").trim();
 
                 String[] args = content.split(" ");
                 String itemName = content;
