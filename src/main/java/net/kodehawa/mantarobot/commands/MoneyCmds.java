@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import net.dv8tion.jda.core.entities.Member;
@@ -46,6 +45,7 @@ import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
@@ -492,8 +492,8 @@ public class MoneyCmds {
         cr.register("balance", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Map<String, Optional<String>> t = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split("\\s+"));
-                content = Utils.replaceArguments(t, content, "season");
+                Map<String, String> t = StringUtils.parse(content.split("\\s+"));
+                content = Utils.replaceArguments(t, content, "season").trim();
                 boolean isSeasonal = t.containsKey("season");
 
                 ManagedDatabase db = MantaroData.db();
@@ -508,6 +508,7 @@ public class MoneyCmds {
                 if(found.size() > 1 && !content.isEmpty()) {
                     event.getChannel().sendMessageFormat(languageContext.get("general.too_many_users_found"),
                             EmoteReference.THINKING, found.stream()
+                                    .limit(10)
                                     .map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator())
                                     .collect(Collectors.joining(", "))).queue();
                     return;
@@ -567,7 +568,7 @@ public class MoneyCmds {
         cr.register("slots", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Map<String, Optional<String>> opts = StringUtils.parse(args);
+                Map<String, String> opts = StringUtils.parse(args);
 
                 long money = 50;
                 int slotsChance = 25; //25% raw chance of winning, completely random chance of winning on the other random iteration
@@ -584,13 +585,13 @@ public class MoneyCmds {
                     coinSelect = true;
                 }
 
-                if(opts.containsKey("amount") && opts.get("amount").isPresent()) {
+                if(opts.containsKey("amount") && opts.get("amount") != null) {
                     if(!coinSelect) {
                         event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "slots.errors.amount_not_ticket"), EmoteReference.ERROR).queue();
                         return;
                     }
 
-                    String amount = opts.get("amount").get();
+                    String amount = opts.get("amount");
 
                     if(amount.isEmpty()) {
                         event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "slots.errors.no_amount"), EmoteReference.ERROR).queue();

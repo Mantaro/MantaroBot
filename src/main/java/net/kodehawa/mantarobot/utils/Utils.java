@@ -659,7 +659,7 @@ public class Utils {
         return ManagementFactory.getRuntimeMXBean().getUptime() / (double)millisPerDay;
     }
 
-    public static String replaceArguments(Map<String, Optional<String>> args, String content, String... toReplace) {
+    public static String replaceArguments(Map<String, ?> args, String content, String... toReplace) {
         if(args == null || args.isEmpty()) {
             return content;
         }

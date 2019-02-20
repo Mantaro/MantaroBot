@@ -58,7 +58,7 @@ public class LeaderboardCmd {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .spamTolerance(3)
                 .limit(1)
-                .cooldown(10, TimeUnit.SECONDS)
+                .cooldown(6, TimeUnit.SECONDS)
                 .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
                 .maxCooldown(5, TimeUnit.MINUTES)
                 .pool(MantaroData.getDefaultJedisPool())
@@ -162,7 +162,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                Map<String, Optional<String>> t = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split("\\s+"));
+                Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
                 boolean isSeasonal = t.containsKey("season");
                 String tableName = isSeasonal ? "seasonalplayers" : "players";
 
@@ -259,7 +259,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                Map<String, Optional<String>> t = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split("\\s+"));
+                Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
                 boolean isSeasonal = t.containsKey("season");
                 String tableName = isSeasonal ? "seasonalplayers" : "players";
 
@@ -306,7 +306,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                Map<String, Optional<String>> t = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split("\\s+"));
+                Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
                 boolean isSeasonal = t.containsKey("season");
                 String tableName = isSeasonal ? "seasonalplayers" : "players";
 

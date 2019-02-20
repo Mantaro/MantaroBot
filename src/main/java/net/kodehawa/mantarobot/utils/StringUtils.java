@@ -103,23 +103,27 @@ public class StringUtils {
     public static Map<String, String> parse(String[] args) {
         Map<String, String> options = new HashMap<>();
 
-        for(int i = 0; i < args.length; i++) {
-            if(args[i].charAt(0) == '-' || args[i].charAt(0) == '/') //This start with - or /
-            {
-                args[i] = args[i].substring(1);
-                if(i + 1 >= args.length || args[i + 1].charAt(0) == '-' || args[i + 1].charAt(0) == '/') //Next start with - (or last arg)
+        try {
+            for(int i = 0; i < args.length; i++) {
+                if(args[i].charAt(0) == '-' || args[i].charAt(0) == '/') //This start with - or /
                 {
-                    options.put(args[i], "null");
+                    args[i] = args[i].substring(1);
+                    if(i + 1 >= args.length || args[i + 1].charAt(0) == '-' || args[i + 1].charAt(0) == '/') //Next start with - (or last arg)
+                    {
+                        options.put(args[i], "null");
+                    } else {
+                        options.put(args[i], args[i + 1]);
+                        i++;
+                    }
                 } else {
-                    options.put(args[i], args[i + 1]);
-                    i++;
+                    options.put(null, args[i]);
                 }
-            } else {
-                options.put(null, args[i]);
             }
-        }
 
-        return options;
+            return options;
+        } catch (Exception e) {
+            return new HashMap<>();
+        }
     }
 
     public static String parseTime(long duration) {
