@@ -16,9 +16,12 @@
 
 package net.kodehawa.mantarobot.commands.currency.seasons;
 
-public enum Season {
-    FIRST("Winter 2019");
+import lombok.Getter;
 
+public enum Season {
+    FIRST("1st");
+
+    @Getter
     String display;
 
     Season(String display) {

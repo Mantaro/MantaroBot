@@ -25,9 +25,15 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.SeasonalPlayerData;
 import net.kodehawa.mantarobot.db.ManagedObject;
+import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
+import java.util.HashMap;
+import java.util.Map;
+
+import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.serialize;
+import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 
 public class SeasonalPlayer implements ManagedObject {
     public static final String DB_TABLE = "seasonalplayers";
@@ -43,15 +49,17 @@ public class SeasonalPlayer implements ManagedObject {
     private Long reputation;
     @Getter
     private Season season;
+    private final transient Inventory inventory = new Inventory();
 
     @JsonCreator
-    @ConstructorProperties({"id", "season", "money", "reputation", "data"})
-    public SeasonalPlayer(@JsonProperty("id") String id, @JsonProperty("season") Season season, @JsonProperty("money") Long money, @JsonProperty("reputation") Long reputation, @JsonProperty("data") SeasonalPlayerData data) {
+    @ConstructorProperties({"id", "season", "money", "inventory", "reputation", "data"})
+    public SeasonalPlayer(@JsonProperty("id") String id, @JsonProperty("season") Season season, @JsonProperty("money") Long money, @JsonProperty("inventory") Map<Integer, Integer> inventory, @JsonProperty("reputation") Long reputation, @JsonProperty("data") SeasonalPlayerData data) {
         this.id = id;
         this.money = money == null ? 0 : money;
         this.season = season;
         this.reputation = reputation == null ? 0 : reputation;
         this.data = data;
+        this.inventory.replaceWith(unserialize(inventory));
     }
 
     public static SeasonalPlayer of(User user, Season season) {
@@ -63,7 +71,7 @@ public class SeasonalPlayer implements ManagedObject {
     }
 
     public static SeasonalPlayer of(String userId, Season season) {
-        return new SeasonalPlayer(userId + ":" + season, season, 0L, 0L, new SeasonalPlayerData());
+        return new SeasonalPlayer(userId + ":" + season, season, 0L, new HashMap<>(), 0L, new SeasonalPlayerData());
     }
 
     @JsonIgnore
@@ -126,6 +134,16 @@ public class SeasonalPlayer implements ManagedObject {
     public SeasonalPlayer setMoney(long money) {
         this.money = money < 0 ? 0 : money;
         return this;
+    }
+
+    @JsonProperty("inventory")
+    public Map<Integer, Integer> rawInventory() {
+        return serialize(inventory.asList());
+    }
+
+    @JsonIgnore
+    public Inventory getInventory() {
+        return inventory;
     }
 
     //it's 3am and i cba to replace usages of this so whatever

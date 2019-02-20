@@ -1376,6 +1376,7 @@
     },
     "leaderboard": {
       "header": "Mantaro's Leaderboard",
+      "header_seasonal": "Mantaro's %1$s season Leaderboard",
       "money": "Money Leaderboard",
       "reputation": "Reputation Leaderboard",
       "gamble": "Gamble Wins Leaderboard",

@@ -27,6 +27,7 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -109,7 +110,8 @@ public class MoneyCmds {
                     return;
                 }
 
-                Player player = mentionedUser != null ? MantaroData.db().getPlayer(event.getGuild().getMember(mentionedUser)) : MantaroData.db().getPlayer(event.getMember());
+                UnifiedPlayer unifiedPlayer = UnifiedPlayer.of((mentionedUser != null ? mentionedUser : event.getAuthor()), getConfig().getCurrentSeason());
+                Player player = unifiedPlayer.getPlayer();
 
                 if(player.isLocked()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + (mentionedUser != null ? languageContext.withRoot("commands", "daily.errors.receipt_locked") : languageContext.withRoot("commands", "daily.errors.own_locked"))).queue();
@@ -217,17 +219,18 @@ public class MoneyCmds {
                         money = money + Math.max(5, r.nextInt(70));
                     }
 
-                    player.addMoney(money);
+                    unifiedPlayer.addMoney(money);
                     playerData.setLastDailyAt(System.currentTimeMillis());
-                    player.save();
+                    unifiedPlayer.save();
 
                     event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "daily.given_credits"), EmoteReference.CORRECT, money, mentionedUser.getName(), streak, sellout).queue();
                     return;
                 }
 
-                player.addMoney(money);
+                unifiedPlayer.addMoney(money);
+                //Player object comes from UnifiedPlayer, so it should update here too.
                 playerData.setLastDailyAt(System.currentTimeMillis());
-                player.save();
+                unifiedPlayer.save();
 
                 event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "daily.credits"), EmoteReference.CORRECT, money, streak, sellout).queue();
             }
@@ -393,7 +396,9 @@ public class MoneyCmds {
 
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Player player = MantaroData.db().getPlayer(event.getMember());
+                UnifiedPlayer unifiedPlayer = UnifiedPlayer.of(event.getAuthor(), getConfig().getCurrentSeason());
+
+                Player player = unifiedPlayer.getPlayer();
                 DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
                 TextChannel channel = event.getChannel();
 
@@ -417,7 +422,8 @@ public class MoneyCmds {
 
                 if(r.nextInt(100) == 0) { //1 in 100 chance of it dropping a loot crate.
                     ground.dropItem(Items.LOOT_CRATE);
-                    if(player.getData().addBadgeIfAbsent(Badge.LUCKY)) player.saveAsync();
+                    if(player.getData().addBadgeIfAbsent(Badge.LUCKY))
+                        player.saveAsync();
                 }
 
                 List<ItemStack> loot = ground.collectItems();
@@ -426,7 +432,6 @@ public class MoneyCmds {
                 if(MantaroData.db().getUser(event.getMember()).isPremium() && moneyFound > 0) {
                     moneyFound = moneyFound + random.nextInt(moneyFound);
                 }
-
 
                 if(!loot.isEmpty()) {
                     String s = ItemStack.toString(ItemStack.reduce(loot));
@@ -438,7 +443,7 @@ public class MoneyCmds {
                         overflow = "";
 
                     if(moneyFound != 0) {
-                        if(player.addMoney(moneyFound)) {
+                        if(unifiedPlayer.addMoney(moneyFound)) {
                             channel.sendMessageFormat(languageContext.withRoot("commands", "loot.with_item.found"),
                                     EmoteReference.POPPER, s, moneyFound, overflow).queue();
                         } else {
@@ -451,7 +456,7 @@ public class MoneyCmds {
 
                 } else {
                     if(moneyFound != 0) {
-                        if(player.addMoney(moneyFound)) {
+                        if(unifiedPlayer.addMoney(moneyFound)) {
                             channel.sendMessageFormat(languageContext.withRoot("commands", "loot.without_item.found"), EmoteReference.POPPER, moneyFound).queue();
                         } else {
                             channel.sendMessageFormat(languageContext.withRoot("commands", "loot.without_item.found_but_overflow"), EmoteReference.POPPER, moneyFound).queue();
@@ -469,7 +474,7 @@ public class MoneyCmds {
                     }
                 }
 
-                player.saveAsync();
+                unifiedPlayer.saveAsync();
             }
 
             @Override
@@ -487,6 +492,11 @@ public class MoneyCmds {
         cr.register("balance", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                Map<String, Optional<String>> t = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split("\\s+"));
+                content = Utils.replaceArguments(t, content, "season");
+                boolean isSeasonal = t.containsKey("season");
+
+                ManagedDatabase db = MantaroData.db();
                 User user = event.getAuthor();
                 boolean isExternal = false;
                 List<Member> found = FinderUtil.findMembers(content, event.getGuild());
@@ -513,7 +523,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                long balance = MantaroData.db().getPlayer(user).getMoney();
+                long balance = isSeasonal ? db.getPlayerForSeason(user, getConfig().getCurrentSeason()).getMoney() : db.getPlayer(user).getMoney();
 
                 event.getChannel().sendMessage(EmoteReference.DIAMOND + (isExternal ?
                         String.format(languageContext.withRoot("commands", "balance.external_balance"), user.getName(), balance) :

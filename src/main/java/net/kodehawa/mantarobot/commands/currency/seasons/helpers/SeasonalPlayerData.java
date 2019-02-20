@@ -21,6 +21,6 @@ import lombok.Data;
 @Data
 public class SeasonalPlayerData {
     private long gamesWon = 0;
-    private long waifuCachedValue;
+    private long waifuCachedValue = 0;
     private long lockedUntil = 0;
 }
