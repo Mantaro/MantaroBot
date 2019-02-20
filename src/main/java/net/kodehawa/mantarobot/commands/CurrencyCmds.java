@@ -29,6 +29,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonalPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -248,6 +249,10 @@ public class CurrencyCmds {
                     return;
                 }
 
+                Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
+                boolean isSeasonal = t.containsKey("season");
+                content = Utils.replaceArguments(t, content, "season");
+
                 String[] args = content.split(" ");
                 String itemName = content;
                 int itemNumber = 1;
@@ -270,19 +275,25 @@ public class CurrencyCmds {
                 }
 
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
+                SeasonalPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
 
-                if(!player.getInventory().containsItem(item)) {
+                if(!playerInventory.containsItem(item)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.player_no_item"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                if(player.getInventory().getAmount(item) < itemNumber) {
+                if(playerInventory.getAmount(item) < itemNumber) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.more_items_than_player"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                player.getInventory().process(new ItemStack(item, -itemNumber));
-                player.saveAsync();
+                playerInventory.process(new ItemStack(item, -itemNumber));
+                if(isSeasonal)
+                    seasonalPlayer.saveAsync();
+                else
+                    player.saveAsync();
+
                 event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.success"),
                         EmoteReference.CORRECT, itemNumber, item.getEmoji(), item.getName()).queue();
             }
@@ -336,6 +347,11 @@ public class CurrencyCmds {
                 }
 
                 Player player = MantaroData.db().getPlayer(event.getMember());
+                SeasonalPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
+                boolean isSeasonal = t.containsKey("season");
+                content = Utils.replaceArguments(t, content, "season");
+
                 String[] args = content.split(" ");
                 String itemName = content;
                 int itemNumber = 1;
@@ -352,7 +368,7 @@ public class CurrencyCmds {
                 }
 
                 try {
-                    if(args[0].equals("all")) {
+                    if(args[0].equals("all") && !isSeasonal) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.all.confirmation"), EmoteReference.WARNING).queue();
                         //Start the operation.
                         InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 60, e -> {
@@ -387,6 +403,7 @@ public class CurrencyCmds {
                         return;
                     }
 
+                    Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
                     Item toSell = Items.fromAny(itemName).orElse(null);
 
                     if(toSell == null) {
@@ -399,25 +416,32 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    if(player.getInventory().getAmount(toSell) < 1) {
+                    if(playerInventory.getAmount(toSell) < 1) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.no_item_player"), EmoteReference.STOP).queue();
                         return;
                     }
 
-                    if(player.getInventory().getAmount(toSell) < itemNumber) {
+                    if(playerInventory.getAmount(toSell) < itemNumber) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.more_items_than_player"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     int many = itemNumber * -1;
                     long amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
-                    player.getInventory().process(new ItemStack(toSell, many));
-                    player.addMoney(amount);
+                    playerInventory.process(new ItemStack(toSell, many));
+                    if(isSeasonal)
+                        seasonalPlayer.addMoney(amount);
+                    else
+                        player.addMoney(amount);
+
                     player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
                     event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.success"),
                             EmoteReference.CORRECT, Math.abs(many), toSell.getName(), amount).queue();
 
                     player.saveAsync();
+
+                    if(isSeasonal)
+                        seasonalPlayer.saveAsync();
                 } catch(Exception e) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + languageContext.get("general.invalid_syntax")).queue();
                 }
@@ -439,6 +463,11 @@ public class CurrencyCmds {
                 }
 
                 Player player = MantaroData.db().getPlayer(event.getMember());
+                SeasonalPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
+                boolean isSeasonal = t.containsKey("season");
+                content = Utils.replaceArguments(t, content, "season");
+
                 String[] args = content.split(" ");
                 String itemName = content;
                 int itemNumber = 1;
@@ -487,18 +516,26 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    ItemStack stack = player.getInventory().getStackOf(itemToBuy);
+                    Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
+                    ItemStack stack = playerInventory.getStackOf(itemToBuy);
                     if((stack != null && !stack.canJoin(new ItemStack(itemToBuy, itemNumber))) || itemNumber > 5000) {
                         //assume overflow
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.item_limit_reached"), EmoteReference.ERROR).queue();
                         return;
                     }
 
-                    if(player.removeMoney(itemToBuy.getValue() * itemNumber)) {
-                        player.getInventory().process(new ItemStack(itemToBuy, itemNumber));
+                    boolean removedMoney = isSeasonal ? seasonalPlayer.removeMoney(itemToBuy.getValue() * itemNumber) : player.removeMoney(itemToBuy.getValue() * itemNumber);
+
+                    if(removedMoney) {
+                        playerInventory.process(new ItemStack(itemToBuy, itemNumber));
                         player.getData().addBadgeIfAbsent(Badge.BUYER);
                         player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
+
+                        //Due to player data being updated here too.
                         player.saveAsync();
+
+                        if(isSeasonal)
+                            seasonalPlayer.saveAsync();
 
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.success"),
                                 EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber, player.getMoney()).queue();
