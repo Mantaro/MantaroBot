@@ -26,6 +26,7 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonalPlayer;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -579,11 +580,19 @@ public class MoneyCmds {
                 final ManagedDatabase db = MantaroData.db();
                 Player player = db.getPlayer(event.getAuthor());
                 PlayerStats stats = db.getPlayerStats(event.getMember());
+                SeasonalPlayer seasonalPlayer = null; //yes
+                boolean season = false;
 
+                if(opts.containsKey("season")) {
+                    season = true;
+                    seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                }
 
                 if(opts.containsKey("useticket")) {
                     coinSelect = true;
                 }
+
+                Inventory playerInventory = season ? seasonalPlayer.getInventory() : player.getInventory();
 
                 if(opts.containsKey("amount") && opts.get("amount") != null) {
                     if(!coinSelect) {
@@ -604,7 +613,7 @@ public class MoneyCmds {
                         event.getChannel().sendMessageFormat(languageContext.get("general.invalid_number"), EmoteReference.ERROR).queue();
                     }
 
-                   if(player.getInventory().getAmount(Items.SLOT_COIN) < amountN) {
+                   if(playerInventory.getAmount(Items.SLOT_COIN) < amountN) {
                         event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "slots.errors.not_enough_tickets"), EmoteReference.ERROR).queue();
                         return;
                    }
@@ -638,8 +647,9 @@ public class MoneyCmds {
                     }
                 }
 
+                long playerMoney = season ? seasonalPlayer.getMoney() : player.getMoney();
 
-                if(player.getMoney() < money && !coinSelect) {
+                if(playerMoney < money && !coinSelect) {
                     event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "slots.errors.not_enough_money"), EmoteReference.SAD).queue();
                     return;
                 }
@@ -648,17 +658,27 @@ public class MoneyCmds {
                     return;
 
                 if(coinSelect) {
-                    if(player.getInventory().containsItem(Items.SLOT_COIN)) {
-                        player.getInventory().process(new ItemStack(Items.SLOT_COIN, -amountN));
-                        player.saveAsync();
+                    if(playerInventory.containsItem(Items.SLOT_COIN)) {
+                        playerInventory.process(new ItemStack(Items.SLOT_COIN, -amountN));
+                        if(season)
+                            seasonalPlayer.saveAsync();
+                        else
+                            player.saveAsync();
+
                         slotsChance = slotsChance + 10;
                     } else {
                         event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "slots.errors.no_tickets"), EmoteReference.SAD).queue();
                         return;
                     }
                 } else {
-                    player.removeMoney(money);
-                    player.saveAsync();
+                    if(season) {
+                        seasonalPlayer.removeMoney(money);
+                        seasonalPlayer.saveAsync();
+                    }
+                    else {
+                        player.removeMoney(money);
+                        player.saveAsync();
+                    }
                 }
 
 
@@ -691,7 +711,6 @@ public class MoneyCmds {
 
                 if(isWin) {
                     message.append(toSend).append("\n\n").append(String.format(languageContext.withRoot("commands", "slots.win"), gains, money)).append(EmoteReference.POPPER);
-                    player.addMoney(gains + money);
 
                     stats.incrementSlotsWins();
                     stats.addSlotsWin(gains);
@@ -703,7 +722,14 @@ public class MoneyCmds {
                     if(coinSelect && amountN > ItemStack.MAX_STACK_SIZE - random.nextInt(650))
                         player.getData().addBadgeIfAbsent(Badge.SENSELESS_HOARDING);
 
-                    player.saveAsync();
+                    if(season) {
+                        seasonalPlayer.addMoney(gains + money);
+                        seasonalPlayer.saveAsync();
+                    }
+                    else {
+                        player.addMoney(gains + money);
+                        player.saveAsync();
+                    }
                 } else {
                     stats.getData().incrementSlotsLose();
                     message.append(toSend).append("\n\n").append(String.format(languageContext.withRoot("commands", "slots.lose"), EmoteReference.SAD));
