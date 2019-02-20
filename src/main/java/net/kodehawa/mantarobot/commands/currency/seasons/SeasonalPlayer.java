@@ -23,8 +23,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
-import net.kodehawa.mantarobot.commands.currency.seasons.helpers.PlayerInterface;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.SeasonalPlayerData;
+import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 
 import javax.annotation.Nonnull;
@@ -35,7 +35,7 @@ import java.util.Map;
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.serialize;
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 
-public class SeasonalPlayer implements PlayerInterface {
+public class SeasonalPlayer implements ManagedObject {
     public static final String DB_TABLE = "seasonalplayers";
     @Getter
     private final SeasonalPlayerData data;
