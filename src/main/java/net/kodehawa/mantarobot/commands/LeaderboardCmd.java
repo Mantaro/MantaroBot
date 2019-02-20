@@ -25,7 +25,6 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.currency.seasons.Season;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -34,7 +33,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -49,12 +47,9 @@ import java.util.stream.Collectors;
 
 import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
-import static net.kodehawa.mantarobot.utils.Utils.map;
 
 @Module
 public class LeaderboardCmd {
-    private Config config = MantaroData.config().get();
-
     @Subscribe
     public void richest(CommandRegistry cr) {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
@@ -171,7 +166,7 @@ public class LeaderboardCmd {
                 List<Map<?, ?>> c = getLeaderboard(tableName, "money",
                         player -> player.g("id"),
                         player -> player.pluck("id", "money"), 10,
-                        isSeasonal, config.getCurrentSeason().toString()
+                        isSeasonal, getConfig().getCurrentSeason().toString()
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
@@ -221,7 +216,7 @@ public class LeaderboardCmd {
                 List<Map<?, ?>> c = getLeaderboard(tableName, "reputation",
                         player -> player.g("id"),
                         player -> player.pluck("id", "reputation"), 10,
-                        isSeasonal, config.getCurrentSeason().toString()
+                        isSeasonal, getConfig().getCurrentSeason().toString()
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
@@ -270,7 +265,7 @@ public class LeaderboardCmd {
                 List<Map<?, ?>> c = getLeaderboard(tableName, "waifuCachedValue",
                         player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "waifuCachedValue")), 10,
-                        isSeasonal, config.getCurrentSeason().toString()
+                        isSeasonal, getConfig().getCurrentSeason().toString()
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
@@ -318,7 +313,7 @@ public class LeaderboardCmd {
                 List<Map<?, ?>> c = getLeaderboard(tableName, "gameWins",
                         player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "gamesWon")), 10,
-                        isSeasonal, config.getCurrentSeason().toString()
+                        isSeasonal, getConfig().getCurrentSeason().toString()
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
