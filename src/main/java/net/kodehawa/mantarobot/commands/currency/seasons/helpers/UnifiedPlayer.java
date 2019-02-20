@@ -30,7 +30,6 @@ public class UnifiedPlayer {
 
     @Getter
     public Player player;
-
     @Getter
     public SeasonalPlayer seasonalPlayer;
 
@@ -63,7 +62,7 @@ public class UnifiedPlayer {
         if(money < 0) return false;
         try {
             player.setMoney(Math.addExact(player.getMoney(), money));
-            seasonalPlayer.setMoney(Math.addExact(player.getMoney(), money));
+            seasonalPlayer.setMoney(Math.addExact(seasonalPlayer.getMoney(), money));
             return true;
         } catch(ArithmeticException ignored) {
             player.setMoney(0L);
@@ -79,7 +78,7 @@ public class UnifiedPlayer {
      */
     public void addReputation(long rep) {
         player.setReputation(player.getReputation() + rep);
-        seasonalPlayer.setReputation(player.getReputation() + rep);
+        seasonalPlayer.setReputation(seasonalPlayer.getReputation() + rep);
     }
 
     /**

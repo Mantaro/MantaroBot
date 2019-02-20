@@ -23,19 +23,11 @@ import lombok.Getter;
 import lombok.Setter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.SeasonalPlayerData;
 import net.kodehawa.mantarobot.db.ManagedObject;
-import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
-import java.util.HashMap;
-import java.util.Map;
-
-import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.serialize;
-import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 
 public class SeasonalPlayer implements ManagedObject {
     public static final String DB_TABLE = "seasonalplayers";
@@ -43,7 +35,6 @@ public class SeasonalPlayer implements ManagedObject {
     private final SeasonalPlayerData data;
     @Getter
     private final String id;
-    private final transient Inventory inventory = new Inventory();
 
     @Getter
     private Long money;
@@ -54,14 +45,13 @@ public class SeasonalPlayer implements ManagedObject {
     private Season season;
 
     @JsonCreator
-    @ConstructorProperties({"id", "money", "reputation", "inventory", "data"})
-    public SeasonalPlayer(@JsonProperty("id") String id, @JsonProperty("season") Season season, @JsonProperty("money") Long money, @JsonProperty("reputation") Long reputation, @JsonProperty("inventory") Map<Integer, Integer> inventory, @JsonProperty("data") SeasonalPlayerData data) {
+    @ConstructorProperties({"id", "season", "money", "reputation", "data"})
+    public SeasonalPlayer(@JsonProperty("id") String id, @JsonProperty("season") Season season, @JsonProperty("money") Long money, @JsonProperty("reputation") Long reputation, @JsonProperty("data") SeasonalPlayerData data) {
         this.id = id;
         this.money = money == null ? 0 : money;
         this.season = season;
         this.reputation = reputation == null ? 0 : reputation;
         this.data = data;
-        this.inventory.replaceWith(unserialize(inventory));
     }
 
     public static SeasonalPlayer of(User user, Season season) {
@@ -73,7 +63,7 @@ public class SeasonalPlayer implements ManagedObject {
     }
 
     public static SeasonalPlayer of(String userId, Season season) {
-        return new SeasonalPlayer(userId + ":" + season, season, 0L, 0L, new HashMap<>(), new SeasonalPlayerData());
+        return new SeasonalPlayer(userId + ":" + season, season, 0L, 0L, new SeasonalPlayerData());
     }
 
     @JsonIgnore
@@ -88,11 +78,6 @@ public class SeasonalPlayer implements ManagedObject {
     @Override
     public String getDatabaseId() {
         return getUserId();
-    }
-
-    @JsonIgnore
-    public Inventory getInventory() {
-        return inventory;
     }
 
     @JsonIgnore
@@ -113,7 +98,6 @@ public class SeasonalPlayer implements ManagedObject {
             return true;
         } catch(ArithmeticException ignored) {
             this.money = 0L;
-            this.getInventory().process(new ItemStack(Items.STAR, 1));
             return false;
         }
     }
@@ -126,11 +110,6 @@ public class SeasonalPlayer implements ManagedObject {
     public void addReputation(long rep) {
         this.reputation += rep;
         this.setReputation(reputation);
-    }
-
-    @JsonProperty("inventory")
-    public Map<Integer, Integer> rawInventory() {
-        return serialize(inventory.asList());
     }
 
     /**
