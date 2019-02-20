@@ -347,7 +347,7 @@ public class LeaderboardCmd {
     private List<Map<?, ?>> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction, int limit, boolean season, String seasonString) {
         Cursor<Map<?, ?>> m;
         try(Connection conn = Utils.newDbConnection()) {
-            if(season) {
+            if(season && seasonString != null) {
                 m = r.table(table)
                         .getAll(seasonString)
                         .optArg("index", r.desc("season"))
