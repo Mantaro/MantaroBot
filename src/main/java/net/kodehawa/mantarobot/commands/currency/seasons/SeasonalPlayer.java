@@ -44,18 +44,21 @@ public class SeasonalPlayer implements ManagedObject {
     @Getter
     private final String id;
     private final transient Inventory inventory = new Inventory();
-    
+
     @Getter
     private Long money;
     @Getter
     @Setter
     private Long reputation;
+    @Getter
+    private Season season;
 
     @JsonCreator
     @ConstructorProperties({"id", "money", "reputation", "inventory", "data"})
-    public SeasonalPlayer(@JsonProperty("id") String id, @JsonProperty("money") Long money, @JsonProperty("reputation") Long reputation, @JsonProperty("inventory") Map<Integer, Integer> inventory, @JsonProperty("data") SeasonalPlayerData data) {
+    public SeasonalPlayer(@JsonProperty("id") String id, @JsonProperty("season") Season season, @JsonProperty("money") Long money, @JsonProperty("reputation") Long reputation, @JsonProperty("inventory") Map<Integer, Integer> inventory, @JsonProperty("data") SeasonalPlayerData data) {
         this.id = id;
         this.money = money == null ? 0 : money;
+        this.season = season;
         this.reputation = reputation == null ? 0 : reputation;
         this.data = data;
         this.inventory.replaceWith(unserialize(inventory));
@@ -70,7 +73,7 @@ public class SeasonalPlayer implements ManagedObject {
     }
 
     public static SeasonalPlayer of(String userId, Season season) {
-        return new SeasonalPlayer(userId + ":" + season, 0L, 0L, new HashMap<>(), new SeasonalPlayerData());
+        return new SeasonalPlayer(userId + ":" + season, season, 0L, 0L, new HashMap<>(), new SeasonalPlayerData());
     }
 
     @JsonIgnore
@@ -95,11 +98,6 @@ public class SeasonalPlayer implements ManagedObject {
     @JsonIgnore
     public String getUserId() {
         return getId().split(":")[0];
-    }
-
-    @JsonIgnore
-    public Season getSeason() {
-        return Season.lookupFromString(getId().split(":")[1]);
     }
 
     /**

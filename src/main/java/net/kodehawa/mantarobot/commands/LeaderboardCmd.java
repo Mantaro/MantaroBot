@@ -25,6 +25,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.seasons.Season;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -33,6 +34,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -47,9 +49,12 @@ import java.util.stream.Collectors;
 
 import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.Utils.map;
 
 @Module
 public class LeaderboardCmd {
+    private Config config = MantaroData.config().get();
+
     @Subscribe
     public void richest(CommandRegistry cr) {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
@@ -61,8 +66,6 @@ public class LeaderboardCmd {
                 .pool(MantaroData.getDefaultJedisPool())
                 .prefix("leaderboard")
                 .build();
-
-        final String pattern = ":g$";
 
         TreeCommand leaderboards = (TreeCommand) cr.register("leaderboard", new TreeCommand(Category.CURRENCY) {
             @Override
@@ -162,11 +165,13 @@ public class LeaderboardCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Map<String, Optional<String>> t = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split("\\s+"));
-                String tableName = t.containsKey("season") ? "seasonalplayers" : "players";
+                boolean isSeasonal = t.containsKey("season");
+                String tableName = isSeasonal ? "seasonalplayers" : "players";
 
                 List<Map<?, ?>> c = getLeaderboard(tableName, "money",
-                        player -> player.g("id").match(pattern),
-                        player -> player.pluck("id", "money"), 10
+                        player -> player.g("id"),
+                        player -> player.pluck("id", "money"), 10,
+                        isSeasonal, config.getCurrentSeason().toString()
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
@@ -187,7 +192,7 @@ public class LeaderboardCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Map<?, ?>> c = getLeaderboard("players", "level",
-                        player -> player.g("id").match(pattern),
+                        player -> player.g("id"),
                         player -> player.pluck("id", "level", r.hashMap("data", "experience")), 10
                 );
 
@@ -210,11 +215,13 @@ public class LeaderboardCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Map<String, Optional<String>> t = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split("\\s+"));
-                String tableName = t.containsKey("season") ? "seasonalplayers" : "players";
+                boolean isSeasonal = t.containsKey("season");
+                String tableName = isSeasonal ? "seasonalplayers" : "players";
 
                 List<Map<?, ?>> c = getLeaderboard(tableName, "reputation",
-                        player -> player.g("id").match(pattern),
-                        player -> player.pluck("id", "reputation"), 10
+                        player -> player.g("id"),
+                        player -> player.pluck("id", "reputation"), 10,
+                        isSeasonal, config.getCurrentSeason().toString()
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
@@ -235,7 +242,7 @@ public class LeaderboardCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Map<?, ?>> c = getLeaderboard("players", "userDailyStreak",
-                        player -> player.g("id").match(pattern),
+                        player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "dailyStrike")), 10
                 );
 
@@ -257,11 +264,13 @@ public class LeaderboardCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Map<String, Optional<String>> t = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split("\\s+"));
-                String tableName = t.containsKey("season") ? "seasonalplayers" : "players";
+                boolean isSeasonal = t.containsKey("season");
+                String tableName = isSeasonal ? "seasonalplayers" : "players";
 
                 List<Map<?, ?>> c = getLeaderboard(tableName, "waifuCachedValue",
-                        player -> player.g("id").match(pattern),
-                        player -> player.pluck("id", r.hashMap("data", "waifuCachedValue")), 10
+                        player -> player.g("id"),
+                        player -> player.pluck("id", r.hashMap("data", "waifuCachedValue")), 10,
+                        isSeasonal, config.getCurrentSeason().toString()
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
@@ -303,11 +312,13 @@ public class LeaderboardCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Map<String, Optional<String>> t = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split("\\s+"));
-                String tableName = t.containsKey("season") ? "seasonalplayers" : "players";
+                boolean isSeasonal = t.containsKey("season");
+                String tableName = isSeasonal ? "seasonalplayers" : "players";
 
                 List<Map<?, ?>> c = getLeaderboard(tableName, "gameWins",
-                        player -> player.g("id").match(pattern),
-                        player -> player.pluck("id", r.hashMap("data", "gamesWon")), 10
+                        player -> player.g("id"),
+                        player -> player.pluck("id", r.hashMap("data", "gamesWon")), 10,
+                        isSeasonal, config.getCurrentSeason().toString()
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
@@ -333,22 +344,39 @@ public class LeaderboardCmd {
         return getLeaderboard(table, index, m -> true, mapFunction, limit);
     }
 
-    private List<Map<?, ?>> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction, int limit) {
+    private List<Map<?, ?>> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction, int limit, boolean season, String seasonString) {
         Cursor<Map<?, ?>> m;
         try(Connection conn = Utils.newDbConnection()) {
-            m = r.table(table)
-                    .orderBy()
-                    .optArg("index", r.desc(index))
-                    .filter(filterFunction)
-                    .map(mapFunction)
-                    .limit(limit)
-                    .run(conn, OptArgs.of("read_mode", "outdated"));
+            if(season) {
+                m = r.table(table)
+                        .getAll(seasonString)
+                        .optArg("index", r.desc("season"))
+                        .orderBy()
+                        .optArg("index", r.desc(index))
+                        .filter(filterFunction)
+                        .map(mapFunction)
+                        .limit(limit)
+                        .run(conn, OptArgs.of("read_mode", "outdated"));
+            } else {
+                m = r.table(table)
+                        .orderBy()
+                        .optArg("index", r.desc(index))
+                        .filter(filterFunction)
+                        .map(mapFunction)
+                        .limit(limit)
+                        .run(conn, OptArgs.of("read_mode", "outdated"));
+            }
+
         }
 
         List<Map<?, ?>> c = m.toList();
         m.close();
 
         return c;
+    }
+
+    private List<Map<?, ?>> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction, int limit) {
+        return getLeaderboard(table, index, filterFunction, mapFunction, limit, false, null);
     }
 
     private EmbedBuilder generateLeaderboardEmbed(GuildMessageReceivedEvent event, I18nContext languageContext, String description, String leaderboardKey, List<Map<?, ?>> lb, Function<Map<?, ?>, Pair<User, String>> mapFunction, String format) {
