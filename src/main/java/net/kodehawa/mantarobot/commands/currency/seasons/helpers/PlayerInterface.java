@@ -16,15 +16,16 @@
 
 package net.kodehawa.mantarobot.commands.currency.seasons.helpers;
 
-import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 
 //This is stuff I need on -both- seasonal player and normal player for stuff to work properly.
-public interface PlayerInterface extends ManagedObject {
+public interface PlayerInterface {
     void addReputation(long rep);
     boolean addMoney(long money);
     boolean removeMoney(long money);
     Long getMoney();
     long getReputation();
     Inventory getInventory();
+    //I hate this, but else everything will break beyond help lmao.
+    void savePlayer();
 }

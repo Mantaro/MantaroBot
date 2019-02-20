@@ -653,7 +653,7 @@ public class MoneyCmds {
                 if(coinSelect) {
                     if(player.getInventory().containsItem(Items.SLOT_COIN)) {
                         player.getInventory().process(new ItemStack(Items.SLOT_COIN, -amountN));
-                        player.saveAsync();
+                        player.savePlayer();
                         slotsChance = slotsChance + 10;
                     } else {
                         event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "slots.errors.no_tickets"), EmoteReference.SAD).queue();
@@ -661,7 +661,7 @@ public class MoneyCmds {
                     }
                 } else {
                     player.removeMoney(money);
-                    player.saveAsync();
+                    player.savePlayer();
                 }
 
 
@@ -711,7 +711,7 @@ public class MoneyCmds {
                     //No badges on seasonal.
                     actualPlayer.saveAsync();
 
-                    player.saveAsync();
+                    player.savePlayer();
                 } else {
                     stats.getData().incrementSlotsLose();
                     message.append(toSend).append("\n\n").append(String.format(languageContext.withRoot("commands", "slots.lose"), EmoteReference.SAD));
