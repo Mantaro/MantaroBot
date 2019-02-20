@@ -19,6 +19,8 @@ package net.kodehawa.mantarobot.core.modules.commands.base;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -57,5 +59,9 @@ public interface AssistedCommand extends Command {
     default Command addOption(String call, Option option) {
         Option.addOption(call, option);
         return this;
+    }
+
+    default Config getConfig() {
+        return MantaroData.config().get();
     }
 }

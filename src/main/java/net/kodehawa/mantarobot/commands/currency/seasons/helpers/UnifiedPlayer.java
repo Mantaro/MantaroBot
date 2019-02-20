@@ -17,6 +17,8 @@
 package net.kodehawa.mantarobot.commands.currency.seasons.helpers;
 
 import lombok.Getter;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.commands.currency.seasons.Season;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonalPlayer;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -41,6 +43,14 @@ public class UnifiedPlayer {
 
     public static UnifiedPlayer of(String userId, Season season) {
         return new UnifiedPlayer(managedDatabase.getPlayer(userId), managedDatabase.getPlayerForSeason(userId, season));
+    }
+
+    public static UnifiedPlayer of(User user, Season season) {
+        return UnifiedPlayer.of(user.getId(), season);
+    }
+
+    public static UnifiedPlayer of(Member member, Season season) {
+        return UnifiedPlayer.of(member.getUser().getId(), season);
     }
 
     /**

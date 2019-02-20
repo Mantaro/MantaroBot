@@ -33,6 +33,7 @@ import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
+import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -143,9 +144,10 @@ public class PlayerCmds {
                 if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
-                Player player = MantaroData.db().getPlayer(user);
+                UnifiedPlayer player = UnifiedPlayer.of(user, getConfig().getCurrentSeason());
                 player.addReputation(1L);
                 player.save();
+
                 new MessageBuilder().setContent(String.format(languageContext.get("commands.rep.success"), EmoteReference.CORRECT,  member.getEffectiveName()))
                         .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
                         .sendTo(event.getChannel())
