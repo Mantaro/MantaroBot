@@ -47,9 +47,7 @@ public class Player implements PlayerInterface {
     private final transient Inventory inventory = new Inventory();
     @Getter
     private Long level;
-    @Getter
     private Long money;
-    @Getter
     @Setter
     private Long reputation;
 
@@ -156,6 +154,16 @@ public class Player implements PlayerInterface {
     @JsonProperty("inventory")
     public Map<Integer, Integer> rawInventory() {
         return serialize(inventory.asList());
+    }
+
+    @JsonIgnore
+    public Long getMoney() {
+        return money;
+    }
+
+    @JsonIgnore
+    public long getReputation() {
+        return reputation;
     }
 
     /**

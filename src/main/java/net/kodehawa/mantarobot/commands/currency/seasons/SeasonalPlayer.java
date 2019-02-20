@@ -42,9 +42,7 @@ public class SeasonalPlayer implements PlayerInterface {
     @Getter
     private final String id;
 
-    @Getter
     private Long money;
-    @Getter
     @Setter
     private Long reputation;
     @Getter
@@ -91,6 +89,16 @@ public class SeasonalPlayer implements PlayerInterface {
     @JsonIgnore
     public String getUserId() {
         return getId().split(":")[0];
+    }
+
+    @JsonIgnore
+    public Long getMoney() {
+        return money;
+    }
+
+    @JsonIgnore
+    public long getReputation() {
+        return reputation;
     }
 
     /**

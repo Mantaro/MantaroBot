@@ -24,7 +24,7 @@ public interface PlayerInterface extends ManagedObject {
     void addReputation(long rep);
     boolean addMoney(long money);
     boolean removeMoney(long money);
-    long getMoney();
+    Long getMoney();
     long getReputation();
     Inventory getInventory();
 }
