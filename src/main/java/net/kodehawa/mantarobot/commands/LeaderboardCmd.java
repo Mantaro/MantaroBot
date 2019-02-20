@@ -165,8 +165,7 @@ public class LeaderboardCmd {
 
                 List<Map<?, ?>> c = getLeaderboard(tableName, "money",
                         player -> player.g("id"),
-                        player -> player.pluck("id", "money"), 10,
-                        isSeasonal, getConfig().getCurrentSeason().toString()
+                        player -> player.pluck("id", "money"), 10
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
@@ -215,8 +214,7 @@ public class LeaderboardCmd {
 
                 List<Map<?, ?>> c = getLeaderboard(tableName, "reputation",
                         player -> player.g("id"),
-                        player -> player.pluck("id", "reputation"), 10,
-                        isSeasonal, getConfig().getCurrentSeason().toString()
+                        player -> player.pluck("id", "reputation"), 10
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
@@ -264,8 +262,7 @@ public class LeaderboardCmd {
 
                 List<Map<?, ?>> c = getLeaderboard(tableName, "waifuCachedValue",
                         player -> player.g("id"),
-                        player -> player.pluck("id", r.hashMap("data", "waifuCachedValue")), 10,
-                        isSeasonal, getConfig().getCurrentSeason().toString()
+                        player -> player.pluck("id", r.hashMap("data", "waifuCachedValue")), 10
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
@@ -312,8 +309,7 @@ public class LeaderboardCmd {
 
                 List<Map<?, ?>> c = getLeaderboard(tableName, "gameWins",
                         player -> player.g("id"),
-                        player -> player.pluck("id", r.hashMap("data", "gamesWon")), 10,
-                        isSeasonal, getConfig().getCurrentSeason().toString()
+                        player -> player.pluck("id", r.hashMap("data", "gamesWon")), 10
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
@@ -339,39 +335,22 @@ public class LeaderboardCmd {
         return getLeaderboard(table, index, m -> true, mapFunction, limit);
     }
 
-    private List<Map<?, ?>> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction, int limit, boolean season, String seasonString) {
+    private List<Map<?, ?>> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction, int limit) {
         Cursor<Map<?, ?>> m;
         try(Connection conn = Utils.newDbConnection()) {
-            if(season && seasonString != null) {
-                m = r.table(table)
-                        .getAll(seasonString)
-                        .optArg("index", r.desc("season"))
-                        .orderBy()
-                        .optArg("index", r.desc(index))
-                        .filter(filterFunction)
-                        .map(mapFunction)
-                        .limit(limit)
-                        .run(conn, OptArgs.of("read_mode", "outdated"));
-            } else {
-                m = r.table(table)
-                        .orderBy()
-                        .optArg("index", r.desc(index))
-                        .filter(filterFunction)
-                        .map(mapFunction)
-                        .limit(limit)
-                        .run(conn, OptArgs.of("read_mode", "outdated"));
-            }
-
+            m = r.table(table)
+                    .orderBy()
+                    .optArg("index", r.desc(index))
+                    .filter(filterFunction)
+                    .map(mapFunction)
+                    .limit(limit)
+                    .run(conn, OptArgs.of("read_mode", "outdated"));
         }
 
         List<Map<?, ?>> c = m.toList();
         m.close();
 
         return c;
-    }
-
-    private List<Map<?, ?>> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction, int limit) {
-        return getLeaderboard(table, index, filterFunction, mapFunction, limit, false, null);
     }
 
     private EmbedBuilder generateLeaderboardEmbed(GuildMessageReceivedEvent event, I18nContext languageContext, String description, String leaderboardKey, List<Map<?, ?>> lb, Function<Map<?, ?>, Pair<User, String>> mapFunction, String format) {
