@@ -183,7 +183,7 @@ public class MantaroShard implements JDA {
                 .setAutoReconnect(true)
                 .setRateLimitPool(ratelimitPool, true)
                 .setCallbackPool(callbackPool, true)
-                .setAudioSendFactory(new NativeAudioSendFactory(700))
+                .setAudioSendFactory(new NativeAudioSendFactory(850))
                 .setEventManager(manager)
                 .setSessionController(sessionController)
                 .setBulkDeleteSplittingEnabled(false)
