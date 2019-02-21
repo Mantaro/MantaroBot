@@ -1403,6 +1403,11 @@
       "no_content": "%1$sYou didn't specify any item to look for!",
       "no_item": "%1$sThere's no item matching your search query.",
       "success": "%1$s**Item Info for** %2$s **%3$s** (Type: %4$s): *%5$s*"
+    },
+    "level": {
+      "bot_notice": "%1$sBots don't have level.",
+      "success_own": "%1$s your level is %2$s. (Experience: %3$s/%4$s)",
+      "success_other": "%1$s %2$s's is level %3$s. (Experience: %4$s/%5$s)"
     }
   },
   "options": {

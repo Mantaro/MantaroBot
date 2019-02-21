@@ -168,6 +168,47 @@ public class CurrencyCmds {
     }
 
     @Subscribe
+    public void level(CommandRegistry cr) {
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 8);
+        cr.register("level", new SimpleCommand(Category.CURRENCY) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                Member member = Utils.findMember(event, event.getMember(), content);
+
+                if(member == null)
+                    return;
+
+                if(member.getUser().isBot()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.level.bot_notice"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Player player = MantaroData.db().getPlayer(member);
+                long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
+
+                if(member.getUser().getIdLong() == event.getAuthor().getIdLong()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.level.own_success"),
+                            EmoteReference.ZAP, player.getLevel(), player.getData().getExperience(), experienceNext
+                    ).queue();
+                } else {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.level.success"),
+                            EmoteReference.ZAP, member.getUser().getAsTag(), player.getLevel(), player.getData().getExperience(), experienceNext
+                    ).queue();
+                }
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Checks your level or the level of another user.")
+                        .setUsage("~>level [user]")
+                        .addParameterOptional("user", "The user to check the id of. Can be a mention, tag or id.")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
     public void market(CommandRegistry cr) {
         final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 8);
 
