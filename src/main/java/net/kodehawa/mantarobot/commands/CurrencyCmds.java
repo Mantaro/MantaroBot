@@ -1050,8 +1050,15 @@ public class CurrencyCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        Player player = MantaroData.db().getPlayer(event.getAuthor());
-                        DBUser user = MantaroData.db().getUser(event.getMember());
+                        ManagedDatabase db = MantaroData.db();
+
+                        Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
+                        boolean isSeasonal = t.containsKey("season");
+                        content = Utils.replaceArguments(t, content, "season").trim();
+
+                        SeasonalPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                        Player player = db.getPlayer(event.getAuthor());
+                        DBUser user = db.getUser(event.getMember());
                         Optional<Item> toCast = Items.fromAnyNoId(content);
 
                         if(!toCast.isPresent()) {
@@ -1078,12 +1085,16 @@ public class CurrencyCmds {
                         String[] splitRecipe = recipe.split(";");
                         long castCost = castItem.getValue() / 2;
 
-                        if(player.getMoney() < castCost) {
+                        long money = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
+
+                        if(money < castCost) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_money"), EmoteReference.ERROR, castCost).queue();
                             return;
                         }
 
-                        if(!player.getInventory().containsItem(Items.WRENCH)) {
+                        Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
+
+                        if(!playerInventory.containsItem(Items.WRENCH)) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_tool"), EmoteReference.ERROR, Items.WRENCH.getName()).queue();
                             return;
                         }
@@ -1101,12 +1112,12 @@ public class CurrencyCmds {
                             Item item = Items.fromId(i);
                             int amount = Integer.valueOf(splitRecipe[increment]);
 
-                            if(!player.getInventory().containsItem(item)) {
+                            if(!playerInventory.containsItem(item)) {
                                 event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_item"), EmoteReference.ERROR, item.getName()).queue();
                                 return;
                             }
 
-                            int inventoryAmount = player.getInventory().getAmount(item);
+                            int inventoryAmount = playerInventory.getAmount(item);
                             if(inventoryAmount < amount) {
                                 event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_items"), EmoteReference.ERROR, item.getName(), amount, inventoryAmount).queue();
                                 return;
@@ -1120,22 +1131,27 @@ public class CurrencyCmds {
                         for(Map.Entry<Item, Integer> entry : castMap.entrySet()) {
                             Item i = entry.getKey();
                             int amount = entry.getValue();
-                            player.getInventory().process(new ItemStack(i, -amount));
+                            playerInventory.process(new ItemStack(i, -amount));
                         }
                         //end of recipe build
 
-                        player.getInventory().process(new ItemStack(castItem, 1));
+                        playerInventory.process(new ItemStack(castItem, 1));
 
                         String message = "";
                         if(random.nextInt(100) > 75) {
-                            player.getInventory().process(new ItemStack(Items.WRENCH, -1));
+                            playerInventory.process(new ItemStack(Items.WRENCH, -1));
                             message += languageContext.get("commands.cast.item_broke");
                         }
 
                         user.getData().increaseDustLevel(3);
                         user.save();
-                        player.removeMoney(castCost);
-                        player.save();
+                        if(isSeasonal) {
+                            seasonalPlayer.removeMoney(castCost);
+                            seasonalPlayer.save();
+                        } else {
+                            player.removeMoney(castCost);
+                            player.save();
+                        }
 
                         event.getChannel().sendMessageFormat(languageContext.get("commands.cast.success") + "\n" + message,
                                 EmoteReference.WRENCH, castItem.getEmoji(), castItem.getName(), castCost, recipeString.toString().trim()
