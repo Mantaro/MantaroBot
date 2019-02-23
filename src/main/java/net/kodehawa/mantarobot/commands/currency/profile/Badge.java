@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands.currency.profile;
 
 import lombok.Getter;
 import net.dv8tion.jda.core.utils.IOUtil;
+import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import org.slf4j.Logger;
@@ -86,7 +87,9 @@ public enum Badge {
 
     //Have more than 5000 items stacked.
     SHOPPER("Shopper", "\uD83D\uDED2", "Have more than 5000 items of any kind.", 91, 92,
-            (player, dbUser) -> player.getInventory().asList().stream().anyMatch(stack -> stack.getAmount() == 5000), false
+            (player, dbUser) -> player.getInventory().asList().stream()
+                    .filter(itemStack -> itemStack.getItem() != Items.CLAIM_KEY || !itemStack.getItem().isHidden())
+                    .anyMatch(stack -> stack.getAmount() == 5000), false
     ),
 
     //Open a loot crate.

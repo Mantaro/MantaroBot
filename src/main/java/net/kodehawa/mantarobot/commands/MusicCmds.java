@@ -970,10 +970,6 @@ public class MusicCmds {
     private void stop(GuildMessageReceivedEvent event, I18nContext lang) {
         GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
         TrackScheduler trackScheduler = musicManager.getTrackScheduler();
-        if(trackScheduler.getAudioPlayer().getPlayingTrack() != null && !trackScheduler.getAudioPlayer().isPaused()) {
-            trackScheduler.getAudioPlayer().getPlayingTrack().stop();
-        }
-
         int TEMP_QUEUE_LENGTH = trackScheduler.getQueue().size();
         trackScheduler.getQueue().clear();
 
@@ -981,9 +977,11 @@ public class MusicCmds {
             event.getChannel().sendMessageFormat(lang.get("commands.stop.cleanup"), EmoteReference.OK, TEMP_QUEUE_LENGTH).queue();
         }
 
+        trackScheduler.getAudioPlayer().destroy();
+
         //This ends up calling TrackScheduler#onTrackStart -> currentTrack == null -> TrackScheduler#onStop!
         //Beware to not close the connection twice...
-        trackScheduler.nextTrack(true, true);
+        //trackScheduler.nextTrack(true, true);
     }
 
     private boolean isInConditionTo(GuildMessageReceivedEvent event, I18nContext lang) {
