@@ -956,6 +956,13 @@ public class CurrencyCmds {
 
                             if(equippedItems.isEffectActive(type, ((Potion) item).getMaxUses())) {
                                 PotionEffect currentPotion = equippedItems.getCurrentEffect(type);
+                                if(currentPotion.getPotion() != Items.idOf(item)) {
+                                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.not_same_potion"),
+                                            EmoteReference.ERROR, item.getName(), Items.fromId(currentPotion.getPotion()).getName()
+                                    ).queue();
+
+                                    return;
+                                }
                                 if(currentPotion.equip(amount)) {
                                     event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied_multiple"),
                                             EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), currentPotion.getAmountEquipped()).queue();
@@ -968,7 +975,7 @@ public class CurrencyCmds {
                                 if(amount > 1)
                                     effect.equip(amount - 1);
                                 if(amount > 10) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size"), EmoteReference.ERROR, item.getName()).queue();
+                                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size_2"), EmoteReference.ERROR, item.getName()).queue();
                                     return;
                                 }
 
