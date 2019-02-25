@@ -33,6 +33,7 @@ import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonalPlayer;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -191,8 +192,13 @@ public class PlayerCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
+                        content = Utils.replaceArguments(t, content, "season").trim();
+                        boolean isSeasonal = t.containsKey("season");
+
                         User userLooked = event.getAuthor();
                         Player player = managedDatabase.getPlayer(userLooked);
+                        SeasonalPlayer seasonalPlayer = null;
                         DBUser dbUser = managedDatabase.getUser(userLooked);
                         Member memberLooked = event.getMember();
 
@@ -250,8 +256,11 @@ public class PlayerCmds {
                         List<Badge> badges = playerData.getBadges();
                         Collections.sort(badges);
 
+                        if(isSeasonal)
+                            seasonalPlayer = managedDatabase.getPlayerForSeason(userLooked, getConfig().getCurrentSeason());
+
                         boolean ringHolder = player.getInventory().containsItem(Items.RING) && userData.getMarriage() != null;
-                        ProfileComponent.Holder holder = new ProfileComponent.Holder(userLooked, player, dbUser, badges);
+                        ProfileComponent.Holder holder = new ProfileComponent.Holder(userLooked, player, seasonalPlayer, dbUser, badges);
 
                         EmbedBuilder profileBuilder = new EmbedBuilder();
                         profileBuilder.setAuthor((ringHolder ? "" : EmoteReference.RING) +
