@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.github.natanbc.javaeval.CompilationException;
 import com.github.natanbc.javaeval.CompilationResult;
 import com.github.natanbc.javaeval.JavaEvaluator;
@@ -408,7 +407,7 @@ public class OwnerCmd {
                 }
 
                 final DBGuild dbGuild = MantaroData.db().getGuild(guildString);
-                Map<String, Optional<String>> t = StringUtils.parse(args);
+                Map<String, String> t = getArguments(args);
                 if(t.containsKey("u")) {
                     dbGuild.getData().setMpLinkedTo(null);
                     dbGuild.save();

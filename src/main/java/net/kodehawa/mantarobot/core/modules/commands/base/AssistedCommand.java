@@ -22,9 +22,11 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.options.core.Option;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -45,6 +47,14 @@ public interface AssistedCommand extends Command {
 
     default void doTimes(int times, Runnable runnable) {
         for(int i = 0; i < times; i++) runnable.run();
+    }
+
+    default Map<String, String> getArguments(String[] args) {
+        return StringUtils.parse(args);
+    }
+
+    default Map<String, String> getArguments(String content) {
+        return StringUtils.parse(content.split("\\s+"));
     }
 
     default String checkString(String s) {

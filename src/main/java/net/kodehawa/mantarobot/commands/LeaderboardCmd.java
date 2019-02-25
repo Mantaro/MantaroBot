@@ -41,7 +41,10 @@ import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -162,7 +165,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
+                Map<String, String> t = getArguments(content);
                 boolean isSeasonal = t.containsKey("season");
                 String tableName = isSeasonal ? "seasonalplayers" : "players";
 
@@ -211,7 +214,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                Map<String, Optional<String>> t = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split("\\s+"));
+                Map<String, String> t = getArguments(content);
                 boolean isSeasonal = t.containsKey("season");
                 String tableName = isSeasonal ? "seasonalplayers" : "players";
 
@@ -259,7 +262,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
+                Map<String, String> t = getArguments(content);
                 boolean isSeasonal = t.containsKey("season");
                 String tableName = isSeasonal ? "seasonalplayers" : "players";
 
@@ -306,7 +309,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
+                Map<String, String> t = getArguments(content);
                 boolean isSeasonal = t.containsKey("season");
                 String tableName = isSeasonal ? "seasonalplayers" : "players";
 

@@ -493,7 +493,7 @@ public class MoneyCmds {
         cr.register("balance", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Map<String, String> t = StringUtils.parse(content.split("\\s+"));
+                Map<String, String> t = getArguments(content);
                 content = Utils.replaceArguments(t, content, "season").trim();
                 boolean isSeasonal = t.containsKey("season");
 
@@ -569,7 +569,7 @@ public class MoneyCmds {
         cr.register("slots", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Map<String, String> opts = StringUtils.parse(args);
+                Map<String, String> opts = getArguments(args);
 
                 long money = 50;
                 int slotsChance = 25; //25% raw chance of winning, completely random chance of winning on the other random iteration
@@ -762,7 +762,7 @@ public class MoneyCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Map<String, String> t = StringUtils.parse(args);
+                Map<String, String> t = getArguments(content);
                 boolean isSeasonal = t.containsKey("season");
                 content = Utils.replaceArguments(t, content, "season").trim();
 

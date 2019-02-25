@@ -192,7 +192,7 @@ public class PlayerCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
+                        Map<String, String> t = getArguments(content);
                         content = Utils.replaceArguments(t, content, "season").trim();
                         boolean isSeasonal = t.containsKey("season");
 
@@ -533,8 +533,6 @@ public class PlayerCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext ctx, String content) {
-                Map<String, Optional<String>> t = StringUtils.parse(content.isEmpty() ? new String[]{} : content.split("\\s+"));
-                content = Utils.replaceArguments(t, content, "brief");
                 Member member = Utils.findMember(event, event.getMember(), content);
 
                 if(member == null)
@@ -681,7 +679,7 @@ public class PlayerCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        Map<String, Optional<String>> t = StringUtils.parse(content.isEmpty() ? new String[]{} : content.split("\\s+"));
+                        Map<String, String> t = getArguments(content);
                         content = Utils.replaceArguments(t, content, "brief");
                         Member member = Utils.findMember(event, event.getMember(), content);
                         if(member == null) return;

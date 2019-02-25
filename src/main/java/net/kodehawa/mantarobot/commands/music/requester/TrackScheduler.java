@@ -124,6 +124,7 @@ public class TrackScheduler extends AudioEventAdapter {
                 if(getCurrentTrack().getUserData() != null) {
                     user = MantaroBot.getInstance().getUserById(String.valueOf(getCurrentTrack().getUserData()));
                 }
+
                 //Avoid massive spam of "now playing..." when repeating songs.
                 if(lastMessageSentAt == 0 || lastMessageSentAt + 10000 < System.currentTimeMillis()) {
                     getRequestedChannelParsed().sendMessage(

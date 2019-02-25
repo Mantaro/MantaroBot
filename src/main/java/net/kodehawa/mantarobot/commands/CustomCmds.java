@@ -475,9 +475,9 @@ public class CustomCmds {
                 }
 
                 if(action.equals("add") || action.equals("new")) {
-                    Map<String, Optional<String>> opts = new HashMap<>();
+                    Map<String, String> opts = new HashMap<>();
                     try {
-                        opts = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split(" "));
+                        opts = getArguments(content);
                     } catch (StringIndexOutOfBoundsException ignore) { }
                     String cmdSource = Utils.replaceArguments(opts, value, "nsfw");
 

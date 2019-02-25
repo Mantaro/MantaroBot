@@ -275,6 +275,7 @@ public class AudioCmdUtils {
         if(cause == ERROR_TIMEOUT) {
             return context.get("commands.music_general.music_error.timeout");
         }
+
         return context.get("commands.music_general.music_error.unknown");
     }
 
@@ -298,6 +299,7 @@ public class AudioCmdUtils {
             if(status == ConnectionStatus.CONNECTED) {
                 complete(null);
             }
+
             if(!status.shouldReconnect()) {
                 log.error("Unexpected status found while trying to connect (guild = {}): {}", guildId, status);
                 completeExceptionally(ERROR_UNKNOWN);

@@ -79,7 +79,7 @@ public class CurrencyCmds {
         cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Map<String, Optional<String>> t = StringUtils.parse(args);
+                Map<String, String> t = getArguments(args);
                 content = Utils.replaceArguments(t, content, "brief", "calculate", "calc", "c", "info", "full");
                 Member member = Utils.findMember(event, event.getMember(), content);
 
@@ -290,7 +290,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
+                Map<String, String> t = getArguments(content);
                 boolean isSeasonal = t.containsKey("season");
                 content = Utils.replaceArguments(t, content, "season").trim();
 
@@ -389,7 +389,7 @@ public class CurrencyCmds {
 
                 Player player = MantaroData.db().getPlayer(event.getMember());
                 SeasonalPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
-                Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
+                Map<String, String> t = getArguments(content);
                 boolean isSeasonal = t.containsKey("season");
                 content = Utils.replaceArguments(t, content, "season").trim();
 
@@ -505,7 +505,7 @@ public class CurrencyCmds {
 
                 Player player = MantaroData.db().getPlayer(event.getMember());
                 SeasonalPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
-                Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
+                Map<String, String> t = getArguments(content);
                 boolean isSeasonal = t.containsKey("season");
                 content = Utils.replaceArguments(t, content, "season").trim();
 
@@ -1100,7 +1100,7 @@ public class CurrencyCmds {
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                         ManagedDatabase db = MantaroData.db();
 
-                        Map<String, String> t = net.kodehawa.mantarobot.utils.StringUtils.parse(content.split("\\s+"));
+                        Map<String, String> t = getArguments(content);
                         boolean isSeasonal = t.containsKey("season");
                         content = Utils.replaceArguments(t, content, "season").trim();
 
