@@ -96,7 +96,7 @@ public enum ProfileComponent {
         }
     }),
     INVENTORY(EmoteReference.POUCH, i18nContext -> i18nContext.get("commands.profile.inventory"), (holder, i18nContext) -> {
-        Inventory inv = holder.isSeasonal() ? holder.getPlayer().getInventory() : holder.getSeasonalPlayer().getInventory();
+        Inventory inv = holder.isSeasonal() ? holder.getSeasonalPlayer().getInventory() : holder.getPlayer().getInventory();
         return inv.asList().stream().map(i -> i.getItem().getEmoji()).collect(Collectors.joining("  "));
     }),
     BADGES(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.badges"), (holder, i18nContext) -> {
@@ -116,7 +116,7 @@ public enum ProfileComponent {
         else
             timezone = userData.getTimezone();
 
-        String seasonal = holder.isSeasonal() ? "" : " | Seasonal profile.";
+        String seasonal = holder.isSeasonal() ? " | Seasonal profile" : "";
 
         return String.format("%s%s", String.format(i18nContext.get("commands.profile.timezone_user"), timezone), seasonal);
     }, false);

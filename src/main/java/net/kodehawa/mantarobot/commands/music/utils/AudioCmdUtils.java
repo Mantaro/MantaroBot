@@ -53,11 +53,6 @@ public class AudioCmdUtils {
     private final static String BLOCK_ACTIVE = "\uD83D\uDD18";
     private static final int TOTAL_BLOCKS = 10;
 
-    public static void closeAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager, I18nContext lang) {
-        audioManager.closeAudioConnection();
-        event.getChannel().sendMessageFormat(lang.get("commands.music_general.closed_connection"), EmoteReference.CORRECT).queue();
-    }
-
     public static void embedForQueue(int page, GuildMessageReceivedEvent event, GuildMusicManager musicManager, I18nContext lang) {
         final TrackScheduler trackScheduler = musicManager.getTrackScheduler();
         final String toSend = AudioUtils.getQueueList(trackScheduler.getQueue());
