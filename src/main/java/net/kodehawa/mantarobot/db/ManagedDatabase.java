@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.db;
 
+import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Cursor;
 import lombok.extern.slf4j.Slf4j;
@@ -192,6 +193,12 @@ public class ManagedDatabase {
     @CheckReturnValue
     public SeasonalPlayer getPlayerForSeason(@Nonnull Member member, Season season) {
         return getPlayerForSeason(member.getUser(), season);
+    }
+
+    @Nonnull
+    @CheckReturnValue
+    public long getAmountSeasonalPlayers() {
+        return r.table(SeasonalPlayer.DB_TABLE).count().run(conn, OptArgs.of("read_mode", "outdated"));
     }
 
     @Nonnull

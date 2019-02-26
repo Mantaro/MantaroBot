@@ -1304,4 +1304,21 @@ public class CurrencyCmds {
             }
         });
     }
+
+    @Subscribe
+    public void season(CommandRegistry registry) {
+        registry.register("season", new SimpleCommand(Category.CURRENCY) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                event.getChannel().sendMessageFormat(languageContext.get("commands.season.info") + languageContext.get("commands.season.info_2"), getConfig().getCurrentSeason().getDisplay() , MantaroData.db().getAmountSeasonalPlayers()).queue();
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows information about this season and about what's a season.")
+                        .build();
+            }
+        });
+    }
 }
