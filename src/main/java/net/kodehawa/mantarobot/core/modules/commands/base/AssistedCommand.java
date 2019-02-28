@@ -58,7 +58,7 @@ public interface AssistedCommand extends Command {
     }
 
     default String checkString(String s) {
-        if(s.length() > 1700) {
+        if(s.length() > 1600) {
             return Utils.paste3(s);
         } else {
             return s;

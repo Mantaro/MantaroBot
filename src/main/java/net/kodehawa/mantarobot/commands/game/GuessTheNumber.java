@@ -22,7 +22,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonalPlayer;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
@@ -95,7 +95,7 @@ public class GuessTheNumber extends Game<Object> {
                     if(e.getMessage().getContentRaw().equals(String.valueOf(number))) {
                         UnifiedPlayer unifiedPlayer = UnifiedPlayer.of(e.getAuthor(), config.getCurrentSeason());
                         Player player = unifiedPlayer.getPlayer();
-                        SeasonalPlayer seasonalPlayer = unifiedPlayer.getSeasonalPlayer();
+                        SeasonPlayer seasonalPlayer = unifiedPlayer.getSeasonalPlayer();
                         int gains = 95;
 
                         unifiedPlayer.addMoney(gains);

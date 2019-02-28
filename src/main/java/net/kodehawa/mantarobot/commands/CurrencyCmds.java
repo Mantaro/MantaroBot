@@ -29,7 +29,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonalPlayer;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -260,6 +260,7 @@ public class CurrencyCmds {
                                 "If the item name contains spaces, \"wrap it in quotes\".\n" +
                                 "To buy and sell multiple items you need to do `~>market <buy/sell> <amount> <item>`\n")
                         .addParameter("item", "The item name or emoji")
+                        .setSeasonal(true)
                         .build();
             }
         });
@@ -316,7 +317,7 @@ public class CurrencyCmds {
                 }
 
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
-                SeasonalPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                SeasonPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
                 Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
 
                 if(!playerInventory.containsItem(item)) {
@@ -388,7 +389,7 @@ public class CurrencyCmds {
                 }
 
                 Player player = MantaroData.db().getPlayer(event.getMember());
-                SeasonalPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                SeasonPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
                 Map<String, String> t = getArguments(content);
                 boolean isSeasonal = t.containsKey("season");
                 content = Utils.replaceArguments(t, content, "season").trim();
@@ -504,7 +505,7 @@ public class CurrencyCmds {
                 }
 
                 Player player = MantaroData.db().getPlayer(event.getMember());
-                SeasonalPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                SeasonPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
                 Map<String, String> t = getArguments(content);
                 boolean isSeasonal = t.containsKey("season");
                 content = Utils.replaceArguments(t, content, "season").trim();
@@ -1073,6 +1074,7 @@ public class CurrencyCmds {
                         .setDescription("Starts a fishing session.")
                         .setUsage("`~>fish <rod>` - Starts fishing. You can gain credits and fish items by fishing, which can be used later on for casting.")
                         .addParameter("rod", "Rod name. Optional, if not provided or not found, will default to the default fishing rod or your equipped rod.")
+                        .setSeasonal(true)
                         .build();
             }
         });
@@ -1104,7 +1106,7 @@ public class CurrencyCmds {
                         boolean isSeasonal = t.containsKey("season");
                         content = Utils.replaceArguments(t, content, "season").trim();
 
-                        SeasonalPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                        SeasonPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
                         Player player = db.getPlayer(event.getAuthor());
                         DBUser user = db.getUser(event.getMember());
                         Optional<Item> toCast = Items.fromAnyNoId(content);

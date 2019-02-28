@@ -21,7 +21,7 @@ import lombok.Data;
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonalPlayer;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
@@ -181,7 +181,7 @@ public enum ProfileComponent {
     public static class Holder {
         private User user;
         private Player player;
-        private SeasonalPlayer seasonalPlayer;
+        private SeasonPlayer seasonalPlayer;
         private DBUser dbUser;
         private List<Badge> badges;
 

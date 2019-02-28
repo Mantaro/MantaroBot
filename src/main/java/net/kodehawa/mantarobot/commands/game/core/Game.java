@@ -24,7 +24,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonalPlayer;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.data.Config;
@@ -86,7 +86,7 @@ public abstract class Game<T> {
             if(expectedAnswer.stream().map(String::valueOf).anyMatch(e.getMessage().getContentRaw()::equalsIgnoreCase)) {
                 UnifiedPlayer unifiedPlayer = UnifiedPlayer.of(e.getAuthor(), config.getCurrentSeason());
                 Player player = unifiedPlayer.getPlayer();
-                SeasonalPlayer seasonalPlayer = unifiedPlayer.getSeasonalPlayer();
+                SeasonPlayer seasonalPlayer = unifiedPlayer.getSeasonalPlayer();
                 int gains = 45 + extra;
                 unifiedPlayer.addMoney(gains);
 

@@ -26,7 +26,7 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonalPlayer;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -46,7 +46,6 @@ import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
-import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
@@ -538,6 +537,7 @@ public class MoneyCmds {
                         .setDescription("Shows your current balance or another person's balance.")
                         .setUsage("`~>balance [@user]`")
                         .addParameter("@user", "The user to check the balance of. This is optional.")
+                        .setSeasonal(true)
                         .build();
             }
         });
@@ -580,7 +580,7 @@ public class MoneyCmds {
                 final ManagedDatabase db = MantaroData.db();
                 Player player = db.getPlayer(event.getAuthor());
                 PlayerStats stats = db.getPlayerStats(event.getMember());
-                SeasonalPlayer seasonalPlayer = null; //yes
+                SeasonPlayer seasonalPlayer = null; //yes
                 boolean season = false;
 
                 if(opts.containsKey("season")) {
@@ -770,7 +770,7 @@ public class MoneyCmds {
                 final ManagedDatabase db = MantaroData.db();
 
                 Player player = db.getPlayer(user);
-                SeasonalPlayer seasonalPlayer = db.getPlayerForSeason(user, getConfig().getCurrentSeason());
+                SeasonPlayer seasonalPlayer = db.getPlayerForSeason(user, getConfig().getCurrentSeason());
 
                 DBUser dbUser = db.getUser(user);
                 UserData userData = dbUser.getData();
@@ -914,6 +914,7 @@ public class MoneyCmds {
                         .setUsage("`~>mine [pick]` - Mines. You can gain minerals or mineral fragments by mining. This can used later on to cast rods or picks for better chances.")
                         .addParameter("pick", "The pick to use to mine. You can either use the emoji or the full name. " +
                                 "This is optional, not specifying it will cause the command to use the default pick or your equipped pick.")
+                        .setSeasonal(true)
                         .build();
             }
         });

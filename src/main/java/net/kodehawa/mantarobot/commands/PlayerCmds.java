@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -33,7 +32,7 @@ import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonalPlayer;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -198,7 +197,7 @@ public class PlayerCmds {
 
                         User userLooked = event.getAuthor();
                         Player player = managedDatabase.getPlayer(userLooked);
-                        SeasonalPlayer seasonalPlayer = null;
+                        SeasonPlayer seasonalPlayer = null;
                         DBUser dbUser = managedDatabase.getUser(userLooked);
                         Member memberLooked = event.getMember();
 
@@ -292,6 +291,7 @@ public class PlayerCmds {
                         .setUsage("To retrieve your profile use `~>profile`. You can also use `~>profile @mention`\n" +
                                 "*The profile command only shows the 5 most important badges.* Use `~>badges` to get a complete list!")
                         .addParameter("@mention", "A user mention (ping)")
+                        .setSeasonal(true)
                         .build();
             }
         });

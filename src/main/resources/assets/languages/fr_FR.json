@@ -62,7 +62,7 @@
     "buy_sell_paged_text": "**Pages total: %1$d.**\nUtilise **&p >>** et **&p <<**  pour te déplacer entre les pages.\n%2$s",
     "buy_sell_paged_reference": "**Réference %1$s Acheter %2$s Vendre.**",
     "cancelled": "%1$sDemande annulée.",
-    "sellout": "Pense à faire un don sur patreon.com/mantaro si tu m'aimes, même un petit don aidera à garder le bot en vie!",
+    "sellout": "Pense à faire un don sur [Patreon](https://www.patreon.com/mantaro) si tu m'aimes, même un petit don aidera à garder le bot en vie!",
     "deprecated": "Ce n'est plus utilisé'",
     "space_notice": "Si le nom de celui-ci contient des espaces, essaie \"de le placer entre guillemets\"",
     "ratelimit": {
@@ -1354,7 +1354,7 @@
         "below_minimum": "%1$sThe minimum amount is 25 credits",
         "no_tickets": "%1$sYou wanted to use tickets but you don't have any :<",
         "no_amount": "%1$sYou didn't specify the amount!",
-        "no_valid_amount": "%1$sThat's not a valid amount of money! (Example of valid amounts: 1000, 1K, 1.8, 14000, 2M)"
+        "no_valid_amount": "%1$sThat's not a valid amount of money! (Example of valid amounts: 1000, 1k, 1.8, 14000, 2M)"
       },
       "roll": "%1$s**You used %2$s and rolled the slot machine**\n",
       "win": "And you won **%1$d** credits and got to keep what you bet (%2$d credits)! Lucky!",

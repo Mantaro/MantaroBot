@@ -53,7 +53,7 @@
         "buy_sell_paged_text": "**Totale pagina's: %1$d.**\nGebruik **&p >>** en **&p <<** om over pagina's te bladeren.\n%2$s",
         "buy_sell_paged_reference": "**Verwijzing %1$s Koop %2$s Verkoop.**",
         "cancelled": "%1$sVerzoek geannuleerd.",
-        "sellout": "Overweeg om te doneren op patreon.com/mantaro als je mij leuk vindt. Zelfs een kleine donatie zal helpen om de bot in leven te houden!"
+        "sellout": "Overweeg om te doneren op [Patreon](https://www.patreon.com/mantaro) als je mij leuk vindt. Zelfs een kleine donatie zal helpen om de bot in leven te houden!"
     },
     "categories": {
         "music": "Muziek",

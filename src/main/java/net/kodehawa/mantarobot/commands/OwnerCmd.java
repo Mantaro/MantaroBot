@@ -200,7 +200,7 @@ public class OwnerCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to give me an user to apply the badge to!").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to give me a user to apply the badge to!").queue();
                     return;
                 }
 
@@ -234,7 +234,7 @@ public class OwnerCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to give me an user to remove the badge from!").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to give me a user to remove the badge from!").queue();
                     return;
                 }
 

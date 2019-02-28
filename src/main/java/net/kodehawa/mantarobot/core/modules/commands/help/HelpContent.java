@@ -31,12 +31,14 @@ public class HelpContent {
     private Map<String, String> parameters;
     private String usage;
     private List<String> related;
+    private boolean seasonal;
 
     public static class Builder {
         private String description = null;
         private Map<String, String> parameters = new HashMap<>();
         private String usage = null;
         private List<String> related = new ArrayList<>();
+        private boolean seasonal = false;
 
         public Builder setDescription(String description) {
             this.description = description;
@@ -69,8 +71,13 @@ public class HelpContent {
             return this;
         }
 
+        public Builder setSeasonal(boolean seasonal) {
+            this.seasonal = seasonal;
+            return this;
+        }
+
         public HelpContent build() {
-            return new HelpContent(description, parameters, usage, related);
+            return new HelpContent(description, parameters, usage, related, seasonal);
         }
     }
 }

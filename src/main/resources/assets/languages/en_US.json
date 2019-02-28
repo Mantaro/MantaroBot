@@ -66,7 +66,7 @@
     "buy_sell_paged_text": "**Total pages: %1$d.**\nUse **&p >>** and **&p <<** to move across pages.\n%2$s",
     "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**",
     "cancelled": "%1$sCancelled request.",
-    "sellout": "Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive!",
+    "sellout": "Consider donating on [Patreon](https://www.patreon.com/mantaro) if you like me, even a small donation will help towards keeping the bot alive!",
     "deprecated": "No longer used",
     "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\"",
     "ratelimit": {
@@ -132,7 +132,7 @@
     },
     "ban": {
       "no_permission": "%1$sYou can't ban: You need the `Ban Users` permission.",
-      "no_users": "%1$sYou need to give me an user to ban.",
+      "no_users": "%1$sYou need to give me a user to ban.",
       "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
       "hierarchy_conflict": "%1$sYou cannot ban an user who's higher than you in the server hierarchy! Nice try %2$s",
       "yourself_note": "%1$sWhy are you trying to ban yourself, silly?",
@@ -143,7 +143,7 @@
     },
     "kick": {
       "no_permission": "%1$sCannot kick: You have no Kick Members permission.",
-      "no_users": "%1$sYou need to give me an user to kick.",
+      "no_users": "%1$sYou need to give me a user to kick.",
       "no_permission_self": "%1$sSorry! I don't have permission to kick members in this server.",
       "hierarchy_conflict": "%1$sYou cannot kick an user in a higher hierarchy than you",
       "yourself_note": "%1$sWhy are you trying to kick yourself, silly?",
@@ -153,7 +153,7 @@
       "unknown_error": "%1$sUnknown error while attempting to kick %2$s"
     },
     "tempban": {
-      "no_time": "%1$sYou cannot temp ban an user without giving me the time.",
+      "no_time": "%1$sYou cannot temp ban a user without giving me the time.",
       "no_reason": "%2$sYou cannot temp ban someone without a reason.",
       "success": "%1$s%2$s (%3$s got temporally banned)"
     },
@@ -242,7 +242,7 @@
         "selection_text": "Song selection. Type the song number to continue.",
         "timeout_text": "This timeouts in 30 seconds. Type &cancel to cancel."
       },
-      "premium_beg": "%1$sConsider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)",
+      "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)",
       "closed_connection": "%1$sClosed audio connection, unbinding player..."
     },
     "forceskip": {
@@ -839,7 +839,7 @@
       "footer": "Badges are like achievements, and they're gained through progression in Mantaro's game or by just using the bot."
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) giving or receiving rep must be older than 5 days. Try again later.",
+      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be older than 5 days. Try again later.",
       "no_mentions": "%1$sYou need to mention or put the name of one user.\n%2$s",
       "more_than_one": "%1$sYou can only give reputation to one person",
       "rep_bot": "%1$sYou cannot rep a bot.\n%2$s",

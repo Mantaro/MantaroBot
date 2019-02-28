@@ -35,7 +35,7 @@ import java.util.Map;
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.serialize;
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 
-public class SeasonalPlayer implements ManagedObject {
+public class SeasonPlayer implements ManagedObject {
     public static final String DB_TABLE = "seasonalplayers";
     @Getter
     private final SeasonalPlayerData data;
@@ -53,7 +53,7 @@ public class SeasonalPlayer implements ManagedObject {
 
     @JsonCreator
     @ConstructorProperties({"id", "season", "money", "inventory", "reputation", "data"})
-    public SeasonalPlayer(@JsonProperty("id") String id, @JsonProperty("season") Season season, @JsonProperty("money") Long money, @JsonProperty("inventory") Map<Integer, Integer> inventory, @JsonProperty("reputation") Long reputation, @JsonProperty("data") SeasonalPlayerData data) {
+    public SeasonPlayer(@JsonProperty("id") String id, @JsonProperty("season") Season season, @JsonProperty("money") Long money, @JsonProperty("inventory") Map<Integer, Integer> inventory, @JsonProperty("reputation") Long reputation, @JsonProperty("data") SeasonalPlayerData data) {
         this.id = id;
         this.money = money == null ? 0 : money;
         this.season = season;
@@ -62,16 +62,16 @@ public class SeasonalPlayer implements ManagedObject {
         this.inventory.replaceWith(unserialize(inventory));
     }
 
-    public static SeasonalPlayer of(User user, Season season) {
+    public static SeasonPlayer of(User user, Season season) {
         return of(user.getId(), season);
     }
 
-    public static SeasonalPlayer of(Member member, Season season) {
+    public static SeasonPlayer of(Member member, Season season) {
         return of(member.getUser(), season);
     }
 
-    public static SeasonalPlayer of(String userId, Season season) {
-        return new SeasonalPlayer(userId + ":" + season, season, 0L, new HashMap<>(), 0L, new SeasonalPlayerData());
+    public static SeasonPlayer of(String userId, Season season) {
+        return new SeasonPlayer(userId + ":" + season, season, 0L, new HashMap<>(), 0L, new SeasonalPlayerData());
     }
 
     @JsonIgnore
@@ -131,7 +131,7 @@ public class SeasonalPlayer implements ManagedObject {
         return true;
     }
 
-    public SeasonalPlayer setMoney(long money) {
+    public SeasonPlayer setMoney(long money) {
         this.money = money < 0 ? 0 : money;
         return this;
     }

@@ -20,7 +20,7 @@ import lombok.Getter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.commands.currency.seasons.Season;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonalPlayer;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -31,11 +31,11 @@ public class UnifiedPlayer {
     @Getter
     public Player player;
     @Getter
-    public SeasonalPlayer seasonalPlayer;
+    public SeasonPlayer seasonalPlayer;
 
     private UnifiedPlayer() { }
 
-    private UnifiedPlayer(Player player, SeasonalPlayer seasonalPlayer) {
+    private UnifiedPlayer(Player player, SeasonPlayer seasonalPlayer) {
         this.player = player;
         this.seasonalPlayer = seasonalPlayer;
     }
