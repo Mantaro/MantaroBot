@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.data;
 import lombok.Data;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
+import net.kodehawa.mantarobot.commands.currency.seasons.Season;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +82,7 @@ public class Config {
     public int prometheusPort = 9091;
     public int ratelimitPoolSize = 4;
     public String apiAuthKey;
+    public Season currentSeason = Season.FIRST;
 
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());

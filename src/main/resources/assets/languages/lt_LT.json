@@ -53,7 +53,7 @@
         "buy_sell_paged_text": "**Viso puslapių: %1$d.**\nNaudok **&p >>** ir **&p <<**, kad pakeistum puslapius.\n%2$s",
         "buy_sell_paged_reference": "**Skirtumas %1$s Pirkimas %2$s Pardavimas.**",
         "cancelled": "%1$sAtšauktas prašymas.",
-        "sellout": "Pasvarstyk apie galimybę paremti mane svetainėje patreon.com/mantaro, jeigu aš tau patinku. Netgi mažas parėmimas padeda man išlikti gyvai!"
+        "sellout": "Pasvarstyk apie galimybę paremti mane svetainėje [Patreon](https://www.patreon.com/mantaro), jeigu aš tau patinku. Netgi mažas parėmimas padeda man išlikti gyvai!"
     },
     "categories": {
         "music": "Muzikos",

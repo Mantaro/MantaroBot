@@ -23,7 +23,7 @@ plugins {
     //Adds an Executable Manifest
     id 'application'
     //Creates FatJars
-    id 'com.github.johnrengelman.shadow' version '2.0.4'
+    id 'com.github.johnrengelman.shadow' version '4.0.2'
     //Checks for RestActions
     //aka did you queue but harsh
     //RIP jdaction 2017-2018

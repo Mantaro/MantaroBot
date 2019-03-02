@@ -23,13 +23,16 @@ import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.RandomCollection;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
@@ -51,11 +54,12 @@ public class Items {
             NECKLACE, ROSE, DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN,
             POTION_STAMINA, FISHING_ROD, FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE,
             TELEVISION, WRENCH, MOTORCYCLE, GEM1_PICKAXE, GEM2_PICKAXE, PIZZA, GEM_5, GEM5_PICKAXE, MINE_CRATE, FISH_CRATE, FISH_PREMIUM_CRATE, MINE_PREMIUM_CRATE,
-            GEM1_ROD, GEM2_ROD, GEM5_ROD, GEM5_PICKAXE_2, GEM5_2, GEM5_ROD_2, FISH_4, FISH_5;
+            GEM1_ROD, GEM2_ROD, GEM5_ROD, GEM5_PICKAXE_2, GEM5_2, GEM5_ROD_2, FISH_4, FISH_5, WRENCH_COMET, WRENCH_SPARKLE;
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 4);
     private static final RateLimiter fishRatelimiter = new RateLimiter(TimeUnit.MINUTES, 4);
+    private static final Config config = MantaroData.config().get();
 
     public static final Item[] ALL = {
             HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7", "Headphones", "items.headphones", "items.description.headphones", 5, true, false, false),
@@ -139,8 +143,8 @@ public class Items {
             GEM5_PICKAXE = new Item(ItemType.COMMON, "\u26cf","Broken Sparkle Pickaxe", "general.deprecated", "general.deprecated", 550, true, false),
             MINE_CRATE = new Item(ItemType.CRATE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Gem Crate",  "items.mine_crate","items.description.mine_crate", 0, false, false, true,  (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.MINE, 66, EmoteReference.MINE_CRATE, 3)),
             FISH_CRATE = new Item(ItemType.CRATE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Treasure",  "items.fish_crate","items.description.fish_crate", 0, false, false, true,  (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.FISH, 67, EmoteReference.FISH_CRATE, 3)),
-            FISH_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_FISH_CRATE.getDiscordNotation(),"Fish Premium Treasure",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true, (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.FISH_PREMIUM, 68, EmoteReference.FISH_CRATE, 5)),
-            MINE_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_MINE_CRATE.getDiscordNotation(),"Gem Premium Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true, (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.MINE_CRATE, 5)),
+            FISH_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_FISH_CRATE.getDiscordNotation(),"Fish Premium Treasure",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true, (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.FISH_PREMIUM, 68, EmoteReference.PREMIUM_FISH_CRATE, 5)),
+            MINE_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_MINE_CRATE.getDiscordNotation(),"Gem Premium Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true, (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.PREMIUM_MINE_CRATE, 5)),
             GEM1_ROD = new FishRod(ItemType.CAST_FISH, 6, EmoteReference.COMET_ROD.getDiscordNotation(),"Comet Gem Rod", "items.comet_rod", "items.description.comet_rod", 150, "1;3", 44, 48),
             GEM2_ROD = new FishRod(ItemType.CAST_FISH, 9, EmoteReference.STAR_ROD.getDiscordNotation(),"Star Gem Rod", "items.star_rod", "items.description.star_rod", 250, "1;3", 44, 49),
             GEM5_ROD = new FishRod(ItemType.COMMON, 3, "\uD83C\uDFA3","Broken Sparkle Rod", "general.deprecated", "general.deprecated", 65, "",2),
@@ -149,6 +153,8 @@ public class Items {
             GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 14, EmoteReference.SPARKLE_ROD.getDiscordNotation(),"Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 800, "1;3;1", 44, 74, 18),
             FISH_4 = new Fish(ItemType.FISHING_RARE, 5, "\uD83D\uDC1A","Shell", "items.shell", "items.description.shell", 1150, false),
             FISH_5 = new Fish(ItemType.FISHING_RARE, 10, "\uD83E\uDD88","Shark", "items.shark", "items.description.shark", 600, false),
+            WRENCH_COMET = new Item(ItemType.COMMON, "\ud83d\udd27","Comet Wrench", "items.star_wrench", "items.description.star_wrench", 200, true, false, "1;2", 58, 48),
+            WRENCH_SPARKLE = new Item(ItemType.COMMON, "\ud83d\udd27","Sparkle Wrench", "items.sparkle_wrench", "items.description.sparkle_wrench", 500, true, false, "1;2;1", 58, 74, 18),
     };
 
 
@@ -176,9 +182,13 @@ public class Items {
 
         //Basically fish command.
         FISHING_ROD.setAction((event, context) -> {
+            Map<String, String> t = StringUtils.parse(event.getMessage().getContentRaw().split("\\s+")); //idc about anything but the argument itself here.
+            boolean isSeasonal = t.containsKey("season");
+
             Player p = managedDatabase.getPlayer(event.getAuthor());
+            SeasonPlayer sp = managedDatabase.getPlayerForSeason(event.getAuthor(), config.getCurrentSeason());
             DBUser u = managedDatabase.getUser(event.getAuthor());
-            Inventory playerInventory = p.getInventory();
+            Inventory playerInventory = isSeasonal ? sp.getInventory() : p.getInventory();
 
             I18nContext lang = context.getLeft();
             String itemString = context.getRight();
@@ -230,7 +240,11 @@ public class Items {
                 event.getChannel().sendMessageFormat(lang.get("commands.fish.rod_broke"), EmoteReference.SAD).queue();
                 //Remove the item from the player inventory.
                 playerInventory.process(new ItemStack(item, -1));
-                p.save();
+                if(isSeasonal)
+                    sp.save();
+                else
+                    p.save();
+
                 return false;
             } else {
                 int select = random.nextInt(100);
@@ -319,7 +333,10 @@ public class Items {
 
                     List<ItemStack> reducedList = ItemStack.reduce(list);
                     playerInventory.process(reducedList);
-                    p.addMoney(money);
+                    if(isSeasonal)
+                        sp.addMoney(money);
+                    else
+                        p.addMoney(money);
 
                     String itemDisplay = ItemStack.toString(reducedList);
                     boolean foundFish = !reducedList.isEmpty();
@@ -365,6 +382,9 @@ public class Items {
 
                 //Save all changes to the player object.
                 p.save();
+                if(isSeasonal)
+                    sp.save();
+
                 return true;
             }
         });

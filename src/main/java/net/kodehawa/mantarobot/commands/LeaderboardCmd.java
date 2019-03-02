@@ -33,6 +33,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -53,19 +54,19 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelim
 
 @Module
 public class LeaderboardCmd {
+    private Config config = MantaroData.config().get();
+
     @Subscribe
     public void richest(CommandRegistry cr) {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .spamTolerance(3)
                 .limit(1)
-                .cooldown(10, TimeUnit.SECONDS)
+                .cooldown(6, TimeUnit.SECONDS)
                 .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
                 .maxCooldown(5, TimeUnit.MINUTES)
                 .pool(MantaroData.getDefaultJedisPool())
                 .prefix("leaderboard")
                 .build();
-
-        final String pattern = ":g$";
 
         TreeCommand leaderboards = (TreeCommand) cr.register("leaderboard", new TreeCommand(Category.CURRENCY) {
             @Override
@@ -129,7 +130,7 @@ public class LeaderboardCmd {
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.gamble"), EmoteReference.MONEY),"commands.leaderboard.gamble", c,
                         map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
-                                map.get("gambleWins").toString()), "%s**%s#%s** - %,d")
+                                map.get("gambleWins").toString()), "%s**%s#%s** - %,d", false)
                         .build()
                 ).queue();
             }
@@ -150,7 +151,7 @@ public class LeaderboardCmd {
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.slots"), EmoteReference.MONEY),"commands.leaderboard.slots", c,
                         map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
-                                map.get("slotsWins").toString()), "%s**%s#%s** - %,d")
+                                map.get("slotsWins").toString()), "%s**%s#%s** - %,d", false)
                         .build()
                 ).queue();
             }
@@ -164,15 +165,19 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map<?, ?>> c = getLeaderboard("players", "money",
-                        player -> player.g("id").match(pattern),
+                Map<String, String> t = getArguments(content);
+                boolean isSeasonal = t.containsKey("season");
+                String tableName = isSeasonal ? "seasonalplayers" : "players";
+
+                List<Map<?, ?>> c = getLeaderboard(tableName, "money",
+                        player -> player.g("id"),
                         player -> player.pluck("id", "money"), 10
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.money"), EmoteReference.MONEY),"commands.leaderboard.money", c,
                         map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
-                                map.get("money").toString()), "%s**%s#%s** - $%,d")
+                                map.get("money").toString()), "%s**%s#%s** - $%,d", isSeasonal)
                         .build()
                 ).queue();
             }
@@ -187,7 +192,7 @@ public class LeaderboardCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Map<?, ?>> c = getLeaderboard("players", "level",
-                        player -> player.g("id").match(pattern),
+                        player -> player.g("id"),
                         player -> player.pluck("id", "level", r.hashMap("data", "experience")), 10
                 );
 
@@ -195,7 +200,7 @@ public class LeaderboardCmd {
                         String.format(languageContext.get("commands.leaderboard.inner.lvl"), EmoteReference.ZAP),"commands.leaderboard.level", c,
                         map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString() +
                                 "\n -" + languageContext.get("commands.leaderboard.inner.experience")  + ":** " +
-                                ((Map)map.get("data")).get("experience") + "**"), "%s**%s#%s** - %s")
+                                ((Map)map.get("data")).get("experience") + "**"), "%s**%s#%s** - %s", false)
                         .build()
                 ).queue();
             }
@@ -209,15 +214,19 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map<?, ?>> c = getLeaderboard("players", "reputation",
-                        player -> player.g("id").match(pattern),
+                Map<String, String> t = getArguments(content);
+                boolean isSeasonal = t.containsKey("season");
+                String tableName = isSeasonal ? "seasonalplayers" : "players";
+
+                List<Map<?, ?>> c = getLeaderboard(tableName, "reputation",
+                        player -> player.g("id"),
                         player -> player.pluck("id", "reputation"), 10
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.rep"), EmoteReference.REP),"commands.leaderboard.reputation", c,
                         map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
-                                map.get("reputation").toString()), "%s**%s#%s** - %,d")
+                                map.get("reputation").toString()), "%s**%s#%s** - %,d", isSeasonal)
                         .build()
                 ).queue();
             }
@@ -232,14 +241,14 @@ public class LeaderboardCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 List<Map<?, ?>> c = getLeaderboard("players", "userDailyStreak",
-                        player -> player.g("id").match(pattern),
+                        player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "dailyStrike")), 10
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.streak"), EmoteReference.POPPER),"commands.leaderboard.daily", c,
                         map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
-                                ((HashMap)(map.get("data"))).get("dailyStrike").toString()), "%s**%s#%s** - %sx")
+                                ((HashMap)(map.get("data"))).get("dailyStrike").toString()), "%s**%s#%s** - %sx", false)
                         .build()
                 ).queue();
             }
@@ -253,15 +262,19 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map<?, ?>> c = getLeaderboard("players", "waifuCachedValue",
-                        player -> player.g("id").match(pattern),
+                Map<String, String> t = getArguments(content);
+                boolean isSeasonal = t.containsKey("season");
+                String tableName = isSeasonal ? "seasonalplayers" : "players";
+
+                List<Map<?, ?>> c = getLeaderboard(tableName, "waifuCachedValue",
+                        player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "waifuCachedValue")), 10
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.waifu"), EmoteReference.MONEY),"commands.leaderboard.waifu", c,
                         map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
-                                ((HashMap)(map.get("data"))).get("waifuCachedValue").toString()), "%s**%s#%s** - $%,d")
+                                ((HashMap)(map.get("data"))).get("waifuCachedValue").toString()), "%s**%s#%s** - $%,d", isSeasonal)
                         .build()
                 ).queue();
             }
@@ -282,7 +295,7 @@ public class LeaderboardCmd {
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.claim"), EmoteReference.HEART),"commands.leaderboard.claim", c,
                         map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
-                                ((HashMap)(map.get("data"))).get("timesClaimed").toString()), "%s**%s#%s** - %,d")
+                                ((HashMap)(map.get("data"))).get("timesClaimed").toString()), "%s**%s#%s** - %,d", false)
                         .build()
                 ).queue();
             }
@@ -296,15 +309,19 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map<?, ?>> c = getLeaderboard("players", "gameWins",
-                        player -> player.g("id").match(pattern),
+                Map<String, String> t = getArguments(content);
+                boolean isSeasonal = t.containsKey("season");
+                String tableName = isSeasonal ? "seasonalplayers" : "players";
+
+                List<Map<?, ?>> c = getLeaderboard(tableName, "gameWins",
+                        player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "gamesWon")), 10
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.game"), EmoteReference.ZAP),"commands.leaderboard.game", c,
                         map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
-                                ((HashMap)(map.get("data"))).get("gamesWon").toString()), "%s**%s#%s** - %,d")
+                                ((HashMap)(map.get("data"))).get("gamesWon").toString()), "%s**%s#%s** - %,d", isSeasonal)
                         .build()
                 ).queue();
             }
@@ -342,8 +359,8 @@ public class LeaderboardCmd {
         return c;
     }
 
-    private EmbedBuilder generateLeaderboardEmbed(GuildMessageReceivedEvent event, I18nContext languageContext, String description, String leaderboardKey, List<Map<?, ?>> lb, Function<Map<?, ?>, Pair<User, String>> mapFunction, String format) {
-        return new EmbedBuilder().setAuthor(languageContext.get("commands.leaderboard.header"), null, event.getJDA().getSelfUser().getEffectiveAvatarUrl())
+    private EmbedBuilder generateLeaderboardEmbed(GuildMessageReceivedEvent event, I18nContext languageContext, String description, String leaderboardKey, List<Map<?, ?>> lb, Function<Map<?, ?>, Pair<User, String>> mapFunction, String format, boolean isSeasonal) {
+        return new EmbedBuilder().setAuthor(isSeasonal ? String.format(languageContext.get("commands.leaderboard.header_seasonal"), config.getCurrentSeason().getDisplay()) : languageContext.get("commands.leaderboard.header"), null, event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                 .setDescription(description)
                 .addField(languageContext.get(leaderboardKey), lb.stream()
                         .map(mapFunction)

@@ -16,11 +16,13 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.Character;
 import net.kodehawa.mantarobot.commands.game.*;
@@ -37,7 +39,6 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -152,7 +153,7 @@ public class GameCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = net.kodehawa.mantarobot.utils.StringUtils.advancedSplitArgs(content, 0);
-                Map<String, Optional<String>> t = StringUtils.parse(args);
+                Map<String, String> t = getArguments(content);
                 String difficultyArgument = "diff";
                 content = Utils.replaceArguments(t, content, difficultyArgument);
 
@@ -168,8 +169,8 @@ public class GameCmds {
 
                 //Trivia difficulty handling.
                 TriviaDifficulty difficulty = null;
-                if(t.containsKey(difficultyArgument) && t.get(difficultyArgument).isPresent()) {
-                    String d = t.get(difficultyArgument).get();
+                if(t.containsKey(difficultyArgument) && t.get(difficultyArgument) != null) {
+                    String d = t.get(difficultyArgument);
                     TriviaDifficulty enumDiff = TriviaDifficulty.lookupFromString(d);
                     if(enumDiff != null) {
                         difficulty = enumDiff;
@@ -221,15 +222,15 @@ public class GameCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 String[] args = net.kodehawa.mantarobot.utils.StringUtils.advancedSplitArgs(content, 0);
-                Map<String, Optional<String>> t = StringUtils.parse(args);
+                Map<String, String> t = getArguments(content);
                 String difficultyArgument = "diff";
                 content = Utils.replaceArguments(t, content, difficultyArgument);
 
                 //Trivia difficulty handling.
                 TriviaDifficulty difficulty = null;
 
-                if(t.containsKey(difficultyArgument) && t.get(difficultyArgument).isPresent()) {
-                    String d = t.get(difficultyArgument).get();
+                if(t.containsKey(difficultyArgument) && t.get(difficultyArgument) != null) {
+                    String d = t.get(difficultyArgument);
                     TriviaDifficulty enumDiff = TriviaDifficulty.lookupFromString(d);
 
                     if(enumDiff != null) {

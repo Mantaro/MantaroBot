@@ -24,7 +24,10 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
+import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -36,6 +39,8 @@ public abstract class Game<T> {
     @Setter
     @Getter
     private int attempts = 1;
+
+    protected Config config = MantaroData.config().get();
 
     public abstract void call(GameLobby lobby, List<String> players);
 
@@ -79,9 +84,11 @@ public abstract class Game<T> {
             }
 
             if(expectedAnswer.stream().map(String::valueOf).anyMatch(e.getMessage().getContentRaw()::equalsIgnoreCase)) {
-                Player player = MantaroData.db().getPlayer(e.getMember());
+                UnifiedPlayer unifiedPlayer = UnifiedPlayer.of(e.getAuthor(), config.getCurrentSeason());
+                Player player = unifiedPlayer.getPlayer();
+                SeasonPlayer seasonalPlayer = unifiedPlayer.getSeasonalPlayer();
                 int gains = 45 + extra;
-                player.addMoney(gains);
+                unifiedPlayer.addMoney(gains);
 
                 if(player.getData().getGamesWon() == 100)
                     player.getData().addBadgeIfAbsent(Badge.GAMER);
@@ -89,8 +96,9 @@ public abstract class Game<T> {
                 if(player.getData().getGamesWon() == 1000)
                     player.getData().addBadgeIfAbsent(Badge.ADDICTED_GAMER);
 
+                seasonalPlayer.getData().setGamesWon(seasonalPlayer.getData().getGamesWon() + 1);
                 player.getData().setGamesWon(player.getData().getGamesWon() + 1);
-                player.save();
+                unifiedPlayer.save();
 
                 TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
                 new MessageBuilder().setContent(String.format(lobby.getLanguageContext().get("commands.game.lobby.won_game"), EmoteReference.MEGA, e.getMember().getEffectiveName(), gains))

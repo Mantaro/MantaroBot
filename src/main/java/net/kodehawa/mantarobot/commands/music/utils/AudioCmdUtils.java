@@ -53,11 +53,6 @@ public class AudioCmdUtils {
     private final static String BLOCK_ACTIVE = "\uD83D\uDD18";
     private static final int TOTAL_BLOCKS = 10;
 
-    public static void closeAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager, I18nContext lang) {
-        audioManager.closeAudioConnection();
-        event.getChannel().sendMessageFormat(lang.get("commands.music_general.closed_connection"), EmoteReference.CORRECT).queue();
-    }
-
     public static void embedForQueue(int page, GuildMessageReceivedEvent event, GuildMusicManager musicManager, I18nContext lang) {
         final TrackScheduler trackScheduler = musicManager.getTrackScheduler();
         final String toSend = AudioUtils.getQueueList(trackScheduler.getQueue());
@@ -275,6 +270,7 @@ public class AudioCmdUtils {
         if(cause == ERROR_TIMEOUT) {
             return context.get("commands.music_general.music_error.timeout");
         }
+
         return context.get("commands.music_general.music_error.unknown");
     }
 
@@ -298,6 +294,7 @@ public class AudioCmdUtils {
             if(status == ConnectionStatus.CONNECTED) {
                 complete(null);
             }
+
             if(!status.shouldReconnect()) {
                 log.error("Unexpected status found while trying to connect (guild = {}): {}", guildId, status);
                 completeExceptionally(ERROR_UNKNOWN);

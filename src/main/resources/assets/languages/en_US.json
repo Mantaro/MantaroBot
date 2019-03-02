@@ -54,7 +54,9 @@
       "potion_not_found": "%1$sI can't find that potion or equipment type!",
       "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `~>profile stats`",
       "potion_applied_multiple": "%1$sSuccessfully applied **%2$s** of type *%3$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can."
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can.",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s.",
+      "not_same_potion": "%1$sYou already have a potion of type %2$s stacked, so you can't stack potions of type %3$s into it."
     },
     "mention_user_required": "%1$sYou need to mention one user.",
     "invalid_character": "%1$sThat is not an allowed character.",
@@ -64,7 +66,7 @@
     "buy_sell_paged_text": "**Total pages: %1$d.**\nUse **&p >>** and **&p <<** to move across pages.\n%2$s",
     "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**",
     "cancelled": "%1$sCancelled request.",
-    "sellout": "Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive!",
+    "sellout": "Consider donating on [Patreon](https://www.patreon.com/mantaro) if you like me, even a small donation will help towards keeping the bot alive!",
     "deprecated": "No longer used",
     "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\"",
     "ratelimit": {
@@ -130,7 +132,7 @@
     },
     "ban": {
       "no_permission": "%1$sYou can't ban: You need the `Ban Users` permission.",
-      "no_users": "%1$sYou need to give me an user to ban.",
+      "no_users": "%1$sYou need to give me a user to ban.",
       "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
       "hierarchy_conflict": "%1$sYou cannot ban an user who's higher than you in the server hierarchy! Nice try %2$s",
       "yourself_note": "%1$sWhy are you trying to ban yourself, silly?",
@@ -141,7 +143,7 @@
     },
     "kick": {
       "no_permission": "%1$sCannot kick: You have no Kick Members permission.",
-      "no_users": "%1$sYou need to give me an user to kick.",
+      "no_users": "%1$sYou need to give me a user to kick.",
       "no_permission_self": "%1$sSorry! I don't have permission to kick members in this server.",
       "hierarchy_conflict": "%1$sYou cannot kick an user in a higher hierarchy than you",
       "yourself_note": "%1$sWhy are you trying to kick yourself, silly?",
@@ -151,7 +153,7 @@
       "unknown_error": "%1$sUnknown error while attempting to kick %2$s"
     },
     "tempban": {
-      "no_time": "%1$sYou cannot temp ban an user without giving me the time.",
+      "no_time": "%1$sYou cannot temp ban a user without giving me the time.",
       "no_reason": "%2$sYou cannot temp ban someone without a reason.",
       "success": "%1$s%2$s (%3$s got temporally banned)"
     },
@@ -171,6 +173,10 @@
     },
     "lang": {
       "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `~>profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+    },
+    "season": {
+      "info": "A *season* is the span of time, of usually 6 months where players compete for the top 10 slots on the money or reputation leaderboard. The winners will get badges and prizes based on their seasonal performance.\nThis is to allow a more competitive frame (before, money was pretty much stale) and to make the game a bit more fun.\nYou can access seasonal stuff using `-season`. Commands like profile, mine, fish and balance will require it, while games, loot, daily and reputation will give money/rep to both your global and seasonal profile.",
+      "info_2": "\n\nThe current season is **%1$s** and **%2$s** players are currently taking part on it!\n\nThe fun begins, check `~>leaderboard money -season`; `~>leaderboard rep -season` and `~>leaderboard game -season`.\nGame on! <3\nThanks for enjoying Mantaro."
     },
     "music_general": {
       "music_error": {
@@ -236,7 +242,7 @@
         "selection_text": "Song selection. Type the song number to continue.",
         "timeout_text": "This timeouts in 30 seconds. Type &cancel to cancel."
       },
-      "premium_beg": "%1$sConsider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)",
+      "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)",
       "closed_connection": "%1$sClosed audio connection, unbinding player..."
     },
     "forceskip": {
@@ -833,7 +839,7 @@
       "footer": "Badges are like achievements, and they're gained through progression in Mantaro's game or by just using the bot."
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) giving or receiving rep must be older than 5 days. Try again later.",
+      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be older than 5 days. Try again later.",
       "no_mentions": "%1$sYou need to mention or put the name of one user.\n%2$s",
       "more_than_one": "%1$sYou can only give reputation to one person",
       "rep_bot": "%1$sYou cannot rep a bot.\n%2$s",
@@ -1376,6 +1382,7 @@
     },
     "leaderboard": {
       "header": "Mantaro's Leaderboard",
+      "header_seasonal": "Mantaro's %1$s season Leaderboard",
       "money": "Money Leaderboard",
       "reputation": "Reputation Leaderboard",
       "gamble": "Gamble Wins Leaderboard",
@@ -1402,6 +1409,11 @@
       "no_content": "%1$sYou didn't specify any item to look for!",
       "no_item": "%1$sThere's no item matching your search query.",
       "success": "%1$s**Item Info for** %2$s **%3$s** (Type: %4$s): *%5$s*"
+    },
+    "level": {
+      "bot_notice": "%1$sBots don't have level.",
+      "success_own": "%1$s your level is %2$s. (Experience: %3$s/%4$s)",
+      "success_other": "%1$s %2$s's is level %3$s. (Experience: %4$s/%5$s)"
     }
   },
   "options": {
@@ -1878,6 +1890,8 @@
     "diamond_pick": "Diamond Pickaxe",
     "tv": "Television",
     "wrench": "Wrench",
+    "star_wrench": "Star Wrench",
+    "sparkle_wrench": "Sparkle Wrench",
     "motorcycle": "Motorcycle",
     "comet_pick": "Comet Gem Pickaxe",
     "star_pick": "Star Gem Pickaxe",
@@ -1954,6 +1968,8 @@
       "diamond_pick": "A very much stronger pick (20% breaking chance). (`~>mine` tool).",
       "tv": "Must... watch... TV...",
       "wrench": "Casting tool. Useful to put stuff together.",
+      "star_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking, needed to cast multiple items at once.",
+      "sparkle_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking. Needed to be able to store items (+20 cast).",
       "motorcycle": "Going around, the cool way.",
       "comet_pick": "A very much stronger pick (18% breaking chance). (`~>mine` tool).",
       "star_pick": "A very much stronger pick (13% breaking chance). (`~>mine` tool).",

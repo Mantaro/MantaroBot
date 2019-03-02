@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.github.natanbc.javaeval.CompilationException;
 import com.github.natanbc.javaeval.CompilationResult;
 import com.github.natanbc.javaeval.JavaEvaluator;
@@ -201,7 +200,7 @@ public class OwnerCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to give me an user to apply the badge to!").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to give me a user to apply the badge to!").queue();
                     return;
                 }
 
@@ -235,7 +234,7 @@ public class OwnerCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to give me an user to remove the badge from!").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to give me a user to remove the badge from!").queue();
                     return;
                 }
 
@@ -408,7 +407,7 @@ public class OwnerCmd {
                 }
 
                 final DBGuild dbGuild = MantaroData.db().getGuild(guildString);
-                Map<String, Optional<String>> t = StringUtils.parse(args);
+                Map<String, String> t = getArguments(args);
                 if(t.containsKey("u")) {
                     dbGuild.getData().setMpLinkedTo(null);
                     dbGuild.save();

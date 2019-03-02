@@ -977,6 +977,7 @@ public class MusicCmds {
         int TEMP_QUEUE_LENGTH = trackScheduler.getQueue().size();
         trackScheduler.getQueue().clear();
 
+        //TODO: destroy player, but we need to test if that actually works.jpeg
         if(TEMP_QUEUE_LENGTH > 0) {
             event.getChannel().sendMessageFormat(lang.get("commands.stop.cleanup"), EmoteReference.OK, TEMP_QUEUE_LENGTH).queue();
         }

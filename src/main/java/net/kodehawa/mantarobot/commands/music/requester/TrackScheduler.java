@@ -124,6 +124,7 @@ public class TrackScheduler extends AudioEventAdapter {
                 if(getCurrentTrack().getUserData() != null) {
                     user = MantaroBot.getInstance().getUserById(String.valueOf(getCurrentTrack().getUserData()));
                 }
+
                 //Avoid massive spam of "now playing..." when repeating songs.
                 if(lastMessageSentAt == 0 || lastMessageSentAt + 10000 < System.currentTimeMillis()) {
                     getRequestedChannelParsed().sendMessage(
@@ -206,12 +207,14 @@ public class TrackScheduler extends AudioEventAdapter {
         getVoteSkips().clear();
 
         Guild g = getGuild();
-        if(g == null) return;
+        if(g == null)
+            return;
+
         AudioManager m = g.getAudioManager();
-        if(m == null) return;
+        if(m == null)
+            return;
 
         boolean premium = MantaroData.db().getGuild(g).isPremium();
-
         try {
             TextChannel ch = getRequestedChannelParsed();
             if(ch != null && ch.canTalk()) {
@@ -227,6 +230,10 @@ public class TrackScheduler extends AudioEventAdapter {
         //Some AudioTrack objects were of almost 500kb of size, I guess 100k of those can cause a meme.
         currentTrack = null;
         previousTrack = null;
+
+        //Kill this audio player.
+        this.getAudioPlayer().destroy();
+
         MantaroBot.getInstance().getCore().getCommonExecutor().execute(m::closeAudioConnection);
     }
 

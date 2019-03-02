@@ -29,6 +29,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -78,7 +79,7 @@ public class CurrencyCmds {
         cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Map<String, Optional<String>> t = StringUtils.parse(args);
+                Map<String, String> t = getArguments(args);
                 content = Utils.replaceArguments(t, content, "brief", "calculate", "calc", "c", "info", "full");
                 Member member = Utils.findMember(event, event.getMember(), content);
 
@@ -167,6 +168,47 @@ public class CurrencyCmds {
     }
 
     @Subscribe
+    public void level(CommandRegistry cr) {
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 8);
+        cr.register("level", new SimpleCommand(Category.CURRENCY) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                Member member = Utils.findMember(event, event.getMember(), content);
+
+                if(member == null)
+                    return;
+
+                if(member.getUser().isBot()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.level.bot_notice"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Player player = MantaroData.db().getPlayer(member);
+                long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
+
+                if(member.getUser().getIdLong() == event.getAuthor().getIdLong()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.level.own_success"),
+                            EmoteReference.ZAP, player.getLevel(), player.getData().getExperience(), experienceNext
+                    ).queue();
+                } else {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.level.success"),
+                            EmoteReference.ZAP, member.getUser().getAsTag(), player.getLevel(), player.getData().getExperience(), experienceNext
+                    ).queue();
+                }
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Checks your level or the level of another user.")
+                        .setUsage("~>level [user]")
+                        .addParameterOptional("user", "The user to check the id of. Can be a mention, tag or id.")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
     public void market(CommandRegistry cr) {
         final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 8);
 
@@ -218,6 +260,7 @@ public class CurrencyCmds {
                                 "If the item name contains spaces, \"wrap it in quotes\".\n" +
                                 "To buy and sell multiple items you need to do `~>market <buy/sell> <amount> <item>`\n")
                         .addParameter("item", "The item name or emoji")
+                        .setSeasonal(true)
                         .build();
             }
         });
@@ -248,6 +291,10 @@ public class CurrencyCmds {
                     return;
                 }
 
+                Map<String, String> t = getArguments(content);
+                boolean isSeasonal = t.containsKey("season");
+                content = Utils.replaceArguments(t, content, "season").trim();
+
                 String[] args = content.split(" ");
                 String itemName = content;
                 int itemNumber = 1;
@@ -270,19 +317,25 @@ public class CurrencyCmds {
                 }
 
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
+                SeasonPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
 
-                if(!player.getInventory().containsItem(item)) {
+                if(!playerInventory.containsItem(item)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.player_no_item"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                if(player.getInventory().getAmount(item) < itemNumber) {
+                if(playerInventory.getAmount(item) < itemNumber) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.more_items_than_player"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                player.getInventory().process(new ItemStack(item, -itemNumber));
-                player.saveAsync();
+                playerInventory.process(new ItemStack(item, -itemNumber));
+                if(isSeasonal)
+                    seasonalPlayer.saveAsync();
+                else
+                    player.saveAsync();
+
                 event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.success"),
                         EmoteReference.CORRECT, itemNumber, item.getEmoji(), item.getName()).queue();
             }
@@ -336,6 +389,11 @@ public class CurrencyCmds {
                 }
 
                 Player player = MantaroData.db().getPlayer(event.getMember());
+                SeasonPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                Map<String, String> t = getArguments(content);
+                boolean isSeasonal = t.containsKey("season");
+                content = Utils.replaceArguments(t, content, "season").trim();
+
                 String[] args = content.split(" ");
                 String itemName = content;
                 int itemNumber = 1;
@@ -352,7 +410,7 @@ public class CurrencyCmds {
                 }
 
                 try {
-                    if(args[0].equals("all")) {
+                    if(args[0].equals("all") && !isSeasonal) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.all.confirmation"), EmoteReference.WARNING).queue();
                         //Start the operation.
                         InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 60, e -> {
@@ -387,6 +445,7 @@ public class CurrencyCmds {
                         return;
                     }
 
+                    Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
                     Item toSell = Items.fromAny(itemName).orElse(null);
 
                     if(toSell == null) {
@@ -399,25 +458,32 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    if(player.getInventory().getAmount(toSell) < 1) {
+                    if(playerInventory.getAmount(toSell) < 1) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.no_item_player"), EmoteReference.STOP).queue();
                         return;
                     }
 
-                    if(player.getInventory().getAmount(toSell) < itemNumber) {
+                    if(playerInventory.getAmount(toSell) < itemNumber) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.more_items_than_player"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     int many = itemNumber * -1;
                     long amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
-                    player.getInventory().process(new ItemStack(toSell, many));
-                    player.addMoney(amount);
+                    playerInventory.process(new ItemStack(toSell, many));
+                    if(isSeasonal)
+                        seasonalPlayer.addMoney(amount);
+                    else
+                        player.addMoney(amount);
+
                     player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
                     event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.success"),
                             EmoteReference.CORRECT, Math.abs(many), toSell.getName(), amount).queue();
 
                     player.saveAsync();
+
+                    if(isSeasonal)
+                        seasonalPlayer.saveAsync();
                 } catch(Exception e) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + languageContext.get("general.invalid_syntax")).queue();
                 }
@@ -439,6 +505,11 @@ public class CurrencyCmds {
                 }
 
                 Player player = MantaroData.db().getPlayer(event.getMember());
+                SeasonPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                Map<String, String> t = getArguments(content);
+                boolean isSeasonal = t.containsKey("season");
+                content = Utils.replaceArguments(t, content, "season").trim();
+
                 String[] args = content.split(" ");
                 String itemName = content;
                 int itemNumber = 1;
@@ -487,18 +558,26 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    ItemStack stack = player.getInventory().getStackOf(itemToBuy);
+                    Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
+                    ItemStack stack = playerInventory.getStackOf(itemToBuy);
                     if((stack != null && !stack.canJoin(new ItemStack(itemToBuy, itemNumber))) || itemNumber > 5000) {
                         //assume overflow
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.item_limit_reached"), EmoteReference.ERROR).queue();
                         return;
                     }
 
-                    if(player.removeMoney(itemToBuy.getValue() * itemNumber)) {
-                        player.getInventory().process(new ItemStack(itemToBuy, itemNumber));
+                    boolean removedMoney = isSeasonal ? seasonalPlayer.removeMoney(itemToBuy.getValue() * itemNumber) : player.removeMoney(itemToBuy.getValue() * itemNumber);
+
+                    if(removedMoney) {
+                        playerInventory.process(new ItemStack(itemToBuy, itemNumber));
                         player.getData().addBadgeIfAbsent(Badge.BUYER);
                         player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
+
+                        //Due to player data being updated here too.
                         player.saveAsync();
+
+                        if(isSeasonal)
+                            seasonalPlayer.saveAsync();
 
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.success"),
                                 EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber, player.getMoney()).queue();
@@ -878,6 +957,13 @@ public class CurrencyCmds {
 
                             if(equippedItems.isEffectActive(type, ((Potion) item).getMaxUses())) {
                                 PotionEffect currentPotion = equippedItems.getCurrentEffect(type);
+                                if(currentPotion.getPotion() != Items.idOf(item)) {
+                                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.not_same_potion"),
+                                            EmoteReference.ERROR, item.getName(), Items.fromId(currentPotion.getPotion()).getName()
+                                    ).queue();
+
+                                    return;
+                                }
                                 if(currentPotion.equip(amount)) {
                                     event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied_multiple"),
                                             EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), currentPotion.getAmountEquipped()).queue();
@@ -890,7 +976,7 @@ public class CurrencyCmds {
                                 if(amount > 1)
                                     effect.equip(amount - 1);
                                 if(amount > 10) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size"), EmoteReference.ERROR, item.getName()).queue();
+                                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size_2"), EmoteReference.ERROR, item.getName()).queue();
                                     return;
                                 }
 
@@ -988,6 +1074,7 @@ public class CurrencyCmds {
                         .setDescription("Starts a fishing session.")
                         .setUsage("`~>fish <rod>` - Starts fishing. You can gain credits and fish items by fishing, which can be used later on for casting.")
                         .addParameter("rod", "Rod name. Optional, if not provided or not found, will default to the default fishing rod or your equipped rod.")
+                        .setSeasonal(true)
                         .build();
             }
         });
@@ -1013,8 +1100,15 @@ public class CurrencyCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        Player player = MantaroData.db().getPlayer(event.getAuthor());
-                        DBUser user = MantaroData.db().getUser(event.getMember());
+                        ManagedDatabase db = MantaroData.db();
+
+                        Map<String, String> t = getArguments(content);
+                        boolean isSeasonal = t.containsKey("season");
+                        content = Utils.replaceArguments(t, content, "season").trim();
+
+                        SeasonPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                        Player player = db.getPlayer(event.getAuthor());
+                        DBUser user = db.getUser(event.getMember());
                         Optional<Item> toCast = Items.fromAnyNoId(content);
 
                         if(!toCast.isPresent()) {
@@ -1041,12 +1135,16 @@ public class CurrencyCmds {
                         String[] splitRecipe = recipe.split(";");
                         long castCost = castItem.getValue() / 2;
 
-                        if(player.getMoney() < castCost) {
+                        long money = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
+
+                        if(money < castCost) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_money"), EmoteReference.ERROR, castCost).queue();
                             return;
                         }
 
-                        if(!player.getInventory().containsItem(Items.WRENCH)) {
+                        Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
+
+                        if(!playerInventory.containsItem(Items.WRENCH)) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_tool"), EmoteReference.ERROR, Items.WRENCH.getName()).queue();
                             return;
                         }
@@ -1064,12 +1162,12 @@ public class CurrencyCmds {
                             Item item = Items.fromId(i);
                             int amount = Integer.valueOf(splitRecipe[increment]);
 
-                            if(!player.getInventory().containsItem(item)) {
+                            if(!playerInventory.containsItem(item)) {
                                 event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_item"), EmoteReference.ERROR, item.getName()).queue();
                                 return;
                             }
 
-                            int inventoryAmount = player.getInventory().getAmount(item);
+                            int inventoryAmount = playerInventory.getAmount(item);
                             if(inventoryAmount < amount) {
                                 event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_items"), EmoteReference.ERROR, item.getName(), amount, inventoryAmount).queue();
                                 return;
@@ -1083,22 +1181,27 @@ public class CurrencyCmds {
                         for(Map.Entry<Item, Integer> entry : castMap.entrySet()) {
                             Item i = entry.getKey();
                             int amount = entry.getValue();
-                            player.getInventory().process(new ItemStack(i, -amount));
+                            playerInventory.process(new ItemStack(i, -amount));
                         }
                         //end of recipe build
 
-                        player.getInventory().process(new ItemStack(castItem, 1));
+                        playerInventory.process(new ItemStack(castItem, 1));
 
                         String message = "";
                         if(random.nextInt(100) > 75) {
-                            player.getInventory().process(new ItemStack(Items.WRENCH, -1));
+                            playerInventory.process(new ItemStack(Items.WRENCH, -1));
                             message += languageContext.get("commands.cast.item_broke");
                         }
 
                         user.getData().increaseDustLevel(3);
                         user.save();
-                        player.removeMoney(castCost);
-                        player.save();
+                        if(isSeasonal) {
+                            seasonalPlayer.removeMoney(castCost);
+                            seasonalPlayer.save();
+                        } else {
+                            player.removeMoney(castCost);
+                            player.save();
+                        }
 
                         event.getChannel().sendMessageFormat(languageContext.get("commands.cast.success") + "\n" + message,
                                 EmoteReference.WRENCH, castItem.getEmoji(), castItem.getName(), castCost, recipeString.toString().trim()
@@ -1199,6 +1302,23 @@ public class CurrencyCmds {
                         .setDescription("Shows the information of an item")
                         .setUsage("`~>iteminfo <item name>` - Shows the info of an item.")
                         .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void season(CommandRegistry registry) {
+        registry.register("season", new SimpleCommand(Category.CURRENCY) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                event.getChannel().sendMessageFormat(languageContext.get("commands.season.info") + languageContext.get("commands.season.info_2"), getConfig().getCurrentSeason().getDisplay() , MantaroData.db().getAmountSeasonalPlayers()).queue();
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows information about this season and about what's a season.")
                         .build();
             }
         });

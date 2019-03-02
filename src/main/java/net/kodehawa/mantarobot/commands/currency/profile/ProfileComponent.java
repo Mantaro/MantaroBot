@@ -21,10 +21,13 @@ import lombok.Data;
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -45,9 +48,11 @@ public enum ProfileComponent {
         else
             return String.format("**%s**\n", holder.getBadges().get(0));
     }, true, false),
-    CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.credits"), (holder, i18nContext) -> "$ " + holder.getPlayer().getMoney()),
+    CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.credits"), (holder, i18nContext) ->
+            "$ " + (holder.isSeasonal() ? holder.getSeasonalPlayer().getMoney() : holder.getPlayer().getMoney())
+    ),
     REPUTATION(EmoteReference.REP, i18nContext -> i18nContext.get("commands.profile.rep"), (holder, i18nContext) ->
-            String.valueOf(holder.getPlayer().getReputation())
+            holder.isSeasonal() ? String.valueOf(holder.getSeasonalPlayer().getReputation()) : String.valueOf(holder.getPlayer().getReputation())
     ),
     LEVEL(EmoteReference.ZAP, i18nContext -> i18nContext.get("commands.profile.level"), (holder, i18nContext) -> {
         Player player = holder.getPlayer();
@@ -91,9 +96,10 @@ public enum ProfileComponent {
             return String.format("%s#%s", marriedTo.getName(), marriedTo.getDiscriminator());
         }
     }),
-    INVENTORY(EmoteReference.POUCH, i18nContext -> i18nContext.get("commands.profile.inventory"),
-            (holder, i18nContext) -> holder.getPlayer().getInventory().asList().stream().map(i -> i.getItem().getEmoji()).collect(Collectors.joining("  "))
-    ),
+    INVENTORY(EmoteReference.POUCH, i18nContext -> i18nContext.get("commands.profile.inventory"), (holder, i18nContext) -> {
+        Inventory inv = holder.isSeasonal() ? holder.getSeasonalPlayer().getInventory() : holder.getPlayer().getInventory();
+        return inv.asList().stream().map(i -> i.getItem().getEmoji()).collect(Collectors.joining("  "));
+    }),
     BADGES(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.badges"), (holder, i18nContext) -> {
         String displayBadges = holder.getBadges().stream().map(Badge::getUnicode).limit(5).collect(Collectors.joining("  "));
 
@@ -111,7 +117,9 @@ public enum ProfileComponent {
         else
             timezone = userData.getTimezone();
 
-        return String.format("%s", String.format(i18nContext.get("commands.profile.timezone_user"), timezone));
+        String seasonal = holder.isSeasonal() ? " | Seasonal profile (" + MantaroData.config().get().getCurrentSeason() + ")" : "";
+
+        return String.format("%s%s", String.format(i18nContext.get("commands.profile.timezone_user"), timezone), seasonal);
     }, false);
 
     //See: getTitle()
@@ -173,7 +181,12 @@ public enum ProfileComponent {
     public static class Holder {
         private User user;
         private Player player;
+        private SeasonPlayer seasonalPlayer;
         private DBUser dbUser;
         private List<Badge> badges;
+
+        public boolean isSeasonal() {
+            return seasonalPlayer != null;
+        }
     }
 }

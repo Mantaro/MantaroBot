@@ -22,6 +22,8 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
+import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
@@ -91,10 +93,14 @@ public class GuessTheNumber extends Game<Object> {
                     }
 
                     if(e.getMessage().getContentRaw().equals(String.valueOf(number))) {
-                        Player player = MantaroData.db().getPlayer(e.getMember());
+                        UnifiedPlayer unifiedPlayer = UnifiedPlayer.of(e.getAuthor(), config.getCurrentSeason());
+                        Player player = unifiedPlayer.getPlayer();
+                        SeasonPlayer seasonalPlayer = unifiedPlayer.getSeasonalPlayer();
                         int gains = 95;
-                        player.addMoney(gains);
+
+                        unifiedPlayer.addMoney(gains);
                         player.getData().setGamesWon(player.getData().getGamesWon() + 1);
+                        seasonalPlayer.getData().setGamesWon(player.getData().getGamesWon() + 1);
 
                         if(player.getData().getGamesWon() == 100)
                             player.getData().addBadgeIfAbsent(Badge.GAMER);
@@ -105,7 +111,7 @@ public class GuessTheNumber extends Game<Object> {
                         if(number > 90)
                             player.getData().addBadgeIfAbsent(Badge.APPROACHING_DESTINY);
 
-                        player.save();
+                        unifiedPlayer.save();
 
                         TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
                         new MessageBuilder().setContent(String.format(languageContext.get("commands.game.lobby.won_game"), EmoteReference.MEGA, e.getMember().getEffectiveName(), gains))
