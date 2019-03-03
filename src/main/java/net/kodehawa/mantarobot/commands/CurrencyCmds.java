@@ -28,6 +28,8 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
+import net.kodehawa.mantarobot.commands.currency.item.special.Wrench;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
@@ -1100,16 +1102,31 @@ public class CurrencyCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        String[] arguments = content.split("\\s+");
+
+                        if(arguments.length == 0) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_item_found"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
                         ManagedDatabase db = MantaroData.db();
 
-                        Map<String, String> t = getArguments(content);
+                        //Argument parsing.
+                        Map<String, String> t = getArguments(arguments);
                         boolean isSeasonal = t.containsKey("season");
-                        content = Utils.replaceArguments(t, content, "season").trim();
+                        boolean isMultiple = t.containsKey("amount");
 
+                        //Get the necessary entities.
                         SeasonPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
                         Player player = db.getPlayer(event.getAuthor());
                         DBUser user = db.getUser(event.getMember());
-                        Optional<Item> toCast = Items.fromAnyNoId(content);
+
+                        //Why
+                        Optional<Item> toCast = Items.fromAnyNoId(arguments[0]);
+                        Optional<Item> optionalWrench = Optional.empty();
+
+                        if(arguments.length > 1)
+                            optionalWrench = Items.fromAnyNoId(arguments[1]);
 
                         if(!toCast.isPresent()) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_item_found"), EmoteReference.ERROR).queue();
@@ -1119,7 +1136,13 @@ public class CurrencyCmds {
                         if(!handleDefaultIncreasingRatelimit(ratelimiter, event.getAuthor(), event, languageContext))
                             return;
 
+                        int amountSpecified = 1;
+                        try {
+                            amountSpecified = isMultiple ? Math.max(1, Integer.parseInt(t.get("amount"))) : 1;
+                        } catch (Exception ignored) { }
+
                         Item castItem = toCast.get();
+                        //This is a good way of getting if it's castable, since implementing an interface wouldn't cut it (some rods aren't castable, for example)
                         if(!castItem.getItemType().isCastable()) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.cast.item_not_cast"), EmoteReference.ERROR).queue();
                             return;
@@ -1130,21 +1153,46 @@ public class CurrencyCmds {
                             return;
                         }
 
+                        Item wrenchItem = optionalWrench.orElse(Items.WRENCH);
+
+                        if(!(wrenchItem instanceof Wrench)) {
+                            wrenchItem = Items.WRENCH;
+                        }
+
+                        //How many steps until this again?
+                        Wrench wrench = (Wrench) wrenchItem;
+
+                        //Build recipe.
                         Map<Item, Integer> castMap = new HashMap<>();
                         String recipe = castItem.getRecipe();
                         String[] splitRecipe = recipe.split(";");
-                        long castCost = castItem.getValue() / 2;
+
+                        //How many parenthesis again?
+                        long castCost = (long) (((castItem.getValue() / 2) * amountSpecified) * wrench.getMultiplierReduction());
 
                         long money = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
+                        boolean isItemCastable = castItem instanceof Castable;
+                        int wrenchLevelRequired = isItemCastable ? ((Castable) castItem).getCastLevelRequired() : 1;
 
                         if(money < castCost) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_money"), EmoteReference.ERROR, castCost).queue();
                             return;
                         }
 
+                        if(wrench.getLevel() < wrenchLevelRequired) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_wrench_level"), EmoteReference.ERROR, wrench.getLevel(), wrenchLevelRequired).queue();
+                            return;
+                        }
+
+                        int limit = (isItemCastable ? ((Castable) castItem).getMaximumCastAmount() : 5);
+                        if(amountSpecified > limit) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.too_many_amount"), EmoteReference.ERROR, limit, amountSpecified).queue();
+                            return;
+                        }
+
                         Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
 
-                        if(!playerInventory.containsItem(Items.WRENCH)) {
+                        if(!playerInventory.containsItem(wrenchItem)) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_tool"), EmoteReference.ERROR, Items.WRENCH.getName()).queue();
                             return;
                         }
@@ -1160,7 +1208,7 @@ public class CurrencyCmds {
                         StringBuilder recipeString = new StringBuilder();
                         for(int i : castItem.getRecipeTypes()) {
                             Item item = Items.fromId(i);
-                            int amount = Integer.valueOf(splitRecipe[increment]);
+                            int amount = Integer.valueOf(splitRecipe[increment]) * amountSpecified;
 
                             if(!playerInventory.containsItem(item)) {
                                 event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_item"), EmoteReference.ERROR, item.getName()).queue();
@@ -1178,6 +1226,11 @@ public class CurrencyCmds {
                             increment++;
                         }
 
+                        if(playerInventory.getAmount(castItem) + amountSpecified > 5000) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.too_many"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
                         for(Map.Entry<Item, Integer> entry : castMap.entrySet()) {
                             Item i = entry.getKey();
                             int amount = entry.getValue();
@@ -1185,10 +1238,11 @@ public class CurrencyCmds {
                         }
                         //end of recipe build
 
-                        playerInventory.process(new ItemStack(castItem, 1));
+                        playerInventory.process(new ItemStack(castItem, amountSpecified));
 
                         String message = "";
-                        if(random.nextInt(100) > 75) {
+                        //The higher the chance, the lower it's the chance to break. Yes, I know.
+                        if(random.nextInt(100) > wrench.getChance()) {
                             playerInventory.process(new ItemStack(Items.WRENCH, -1));
                             message += languageContext.get("commands.cast.item_broke");
                         }

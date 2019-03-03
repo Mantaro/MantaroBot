@@ -45,5 +45,4 @@ public class Fish extends Item {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.level = level;
     }
-
 }

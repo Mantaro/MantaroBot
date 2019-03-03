@@ -19,29 +19,26 @@ package net.kodehawa.mantarobot.commands.currency.item.special;
 import lombok.Getter;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 
-public class Pickaxe extends Item implements Castable {
+public class Wrench extends Item {
     @Getter
     private float chance;
     @Getter
-    //Wrench level, basically.
-    private int castLevelRequired;
+    private int level;
     @Getter
-    private int maximumCastAmount;
+    private double multiplierReduction;
 
-    public Pickaxe(ItemType type, float chance, int castLevelRequired, int maximumCastAmount, String emoji, String name, String translatedName, String desc, long value, boolean sellable, boolean buyable, String recipe, int... recipeTypes) {
+    public Wrench(ItemType type, float chance, int level, double multiplierReduction, String emoji, String name, String translatedName, String desc, long value, boolean sellable, boolean buyable, String recipe, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, sellable, buyable, recipe, recipeTypes);
         this.chance = chance;
-        this.castLevelRequired = castLevelRequired;
-        this.maximumCastAmount = maximumCastAmount;
+        this.level = level;
+        this.multiplierReduction = multiplierReduction;
     }
 
-    public Pickaxe(ItemType type, float chance, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
+    public Wrench(ItemType type, float chance, int level, double multiplierReduction, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.chance = chance;
-        this.castLevelRequired = -1;
-        this.maximumCastAmount = -1;
+        this.level = level;
+        this.multiplierReduction = multiplierReduction;
     }
-
 }
