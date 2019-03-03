@@ -1243,7 +1243,7 @@ public class CurrencyCmds {
                         String message = "";
                         //The higher the chance, the lower it's the chance to break. Yes, I know.
                         if(random.nextInt(100) > wrench.getChance()) {
-                            playerInventory.process(new ItemStack(Items.WRENCH, -1));
+                            playerInventory.process(new ItemStack(wrenchItem, -1));
                             message += languageContext.get("commands.cast.item_broke");
                         }
 
