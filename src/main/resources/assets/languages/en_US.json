@@ -1910,6 +1910,11 @@
     "sparkle_rod": "Sparkle Rod",
     "shell": "Shell",
     "shark": "Shark",
+    "crab": "Crab",
+    "squid": "Squid",
+    "shrimp": "Shrimp",
+    "moon": "Moon Rune",
+    "flake": "Snowflake",
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
       "ban_hammer": "Left by an admin.",
@@ -1987,7 +1992,12 @@
       "star_rod": "A stronger rod. (14% breaking chance)",
       "sparkle_rod": "A way stronger rod. (9% breaking chance)",
       "shell": "Found at the bottom of the ocean. What could it be worth for?",
-      "shark": "Woah. How did you catch *this*?"
+      "shark": "Woah. How did you catch *this*?",
+      "crab": "A crab. It dances, maybe.",
+      "squid": "Not to confuse with Squidward.",
+      "shrimp": "Pinkish stuff. I think.",
+      "moon": "Moon Rune. Needed to cast some stuff.",
+      "flake": "Snowflake. Usually used as a cast ingredient."
     }
   },
   "test": {
