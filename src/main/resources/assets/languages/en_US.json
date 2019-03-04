@@ -589,7 +589,7 @@
       "ls": {
         "header": "Castable Item List",
         "cost": "Cast Cost: ",
-        "desc": "This is a list of the items you can cast using `~>cast`. You have to use the full name or the short name to cast it (example: `~>cast diamond pickaxe` or `~>cast diamond p` works)\n**Casting has a cost of half the price of the item. The casting price will be shown down below.**"
+        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name (example: `~>cast diamond pickaxe` or `~>cast diamond p` works)\n**Casting has a minimum cost of half the price of the item. The casting price will be shown down below.**"
       },
       "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?"
     },
@@ -1976,6 +1976,7 @@
       "bait": "Gives you a higher chance of catching fish.",
       "diamond_pick": "A very much stronger pick (20% breaking chance). (`~>mine` tool).",
       "tv": "Must... watch... TV...",
+      "wrench": "Casting tool. Useful to put stuff together.",
       "wrench": "Casting tool. Useful to put stuff together.",
       "star_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking, needed to cast multiple items at once. Tier 2.",
       "sparkle_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking. Less cost per cast. Tier 3.",

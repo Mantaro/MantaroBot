@@ -347,7 +347,7 @@ public class MantaroListener implements EventListener {
                     }
 
                     logTotal++;
-                    tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` Message ID %s created by **%s#%s** (ID: %s) in channel **%s** was deleted.\n" +
+                    tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` Message (ID: %s) created by **%s#%s** (ID: %s) in channel **%s** was deleted.\n" +
                             "```diff\n-%s```", hour, event.getMessageId(), deletedMessage.getAuthor().getName(), deletedMessage.getAuthor().getDiscriminator(), deletedMessage.getAuthor().getId(), event.getChannel().getName(), deletedMessage.getContent().replace("```", ""))).queue();
                 }
             }
