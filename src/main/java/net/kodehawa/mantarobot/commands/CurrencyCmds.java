@@ -1308,7 +1308,7 @@ public class CurrencyCmds {
                     AtomicInteger ai = new AtomicInteger();
                     String recipe = Arrays.stream(item.getRecipeTypes()).mapToObj((i) -> {
                         Item recipeItem = Items.fromId(i);
-                        return recipeAmount[ai.getAndIncrement()] + "x " + recipeItem.getEmoji() + "\u2009*" + recipeItem.getName() + "*";
+                        return recipeItem.getEmoji() + " " + recipeAmount[ai.getAndIncrement()] + "x" + "\u2009*" + recipeItem.getName() + "*";
                     }).collect(Collectors.joining(", "));
                     //End of build recipe explanation
 

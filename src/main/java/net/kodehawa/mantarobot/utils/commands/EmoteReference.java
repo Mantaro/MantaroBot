@@ -95,7 +95,9 @@ public enum EmoteReference {
     COMET_ROD("<:comet_rod:492882142779670528>", null),
     SPARKLE_ROD("<:sparkle_rod:492882143505154048>", null),
     PREMIUM_MINE_CRATE("<:premium_stone:493561539215753236>", null),
-    PREMIUM_FISH_CRATE("<:premium_treasure:493561539450896394>", null);
+    PREMIUM_FISH_CRATE("<:premium_treasure:493561539450896394>", null),
+    SPARKLE_WRENCH("<:sparkle_wrench:551979816262434819>", null),
+    COMET_WRENCH("<:comet_wrench:551979816174354443>", null);
 
     final String discordNotation;
     final String unicode;
