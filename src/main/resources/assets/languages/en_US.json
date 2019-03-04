@@ -583,6 +583,7 @@
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
       "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
       "too_many": "%1$sYou'd have more than 5000 of this item if you proceed. Try casting less of this object?",
+      "low_tier": "%1$sYou need at least a tier 2 wrench to cast more items per call. You currently have a tier %2$s wrench.",
       "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe specify a more powerful one? *Wrench level: %2$s, Required level: %3$s*",
       "too_many_amount": "%1$sYou can't cast that many of this item at once! Limit: %2$s, Attempt: %3$s. A sparkle wrench makes the limit double! Unless you're already using one.",
       "ls": {
@@ -1976,8 +1977,8 @@
       "diamond_pick": "A very much stronger pick (20% breaking chance). (`~>mine` tool).",
       "tv": "Must... watch... TV...",
       "wrench": "Casting tool. Useful to put stuff together.",
-      "star_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking, needed to cast multiple items at once.",
-      "sparkle_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking. Needed to be able to store items (+20 cast).",
+      "star_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking, needed to cast multiple items at once. Tier 2.",
+      "sparkle_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking. Less cost per cast. Tier 3.",
       "motorcycle": "Going around, the cool way.",
       "comet_pick": "A very much stronger pick (18% breaking chance). (`~>mine` tool).",
       "star_pick": "A very much stronger pick (13% breaking chance). (`~>mine` tool).",

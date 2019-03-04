@@ -1162,6 +1162,11 @@ public class CurrencyCmds {
                         //How many steps until this again?
                         Wrench wrench = (Wrench) wrenchItem;
 
+                        if(amountSpecified > 1 && wrench.getLevel() < 2) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.low_tier"), EmoteReference.ERROR, wrench.getLevel()).queue();
+                            return;
+                        }
+
                         //Build recipe.
                         Map<Item, Integer> castMap = new HashMap<>();
                         String recipe = castItem.getRecipe();
@@ -1173,6 +1178,7 @@ public class CurrencyCmds {
                         long money = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
                         boolean isItemCastable = castItem instanceof Castable;
                         int wrenchLevelRequired = isItemCastable ? ((Castable) castItem).getCastLevelRequired() : 1;
+
 
                         if(money < castCost) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_money"), EmoteReference.ERROR, castCost).queue();
