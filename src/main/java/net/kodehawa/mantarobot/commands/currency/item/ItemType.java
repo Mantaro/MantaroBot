@@ -45,7 +45,8 @@ public enum ItemType {
     CRATE(false),
     CAST_FISH(true),
     POTION(false),
-    BUFF(false);
+    BUFF(false),
+    WRENCH(true);
 
     private boolean cast;
 

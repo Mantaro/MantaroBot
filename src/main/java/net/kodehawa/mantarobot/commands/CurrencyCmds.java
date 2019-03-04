@@ -1304,13 +1304,12 @@ public class CurrencyCmds {
                     if(item.getRecipe().isEmpty())
                         continue;
 
-                    StringBuilder recipe = new StringBuilder();
                     String[] recipeAmount = item.getRecipe().split(";");
                     AtomicInteger ai = new AtomicInteger();
-                    for(int i : item.getRecipeTypes()) {
+                    String recipe = Arrays.stream(item.getRecipeTypes()).mapToObj((i) -> {
                         Item recipeItem = Items.fromId(i);
-                        recipe.append(recipeAmount[ai.getAndIncrement()]).append("x ").append(recipeItem.getEmoji()).append("\u2009").append(recipeItem.getName()).append(" ");
-                    }
+                        return recipeAmount[ai.getAndIncrement()] + "x " + recipeItem.getEmoji() + "\u2009*" + recipeItem.getName() + "*";
+                    }).collect(Collectors.joining(", "));
                     //End of build recipe explanation
 
                     fields.add(new MessageEmbed.Field(item.getEmoji() + " " + item.getName(),

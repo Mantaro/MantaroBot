@@ -849,7 +849,7 @@ public class MoneyCmds {
                     player.getData().addBadgeIfAbsent(Badge.MINER);
                 }
 
-                if(r.nextInt(400) > (hasPotion ? 311 : 371)) {
+                if(r.nextInt(400) > (hasPotion ? 278 : 325)) {
                     List<Item> gem = Stream.of(Items.ALL)
                             .filter(i -> i.getItemType() == ItemType.MINE && !i.isHidden() && i.isSellable())
                             .collect(Collectors.toList());
