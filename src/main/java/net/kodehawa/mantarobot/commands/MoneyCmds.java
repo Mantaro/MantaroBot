@@ -123,6 +123,7 @@ public class MoneyCmds {
 
                 PlayerData playerData = player.getData();
                 String streak;
+                String crate = "";
 
                 String playerId = player.getUserId();
 
@@ -155,6 +156,11 @@ public class MoneyCmds {
 
                     if(playerData.getDailyStreak() > 100) {
                         playerData.addBadgeIfAbsent(Badge.BIG_CLAIMER);
+                    }
+
+                    if(playerData.getDailyStreak() > 10 && playerData.getDailyStreak() % 20 == 0 && player.getInventory().getAmount(Items.LOOT_CRATE) < 5000) {
+                        player.getInventory().process(new ItemStack(Items.LOOT_CRATE, 1));
+                        crate = "\n" + languageContext.get("commands.daily.crate");
                     }
                 } else {
                     Player authorPlayer = MantaroData.db().getPlayer(event.getAuthor());
@@ -191,6 +197,11 @@ public class MoneyCmds {
                         authorPlayerData.addBadgeIfAbsent(Badge.BIG_CLAIMER);
                     }
 
+                    if(authorPlayerData.getDailyStreak() > 10 && authorPlayerData.getDailyStreak() % 20 == 0 && authorPlayer.getInventory().getAmount(Items.LOOT_CRATE) < 5000) {
+                        authorPlayer.getInventory().process(new ItemStack(Items.LOOT_CRATE, 1));
+                        crate = "\n" + languageContext.get("commands.daily.crate");
+                    }
+
                     authorPlayerData.setLastDailyAt(System.currentTimeMillis());
                     authorPlayer.save();
                 }
@@ -223,7 +234,7 @@ public class MoneyCmds {
                     playerData.setLastDailyAt(System.currentTimeMillis());
                     unifiedPlayer.save();
 
-                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "daily.given_credits"), EmoteReference.CORRECT, money, mentionedUser.getName(), streak, sellout).queue();
+                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "daily.given_credits") + crate, EmoteReference.CORRECT, money, mentionedUser.getName(), streak, sellout).queue();
                     return;
                 }
 
@@ -232,7 +243,7 @@ public class MoneyCmds {
                 playerData.setLastDailyAt(System.currentTimeMillis());
                 unifiedPlayer.save();
 
-                event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "daily.credits"), EmoteReference.CORRECT, money, streak, sellout).queue();
+                event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "daily.credits") + crate, EmoteReference.CORRECT, money, streak, sellout).queue();
             }
 
             @Override

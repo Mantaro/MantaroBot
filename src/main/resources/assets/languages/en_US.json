@@ -1308,7 +1308,8 @@
       },
       "given_credits": "%1$sI gave your **$%2$s** daily credits to %3$s\n\n%4$s",
       "credits": "%1$sYou got **$%2$s** daily credits.\n\n%3$s%4$s",
-      "sellout": "\nWe need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info."
+      "sellout": "\nWe need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info.",
+      "crate": "You won a loot crate because your daily streak it's a multiple of 20! Enjoy."
     },
     "gamble": {
       "no_credits": "%1$sYou're broke. Maybe search for some credits first.",
