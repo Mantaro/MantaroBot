@@ -1179,7 +1179,6 @@ public class CurrencyCmds {
                         boolean isItemCastable = castItem instanceof Castable;
                         int wrenchLevelRequired = isItemCastable ? ((Castable) castItem).getCastLevelRequired() : 1;
 
-
                         if(money < castCost) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_money"), EmoteReference.ERROR, castCost).queue();
                             return;
@@ -1204,7 +1203,7 @@ public class CurrencyCmds {
                         }
 
                         int dust = user.getData().getDustLevel();
-                        if(dust > 96) {
+                        if(dust > 95) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.cast.dust"), EmoteReference.ERROR, dust).queue();
                             return;
                         }
@@ -1255,6 +1254,7 @@ public class CurrencyCmds {
 
                         user.getData().increaseDustLevel(3);
                         user.save();
+
                         if(isSeasonal) {
                             seasonalPlayer.removeMoney(castCost);
                             seasonalPlayer.save();
@@ -1276,8 +1276,10 @@ public class CurrencyCmds {
                         .setDescription("Allows you to cast any castable item given you have the necessary elements.\n" +
                                 "Casting requires you to have the necessary materials to cast the item, and it has a cost of `item value / 2`.\n" +
                                 "Cast-able items are only able to be acquired by this command. They're non-buyable items, though you can sell them for a profit.")
-                        .setUsage("`~>cast <item>` - Casts the item you provide.")
+                        .setUsage("`~>cast <item> [wrench] [-amount <amount>]` - Casts the item you provide.")
                         .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
+                        .addParameterOptional("wrench", "The wrench name or emoji. If the name contains spaces \"wrap it in quotes\"")
+                        .addParameterOptional("amount", "The amount of items you want to cast. Depends on your wrench, maximum of 10.")
                         .build();
             }
         });
