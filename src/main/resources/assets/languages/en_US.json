@@ -1420,7 +1420,7 @@
     },
     "level": {
       "bot_notice": "%1$sBots don't have level.",
-      "success_own": "%1$s your level is %2$s. (Experience: %3$s/%4$s)",
+      "own_success": "%1$s your level is %2$s. (Experience: %3$s/%4$s)",
       "success_other": "%1$s %2$s's is level %3$s. (Experience: %4$s/%5$s)"
     }
   },

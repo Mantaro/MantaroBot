@@ -199,7 +199,7 @@ public class CurrencyCmds {
                             EmoteReference.ZAP, player.getLevel(), player.getData().getExperience(), experienceNext
                     ).queue();
                 } else {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.level.success"),
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.level.success_other"),
                             EmoteReference.ZAP, member.getUser().getAsTag(), player.getLevel(), player.getData().getExperience(), experienceNext
                     ).queue();
                 }
