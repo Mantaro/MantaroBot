@@ -504,8 +504,8 @@ public class MoneyCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Map<String, String> t = getArguments(content);
-                content = Utils.replaceArguments(t, content, "season").trim();
-                boolean isSeasonal = t.containsKey("season");
+                content = Utils.replaceArguments(t, content, "season", "s").trim();
+                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
 
                 ManagedDatabase db = MantaroData.db();
                 User user = event.getAuthor();
@@ -774,8 +774,8 @@ public class MoneyCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season");
-                content = Utils.replaceArguments(t, content, "season").trim();
+                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+                content = Utils.replaceArguments(t, content, "season", "s").trim();
 
                 final User user = event.getAuthor();
                 final ManagedDatabase db = MantaroData.db();

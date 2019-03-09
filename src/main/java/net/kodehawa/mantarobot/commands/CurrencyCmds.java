@@ -82,7 +82,7 @@ public class CurrencyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Map<String, String> t = getArguments(args);
-                content = Utils.replaceArguments(t, content, "brief", "calculate", "calc", "c", "info", "full");
+                content = Utils.replaceArguments(t, content, "brief", "calculate", "calc", "c", "info", "full", "season", "s");
                 Member member = Utils.findMember(event, event.getMember(), content);
 
                 if(member == null)
@@ -94,8 +94,13 @@ public class CurrencyCmds {
                 }
 
                 Player player = MantaroData.db().getPlayer(member);
-                final Inventory playerInventory = player.getInventory();
+                SeasonPlayer seasonPlayer = MantaroData.db().getPlayerForSeason(member, getConfig().getCurrentSeason());
+                Inventory playerInventory = player.getInventory();
                 final List<ItemStack> inventoryList = playerInventory.asList();
+
+                if(t.containsKey("season") || t.containsKey("s")) {
+                    playerInventory = seasonPlayer.getInventory();
+                }
 
                 if(t.containsKey("calculate") || t.containsKey("calc") || t.containsKey("c")) {
                     long all = playerInventory.asList().stream()
@@ -162,6 +167,7 @@ public class CurrencyCmds {
                         .setUsage("You can mention someone on this command to see their inventory.\n" +
                                 "You can use `~>inventory -full` to a more detailed version.\n" +
                                 "Use `~>inventory -calculate` to see how much you'd get if you sell every sellable item on your inventory.")
+                        .setSeasonal(true)
                         .build();
             }
         });
@@ -294,8 +300,8 @@ public class CurrencyCmds {
                 }
 
                 Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season");
-                content = Utils.replaceArguments(t, content, "season").trim();
+                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+                content = Utils.replaceArguments(t, content, "season", "s").trim();
 
                 String[] args = content.split(" ");
                 String itemName = content;
@@ -393,8 +399,8 @@ public class CurrencyCmds {
                 Player player = MantaroData.db().getPlayer(event.getMember());
                 SeasonPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
                 Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season");
-                content = Utils.replaceArguments(t, content, "season").trim();
+                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+                content = Utils.replaceArguments(t, content, "season", "s").trim();
 
                 String[] args = content.split(" ");
                 String itemName = content;
@@ -509,8 +515,8 @@ public class CurrencyCmds {
                 Player player = MantaroData.db().getPlayer(event.getMember());
                 SeasonPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
                 Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season");
-                content = Utils.replaceArguments(t, content, "season").trim();
+                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+                content = Utils.replaceArguments(t, content, "season", "s").trim();
 
                 String[] args = content.split(" ");
                 String itemName = content;
@@ -581,8 +587,10 @@ public class CurrencyCmds {
                         if(isSeasonal)
                             seasonalPlayer.saveAsync();
 
+                        long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
+
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.success"),
-                                EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber, player.getMoney()).queue();
+                                EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber, playerMoney).queue();
 
                     } else {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.not_enough_money"), EmoteReference.STOP).queue();
@@ -1113,7 +1121,7 @@ public class CurrencyCmds {
 
                         //Argument parsing.
                         Map<String, String> t = getArguments(arguments);
-                        boolean isSeasonal = t.containsKey("season");
+                        boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
                         boolean isMultiple = t.containsKey("amount");
 
                         //Get the necessary entities.

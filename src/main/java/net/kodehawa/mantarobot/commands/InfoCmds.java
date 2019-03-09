@@ -408,7 +408,7 @@ public class InfoCmds {
                             }
 
                             if(newHelp.isSeasonal()) {
-                                builder.addField("Seasonal", "This command allows the usage of the `-season` argument.", false);
+                                builder.addField("Seasonal", "This command allows the usage of the `-season` or the `-s` argument.", false);
                             }
 
                             //Known command aliases.

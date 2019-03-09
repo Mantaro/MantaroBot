@@ -192,8 +192,8 @@ public class PlayerCmds {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                         Map<String, String> t = getArguments(content);
-                        content = Utils.replaceArguments(t, content, "season").trim();
-                        boolean isSeasonal = t.containsKey("season");
+                        content = Utils.replaceArguments(t, content, "season", "s").trim();
+                        boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
 
                         User userLooked = event.getAuthor();
                         Player player = managedDatabase.getPlayer(userLooked);

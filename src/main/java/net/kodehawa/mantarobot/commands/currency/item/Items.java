@@ -185,7 +185,7 @@ public class Items {
         //Basically fish command.
         FISHING_ROD.setAction((event, context) -> {
             Map<String, String> t = StringUtils.parse(event.getMessage().getContentRaw().split("\\s+")); //idc about anything but the argument itself here.
-            boolean isSeasonal = t.containsKey("season");
+            boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
 
             Player p = managedDatabase.getPlayer(event.getAuthor());
             SeasonPlayer sp = managedDatabase.getPlayerForSeason(event.getAuthor(), config.getCurrentSeason());

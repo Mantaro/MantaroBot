@@ -166,7 +166,7 @@ public class LeaderboardCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season");
+                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
                 String tableName = isSeasonal ? "seasonalplayers" : "players";
 
                 List<Map<?, ?>> c = getLeaderboard(tableName, "money",
@@ -175,7 +175,7 @@ public class LeaderboardCmd {
                 );
 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
-                        String.format(languageContext.get("commands.leaderboard.inner.money"), EmoteReference.MONEY),"commands.leaderboard.money", c,
+                        String.format((isSeasonal ? languageContext.get("commands.leaderboard.inner.seasonal_money") : languageContext.get("commands.leaderboard.inner.money")) , EmoteReference.MONEY),"commands.leaderboard.money", c,
                         map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
                                 map.get("money").toString()), "%s**%s#%s** - $%,d", isSeasonal)
                         .build()
@@ -215,7 +215,7 @@ public class LeaderboardCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season");
+                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
                 String tableName = isSeasonal ? "seasonalplayers" : "players";
 
                 List<Map<?, ?>> c = getLeaderboard(tableName, "reputation",
@@ -263,7 +263,7 @@ public class LeaderboardCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season");
+                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
                 String tableName = isSeasonal ? "seasonalplayers" : "players";
 
                 List<Map<?, ?>> c = getLeaderboard(tableName, "waifuCachedValue",
@@ -310,7 +310,7 @@ public class LeaderboardCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season");
+                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
                 String tableName = isSeasonal ? "seasonalplayers" : "players";
 
                 List<Map<?, ?>> c = getLeaderboard(tableName, "gameWins",
