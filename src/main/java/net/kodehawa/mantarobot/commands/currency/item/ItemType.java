@@ -46,7 +46,8 @@ public enum ItemType {
     CAST_FISH(true),
     POTION(false),
     BUFF(false),
-    WRENCH(true);
+    WRENCH(true),
+    BROKEN(false);
 
     private boolean cast;
 

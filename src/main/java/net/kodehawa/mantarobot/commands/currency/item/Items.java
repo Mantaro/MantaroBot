@@ -51,7 +51,7 @@ public class Items {
             NECKLACE, ROSE, DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN,
             POTION_STAMINA, FISHING_ROD, FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE,
             TELEVISION, WRENCH, MOTORCYCLE, GEM1_PICKAXE, GEM2_PICKAXE, PIZZA, GEM_5, GEM5_PICKAXE, MINE_CRATE, FISH_CRATE, FISH_PREMIUM_CRATE, MINE_PREMIUM_CRATE,
-            GEM1_ROD, GEM2_ROD, GEM5_ROD, GEM5_PICKAXE_2, GEM5_2, GEM5_ROD_2, FISH_4, FISH_5, WRENCH_COMET, WRENCH_SPARKLE, FISH_6, FISH_7, FISH_8, GEM_6, GEM_7;
+            GEM1_ROD, GEM2_ROD, GEM5_ROD, GEM5_PICKAXE_2, GEM5_2, GEM5_ROD_2, FISH_4, FISH_5, WRENCH_COMET, WRENCH_SPARKLE, FISH_6, FISH_7, FISH_8, GEM_6, GEM_7, BROKEN_SPARKLE_PICK, BROKEN_COMET_PICK;
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 4);
@@ -147,16 +147,18 @@ public class Items {
             GEM5_ROD = new FishRod(ItemType.COMMON, 3, -1, -1,"\uD83C\uDFA3", "Broken Sparkle Rod", "general.deprecated", "general.deprecated", 65, "",2),
             GEM5_PICKAXE_2 = new Pickaxe(ItemType.MINE_RARE_PICK, 0.06f, 3, 5, EmoteReference.SPARKLE_PICK.getDiscordNotation(),"Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 1200, true, false, "1;3;1", 10, 74, 18),
             GEM5_2 = new Item(ItemType.MINE_RARE, "\u2728", "Sparkle Fragment", "items.sparkle", "items.description.sparkle", 605, false),
-            GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 14, 3, 5, EmoteReference.SPARKLE_ROD.getDiscordNotation(), "Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 800, "1;3;1", 44, 74, 18),
+            GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 14, 3, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(), "Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 800, "1;3;1", 44, 74, 18),
             FISH_4 = new Fish(ItemType.FISHING_RARE, 5, "\uD83D\uDC1A","Shell", "items.shell", "items.description.shell", 1150, false),
             FISH_5 = new Fish(ItemType.FISHING_RARE, 10, "\uD83E\uDD88","Shark", "items.shark", "items.description.shark", 600, false),
             WRENCH_COMET = new Wrench(ItemType.WRENCH, 85, 3, 0.90d, EmoteReference.COMET_WRENCH.getDiscordNotation(), "Comet Wrench", "items.star_wrench", "items.description.star_wrench", 200, true, false, "1;2;2", 59, 48, 83),
-            WRENCH_SPARKLE = new Wrench(ItemType.WRENCH, 96,4, 0.65d, EmoteReference.SPARKLE_WRENCH.getDiscordNotation(), "Sparkle Wrench", "items.sparkle_wrench", "items.description.sparkle_wrench", 500, true, false, "1;2;1;2;1", 59, 74, 18, 83, 84),
+            WRENCH_SPARKLE = new Wrench(ItemType.WRENCH, 96, 4, 0.65d, EmoteReference.SPARKLE_WRENCH.getDiscordNotation(), "Sparkle Wrench", "items.sparkle_wrench", "items.description.sparkle_wrench", 500, true, false, "1;2;1;2;1", 59, 74, 18, 83, 84),
             FISH_6 = new Fish(ItemType.FISHING, 2, "\uD83E\uDD80","Crab", "items.crab", "items.description.crab", 30, false),
             FISH_7 = new Fish(ItemType.FISHING, 3, "\uD83E\uDD91","Squid", "items.squid", "items.description.squid", 35, false),
             FISH_8 = new Fish(ItemType.FISHING, 3, "\uD83E\uDD90","Shrimp", "items.shrimp", "items.description.shrimp", 35, false),
             GEM_6 = new Item(ItemType.MINE, "\uD83C\uDF19", "Moon Runes", "items.moon", "items.description.moon", 100, false),
             GEM_7 = new Item(ItemType.MINE, "\u2744\uFE0F", "Snowflake", "items.flake", "items.description.flake", 25, false),
+            BROKEN_SPARKLE_PICK = new Broken(73, EmoteReference.BROKEN_SPARKLE_PICK.getDiscordNotation(), "Broken Sparkle Pick", "items.broken_sparkle_pick", "items.description.broken_sparkle_pick", 100, "1,74;3,84;1,50"),
+            BROKEN_COMET_PICK = new Broken(61, EmoteReference.BROKEN_COMET_PICK.getDiscordNotation(), "Broken Comet Pick", "items.broken_comet_pick", "items.description.broken_comet_pick", 40, "1,48;4,84;1,50"),
     };
 
 
@@ -591,6 +593,26 @@ public class Items {
         return false;
     }
 
+    public static Item getBrokenItemFrom(Item item) {
+        for(Item i : ALL) {
+            if(i instanceof Broken) {
+                if(((Broken) i).getMainItem() == Items.idOf(item))
+                    return i;
+            }
+        }
+
+        return null;
+    }
+
+    public static Item getItemFromBroken(Broken item) {
+        for(Item i : ALL) {
+            if(item.getMainItem() == Items.idOf(i))
+                return i;
+        }
+
+        return null;
+    }
+
     public static boolean handlePickaxe(GuildMessageReceivedEvent event, I18nContext lang, Item item, Player player, DBUser user, float chance) {
         Inventory playerInventory = player.getInventory();
 
@@ -602,11 +624,17 @@ public class Items {
         if(r.nextFloat() < (handleEffect(PlayerEquipment.EquipmentType.POTION, user.getData().getEquippedItems(), POTION_STAMINA, user) ? (chance) - 0.07 : chance)) {
             event.getChannel().sendMessageFormat(lang.get("commands.mine.pick_broke"), EmoteReference.SAD).queue();
             playerInventory.process(new ItemStack(item, -1));
+
+            Item brokenItem = getBrokenItemFrom(item);
+            if(brokenItem != null) {
+                event.getChannel().sendMessageFormat(lang.get("commands.mine.broken_drop"), EmoteReference.HEART, brokenItem.getName()).queue();
+                playerInventory.process(new ItemStack(brokenItem, 1));
+            }
+
             player.save();
             return false;
         } else {
             return true;
         }
-
     }
 }

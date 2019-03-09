@@ -1918,6 +1918,8 @@
     "shrimp": "Shrimp",
     "moon": "Moon Rune",
     "flake": "Snowflake",
+    "broken_comet_pick": "Broken Comet Pick",
+    "broken_sparkle_pick": "Broken Sparkle Pick",
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
       "ban_hammer": "Left by an admin.",
@@ -1979,7 +1981,6 @@
       "diamond_pick": "A very much stronger pick (20% breaking chance). (`~>mine` tool).",
       "tv": "Must... watch... TV...",
       "wrench": "Casting tool. Useful to put stuff together.",
-      "wrench": "Casting tool. Useful to put stuff together.",
       "star_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking, needed to cast multiple items at once. Tier 2.",
       "sparkle_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking. Less cost per cast. Tier 3.",
       "motorcycle": "Going around, the cool way.",
@@ -2001,7 +2002,9 @@
       "squid": "Not to confuse with Squidward.",
       "shrimp": "Pinkish stuff. I think.",
       "moon": "Moon Rune. Needed to cast some stuff.",
-      "flake": "Snowflake. Usually used as a cast ingredient."
+      "flake": "Snowflake. Usually used as a cast ingredient.",
+      "broken_comet_pick": "A comet pick that broke while mining. Still salvageable.",
+      "broken_sparkle_pick": "A sparkle pick that broke while mining. Still salvageable."
     }
   },
   "test": {
