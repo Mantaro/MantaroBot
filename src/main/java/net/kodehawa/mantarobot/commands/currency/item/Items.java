@@ -276,9 +276,16 @@ public class Items {
                 } else {
                     //Here you actually caught fish, congrats.
                     List<Item> fish = Stream.of(ALL)
-                            .filter(i -> i instanceof Fish && !i.isHidden() && i.isSellable())
+                            .filter(i -> i.getItemType() == ItemType.FISHING && !i.isHidden() && i.isSellable())
                             .collect(Collectors.toList());
                     RandomCollection<Item> fishItems = new RandomCollection<>();
+
+                    if(r.nextInt(100) > 90) {
+                        fish.addAll(Stream.of(ALL)
+                                .filter(i -> i.getItemType() == ItemType.FISHING_RARE && !i.isHidden() && i.isSellable())
+                                .collect(Collectors.toList())
+                        );
+                    }
 
                     int money = 0;
                     //old: handleBuff(FISHING_BAIT, 1, p)

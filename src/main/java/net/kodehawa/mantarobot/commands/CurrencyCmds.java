@@ -1109,7 +1109,7 @@ public class CurrencyCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        String[] arguments = content.split("\\s+");
+                        String[] arguments = StringUtils.efficientSplitArgs(content, -1);
 
                         if(arguments.length == 0) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_item_found"), EmoteReference.ERROR).queue();

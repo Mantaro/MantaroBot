@@ -632,7 +632,7 @@ public class MoneyCmds {
                    money += 58 * amountN;
                 }
 
-                if(args.length > 1 && !coinSelect) {
+                if(args.length >= 1 && !coinSelect) {
                     try {
                         Long parsed = new RoundedMetricPrefixFormat().parseObject(args[0], new ParsePosition(0));
 
@@ -792,7 +792,7 @@ public class MoneyCmds {
                 int equipped = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK);
                 Optional<Item> itemOpt = Items.fromAnyNoId(content);
 
-                if(equipped != 0) {
+                if(equipped != 0 && !isSeasonal) {
                     Item temp = Items.fromId(equipped);
                     if(!inventory.containsItem(temp)) {
                         event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "mine.missing_equipped"), EmoteReference.ERROR, temp.getName()).queue();
@@ -883,7 +883,7 @@ public class MoneyCmds {
                     player.getData().addBadgeIfAbsent(Badge.GEM_FINDER);
                 }
 
-                if((r.nextInt(400) > 390 && item == Items.GEM2_PICKAXE) || (r.nextInt(400) > 395 && item == Items.GEM1_PICKAXE)) {
+                if((r.nextInt(400) > 390 && item == Items.GEM2_PICKAXE) || (r.nextInt(400) > 395 && (item == Items.GEM1_PICKAXE || item == Items.GEM5_PICKAXE_2))) {
                     Item gem = Items.GEM5_2;
                     if(inventory.getAmount(gem) + 1 >= 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.sparkle.overflow");
@@ -892,6 +892,7 @@ public class MoneyCmds {
                         inventory.process(new ItemStack(gem, 1));
                         message += "\n" + EmoteReference.MEGA + String.format(languageContext.withRoot("commands", "mine.sparkle.success"), gem.getEmoji());
                     }
+
                     player.getData().addBadgeIfAbsent(Badge.GEM_FINDER);
                 }
 
