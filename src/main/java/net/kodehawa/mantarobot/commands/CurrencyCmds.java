@@ -1073,7 +1073,6 @@ public class CurrencyCmds {
         cr.register("fish", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Player p = MantaroData.db().getPlayer(event.getAuthor());
                 Items.FISHING_ROD.getAction().test(event, Pair.of(languageContext, content));
             }
 
