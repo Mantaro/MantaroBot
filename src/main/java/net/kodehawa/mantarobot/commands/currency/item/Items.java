@@ -627,7 +627,7 @@ public class Items {
             String broken = "";
             Item brokenItem = getBrokenItemFrom(item);
             if(brokenItem != null && r.nextInt(100) > 20) {
-                broken = "\n" + String.format(lang.get("commands.mine.broken_drop"), EmoteReference.HEART, brokenItem.getName();
+                broken = "\n" + String.format(lang.get("commands.mine.broken_drop"), EmoteReference.HEART, brokenItem.getEmoji(), brokenItem.getName());
                 playerInventory.process(new ItemStack(brokenItem, 1));
             }
 
