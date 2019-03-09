@@ -96,7 +96,9 @@ public abstract class Game<T> {
                 if(player.getData().getGamesWon() == 1000)
                     player.getData().addBadgeIfAbsent(Badge.ADDICTED_GAMER);
 
-                seasonalPlayer.getData().setGamesWon(seasonalPlayer.getData().getGamesWon() + 1);
+                if(maxAttempts > 3)
+                    seasonalPlayer.getData().setGamesWon(seasonalPlayer.getData().getGamesWon() + 1);
+
                 player.getData().setGamesWon(player.getData().getGamesWon() + 1);
                 unifiedPlayer.save();
 
