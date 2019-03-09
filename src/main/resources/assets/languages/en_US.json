@@ -176,7 +176,7 @@
     },
     "season": {
       "info": "A *season* is the span of time, of usually 6 months where players compete for the top 10 slots on the money or reputation leaderboard. The winners will get badges and prizes based on their seasonal performance.\nThis is to allow a more competitive frame (before, money was pretty much stale) and to make the game a bit more fun.\nYou can access seasonal stuff using `-season`. Commands like profile, mine, fish and balance will require it, while games, loot, daily and reputation will give money/rep to both your global and seasonal profile.",
-      "info_2": "\n\nThe current season is **%1$s** and **%2$s** players are currently taking part on it!\n\nThe fun begins, check `~>leaderboard money -season`; `~>leaderboard rep -season` and `~>leaderboard game -season`.\nGame on! <3\nThanks for enjoying Mantaro."
+      "info_2": "\n\nThe current season is **%1$s** and **%2$s** players are currently taking part on it!\n\nThe fun begins, check `~>leaderboard money -season`; `~>leaderboard rep -season` and `~>leaderboard games -season`.\nGame on! <3\nThanks for enjoying Mantaro."
     },
     "music_general": {
       "music_error": {
