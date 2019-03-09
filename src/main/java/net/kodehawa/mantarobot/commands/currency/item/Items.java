@@ -280,13 +280,6 @@ public class Items {
                             .collect(Collectors.toList());
                     RandomCollection<Item> fishItems = new RandomCollection<>();
 
-                    if(r.nextInt(100) > 90) {
-                        fish.addAll(Stream.of(ALL)
-                                .filter(i -> i.getItemType() == ItemType.FISHING_RARE && !i.isHidden() && i.isSellable())
-                                .collect(Collectors.toList())
-                        );
-                    }
-
                     int money = 0;
                     //old: handleBuff(FISHING_BAIT, 1, p)
                     boolean buff = handleEffect(PlayerEquipment.EquipmentType.BUFF, u.getData().getEquippedItems(), FISHING_BAIT, u);
@@ -320,6 +313,18 @@ public class Items {
                         }
                     }
                     //END OF FISH LOOT CRATE HANDLING
+
+                    if(item == GEM5_ROD_2 && r.nextInt(30) > 20) {
+                        if(r.nextInt(100) > 96) {
+                            fish.addAll(Stream.of(ALL)
+                                    .filter(i -> i.getItemType() == ItemType.FISHING_RARE && !i.isHidden() && i.isSellable())
+                                    .collect(Collectors.toList())
+                            );
+                        }
+
+                        playerInventory.process(new ItemStack(FISH_5, 1));
+                        extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.shark_success"), FISH_5.getEmoji());
+                    }
 
                     //START OF ITEM ADDING HANDLING
                     List<ItemStack> list = new ArrayList<>(amount);
@@ -358,12 +363,7 @@ public class Items {
                         p.getData().addBadgeIfAbsent(Badge.FISHER);
                     }
 
-                    if(item == GEM5_ROD_2 && r.nextInt(30) > 25) {
-                        playerInventory.process(new ItemStack(FISH_5, 1));
-                        extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.shark_success"), FISH_5.getEmoji());
-                    }
-
-                    if(nominalLevel >= 3 && r.nextInt(110) > 96) {
+                    if(nominalLevel >= 3 && r.nextInt(110) > 90) {
                         playerInventory.process(new ItemStack(FISH_4, 1));
                         extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.fossil_success"), FISH_4.getEmoji());
                     }
