@@ -620,8 +620,8 @@ public class Items {
         return null;
     }
 
-    public static boolean handlePickaxe(GuildMessageReceivedEvent event, I18nContext lang, Item item, Player player, DBUser user, float chance) {
-        Inventory playerInventory = player.getInventory();
+    public static boolean handlePickaxe(GuildMessageReceivedEvent event, I18nContext lang, Item item, Player player, DBUser user, SeasonPlayer seasonPlayer, float chance, boolean isSeasonal) {
+        Inventory playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
 
         //Defensive programming :D
         if(!playerInventory.containsItem(item))
@@ -639,7 +639,12 @@ public class Items {
             }
 
             event.getChannel().sendMessageFormat(lang.get("commands.mine.pick_broke") + broken, EmoteReference.SAD).queue();
-            player.save();
+
+            if(isSeasonal)
+                seasonPlayer.save();
+            else
+                player.save();
+
             return false;
         } else {
             return true;

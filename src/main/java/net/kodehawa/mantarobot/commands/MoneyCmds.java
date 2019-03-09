@@ -826,9 +826,8 @@ public class MoneyCmds {
                 if(!handleDefaultRatelimit(rateLimiter, user, event, languageContext))
                     return;
 
-                if(!Items.handlePickaxe(event, languageContext, item, player, dbUser, item.getChance())) {
+                if(!Items.handlePickaxe(event, languageContext, item, player, dbUser, seasonalPlayer, item.getChance(), isSeasonal))
                     return;
-                }
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
                 if(item == Items.GEM5_PICKAXE_2)
