@@ -960,6 +960,11 @@ public class CurrencyCmds {
                             //Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
                             int amount = t.containsKey("amount") ? Integer.parseInt(t.get("amount").orElse("1")) : 1;
 
+                            if(amount < 1) {
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.too_little"), EmoteReference.SAD).queue();
+                                return;
+                            }
+
                             if(p.getInventory().getAmount(item) < amount) {
                                 event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.not_enough_items"), EmoteReference.SAD).queue();
                                 return;

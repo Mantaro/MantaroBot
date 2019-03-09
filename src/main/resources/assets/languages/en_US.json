@@ -669,7 +669,8 @@
       "not_interactive": "%1$sYou cannot interact with this item...",
       "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set...",
       "no_item": "%1$sYou don't have this item in your inventory...",
-      "not_enough_items": "%1$sYou don't have enough of this item."
+      "not_enough_items": "%1$sYou don't have enough of this item.",
+      "too_little": "%1$sYou can't use less than 1 item..."
     },
     "opts": {
       "note": "%1$sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
