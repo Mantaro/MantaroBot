@@ -1366,7 +1366,8 @@
       },
       "pick_broke": "%1$sOne of your picks broke while mining.",
       "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!",
-      "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset."
+      "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset.",
+      "broken_drop": "%1$sYour pick broke, but you can repair it."
     },
     "slots": {
       "errors": {

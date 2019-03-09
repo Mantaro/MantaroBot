@@ -622,15 +622,16 @@ public class Items {
 
         //old: handlePotion(POTION_STAMINA, 4, player)
         if(r.nextFloat() < (handleEffect(PlayerEquipment.EquipmentType.POTION, user.getData().getEquippedItems(), POTION_STAMINA, user) ? (chance) - 0.07 : chance)) {
-            event.getChannel().sendMessageFormat(lang.get("commands.mine.pick_broke"), EmoteReference.SAD).queue();
             playerInventory.process(new ItemStack(item, -1));
 
+            String broken = "";
             Item brokenItem = getBrokenItemFrom(item);
-            if(brokenItem != null) {
-                event.getChannel().sendMessageFormat(lang.get("commands.mine.broken_drop"), EmoteReference.HEART, brokenItem.getName()).queue();
+            if(brokenItem != null && r.nextInt(100) > 20) {
+                broken = "\n" + String.format(lang.get("commands.mine.broken_drop"), EmoteReference.HEART, brokenItem.getName();
                 playerInventory.process(new ItemStack(brokenItem, 1));
             }
 
+            event.getChannel().sendMessageFormat(lang.get("commands.mine.pick_broke") + broken, EmoteReference.SAD).queue();
             player.save();
             return false;
         } else {
