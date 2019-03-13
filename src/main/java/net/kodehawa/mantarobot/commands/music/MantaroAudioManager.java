@@ -87,8 +87,6 @@ public class MantaroAudioManager {
                 if(scheduler.getQueue().isEmpty())
                     scheduler.setRepeatMode(null);
 
-                //musicManager.getLavaLink().
-                //TODO: find replacement
                 playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoader(musicManager, event, skipSelection, addFirst));
             }
         });
