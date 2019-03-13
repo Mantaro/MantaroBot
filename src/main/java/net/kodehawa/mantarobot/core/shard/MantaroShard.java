@@ -20,6 +20,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
+import lavalink.client.io.jda.JdaLavalink;
 import lombok.Getter;
 import lombok.experimental.Delegate;
 import net.dv8tion.jda.core.AccountType;
@@ -70,6 +71,7 @@ import static net.kodehawa.mantarobot.utils.Utils.pretty;
  */
 public class MantaroShard implements JDA {
     private static SessionController sessionController = new SessionControllerAdapter();
+
     private final Logger log;
     private static final VoiceChannelListener VOICE_CHANNEL_LISTENER = new VoiceChannelListener();
     private final CommandListener commandListener;
@@ -188,6 +190,7 @@ public class MantaroShard implements JDA {
                 .setSessionController(sessionController)
                 .setBulkDeleteSplittingEnabled(false)
                 .useSharding(shardId, totalShards)
+                .addEventListener(MantaroBot.getInstance().getLavalink()) //try here then down there ig
                 .setDisabledCacheFlags(EnumSet.of(CacheFlag.GAME, CacheFlag.EMOTE))
                 .setGame(Game.playing("Hold on to your seatbelts!"));
 
@@ -204,6 +207,7 @@ public class MantaroShard implements JDA {
 
     private void addListeners() {
         log.debug("Added all listeners for shard {}", shardId);
+        //jda.addEventListener(MantaroBot.getInstance().getLavalink());
         jda.addEventListener(mantaroListener, commandListener, VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(), ReactionOperations.listener());
     }
 

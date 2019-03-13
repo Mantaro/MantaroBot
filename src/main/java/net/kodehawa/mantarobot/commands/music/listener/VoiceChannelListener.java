@@ -92,12 +92,12 @@ public class VoiceChannelListener implements EventListener {
                     if(tc.canTalk()) {
                         tc.sendMessageFormat(scheduler.getLanguage().get("commands.music_general.listener.paused"), EmoteReference.SAD).queue();
                     }
-                    gmm.getAudioPlayer().setPaused(true);
+                    gmm.getLavaLink().getPlayer().setPaused(true);
                 }
             } else {
                 if(!isAlone(vs.getChannel())) {
                     if(gmm.getTrackScheduler().getCurrentTrack() != null) {
-                        gmm.getAudioPlayer().setPaused(false);
+                        gmm.getLavaLink().getPlayer().setPaused(false);
                     }
                 }
             }
@@ -124,7 +124,7 @@ public class VoiceChannelListener implements EventListener {
 
                 gmm.cancelLeave();
                 gmm.setAwaitingDeath(false);
-                gmm.getAudioPlayer().setPaused(false);
+                gmm.getLavaLink().getPlayer().setPaused(false);
             }
         }
     }
@@ -149,7 +149,7 @@ public class VoiceChannelListener implements EventListener {
 
                 gmm.setAwaitingDeath(true);
                 gmm.scheduleLeave();
-                gmm.getAudioPlayer().setPaused(true);
+                gmm.getLavaLink().getPlayer().setPaused(true);
             }
         }
     }

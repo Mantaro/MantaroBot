@@ -29,17 +29,10 @@ public class Config {
     public String alClient;
     public String alsecret;
     public String apiLoginCreds;
-    public String apiUrl = "127.0.0.1:4454";
-    public String bugreportChannel;
     public boolean cacheGames = false;
     public String carbonToken;
-    public String cleverbotKey;
-    public String cleverbotUser;
     public int connectionWatcherPort = 26000;
     public String consoleChannel = "266231083341840385";
-    public String crossBotHost;
-    public int crossBotPort;
-    public boolean crossBotServer = false;
     public String dbDb = "mantaro";
     public String dbHost = "localhost";
     public String dbPassword;
@@ -53,18 +46,11 @@ public class Config {
     public String osuApiKey;
     public List<String> owners = new ArrayList<>();
     public String[] prefix = {"~>", "->"};
-    public String rMQIP;
-    public String rMQPassword;
-    public String rMQUser;
-    public String remoteNode;
     public String sentryDSN;
     public int shardWatcherTimeout = 1500; //wait 1500ms for the handlers to run
     public int shardWatcherWait = 600000; //run once every 600 seconds (10 minutes)
     public String shardWebhookUrl;
-    public String sqlPassword;
     public String token;
-    public int totalMusicNodes = 1;
-    public int totalNodes = 1;
     public int totalShards = 0;
     public int fromShard = 0;
     public int upToShard = 0;
@@ -74,15 +60,13 @@ public class Config {
     public String weebapiKey;
     public String apiTwoUrl = "http://127.0.0.1:5874";
     public boolean needApi = true;
-    public String patreonClientId;
-    public String patreonSecret;
-    public String patreonAccessToken;
-    //we need an actual callback url here? yikes.
-    public String patreonRedirectUri = "https://mantaro.site";
     public int prometheusPort = 9091;
     public int ratelimitPoolSize = 4;
     public String apiAuthKey;
     public Season currentSeason = Season.FIRST;
+    public String clientId; //why not ig.
+    public String lavalinkNode;
+    public String lavalinkPass;
 
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());

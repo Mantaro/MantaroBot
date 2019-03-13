@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot;
 
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import lavalink.client.io.jda.JdaLavalink;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
@@ -45,6 +46,7 @@ import org.apache.commons.collections4.iterators.ArrayIterator;
 
 import javax.annotation.Nonnull;
 import java.net.ConnectException;
+import java.net.URI;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -75,6 +77,8 @@ public class MantaroBot extends ShardedJDA {
     private BirthdayCacher birthdayCacher;
     @Getter
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3, new ThreadFactoryBuilder().setNameFormat("Mantaro-ScheduledExecutor Thread-%d").build());
+    @Getter
+    private final JdaLavalink lavalink;
 
     //just in case
     static {
@@ -112,6 +116,15 @@ public class MantaroBot extends ShardedJDA {
                 System.exit(API_HANDSHAKE_FAILURE);
             }
         }
+
+        //Lavalink stuff.
+        lavalink = new JdaLavalink(
+                config.clientId,
+                config.totalShards,
+                shardId -> getShardForGuild(shardId).getJDA()
+        );
+
+        lavalink.addNode(new URI(config.lavalinkNode), config.lavalinkPass);
 
         core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
         discordBotsAPI = new DiscordBotsAPI.Builder().setToken(config.dbotsorgToken).build();

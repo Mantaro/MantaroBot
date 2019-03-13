@@ -16,16 +16,15 @@
 
 package net.kodehawa.mantarobot.commands.music.utils;
 
+import lavalink.client.io.Link;
+import lavalink.client.io.jda.JdaLink;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.audio.hooks.ConnectionListener;
-import net.dv8tion.jda.core.audio.hooks.ConnectionStatus;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.managers.AudioManager;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -34,8 +33,6 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.util.concurrent.CompletableFuture;
@@ -45,10 +42,6 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 import static net.kodehawa.mantarobot.utils.data.SimpleFileDataManager.NEWLINE_PATTERN;
 
 public class AudioCmdUtils {
-    private static final int MAX_TIMEOUTS = 3;
-    private static final Throwable ERROR_TIMEOUT = new Throwable(null, null, false, false){};
-    private static final Throwable ERROR_UNKNOWN = new Throwable(null, null, false, false){};
-
     private final static String BLOCK_INACTIVE = "\u25AC";
     private final static String BLOCK_ACTIVE = "\uD83D\uDD18";
     private static final int TOTAL_BLOCKS = 10;
@@ -57,10 +50,10 @@ public class AudioCmdUtils {
         final TrackScheduler trackScheduler = musicManager.getTrackScheduler();
         final String toSend = AudioUtils.getQueueList(trackScheduler.getQueue());
         final Guild guild = event.getGuild();
-        String nowPlaying = trackScheduler.getAudioPlayer().getPlayingTrack() != null ?
-                "**[" + trackScheduler.getAudioPlayer().getPlayingTrack().getInfo().title
-                        + "](" + trackScheduler.getAudioPlayer().getPlayingTrack().getInfo().uri +
-                        ")** (" + Utils.getDurationMinutes(trackScheduler.getAudioPlayer().getPlayingTrack().getInfo().length) + ")" :
+        String nowPlaying = trackScheduler.getMusicPlayer().getPlayingTrack() != null ?
+                "**[" + trackScheduler.getMusicPlayer().getPlayingTrack().getInfo().title
+                        + "](" + trackScheduler.getMusicPlayer().getPlayingTrack().getInfo().uri +
+                        ")** (" + Utils.getDurationMinutes(trackScheduler.getMusicPlayer().getPlayingTrack().getInfo().length) + ")" :
                 lang.get("commands.music_general.queue.no_track_found_np");
 
         if(toSend.isEmpty()) {
@@ -129,7 +122,7 @@ public class AudioCmdUtils {
                         .addField(lang.get("commands.music_general.queue.total_size"),
                                 String.format("`%d %s`", trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.songs")), true)
                         .addField(lang.get("commands.music_general.queue.togglers"),
-                                String.format("`%s / %s`", trackScheduler.getRepeatMode() == null ? "false" : trackScheduler.getRepeatMode(), String.valueOf(trackScheduler.getAudioPlayer().isPaused())), true)
+                                String.format("`%s / %s`", trackScheduler.getRepeatMode() == null ? "false" : trackScheduler.getRepeatMode(), String.valueOf(trackScheduler.getMusicPlayer().isPaused())), true)
                         .addField(lang.get("commands.music_general.queue.playing_in"),
                                 vch == null ? lang.get("commands.music_general.queue.no_channel") : "`" + vch.getName() + "`", true)
                         .setFooter(String.format(lang.get("commands.music_general.queue.footer"), total, total == 1 ? "" : lang.get("commands.music_general.queue.multiple_pages"), page), guild.getIconUrl());
@@ -153,7 +146,7 @@ public class AudioCmdUtils {
                             String.format("`%d %s`", trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.songs")), true)
                     .addField(lang.get("commands.music_general.queue.togglers"),
                             String.format("`%s / %s`", trackScheduler.getRepeatMode() == null ? "false" :
-                                    trackScheduler.getRepeatMode(), String.valueOf(trackScheduler.getAudioPlayer().isPaused())), true)
+                                    trackScheduler.getRepeatMode(), String.valueOf(trackScheduler.getMusicPlayer().isPaused())), true)
                     .addField(lang.get("commands.music_general.queue.playing_in"),
                             vch == null ? lang.get("commands.music_general.queue.no_channel") : "`" + vch.getName() + "`", true)
                     .setFooter(String.format(lang.get("commands.music_general.queue.footer"), total, total == 1 ? "" : lang.get("commands.music_general.queue.page_react"), p), guild.getIconUrl());
@@ -161,21 +154,17 @@ public class AudioCmdUtils {
         }, lines);
     }
 
-    public static CompletionStage<Void> openAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager, VoiceChannel userChannel, I18nContext lang) {
+    public static CompletionStage<Void> openAudioConnection(GuildMessageReceivedEvent event, JdaLink link, VoiceChannel userChannel, I18nContext lang) {
         if(userChannel.getUserLimit() <= userChannel.getMembers().size() && userChannel.getUserLimit() > 0 && !event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_CHANNEL)) {
             event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.full_channel"), EmoteReference.ERROR).queue();
             return completedFuture(null);
         }
 
         try {
-            return joinVoiceChannel(audioManager, userChannel)
-                    .thenRun(() -> {
-                        event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.success"), EmoteReference.CORRECT, userChannel.getName()).queue();
-                    })
-                    .exceptionally(e -> {
-                        event.getChannel().sendMessageFormat(getErrorMessage(lang, e), EmoteReference.ERROR, userChannel.getName()).queue();
-                        return null;
-                    });
+            //This used to be a CompletableFuture that went through a listener which is now useless bc im 99% sure you can't listen to the connection status on LL.
+            joinVoiceChannel(link, userChannel);
+            event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.success"), EmoteReference.CORRECT, userChannel.getName()).queue();
+            return completedFuture(null);
         } catch(NullPointerException e) {
             event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.non_existing_channel"), EmoteReference.ERROR).queue();
             //Reset custom channel.
@@ -211,41 +200,34 @@ public class AudioCmdUtils {
             guildMusicChannel = event.getGuild().getVoiceChannelById(MantaroData.db().getGuild(event.getGuild()).getData().getMusicChannel());
         }
 
-        AudioManager audioManager = event.getGuild().getAudioManager();
-
+        JdaLink link = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getLavaLink();
         if(guildMusicChannel != null) {
             if(!userChannel.equals(guildMusicChannel)) {
                 event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.channel_locked"), EmoteReference.ERROR, guildMusicChannel.getName()).queue();
                 return completedFuture(false);
             }
 
-            if(!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
-                return joinVoiceChannel(audioManager, userChannel)
-                        .thenRun(() -> {
-                            event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.success"), EmoteReference.CORRECT, userChannel.getName()).queue();
-                        })
-                        .thenApply(__ -> true)
-                        .exceptionally(e -> {
-                            event.getChannel().sendMessageFormat(getErrorMessage(lang, e), EmoteReference.ERROR, userChannel.getName()).queue();
-                            return false;
-                        });
+            if(link.getState() != Link.State.CONNECTED && link.getState() != Link.State.CONNECTING) {
+                return openAudioConnection(event, link, userChannel, lang)
+                        .thenApply(__ -> true);
             }
 
             return completedFuture(true);
         }
 
-        if(audioManager.isConnected() && !audioManager.getConnectedChannel().equals(userChannel)) {
-            event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.already_connected"), EmoteReference.WARNING, audioManager.getConnectedChannel().getName()).queue();
+        if(link.getState() == Link.State.CONNECTED && link.getLastChannel() != null && !link.getLastChannel().equals(userChannel.getId())) {
+            event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.already_connected"), EmoteReference.WARNING, event.getGuild().getVoiceChannelById(link.getLastChannel()).getName()).queue();
             return completedFuture(false);
         }
 
-        if(audioManager.isAttemptingToConnect() && !audioManager.getQueuedAudioConnection().equals(userChannel)) {
-            event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.attempting_to_connect"), EmoteReference.ERROR, audioManager.getQueuedAudioConnection().getName()).queue();
+        //Assume last channel it's the one it was attempting to connect to?
+        if(link.getState() == Link.State.CONNECTING && link.getLastChannel() != null && !link.getLastChannel().equals(userChannel.getId())) {
+            event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.attempting_to_connect"), EmoteReference.ERROR, event.getGuild().getVoiceChannelById(link.getLastChannel()).getName()).queue();
             return completedFuture(false);
         }
 
-        if(!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
-            return openAudioConnection(event, audioManager, userChannel, lang)
+        if(link.getState() != Link.State.CONNECTED && link.getState() != Link.State.CONNECTING) {
+            return openAudioConnection(event, link, userChannel, lang)
                     .thenApply(__ -> true);
         }
 
@@ -259,59 +241,7 @@ public class AudioCmdUtils {
         return builder.append(BLOCK_INACTIVE).toString();
     }
 
-    private static CompletionStage<Void> joinVoiceChannel(AudioManager manager, VoiceChannel channel) {
-        JoinListener listener = new JoinListener(manager.getGuild().getIdLong());
-        manager.setConnectionListener(listener);
-        manager.openAudioConnection(channel);
-        return listener.thenRun(() -> manager.setConnectionListener(null));
-    }
-
-    public static String getErrorMessage(I18nContext context, Throwable cause) {
-        if(cause == ERROR_TIMEOUT) {
-            return context.get("commands.music_general.music_error.timeout");
-        }
-
-        return context.get("commands.music_general.music_error.unknown");
-    }
-
-    private static class JoinListener extends CompletableFuture<Void> implements ConnectionListener {
-        private static final Logger log = LoggerFactory.getLogger(JoinListener.class);
-
-        private final long guildId;
-        private int timeouts;
-
-        private JoinListener(long guildId) {
-            this.guildId = guildId;
-        }
-
-        @Override
-        public void onPing(long ping) {
-
-        }
-
-        @Override
-        public void onStatusChange(ConnectionStatus status) {
-            if(status == ConnectionStatus.CONNECTED) {
-                complete(null);
-            }
-
-            if(!status.shouldReconnect()) {
-                log.error("Unexpected status found while trying to connect (guild = {}): {}", guildId, status);
-                completeExceptionally(ERROR_UNKNOWN);
-            }
-            if(status == ConnectionStatus.ERROR_CONNECTION_TIMEOUT) {
-                log.warn("Connection timed out (guild = {})", guildId);
-                timeouts++;
-                if(timeouts >= MAX_TIMEOUTS) {
-                    log.error("Maximum amount of timeouts reached, aborting connection (guild = {})", guildId);
-                    completeExceptionally(ERROR_TIMEOUT);
-                }
-            }
-        }
-
-        @Override
-        public void onUserSpeaking(User user, boolean speaking) {
-
-        }
+    private static void joinVoiceChannel(JdaLink manager, VoiceChannel channel) {
+        manager.connect(channel);
     }
 }
