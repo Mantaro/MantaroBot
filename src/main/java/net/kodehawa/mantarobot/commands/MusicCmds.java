@@ -418,7 +418,7 @@ public class MusicCmds {
                 }
 
                 if(isDJ(event.getMember())) {
-                    lavalinkPlayer.seekTo(0);
+                    lavalinkPlayer.seekTo(1);
                     event.getChannel().sendMessageFormat(languageContext.get("commands.restartsong.success"), EmoteReference.CORRECT).queue();
                 } else {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.dj_only"), EmoteReference.ERROR).queue();
