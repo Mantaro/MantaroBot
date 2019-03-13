@@ -984,24 +984,28 @@ public class MusicCmds {
      * @param event event context of what guild to use to stop it
      */
     private void stop(GuildMessageReceivedEvent event, I18nContext lang) {
-        GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
-        TrackScheduler trackScheduler = musicManager.getTrackScheduler();
-        IPlayer musicPlayer = trackScheduler.getMusicPlayer();
+        try {
+            GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
+            TrackScheduler trackScheduler = musicManager.getTrackScheduler();
+            IPlayer musicPlayer = trackScheduler.getMusicPlayer();
 
-        if(musicPlayer.getPlayingTrack() != null && !musicPlayer.isPaused()) {
-            musicPlayer.getPlayingTrack().stop();
+            if(musicPlayer.getPlayingTrack() != null && !musicPlayer.isPaused()) {
+                musicPlayer.stopTrack();
+            }
+
+            int TEMP_QUEUE_LENGTH = trackScheduler.getQueue().size();
+            trackScheduler.getQueue().clear();
+
+            if(TEMP_QUEUE_LENGTH > 0) {
+                event.getChannel().sendMessageFormat(lang.get("commands.stop.cleanup"), EmoteReference.OK, TEMP_QUEUE_LENGTH).queue();
+            }
+
+            //This ends up calling TrackScheduler#onTrackStart -> currentTrack == null -> TrackScheduler#onStop!
+            //Beware to not close the connection twice...
+            trackScheduler.nextTrack(true, true);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        int TEMP_QUEUE_LENGTH = trackScheduler.getQueue().size();
-        trackScheduler.getQueue().clear();
-
-        if(TEMP_QUEUE_LENGTH > 0) {
-            event.getChannel().sendMessageFormat(lang.get("commands.stop.cleanup"), EmoteReference.OK, TEMP_QUEUE_LENGTH).queue();
-        }
-
-        //This ends up calling TrackScheduler#onTrackStart -> currentTrack == null -> TrackScheduler#onStop!
-        //Beware to not close the connection twice...
-        trackScheduler.nextTrack(true, true);
     }
     private boolean isInConditionTo(GuildMessageReceivedEvent event, JdaLink player, I18nContext lang) {
         try {

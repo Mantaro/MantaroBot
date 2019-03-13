@@ -101,8 +101,9 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                 previousTrack = currentTrack;
             currentTrack = queue.poll();
 
-            //This actually reads wronly, but current = next in this context, since we switched it already.
-            audioPlayer.getPlayer().playTrack(currentTrack);
+            //This actually reads wrongly, but current = next in this context, since we switched it already.
+            if(currentTrack != null)
+                audioPlayer.getPlayer().playTrack(currentTrack);
 
             if(skip)
                 onTrackStart();
