@@ -741,6 +741,23 @@ public class InfoCmds {
     }
 
     @Subscribe
+    public void season(CommandRegistry registry) {
+        registry.register("season", new SimpleCommand(Category.INFO) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                event.getChannel().sendMessageFormat(languageContext.get("commands.season.info") + languageContext.get("commands.season.info_2"), getConfig().getCurrentSeason().getDisplay() , MantaroData.db().getAmountSeasonalPlayers()).queue();
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Shows information about this season and about what's a season.")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
     public void roleinfo(CommandRegistry cr) {
         cr.register("roleinfo", new SimpleCommand(Category.INFO) {
             @Override

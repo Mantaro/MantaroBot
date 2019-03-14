@@ -16,9 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.music;
 
-import lavalink.client.io.Link;
 import lavalink.client.io.jda.JdaLink;
-import lavalink.client.player.IPlayer;
 import lombok.Getter;
 import lombok.Setter;
 import net.dv8tion.jda.core.entities.Guild;
