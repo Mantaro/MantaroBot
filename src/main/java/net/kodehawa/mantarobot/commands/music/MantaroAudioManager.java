@@ -69,12 +69,7 @@ public class MantaroAudioManager {
     }
 
     public GuildMusicManager getMusicManager(Guild guild) {
-        GuildMusicManager musicManager = musicManagers.computeIfAbsent(guild.getId(), id -> new GuildMusicManager(playerManager, guild.getId()));
-        if(guild.getAudioManager().getSendingHandler() == null) {
-            guild.getAudioManager().setSendingHandler(musicManager.getAudioPlayerSendHandler());
-        }
-
-        return musicManager;
+        return musicManagers.computeIfAbsent(guild.getId(), id -> new GuildMusicManager(guild.getId()));
     }
 
     public long getTotalQueueSize() {
@@ -87,7 +82,7 @@ public class MantaroAudioManager {
                 GuildMusicManager musicManager = getMusicManager(event.getGuild());
                 TrackScheduler scheduler = musicManager.getTrackScheduler();
 
-                scheduler.getAudioPlayer().setPaused(false);
+                scheduler.getMusicPlayer().setPaused(false);
 
                 if(scheduler.getQueue().isEmpty())
                     scheduler.setRepeatMode(null);
