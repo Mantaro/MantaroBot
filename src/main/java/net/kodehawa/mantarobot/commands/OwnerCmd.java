@@ -26,6 +26,9 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.item.Item;
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
+import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -33,6 +36,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -134,6 +138,37 @@ public class OwnerCmd {
                         .setDescription("Blacklists a user (user argument) or a guild (guild argument) by id.\n" +
                                 "Examples: ~>blacklist user add/remove 293884638101897216, ~>blacklist guild add/remove 305408763915927552")
                         .build();
+            }
+        });
+    }
+
+    //This is for testing lol
+    @Subscribe
+    public void giveItem(CommandRegistry cr) {
+        cr.register("giveitem", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to tell me which item to give you.").queue();
+                    return;
+                }
+
+                Item i = Items.fromAnyNoId(content).orElse(null);
+
+                if(i == null) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find that item.").queue();
+                    return;
+                }
+
+                Player p = MantaroData.db().getPlayer(event.getAuthor());
+                if(p.getInventory().getAmount(i) < 5000) {
+                    p.getInventory().process(new ItemStack(i, 1));
+                } else {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Too many of this item already.").queue();
+                }
+
+                p.saveAsync();
+                event.getChannel().sendMessage("Gave you " + i).queue();
             }
         });
     }

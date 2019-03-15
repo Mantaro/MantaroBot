@@ -341,6 +341,7 @@ public class ItemCmds {
                 Map<String, String> t = getArguments(args);
                 boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
 
+
                 //Get the necessary entities.
                 SeasonPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
                 Player player = db.getPlayer(event.getAuthor());
@@ -366,7 +367,7 @@ public class ItemCmds {
                 }
 
                 if(!(wrench instanceof Wrench)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_wrench")).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_wrench"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -410,13 +411,13 @@ public class ItemCmds {
                     Item needed = Items.fromId(Integer.parseInt(split[1]));
 
                     if(!playerInventory.containsItem(needed)) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_item_recipe"), EmoteReference.ERROR, item.getName()).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_item_recipe"), EmoteReference.ERROR, needed.getName()).queue();
                         return;
                     }
 
                     int inventoryAmount = playerInventory.getAmount(needed);
                     if(inventoryAmount < amount) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_enough_items"), EmoteReference.ERROR, item.getName(), amount, inventoryAmount).queue();
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_enough_items"), EmoteReference.ERROR, needed.getName(), amount, inventoryAmount).queue();
                         return;
                     }
 
