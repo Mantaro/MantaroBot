@@ -44,6 +44,7 @@ import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 
@@ -341,6 +342,8 @@ public class ItemCmds {
                 Map<String, String> t = getArguments(args);
                 boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
 
+                content = Utils.replaceArguments(t, content, "season", "s");
+                args = StringUtils.splitArgs(content, -1); //Why? because we need to do this. I'll add another kind of command to make this easier later on.
 
                 //Get the necessary entities.
                 SeasonPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
