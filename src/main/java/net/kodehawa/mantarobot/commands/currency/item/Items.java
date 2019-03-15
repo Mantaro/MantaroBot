@@ -157,8 +157,8 @@ public class Items {
             FISH_8 = new Fish(ItemType.FISHING, 3, "\uD83E\uDD90","Shrimp", "items.shrimp", "items.description.shrimp", 35, false),
             GEM_6 = new Item(ItemType.MINE, "\uD83C\uDF19", "Moon Runes", "items.moon", "items.description.moon", 100, false),
             GEM_7 = new Item(ItemType.MINE, "\u2744\uFE0F", "Snowflake", "items.flake", "items.description.flake", 25, false),
-            BROKEN_SPARKLE_PICK = new Broken(73, EmoteReference.BROKEN_SPARKLE_PICK.getDiscordNotation(), "Broken Sparkle Pick", "items.broken_sparkle_pick", "items.description.broken_sparkle_pick", 100, "1,74;3,84;1,50"),
-            BROKEN_COMET_PICK = new Broken(61, EmoteReference.BROKEN_COMET_PICK.getDiscordNotation(), "Broken Comet Pick", "items.broken_comet_pick", "items.description.broken_comet_pick", 40, "1,48;4,84;1,50"),
+            BROKEN_SPARKLE_PICK = new Broken(73, EmoteReference.BROKEN_SPARKLE_PICK.getDiscordNotation(), "Broken Sparkle Pick", "items.broken_sparkle_pick", "items.description.broken_sparkle_pick", 100, "1,74;3,84;2,50"),
+            BROKEN_COMET_PICK = new Broken(61, EmoteReference.BROKEN_COMET_PICK.getDiscordNotation(), "Broken Comet Pick", "items.broken_comet_pick", "items.description.broken_comet_pick", 40, "1,48;4,84;2,50"),
     };
 
 

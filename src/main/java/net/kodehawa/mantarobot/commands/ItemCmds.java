@@ -425,7 +425,7 @@ public class ItemCmds {
                     }
 
                     recipeMap.put(needed, amount);
-                    recipeString.append(amount).append("x ").append(item.getName()).append(" ");
+                    recipeString.append(amount).append("x ").append(needed.getName()).append(" ");
                 }
 
                 for(Map.Entry<Item, Integer> entry : recipeMap.entrySet()) {
@@ -435,6 +435,7 @@ public class ItemCmds {
                 }
                 //end of recipe build
 
+                playerInventory.process(new ItemStack(brokenItem, -1));
                 playerInventory.process(new ItemStack(repairedItem, 1));
 
                 String message = "";
