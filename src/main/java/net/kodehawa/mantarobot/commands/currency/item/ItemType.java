@@ -47,7 +47,10 @@ public enum ItemType {
     POTION(false),
     BUFF(false),
     WRENCH(true),
-    BROKEN(false);
+    BROKEN(false),
+    BROKEN_COMMON(false),
+    BROKEN_FISHING(false),
+    BROKEN_FISHING_COMMON(false); //This is to drop broken rods on the fish crate.
 
     private boolean cast;
 
