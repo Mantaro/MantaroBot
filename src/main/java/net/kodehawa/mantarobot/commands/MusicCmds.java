@@ -378,7 +378,7 @@ public class MusicCmds {
                         AudioTrack track = lavalinkPlayer.getPlayingTrack();
                         long position = track.getPosition();
                         if(position - amt < 0) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.rewind.before_beggining"), EmoteReference.ERROR).queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.rewind.before_beginning"), EmoteReference.ERROR).queue();
                             return;
                         }
 
@@ -436,7 +436,7 @@ public class MusicCmds {
 
     @Subscribe
     public void skipahead(CommandRegistry cr) {
-        cr.register("skipahead", new SimpleCommand(Category.MUSIC) {
+        cr.register("forward", new SimpleCommand(Category.MUSIC) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length == 0) {
@@ -482,13 +482,13 @@ public class MusicCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Fast forwards the current song a specified amount of time.")
-                        .setUsage("~>skipahead <time>")
+                        .setUsage("~>forward <time>")
                         .addParameter("time", "The amount of minutes to rewind. Time is in this format: 1m29s (1 minute and 29s), for example.")
                         .build();
             }
         });
 
-        cr.registerAlias("skipahead", "forward");
+        cr.registerAlias("forward", "skipahead");
     }
 
 
