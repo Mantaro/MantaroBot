@@ -213,7 +213,7 @@ public class MusicCmds {
                 }
 
                 EmbedBuilder npEmbed = new EmbedBuilder();
-                long now = trackScheduler.getCurrentTrack().getPosition();
+                long now = audioPlayer.getPlayingTrack().getPosition();
                 long total = audioPlayer.getPlayingTrack().getDuration();
 
                 npEmbed.setAuthor(languageContext.get("commands.np.header"), null, event.getGuild().getIconUrl())
