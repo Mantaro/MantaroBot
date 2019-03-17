@@ -33,6 +33,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.stats.manager.StatsManager;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
+import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
@@ -531,19 +532,18 @@ public class MusicCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
+                MantaroAudioManager mantaroAudioManager = MantaroBot.getInstance().getAudioManager();
+                GuildMusicManager musicManager = mantaroAudioManager.getMusicManager(event.getGuild());
 
                 if(!isInConditionTo(event, musicManager.getLavaLink(), languageContext))
                     return;
 
                 if(isDJ(event.getMember())) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.queue.header"), EmoteReference.CORRECT).queue();
-
+                    musicManager.getLavaLink().getPlayer().stopTrack();
+                    musicManager.getTrackScheduler().stop();
                     int tempLenght = musicManager.getTrackScheduler().getQueue().size();
-                    MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
-
                     event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.queue.clear_success"), EmoteReference.CORRECT, tempLenght).queue();
-                    MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().stop();
+
                     return;
                 }
 
