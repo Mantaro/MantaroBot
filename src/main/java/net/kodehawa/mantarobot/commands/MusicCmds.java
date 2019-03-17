@@ -213,7 +213,7 @@ public class MusicCmds {
                 }
 
                 EmbedBuilder npEmbed = new EmbedBuilder();
-                long now = audioPlayer.getPlayingTrack().getPosition();
+                long now = audioPlayer.getTrackPosition();
                 long total = audioPlayer.getPlayingTrack().getDuration();
 
                 npEmbed.setAuthor(languageContext.get("commands.np.header"), null, event.getGuild().getIconUrl())
@@ -375,8 +375,7 @@ public class MusicCmds {
                             return;
                         }
 
-                        AudioTrack track = lavalinkPlayer.getPlayingTrack();
-                        long position = track.getPosition();
+                        long position = lavalinkPlayer.getTrackPosition();
                         if(position - amt < 0) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.rewind.before_beginning"), EmoteReference.ERROR).queue();
                             return;
@@ -460,8 +459,9 @@ public class MusicCmds {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.rewind.negative"), EmoteReference.ERROR).queue();
                             return;
                         }
+
                         AudioTrack track = lavalinkPlayer.getPlayingTrack();
-                        long position = track.getPosition();
+                        long position = lavalinkPlayer.getTrackPosition();
                         if(position + amt > track.getDuration()) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.skipahead.past_duration"), EmoteReference.ERROR).queue();
                             return;
