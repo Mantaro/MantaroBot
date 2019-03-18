@@ -99,7 +99,8 @@ public enum EmoteReference {
     SPARKLE_WRENCH("<:sparkle_wrench:551979816262434819>", null),
     COMET_WRENCH("<:comet_wrench:551979816174354443>", null),
     BROKEN_SPARKLE_PICK("<:broken_sparkle_pickaxe:553769632926924813>", null),
-    BROKEN_COMET_PICK("<:broken_comet_pickaxe:553769633266532389>", null);
+    BROKEN_COMET_PICK("<:broken_comet_pickaxe:553769633266532389>", null),
+    BROKEN_STAR_PICK("<:broken_star_pickaxe:557349870726414347>", null);
 
     final String discordNotation;
     final String unicode;

@@ -51,7 +51,8 @@ public class Items {
             NECKLACE, ROSE, DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN,
             POTION_STAMINA, FISHING_ROD, FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE,
             TELEVISION, WRENCH, MOTORCYCLE, GEM1_PICKAXE, GEM2_PICKAXE, PIZZA, GEM_5, GEM5_PICKAXE, MINE_CRATE, FISH_CRATE, FISH_PREMIUM_CRATE, MINE_PREMIUM_CRATE,
-            GEM1_ROD, GEM2_ROD, GEM5_ROD, GEM5_PICKAXE_2, GEM5_2, GEM5_ROD_2, FISH_4, FISH_5, WRENCH_COMET, WRENCH_SPARKLE, FISH_6, FISH_7, FISH_8, GEM_6, GEM_7, BROKEN_SPARKLE_PICK, BROKEN_COMET_PICK;
+            GEM1_ROD, GEM2_ROD, GEM5_ROD, GEM5_PICKAXE_2, GEM5_2, GEM5_ROD_2, FISH_4, FISH_5, WRENCH_COMET, WRENCH_SPARKLE, FISH_6, FISH_7, FISH_8, GEM_6, GEM_7, BROKEN_SPARKLE_PICK,
+            BROKEN_COMET_PICK, BROKEN_STAR_PICK;
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 4);
@@ -137,14 +138,14 @@ public class Items {
             GEM2_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.13f, 1, 10, EmoteReference.STAR_PICK.getDiscordNotation(),"Star Pickaxe", "items.star_pick", "items.description.star_pick", 350, true, false, "1;2", 10, 49),
             PIZZA = new Item(ItemType.COMMON, "\uD83C\uDF55","Pizza", "items.pizza", "items.description.pizza", 15, true, false),
             GEM_5 = new Item(ItemType.COMMON, "\u200B", "Old Sparkle Fragment", "general.deprecated", "general.deprecated", 0, false, false),
-            GEM5_PICKAXE = new Item(ItemType.COMMON, "\u26cf","Broken Sparkle Pickaxe", "general.deprecated", "general.deprecated", 550, true, false),
+            GEM5_PICKAXE = new Item(ItemType.COMMON, "\u26cf","Old Sparkle Pickaxe", "general.deprecated", "general.deprecated", 550, true, false),
             MINE_CRATE = new Item(ItemType.CRATE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Gem Crate",  "items.mine_crate","items.description.mine_crate", 0, false, false, true,  (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.MINE, 66, EmoteReference.MINE_CRATE, 3)),
             FISH_CRATE = new Item(ItemType.CRATE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Treasure",  "items.fish_crate","items.description.fish_crate", 0, false, false, true,  (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.FISH, 67, EmoteReference.FISH_CRATE, 3)),
             FISH_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_FISH_CRATE.getDiscordNotation(),"Fish Premium Treasure",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true, (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.FISH_PREMIUM, 68, EmoteReference.PREMIUM_FISH_CRATE, 5)),
             MINE_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_MINE_CRATE.getDiscordNotation(),"Gem Premium Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true, (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.PREMIUM_MINE_CRATE, 5)),
             GEM1_ROD = new FishRod(ItemType.CAST_FISH, 6, 1, 15, EmoteReference.COMET_ROD.getDiscordNotation(), "Comet Gem Rod", "items.comet_rod", "items.description.comet_rod", 150, "1;3", 44, 48),
             GEM2_ROD = new FishRod(ItemType.CAST_FISH, 9, 2, 10, EmoteReference.STAR_ROD.getDiscordNotation(), "Star Gem Rod", "items.star_rod", "items.description.star_rod", 250, "1;3", 44, 49),
-            GEM5_ROD = new FishRod(ItemType.COMMON, 3, -1, -1,"\uD83C\uDFA3", "Broken Sparkle Rod", "general.deprecated", "general.deprecated", 65, "",2),
+            GEM5_ROD = new FishRod(ItemType.COMMON, 3, -1, -1,"\uD83C\uDFA3", "Old Sparkle Rod", "general.deprecated", "general.deprecated", 65, "",2),
             GEM5_PICKAXE_2 = new Pickaxe(ItemType.MINE_RARE_PICK, 0.06f, 3, 5, EmoteReference.SPARKLE_PICK.getDiscordNotation(),"Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 1200, true, false, "1;3;1", 10, 74, 18),
             GEM5_2 = new Item(ItemType.MINE_RARE, "\u2728", "Sparkle Fragment", "items.sparkle", "items.description.sparkle", 605, false),
             GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 14, 3, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(), "Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 800, "1;3;1", 44, 74, 18),
@@ -157,8 +158,9 @@ public class Items {
             FISH_8 = new Fish(ItemType.FISHING, 3, "\uD83E\uDD90","Shrimp", "items.shrimp", "items.description.shrimp", 35, false),
             GEM_6 = new Item(ItemType.MINE, "\uD83C\uDF19", "Moon Runes", "items.moon", "items.description.moon", 100, false),
             GEM_7 = new Item(ItemType.MINE, "\u2744\uFE0F", "Snowflake", "items.flake", "items.description.flake", 25, false),
-            BROKEN_SPARKLE_PICK = new Broken(73, EmoteReference.BROKEN_SPARKLE_PICK.getDiscordNotation(), "Broken Sparkle Pick", "items.broken_sparkle_pick", "items.description.broken_sparkle_pick", 100, "1,74;3,84;2,50"),
-            BROKEN_COMET_PICK = new Broken(61, EmoteReference.BROKEN_COMET_PICK.getDiscordNotation(), "Broken Comet Pick", "items.broken_comet_pick", "items.description.broken_comet_pick", 40, "1,48;4,84;2,50"),
+            BROKEN_SPARKLE_PICK = new Broken(73, EmoteReference.BROKEN_SPARKLE_PICK.getDiscordNotation(), "Broken Sparkle Pick", "items.broken_sparkle_pick", "items.description.broken_sparkle_pick", 100, "1,74;4,84;2,50"),
+            BROKEN_COMET_PICK = new Broken(61, EmoteReference.BROKEN_COMET_PICK.getDiscordNotation(), "Broken Comet Pick", "items.broken_comet_pick", "items.description.broken_comet_pick", 40, "1,48;3,84;2,50"),
+            BROKEN_STAR_PICK = new Broken(62, EmoteReference.BROKEN_COMET_PICK.getDiscordNotation(), "Broken Comet Pick", "items.broken_star_pick", "items.description.broken_star_pick", 40, "1,49;3,84;3,50"),
     };
 
 

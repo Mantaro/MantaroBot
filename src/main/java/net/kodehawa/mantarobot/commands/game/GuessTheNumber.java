@@ -100,7 +100,7 @@ public class GuessTheNumber extends Game<Object> {
 
                         unifiedPlayer.addMoney(gains);
                         player.getData().setGamesWon(player.getData().getGamesWon() + 1);
-                        seasonalPlayer.getData().setGamesWon(player.getData().getGamesWon() + 1);
+                        seasonalPlayer.getData().setGamesWon(seasonalPlayer.getData().getGamesWon() + 1);
 
                         if(player.getData().getGamesWon() == 100)
                             player.getData().addBadgeIfAbsent(Badge.GAMER);

@@ -350,7 +350,7 @@ public class ItemCmds {
                 Player player = db.getPlayer(event.getAuthor());
                 DBUser user = db.getUser(event.getMember());
 
-                String itemString = args.length > 1 ? args[0] : content;
+                String itemString = args[0];
                 Item item = Items.fromAnyNoId(itemString).orElse(null);
                 Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
                 Item wrench = playerInventory.containsItem(Items.WRENCH_SPARKLE) ? Items.WRENCH_SPARKLE : Items.WRENCH_COMET;

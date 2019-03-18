@@ -46,7 +46,7 @@ public class Character extends ImageGame {
     private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
     //Avoid AniList ratelimits, we don't need more than fetching the image either way and URL shouldn't change in a short amount of time.
     private static Cache<String, String> imgCache = CacheBuilder.newBuilder()
-            .maximumSize(150)
+            .maximumSize(50)
             .build();
 
     @Getter
