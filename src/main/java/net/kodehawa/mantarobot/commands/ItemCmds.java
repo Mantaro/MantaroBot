@@ -343,7 +343,7 @@ public class ItemCmds {
                 boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
 
                 content = Utils.replaceArguments(t, content, "season", "s");
-                args = StringUtils.splitArgs(content, -1); //Why? because we need to do this. I'll add another kind of command to make this easier later on.
+                args = StringUtils.efficientSplitArgs(content, -1); //Why? because we need to do this. I'll add another kind of command to make this easier later on.
 
                 //Get the necessary entities.
                 SeasonPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
