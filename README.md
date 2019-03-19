@@ -18,7 +18,7 @@
             <li>Wolke's Weeb API (For most of the action commands).</li>
             <li>etc...</li>
         </ul>
-        <p><b>We will not help you with the process of obtaining said api keys!</b></p>
+        <p><b>We will not help you with the process of obtaining said api keys nor in the process of building and hosting the bot yourself!</b></p>
         <br>
         <p><b>Steps for building</b></p>
         <ol>
