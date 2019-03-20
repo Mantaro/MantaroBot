@@ -54,7 +54,9 @@
       "potion_not_found": "%1$sIch kann diesen Trank- bzw. Equipmenttyp nicht finden!",
       "potion_applied": "%1$sErfolgreich den Effekt **%2$s** des Types *%3$s* angewendet (%4$dx). Schau dir deinen tollen neuen Effekt unter `~>profile stats` an!",
       "potion_applied_multiple": "%1$sErfolgreich **%2$s** des Types *%3$s* angewendet.\nDu hattest den Effekt bereits, also haben wir ihn gestapelt. Aktuelle Stapelgröße: %4$s",
-      "max_stack_size": "%1$sDu hast bereits die maximale Stapelgröße von %2$s erreicht."
+      "max_stack_size": "%1$sDu hast bereits die maximale Stapelgröße von %2$s erreicht.",
+      "max_stack_size_2": "%1$sDu kannst nicht so viele %2$s stapeln.",
+      "not_same_potion": "%1$sDu hast bereits einen Trank des Types %2$s gestapelt, also kannst du keine Tränke des Types %3$s drüberstaplen."
     },
     "mention_user_required": "%1$sDu musst einen Benutzer erwähnen.",
     "invalid_character": "%1$sDas ist kein erlaubtes Zeichen.",
@@ -171,6 +173,10 @@
     },
     "lang": {
       "info": "%1$sDu kannst deine Serversprache (sofern anwendbar) mithilfe von `~>opts language set <language code>` ändern. Deine eigene Sprache kannst du mithilfe von `~>profile lang <language code>` ändern.\n**Verfügbare Sprache:** `%2$s`\nSollte deine Sprache hier nicht mitaufgeführt sein und du hast Lust zu helfen, kannst du gerne dem Support-Server beitreten und bei der Übersetzung helfen!"
+    },
+    "season": {
+      "info": "Eine *Saison* ist eine Zeitspanne, von normalerweise 6 Monaten, in der Spieler um die 10 Top-Plätze der Geld- und Rufrangliste wetteifern können. Die Gewinner bekommen Abzeichen und Preise basierend auf ihrer Perfomance in der Saison.\nDies erlaubt einen kompetitiveren Rahmen (vorher herrschte beim Geld eher Stillstand) und, um das Spiel spaßiger zu machen.\nDu kannst Saisonzeug über `-season` abrufen. Befehle, wie profile, mine, fish und balance benötigen es, während games, loot, daily und reputation jeweils Geld bzw. Ruf sowohl zu deinem globalen, als auch zu deinem Saisonsprofil hinzufügen.",
+      "info_2": "\n\nDie aktuelle Saison ist **%1$s** und **%2$s** Spieler sind aktuell Teil von ihr!\n\nDer Spaß beginnt, schau unter `~>leaderboard money -season`; `~>leaderboard rep -season` und `~>leaderboard games -season` nach.\nDas Spiel beginnt! <3\nDanke für das Nutzen von Mantaro."
     },
     "music_general": {
       "music_error": {
@@ -576,6 +582,10 @@
       "success": "%1$sDu hast erfolgreich *%2$s %3$s* für %4$s Credits hergestellt. *Herstellung kostete: %5$s*",
       "no_tool": "%1$sDu musst %2$s haben, um die Herstellung durchführen zu können!",
       "item_broke": "\nLeider broch dein Schraubenschlüssel, aber du bekamst deinen Gegenstand!",
+      "too_many": "%1$sDu hättest mehr als 5000 von diesem Gegenstand, wenn du fortfährst. Versuche weniger von diesem Gegenstand herzustellen?",
+      "low_tier": "%1$sDu brauchst mindestens einen Stufe 2 Schraubenschlüssel um mehrere Gegenstände auf einmal herzustellen. Du hast aktuell einen Stufe %2$s Schraubenschlüssel.",
+      "not_enough_wrench_level": "%1$sDein Schraubenschlüssel reicht nicht aus, um diesen Gegenstand herzustellen. Gib vielleicht einen besseren an? *Schraubenschlüssellevel: %2$s, Benötigtes Level: %3$s*",
+      "too_many_amount": "%1$sDu kannst nicht so viel von dem Gegenstand auf einmal herstellen! Limit: %2$s, Versucht: %3$s. Ein glitzernder Schraubenschlüssel verdoppelt das Limit! Außer du benutzt bereits einen.",
       "ls": {
         "header": "Herstellbare Gegenstand-Liste",
         "cost": "Herstellungspreis: ",
@@ -659,7 +669,8 @@
       "not_interactive": "%1$sDu kannst nichts mit diesem Gegenstand machen...",
       "interactive_no_action": "%1$sDieser Gegenstand ist als interaktiv markiert, aber hat keine Aktion...",
       "no_item": "%1$sDu besitzt diesen Gegenstand nicht...",
-      "not_enough_items": "%1$sDu hast nicht genug von diesem Gegenstand."
+      "not_enough_items": "%1$sDu hast nicht genug von diesem Gegenstand.",
+      "too_little": "%1$sDu kannst nicht weniger als 1 Gegenstand benutzen..."
     },
     "opts": {
       "note": "%1$sHey, wenn du verloren bist oder Hilfe bei der Verwendung von Optionen benötigst, besuche <https://github.com/Mantaro/MantaroBot/wiki/Configuration>, um eine Anleitung zur Verwendung von Optionen zu erhalten. \nHinweis: Nur Administratoren, Personen mit Server verwalten oder Personen mit der Bot-Commander-Rolle können diesen Befehl verwenden! ",
@@ -711,7 +722,8 @@
       "vote_results": "+%1$d Stimmen für die Option %2$s registriert",
       "thank_note": "Danke für deine Stimme",
       "results": "Ergebnisse",
-      "cancelled": "%1$sUmfrage abgebrochen"
+      "cancelled": "%1$sUmfrage abgebrochen",
+      "incorrect_time_format": "%1$sInkorrektes Zeitformat. Beachte, das korrekte Zeitformat ist eine Zahl gefolgt von `h, m oder s` (Stunden, Minuten oder Sekunden). Beispiel: `-time 40m`"
     },
     "osustats": {
       "user": {
@@ -740,6 +752,7 @@
       },
       "description": {
         "no_argument": "%1$sSie müssen ein Argument angeben! (set (setzen) oder remove (entfernen))\nzum Beispiel, ~>profile description set Hallo du da!",
+        "no_content": "%1$sDu hast nicht angegeben, was du in deiner Beschreibung haben möchtest.\nZum Beispiel, ~>profile description set Hallo!",
         "too_long": "%1$sDie Beschreibung ist zu lang! `(Limit von 300 Zeichen für alle und 500 für Premium-Nutzer)`",
         "success": "%1$sDeine Beschreibung ist nun: **%2$s**\nÜberprüfe dein glänzendes neues Profil mit `~>profile`",
         "clear_success": "%1$sBeschreibung erfolgreich gelöscht."
@@ -1241,6 +1254,20 @@
         "not_found": "%1$sEinen Befehl mit diesem Namen gibt es nicht"
       }
     },
+    "repair": {
+      "no_item": "%1$sDu hast keinen Gegenstand zum Reparieren angegeben. Vergiss nicht Anführungszechen zu verwenden, falls der Name Leerzeichen beinhaltet.",
+      "no_item_found": "%1$sIch kann den Gegenstand nicht finden. Vergiss nicht Anführungszechen zu verwenden, falls der Name Leerzeichen beinhaltet.",
+      "cant_repair": "%1$s**%2$s** ist kein reparierbarer Gegenstand. Du kannst nur kaputte Gegenstände reparieren.",
+      "no_tool": "%1$sDu brauchst einen Stufe 2 Schraubenschlüssel oder höher, um diesen Gegenstand zu reparieren . Prüfe, ob du den richtigen Schraubenschlüssel angegeben hast, im Falle dessen, dass du einen angegeben hast. Vergiss nicht Anführungszechen zu verwenden, falls der Name Leerzeichen beinhaltet.",
+      "dust": "%1$sDein Inventar ist zu verstaubt, um eine Reparartur durchzuführen. Staublevel: %2$s",
+      "not_wrench": "%1$sDu kannst das nicht als Schraubenschlüssel verwenden. Vergiss nicht Anführungszechen zu verwenden, falls der Name Leerzeichen beinhaltet.",
+      "not_enough_level": "%1$sDu brauchste einen besseren Schraubenschlüssel, um diese Reparatur durchzuführen.",
+      "not_enough_money": "%1$sDu hast nicht genug Geld, um diesen Gegenstand zu reparieren.",
+      "no_item_recipe": "%1$sDu hast nicht die benötigten *%2$s*, um diese Reparatur durchzuführen.",
+      "not_enough_items": "%1$sDu hast nicht genug von *%2$s*, um diese Reparartur durchzuführen. **(Benötigt: %3$s, Aktuell: %4$s)**",
+      "item_broke": "Leider ist dein Schraubenschlüssel beim Reparieren kaputt gegangen, aber du hast trotzdem deinen Gegenstand bekommen!",
+      "success": "%1$sReparartur erfolgreich! Repariert: %2$s **%3$s** -> %4$s **%5$s**. Die Reparatur kostete *%6$s* Credits und das Rezept zum Reparieren war *%7$s*."
+    },
     "anime": {
       "no_args": "%1$sDu musst mir einen Anime zum Suchen nennen.",
       "selection_start": "Gebe die Nummer des Anime, den du auswählen möchtest ein.",
@@ -1249,7 +1276,7 @@
       "malformed_result": "%1$sIch bekam ein falsches API Ergebnis für diese Suche. Versuche vielleicht einen anderen Begriff?",
       "error": "%1$s**Ich schwöre, ich habe deinen Lieblingsanime nicht fallen lassen!**\nIch habe einen ``%2$s`` erhalten, während ich versuchte den Befehl auszuführen. (internal error)",
       "information_header": "Anime Informationen für %1$s",
-      "information_notice": "Informationen bereitgestellt durch AniList.",
+      "information_notice": "Informationen bereitgestellt durch AniList. Klicke auf den Titel, um auf die AniList Seite des Animes zu gelangen.",
       "airing": "Airing",
       "release_date": "Veröffentlichungsdatum",
       "end_date": "Enddatum",
@@ -1258,7 +1285,8 @@
       "episodes": "Episoden",
       "episode_duration": "Episodendauer",
       "genres": "Genres",
-      "minutes": "Minuten"
+      "minutes": "Minuten",
+      "description": "Beschreibung"
     },
     "character": {
       "no_args": "%1$sDu musst mir einen Charakter zum Suchen nennen.",
@@ -1294,7 +1322,9 @@
         }
       },
       "given_credits": "%1$sIch gab deine **$%2$s** täglichen Credits an %3$s\n\n%4$s",
-      "credits": "%1$sDu hast **$%2$s** tägliche Credits erhalten.\n\n%3$s%4$s"
+      "credits": "%1$sDu hast **$%2$s** tägliche Credits erhalten.\n\n%3$s%4$s",
+      "sellout": "\nWir brauchen deine Hilfe, um Mantaro am Laufen zu halten! Schau unter <https://patreon.com/mantaro> für mehr Informationen.",
+      "crate": "Du hast eine Truhe gewonnen, weil deine tägliche Strähne ein Vielfaches von 20 ist. Viel Spaß."
     },
     "gamble": {
       "no_credits": "%1$sDu bist pleite. Such vielleicht erstmal nach ein paar Credits.",
@@ -1351,7 +1381,8 @@
       },
       "pick_broke": "%1$sEine deiner Spitzhacken ist beim Abbauen zerbrochen.",
       "waifu_help": "Deine Waifu gesellte sich zu deinem Minenabenteuer und ihr habt beide eine größere Beute bekommen!",
-      "missing_equipped": "%1$sDu hattest eine %2$s Spitzhacke ausgerüstet, aber keine Spitzhacke der Art im Inventar! Die ausgerüstete Spitzhacke wurde zurückgesetzt."
+      "missing_equipped": "%1$sDu hattest eine %2$s Spitzhacke ausgerüstet, aber keine Spitzhacke der Art im Inventar! Die ausgerüstete Spitzhacke wurde zurückgesetzt.",
+      "broken_drop": "%1$sDeine Spitzhacke ist kaputt gegangen, aber du kannst sie reparieren. Kaputten Gegenstand erhalten: %2$s *%3$s*"
     },
     "slots": {
       "errors": {
@@ -1372,6 +1403,7 @@
     },
     "leaderboard": {
       "header": "Mantaros Rangliste",
+      "header_seasonal": "Mantaros %1$s Saisonsrangliste",
       "money": "Geld Rangliste",
       "reputation": "Ruf Rangliste",
       "gamble": "Wettsiege Rangliste",
@@ -1386,6 +1418,7 @@
         "game": "%1sDiese Seite zeigt die Top 10 Personen an, welche die meisten Spiele gewonnen haben.\n\nSchau unter `~>help game` oder `~>help trivia` für Details, wie Spiele funktionieren nach!",
         "claim": "%1sDiese Seite zeigt die Top 10 Personen an, welche am häufigsten beansprucht worden sind.\n\nSchau unter `~>help waifu` für  Details bezüglich des Waifu-Systems.",
         "money": "%1$sDiese Seite zeigt die Top 10 Personen an, welche das meiste Geld besitzen.\nDiese Rangliste , aber gib niemals auf!",
+        "seasonal_money": "%1$sDiese Seite zeigt die Top 10 reichesten Personen dieser Saison an.",
         "rep": "%1sDiese Seite zeigt die Top 10 Personen mit dem meisten Ruf an.",
         "streak": "%1sDiese Seite zeigt die Top 10 Personen mit der höchsten täglichen Strähne an.\n\nSchau unter `~>help daily` für mehr Details.",
         "lvl": "%1sDiese Seite zeigt die Top 10 Personen mit den höchsten Leveln an.\n\nLevel werden durch's Sprechen verdient. Befehlsnutzung wird nicht mit angerechnet und EP haben eine 30 Sekunden Abkllingzeit.",
@@ -1398,6 +1431,11 @@
       "no_content": "%1$sDu hast kein Item zum Suchen angegeben!",
       "no_item": "%1$sEs gibt kein Item, das zu deiner Suchanfrage passt.",
       "success": "%1$s**Iteminfo für** %2$s **%3$s** (Typ: %4$s): *%5$s*"
+    },
+    "level": {
+      "bot_notice": "%1$sBots haben kein Level.",
+      "own_success": "%1$s dein Level ist %2$s. (Erfahrung: %3$s/%4$s)",
+      "success_other": "%1$s %2$s ist Level %3$s. (Erfahrung: %4$s/%5$s)"
     }
   },
   "options": {
@@ -1874,11 +1912,13 @@
     "diamond_pick": "Diamantspitzhacke",
     "tv": "Fernseher",
     "wrench": "Schraubenschlüssel",
+    "star_wrench": "Sternenschraubenschlüssel",
+    "sparkle_wrench": "Glitzernder Schraubenschlüssel",
     "motorcycle": "Motorrad",
     "comet_pick": "Kometenjuwelenspitzhacke",
     "star_pick": "Sternenjuwelenspitzhacke",
     "sparkle": "Glitzermaterie",
-    "sparkle_pick": "Glitzermaterienspitzhacke",
+    "sparkle_pick": "Glitzernde Spitzhacke",
     "pizza": "Pizza",
     "mine_crate": "Kiste aus der Mine",
     "fish_crate": "Schatz vom Meeresgrund",
@@ -1886,9 +1926,16 @@
     "fish_premium_crate": "Schatz vom Meeresgrund (Premium)",
     "comet_rod": "Kometenjuwelenangel",
     "star_rod": "Sternenjuwelenangel",
-    "sparkle_rod": "Glitzermaterienangel",
+    "sparkle_rod": "Glitzernde Angel",
     "shell": "Muschel",
     "shark": "Hai",
+    "crab": "Krabbe",
+    "squid": "Tintenfisch",
+    "shrimp": "Shrimp",
+    "moon": "Mondrune",
+    "flake": "Schneeflocke",
+    "broken_comet_pick": "Kaputte Kometenjuwelenspitzhacke",
+    "broken_sparkle_pick": "Kaputte glitzernde Spitzhacke",
     "description": {
       "headphones": "Das passiert, wenn du zu viel Musik hörst. Sollte aber was wert sein.",
       "ban_hammer": "Von einem Admin da gelassen.",
@@ -1949,7 +1996,9 @@
       "bait": "Erhöht deine Wahrscheinlichkeit Fische zu fangen.",
       "diamond_pick": "Eine sehr viel stärkere Spitzhacke (20% Bruchrate). (`~>mine` Werkzeug).",
       "tv": "Muss... Fernsehen... schauen...",
-      "wrench": "Arbeitswerkzeug. Nützlich zum Herstellen.",
+      "wrench": "Herstellungswerkzeug. Nützlich zum Herstellen.",
+      "star_wrench": "Herstellungswerkzeug. Nützlich, um Sachen zusammenzubauen. Geringe Chance kaputt zu gehen, benötigt, um mehrere Gegenstände auf einmal herzustellen. Stufe 2.",
+      "sparkle_wrench": "Herstellungswerkzeug. Geringe Chance kaputt zu gehen, benötigt, um mehrere Gegenstände auf einmal herzustellen. Geringe Kosten pro Herstellung. Stufe 3.",
       "motorcycle": "Herumfahren, und zwar auf die coole Art.",
       "comet_pick": "Eine sehr viel stärkere Spitzhacke (18% Bruchrate). (`~>mine` Werkzeug).",
       "star_pick": "Eine sehr viel stärkere Spitzhacke (13% Bruchrate). (`~>mine` Werkzeug).",
@@ -1964,7 +2013,14 @@
       "star_rod": "Eine stäkere Angel. (14% Bruchrate)",
       "sparkle_rod": "Eine viel stärkere Angel. (9% Bruchrate)",
       "shell": "Am Grunde des Ozeans gefunden. Wofür könnte es nützlich sein?",
-      "shark": "Woah. Wie hast du *das* gefangen?"
+      "shark": "Woah. Wie hast du *das* gefangen?",
+      "crab": "Eine Krabbe. Sie tanzt, vielleicht.",
+      "squid": "Nicht mit Thaddäus zu verwechseln.",
+      "shrimp": "Pinkes Zeug. Denke ich.",
+      "moon": "Mondrune. Benötigt, um bestimmtes Zeug herszustellen.",
+      "flake": "Schneeflocke. Normalerweise als Material genutzt.",
+      "broken_comet_pick": "Eine Kometenjuwelenspitzhacke, zerbrochen beim Abbauen. Reparierbar.",
+      "broken_sparkle_pick": "Eine glitzernde Spitzhacke, zerbrochen beim Abbauen. Reparierbar."
     }
   },
   "test": {
