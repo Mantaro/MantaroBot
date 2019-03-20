@@ -160,7 +160,7 @@ public class Items {
             GEM_7 = new Item(ItemType.MINE, "\u2744\uFE0F", "Snowflake", "items.flake", "items.description.flake", 25, false),
             BROKEN_SPARKLE_PICK = new Broken(73, EmoteReference.BROKEN_SPARKLE_PICK.getDiscordNotation(), "Broken Sparkle Pick", "items.broken_sparkle_pick", "items.description.broken_sparkle_pick", 100, "1,74;4,84;2,50"),
             BROKEN_COMET_PICK = new Broken(61, EmoteReference.BROKEN_COMET_PICK.getDiscordNotation(), "Broken Comet Pick", "items.broken_comet_pick", "items.description.broken_comet_pick", 40, "1,48;3,84;2,50"),
-            BROKEN_STAR_PICK = new Broken(62, EmoteReference.BROKEN_COMET_PICK.getDiscordNotation(), "Broken Comet Pick", "items.broken_star_pick", "items.description.broken_star_pick", 40, "1,49;3,84;3,50"),
+            BROKEN_STAR_PICK = new Broken(62, EmoteReference.BROKEN_STAR_PICK.getDiscordNotation(), "Broken Star Pick", "items.broken_star_pick", "items.description.broken_star_pick", 40, "1,49;3,84;3,50"),
     };
 
 
