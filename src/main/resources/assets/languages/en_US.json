@@ -184,10 +184,10 @@
         "unknown": "%1$sUnable to connect to %2$s: unknown error"
       },
       "no_song": "%1$sYou need to tell me what song you want to play! *(YouTube, Soundcloud, Twitch URL or search queries are allowed)*",
-      "not_playing": "%1$sI'm not currently playing anything",
-      "dj_only": "%1$sYou need to be a DJ to use this command!",
+      "not_playing": "%1$sI'm not currently playing anything.",
+      "dj_only": "%1$sYou need to be a DJ to use this command.",
       "enjoy_note": "Enjoy the music! <3",
-      "no_player": "%1$sI cannot find any music player here...",
+      "no_player": "%1$sI cannot find any music player here... (try playing something again?)",
       "not_connected": "%1$sYou aren't connected to the voice channel I'm currently playing in! (If you believe this is an error, please report it on the support server)",
       "np_message": "%1$s Now playing **%2$s** (%3$s) on **%4$s** | %5$s",
       "track_error": "%1$sOuch, something went wrong while playing this track! Sorry for the inconveniences, I'll try to play the next one available if there is one.",
@@ -921,9 +921,9 @@
       "no_key_provided": "%1$sI cannot enable a premium key if you don't give me one",
       "invalid_key": "%1$sYou provided an invalid or already enabled key",
       "guild_already_premium": "%1$sThis server already has a premium subscription",
-      "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)",
+      "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
       "user_already_premium": "%1$sYou're already premium :heart:",
-      "user_successful": "%1$sYou're now **Premium** :heart: (For: %2$d days)",
+      "user_successful": "%1$sYou're now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
       "mp": "Mantaro Patreon uses no keys, instead, it's a given that it's premium by the fact that the bot itself works."
     },
     "claimkey": {

@@ -23,15 +23,15 @@ import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.stats.manager.*;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.*;
+import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -43,14 +43,12 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
 import java.awt.*;
-import java.lang.management.ManagementFactory;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
@@ -71,118 +69,6 @@ public class InfoCmds {
     private final GameStatsManager gameStatsManager = new GameStatsManager();
     private final GuildStatsManager guildStatsManager = new GuildStatsManager();
     private final List<String> tips = new SimpleFileDataManager("assets/mantaro/texts/tips.txt").get();
-
-    //@Subscribe
-    public void about(CommandRegistry cr) {
-        TreeCommand aboutCommand = (TreeCommand) cr.register("about", new TreeCommand(Category.INFO) {
-            @Override
-            public Command defaultTrigger(GuildMessageReceivedEvent event, String thisCommand, String attemptedSubCommand) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        SnowflakeCacheView<Guild> guilds = MantaroBot.getInstance().getGuildCache();
-                        SnowflakeCacheView<User> users = MantaroBot.getInstance().getUserCache();
-                        SnowflakeCacheView<TextChannel> textChannels = MantaroBot.getInstance().getTextChannelCache();
-                        SnowflakeCacheView<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannelCache();
-
-                        event.getChannel().sendMessage(new EmbedBuilder()
-                                .setColor(Color.PINK)
-                                .setAuthor(languageContext.get("commands.about.title"), "https://add.mantaro.site", event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                                .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                                .setDescription(languageContext.get("commands.about.description.1") + "\n" +
-                                        languageContext.get("commands.about.description.2") + "\n" +
-                                        "\u2713 " + languageContext.get("commands.about.description.3") + "\n" +
-                                        "\u2713 " + languageContext.get("commands.about.description.4") + "\n" +
-                                        "\u2713 " + languageContext.get("commands.about.description.5") + "\n" +
-                                        "\u2713 " + languageContext.get("commands.about.description.support") + "\n\n" +
-                                        String.format(languageContext.get("commands.about.description.credits"), EmoteReference.POPPER) + (MantaroData.config().get().isPremiumBot() ?
-                                        "\nRunning a Patreon Bot instance, thanks you for your support! \u2764" : "")
-                                )
-                                .addField(languageContext.get("commands.about.version"), MantaroInfo.VERSION, false)
-                                .addField(languageContext.get("commands.about.uptime"), Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()), false)
-                                .addField(languageContext.get("commands.about.shards"), String.valueOf(MantaroBot.getInstance().getShardedMantaro().getTotalShards()), true)
-                                .addField(languageContext.get("commands.about.threads"), String.format("%,d", Thread.activeCount()), true)
-                                .addField(languageContext.get("commands.about.guilds"), String.format("%,d", guilds.size()), true)
-                                .addField(languageContext.get("commands.about.users"), String.format("%,d", users.size()), true)
-                                .addField(languageContext.get("commands.about.tc"), String.format("%,d", textChannels.size()), true)
-                                .addField(languageContext.get("commands.about.vc"), String.format("%,d", voiceChannels.size()), true)
-                                .setFooter(String.format(languageContext.get("commands.about.invite"), CommandListener.getCommandTotalInt(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                                .build()).queue();
-                    }
-                };
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Read information about Mantaro.")
-                        .build();
-            }
-        });
-
-        aboutCommand.addSubCommand("patreon", new SubCommand() {
-            @Override
-            public String description() {
-                return "Lists the known Patreon supporters.";
-            }
-
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                Guild mantaroGuild = MantaroBot.getInstance().getGuildById("213468583252983809");
-                String donators = mantaroGuild.getMembers().stream().filter(member -> member.getRoles().stream().filter(role ->
-                                role.getName().equals("Patron")).collect(Collectors.toList()).size() > 0).map(Member::getUser)
-                                .map(user -> String.format("%s#%s", user.getName(), user.getDiscriminator()))
-                                .collect(Collectors.joining("\n"));
-
-                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
-                List<String> donatorList = DiscordUtils.divideString(300, donators);
-                List<String> messages = new LinkedList<>();
-                for(String s1 : donatorList) {
-                    messages.add(languageContext.get("commands.about.patreon.header") + "\n" +
-                            (hasReactionPerms ?
-                                languageContext.get("general.arrow_react") + " " :
-                                languageContext.get("general.text_menu")
-                            )
-                            + String.format("```%s```", s1));
-                }
-
-                //won't translate this
-                messages.add("Thanks to **MrLar#8117** for a $1025 donation and many other people who has donated once via paypal.");
-
-                if(hasReactionPerms) {
-                    DiscordUtils.list(event, 45, false, messages);
-                } else {
-                    DiscordUtils.listText(event, 45, false, messages);
-                }
-            }
-        });
-
-        aboutCommand.addSubCommand("credits", new SubCommand() {
-            @Override
-            public String description() {
-                return "Lists the bot's credits and who made it. Or me, well yes, who made me.";
-            }
-
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                EmbedBuilder builder = new EmbedBuilder();
-                builder.setAuthor("Credits.", null, event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                        .setColor(Color.LIGHT_GRAY)
-                        .setDescription(
-                                String.join("\n",
-                                        "**" + languageContext.get("commands.about.credits.main_dev") + "**: Kodehawa#3457",
-                                        "**" + languageContext.get("commands.about.credits.dev") + "**: AdrianTodt#0722",
-                                        "**" + languageContext.get("commands.about.credits.dev") + "**:  Natan#1289",
-                                        "**" + languageContext.get("commands.about.credits.docs") + "**:  MrLar#8117 & Yuvira#7832",
-                                        "**" + languageContext.get("commands.about.credits.community_admin") + "**:  MrLar#8117"
-                                ))
-                        .addField("Special mentions",
-                                languageContext.get("commands.about.credits.special_mentions"), false)
-                        .setFooter(languageContext.get("commands.about.credits.thank_note"), event.getJDA().getSelfUser().getEffectiveAvatarUrl());
-                event.getChannel().sendMessage(builder.build()).queue();
-            }
-        });
-    }
 
     @Subscribe
     public void donate(CommandRegistry cr) {

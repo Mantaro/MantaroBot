@@ -91,6 +91,8 @@ public class ItemCmds {
 
                         //Argument parsing.
                         Map<String, String> t = getArguments(arguments);
+                        content = Utils.replaceArguments(t, "season", "s");
+
                         boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
                         boolean isMultiple = t.containsKey("amount");
 
@@ -116,7 +118,12 @@ public class ItemCmds {
 
                         int amountSpecified = 1;
                         try {
-                            amountSpecified = isMultiple ? Math.max(1, Integer.parseInt(t.get("amount"))) : 1;
+                            if(isMultiple)
+                                amountSpecified = Math.max(1, Integer.parseInt(t.get("amount")));
+                            else if(arguments.length > 2)
+                                amountSpecified = Integer.parseInt(arguments[2]);
+                            else if(!optionalWrench.isPresent() && arguments.length > 1)
+                                amountSpecified = Integer.parseInt(arguments[1]);
                         } catch (Exception ignored) { }
 
                         Item castItem = toCast.get();
@@ -253,7 +260,8 @@ public class ItemCmds {
                 return new HelpContent.Builder()
                         .setDescription("Allows you to cast any castable item given you have the necessary elements.\n" +
                                 "Casting requires you to have the necessary materials to cast the item, and it has a cost of `item value / 2`.\n" +
-                                "Cast-able items are only able to be acquired by this command. They're non-buyable items, though you can sell them for a profit.")
+                                "Cast-able items are only able to be acquired by this command. They're non-buyable items, though you can sell them for a profit.\n" +
+                                "If you specify the item and the wrench, you can use amount without -amount. Example: `~>cast \"diamond pickaxe\" \"sparkle wrench\" 10`")
                         .setUsage("`~>cast <item> [wrench] [-amount <amount>]` - Casts the item you provide.")
                         .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
                         .addParameterOptional("wrench", "The wrench name or emoji. If the name contains spaces \"wrap it in quotes\"")
