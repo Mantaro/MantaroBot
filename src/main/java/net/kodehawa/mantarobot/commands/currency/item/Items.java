@@ -151,7 +151,7 @@ public class Items {
             GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 14, 3, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(), "Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 800, "1;3;1", 44, 74, 18),
             FISH_4 = new Fish(ItemType.FISHING_RARE, 5, "\uD83D\uDC1A","Shell", "items.shell", "items.description.shell", 1150, false),
             FISH_5 = new Fish(ItemType.FISHING_RARE, 10, "\uD83E\uDD88","Shark", "items.shark", "items.description.shark", 600, false),
-            WRENCH_COMET = new Wrench(ItemType.WRENCH, 85, 3, 0.90d, EmoteReference.COMET_WRENCH.getDiscordNotation(), "Comet Wrench", "items.star_wrench", "items.description.star_wrench", 200, true, false, "1;2;2", 59, 48, 83),
+            WRENCH_COMET = new Wrench(ItemType.WRENCH, 90, 3, 0.90d, EmoteReference.COMET_WRENCH.getDiscordNotation(), "Comet Wrench", "items.star_wrench", "items.description.star_wrench", 200, true, false, "1;2;2", 59, 48, 83),
             WRENCH_SPARKLE = new Wrench(ItemType.WRENCH, 96, 4, 0.65d, EmoteReference.SPARKLE_WRENCH.getDiscordNotation(), "Sparkle Wrench", "items.sparkle_wrench", "items.description.sparkle_wrench", 500, true, false, "1;2;1;2;1", 59, 74, 18, 83, 84),
             FISH_6 = new Fish(ItemType.FISHING, 2, "\uD83E\uDD80","Crab", "items.crab", "items.description.crab", 30, false),
             FISH_7 = new Fish(ItemType.FISHING, 3, "\uD83E\uDD91","Squid", "items.squid", "items.description.squid", 35, false),
