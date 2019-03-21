@@ -91,7 +91,7 @@ public class ItemCmds {
 
                         //Argument parsing.
                         Map<String, String> t = getArguments(arguments);
-                        content = Utils.replaceArguments(t, content, "season", "s");
+                        content = Utils.replaceArguments(t, content, "season", "s").trim();
 
                         boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
                         boolean isMultiple = t.containsKey("amount");
@@ -102,7 +102,7 @@ public class ItemCmds {
                         DBUser user = db.getUser(event.getMember());
 
                         //Why
-                        Optional<Item> toCast = Items.fromAnyNoId(arguments.length > 1 ? arguments[0] : content);
+                        Optional<Item> toCast = Items.fromAnyNoId(arguments[0]);
                         Optional<Item> optionalWrench = Optional.empty();
 
                         if(arguments.length > 1)
