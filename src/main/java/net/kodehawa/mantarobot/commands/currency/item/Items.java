@@ -28,10 +28,12 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.utils.RandomCollection;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import org.checkerframework.checker.nullness.Opt;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -114,7 +116,7 @@ public class Items {
             POTION_HASTE = new Potion(ItemType.POTION, 2, "\uD83C\uDF76","Haste Potion", "items.haste", "items.description.haste", 490, true),
             POTION_CLEAN = new Item(ItemType.POTION, "\uD83C\uDF7C","Milky Potion", "items.milky", "items.description.milky", 50, true),
             POTION_STAMINA = new Potion(ItemType.POTION, 3, "\uD83C\uDFFA","Energy Beverage", "items.energy", "items.description.energy", 450, true),
-            FISHING_ROD = new FishRod(ItemType.INTERACTIVE, 3, 1, 25, "\uD83C\uDFA3", "Fishing Rod", "items.rod", "items.description.rod", 65, true, "", 0),
+            FISHING_ROD = new FishRod(ItemType.INTERACTIVE, 3, 1, 25, "\uD83C\uDFA3", "Fishing Rod", "Rod", "items.rod", "items.description.rod", 65, true, "", 0),
             FISH_1 = new Fish(ItemType.FISHING, 1, "\uD83D\uDC1F","Fish", "items.fish", "items.description.fish", 10, false),
             FISH_2 = new Fish(ItemType.FISHING, 2, "\uD83D\uDC20","Tropical Fish", "items.tropical_fish", "items.description.tropical_fish", 30, false),
             FISH_3 = new Fish(ItemType.FISHING, 3, "\uD83D\uDC21","Blowfish", "items.blowfish", "items.description.blowfish", 15, false),
@@ -143,8 +145,8 @@ public class Items {
             FISH_CRATE = new Item(ItemType.CRATE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Treasure",  "items.fish_crate","items.description.fish_crate", 0, false, false, true,  (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.FISH, 67, EmoteReference.FISH_CRATE, 3)),
             FISH_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_FISH_CRATE.getDiscordNotation(),"Fish Premium Treasure",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true, (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.FISH_PREMIUM, 68, EmoteReference.PREMIUM_FISH_CRATE, 5)),
             MINE_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_MINE_CRATE.getDiscordNotation(),"Gem Premium Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true, (event, context) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.PREMIUM_MINE_CRATE, 5)),
-            GEM1_ROD = new FishRod(ItemType.CAST_FISH, 6, 1, 15, EmoteReference.COMET_ROD.getDiscordNotation(), "Comet Gem Rod", "items.comet_rod", "items.description.comet_rod", 150, "1;3", 44, 48),
-            GEM2_ROD = new FishRod(ItemType.CAST_FISH, 9, 2, 10, EmoteReference.STAR_ROD.getDiscordNotation(), "Star Gem Rod", "items.star_rod", "items.description.star_rod", 250, "1;3", 44, 49),
+            GEM1_ROD = new FishRod(ItemType.CAST_FISH, 6, 1, 15, EmoteReference.COMET_ROD.getDiscordNotation(), "Comet Gem Rod", "Comet Rod", "items.comet_rod", "items.description.comet_rod", 150, "1;3", 44, 48),
+            GEM2_ROD = new FishRod(ItemType.CAST_FISH, 9, 2, 10, EmoteReference.STAR_ROD.getDiscordNotation(), "Star Gem Rod", "Star Rod", "items.star_rod", "items.description.star_rod", 250, "1;3", 44, 49),
             GEM5_ROD = new FishRod(ItemType.COMMON, 3, -1, -1,"\uD83C\uDFA3", "Old Sparkle Rod", "general.deprecated", "general.deprecated", 65, "",2),
             GEM5_PICKAXE_2 = new Pickaxe(ItemType.MINE_RARE_PICK, 0.06f, 3, 5, EmoteReference.SPARKLE_PICK.getDiscordNotation(),"Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 1200, true, false, "1;3;1", 10, 74, 18),
             GEM5_2 = new Item(ItemType.MINE_RARE, "\u2728", "Sparkle Fragment", "items.sparkle", "items.description.sparkle", 605, false),
@@ -436,6 +438,10 @@ public class Items {
         if(itemOptional.isPresent())
             return itemOptional;
 
+        itemOptional = fromAlias(any);
+        if(itemOptional.isPresent())
+            return itemOptional;
+
         itemOptional = fromName(any);
         if(itemOptional.isPresent())
             return itemOptional;
@@ -456,7 +462,17 @@ public class Items {
         return Arrays.stream(ALL).filter(item -> item.getName().toLowerCase().trim().equals(name.toLowerCase().trim())).findFirst();
     }
 
-    public static Optional<Item> fromPartialName(String name) {
+    public static Optional<Item> fromAlias(String name) {
+        return Arrays.stream(ALL).filter(item -> {
+            if(item.getAlias() == null) {
+                return false;
+            }
+
+            return item.getAlias().toLowerCase().trim().equals(name.toLowerCase().trim());
+        }).findFirst();
+    }
+
+        public static Optional<Item> fromPartialName(String name) {
         return Arrays.stream(ALL).filter(item -> item.getName().toLowerCase().trim().contains(name.toLowerCase().trim())).findFirst();
     }
 

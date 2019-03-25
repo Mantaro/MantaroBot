@@ -49,12 +49,10 @@ public class Item {
     private ItemType itemType;
     @Getter
     private String translatedName;
+    @Getter
+    private String alias;
 
-    public Item(ItemType type, String emoji, String name, String translatedName, String desc, long value) {
-        this(type, emoji, name, translatedName, desc, value, true, true, false, 100, null, "");
-    }
-
-    public Item(ItemType type, String emoji, String name, String translatedName, String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize, BiPredicate<GuildMessageReceivedEvent, Pair<I18nContext, String>> action, String recipe, int... recipeTypes) {
+    public Item(ItemType type, String emoji, String name, String alias, String translatedName, String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize, BiPredicate<GuildMessageReceivedEvent, Pair<I18nContext, String>> action, String recipe, int... recipeTypes) {
         this.emoji = emoji;
         this.name = name;
         this.desc = desc;
@@ -69,35 +67,56 @@ public class Item {
         this.recipe = recipe;
         this.recipeTypes = recipeTypes;
         this.translatedName = translatedName;
+        this.alias = alias;
         log.debug("Registered item {}: {}", name, this.toVerboseString());
     }
 
+    public Item(ItemType type, String emoji, String name, String alias, String translatedName, String desc, long value) {
+        this(type, emoji, name, alias, translatedName, desc, value, true, true, false, 100, null, "");
+    }
+
+    public Item(ItemType type, String emoji, String name, String translatedName, String desc, long value) {
+        this(type, emoji, name, null, translatedName, desc, value, true, true, false, 100, null, "");
+    }
+
+    public Item(ItemType type, String emoji, String name, String alias, String translatedName, String desc, long value, boolean sellable, boolean buyable) {
+        this(type, emoji, name, alias, translatedName, desc, value, sellable, buyable, false, 100, null, "");
+    }
+
     public Item(ItemType type, String emoji, String name, String translatedName, String desc, long value, boolean sellable, boolean buyable) {
-        this(type, emoji, name, translatedName, desc, value, sellable, buyable, false, 100, null, "");
+        this(type, emoji, name, null, translatedName, desc, value, sellable, buyable, false, 100, null, "");
+    }
+
+    public Item(ItemType type, String emoji, String name, String alias, String translatedName, String desc, long value, boolean sellable, boolean buyable, String recipe, int... recipeTypes) {
+        this(type, emoji, name, alias, translatedName, desc, value, sellable, buyable, false, 100, null, recipe, recipeTypes);
     }
 
     public Item(ItemType type, String emoji, String name, String translatedName, String desc, long value, boolean sellable, boolean buyable, String recipe, int... recipeTypes) {
-        this(type, emoji, name, translatedName, desc, value, sellable, buyable, false, 100, null, recipe, recipeTypes);
+        this(type, emoji, name, null, translatedName, desc, value, sellable, buyable, false, 100, null, recipe, recipeTypes);
     }
 
     public Item(ItemType type, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
-        this(type, emoji, name, translatedName, desc, value, true, buyable, false, 100, null, "");
+        this(type, emoji, name, null, translatedName, desc, value, true, buyable, false, 100, null, "");
+    }
+
+    public Item(ItemType type, String emoji, String name, String alias, String translatedName, String desc, long value, boolean buyable) {
+        this(type, emoji, name, alias, translatedName, desc, value, true, buyable, false, 100, null, "");
     }
 
     public Item(ItemType type, String emoji, String name, String translatedName, String desc, long value, boolean sellable, boolean buyable, boolean hidden) {
-        this(type, emoji, name, translatedName, desc, value, sellable, buyable, hidden, 100, null, "");
+        this(type, emoji, name, null, translatedName, desc, value, sellable, buyable, hidden, 100, null, "");
     }
 
     public Item(ItemType type, String emoji, String name, String translatedName, String desc, long value, boolean sellable, boolean buyable, BiPredicate<GuildMessageReceivedEvent, Pair<I18nContext, String>> action) {
-        this(type, emoji, name, translatedName, desc, value, sellable, buyable, false, 100, action, "");
+        this(type, emoji, name, null, translatedName, desc, value, sellable, buyable, false, 100, action, "");
     }
 
     public Item(ItemType type, String emoji, String name, String translatedName, String desc, long value, boolean buyable, BiPredicate<GuildMessageReceivedEvent, Pair<I18nContext, String>> action) {
-        this(type, emoji, name, translatedName, desc, value, true, buyable, false, 100, action, "");
+        this(type, emoji, name, null, translatedName, desc, value, true, buyable, false, 100, action, "");
     }
 
     public Item(ItemType type, String emoji, String name, String translatedName, String desc, long value, boolean sellable, boolean buyable, boolean hidden, BiPredicate<GuildMessageReceivedEvent, Pair<I18nContext, String>> action) {
-        this(type, emoji, name, translatedName, desc, value, sellable, buyable, hidden, 100, action, "");
+        this(type, emoji, name, null, translatedName, desc, value, sellable, buyable, hidden, 100, action, "");
     }
 
     /**
@@ -109,7 +128,7 @@ public class Item {
      * @param desc  A short description, normally used in inventory.
      */
     public Item(String emoji, String name, String desc) {
-        this(ItemType.COLLECTABLE, emoji, name, "", desc, 0, false, false, true, 100, null, "");
+        this(ItemType.COLLECTABLE, emoji, name, null, "", desc, 0, false, false, true, 100, null, "");
     }
 
     @Override
