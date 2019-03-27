@@ -49,6 +49,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.RateLimit;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.security.SecureRandom;
@@ -85,15 +86,23 @@ public class MoneyCmds {
 
     @Subscribe
     public void daily(CommandRegistry cr) {
-        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 24);
+        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                .limit(1)
+                .cooldown(24, TimeUnit.HOURS)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("daily")
+                .build();
+
         Random r = new Random();
         cr.register("daily", new SimpleCommand(Category.CURRENCY) {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length > 0 && event.getMessage().getMentionedUsers().isEmpty() && args[0].equalsIgnoreCase("-check")) {
+                    RateLimit rateLimit = rateLimiter.limit(event.getAuthor().getId());
+
                     event.getChannel().sendMessageFormat(languageContext.get("commands.daily.check"), EmoteReference.TALKING,
-                            (rateLimiter.tryAgainIn(event.getAuthor()) > 0 ?
-                                    Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor())) : languageContext.get("commands.daily.about_now"))
+                            (rateLimit.getCooldown()) > 0 ?
+                                    Utils.getHumanizedTime(rateLimit.getCooldown()) : languageContext.get("commands.daily.about_now")
                     ).queue();
                     return;
                 }
@@ -118,7 +127,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
                 PlayerData playerData = player.getData();

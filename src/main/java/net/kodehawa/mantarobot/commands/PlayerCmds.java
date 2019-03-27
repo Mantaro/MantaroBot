@@ -57,6 +57,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.RateLimit;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -85,18 +86,23 @@ public class PlayerCmds {
     @Subscribe
     public void rep(CommandRegistry cr) {
         cr.register("rep", new SimpleCommand(Category.CURRENCY) {
-            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 12);
+            final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                    .limit(1)
+                    .cooldown(12, TimeUnit.HOURS)
+                    .pool(MantaroData.getDefaultJedisPool())
+                    .prefix("rep")
+                    .build();
 
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                long rl = rateLimiter.tryAgainIn(event.getMember());
+                RateLimit rateLimit = rateLimiter.limit(event.getAuthor().getId());
+                long rl = rateLimit.getCooldown();
 
                 User user;
 
                 if(content.isEmpty()) {
                     event.getChannel().sendMessage(String.format(languageContext.get("commands.rep.no_mentions"), EmoteReference.ERROR,
-                            (rl > 0 ?  String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())))
-                             : languageContext.get("commands.rep.cooldown.pass")))).queue();
+                            (rl > 0 ?  String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.getVerboseTime(rl) : languageContext.get("commands.rep.cooldown.pass")))).queue();
                     return;
                 }
 
