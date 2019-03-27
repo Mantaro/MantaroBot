@@ -538,7 +538,7 @@
       "buyslot": {
         "locked": "%1$sYou're currently unable to perform this action.",
         "not_enough_money": "%1$sYou don't have enough money to buy more slots! You need %2$d credits.",
-        "success": "%1$sSuccessfully bought this slot for %2$s, you currently have %3s total slots and %4$s available slots.",
+        "success": "%1$sSuccessfully bought this slot for %2$s, you currently have %3$s total slots and %4$s available slots.",
         "too_many": "%1$sYou already have too many slots!"
       },
       "header": "Waifu List",
