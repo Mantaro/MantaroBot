@@ -877,6 +877,10 @@ public class CurrencyCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Player p = MantaroData.db().getPlayer(event.getAuthor());
                 Item item = Items.fromAnyNoId(content).orElse(null);
+                //Argument parsing.
+                Map<String, String> t = getArguments(args);
+                content = Utils.replaceArguments(t, content, "season", "s").trim();
+
                 if(item == null || content.isEmpty())
                     item = Items.LOOT_CRATE;
 
@@ -891,7 +895,7 @@ public class CurrencyCmds {
                 }
 
                 //Ratelimit handled here
-                item.getAction().test(event, Pair.of(languageContext, content));
+                item.getAction().test(event, Pair.of(languageContext, content), t.containsKey("season"));
             }
 
             @Override
@@ -1010,7 +1014,7 @@ public class CurrencyCmds {
                             return;
                         }
 
-                        item.getAction().test(event, Pair.of(languageContext, content));
+                        item.getAction().test(event, Pair.of(languageContext, content), false);
                     }
                 };
             }
@@ -1078,7 +1082,7 @@ public class CurrencyCmds {
         cr.register("fish", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Items.FISHING_ROD.getAction().test(event, Pair.of(languageContext, content));
+                Items.FISHING_ROD.getAction().test(event, Pair.of(languageContext, content), false);
             }
 
 
