@@ -117,7 +117,8 @@
       "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?",
       "fossil_success": "%1$sYou caught a fossil while trying to find a fish. This might be worth a fair bit or be used for casting, I believe.",
       "bait": "The fish ate your bait in the process!",
-      "missing_equipped": "%1$sYou had an equipped %2$s rod, but you no longer have any of its kind on your inventory! Equipped rod has been reset."
+      "missing_equipped": "%1$sYou had an equipped %2$s rod, but you no longer have any of its kind on your inventory! Equipped rod has been reset.",
+      "broken_drop": "%1$sYour rod broke, but you can repair it. Got broken item: %2$s *%3$s*"
     },
     "softban": {
       "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
@@ -1937,6 +1938,9 @@
     "broken_comet_pick": "Broken Comet Pick",
     "broken_sparkle_pick": "Broken Sparkle Pick",
     "broken_star_pick": "Broken Star Pick",
+    "broken_comet_rod": "Broken Comet Rod",
+    "broken_sparkle_rod": "Broken Sparkle Rod",
+    "broken_star_rod": "Broken Star Rod",
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
       "ban_hammer": "Left by an admin.",
@@ -2022,7 +2026,11 @@
       "flake": "Snowflake. Usually used as a cast ingredient.",
       "broken_comet_pick": "A comet pick that broke while mining. Still salvageable.",
       "broken_sparkle_pick": "A sparkle pick that broke while mining. Still salvageable.",
-      "broken_star_pick": "A star pick that broke while mining. Still salvageable."
+      "broken_star_pick": "A star pick that broke while mining. Still salvageable.",
+      "broken_comet_rod": "A comet rod that broke while mining. Still salvageable.",
+      "broken_sparkle_rod": "A sparkle rod that broke while mining. Still salvageable.",
+      "broken_star_rod": "A star rod that broke while mining. Still salvageable."
+
     }
   },
   "test": {

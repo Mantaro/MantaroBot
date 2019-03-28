@@ -28,12 +28,10 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
-import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.utils.RandomCollection;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
-import org.checkerframework.checker.nullness.Opt;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -54,7 +52,7 @@ public class Items {
             POTION_STAMINA, FISHING_ROD, FISH_1, FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE,
             TELEVISION, WRENCH, MOTORCYCLE, GEM1_PICKAXE, GEM2_PICKAXE, PIZZA, GEM_5, GEM5_PICKAXE, MINE_CRATE, FISH_CRATE, FISH_PREMIUM_CRATE, MINE_PREMIUM_CRATE,
             GEM1_ROD, GEM2_ROD, GEM5_ROD, GEM5_PICKAXE_2, GEM5_2, GEM5_ROD_2, FISH_4, FISH_5, WRENCH_COMET, WRENCH_SPARKLE, FISH_6, FISH_7, FISH_8, GEM_6, GEM_7, BROKEN_SPARKLE_PICK,
-            BROKEN_COMET_PICK, BROKEN_STAR_PICK;
+            BROKEN_COMET_PICK, BROKEN_STAR_PICK, BROKEN_COMET_ROD, BROKEN_STAR_ROD, BROKEN_SPARKLE_ROD;
 
     private static final Random r = new Random();
     private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 4);
@@ -163,6 +161,9 @@ public class Items {
             BROKEN_SPARKLE_PICK = new Broken(73, EmoteReference.BROKEN_SPARKLE_PICK.getDiscordNotation(), "Broken Sparkle Pick", "items.broken_sparkle_pick", "items.description.broken_sparkle_pick", 100, "1,74;4,84;2,50"),
             BROKEN_COMET_PICK = new Broken(61, EmoteReference.BROKEN_COMET_PICK.getDiscordNotation(), "Broken Comet Pick", "items.broken_comet_pick", "items.description.broken_comet_pick", 40, "1,48;3,84;2,50"),
             BROKEN_STAR_PICK = new Broken(62, EmoteReference.BROKEN_STAR_PICK.getDiscordNotation(), "Broken Star Pick", "items.broken_star_pick", "items.description.broken_star_pick", 40, "1,49;3,84;3,50"),
+            BROKEN_SPARKLE_ROD = new Broken(75, EmoteReference.BROKEN_SPARKLE_ROD.getDiscordNotation(), "Broken Sparkle Rod", "items.broken_sparkle_rod", "items.description.broken_sparkle_rod", 90, "1,74;4,84;2,50"),
+            BROKEN_COMET_ROD = new Broken(70, EmoteReference.BROKEN_COMET_ROD.getDiscordNotation(), "Broken Comet Rod", "items.broken_comet_rod", "items.description.broken_comet_rod", 30, "1,48;3,84;2,50"),
+            BROKEN_STAR_ROD = new Broken(71, EmoteReference.BROKEN_STAR_ROD.getDiscordNotation(), "Broken Star Rod", "items.broken_star_rod", "items.description.broken_star_rod", 30, "1,49;3,84;3,50"),
     };
 
 
@@ -244,15 +245,22 @@ public class Items {
             int breakRatio = item.getBreakRatio();
             //old: handlePotion(POTION_STAMINA, 4, p)
             if(r.nextInt(100) > (handleEffect(PlayerEquipment.EquipmentType.POTION, u.getData().getEquippedItems(), POTION_STAMINA, u) ? breakRatio + 7 : breakRatio)) {
-                //Your rod is done for, rip.
-                event.getChannel().sendMessageFormat(lang.get("commands.fish.rod_broke"), EmoteReference.SAD).queue();
                 //Remove the item from the player inventory.
                 playerInventory.process(new ItemStack(item, -1));
+                String broken = "";
+                Item brokenItem = getBrokenItemFrom(item);
+                if(brokenItem != null && r.nextInt(100) > 20) {
+                    broken = "\n" + String.format(lang.get("commands.fish.broken_drop"), EmoteReference.HEART, brokenItem.getEmoji(), brokenItem.getName());
+                    playerInventory.process(new ItemStack(brokenItem, 1));
+                }
+
                 if(isSeasonal)
                     sp.save();
                 else
                     p.save();
 
+                //Your rod is done for, rip.
+                event.getChannel().sendMessageFormat(lang.get("commands.fish.rod_broke") + broken, EmoteReference.SAD).queue();
                 return false;
             } else {
                 int select = random.nextInt(100);
