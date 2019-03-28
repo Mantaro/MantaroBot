@@ -89,14 +89,15 @@ public class PlayerCmds {
             final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                     .limit(1)
                     .cooldown(12, TimeUnit.HOURS)
+                    .maxCooldown(12, TimeUnit.HOURS)
                     .pool(MantaroData.getDefaultJedisPool())
+                    .randomIncrement(false)
                     .prefix("rep")
                     .build();
 
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                RateLimit rateLimit = rateLimiter.limit(event.getAuthor().getId());
-                long rl = rateLimit.getCooldown();
+                long rl = rateLimiter.getRemaniningCooldown(event.getAuthor());
 
                 User user;
 
@@ -131,7 +132,6 @@ public class PlayerCmds {
                     return;
                 }
 
-
                 if(user.isBot()) {
                     event.getChannel().sendMessage(String.format(languageContext.get("commands.rep.rep_bot"), EmoteReference.THINKING,
                             (rl > 0 ? String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.getVerboseTime(rl))
@@ -147,7 +147,7 @@ public class PlayerCmds {
                 }
 
                 //Check for RL.
-                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext, false))
                     return;
 
                 UnifiedPlayer player = UnifiedPlayer.of(user, getConfig().getCurrentSeason());

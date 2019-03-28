@@ -624,7 +624,7 @@ public class Utils {
         return true;
     }
 
-    public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context) {
+    public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context, boolean spamAware) {
         if(context == null) {
             //en_US
             context = new I18nContext(null, null);
@@ -635,8 +635,8 @@ public class Utils {
             event.getChannel().sendMessage(
                     String.format(context.get("general.ratelimit.header"),
                             EmoteReference.STOPWATCH, context.get("general.ratelimit_quotes"), Utils.getHumanizedTime(rateLimit.getCooldown()))
-                    + (rateLimit.getSpamAttempts() > 2 ? "\n\n" + EmoteReference.STOP + context.get("general.ratelimit.spam_1") : "")
-                    + (rateLimit.getSpamAttempts() > 4 ? context.get("general.ratelimit.spam_2") : "")
+                    + ((rateLimit.getSpamAttempts() > 2 && spamAware) ? "\n\n" + EmoteReference.STOP + context.get("general.ratelimit.spam_1") : "")
+                    + ((rateLimit.getSpamAttempts() > 4  && spamAware) ? context.get("general.ratelimit.spam_2") : "")
             ).queue();
 
             onRateLimit(u);
@@ -644,6 +644,10 @@ public class Utils {
         }
 
         return true;
+    }
+
+    public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context) {
+        return handleDefaultIncreasingRatelimit(rateLimiter, u, event, context, true);
     }
 
     private static void onRateLimit(User user) {

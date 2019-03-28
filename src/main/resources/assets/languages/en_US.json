@@ -1076,7 +1076,7 @@
       "too_many_games": "%1$sYou can start a maximum of 4 games at the same time with game lobby. (With Premium: 8)"
     },
     "opencrate": {
-      "no_crate": "%1$sYou don't have any loot crate of this type to open :( (If you're trying to open a crate of any other than the default type, use the name of the crate after the command)",
+      "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command. If you want to use seasonal inventory, append `-s`)",
       "not_crate": "%1$sThat is not a valid loot crate."
     },
     "prune": {

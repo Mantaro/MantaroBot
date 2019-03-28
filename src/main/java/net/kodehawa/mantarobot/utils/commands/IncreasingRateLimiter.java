@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.utils.commands;
 
+import net.dv8tion.jda.core.entities.User;
 import org.apache.commons.io.IOUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -25,6 +26,7 @@ public class IncreasingRateLimiter {
     private final int cooldownIncrease;
     private final int maxCooldown;
     private String scriptSha;
+    private boolean randomIncrement;
 
     static {
         try {
@@ -34,7 +36,7 @@ public class IncreasingRateLimiter {
         }
     }
 
-    private IncreasingRateLimiter(JedisPool pool, String prefix, int limit, int cooldown, int spamBeforeCooldownIncrease, int cooldownIncrease, int maxCooldown) {
+    private IncreasingRateLimiter(JedisPool pool, String prefix, int limit, int cooldown, int spamBeforeCooldownIncrease, int cooldownIncrease, int maxCooldown, boolean randomIncrement) {
         this.pool = pool;
         this.prefix = prefix;
         this.limit = limit;
@@ -42,6 +44,7 @@ public class IncreasingRateLimiter {
         this.spamBeforeCooldownIncrease = spamBeforeCooldownIncrease;
         this.cooldownIncrease = cooldownIncrease;
         this.maxCooldown = maxCooldown;
+        this.randomIncrement = randomIncrement;
     }
 
     @SuppressWarnings("unchecked")
@@ -58,7 +61,7 @@ public class IncreasingRateLimiter {
                         Arrays.asList(
                                 String.valueOf(limit),
                                 String.valueOf(start),
-                                String.valueOf(cooldown + ThreadLocalRandom.current().nextInt(cooldown / 4)),
+                                String.valueOf(cooldown + (randomIncrement ? ThreadLocalRandom.current().nextInt(cooldown / 4) : 0)),
                                 String.valueOf(spamBeforeCooldownIncrease),
                                 String.valueOf(cooldownIncrease),
                                 String.valueOf(maxCooldown)
@@ -83,6 +86,17 @@ public class IncreasingRateLimiter {
         return limit0(prefix + key);
     }
 
+    public long getRemaniningCooldown(User user) {
+        try(Jedis j = pool.getResource()) {
+            String resetAt = j.hget(prefix + user.getId(), "reset");
+            if(resetAt == null) {
+                return 0;
+            }
+
+            return Long.parseLong(resetAt) - System.currentTimeMillis();
+        }
+    }
+
     public static class Builder {
         private JedisPool pool;
         private String prefix = "";
@@ -91,9 +105,15 @@ public class IncreasingRateLimiter {
         private int cooldownPenaltyIncrease;
         private int spamTolerance;
         private int maxCooldown;
+        private boolean randomIncrement = true;
 
         public Builder pool(JedisPool pool) {
             this.pool = pool;
+            return this;
+        }
+
+        public Builder randomIncrement(boolean incr) {
+            this.randomIncrement = incr;
             return this;
         }
 
@@ -156,7 +176,7 @@ public class IncreasingRateLimiter {
             if(cooldown < 0) {
                 throw new IllegalStateException("Cooldown must be set");
             }
-            return new IncreasingRateLimiter(pool, prefix, limit, cooldown, spamTolerance, cooldownPenaltyIncrease, maxCooldown);
+            return new IncreasingRateLimiter(pool, prefix, limit, cooldown, spamTolerance, cooldownPenaltyIncrease, maxCooldown, randomIncrement);
         }
     }
 }

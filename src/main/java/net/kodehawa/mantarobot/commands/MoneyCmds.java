@@ -89,6 +89,8 @@ public class MoneyCmds {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .limit(1)
                 .cooldown(24, TimeUnit.HOURS)
+                .maxCooldown(24, TimeUnit.HOURS)
+                .randomIncrement(false)
                 .pool(MantaroData.getDefaultJedisPool())
                 .prefix("daily")
                 .build();
@@ -98,11 +100,10 @@ public class MoneyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(args.length > 0 && event.getMessage().getMentionedUsers().isEmpty() && args[0].equalsIgnoreCase("-check")) {
-                    RateLimit rateLimit = rateLimiter.limit(event.getAuthor().getId());
+                    long rl = rateLimiter.getRemaniningCooldown(event.getAuthor());
 
                     event.getChannel().sendMessageFormat(languageContext.get("commands.daily.check"), EmoteReference.TALKING,
-                            (rateLimit.getCooldown()) > 0 ?
-                                    Utils.getHumanizedTime(rateLimit.getCooldown()) : languageContext.get("commands.daily.about_now")
+                            (rl) > 0 ? Utils.getHumanizedTime(rl) : languageContext.get("commands.daily.about_now")
                     ).queue();
                     return;
                 }
@@ -127,7 +128,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext, false))
                     return;
 
                 PlayerData playerData = player.getData();
