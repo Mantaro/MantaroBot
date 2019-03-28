@@ -102,7 +102,7 @@ public class PlayerCmds {
 
                 if(content.isEmpty()) {
                     event.getChannel().sendMessage(String.format(languageContext.get("commands.rep.no_mentions"), EmoteReference.ERROR,
-                            (rl > 0 ?  String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.getVerboseTime(rl) : languageContext.get("commands.rep.cooldown.pass")))).queue();
+                            (rl > 0 ?  String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.getVerboseTime(rl)) : languageContext.get("commands.rep.cooldown.pass")))).queue();
                     return;
                 }
 
