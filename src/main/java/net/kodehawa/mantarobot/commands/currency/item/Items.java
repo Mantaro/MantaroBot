@@ -140,6 +140,7 @@ public class Items {
             GEM_5 = new Item(ItemType.COMMON, "\u200B", "Old Sparkle Fragment", "general.deprecated", "general.deprecated", 0, false, false),
             GEM5_PICKAXE = new Item(ItemType.COMMON, "\u26cf","Old Sparkle Pickaxe", "general.deprecated", "general.deprecated", 550, true, false),
             MINE_CRATE = new Item(ItemType.CRATE, EmoteReference.MINE_CRATE.getDiscordNotation(),"Gem Crate",  "items.mine_crate","items.description.mine_crate", 0, false, false, true,  (event, context, season) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.MINE, 66, EmoteReference.MINE_CRATE, 3, season)),
+            // ---------------------------------- 5.0 FISH ITEMS START HERE ----------------------------------
             FISH_CRATE = new Item(ItemType.CRATE, EmoteReference.FISH_CRATE.getDiscordNotation(),"Fish Treasure",  "items.fish_crate","items.description.fish_crate", 0, false, false, true,  (event, context, season) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.FISH, 67, EmoteReference.FISH_CRATE, 3, season)),
             FISH_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_FISH_CRATE.getDiscordNotation(),"Fish Premium Treasure",  "items.fish_premium_crate","items.description.fish_premium_crate", 0, false, false, true, (event, context, season)-> openLootCrate(event, context.getLeft(), ItemType.LootboxType.FISH_PREMIUM, 68, EmoteReference.PREMIUM_FISH_CRATE, 5, season)),
             MINE_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_MINE_CRATE.getDiscordNotation(),"Gem Premium Crate",  "items.mine_premium_crate","items.description.mine_premium_crate", 0, false, false, true, (event, context, season) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.PREMIUM_MINE_CRATE, 5, season)),
@@ -158,12 +159,14 @@ public class Items {
             FISH_8 = new Fish(ItemType.FISHING, 3, "\uD83E\uDD90","Shrimp", "items.shrimp", "items.description.shrimp", 35, false),
             GEM_6 = new Item(ItemType.MINE, "\uD83C\uDF19", "Moon Runes", "items.moon", "items.description.moon", 100, false),
             GEM_7 = new Item(ItemType.MINE, "\u2744\uFE0F", "Snowflake", "items.flake", "items.description.flake", 25, false),
+            // ---------------------------------- 5.3 BROKEN ITEMS START HERE ----------------------------------
             BROKEN_SPARKLE_PICK = new Broken(73, EmoteReference.BROKEN_SPARKLE_PICK.getDiscordNotation(), "Broken Sparkle Pick", "items.broken_sparkle_pick", "items.description.broken_sparkle_pick", 100, "1,74;4,84;2,50"),
             BROKEN_COMET_PICK = new Broken(61, EmoteReference.BROKEN_COMET_PICK.getDiscordNotation(), "Broken Comet Pick", "items.broken_comet_pick", "items.description.broken_comet_pick", 40, "1,48;3,84;2,50"),
             BROKEN_STAR_PICK = new Broken(62, EmoteReference.BROKEN_STAR_PICK.getDiscordNotation(), "Broken Star Pick", "items.broken_star_pick", "items.description.broken_star_pick", 40, "1,49;3,84;3,50"),
             BROKEN_SPARKLE_ROD = new Broken(75, EmoteReference.BROKEN_SPARKLE_ROD.getDiscordNotation(), "Broken Sparkle Rod", "items.broken_sparkle_rod", "items.description.broken_sparkle_rod", 90, "1,74;4,84;2,50"),
             BROKEN_COMET_ROD = new Broken(70, EmoteReference.BROKEN_COMET_ROD.getDiscordNotation(), "Broken Comet Rod", "items.broken_comet_rod", "items.description.broken_comet_rod", 30, "1,48;3,84;2,50"),
             BROKEN_STAR_ROD = new Broken(71, EmoteReference.BROKEN_STAR_ROD.getDiscordNotation(), "Broken Star Rod", "items.broken_star_rod", "items.description.broken_star_rod", 30, "1,49;3,84;3,50"),
+            // ---------------------------------- 5.3 BROKEN ITEMS END HERE ----------------------------------
     };
 
 

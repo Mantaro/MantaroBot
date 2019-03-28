@@ -303,7 +303,7 @@
       "success": "%1$sRandomized the order of the current queue."
     },
     "skip": {
-      "dj_skip": "%1$sThe DJ has decided to skip",
+      "dj_skip": "%1$sThe DJ has decided to skip this song.",
       "vote": {
         "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!",
         "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to skip!"
@@ -319,7 +319,7 @@
       "success": "%1$sRemoved **%2$d** track(s) from the queue."
     },
     "stop": {
-      "dj_stop": "%1$sThe server DJ has decided to stop",
+      "dj_stop": "%1$sThe server DJ has decided to stop the current queue.",
       "vote": {
         "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to stop!",
         "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to stop!"
@@ -331,8 +331,8 @@
     "volume": {
       "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
       "success": "%1$sVolume set to %2$d\n\n%3$s",
-      "no_args": "%1$sYou need to tell me what volume you want me to set the music to (4 to 100).",
-      "premium_only": "%1$sThis is a premium-only feature. In order to get donator benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to an user or a server, please, if you donate, join the support guild and ask for it."
+      "no_args": "%1$sYou need to tell me what volume you want me to set the music to (5 to 100).",
+      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to an user or a server, please, if you donate, join the support guild and ask for it."
     },
     "prefix": {
       "header": "%1$sThe default prefixes are %2$s (I respond to any of those!). The server prefix is `%3$s` (Only works on this server). You can set a new prefix by using `~>opts prefix set <prefix>`",
@@ -349,7 +349,7 @@
       "nsfw_not_nsfw": "%1$sThis command is marked as NSFW therefore it can only be used on NSFW channels.",
       "new_error": "%1$sThe custom command you're trying to create has an error (v3, check content).\n**Error:**\n```%2$s```",
       "ls": {
-        "header": "Commands for this guild",
+        "header": "Commands for this server.",
         "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**List:**",
         "footer": "Total custom commands on this server: %1$s"
       },
@@ -1472,11 +1472,11 @@
     "server_channel_disallow": {
       "no_channel": "%1$sYou need to specify the channel where you want the bot not to listen to commands.",
       "too_many": "%1$sYou cannot disable more channels since the bot wouldn't be able to talk otherwise :(",
-      "success": "%1$sChannel %2$s will no longer listen to commands"
+      "success": "%1$sChannel %2$s will no longer listen to commands."
     },
     "server_channel_allow": {
       "no_channel": "%1$sYou need to specify the channel where you want the bot to listen to commands. (All channels by default)",
-      "success": "%1$sChannel %2$s will now listen to commands"
+      "success": "%1$sChannel %2$s will now listen to commands."
     },
     "category_disable": {
       "no_category": "%1$sYou need to specify a category to disable.",
@@ -1538,7 +1538,7 @@
       "invalid": "%1$sYou're trying to set too high of a number (which won't be applied anyway), silly"
     },
     "music_clearchannel": {
-      "success": "%1$sI can play music on all channels now"
+      "success": "%1$sI can play music on all channels now."
     },
     "music_vote_toggle": {
       "success": "%1$sVoting (to stop/skip) is now set to %2$s"
