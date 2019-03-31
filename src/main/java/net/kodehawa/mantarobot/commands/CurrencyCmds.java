@@ -877,11 +877,13 @@ public class CurrencyCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Player p = MantaroData.db().getPlayer(event.getAuthor());
                 Item item = Items.fromAnyNoId(content).orElse(null);
+
                 //Argument parsing.
                 Map<String, String> t = getArguments(args);
                 content = Utils.replaceArguments(t, content, "season", "s").trim();
                 boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
 
+                //Open default crate if nothing's specified.
                 if(item == null || content.isEmpty())
                     item = Items.LOOT_CRATE;
 
@@ -896,6 +898,7 @@ public class CurrencyCmds {
                 }
 
                 //Ratelimit handled here
+                //Check Items.openLootCrate for implementation details.
                 item.getAction().test(event, Pair.of(languageContext, content), isSeasonal);
             }
 
@@ -924,28 +927,23 @@ public class CurrencyCmds {
                         String[] args = StringUtils.efficientSplitArgs(content, 2);
                         Map<String, Optional<String>> t = StringUtils.parse(content.split("\\s+"));
 
-                        if(content.isEmpty()) {
+                        if (content.isEmpty()) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_items_specified"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         Item item = Items.fromAnyNoId(args[0]).orElse(null);
-                        if(item == null) {
+                        //Well, shit.
+                        if (item == null) {
                             event.getChannel().sendMessageFormat(languageContext.get("general.item_lookup.not_found"), EmoteReference.ERROR).queue();
                             return;
                         }
 
-                        if(item.getItemType() != ItemType.INTERACTIVE && item.getItemType() != ItemType.CRATE && item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF) {
+                        if (item.getItemType() != ItemType.INTERACTIVE && item.getItemType() != ItemType.CRATE && item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.not_interactive"), EmoteReference.ERROR).queue();
                             return;
                         }
 
-                        if(item == Items.BROM_PICKAXE || item == Items.FISHING_ROD) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.use_command"), EmoteReference.WARNING).queue();
-                            return;
-                        }
-
-                        //handled here
                         if(item.getAction() == null && (item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF)) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.interactive_no_action"), EmoteReference.ERROR).queue();
                             return;
@@ -978,6 +976,8 @@ public class CurrencyCmds {
 
                             if(equippedItems.isEffectActive(type, ((Potion) item).getMaxUses())) {
                                 PotionEffect currentPotion = equippedItems.getCurrentEffect(type);
+
+                                //Currently has a potion equipped, but wants to stack a potion of other type.
                                 if(currentPotion.getPotion() != Items.idOf(item)) {
                                     event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.not_same_potion"),
                                             EmoteReference.ERROR, item.getName(), Items.fromId(currentPotion.getPotion()).getName()
@@ -985,24 +985,31 @@ public class CurrencyCmds {
 
                                     return;
                                 }
+
+                                //Currently has a potion equipped, and is of the same type.
                                 if(currentPotion.equip(amount)) {
                                     event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied_multiple"),
                                             EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), currentPotion.getAmountEquipped()).queue();
                                 } else {
+                                    //Too many stacked (max: 10).
                                     event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size"), EmoteReference.ERROR, item.getName()).queue();
                                     return;
                                 }
                             } else {
+                                //No potion stacked.
                                 PotionEffect effect = new PotionEffect(Items.idOf(item), 0, ItemType.PotionType.PLAYER);
+
+                                //If there's more than 1, proceed to equip the stacks.
                                 if(amount > 1)
-                                    effect.equip(amount - 1);
+                                    effect.equip(amount - 1); //Amount - 1 because we're technically using one.
                                 if(amount > 10) {
+                                    //Too many stacked (max: 10).
                                     event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size_2"), EmoteReference.ERROR, item.getName()).queue();
                                     return;
                                 }
 
+                                //Apply the effect.
                                 equippedItems.applyEffect(effect);
-
                                 event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied"),
                                         EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), amount).queue();
                             }
@@ -1084,7 +1091,10 @@ public class CurrencyCmds {
         cr.register("fish", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Items.FISHING_ROD.getAction().test(event, Pair.of(languageContext, content), false);
+                Map<String, String> t = getArguments(content);
+                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+
+                Items.FISHING_ROD.getAction().test(event, Pair.of(languageContext, content), isSeasonal);
             }
 
 

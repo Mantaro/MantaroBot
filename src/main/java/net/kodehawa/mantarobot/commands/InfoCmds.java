@@ -267,6 +267,10 @@ public class InfoCmds {
 
                             }
 
+                            if(newHelp.isSeasonal()) {
+                                builder.addField("Seasonal", "This command allows the usage of the `-season` (or `-s`) argument.", false);
+                            }
+
                             //Ensure sub-commands show in help.
                             //Only god shall help me now with all of this casting lol.
                             if(command instanceof AliasCommand) {
@@ -291,10 +295,6 @@ public class InfoCmds {
                                 if(stringBuilder.length() > 0) {
                                     builder.addField("Sub-commands", "**Append the main command to use any of this.**\n" + stringBuilder.toString(), false);
                                 }
-                            }
-
-                            if(newHelp.isSeasonal()) {
-                                builder.addField("Seasonal", "This command allows the usage of the `-season` or the `-s` argument.", false);
                             }
 
                             //Known command aliases.
@@ -410,7 +410,7 @@ public class InfoCmds {
                         .addField(languageContext.get("commands.stats.usage.threads"), getThreadCount() + " Threads", true)
                         .addField(languageContext.get("commands.stats.usage.memory_usage"), getTotalMemory() - getFreeMemory() + "MB/" + getMaxMemory() + "MB", true)
                         .addField(languageContext.get("commands.stats.usage.cores"), getAvailableProcessors() + " Cores", true)
-                        .addField(languageContext.get("commands.stats.usage.cpu_usage"), String.format("%.2f", getVpsCPUUsage()) + "%", true)
+                        .addField(languageContext.get("commands.stats.usage.cpu_usage"), String.format("%.2f", getInstanceCPUUsage()) + "%", true)
                         .addField(languageContext.get("commands.stats.usage.assigned_mem"), getTotalMemory() + "MB", true)
                         .addField(languageContext.get("commands.stats.usage.assigned_remaining"), getFreeMemory() + "MB", true)
                         .build()
@@ -431,7 +431,7 @@ public class InfoCmds {
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.stats.server.header"), null, event.getJDA().getSelfUser().getAvatarUrl())
                         .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                        .addField(languageContext.get("commands.stats.server.cpu_usage"), String.format("%.2f", getVpsCPUUsage()) + "%", true)
+                        .addField(languageContext.get("commands.stats.server.cpu_usage"), String.format("%.2f", getInstanceCPUUsage()) + "%", true)
                         .addField(languageContext.get("commands.stats.server.rem"), String.format("%.2f", getVpsMaxMemory()) + "GB/" + String.format("%.2f", getVpsFreeMemory())
                                 + "GB/" + String.format("%.2f", getVpsUsedMemory()) + "GB", false);
 

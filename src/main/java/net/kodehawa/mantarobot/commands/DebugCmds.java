@@ -61,8 +61,10 @@ public class DebugCmds {
         cr.register("info", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                SnowflakeCacheView<Guild> guilds = MantaroBot.getInstance().getGuildCache();
-                SnowflakeCacheView<User> users = MantaroBot.getInstance().getUserCache();
+                MantaroBot mantaroBot = MantaroBot.getInstance();
+
+                SnowflakeCacheView<Guild> guilds = mantaroBot.getGuildCache();
+                SnowflakeCacheView<User> users = mantaroBot.getUserCache();
 
                 event.getChannel().sendMessage("```prolog\n"
                         + " --------- Technical Information --------- \n\n"
@@ -70,19 +72,19 @@ public class DebugCmds {
                         + "Bot Version: " + MantaroInfo.VERSION + "\n"
                         + "JDA Version: " + JDAInfo.VERSION + "\n"
                         + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
-                        + "API Responses: " + String.format("%,d", MantaroBot.getInstance().getResponseTotal()) + "\n"
-                        + "CPU Usage: " + String.format("%.2f", getVpsCPUUsage()) + "%" + "\n"
+                        + "API Responses: " + String.format("%,d", mantaroBot.getResponseTotal()) + "\n"
+                        + "CPU Usage: " + String.format("%.2f", getInstanceCPUUsage()) + "%" + "\n"
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
                         + "Shard Info: " + event.getJDA().getShardInfo()
                         + "\n\n --------- Mantaro Information --------- \n\n"
                         + "Guilds: " + String.format("%,d", guilds.size()) + "\n"
                         + "Users: " + String.format("%,d", users.size()) + "\n"
-                        + "Shards: " + MantaroBot.getInstance().getShardedMantaro().getTotalShards() + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId()) + ")" + "\n"
+                        + "Shards: " + mantaroBot.getShardedMantaro().getTotalShards() + " (Current: " + (mantaroBot.getShardForGuild(event.getGuild().getId()).getId()) + ")" + "\n"
                         + "Threads: " + String.format("%,d", Thread.activeCount()) + "\n"
                         + "Executed Commands: " + String.format("%,d", CommandListener.getCommandTotalInt()) + "\n"
                         + "Logs: " + String.format("%,d", MantaroListener.getLogTotalInt()) + "\n"
                         + "Memory: " + String.format("%,dMB/%,dMB", (int)(getTotalMemory() - getFreeMemory()), (int)getMaxMemory()) + "\n"
-                        + "Queue Size: " + String.format("%,d", MantaroBot.getInstance().getAudioManager().getTotalQueueSize())
+                        + "Queue Size: " + String.format("%,d", mantaroBot.getAudioManager().getTotalQueueSize())
                         + "```").queue();
             }
             @Override
@@ -218,9 +220,6 @@ public class DebugCmds {
                         dead++;
                     if(reconnect)
                         reconnecting++;
-                    //this can take about forever
-                    if(shard.getVoiceChannelCache().stream().noneMatch(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())))
-                        zeroVoiceConnections++;
                     if(shard.getShardEventManager().getLastJDAEventTimeDiff() > 1650 && !reconnect)
                         high++;
                 }
@@ -245,7 +244,6 @@ public class DebugCmds {
                                 "* Average Ping: %dms.\n" +
                                 "* (High) Ping Breakdown: %s\n" +
                                 "* Dead Shards: %s shards.\n" +
-                                "* Zero Voice Connections: %s shards.\n" +
                                 "* Shards Reconnecting: %s shards.\n" +
                                 "* Shards Connecting: %s shards\n" +
                                 "* High Last Event Time: %s shards.\n\n" +
@@ -257,7 +255,7 @@ public class DebugCmds {
                                 .filter(shard -> shard.getPing() > 350)
                                 .map(shard -> shard.getId() + ": " + shard.getPing() + "ms")
                                 .collect(Collectors.joining(", ")),
-                        dead, zeroVoiceConnections, reconnecting, connecting, high, String.format("%,d", bot.getGuildCache().size()),
+                        dead, reconnecting, connecting, high, String.format("%,d", bot.getGuildCache().size()),
                         String.format("%,d", bot.getUserCache().size()), bot.getShardList().size()));
 
                 event.getChannel().sendMessage(new MessageBuilder()

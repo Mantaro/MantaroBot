@@ -667,11 +667,11 @@
       },
       "use_command": "%1$sFor this item you need to use the command that's linked to the item! (mine for pick, fish for the fishing rod)",
       "no_items_specified": "%1$sYou need to specify what item to use.",
-      "not_interactive": "%1$sYou cannot interact with this item...",
-      "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set...",
-      "no_item": "%1$sYou don't have this item in your inventory...",
+      "not_interactive": "%1$sYou cannot interact with this item.",
+      "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set. This item might use its own command? For example, picks use `~>mine`.",
+      "no_item": "%1$sYou don't have this item in your inventory.",
       "not_enough_items": "%1$sYou don't have enough of this item.",
-      "too_little": "%1$sYou can't use less than 1 item..."
+      "too_little": "%1$sYou can't use less than 1 item."
     },
     "opts": {
       "note": "%1$sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",

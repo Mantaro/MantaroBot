@@ -76,7 +76,7 @@ public class AsyncInfoMonitor {
         return totalMemory;
     }
 
-    public static double getVpsCPUUsage() {
+    public static double getInstanceCPUUsage() {
         check();
         return vpsCPUUsage;
     }
@@ -115,7 +115,7 @@ public class AsyncInfoMonitor {
             maxMemory = Runtime.getRuntime().maxMemory() / mb;
             totalMemory = Runtime.getRuntime().totalMemory() / mb;
             cpuUsage = calculateCpuUsage(os);
-            vpsCPUUsage = getVpsCPUUsage(os);
+            vpsCPUUsage = getInstanceCPUUsage(os);
             vpsFreeMemory = calculateVPSFreeMemory(os);
             vpsMaxMemory = calculateVPSMaxMemory(os);
             vpsUsedMemory = vpsMaxMemory - vpsFreeMemory;
@@ -151,7 +151,7 @@ public class AsyncInfoMonitor {
         if(!started) throw new IllegalStateException("AsyncInfoMonitor not started");
     }
 
-    private static double getVpsCPUUsage(OperatingSystemMXBean os) {
+    private static double getInstanceCPUUsage(OperatingSystemMXBean os) {
         vpsCPUUsage = ((com.sun.management.OperatingSystemMXBean) os).getSystemCpuLoad() * 100;
         return vpsCPUUsage;
     }
