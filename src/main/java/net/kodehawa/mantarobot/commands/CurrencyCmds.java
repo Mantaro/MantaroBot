@@ -880,6 +880,7 @@ public class CurrencyCmds {
                 //Argument parsing.
                 Map<String, String> t = getArguments(args);
                 content = Utils.replaceArguments(t, content, "season", "s").trim();
+                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
 
                 if(item == null || content.isEmpty())
                     item = Items.LOOT_CRATE;
@@ -890,12 +891,12 @@ public class CurrencyCmds {
                 }
 
                 if(!p.getInventory().containsItem(item)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.opencrate.no_crate"), EmoteReference.SAD).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.opencrate.no_crate"), EmoteReference.SAD, item.getName()).queue();
                     return;
                 }
 
                 //Ratelimit handled here
-                item.getAction().test(event, Pair.of(languageContext, content), t.containsKey("season"));
+                item.getAction().test(event, Pair.of(languageContext, content), isSeasonal);
             }
 
             @Override
@@ -904,6 +905,7 @@ public class CurrencyCmds {
                         .setDescription("Opens a loot crate.")
                         .setUsage("`~>opencrate <name>` - Opens a loot crate.\n" +
                                 "You need a crate key to open any crate.")
+                        .setSeasonal(true)
                         .addParameter("name", "The loot crate name. If you don't provide this, a default loot crate will attempt to open.")
                         .build();
             }

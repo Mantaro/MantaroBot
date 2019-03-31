@@ -496,9 +496,10 @@ public class Items {
 
         Player player = managedDatabase.getPlayer(event.getAuthor());
         SeasonPlayer seasonPlayer = managedDatabase.getPlayerForSeason(event.getAuthor(), config.getCurrentSeason());
-
         Inventory inventory = season ? seasonPlayer.getInventory() : player.getInventory();
+
         Item crate = fromId(item);
+
         if(inventory.containsItem(crate)) {
             if(inventory.containsItem(LOOT_CRATE_KEY)) {
                 if(!handleDefaultRatelimit(lootCrateRatelimiter, event.getAuthor(), event, lang))
@@ -509,9 +510,10 @@ public class Items {
 
                 if(crate == LOOT_CRATE)
                     player.getData().addBadgeIfAbsent(Badge.THE_SECRET);
-                player.save();
 
+                player.save();
                 openLootBox(event, lang, type, typeEmote, bound);
+
                 return true;
             } else {
                 event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.crate.no_key"), EmoteReference.ERROR).queue();
