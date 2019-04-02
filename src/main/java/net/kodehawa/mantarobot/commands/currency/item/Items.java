@@ -29,7 +29,6 @@ import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.RandomCollection;
-import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
@@ -511,7 +510,9 @@ public class Items {
                     player.getData().addBadgeIfAbsent(Badge.THE_SECRET);
 
                 player.save();
-                openLootBox(event, lang, type, typeEmote, bound);
+                seasonPlayer.save();
+
+                openLootBox(event, lang, type, typeEmote, bound, season);
 
                 return true;
             } else {
@@ -524,11 +525,14 @@ public class Items {
         }
     }
 
-    private static void openLootBox(GuildMessageReceivedEvent event, I18nContext lang, ItemType.LootboxType type, EmoteReference typeEmote, int bound) {
-        List<Item> toAdd = selectItems(r.nextInt(bound) + bound, type);
-        Player player = MantaroData.db().getPlayer(event.getAuthor());
-        ArrayList<ItemStack> ita = new ArrayList<>();
+    private static void openLootBox(GuildMessageReceivedEvent event, I18nContext lang, ItemType.LootboxType type, EmoteReference typeEmote, int bound, boolean seasonal) {
+        ManagedDatabase db = MantaroData.db();
 
+        List<Item> toAdd = selectItems(r.nextInt(bound) + bound, type);
+        Player player = db.getPlayer(event.getAuthor());
+        SeasonPlayer seasonPlayer = db.getPlayerForSeason(event.getAuthor(), config.getCurrentSeason());
+
+        ArrayList<ItemStack> ita = new ArrayList<>();
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
 
         if((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM) && toAdd.contains(GEM5_PICKAXE) && toAdd.contains(GEM5_PICKAXE_2)) {
@@ -539,8 +543,9 @@ public class Items {
             player.getData().addBadgeIfAbsent(Badge.TOO_BIG);
         }
 
-        boolean overflow = player.getInventory().merge(ita);
+        boolean overflow = seasonal ? seasonPlayer.getInventory().merge(ita) : player.getInventory().merge(ita);
         player.saveAsync();
+        seasonPlayer.saveAsync();
 
         event.getChannel().sendMessage(String.format(lang.get("general.misc_item_usage.crate.success"),
                 typeEmote.getDiscordNotation() + " ", toAdd.stream().map(item -> item.getEmoji() + " " + item.getName()).collect(Collectors.joining(", ")),

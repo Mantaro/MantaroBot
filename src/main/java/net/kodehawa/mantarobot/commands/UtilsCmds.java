@@ -194,7 +194,7 @@ public class UtilsCmds {
 
                 //Inspection excluded below not needed, I'm passing a proper value.
                 //noinspection MagicConstant
-                calendar.set(calendar.get(Calendar.YEAR), month, calendar.get(Calendar.DAY_OF_MONTH));
+                calendar.set(calendar.get(Calendar.YEAR), month, Calendar.MONDAY);
 
                 try {
                     //Why would this happen is out of my understanding.
