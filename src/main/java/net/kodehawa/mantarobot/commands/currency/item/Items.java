@@ -559,7 +559,7 @@ public class Items {
         List<Item> rare = handleItemDrop(i -> i.getItemType() == ItemType.RARE);
         List<Item> premium = handleItemDrop(i -> i.getItemType() == ItemType.PREMIUM);
 
-        List<Item> mine = handleItemDrop(i -> i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.CAST_OBTAINABLE || i.getItemType() == ItemType.BROKEN_MINE_COMMON || i.getItemType() == ItemType.BROKEN_COMMON);
+        List<Item> mine = handleItemDrop(i -> i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.CAST_OBTAINABLE || i.getItemType() == ItemType.BROKEN_MINE_COMMON);
         List<Item> fish = handleItemDrop(i -> i.getItemType() == ItemType.FISHING || i.getItemType() == ItemType.BROKEN_FISHING_COMMON);
 
         List<Item> premiumMine = handleItemDrop(i -> i.getItemType() == ItemType.CAST_MINE ||
@@ -645,15 +645,6 @@ public class Items {
                 if(((Broken) i).getMainItem() == Items.idOf(item))
                     return i;
             }
-        }
-
-        return null;
-    }
-
-    public static Item getItemFromBroken(Broken item) {
-        for(Item i : ALL) {
-            if(item.getMainItem() == Items.idOf(i))
-                return i;
         }
 
         return null;
