@@ -28,18 +28,23 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.awt.*;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
+import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
 
 @Slf4j
 public class ImageActionCmd extends NoArgsCommand {
     public static final URLCache CACHE = new URLCache(10);
+
+    private IncreasingRateLimiter rateLimiter;
 
     private final Color color;
     private final String desc;
@@ -66,6 +71,7 @@ public class ImageActionCmd extends NoArgsCommand {
         this.lonelyLine = lonelyLine;
         this.swapNames = swap;
         this.botLine = botLine;
+        this.rateLimiter = buildRatelimiter(name);
     }
 
     public ImageActionCmd(String name, String desc, Color color, String imageName, EmoteReference emoji, String format, String type, String lonelyLine, String botLine) {
@@ -80,6 +86,7 @@ public class ImageActionCmd extends NoArgsCommand {
         this.lonelyLine = lonelyLine;
         this.type = type;
         this.botLine = botLine;
+        this.rateLimiter = buildRatelimiter(name);
     }
 
     public ImageActionCmd(String name, String desc, Color color, String imageName, EmoteReference emoji, String format, String type, String lonelyLine, String botLine, boolean swap) {
@@ -95,10 +102,25 @@ public class ImageActionCmd extends NoArgsCommand {
         this.swapNames = swap;
         this.type = type;
         this.botLine = botLine;
+        this.rateLimiter = buildRatelimiter(name);
+    }
+
+    private IncreasingRateLimiter buildRatelimiter(String name) {
+        return new IncreasingRateLimiter.Builder()
+                .spamTolerance(2)
+                .cooldown(4, TimeUnit.SECONDS)
+                .maxCooldown(4, TimeUnit.MINUTES)
+                .randomIncrement(true)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix(name)
+                .build();
     }
 
     @Override
     protected void call(GuildMessageReceivedEvent event, I18nContext lang, String content) {
+        if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, null))
+            return;
+
         I18nContext languageContext = new I18nContext(MantaroData.db().getGuild(event.getGuild()).getData(), null);
         String random = "";
         String id = "";
