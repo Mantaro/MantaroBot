@@ -107,6 +107,7 @@ public class ImageActionCmd extends NoArgsCommand {
 
     private IncreasingRateLimiter buildRatelimiter(String name) {
         return new IncreasingRateLimiter.Builder()
+                .limit(1)
                 .spamTolerance(2)
                 .cooldown(4, TimeUnit.SECONDS)
                 .maxCooldown(4, TimeUnit.MINUTES)
