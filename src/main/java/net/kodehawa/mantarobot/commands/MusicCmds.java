@@ -564,6 +564,11 @@ public class MusicCmds {
                 if(!isInConditionTo(event, musicManager.getLavaLink(), languageContext))
                     return;
 
+                if(!isDJ(event.getMember())) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.removetrack.not_dj"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler()
                         .getQueueAsList(list -> {
                             TIntHashSet selected = new TIntHashSet();
@@ -1010,7 +1015,6 @@ public class MusicCmds {
     private boolean isInConditionTo(GuildMessageReceivedEvent event, JdaLink player, I18nContext lang) {
         try {
             if(!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().getId().equalsIgnoreCase(player.getChannel())) {
-
                 if(isDJ(event.getMember())) {
                     return true;
                 }

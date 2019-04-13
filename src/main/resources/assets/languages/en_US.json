@@ -316,7 +316,8 @@
       "no_track": "%1$sThere isn't a queued track at the position `%2$d`!",
       "invalid_number": "(%1$s`%2$s`) One of the ranges is not a valid number!",
       "invalid_number_range": "%1$s`%2$s` is not a valid number or range!",
-      "success": "%1$sRemoved **%2$d** track(s) from the queue."
+      "success": "%1$sRemoved **%2$d** track(s) from the queue.",
+      "not_dj": "%1$sYou need to be a DJ to perform this action."
     },
     "stop": {
       "dj_stop": "%1$sThe server DJ has decided to stop the current queue.",
