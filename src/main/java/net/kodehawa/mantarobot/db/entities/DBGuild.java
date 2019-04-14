@@ -126,8 +126,8 @@ public class DBGuild implements ManagedObject {
             //If the receipt is not the owner, account them to the keys the owner has claimed.
             //This has usage later when seeing how many keys can they take. The second/third check is kind of redundant, but necessary anyway to see if it works.
             String keyLinkedTo = key.getData().getLinkedTo();
-            if(!getId().equals(key.getOwner()) && keyLinkedTo != null && keyLinkedTo.equals(key.getOwner())) {
-                DBUser owner = MantaroData.db().getUser(key.getOwner());
+            if(keyLinkedTo != null) {
+                DBUser owner = MantaroData.db().getUser(keyLinkedTo);
                 UserData ownerData = owner.getData();
                 if(!ownerData.getKeysClaimed().containsKey(getId())) {
                     ownerData.getKeysClaimed().put(getId(), key.getId());
