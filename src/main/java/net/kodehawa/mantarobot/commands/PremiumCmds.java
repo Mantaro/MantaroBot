@@ -85,7 +85,7 @@ public class PremiumCmds {
 
                 PremiumKey key = db.getPremiumKey(args[0]);
 
-                if(key == null || (key.isEnabled() && !(key.getParsedType().equals(PremiumKey.Type.MASTER)))) {
+                if(key == null || (key.isEnabled())) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.invalid_key"), EmoteReference.ERROR).queue();
                     return;
                 }
@@ -162,6 +162,16 @@ public class PremiumCmds {
                     return;
                 }
 
+                String type = "";
+                PremiumKey.Type scopeParsed = PremiumKey.Type.USER;
+                if(args.length > 0) {
+                    try {
+                        scopeParsed = PremiumKey.Type.valueOf(args[0].toUpperCase());
+                    } catch (IllegalArgumentException e) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.claimkey.invalid_scope"), EmoteReference.ERROR).queue();
+                    }
+                }
+
                 final ManagedDatabase db = MantaroData.db();
                 final User author = event.getAuthor();
 
@@ -182,7 +192,7 @@ public class PremiumCmds {
                     return;
                 }
 
-                PremiumKey newKey = PremiumKey.generatePremiumKey(author.getId(), PremiumKey.Type.USER, true);
+                PremiumKey newKey = PremiumKey.generatePremiumKey(author.getId(), scopeParsed, true);
 
                 //Placeholder so they don't spam key creation. Save as random UUID first, to avoid conflicting.
                 data.getKeysClaimed().put(UUID.randomUUID().toString(), newKey.getId());
@@ -192,7 +202,7 @@ public class PremiumCmds {
                 event.getAuthor().openPrivateChannel()
                         .queue(privateChannel -> {
                             privateChannel.sendMessageFormat(languageContext.get("commands.claimkey.successful"),
-                            EmoteReference.HEART, newKey.getId(), amountClaimed, (int) ((pledgeAmount / 2) - amountClaimed)).queue();
+                            EmoteReference.HEART, newKey.getId(), amountClaimed, (int) ((pledgeAmount / 2) - amountClaimed), newKey.getParsedType()).queue();
                             dbUser.saveAsync();
                             newKey.saveAsync();
                             event.getChannel().sendMessageFormat(languageContext.get("commands.claimkey.success"), EmoteReference.CORRECT).queue();

@@ -109,6 +109,6 @@ public class PremiumKey implements ManagedObject {
     }
 
     public enum Type {
-        MASTER, USER, GUILD
+        USER, GUILD
     }
 }
