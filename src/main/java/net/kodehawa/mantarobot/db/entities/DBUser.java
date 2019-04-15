@@ -113,7 +113,7 @@ public class DBUser implements ManagedObject {
                 UserData ownerData = owner.getData();
 
                 //Remove from owner's key ownership storage if key owner != key holder.
-                if(!key.getOwner().equals(getId()) && !ownerData.getKeysClaimed().containsKey(getId())) {
+                if(!key.getOwner().equals(getId())) {
                     ownerData.getKeysClaimed().remove(getId());
                     owner.save();
                 }
