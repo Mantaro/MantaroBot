@@ -28,8 +28,6 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
-import net.kodehawa.mantarobot.commands.currency.item.special.Wrench;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
@@ -58,7 +56,6 @@ import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.awt.*;
-import java.security.SecureRandom;
 import java.text.ParsePosition;
 import java.util.*;
 import java.util.List;
@@ -177,7 +174,6 @@ public class CurrencyCmds {
 
     @Subscribe
     public void level(CommandRegistry cr) {
-        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 8);
         cr.register("level", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
@@ -218,7 +214,16 @@ public class CurrencyCmds {
 
     @Subscribe
     public void market(CommandRegistry cr) {
-        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 8);
+        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                .limit(1)
+                .spamTolerance(2)
+                .cooldown(6, TimeUnit.SECONDS)
+                .maxCooldown(6, TimeUnit.SECONDS)
+                .randomIncrement(true)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("market")
+                .build();
+
 
         TreeCommand marketCommand = (TreeCommand) cr.register("market", new TreeCommand(Category.CURRENCY) {
             @Override
@@ -274,7 +279,7 @@ public class CurrencyCmds {
         });
 
         marketCommand.setPredicate((event) -> {
-            if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, null))
+            if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, null, false))
                 return false;
 
             Player player = MantaroData.db().getPlayer(event.getMember());

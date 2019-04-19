@@ -1,6 +1,8 @@
 package net.kodehawa.mantarobot.utils.commands;
 
 import net.dv8tion.jda.core.entities.User;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBUser;
 import org.apache.commons.io.IOUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -27,6 +29,7 @@ public class IncreasingRateLimiter {
     private final int maxCooldown;
     private String scriptSha;
     private boolean randomIncrement;
+    private boolean premiumAware;
 
     static {
         try {
@@ -36,7 +39,7 @@ public class IncreasingRateLimiter {
         }
     }
 
-    private IncreasingRateLimiter(JedisPool pool, String prefix, int limit, int cooldown, int spamBeforeCooldownIncrease, int cooldownIncrease, int maxCooldown, boolean randomIncrement) {
+    private IncreasingRateLimiter(JedisPool pool, String prefix, int limit, int cooldown, int spamBeforeCooldownIncrease, int cooldownIncrease, int maxCooldown, boolean randomIncrement, boolean premiumAware) {
         this.pool = pool;
         this.prefix = prefix;
         this.limit = limit;
@@ -45,6 +48,7 @@ public class IncreasingRateLimiter {
         this.cooldownIncrease = cooldownIncrease;
         this.maxCooldown = maxCooldown;
         this.randomIncrement = randomIncrement;
+        this.premiumAware = premiumAware;
     }
 
     @SuppressWarnings("unchecked")
@@ -55,13 +59,15 @@ public class IncreasingRateLimiter {
             }
             long start = Instant.now().toEpochMilli();
             List<Long> result;
+            boolean premiumAwareness = premiumAware && MantaroData.db().getUser(key).isPremium();
             try {
+                int cd = cooldown + (randomIncrement ? ThreadLocalRandom.current().nextInt(cooldown / 4) : 0);
                 result = (List<Long>)j.evalsha(scriptSha,
                         Collections.singletonList(key),
                         Arrays.asList(
                                 String.valueOf(limit),
                                 String.valueOf(start),
-                                String.valueOf(cooldown + (randomIncrement ? ThreadLocalRandom.current().nextInt(cooldown / 4) : 0)),
+                                String.valueOf(premiumAwareness ? cd : cd - ThreadLocalRandom.current().nextInt(cooldown / 4)),
                                 String.valueOf(spamBeforeCooldownIncrease),
                                 String.valueOf(cooldownIncrease),
                                 String.valueOf(maxCooldown)
@@ -106,9 +112,15 @@ public class IncreasingRateLimiter {
         private int spamTolerance;
         private int maxCooldown;
         private boolean randomIncrement = true;
+        private boolean premiumAware = false;
 
         public Builder pool(JedisPool pool) {
             this.pool = pool;
+            return this;
+        }
+
+        public Builder premiumAware(boolean aware) {
+            this.premiumAware = aware;
             return this;
         }
 
@@ -176,7 +188,7 @@ public class IncreasingRateLimiter {
             if(cooldown < 0) {
                 throw new IllegalStateException("Cooldown must be set");
             }
-            return new IncreasingRateLimiter(pool, prefix, limit, cooldown, spamTolerance, cooldownPenaltyIncrease, maxCooldown, randomIncrement);
+            return new IncreasingRateLimiter(pool, prefix, limit, cooldown, spamTolerance, cooldownPenaltyIncrease, maxCooldown, randomIncrement, premiumAware);
         }
     }
 }

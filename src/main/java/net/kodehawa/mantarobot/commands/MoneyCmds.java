@@ -411,7 +411,17 @@ public class MoneyCmds {
     @Subscribe
     public void loot(CommandRegistry cr) {
         cr.register("loot", new SimpleCommand(Category.CURRENCY) {
-            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 5, true);
+            final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                    .limit(1)
+                    .spamTolerance(2)
+                    .cooldown(5, TimeUnit.MINUTES)
+                    .maxCooldown(5, TimeUnit.MINUTES)
+                    .randomIncrement(true)
+                    .premiumAware(true)
+                    .pool(MantaroData.getDefaultJedisPool())
+                    .prefix("loot")
+                    .build();
+
             final ZoneId zoneId = ZoneId.systemDefault();
             final Random r = new Random();
 
@@ -428,7 +438,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext, false))
                     return;
 
                 LocalDate today = LocalDate.now(zoneId);
@@ -778,7 +788,17 @@ public class MoneyCmds {
     @Subscribe
     public void mine(CommandRegistry cr) {
         cr.register("mine", new SimpleCommand(Category.CURRENCY) {
-            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 5, false);
+            final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                    .limit(1)
+                    .spamTolerance(2)
+                    .cooldown(5, TimeUnit.MINUTES)
+                    .maxCooldown(5, TimeUnit.MINUTES)
+                    .randomIncrement(true)
+                    .premiumAware(true)
+                    .pool(MantaroData.getDefaultJedisPool())
+                    .prefix("mine")
+                    .build();
+
             final Random r = new Random();
 
             @Override
@@ -833,7 +853,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, user, event, languageContext))
+                if(!handleDefaultIncreasingRatelimit(rateLimiter, user, event, languageContext, false))
                     return;
 
                 if(!Items.handlePickaxe(event, languageContext, item, player, dbUser, seasonalPlayer, item.getChance(), isSeasonal))

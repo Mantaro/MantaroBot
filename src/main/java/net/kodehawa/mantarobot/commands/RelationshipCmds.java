@@ -56,6 +56,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.awt.*;
@@ -563,7 +564,16 @@ public class RelationshipCmds {
 
     @Subscribe
     public void waifu(CommandRegistry cr) {
-        RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 5);
+        IncreasingRateLimiter rl = new IncreasingRateLimiter.Builder()
+                .limit(1)
+                .spamTolerance(2)
+                .cooldown(5, TimeUnit.SECONDS)
+                .maxCooldown(5, TimeUnit.SECONDS)
+                .randomIncrement(true)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("waifu")
+                .build();
+
 
         TreeCommand waifu = (TreeCommand) cr.register("waifu", new TreeCommand(Category.FUN) {
             @Override
@@ -655,7 +665,7 @@ public class RelationshipCmds {
         });
 
         cr.registerAlias("waifu", "waifus");
-        waifu.setPredicate(event -> Utils.handleDefaultRatelimit(rl, event.getAuthor(), event, null));
+        waifu.setPredicate(event -> Utils.handleDefaultIncreasingRatelimit(rl, event.getAuthor(), event, null, false));
 
         waifu.addSubCommand("stats", new SubCommand() {
             @Override
