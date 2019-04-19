@@ -86,13 +86,12 @@ public class DBGuild implements ManagedObject {
         return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
     }
 
-    public DBGuild incrementPremium(long milliseconds) {
+    public void incrementPremium(long milliseconds) {
         if(isPremium()) {
             this.premiumUntil += milliseconds;
         } else {
             this.premiumUntil = currentTimeMillis() + milliseconds;
         }
-        return this;
     }
 
     @JsonIgnore

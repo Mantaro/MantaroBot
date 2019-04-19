@@ -155,14 +155,13 @@ public class DebugCmds {
 
                     JDA jda = shard.getJDA();
                     builder.append(String.format(
-                            "%-17s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s | VC: %-2d",
+                            "%-17s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s",
                             jda.getShardInfo() == null ? "Shard [0 / 1]" : jda.getShardInfo(),
                             jda.getStatus(),
                             jda.getUserCache().size(),
                             jda.getGuildCache().size(),
                             shard.getShardEventManager().getLastJDAEventTimeDiff() + " ms",
-                            jda.getPing(),
-                            jda.getVoiceChannelCache().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count()
+                            jda.getPing()
                     ));
 
                     if(shard.getJDA().getShardInfo() != null && shard.getJDA().getShardInfo().equals(event.getJDA().getShardInfo())) {
@@ -206,7 +205,6 @@ public class DebugCmds {
                 int dead = 0;
                 int reconnecting = 0;
                 int connecting = 0;
-                int zeroVoiceConnections = 0;
                 int high = 0;
 
                 for(MantaroShard shard : shards) {
