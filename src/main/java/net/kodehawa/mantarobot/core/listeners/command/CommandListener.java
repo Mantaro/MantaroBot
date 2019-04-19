@@ -53,11 +53,11 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class CommandListener implements EventListener {
+    //TODO: shared ratelimiter. IncreasingRatelimiter might fail here, so we need another way.
     private static final RateLimiter experienceRatelimiter = new RateLimiter(TimeUnit.SECONDS, 18);
     //Commands ran this session.
     private static int commandTotal = 0;
     private final ICommandProcessor commandProcessor;
-    private final Random rand = new Random();
     private final Random random = new Random();
     private final MantaroShard shard;
     private final int shardId;

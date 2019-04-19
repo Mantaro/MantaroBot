@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.security.SecureRandom;
@@ -39,6 +40,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 @Slf4j
@@ -54,8 +56,25 @@ public class Items {
             BROKEN_COMET_PICK, BROKEN_STAR_PICK, BROKEN_COMET_ROD, BROKEN_STAR_ROD, BROKEN_SPARKLE_ROD;
 
     private static final Random r = new Random();
-    private static final RateLimiter lootCrateRatelimiter = new RateLimiter(TimeUnit.MINUTES, 4);
-    private static final RateLimiter fishRatelimiter = new RateLimiter(TimeUnit.MINUTES, 4);
+    private static final IncreasingRateLimiter lootCrateRatelimiter = new IncreasingRateLimiter.Builder()
+            .limit(1)
+            .spamTolerance(2)
+            .cooldown(4, TimeUnit.MINUTES)
+            .maxCooldown(4, TimeUnit.MINUTES)
+            .randomIncrement(true)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("lootcrate")
+            .build();
+
+    private static final IncreasingRateLimiter fishRatelimiter = new IncreasingRateLimiter.Builder()
+            .limit(1)
+            .spamTolerance(2)
+            .cooldown(4, TimeUnit.MINUTES)
+            .maxCooldown(4, TimeUnit.MINUTES)
+            .randomIncrement(true)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("fish")
+            .build();
     private static final Config config = MantaroData.config().get();
 
     public static final Item[] ALL = {
@@ -234,7 +253,7 @@ public class Items {
                 return false;
             }
 
-            if(!handleDefaultRatelimit(fishRatelimiter, event.getAuthor(), event, lang))
+            if(!handleDefaultIncreasingRatelimit(fishRatelimiter, event.getAuthor(), event, lang, false))
                 return false;
 
 
@@ -500,7 +519,7 @@ public class Items {
 
         if(inventory.containsItem(crate)) {
             if(inventory.containsItem(LOOT_CRATE_KEY)) {
-                if(!handleDefaultRatelimit(lootCrateRatelimiter, event.getAuthor(), event, lang))
+                if(!handleDefaultIncreasingRatelimit(lootCrateRatelimiter, event.getAuthor(), event, lang, false))
                     return false;
 
                 inventory.process(new ItemStack(LOOT_CRATE_KEY, -1));

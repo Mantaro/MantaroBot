@@ -52,6 +52,7 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.net.URL;
@@ -60,6 +61,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 import static net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils.embedForQueue;
+import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 import static org.apache.commons.lang3.StringUtils.replaceEach;
 
@@ -96,13 +98,21 @@ public class MusicCmds {
     @Subscribe
     public void move(CommandRegistry cr) {
         cr.register("move", new SimpleCommand(Category.MUSIC) {
-            final RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 20);
+            final IncreasingRateLimiter rl = new IncreasingRateLimiter.Builder()
+                    .limit(1)
+                    .spamTolerance(2)
+                    .cooldown(15, TimeUnit.SECONDS)
+                    .maxCooldown(40, TimeUnit.SECONDS)
+                    .randomIncrement(true)
+                    .pool(MantaroData.getDefaultJedisPool())
+                    .prefix("move")
+                    .build();
 
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Guild guild = event.getGuild();
 
-                if(!handleDefaultRatelimit(rl, event.getAuthor(), event, languageContext))
+                if(!handleDefaultIncreasingRatelimit(rl, event.getAuthor(), event, languageContext))
                     return;
 
                 if(content.isEmpty()) {
