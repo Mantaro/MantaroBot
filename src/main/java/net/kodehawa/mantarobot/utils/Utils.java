@@ -651,16 +651,11 @@ public class Utils {
     }
 
     private static void onRateLimit(User user) {
-        int ratelimitedTimes = ratelimitedUsers.computeIfAbsent(user.getIdLong(), __ -> new AtomicInteger()).incrementAndGet();;
-        if((ratelimitedTimes > 900 && ratelimitedTimes > 900 * uptimeInDays()) && !loggedUsers.contains(user.getId())) {
+        int ratelimitedTimes = ratelimitedUsers.computeIfAbsent(user.getIdLong(), __ -> new AtomicInteger()).incrementAndGet();
+        if(ratelimitedTimes > 900 && !loggedUsers.contains(user.getId())) {
             loggedUsers.add(user.getId());
             LogUtils.spambot(user);
         }
-    }
-
-    public static double uptimeInDays() {
-        int millisPerDay = 24 /* hours in day */ * 60 /* minutes in hour */ * 60 /* seconds in minute */ * 1000 /* millis in second */;
-        return ManagementFactory.getRuntimeMXBean().getUptime() / (double)millisPerDay;
     }
 
     public static String replaceArguments(Map<String, ?> args, String content, String... toReplace) {

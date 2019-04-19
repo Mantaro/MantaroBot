@@ -152,8 +152,9 @@ public class MantaroBot extends ShardedJDA {
 
         birthdayCacher = new BirthdayCacher();
         final MuteTask muteTask = new MuteTask();
-        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mute Handler"))
-        .scheduleAtFixedRate(muteTask::handle, 0, 1, TimeUnit.MINUTES);
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mute Handler")).scheduleAtFixedRate(muteTask::handle, 0, 1, TimeUnit.MINUTES);
+        //Yes, this is needed.
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Ratelimit Map Handler")).scheduleAtFixedRate(Utils.ratelimitedUsers::clear, 0, 24, TimeUnit.HOURS);
     }
 
     public static void main(String[] args) {
