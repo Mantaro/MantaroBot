@@ -74,6 +74,7 @@ public class PlayerEquipment {
     public void incrementEffectUses(EquipmentType type) {
         effects.computeIfPresent(type, (i, effect) -> {
             effect.setTimesUsed(effect.getTimesUsed() + 1);
+
             return effect;
         });
     }
@@ -109,7 +110,6 @@ public class PlayerEquipment {
     public EquipmentType getTypeFor(Item item) {
         for(EquipmentType type : EquipmentType.values()) {
             if(type.getPredicate().test(item)) {
-                //System.out.println("type: " + type + ", for " + item.getName());
                 return type;
             }
         }

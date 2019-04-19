@@ -36,7 +36,7 @@
     "misc_item_usage": {
       "mop": "%1$sYou have (maybe) cleaned all of the dust you have accumulated over all of those mining sessions.",
       "milk": "%1$sCleared potion effects.",
-      "stamina": "%1$sActivated stamina for 5 mining sessions.",
+      "stamina": "%1$sActivated stamina for 3 mining sessions.",
       "stamina_used": "%1$sYou already have an active stamina effect!",
       "haste": "%1$sActivated Haste for 2 sessions.",
       "haste_used": "%1$sYou already have an active haste effect!",
@@ -56,7 +56,7 @@
       "potion_applied_multiple": "%1$sSuccessfully applied **%2$s** of type *%3$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %4$s",
       "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can.",
       "max_stack_size_2": "%1$sYou can't stack that many %2$s.",
-      "not_same_potion": "%1$sYou already have a potion of type %2$s stacked, so you can't stack potions of type %3$s into it."
+      "not_same_potion": "%1$sYou already have a potion of type %2$s stacked and active, so you can't stack potions of type %3$s into it."
     },
     "mention_user_required": "%1$sYou need to mention one user.",
     "invalid_character": "%1$sThat is not an allowed character.",
@@ -1987,7 +1987,7 @@
       "pants": "Basically what you wear on your legs... hopefully.",
       "haste": "Allows you to collect more stuff from lootable commands for 2 sessions.",
       "milky": "Clears all potion effects.",
-      "energy": "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.",
+      "energy": "Gives less chance of a pick breaking while mining. Lasts only 3 mining sessions.",
       "rod": "Enables you to fish. (20% breaking chance)",
       "fish": "Fish. Caught in fishing.",
       "tropical_fish": "A very tropical fish. Caught in fishing.",

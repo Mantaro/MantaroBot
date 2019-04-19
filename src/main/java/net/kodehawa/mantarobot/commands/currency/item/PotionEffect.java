@@ -48,6 +48,7 @@ public class PotionEffect {
             return false;
         } else {
             setAmountEquipped(newAmount);
+            setTimesUsed(0);
             return true;
         }
     }
