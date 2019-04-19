@@ -135,25 +135,21 @@ public class ShardWatcher implements Runnable {
                 if(dead.length != 0) {
                     MantaroEventManager.getLog().error("Dead shards found: {}", Arrays.toString(dead));
 
-                    //Alert us in case a massive amount of dead shards is found.
-                    //This COULD be caused by discord dying and reconnecting a bunch of shards, so we don't need to worry until we get a bunch of "starting automatic shard
-                    //restart on..." kinda message.
-                    if(dead.length > 15) {
-                        LogUtils.shard("Seems like Megumin struck our castle and we got a horribly high amount of dead shards (" + dead.length + ")\n" +
-                                "This could be just due to them reconnecting though, if nothing appears down there talking about how the shards are rebooting " +
-                                "you might aswell ignore this warning.");
-                    }
-
                     //Start scrapping and rebooting shards.
                     //Under the hood this basically calls for a RESUME JDA instance and if it fails, it adds it to the restart queue to replace it with a completely new one.
                     for(int id : dead) {
                         try {
                             MantaroShard shard = MantaroBot.getInstance().getShard(id);
 
+                            //Silently ignore this.
+                            if(shard.getStatus() == JDA.Status.SHUTDOWN) {
+                                continue;
+                            }
+
                             //If we are dealing with a shard reconnecting, don't make its job harder by rebooting it twice.
                             //But, if the shard has been inactive for too long, we're better off scrapping this session as the shard might be stuck on connecting.
-                            if((shard.getStatus() == JDA.Status.RECONNECT_QUEUED || shard.getStatus() == JDA.Status.ATTEMPTING_TO_RECONNECT ||
-                                    shard.getStatus() == JDA.Status.SHUTDOWN) && shard.getShardEventManager().getLastJDAEventTimeDiff() < 400000) {
+                            if((shard.getStatus() == JDA.Status.RECONNECT_QUEUED || shard.getStatus() == JDA.Status.ATTEMPTING_TO_RECONNECT) &&
+                                    shard.getShardEventManager().getLastJDAEventTimeDiff() < 400000) {
                                 LogUtils.shard(String.format("Skipping shard %d due to it being currently reconnecting to the websocket or was shutdown manually...", id));
                                 continue;
                             }

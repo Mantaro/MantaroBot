@@ -123,7 +123,8 @@ public class ShardedMantaro {
             log.info("Spawning shards...");
             long start = System.currentTimeMillis();
             for(int i = fromShard; i < (toShard == 0 ? totalShards : toShard); i++) {
-                if(MantaroData.config().get().upToShard != 0 && i > MantaroData.config().get().upToShard) continue;
+                if(MantaroData.config().get().upToShard != 0 && i > MantaroData.config().get().upToShard)
+                    continue;
 
                 log.info("Starting shard #" + i + " of " + (toShard == 0 ? totalShards : toShard - fromShard));
 
