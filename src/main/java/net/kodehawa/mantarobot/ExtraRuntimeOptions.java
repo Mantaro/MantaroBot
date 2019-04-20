@@ -16,6 +16,9 @@
 
 package net.kodehawa.mantarobot;
 
+import java.util.OptionalInt;
+
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class ExtraRuntimeOptions {
     public static final boolean DISABLE_NON_ALLOCATING_BUFFER = System.getProperty("mantaro.disable-non-allocating-buffer") != null;
     public static final boolean DEBUG = System.getProperty("mantaro.debug") != null;
@@ -23,4 +26,14 @@ public class ExtraRuntimeOptions {
     public static final boolean LOG_DB_ACCESS = System.getProperty("mantaro.log_db_access") != null;
     public static final boolean TRACE_LOGS = System.getProperty("mantaro.trace_logs") != null;
     public static final boolean VERBOSE = System.getProperty("mantaro.verbose") != null;
+    public static final OptionalInt FROM_SHARD = maybeInt("mantaro.from-shard");
+    public static final OptionalInt TO_SHARD = maybeInt("mantaro.to-shard");
+
+    private static OptionalInt maybeInt(String name) {
+        try {
+            return OptionalInt.of(Integer.parseInt(System.getProperty(name)));
+        } catch(Exception e) {
+            return OptionalInt.empty();
+        }
+    }
 }
