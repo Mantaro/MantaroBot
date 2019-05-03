@@ -20,6 +20,7 @@ import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import io.prometheus.client.Gauge;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.MantaroCore;
@@ -79,8 +80,8 @@ public class ShardedMantaro {
 
         this.totalShards = shardAmount;
         this.processor = commandProcessor;
-        this.fromShard = fromShard;
-        this.toShard = toShard;
+        this.fromShard = fromShard == 0 ? ExtraRuntimeOptions.FROM_SHARD.orElse(fromShard) : fromShard;
+        this.toShard = toShard == 0 ? ExtraRuntimeOptions.TO_SHARD.orElse(toShard) : toShard;
         this.shards = new MantaroShard[this.totalShards];
     }
 
