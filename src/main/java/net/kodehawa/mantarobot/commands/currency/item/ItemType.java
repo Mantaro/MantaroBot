@@ -51,7 +51,8 @@ public enum ItemType {
     BROKEN_COMMON(false),
     BROKEN_FISHING(false),
     BROKEN_MINE_COMMON(false), //This is to drop broken picks on the fish crate.
-    BROKEN_FISHING_COMMON(false); //This is to drop broken rods on the fish crate.
+    BROKEN_FISHING_COMMON(false),//This is to drop broken rods on the fish crate.
+    WAIFU(false);//So it doesn't drop on a loot crate, lol
 
     private boolean cast;
 
