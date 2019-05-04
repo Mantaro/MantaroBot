@@ -31,7 +31,6 @@ public class Config {
     public String apiLoginCreds;
     public boolean cacheGames = false;
     public String carbonToken;
-    public int connectionWatcherPort = 26000;
     public String consoleChannel = "266231083341840385";
     public String dbDb = "mantaro";
     public String dbHost = "localhost";
@@ -67,6 +66,8 @@ public class Config {
     public String clientId; //why not ig.
     public String lavalinkNode;
     public String lavalinkPass;
+    public String jedisPoolAddress = "127.0.0.1";
+    public int jedisPoolPort = 6379;
 
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());

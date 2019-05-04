@@ -39,14 +39,16 @@ public class MantaroData {
     private static ManagedDatabase db;
 
     @Getter
-    private static JedisPool defaultJedisPool = new JedisPool("127.0.0.1", 6379);
+    private static JedisPool defaultJedisPool = new JedisPool(config().get().jedisPoolAddress, config().get().jedisPoolPort);
 
     static {
         Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-data", exec);
     }
 
     public static GsonDataManager<Config> config() {
-        if(config == null) config = new GsonDataManager<>(Config.class, "config.json", Config::new);
+        if(config == null)
+            config = new GsonDataManager<>(Config.class, "config.json", Config::new);
+
         return config;
     }
 

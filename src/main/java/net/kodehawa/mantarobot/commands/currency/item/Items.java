@@ -61,7 +61,7 @@ public class Items {
             .spamTolerance(2)
             .cooldown(4, TimeUnit.MINUTES)
             .maxCooldown(4, TimeUnit.MINUTES)
-            .randomIncrement(true)
+            .randomIncrement(false)
             .pool(MantaroData.getDefaultJedisPool())
             .prefix("lootcrate")
             .build();
@@ -71,7 +71,7 @@ public class Items {
             .spamTolerance(2)
             .cooldown(4, TimeUnit.MINUTES)
             .maxCooldown(4, TimeUnit.MINUTES)
-            .randomIncrement(true)
+            .randomIncrement(false)
             .pool(MantaroData.getDefaultJedisPool())
             .prefix("fish")
             .build();
