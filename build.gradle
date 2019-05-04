@@ -30,6 +30,8 @@ plugins {
     //id 'com.sedmelluq.jdaction' version '1.0.1'
     //Tell me when smth is outdated
     id 'com.github.ben-manes.versions' version '0.20.0'
+    //Builds docker images
+    id 'com.palantir.docker' version '0.22.1'
 }
 
 //Define the Main Class
@@ -114,6 +116,18 @@ dependencies {
     //Unit tests
     testCompile 'junit:junit:4.12'
 }
+
+docker {
+    name "mantaro/mantaro:$ver"
+    tag "latest", "mantaro/mantaro:latest"
+    files shadowJar.outputs
+    buildArgs([
+        version: ver.toString(),
+        jattachVersion: "v1.5"
+    ])
+}
+
+docker.dependsOn shadowJar
 
 compileJava.dependsOn generateLanguageList
 
