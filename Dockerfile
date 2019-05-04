@@ -10,7 +10,8 @@ RUN chmod +x /bin/jattach
 
 WORKDIR /mantaro
 
-COPY Mantaro-${version}.jar mantaro.jar
+COPY assets assets
+COPY assets/Mantaro-${version}.jar mantaro.jar
 
 CMD [ \
      "java", \

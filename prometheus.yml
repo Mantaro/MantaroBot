@@ -1,0 +1,14 @@
+global:
+  scrape_interval:     5s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ['localhost:9091']
+  - job_name: andesite
+    static_configs:
+      - targets: ['andesite:5000']
+  - job_name: mantaro
+    static_configs:
+      - targets: ['mantaro:9091']

@@ -121,6 +121,7 @@ docker {
     name "mantaro/mantaro:$ver"
     tag "latest", "mantaro/mantaro:latest"
     files shadowJar.outputs
+    copySpec.from("assets").into("assets")
     buildArgs([
         version: ver.toString(),
         jattachVersion: "v1.5"
