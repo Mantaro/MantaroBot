@@ -336,147 +336,209 @@ public class ItemCmds {
         final SecureRandom random = new SecureRandom();
 
         //The contents of this command are -mostly- taken from the cast command, so they'll look similar.
-        registry.register("repair", new SimpleCommand(Category.CURRENCY) {
+        TreeCommand rp = (TreeCommand) registry.register("repair", new TreeCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_item"), EmoteReference.ERROR).queue();
-                    return;
-                }
+            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+                return new SubCommand() {
+                    @Override
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        if(content.isEmpty()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_item"), EmoteReference.ERROR).queue();
+                            return;
+                        }
 
-                ManagedDatabase db = MantaroData.db();
+                        ManagedDatabase db = MantaroData.db();
 
-                //Argument parsing.
-                Map<String, String> t = getArguments(args);
-                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+                        //Argument parsing.
+                        Map<String, String> t = getArguments(content);
+                        boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
 
-                content = Utils.replaceArguments(t, content, "season", "s");
-                args = StringUtils.efficientSplitArgs(content, -1); //Why? because we need to do this. I'll add another kind of command to make this easier later on.
+                        content = Utils.replaceArguments(t, content, "season", "s");
+                        String[] args = StringUtils.efficientSplitArgs(content, -1);
 
-                //Get the necessary entities.
-                SeasonPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
-                Player player = db.getPlayer(event.getAuthor());
-                DBUser user = db.getUser(event.getMember());
+                        //Get the necessary entities.
+                        SeasonPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                        Player player = db.getPlayer(event.getAuthor());
+                        DBUser user = db.getUser(event.getMember());
 
-                String itemString = args[0];
-                Item item = Items.fromAnyNoId(itemString).orElse(null);
-                Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-                Item wrench = playerInventory.containsItem(Items.WRENCH_SPARKLE) ? Items.WRENCH_SPARKLE : Items.WRENCH_COMET;
+                        String itemString = args[0];
+                        Item item = Items.fromAnyNoId(itemString).orElse(null);
+                        Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
+                        Item wrench = playerInventory.containsItem(Items.WRENCH_SPARKLE) ? Items.WRENCH_SPARKLE : Items.WRENCH_COMET;
 
-                if(args.length > 1) {
-                    wrench = Items.fromAnyNoId(args[1]).orElse(null);
-                }
+                        if(args.length > 1) {
+                            wrench = Items.fromAnyNoId(args[1]).orElse(null);
+                        }
 
-                if(item == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_item_found"), EmoteReference.ERROR).queue();
-                    return;
-                }
+                        if(item == null) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_item_found"), EmoteReference.ERROR).queue();
+                            return;
+                        }
 
-                if(!(item instanceof Broken)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.repair.cant_repair"), EmoteReference.ERROR, item.getName()).queue();
-                    return;
-                }
+                        if(!(item instanceof Broken)) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.cant_repair"), EmoteReference.ERROR, item.getName()).queue();
+                            return;
+                        }
 
-                if(!(wrench instanceof Wrench)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_wrench"), EmoteReference.ERROR).queue();
-                    return;
-                }
+                        if(!(wrench instanceof Wrench)) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_wrench"), EmoteReference.ERROR).queue();
+                            return;
+                        }
 
-                if(((Wrench) wrench).getLevel() < 2) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_enough_level")).queue();
-                    return;
-                }
+                        if(((Wrench) wrench).getLevel() < 2) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_enough_level")).queue();
+                            return;
+                        }
 
-                if(!playerInventory.containsItem(wrench)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_tool"), EmoteReference.ERROR, Items.WRENCH.getName()).queue();
-                    return;
-                }
+                        if(!playerInventory.containsItem(wrench)) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_tool"), EmoteReference.ERROR, Items.WRENCH.getName()).queue();
+                            return;
+                        }
 
-                int dust = user.getData().getDustLevel();
-                if(dust > 95) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.repair.dust"), EmoteReference.ERROR, dust).queue();
-                    return;
-                }
+                        int dust = user.getData().getDustLevel();
+                        if(dust > 95) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.dust"), EmoteReference.ERROR, dust).queue();
+                            return;
+                        }
 
-                if(!handleDefaultIncreasingRatelimit(ratelimiter, event.getAuthor(), event, languageContext))
-                    return;
+                        if(!handleDefaultIncreasingRatelimit(ratelimiter, event.getAuthor(), event, languageContext))
+                            return;
 
-                Broken brokenItem = (Broken) item;
-                Item repairedItem = Items.fromId(brokenItem.getMainItem());
-                long repairCost = repairedItem.getValue() / 3;
+                        Broken brokenItem = (Broken) item;
+                        Item repairedItem = Items.fromId(brokenItem.getMainItem());
+                        long repairCost = repairedItem.getValue() / 3;
 
-                long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
-                if(playerMoney < repairCost) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_enough_money"), EmoteReference.ERROR, playerMoney, repairCost).queue();
-                    return;
-                }
+                        long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
+                        if(playerMoney < repairCost) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_enough_money"), EmoteReference.ERROR, playerMoney, repairCost).queue();
+                            return;
+                        }
 
-                Map<Item, Integer> recipeMap = new HashMap<>();
-                String repairRecipe = brokenItem.getRecipe();
-                String[] splitRecipe = repairRecipe.split(";");
-                StringBuilder recipeString = new StringBuilder();
+                        Map<Item, Integer> recipeMap = new HashMap<>();
+                        String repairRecipe = brokenItem.getRecipe();
+                        String[] splitRecipe = repairRecipe.split(";");
+                        StringBuilder recipeString = new StringBuilder();
 
-                for(String s : splitRecipe) {
-                    String[] split = s.split(",");
-                    int amount = Integer.parseInt(split[0]);
-                    Item needed = Items.fromId(Integer.parseInt(split[1]));
+                        for(String s : splitRecipe) {
+                            String[] split = s.split(",");
+                            int amount = Integer.parseInt(split[0]);
+                            Item needed = Items.fromId(Integer.parseInt(split[1]));
 
-                    if(!playerInventory.containsItem(needed)) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_item_recipe"), EmoteReference.ERROR, needed.getName()).queue();
-                        return;
+                            if(!playerInventory.containsItem(needed)) {
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_item_recipe"), EmoteReference.ERROR, needed.getName()).queue();
+                                return;
+                            }
+
+                            int inventoryAmount = playerInventory.getAmount(needed);
+                            if(inventoryAmount < amount) {
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_enough_items"), EmoteReference.ERROR, needed.getName(), amount, inventoryAmount).queue();
+                                return;
+                            }
+
+                            recipeMap.put(needed, amount);
+                            recipeString.append(amount).append("x ").append(needed.getName()).append(" ");
+                        }
+
+                        for(Map.Entry<Item, Integer> entry : recipeMap.entrySet()) {
+                            Item i = entry.getKey();
+                            int amount = entry.getValue();
+                            playerInventory.process(new ItemStack(i, -amount));
+                        }
+                        //end of recipe build
+
+                        playerInventory.process(new ItemStack(brokenItem, -1));
+                        playerInventory.process(new ItemStack(repairedItem, 1));
+
+                        String message = "";
+                        //The higher the chance, the lower it's the chance to break. Yes, I know.
+                        if(random.nextInt(100) > ((Wrench) wrench).getChance()) {
+                            playerInventory.process(new ItemStack(wrench, -1));
+                            message += languageContext.get("commands.repair.item_broke");
+                        }
+
+                        user.getData().increaseDustLevel(3);
+                        user.save();
+
+                        if(isSeasonal) {
+                            seasonalPlayer.removeMoney(repairCost);
+                            seasonalPlayer.save();
+                        } else {
+                            player.removeMoney(repairCost);
+                            player.save();
+                        }
+
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.repair.success") + "\n" + message,
+                                EmoteReference.WRENCH, brokenItem.getEmoji(), brokenItem.getName(), repairedItem.getEmoji(), repairedItem.getName(), repairCost, recipeString.toString().trim()
+                        ).queue();
                     }
 
-                    int inventoryAmount = playerInventory.getAmount(needed);
-                    if(inventoryAmount < amount) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_enough_items"), EmoteReference.ERROR, needed.getName(), amount, inventoryAmount).queue();
-                        return;
+                    @Override
+                    public HelpContent help() {
+                        return new HelpContent.Builder()
+                                .setDescription("Allows you to repair any broken item given you have the necessary elements.\n" +
+                                        "Repairing requires you to have the necessary materials to cast the item, and it has a cost of `item value / 3`.\n")
+                                .setUsage("`~>repair <item>")
+                                .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
+                                .build();
                     }
+                };
+            }
+        });
 
-                    recipeMap.put(needed, amount);
-                    recipeString.append(amount).append("x ").append(needed.getName()).append(" ");
-                }
-
-                for(Map.Entry<Item, Integer> entry : recipeMap.entrySet()) {
-                    Item i = entry.getKey();
-                    int amount = entry.getValue();
-                    playerInventory.process(new ItemStack(i, -amount));
-                }
-                //end of recipe build
-
-                playerInventory.process(new ItemStack(brokenItem, -1));
-                playerInventory.process(new ItemStack(repairedItem, 1));
-
-                String message = "";
-                //The higher the chance, the lower it's the chance to break. Yes, I know.
-                if(random.nextInt(100) > ((Wrench) wrench).getChance()) {
-                    playerInventory.process(new ItemStack(wrench, -1));
-                    message += languageContext.get("commands.repair.item_broke");
-                }
-
-                user.getData().increaseDustLevel(3);
-                user.save();
-
-                if(isSeasonal) {
-                    seasonalPlayer.removeMoney(repairCost);
-                    seasonalPlayer.save();
-                } else {
-                    player.removeMoney(repairCost);
-                    player.save();
-                }
-
-                event.getChannel().sendMessageFormat(languageContext.get("commands.repair.success") + "\n" + message,
-                        EmoteReference.WRENCH, brokenItem.getEmoji(), brokenItem.getName(), repairedItem.getEmoji(), repairedItem.getName(), repairCost, recipeString.toString().trim()
-                ).queue();
+        rp.addSubCommand("ls", new SubCommand() {
+            @Override
+            public String description() {
+                return "Lists all of the cast-able items";
             }
 
             @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Allows you to repair any broken item given you have the necessary elements.\n" +
-                                "Repairing requires you to have the necessary materials to cast the item, and it has a cost of `item value / 3`.\n")
-                        .setUsage("`~>repair <item>")
-                        .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
-                        .build();
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                List<Broken> repairableItems = Arrays.stream(Items.ALL)
+                        .filter(i -> i instanceof Broken)
+                        .map(i -> (Broken) i)
+                        .collect(Collectors.toList());
+
+                List<MessageEmbed.Field> fields = new LinkedList<>();
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setAuthor(languageContext.get("commands.repair.ls.header"), null, event.getAuthor().getEffectiveAvatarUrl())
+                        .setColor(Color.PINK)
+                        .setFooter(String.format(languageContext.get("general.requested_by"), event.getMember().getEffectiveName()), null);
+
+                for (Broken item : repairableItems) {
+                    //Build recipe explanation
+                    if(item.getRecipe().isEmpty())
+                        continue;
+
+                    String repairRecipe = item.getRecipe();
+                    String[] splitRecipe = repairRecipe.split(";");
+                    StringBuilder recipeString = new StringBuilder();
+                    Item mainItem = Items.fromId(item.getMainItem());
+                    for(String s : splitRecipe) {
+                        String[] split = s.split(",");
+                        int amount = Integer.parseInt(split[0]);
+                        Item needed = Items.fromId(Integer.parseInt(split[1]));
+                        recipeString.append(amount).append("x ").append(needed.getEmoji()).append(" *").append(needed.getName()).append("*|");
+                    }
+
+                    //End of build recipe explanation
+                    //This is still, but if it works it works.
+                    String recipe = String.join(", ", recipeString.toString().split("\\|"));
+                    long repairCost = item.getValue() / 3;
+
+                    fields.add(new MessageEmbed.Field(item.getEmoji() + " " + item.getName(),
+                            languageContext.get(item.getDesc()) + "\n**" + languageContext.get("commands.repair.ls.cost") + "**" +
+                                    repairCost + " " + languageContext.get("commands.gamble.credits") + ".\n**Recipe: **" + recipe + "\n**Item: **" + mainItem.getEmoji() + " " + mainItem.getName(), true));
+                }
+
+                List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
+                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                if(hasReactionPerms) {
+                    builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.repair.ls.desc")));
+                    DiscordUtils.list(event, 45, false, builder, splitFields);
+                } else {
+                    builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.repair.ls.desc")));
+                    DiscordUtils.listText(event, 45, false, builder, splitFields);
+                }
             }
         });
     }
