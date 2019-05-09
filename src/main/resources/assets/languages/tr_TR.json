@@ -1,0 +1,2083 @@
+{
+  "general": {
+    "invalid_number": "%1$sBu gecerli bir numara degil!",
+    "requested_by": "Istek %1$s tarafindan yapildi.",
+    "operation_timed_out": "%1$sBu operasyon icin cevap verme suresi doldu.",
+    "too_many_users_found": "%1$sCok fazla kullanici bulundu, belki aramanizi detaylandirabilrsiniz? (orn. nick#numara kullanabilirsiniz)\n**Bulunan Kullanicilar:** %2$s",
+    "search_no_result": "%1$sAramaniz bir sonuc vermedi :(",
+    "unknown": "Bilinmiyor",
+    "days": "gun",
+    "none": "Hic",
+    "now": "Simdi",
+    "hourly": "saatlik",
+    "daily": "gunluk",
+    "total": "toplam",
+    "arrow_react": "Ok tepkilerini kullanarak sayfalari degistirebilirsiniz.",
+    "text_menu": "&page >> ve &page << kullanarak sayfalar arasinda gecis yapin &cancel ile bitirin",
+    "not_found": "Bulunamadi",
+    "no_results": "Sonuc yok.",
+    "timeout": "%1$d saniye icinde bitecek.",
+    "reaction_timeout": "Tepkiler %1$d saniye sonra gecersiz hale gelecektir.",
+    "example": "Ornek",
+    "definition": "Tanim",
+    "name": "Isim",
+    "description": "Aciklama",
+    "options": "Secenekler",
+    "find_members_failure": "%1$sarama kriterlerinize gore bir kullanici bulunamadi :(",
+    "too_many_members": "%1$sCok fazla uye bulundu, belki aramanizi detaylandirabilrsiniz? (orn. nick#numara kullanabilirsiniz)\n**Bulunan Uyeler:** %2$s",
+    "dust": "Burada sadece toz var.",
+    "invalid_syntax": "Gecersiz ek.",
+    "item_lookup": {
+      "no_item_emoji": "Bu emoji ile alakali esya yok.",
+      "no_item_name": "Bu tanimlama ile alakali bir esya yok.",
+      "not_found": "Aramaniz ile alakali bir esya yok. Eger bulamiyorsan kisaltma yapmayi deneyebilirsiniz, ornegin `Platonik Ask`, yerine `platonik` kullanabilirsiniz. Ya da ismi tırnak işareti içine alın.",
+      "claim_key": "Anahtarinizi transfer edemediniz."
+    },
+    "misc_item_usage": {
+      "mop": "%1$sSanirim tum o maden girisimlerinizde topladigin tozlari temizledin lol.",
+      "milk": "%1$sTum iksir etkileri temizlendi.",
+      "stamina": "%1$s3 maden girismi icin dayaniklik iksirini aktive ettin.",
+      "stamina_used": "%1$sDayaniklik iksirini zaten icmissin (yan etkisi olur)!",
+      "haste": "%1$s2 deneme icin hiz etkisini aktif ettin.",
+      "haste_used": "%1$sZaten bir hiz etkisi var!",
+      "bait": "%1$sOltana yem taktin! Haydi rastgele! (tek kullanimliktir!)",
+      "bait_used": "%1$sOltanda bir yem takili, ne dusunuyorsun ki?",
+      "pill": "%1$sWaifu hapi ictin! (5 deneme icin aktif)",
+      "pill_used": "%1$sZaten bir waifu hapi almissin!",
+      "crate": {
+        "no_key": "%1$sKasa kilitli! Kasa anahtarina ihtiyacin var.",
+        "no_crate": "%1$sKasaya ihtiyacin var! Baska turlu nasil kullanmayi dusunuyorsun ki anahtari >.>... hm?",
+        "success": "%1$sKasayi actin, icinden: %2$s%3$s cikti. Tebrikler!",
+        "overflow": "Zaten elinde cok fazla vardı, fazlaliktan kurtulmayi sectin!"
+      },
+      "potion_active": "%1$sZaten aktif olan bir **%2$s** iksir efektin var ustelik maksimum olarak kullaniyorsun!",
+      "potion_not_found": "%1$sO iksir veya ekipman tipini bulamadim!",
+      "potion_applied": "%1$s**%2$s** efektinin *%3$s* (%4$dx) tipi basariyla aktif edildi. Parildayan yeni efektini `~>profile stats` ile kontrol edebilirsin!",
+      "potion_applied_multiple": "%1$s**%2$s** efektinin *%3$s* tipi basariyla aktif edildi.\nYalniz bu efekt zaten vardi, ustune tekrar koyduk. Guncel: %4$s",
+      "max_stack_size": "%1$s%2$s maksimum kapasitesine ulasmissiniz.",
+      "max_stack_size_2": "%1$sO kadar %2$s kullanamazsiniz.",
+      "not_same_potion": "%1$sZaten %2$s tipi bir iksiriniz var, ust uste koymussunuz ve aktif etmisiniz, %3$s bu iksiri onun üzerine koyamazsin."
+    },
+    "mention_user_required": "%1$sBir isimden bahsetmelisiniz ('@kullanici' yapabililrsin.)",
+    "invalid_character": "%1$sBu kullanilabilir bir karakter degil.",
+    "invalid_action": "Bunu yapamazsin, şapşal.",
+    "interactive_running": "%1$sZaten bu kanalda interaktif bir operasyon başlatmışsınız, hemde siz kullanıyorsunuz.",
+    "buy_sell_paged_react": "**Toplam sayfa: %1$d.**\nAşağıda bulunan tepkilerle sayfaları değiştirebilirsiniz.\n%2$s",
+    "buy_sell_paged_text": "**Toplam sayfa: %1$d.**\n**&p >>** ve **&p <<** kullanarak sayfalar arası geçiş yap.\n%2$s",
+    "buy_sell_paged_reference": "**Referans %1$s Al %2$s Sat.**",
+    "cancelled": "%1$sIstek iptal edildi.",
+    "sellout": "Bağış yapmayı düşünün [Patreon](https://www.patreon.com/mantaro) beni beğendiyseniz küçük bir bağış, beni hayatta tutacaktır, hehe!",
+    "deprecated": "Artık kullanılamıyor.",
+    "space_notice": "Arada bir bosluk varsa ismi tırnak içine alın \"tırnak içine\"",
+    "ratelimit": {
+      "header": "%1$s%2$s (cooldown)\n **%3$s saniye içinde tekrar bu komutu kullanabileceksin.**",
+      "spam_1": "Lütfen dinlenin, bu senin sağlığın açısından iyi! :( *Cooldown git gide yükseliyor sen böyle denedikçe, sakin ... sakin!*",
+      "spam_2": "\nBiraz duraklamak en iyi seçenek olacaktır..."
+    },
+    "generic_error": "Isterseniz, bizim **destek sunucumuza** katılın (Link `support.mantaro.site`), veya GitHub sayfasını kontrol edin (`https://github.com/Kodehawa/MantaroBot`). Lütfen beni pis pis kullanmalarına izin verme ve ERROR ID'yi bug raporlarına eklemeyi unutma!",
+    "boom_quotes": [
+      "Görünüşe göre Magumin kalemizi işgal etmiş...",
+      "Of sanırım, benim efendim sıfırlar veya birleri koymayı unutmuş :<",
+      "B-Bekle sanırım birşeyler yanlış ha?",
+      "S-sanırım burada yangın çıkmış! Efendime haber verseniz iyi olur, o yardımcı olur.",
+      "Patlayıcı büyülerinde ustalaştım gördün mü?",
+      "Sanırım burada bir hata oldu, ama sanırım onu tamir edebilirim!",
+      "Huh- ne istedin hı?"
+    ],
+    "ratelimit_quotes": [
+      "Ay, biraz hızlı çağırmıyor musun beni? Biraz bekle... Başım dönüyor, hehe.",
+      "Aç gözlülük yapma!",
+      "Başım dönüyor, biraz hızlı mı çağırdın beni acaba...",
+      "Dur bakalım orda, dostum hehe.!",
+      "Sadece azıcıııık daha bekle",
+      "Bu kadar hızlı beni çağırmaya devam edersen radara yakalanabiliriz!",
+      "Bende hemen istediğini yapmak isterim ama biraz bekle bakalım.",
+      "Biraz ara verdim biliyorsun, azıcık daha bekle!",
+      "Biraz yavaşlar mısın lütfen?"
+    ],
+    "mod_quotes": [
+      "Of, sanırım biraz sert çarptı!",
+      "Sadece yönetici durumları gerçekleşiyor...",
+      "Bot atıldı!",
+      "Özleneceksin..., şaka yaptım.",
+      "Umuyorum ki doğru şeyi yaptım....",
+      "Sakin, modlar konuştu yeterli!",
+      "Hmm, biri kapıdan çıktı ve gitti."
+    ]
+  },
+  "categories": {
+    "music": "Müzik",
+    "action": "Hareket",
+    "misc": "Diğer",
+    "moderation": "Moderasyon",
+    "owner": "Sahip",
+    "image": "Resim",
+    "utils": "Kullanışlı",
+    "fun": "Eğlence",
+    "games": "Oyunlar",
+    "info": "Bilgi",
+    "currency": "Currency"
+  },
+  "commands": {
+    "fish": {
+      "dust": "%1$sGün bitti ve balık kovanda sadece toz var. (Toz seviyesi %2$s%%)",
+      "no_rod": "%1$sBalık tutmak için oltan yok!",
+      "trash": {
+        "overflow": "%1$sGereksiz çöpler buldun balık tutarken ama envanterin dolu olduğu için onları denize geri fırlattın...",
+        "success": "%1$sSakince balık tutarken %2$s su üstünde yüzdüğünü farkettin ama sadece bir çöp gibi :("
+      },
+      "tier3": {
+        "extra": "ve %1$s buldun, şanslısın!"
+      },
+      "crate": {
+        "overflow": "Balık tutarken **%1$s** buldunuz, ama zaten elinde çok fazla vardı, bu yüzden onu suya geri fırlattın...",
+        "success": "Balık tutarken %1$s **%2$s** buldun ve onu almaya yeltendin. Git ve onu `~>opencrate <isim>` yazarak aç. Anahtara ihtiyacın olacak!"
+      },
+      "overflow": "%1$sBiraz balık tuttun ama envanterinin bir kısmı doluydu o açıdan suya geri fırlatmak zorunda kaldın...",
+      "success": "%1$sBalık tutarken, %2$s buldun ve cebine attın.",
+      "success_money": "%1$sBalık tutarken, %2$s **$%3$d kredi** buldun ve cebine attın.%4$s",
+      "success_money_noitem": "%1$sBalık tutarken, **$%2$d kredi** buldun ve cebine atıtn.",
+      "rod_broke": "%1$sBalık tutarken oltanı kırdın :(",
+      "waifu_help": "Waifu geldi ve balık tutma maceranda sana katıldı, daha büyük balık yakalayabilirsiniz!",
+      "not_suitable": "%1$sBalık tutmak için bunu kullanamazsın.",
+      "shark_success": "%1$sNasıl olduysa, bir köpekbalığı yakaladın, bu nasıl bir oltadır böyle?",
+      "fossil_success": "%1$sBalık tutmaya çalışırken fosil buldun. Sanırım, biraz para edebilir ha.",
+      "bait": "Balık oltandaki yemi yedi ve gitti lmfao!",
+      "missing_equipped": "%1$s%2$s oltasını taktın, ama bu oltanın cinsinden artık sende yok! Elindeki olta gitti!",
+      "broken_drop": "%1$sOltan kırıldı ama onu tamir edebilirsin. Kırılan eşya: %2$s *%3$s*"
+    },
+    "softban": {
+      "no_permission": "%1$sYasaklayamıyorsun: Yasaklama yetkin yok.",
+      "no_permission_self": "%1$sÜzgünüm! Bu sunucu bana bu yetkiyi vermedi.",
+      "no_users": "%1$sBir kullanıcı belirtmelisin ki istediğini yapabileyim.",
+      "hierarchy_conflict": "%1$sSizden daha üst bir rolü olan kimseyi banlayamazsınız.",
+      "yourself_note": "%1$sKendini neden banlamaya çalıştın ki?",
+      "self_hierarchy_conflict": "%1$sYasaklanamayan kişi: %2$s, hiyerarşide benden daha yüksekte!",
+      "success": "%1$s%2$s. **(%3$s yasaklandı!)**",
+      "error": "%1$sHata [%2$s]: (yetki yok: %3$s)",
+      "unknown_error": "%1$sBilinmeyen bir hata oluştu %2$s: *(Hata? %3$s: %4$s)*"
+    },
+    "ban": {
+      "no_permission": "%1$sYasaklayamazsın: `Ban Users` rolü yetkisi lazım.",
+      "no_users": "%1$sBirinden bahsetmelisin.",
+      "no_permission_self": "%1$sÜzgünüm! Bu sunucuda banlama yetkim yok.",
+      "hierarchy_conflict": "%1$sHiyerarşide senden yüksek birini banlayamazsın! İyi deneme %2$s",
+      "yourself_note": "%1$sKendini banlamaya çalışmamalısın?",
+      "self_hierarchy_conflict": "%1$sYasaklanamayan: %2$s, onlar bizlerden daha yüksek hiyerarşide!",
+      "success": "%1$s%2$s (%3$s banlandı)",
+      "error": "%1$sBanlama da hata %2$s: (Yetki gerekil %3$s)",
+      "unknown_error": "%1$sOf, banlarken bilinmeyen bir hata ile karşılaştım %2$s"
+    },
+    "kick": {
+      "no_permission": "%1$sAtamazsin: Üye atma yetkin yok.",
+      "no_users": "%1$sBana üye atma yetkisi vermen gerek.",
+      "no_permission_self": "%1$sÜzgünüm! Bu sunucuda üye atma yetkim yok.",
+      "hierarchy_conflict": "%1$sSenden daha yüksek birini sunucudan atamazsın",
+      "yourself_note": "%1$sBir insan kendini neden atmak ister ki?",
+      "self_hierarchy_conflict": "%1$sAtamazsın: %2$s, bu kişi benden daha yüksek veya benle eşit rütbede!",
+      "success": "%1$s%2$s (%3$s atıldı)",
+      "error": "%1$sHata %2$s: (Yetki verilmemiş: %3$s)",
+      "unknown_error": "%1$sU %2$s atmaya çalışrken hata."
+    },
+    "tempban": {
+      "no_time": "%1$sZamanı söylemeden banlayamazsın.",
+      "no_reason": "%2$sBir gerekçe vermeden banlayamazsın.",
+      "success": "%1$s%2$s (%3$s kısa süreliğine banlandı.)"
+    },
+    "music_usage": {
+      "1": "*Mantaro da müzik nasıl kullanılır?*",
+      "2": "- **Youtube veya soundcloud** müziklerini sıralamak için `~>play` kullan Örneğin: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *Mantaro otomatik olarak olduğun kanala bağlanacaktır.*",
+      "3": "- **Youtube da müzik aramak için** `~>play <arama>` kullanabilirsin. Örneğin: `~>play o sen olsan bari` (Sonra numara seçmen gerekecek, sadece *numarayı yaz* man yeterli olacak!)",
+      "4": "- **Soundcloud da müzik aramak için** `~>play soundcloud <arama>` kullanabilirsin. Örneğin: `~>play soundcloud o sen olsan bari`",
+      "5": "- **Listeyi kontrol etmek için** sadece `~>queue` yazman yeterli.",
+      "6": "- **Listeden şarkı çıkarmak için** `~>removetrack` yazman yeterli olacak. Şarkının kaçıncı sırada olduğunu söylemen gerekebilir. (listeden bakabilirsin)",
+      "7": "- **Durdurmak veya devam etmek için** `~>pause` kullanabilirsin.",
+      "8": "- **Çalınan şarkıları durdurmak için** `~>stop` yaz.",
+      "9": "- **Listeyi karmak için** `~>shuffle` kullanabilirsin.",
+      "10": "- ve son olarak, **şarkı tekrarlamak için** `~>repeat` kullanabilirsin ve listeyi **tekrar etmek için** `~>repeat queue` yazabilirsin. `~>repeat` bir tekrar açıkken kullanılırsa, tekrarı iptal eder.\n",
+      "11": "Daha fazla bilgi için `~>help <komut adı>` kullanabilirsin. (komut adını bilgi almak istediğin komut adıyla değiştirebilirsin.)",
+      "12": "Mantaro ile müziğe doyun! Beni kullandığın için teşekkürler, şekerim."
+    },
+    "lang": {
+      "info": "%1$sSunucu dilini (kullanılabilirse) `~>opts language set <dil kodu>` kullanarak değiştirebilirsiniz. Kişisel olarak da değiştişikliğe gidebilirsiniz! `~>profile lang <kişisel>` kullan.\n**Kullanılabilen diller:** `%2$s`\nEğer diliniz burada yoksa, bize yardımcı olabilirsiniz, çevirmen ekibimize katılın!"
+    },
+    "season": {
+      "info": "*Season* genellikle üyelerin, 6 ay içerisinde birbirleriyle top 10 listesinde para veya rep için kapıştıkları zamandır. Kazananlar ödül veya arma ödüllerini kazanırlar.\nBu daha yarışma havası yaratır. (öncesinde, paranın pek önemi olmuyordu) ve oyunu daha eğlenceli hale getirir.\nSezon işlemlerine `-season` komutunu kullanarak erişebilirsin. Profile, mine, fish ve balance komutları bunları gerektirecek, Oyunlar, loot veya rep zaten hem sezon hem genel profiline etki eder.",
+      "info_2": "\n\n**%1$s** şu anki sezon ve **%2$s** kadar insan bu sezonda yarışıyor!\n\nEğlence başlasın, `~>leaderboard money -season` yazarak leaderboardlara bakabilirsin; `~>leaderboard rep -season` ve `~>leaderboard games -season` da kullan.\nOyun! <3\nTeşekkürler."
+    },
+    "music_general": {
+      "music_error": {
+        "timeout": "%1$s %2$s bağlanamıyor: bağlantı zaman aşımına uğradı. Sunucu yerini değiştirip, komutu tekrar dene.",
+        "unknown": "%1$s %2$s bağlanamıyor: bilinmeyen hata"
+      },
+      "no_song": "%1$sHangi şarkıyı çalmak istediğini söylemelisin! *(YouTube, Soundcloud, Twitch URL veya otomatik aramalar kabul edilebilir)*",
+      "not_playing": "%1$sŞu anda herhangi bir şarkı çalmıyorum.",
+      "dj_only": "%1$sBu komutu kullanmak için DJ nicki lazım Diji.",
+      "enjoy_note": "İyi eğlenceler! <3",
+      "no_player": "%1$sBurada müzik listesi bulamadım... (tekrar mı arasan ne yapsan?)",
+      "not_connected": "%1$sŞu anda şarkı çalan kanala bağlı değilsin! (Hata olduğunu düşünüyorsan, bana bug raparu atsan iyi olur sanki hehe!)",
+      "np_message": "%1$s Çalıyor **%2$s** (%3$s) kanal: **%4$s** | %5$s",
+      "track_error": "%1$sYa of, Şarkıyı çalarken bir problem çıktı! Özür diliyorum, Bu olmadığı için sıradakini oynatmaya çalışıyorum.",
+      "queue_finished": "%1$sŞarkı listesini oynatmayı bitirdim! Umarım eğlenmişsinizdir.\n%2$s",
+      "soundcloud_no_args": "%1$sBir şarkı ismi söylemelisin, ben büyücü değilim ki :(",
+      "queue": {
+        "no_track_found_np": "Hiç bir şey bulamadım, üzücü!",
+        "header": "Server %1$s için liste!",
+        "nothing_playing": "Burada tozdan başka bir şey yok, belki bişeyler eklesen?\nBurada şarkı olduğunu ama gözükmediğini düşünüyorsan, `~>queue 1` kullanmayı deneyebilirsin.",
+        "nothing_playing_2": "**Şarkı çalıyor ve herhangi bir müzik eklemediysen demek ki burada sadece toz var toz, şarkı eklemeyi deneyebilirsin?**",
+        "np": "Şu anda çalıyor.",
+        "page_overflow": "Burada tozdan başka bişey yok, bir kaç sayfa geri gitsen?",
+        "page_overflow_2": "Şarkı olupta görünmediğini düşünüyorsan, `~>queue 1` yazmayı deneyebilirsin.",
+        "total_queue_time": "Toplam şarkı listesi zamanı",
+        "total_size": "Toplam şarkı",
+        "togglers": "Tekrar et / Durdur",
+        "playing_in": "Çalıyor:",
+        "footer": "Toplam sayfa: %1$d%2$s. Şu anki sayfa: %3$d",
+        "multiple_pages": " -> ~>queue <sayfa> kullanarak sayfaları değiştirebilirsiniz.",
+        "page_react": " -> tepki vererek sayfaları değiştirebilirsin.",
+        "no_channel": "Kanal yok ki :(",
+        "songs": "şarkı(lar)",
+        "clear_error": "%1$sYa sesli konuşmaya katılmamışsınız ya da diji nikiniz yok.",
+        "clear_success": "%1$sGüncel şarkı listesini başarılı bir şekilde temizlediniz. Şarkı listesinde %2$s kadar şarkı vardı"
+      },
+      "connect": {
+        "success": "%1$s **%2$s** kanalına başarılı bir şekilde bağlandım!",
+        "full_channel": "%1$sDolu olan bir kanala bağlanamıyorum!",
+        "non_existent_channel": "%1$sOlmayan bir kanal mı? Bir ses kanalı kulup sildiyseniz sorunun sebebi bu olabiilr.\n Ben halletmeye çalıştım şimdi, komutu tekrar deneyebilirsin.",
+        "user_no_vc": "%1$s**Lütfen bir kanala katıl.**",
+        "missing_permissions_connect": "%1$sYeterli rütbeye sahip olmadığım için kanala katılamadım. (%2$s).",
+        "missing_permission_speak": "%1$sYeterli rütbeye sahip olmadığım için müziği çalamıyorum. (%2$s).",
+        "channel_locked": "%1$sSadece bir kanalda müzik çalabilirim **%2$s**.",
+        "already_connected": "%1$s**%2$s** kanalına zaten bağlıyım! (`move` komutunu kullanarak beni başka kanala alabilirsin!)",
+        "attempting_to_connect": "%1$s**%2$s** kanalına zaten katılmaya çalışıyorum! (`move` komutunu kullanarak beni başka kanala alabilirsin!)"
+      },
+      "listener": {
+        "paused": "%1$sBeni mutelediğin için çalmıyorum işte :(",
+        "resumed": "%1$sBiri katıldığı için şarkı listesini tekrar başlatıyorum!",
+        "left_alone": "%1$s**%2$s** kanalını 2 dakika içinde terketedeceğim çünkü tek başıma kaldım :(",
+        "leave": "%1$s **%2$s** kanalını terkettim çünkü tek baışma kaldım :("
+      },
+      "loader": {
+        "over_limit": "%1$s %2$d kadar şarkı zaten listede vardı, bu yüzden belirli miktar müzik ekledik ve devamını ekleyemedik.",
+        "loaded_playlist": "%1$s **%2$d kadar şarkı ekledik** şarkı listesindeki sıraya tabi: **%3$s** *(%4$s)*",
+        "no_matches": "%1$sArama herhangi bir sonuç vermedi. Eğer bu *tüm şarkılar* için çıkıyorsa, `~>play soundcloud <arama>` kullanmak isteyebilirsiniz. Direk youtubeden link vermek de işe yarayabilir.",
+        "error_loading": "%1$sMüzik çekme de hata: %2$s",
+        "over_queue_limit": "%1$sListeye ekleyemedik %2$s: Limiti aşmışız (%3$s)!",
+        "over_32_minutes": "%1$sListeye ekleyemedik %2$s: 32 dakikadan uzun bir şarkı olmaz olmaz! (%3$s)",
+        "fair_queue_limit_reached": "%1$s** %2$d seviyesini geçmişiz (çok fazla aynı şarkıyı eklemişiz)**",
+        "loaded_song": "%1$sListeye eklendi -> **%2$s** **(%3$s)**",
+        "selection_text": "Şarkı seçimi. Şarkı numarasını yazarak devam edebilirsin.",
+        "timeout_text": "Bu 30 saniye içinde iptal olacaktır. &cancel yazarak iptal edebilirsin."
+      },
+      "premium_beg": "%1$s <https://patreon.com/mantaro> sitesinde bize bağış yapmayı düşünün tabii beni beğeniyorsan hehe, azıcık bir bağış bile beni hayatta tutmaya yetebilir (`~>donate` yazarak bilgi edinebilirsin!)",
+      "closed_connection": "%1$sSes bağlantısı kapanıyor!..."
+    },
+    "forceskip": {
+      "success": "%1$sYetkili biri şarkıyı geçmeyi seçti, ağla."
+    },
+    "np": {
+      "no_track": "%1$sYa şarkı yok, ya da ben bulamıyorum, bir şarkı atmayı dener misin?",
+      "header": "Şu anda çalıyor!"
+    },
+    "pause": {
+      "paused": "Müzik çalar durakladı. *(Daha önce müzik çalar devam etmişti!)*",
+      "unpaused": "Müzik çalar devam ettirildi. *(Daha önce müzik çalar duraklatılmıştı!)*."
+    },
+    "rewind": {
+      "no_time": "%1$sNe kadar geriye almam gerektiğini söylemelisin. *(Örneğin: `~>rewind 1m45s` şarkıyı 1 dakika 45 saniye geri alır!)*",
+      "negative": "%1$sSadece pozitif girdiler!",
+      "before_beginning": "%1$sBir şarkının başlangıcından öteye geri alamam!",
+      "success": "%1$sGeri sarıldı: %2$s."
+    },
+    "restartsong": {
+      "success": "%1$sŞu anki şarkıyı tekrarlıyorum."
+    },
+    "skipahead": {
+      "no_time": "%1$sNe kadar ileriye almam gerektiğini söylemelisin. *(Örneğin: `~>skipahead 1m45s` şarkıyı 1 dakika 45 saniye ileriye alır!)*",
+      "past_duration": "%1$sŞarkı bittikten sonrasına gidemezsin.",
+      "success": "%1$s %2$s saniye ileri aldık."
+    },
+    "move": {
+      "attempt": "%1$sŞu anda olduğun kanala gelmeye çalışacağım!",
+      "error_moving": "%1$sKanalı değiştirmeyi beceremedim.",
+      "cannot_connect": "%1$sBağlanamıyorum: Konuşmaya veya o kanala girmeye yetkim olmayabilir.",
+      "non_existent_channel": "%1$sOlmayan bir kanala geçmem ki!",
+      "success": "%1$sBotu `%2$s` kanalına geçirdim",
+      "vc_not_found": "%1$sMüzik kanalı bulunamadı veya seçmedin!"
+    },
+    "shard": {
+      "info": "Ben %1$d shardındayım!"
+    },
+    "queue": {
+      "clear": {
+        "header": "%1$sDiji nikli adam listeyi temizledi!",
+        "success": "%1$s**%2$d kadar şarkı** listeden silindi.",
+        "error": "%1$sYa diji nikin yok ya da bir kanala bağlı değilsin!"
+      }
+    },
+    "repeat": {
+      "queue_cancel": "%1$sŞu anki listeyle devam ediyoruz.",
+      "queue_repeat": "%1$sŞu anki listeyi tekrarlıyoruz.",
+      "song_cancel": "%1$sNormal listeyle devam ediyoruz.",
+      "song_repeat": "%1$sŞu anki şarkıyı tekrarlıyoruz."
+    },
+    "nextsong": {
+      "no_song_next": "%1$sAma ama, başka şarkı yok ki :(",
+      "format": "%1$sListede ki yeni şarkı: **%2$s** (%3$s) | *Listedeki toplam şarkı: %4$d*"
+    },
+    "shuffle": {
+      "success": "%1$sŞu anki listeyi rastgele karalım!"
+    },
+    "skip": {
+      "dj_skip": "%1$sDiji niki şarkıyı geçti.",
+      "vote": {
+        "submit": "%1$s**Oyun geçerli!** %2$d tane daha oy lazım ki şarkıyı geçelim!",
+        "remove": "%1$s**Oyun silindi!** %2$d tane daha oy lazım ki şarkıyı geçelim!"
+      },
+      "success": "%1$sYeterli oya ulaşıldı, şarkı geçiliyor...",
+      "no_track": "%1$sGeçilecek şarkı yok ki, hiçbir şey yapamıyorum..."
+    },
+    "removetrack": {
+      "invalid_range": "%1$s`%2$s` geçerli bir yelpaze değil.",
+      "no_track": "%1$s `%2$d` sayısında geçerli bir şarkı yok ki!",
+      "invalid_number": "(%1$s`%2$s`) Yelpazenin bir ucu geçersiz!",
+      "invalid_number_range": "%1$s`%2$s` geçerli bir yelpaze değil!",
+      "success": "%1$s **%2$d** kadar şarkı listeden çıkarıldı.",
+      "not_dj": "%1$sBu hareketi yapmak için diji niki lazım sana."
+    },
+    "stop": {
+      "dj_stop": "%1$sŞu anki listeyi Diji durdurmaya karar verdi.",
+      "vote": {
+        "submit": "%1$s**Oyun geçerli!** %2$d tane daha oy lazım ki şarkıyı geçelim!",
+        "remove": "%1$s**Oyun silindi!** %2$d tane daha oy lazım ki şarkıyı geçelim!"
+      },
+      "success": "%1$sYeterli oya ulaşıldı, şarkı geçiliyor...",
+      "no_player": "%1$sGeçilecek şarkı yok ki, hiçbir şey yapamıyorum...",
+      "cleanup": "%1$s **%2$d** kadar şarkı listeden çıkarıldı"
+    },
+    "volume": {
+      "check": "%1$sBu seansın ses seviyesi: %2$d\n\n%3$s",
+      "success": "%1$sSes seviyesi değiştirildi %2$d\n\n%3$s",
+      "no_args": "%1$sBana hangi ayarlamak istediğin ses seviyesini söylemen lazım (5 veya 100 arası).",
+      "premium_only": "%1$sBu özellik sadece premium üyeler içindir, premium almak istiyorsanız: (https://www.patreon.com/mantaro). Anlayışınız için teşekkürler.\nPremium özellikleri genel olarak sunucuya bağlı veya kişisel olarak da kullanılabilir."
+    },
+    "prefix": {
+      "header": "%1$sVarsayılan ön ekler: %2$s (Herbiri için sana cevap veririm!). Bu sunucunun ön eki `%3$s` (Sadece bu sunucu da çalışır). Yeni bir ön eki `~>opts prefix set <prefix>` yaparak ayarlayabilirsiniz.",
+      "none": "Bu sunucu da özel bir ön ek yok, varsayılanı kullanabilirsin."
+    },
+    "custom": {
+      "no_args": "%1$sBu komutla tam olarak ne yapmak istediğini bana söylemelisin, help yazarak daha fazla bilgiye ulaşabilirsin!",
+      "incorrect_args": "%1$sGeçersiz argumanlar. `~>help custom` veya https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands sitesini kontrol ederek daha fazla bilgiye ulaşabilirsin. Daha fazla sorun varsa, bu siteden yararlanabilirsin. <https://support.mantaro.site>",
+      "error_running": "%1$sÖzel komut kullanırken hata... Lütfen cevapta bulunan içeriği ve uzunluğunu kontrol edin (2000'den uzun olamaz unutmayın).",
+      "error_running_new": "%1$sÖzel komut kullanırken hata... Lütfen cevapta bulunan içeriği ve uzunluğunu kontrol edin.\n**Hata:**\n```%2$s```",
+      "not_loaded": "Bot henüz tam olarak çalışmaya başlamamış, özel komutlar birazdan kullanıma açılır!",
+      "nsfw_enabled": "%1$sBu komut NSFW olarak işaretlendi.",
+      "nsfw_disabled": "%1$sBu komut SFW olarak işaretlendi.",
+      "nsfw_not_nsfw": "%1$sBu komut NSFW olarak işaretlenmiş, bundan dolayı NSFW kanallar dışında kullanılamaz..",
+      "new_error": "%1$sÖzel komut oluşturmaya çalışırken hata oluştu. (v3, içeriği kontrol et).\n**Hata:**\n```%2$s```",
+      "ls": {
+        "header": "Bu sunucu için komutlar.",
+        "description": "**Bu sunucunun tüm özel (yetkilinin komutlarını) gösterir.** Buradaki komutlar genel bot yapısıyla ilgili değil, sunucu ile ilgilidir.\n\nÖzel komutlar kullancılar tarafından oluşturulur (genelde yetkililer) bu komutlar onlar tarafından kullanılır ve ona göre şekillenir.\nÖzel komut yapmak için bu siteden yararlanabilirsiniz (https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Liste:**",
+        "footer": "Bu sunucudaki toplam özel komut sayısı: %1$s"
+      },
+      "invalid": "%1$sInvalid command selection. Check command help (`help custom`).",
+      "view": {
+        "invalid": "%1$sYou need to specify the command and the response number!",
+        "not_found": "%1$sThere isn't a custom command with that name here.",
+        "less_than_specified": "%1$sThis command has less responses than the number you specified...",
+        "success": "**Response `%1$d` for custom command `%2$s`:** \n```\n%3$s```"
+      },
+      "raw": {
+        "no_command": "%1$sYou need to tell me what command you want to look at.",
+        "header": "Command \"%1$s\":",
+        "amount": "(Showing %1$d responses of %2$d)",
+        "pasted": "Pasted content"
+      },
+      "clear": {
+        "success": "%1$sCleared **%2$d Custom Commands**"
+      },
+      "make": {
+        "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses. Use `~>nsfw` to mark this command as NSFW and `~>sfw` to revert.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
+        "cancel": "%1$sCommand Creation canceled.",
+        "no_responses_added": "%1$sNo responses were added. Stopping creation without saving...",
+        "success": "%1$sSaved to command `%2$s`.",
+        "no_name_specified": "%1$sYou didn't specify the name of the custom command to create!"
+      },
+      "eval": {
+        "new_error": "%1$sThere was an error while evaluating this custom command.\n**Error**:\n```%2$s```",
+        "error": "%1$sThere was an error while evaluating this custom command!\n%2$s"
+      },
+      "remove": {
+        "success": "%1$sRemoved Custom Command `%2$s`."
+      },
+      "import": {
+        "not_found": "%1$sThere are no custom commands matching your search query.",
+        "header": "`%1$s` - Guild: `%2$s`",
+        "selection": "Select the Command:",
+        "note": "(You can only select custom commands from guilds that you are a member of)",
+        "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3$d responses."
+      },
+      "edit": {
+        "invalid_number": "%1$sYou need to specify a correct number to change.",
+        "no_index": "%1$sYou cannot edit a non-existent index.",
+        "empty_response": "%1$sCannot edit to an empty response",
+        "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly"
+      },
+      "rename": {
+        "success": "%1$sRenamed command `%2$s` to `%3$s`"
+      },
+      "add": {
+        "empty_content": "%1$sYou need to specify the content of this custom command",
+        "success": "%1$sSaved to command `%2$s`"
+      },
+      "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
+      "already_exists": "%1$sThe command `%2$s` already exists and it's a default bot command.",
+      "name_too_long": "%1$sName is too long.",
+      "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just a bit of dust.",
+      "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
+      "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
+      "invalid_image": "%1$sThis command contains an invalid image, please fix...",
+      "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
+      "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
+      "invalid_link": "%1$sThe string `%2$s` isn't a valid link."
+    },
+    "mute": {
+      "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
+      "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`",
+      "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent.",
+      "no_users": "%1$sYou need to give me an user to mute.",
+      "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server.",
+      "no_time": "%1$sYou didn't specify any time. Remember that you need to add the `-time` argument and specify it there.",
+      "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
+      "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
+      "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
+      "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
+      "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to un-mute them.",
+      "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
+      "user_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
+      "success": "%1$sAdded mute role to **%2$s** for around %3$s"
+    },
+    "unmute": {
+      "no_permissions": "%1$sYou need to have either ban or kick members permission to un-mute!",
+      "no_mentions": "%1$sYou need to mention at least one user to un-mute.",
+      "success": "%1$sRemoved mute role from **%2$s**",
+      "no_role_assigned": "%1$sThis user doesn't have the mute role assigned to them."
+    },
+    "ping": {
+      "quotes": {
+        "1": "supersonic hiz! :upside_down:",
+        "10": "Sonicten hizli! :smiley:",
+        "69": "s-sapik! <:MantaroGasm:318869352851963904>",
+        "100": "harika! :smiley:",
+        "200": "güzel! :slight_smile:",
+        "300": "müthiş. :neutral_face:",
+        "400": "ortalama... :confused:",
+        "500": "hafiften yavaş sanki. :slight_frown:",
+        "600": "yavaş sayılır.. :frowning2:",
+        "700": "yavaş.. :worried:",
+        "800": "çok yavaş. :disappointed:",
+        "900": "kötü. :sob: (yardim!)",
+        "1600": "#DiscorduSucla. :angry:",
+        "10000": "Hic bir anlami yok :thinking: #SteveniSucla",
+        "default": "yavas iste amk. :dizzy_face:"
+      },
+      "display": [
+        "Y-yeterince hizli miydim?",
+        "Napıyorsun?",
+        "N-neye bakıyorsun?!",
+        "Huh.",
+        "İyi miydim?",
+        "Ne düşünüyorsun?",
+        "Bu genelde olur mu?",
+        "N-nasıl iyi miyim?",
+        "<3",
+        "*kafasını okşar*",
+        "Pong.",
+        "Pang.",
+        "Pung.",
+        "Peng.",
+        "Ping-pong? Yay!",
+        "U-Uh... h-hi"
+      ],
+      "text": "%1$s*%2$s* - Ping: %3$d ms (%4$s) `Websocket:%5$dms`"
+    },
+    "love": {
+      "no_mention": "%1$sBir kullanıcıdan bahsetmelisin.",
+      "not_ideal": "Bir dahakine tekrar dene...",
+      "decent": "Yeterli!",
+      "nice": "Oha süper!",
+      "perfect": "Harikasınız siz!",
+      "yourself_note": "Sen dünyanın en harika insanısın, kendini biraz daha sev <3",
+      "header": "Aşk metresi",
+      "result": "Sonuç:"
+    },
+    "marry": {
+      "loveletter": {
+        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on.",
+        "empty": "%1$sYou cannot leave the love letter empty.",
+        "no_marriage": "%1$sYou aren't married, you cannot write a love letter for yourself...",
+        "not_proposing_player": "%1$sYou aren't the player who proposed this marriage!",
+        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`.",
+        "too_long": "%1$sThe love letter is too long (maximum is 500 characters)",
+        "cannot_see": "%1$sI cannot find the user that you're married to... Probably they aren't in any server with me.",
+        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s",
+        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `marry status`.",
+        "scrapped": "%1$sYou still have time to think on what to write, no need to rush!"
+      },
+      "status": {
+        "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\" (If you see a marriage in your profile and see this message that means you are in the old system, try remarrying)",
+        "header": "Current Marriage Status",
+        "description_format": "%1$sMarriage status between **%2$s#%3$s** and **%4$s#%5$s**",
+        "date": "Marriage Date",
+        "love_letter": "Love Letter",
+        "waifus": "Waifu Ownership"
+      },
+      "no_mention": "%1$sMention the user you want to marry.",
+      "marry_yourself_notice": "%1$sYou cannot marry yourself, as much as you may want to.",
+      "marry_bot_notice": "%1$sYou cannot marry a bot. I don't think this is Futurama... yet. Wait, could bots and humans marry there?",
+      "already_married_receipt": "%1$sYou're married with them already, aww.",
+      "already_married": "%1$sYou're married already.",
+      "receipt_married": "%1$sThat user is married already.",
+      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>market buy 2 ring` and then try proposing again <3",
+      "confirmation": "%1$s%2$s, type with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
+      "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
+      "accepted": "%1$s**%2$s#%3$s** accepted the proposal of **%4$s#%5$s**!",
+      "denied": "%1$sDenied proposal from **%2$s**"
+    },
+    "divorce": {
+      "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?",
+      "success": "%1$sNow you're single. That's nice I guess."
+    },
+    "waifu": {
+      "bot": "%1$sA bot can't be a waifu, even if you want to...",
+      "notice": "This feature isn't meant to have any kind of relationship, either implicit or explicit, with real life events.",
+      "stats": {
+        "header": "Your waifu stats",
+        "header_other": "%1$s's waifu stats",
+        "format": "%1$s **Money weight value:** %2$,d\n%1$s **Badge weight value:** %3$,d\n%1$s **Experience weight value:** %4$,d\n%1$s **Claim weight value:** %5$,d\n%1$s **Reputation multiplier:** %6$.2fx",
+        "value": "Total waifu value",
+        "credits": "%1$,d credits",
+        "performance": "Waifu Performance Points"
+      },
+      "claim": {
+        "no_user": "%1$sYou didn't mention any user to claim.",
+        "locked": "%1$sYou're currently unable to perform this action.",
+        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed.",
+        "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s)**",
+        "not_enough_slots": "%1$sYou don't have enough slots available to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
+        "success": "%1$sSuccessfully claimed `%2$s` for %3$,d. Slots used: %4$s",
+        "yourself": "%1$sYou cannot claim yourself!",
+        "already_claimed": "%1$sYou already claimed this waifu.",
+        "not_found": "%1$sI can't find any user with this query. "
+      },
+      "unclaim": {
+        "no_user": "%1$sYou need to mention a waifu to un-claim.",
+        "not_claimed": "%1$sThis user isn't your waifu!",
+        "confirmation": "%1$sAre you *sure* you want to un-claim %2$s? The cost to un-claim this waifu is **%3$s credits**. Type *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
+        "not_enough_money": "%1$sYou don't have enough money to un-claim this waifu!",
+        "player_locked": "%1$sYou cannot do this at the moment.",
+        "scrapped": "%1$sCancelled waifu un-claiming.",
+        "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**.",
+        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID and append `-unknown` at the end."
+      },
+      "buyslot": {
+        "locked": "%1$sYou're currently unable to perform this action.",
+        "not_enough_money": "%1$sYou don't have enough money to buy more slots! You need %2$d credits.",
+        "success": "%1$sSuccessfully bought this slot for %2$s, you currently have %3$s total slots and %4$s available slots.",
+        "too_many": "%1$sYou already have too many slots!"
+      },
+      "header": "Waifu List",
+      "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$d waifus as of now.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
+      "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `~>waifu claim` to get started.",
+      "footer": "Total waifus: %1$d - available slots: %2$s",
+      "value_format": "**- Value:**",
+      "value_b_format": "**- Bought for:**",
+      "credits_format": " credits.",
+      "waifu_header": "**Your waifus:**",
+      "not_claimed": "%1$sYou haven't claimed this waifu."
+    },
+    "ratewaifu": {
+      "nothing_specified": "%1$sGive me a waifu to rate!",
+      "success": "%1$sI rate %2$s with a **%3$d/100**"
+    },
+    "roll": {
+      "success": "%1$sYou got **%2$d**%3$s",
+      "amount": "Doing **%1$d** rolls."
+    },
+    "coinflip": {
+      "over_limit": "%1$sHold in there! The limit is 1,000 coin flips",
+      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions",
+      "success": "%1$s Your result from **%2$d** time(s) yielded **%3$d** heads and **%4$d** tails"
+    },
+    "inventory": {
+      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>market dump`",
+      "brief": "**%1$s's inventory:** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
+      "calculate": "%1$s%2$s will get **%3$d credits** if all of the items are sold.",
+      "header": "%1$s's Inventory",
+      "format": "**Price**: 📥 %1$d 📤 %2$d\n%3$s",
+      "empty": "%1$sThis inventory is empty! :(",
+      "brief_notice": "You can use `~>inventory -brief` to get a mobile friendly version."
+    },
+    "cast": {
+      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\"",
+      "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items.",
+      "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
+      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
+      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
+      "success": "%1$sYou successfully *casted %2$s %3$s* for %4$s credits. *Cast used: %5$s*",
+      "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
+      "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
+      "too_many": "%1$sYou'd have more than 5000 of this item if you proceed. Try casting less of this object?",
+      "low_tier": "%1$sYou need at least a tier 2 wrench to cast more items per call. You currently have a tier %2$s wrench.",
+      "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe specify a more powerful one? *Wrench level: %2$s, Required level: %3$s*",
+      "too_many_amount": "%1$sYou can't cast that many of this item at once! Limit: %2$s, Attempt: %3$s. A sparkle wrench makes the limit double! Unless you're already using one.",
+      "ls": {
+        "header": "Castable Item List",
+        "cost": "Cast Cost: ",
+        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name (example: `~>cast diamond pickaxe` or `~>cast diamond p` works)\n**Casting has a minimum cost of half the price of the item. The casting price will be shown down below.**"
+      },
+      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?"
+    },
+    "market": {
+      "dump": {
+        "no_item": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to dump.",
+        "invalid": "%1$sNot a valid number of items to dump.",
+        "non_existent": "%1$sCannot dump a non-existent item! If you're lost, you can try typing the short name or wrapping the name in quotes.",
+        "player_no_item": "%1$sCannot dump an item you don't have!",
+        "more_items_than_player": "%1$sYou cannot dump more items than what you have.",
+        "success": "%1$sSent %2$dx **%3$s %4$s** to the trash."
+      },
+      "price": {
+        "non_existent": "%1$sCannot check the price of a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
+        "no_price": "%1$sThis item is not available neither for sell or buy (could be an exclusive collectible)",
+        "collectible": "%1$sThis is a collectible item. (Sell value: %2$d credits)",
+        "success": "%1$sThe market value of %2$s**%3$s** is %4$s credits to buy it and you can get %5$s credits if you sell it."
+      },
+      "sell": {
+        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
+        "invalid": "%1$sNot a valid number of items to sell.",
+        "all": {
+          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? Type *yes* to confirm and *no* to cancel",
+          "success": "%1$sYou sold all your inventory items and gained %2$d credits!",
+          "cancelled": "%1$sCancelled successfully."
+        },
+        "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
+        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
+        "no_item_player": "%1$sYou cannot sell an item you don't have.",
+        "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
+        "success": "%1$sYou sold %2$d **%3$s** and gained %4$d credits!"
+      },
+      "buy": {
+        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
+        "invalid": "%1$sNot a valid number of items to buy.",
+        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
+        "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
+        "item_limit_reached": "%1$sYou cannot buy more of that object.",
+        "success": "%1$sBought %2$d %3$s for %4$d credits successfully. You now have %5$d credits.",
+        "not_enough_money": "%1$sYou don't have enough money to buy this item."
+      },
+      "header": "Mantaro's Market"
+    },
+    "itemtransfer": {
+      "transfer_yourself_note": "%1$sYou cannot transfer items to yourself.",
+      "bot_notice": "%1$sYou cannot transfer items to a bot.",
+      "locked_notice": "%1$sYou cannot transfer items now. (Player is locked)",
+      "hidden_item": "%1$sYou cannot transfer this item!",
+      "overflow": "%1$sThis player has the maximum possible amount of this item (5000).",
+      "success": "%1$s%2$s gave **%3$s** **%4$s** to %5$s",
+      "multiple_items_error": "%1$sYou don't have any of these items in your inventory",
+      "error": "%1$sYou don't have enough of this item in your inventory to do this!",
+      "no_item_mention": "%1$sYou need to specify the person to transfer the item and the item to transfer."
+    },
+    "transfer": {
+      "transfer_yourself_note": "%1$sYou cannot transfer money to yourself.",
+      "bot_notice": "%1$sYou cannot transfer money to a bot.",
+      "no_amount": "%1$sYou need to specify the amount.",
+      "no_money_specified_notice": "%1$sYou cannot transfer no money :P",
+      "over_transfer_limit": "%1$sYou cannot transfer this much money. (Limit: %2$d credits)",
+      "own_locked_notice": "%1$sYou cannot transfer money now.",
+      "receipt_overflow_notice": "Cannot send money to this player.",
+      "no_money_notice": "%1$sYou cannot transfer money you don't have.",
+      "receipt_locked_notice": "1$sThat user cannot receive money now.",
+      "receipt_over_limit": "%1$sThis user already has too much money...",
+      "success": "%1$sTransferred **%2$d** *(%3$d after 8%% tax)* to **%4$s** successfully.",
+      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `transferitems` command instead.",
+      "party": "You can only transfer to the same person (%1$s) once every 4 minutes."
+    },
+    "useitem": {
+      "ls": {
+        "header": "Interactive Items List",
+        "desc": "This is a list of all interactive items in Mantaro. For more info about interactive items check the wiki!"
+      },
+      "use_command": "%1$sFor this item you need to use the command that's linked to the item! (mine for pick, fish for the fishing rod)",
+      "no_items_specified": "%1$sYou need to specify what item to use.",
+      "not_interactive": "%1$sYou cannot interact with this item.",
+      "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set. This item might use its own command? For example, picks use `~>mine`.",
+      "no_item": "%1$sYou don't have this item in your inventory.",
+      "not_enough_items": "%1$sYou don't have enough of this item.",
+      "too_little": "%1$sYou can't use less than 1 item."
+    },
+    "opts": {
+      "note": "%1$sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
+      "list": {
+        "header": "**Mantaro's Options List**\n%1$s*All options must be prefixed with `~>opts` when running them*\n%2$s"
+      },
+      "option_not_found": "%1$sInvalid option help name.",
+      "invalid_args": "%1$sInvalid option or arguments."
+    },
+    "8ball": {
+      "no_args": "%1$sYou need to specify what you want the 8ball to answer.",
+      "error": "%1$sI ran into an error while fetching the 8ball results."
+    },
+    "iam": {
+      "list": {
+        "name": "\nAutorole name: ",
+        "role": " | Gives role **",
+        "header": "Autoroles list",
+        "no_autoroles": "There aren't any autoroles setup in this server."
+      },
+      "deleted_role": "%1$sThe role that this autorole corresponded to has been deleted",
+      "already_assigned": "%1$sYou already have this role, silly!",
+      "success": "%1$s%2$s, you've been given the **%3$s** role",
+      "error": "%1$sI couldn't take from you **%2$s. Make sure that I have permission to add roles and that my role is above **%2$s**",
+      "no_role": "%1$sThere isn't an autorole with the name `%2$s`.",
+      "no_iam": "%1$sYou need to specify which auto-assignable role you want to assign yourself!"
+    },
+    "iamnot": {
+      "no_args": "%1$sYou have to specify what role you want me to remove from you, silly.",
+      "not_assigned": "%1$sYou don't have this role, silly!",
+      "success": "%1$s%2$s, you've lost the **%3$s** role"
+    },
+    "misc": {
+      "reverse_missing": "%1$sYou didn't provide any message to reverse.",
+      "random_color": "%1$sThe random color is %2$s"
+    },
+    "poll": {
+      "missing": "%1$sYou didn't include either the %2$s argument or it was empty!\n%3$s",
+      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `~>help poll`",
+      "other_poll_running": "%1$sThere seems to be another poll running here...",
+      "no_reaction_perms": "%1$sSeems like I cannot add reactions here...",
+      "too_long": "This was too long to show, so I pasted it: %1$s",
+      "header": "Poll #%1$d created by %2$s",
+      "success": "**Poll started. React to the number to vote.**\n*%1$s*\nType &cancelpoll to cancel a running poll.",
+      "time": "You have %1$s to vote.",
+      "error": "%1$sAn unknown error has occurred while setting up a poll. Maybe try again? (içsel bir hata)",
+      "result_header": "Poll results",
+      "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
+      "vote_results": "+Registered %1$d votes for option %2$s",
+      "thank_note": "Thanks for your vote",
+      "results": "Sonuçlar",
+      "cancelled": "%1$sCancelled poll",
+      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds). Example: `-time 40m`"
+    },
+    "osustats": {
+      "user": {
+        "header": "osu! İstatistikleri %1$s",
+        "rank": "Rütbe",
+        "acc": "İsabetlilik",
+        "level": "Seviye",
+        "ranked": "Dereceli Skoru",
+        "country_rank": "Sahil Rütbesi"
+      },
+      "retrieving_info": "%1$sosu! sunucusundan bilgiler alınıyor...",
+      "timeout": "%1$sThe osu! api görünüşe göre çalışmıyor, sonra tekrar dener misin?",
+      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rütbe: %6$s -> Max Kombo: %7$d",
+      "best": "**En iyi 10 osu! scoru: %1$s** (Moe: %2$d)\n```md\n%3$s```",
+      "error": "%1$sOha çorba olmuş burası, hiçi bir bilgl yok... (Bilgi alamadım.)",
+      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Tarih: %5$s -> Max Kombo: %6$s\n",
+      "recent": "**En son 10 osu! skorları: %1$s** (Mod: %2$d)\n```md\n%3$s```",
+      "error_detailed": "Aldığım bilgiler çorba olmuş sanki... (%1$s)"
+    },
+    "profile": {
+      "timezone": {
+        "not_specified": "%1$sSaat dilimi girmelisiniz.",
+        "reset": "%1$sZaman dilimini yenile.",
+        "invalid": "%1$sGeçersiz zaman dilimi.",
+        "success": "%1$sZaman dilimi kaydedildi, profilinin zaman dilimi: **%2$s**"
+      },
+      "description": {
+        "no_argument": "%1$sGeçerli bir arguman girmelisiniz! (set veya remove)\nÖrneğin, ~>profile description set Selam!",
+        "no_content": "%1$sYou didn't specify what you want on your description.\nÖrneğin, ~>profile description set Selam!",
+        "too_long": "%1$sAçıklama metni çok uzun! `(Limit 300 karakter olup premium kullanıcıları için 500dür.)`",
+        "success": "%1$sAçıklamayı şöyle değiştirdim: **%2$s**\nProfilini görmek için kullanacağın komut `~>profile`",
+        "clear_success": "%1$sAçıklamayı sildim."
+      },
+      "displaybadge": {
+        "not_specified": "%1$sYou need to specify your main badge!",
+        "reset_success": "%1$sNo badge will show on the top of your profile now!",
+        "important_success": "%1$sYour display badge is now the most important one.",
+        "no_such_badge": "%1$sThere's no such badge...\nYour available badges: %2$s",
+        "player_missing_badge": "%1$sYou don't have that badge.\nYour available badges: %2$s",
+        "success": "%1$sYour display badge is now: **%2$s**"
+      },
+      "lang": {
+        "nothing_specified": "%1$sYou have to specify a language to use or `reset` to reset your language settings.",
+        "reset_success": "%1$sSuccessfully reset your personal language settings.",
+        "success": "%1$sMantaro will now talk to you in `%2$s`",
+        "invalid": "%1$sThat language doesn't exist! You can use `reset` to reset your language settings."
+      },
+      "stats": {
+        "header": "%1$s için profil istatistikleri",
+        "wins": "Casino Kazanımları",
+        "market": "Market Kullanıldı",
+        "potion": "Aktif İksir",
+        "potion_type": "İksir Tipi",
+        "buff": "Buff",
+        "buff_type": "Buff Tipi",
+        "experience": "Deneyim",
+        "daily": "Günlük Üst üste",
+        "daily_at": "Son günlük",
+        "waifu_claimed": "Kaç Kez Waifu Çektin",
+        "dust": "Toz Seviyesi",
+        "lang": "Gösterilen Dil",
+        "reminders": "Kaç Kez Hatırlat Kullandın",
+        "times": "zaman",
+        "days": "gün",
+        "times_used": "Kullanılan Zaman",
+        "equipment": "Ekipman"
+      },
+      "equip": {
+        "no_content": "%1$sHangi eşyayı giymek istediğini belirtmelisin!",
+        "no_item": "%1$sBöyle bir eşya yok",
+        "not_owned": "%1$sBöyle bir eşyan yok!",
+        "success": "%1$sBaşarılı bir şekilde %2$s *%3$s* giydin, bu bir dahaki komut kullanışında hatırlanacak.",
+        "not_suitable": "%1$sBunu giyemezsin."
+      },
+      "display": {
+        "not_premium": "%1$sProfil kişileştirme widget'ı sadece premium kullanıcılar içindir.",
+        "not_enough": "%1$sProfiline koymak için yeterli widget'ın yok (minimum: 3). Sıkıntı varsa, kontrol etmek için `~>profile widgets ls`",
+        "success": "%1$sYeni profil şemanı değiştirdin, şu anki şema: `%2$s`",
+        "ls": "%1$sProfil maddeleri:\n%2$s **Varsayılan sıralama:** `%3$s`\n%2$s **Senin widgetların:** `%4$s`\n`~>profile widgets reset` kullanarak eski haline döndürebilirsin.",
+        "reset": "%1$sBaşarıyla eski haline döndürdün.",
+        "example": "\nÖrnek: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Tüm sıralamalar çalışır.*"
+      },
+      "badge_header": "%1$sGösterilen Rozet",
+      "bot_notice": "%1$sBotların profili olmaz.",
+      "header": "%1$s's Profili",
+      "no_desc": "Açıklama yok",
+      "credits": "Para",
+      "level": "Seviye",
+      "xp": "XP",
+      "rep": "İtibar",
+      "birthday": "Doğumgünü",
+      "married": "Eşi",
+      "nobody": "Kimse",
+      "inventory": "Item Koleksiyonu",
+      "badges": "İlk 5 Rozeti",
+      "no_badges": "Rozeti yok (şimdilik!)",
+      "no_timezone": "Ayarlanmamış",
+      "timezone_user": "Kullanıcının zamandilimi: %1$s",
+      "not_specified": "Belirlenmemiş.",
+      "potion": "Aktif İksir",
+      "no_potion": "İksiri yok."
+    },
+    "badges": {
+      "info": {
+        "not_specified": "%1$sBir rozet belirtmelisin ki ne olduğunu göstereyim.",
+        "not_found": "%1$sBöyle bir rozet yok...",
+        "header": "Rozet bilgisi %1$s",
+        "achieved": "Başarıldı"
+      },
+      "brief_success": "**%1$s adlı kişinin rozetleri:**\n%2$s",
+      "profile_notice": "Bir rozet kazandığını düşünüyor ve burada görmüyorsan `~>profile` yaz ve komutu tekrar çalıştır.\n",
+      "info_notice": "`~>badges info <rozet adı>` kullanarak rozet hakkında bilgi edinebilirsin. [Tabi wikimiz de var.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "upvote_notice": "**Beleşe bir rozet kazanabilirsin [discordbots.org da up-vote vererek rozet al](https://discordbots.org/bot/mantaro)!** (İşlenmesi biraz sürebilir.)\n\n",
+      "donate_notice": "**Bir rozet kazanabilirsin [Mantaronun gelişimini destekleyerek!](https://patreon.com/mantaro)!** (İşlenmesi biraz sürebilir.)\n\n",
+      "no_badges": "Gösterilecek bir rozet yok",
+      "header": "Kazanılmış rozetler %1$s",
+      "total_badges": "**Toplam kazanılan rozet:** %1$s",
+      "footer": "Rozetler aynı başarımlar gibidir, botu kullandıkça veya oyunlara katıldıkça tek tek kazanılır."
+    },
+    "rep": {
+      "new_account_notice": "%1$sHesabın alınış tarihi rep almak veya vermek için 5 günden fazla olmalıdır.",
+      "no_mentions": "%1$sBir kişinin adını gir veya bahset.\n%2$s",
+      "more_than_one": "%1$sSadece bir kişiye itibar puanı atabilirsin.",
+      "rep_bot": "%1$sBotlara rep verilmez.\n%2$s",
+      "rep_yourself": "%1$sKendine rep veremezsin.\n%2$s",
+      "cooldown": {
+        "waiting": "**%1$s sonra bu komutu tekrar kullanabileceksin.**",
+        "pass": "Şu anda birine puan verebilirsin."
+      },
+      "success": "%1$s**%2$s** adlı kişiye itibar puanı verdin!"
+    },
+    "birthday": {
+      "reset": "%1$sDoğum tarihini yeniledin!",
+      "no_global_birthdays": "%1$sBuralar biraz boş görünüyor...",
+      "no_guild_month_birthdays": "%1$sBu ay için herhangi bir doğum günü yok (%2$s) (\n%3$sDoğum günü sözcüsünü yeni kurduysan biraz beklemen gerekebilir. (Cache her 23s de bir yenilenir.)",
+      "cache_not_running": "%1$sDoğum günü cacheleri çalışmıyor. (içsel bir hata) :(",
+      "error": "%1$sDoğum günlerini alırken bir hata oldu. (içsel bir hata) :(",
+      "header": "**%1$s adlı kişinin doğum günü: %2$s**\n",
+      "invalid_date": "%1$sGeçerli bir tarih değil veya geçerli formatta değil.\nUnutmayın doğru format `gg-aa-yyyy` (gün-ay-yıl)",
+      "error_date": "%1$s%2$s geçerli bir tarih değil veya doğru girilmedi. Doğru format ile tekrar deneyin. Lütfen yılı da ekleyin, herhangi bir yıl koyabilmenize rağmen bir şeyi etkilemeyecektir.\nDoğru format `gg/aa/yyyy`",
+      "added_birthdate": "%1$sBaşarıyla doğum günü eklendi: %2$s *(Format: gg-AA-yyyy)* [Gün-ay-yıl]",
+      "invalid_month": "%1$sGeçerli bir ay değil! (Geçerli aylar 1 ve 12 arasındadır.)",
+      "no_content": "%1$sDoğum gününü girmelisin, `remove` kullanarak silebilir veya `month` kullanarak o ayki doğum günlerini görebilirsin."
+    },
+    "choose": {
+      "nothing_to": "%1$sBana ne hakkında seçim yapmam gerektiğini söylemelisin. (örnek: `~>choose anime manga`)",
+      "success": "%1$sBence `%2$s`"
+    },
+    "dictionary": {
+      "no_word": "%1$sBir kelime belirlemelisin.",
+      "header": "%1$s için tanım",
+      "description": "**Konuşmanın parçası:** `%1$s`\n**İlk kelime:** `%2$s`"
+    },
+    "remindme": {
+      "nothing_specified": "%1$sBana ne hatırlatacağımı söylemeden sana ne hatırlatabilirim ki? Oh! Dur sana bunun ayarlarını hatırlatayım!",
+      "no_reminders": "%1$sHatırlatıcıyı kurmamışsınız.",
+      "cancel": {
+        "success": "%1$sHatırlatıcıyı iptal ettim.",
+        "select": "Hangi hatırlatıcıyı iptal edeyim?"
+      },
+      "no_time": "`-time` argumanını bana göstermedin! (Örnek: `-time 1h`)",
+      "too_little_time": "%1$sÇok kısa bir süreden bahsediyoruz (Minimum: 10 saniye)",
+      "too_long": "Çok uzun bir süreden bahsediyoruz... (Maximum: 3 ay)",
+      "success": "%1$sTamam hatırlatacağım! (%2$s#%3$s) `%4$s` %5$s"
+    },
+    "time": {
+      "invalid_timezone": "%1$sGeçerli bir zamandilimi değil.",
+      "success": "%1$s%3$s zaman diliminde saat %2$s.",
+      "error": "%1$sZaman dilimini araştırırken bir hatayla karşılaştım... ya da sadece geçersiz bir zaman dilimi."
+    },
+    "urban": {
+      "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
+      "header": "Urban Dictionary definition for %1$s",
+      "too_many_args": "%1$sToo many arguments! Page format is `name->page number`",
+      "main_def": "Main definition.",
+      "footer": "Information by Urban Dictionary",
+      "nsfw_notice": "%1$sThis command can only be used in NSFW channels due to the nature of its results."
+    },
+    "weather": {
+      "header": "%1$s Forecast information for %2$s",
+      "clouds": "clouds",
+      "temperature": "Temperature",
+      "humidity": "Humidity",
+      "wind_speed": "Wind Speed",
+      "pressure": "Pressure",
+      "footer": "Information provided by OpenWeatherMap (Process time: %1$dms)",
+      "error": "%1$sError while fetching results. (Not found?)",
+      "no_content": "%1$sYou need to specify which city and country to search the weather of!"
+    },
+    "activatekey": {
+      "check": {
+        "key_valid_for": "%1$sYour key is valid for %2$s more days :heart:",
+        "no_key_found": "%1$sYou don't have a key enabled... If you're a premium from the old system you should still have your rewards, though!"
+      },
+      "no_key_provided": "%1$sI cannot enable a premium key if you don't give me one",
+      "invalid_key": "%1$sYou provided an invalid or already enabled key",
+      "guild_already_premium": "%1$sThis server already has a premium subscription",
+      "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
+      "user_already_premium": "%1$sYou're already premium :heart:",
+      "user_successful": "%1$sYou're now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
+      "mp": "Mantaro Patreon uses no keys, instead, it's a given that it's premium by the fact that the bot itself works."
+    },
+    "claimkey": {
+      "not_patron": "%1$sYou're not a patron, so you can't do this. If you want to support Mantaro and get perks along with it, head over to <https://www.patreon.com/mantaro>",
+      "already_top": "%1$sYou already claimed all the keys you had. If any of them expired and you want to renew them, please head over to the support server at <https://support.mantaro.site>",
+      "successful": "%1$sSuccessfully claimed key `%2$s`. You have claimed a total of %3$s keys and have %4$s left keys to claim. This key is of type %5$s. (If this is a guild key, use it on the server where you want it on)",
+      "cant_dm": "%1%sI can't DM you the key because of your privacy settings, seemingly.",
+      "success": "%1$sSent the information via DM.",
+      "invalid_scope": "%1$sInvalid key scope! Valid are `user` and `guild`. Without any arguments, this command defaults to `user`."
+    },
+    "vipstatus": {
+      "user": {
+        "header": "Your Premium Status",
+        "header_other": "%1$s's Premium Status",
+        "not_premium": "%1$sYou aren't premium :c",
+        "premium": "**Premium user! <3**",
+        "old_system": "**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+      },
+      "guild": {
+        "header": "%1$s's Premium Status",
+        "not_premium": "%1$sThis guild isn't premium :c",
+        "premium": "**Premium guild! <3**",
+        "old_system": "**Premium guild under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+      },
+      "valid_for_old": "Valid for",
+      "old_days_more": "%1$d days more",
+      "thank_note": "Thanks you for your support <3",
+      "expire": "Expires in",
+      "key_duration": "Key total duration",
+      "key_owner": "Key owner",
+      "wrong_args": "%1$sWrong arguments...",
+      "patreon": "Pledge",
+      "linked": "Linked",
+      "linked_to": "Linked to",
+      "keys_claimed": "Keys Claimed"
+    },
+    "action": {
+      "no_mention": "%1$sYou need to mention a user",
+      "error_retrieving": "%1$sI found an error while retrieving the next gif for this action... (external error)",
+      "permission_or_unexpected_error": "%1$sS-Sorry! I dropped the image. (Probably I don't have permissions to send it)",
+      "lonely": {
+        "pat": "Aww, I see you are lonely, take a pat <3",
+        "hug": "Aww, I see you are lonely, take a hug <3",
+        "kiss": "Aww, I see you are lonely, *kisses*",
+        "poke": "Aww, I see you are lonely, *pokes you*",
+        "slap": "Hmm, why do you want this? Uh, I guess... *slaps you*",
+        "bite": "*bites you*",
+        "lick": "*licks you*",
+        "tickle": "*tickles you*",
+        "highfive": "*highfives*",
+        "pout": "*pouts, hmph*",
+        "teehee": "*teases you*",
+        "smile": "*smiles at you*",
+        "stare": "*stares at you*",
+        "holdhands": "*holds your hand*",
+        "cuddle": "*cuddles you*",
+        "nuzzle": "*nuzzles you*",
+        "bloodsuck": "J-Just how am I meant to? Oh well.. *sucks your blood*"
+      },
+      "self": {
+        "pat": "*is patted*",
+        "hug": "*blushes* o-oh... thanks you",
+        "kiss": "*blushes*... I- uh... don't think you should be kissing a bot but...",
+        "poke": "O-Oh! What do you need?",
+        "slap": ":(",
+        "bite": "T-That hurts!",
+        "lick": "How does metal taste? I don't believe it's too great...",
+        "tickle": "hahahaha... oh god stop >u<",
+        "highfive": "*highfives*",
+        "pout": "Are you mad at me? :(",
+        "teehee": ":eyes:",
+        "smile": "Aww.",
+        "stare": ":eyes:",
+        "holdhands": "o-oh... ;//;",
+        "cuddle": "That's cute!",
+        "nuzzle": "Awwiee, cute!",
+        "bloodsuck": "Are you a vampire now?, oh!"
+      },
+      "pat": "%1$s you have been patted by %2$s",
+      "hug": "%1$s you have been hugged by %2$s",
+      "kiss": "%1$s you have been kissed by %2$s",
+      "poke": "%1$s you have been poked by %2$s :eyes:",
+      "slap": "%1$s you have been slapped by %2$s!",
+      "bite": "%1$s you have been bitten by %2$s :eyes:",
+      "tickle": "%1$s you have been tickled by %2$s",
+      "lick": "%1$s you have been licked by %2$s",
+      "highfive": "%1$s highfives %2$s :heart:",
+      "pout": "%1$s pouts at %2$s *hmph*",
+      "teehee": "%1$s is teasing %2$s",
+      "smile": "%1$s is smiling at %2$s :heart:",
+      "stare": "%1$s is staring at %2$s",
+      "holdhands": "%1$s is holding %2$s's hand",
+      "cuddle": "%1$s you have been cuddled by %2$s",
+      "nuzzle": "%1$s is nuzzling %2$s",
+      "bloodsuck": "%1$s is sucking the blood of %2$s!",
+      "nom": "Yummy.",
+      "facedesk": "*facedesks*",
+      "lewd": "Y-You lewdie!",
+      "meow": "Meow."
+    },
+    "game": {
+      "won_games": "%1$s%2$s has won **%3$s games**",
+      "nothing_specified": "%1$sYou didn't specify anything to play...",
+      "not_enough_games": "%1$sYou need to specify two games at least",
+      "invalid_selection": "%1$sYou need to specify two games at least (Valid games: character, pokemon, number, trivia)!",
+      "multiple": {
+        "invalid": "%1$sYou need to specify the game and the number of times to run it",
+        "invalid_times": "%1$sInvalid number of times. Remember that it must be an integer.",
+        "too_many_games": "%1$sYou can only start a maximum of 5 games of the same type at a time.",
+        "no_character": "%1$sYou cannot use character game in game multiple or lobby due to AniList API limitations."
+      },
+      "trivia": {
+        "wrong_diff": "%1$sWrong difficulty specified! (Supported: easy, medium and hard)",
+        "fetch_error": "%1$sError while starting trivia. Seemingly Open Trivia DB is having trouble.",
+        "possibilities": "Possibilities",
+        "difficulty": "Difficulty",
+        "category": "Category"
+      },
+      "number": {
+        "start": "%1$sGuess the number! **You have 5 attempts and 30 seconds. The number is between 0 and 150**",
+        "nan": "%1$sThat's not even a number...",
+        "ended_game": "%1$sEnded game. The number was: %2$d",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. The number was: %2$d",
+        "hint": "Hint: The number is %1$s than your input number.",
+        "higher": "higher",
+        "lower": "lower"
+      },
+      "pokemon": {
+        "header": "Who's that pokemon?",
+        "footer": "You have 5 attempts and 75 seconds. (Type end to end the game)"
+      },
+      "started_mp_role": "%1$sStarted a multi-player lobby with all users with the specified role: **%2$s**",
+      "started_mp_user": "%1$sStarted a multi-player lobby with users: **%2$s**",
+      "lobby_started": "%1$sStarted a new lobby! **Games: %2$s**\nYou can type `endlobby` to end all games and finish the lobby.",
+      "game_timeout_drop": "%1$sSeems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!",
+      "other_lobby_running": "%1$sCannot start a new game lobby when there is a game currently running. (If this is an error, tell an admin to run `~>opts lobby reset`)",
+      "lobby": {
+        "ended_game": "%1$sEnded game. Possible answers were: %2$s",
+        "ended_lobby": "%1$sEnded lobby correctly! Thanks for playing.",
+        "all_attempts_used": "%1$sAlready used all attempts, ending game. Possible answers were: %2$s",
+        "incorrect_answer": "%1$sThat's not it, you have %2$d attempts remaining.",
+        "won_game": "%1$s**%2$s** just won $%3$d credits by answering correctly!"
+      },
+      "lobby_time_out": "%1$sThe time ran out! The correct answer is: %2$s",
+      "end_footer": "You have 5 attempts and 60 seconds. (Type end to end the game)",
+      "trivia_end_footer": "You have %1$s attempts and 60 seconds. (Type end to end the game)",
+      "error": "%1$sI found an error while setting up the game... (içsel bir hata)",
+      "character_load_error": "%1$sReport this in the official server please. Failed to setup game for pre-saved character: %2$s",
+      "character_request_error": "%1$sError requesting this character from AniList's API.",
+      "character_start": "Guess the character",
+      "too_many_games": "%1$sYou can start a maximum of 4 games at the same time with game lobby. (With Premium: 8)"
+    },
+    "opencrate": {
+      "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command. If you want to use seasonal inventory, append `-s`)",
+      "not_crate": "%1$sThat is not a valid loot crate."
+    },
+    "prune": {
+      "no_messages_specified": "%1$sYou specified no messages to prune.",
+      "no_permissions": "%1$sI cannot prune on this server since I don't have the Manage Messages permission.",
+      "bot_no_messages": "%1$sThere are no messages from bots or bot calls here.",
+      "no_pins_no_messages": "%1$sThere are no non-pinned messages here...",
+      "mention_no_messages": "%1$sThere are no messages from users which you mentioned here.",
+      "too_few_messages": "%1$sToo few messages to prune. The minimum is 5.",
+      "error_retrieving": "%1$sI found an unknown error while retrieving the history to prune the messages (Internal: %2$s %3$s)",
+      "invalid_number": "%1$sPlease specify a valid number.",
+      "not_valid": "%1$sThat's not a valid number of messages to delete.",
+      "less_than_five": "%1$sYou need to provide at least 5 messages.",
+      "messages_too_old": "%1$sThere are no messages newer than 2 weeks old, discord won't let me delete them.",
+      "success": "%1$sSuccessfully pruned %2$s messages from this channel.",
+      "lack_perms": "%1$sLack of permission while pruning messages (No permission provided: %2$s)",
+      "error_deleting": "%1$sUnknown error while pruning messages (Internal: %2$s %3$s)"
+    },
+    "imageboard": {
+      "catgirl": {
+        "error": "Error retrieving cute catgirl images :("
+      },
+      "cat": {
+        "error": "%1$sError retrieving cute cat images :("
+      },
+      "too_many_tags": "%1$sYou specified too many tags for the current imageboard! Imageboard %2$s accepts a maximum of %3$d tags.",
+      "invalid_rating": "%1$sYou provided an invalid rating (Available types: questionable, explicit, safe)",
+      "nsfw_no_nsfw": "%1$sI cannot send a NSFW image in a non-nsfw channel :(",
+      "no_images": "%1$sThere are no images matching your search criteria...",
+      "no_results": "%1$s**There aren't any more images or no results found**! Please try with a lower number or another search.",
+      "error": "%1$sThere was an error while looking for an image...",
+      "wrong_argument": "%1$sWrong argument type. Check ~>help %2$s",
+      "blacklisted_tag": "%1$sThis image tag has been blacklisted here by an administrator.",
+      "error_tag": "%1$sThere was an error while looking for this tag...",
+      "error_random": "%1$sThere was an error while looking for a random image...",
+      "non_nsfw_channel": "%1$sNot on an NSFW channel. Cannot send lewd images.\n**Reminder:** You can set this channel as NSFW by going to the channel settings and checking `Set this Channel as NSFW`.",
+      "loli_content_disallow": "%1$sSadly I cannot display images that allegedly contain `loli` or `shota` lewd/NSFW content because discord prohibits it. (Filter ran: Image contains a loli or shota tag and it's NSFW)",
+      "null_list_notice": "%1$sOops... something went wrong when searching... (If you used a tag, the tag might not exist)",
+      "found_image": "Found an image",
+      "description_image": "Rating: **%1$s**, Imageboard: **%2$s**",
+      "width": "Width",
+      "height": "Height",
+      "tags": "Tags",
+      "load_notice": "If the image doesn't load, click the title.",
+      "rule34_notice": "If you don't like the content on this command, you can use ~>yandere",
+      "yandere_nsfw_notice": "%1$sYande.re command can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!"
+    },
+    "about": {
+      "title": "About Mantaro",
+      "description": {
+        "1": "Hello, I'm **Mantaro**! I'm here to make your life a little easier. To get started, type `~>help`!",
+        "2": "Some of my features include:",
+        "3": "**Moderation made easy** (`Mass kick/ban, prune commands, logs and more!`)",
+        "4": "**Funny and useful commands**, see `~>help remindme` or `~>help hug` for examples.",
+        "5": "**First quality music**, check out `~>music`!.",
+        "support": "**[Support server](https://discordapp.com/invite/cMTmuPa)! | [Support Mantaro development!](https://www.patreon.com/mantaro)**",
+        "credits": "%1$sCheck ~>about credits!"
+      },
+      "patreon": {
+        "header": "**Mantaro's Patreon Pledgers**"
+      },
+      "credits": {
+        "main_dev": "Main developer",
+        "dev": "Developer",
+        "docs": "Documentation",
+        "translators": "Translators",
+        "community_admin": "Community Admin",
+        "special_mentions": "Thanks to bots.discord.pw, Carbonitex and discordbots.org for helping us with increasing the bot's visibility.",
+        "thank_note": "Much thanks to everyone above for helping make Mantaro better!"
+      },
+      "version": "MantaroBot Version",
+      "uptime": "Uptime",
+      "shards": "Shards",
+      "threads": "Threads",
+      "guilds": "Servers",
+      "users": "Users (Unique)",
+      "tc": "Text Channels",
+      "vc": "Voice Channels",
+      "invite": "Invite link: http://is.gd/mantaro (Commands this session: %1$,d | Current shard: %2$d)"
+    },
+    "invite": {
+      "url": "Invite URL",
+      "server": "Support Server",
+      "patreon": "Patreon URL",
+      "description": {
+        "1": "Here are some useful links!",
+        "2": "**If you have any questions about the bot, feel free to join the support guild and ask**!.",
+        "3": "We provided a patreon link in case you would like to help Mantaro keep running by donating [and getting perks by doing so!].",
+        "4": "Thanks you for using the bot! **<3 from the developers and the Mantaro team**"
+      },
+      "footer": "We hope you have fun with the bot."
+    },
+    "stats": {
+      "header": "Mantaro Statistics",
+      "description": "Well... I did my math!",
+      "usage": {
+        "header": "Mantaro's usage information",
+        "description": "Hardware and usage information.",
+        "threads": "Threads",
+        "memory_usage": "Memory Usage",
+        "cores": "CPU Cores",
+        "cpu_usage": "CPU Usage",
+        "assigned_mem": "Assigned Memory",
+        "assigned_remaining": "Remaining from assigned"
+      },
+      "server": {
+        "header": "Mantaro's server usage information",
+        "cpu_usage": "CPU Usage",
+        "rem": "RAM (TOTAL/FREE/USED)"
+      }
+    },
+    "social": {
+      "header": "%1$sO-Oh, I see you're interested on seeing my social networks!\n\n",
+      "description": {
+        "1": "W-Well, here we go!",
+        "2": "**- Website:** <%1$s>"
+      },
+      "note": "**If you like Mantaro, please up-vote on** <https://discordbots.org/bot/mantaro> **and/or consider donating on Patreon or Paypal! Thanks you~**"
+    },
+    "avatar": {
+      "result": "%1$sAvatar for: **%2$s**\n%3$s"
+    },
+    "serverinfo": {
+      "header": "Server Information",
+      "description": "Server information for %1$s",
+      "users": "Users (Online/Unique)",
+      "created": "Creation Date",
+      "channels": "Voice/Text Channels",
+      "owner": "Owner",
+      "region": "Region",
+      "roles": "Roles (%1$d)",
+      "id_show": "Server ID: %1$s"
+    },
+    "userinfo": {
+      "header": "User info for %1$s#%2$s",
+      "roles": "Roles: [%1$d]",
+      "id": "User ID",
+      "join_date": "Join Date",
+      "created": "Account Created",
+      "account_age": "Account Age",
+      "mutual_guilds": "Mutual Guilds",
+      "vc": "Voice Channel",
+      "color": "Color",
+      "status": "Status",
+      "nothing": "Nothing",
+      "default": "Default"
+    },
+    "roleinfo": {
+      "header": "Role info for %1$s",
+      "id": "Role ID",
+      "created": "Role Created",
+      "age": "Role Age",
+      "color": "Color",
+      "members": "Members",
+      "position": "Position",
+      "hoisted": "Hoisted",
+      "managed": "Managed",
+      "permissions": "Permissions: [%1$d]"
+    },
+    "donate": {
+      "beg": "%1$sOh hi! If you are interested in donating, please check the links below. Running Mantaro takes time and money, and every dollar is highly appreciated!\n\n%2$s",
+      "methods": "**Donation Methods**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
+    },
+    "help": {
+      "title": "Mantaro Help",
+      "base": "Command list. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://support.mantaro.site). [*Follow me on twitter for updates!*](https://twitter.com/mantarodiscord)\n",
+      "patreon": "[**We need your help to keep Mantaro online! Click here for more info.**](https://www.patreon.com/mantaro)",
+      "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
+      "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
+      "footer": "To check command usage, type %1$shelp <command> // -> Commands: %2$s",
+      "commands": "Commands",
+      "extended": {
+        "no_help": "%1$sThere's no extended help set for this command.",
+        "not_found": "%1$sA command with this name doesn't exist"
+      }
+    },
+    "repair": {
+      "no_item": "%1$sYou didn't specify any item to repair. Remember to use quotes if the name has spaces.",
+      "no_item_found": "%1$sI can't find that item. Remember to use quotes if the name has spaces.",
+      "cant_repair": "%1$s**%2$s** it's not an item you can repair. You can only repair broken items.",
+      "no_tool": "%1$sYou need a Tier 2 or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
+      "dust": "%1$sYour inventory it's too dusty to perform a repair. Dust level: %2$s",
+      "not_wrench": "%1$sYou can't use this as a wrench. Remember to use quotes if the name has spaces.",
+      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair.",
+      "not_enough_money": "%1$sYou don't have enough money to repair this item.",
+      "no_item_recipe": "%1$sYou don't have the necessary *%2$s* to perform this repair.",
+      "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair. **(Needed: %3$s, Current: %4$s)**",
+      "item_broke": "Sadly, your wrench broke in the process, but you still got your item!",
+      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair costed *%6$s* credits and the recipe to repair it was *%7$s*."
+    },
+    "anime": {
+      "no_args": "%1$sYou need to tell me what anime to look for.",
+      "selection_start": "Type the number of the anime you want to select.",
+      "information_footer": "Information provided by Anilist. Type &cancel to cancel.",
+      "no_results": "%1$sNo results found...",
+      "malformed_result": "%1$sI got a wrong API result for this specific search. Maybe try with another search term?",
+      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a ``%2$s`` while trying to process the command. (içsel bir hata)",
+      "information_header": "Anime information for %1$s",
+      "information_notice": "Information provided by AniList. Click the title to go to AniList's page about this anime.",
+      "airing": "Airing",
+      "release_date": "Release Date",
+      "end_date": "End Date",
+      "average_score": "Average Score",
+      "type": "Type",
+      "episodes": "Episodes",
+      "episode_duration": "Episode Duration",
+      "genres": "Genres",
+      "minutes": "minutes",
+      "description": "Description"
+    },
+    "character": {
+      "no_args": "%1$sYou need to tell me what character you want to look for.",
+      "selection_start": "Type the number of the character you want to select.",
+      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got ``%2$s`` while trying to process this command. (içsel bir hata)",
+      "information_header": "Character information for %1$s",
+      "information": "Information",
+      "no_aliases": "No aliases",
+      "alias_start": "Also known as:",
+      "no_info": "No info."
+    },
+    "balance": {
+      "bot_notice": "%1$sBots cannot have money.",
+      "external_balance": "%1$s's balance is **$%2$d credits.**",
+      "own_balance": "Your balance is **$%1$d credits.**"
+    },
+    "daily": {
+      "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
+      "about_now": "about now",
+      "errors": {
+        "bot": "%1$sYou cannot transfer your daily to a bot.",
+        "receipt_locked": "That user cannot receive daily credits now.",
+        "own_locked": "You cannot receive your daily now."
+      },
+      "streak": {
+        "up": "Streak up! Current streak: `%1$sx`",
+        "first_time": "First time claiming daily, have fun! (Come back for your streak tomorrow!)",
+        "lost_streak": "2+ days have passed since your last daily, so your streak of `%1$dx` got reset :(",
+        "bonus": "\nYou won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)",
+        "given": {
+          "up": "Streak up! Current streak: `%1$dx`.\n*The streak was applied to your profile!*",
+          "bonus": "%1$s won a bonus of $%2$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)"
+        }
+      },
+      "given_credits": "%1$sI gave your **$%2$s** daily credits to %3$s\n\n%4$s",
+      "credits": "%1$sYou got **$%2$s** daily credits.\n\n%3$s%4$s",
+      "sellout": "\nWe need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info.",
+      "crate": "You won a loot crate because your daily streak it's a multiple of 20! Enjoy."
+    },
+    "gamble": {
+      "no_credits": "%1$sYou're broke. Maybe search for some credits first.",
+      "too_much_money": "%1$sYou have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs! Thanks for not breaking the local bank. *(Gamble absolute limit: %2$d credits)*",
+      "invalid_money_or_modifier": "%1$sPlease type a valid number less than or equal to your current balance or `all` to gamble all your credits.",
+      "not_enough_money": "%1$sPlease type a value within your balance.",
+      "invalid_percentage": "%1$sPlease type a valid percentage value.",
+      "confirmation_message": "%1$sYou're about to bet **%2$d** credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.",
+      "cancelled_bet": "%1$sCancelled bet.",
+      "win": "%1$sCongrats, you won %2$d credits and got to keep what you had.",
+      "win_overflow": "%1$sCongrats, you won %2$d credits. But you already had too many credits. Your bag overflowed.",
+      "lose": "%1$sSadly, you lost %2$s credits. %3$s",
+      "lose_all": "all of your",
+      "credits": "credits",
+      "too_much": "%1$sYou can only gamble up to 275 million at once. You don't want to go full broke do you? *(Gamble single limit: %2$d credits)*",
+      "too_little": "%1$sYou cannot gamble so little money (Minimum: 100 credits)"
+    },
+    "loot": {
+      "player_locked": "%1$sYou cannot loot now.",
+      "item_overflow": "But you already had too many items, so you decided to throw away the excess.",
+      "with_item": {
+        "found": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits!** %4$s",
+        "found_but_overflow": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits.**%4$sBut you already had too many credits, so I donated the excess.",
+        "found_only_item_but_overflow": "%1$sDigging through messages, you found %2$s. %3$s"
+      },
+      "without_item": {
+        "found": "%1$sDigging through messages, you found **$%2$s credits!**",
+        "found_but_overflow_no_item": "%1$sDigging through messages, you found **$%2$d credits.** But you already had too many credits, so I donated the excess."
+      },
+      "dust": "Digging through messages, you found nothing but dust (Dust level %1$s%%)",
+      "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
+    },
+    "mine": {
+      "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`",
+      "not_suitable": "%1$sThis is not a pick you can use to mine!",
+      "not_in_inventory": "%1$sYou don't have this pick on your inventory, switching to the default pick.",
+      "success": "%1$sYou mined minerals worth **$%2$s credits**, using a *%3$s*",
+      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*",
+      "diamond": {
+        "overflow": "Huh, you found a diamond while mining, but you already had too much, so I sold it for you.",
+        "success": "Huh! You got lucky and found a diamond while mining, check your inventory!"
+      },
+      "gem": {
+        "overflow": "Huh, you found *%1$s* while mining, but you already had too much of that gem, so I sold it for you.",
+        "success": "Huh! You got lucky and found *%1$s* while mining, check your inventory."
+      },
+      "sparkle": {
+        "overflow": "You found a sparkling gem, but it seems like you had too much of it already, so we sold it for you.",
+        "success": "Hurray! You found one %1$s sparkling gem. Make sure to keep it around, check your inventory."
+      },
+      "crate": {
+        "overflow": "You found a **%1$s** while mining, but you had too many and left it behind...",
+        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+      },
+      "pick_broke": "%1$sOne of your picks broke while mining.",
+      "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!",
+      "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset.",
+      "broken_drop": "%1$sYour pick broke, but you can repair it. Got broken item: %2$s *%3$s*"
+    },
+    "slots": {
+      "errors": {
+        "amount_not_ticket": "%1$sYou cannot specify how many tickets you're gonna use if you're not using tickets!",
+        "not_enough_tickets": "%1$sYou don't have enough slots tickets.",
+        "too_much_money": "%1$sThis machine cannot dispense that much money!",
+        "not_enough_money": "%1$sYou don't have enough money to play the slots machine!",
+        "below_minimum": "%1$sThe minimum amount is 25 credits",
+        "no_tickets": "%1$sYou wanted to use tickets but you don't have any :<",
+        "no_amount": "%1$sYou didn't specify the amount!",
+        "no_valid_amount": "%1$sThat's not a valid amount of money! (Example of valid amounts: 1000, 1k, 14000, 2M)"
+      },
+      "roll": "%1$s**You used %2$s and rolled the slot machine**\n",
+      "win": "And you won **%1$d** credits and got to keep what you bet (%2$d credits)! Lucky!",
+      "lose": "And you lost %1$s\nI hope you do better next time!",
+      "tickets": "slots ticket(s)",
+      "credits": "credits"
+    },
+    "leaderboard": {
+      "header": "Mantaro's Leaderboard",
+      "header_seasonal": "Mantaro's %1$s season Leaderboard",
+      "money": "Money Leaderboard",
+      "reputation": "Reputation Leaderboard",
+      "gamble": "Gamble Wins Leaderboard",
+      "slots": "Slots Wins Leaderboard",
+      "daily": "Daily Streak Leaderboard",
+      "level": "Level leaderboard",
+      "game": "Game Wins leaderboard",
+      "waifu": "Waifu Value leaderboard",
+      "claim": "Waifu Claim leaderboard",
+      "inner": {
+        "experience": "Experience",
+        "game": "%1sThis page shows the top 10 people who have won the most games.\n\nCheck out `~>help game` or `~>help trivia` for details on how games work!",
+        "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `~>help waifu` for details on the waifu system.",
+        "money": "%1$sThis page shows the top 10 richest people on Mantaro.\nThis leaderboard has been stale for a while, but never give up!",
+        "seasonal_money": "%1$sThis page shows the top 10 richest people on Mantaro for this season.",
+        "rep": "%1sThis page shows the top 10 people with the most reputation.",
+        "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `~>help daily` for more info",
+        "lvl": "%1sThis page shows the top 10 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
+        "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `~>help waifu` for details on the waifu system.",
+        "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `~>help gamble` for details on gamble.",
+        "slots": "%1sThis page shows the top 10 people with the most slots runs won.\n\nCheck out `~>help slots` for details on slots."
+      }
+    },
+    "iteminfo": {
+      "no_content": "%1$sYou didn't specify any item to look for!",
+      "no_item": "%1$sThere's no item matching your search query.",
+      "success": "%1$s**Item Info for** %2$s **%3$s** (Type: %4$s): *%5$s*"
+    },
+    "level": {
+      "bot_notice": "%1$sBots don't have level.",
+      "own_success": "%1$s your level is %2$s. (Experience: %3$s/%4$s)",
+      "success_other": "%1$s %2$s's is level %3$s. (Experience: %4$s/%5$s)"
+    }
+  },
+  "options": {
+    "options": "Mantaro Options",
+    "error_general": "%1$sIncorrect usage or missing arguments.\nIf you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
+    "check_data": {
+      "retrieve_failure": "%1$sCannot retrieve values. Weird thing...",
+      "header": "Options set for server **%1$s**.",
+      "terminology": "\n\n**Useful terminology:** [] = empty list, null = not set, {} = empty object. If you see numbers=[...] it means that for that id, it applies what's inside the brackets. Objects are usually comma-separated",
+      "footer": "This is a debug command, therefore it's not 100% user-friendly",
+      "null_set": "is not set to anything.",
+      "set_to": "is set to:"
+    },
+    "reset_all": {
+      "success": "%1$sCorrectly reset your options!"
+    },
+    "server_command_disallow": {
+      "no_command": "%1$sYou need to specify the command you want to disable on this server.",
+      "success": "%1$sDisabled %2$s on this server."
+    },
+    "server_command_allow": {
+      "no_command": "%1$sYou need to specify the command you want to enable on this server.",
+      "success": "%1$sEnabled %2$s on this server."
+    },
+    "server_command_specific_disallow": {
+      "invalid": "%1$sYou need to specify the channel name and the command to disallow.",
+      "success": "%1$sDisabled %2$s on channel #%3$s."
+    },
+    "server_command_specific_allow": {
+      "invalid": "%1$sYou need to specify the channel name and the command to allow.",
+      "success": "%1$sEnabled %2$s on channel #%3$s."
+    },
+    "server_channel_disallow": {
+      "no_channel": "%1$sYou need to specify the channel where you want the bot not to listen to commands.",
+      "too_many": "%1$sYou cannot disable more channels since the bot wouldn't be able to talk otherwise :(",
+      "success": "%1$sChannel %2$s will no longer listen to commands."
+    },
+    "server_channel_allow": {
+      "no_channel": "%1$sYou need to specify the channel where you want the bot to listen to commands. (All channels by default)",
+      "success": "%1$sChannel %2$s will now listen to commands."
+    },
+    "category_disable": {
+      "no_category": "%1$sYou need to specify a category to disable.",
+      "already_disabled": "%1$sThis category is already disabled.",
+      "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
+      "success": "%1$sDisabled category `%2$s`"
+    },
+    "category_enable": {
+      "no_category": "%1$sYou need to specify a category to enable.",
+      "success": "%1$sEnabled category `%2$s`"
+    },
+    "category_specific_disable": {
+      "invalid": "%1$sYou need to specify a category to disable and the channel where.",
+      "already_disabled": "%1$sThis category is already disabled.",
+      "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
+      "success": "%1$sDisabled category `%2$s` on channel %3$s"
+    },
+    "category_specific_enable": {
+      "invalid": "%1$sYou need to specify a category to enable and the channel where.",
+      "invalid_channel": "%1$sThat's not a valid channel!",
+      "not_disabled": "%1$sThis category isn't disabled.",
+      "success": "%1$sEnabled category `%2$s` on channel %3$s"
+    },
+    "server_role_specific_disallow": {
+      "invalid": "%1$sYou need the role and the command to disallow!",
+      "already_disabled": "%1$sThis command was already disabled for the specified role.",
+      "success": "%1$sSuccessfully restricted command `%2$s` for role `%3$s`"
+    },
+    "server_role_specific_allow": {
+      "invalid": "%1$sYou need the role and the command to allow!",
+      "not_disabled": "%1$sThis command wasn't disabled for this role.",
+      "success": "%1$sSuccessfully un-restricted command `%2$s` for role `%3$s`"
+    },
+    "category_role_specific_disable": {
+      "invalid": "%1$sYou need to specify a category to disable and the role to.",
+      "already_disabled": "%1$sThis category is already disabled.",
+      "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
+      "success": "%1$sDisabled category `%2$s` for role %3$s"
+    },
+    "category_role_specific_enable": {
+      "invalid": "%1$sYou need to specify a role to enable and the channel where.",
+      "not_disabled": "%1$sThis category isn't disabled.",
+      "success": "%1$sEnabled category `%2$s` for role %3$s"
+    },
+    "fairqueue_max": {
+      "invalid": "%1$sYou need to specify a positive integer.",
+      "success": "%1$sSet max fair queue (max duplicated songs) size to %2$d"
+    },
+    "musicannounce_toggle": {
+      "success": "%1$sSet music announce to **%2$s**"
+    },
+    "music_channel": {
+      "no_channel": "%1$sYou need to specify what voice channel you want to bind the music player to.",
+      "success": "%1$sMusic Channel set to: %2$s"
+    },
+    "music_queuelimit": {
+      "no_args": "%1$sYou need to specify what's the queue limit you want to use. *(Default: 350)*",
+      "success": "%1$sThe queue limit on this server is now **%2$d** songs.",
+      "invalid": "%1$sYou're trying to set too high of a number (which won't be applied anyway), silly"
+    },
+    "music_clearchannel": {
+      "success": "%1$sI can play music on all channels now."
+    },
+    "music_vote_toggle": {
+      "success": "%1$sVoting (to stop/skip) is now set to %2$s"
+    },
+    "localblacklist_add": {
+      "invalid": "%1$s**You need to specify the users to locally blacklist.**",
+      "yourself_notice": "%1$sWhy are you trying to blacklist yourself?...",
+      "admin_notice": "%1$sOne (or more) of the users you're trying to blacklist are admins or Bot Commanders!",
+      "success": "%1$sLocally blacklisted users: **%2$s**"
+    },
+    "localblacklist_remove": {
+      "invalid": "%1$s**You need to specify the users to locally un-blacklist.**",
+      "success": "%1$sLocally un-blacklisted users: **%2$s**"
+    },
+    "logs_enable": {
+      "no_channel": "%1$sYou need to specify which channel to use as the log channel.",
+      "success": "%1$sMessage logging has been enabled with parameters -> `Channel #%2$s (%3$s)`"
+    },
+    "logs_disable": {
+      "success": "%1$sMessage logging has been disabled."
+    },
+    "logs_exclude": {
+      "no_args": "%1$sYou need to specify which channel to exclude, or `clearchannels` to clear all exceptions, or `remove` to remove a single channel from the exception list.",
+      "clearchannels": {
+        "success": "%1$sCleared log exceptions!"
+      },
+      "remove": {
+        "success": "%1$sRemoved logs exception on channel: %2$s"
+      },
+      "success": "%1$sAdded logs exception on channel: %2$s",
+      "invalid": "%1$sIncorrect argument length."
+    },
+    "lobby_reset": {
+      "success": "%1$sReset the lobby correctly."
+    },
+    "modlog_blacklist": {
+      "no_mentions": "%1$s**You need to specify the users to locally blacklist from mod logs.**",
+      "success": "%1$sLocally blacklisted users from mod-log: **%2$s**"
+    },
+    "modlog_whitelist": {
+      "no_mentions": "%1$s**You need to specify the users to locally whitelist from mod logs.**",
+      "success": "%1$sLocally un-blacklisted users from mod-log: **%2$s**"
+    },
+    "linkprotection_toggle": {
+      "success": "%1$sSet link protection to `%2$s`"
+    },
+    "linkprotection_channel_allow": {
+      "no_channel": "%1$sYou need to specify what channel you want to exclude from the invite checker.",
+      "success": "%1$s%2$s can now be used to send discord invites."
+    },
+    "linkprotection_channel_disallow": {
+      "no_channel": "%1$sYou need to specify what channel you want to include on the invite checker. (All channels included by default)",
+      "success": "%1$s%2$s cannot longer be used to send discord invites."
+    },
+    "linkprotection_user_allow": {
+      "no_channel": "%1$sYou need to specify what user you want to exclude from the invite checker.",
+      "no_mentions": "%1$sYou need to mention the user to whitelist from posting invites!",
+      "success": "%1$sSuccessfully whitelisted %2$s#%3$s from posting discord invites."
+    },
+    "linkprotection_user_disallow": {
+      "no_channel": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
+      "no_mentions": "%1$sYou need to mention the user to blacklist from posting invites!",
+      "not_whitelisted": "%1$sThis user isn't in the invite posting whitelist!",
+      "success": "%1$sSuccessfully blacklisted %2$s#%3$s from posting discord invites."
+    },
+    "imageboard_tags_blacklist_add": {
+      "no_tag": "%1$sYou need to specify at least a tag to blacklist!",
+      "success": "%1$sSuccessfully blacklisted %2$s from image search."
+    },
+    "imageboard_tags_blacklist_remove": {
+      "no_tag": "%1$sYou need to specify at least a tag to un-blacklist!",
+      "success": "%1$sSuccessfully un-blacklisted %2$s from image search."
+    },
+    "birthday_enable": {
+      "no_args": "%1$sYou need to specify the channel name and the role name.",
+      "public_role": "%1$sYou cannot set the everyone role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
+      "autorole": "%1$sYou cannot set the autorole role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
+      "warning": "%1$sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
+      "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and un-assigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users.",
+      "warning_3": "Additionally the birthday cache (what is used to store them) is only updated every 23 hours. Meaning if you set your birthday today to tomorrow to test this announcer it will **not** work.",
+      "warning_4": "Type **yes** if you agree to set the role %2$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
+      "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
+      "error_channel_1": "%1$sI didn't find a channel or role!",
+      "error_channel_2": "*Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".* If the role contains spaces \"wrap it in quotes like this\""
+    },
+    "birthday_disable": {
+      "success": "%1$sBirthday logging has been disabled on this server"
+    },
+    "prefix_set": {
+      "no_prefix": "%1$sYou need to tell me what prefix you want to use.",
+      "too_long": "%1$sDon't you think that's a bit too long?",
+      "empty_prefix": "%1$sCannot set the guild prefix to nothing...",
+      "success": "%1$sYour server's custom prefix has been set to %2$s"
+    },
+    "prefix_clear": {
+      "success": "%1$sYour server's custom prefix has been disabled"
+    },
+    "autorole_set": {
+      "no_role": "%1$sYou didn't tell me what role to look for!",
+      "no_role_found": "%1$sI couldn't find a role with that name. If the role has spaces, try wrapping it in quotes.",
+      "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as autorole!",
+      "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as autorole!",
+      "success": "%1$sThe server autorole is now set to: **%2$s** (Position: %3$d)"
+    },
+    "autorole_unbind": {
+      "success": "%1$sThe autorole for this server has been removed."
+    },
+    "usermessage_resetchannel": {
+      "success": "%1$sSuccessfully reset the join/leave channel."
+    },
+    "usermessage_resetdata": {
+      "success": "%1$sSuccessfully reset the join/leave data."
+    },
+    "usermessage_join_channel": {
+      "no_channel": "%1$sYou need to specify what channel you want me to send the join message.",
+      "success": "%1$sThe user join log channel is now set to: %2$s"
+    },
+    "usermessage_join_resetchannel": {
+      "success": "%1$sSuccessfully reset log join channel!"
+    },
+    "usermessage_leave_channel": {
+      "no_channel": "%1$sYou need to specify what channel you want me to send the leave message.",
+      "success": "%1$sThe user leave log channel is now set to: %2$s"
+    },
+    "usermessage_leave_resetchannel": {
+      "success": "%1$sSuccessfully reset log leave channel!"
+    },
+    "usermessage_channel": {
+      "no_channel": "%1$sYou need to specify what channel you want me to send the join and leave messages.",
+      "success": "%1$sThe logging Join/Leave channel is set to: %2$s"
+    },
+    "usermessage_joinmessage": {
+      "no_message": "%1$sYou need to specify what message you want me to say when someone joins!",
+      "success": "%1$sServer join message set to: `%2$s`"
+    },
+    "usermessage_leavemessage": {
+      "no_message": "%1$sYou need to specify what message you want me to say when someone leaves!",
+      "success": "%1$sServer leave message set to: `%2$s`"
+    },
+    "autoroles_add": {
+      "no_args": "%1$sYou need to specify the name of the iam and the name of the role.",
+      "no_role_found": "%1$sI didn't find a role with that name!\nIf the role name has spaces wrap it in quotes like this: \"Role Name\"",
+      "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!",
+      "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as an auto-assignable role!",
+      "success": "%1$sAdded auto-assignable role **%2$s**, which gives the role **%3$s**"
+    },
+    "autoroles_remove": {
+      "no_args": "%1$sYou need to specify the name of the iam you want to remove.",
+      "not_found": "%1$sI couldn't find an auto-assignable role with that name",
+      "success": "%1$sRemoved auto-assignable role %2$s"
+    },
+    "autoroles_clear": {
+      "success": "%1$sCleared all auto-assignable roles!"
+    },
+    "admincustom": {
+      "no_args": "%1$sYou need to specify if you want it to be true or false (true to lock CC creation to Admins/Bot Commander only)",
+      "admin_only": "Custom command creation is now admin only.",
+      "everyone": "Custom command creation can now be done by anyone.",
+      "not_bool": "%1$sSilly, that's not a boolean value (true or false)!"
+    },
+    "timedisplay_set": {
+      "mode_not_specified": "%1$sYou need to specify a mode (12h or 24h)",
+      "12h": "%1$sSet time display mode to 12h",
+      "24h": "%1$sSet time display mode to 24h",
+      "invalid": "%1$sNot a valid choice. Valid choices: **24h**, **12h**"
+    },
+    "server_role_disallow": {
+      "no_name": "%1$sYou need to specify the name of the role!",
+      "public_role": "%1$sYou cannot disable the everyone role from using commands!",
+      "success": "%1$sDisabled role %2$s from executing commands."
+    },
+    "server_role_allow": {
+      "no_name": "%1$sYou need to specify the name of the role you want to allow (has to be disallowed already for this to do anything, since allow is default)!",
+      "not_disabled": "%1$sThis role isn't disabled! (All roles are enabled by default)",
+      "success": "%1$sAllowed role %2$s to execute commands."
+    },
+    "server_ignorebots_autoroles_toggle": {
+      "success": "%1$sSet bot autorole ignore to: **%2$s**"
+    },
+    "server_ignorebots_joinleave_toggle": {
+      "success": "%1$sSet bot join/leave ignore to: **%2$s**"
+    },
+    "levelupmessages_toggle": {
+      "success": "%1$sSet level up messages to: **%2$s**"
+    },
+    "levelupmessages_message_set": {
+      "no_message": "%1$sYou need to specify the message you want to show on user level-up. *Tip: The username of the person is done using the $(user) argument on the message*",
+      "success": "%1$sServer level-up message set to: `%2$s`"
+    },
+    "levelupmessages_message_clear": {
+      "success": "%1$sCleared level-up message!"
+    },
+    "levelupmessages_channel_set": {
+      "no_channel": "%1$sYou need to specify a channel to show level-up messages!",
+      "success": "%1$sThe level-up channel has been set to: %2$s"
+    },
+    "birthday_message_set": {
+      "no_message": "%1$sYou need to specify the message you want to show on birthday. *Tip: The username of the person is done using the $(user) argument on the message*",
+      "success": "%1$sServer birthday message set to: %2$s"
+    },
+    "birthday_message_clear": {
+      "success": "%1$sCleared birthday message!"
+    },
+    "defaultmutetimeout_set": {
+      "not_specified": "%1$sYou have to specify a mute timeout in the format of 1m20s, for example.",
+      "wrong_format": "%1$sWrong time format. You have to specify a mute timeout in the format of 1m20s, for example.",
+      "too_long": "%1$sThe time specified is too long...",
+      "negative_notice": "You cannot mute someone for negative time!",
+      "success": "%1$sSuccessfully set default mute timeout to *%2$s* (%3$dms)"
+    },
+    "defaultmutetimeout_reset": {
+      "success": "%1$sSuccessfully reset timeout."
+    },
+    "muterole_unbind": {
+      "success": "%1$sCorrectly reset the mute role."
+    },
+    "muterole_set": {
+      "no_role": "%1$sYou need to specify the role you want to use as the mute role. If the name has spaces try wrapping it in quotes.",
+      "success": "%1$sSet mute role to **%2$s**"
+    },
+    "reset:all": {
+      "success": "%1$sCorrectly reset your options!"
+    },
+    "birthday_test": {
+      "no_user": "%1$sYou need to specify an user to test the assigner with. Just mention them.",
+      "no_bd_channel": "%1$sYou don't have any birthday channel set!",
+      "no_bd_role": "%1$sYou don't have any role set for the birthday setter! Make sure you create a new role for it.",
+      "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel. Check channel permissions.",
+      "cannot_interact": "%1$sThe bot is unable to interact with the birthday role. (This means the birthday role is higher than the bot's highest role on the role hierarchy, put it below and try again)",
+      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**",
+      "error": "%1$sOw... There was an error while sending the message on channel %2$s for user **%3$s** and role %4$s"
+    },
+    "usermessage_joinmessage_add": {
+      "no_message": "%1$sYou need to specify what extra message you want me to say when someone joins!",
+      "success": "%1$sAdded `%2$s` to the extra join messages successfully."
+    },
+    "usermessage_joinmessage_remove": {
+      "no_message": "%1$sYou need to specify the index of the message you want to remove!",
+      "success": "%1$sRemoved `%2$s (index %3$d)` from the extra join messages successfully.",
+      "wrong_index": "%1$sThat index doesn't exist! Use `~>opts usermessage joinmessage list` to see all of the available indexes"
+    },
+    "usermessage_joinmessage_clear": {
+      "success": "%1$sCleared all extra join messages."
+    },
+    "usermessage_joinmessage_list": {
+      "header": "Extra join messages list. %1$s\n%2$s",
+      "no_extras": "%1$sThere isn't any extra join messages here..."
+    },
+    "usermessage_leavemessage_add": {
+      "no_message": "%1$sYou need to specify what extra message you want me to say when someone leaves!",
+      "success": "%1$sAdded `%2$s` to the extra leave messages successfully."
+    },
+    "usermessage_leavemessage_remove": {
+      "no_message": "%1$sYou need to specify the index of the message you want to remove!",
+      "success": "%1$sRemoved `%2$s (index %3$d)` from the extra leave messages successfully.",
+      "wrong_index": "%1$sThat index doesn't exist! Use `~>opts usermessage leavemessage list` to see all of the available indexes"
+    },
+    "usermessage_leavemessage_clear": {
+      "success": "%1$sCleared all extra leave messages."
+    },
+    "usermessage_leavemessage_list": {
+      "header": "Extra leave messages list. %1$s\n%2$s",
+      "no_extras": "%1$sThere isn't any extra leave messages here..."
+    },
+    "modlog_blacklistwords_add": {
+      "no_word": "%1$sYou didn't specify any word to add to the modlog blacklist.",
+      "success": "%1$sWord `%2$s` successfully added to the modlog blacklist.",
+      "too_many": "%1$sThere are already too many words on the blacklist (more than 20)."
+    },
+    "modlog_blacklistwords_remove": {
+      "not_in": "%1$sWord `%2$s` isn't in the blacklist.",
+      "success": "%1$sSuccesfully removed word `%2$s` from the modlog blacklist."
+    },
+    "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
+    "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
+    "no_command": "%1$sNo command called %2$s",
+    "invalid_role": "%1$sThat's not a valid role!"
+  },
+  "discord_permissions": {
+    "create_instant_invite": "Create Instant Invite",
+    "kick_members": "Kick Members",
+    "ban_members": "Ban Members",
+    "administrator": "Administrator",
+    "manage_channel": "Manage Channels",
+    "manage_server": "Manage Server",
+    "message_add_reaction": "Add Reactions",
+    "view_audit_logs": "View Audit Logs",
+    "view_channel": "Read Text Channels & See Voice Channels",
+    "message_read": "Read Messages",
+    "message_write": "Send Messages",
+    "message_tts": "Send TTS Messages",
+    "message_manage": "Manage Messages",
+    "message_embed_links": "Embed Links",
+    "message_attach_files": "Attach Files",
+    "message_history": "Read History",
+    "message_mention_everyone": "Mention Everyone",
+    "message_ext_emoji": "Use External Emojis",
+    "voice_connect": "Connect",
+    "voice_speak": "Speak",
+    "voice_mute_others": "Mute Members",
+    "voice_deaf_others": "Deafen Members",
+    "voice_move_others": "Move Members",
+    "voice_use_vad": "Use Voice Activity",
+    "nickname_change": "Change Nickname",
+    "nickname_manage": "Manage Nicknames",
+    "manage_roles": "Manage Roles",
+    "manage_permissions": "Manage Permissions",
+    "manage_webhooks": "Manage Webhooks",
+    "manage_emotes": "Manage Emojis",
+    "priority_speaker": "Priority Speaker"
+  },
+  "items": {
+    "headphones": "Headphones",
+    "ban_hammer": "Ban Hammer",
+    "die": "Loaded Die",
+    "kick_boot": "Kick Boot",
+    "floppy": "Floppy Disk",
+    "maths": "My Maths",
+    "racket": "Ping Racket",
+    "loaded_die": "Loaded Die",
+    "forgotten": "Forgotten Music",
+    "pencil": "Pencil",
+    "moneybag": "Money Bag",
+    "pick": "Brom's Pickaxe",
+    "milk": "Milk",
+    "beverage": "Beverage",
+    "lewd": "Lewd Magazine",
+    "ring": "Marriage Ring",
+    "letter": "Love Letter",
+    "key": "Crate Key",
+    "clothes": "Clothes",
+    "diamond": "Diamond",
+    "dress": "Wedding Dress",
+    "necklace": "Necklace",
+    "tuxedo": "Tuxedo",
+    "shoes": "Shoes",
+    "rose": "Rose",
+    "chocolate": "Chocolate",
+    "cookie": "Cookie",
+    "die_2": "Special Loaded Die",
+    "booster": "Booster",
+    "berserk": "Berserk",
+    "Companion": "Companion",
+    "special_ring": "Special Ring",
+    "enchancer": "Enchancer",
+    "prize": "Prize",
+    "crate": "Loot Crate",
+    "prize_2": "Prize 2",
+    "slot_ticket": "Slot Ticket",
+    "house": "House",
+    "car": "Car",
+    "bell": "Christmas Bell",
+    "tree": "Christmas Tree",
+    "pants": "Pants",
+    "haste": "Haste Potion",
+    "milky": "Milky Potion",
+    "energy": "Energy Beverage",
+    "rod": "Fishing Rod",
+    "fish": "Fish",
+    "tropical_fish": "Tropical Fish",
+    "blowfish": "Blowfish",
+    "comet_gem": "Comet Gem",
+    "star_gem": "Star Gem",
+    "cobweb": "Cobweb",
+    "fragment": "Gem Fragment",
+    "mop": "Mop",
+    "claim_key": "Claim Key",
+    "coffee": "Coffee",
+    "waifu_pill": "Waifu Pill",
+    "bait": "Fishing Bait",
+    "diamond_pick": "Diamond Pickaxe",
+    "tv": "Television",
+    "wrench": "Wrench",
+    "star_wrench": "Star Wrench",
+    "sparkle_wrench": "Sparkle Wrench",
+    "motorcycle": "Motorcycle",
+    "comet_pick": "Comet Gem Pickaxe",
+    "star_pick": "Star Gem Pickaxe",
+    "sparkle": "Sparkle Matter",
+    "sparkle_pick": "Sparkle Pickaxe",
+    "pizza": "Pizza",
+    "mine_crate": "Gem Crate",
+    "fish_crate": "Fish Treasure",
+    "mine_premium_crate": "Gem Premium Crate",
+    "fish_premium_crate": "Fish Premium Treasure",
+    "comet_rod": "Comet Gem Rod",
+    "star_rod": "Star Gem Rod",
+    "sparkle_rod": "Sparkle Rod",
+    "shell": "Shell",
+    "shark": "Shark",
+    "crab": "Crab",
+    "squid": "Squid",
+    "shrimp": "Shrimp",
+    "moon": "Moon Rune",
+    "flake": "Snowflake",
+    "broken_comet_pick": "Broken Comet Pick",
+    "broken_sparkle_pick": "Broken Sparkle Pick",
+    "broken_star_pick": "Broken Star Pick",
+    "broken_comet_rod": "Broken Comet Rod",
+    "broken_sparkle_rod": "Broken Sparkle Rod",
+    "broken_star_rod": "Broken Star Rod",
+    "description": {
+      "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
+      "ban_hammer": "Left by an admin.",
+      "kick_boot": "Left by an admin.",
+      "floppy": "Might have some games. Don't copy the floppy.",
+      "maths": "Oh, I forgot my maths.",
+      "racket": "I won the game of ping-pong with Discord by a few milliseconds. Maybe.",
+      "loaded_die": "Stolen from the `~>roll` command.",
+      "forgotten": "Never downloaded. Probably has been copyrighted.",
+      "pencil": "We have plenty of those!",
+      "moneybag": "What else?",
+      "pick": "That guy liked Minecraft way too much (24% breaking chance). (`~>mine` tool)",
+      "milk": "Maybe it's okay to have some.",
+      "beverage": "Does really weird stuff in big quantities. Well, depends on what kind ;)",
+      "lewd": "Too many lewd commands. Way too many. Had fun?",
+      "ring": "Basically what makes your marriage official.",
+      "letter": "A letter from your loved one.",
+      "key": "Used to open various crates with `~>opencrate <crate name>` or `~>useitem <crate name>`.",
+      "clothes": "Basically what you wear. Hopefully...",
+      "diamond": "Basically a better way of saving your money. It's shiny too. And let's you cast shiny stuff. How nice.",
+      "dress": "Isn't it cute?",
+      "necklace": "Looks nice.",
+      "tuxedo": "What you wear when you're going to get married with a girl, or going to a nice place, or maybe everywhere, who knows?",
+      "shoes": "'Cause walking barefoot is just nasty. Or painful.",
+      "rose": "The embodiment of your love. Also it's a nice decoration.",
+      "chocolate": "Yummy.",
+      "cookie": "Delicious",
+      "die_2": "Even more loaded. `Leftover from Currency version 1. No longer obtainable.`",
+      "booster": "Used to give you some kind of boost, now it's broken. `Leftover from Currency version 1. No longer obtainable.`",
+      "berserk": "Currency Berserker? Anyone? `Leftover from Currency version 1. No longer obtainable.`",
+      "companion": "Aw, such a cute dog. `Leftover from Currency version 1. No longer obtainable.`",
+      "special_ring": "It's so special, it's not even a ring. `Leftover from Currency version 1. No longer obtainable.`",
+      "enchancer": "A broken enchanter, I wonder if it could be fixed? `Leftover from Currency version 1. No longer obtainable.`",
+      "prize": "Pretty much, huh? `Leftover from Currency version 1. No longer obtainable.`",
+      "crate": "You can use this along with a loot key to open a loot crate! Can be opened with `~>opencrate`",
+      "prize_2": "In the first place, how did you get so much money?",
+      "slot_ticket": "Gives you extra chance in slots, also works as bulk storage.",
+      "house": "Cozy place to live in.",
+      "car": "To move around.",
+      "bell": "Christmas event 2017/2018 reward. Gives you a cozy christmas feeling on your tree.",
+      "tree": "Christmas event 2017/2018 reward. Who doesn't like a christmas tree?.",
+      "pants": "Basically what you wear on your legs... hopefully.",
+      "haste": "Allows you to collect more stuff from lootable commands for 2 sessions.",
+      "milky": "Clears all potion effects.",
+      "energy": "Gives less chance of a pick breaking while mining. Lasts only 3 mining sessions.",
+      "rod": "Enables you to fish. (20% breaking chance)",
+      "fish": "Fish. Caught in fishing.",
+      "tropical_fish": "A very tropical fish. Caught in fishing.",
+      "blowfish": "I wonder... is this good? Caught in fishing.",
+      "comet_gem": "Fragments of a comet you found while mining. Useful for casting.",
+      "star_gem": "Fragments of a fallen star you found while mining.",
+      "cobweb": "Something a spider left over on the mine. Wonder if it's worth something.",
+      "fragment": "Fragment of an ancient gem. Useful for casting.",
+      "mop": "A delightful way to clean all the dust you have around. I bet there's a lot of it.",
+      "claim_key": "This item makes you un-claimeable (as a waifu) while having it on your inventory.",
+      "coffee": "A delightful way to start your day.",
+      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 10 million. Lasts 5 sessions.",
+      "bait": "Gives you a higher chance of catching fish.",
+      "diamond_pick": "A very much stronger pick (20% breaking chance). (`~>mine` tool).",
+      "tv": "Must... watch... TV...",
+      "wrench": "Casting tool. Useful to put stuff together.",
+      "star_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking, needed to cast multiple items at once. Tier 2.",
+      "sparkle_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking. Less cost per cast. Tier 3.",
+      "motorcycle": "Going around, the cool way.",
+      "comet_pick": "A very much stronger pick (18% breaking chance). (`~>mine` tool).",
+      "star_pick": "A very much stronger pick (13% breaking chance). (`~>mine` tool).",
+      "sparkle": "One of the rarest gems around. Make sure to keep it. (Used to cast sparkle pickaxe & sparkle rods)",
+      "sparkle_pick": "The strongest pick out there (6% breaking chance). (`~>mine` tool)",
+      "pizza": "Yummy.",
+      "mine_crate": "A gem, you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
+      "fish_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
+      "mine_premium_crate": "A gem you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
+      "fish_premium_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
+      "comet_rod": "A slightly stronger rod. (17% breaking chance)",
+      "star_rod": "A stronger rod. (14% breaking chance)",
+      "sparkle_rod": "A way stronger rod. (9% breaking chance)",
+      "shell": "Found at the bottom of the ocean. What could it be worth for?",
+      "shark": "Woah. How did you catch *this*?",
+      "crab": "A crab. It dances, maybe.",
+      "squid": "Not to confuse with Squidward.",
+      "shrimp": "Pinkish stuff. I think.",
+      "moon": "Moon Rune. Needed to cast some stuff.",
+      "flake": "Snowflake. Usually used as a cast ingredient.",
+      "broken_comet_pick": "A comet pick that broke while mining. Still salvageable.",
+      "broken_sparkle_pick": "A sparkle pick that broke while mining. Still salvageable.",
+      "broken_star_pick": "A star pick that broke while mining. Still salvageable.",
+      "broken_comet_rod": "A comet rod that broke while mining. Still salvageable.",
+      "broken_sparkle_rod": "A sparkle rod that broke while mining. Still salvageable.",
+      "broken_star_rod": "A star rod that broke while mining. Still salvageable."
+    }
+  },
+  "test": {
+    "inherited": "owo"
+  }
+}
