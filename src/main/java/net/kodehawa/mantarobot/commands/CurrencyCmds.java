@@ -880,13 +880,13 @@ public class CurrencyCmds {
         registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Player p = MantaroData.db().getPlayer(event.getAuthor());
-                Item item = Items.fromAnyNoId(content).orElse(null);
-
                 //Argument parsing.
                 Map<String, String> t = getArguments(args);
                 content = Utils.replaceArguments(t, content, "season", "s").trim();
                 boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+
+                Player p = MantaroData.db().getPlayer(event.getAuthor());
+                Item item = Items.fromAnyNoId(content).orElse(null);
 
                 //Open default crate if nothing's specified.
                 if(item == null || content.isEmpty())
