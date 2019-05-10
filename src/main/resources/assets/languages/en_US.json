@@ -577,7 +577,7 @@
     },
     "cast": {
       "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\"",
-      "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. If the item name has spaces, wrap the name in quotes.",
+      "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. If the item name has spaces, wrap the name in quotes. Example: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
       "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
       "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
@@ -586,7 +586,7 @@
       "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
       "too_many": "%1$sYou'd have more than 5000 of this item if you proceed. Try casting less of this object?",
       "low_tier": "%1$sYou need at least a tier 2 wrench to cast more items per call. You currently have a tier %2$s wrench.",
-      "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe specify a more powerful one? *Wrench level: %2$s, Required level: %3$s*",
+      "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe specify a more powerful one? *Wrench level: %2$s, Required level: %3$s*. Example: `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sYou can't cast that many of this item at once! Limit: %2$s, Attempt: %3$s. A sparkle wrench makes the limit double! Unless you're already using one.",
       "ls": {
         "header": "Castable Item List",
