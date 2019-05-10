@@ -29,6 +29,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.currency.seasons.Season;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -880,12 +881,14 @@ public class CurrencyCmds {
         registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                ManagedDatabase managedDatabase = MantaroData.db();
                 //Argument parsing.
                 Map<String, String> t = getArguments(args);
                 content = Utils.replaceArguments(t, content, "season", "s").trim();
                 boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
 
-                Player p = MantaroData.db().getPlayer(event.getAuthor());
+                Player p = managedDatabase.getPlayer(event.getAuthor());
+                SeasonPlayer sp = managedDatabase.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
                 Item item = Items.fromAnyNoId(content).orElse(null);
 
                 //Open default crate if nothing's specified.
@@ -897,7 +900,8 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(!p.getInventory().containsItem(item)) {
+                boolean containsItem = isSeasonal ? sp.getInventory().containsItem(item) : p.getInventory().containsItem(item);
+                if(!containsItem) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.opencrate.no_crate"), EmoteReference.SAD, item.getName()).queue();
                     return;
                 }
