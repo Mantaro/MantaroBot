@@ -121,7 +121,7 @@ public class MantaroBot extends ShardedJDA {
         lavalink = new JdaLavalink(
                 config.clientId,
                 config.totalShards,
-                shardId -> getShardForGuild(shardId).getJDA()
+                shardId -> getShard(shardId).getJDA()
         );
 
         lavalink.addNode(new URI(config.lavalinkNode), config.lavalinkPass);
