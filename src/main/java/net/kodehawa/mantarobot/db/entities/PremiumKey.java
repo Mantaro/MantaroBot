@@ -109,6 +109,6 @@ public class PremiumKey implements ManagedObject {
     }
 
     public enum Type {
-        USER, GUILD, MASTER //the latter does nothing but prevents a crash ig.
+        MASTER, USER, GUILD
     }
 }
