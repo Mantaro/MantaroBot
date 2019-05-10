@@ -67,7 +67,7 @@ public class IncreasingRateLimiter {
                         Arrays.asList(
                                 String.valueOf(limit),
                                 String.valueOf(start),
-                                String.valueOf(premiumAwareness ? cd : cd - ThreadLocalRandom.current().nextInt(cooldown / 4)),
+                                String.valueOf(premiumAwareness ? cd - ThreadLocalRandom.current().nextInt(cooldown / 4) : cd),
                                 String.valueOf(spamBeforeCooldownIncrease),
                                 String.valueOf(cooldownIncrease),
                                 String.valueOf(maxCooldown)
