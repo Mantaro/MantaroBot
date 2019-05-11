@@ -15,7 +15,7 @@ services:
       - "rethonk"
       - "redis"
       - "andesite"
-    image: mantaro/mantaro  
+    image: mantaro/mantaro
     volumes:
       - ./config-compose.json:/mantaro/config.json
   prometheus:
