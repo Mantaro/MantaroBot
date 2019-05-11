@@ -49,8 +49,6 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
-import net.kodehawa.mantarobot.utils.commands.RateLimit;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.security.SecureRandom;
 import java.text.NumberFormat;
@@ -65,7 +63,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
-import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 /**
  * Basically part of CurrencyCmds, but only the money commands.

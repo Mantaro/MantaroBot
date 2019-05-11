@@ -300,9 +300,13 @@ public class ItemCmds {
                     }).collect(Collectors.joining(", "));
                     //End of build recipe explanation
 
+                    int castLevel = (item instanceof Castable) ? ((Castable) item).getCastLevelRequired() : 1;
                     fields.add(new MessageEmbed.Field(item.getEmoji() + " " + item.getName(),
                             languageContext.get(item.getDesc()) + "\n**" + languageContext.get("commands.cast.ls.cost") + "**" +
-                                    item.getValue() / 2 + " " + languageContext.get("commands.gamble.credits") + ".\n**Recipe: **" + recipe.toString(), true));
+                                    item.getValue() / 2 + " " + languageContext.get("commands.gamble.credits") + ".\n**Recipe: **" + recipe +
+                                    "\n**Wrench Tier: **" + castLevel + ".",
+                            true)
+                    );
                 }
 
                 List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);

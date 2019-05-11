@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.core.shard;
 
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
-import io.prometheus.client.Gauge;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
@@ -36,7 +35,6 @@ import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import okhttp3.MediaType;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
