@@ -74,7 +74,12 @@ dependencies {
     compile 'io.github.classgraph:classgraph:4.6.3'
     compile 'ch.qos.logback:logback-classic:1.2.3'
 
-    compile 'us.monoid.web:resty:0.3.2'
+    //FUCK YOU FUCK YOU FUCK YOU FUCK YOU FUCK YOU
+    //FUCKING CLASSES IN THE DEFAULT PACKAGE
+    //I JUST WASTED 30 MINUTES PARSING EVERY SINGLE
+    //FILE IN MY GRADLE CACHE TO FIND OUT WHO'S RESPONSIBLE
+    //FOR THIS RETARDED BEHAVIOUR THAT BREAKS JDEPS
+    //compile 'us.monoid.web:resty:0.3.2'
 
     compile 'br.com.brjdevs:utils:1.0.0_15'
 
@@ -120,7 +125,7 @@ dependencies {
 docker {
     name "mantaro/mantaro:$ver"
     tag "latest", "mantaro/mantaro:latest"
-    files shadowJar.outputs
+    files shadowJar.outputs, "jlink.sh"
     copySpec.from("assets").into("assets")
     buildArgs([
         version: ver.toString(),

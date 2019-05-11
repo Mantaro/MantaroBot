@@ -107,6 +107,7 @@ public class ShardedMantaro {
             SentryHelper.captureExceptionContext(
                     "Exception thrown when trying to get shard count, discord isn't responding?", e, MantaroBot.class, "Shard Count Fetcher"
             );
+            log.error("Unable to fetch shard count", e);
             System.exit(SHARD_FETCH_FAILURE);
         }
         return 1;
