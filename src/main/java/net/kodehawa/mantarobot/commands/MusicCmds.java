@@ -53,7 +53,6 @@ import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.net.URL;
 import java.util.List;
@@ -62,7 +61,6 @@ import java.util.stream.IntStream;
 
 import static net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils.embedForQueue;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
-import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 import static org.apache.commons.lang3.StringUtils.replaceEach;
 
 @Module

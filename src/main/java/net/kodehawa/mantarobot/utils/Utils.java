@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.utils;
 
-import com.google.common.io.CharStreams;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import com.rethinkdb.net.Connection;
 import lombok.SneakyThrows;
@@ -41,12 +40,8 @@ import org.json.JSONObject;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -262,7 +257,7 @@ public class Utils {
 
 
     /**
-     * DEPRECATED - Redirects to wgetResty.
+     * DEPRECATED - Redirects to wgetOkHttp.
      * Fetches an Object from any given URL. Uses vanilla Java methods.
      * Can retrieve text, JSON Objects, XML and probably more.
      *
@@ -271,16 +266,16 @@ public class Utils {
      */
     @Deprecated
     public static String wget(String url) {
-        return wgetResty(url);
+        return wgetOkHttp(url);
     }
 
     /**
-     * Same than above, but using resty. Way easier tbh.
+     * Same than above, but using OkHttp. Way easier tbh.
      *
      * @param url   The URL to get the object from.
      * @return The object as a parsed string.
      */
-    public static String wgetResty(String url) {
+    public static String wgetOkHttp(String url) {
         String url2 = null;
 
         try {
