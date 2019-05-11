@@ -148,7 +148,7 @@ public class MiscCmds {
                 String answer;
                 try {
                     textEncoded = URLEncoder.encode(content, "UTF-8");
-                    String json = Utils.wgetResty(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded));
+                    String json = Utils.wgetOkHttp(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded));
                     answer = new JSONObject(json).getJSONObject("magic").getString("answer");
                 } catch(Exception exception) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.8ball.error"), EmoteReference.ERROR).queue();

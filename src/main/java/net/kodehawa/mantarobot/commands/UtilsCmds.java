@@ -24,7 +24,6 @@ import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -314,7 +313,7 @@ public class UtilsCmds {
                 String definition, part_of_speech, headword, example;
 
                 try {
-                    main = new JSONObject(Utils.wgetResty("http://api.pearson.com/v2/dictionaries/laes/entries?headword=" + word));
+                    main = new JSONObject(Utils.wgetOkHttp("http://api.pearson.com/v2/dictionaries/laes/entries?headword=" + word));
                     JSONArray results = main.getJSONArray("results");
                     JSONObject result = results.getJSONObject(0);
                     JSONArray senses = result.getJSONArray("senses");
@@ -568,7 +567,7 @@ public class UtilsCmds {
                     url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(commandArguments[0], "UTF-8");
                 } catch(UnsupportedEncodingException ignored) { }
 
-                String json = Utils.wgetResty(url);
+                String json = Utils.wgetOkHttp(url);
                 UrbanData data = GsonDataManager.GSON_PRETTY.fromJson(json, UrbanData.class);
 
                 if (commandArguments.length > 2) {
@@ -638,7 +637,7 @@ public class UtilsCmds {
                 try {
                     long start = System.currentTimeMillis();
                     WeatherData data = GsonDataManager.GSON_PRETTY.fromJson(
-                            Utils.wgetResty(
+                            Utils.wgetOkHttp(
                                     String.format(
                                             "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s",
                                             URLEncoder.encode(content, "UTF-8"),
