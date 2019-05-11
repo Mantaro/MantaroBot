@@ -38,7 +38,6 @@ import net.kodehawa.mantarobot.utils.commands.RateLimit;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import okhttp3.*;
 import org.json.JSONObject;
-import us.monoid.web.Resty;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -283,19 +282,26 @@ public class Utils {
      */
     public static String wgetResty(String url) {
         String url2 = null;
-        Resty resty = new Resty();
 
         try {
-            resty.withHeader("User-Agent", MantaroInfo.USER_AGENT);
-            InputStream is = resty.text(url).stream();
-            url2 = CharStreams.toString(new InputStreamReader(is, StandardCharsets.UTF_8));
-        } catch(IOException e) {
-            if (!e.getMessage().contains("404")) {
-                log.warn(getFetchDataFailureResponse(url, "Resty"), e);
-            }
-        }
+            Request req = new Request.Builder()
+                    .url(url)
+                    .header("User-Agent", MantaroInfo.USER_AGENT)
+                    .build();
 
-        return url2;
+            try(Response r = httpClient.newCall(req).execute()) {
+                if(r.body() == null || r.code() / 100 != 2) {
+                    if(r.code() != 404) {
+                        log.warn(getFetchDataFailureResponse(url, "HTTP"));
+                    }
+                    return null;
+                }
+                return r.body().string();
+            }
+        } catch(Exception e) {
+            log.warn(getFetchDataFailureResponse(url, "HTTP"), e);
+            return null;
+        }
     }
 
     public static String urlEncodeUTF8(Map<?, ?> map) {
