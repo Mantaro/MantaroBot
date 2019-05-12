@@ -211,6 +211,7 @@ build.dependsOn shadowJar
 
 shadowJar {
     classifier = null
+    exclude 'module-info.class'
 }
 
 class Version {
