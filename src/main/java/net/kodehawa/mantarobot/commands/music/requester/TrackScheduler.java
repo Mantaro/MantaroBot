@@ -213,6 +213,10 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     }
 
     private void onStop() {
+        //stop the track.
+        if(getAudioPlayer().getPlayer().getPlayingTrack() != null)
+            getAudioPlayer().getPlayer().stopTrack();
+
         getVoteStop().clear();
         getVoteSkips().clear();
 
