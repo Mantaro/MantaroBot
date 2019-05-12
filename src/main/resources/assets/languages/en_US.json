@@ -194,6 +194,7 @@
       "track_error": "%1$sOuch, something went wrong while playing this track! Sorry for the inconveniences, I'll try to play the next one available if there is one.",
       "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it.\n%2$s",
       "soundcloud_no_args": "%1$sYou need to give me the song name, I'm not a magician so I can't guess it :(",
+      "no_vc_found": "%1$sI'm not connected to any VC even though I should be? Try again.",
       "queue": {
         "no_track_found_np": "Nothing or title/duration not found",
         "header": "Queue for server %1$s",

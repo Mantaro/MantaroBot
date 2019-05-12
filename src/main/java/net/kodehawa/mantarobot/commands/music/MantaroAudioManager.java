@@ -35,6 +35,7 @@ import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.Prometheus;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 
@@ -81,6 +82,13 @@ public class MantaroAudioManager {
             if(b) {
                 GuildMusicManager musicManager = getMusicManager(event.getGuild());
                 TrackScheduler scheduler = musicManager.getTrackScheduler();
+
+                //It SHOULD be connected already, if not, we encountered a race condition or the player was disconnected right on the middle of connecting.
+                //why tho?
+                if(scheduler.getAudioPlayer().getChannel() == null) {
+                    event.getChannel().sendMessageFormat(lang.get("commands.music_general.no_vc_found"), EmoteReference.ERROR).queue();
+                    return;
+                }
 
                 scheduler.getMusicPlayer().setPaused(false);
 

@@ -276,8 +276,6 @@ public class Utils {
      * @return The object as a parsed string.
      */
     public static String wgetOkHttp(String url) {
-        String url2 = null;
-
         try {
             Request req = new Request.Builder()
                     .url(url)
