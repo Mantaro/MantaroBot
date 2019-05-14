@@ -21,6 +21,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import lavalink.client.io.Link;
 import lavalink.client.player.IPlayer;
+import lavalink.client.player.LavalinkPlayer;
 import lavalink.client.player.event.PlayerEventListenerAdapter;
 import lombok.Getter;
 import lombok.Setter;
@@ -214,8 +215,9 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
 
     private void onStop() {
         //stop the track.
-        if(getAudioPlayer().getPlayer().getPlayingTrack() != null)
-            getAudioPlayer().getPlayer().stopTrack();
+        LavalinkPlayer lavalinkPlayer = getAudioPlayer().getPlayer();
+        if(lavalinkPlayer.getPlayingTrack() != null)
+            lavalinkPlayer.stopTrack();
 
         getVoteStop().clear();
         getVoteSkips().clear();

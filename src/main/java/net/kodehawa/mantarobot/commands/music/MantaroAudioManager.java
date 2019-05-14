@@ -82,14 +82,6 @@ public class MantaroAudioManager {
             if(b) {
                 GuildMusicManager musicManager = getMusicManager(event.getGuild());
                 TrackScheduler scheduler = musicManager.getTrackScheduler();
-
-                //It SHOULD be connected already, if not, we encountered a race condition or the player was disconnected right on the middle of connecting.
-                //why tho?
-                if(scheduler.getAudioPlayer().getChannel() == null) {
-                    event.getChannel().sendMessageFormat(lang.get("commands.music_general.no_vc_found"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
                 scheduler.getMusicPlayer().setPaused(false);
 
                 if(scheduler.getQueue().isEmpty())
