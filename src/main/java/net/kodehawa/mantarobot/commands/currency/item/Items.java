@@ -178,9 +178,9 @@ public class Items {
             GEM_6 = new Item(ItemType.MINE, "\uD83C\uDF19", "Moon Runes", "items.moon", "items.description.moon", 100, false),
             GEM_7 = new Item(ItemType.MINE, "\u2744\uFE0F", "Snowflake", "items.flake", "items.description.flake", 25, false),
             // ---------------------------------- 5.3 BROKEN ITEMS START HERE ----------------------------------
-            BROKEN_SPARKLE_PICK = new Broken(73, EmoteReference.BROKEN_SPARKLE_PICK.getDiscordNotation(), "Broken Sparkle Pick", "items.broken_sparkle_pick", "items.description.broken_sparkle_pick", 100, "1,74;4,84;2,50"),
-            BROKEN_COMET_PICK = new Broken(61, EmoteReference.BROKEN_COMET_PICK.getDiscordNotation(), "Broken Comet Pick", "items.broken_comet_pick", "items.description.broken_comet_pick", 40, "1,48;3,84;2,50"),
-            BROKEN_STAR_PICK = new Broken(ItemType.BROKEN_MINE_COMMON, 62, EmoteReference.BROKEN_STAR_PICK.getDiscordNotation(), "Broken Star Pick", "items.broken_star_pick", "items.description.broken_star_pick", 40, "1,49;3,84;3,50"),
+            BROKEN_SPARKLE_PICK = new Broken(73, EmoteReference.BROKEN_SPARKLE_PICK.getDiscordNotation(), "Broken Sparkle Pickaxe", "items.broken_sparkle_pick", "items.description.broken_sparkle_pick", 100, "1,74;4,84;2,50"),
+            BROKEN_COMET_PICK = new Broken(61, EmoteReference.BROKEN_COMET_PICK.getDiscordNotation(), "Broken Comet Pickaxe", "items.broken_comet_pick", "items.description.broken_comet_pick", 40, "1,48;3,84;2,50"),
+            BROKEN_STAR_PICK = new Broken(ItemType.BROKEN_MINE_COMMON, 62, EmoteReference.BROKEN_STAR_PICK.getDiscordNotation(), "Broken Star Pickaxe", "items.broken_star_pick", "items.description.broken_star_pick", 40, "1,49;3,84;3,50"),
             BROKEN_SPARKLE_ROD = new Broken(75, EmoteReference.BROKEN_SPARKLE_ROD.getDiscordNotation(), "Broken Sparkle Rod", "items.broken_sparkle_rod", "items.description.broken_sparkle_rod", 90, "1,74;4,84;2,50"),
             BROKEN_COMET_ROD = new Broken(ItemType.BROKEN_FISHING_COMMON, 70, EmoteReference.BROKEN_COMET_ROD.getDiscordNotation(), "Broken Comet Rod", "items.broken_comet_rod", "items.description.broken_comet_rod", 30, "1,48;3,84;2,50"),
             BROKEN_STAR_ROD = new Broken(71, EmoteReference.BROKEN_STAR_ROD.getDiscordNotation(), "Broken Star Rod", "items.broken_star_rod", "items.description.broken_star_rod", 30, "1,49;3,84;3,50"),
