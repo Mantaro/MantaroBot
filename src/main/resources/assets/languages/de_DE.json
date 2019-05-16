@@ -76,7 +76,7 @@
     },
     "generic_error": "Wenn du willst, tritt unserem **Support Server** bei (Link auf `support.mantaro.site` zu finden), oder schau auf unserer GitHub Seite nach (`https://github.com/Kodehawa/MantaroBot`). Bitte sag denen, dass sie aufhören sollen mich hochzujagen und bitte vergiss nicht die Fehler-ID beim Melden eines Fehlers!",
     "boom_quotes": ["Offenbar hat Megumin unser Schloss in die Luft gejagt...", "Uh-oh, offenbar hat unser Meister ein paar Nullen und Einsen auf dem Boden vergessen :<", "W-Warte, was ist gerade passiert?", "I-Ich denke hier brennt's... Du solltest vielleicht meinen Meister bitten, sich das anzuschauen.", "Ich habe Explosionsmagie gemeistert, siehst du?", "Vielleicht ist hier einfach etwas schiefgelaufen, aber, u-uh, Ich kann es nicht richtigstellen!", "U-Uhh.. Was wolltest du?"],
-    "ratelimit_quotes": ["Woah... Du rufts mich viel zu schnell... Mir wird ganz schwindlig.!", "Sei nicht gierig!", "D-Du rufst much viel zu schnell... Mir ist schwindlig...", "Wart mal!", "Warte nur einen kleiiinen Augenblick länger uwu", "Schaut so aus, als würden wir noch ein Bußgeld bekommen, wenn wir so schnell weitermachen!", "Ich will das machen... aber warte noch einen Moment bitte.", "Hey, wart mal, Ich bin mit meiner Pause noch nicht fertig!", "Kannst du ein bisschen langsamer machen?"],
+    "ratelimit_quotes": ["Woah... Du rufts mich viel zu schnell... Mir wird ganz schwindlig.!", "Sei nicht gierig!", "D-Du rufst mich viel zu schnell... Mir ist schwindlig...", "Wart mal!", "Warte nur einen kleiiinen Augenblick länger uwu", "Schaut so aus, als würden wir noch ein Bußgeld bekommen, wenn wir so schnell weitermachen!", "Ich will das machen... aber warte noch einen Moment bitte.", "Hey, wart mal, Ich bin mit meiner Pause noch nicht fertig!", "Kannst du ein bisschen langsamer machen?"],
     "mod_quotes": ["Uh-oh, schaut so aus, als wäre jemand hart getroffen worden!", "Hier passiert nur normale Adminarbeit...", "Der Stiefel wurde geworfen!", "Wir werden dich vermissen... okay, vielleicht auch nicht.", "Ich hoffe Ich habe das richtige getan...", "Woah, da haben die Moderatoren gesprochen!", "U-Uh... g-gut, jemand flog grad durch die Tür."]
   },
   "categories": {
@@ -117,7 +117,8 @@
       "shark_success": "%1$sDu hast es irgendwie geschaft einen Hai zu fangen. Was eine tolle Angel, wa?",
       "fossil_success": "%1$sDu hast ein Fossil beim Fischen gefangen. Das könnte ein bisschen was Wert sein, oder vielleicht zum Herstellen gebraucht werden, denke ich.",
       "bait": "Der Fisch hat deinen Köder geschluckt!",
-      "missing_equipped": "%1$sDu hattest eine %2$s Angelrute ausgerüstet, aber keine Angelrute der Art im Inventar! Die ausgerüstete Angelrute wurde zurückgesetzt."
+      "missing_equipped": "%1$sDu hattest eine %2$s Angelrute ausgerüstet, aber keine Angelrute der Art im Inventar! Die ausgerüstete Angelrute wurde zurückgesetzt.",
+      "broken_drop": "%1$sDeine Angel ist kaputt gegangen, aber du kannst sie reparieren. Kaputten Gegenstand erhalten: %2$s *%3$s*"
     },
     "softban": {
       "no_permission": "%1$sKann nicht softbannen: Sie haben keine Rechte Mitglider zu bannen.",
@@ -193,6 +194,7 @@
       "track_error": "%1$sEtwas lief schief beim Spielen dieses Songs, ich werde den nächsten Song spielen, wenn es einen gibt.",
       "queue_finished": "%1$sBeendete die aktuelle Warteschlange! Ich hoffe es hat dir gefallen.\n%2$s",
       "soundcloud_no_args": "%1$sDu musst mir einen Songnamen nennen, ich bin kein Magier, daher kann ich ihn nicht erraten. :(",
+      "no_vc_found": "%1$sIch bin in keinem Sprachkanal, obwohl ich es sein sollte? Versuche es erneut.",
       "queue": {
         "no_track_found_np": "Nichts oder der Title/die Länge wurde nicht gefunden.",
         "header": "Warteschlange für den Server %1$s",
@@ -315,7 +317,8 @@
       "no_track": "%1$sAn dieser Position befindet sich kein Song `%2$d`!",
       "invalid_number": "(%1$s`%2$s`) Eine der Nummern ist keine gültige Ganzzahl!",
       "invalid_number_range": "%1$s`%2$s` ist keine gültige Zahl oder Folge!",
-      "success": "%1$s**%2$d** Song(s) entfernt."
+      "success": "%1$s**%2$d** Song(s) entfernt.",
+      "not_dj": "%1$sDu musst ein DJ sein, um diese Aktion durchführen zu können."
     },
     "stop": {
       "dj_stop": "%1$sDer Server DJ entschied sich den Player zu stoppen!",
@@ -1266,7 +1269,12 @@
       "no_item_recipe": "%1$sDu hast nicht die benötigten *%2$s*, um diese Reparatur durchzuführen.",
       "not_enough_items": "%1$sDu hast nicht genug von *%2$s*, um diese Reparartur durchzuführen. **(Benötigt: %3$s, Aktuell: %4$s)**",
       "item_broke": "Leider ist dein Schraubenschlüssel beim Reparieren kaputt gegangen, aber du hast trotzdem deinen Gegenstand bekommen!",
-      "success": "%1$sReparartur erfolgreich! Repariert: %2$s **%3$s** -> %4$s **%5$s**. Die Reparatur kostete *%6$s* Credits und das Rezept zum Reparieren war *%7$s*."
+      "success": "%1$sReparartur erfolgreich! Repariert: %2$s **%3$s** -> %4$s **%5$s**. Die Reparatur kostete *%6$s* Credits und das Rezept zum Reparieren war *%7$s*.",
+      "ls": {
+        "header": "Liste reparierbarer Gegenstände",
+        "cost": "Reparaturkosten: ",
+        "desc": "Dies ist eine Liste der Gegenstände, die du mit `~>repair` reparieren kannst.\nDu kannst den kompletten oder gekürzten Namen, oder den Emoji verwenden.\nReparieren kostet mindestens ein Drittel der Gegenstandskosten. Der Preis wird unten angezeigt, zusammen mit den benötigten Materialien."
+      }
     },
     "anime": {
       "no_args": "%1$sDu musst mir einen Anime zum Suchen nennen.",
@@ -1767,7 +1775,7 @@
       "no_bd_channel": "%1$sDu hast keinen Geburtstagskanal eingestellt!",
       "no_bd_role": "%1$sDu hast keine Rolle für den Geburtstag eingestellt!",
       "no_talk_permission": "%1$sDer Bot kann im Geburtstagskanal nicht schreiben.",
-      "cannot_interact": "%1$sDer Bot kann nicht mit der Geburtstagsrolle interagieren.",
+      "cannot_interact": "%1$sDer Bot kann nicht mit der Geburtstagsrolle interagieren. (Das bedeutet, dass die Geburtstagsrolle höher ist, als die höchste Rolle des Bots.)",
       "success": "%1$sErledigt! Die Nachricht wurde in %2$s für den Nutzer **%3$s** geschickt. Er hat die Rolle %4$s bekommen.",
       "error": "%1$sOw... Es gab einen Fehler beim Senden der Nachricht in den Kanal %2$s für den Nutzer **%3$s** und die Rolle %4$s"
     },
@@ -1934,8 +1942,12 @@
     "shrimp": "Shrimp",
     "moon": "Mondrune",
     "flake": "Schneeflocke",
-    "broken_comet_pick": "Kaputte Kometenjuwelenspitzhacke",
+    "broken_comet_pick": "Kaputte Kometenspitzhacke",
     "broken_sparkle_pick": "Kaputte glitzernde Spitzhacke",
+    "broken_star_pick": "Kaputte Sternenspitzhacke",
+    "broken_comet_rod": "Kaputte Kometenangel",
+    "broken_sparkle_rod": "Kaputte glitzernde Angel",
+    "broken_star_rod": "Kaputte Sternenangel",
     "description": {
       "headphones": "Das passiert, wenn du zu viel Musik hörst. Sollte aber was wert sein.",
       "ban_hammer": "Von einem Admin da gelassen.",
@@ -2019,8 +2031,13 @@
       "shrimp": "Pinkes Zeug. Denke ich.",
       "moon": "Mondrune. Benötigt, um bestimmtes Zeug herszustellen.",
       "flake": "Schneeflocke. Normalerweise als Material genutzt.",
-      "broken_comet_pick": "Eine Kometenjuwelenspitzhacke, zerbrochen beim Abbauen. Reparierbar.",
-      "broken_sparkle_pick": "Eine glitzernde Spitzhacke, zerbrochen beim Abbauen. Reparierbar."
+      "broken_comet_pick": "Eine Kometenspitzhacke, die beim Abbauen beschädigt worden ist. Reparierbar.",
+      "broken_sparkle_pick": "Eine glitzernde Spitzhacke, die beim Abbauen beschädigt worden ist. Reparierbar.",
+      "broken_star_pick": "Eine Sternenspitzhacke, die beim Abbauen beschädigt worden ist. Reparierbar.",
+      "broken_comet_rod": "Eine Kometenangel, die beim Fischen beschädigt worden ist. Reparierbar.",
+      "broken_sparkle_rod": "Eine glitzernde Angel, die beim Fischen beschädigt worden ist. Reparierbar.",
+      "broken_star_rod": "Eine Sternenangel, die beim Fischen beschädigt worden ist. Reparierbar."
+
     }
   },
   "test": {
