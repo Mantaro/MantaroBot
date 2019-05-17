@@ -1101,6 +1101,7 @@ public class CurrencyCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Map<String, String> t = getArguments(content);
                 boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+                content = Utils.replaceArguments(t, content, "season", "s").trim();
 
                 Items.FISHING_ROD.getAction().test(event, Pair.of(languageContext, content), isSeasonal);
             }

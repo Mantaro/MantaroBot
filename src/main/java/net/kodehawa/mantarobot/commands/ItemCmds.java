@@ -483,7 +483,7 @@ public class ItemCmds {
                 return new HelpContent.Builder()
                         .setDescription("Allows you to repair any broken item given you have the necessary elements.\n" +
                                 "Repairing requires you to have the necessary materials to cast the item, and it has a cost of `item value / 3`.\n")
-                        .setUsage("`~>repair <item>")
+                        .setUsage("`~>repair <item>` - Repairs a broken item.")
                         .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
                         .build();
             }
