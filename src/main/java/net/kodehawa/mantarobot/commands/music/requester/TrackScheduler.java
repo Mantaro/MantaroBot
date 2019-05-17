@@ -175,7 +175,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     }
 
     public int getRequiredVotes() {
-        int listeners = (int) getGuild().getAudioManager().getConnectedChannel().getMembers().stream().filter(m -> !m.getUser().isBot() && !m.getVoiceState().isDeafened())
+        int listeners = (int) getGuild().getVoiceChannelById(getAudioPlayer().getChannel()).getMembers().stream().filter(m -> !m.getUser().isBot() && !m.getVoiceState().isDeafened())
                 .count();
 
         return (int) Math.ceil(listeners * .55);
