@@ -42,8 +42,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class TrackScheduler extends PlayerEventListenerAdapter {
-    @Getter
-    private final Link audioPlayer;
+    private Link audioPlayer;
+    private IPlayer musicPlayer;
+
     private final String guildId;
     @Getter
     private final ConcurrentLinkedDeque<AudioTrack> queue;
@@ -62,8 +63,6 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     private long requestedChannel;
     @Getter
     private final I18n language;
-    @Getter
-    private final IPlayer musicPlayer;
 
     public TrackScheduler(Link player, String guildId) {
         this.audioPlayer = player;
@@ -78,13 +77,13 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     }
 
     public void queue(AudioTrack track, boolean addFirst) {
-        if(audioPlayer.getPlayer().getPlayingTrack() != null) {
+        if(getMusicPlayer().getPlayingTrack() != null) {
             if(addFirst)
                 queue.addFirst(track);
             else
                 queue.offer(track);
         } else {
-            audioPlayer.getPlayer().playTrack(track);
+            getMusicPlayer().playTrack(track);
             currentTrack = track;
         }
     }
@@ -104,7 +103,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
 
             //This actually reads wrongly, but current = next in this context, since we switched it already.
             if(currentTrack != null)
-                audioPlayer.getPlayer().playTrack(currentTrack);
+                getMusicPlayer().playTrack(currentTrack);
 
             if(skip)
                 onTrackStart();
@@ -251,5 +250,21 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
 
     public enum Repeat {
         SONG, QUEUE
+    }
+
+    public Link getAudioPlayer() {
+        if(audioPlayer == null) {
+            audioPlayer = MantaroBot.getInstance().getLavalink().getLink(guildId);
+        }
+
+        return audioPlayer;
+    }
+
+    public IPlayer getMusicPlayer() {
+        if(musicPlayer == null) {
+            musicPlayer = getAudioPlayer().getPlayer();
+        }
+
+        return musicPlayer;
     }
 }

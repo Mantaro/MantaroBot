@@ -28,8 +28,8 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class GuildMusicManager {
-    @Getter
     private final JdaLink lavaLink; //hah, punny
+    private final String guildId;
 
     @Getter
     private final TrackScheduler trackScheduler;
@@ -40,6 +40,7 @@ public class GuildMusicManager {
     private ScheduledFuture<?> leaveTask = null;
 
     public GuildMusicManager(String guildId) {
+        this.guildId = guildId;
         lavaLink = MantaroBot.getInstance().getLavalink().getLink(guildId);
         trackScheduler = new TrackScheduler(lavaLink, guildId);
 
@@ -73,5 +74,9 @@ public class GuildMusicManager {
             return;
         leaveTask.cancel(true);
         leaveTask = null;
+    }
+
+    public JdaLink getLavaLink() {
+        return MantaroBot.getInstance().getLavalink().getLink(guildId);
     }
 }
