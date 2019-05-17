@@ -19,8 +19,6 @@ package net.kodehawa.mantarobot.core.shard;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
-import lavalink.client.io.jda.JdaLavalink;
 import lombok.Getter;
 import lombok.experimental.Delegate;
 import net.dv8tion.jda.core.AccountType;
@@ -45,7 +43,6 @@ import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Prometheus;
-import net.kodehawa.mantarobot.utils.Utils;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.lang3.time.DateUtils;
@@ -185,7 +182,6 @@ public class MantaroShard implements JDA {
                 .setAutoReconnect(true)
                 .setRateLimitPool(ratelimitPool, true)
                 .setCallbackPool(callbackPool, true)
-                .setAudioSendFactory(new NativeAudioSendFactory(850))
                 .setEventManager(manager)
                 .setSessionController(sessionController)
                 .setBulkDeleteSplittingEnabled(false)

@@ -67,7 +67,6 @@ task generateLanguageList {
 dependencies {
     //remember to update this 3 all the time lul
     compile 'net.dv8tion:JDA:3.8.3_463'
-    compile 'com.sedmelluq:jda-nas:1.0.6'
     compile 'com.github.FredBoat:Lavalink-Client:8c20d5714c'
 
     //before: classpathscanner

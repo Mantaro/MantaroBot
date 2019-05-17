@@ -29,7 +29,6 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.currency.seasons.Season;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -66,7 +65,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
-import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 @Module
 @SuppressWarnings("unused")
@@ -935,13 +933,14 @@ public class CurrencyCmds {
                         final ManagedDatabase db = MantaroData.db();
                         String[] args = StringUtils.efficientSplitArgs(content, 2);
                         Map<String, Optional<String>> t = StringUtils.parse(content.split("\\s+"));
+                        content = Utils.replaceArguments(t, content, "amount").trim();
 
                         if (content.isEmpty()) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_items_specified"), EmoteReference.ERROR).queue();
                             return;
                         }
 
-                        Item item = Items.fromAnyNoId(args[0]).orElse(null);
+                        Item item = Items.fromAnyNoId(content).orElse(null);
                         //Well, shit.
                         if (item == null) {
                             event.getChannel().sendMessageFormat(languageContext.get("general.item_lookup.not_found"), EmoteReference.ERROR).queue();

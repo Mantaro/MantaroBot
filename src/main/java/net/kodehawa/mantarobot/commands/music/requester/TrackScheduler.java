@@ -197,7 +197,9 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     }
 
     public TextChannel getRequestedChannelParsed() {
-        if(requestedChannel == 0) return null;
+        if(requestedChannel == 0)
+            return null;
+
         return MantaroBot.getInstance().getTextChannelById(requestedChannel);
     }
 
