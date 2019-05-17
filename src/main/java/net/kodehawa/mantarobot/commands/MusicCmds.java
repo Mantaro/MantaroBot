@@ -1033,6 +1033,9 @@ public class MusicCmds {
 
             return true;
         } catch(NullPointerException e) {
+            if(event.getGuild().getSelfMember().getVoiceState().inVoiceChannel())
+                log.error("Possible bug? No player even though bot is connected to a channel!", e);
+
             event.getChannel().sendMessageFormat(lang.get("commands.music_general.no_player"), EmoteReference.ERROR).queue();
             return false; //No player to stop/change?
         }
