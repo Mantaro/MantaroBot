@@ -43,7 +43,6 @@ import java.util.function.Consumer;
 
 public class TrackScheduler extends PlayerEventListenerAdapter {
     private Link audioPlayer;
-    private IPlayer musicPlayer;
 
     private final String guildId;
     @Getter
@@ -70,7 +69,6 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         this.guildId = guildId;
         this.voteSkips = new ArrayList<>();
         this.voteStop = new ArrayList<>();
-        this.musicPlayer = player.getPlayer();
 
         //Only take guild language settings into consideration for announcement messages.
         this.language = I18n.of(guildId);
@@ -261,10 +259,6 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     }
 
     public IPlayer getMusicPlayer() {
-        if(musicPlayer == null) {
-            musicPlayer = getAudioPlayer().getPlayer();
-        }
-
-        return musicPlayer;
+        return getAudioPlayer().getPlayer();
     }
 }
