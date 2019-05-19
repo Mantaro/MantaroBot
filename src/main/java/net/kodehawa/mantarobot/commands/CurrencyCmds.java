@@ -933,14 +933,13 @@ public class CurrencyCmds {
                         final ManagedDatabase db = MantaroData.db();
                         String[] args = StringUtils.efficientSplitArgs(content, 2);
                         Map<String, Optional<String>> t = StringUtils.parse(content.split("\\s+"));
-                        content = Utils.replaceArguments(t, content, "amount").trim();
 
                         if (content.isEmpty()) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_items_specified"), EmoteReference.ERROR).queue();
                             return;
                         }
 
-                        Item item = Items.fromAnyNoId(content).orElse(null);
+                        Item item = Items.fromAnyNoId(args[0]).orElse(null);
                         //Well, shit.
                         if (item == null) {
                             event.getChannel().sendMessageFormat(languageContext.get("general.item_lookup.not_found"), EmoteReference.ERROR).queue();
