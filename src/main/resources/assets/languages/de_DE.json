@@ -12,8 +12,8 @@
     "hourly": "Stündlich",
     "daily": "Täglich",
     "total": "Total",
-    "arrow_react": "Verwenden Sie die Pfeilreaktionen, um die Seite zu wechseln.",
-    "text_menu": "Verwenden Sie &page >> und &page <<, um Seiten zu wechseln oder &cancel, um die Aktion zu beenden.",
+    "arrow_react": "Verwende die Pfeilreaktionen, um die Seite zu wechseln.",
+    "text_menu": "Verwende &page >> und &page <<, um Seiten zu wechseln oder &cancel, um die Aktion zu beenden.",
     "not_found": "Nicht(s) gefunden.",
     "no_results": "Keine Ergebnisse gefunden.",
     "timeout": "Dies läuft in %1$d Sekunden ab.",
@@ -23,8 +23,8 @@
     "name": "Name",
     "description": "Beschreibung",
     "options": "Optionen",
-    "find_members_failure": "%1$sKein Mitglied mit Ihren Suchkriterien gefunden. :(",
-    "too_many_members": "%1$sZu viele Mitglieder gefunden, versuchen Sie es etwas genauer? (zum Beispiel: name#discriminator)\n**Gefundene Mitglieder:** %2$s",
+    "find_members_failure": "%1$sKein Mitglied mit diesen Suchkriterien gefunden. :(",
+    "too_many_members": "%1$sZu viele Mitglieder gefunden, versuche es etwas genauer? (zum Beispiel: name#discriminator)\n**Gefundene Mitglieder:** %2$s",
     "dust": "Hier ist nur Staub.",
     "invalid_syntax": "Ungültige Syntax",
     "item_lookup": {
@@ -355,7 +355,7 @@
         "description": "**Dies zeigt all die benutzerdefinierten Befehle (von Benutzern) auf diesem Server.** Jeder hier aufgelistete Befehl hat keinerlei Verbindung zum Bot oder seinen Entwicklern.\n\nBenutzerdefinierte Befehle sind von Benutzern erstellt (normalerweise Serveradministratoren), welche verschiedenste Situationen händeln können, bis hin zum Emulieren von Aktions-Befehlen.\nFür mehr Informationen über die Befehlserstellung siehe [hier.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Liste:**",
         "footer": "Anzahl aller benutzerdefinierten Befehle dieses Servers: %1$s"
       },
-      "invalid": "%1$sUngültige Befehlsauswahl. Prüfe die Befehlshilfe (`help custom`).",
+      "invalid": "%1$sUngültige Befehlsauswahl. Schaue in die Befehlshilfe (`help custom`).",
       "view": {
         "invalid": "%1$sDu musst den Befehl und die Antwortnummer angeben!",
         "not_found": "%1$sKein benutzerdefinierten Befehl mit diesem Namen gefunden!",
@@ -503,7 +503,7 @@
       "denied": "%1$sAntrag von **%2$s** abgelehnt."
     },
     "divorce": {
-      "not_married": "%1$sDu bist mit niemandem verheiratet, warum findest du diesen besonderen Menschen nicht?",
+      "not_married": "%1$sDu bist mit niemandem verheiratet, warum findest du keinen besonderen Menschen?",
       "success": "%1$sJetzt bist du Single. Das ist nett, denke ich zumindest."
     },
     "waifu": {
@@ -853,7 +853,7 @@
       "rep_bot": "%1$sDu kannst einem Bot kein Ruf schenken.\n%2$s",
       "rep_yourself": "%1$sDu kannst die selber nicht Ruf schenken.\n%2$s",
       "cooldown": {
-        "waiting": "**Du kannst diesn Befehl in %1$s erneut verwenden**",
+        "waiting": "**Du kannst diesen Befehl in %1$s erneut verwenden**",
         "pass": "Du kannst jetzt jemandem Ruf schenken."
       },
       "success": "%1$sDu hast **%2$s**s Ruf verbessert."
@@ -1055,7 +1055,7 @@
       },
       "pokemon": {
         "header": "Welches Pokémon ist das?",
-        "footer": "Sie haben 5 Versuche und 75 Sekunden. (Schreibe end um das Spiel zu beenden)"
+        "footer": "Ihr habt 5 Versuche und 75 Sekunden. (Schreibe end um das Spiel zu beenden)"
       },
       "started_mp_role": "%1$sBegann eine MP-Lobby mit allen Benutzern mit der angegebenen Rolle: **%2$s**",
       "started_mp_user": "%1$sBegann eine MP-Lobby mit den Nutzern: **%2$s**",
