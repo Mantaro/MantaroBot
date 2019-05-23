@@ -12,8 +12,8 @@
     "hourly": "Stündlich",
     "daily": "Täglich",
     "total": "Total",
-    "arrow_react": "Verwende die Pfeilreaktionen, um die Seite zu wechseln.",
-    "text_menu": "Verwende &page >> und &page <<, um Seiten zu wechseln oder &cancel, um die Aktion zu beenden.",
+    "arrow_react": "Verwenden Sie die Pfeilreaktionen, um die Seite zu wechseln.",
+    "text_menu": "Verwenden Sie &page >> und &page <<, um Seiten zu wechseln oder &cancel, um die Aktion zu beenden.",
     "not_found": "Nicht(s) gefunden.",
     "no_results": "Keine Ergebnisse gefunden.",
     "timeout": "Dies läuft in %1$d Sekunden ab.",
@@ -24,7 +24,7 @@
     "description": "Beschreibung",
     "options": "Optionen",
     "find_members_failure": "%1$sKein Mitglied mit diesen Suchkriterien gefunden. :(",
-    "too_many_members": "%1$sZu viele Mitglieder gefunden, versuche es etwas genauer? (zum Beispiel: name#discriminator)\n**Gefundene Mitglieder:** %2$s",
+    "too_many_members": "%1$sZu viele Mitglieder gefunden, versuchen Sie es etwas genauer? (zum Beispiel: name#discriminator)\n**Gefundene Mitglieder:** %2$s",
     "dust": "Hier ist nur Staub.",
     "invalid_syntax": "Ungültige Syntax",
     "item_lookup": {
@@ -399,7 +399,7 @@
         "success": "%1$sAnwort **#%2$d** von Befehl `%3$s` erfolgreich bearbeitet!"
       },
       "rename": {
-        "success": "%1$sBefehl `%2$s` zu `%3$s` umbennant!"
+        "success": "%1$sBefehl `%2$s` zu `%3$s` umbenannt!"
       },
       "add": {
         "empty_content": "%1$sDu musst den Inhalt für diesen benutzerdefinierten Befehl angeben.",
@@ -503,7 +503,7 @@
       "denied": "%1$sAntrag von **%2$s** abgelehnt."
     },
     "divorce": {
-      "not_married": "%1$sDu bist mit niemandem verheiratet, warum findest du keinen besonderen Menschen?",
+      "not_married": "%1$sDu bist mit niemandem verheiratet, warum findest du nicht diesen einen besonderen Menschen?",
       "success": "%1$sJetzt bist du Single. Das ist nett, denke ich zumindest."
     },
     "waifu": {
@@ -1055,7 +1055,7 @@
       },
       "pokemon": {
         "header": "Welches Pokémon ist das?",
-        "footer": "Ihr habt 5 Versuche und 75 Sekunden. (Schreibe end um das Spiel zu beenden)"
+        "footer": "Es stehen 5 Versuche und 75 Sekunden zur Verfügung. (Schreibe end um das Spiel zu beenden)"
       },
       "started_mp_role": "%1$sBegann eine MP-Lobby mit allen Benutzern mit der angegebenen Rolle: **%2$s**",
       "started_mp_user": "%1$sBegann eine MP-Lobby mit den Nutzern: **%2$s**",
