@@ -1,6 +1,6 @@
 {
   "general": {
-    "invalid_number": "%1$sDas ist keine Nummer!",
+    "invalid_number": "%1$sDas ist keine Zahl!",
     "requested_by": "Angefordert von %1$s.",
     "operation_timed_out": "%1$sDie Zeit, um diese Operation zu beantworten, ist abgelaufen.",
     "too_many_users_found": "%1$sZu viele Benutzer gefunden, versuchen Sie es etwas genauer? (zum Beispiel: name#discriminator)\n**Gefundene Benutzer:** %2$s",
@@ -23,10 +23,10 @@
     "name": "Name",
     "description": "Beschreibung",
     "options": "Optionen",
-    "find_members_failure": "%1$sKein Mitglied mit Ihren Suchkriterien gefunden. :(",
+    "find_members_failure": "%1$sKein Mitglied mit diesen Suchkriterien gefunden. :(",
     "too_many_members": "%1$sZu viele Mitglieder gefunden, versuchen Sie es etwas genauer? (zum Beispiel: name#discriminator)\n**Gefundene Mitglieder:** %2$s",
     "dust": "Hier ist nur Staub.",
-    "invalid_syntax": "Ungültiger Syntax",
+    "invalid_syntax": "Ungültige Syntax",
     "item_lookup": {
       "no_item_emoji": "Diesem Emoji ist kein Gegenstand zugeordnet.",
       "no_item_name": "Diesem Namen ist kein Gegenstand zugeordnet",
@@ -61,7 +61,7 @@
     "mention_user_required": "%1$sDu musst einen Benutzer erwähnen.",
     "invalid_character": "%1$sDas ist kein erlaubtes Zeichen.",
     "invalid_action": "Du kannst dies nicht tun, Dummerchen.",
-    "interactive_running": "%1$sDu hast bereist eine interaktive Aktion in diesem Kanal am laufen!",
+    "interactive_running": "%1$sDu hast bereits eine interaktive Aktion in diesem Kanal am laufen!",
     "buy_sell_paged_react": "**Seiten: %1$d.**\nVerwende die Reaktionen um die Seite zu wechseln.\n%2$s",
     "buy_sell_paged_text": "**Seiten: %1$d.**\nVerwende **&p >>** und **&p <<** um die Seite zu wechseln.\n%2$s",
     "buy_sell_paged_reference": "**Referenz %1$s Kauf %2$s Verkauf.**",
@@ -80,17 +80,17 @@
     "mod_quotes": ["Uh-oh, schaut so aus, als wäre jemand hart getroffen worden!", "Hier passiert nur normale Adminarbeit...", "Der Stiefel wurde geworfen!", "Wir werden dich vermissen... okay, vielleicht auch nicht.", "Ich hoffe Ich habe das richtige getan...", "Woah, da haben die Moderatoren gesprochen!", "U-Uh... g-gut, jemand flog grad durch die Tür."]
   },
   "categories": {
-    "music": "Musik",
-    "action": "Aktions",
+    "music": "Musik-",
+    "action": "Aktions-",
     "misc": "Zusätzliche",
-    "moderation": "Moderations",
+    "moderation": "Moderations-",
     "owner": "Besitzer",
-    "image": "Bild",
+    "image": "Bild-",
     "utils": "Nützliche",
-    "fun": "Spaß",
-    "games": "Spiel",
-    "info": "Info",
-    "currency": "Währungs"
+    "fun": "Spaß-",
+    "games": "Spiel-",
+    "info": "Info-",
+    "currency": "Währungs-"
   },
   "commands": {
     "fish": {
@@ -98,7 +98,7 @@
       "no_rod": "%1$sDu hast keine Angel mit der du Angeln kannst!",
       "trash": {
         "overflow": "%1$sDu hast beim Angeln etwas Müll gefunden, aber dein Inventar war voll, also mussten wir es ins Wasser werfen...",
-        "success": "%1$sWährend du ruhig angelst findest du %2$s, aber es scheint nur Müll zu sein :("
+        "success": "%1$sWährend du ruhig angelst, findest du %2$s, aber es scheint nur Müll zu sein :("
       },
       "tier3": {
         "extra": "Außerdem findest du %1$s, was ein Glück!"
@@ -108,14 +108,14 @@
         "success": "Du hast eine %1$s **%2$s** beim Fischen gefunden und hast sie mitgenommen. Los, öffne sie mit `~>opencrate <Truhenname>`. Du brauchst dazu einen Truhenschlüssel!"
       },
       "overflow": "%1$sDu hast Fische gefangen, aber dein Inventar war voll, also mussten wir es ins Wasser werfen ...",
-      "success": "%1$s Während du ruhig angelst findest du %2$s und fährst fort, sie in deinem Fischeimer zu lagern.",
-      "success_money": "%1$s Während du ruhig angelst findest du %2$s und **$%3$d Credits** und du bewahrst es weiter in deinem Eimer auf.%4$s",
-      "success_money_noitem": "%1$s Während du ruhig angelst findest du **$%2$d Credits** und fährst fort, das Geld in deiner Tasche zu sparen.",
+      "success": "%1$s Während du ruhig angelst findest du %2$s und lagerst den Fund in deinem Fischeimer.",
+      "success_money": "%1$s Während du ruhig angelst findest du %2$s und **$%3$d Credits** und du bewahrst deinen Fund in deinem Eimer auf.%4$s",
+      "success_money_noitem": "%1$s Während du ruhig angelst findest du **$%2$d Credits** und sammelst das Geld in deiner Tasche.",
       "rod_broke": "%1$sDeine Angelrute brach beim Versuch, einen Fisch zu fangen. :(",
       "waifu_help": "Deine Waifu kam und gesellte sich zu deinem Angelabenteuer dazu und ihr habt beide eine größere Beute erhalten!",
       "not_suitable": "%1$sDu kannst das nicht zum Fischen benutzen.",
       "shark_success": "%1$sDu hast es irgendwie geschaft einen Hai zu fangen. Was eine tolle Angel, wa?",
-      "fossil_success": "%1$sDu hast ein Fossil beim Fischen gefangen. Das könnte ein bisschen was Wert sein, oder vielleicht zum Herstellen gebraucht werden, denke ich.",
+      "fossil_success": "%1$sDu hast ein Fossil beim Fischen gefangen. Das könnte ein bisschen was wert sein, oder vielleicht zum Herstellen gebraucht werden, denke ich.",
       "bait": "Der Fisch hat deinen Köder geschluckt!",
       "missing_equipped": "%1$sDu hattest eine %2$s Angelrute ausgerüstet, aber keine Angelrute der Art im Inventar! Die ausgerüstete Angelrute wurde zurückgesetzt.",
       "broken_drop": "%1$sDeine Angel ist kaputt gegangen, aber du kannst sie reparieren. Kaputten Gegenstand erhalten: %2$s *%3$s*"
@@ -233,7 +233,7 @@
         "leave": "%1$sIch habe **%2$s** verlassen, weil ich allein gelassen wurde. :("
       },
       "loader": {
-        "over_limit": "%1$sDie Warteschlange die du hinzugefügt hast überschreitet %2$d Songs, also habe ich nur so viele hinzugefügt und den Rest ignoriert.",
+        "over_limit": "%1$sDie Warteschlange, die du hinzugefügt hast, überschreitet %2$d Songs, also habe ich nur so viele hinzugefügt und den Rest ignoriert.",
         "loaded_playlist": "%1$s**%2$d Songs** der Warteschlange hinzugefügt: **%3$s** *(%4$s)*",
         "no_matches": "%1$sDie Suche ergab keine Ergebnisse. Wenn dies für *alle Songs* angezeigt wird, nach denen du suchst, benutze stattdessen `~>play soundcloud <Suchbegriff>`. Direkte Links zu YouTube sollten auch funktionieren.",
         "error_loading": "%1$sFehler beim Abrufen der Musik: %2$s",
@@ -355,7 +355,7 @@
         "description": "**Dies zeigt all die benutzerdefinierten Befehle (von Benutzern) auf diesem Server.** Jeder hier aufgelistete Befehl hat keinerlei Verbindung zum Bot oder seinen Entwicklern.\n\nBenutzerdefinierte Befehle sind von Benutzern erstellt (normalerweise Serveradministratoren), welche verschiedenste Situationen händeln können, bis hin zum Emulieren von Aktions-Befehlen.\nFür mehr Informationen über die Befehlserstellung siehe [hier.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Liste:**",
         "footer": "Anzahl aller benutzerdefinierten Befehle dieses Servers: %1$s"
       },
-      "invalid": "%1$sUngültige Befehlsauswahl. Prüfe die Befehlshilfe (`help custom`).",
+      "invalid": "%1$sUngültige Befehlsauswahl. Schaue in die Befehlshilfe (`help custom`).",
       "view": {
         "invalid": "%1$sDu musst den Befehl und die Antwortnummer angeben!",
         "not_found": "%1$sKein benutzerdefinierten Befehl mit diesem Namen gefunden!",
@@ -399,7 +399,7 @@
         "success": "%1$sAnwort **#%2$d** von Befehl `%3$s` erfolgreich bearbeitet!"
       },
       "rename": {
-        "success": "%1$sBefehl `%2$s` zu `%3$s` umbennant!"
+        "success": "%1$sBefehl `%2$s` zu `%3$s` umbenannt!"
       },
       "add": {
         "empty_content": "%1$sDu musst den Inhalt für diesen benutzerdefinierten Befehl angeben.",
@@ -466,8 +466,8 @@
       "nice": "Gutes Paar!",
       "perfect": "Perfektes Paar!",
       "yourself_note": "Du bist ein spezielles Wesen und solltest dich mehr als alle anderen Lieben <3.",
-      "header": "Liebes Meter",
-      "result": "Ergebniss:"
+      "header": "Liebesmeter",
+      "result": "Ergebnis:"
     },
     "marry": {
       "loveletter": {
@@ -503,7 +503,7 @@
       "denied": "%1$sAntrag von **%2$s** abgelehnt."
     },
     "divorce": {
-      "not_married": "%1$sDu bist mit niemandem verheiratet, warum findest du diesen besonderen Menschen nicht?",
+      "not_married": "%1$sDu bist mit niemandem verheiratet, warum findest du nicht diesen einen besonderen Menschen?",
       "success": "%1$sJetzt bist du Single. Das ist nett, denke ich zumindest."
     },
     "waifu": {
@@ -584,7 +584,7 @@
       "not_enough_items": "%1$sDu hast nicht  genug von *%2$s*, um fortzufahren. **(Benötigt: %3$s, Aktuell: %4$s)**",
       "success": "%1$sDu hast erfolgreich *%2$s %3$s* für %4$s Credits hergestellt. *Herstellung kostete: %5$s*",
       "no_tool": "%1$sDu musst %2$s haben, um die Herstellung durchführen zu können!",
-      "item_broke": "\nLeider broch dein Schraubenschlüssel, aber du bekamst deinen Gegenstand!",
+      "item_broke": "\nLeider brach dein Schraubenschlüssel, aber du bekamst deinen Gegenstand!",
       "too_many": "%1$sDu hättest mehr als 5000 von diesem Gegenstand, wenn du fortfährst. Versuche weniger von diesem Gegenstand herzustellen?",
       "low_tier": "%1$sDu brauchst mindestens einen Stufe 2 Schraubenschlüssel um mehrere Gegenstände auf einmal herzustellen. Du hast aktuell einen Stufe %2$s Schraubenschlüssel.",
       "not_enough_wrench_level": "%1$sDein Schraubenschlüssel reicht nicht aus, um diesen Gegenstand herzustellen. Gib vielleicht einen besseren an? *Schraubenschlüssellevel: %2$s, Benötigtes Level: %3$s*",
@@ -853,7 +853,7 @@
       "rep_bot": "%1$sDu kannst einem Bot kein Ruf schenken.\n%2$s",
       "rep_yourself": "%1$sDu kannst die selber nicht Ruf schenken.\n%2$s",
       "cooldown": {
-        "waiting": "**Du kannst diesn Befehl in %1$s erneut verwenden**",
+        "waiting": "**Du kannst diesen Befehl in %1$s erneut verwenden**",
         "pass": "Du kannst jetzt jemandem Ruf schenken."
       },
       "success": "%1$sDu hast **%2$s**s Ruf verbessert."
@@ -1055,7 +1055,7 @@
       },
       "pokemon": {
         "header": "Welches Pokémon ist das?",
-        "footer": "Sie haben 5 Versuche und 75 Sekunden. (Schreibe end um das Spiel zu beenden)"
+        "footer": "Es stehen 5 Versuche und 75 Sekunden zur Verfügung. (Schreibe end um das Spiel zu beenden)"
       },
       "started_mp_role": "%1$sBegann eine MP-Lobby mit allen Benutzern mit der angegebenen Rolle: **%2$s**",
       "started_mp_user": "%1$sBegann eine MP-Lobby mit den Nutzern: **%2$s**",
