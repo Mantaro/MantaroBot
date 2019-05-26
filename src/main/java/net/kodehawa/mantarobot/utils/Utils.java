@@ -651,7 +651,7 @@ public class Utils {
 
     private static void onRateLimit(User user) {
         int ratelimitedTimes = ratelimitedUsers.computeIfAbsent(user.getIdLong(), __ -> new AtomicInteger()).incrementAndGet();
-        if(ratelimitedTimes > 900 && !loggedUsers.contains(user.getId())) {
+        if(ratelimitedTimes > 800 && !loggedUsers.contains(user.getId())) {
             loggedUsers.add(user.getId());
             LogUtils.spambot(user);
         }
