@@ -7,6 +7,10 @@ assignees: ''
 
 ---
 
+**Before submitting I have**\
+(Simply replace the space inside the brackets with an X for the things you have done)
+- [ ] Double checked existing Issues/Pull Requests for a similar feature.
+
 **Describe what you would like us to add**
 Replace this text with a clear description of the new functionality that you would like us to add.
 
