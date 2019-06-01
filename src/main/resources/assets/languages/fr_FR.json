@@ -831,65 +831,66 @@
     },
     "badges": {
       "info": {
-        "not_specified": "%1$sYou need to specify a badge to see the info of.",
-        "not_found": "%1$sThere's no such badge...",
-        "header": "Badge information for %1$s",
-        "achieved": "Achieved"
+        "not_specified": "%1$sTu dois spécifier le badge pour lequel tu veux des infos.",
+        "not_found": "%1$sUn tel badge n'existe pas...",
+        "header": "Informations pour le badge %1$s",
+        "achieved": "Obtenu"
       },
-      "brief_success": "**%1$s's badges:**\n%2$s",
-      "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n",
-      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
-      "upvote_notice": "**You can get a free badge for [up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!** (It might take some minutes to process)\n\n",
-      "donate_notice": "**You can get a badge for [supporting the development of Mantaro!](https://patreon.com/mantaro)!** (It might take some minutes to process)\n\n",
-      "no_badges": "No badges to show (yet!)",
-      "header": "Badges achieved by %1$s",
-      "total_badges": "**Total achieved badges:** %1$s",
-      "footer": "Badges are like achievements, and they're gained through progression in Mantaro's game or by just using the bot."
+      "brief_success": "**Badges de %1$s:**\n%2$s",
+      "profile_notice": "Si tu penses avoir eu un nouveau badge mais qu'il n'apparait pas ici, utilise `~>profile` puis refais cette commande.\n",
+      "info_notice": "Utilise `~>badges info <nom du badge>` pour avoir plus d'infos sur un badge. [Tu peux aussi aller voir sur le wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "upvote_notice": "**Tu peux obtenir un badge gratuit en [votant pour Mantaro sur discordbots.org](https://discordbots.org/bot/mantaro)!** (Ca peut prendre quelques minutes)\n\n",
+      "donate_notice": "**Tu peux obtenir un badge en [aidant au développement de Mantaro!](https://patreon.com/mantaro)!** (Ca peut prendre quelques minutes)\n\n",
+      "no_badges": "Aucun badge à afficher (pour le moment!)",
+      "header": "Badges obtenus par %1$s",
+      "total_badges": "**Total des badges obtenus:** %1$s",
+      "footer": "Les badges sont comme des succès, on les obtiens en progressant dans le jeu de Mantaro ou simplement en utilisant le bot."
     },
     "rep": {
-      "no_mentions": "%1$sYou need to mention or put the name of one user.\n%2$s",
-      "more_than_one": "%1$sYou can only give reputation to one person",
-      "rep_bot": "%1$sYou cannot rep a bot.\n%2$s",
-      "rep_yourself": "%1$sYou cannot rep yourself.\n%2$s",
+      "new_account_notice": "%1$s Pour donner ou recevoir des points de réputation, le compte Discord doit être plus vieux que 5 jours. Réessaie plus tard.",
+      "no_mentions": "%1$sTu dois mentionner quelqu'un ou au moins écrire son nom.\n%2$s",
+      "more_than_one": "%1$sTu ne peux donner un point de réputation qu'à une personne.",
+      "rep_bot": "%1$sTu ne peux pas donner un point de réputations aux bots.\n%2$s",
+      "rep_yourself": "%1$sTu ne peux pas te donner des points de réputations.\n%2$s",
       "cooldown": {
-        "waiting": "**You'll be able to use this command again in %1$s**",
-        "pass": "You can rep someone now."
+        "waiting": "**Tu pourras réutiliser cette commande dans %1$s**",
+        "pass": "Tu peux utiliser la commande `->rep` maintenant."
       },
-      "success": "%1$sAdded reputation to **%2$s**"
+      "success": "%1$s a donné un point de réputation à **%2$s**"
     },
     "birthday": {
-      "reset": "%1$sCorrectly reset birthday date.",
-      "no_global_birthdays": "%1$sThings seems a bit empty here...",
-      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)",
-      "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running (internal error) :(",
-      "error": "%1$sSomething went wrong while getting birthdays (internal error) :(",
-      "header": "**%1$s's Birthdays for %2$s**\n",
-      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm-yyyy`",
-      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting. Remember to include the year, although you can put any year and it won't affect anything.\nRemember that the date format is `dd/mm/yyyy`",
-      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM-yyyy)*",
-      "invalid_month": "%1$sThat's not a valid month number! (Valid months are numbers from 1 to 12)",
-      "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list."
+      "reset": "%1$sDate d'anniversaire correctement réinitialisée.",
+      "no_global_birthdays": "%1$sIl y a de l'écho par ici tant c'est vide...",
+      "no_guild_month_birthdays": "%1$sIl n'y a pas d'anniversaire pour ce mois (%2$s) ici :(\n%3$sSi tu viens juste de programmer l'annonceur d'anniversaires, attends un peu avant de refaire cette commande. (Le cache est rafraichit toutes les 23 heures)",
+      "cache_not_running": "%1$sLe \"Birthday cacher\" ne semble pas fonctionner (erreur interne) :(",
+      "error": "%1$sUne erreur est survenue en cherchant les dates d'anniversaires (erreur interne) :(",
+      "header": "**Les anniversaires de %1$s du mois de %2$s**\n",
+      "invalid_date": "%1$sCe n'est pas une date valide ou ce n'est pas le bon format.\nPour rappel, le bon format est: `jj-mm-aaaa`",
+      "error_date": "%1$s%2$s n'est peut-être pas une date valide. En tous cas je ne peux pas la séparer proprement. Essaie avec le bon format s'il te plait. Tu n'es pas obligé.e de mettre la vraie année, n'importe laquelle fera l'affaire.\nPour rappel, le bon format est: `jj-mm-aaaa`",
+      "added_birthdate": "%1$sDate de naissance bien ajoutée. Nouvelle date de naissance: %2$s *(Format: jj-mm-aaaa)*",
+      "invalid_month": "%1$sCe n'est pas un numéro de mois valide! (Les nombres valides de mois vont de 01 à 12)",
+      "no_content": "%1$sTu dois spécifier ta date de naissance, `remove` pour réinitialiser ta date de naissance `month` pour voir les anniversaire du mois."
     },
     "choose": {
-      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga`)",
-      "success": "%1$sI choose `%2$s`"
+      "nothing_to": "%1$sTu dois me donner 2 élément pour faire un choix. (exemple: `~>choose anime manga`)",
+      "success": "%1$sJe choisis `%2$s`"
     },
     "dictionary": {
-      "no_word": "%1$sYou need to specify a word.",
-      "header": "Definition for %1$s",
-      "description": "**Part of speech:** `%1$s`\n**Headword:** `%2$s`"
+      "no_word": "%1$sTu dois me donner un mot.",
+      "header": "Définition de %1$s",
+      "description": "**Partie de discours:** `%1$s`\n**Adresse au lecteur:** `%2$s`"
     },
     "remindme": {
-      "nothing_specified": "%1$sWhat could I remind you of if you don't give me what to remind you? Oh! Lemme remind you of setting a reminder!",
-      "no_reminders": "%1$sYou have no reminders set.",
+      "nothing_specified": "%1$sComment pourrais-je te rappeler quoique ce soit si tu ne me dis pas ce que je dois te rappeler? Oh! Lemme souviens toi de mettre un rappel!",
+      "no_reminders": "%1$sTu n'a pas de rappels.",
       "cancel": {
-        "success": "%1$sCancelled your reminder.",
-        "select": "Select the reminder you want to cancel."
+        "success": "%1$sRappel supprimé.",
+        "select": "Sélectionne le rappel que tu veux supprimer."
       },
-      "no_time":  "You didn't give me a `-time` argument! (Example: `-time 1h`)",
-      "too_little_time": "%1$sThat's too little time (Minimum: 10 seconds)",
-      "too_long": "That's too much time... (Maximum: 3 months)",
-      "success": "%1$sI'll remind you (%2$s#%3$s) of `%4$s` in %5$s"
+      "no_time":  "Tu ne m'a pas donner de timing à l'aide de l'argument `-time`! (Exemple: `-time 1h`)",
+      "too_little_time": "%1$sC'est un délais trop court (Minimum: 10 secondes)",
+      "too_long": "Le délais est trop long... (Maximum: 3 mois)",
+      "success": "%1$sJe te rappellerai (%2$s#%3$s) de `%4$s` dans %5$s"
     },
     "time": {
       "invalid_timezone": "%1$sCe n'est pas un fuseau horaire valide.",
@@ -905,58 +906,59 @@
       "nsfw_notice": "%1$sCette commande ne peut être utilisée que dans les channels NSFW dû à ses résultats."
     },
     "weather": {
-      "header": "%1$s Forecast information for %2$s",
-      "clouds": "clouds",
+      "header": "%1$s Prévisions météo pour %2$s",
+      "clouds": "nuages",
       "temperature": "Température",
       "humidity": "Humidité",
       "wind_speed": "Vitesse du vent",
       "pressure": "Pression",
-      "footer": "Information provided by OpenWeatherMap (Process time: %1$dms)",
-      "error": "%1$sError while fetching results. (Not found?)",
-      "no_content": "%1$sYou need to specify which city and country to search the weather of!"
+      "footer": "Information données par OpenWeatherMap (Temps de calculs: %1$dms)",
+      "error": "%1$sErreur lors du traitement des résultats. (Non trouvé?)",
+      "no_content": "%1$sTu dois me donner la ville et le pays dont tu veux connaitre la météo!"
     },
     "activatekey": {
       "check": {
-        "key_valid_for": "%1$sYour key is valid for %2$s more days :heart:",
-        "no_key_found": "%1$sYou don't have a key enabled... If you're a premium from the old system you should still have your rewards, though!"
+        "key_valid_for": "%1$sTa clé est valide pour %2$s jours de plus :heart:",
+        "no_key_found": "%1$sTu n'as pas de clé active... Si tu es un utilisateur premium de l'ancien système tu devrais toujours avoir tes récompenses!"
       },
-      "no_key_provided": "%1$sI cannot enable a premium key if you don't give me one",
-      "invalid_key": "%1$sYou provided an invalid or already enabled key",
-      "guild_already_premium": "%1$sThis server already has a premium subscription",
-      "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)",
-      "user_already_premium": "%1$sYou're already premium :heart:",
-      "user_successful": "%1$sYou're now **Premium** :heart: (For: %2$d days)",
-      "mp": "Mantaro Patreon uses no keys, instead, it's a given that it's premium by the fact that the bot itself works."
+      "no_key_provided": "%1$sJe ne peux pas activer de clé si tu ne m'en donnes pas.",
+      "invalid_key": "%1$sTu m'as fourni une clé déjà utilisée ou invalide.",
+      "guild_already_premium": "%1$sCe serveur est déjà premium.",
+      "guild_successful": "%1$sCe serveur est désormais **Premium** :heart: (Pour: %2$d jours)",
+      "user_already_premium": "%1$sTu es déjà premium :heart:",
+      "user_successful": "%1$sTu es désormais **Premium** :heart: (Pour: %2$d jours)",
+      "mp": "Mantaro Patreon n'utilise pas de clé, il est déjà premium du simple fait que le bot fonctionne."
     },
     "claimkey": {
-      "not_patron": "%1$sYou're not a patron, so you can't do this. If you want to support Mantaro and get perks along with it, head over to <https://www.patreon.com/mantaro>",
-      "already_top": "%1$sYou already claimed all the keys you had. If any of them expired and you want to renew them, please head over to the support server at <https://support.mantaro.site>",
+      "not_patron": "%1$sTu ne fais pas partie des patron, donc tu ne peux pas faire ça. Si tu veux aider Mantaro et obtenir les privilèges que ça implique, rendez-vous sur <https://www.patreon.com/mantaro>",
+      "already_top": "%1$sTu a déjà fait valoir toutes les clés que tu possèdes. Si l'une d'elle expire et que tu veux la prolonger, adresse-toi au support sur <https://support.mantaro.site>",
       "successful": "%1$sSuccessfully claimed key `%2$s`. You have claimed a total of %3$s keys and have %4$s left keys to claim.",
-      "cant_dm": "%1%sI can't DM you the key because of your privacy settings, seemingly.",
-      "success": "%1$sSent the information via DM."
+      "cant_dm": "%1%sJe ne peux pas t'envoyer de MP, à cause des tes paramètres de vie privée sans doute.",
+      "success": "%1$sJe t'ai envoyé les infos en MP.",
+      "invalid_scope": "%1$sChamps d'action invalide! Les champs d'action valides sont `user` et `guild`. Par défaut cette commande s'adresse aux utilisateurs (`user`)."
     },
     "vipstatus": {
       "user": {
-        "header": "Your Premium Status",
-        "header_other": "%1$s's Premium Status",
-        "not_premium": "%1$sYou aren't premium :c",
-        "premium": "**Premium user! <3**",
-        "old_system": "**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+        "header": "Ton statut de joueur premium",
+        "header_other": "Statut premium de %1$s",
+        "not_premium": "%1$sTu n'es pas premium :c",
+        "premium": "**Utilisateur Premium! <3**",
+        "old_system": "**Utilisateur Premium de l'ancien système! Ne t'en fait pas, tu es Premium avec tout ce que ça implique ;) !**"
       },
       "guild": {
-        "header": "%1$s's Premium Status",
-        "not_premium": "%1$sThis guild isn't premium :c",
-        "premium": "**Premium guild! <3**",
-        "old_system": "**Premium guild under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+        "header": "tatut premium de %1$s",
+        "not_premium": "%1$sCe serveur n'est pas premium :c",
+        "premium": "**Serveur Premium! <3**",
+        "old_system": "**Serveur Premium de l'ancien système! Ne t'en fait pas, il est Premium avec tout ce que ça implique ;) !**"
       },
-      "valid_for_old": "Valid pendant",
+      "valid_for_old": "Valide pendant",
       "old_days_more": "%1$d jours de plus",
       "thank_note": "Merci pour votre support <3",
-      "expire": "Expires dans",
+      "expire": "Expire dans",
       "key_duration": "Durée totale de la clé",
       "key_owner": "Propriétaire de la clé",
       "wrong_args": "%1$sMauvais arguments...",
-      "patreon": "Pledge",
+      "patreon": "Engagement",
       "linked": "Lié",
       "linked_to": "Lié à",
       "keys_claimed": "Clés validées"
@@ -967,132 +969,132 @@
       "permission_or_unexpected_error": "%1$sD-Désolé je ne peux pas envoyer l'image. (Je n'en ai probablement pas la permission)",
       "lonely": {
         "pat": "Ohh, je vois que tu es seul, voici une caresse <3",
-        "hug": "Ohh, je vois que tu es seul, take a hug <3",
-        "kiss": "Ohh, je vois que tu es seul, tiens un baiser *embrasse*",
+        "hug": "Ohh, je vois que tu es seul, caliiiiiiin <3",
+        "kiss": "Ohh, je vois que tu es seul, bisouuuuuuuuuuus *embrasse*",
         "poke": "Ohh, je vois que tu es seul, tiens un petit coup *te touche*",
-        "slap": "Euh, pourquoi tu veux ça? Bon, bah... *te claque*",
+        "slap": "Euh, pourquoi tu veux ça? Bon, bah... *te frappe*",
         "bite": "*te mords*",
         "lick": "*te lèche*",
         "tickle": "*te chatouille*",
         "highfive": "*tape m'en cinq*",
         "pout": "*Moue, hmph*",
-        "teehee": "*teases you*",
+        "teehee": "*te taquine*",
         "smile": "*te souris*",
         "stare": "*te regarde*",
         "holdhands": "*tiens ta main*",
-        "cuddle": "*te câlines*",
-        "nuzzle": "*nuzzles you*",
+        "cuddle": "*te câline*",
+        "nuzzle": "*te renifle*",
         "bloodsuck": "C-Comment suis-je censé? Bon bah.. *suce ton sang*"
       },
       "self": {
         "pat": "*est caressé*",
         "hug": "*rougis* o-oh... merci",
-        "kiss": "*rougit*... J- euh... ne pense pas que tu devrais embrasser un bot...",
+        "kiss": "*rougis*... J- euh... ne penses-tu pas que tu ne devrais pas embrasser un bot...",
         "poke": "O-Oh! Qu'as tu besoin?",
         "slap": ":(",
         "bite": "Ç-ça fait mal!",
-        "lick": "Quel goût a le métal? Je ne pense pas que ça soit très bon",
-        "tickle": "hahahaha... oh mon dieu arrêtes! >u<",
+        "lick": "Quel goût a le métal? Je ne pense pas que ce soit très bon",
+        "tickle": "hahahaha... oh mon dieu arrête! >u<",
         "highfive": "*tape m'en cinq*",
-        "pout": "Es tu énervé contre moi? :(",
+        "pout": "Es-tu énervé.e contre moi? :(",
         "teehee": ":eyes:",
         "smile": "Ohh.",
         "stare": ":eyes:",
         "holdhands": "o-oh... ;//;",
-        "cuddle": "C'est mignon!",
+        "cuddle": "C'est mignooon :3!",
         "nuzzle": "Ohhh, trop mignon!",
         "bloodsuck": "T'es un vampire maintenant, oh!"
       },
-      "pat": "%1$s tu as été caressé par %2$s",
-      "hug": "%1$s tu as été câliné par %2$s",
-      "kiss": "%1$s tu as été embrassé par %2$s",
-      "poke": "%1$s tu as été touché par %2$s :eyes:",
-      "slap": "%1$s tu as été claqué par %2$s!",
-      "bite": "%1$s tu as été mordu par %2$s :eyes:",
-      "tickle": "%1$s tu as été chatouillé par %2$s",
-      "lick": "%1$s tu as été léché par %2$s",
+      "pat": "%1$s tu as été caressé.e par %2$s",
+      "hug": "%1$s tu as été câliné.e par %2$s",
+      "kiss": "%1$s tu as été embrassé.e par %2$s",
+      "poke": "%1$s tu as été touché.e par %2$s :eyes:",
+      "slap": "%1$s tu as été frappé.e par %2$s!",
+      "bite": "%1$s tu as été mordu.e par %2$s :eyes:",
+      "tickle": "%1$s tu as été chatouillé.e par %2$s",
+      "lick": "%1$s tu as été léché.e par %2$s",
       "highfive": "%1$s fait un tape m'en cinq à %2$s :heart:",
       "pout": "%1$s s'énerve contre %2$s *hmph*",
       "teehee": "%1$s taquine%2$s",
       "smile": "%1$s sourit à %2$s :heart:",
       "stare": "%1$s regarde %2$s",
-      "holdhands": "%1$s tiens la main de %2$s",
-      "cuddle": "%1$s tu as été câliné par %2$s",
-      "nuzzle": "%1$s is nuzzling %2$s",
+      "holdhands": "%1$s tient la main de %2$s",
+      "cuddle": "%1$s tu as été câliné.e par %2$s",
+      "nuzzle": "%1$s a été reniflé.e %2$s",
       "bloodsuck": "%1$s suce le sang de %2$s!",
       "nom": "Succulent.",
-      "facedesk": "*facedesks*",
+      "facedesk": "*se tape la tête contre le bureau*",
       "lewd": "P-Petit coquin!",
       "meow": "Miaou."
     },
     "game": {
       "won_games": "%1$s%2$s a gagné **%3$s parties**",
-      "nothing_specified": "%1$sTu n'as pas spécifié un jeu à jouer..",
+      "nothing_specified": "%1$sTu n'as pas spécifié le jeu à lancer..",
       "not_enough_games": "%1$sTu dois spécifier au moins deux jeux..",
       "invalid_selection": "%1$sTu dois spécifier au moins deux jeux.. (Jeux valides: character, pokemon, number, trivia)!",
       "multiple": {
         "invalid": "%1$sTu dois spécifier le jeu et le nombre de fois auquel tu veux y jouer",
         "invalid_times": "%1$sNombre de parties à jouer invalide.",
         "too_many_games": "%1$sTu ne peux commencer que 5 parties à la fois.",
-        "no_character": "%1$sTu ne peux pas jouer à character en multijoueur ou en lobby dû à la limitation d'API."
+        "no_character": "%1$sTu ne peux pas jouer à character en multijoueur ou en lobby à cause de la limitation de l'API."
       },
       "trivia": {
-        "wrong_diff": "%1$sDifficulté incorrecte! (Supporté: easy, medium and hard)",
+        "wrong_diff": "%1$sDifficulté incorrecte! (Supporté: easy, medium et hard)",
         "fetch_error": "%1$sErreur rencontrée en commençant le trivia.",
         "possibilities": "Possibilités",
         "difficulty": "Difficulté",
         "category": "Catégorie"
       },
       "number": {
-        "start": "%1$sDevine ! **You have 5 attempts and 30 seconds. The number is between 0 and 150**",
-        "nan": "%1$sCe n'est même pas un numéro...",
-        "ended_game": "%1$sPartie terminée, le numéro était: %2$d",
-        "all_attempts_used": "%1$sTu n'as plus d'essais. Le numéro était : %2$d",
-        "hint": "Indice: Le numéro est %1$s de ce que tu viens d'écrire.",
-        "higher": "plus",
-        "lower": "moins"
+        "start": "%1$sDevine ! **Tu as 5 essais et 30 secondes. Le nombre est entre 0 et 150**",
+        "nan": "%1$sCe n'est même pas un nombre...",
+        "ended_game": "%1$sPartie terminée, le nombre était: %2$d",
+        "all_attempts_used": "%1$sTu n'as plus d'essais. Le nombre était : %2$d",
+        "hint": "Indice: Le nombre est %1$s que ce que tu viens d'écrire.",
+        "higher": "plus grand",
+        "lower": "plus petit"
       },
       "pokemon": {
         "header": "Qui est ce pokémon?",
         "footer": "Tu as 5 essais et 75 secondes. (Écris end pour arrêter la partie)"
       },
-      "started_mp_role": "%1$sStarted a multi-player lobby with all users with the specified role: **%2$s**",
-      "started_mp_user": "%1$sStarted a multi-player lobby with users: **%2$s**",
-      "lobby_started": "%1$sStarted a new lobby! **Games: %2$s**\nYou can type `endlobby` to end all games and finish the lobby.",
-      "game_timeout_drop": "%1$sSeems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!",
-      "other_lobby_running": "%1$sCannot start a new game lobby when there is a game currently running. (If this is an error, tell an admin to run `~>opts lobby reset`)",
+      "started_mp_role": "%1$sLobby multi-joueur démarré avec tous les membres ayant le rôle: **%2$s**",
+      "started_mp_user": "%1$sLobby multi-joueur démarré avec les membres: **%2$s**",
+      "lobby_started": "%1$sNouveau lobby démarré! **Jeux: %2$s**\nTu peux envoyer `endlobby` pour arrêter tous les jeux et sortir du lobby.",
+      "game_timeout_drop": "%1$sOups... Il semble que j'aie laissé un jeux ici et que j'ai oublié de venir le chercher... J'en démarre un nouveau sans tarder!",
+      "other_lobby_running": "%1$sJe ne peux pas démarrer un nouveau lobby tant qu'un jeu est en cours. (Si c'est une erreur, dis à un admin de faire la commande `~>opts lobby reset`)",
       "lobby": {
-        "ended_game": "%1$sEnded game. Possible answers were: %2$s",
-        "ended_lobby": "%1$sEnded lobby correctly! Thanks for playing.",
-        "all_attempts_used": "%1$sAlready used all attempts, ending game. Possible answers were: %2$s",
-        "incorrect_answer": "%1$sThat's not it, you have %2$d attempts remaining.",
-        "won_game": "%1$s**%2$s** just won $%3$d credits by answering correctly!"
+        "ended_game": "%1$sJeu terminé. Les réponses possibles étaient: %2$s",
+        "ended_lobby": "%1$sLobby arrêté! Merci d'avoir joué.",
+        "all_attempts_used": "%1$sLe jeu se termine ici, tu as déjà utilisé tous tes essais. Les réponses possibles étaient: %2$s",
+        "incorrect_answer": "%1$sCe n'est pas ça, tu as encore %2$d essais.",
+        "won_game": "%1$s**%2$s** vient de gagner $%3$d credits en répondant correctement!"
       },
-      "lobby_time_out": "%1$sThe time ran out! The correct answer is: %2$s",
-      "end_footer": "You have 5 attempts and 60 seconds. (Type end to end the game)",
-      "trivia_end_footer": "You have %1$s attempts and 60 seconds. (Type end to end the game)",
-      "error": "%1$sI found an error while setting up the game... (internal error)",
-      "character_load_error": "%1$sReport this in the official server please. Failed to setup game for pre-saved character: %2$s",
-      "character_request_error": "%1$sError requesting this character from AniList's API.",
-      "character_start": "Guess the character",
-      "too_many_games": "%1$sYou can start a maximum of 4 games at the same time with game lobby. (With Premium: 8)"
+      "lobby_time_out": "%1$sLe temps est écoulé, la réponse correcte était: %2$s",
+      "end_footer": "Tu as 5 essais et 60 secondes. (Envoie end pour arrêter la partie)",
+      "trivia_end_footer": "Tu as %1$s essais et 60 secondes. (Envoie end pour arrêter la partie)",
+      "error": "%1$sJ'ai rencontré une erreur en préparant le jeu... (erreur interne)",
+      "character_load_error": "%1$sRapporte ça sur le serveur officiel s'il te plait. Échec de mise en place du jeu pour le personnage pré-sauvegardé: %2$s",
+      "character_request_error": "%1$sErreur en requérant ce personnage à l'API AniList.",
+      "character_start": "Devine le personnage",
+      "too_many_games": "%1$sTu peux démarrer 4 jeux du même type dans un lobby. (8 en étant Premium)"
     },
     "opencrate": {
-      "no_crate": "%1$sYou don't have any loot crate of this type to open :( (If you're trying to open a crate of any other than the default type, use the name of the crate after the command)",
-      "not_crate": "%1$sThat is not a valid loot crate."
+      "no_crate": "%1$sTu n'as pas de coffre au trésor de ce type à ouvrir :( (Si tu essaies d'ouvrir un coffre autre que celui par défaut, tu dois le nommer après la commande. Si tu veux utiliser ton inventaire de la saison, ajoute un -s à la fin.)",
+      "not_crate": "%1$sCe n'est pas un coffre valide."
     },
     "prune": {
-      "no_messages_specified": "%1$sVous n'avez spécifié aucun message à purger.",
-      "no_permissions": "%1$sJe ne peux pas purger sur ce serveur car je n'ai pas la permission Gérer les messages.",
+      "no_messages_specified": "%1$sVous n'avez spécifié aucun message à effacer.",
+      "no_permissions": "%1$sJe ne peux pas purger ce serveur car je n'ai pas la permission Gérer les messages.",
       "bot_no_messages": "%1$sIl n'y a aucun messages de bots ici.",
       "no_pins_no_messages": "%1$sIl n'y a aucun message non-épinglé ici...",
       "mention_no_messages": "%1$sIl n'y a aucun message de l'utilisateur mentionné ici.",
-      "too_few_messages": "%1$sTrop peu de messages à purger. Le minimum est de 5.",
-      "error_retrieving": "%1$sJ'ai rencontré une erreur en essayant de purger les messages. (Internal: %2$s %3$s)",
-      "invalid_number": "%1$sMerci de spéciifer un montant valide.",
-      "not_valid": "%1$sCe n'est pas un montant de message à purger valide.",
-      "less_than_five": "%1$sVous devez au moins fournir 5 messages",
-      "messages_too_old": "%1$sIl n'y aucun message datant de moins de 2 semaines, Discord ne m'y laisse pas accès.",
+      "too_few_messages": "%1$sTrop peu de messages à effacer. Le minimum est de 5.",
+      "error_retrieving": "%1$sJ'ai rencontré une erreur en essayant de purger les messages. (Interne: %2$s %3$s)",
+      "invalid_number": "%1$sMerci de spéciifer un nombre valide.",
+      "not_valid": "%1$sCe n'est pas un nombre de message à effacer valide.",
+      "less_than_five": "%1$sVous devez au moins effacer 5 messages",
+      "messages_too_old": "%1$sIl n'y aucun message datant de moins de 2 semaines, Discord ne m'en laisse pas l'accès.",
       "success": "%1$s%2$s messages purgés de ce canal avec succès.",
       "lack_perms": "%1$sManque de permission pour purger. (Aucune permission fournie: %2$s)",
       "error_deleting": "%1$sErreur inconnue en purgeant les messages (Internal: %2$s %3$s)"
@@ -1108,28 +1110,28 @@
       "invalid_rating": "%1$sTu as spécifié un argument invalide (Arguments disponibles: questionable, explicit, safe)",
       "nsfw_no_nsfw": "%1$sJe ne peux pas envoyer du NSFW dans un channel qui n'est pas NSFW :(",
       "no_images": "%1$sIl n'y a pas d'image répondant à vos critères...",
-      "no_results": "%1$s**Aucune image ou résultat trouvé**! Merci d'essayer un autre nom ou un chiffre plus bas.",
+      "no_results": "%1$s**Aucune image ou résultat trouvé**! Merci d'essayer un autre nom ou un nombre plus bas.",
       "error": "%1$sUne erreur s'est produite en cherchant une image...",
       "wrong_argument": "%1$sMauvais type d'argument. Fait ~>help %2$s",
       "blacklisted_tag": "%1$sCette image a été blacklistée par un administrateur.",
       "error_tag": "%1$sUne erreur s'est produite en cherchant ce tag...",
       "error_random": "%1$sUne erreur s'est produite en cherchant une image au hasard...",
       "non_nsfw_channel": "%1$sCe canal n'est pas NSFW. Impossible d'envoyer du lewd.\n**Rappel:** Tu peux le rendre NSFW en modifiant cela dans les paramètres.",
-      "loli_content_disallow": "%1$sSadly I cannot display images that allegedly contain `loli` or `shota` lewd/NSFW content because discord prohibits it. (Filter ran: Image contains a loli or shota tag and it's NSFW)",
-      "null_list_notice": "%1$sOups... something went wrong when searching... (If you used a tag, the tag might not exist)",
+      "loli_content_disallow": "%1$sMalheureusement je ne peux pas afficher d'images contenant des contenu `loli` ou `shota` lewd/NSFW parce que Discord l'interdit. (Filtre: Image contenant des loli ou des shota étant NSFW)",
+      "null_list_notice": "%1$sOups... S'est mal passé durant la recherche... (Si tu as utilisé un tag il n'existe peut-être pas.)",
       "found_image": "J'ai trouvé une image",
       "description_image": "Évaluation: **%1$s**, Imageboard: **%2$s**",
       "width": "Largeur",
       "height": "Longueur",
       "tags": "Tags",
       "load_notice": "Si l'image ne charge pas cliques sur le titre.",
-      "rule34_notice": "If you don't like the content on this command, you can use ~>yandere",
-      "yandere_nsfw_notice": "%1$sYande.re command can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!"
+      "rule34_notice": "Si tu n'est pas satisfait du contenu de cette commande, tu peux utiliser ~>yandere",
+      "yandere_nsfw_notice": "%1$sLes commandes Yande.re peuvent être utilisées uniquement dans les salons NSFW à cause d'un nombre important de plainte oncernant le contenu explicite envoyé avec le tag \"safe\".\nTu peux utiliser `~>konachan` à la place!"
     },
     "about": {
       "title": "A propos de Mantaro",
       "description": {
-        "1": "Salut, je suis **Mantaro**! Je suis là pour te faciliter la vie. Pour commencer, écrit `~>help`!",
+        "1": "Salut, je suis **Mantaro**! Je suis là pour te faciliter la vie. Pour commencer, écris `~>help`!",
         "2": "Certaines de mes fonctionnalités comprennent:",
         "3": "**Modération plus simple** (`Kick/ban en masse, logs et plus!`)",
         "4": "**Commandes marrantes et utiles**, voir `~>help remindme` ou `~>help hug` pour des exemples.",
@@ -1141,23 +1143,23 @@
         "header": "**Patrons Mantaro**"
       },
       "credits": {
-        "main_dev": "Développeur principall",
+        "main_dev": "Développeur principal",
         "dev": "Développeur",
         "docs": "Documentation",
         "translators": "Traducteurs",
         "community_admin": "Admin communautaire",
-        "special_mentions": "Merci à bots.discord.pw, Carbonitex et discordbots.org d'aider au bot à se faire voir aux yeux du public.",
-        "thank_note": "Merci beaucoup à tous les gens du dessus pour rendre Mantaro meilleur."
+        "special_mentions": "Merci à bots.discord.pw, Carbonitex et discordbots.org d'aider le bot à se faire connaitre.",
+        "thank_note": "Merci beaucoup à tous les gens cité ci-dessus de rendre Mantaro meilleur."
       },
       "version": "Version MantaroBot",
       "uptime": "Durée de fonctionnement",
-      "shards": "Shards",
-      "threads": "Threads",
+      "shards": "Partitions",
+      "threads": "Coeurs",
       "guilds": "Serveurs",
       "users": "Utilisateurs (Uniques)",
       "tc": "Canaux textuels",
       "vc": "Canaux vocaux",
-      "invite": "Lien d'invitation: http://is.gd/mantaro (Commandes cette session: %1$,d | Shard actuelle: %2$d)"
+      "invite": "Lien d'invitation: http://is.gd/mantaro (Commandes cette session: %1$,d | Partition actuelle: %2$d)"
     },
     "invite": {
       "url": "URL d'invitation",
@@ -1166,18 +1168,18 @@
       "description" : {
         "1": "Voici des liens utiles!",
         "2": "**Si vous avez des questions sur le bot, n'hésitez pas à rejoindre le serveur et demander**!.",
-        "3": "Nous avons ajouté un lien Patreon au cas où vous voudriez aider le bot à s'émliorer [et recevoir des avantages au passage].",
-        "4": "Merci d'utiliser le BOT! **<3 des développeurs de la team Mantaro**"
+        "3": "Nous avons ajouté un lien Patreon au cas où vous voudriez aider le bot à s'améliorer [et recevoir des avantages au passage].",
+        "4": "Merci d'utiliser le BOT! **<3 de la part des développeurs de la team Mantaro**"
       },
       "footer": "Nous espérons que vous vous amusez avec le bot"
     },
     "stats": {
-      "header": "Statistiques Mantaro",
-      "description": "Bon... j'ai fais des maths",
+      "header": "Statistiques de Mantaro",
+      "description": "Bon... j'ai fais mes calculs",
       "usage": {
-        "header": "Mantaro's usage information",
-        "description": "Hardware and usage information.",
-        "threads": "Threads",
+        "header": "Informations d'utilisation de Mantaro",
+        "description": "Informations d'utilisation et de la partie hardware (machine physique).",
+        "threads": "Coeurs",
         "memory_usage": "Usage mémoire",
         "cores": "Coeurs CPU",
         "cpu_usage": "Usage CPU",
@@ -1185,8 +1187,8 @@
         "assigned_remaining": "Restant du dédié"
       },
       "server": {
-        "header": "Usage du serveur de Mantaro",
-        "cpu_usage": "Usage CPU",
+        "header": "Utilisation du serveur de Mantaro",
+        "cpu_usage": "Utilisation CPU",
         "rem": "RAM (TOTAL/LIBRE/UTILISÉ)"
       }
     },
@@ -1196,17 +1198,17 @@
         "1": "B-bien, voilà!",
         "2": "**- Site web:** <%1$s>"
       },
-      "note": "**Si tu aimes Mantaro, merci d'upvote sur ** <https://discordbots.org/bot/mantaro> **et ou songer à donner sur PayPal ou Patreon! Merci~**"
+      "note": "**Si tu aimes Mantaro, merci d'upvote sur ** <https://discordbots.org/bot/mantaro> **et/ou songer à donner sur PayPal ou Patreon! Merci~**"
     },
     "avatar": {
-      "result": "%1$sAvatar pour: **%2$s**\n%3$s"
+      "result": "%1$sAvatar de: **%2$s**\n%3$s"
     },
     "serverinfo": {
       "header": "Informations du serveur",
       "description": "Infos pour %1$s",
       "users": "Utilisateurs (Online/Unique)",
       "created": "Date de création",
-      "channels": "Canaux voxaux/textuels",
+      "channels": "Canaux vocaux/textuels",
       "owner": "Propriétaire",
       "region": "Région",
       "roles": "Rôles (%1$d)",
@@ -1219,7 +1221,7 @@
       "join_date": "Date à laquelle l'utilisateur a rejoint",
       "created": "Date de création",
       "account_age": "Âge du compte",
-      "mutual_guilds": "Guildes en commun",
+      "mutual_guilds": "Serveurs en commun",
       "vc": "Canal vocal",
       "color": "Couleur",
       "status": "Statut",
@@ -1229,31 +1231,50 @@
     "roleinfo": {
       "header": "Info du rôle %1$s",
       "id": "ID",
-      "created": "Role crée",
+      "created": "Role créée",
       "age": "Âge du rôle",
       "color": "Couleur",
-      "members": "Membre",
+      "members": "Membres",
       "position": "Position",
       "hoisted": "Séparé",
       "managed": "Géré",
       "permissions": "Permissions: [%1$d]"
     },
     "donate": {
-      "beg": "%1$sOh hi! If you are interested in donating, please check the links below. Running Mantaro takes time and money, and every dollar is highly appreciated!\n\n%2$s",
-      "methods": "**Donation Methods**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
+      "beg": "%1$sOh salut! Si tu est intéressé de nous faire un don, va sur les liens ci dessous. S'occuper de Mantaro demande de temps et de l'argent, chaque dollar est fortement appréié!\n\n%2$s",
+      "methods": "**Methodes de donation**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
     },
     "help": {
-      "title": "Mantaro Help",
-      "base": "Command list. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
-      "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://support.mantaro.site). [*Follow me on twitter for updates!*](https://twitter.com/mantarodiscord)\n",
-      "patreon": "[**We need your help to keep Mantaro online! Click here for more info.**](https://www.patreon.com/mantaro)",
-      "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
-      "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
-      "footer": "To check command usage, type %1$shelp <command> // -> Commands: %2$s",
-      "commands": "Commands",
+      "title": "Menu d'aide de Mantaro",
+      "base": "Liste des commandes. Pour un guide d'utilisation plus détaillé, merci de te rendre sur le [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
+      "support": "Si tu as des problèmes ou des questions en utilisant Mantaro, rejoins le [server de support](https://support.mantaro.site) (N.B.: le serveur est uniquement en anglais). [*Suis-moi sur Twitter pour les mises à jour!*](https://twitter.com/mantarodiscord)\n",
+      "patreon": "[**On a besoin de ton aide pour garder Mantaro en vie! Clique ici pour plus d'infos.**](https://www.patreon.com/mantaro)",
+      "disabled_commands": "Je ne montre que les commandes actives. Nombres total de commandes désactivées: %1$s",
+      "channel_specific_disabled_commands": "\nJe ne montre que les commandes actives. Nombres total de commandes désactivées dans ce salon: %1$s",
+      "footer": "Pour voir l'utilisation d'une commande, envoie %1$shelp <nom de la commande> // -> Commandes: %2$s",
+      "commands": "Commandes",
       "extended": {
-        "no_help": "%1$sThere's no extended help set for this command.",
-        "not_found": "%1$sA command with this name doesn't exist"
+        "no_help": "%1$sIl n'y a pas d'aide supplémentaire implémentée pour cette commande.",
+        "not_found": "%1$sUne commande de ce nom n'existe pas"
+      }
+    },
+    "repair": {
+      "no_item": "%1$sTu n'as pas spécifié d'objet à réparer. N'oublie pas d'utiliser les guillemets si le nom de l'objet contient des espaces.",
+      "no_item_found": "%1$sJe ne trouve pas cet objet. N'oublie pas d'utiliser les guillemets si le nom de l'objet contient des espaces.",
+      "cant_repair": "%1$s**%2$s** ce n'est pas un objet réparable. Tu ne peux réparer que ce qui est cassé.",
+      "no_tool": "%1$sTu as besoin d'une clé de tier 2 pour réparer cet objet. Assure-toi d'en avoir une et d'avoir spécifié la bonne clé si tu en as spécifié une. N'oublie pas d'utiliser les guillemets si le nom de l'objet contient des espaces.",
+      "dust": "%1$sTon inventaire est trop poussiéreux pour réparer quoi que ce soit. Niveau de poussière: %2$s",
+      "not_wrench": "%1$sTu ne peux pas utiliser ça en guise de clé. N'oublie pas d'utiliser les guillemets si le nom de l'objet contient des espaces.",
+      "not_enough_level": "%1$sTu as besoin d'une clé de tier supérieur pour faire cette réparation.",
+      "not_enough_money": "%1$sTu n'as pas assez d'argent pour faire cette réparation.",
+      "no_item_recipe": "%1$sTu n'as pas le *%2$s* nécessaire pour faire ette réparation.",
+      "not_enough_items": "%1$sTu n'as pas assez de *%2$s* pour faire cette réparation. **(Nécessaire: %3$s, Actuellement en ta possession: %4$s)**",
+      "item_broke": "Malheureusement ta clé n'a pas survécu à la réparation. Mais elle est quand même arrivée au bout de son travail!",
+      "success": "%1$sRéparation réalisée avec succès! Objet réparé %2$s **%3$s** -> %4$s **%5$s**. La réparation a couté *%6$s* credits et la recette de réparation était *%7$s*.",
+      "ls": {
+        "header": "Liste d'objets réparables",
+        "cost": "Cout de la réparation: ",
+        "desc": "Voici la liste des objets réparables à l'aide de la commande `~>repair`.\nTu peux utiliser le nom complet, l'abrégé ou l'emoji.\nLa réparation coute au moins un tier du prix de l'objet réparé. Le prix est affiché avec les matériaux nécessaires."
       }
     },
     "anime": {
