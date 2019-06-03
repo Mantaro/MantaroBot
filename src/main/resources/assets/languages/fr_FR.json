@@ -3,8 +3,8 @@
     "invalid_number": "%1$s Ce n'est pas un nombre valide!",
     "requested_by": "Demandé par %1$s.",
     "operation_timed_out": "%1$sLe temps de réponse à cette question est épuisé.",
-    "too_many_users_found": "%1$s Trop d'utilisateurs trouvés, essaies d'afinner ta recherche peut-être? (ex. utilises le nom#discriminateur)\n**utilisateurs trouvés:** %2$s",
-    "search_no_result": "%1$sTa recherche n'a donné aucun résultats :(",
+    "too_many_users_found": "%1$s Trop d'utilisateurs trouvés, essaie d'afinner ta recherche peut-être? (ex. utilise le nom#discriminateur)\n**utilisateurs trouvés:** %2$s",
+    "search_no_result": "%1$sTa recherche n'a donné aucun résultat :(",
     "unknown": "inconnu",
     "days": "jours",
     "none": "aucun",
@@ -111,7 +111,7 @@
       "success": "%1$sEn pêchant tranquillement, tu as trouvé %2$s et tu les as gardé dans ton seau.",
       "success_money": "%1$sEn pêchant tranquillement, tu as trouvé %2$s et **$%3$d credits** et tu les as gardé dans ton sceau.%4$s",
       "success_money_noitem": "%1$sEn pêchant tranquillement, tu as trouvé **$%2$d credits** et tu les as gardé dans ton sceau.",
-      "rod_broke": "%1$sTa canne à pêche s'est cassée en essayant d'attraper un poisson:(",
+      "rod_broke": "%1$sTa canne à pêche s'est cassée en essayant d'attraper un poisson :(",
       "waifu_help": "Ta waifu est venue et t'as rejoint dans ton aventure de pêche. Ensemble, vous obtenez un plus grand butin!",
       "not_suitable": "%1$sTu ne peux pas utiliser ça pour pêcher.",
       "shark_success": "%1$sTu as réussi à attraper un requin. Quelle bonne canne à pêche, hein?",
@@ -531,7 +531,7 @@
       "unclaim": {
         "no_user": "%1$sTu dois mentionner une waifu pour la rejeter.",
         "not_claimed": "%1$sCet utilisateur n'est pas ta waifu!",
-        "confirmation": "%1$sEs-tu *sûr(e)* que tu veux rejeter %2$s? Le coût pour le faire est de **%3$s credits**. Ecris *oui* pour confirmer ou *non* pour annuler\n%4$sLe délai d'attente est d'une minute.",
+        "confirmation": "%1$sEs-tu *sûr.e* que tu veux rejeter %2$s? Le coût pour le faire est de **%3$s credits**. Ecris *oui* pour confirmer ou *non* pour annuler\n%4$sLe délai d'attente est d'une minute.",
         "not_enough_money": "%1$sTu n'as pas assez de monnaie pour rejeter cette waifu!",
         "player_locked": "%1$sTu ne pas faire ça pour le moment.",
         "scrapped": "%1$sRejet de waifu annulé.",
@@ -552,7 +552,7 @@
       "value_b_format": "**- Acheté pour:**",
       "credits_format": " credits.",
       "waifu_header": "**Tes waifus:**",
-      "not_claimed": "%1$sTu n'as pas réclamé cette waifu."
+      "not_claimed": "%1$sTu n'as pas acheté cette waifu."
     },
     "ratewaifu": {
       "nothing_specified": "%1$sDonnez-moi une waifu à noter!",
@@ -568,9 +568,9 @@
       "success": "%1$s Ton résulat des **%2$d** pile-ou-faces a abouti à **%3$d** piles et **%4$d** faces"
     },
     "inventory": {
-      "bot_notice": "%1$sIci, les bots n'ont pas d'inventaire. Eh bien, qeulques fois tu peux souhaiter qu'ils en aient un mais alors ça serait seuelemnt `~>market dump`",
+      "bot_notice": "%1$sIci, les bots n'ont pas d'inventaire. Eh bien, quelquefois tu peux souhaiter qu'ils en aient un mais alors ça serait seuelement `~>market dump`",
       "brief": "l'inventaire de **%1$s:** %2$s",
-      "calculate": "%1$s%2$s recevra **%3$d credits** si tous les objets dont vendus.",
+      "calculate": "%1$s%2$s recevra **%3$d credits** si tous les objets sont vendus.",
       "header": "inventaire de %1$s",
       "format": "**Prix**: 📥 %1$d 📤 %2$d\n%3$s",
       "empty": "%1$sCet inventaire est vide! :(",
@@ -1706,124 +1706,124 @@
       "no_args": "%1$sTu dois spécifier si tu veux que ce soit true ou false (true pour réserver la création de commandes customs aux Admins/Bot Commander only)",
       "admin_only": "La création de commandes customs est désomais réservée aux admins.",
       "everyone": "La création de commandes customs est désomais ouverte à tous.",
-      "not_bool": "%1$sIdiot.e, ce n'est pas une valeur booléenne (true or false)!"
+      "not_bool": "%1$sIdiot.e, ce n'est pas une valeur booléenne (true ou false)!"
     },
     "timedisplay_set": {
-      "mode_not_specified": "%1$sYou need to specify a mode (12h or 24h)",
-      "12h": "%1$sSet time display mode to 12h",
-      "24h": "%1$sSet time display mode to 24h",
-      "invalid": "%1$sNot a valid choice. Valid choices: **24h**, **12h**"
+      "mode_not_specified": "%1$sTu dois me donner un mode (12h ou 24h)",
+      "12h": "%1$sL'affichage de l'heure se fera sur 12h",
+      "24h": "%1$sL'affichage de l'heure se fera sur 24h",
+      "invalid": "%1$sCe n'est pas un choix valide, tu dois choisir entre: **24h**, **12h**"
     },
     "server_role_disallow": {
-      "no_name": "%1$sYou need to specify the name of the role!",
-      "public_role": "%1$sYou cannot disable the everyone role from using commands!",
-      "success": "%1$sDisabled role %2$s from executing commands."
+      "no_name": "%1$sTu dois me donner le nom du rôle!",
+      "public_role": "%1$sTu ne peux pas interdire au rôle everyone l'utilisation des commandes!",
+      "success": "%1$sLe rôle %2$s ne peut plus utiliser les commandes."
     },
     "server_role_allow": {
-      "no_name": "%1$sYou need to specify the name of the role you want to allow (has to be disallowed already for this to do anything, since allow is default)!",
-      "not_disabled": "%1$sThis role isn't disabled! (All roles are enabled by default)",
-      "success": "%1$sAllowed role %2$s to execute commands."
+      "no_name": "%1$sTu dois me donner le nom du rôle que tu veux autoriser(il a dû être interdit d'abord)!",
+      "not_disabled": "%1$sCe rôle n'a jamais été interdit d'utiliser les commandes",
+      "success": "%1$sLe rôle %2$s peut à nouveau utiliser les commandes."
     },
     "server_ignorebots_autoroles_toggle": {
-      "success": "%1$sSet bot autorole ignore to: **%2$s**"
+      "success": "%1$sLe paramètre d'ignorance des bot est: **%2$s**"
     },
     "server_ignorebots_joinleave_toggle": {
-      "success": "%1$sSet bot join/leave ignore to: **%2$s**"
+      "success": "%1$sLe message de bienvenue/d'au-revoir est: **%2$s**"
     },
     "levelupmessages_toggle": {
-      "success": "%1$sSet level up messages to: **%2$s**"
+      "success": "%1$sLe message de niveau est: **%2$s**"
     },
     "levelupmessages_message_set": {
-      "no_message": "%1$sYou need to specify the message you want to show on user level-up. *Tip: The username of the person is done using the $(user) argument on the message*",
-      "success": "%1$sServer level-up message set to: `%2$s`"
+      "no_message": "%1$sTu dois spécifier le message à afficher lorsqu'un utilisateur monte de niveau. *Conseil: tu peux insérer le nom de l'utilisateur en mettant $(user) dans ton message*",
+      "success": "%1$sLe message de monté de niveau du serveur est: `%2$s`"
     },
     "levelupmessages_message_clear": {
-      "success": "%1$sCleared level-up message!"
+      "success": "%1$sMessage de changement de niveau effacé!"
     },
     "levelupmessages_channel_set": {
-      "no_channel": "%1$sYou need to specify a channel to show level-up messages!",
-      "success": "%1$sThe level-up channel has been set to: %2$s"
+      "no_channel": "%1$sTu dois spécifier le salon dans lequel le message de changement de niveau sera envoyé!",
+      "success": "%1$sLe salon de niveaux d'expérience est: %2$s"
     },
     "birthday_message_set": {
-      "no_message": "%1$sYou need to specify the message you want to show on birthday. *Tip: The username of the person is done using the $(user) argument on the message*",
-      "success": "%1$sServer birthday message set to: %2$s"
+      "no_message": "%1$sTu dois me donner le message à afficher lors d'un anniversaire. *Conseil: tu peux insérer le nom de l'utilisateur en mettant $(user) dans ton message*",
+      "success": "%1$sMessage d'anniversaire du serveur défini sur: %2$s"
     },
     "birthday_message_clear": {
-      "success": "%1$sCleared birthday message!"
+      "success": "%1$sMessage d'anniversaire effacé!"
     },
     "defaultmutetimeout_set": {
-      "not_specified": "%1$sYou have to specify a mute timeout in the format of 1m20s, for example.",
-      "wrong_format": "%1$sWrong time format. You have to specify a mute timeout in the format of 1m20s, for example.",
-      "too_long": "%1$sThe time specified is too long...",
-      "negative_notice": "You cannot mute someone for negative time!",
-      "success": "%1$sSuccessfully set default mute timeout to *%2$s* (%3$dms)"
+      "not_specified": "%1$sLe temps de silence doit être spécifié au format 1m20s par exemple.",
+      "wrong_format": "%1$sAttention à ton format! Le temps de silence doit être spécifié au format 1m20s par exemple.",
+      "too_long": "%1$sTu ne peux pas réduire quelqu'un au silence aussi longtemps...",
+      "negative_notice": "Le temps ne va pas en reculant, tu ne peux pas réduire quelqu'un au silence pour une durée négative!",
+      "success": "%1$sLe temps de silence par défeut est défini sur *%2$s* (%3$dms)"
     },
     "defaultmutetimeout_reset": {
-      "success": "%1$sSuccessfully reset timeout."
+      "success": "%1$sTemps de silence réinitialisé."
     },
     "muterole_unbind": {
-      "success": "%1$sCorrectly reset the mute role."
+      "success": "%1$sRôle de muet réinitialisé."
     },
     "muterole_set": {
-      "no_role": "%1$sYou need to specify the role you want to use as the mute role. If the name has spaces try wrapping it in quotes.",
-      "success": "%1$sSet mute role to **%2$s**"
+      "no_role": "%1$sTu dois spécifier le rôle à utiliser en tant que rôle muet. Si son nom contient des espaces, utilises des guillemets.",
+      "success": "%1$sRôle muet défini comme étant **%2$s**"
     },
     "reset:all": {
-      "success": "%1$sCorrectly reset your options!"
+      "success": "%1$sOptions réinitialisées!"
     },
     "birthday_test": {
-      "no_user": "%1$sYou need to specify an user to test the assigner with. Just mention them.",
-      "no_bd_channel": "%1$sYou don't have any birthday channel set!",
-      "no_bd_role": "%1$sYou don't have any role set for the birthday setter! Make sure you create a new role for it.",
-      "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel. Check channel permissions.",
-      "cannot_interact": "%1$sThe bot is unable to interact with the birthday role. (This means the birthday role is higher than the bot's highest role on the role hierarchy, put it below and try again)",
-      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role %4$s\n\nNote: This doesn't show the custom birthday message you might have set.",
-      "error": "%1$sOw... There was an error while sending the message on channel %2$s for user **%3$s** and role %4$s"
+      "no_user": "%1$sTu dois mentionner un utilisateur sur lequel tester l'assigneur.",
+      "no_bd_channel": "%1$sAucun salon d'anniversaire défini!",
+      "no_bd_role": "%1$sTu n'as pas défini de rôle pour le programme d'anniversaires! Assure-toi d'en avoir créé un nouveau.",
+      "no_talk_permission": "%1$sLe bot ne peut pas parler dans le salon d'anniversaires, vérifie les permissions.",
+      "cannot_interact": "%1$sLe bot ne peut pas interragir avec le rôle anniversaire. (Parce qu'il est plus haut que son plus haut rôle ou parce qu'il n'a pas la permission de Gérer les rôles.)",
+      "success": "%1$sC'est fait! Le message a été envoyé dans %2$s pour **%3$s** ayant reçu le rôle %4$s\n\nNote: Ceci ne montre pas le message personnalisé que tu avais programmé (si tu en avais programmé un).",
+      "error": "%1$sOw... Il y a eu une erreur en envoyant le message dans %2$s pour **%3$s** avec le rôle %4$s"
     },
     "usermessage_joinmessage_add": {
-      "no_message": "%1$sYou need to specify what extra message you want me to say when someone joins!",
-      "success": "%1$sAdded `%2$s` to the extra join messages successfully."
+      "no_message": "%1$sTu dois me donner le message supplémentaire que tu veux que j'envoie lorsque quelqu'un nous rejoins!",
+      "success": "%1$sAjout de `%2$s` aux messages de bienvenue supplémentaires."
     },
     "usermessage_joinmessage_remove": {
-      "no_message": "%1$sYou need to specify the index of the message you want to remove!",
-      "success": "%1$sRemoved `%2$s (index %3$d)` from the extra join messages successfully.",
-      "wrong_index": "%1$sThat index doesn't exist! Use `~>opts usermessage joinmessage list` to see all of the available indexes"
+      "no_message": "%1$sTu dois me donner le numéro du message à supprimer!",
+      "success": "%1$sSuppression de `%2$s (numéro %3$d)` des messages de bienvenue supplémentaires.",
+      "wrong_index": "%1$sCe numéro n'est pas attribué! Utilise `~>opts usermessage joinmessage list` pour voir les messages et leur numéro"
     },
     "usermessage_joinmessage_clear": {
-      "success": "%1$sCleared all extra join messages."
+      "success": "%1$sSuppression de tous les messages de bienvenue supplémentaires."
     },
     "usermessage_joinmessage_list": {
-      "header": "Extra join messages list. %1$s\n%2$s",
-      "no_extras": "%1$sThere isn't any extra join messages here..."
+      "header": "Liste des messages de bienvenue supplémentaires. %1$s\n%2$s",
+      "no_extras": "%1$sIl ny a aucun message de bienvenue supplémentaire..."
     },
     "usermessage_leavemessage_add": {
-      "no_message": "%1$sYou need to specify what extra message you want me to say when someone leaves!",
-      "success": "%1$sAdded `%2$s` to the extra leave messages successfully."
+      "no_message": "%1$sTu dois me donner le message supplémentaire que tu veux que j'envoie lorsque quelqu'un nous quitte!",
+      "success": "%1$sAjout de `%2$s` aux messages de départ supplémentaires."
     },
     "usermessage_leavemessage_remove": {
-      "no_message": "%1$sYou need to specify the index of the message you want to remove!",
-      "success": "%1$sRemoved `%2$s (index %3$d)` from the extra leave messages successfully.",
-      "wrong_index": "%1$sThat index doesn't exist! Use `~>opts usermessage leavemessage list` to see all of the available indexes"
-    },
+     "no_message": "%1$sTu dois me donner le numéro du message à supprimer!",
+      "success": "%1$sSuppression de `%2$s (numéro %3$d)` des messages de départ supplémentaires.",
+      "wrong_index": "%1$sCe numéro n'est pas attribué! Utilise `~>opts usermessage leavemessage list` pour voir les messages et leur numéro"
+   },
     "usermessage_leavemessage_clear": {
-      "success": "%1$sCleared all extra leave messages."
+      "success": "%1$sSuppression de tous les messages de départ supplémentaires."
     },
     "usermessage_leavemessage_list": {
-      "header": "Extra leave messages list. %1$s\n%2$s",
-      "no_extras": "%1$sThere isn't any extra leave messages here..."
+      "header": "Liste des messages de départ supplémentaires. %1$s\n%2$s",
+      "no_extras": "%1$sIl ny a aucun message de départ supplémentaire..."
     },
     "modlog_blacklistwords_add": {
-      "no_word": "%1$sYou didn't specify any word to add to the modlog blacklist.",
-      "success": "%1$sWord `%2$s` successfully added to the modlog blacklist.",
-      "too_many": "%1$sThere are already too many words on the blacklist (more than 20)."
+      "no_word": "%1$sTu n'as pas spécifié de mot à mettre dans la blacklist.",
+      "success": "%1$sLe mot `%2$s` sa bien été ajouté à la blacklist.",
+      "too_many": "%1$sLa blacklist est déjà trop longue (plus de 20 mots)."
     },
     "modlog_blacklistwords_remove": {
       "not_in": "%1$sLe mot `%2$s` n'est pas dans la blacklist.",
-      "success": "%1$sRetrait avec succès du mot `%2$s` de la blacklist."
+      "success": "%1$sRetrait du mot `%2$s` de la blacklist."
      },
-    "invalid_category": "%1$sTu as entré une catégorie invalide. Une liste des catétgoes valides est montrée ci dessous```md\n%2$s```",
-    "help_opts_notice": "%1$sTu ne peux pas désactiver la commande help ou options.",
-    "no_command": "%1$sAucune commande correspondante à %2$s",
+    "invalid_category": "%1$sTu as entré une catégorie invalide. Regarde dans la liste ci dessous pour trouver une catégorie valide```md\n%2$s```",
+    "help_opts_notice": "%1$sTu ne peux pas désactiver les commandes help et options.",
+    "no_command": "%1$sAucune commande correspondant à %2$s",
     "invalid_role": "%1$sCe n'est pas un rôle valide!"
   },
   "discord_permissions": {
@@ -1831,43 +1831,43 @@
     "kick_members": "Exclure des membres",
     "ban_members": "Bannir des membres",
     "administrator": "Administrateur",
-    "manage_channel": "Gérer les channels",
+    "manage_channel": "Gérer les salons",
     "manage_server": "Gérer le serveur",
     "message_add_reaction": "Ajouter des réactions",
     "view_audit_logs": "Voir les logs",
-    "view_channel": "Lire les channels textuels et vocaux",
+    "view_channel": "Lire les salons textuels & voir les salons vocaux",
     "message_read": "Lire les messages",
     "message_write": "Envoyer des messages",
     "message_tts": "Envoyer des messages TTS",
     "message_manage": "Gérer les messages",
     "message_embed_links": "Intégrer des liens",
     "message_attach_files": "Joindre des fichiers",
-    "message_history": "Lire l'historique",
-    "message_mention_everyone": "Mentionner @Everyone",
+    "message_history": "Voir les anciens messages",
+    "message_mention_everyone": "Mentionner tout le monde",
     "message_ext_emoji": "Utiliser des émojis externes",
-    "voice_connect": "Connecter",
+    "voice_connect": "Se connecter",
     "voice_speak": "Parler",
-    "voice_mute_others": "Rendre muet des membres",
-    "voice_deaf_others": "Rendre sourd des membres",
+    "voice_mute_others": "Couper le micro de membres",
+    "voice_deaf_others": "mettre en sourdine des membres",
     "voice_move_others": "Déplacer des membres",
-    "voice_use_vad": "Utiliser l'activation de voix",
-    "nickname_change": "Changer son pseudo",
+    "voice_use_vad": "Utiliser la Détection de la voix",
+    "nickname_change": "Changer de pseudo",
     "nickname_manage": "Gérer les pseudos",
     "manage_roles": "Gérer les rôles",
     "manage_permissions": "Gérer les permissions",
     "manage_webhooks": "Gérer les webhooks",
     "manage_emotes": "Gérer les émojis",
-    "priority_speaker": "Orateur Prioritaire"
+    "priority_speaker": "Voix prioritaire"
   },
   "items": {
     "headphones": "Écouteurs",
     "ban_hammer": "Marteau du bannissement",
-    "die": "Loaded Die",
-    "kick_boot": "Kick Boot",
+    "die": "Dé",
+    "kick_boot": "Coup de pied au cul",
     "floppy": "Disquette",
-    "maths": "Mes Maths",
+    "maths": "Calculs",
     "racket": "Raquette de ping pong",
-    "loaded_die": "Loaded Die",
+    "loaded_die": "Dé truqué",
     "forgotten": "Musique oubliée",
     "pencil": "Crayon",
     "moneybag": "Sac d'argent",
@@ -1877,7 +1877,7 @@
     "lewd": "Magazine Lewd",
     "ring": "Bague de mariage",
     "letter": "Lettre d'amour",
-    "key": "Clé de caisse",
+    "key": "Clé de coffre",
     "clothes": "Vêtements",
     "diamond": "Diamant",
     "dress": "Robe de mariée",
@@ -1887,37 +1887,37 @@
     "rose": "Rose",
     "chocolate": "Chocolat",
     "cookie": "Cookie",
-    "die_2": "Special Loaded Die",
+    "die_2": "Dé pipé spécial",
     "booster": "Booster",
     "berserk": "Fou furieux",
     "Companion": "Compagnon",
     "special_ring": "Bague spéciale",
-    "enchancer": "Améliorateur",
+    "enchancer": "Stimulateur",
     "prize": "Prix",
     "crate": "Coffre au trésor",
     "prize_2": "Prix 2",
-    "slot_ticket": "Billet de fente",
+    "slot_ticket": "Billet de jeu",
     "house": "Maison",
     "car": "Voiture",
-    "bell": "Cloche de Noël",
+    "bell": "Cloche",
     "tree": "Sapin de Noël",
     "pants": "Pantalon",
-    "haste": "Potion de hâte",
-    "milky": "Potion laiteuse",
-    "energy": "Brevage d'énergie",
+    "haste": "Potion de minage",
+    "milky": "Potion lactée",
+    "energy": "Boisson énergisante",
     "rod": "Canne à pêche",
     "fish": "Poisson",
     "tropical_fish": "Poisson tropical",
-    "blowfish": "Poisson globeux",
+    "blowfish": "Poisson globe",
     "comet_gem": "Joyau de comète",
     "star_gem": "Joyau d'étoile",
     "cobweb": "Toile d'araignée",
     "fragment": "Fragment de joyau",
     "mop": "Balai",
-    "claim_key": "Clé de réclamation",
+    "claim_key": "Clé de la liberté",
     "coffee": "Café",
     "waifu_pill": "Pillule de Waifu",
-    "bait": "Appat",
+    "bait": "Appât",
     "diamond_pick": "Pioche en diamant",
     "tv": "Télévision",
     "wrench": "Clé anglaise",
@@ -1950,94 +1950,94 @@
     "broken_sparkle_rod": "Canne scintillante endomagée",
     "broken_star_rod": "Canne des étoiles endomagée",
     "description": {
-      "headphones": "C'est ce qui se passe quand tu écoutes trop de musique. Doit quand même valoir quelque chose",
-      "ban_hammer": "Laissé par un admin.",
-      "kick_boot": "Laissé par un admin",
-      "floppy": "Doit sûrement contenir des jeux. Ne copie pas le disque.",
-      "maths": "Oh, j'ai oublié mes maths.",
-      "racket": "J'ai gagné le ping-pong avec discord à quelques millisecondes près. Peut être.",
-      "loaded_die": "Piqué de la commande `~>roll`.",
+      "headphones": "C'est ce qui se passe quand tu écoutes trop de musique. Ca doit quand même valoir quelque chose",
+      "ban_hammer": "Laissé là par un admin.",
+      "kick_boot": "Laissé là par un admin",
+      "floppy": "Elle doit sûrement contenir des jeux. Ne la copie pas.",
+      "maths": "Oh, j'ai oublié mes calculs.",
+      "racket": "J'ai gagné le ping-pong avec discord à quelques millisecondes près. Peut-être.",
+      "loaded_die": "Dérobé à la commande `~>roll`.",
       "forgotten": "Jamais téléchargé. Sûrement copyrighté.",
       "pencil": "Nous en avons plein!",
       "moneybag": "Quoi d'autre?",
       "pick": "Ce gars aimait beaucoup trop minecraft (24% de chance de se casser). (`~>mine` outil)",
-      "milk": "Peut être que c'est pas si mal d'en avoir un peu.",
-      "beverage": "Does really weird stuff in big quantities. Well, depends on what kind ;)",
-      "lewd": "Too many lewd commands. Way too many. Had fun?",
-      "ring": "Basically what makes your marriage official.",
-      "letter": "A letter from your loved one.",
-      "key": "Used to open various crates with `~>opencrate <crate name>` or `~>useitem <crate name>`.",
-      "clothes": "En gros ce que vous portez. Espérons ...",
+      "milk": "Peut-être que ce n'est pas si mal d'en avoir un peu.",
+      "beverage": "Ca te fais vraiment un drôle d'effet en grande quantité. Enfin ça dépend de ce que c'est ;)",
+      "lewd": "Trop de commandes obscènes, vraiment trop! Tu prends ton pied hein!?",
+      "ring": "C'est ce qui rend ton mariage officiel quoi.",
+      "letter": "Une lettre de l'amour de ta vie.",
+      "key": "Utilisée pour ouvrir divers coffres avec `~>opencrate <nom du coffre>` ou `~>useitem <nom du coffre>`.",
+      "clothes": "En gros, ce que vous portez. Espérons ...",
       "diamond": "Fondamentalement, une meilleure façon d'économiser votre argent. C'est brillant aussi. Comme c'est bien.",
       "dress": "N'est-ce-pas mignon ?",
-      "necklace": "A l'air cool..",
-      "tuxedo": "Ce que vous portez quand vous allez vous marier avec une fille, ou aller dans un endroit agréable, ou peut-être partout, qui sait?",
+      "necklace": "Ca l'air cool..",
+      "tuxedo": "Ce que tu portes quand tu vas te marier, ou quand tu vas dans un endroit agréable, ou peut-être partout, qui sait?",
       "shoes": "Parce que marcher pieds nus est juste nul. Ou douloureux.",
       "rose": "L'incarnation de votre amour. Aussi c'est une belle décoration.",
       "chocolate": "Succulent.",
       "cookie": "Délicieux",
-      "die_2": "Even more loaded. `Leftover from Currency version 1. No longer obtainable.`",
-      "booster": "Used to give you some kind of boost, now it's broken. `Leftover from Currency version 1. No longer obtainable.`",
-      "berserk": "Currency Berserker? Anyone? `Leftover from Currency version 1. No longer obtainable.`",
-      "companion": "Aw, such a cute dog. `Leftover from Currency version 1. No longer obtainable.`",
-      "special_ring": "It's so special, it's not even a ring. `Leftover from Currency version 1. No longer obtainable.`",
-      "enchancer": "A broken enchanter, I wonder if it could be fixed? `Leftover from Currency version 1. No longer obtainable.`",
-      "prize": "Pretty much, huh? `Leftover from Currency version 1. No longer obtainable.`",
-      "crate": "You can use this along with a loot key to open a loot crate! Can be opened with `~>opencrate`",
-      "prize_2": "In the first place, how did you get so much money?",
-      "slot_ticket": "Gives you extra chance in slots, also works as bulk storage.",
-      "house": "Cozy place to live in.",
-      "car": "To move around.",
-      "bell": "Christmas event 2017/2018 reward. Gives you a cozy christmas feeling on your tree.",
-      "tree": "Christmas event 2017/2018 reward. Who doesn't like a christmas tree?.",
-      "pants": "Basically what you wear on your legs... hopefully.",
-      "haste": "Allows you to collect more stuff from lootable commands for 2 sessions.",
-      "milky": "Clears all potion effects.",
-      "energy": "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.",
-      "rod": "Enables you to fish. (20% de chance de se casser)",
-      "fish": "Poisson. Attrapé en pêchant.",
-      "tropical_fish": "Un poisson assez tropical. Attrapé en pêchant.",
+      "die_2": "Encore plus pipé. `Laissé derrière par la première version du système monétaire, inobtenable.`",
+      "booster": "Utilisé pour te booster à une époque, maintenant c'est cassé. `Laissé derrière par la première version du système monétaire, inobtenable.`",
+      "berserk": "De l'argent de tpete brûlée? Quelqu'un? `Laissé derrière par la première version du système monétaire, inobtenable.`",
+      "companion": "Aw, quel chien mignon ^-^. `Laissé derrière par la première version du système monétaire, inobtenable.`",
+      "special_ring": "C'est si spécial, ce n'est même pas vraiment une bague. `Laissé derrière par la première version du système monétaire, inobtenable.`",
+      "enchancer": "Un enchanteur cassé, peut-être pourrais-tu le réparer? `Laissé derrière par la première version du système monétaire, inobtenable.`",
+      "prize": "Il y en a beaucoup, huh? `Laissé derrière par la première version du système monétaire, inobtenable.`",
+      "crate": "Tu peux utiliser une clé pour l'ouvrir. Achète-la puis utilise `~>opencrate`",
+      "prize_2": "Alors d'abord, comment t'as eu autant d'argent?",
+      "slot_ticket": "Ce ticket te donne une chance spplémentaire à la machine à sous mais tu peux aussi le stocker.",
+      "house": "Un bel endroit pour vivre.",
+      "car": "Pour te déplacer.",
+      "bell": "Récompense de l'événement de noël 2017/2018. Ca te donne un sentiment de fête sur ton sapin de noël.",
+      "tree": "Récompense de l'événement de noël 2017/2018. Qui n'aime pas les sapins de noël?.",
+      "pants": "C'est ce que tu portes en bas, du moins je l'espère.",
+      "haste": "Ca te permet de trouver plus de chose en fouillant (valable pour 2 utilisation de la commande `~>loot`).",
+      "milky": "Ca te débarasse des effets de potions.",
+      "energy": "Elle réduit les chance que t pioche ne casse durant les 5 prochaines sessions.",
+      "rod": "Te permets de pêcher. (20% de chance de se casser)",
+      "fish": "Poisson attrapé en pêchant.",
+      "tropical_fish": "Un poisson assez tropical pêché.",
       "blowfish": "Je me demande si c'est.. bon? Attrapé en pêchant.",
-      "comet_gem": "Fragments d'une comète que vous avez trouvé en minant. Utile pour le moulage.",
+      "comet_gem": "Fragments d'une comète que vous avez trouvé en minant. Utile pour la fabrication.",
       "star_gem": "Fragments d'une étoile que vous avez trouvé en minant.",
-      "cobweb": "Something a spider left over on the mine. Wonder if it's worth something.",
+      "cobweb": "Un truc laissé par une araignée au fond de la mine. Je me demande ce que ça vaut.",
       "fragment": "Fragment d'une gemme trouvé en minant.",
-      "mop": "Une bonne mani-re de nettoyer toute la poussière qui vous entoure. Je suis sûr qu'il y en a beaucoup.",
-      "claim_key": "Cet item empêche les autres de vous prendre en tant que Waifu quand vous l'avez dans votre inventaire.",
+      "mop": "Une bonne manière de nettoyer toute la poussière qui vous entoure. Je suis sûr qu'il y en a beaucoup.",
+      "claim_key": "Cet objet empêche les autres de vous prendre en tant que Waifu quand vous l'avez dans votre inventaire.",
       "coffee": "Une très bonne façon de commencer votre journée",
-      "waifu_pill": "Vous donne un avantage significatif sur le minage et les poissons si l’un de vos waifus est évalué à plus de 10 millions.Dure 5 sessions.",
-      "bait": "Vous donne une plus grande chance d'attraper du poisson.",
+      "waifu_pill": "Te donne un avantage significatif sur le minage et la pêche si l’une de tes waifus est évaluée à plus de 10 millions. Dure 5 sessions.",
+      "bait": "Te donne une plus grande chance d'attraper du poisson.",
       "diamond_pick": "Une pioche bien plus résistante (20% de chance de se casser). (`~>mine` tool).",
       "tv": "Doit... regarder... la... Télé...",
       "wrench": "Outil de moulage. Utile pour fabriquer des trucs.",
-      "star_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking, needed to cast multiple items at once. Tier 2.",
-      "sparkle_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking. Less cost per cast. Tier 3.",
-      "motorcycle": "Se promener, d'une façon stylée.",
+      "star_wrench": "Outil de moulage. Utile pour fabriquer des trucs. Plus résistante et nécessaire pour fabriquer plusieurs objets à la fois. Tier 2.",
+      "sparkle_wrench": "Outil de moulage. Utile pour fabriquer des trucs. Plus résistante et réduit le cout de fabrication. Tier 3.",
+      "motorcycle": "Pour se promener, d'une façon stylée.",
       "comet_pick": "Une pioche bien plus résistante (18% de chance de se casser). (`~>mine` tool).",
       "star_pick": "Une pioche bien plus résistante (13% de chance de se casser). (`~>mine` tool).",
       "sparkle": "Un des joyaux les plus rares. Assurez-vous de le garder.",
       "sparkle_pick": "La pioche la plus forte du jargon (6% de chance de se casser). (`~>mine` tool)",
       "pizza": "Délicieux.",
-      "mine_crate": "Un joyau que vous trouverez en exploitant. Pourrait avoir de belles choses à l'intérieur. Peut être ouvert avec `~> opencrate gem crate`",
-      "fish_crate": "Un trésor que vous trouverez en pêchant. Il pourrait contenir de belles choses à l'intérieur. Peut être ouvert avec` ~> opencrate treasure`",
-      "mine_premium_crate": "Un joyau que tu trouves en exploitant. Pourrait avoir de belles choses à l'intérieur. Peut être ouvert avec `~> opencrate gem premium crate`",
-      "fish_premium_crate": "Un trésor que tu trouves en pêchant. Pourrait avoir de belles choses à l'intérieur. Peut être ouvert avec `~> opencrate premium treasure`",
-      "comet_rod": "Une canne un peu plus résistante. (17% de chance de se casser)",
-      "star_rod": "Une canne résistante. (14% de chance de se casser)",
-      "sparkle_rod": "Une canne bien plus résistante. (9% de chance de se casser)",
-      "shell": "Trouvé au fond de l'océan. Combien cela pourrait il valoir?",
+      "mine_crate": "Coffre au trésor trouvé en minant. Peut être ouvert avec `~> opencrate gem crate`",
+      "fish_crate": "Coffre au trésor trouvé en pêchant. Il pourrait contenir de belles choses à l'intérieur. Peut être ouvert avec` ~> opencrate treasure`",
+      "mine_premium_crate": "Coffre au trésor trouvé en minant. Peut être ouvert avec `~> opencrate gem premium crate`",
+      "fish_premium_crate": "Coffre au trésor trouvé en pêchant. Peut être ouvert avec `~> opencrate premium treasure`",
+      "comet_rod": "Une canne à pêche un peu plus résistante. (17% de chance de se casser)",
+      "star_rod": "Une canne à pêche résistante. (14% de chance de se casser)",
+      "sparkle_rod": "Une canne à pêche bien plus résistante. (9% de chance de se casser)",
+      "shell": "Trouvée au fond de l'océan. Combien cela pourrait il valoir?",
       "shark": "Wow. Comment as-tu attrapé *ça*?",
-      "crab": "A crab. It dances, maybe.",
-      "squid": "Not to confuse with Squidward.",
-      "shrimp": "Pinkish stuff. I think.",
-      "moon": "Moon Rune. Needed to cast some stuff.",
-      "flake": "Snowflake. Usually used as a cast ingredient.",
-      "broken_comet_pick": "A comet pick that broke while mining. Still salvageable.",
-      "broken_sparkle_pick": "A sparkle pick that broke while mining. Still salvageable.",
-      "broken_star_pick": "A star pick that broke while mining. Still salvageable.",
-      "broken_comet_rod": "A comet rod that broke while fishing. Still salvageable.",
-      "broken_sparkle_rod": "A sparkle rod that broke while fishing. Still salvageable.",
-      "broken_star_rod": "A star rod that broke while fishing. Still salvageable."
+      "crab": "Un crabe! Il danse peut-être.",
+      "squid": "À ne pas confondre avec le calamar.",
+      "shrimp": "Truc rose.",
+      "moon": "Rune de lune utile pour fabriquer des choses.",
+      "flake": "Flocon de neige généralement utilisé pour fabriqué des choses.",
+      "broken_comet_pick": "Pioche en comète qui a cassé durant une session de minage, il y a toujours de l'espoir pour la réparer.",
+      "broken_sparkle_pick": "Pioche scintillante qui a cassé durant une session de minage, il y a toujours de l'espoir pour la réparer.",
+      "broken_star_pick": "Pioche des étoiles that qui a cassé durant une session de minage, il y a toujours de l'espoir pour la réparer.",
+      "broken_comet_rod": "Canne de comète that qui a cassé durant une session de pêche, il y a toujours de l'espoir pour la réparer.",
+      "broken_sparkle_rod": "Canne scintillante qui a cassé durant une session de pêche, il y a toujours de l'espoir pour la réparer.",
+      "broken_star_rod": "Canne des étoiles qui a cassé durant une session de pêche, il y a toujours de l'espoir pour la réparer."
       
     }
   },
