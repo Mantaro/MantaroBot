@@ -173,7 +173,7 @@
       "12": "Profites bien de ta musique et merci d'utiliser Mantaro!"
     },
     "lang": {
-      "info": "%1$sTu peux changer la langue du serveur (si applicable) en utilisant `~>opts language set <language code>`. Pour changer ta langue de préférence, utilises `~>profile lang <code de la langue>`.\n**Langues disponibles : ** `%2$s`\nSi ta langue n'est pas dans la liste et que tu as envie d'aider, n'hésites pas à rejoindre serveur de support de Mantaro et à aider à la traduction!"
+      "info": "%1$sTu peux changer la langue du serveur (si applicable) en utilisant `~>opts language set <language code>`. Pour changer ta langue de préférence, utilises `~>profile lang <code de la langue>`.\n**Langues disponibles : ** `%2$s`\nSi ta langue n'est pas dans la liste et que tu as envie d'aider, n'hésites pas à rejoindre serveur de support de Mantaro et à aider à la traduction !"
     },
      "season": {
       "info": "Une *saison* est un laps de temps, de normalement 6 mois durant lesquels les joueurs concourent pour une place dans le top 10 des catégories money et réputation du leaderboard. Les gagnants remporteront des badges et des prix en fonction de leur performance de la saison.\nC'est pour instaurer une ambiance plus compétitive (avant, l'économie était plus renfermée) et pour rendre le jeu un peu plus chouette.\nTu peux accéder à ton équipement de la saison en utilisant `-season`. Les commandes telles que profile, mine, fish et balance en auront besoin ; games, loot, daily et reputation quant à elles donneront de l'argent/de la réputation aussi bien à ton profile globale qu'à ton profile de compétiteur.",
@@ -198,7 +198,7 @@
       "queue": {
         "no_track_found_np": "Rien ou titre/ durée non trouvé",
         "header": "Lise de lecture du serveur %1$s",
-        "nothing_playing": "Rien ici, que de la poussière. Pourquoi n'ajoutes tu pas des chansons à la liste de lecture?\nSi tu penses qu'il y a des chansons ici mais qu'elles n'apparaissent pas, essaies d'utiliser `~>queue 1`.",
+        "nothing_playing": "Rien ici, que de la poussière. Pourquoi n'ajoutes tu pas des chansons à la liste de lecture ?\nSi tu penses qu'il y a des chansons ici mais qu'elles n'apparaissent pas, essaies d'utiliser `~>queue 1`.",
         "nothing_playing_2": "**S'il y a un morceau en train de jouer et que tu n'as pas ajouté de musique, alors c'est qu'il n'y a que de la poussière ici. Tu peux ajouter d'autres musiques à la liste de lecture !!**",
         "np": "Joue en ce moment",
         "page_overflow": "Rien ici, que de la poussière. Pourquoi ne pas revenir en arrière de quelques pages ?",
@@ -268,7 +268,7 @@
       "success": "%1$sChanson actuelle redémarrée."
     },
     "skipahead": {
-      "no_time": "%1$sTu dois me dire de combien tu veux avancer la chanson. *(Exemple : `~>skipahead 1m45s` va avancer la chanson d' 1 minute et 45 secondes à partir du moment où tu es actuellement)*",
+      "no_time": "%1$sTu dois me dire de combien tu veux avancer la chanson. *(Exemple : `~>skipahead 1m45s` va avancer la chanson d’1 minute et 45 secondes à partir du moment où tu es actuellement)*",
       "past_duration": "%1$sTu ne peux pas avancer d'avantage que la durée de la chanson",
       "success": "%1$sChanson avancé à %2$s."
     },
@@ -456,7 +456,7 @@
         "10000": "ça n'a aucun sens :thinking: #BlameSteven",
         "default": "bien trop lent. :dizzy_face:"
       },
-      "display": ["J-J'ai été assez rapide? "," Qu'est-ce que tu fais? "," Q-Qu'est-ce que tu regardes?! "," Huh. "," Est-ce que je m'en suis bien sorti? "," Qu'est-ce que t'en penses? ", "Est-ce que ça souvent?", "Est-ce que je fonctionne c-correctement?", "<3", "* tapote *", "Pong.", "Pang.", "Pung.", "Peng.", " Ping pong? Yay! "," U-Uh ... s-salut"],
+      "display": ["J-J'ai été assez rapide? "," Qu'est-ce que tu fais? "," Q-Qu'est-ce que tu regardes ?! "," Huh. "," Est-ce que je m'en suis bien sorti ? "," Qu'est-ce que t'en penses ? ", "Est-ce que ça souvent ?", "Est-ce que je fonctionne c-correctement ?", "<3", "* tapote *", "Pong.", "Pang.", "Pung.", "Peng.", " Ping pong? Yay! "," U-Uh ... s-salut"],
       "text": "%1$s*%2$s* - Mon temps de réponse: %3$d ms (%4$s) `Websocket:%5$dms`"
     },
     "love": {
@@ -478,7 +478,7 @@
         "already_done": "%1$sCe mariage a déjà une lettre d'amour assignée. Vérifie-la en utilisant `marry status`.",
         "too_long": "%1$sLa lettre d'amour est trop longue (le maximum est 500 caractères)",
         "cannot_see": "%1$sJe ne peux pas trouver l'utilisateur auquel vous êtes marié... Il n'est probablement dans aucun serveur avec moi.",
-        "confirmation": "%1$sÊtes-vous *sûr.e* de vouloir écrire cette lettre pour votre mariage avec **%2$s#%3$s**? Ceci est PERMANENT contrairement au mariage. *Contenu de la lettre:* %4$s",
+        "confirmation": "%1$sÊtes-vous *sûr.e* de vouloir écrire cette lettre pour votre mariage avec **%2$s#%3$s**? Ceci est PERMANENT contrairement au mariage. *Contenu de la lettre :* %4$s",
         "confirmed": "%1$sLa lettre d'amour a été délivrée avec succès à ton amoureux/se! Vérifie-la en utilisant `marry status`.",
         "scrapped": "%1$sTu as toujours du temps pour réfléchir à ce que tu veux écrire, pas besoin de se dépêcher!"
       },
@@ -495,7 +495,7 @@
       "marry_bot_notice": "%1$sTu ne peux pas te marier à un bot. Je ne crois pas que ce soit Futurama... pour l'instant. Attend, est-ce que les bots et les humains peuvent se marier là-bas ?",
       "already_married_receipt": "%1$sTu es déjà marié à lui-elle, aww.",
       "already_married": "%1$sTu es déjà marié.e.",
-      "receipt_married": "%1$sCet utilisateur est déjà marrié.e.",
+      "receipt_married": "%1$sCet utilisateur est déjà marié.e.",
       "no_ring": "%1$sTu ne peux pas faire une demande sans deux bagues de mariage! Tu peux les acheter en faisant `~>market buy 2 ring` et ensuite, essaie de refaire ta demande <3",
       "confirmation": "%1$s%2$s, écris **oui** ou **non** pour la demande en mariage de %3$s\n%4$sIl y a un délai d'attente de 120 secondes.",
       "ring_check_fail": "%1$sTu ne peux pas te marier avec moins de deux bagues de mariage dans ton inventaire :(",
@@ -510,7 +510,7 @@
       "bot": "%1$sUn bot ne peut pas être une waifu, même si tu le souhaites vraiment...",
       "notice": "Cette fonctionnalité n'est pas faite pour avoir un certain type de relation, que ce soit implicite ou explicite, avec des événements de la vie réelle.",
       "stats": {
-        "header": "Statistiques de tes waifus",
+        "header": "Tes statistiques de waifu",
         "header_other": "statistiques de la waifu %1$s",
         "format": "%1$s **Valeur du portefeuille:** %2$,d\n%1$s **Valeur des badges:** %3$,d\n%1$s **Valeur d’expérience:** %4$,d\n%1$s **Valeur d’appartenance:** %5$,d\n%1$s **Multiplicateur de réputation:** %6$.2fx",
         "value": "Valeur totale",
@@ -712,14 +712,14 @@
     },
     "poll": {
       "missing": "%1$sTu n'as pas inclus l'argument %2$s ou alors c'était vide!\n%3$s",
-      "invalid": "%1$sCe sondage ne peut être construit. **Souviens-toi que le nombre maximum d'option est 9 et que le minimum est de 2 et que le temps limite est de maximum 45min et de minimum 30s.**\nLes options sont séparées avec une virgule, par exemple `1,2,3` (pas d'espaces entre eux!). Pour les élément requérant des espaces, veille à les écrire entre guillemets. Si tu es vraiment perdu.e, il y a un exemple sur `~>help poll`",
+      "invalid": "%1$sCe sondage ne peut être construit. **Souviens-toi que le nombre maximum d'option est 9 et que le minimum est de 2 et que le temps limite est de maximum 45min et de minimum 30s.**\nLes options sont séparées avec une virgule, par exemple `1,2,3` (pas d'espaces entre eux !). Pour les éléments requérants des espaces, veille à les écrire entre guillemets. Si tu es vraiment perdu.e, il y a un exemple sur `~>help poll`",
       "other_poll_running": "%1$sIl semble qu'un autre sondage soit en cours..",
       "no_reaction_perms": "%1$sIl semble que je ne peux pas ajouter de réactions ici...",
       "too_long": "C'était trop long à montrer, donc je l'ai copié: %1$s",
       "header": "Sondage #%1$d créé par %2$s",
       "success": "**Le sondage commence. Réagis avec les nombres pour voter.**\n*%1$s*\nEnvoie &cancelpoll pour arrêter le sondage en cours.",
       "time": "You have %1$s to vote.",
-      "error": "%1$sUne erreur inconnue est survenue durant la mise en place du sondage. Réessaies peut-être? (erreur interne)",
+      "error": "%1$sUne erreur inconnue est survenue durant la mise en place du sondage. Réessaies peut-être ? (Erreur interne)",
       "result_header": "Résultats du sondage",
       "result_screen": "**Voici les résultats du sondage créé par %1$s** du nom de: *%2$s*",
       "vote_results": "+C'est enregistré! %1$d a voté pour l'option %2$s",
@@ -755,7 +755,7 @@
       },
       "description": {
         "no_argument": "%1$sTu dois me donner un argument! (set ou remove)\nPar exemple, ~>profile description set Hello there!",
-        "no_content": "%1$sTu ne m'as pas dis ce que tu voulais comme description.\nPar exemple, ~>profile description set Hello there!",
+        "no_content": "%1$sTu ne m'as pas dit ce que tu voulais comme description.\nPar exemple, ~>profile description set Hello there!",
         "too_long": "%1$sTa description est trop longue! `(Limite de 300 caractères pour tout le monde et de 500 pour les utilisateurs premium)`",
         "success": "%1$sTa description est donc: **%2$s**\nRegarde ton profil tout neuf `~>profile`",
         "clear_success": "%1$sDescription supprimée avec succès."
@@ -798,7 +798,7 @@
         "no_content": "%1$sTu dois spécifier quel objet équiper!",
         "no_item": "%1$sCet objet n'existe pas",
         "not_owned": "%1$sTu ne possède pas cet objet!",
-        "success": "%1$sTu as équipé %2$s *%3$s* avec succès, ce qui ne sera pas oublié la prochaine fois que tu utilise une commande monétaire.",
+        "success": "%1$sTu as équipé %2$s *%3$s* avec succès, ce qui ne sera pas oublié la prochaine fois que tu utilises une commande monétaire.",
         "not_suitable": "%1$sTu ne peux pas équiper cela."
       },
       "display": {
@@ -807,7 +807,7 @@
         "success": "%1$sTon nouveau fond a bien été appliqué à ton profil. Ton nouveau fond est `%2$s`",
         "ls": "%1$sListe des composants du profil:\n%2$s **Gadgets dans l'ordre par défaut:** `%3$s`\n%2$s **Tes gadgets:** `%4$s`\nTu peux utiliser `~>profile widgets reset` pour réinitialiser tes préférences d'affichage",
         "reset": "%1$sL'ordre des gadget par défaut a bien été rétabli.",
-        "example": "\nExemple: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Ca fonctionne dans tous les sens, l'ordre donné ici est celui dans lequel ils apparaitront sur ton profil*"
+        "example": "\nExemple: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Ça fonctionne dans tous les sens, l'ordre donné ici est celui dans lequel ils apparaitront sur ton profil*"
       },
       "badge_header": "%1$sBadge Affiché",
       "bot_notice": "%1$sLes bots n'ont pas de profil.",
@@ -872,7 +872,7 @@
       "no_content": "%1$sTu dois spécifier ta date de naissance, `remove` pour réinitialiser ta date de naissance `month` pour voir les anniversaire du mois."
     },
     "choose": {
-      "nothing_to": "%1$sTu dois me donner 2 élément pour faire un choix. (exemple : `~>choose anime manga`)",
+      "nothing_to": "%1$sTu dois me donner 2 élément pour faire un choix. (Exemple : `~>choose anime manga`)",
       "success": "%1$sJe choisis `%2$s`"
     },
     "dictionary": {
@@ -946,7 +946,7 @@
         "old_system": "**Utilisateur Premium de l'ancien système! Ne t'en fait pas, tu es Premium avec tout ce que ça implique ;) !**"
       },
       "guild": {
-        "header": "tatut premium de %1$s",
+        "header": "Statut premium de %1$s",
         "not_premium": "%1$sCe serveur n'est pas premium :c",
         "premium": "**Serveur Premium! <3**",
         "old_system": "**Serveur Premium de l'ancien système! Ne t'en fait pas, il est Premium avec tout ce que ça implique ;) !**"
@@ -1002,7 +1002,7 @@
         "stare": ":eyes:",
         "holdhands": "o-oh... ;//;",
         "cuddle": "C'est mignooon :3!",
-        "nuzzle": "Ohhh, trop mignon!",
+        "nuzzle": "Ohh, trop mignon!",
         "bloodsuck": "T'es un vampire maintenant, oh!"
       },
       "pat": "%1$s tu as été caressé.e par %2$s",
@@ -1061,7 +1061,7 @@
       "started_mp_role": "%1$sLobby multi-joueur démarré avec tous les membres ayant le rôle: **%2$s**",
       "started_mp_user": "%1$sLobby multi-joueur démarré avec les membres: **%2$s**",
       "lobby_started": "%1$sNouveau lobby démarré! **Jeux : %2$s**\nTu peux envoyer `endlobby` pour arrêter tous les jeux et sortir du lobby.",
-      "game_timeout_drop": "%1$sOups... Il semble que j'aie laissé un jeux ici et que j'ai oublié de venir le chercher... J'en démarre un nouveau sans tarder !",
+      "game_timeout_drop": "%1$sOups... Il semble que j'aie laissé un jeu ici et que j'ai oublié de venir le chercher... J'en démarre un nouveau sans tarder !",
       "other_lobby_running": "%1$sJe ne peux pas démarrer un nouveau lobby tant qu'un jeu est en cours. (Si c'est une erreur, dis à un admin de faire la commande `~>opts lobby reset`)",
       "lobby": {
         "ended_game": "%1$sJeu terminé. Les réponses possibles étaient : %2$s",
@@ -1247,9 +1247,9 @@
     "help": {
       "title": "Menu d'aide de Mantaro",
       "base": "Liste des commandes. Pour un guide d'utilisation plus détaillé, merci de te rendre sur le [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
-      "support": "Si tu as des problèmes ou des questions en utilisant Mantaro, rejoins le [server de support](https://support.mantaro.site) (N.B.: le serveur est uniquement en anglais). [*Suis-moi sur Twitter pour les mises à jour!*](https://twitter.com/mantarodiscord)\n",
+      "support": "Si tu as des problèmes ou des questions en utilisant Mantaro, rejoins le [server de support](https://support.mantaro.site) (N.B.: le serveur est uniquement en anglais). [*Suis-moi sur Twitter pour les mises à jour !*](https://twitter.com/mantarodiscord)\n",
       "patreon": "[**On a besoin de ton aide pour garder Mantaro en vie! Clique ici pour plus d'infos.**](https://www.patreon.com/mantaro)",
-      "disabled_commands": "Je ne montre que les commandes actives. Nombres total de commandes désactivées: %1$s",
+      "disabled_commands": "Je ne montre que les commandes actives. Nombres total de commandes désactivées : %1$s",
       "channel_specific_disabled_commands": "\nJe ne montre que les commandes actives. Nombre total de commandes désactivées dans ce salon : %1$s",
       "footer": "Pour voir l'utilisation d'une commande, envoie %1$shelp <nom de la commande> // -> Commandes: %2$s",
       "commands": "Commandes",
@@ -1348,7 +1348,7 @@
       "lose": "%1$sMalheureusement tu as perdu %2$s credits. %3$s",
       "lose_all": "tous tes",
       "credits": "credits",
-      "too_much": "%1$sTu pex seulement parier 275 million en une fois. Tu ne veux pas te ruiner quand même? *(Limite de pari solitaire : %2$d credits)*",
+      "too_much": "%1$sTu pex seulement parier 275 million en une fois. Tu ne veux pas te ruiner quand même ? *(Limite de pari solitaire : %2$d credits)*",
       "too_little": "%1$sTu ne peux pas parier si peu (Minimum: 100 credits)"
     },
     "loot": {
@@ -1378,7 +1378,7 @@
       },
       "gem": {
         "overflow": "Huh, Tu as trouvé un *%1$s* mais tu en avais déjà trop donc je l'ai vendu pour toi.",
-        "success": "Huh! Quelle chance, tu as trouvé un *%1$s* en minant ! Regarde dans ton inventaire!"
+        "success": "Huh! Quelle chance, tu as trouvé un *%1$s* en minant ! Regarde dans ton inventaire !"
       },
       "sparkle": {
         "overflow": "Tu as trouvé des paillettes mais tu en avais déjà trop donc je les ai vendues pour toi.",
@@ -1391,13 +1391,13 @@
       "pick_broke": "%1$sUne de tes pioches viens de casser en minant.",
       "waifu_help": "Ta waifu t'a rejoint dans ton aventure de minage, ensemble vous aurez un plus large butin!",
       "missing_equipped": "%1$sTu avais équipé une pioche %2$s, mais tu n'en as plus dans ton inventaire! La pioche équipée est donc réinitialisée.",
-      "broken_drop": "%1$sTa pioche a cassé mais tu peux toujours la réparer. Objet endommagé obtenu: %2$s *%3$s*"
+      "broken_drop": "%1$sTa pioche a cassé mais tu peux toujours la réparer. Objet endommagé obtenu : %2$s *%3$s*"
     },
     "slots": {
       "errors": {
         "amount_not_ticket": "%1$sTu ne peux pas donner un nombre de tickets à utiliser si tu n'utilises pas de tickets!",
         "not_enough_tickets": "%1$sTu n'as pas assez de tickets.",
-        "too_much_money": "%1$sCette machine ne peut pa donner autant d'argent!",
+        "too_much_money": "%1$sCette machine ne peut pas donner autant d'argent!",
         "not_enough_money": "%1$sTu n'as pas assez d'argent pour jouer avec la machine à sous!",
         "below_minimum": "%1$sLe pari minimum s'élève à 25 credits",
         "no_tickets": "%1$sTu veux utiliser des tickets mais tu n’en as pas :<",
@@ -1405,7 +1405,7 @@
         "no_valid_amount": "%1$sCe n'est pas un montant valide! (Exemple de montants valides : 1000, 1k, 1.8, 14000, 2M)"
       },
       "roll": "%1$s**Tu as utilisé %2$s et tu as lancé la machine**\n",
-      "win": "Et tu as gagné **%1$d** credits et tu peux garder la mise (%2$d credits)! Chaceux.se va!",
+      "win": "Et tu as gagné **%1$d** credits et tu peux garder la mise (%2$d credits)! Chaceux.se va !",
       "lose": "Et tu as perdu %1$s\nJ'espère que tu feras mieux la prochaine fois!",
       "tickets": "ticket(s)",
       "credits": "credits"
@@ -1787,7 +1787,7 @@
     "usermessage_joinmessage_remove": {
       "no_message": "%1$sTu dois me donner le numéro du message à supprimer!",
       "success": "%1$sSuppression de `%2$s (numéro %3$d)` des messages de bienvenue supplémentaires.",
-      "wrong_index": "%1$sCe numéro n'est pas attribué! Utilise `~>opts usermessage joinmessage list` pour voir les messages et leur numéro"
+      "wrong_index": "%1$sCe numéro n'est pas attribué! Utilise `~>opts usermessage joinmessages list` pour voir les messages et leur numéro"
     },
     "usermessage_joinmessage_clear": {
       "success": "%1$sSuppression de tous les messages de bienvenue supplémentaires."
@@ -1803,7 +1803,7 @@
     "usermessage_leavemessage_remove": {
      "no_message": "%1$sTu dois me donner le numéro du message à supprimer!",
       "success": "%1$sSuppression de `%2$s (numéro %3$d)` des messages de départ supplémentaires.",
-      "wrong_index": "%1$sCe numéro n'est pas attribué! Utilise `~>opts usermessage leavemessage list` pour voir les messages et leur numéro"
+      "wrong_index": "%1$sCe numéro n'est pas attribué! Utilise ~>opts usermessage leavemessages list ` pour voir les messages et leur numéro"
    },
     "usermessage_leavemessage_clear": {
       "success": "%1$sSuppression de tous les messages de départ supplémentaires."
