@@ -497,7 +497,7 @@
       "already_married": "%1$sTu es déjà marié.e.",
       "receipt_married": "%1$sCet utilisateur est déjà marié.e.",
       "no_ring": "%1$sTu ne peux pas faire une demande sans deux bagues de mariage! Tu peux les acheter en faisant `~>market buy 2 ring` et ensuite, essaie de refaire ta demande <3",
-      "confirmation": "%1$s%2$s, écris **oui** ou **non** pour la demande en mariage de %3$s\n%4$sIl y a un délai d'attente de 120 secondes.",
+      "confirmation": "%1$s%2$s, écris **yes** ou **no** pour la demande en mariage de %3$s\n%4$sIl y a un délai d'attente de 120 secondes.",
       "ring_check_fail": "%1$sTu ne peux pas te marier avec moins de deux bagues de mariage dans ton inventaire :(",
       "accepted": "%1$s**%2$s#%3$s** a accepté la demande de **%4$s#%5$s**!",
       "denied": "%1$sa refusé la demande de **%2$s**"
