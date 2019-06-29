@@ -197,7 +197,12 @@ public class GameCmds {
 
                 LinkedList<Game<?>> gameList = new LinkedList<>();
                 for(String s : split) {
-                    Game<?> g = games.get(s.trim()).apply(difficulty);
+                    Function<TriviaDifficulty, Game<?>> f = games.get(s.trim());
+
+                    if(f == null)
+                        continue;
+
+                    Game<?> g = f.apply(difficulty);
                     if(g == null)
                         continue;
 
@@ -269,7 +274,13 @@ public class GameCmds {
                 LinkedList<Game<?>> gameList = new LinkedList<>();
                 for(int i = 0; i < number; i++) {
                     String value = values[0];
-                    Function<TriviaDifficulty, Game<?>> f = games.get(value.trim());
+                    String trimmedValue = value.trim();
+
+                    if(trimmedValue.length() == 0)
+                        continue;
+
+                    Function<TriviaDifficulty, Game<?>> f = games.get(trimmedValue);
+
                     if(f == null)
                         continue;
 
