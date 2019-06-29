@@ -102,3 +102,4 @@ You may add yourself to this table while making a translation.
 | German (DE) | Vrontis#8513 ([@Vrontis](https://github.com/Vrontis)) |
 | Lithuanian (LT) | Ghostwolf#0001 ([@TheOnlyGhostwolf](https://github.com/TheOnlyGhostwolf)) |
 | Dutch (NL) | JynXi#4043 (No GitHub) |
+| French (FR) | Baba#3647 ([@thebaba98](https://github.com/thebaba98)) |
