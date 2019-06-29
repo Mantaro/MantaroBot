@@ -751,7 +751,8 @@
         "not_specified": "%1$sYou need to specify the timezone.",
         "reset": "%1$sReset timezone.",
         "invalid": "%1$sInvalid timezone.",
-        "success": "%1$sSaved timezone, your profile timezone is now: **%2$s**"
+        "success": "%1$sSaved timezone, your profile timezone is now: **%2$s**",
+        "reset_success": "%1$sSuccessfully reset your timezone."
       },
       "description": {
         "no_argument": "%1$sYou need to provide an argument! (set or remove)\nFor example, ~>profile description set Hi there!",
