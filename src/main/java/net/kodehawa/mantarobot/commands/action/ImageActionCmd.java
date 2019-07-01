@@ -169,7 +169,7 @@ public class ImageActionCmd extends NoArgsCommand {
                 toSend = new MessageBuilder().append("**").append(languageContext.get(botLine)).append("**");
             }
 
-            toSend.setEmbed(new EmbedBuilder().setImage(random).build());
+            toSend.setEmbed(new EmbedBuilder().setColor(Color.DARK_GRAY).setImage(random).build());
             toSend.sendTo(event.getChannel()).queue();
         } catch(Exception e) {
             event.getChannel().sendMessageFormat(languageContext.get("commands.action.permission_or_unexpected_error"), EmoteReference.ERROR).queue();
