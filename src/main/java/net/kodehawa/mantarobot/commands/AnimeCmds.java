@@ -80,11 +80,7 @@ public class AnimeCmds {
                         return;
                     }
 
-                    //Limit to 9 anime on selection...
-                    found = found.stream().limit(9).collect(Collectors.toList());
-
-
-                    DiscordUtils.selectList(event, found, anime -> String.format("**[%s (%s)](%s)**",
+                    DiscordUtils.selectList(event, found.stream().limit(9).collect(Collectors.toList()), anime -> String.format("**[%s (%s)](%s)**",
                             anime.title().english() == null || anime.title().english().isEmpty() ?
                                     anime.title().romaji() : anime.title().english(), anime.title().native_(), anime.siteUrl()),
                             s -> baseEmbed(event, languageContext.withRoot("commands", "anime.selection_start"))
@@ -140,10 +136,7 @@ public class AnimeCmds {
                         return;
                     }
 
-                    //Limit to 9 characters on selection...
-                    characters = characters.stream().limit(9).collect(Collectors.toList());
-
-                    DiscordUtils.selectList(event, characters, character -> String.format("**[%s %s](%s)**",
+                    DiscordUtils.selectList(event, characters.stream().limit(9).collect(Collectors.toList()), character -> String.format("**[%s %s](%s)**",
                             character.name().last() == null ? "" : character.name().last(), character.name().first(),
                             character.siteUrl()),
                             s -> baseEmbed(event, languageContext.withRoot("commands", "anime.information_footer"))
