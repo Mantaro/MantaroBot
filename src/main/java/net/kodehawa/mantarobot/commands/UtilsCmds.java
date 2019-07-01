@@ -493,6 +493,7 @@ public class UtilsCmds {
                         reminders.get(0).cancel();
                         event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.cancel.success"), EmoteReference.CORRECT).queue();
                     } else {
+                        reminders = reminders.stream().filter(reminder -> reminder.time - System.currentTimeMillis() > 3).collect(Collectors.toList());
                         DiscordUtils.selectList(event, reminders,
                                 (r) -> String.format("%s, Due in: %s", r.reminder, Utils.getHumanizedTime(r.time - System.currentTimeMillis())),
                                 r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle(languageContext.get("commands.remindme.cancel.select"), null)
