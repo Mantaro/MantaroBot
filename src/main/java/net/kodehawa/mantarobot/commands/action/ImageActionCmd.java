@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands.action;
 
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -168,11 +169,8 @@ public class ImageActionCmd extends NoArgsCommand {
                 toSend = new MessageBuilder().append("**").append(languageContext.get(botLine)).append("**");
             }
 
-            event.getChannel().sendFile(
-                    CACHE.getInput(random),
-                    imageName + "-" + id + ".gif",
-                    toSend.build()
-            ).queue();
+            toSend.setEmbed(new EmbedBuilder().setImage(random).build());
+            toSend.sendTo(event.getChannel()).queue();
         } catch(Exception e) {
             event.getChannel().sendMessageFormat(languageContext.get("commands.action.permission_or_unexpected_error"), EmoteReference.ERROR).queue();
         }
