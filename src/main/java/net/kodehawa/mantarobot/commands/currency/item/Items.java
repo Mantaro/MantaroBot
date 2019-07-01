@@ -176,7 +176,7 @@ public class Items {
             FISH_7 = new Fish(ItemType.FISHING, 3, "\uD83E\uDD91","Squid", "items.squid", "items.description.squid", 35, false),
             FISH_8 = new Fish(ItemType.FISHING, 3, "\uD83E\uDD90","Shrimp", "items.shrimp", "items.description.shrimp", 35, false),
             GEM_6 = new Item(ItemType.MINE, "\uD83C\uDF19", "Moon Runes", "items.moon", "items.description.moon", 100, false),
-            GEM_7 = new Item(ItemType.MINE, "\u2744\uFE0F", "Snowflake", "items.flake", "items.description.flake", 25, false),
+            GEM_7 = new Item(ItemType.MINE, "\u2744\uFE0F", "Snowflake", "items.flake", "items.description.flake", 25, true, false, "1;1", 51, 50),
             // ---------------------------------- 5.3 BROKEN ITEMS START HERE ----------------------------------
             BROKEN_SPARKLE_PICK = new Broken(73, EmoteReference.BROKEN_SPARKLE_PICK.getDiscordNotation(), "Broken Sparkle Pickaxe", "items.broken_sparkle_pick", "items.description.broken_sparkle_pick", 100, "1,74;4,84;2,50"),
             BROKEN_COMET_PICK = new Broken(61, EmoteReference.BROKEN_COMET_PICK.getDiscordNotation(), "Broken Comet Pickaxe", "items.broken_comet_pick", "items.description.broken_comet_pick", 40, "1,48;3,84;2,50"),
