@@ -90,7 +90,8 @@
     "fun": "Fun",
     "games": "Games",
     "info": "Info",
-    "currency": "Currency"
+    "currency": "Currency",
+    "pet": "Pet"
   },
   "commands": {
     "fish": {
