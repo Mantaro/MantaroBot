@@ -1162,6 +1162,22 @@
       "vc": "Voice Channels",
       "invite": "Invite link: http://is.gd/mantaro (Commands this session: %1$,d | Current shard: %2$d)"
     },
+    "pet": {
+      "no_content": "%1$sYou need to specify the pet to look up the stats of (and the user you want to check the pet from, if it's not yours. Make sure to quote the name on this case!).",
+      "not_specified": "%1$sYou didn't specify the pet name.",
+      "not_found": "I didn't find a pet with the provided name."
+    },
+    "petactions": {
+      "a": "b",
+      "incubate": {
+        "no_name": "%1$sYou need to specify a name to give to your pet.",
+        "only_letters": "%1$sThe name can only contain letters from a to z.",
+        "no_egg": "%1$sYou don't have an incubator egg on your inventory.",
+        "not_enough_slots": "%1$sYou don't have enough pet slots left. (Total: %2$s, Used: %3$s)",
+        "no_money": "%1$sYou don't have enough money to incubate this egg. (Required: %2$s)",
+        "success": "%1$sSuccessfully incubated your egg! Your pet *%2$s* is now ready. Check `~>pet <name>` to check pet stats."
+      }
+    },
     "invite": {
       "url": "Invite URL",
       "server": "Support Server",

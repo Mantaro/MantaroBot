@@ -23,6 +23,8 @@ import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 @Getter
 @Setter
 public class PetStats {
+    private boolean inBattle = false;
+
     //Global statistics
     private long stamina;
     private long hp;
@@ -44,8 +46,8 @@ public class PetStats {
     private double staminaRecoveryMult = 1.14;
 
     //Current battle stats
-    private long currentStamina;
-    private long currentHP;
+    private long currentStamina = stamina; //Unless this changes on battle, should remain equal.
+    private long currentHP = hp; //Unless this changes in battle, should remain equal.
     private boolean elementAffinity;
     private boolean elementBoost;
     private boolean elementQualification;
@@ -54,6 +56,9 @@ public class PetStats {
     private PotionEffect currentEffect;
     private long regenStat;
     private long staminaRegenCoef;
+
+    private long epochLastBattle;
+    private long epochLastIdle;
 
     @Getter
     public enum Type {

@@ -171,14 +171,14 @@ public class PetCmds {
 
                 long moneyNeeded = Math.max(70, random.nextInt(1000));
                 if(player.getMoney() < moneyNeeded) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.no_money"), EmoteReference.ERROR, moneyNeeded, player.getMoney()).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.no_money"), EmoteReference.ERROR, moneyNeeded).queue();
                     return;
                 }
 
                 Pet pet = generatePet(event.getAuthor().getId(), name);
                 playerData.getProfilePets().put(name, pet);
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.success"), EmoteReference.POPPER).queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.success"), EmoteReference.POPPER, name).queue();
             }
         });
 
