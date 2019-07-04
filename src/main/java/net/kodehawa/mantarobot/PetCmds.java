@@ -16,23 +16,196 @@
 
 package net.kodehawa.mantarobot;
 
+import com.google.common.eventbus.Subscribe;
+import com.jagrosh.jdautilities.commons.utils.FinderUtil;
+import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.currency.pets.Pet;
+import net.kodehawa.mantarobot.commands.currency.pets.PetStats;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Module
 public class PetCmds {
+    private final static String BLOCK_INACTIVE = "\u25AC";
+    private final static String BLOCK_ACTIVE = "\uD83D\uDD18";
+    private static final int TOTAL_BLOCKS = 10;
+
+    @Subscribe
     public void pet(CommandRegistry cr) {
-        cr.register("pet", new SimpleCommand(Category.INFO) {
+        SimpleCommand petCommand = (SimpleCommand) cr.register("pet", new SimpleCommand(Category.PETS) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                ManagedDatabase db = MantaroData.db();
+                List<Member> found = FinderUtil.findMembers(content, event.getGuild());
+                String userId;
+                String petName;
+
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.pet.no_content"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                //We only want one result, don't we?
+                if(found.size() > 1) {
+                    event.getChannel().sendMessageFormat(languageContext.get("general.too_many_members"), EmoteReference.THINKING, found.stream().limit(7).map(m -> String.format("%s#%s", m.getUser().getName(), m.getUser().getDiscriminator())).collect(Collectors.joining(", "))).queue();
+                    return;
+                }
+
+                if(found.isEmpty()) {
+                    userId = event.getAuthor().getId();
+                    petName = content;
+                } else {
+                    userId = found.get(0).getUser().getId();
+                    petName = args[1];
+                }
+
+
+                if(petName.isEmpty()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.pet.not_specified"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Player player = db.getPlayer(userId);
+                PlayerData playerData = player.getData();
+
+                Pet pet = playerData.getProfilePets().get(petName.toLowerCase());
+                if(pet == null) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.pet.not_found"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                final PetStats stats = pet.getStats();
+
+                //This is a placeholder to test stuff. Mostly how it'll look on release though.
+                event.getChannel().sendMessage(
+                        new EmbedBuilder()
+                                .setTitle(String.format("%s Pet Overview and Statistics", pet.getName()))
+                                .setThumbnail(pet.getImage().getImage())
+                                .setDescription(
+                                        Utils.prettyDisplay("Tier", String.valueOf(pet.calculateTier())) + "\n" +
+                                        // ------ Change to translatable when I have the translation tables ready for this
+                                        Utils.prettyDisplay("Element", pet.getElement().getReadable()) + "\n" +
+                                        Utils.prettyDisplay("Owner", MantaroBot.getInstance().getUserById(pet.getOwner()).getAsTag())  + "\n" +
+                                        Utils.prettyDisplay("Created At", String.valueOf(pet.getEpochCreatedAt()))
+                                )
+                                .addField("Current HP", getProgressBar(stats.getCurrentHP(), stats.getHp()) + String.format(" (%s/%s)", stats.getCurrentHP(), stats.getHp()), false)
+                                .addField("Current Stamina", getProgressBar(stats.getCurrentStamina(), stats.getStamina()) + String.format(" (%s/%s)", stats.getCurrentStamina(), stats.getStamina()), false)
+                                .addField("Fly", String.valueOf(pet.getStats().isFly()), true)
+                                .addField("Venom", String.valueOf(pet.getStats().isVenom()), true)
+                                .addField("Inventory", pet.getData().getInventory().toString(), false)
+                                .setColor(pet.getData().getColor())
+                                .build()
+                ).queue();
+            }
+        });
+
+        cr.registerAlias("pet", "petstats");
+    }
+
+    @Subscribe
+    public void petActions(CommandRegistry cr) {
+        TreeCommand petActionCommand = (TreeCommand) cr.register("petactions", new TreeCommand(Category.PETS) {
+            @Override
+            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+                return new SubCommand() {
+                    @Override
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        //List all what you can do with a pet here...
+                    }
+                };
+            }
+        });
+
+        //Incubate new pet.
+        petActionCommand.addSubCommand("incubate", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+
+            }
+        });
+
+        //List your pets.
+        petActionCommand.addSubCommand("ls", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+
+            }
+        });
+
+        //Yes. Exactly. Can increase affection. Don't overdo it though!
+        petActionCommand.addSubCommand("pet", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+
+            }
+        });
+
+        //Apply effect to pet.
+        petActionCommand.addSubCommand("effect", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+
+            }
+        });
+
+        //Upgrade stats: requires materials and luck.
+        petActionCommand.addSubCommand("upgrade", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+
+            }
+        });
+
+        //Not aplicable to fire-type pets.
+        petActionCommand.addSubCommand("feed", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+
+            }
+        });
+
+        //Only for water-type pets.
+        petActionCommand.addSubCommand("hydrate", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+
+            }
+        });
+    }
+
+    @Subscribe
+    public void battle(CommandRegistry cr) {
+        cr.register("battle", new SimpleCommand(Category.PETS) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
 
             }
         });
+    }
 
-        cr.registerAlias("pet", "petstats");
+    private static String getProgressBar(long now, long total) {
+        int activeBlocks = (int) ((float) now / total * TOTAL_BLOCKS);
+        StringBuilder builder = new StringBuilder();
+        for(int i = 0; i < TOTAL_BLOCKS; i++)
+            builder.append(activeBlocks == i ? BLOCK_ACTIVE : BLOCK_INACTIVE);
+
+        return builder.append(BLOCK_INACTIVE).toString();
     }
 }

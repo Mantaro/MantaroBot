@@ -25,38 +25,54 @@ import java.beans.ConstructorProperties;
 @Getter
 @Setter
 public class Pet {
-    public String owner;
+    private String owner;
 
-    public ImageType imagePath; //Choose from different pre-picked images. Configurable
-    public String name; //Only letters.
-    public PetStats stats;
+    private ImageType image; //Choose from different pre-picked images. Configurable
+    private String name; //Only letters.
+    private PetStats stats;
+    private PetStats.Type element;
 
-    public long epochCreatedAt;
-    public long age;
-    public long tier; //Calculated between 1 to 20 according to current pet stats.
-    public long tradePrice; //Calculated using stats + tier.
+    private long epochCreatedAt;
+    private long age;
+    private long tier; //Calculated between 1 to 20 according to current pet stats.
+    private long tradePrice; //Calculated using stats + tier.
+
+    private PetData data;
 
     @JsonCreator
-    @ConstructorProperties({"owner", "name", "stats", "age"})
-    public Pet(String owner, String name, PetStats stats, long age) {
+    @ConstructorProperties({"owner", "name", "stats", "data", "element", "age"})
+    public Pet(String owner, String name, PetStats stats, PetData data, PetStats.Type element, long age) {
         this.owner = owner;
         this.name = name;
         this.stats = stats;
+        this.data = data;
+        this.element = element;
         this.age = age;
     }
 
-    public static Pet create(String owner, String name) {
-        Pet pet = new Pet(owner, name, new PetStats(), 1);
+    public static Pet create(String owner, String name, PetStats.Type element) {
+        Pet pet = new Pet(owner, name, new PetStats(), new PetData(), element, 1);
         pet.setEpochCreatedAt(System.currentTimeMillis());
         return pet;
     }
 
     public Pet changeImage(ImageType type) {
-        this.imagePath = type;
+        this.image = type;
         return this;
     }
 
-    protected enum ImageType {
-        //TODO: come up with pet types
+    //TODO
+    public long calculateTier() {
+        return 1;
+    }
+
+    public enum ImageType {
+        SPACESHIP("");
+
+        @Getter
+        public String image;
+        ImageType(String image) {
+            this.image = image;
+        }
     }
 }

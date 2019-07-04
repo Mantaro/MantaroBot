@@ -25,9 +25,7 @@ import net.kodehawa.mantarobot.commands.currency.pets.Pet;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Data
 public class PlayerData {
@@ -51,7 +49,7 @@ public class PlayerData {
     private PotionEffect activeBuff;
     private long waifuCachedValue;
     private List<ProfileComponent> profileComponents = new LinkedList<>();
-    private List<Pet> profilePets = new LinkedList<>();
+    private Map<String, Pet> profilePets = new HashMap<>();
 
     @JsonIgnore
     //LEGACY SUPPORT
