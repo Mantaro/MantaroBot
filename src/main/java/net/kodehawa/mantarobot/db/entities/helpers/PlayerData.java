@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
+import net.kodehawa.mantarobot.commands.currency.pets.Pet;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
 
@@ -50,6 +51,7 @@ public class PlayerData {
     private PotionEffect activeBuff;
     private long waifuCachedValue;
     private List<ProfileComponent> profileComponents = new LinkedList<>();
+    private List<Pet> profilePets = new LinkedList<>();
 
     @JsonIgnore
     //LEGACY SUPPORT
