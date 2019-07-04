@@ -46,8 +46,8 @@ public class PetStats {
     private double staminaRecoveryMult = 1.14;
 
     //Current battle stats
-    private long currentStamina = stamina; //Unless this changes on battle, should remain equal.
-    private long currentHP = hp; //Unless this changes in battle, should remain equal.
+    private long currentStamina = getStamina(); //Unless this changes on battle, should remain equal.
+    private long currentHP = getHp(); //Unless this changes in battle, should remain equal.
     private boolean elementAffinity;
     private boolean elementBoost;
     private boolean elementQualification;

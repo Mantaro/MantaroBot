@@ -24,5 +24,6 @@ import java.awt.*;
 @Getter
 @Setter
 public class PetData {
-    private Color color = Color.PINK; //Defaults to pink
+    //private Color color = Color.PINK; //Defaults to pink
+    private String test;
 }

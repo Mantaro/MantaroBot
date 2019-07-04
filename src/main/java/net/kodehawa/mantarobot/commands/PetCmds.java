@@ -41,15 +41,21 @@ import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.awt.*;
 import java.security.SecureRandom;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Module
 public class PetCmds {
     private final static String BLOCK_INACTIVE = "\u25AC";
-    private final static String BLOCK_ACTIVE = "\uD83D\uDD18";
-    private static final int TOTAL_BLOCKS = 10;
+    private final static String BLOCK_ACTIVE = "\u2588";
+    private static final int TOTAL_BLOCKS = 5;
 
     @Subscribe
     public void pet(CommandRegistry cr) {
@@ -89,31 +95,37 @@ public class PetCmds {
                 Player player = db.getPlayer(userId);
                 PlayerData playerData = player.getData();
 
-                Pet pet = playerData.getProfilePets().get(petName.toLowerCase());
+                Pet pet = playerData.getProfilePets().get(petName);
                 if(pet == null) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.pet.not_found"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 final PetStats stats = pet.getStats();
+                DateTimeFormatter formatter =
+                        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
+                                .withLocale(Locale.UK)
+                                .withZone(ZoneId.systemDefault());
 
                 //This is a placeholder to test stuff. Mostly how it'll look on release though.
                 event.getChannel().sendMessage(
                         new EmbedBuilder()
-                                .setTitle(String.format("%s Pet Overview and Statistics", pet.getName()))
-                                .setThumbnail(pet.getImage().getImage())
+                                .setTitle("Pet Overview and Statistics")
+                                //change to pet image when i actually have it
+                                .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
                                 .setDescription(
+                                        Utils.prettyDisplay("Name", pet.getName()) + "\n" +
                                         Utils.prettyDisplay("Tier", String.valueOf(pet.calculateTier())) + "\n" +
                                         // ------ Change to translatable when I have the translation tables ready for this
                                         Utils.prettyDisplay("Element", pet.getElement().getReadable()) + "\n" +
                                         Utils.prettyDisplay("Owner", MantaroBot.getInstance().getUserById(pet.getOwner()).getAsTag())  + "\n" +
-                                        Utils.prettyDisplay("Created At", String.valueOf(pet.getEpochCreatedAt()))
+                                        Utils.prettyDisplay("Created At", formatter.format(Instant.ofEpochMilli(pet.getEpochCreatedAt())))
                                 )
-                                .addField("Current HP", getProgressBar(stats.getCurrentHP(), stats.getHp()) + String.format(" (%s/%s)", stats.getCurrentHP(), stats.getHp()), false)
-                                .addField("Current Stamina", getProgressBar(stats.getCurrentStamina(), stats.getStamina()) + String.format(" (%s/%s)", stats.getCurrentStamina(), stats.getStamina()), false)
+                                .addField("Current HP", getProgressBar(stats.getCurrentHP(), stats.getHp()) + String.format(" (%s/%s)", stats.getCurrentHP(), stats.getHp()), true)
+                                .addField("Current Stamina", getProgressBar(stats.getCurrentStamina(), stats.getStamina()) + String.format(" (%s/%s)", stats.getCurrentStamina(), stats.getStamina()), true)
                                 .addField("Fly", String.valueOf(pet.getStats().isFly()), true)
                                 .addField("Venom", String.valueOf(pet.getStats().isVenom()), true)
-                                .setColor(pet.getData().getColor())
+                                .setColor(Color.PINK)
                                 .build()
                 ).queue();
             }
