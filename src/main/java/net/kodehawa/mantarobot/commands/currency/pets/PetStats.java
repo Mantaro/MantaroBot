@@ -27,7 +27,8 @@ public class PetStats {
     private long stamina;
     private long hp;
     private Type element;
-
+    private boolean fly;
+    private boolean venom;
 
     //Idle buffs
     private long idleRecoveryCoef;
@@ -38,8 +39,8 @@ public class PetStats {
     private long battleStaminaRecoveryCoef;
 
     //Idle and battle multipliers
-    private long battleRecoveryMult;
-    private long battleStaminaRecoveryMult;
+    private long recoveryMult;
+    private long staminaRecoveryMult;
 
     //Current battle stats
     private long currentStamina;

@@ -17,17 +17,24 @@
 package net.kodehawa.mantarobot.commands.currency.pets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.beans.ConstructorProperties;
 
+@Getter
+@Setter
 public class Pet {
     public String owner;
 
-    public String imagePath; //Choose from different pre-picked images. Configurable
+    public ImageType imagePath; //Choose from different pre-picked images. Configurable
     public String name; //Only letters.
     public PetStats stats;
 
+    public long epochCreatedAt;
     public long age;
+    public long tier; //Calculated between 1 to 20 according to current pet stats.
+    public long tradePrice; //Calculated using stats + tier.
 
     @JsonCreator
     @ConstructorProperties({"owner", "name", "stats", "age"})
@@ -36,5 +43,20 @@ public class Pet {
         this.name = name;
         this.stats = stats;
         this.age = age;
+    }
+
+    public static Pet create(String owner, String name) {
+        Pet pet = new Pet(owner, name, new PetStats(), 1);
+        pet.setEpochCreatedAt(System.currentTimeMillis());
+        return pet;
+    }
+
+    public Pet changeImage(ImageType type) {
+        this.imagePath = type;
+        return this;
+    }
+
+    protected enum ImageType {
+        //TODO: come up with pet types
     }
 }
