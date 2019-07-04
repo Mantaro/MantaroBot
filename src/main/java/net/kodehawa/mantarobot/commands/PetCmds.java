@@ -123,8 +123,8 @@ public class PetCmds {
     }
 
     @Subscribe
-    public void petActions(CommandRegistry cr) {
-        TreeCommand petActionCommand = (TreeCommand) cr.register("petactions", new TreeCommand(Category.PETS) {
+    public void petAction(CommandRegistry cr) {
+        TreeCommand petActionCommand = (TreeCommand) cr.register("petaction", new TreeCommand(Category.PETS) {
             @Override
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
