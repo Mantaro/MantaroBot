@@ -21,6 +21,7 @@ import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.pets.Pet;
 import net.kodehawa.mantarobot.commands.currency.pets.PetStats;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -38,6 +39,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -135,9 +137,48 @@ public class PetCmds {
 
         //Incubate new pet.
         petActionCommand.addSubCommand("incubate", new SubCommand() {
+            SecureRandom random = new SecureRandom();
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                ManagedDatabase managedDatabase = MantaroData.db();
+                Player player = managedDatabase.getPlayer(event.getAuthor());
+                PlayerData playerData = player.getData();
 
+                String name;
+
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.no_name"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(!content.matches("^[a-z]+$")) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.only_letters"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                name = content;
+
+                if(!player.getInventory().containsItem(Items.INCUBATOR_EGG)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.no_egg"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(playerData.getPetSlots() < playerData.getProfilePets().size() + 1) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.not_enough_slots"), EmoteReference.ERROR, playerData.getPetSlots(), playerData.getProfilePets().size()).queue();
+                    return;
+                }
+
+                long moneyNeeded = Math.max(70, random.nextInt(1000));
+                if(player.getMoney() < moneyNeeded) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.no_money"), EmoteReference.ERROR, moneyNeeded, player.getMoney()).queue();
+                    return;
+                }
+
+                Pet pet = generatePet(event.getAuthor().getId(), name);
+                playerData.getProfilePets().put(name, pet);
+
+                event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.success"), EmoteReference.POPPER).queue();
             }
         });
 
@@ -207,5 +248,23 @@ public class PetCmds {
             builder.append(activeBlocks == i ? BLOCK_ACTIVE : BLOCK_INACTIVE);
 
         return builder.append(BLOCK_INACTIVE).toString();
+    }
+
+    private Pet generatePet(String owner, String name) {
+        SecureRandom random = new SecureRandom();
+
+        //Get random element.
+        Pet pet = Pet.create(owner, name, PetStats.Type.values()[random.nextInt(PetStats.Type.values().length)]);
+        PetStats petStats = pet.getStats();
+
+        petStats.setHp(Math.max(20, random.nextInt(150)));
+        petStats.setStamina(Math.max(20, random.nextInt(140)));
+        petStats.setAffection(Math.max(15, random.nextInt(100)));
+
+        //Can't have both a venom-type and fly-type pet: would be broken
+        petStats.setVenom(random.nextBoolean());
+        petStats.setFly(!petStats.isVenom() && random.nextBoolean());
+
+        return pet;
     }
 }

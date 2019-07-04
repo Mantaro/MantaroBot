@@ -49,6 +49,8 @@ public class PlayerData {
     private PotionEffect activeBuff;
     private long waifuCachedValue;
     private List<ProfileComponent> profileComponents = new LinkedList<>();
+
+    private long petSlots = 4;
     private Map<String, Pet> profilePets = new HashMap<>();
 
     @JsonIgnore

@@ -24,12 +24,12 @@ import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 @Setter
 public class PetStats {
     //Global statistics
-    private long stamina = 100;
-    private long hp = 100;
-    private boolean fly = false;
-    private boolean venom = false;
+    private long stamina;
+    private long hp;
+    private boolean fly;
+    private boolean venom;
 
-    private long affection = 50;
+    private long affection;
 
     //Idle buffs
     private double idleRecoveryCoef = 0.1;
