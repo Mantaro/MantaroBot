@@ -19,8 +19,13 @@ package net.kodehawa.mantarobot.commands.currency.pets;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
 import lombok.Setter;
+import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 
 import java.beans.ConstructorProperties;
+import java.util.HashMap;
+import java.util.Map;
+
+import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 
 @Getter
 @Setter
@@ -38,20 +43,22 @@ public class Pet {
     private long tradePrice; //Calculated using stats + tier.
 
     private PetData data;
+    private final transient Inventory inventory = new Inventory();
 
     @JsonCreator
     @ConstructorProperties({"owner", "name", "stats", "data", "element", "age"})
-    public Pet(String owner, String name, PetStats stats, PetData data, PetStats.Type element, long age) {
+    public Pet(String owner, String name, PetStats stats, PetData data, PetStats.Type element, Map<Integer, Integer> inventory, long age) {
         this.owner = owner;
         this.name = name;
         this.stats = stats;
         this.data = data;
         this.element = element;
         this.age = age;
+        this.inventory.replaceWith(unserialize(inventory));
     }
 
     public static Pet create(String owner, String name, PetStats.Type element) {
-        Pet pet = new Pet(owner, name, new PetStats(), new PetData(), element, 1);
+        Pet pet = new Pet(owner, name, new PetStats(), new PetData(), element, new HashMap<>(), 1);
         pet.setEpochCreatedAt(System.currentTimeMillis());
         return pet;
     }

@@ -22,6 +22,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.pets.Pet;
 import net.kodehawa.mantarobot.commands.currency.pets.PetStats;
@@ -112,7 +113,7 @@ public class PetCmds {
                                 .addField("Current Stamina", getProgressBar(stats.getCurrentStamina(), stats.getStamina()) + String.format(" (%s/%s)", stats.getCurrentStamina(), stats.getStamina()), false)
                                 .addField("Fly", String.valueOf(pet.getStats().isFly()), true)
                                 .addField("Venom", String.valueOf(pet.getStats().isVenom()), true)
-                                .addField("Inventory", pet.getData().getInventory().toString(), false)
+                                .addField("Inventory", pet.getInventory().toString(), false)
                                 .setColor(pet.getData().getColor())
                                 .build()
                 ).queue();
@@ -153,12 +154,13 @@ public class PetCmds {
                     return;
                 }
 
-                if(!content.matches("^[a-z]+$")) {
+                System.out.println(content);
+                if(!content.trim().matches("^[A-Za-z]+$")) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.only_letters"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                name = content;
+                name = content.trim();
 
                 if(!player.getInventory().containsItem(Items.INCUBATOR_EGG)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.no_egg"), EmoteReference.ERROR).queue();
@@ -178,6 +180,9 @@ public class PetCmds {
 
                 Pet pet = generatePet(event.getAuthor().getId(), name);
                 playerData.getProfilePets().put(name, pet);
+
+                player.getInventory().process(new ItemStack(Items.INCUBATOR_EGG, -1));
+                player.save();
 
                 event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.success"), EmoteReference.POPPER, name).queue();
             }

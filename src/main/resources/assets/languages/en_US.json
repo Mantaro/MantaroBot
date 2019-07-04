@@ -1166,7 +1166,7 @@
     "pet": {
       "no_content": "%1$sYou need to specify the pet to look up the stats of (and the user you want to check the pet from, if it's not yours. Make sure to quote the name on this case!).",
       "not_specified": "%1$sYou didn't specify the pet name.",
-      "not_found": "I didn't find a pet with the provided name."
+      "not_found": "%1$sI didn't find a pet with the provided name."
     },
     "petactions": {
       "a": "b",

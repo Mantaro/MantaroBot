@@ -18,13 +18,11 @@ package net.kodehawa.mantarobot.commands.currency.pets;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 
 import java.awt.*;
 
 @Getter
 @Setter
 public class PetData {
-    private Inventory inventory = new Inventory();
     private Color color = Color.PINK; //Defaults to pink
 }
