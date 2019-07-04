@@ -17,15 +17,11 @@
 package net.kodehawa.mantarobot.commands.currency.pets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 
 import java.beans.ConstructorProperties;
-import java.util.HashMap;
-import java.util.Map;
-
-import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 
 @Getter
 @Setter
@@ -35,7 +31,7 @@ public class Pet {
     private ImageType image; //Choose from different pre-picked images. Configurable
     private String name; //Only letters.
     private PetStats stats;
-    private PetStats.Type element;
+    private Type element;
 
     private long epochCreatedAt;
     private long age;
@@ -43,22 +39,20 @@ public class Pet {
     private long tradePrice; //Calculated using stats + tier.
 
     private PetData data;
-    private final transient Inventory inventory = new Inventory();
 
     @JsonCreator
-    @ConstructorProperties({"owner", "name", "stats", "data", "element", "age"})
-    public Pet(String owner, String name, PetStats stats, PetData data, PetStats.Type element, Map<Integer, Integer> inventory, long age) {
+    @ConstructorProperties({"owner", "name", "stats", "data", "element", "inventory", "age"})
+    public Pet(@JsonProperty("owner") String owner, @JsonProperty("name") String name, @JsonProperty("stats") PetStats stats, @JsonProperty("data") PetData data, @JsonProperty("element") Type element, @JsonProperty("age")  long age) {
         this.owner = owner;
         this.name = name;
         this.stats = stats;
         this.data = data;
         this.element = element;
         this.age = age;
-        this.inventory.replaceWith(unserialize(inventory));
     }
 
-    public static Pet create(String owner, String name, PetStats.Type element) {
-        Pet pet = new Pet(owner, name, new PetStats(), new PetData(), element, new HashMap<>(), 1);
+    public static Pet create(String owner, String name, Type element) {
+        Pet pet = new Pet(owner, name, new PetStats(), new PetData(), element, 1);
         pet.setEpochCreatedAt(System.currentTimeMillis());
         return pet;
     }
@@ -80,6 +74,18 @@ public class Pet {
         public String image;
         ImageType(String image) {
             this.image = image;
+        }
+    }
+
+    @Getter
+    public enum Type {
+        EARTH("Earth", "commands.pet.types.earth"), WATER("Water", "commands.pet.types.water"), FIRE("Fire", "commands.pet.types.fire");
+
+        String readable;
+        String translatable;
+        Type(String readable, String translatable) {
+            this.readable = readable;
+            this.translatable = translatable;
         }
     }
 }

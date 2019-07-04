@@ -113,7 +113,6 @@ public class PetCmds {
                                 .addField("Current Stamina", getProgressBar(stats.getCurrentStamina(), stats.getStamina()) + String.format(" (%s/%s)", stats.getCurrentStamina(), stats.getStamina()), false)
                                 .addField("Fly", String.valueOf(pet.getStats().isFly()), true)
                                 .addField("Venom", String.valueOf(pet.getStats().isVenom()), true)
-                                .addField("Inventory", pet.getInventory().toString(), false)
                                 .setColor(pet.getData().getColor())
                                 .build()
                 ).queue();
@@ -260,7 +259,7 @@ public class PetCmds {
         SecureRandom random = new SecureRandom();
 
         //Get random element.
-        Pet pet = Pet.create(owner, name, PetStats.Type.values()[random.nextInt(PetStats.Type.values().length)]);
+        Pet pet = Pet.create(owner, name, Pet.Type.values()[random.nextInt(Pet.Type.values().length)]);
         PetStats petStats = pet.getStats();
 
         petStats.setHp(Math.max(20, random.nextInt(150)));

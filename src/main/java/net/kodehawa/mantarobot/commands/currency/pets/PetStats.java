@@ -59,16 +59,4 @@ public class PetStats {
 
     private long epochLastBattle;
     private long epochLastIdle;
-
-    @Getter
-    public enum Type {
-        EARTH("Earth", "commands.pet.types.earth"), WATER("Water", "commands.pet.types.water"), FIRE("Fire", "commands.pet.types.fire");
-
-        String readable;
-        String translatable;
-        Type(String readable, String translatable) {
-            this.readable = readable;
-            this.translatable = translatable;
-        }
-    }
 }
