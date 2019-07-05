@@ -394,6 +394,11 @@ public class ItemCmds {
                             return;
                         }
 
+                        if(!playerInventory.containsItem(item)) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_main_item"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
                         if(!playerInventory.containsItem(wrench)) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_tool"), EmoteReference.ERROR, Items.WRENCH.getName()).queue();
                             return;
@@ -411,6 +416,7 @@ public class ItemCmds {
                         Broken brokenItem = (Broken) item;
                         Item repairedItem = Items.fromId(brokenItem.getMainItem());
                         long repairCost = repairedItem.getValue() / 3;
+
 
                         long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
                         if(playerMoney < repairCost) {
