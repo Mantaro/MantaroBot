@@ -53,8 +53,8 @@ import java.util.stream.Collectors;
 
 @Module
 public class PetCmds {
-    private final static String BLOCK_INACTIVE = "\u25AC";
-    private final static String BLOCK_ACTIVE = "\u2588";
+    private final static String BLOCK_INACTIVE = "\u25A1";
+    private final static String BLOCK_ACTIVE = "\u25A0";
     private static final int TOTAL_BLOCKS = 5;
 
     @Subscribe
@@ -165,7 +165,6 @@ public class PetCmds {
                     return;
                 }
 
-                System.out.println(content);
                 if(!content.trim().matches("^[A-Za-z]+$")) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.only_letters"), EmoteReference.ERROR).queue();
                     return;
