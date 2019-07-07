@@ -152,7 +152,7 @@ public class PetCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.general"), EmoteReference.TALKING).queue();
+                        event.getChannel().sendMessageFormat(EmoteReference.TALKING + languageContext.get("commands.petactions.general"), EmoteReference.TALKING).queue();
                     }
                 };
             }
