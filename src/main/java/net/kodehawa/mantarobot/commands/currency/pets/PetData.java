@@ -22,7 +22,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PetData {
+    //lol
+    private String test;
     private String id; //Why isn't this on the main class?
+    private long xp;
+    private long level;
     private double affection;
     private long timesPetted;
     private long timesCollected;

@@ -17,11 +17,13 @@
 package net.kodehawa.mantarobot.commands.currency.pets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.beans.ConstructorProperties;
+import java.util.concurrent.TimeUnit;
 
 @Getter
 @Setter
@@ -88,5 +90,14 @@ public class Pet {
             this.readable = readable;
             this.translatable = translatable;
         }
+    }
+
+    public long getAge() {
+        return System.currentTimeMillis() - getEpochCreatedAt();
+    }
+
+    @JsonIgnore
+    public long getAgeDays() {
+        return TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - getEpochCreatedAt());
     }
 }

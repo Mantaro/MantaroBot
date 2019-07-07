@@ -20,7 +20,9 @@ import com.google.common.eventbus.Subscribe;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -42,6 +44,7 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -52,10 +55,8 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Module
@@ -117,7 +118,7 @@ public class PetCmds {
                 //This is a placeholder to test stuff. Mostly how it'll look on release though.
                 event.getChannel().sendMessage(
                         new EmbedBuilder()
-                                .setTitle("Pet Overview and Statistics")
+                                .setAuthor("Pet Overview and Statistics", null, event.getAuthor().getEffectiveAvatarUrl())
                                 //change to pet image when i actually have it
                                 .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
                                 .setDescription(
@@ -151,7 +152,7 @@ public class PetCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        //List all what you can do with a pet here...
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.general"), EmoteReference.TALKING).queue();
                     }
                 };
             }
@@ -309,7 +310,38 @@ public class PetCmds {
                 PlayerData playerData = player.getData();
 
                 Map<String, Pet> playerPets = playerData.getProfilePets();
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setAuthor("Pet List", null, event.getAuthor().getEffectiveAvatarUrl())
+                        .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
+                        .setColor(Color.DARK_GRAY)
+                        .setFooter("Pet slots: " + playerData.getPetSlots() + ", Used: " + playerData.getProfilePets().size(), null);
 
+                List<MessageEmbed.Field> fields = new LinkedList<>();
+
+                playerPets.forEach((key, pet) -> fields.add(new MessageEmbed.Field(pet.getName(),
+                        Utils.prettyDisplay("Tier", String.valueOf(pet.getTier())) + "\n" +
+                                Utils.prettyDisplay("XP", String.format("%s (Level %s)", pet.getData().getXp(), pet.getData().getLevel()) + "\n" +
+                                Utils.prettyDisplay("Element", pet.getElement().getReadable()) + "\n" +
+                                Utils.prettyDisplay("Age", pet.getAgeDays() + " days") + "\n"
+                        ),
+                        true)
+                ));
+
+                List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(8, fields);
+                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+
+                builder.setDescription("**Total pages: " + splitFields.size() + "**\nUse the message reaction to move between pages.\n\n" +
+                        EmoteReference.TALKING + " This is a list of the pets you currently own.\n" +
+                                "Pets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets" +
+                                " from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to " +
+                                "incubate a pet, which will require you to give it a name."
+                        );
+
+                if(hasReactionPerms) {
+                    DiscordUtils.list(event, 120, false, builder, splitFields);
+                } else {
+                    DiscordUtils.listText(event, 120, false, builder, splitFields);
+                }
             }
         });
 

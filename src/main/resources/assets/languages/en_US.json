@@ -1169,14 +1169,14 @@
       "not_found": "%1$sI didn't find a pet with the provided name."
     },
     "petactions": {
-      "a": "b",
+      "general": "Pets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.\n\nPets can fight in PetBattle, which is a turn-based (ish) fight system based in a one-turn strategy, with an emergency turn on the half-turn if the HP difference between the pets it's too different, which would allow you to change your strategy.\n\nFor competition, you need to use different skills, which will cater to different elements and types. You chose them at the start of your turn or half-turn.\nSkills are the main weapon you have! But, pets can also have a main weapon equipped, based on their type and affection. The weapon shop is available at `~>petaction shop` and you can equip it using `~>petaction weapon`, weapons *do not* have damage multiplier by themselves, but they can improve the effectiveness of some attacks and skills, as the result of this, there are no melee weapons, as all damage on PetBattle is done based on their will, not on their actual life.\n\nDo `~>help petaction` to get a list of the commands you can use with your pet.",
       "incubate": {
         "no_name": "%1$sYou need to specify a name to give to your pet.",
         "only_letters": "%1$sThe name can only contain letters from a to z.",
         "no_egg": "%1$sYou don't have an incubator egg on your inventory.",
         "not_enough_slots": "%1$sYou don't have enough pet slots left. (Total: %2$s, Used: %3$s)",
         "no_money": "%1$sYou don't have enough money to incubate this egg. (Required: %2$s)",
-        "success": "%1$sSuccessfully incubated your pet egg! Your new pet %2$s ´(ID: %3$s)´ is now ready. Check `~>pet <name>` to check pet stats."
+        "success": "%1$sSuccessfully incubated your pet egg! Your new pet %2$s `(ID: %3$s)` is now ready. Check `~>pet <name>` to check pet stats."
       }
     },
     "invite": {
