@@ -1176,7 +1176,7 @@
         "no_egg": "%1$sYou don't have an incubator egg on your inventory.",
         "not_enough_slots": "%1$sYou don't have enough pet slots left. (Total: %2$s, Used: %3$s)",
         "no_money": "%1$sYou don't have enough money to incubate this egg. (Required: %2$s)",
-        "success": "%1$sSuccessfully incubated your egg! Your pet *%2$s* is now ready. Check `~>pet <name>` to check pet stats."
+        "success": "%1$sSuccessfully incubated your pet egg! Your new pet %2$s ´(ID: %3$s)´ is now ready. Check `~>pet <name>` to check pet stats."
       }
     },
     "invite": {

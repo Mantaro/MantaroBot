@@ -68,7 +68,8 @@ public class Pet {
     }
 
     public enum ImageType {
-        SPACESHIP("https://microlancer.lancerassets.com/v2/services/a9/bbc440b1c811e7a8d3838d53ec3876/large_ALARIC26---WIZARD-resize-SHD.jpg");
+        //hello sukeban studios (https://va11halla.fandom.com/wiki/Lilim)
+        SPACESHIP(""), CAT(""), DOG(""), ROBOT(""), LILIM(""), CATGIRL("");
 
         @Getter
         public String image;

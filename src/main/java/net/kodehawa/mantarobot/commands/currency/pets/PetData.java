@@ -19,11 +19,12 @@ package net.kodehawa.mantarobot.commands.currency.pets;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.awt.*;
-
 @Getter
 @Setter
 public class PetData {
-    //private Color color = Color.PINK; //Defaults to pink
-    private String test;
+    private String id; //Why isn't this on the main class?
+    private double affection;
+    private long timesPetted;
+    private long timesCollected;
+    private long battles;
 }

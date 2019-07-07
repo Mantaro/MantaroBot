@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -27,6 +28,8 @@ import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.pets.Pet;
 import net.kodehawa.mantarobot.commands.currency.pets.PetStats;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -36,8 +39,10 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -49,6 +54,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Module
@@ -121,10 +128,12 @@ public class PetCmds {
                                         Utils.prettyDisplay("Owner", MantaroBot.getInstance().getUserById(pet.getOwner()).getAsTag())  + "\n" +
                                         Utils.prettyDisplay("Created At", formatter.format(Instant.ofEpochMilli(pet.getEpochCreatedAt())))
                                 )
+                                .addField("Affection", getProgressBar(stats.getAffection(), 50) + String.format(" (%s/%s)", stats.getAffection(), 50), true)
                                 .addField("Current HP", getProgressBar(stats.getCurrentHP(), stats.getHp()) + String.format(" (%s/%s)", stats.getCurrentHP(), stats.getHp()), true)
                                 .addField("Current Stamina", getProgressBar(stats.getCurrentStamina(), stats.getStamina()) + String.format(" (%s/%s)", stats.getCurrentStamina(), stats.getStamina()), true)
                                 .addField("Fly", String.valueOf(pet.getStats().isFly()), true)
                                 .addField("Venom", String.valueOf(pet.getStats().isVenom()), true)
+                                .setFooter("Pet ID: " + pet.getData().getId(), null)
                                 .setColor(Color.PINK)
                                 .build()
                 ).queue();
@@ -182,6 +191,11 @@ public class PetCmds {
                     return;
                 }
 
+                if(playerData.getProfilePets().containsKey(name)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.already_exists"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 long moneyNeeded = Math.max(70, random.nextInt(1000));
                 if(player.getMoney() < moneyNeeded) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.no_money"), EmoteReference.ERROR, moneyNeeded).queue();
@@ -194,7 +208,95 @@ public class PetCmds {
                 player.getInventory().process(new ItemStack(Items.INCUBATOR_EGG, -1));
                 player.save();
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.success"), EmoteReference.POPPER, name).queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.success"), EmoteReference.POPPER, name, pet.getData().getId()).queue();
+            }
+        });
+
+        petActionCommand.addSubCommand("rename", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                ManagedDatabase managedDatabase = MantaroData.db();
+                Player player = managedDatabase.getPlayer(event.getAuthor());
+                DBGuild guildData = managedDatabase.getGuild(event.getGuild());
+                PlayerData playerData = player.getData();
+
+                Map<String, Pet> playerPets = playerData.getProfilePets();
+                String[] args = StringUtils.advancedSplitArgs(content, -1);
+                if (args.length < 2) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.rename.not_enough_args"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                String originalName = args[0];
+                String rename = args[1];
+
+                if (!playerPets.containsKey(originalName)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.rename.no_pet"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if (playerPets.containsKey(rename)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.rename.new_name_exists"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(player.getMoney() < 500) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.rename.not_enough_money"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 30, ie -> {
+                    //Ignore all messages from anyone that isn't the user we already proposed to. Waiting for confirmation...
+                    if(!ie.getAuthor().getId().equals(event.getAuthor().getId()))
+                        return Operation.IGNORED;
+
+                    //Replace prefix because people seem to think you have to add the prefix before saying yes.
+                    String message = ie.getMessage().getContentRaw();
+                    for(String s : MantaroData.config().get().prefix) {
+                        if(message.toLowerCase().startsWith(s)) {
+                            message = message.substring(s.length());
+                        }
+                    }
+
+                    String guildCustomPrefix = guildData.getData().getGuildCustomPrefix();
+                    if(guildCustomPrefix != null && !guildCustomPrefix.isEmpty() && message.toLowerCase().startsWith(guildCustomPrefix)) {
+                        message = message.substring(guildCustomPrefix.length());
+                    }
+
+                    if(message.equalsIgnoreCase("yes")) {
+                        Player player2 = managedDatabase.getPlayer(event.getAuthor());
+                        PlayerData playerData2 = player.getData();
+                        Map<String, Pet> playerPetsConfirmed = playerData2.getProfilePets();
+                        if (!playerPetsConfirmed.containsKey(originalName)) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.rename.no_pet"), EmoteReference.ERROR).queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        if (playerPetsConfirmed.containsKey(rename)) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.rename.new_name_exists"), EmoteReference.ERROR).queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        if(player2.getMoney() < 500) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.rename.not_enough_money"), EmoteReference.ERROR).queue();
+                            return Operation.COMPLETED;
+                        }
+
+                        Pet renamedPet = playerData2.getProfilePets().remove(originalName);
+                        playerData2.getProfilePets().put(rename, renamedPet);
+                        player2.removeMoney(500);
+
+                        player2.save();
+                        new MessageBuilder().setContent(String.format(languageContext.get("commands.petactions.rename.success"), EmoteReference.ERROR, originalName, rename, renamedPet.getData().getId()))
+                                .stripMentions(event.getJDA())
+                                .sendTo(event.getChannel())
+                                .queue();
+
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                });
             }
         });
 
@@ -202,6 +304,11 @@ public class PetCmds {
         petActionCommand.addSubCommand("ls", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                ManagedDatabase managedDatabase = MantaroData.db();
+                Player player = managedDatabase.getPlayer(event.getAuthor());
+                PlayerData playerData = player.getData();
+
+                Map<String, Pet> playerPets = playerData.getProfilePets();
 
             }
         });
@@ -210,6 +317,9 @@ public class PetCmds {
         petActionCommand.addSubCommand("pet", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                ManagedDatabase managedDatabase = MantaroData.db();
+                Player player = managedDatabase.getPlayer(event.getAuthor());
+                PlayerData playerData = player.getData();
 
             }
         });
@@ -218,6 +328,9 @@ public class PetCmds {
         petActionCommand.addSubCommand("effect", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                ManagedDatabase managedDatabase = MantaroData.db();
+                Player player = managedDatabase.getPlayer(event.getAuthor());
+                PlayerData playerData = player.getData();
 
             }
         });
@@ -226,6 +339,9 @@ public class PetCmds {
         petActionCommand.addSubCommand("upgrade", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                ManagedDatabase managedDatabase = MantaroData.db();
+                Player player = managedDatabase.getPlayer(event.getAuthor());
+                PlayerData playerData = player.getData();
 
             }
         });
@@ -234,6 +350,9 @@ public class PetCmds {
         petActionCommand.addSubCommand("feed", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                ManagedDatabase managedDatabase = MantaroData.db();
+                Player player = managedDatabase.getPlayer(event.getAuthor());
+                PlayerData playerData = player.getData();
 
             }
         });
@@ -242,6 +361,9 @@ public class PetCmds {
         petActionCommand.addSubCommand("hydrate", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                ManagedDatabase managedDatabase = MantaroData.db();
+                Player player = managedDatabase.getPlayer(event.getAuthor());
+                PlayerData playerData = player.getData();
 
             }
         });
@@ -281,6 +403,7 @@ public class PetCmds {
         petStats.setVenom(random.nextBoolean());
         petStats.setFly(!petStats.isVenom() && random.nextBoolean());
 
+        pet.getData().setId(UUID.randomUUID().toString());
         return pet;
     }
 }
