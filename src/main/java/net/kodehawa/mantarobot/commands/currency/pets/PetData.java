@@ -28,6 +28,7 @@ public class PetData {
     private long xp;
     private long level;
     private double affection;
+    private long affectionLevel;
     private long timesPetted;
     private long timesCollected;
     private long battles;

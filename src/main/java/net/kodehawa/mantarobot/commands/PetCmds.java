@@ -28,6 +28,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.pets.Pet;
+import net.kodehawa.mantarobot.commands.currency.pets.PetData;
 import net.kodehawa.mantarobot.commands.currency.pets.PetStats;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -48,8 +49,11 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.RateLimit;
 
 import java.awt.*;
+import java.lang.annotation.ElementType;
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -57,6 +61,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Module
@@ -146,6 +151,24 @@ public class PetCmds {
 
     @Subscribe
     public void petAction(CommandRegistry cr) {
+        IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                .cooldown(20, TimeUnit.SECONDS)
+                .limit(1)
+                .maxCooldown(5, TimeUnit.MINUTES)
+                .premiumAware(false)
+                .prefix("petaction")
+                .pool(MantaroData.getDefaultJedisPool())
+                .build();
+
+        IncreasingRateLimiter petRateLimiter = new IncreasingRateLimiter.Builder()
+                .cooldown(30, TimeUnit.MINUTES)
+                .maxCooldown(1, TimeUnit.HOURS)
+                .limit(1)
+                .premiumAware(false)
+                .prefix("petpet") //owo
+                .pool(MantaroData.getDefaultJedisPool())
+                .build();
+
         TreeCommand petActionCommand = (TreeCommand) cr.register("petaction", new TreeCommand(Category.PETS) {
             @Override
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
@@ -157,6 +180,8 @@ public class PetCmds {
                 };
             }
         });
+
+        petActionCommand.setPredicate(event -> Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, null));
 
         //Incubate new pet.
         petActionCommand.addSubCommand("incubate", new SubCommand() {
@@ -345,6 +370,8 @@ public class PetCmds {
             }
         });
 
+        Random rand = new SecureRandom();
+
         //Yes. Exactly. Can increase affection. Don't overdo it though!
         petActionCommand.addSubCommand("pet", new SubCommand() {
             @Override
@@ -352,6 +379,48 @@ public class PetCmds {
                 ManagedDatabase managedDatabase = MantaroData.db();
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
+
+                String petName = content.trim();
+                Map<String, Pet> playerPets = playerData.getProfilePets();
+
+                if(!playerPets.containsKey(petName)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Pet pet = playerPets.get(petName);
+                PetData data = pet.getData();
+                //Too many pats @ _ @
+                if(!Utils.handleDefaultIncreasingRatelimit(petRateLimiter, data.getId(), event, languageContext, false)) {
+                    return;
+                }
+
+                data.setTimesPetted(data.getTimesPetted() + 1);
+                long affectionIncrease = data.getTimesPetted() / Math.max(10, rand.nextInt(50));
+                data.setAffection(data.getAffection() + affectionIncrease);
+
+                event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.pet"), EmoteReference.HEART, data.getAffection(), data.getTimesPetted()).queue();
+                player.save();
+            }
+        });
+
+        petActionCommand.addSubCommand("train", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                ManagedDatabase managedDatabase = MantaroData.db();
+                Player player = managedDatabase.getPlayer(event.getAuthor());
+                PlayerData playerData = player.getData();
+
+                String petName = content.trim();
+                Map<String, Pet> playerPets = playerData.getProfilePets();
+
+                if(!playerPets.containsKey(petName)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Pet pet = playerPets.get(petName);
+                PetData data = pet.getData();
 
             }
         });
@@ -364,6 +433,18 @@ public class PetCmds {
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
 
+                String petName = content.trim();
+                Map<String, Pet> playerPets = playerData.getProfilePets();
+
+                if(!playerPets.containsKey(petName)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Pet pet = playerPets.get(petName);
+                PetData data = pet.getData();
+
+                //PotionEffect will do?
             }
         });
 
@@ -374,6 +455,18 @@ public class PetCmds {
                 ManagedDatabase managedDatabase = MantaroData.db();
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
+
+                String petName = content.trim();
+                Map<String, Pet> playerPets = playerData.getProfilePets();
+
+                if(!playerPets.containsKey(petName)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Pet pet = playerPets.get(petName);
+                PetData data = pet.getData();
+
 
             }
         });
@@ -386,6 +479,18 @@ public class PetCmds {
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
 
+                String petName = content.trim();
+                Map<String, Pet> playerPets = playerData.getProfilePets();
+
+                if(!playerPets.containsKey(petName)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Pet pet = playerPets.get(petName);
+                PetData data = pet.getData();
+
+                //todo: add pet food store
             }
         });
 
@@ -397,6 +502,23 @@ public class PetCmds {
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
 
+                String petName = content.trim();
+                Map<String, Pet> playerPets = playerData.getProfilePets();
+
+                if(!playerPets.containsKey(petName)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Pet pet = playerPets.get(petName);
+                PetData data = pet.getData();
+
+                if(pet.getElement() != Pet.Type.WATER) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.hydrate.not_water"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                //todo: add water bottle
             }
         });
     }

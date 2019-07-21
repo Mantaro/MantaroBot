@@ -22,6 +22,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -623,13 +624,13 @@ public class Utils {
         return true;
     }
 
-    public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context, boolean spamAware) {
+    public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, String u, GuildMessageReceivedEvent event, I18nContext context, boolean spamAware) {
         if(context == null) {
             //en_US
             context = new I18nContext(null, null);
         }
 
-        RateLimit rateLimit = rateLimiter.limit(u.getId());
+        RateLimit rateLimit = rateLimiter.limit(u);
         if(rateLimit.getTriesLeft() < 1) {
             event.getChannel().sendMessage(
                     String.format(context.get("general.ratelimit.header"),
@@ -638,15 +639,25 @@ public class Utils {
                     + ((rateLimit.getSpamAttempts() > 4  && spamAware) ? context.get("general.ratelimit.spam_2") : "")
             ).queue();
 
-            onRateLimit(u);
+            //Assuming it's an user RL if it can parse a long since we use UUIDs for other RLs.
+            try {
+                Long.parseUnsignedLong(u);
+                User user = MantaroBot.getInstance().getUserById(u);
+                onRateLimit(user);
+            } catch (Exception ignored) { }
+
             return false;
         }
 
         return true;
     }
 
+    public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context, boolean spamAware) {
+        return handleDefaultIncreasingRatelimit(rateLimiter, u.getId(), event, context, spamAware);
+    }
+
     public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context) {
-        return handleDefaultIncreasingRatelimit(rateLimiter, u, event, context, true);
+        return handleDefaultIncreasingRatelimit(rateLimiter, u.getId(), event, context, true);
     }
 
     private static void onRateLimit(User user) {
