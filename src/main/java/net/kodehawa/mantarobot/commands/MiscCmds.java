@@ -47,10 +47,7 @@ import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -210,12 +207,16 @@ public class MiscCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                EmbedBuilder embed = null;
+                EmbedBuilder embed;
                 DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                 Map<String, String> autoroles = dbGuild.getData().getAutoroles();
 
                 boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                List<MessageEmbed.Field> fields = new LinkedList<>();
                 StringBuilder stringBuilder = new StringBuilder();
+                embed = baseEmbed(event, languageContext.get("commands.iam.list.header"))
+                        .setDescription(languageContext.get("commands.iam.list.description"))
+                        .setThumbnail(event.getGuild().getIconUrl());
 
                 if(!hasReactionPerms)
                     stringBuilder.append(languageContext.get("general.text_menu")).append("\n");
@@ -224,27 +225,27 @@ public class MiscCmds {
                     autoroles.forEach((name, roleId) -> {
                         Role role = event.getGuild().getRoleById(roleId);
                         if(role != null) {
-                            stringBuilder.append(languageContext.get("commands.iam.list.name")).append(name).append(languageContext.get("commands.iam.list.role")).append(role.getName()).append("**");
+                            fields.add(new MessageEmbed.Field(name, languageContext.get("commands.iam.list.role") + " `" + role.getName() + "`", false));
                         }
                     });
 
-                    List<String> parts = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH, stringBuilder);
+                    List<List<MessageEmbed.Field>> parts = DiscordUtils.divideFields(6, fields);
                     if(hasReactionPerms) {
-                        DiscordUtils.list(event, 30, false, (current, max) -> baseEmbed(event, languageContext.get("commands.iam.list.header")), parts);
+                        DiscordUtils.list(event, 100, false, embed, parts);
                     } else {
-                        DiscordUtils.listText(event, 30, false, (current, max) -> baseEmbed(event, languageContext.get("commands.iam.list.header")), parts);
+                        DiscordUtils.listText(event, 100, false, embed, parts);
                     }
                 } else {
-                    embed = baseEmbed(event, languageContext.get("commands.iam.list.header"));
-                    embed.setDescription(languageContext.get("commands.iam.list.no_autoroles"));
-                }
+                    embed = baseEmbed(event, languageContext.get("commands.iam.list.header"))
+                            .setThumbnail(event.getGuild().getIconUrl())
+                            .setDescription(languageContext.get("commands.iam.list.no_autoroles"));
 
-                if(embed != null) {
                     event.getChannel().sendMessage(embed.build()).queue();
                 }
             }
         });
 
+        cr.registerAlias("iam", "autoroles");
         iamCommand.createSubCommandAlias("ls", "list");
         iamCommand.createSubCommandAlias("ls", "Is");
     }
