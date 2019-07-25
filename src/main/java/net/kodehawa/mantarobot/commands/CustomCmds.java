@@ -285,7 +285,6 @@ CustomCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(!adminPredicate.test(event)) {
-                    event.getChannel().sendMessage(languageContext.get("commands.custom.admin_only")).queue();
                     return;
                 }
 
@@ -310,7 +309,6 @@ CustomCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(!adminPredicate.test(event)) {
-                    event.getChannel().sendMessage(languageContext.get("commands.custom.admin_only")).queue();
                     return;
                 }
 
@@ -346,7 +344,6 @@ CustomCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(!adminPredicate.test(event)) {
-                    event.getChannel().sendMessage(languageContext.get("commands.custom.admin_only")).queue();
                     return;
                 }
 
@@ -396,7 +393,6 @@ CustomCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(!adminPredicate.test(event)) {
-                    event.getChannel().sendMessage(languageContext.get("commands.custom.admin_only")).queue();
                     return;
                 }
 
@@ -498,7 +494,6 @@ CustomCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(!adminPredicate.test(event)) {
-                    event.getChannel().sendMessage(languageContext.get("commands.custom.admin_only")).queue();
                     return;
                 }
 
@@ -569,7 +564,6 @@ CustomCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(!adminPredicate.test(event)) {
-                    event.getChannel().sendMessage(languageContext.get("commands.custom.admin_only")).queue();
                     return;
                 }
 
@@ -623,7 +617,6 @@ CustomCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(!adminPredicate.test(event)) {
-                    event.getChannel().sendMessage(languageContext.get("commands.custom.admin_only")).queue();
                     return;
                 }
 
@@ -694,7 +687,6 @@ CustomCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 if(!adminPredicate.test(event)) {
-                    event.getChannel().sendMessage(languageContext.get("commands.custom.admin_only")).queue();
                     return;
                 }
 
