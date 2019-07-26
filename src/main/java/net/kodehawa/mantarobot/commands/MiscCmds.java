@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -64,6 +65,10 @@ public class MiscCmds {
     private final Pattern pollOptionSeparator = Pattern.compile(",\\s*");
 
     public static void iamFunction(String autoroleName, GuildMessageReceivedEvent event, I18nContext languageContext) {
+        iamFunction(autoroleName, event, languageContext, null);
+    }
+
+    public static void iamFunction(String autoroleName, GuildMessageReceivedEvent event, I18nContext languageContext, String message) {
         DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
         Map<String, String> autoroles = dbGuild.getData().getAutoroles();
 
@@ -84,7 +89,17 @@ public class MiscCmds {
                     event.getGuild().getController().addSingleRoleToMember(event.getMember(), role)
                             //don't translate the reason!
                             .reason("Auto-assignable roles assigner (~>iam)")
-                            .queue(aVoid -> event.getChannel().sendMessageFormat(languageContext.get("commands.iam.success"), EmoteReference.OK, event.getAuthor().getName(), role.getName()).queue());
+                            .queue(aVoid -> {
+                                if(message == null || message.isEmpty())
+                                    event.getChannel().sendMessageFormat(languageContext.get("commands.iam.success"), EmoteReference.OK, event.getAuthor().getName(), role.getName()).queue();
+                                else
+                                    //Simple stuff for custom commands. (iamcustom:)
+                                    new MessageBuilder()
+                                            .append(message)
+                                            .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE)
+                                            .sendTo(event.getChannel())
+                                            .queue();
+                            });
                 } catch(PermissionException pex) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.iam.error"), EmoteReference.ERROR, role.getName()).queue();
                 }
@@ -99,6 +114,10 @@ public class MiscCmds {
     }
 
     public static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event, I18nContext languageContext) {
+        iamnotFunction(autoroleName, event, languageContext, null);
+    }
+
+    public static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event, I18nContext languageContext, String message) {
         DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
         Map<String, String> autoroles = dbGuild.getData().getAutoroles();
 
@@ -117,7 +136,16 @@ public class MiscCmds {
                 }
                 try {
                     event.getGuild().getController().removeRolesFromMember(event.getMember(), role)
-                            .queue(aVoid -> event.getChannel().sendMessageFormat(languageContext.get("commands.iamnot.success"), EmoteReference.OK, event.getAuthor().getName(), role.getName()).queue());
+                            .queue(aVoid -> {
+                                if(message == null || message.isEmpty())
+                                    event.getChannel().sendMessageFormat(languageContext.get("commands.iamnot.success"), EmoteReference.OK, event.getAuthor().getName(), role.getName()).queue();
+                                else
+                                    new MessageBuilder()
+                                            .append(message)
+                                            .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE)
+                                            .sendTo(event.getChannel())
+                                            .queue();
+                            });
                 } catch(PermissionException pex) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.iam.error"), EmoteReference.ERROR, role.getName()).queue();
                 }

@@ -34,12 +34,9 @@ import net.kodehawa.mantarobot.commands.custom.v3.SyntaxException;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -65,7 +62,6 @@ import java.util.stream.Collectors;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static net.kodehawa.mantarobot.data.MantaroData.db;
-import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Slf4j
 @Module
@@ -785,7 +781,7 @@ CustomCmds {
 
         if(!NAME_PATTERN.matcher(name).matches()) {
             String newName = INVALID_CHARACTERS_PATTERN.matcher(custom.getName()).replaceAll("_");
-            log.info("Custom Command with Invalid Characters '%s' found. Replacing with '_'", custom.getName());
+            log.info("Custom Command with Invalid Characters {} found. Replacing with '_'", custom.getName());
 
             custom.deleteAsync();
             custom = CustomCommand.of(custom.getGuildId(), newName, custom.getValues());
