@@ -127,13 +127,10 @@ public class CCv3 {
 
         DEFAULT_OPERATIONS.put("iam", (context, args) -> {
             String iam = args.get(0).evaluate();
-            String ctn = null;
-            if(args.size() > 1)
-                ctn = args.get(1).evaluate();
-
+            String ctn = args.stream().skip(1).map(Operation.Argument::evaluate).collect(Collectors.joining(" "));
             GuildMessageReceivedEvent event = context.event();
 
-            if(ctn == null)
+            if(ctn.isEmpty())
                 MiscCmds.iamFunction(iam, event, null);
             else
                 MiscCmds.iamFunction(iam, event, null, ctn);
@@ -143,13 +140,11 @@ public class CCv3 {
 
         DEFAULT_OPERATIONS.put("iamnot", (context, args) -> {
             String iam = args.get(0).evaluate();
-            String ctn = null;
-            if(args.size() > 1)
-                ctn = args.get(1).evaluate();
+            String ctn = args.stream().skip(1).map(Operation.Argument::evaluate).collect(Collectors.joining(" "));
 
             GuildMessageReceivedEvent event = context.event();
 
-            if(ctn == null)
+            if(ctn.isEmpty())
                 MiscCmds.iamnotFunction(iam, event, null);
             else
                 MiscCmds.iamnotFunction(iam, event, null, ctn);
