@@ -34,7 +34,8 @@ public enum Category {
     OWNER(CommandPermission.OWNER, "categories.owner", "Owner"),
     INFO(CommandPermission.USER, "categories.info", "Info"),
     UTILS(CommandPermission.USER, "categories.utils", "Utility"),
-    MISC(CommandPermission.USER, "categories.misc", "Misc");
+    MISC(CommandPermission.USER, "categories.misc", "Misc"),
+    PETS(CommandPermission.USER, "categories.pet", "Pets");
 
     public final CommandPermission permission;
     private final String s;
