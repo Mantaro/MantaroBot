@@ -422,6 +422,7 @@ public class PetCmds {
                 Pet pet = playerPets.get(petName);
                 PetData data = pet.getData();
 
+                //Train experience?
             }
         });
 
@@ -467,7 +468,7 @@ public class PetCmds {
                 Pet pet = playerPets.get(petName);
                 PetData data = pet.getData();
 
-
+                //How?
             }
         });
 
@@ -490,7 +491,7 @@ public class PetCmds {
                 Pet pet = playerPets.get(petName);
                 PetData data = pet.getData();
 
-                //todo: add pet food store
+                //todo: add pet food store (petshop)
             }
         });
 
@@ -518,7 +519,17 @@ public class PetCmds {
                     return;
                 }
 
-                //todo: add water bottle
+                //todo: add water bottle (petshop)
+            }
+        });
+    }
+
+    @Subscribe
+    public void petshop(CommandRegistry cr) {
+        cr.register("petshop", new SimpleCommand(Category.PETS) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+
             }
         });
     }
