@@ -189,4 +189,6 @@ public class GuildData {
     private String mpLinkedTo = null; //user id of the person who linked MP to a specific server (used for patreon checks)
     @ConfigName("Modlog: blacklisted words")
     private List<String> modLogBlacklistWords = new ArrayList<>();
+    @ConfigName("Autoroles categories")
+    private Map<String, List<String>> autoroleCategories = new HashMap<>();
 }

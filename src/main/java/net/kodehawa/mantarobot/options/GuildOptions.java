@@ -38,9 +38,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
@@ -754,6 +752,80 @@ public class GuildOptions extends OptionHandler {
                     event.getChannel().sendMessageFormat(lang.get("options.autoroles_clear.success"), EmoteReference.CORRECT).queue();
                 }
         ); //endregion
+
+        registerOption("autoroles:category:add", "Adds a category to autoroles",
+                "Adds a category to autoroles. Useful for organizing",
+                "Adds a category to autoroles.", (event, args, lang) -> {
+                    if (args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.no_args"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    String category = args[0];
+                    String autorole = null;
+                    if(args.length > 1) {
+                        autorole = args[1];
+                    }
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    Map<String, List<String>> categories = guildData.getAutoroleCategories();
+                    if(categories.containsKey(category) && autorole == null) {
+                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.already_exists"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    categories.computeIfAbsent(category, (a) -> new ArrayList<>());
+
+                    if(autorole != null) {
+                        if(guildData.getAutoroles().containsKey(autorole)) {
+                            categories.get(category).add(autorole);
+                            dbGuild.save();
+                            event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.success"), EmoteReference.CORRECT, category, autorole).queue();
+                            return;
+                        } else {
+                            event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.no_role"), EmoteReference.ERROR, autorole).queue();
+                            return;
+                        }
+                    }
+
+                    dbGuild.save();
+                    event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.success_new"), EmoteReference.CORRECT, category).queue();
+                });
+
+        registerOption("autoroles:category:remove", "Removes a category from autoroles",
+                "Removes a category from autoroles. Useful for organizing",
+                "Removes a category from autoroles.", (event, args, lang) -> {
+                    if (args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_remove.no_args"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    String category = args[0];
+                    String autorole = null;
+                    if(args.length > 1) {
+                        autorole = args[1];
+                    }
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    Map<String, List<String>> categories = guildData.getAutoroleCategories();
+                    if(!categories.containsKey(category)) {
+                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.no_category"), EmoteReference.ERROR, category).queue();
+                        return;
+                    }
+
+                    if(autorole != null) {
+                        categories.get(category).remove(autorole);
+                        dbGuild.save();
+                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_remove.success"), EmoteReference.CORRECT, category, autorole).queue();
+                        return;
+                    }
+
+                    categories.remove(category);
+                    dbGuild.save();
+                    event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_remove.success_new"), EmoteReference.CORRECT, category).queue();
+                });
 
         //region custom
         registerOption("admincustom", "Admin custom commands",
