@@ -90,7 +90,8 @@
     "fun": "Fun",
     "games": "Games",
     "info": "Info",
-    "currency": "Currency"
+    "currency": "Currency",
+    "pet": "Pet"
   },
   "commands": {
     "fish": {
@@ -364,9 +365,9 @@
       },
       "raw": {
         "no_command": "%1$sYou need to tell me what command you want to look at.",
-        "header": "Command \"%1$s\":",
+        "header": "Raw Custom Command: %1$s",
         "amount": "(Showing %1$d responses of %2$d)",
-        "pasted": "Pasted content"
+        "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
       },
       "clear": {
         "success": "%1$sCleared **%2$d Custom Commands**"
@@ -379,13 +380,16 @@
         "no_name_specified": "%1$sYou didn't specify the name of the custom command to create!"
       },
       "eval": {
+        "not_specified": "You didn't specify anything to eval.",
         "new_error": "%1$sThere was an error while evaluating this custom command.\n**Error**:\n```%2$s```",
         "error": "%1$sThere was an error while evaluating this custom command!\n%2$s"
       },
       "remove": {
+        "no_command": "%1$sYou need to tell me what command you want to remove.",
         "success": "%1$sRemoved Custom Command `%2$s`."
       },
       "import": {
+        "no_command": "%1$sYou need to tell me what command you want to import.",
         "not_found": "%1$sThere are no custom commands matching your search query.",
         "header": "`%1$s` - Guild: `%2$s`",
         "selection": "Select the Command:",
@@ -393,15 +397,26 @@
         "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3$d responses."
       },
       "edit": {
+        "no_command": "$1$sYou need to specify what command you want to edit.",
         "invalid_number": "%1$sYou need to specify a correct number to change.",
         "no_index": "%1$sYou cannot edit a non-existent index.",
         "empty_response": "%1$sCannot edit to an empty response",
+        "not_enough_args": "%1$sYou need to specify the command, the index and the new response",
         "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly"
+      },
+      "deleteresponse": {
+        "no_command": "$1$sYou need to specify the command you want to remove a response from.",
+        "invalid_number": "%1$sYou need to specify a correct number to change.",
+        "no_index": "%1$sYou cannot remove a non-existent index.",
+        "not_enough_args": "%1$sYou need to specify the command and the index you want to delete.",
+        "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
       },
       "rename": {
         "success": "%1$sRenamed command `%2$s` to `%3$s`"
       },
       "add": {
+        "no_command": "$1$sYou need to specify the command you want to add.",
+        "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
         "empty_content": "%1$sYou need to specify the content of this custom command",
         "success": "%1$sSaved to command `%2$s`"
       },
@@ -689,10 +704,11 @@
     },
     "iam": {
       "list": {
-        "name": "\nAutorole name: ",
-        "role": " | Gives role **",
-        "header": "Autoroles list",
-        "no_autoroles": "There aren't any autoroles setup in this server."
+        "name": "Auto-role name: ",
+        "role": "Role:",
+        "header": "Auto-roles list",
+        "no_autoroles": "There aren't any autoroles setup in this server.",
+        "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`."
       },
       "deleted_role": "%1$sThe role that this autorole corresponded to has been deleted",
       "already_assigned": "%1$sYou already have this role, silly!",
@@ -1162,6 +1178,22 @@
       "vc": "Voice Channels",
       "invite": "Invite link: http://is.gd/mantaro (Commands this session: %1$,d | Current shard: %2$d)"
     },
+    "pet": {
+      "no_content": "%1$sYou need to specify the pet to look up the stats of (and the user you want to check the pet from, if it's not yours. Make sure to quote the name on this case!).",
+      "not_specified": "%1$sYou didn't specify the pet name.",
+      "not_found": "%1$sI didn't find a pet with the provided name."
+    },
+    "petactions": {
+      "general": "Pets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.\n\nPets can fight in PetBattle, which is a turn-based (ish) fight system based in a one-turn strategy, with an emergency turn on the half-turn if the HP difference between the pets it's too different, which would allow you to change your strategy.\n\nFor competition, you need to use different skills, which will cater to different elements and types. You chose them at the start of your turn or half-turn.\nSkills are the main weapon you have! But, pets can also have a main weapon equipped, based on their type and affection. The weapon shop is available at `~>petaction shop` and you can equip it using `~>petaction weapon`, weapons *do not* have damage multiplier by themselves, but they can improve the effectiveness of some attacks and skills, as the result of this, there are no melee weapons, as all damage on PetBattle is done based on their will, not on their actual life.\n\nDo `~>help petaction` to get a list of the commands you can use with your pet.",
+      "incubate": {
+        "no_name": "%1$sYou need to specify a name to give to your pet.",
+        "only_letters": "%1$sThe name can only contain letters from a to z.",
+        "no_egg": "%1$sYou don't have an incubator egg on your inventory.",
+        "not_enough_slots": "%1$sYou don't have enough pet slots left. (Total: %2$s, Used: %3$s)",
+        "no_money": "%1$sYou don't have enough money to incubate this egg. (Required: %2$s)",
+        "success": "%1$sSuccessfully incubated your pet egg! Your new pet %2$s `(ID: %3$s)` is now ready. Check `~>pet <name>` to check pet stats."
+      }
+    },
     "invite": {
       "url": "Invite URL",
       "server": "Support Server",
@@ -1247,6 +1279,7 @@
     },
     "help": {
       "title": "Mantaro Help",
+      "base_category": "Command list for category %1$s. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
       "base": "Command list. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
       "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://support.mantaro.site). [*Follow me on twitter for updates!*](https://twitter.com/mantarodiscord)\n",
       "patreon": "[**We need your help to keep Mantaro online! Click here for more info.**](https://www.patreon.com/mantaro)",
@@ -1262,6 +1295,7 @@
     "repair": {
       "no_item": "%1$sYou didn't specify any item to repair. Remember to use quotes if the name has spaces.",
       "no_item_found": "%1$sI can't find that item. Remember to use quotes if the name has spaces.",
+      "no_main_item": "%1$sYou don't have the item you need to repair this!",
       "cant_repair": "%1$s**%2$s** it's not an item you can repair. You can only repair broken items.",
       "no_tool": "%1$sYou need a Tier 2 or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
       "dust": "%1$sYour inventory it's too dusty to perform a repair. Dust level: %2$s",

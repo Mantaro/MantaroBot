@@ -23,27 +23,31 @@ import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 @Getter
 @Setter
 public class PetStats {
+    private boolean inBattle = false;
+
     //Global statistics
     private long stamina;
     private long hp;
-    private Type element;
+    private boolean fly;
+    private boolean venom;
 
+    private long affection;
 
     //Idle buffs
-    private long idleRecoveryCoef;
-    private long idleStaminaRecoveryCoef;
+    private double idleRecoveryCoef = 0.1;
+    private double idleStaminaRecoveryCoef = 0.2;
 
     //Battle buffs
-    private long battleRecoveryCoef;
-    private long battleStaminaRecoveryCoef;
+    private double battleRecoveryCoef = 0.18;
+    private double battleStaminaRecoveryCoef = 0.25;
 
     //Idle and battle multipliers
-    private long battleRecoveryMult;
-    private long battleStaminaRecoveryMult;
+    private double recoveryMult = 1.1;
+    private double staminaRecoveryMult = 1.14;
 
     //Current battle stats
-    private long currentStamina;
-    private long currentHP;
+    private long currentStamina = getStamina(); //Unless this changes on battle, should remain equal.
+    private long currentHP = getHp(); //Unless this changes in battle, should remain equal.
     private boolean elementAffinity;
     private boolean elementBoost;
     private boolean elementQualification;
@@ -53,7 +57,6 @@ public class PetStats {
     private long regenStat;
     private long staminaRegenCoef;
 
-    protected enum Type {
-        EARTH, WATER, FIRE
-    }
+    private long epochLastBattle;
+    private long epochLastIdle;
 }

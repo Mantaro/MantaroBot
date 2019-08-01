@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands.custom.v3;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.MiscCmds;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.commands.custom.v3.ast.Node;
@@ -30,7 +31,6 @@ public class CCv3 {
         Map<String, Predicate<String>> predicates = new HashMap<>();
 
         predicates.put("usermention", s -> USER_MENTION_PATTERN.matcher(s).find());
-
         comparators.put("equals", String::equals);
         comparators.put("ignorecase-equals", String::equalsIgnoreCase);
         comparators.put("greater-than", (s1, s2) -> s1.compareTo(s2) > 0);
@@ -124,11 +124,38 @@ public class CCv3 {
             context.vars().put(args.get(0).evaluate(), value);
             return "";
         });
+
+        DEFAULT_OPERATIONS.put("iam", (context, args) -> {
+            String iam = args.get(0).evaluate();
+            String ctn = args.stream().skip(1).map(Operation.Argument::evaluate).collect(Collectors.joining(" "));
+            GuildMessageReceivedEvent event = context.event();
+
+            if(ctn.isEmpty())
+                MiscCmds.iamFunction(iam, event, null);
+            else
+                MiscCmds.iamFunction(iam, event, null, ctn);
+
+            return "";
+        });
+
+        DEFAULT_OPERATIONS.put("iamnot", (context, args) -> {
+            String iam = args.get(0).evaluate();
+            String ctn = args.stream().skip(1).map(Operation.Argument::evaluate).collect(Collectors.joining(" "));
+
+            GuildMessageReceivedEvent event = context.event();
+
+            if(ctn.isEmpty())
+                MiscCmds.iamnotFunction(iam, event, null);
+            else
+                MiscCmds.iamnotFunction(iam, event, null, ctn);
+
+            return "";
+        });
     }
 
     public static void process(GuildMessageReceivedEvent event, Node ast, boolean preview) {
         InterpreterContext context = new InterpreterContext(new DynamicModifiers()
-                .mapEvent("event", event), DEFAULT_OPERATIONS);
+                .mapEvent("event", event), DEFAULT_OPERATIONS, event);
 
         String result = ast.accept(new InterpreterVisitor(), context);
         EmbedJSON embed = context.get("embed");

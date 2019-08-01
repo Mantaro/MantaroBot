@@ -13,9 +13,9 @@ import net.kodehawa.mantarobot.commands.custom.v3.Parser;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
-import org.json.JSONArray;
 
 import java.net.URL;
 import java.util.LinkedHashMap;
@@ -33,7 +33,7 @@ public class CustomCommandHandler {
     //actually p sure this is just to make me feel safer and serves no purpose whatsoever.
     private static final Pattern filtered1 = Pattern.compile("([a-zA-Z0-9]{24}\\.[a-zA-Z0-9]{6}\\.[a-zA-Z0-9_\\-])\\w+");
 
-    static {
+    {
         specialHandlers.put("text", (event, lang, value, args) -> event.getChannel().sendMessage(value).queue());
 
         specialHandlers.put("play", (event, lang, value, args) -> {
@@ -92,6 +92,22 @@ public class CustomCommandHandler {
         specialHandlers.put("imgembed", specialHandlers.get("img"));
         specialHandlers.put("iam", (event, lang, value, args) -> MiscCmds.iamFunction(value.trim().replace("\"", ""), event, lang));
         specialHandlers.put("iamnot", (event, lang, value, args) -> MiscCmds.iamnotFunction(value.trim().replace("\"", ""), event, lang));
+
+        specialHandlers.put("iamcustom", (event, lang, value, args) -> {
+            String[] arg = StringUtils.advancedSplitArgs(value, 2);
+            String iam = arg[0];
+            String message = this.processText(arg[1]);
+
+            MiscCmds.iamFunction(iam.trim().replace("\"", ""), event, lang, message);
+        });
+        specialHandlers.put("iamnotcustom", (event, lang, value, args) -> {
+            System.out.println(value);
+            String[] arg = StringUtils.advancedSplitArgs(value, 2);
+            String iam = arg[0];
+            String message = this.processText(arg[1]);
+
+            MiscCmds.iamnotFunction(iam.trim().replace("\"", ""), event, lang, message);
+        });
     }
 
     private final String args;

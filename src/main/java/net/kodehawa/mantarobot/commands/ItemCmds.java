@@ -50,8 +50,8 @@ import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 
 import java.awt.*;
 import java.security.SecureRandom;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -80,9 +80,7 @@ public class ItemCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        String[] arguments = StringUtils.efficientSplitArgs(content, -1);
-
-                        if(arguments.length == 0) {
+                        if(content.trim().isEmpty()) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_item_found"), EmoteReference.ERROR).queue();
                             return;
                         }
@@ -90,8 +88,10 @@ public class ItemCmds {
                         ManagedDatabase db = MantaroData.db();
 
                         //Argument parsing.
-                        Map<String, String> t = getArguments(arguments);
+                        Map<String, String> t = getArguments(content);
                         content = Utils.replaceArguments(t, content, "season", "s").trim();
+
+                        String[] arguments = StringUtils.efficientSplitArgs(content, -1);
 
                         boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
                         boolean isMultiple = t.containsKey("amount");
@@ -394,6 +394,11 @@ public class ItemCmds {
                             return;
                         }
 
+                        if(!playerInventory.containsItem(item)) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_main_item"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
                         if(!playerInventory.containsItem(wrench)) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_tool"), EmoteReference.ERROR, Items.WRENCH.getName()).queue();
                             return;
@@ -411,6 +416,7 @@ public class ItemCmds {
                         Broken brokenItem = (Broken) item;
                         Item repairedItem = Items.fromId(brokenItem.getMainItem());
                         long repairCost = repairedItem.getValue() / 3;
+
 
                         long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
                         if(playerMoney < repairCost) {

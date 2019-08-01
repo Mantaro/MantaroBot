@@ -184,6 +184,53 @@ public class InfoCmds {
         cr.registerAlias("serverinfo", "guildinfo");
     }
 
+    Random rand = new Random();
+    private void buildHelp(GuildMessageReceivedEvent event, String content, I18nContext languageContext, Category category) {
+        DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+        String defaultPrefix = MantaroData.config().get().prefix[0], guildPrefix = dbGuild.getData().getGuildCustomPrefix();
+        String prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
+        GuildData guildData = dbGuild.getData();
+
+        EmbedBuilder embed = new EmbedBuilder()
+                .setAuthor(languageContext.get("commands.help.title"), null, event.getGuild().getIconUrl())
+                .setColor(Color.PINK)
+                .setDescription(
+                                (category == null ?
+                                        languageContext.get("commands.help.base") :
+                                        String.format(languageContext.get("commands.help.base_category"), languageContext.get(category.toString()))
+                                ) +
+                                languageContext.get("commands.help.support") + languageContext.get("commands.help.patreon") +
+                                //LISP simulator 2018
+                                (guildData.getDisabledCommands().isEmpty() ? "" : "\n" +
+                                        String.format(languageContext.get("commands.help.disabled_commands"), guildData.getDisabledCommands().size())
+                                ) +
+                                (guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()) == null ||
+                                        guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).isEmpty() ?
+                                        "" : "\n" + String.format(languageContext.get("commands.help.channel_specific_disabled_commands"),
+                                        guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).size())
+                                ) + ( tips.isEmpty() ?
+                                "" : String.format("\n*Tip: %s*", tips.get(rand.nextInt(tips.size())))
+                        )
+
+                )
+                .setFooter(String.format(languageContext.get("commands.help.footer"), prefix,
+                        DefaultCommandProcessor.REGISTRY.commands().values().stream().filter(c -> c.category() != null).count()), null);
+
+        Arrays.stream(Category.values())
+                .filter(c -> {
+                    if(category != null)
+                        return c == category;
+                    else
+                        return true;
+                })
+                .filter(c -> c != Category.OWNER || CommandPermission.OWNER.test(event.getMember()))
+                .forEach(c -> embed.addField(languageContext.get(c.toString()) + " " + languageContext.get("commands.help.commands") +":",
+                        forType(event.getChannel(), guildData, c), false)
+                );
+
+        event.getChannel().sendMessage(embed.build()).queue();
+    }
+
     @Subscribe
     public void help(CommandRegistry cr) {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
@@ -213,41 +260,12 @@ public class InfoCmds {
                     return;
 
                 if(content.isEmpty()) {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    String defaultPrefix = MantaroData.config().get().prefix[0], guildPrefix = dbGuild.getData().getGuildCustomPrefix();
-                    String prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
-                    GuildData guildData = dbGuild.getData();
-
-                    EmbedBuilder embed = baseEmbed(event, languageContext.get("commands.help.title"))
-                            .setColor(Color.PINK)
-                            .setDescription(languageContext.get("commands.help.base") +
-                                    languageContext.get("commands.help.support") + languageContext.get("commands.help.patreon") +
-                                    //LISP simulator 2018
-                                    (guildData.getDisabledCommands().isEmpty() ? "" : "\n" +
-                                            String.format(languageContext.get("commands.help.disabled_commands"), guildData.getDisabledCommands().size())
-                                    ) +
-                                    (guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()) == null ||
-                                            guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).isEmpty() ?
-                                            "" : "\n" + String.format(languageContext.get("commands.help.channel_specific_disabled_commands"),
-                                            guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).size())
-                                    ) + ( tips.isEmpty() ?
-                                        "" : String.format("\n*Tip: %s*", tips.get(r.nextInt(tips.size())))
-                                    )
-
-                            )
-                            .setFooter(String.format(languageContext.get("commands.help.footer"), prefix,
-                                    DefaultCommandProcessor.REGISTRY.commands().values().stream().filter(c -> c.category() != null).count()), null);
-
-                    Arrays.stream(Category.values())
-                            //.filter(c -> c != Category.CURRENCY || !MantaroData.config().get().isPremiumBot())
-                            .filter(c -> c != Category.OWNER || CommandPermission.OWNER.test(event.getMember()))
-                            .forEach(c -> embed.addField(languageContext.get(c.toString()) + " " + languageContext.get("commands.help.commands") +":",
-                                    forType(event.getChannel(), guildData, c), false)
-                            );
-
-                    event.getChannel().sendMessage(embed.build()).queue();
-
-                } else {
+                    buildHelp(event, content, languageContext, null);
+                } else if (Category.lookupFromString(content) != null) {
+                    Category category = Category.lookupFromString(content);
+                    buildHelp(event, content, languageContext, category);
+                }
+                else {
                     Command command = DefaultCommandProcessor.REGISTRY.commands().get(content);
 
                     if(command != null) {

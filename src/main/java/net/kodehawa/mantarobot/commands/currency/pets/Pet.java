@@ -17,24 +17,87 @@
 package net.kodehawa.mantarobot.commands.currency.pets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.beans.ConstructorProperties;
+import java.util.concurrent.TimeUnit;
 
+@Getter
+@Setter
 public class Pet {
-    public String owner;
+    private String owner;
 
-    public String imagePath; //Choose from different pre-picked images. Configurable
-    public String name; //Only letters.
-    public PetStats stats;
+    private ImageType image; //Choose from different pre-picked images. Configurable
+    private String name; //Only letters.
+    private PetStats stats;
+    private Type element;
 
-    public long age;
+    private long epochCreatedAt;
+    private long age;
+    private long tier; //Calculated between 1 to 20 according to current pet stats.
+    private long tradePrice; //Calculated using stats + tier.
+
+    private PetData data;
 
     @JsonCreator
-    @ConstructorProperties({"owner", "name", "stats", "age"})
-    public Pet(String owner, String name, PetStats stats, long age) {
+    @ConstructorProperties({"owner", "name", "stats", "data", "element", "inventory", "age"})
+    public Pet(@JsonProperty("owner") String owner, @JsonProperty("name") String name, @JsonProperty("stats") PetStats stats, @JsonProperty("data") PetData data, @JsonProperty("element") Type element, @JsonProperty("age")  long age) {
         this.owner = owner;
         this.name = name;
         this.stats = stats;
+        this.data = data;
+        this.element = element;
         this.age = age;
+    }
+
+    public static Pet create(String owner, String name, Type element) {
+        Pet pet = new Pet(owner, name, new PetStats(), new PetData(), element, 1);
+        pet.setEpochCreatedAt(System.currentTimeMillis());
+        return pet;
+    }
+
+    public Pet changeImage(ImageType type) {
+        this.image = type;
+        return this;
+    }
+
+    //TODO
+    public long calculateTier() {
+        return 1;
+    }
+
+    public enum ImageType {
+        //hello sukeban studios (https://va11halla.fandom.com/wiki/Lilim)
+        SPACESHIP(""), CAT(""), DOG(""), ROBOT(""), LILIM(""), CATGIRL("");
+
+        @Getter
+        public String image;
+        ImageType(String image) {
+            this.image = image;
+        }
+    }
+
+    @Getter
+    public enum Type {
+        EARTH("Earth", "commands.pet.types.earth"), WATER("Water", "commands.pet.types.water"), FIRE("Fire", "commands.pet.types.fire");
+
+        String readable;
+        String translatable;
+        Type(String readable, String translatable) {
+            this.readable = readable;
+            this.translatable = translatable;
+        }
+    }
+
+    public long getAge() {
+        return System.currentTimeMillis() - getEpochCreatedAt();
+    }
+
+    @JsonIgnore
+    public long getAgeDays() {
+        return TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - getEpochCreatedAt());
     }
 }
