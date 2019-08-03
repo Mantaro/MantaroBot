@@ -299,7 +299,7 @@
     },
     "nextsong": {
       "no_song_next": "%1$sOw, there isn't any song next",
-      "format": "%1$sNext song in queue: **%2$s** (%3$s) | *Total songs in queue: %4$d*"
+      "format": "%1$sNext song in queue: **%2$s** (%3$s) | *Total songs in queue: %4$,d*"
     },
     "shuffle": {
       "success": "%1$sRandomized the order of the current queue."
@@ -472,7 +472,7 @@
         "default": "slow af. :dizzy_face:"
       },
       "display": ["W-Was I fast enough?", "What are you doing?", "W-What are you looking at?!", "Huh.", "Did I do well?", "What do you think?", "Does this happen often?", "Am I performing p-properly?", "<3", "*pats*", "Pong.", "Pang.", "Pung.", "Peng.", "Ping-pong? Yay!", "U-Uh... h-hi"],
-      "text": "%1$s*%2$s* - My ping: %3$d ms (%4$s) `Websocket:%5$dms`"
+      "text": "%1$s*%2$s* - My ping: %3$,d ms (%4$s) `Websocket:%5$,dms`"
     },
     "love": {
       "no_mention": "%1$sYou need to mention at least 1 user.",
@@ -555,14 +555,14 @@
       },
       "buyslot": {
         "locked": "%1$sYou're currently unable to perform this action.",
-        "not_enough_money": "%1$sYou don't have enough money to buy more slots! You need %2$d credits.",
+        "not_enough_money": "%1$sYou don't have enough money to buy more slots! You need %2$,d credits.",
         "success": "%1$sSuccessfully bought this slot for %2$s, you currently have %3$s total slots and %4$s available slots.",
         "too_many": "%1$sYou already have too many slots!"
       },
       "header": "Waifu List",
-      "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$d waifus as of now.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
+      "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
       "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `~>waifu claim` to get started.",
-      "footer": "Total waifus: %1$d - available slots: %2$s",
+      "footer": "Total waifus: %1$,d - available slots: %2$s",
       "value_format": "**- Value:**",
       "value_b_format": "**- Bought for:**",
       "credits_format": " credits.",
@@ -571,23 +571,23 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sGive me a waifu to rate!",
-      "success": "%1$sI rate %2$s with a **%3$d/100**"
+      "success": "%1$sI rate %2$s with a **%3$,d/100**"
     },
     "roll": {
-      "success": "%1$sYou got **%2$d**%3$s",
-      "amount": "Doing **%1$d** rolls."
+      "success": "%1$sYou got **%2$,d**%3$s",
+      "amount": "Doing **%1$,d** rolls."
     },
     "coinflip": {
       "over_limit": "%1$sHold in there! The limit is 1,000 coin flips",
       "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions",
-      "success": "%1$s Your result from **%2$d** time(s) yielded **%3$d** heads and **%4$d** tails"
+      "success": "%1$s Your result from **%2$,d** time(s) yielded **%3$,d** heads and **%4$,d** tails"
     },
     "inventory": {
       "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>market dump`",
       "brief": "**%1$s's inventory:** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
-      "calculate": "%1$s%2$s will get **%3$d credits** if all of the items are sold.",
+      "calculate": "%1$s%2$s will get **%3$,d credits** if all of the items are sold.",
       "header": "%1$s's Inventory",
-      "format": "**Price**: 📥 %1$d 📤 %2$d\n%3$s",
+      "format": "**Price**: 📥 %1$,d 📤 %2$,d\n%3$s",
       "empty": "%1$sThis inventory is empty! :(",
       "brief_notice": "You can use `~>inventory -brief` to get a mobile friendly version."
     },
@@ -618,12 +618,12 @@
         "non_existent": "%1$sCannot dump a non-existent item! If you're lost, you can try typing the short name or wrapping the name in quotes.",
         "player_no_item": "%1$sCannot dump an item you don't have!",
         "more_items_than_player": "%1$sYou cannot dump more items than what you have.",
-        "success": "%1$sSent %2$dx **%3$s %4$s** to the trash."
+        "success": "%1$sSent %2$,dx **%3$s %4$s** to the trash."
       },
       "price": {
         "non_existent": "%1$sCannot check the price of a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
         "no_price": "%1$sThis item is not available neither for sell or buy (could be an exclusive collectible)",
-        "collectible": "%1$sThis is a collectible item. (Sell value: %2$d credits)",
+        "collectible": "%1$sThis is a collectible item. (Sell value: %2$,d credits)",
         "success": "%1$sThe market value of %2$s**%3$s** is %4$s credits to buy it and you can get %5$s credits if you sell it."
       },
       "sell": {
@@ -631,14 +631,14 @@
         "invalid": "%1$sNot a valid number of items to sell.",
         "all": {
           "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? Type *yes* to confirm and *no* to cancel",
-          "success": "%1$sYou sold all your inventory items and gained %2$d credits!",
+          "success": "%1$sYou sold all your inventory items and gained %2$,d credits!",
           "cancelled": "%1$sCancelled successfully."
         },
         "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
         "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
         "no_item_player": "%1$sYou cannot sell an item you don't have.",
         "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
-        "success": "%1$sYou sold %2$d **%3$s** and gained %4$d credits!"
+        "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
       },
       "buy": {
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
@@ -646,7 +646,7 @@
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
         "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
         "item_limit_reached": "%1$sYou cannot buy more of that object.",
-        "success": "%1$sBought %2$d %3$s for %4$d credits successfully. You now have %5$d credits.",
+        "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
         "not_enough_money": "%1$sYou don't have enough money to buy this item."
       },
       "header": "Mantaro's Market"
@@ -667,13 +667,13 @@
       "bot_notice": "%1$sYou cannot transfer money to a bot.",
       "no_amount": "%1$sYou need to specify the amount.",
       "no_money_specified_notice": "%1$sYou cannot transfer no money :P",
-      "over_transfer_limit": "%1$sYou cannot transfer this much money. (Limit: %2$d credits)",
+      "over_transfer_limit": "%1$sYou cannot transfer this much money. (Limit: %2$,d credits)",
       "own_locked_notice": "%1$sYou cannot transfer money now.",
       "receipt_overflow_notice": "Cannot send money to this player.",
       "no_money_notice": "%1$sYou cannot transfer money you don't have.",
       "receipt_locked_notice": "1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sThis user already has too much money...",
-      "success": "%1$sTransferred **%2$d** *(%3$d after 8%% tax)* to **%4$s** successfully.",
+      "success": "%1$sTransferred **%2$,d** *(%3$,d after 8%% tax)* to **%4$s** successfully.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `transferitems` command instead.",
       "party": "You can only transfer to the same person (%1$s) once every 4 minutes."
     },
@@ -756,7 +756,7 @@
       },
       "retrieving_info": "%1$sRetrieving information from osu! server...",
       "timeout": "%1$sThe osu! api seems to be taking a nap. Maybe try again later?",
-      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rank: %6$s -> Max Combo: %7$d",
+      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$,dpp] | Rank: %6$s -> Max Combo: %7$,d",
       "best": "**10 best osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
       "error": "%1$sUh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)",
       "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Date: %5$s -> Max Combo: %6$s\n",
@@ -970,7 +970,7 @@
         "old_system": "**Premium guild under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
       },
       "valid_for_old": "Valid for",
-      "old_days_more": "%1$d days more",
+      "old_days_more": "%1$,d days more",
       "thank_note": "Thanks you for your support <3",
       "expire": "Expires in",
       "key_duration": "Key total duration",
@@ -1086,7 +1086,7 @@
         "ended_lobby": "%1$sEnded lobby correctly! Thanks for playing.",
         "all_attempts_used": "%1$sAlready used all attempts, ending game. Possible answers were: %2$s",
         "incorrect_answer": "%1$sThat's not it, you have %2$d attempts remaining.",
-        "won_game": "%1$s**%2$s** just won $%3$d credits by answering correctly!"
+        "won_game": "%1$s**%2$s** just won $%3$,d credits by answering correctly!"
       },
       "lobby_time_out": "%1$sThe time ran out! The correct answer is: %2$s",
       "end_footer": "You have 5 attempts and 60 seconds. (Type end to end the game)",
@@ -1177,7 +1177,7 @@
       "users": "Users (Unique)",
       "tc": "Text Channels",
       "vc": "Voice Channels",
-      "invite": "Invite link: http://is.gd/mantaro (Commands this session: %1$,d | Current shard: %2$d)"
+      "invite": "Invite link: http://is.gd/mantaro (Commands this session: %1$,d | Current shard: %2$,d)"
     },
     "pet": {
       "no_content": "%1$sYou need to specify the pet to look up the stats of (and the user you want to check the pet from, if it's not yours. Make sure to quote the name on this case!).",
@@ -1245,12 +1245,12 @@
       "channels": "Voice/Text Channels",
       "owner": "Owner",
       "region": "Region",
-      "roles": "Roles (%1$d)",
+      "roles": "Roles (%1$,d)",
       "id_show": "Server ID: %1$s"
     },
     "userinfo": {
       "header": "User info for %1$s#%2$s",
-      "roles": "Roles: [%1$d]",
+      "roles": "Roles: [%1$,d]",
       "id": "User ID",
       "join_date": "Join Date",
       "created": "Account Created",
@@ -1272,7 +1272,7 @@
       "position": "Position",
       "hoisted": "Hoisted",
       "managed": "Managed",
-      "permissions": "Permissions: [%1$d]"
+      "permissions": "Permissions: [%1$,d]"
     },
     "donate": {
       "beg": "%1$sOh hi! If you are interested in donating, please check the links below. Running Mantaro takes time and money, and every dollar is highly appreciated!\n\n%2$s",
@@ -1345,8 +1345,8 @@
     },
     "balance": {
       "bot_notice": "%1$sBots cannot have money.",
-      "external_balance": "%1$s's balance is **$%2$d credits.**",
-      "own_balance": "Your balance is **$%1$d credits.**"
+      "external_balance": "%1$s's balance is **$%2$,d credits.**",
+      "own_balance": "Your balance is **$%1$,d credits.**"
     },
     "daily": {
       "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
@@ -1357,17 +1357,17 @@
         "own_locked": "You cannot receive your daily now."
       },
       "streak": {
-        "up": "Streak up! Current streak: `%1$sx`",
+        "up": "Streak up! Current streak: `%1$,dx`",
         "first_time": "First time claiming daily, have fun! (Come back for your streak tomorrow!)",
         "lost_streak": "2+ days have passed since your last daily, so your streak of `%1$dx` got reset :(",
         "bonus": "\nYou won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)",
         "given": {
-          "up": "Streak up! Current streak: `%1$dx`.\n*The streak was applied to your profile!*",
-          "bonus": "%1$s won a bonus of $%2$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)"
+          "up": "Streak up! Current streak: `%1$,dx`.\n*The streak was applied to your profile!*",
+          "bonus": "%1$s won a bonus of $%2$,d for claiming your daily for 5 days in a row or more! (Included on the money shown!)"
         }
       },
-      "given_credits": "%1$sI gave your **$%2$s** daily credits to %3$s\n\n%4$s",
-      "credits": "%1$sYou got **$%2$s** daily credits.\n\n%3$s%4$s",
+      "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s\n\n%4$s",
+      "credits": "%1$sYou got **$%2$,d** daily credits.\n\n%3$s%4$s",
       "sellout": "\nWe need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info.",
       "crate": "You won a loot crate because your daily streak it's a multiple of 20! Enjoy."
     },
@@ -1377,27 +1377,27 @@
       "invalid_money_or_modifier": "%1$sPlease type a valid number less than or equal to your current balance or `all` to gamble all your credits.",
       "not_enough_money": "%1$sPlease type a value within your balance.",
       "invalid_percentage": "%1$sPlease type a valid percentage value.",
-      "confirmation_message": "%1$sYou're about to bet **%2$d** credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.",
+      "confirmation_message": "%1$sYou're about to bet **%2$,d** credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.",
       "cancelled_bet": "%1$sCancelled bet.",
-      "win": "%1$sCongrats, you won %2$d credits and got to keep what you had.",
-      "win_overflow": "%1$sCongrats, you won %2$d credits. But you already had too many credits. Your bag overflowed.",
-      "lose": "%1$sSadly, you lost %2$s credits. %3$s",
+      "win": "%1$sCongrats, you won %2$,d credits and got to keep what you had.",
+      "win_overflow": "%1$sCongrats, you won %2$,d credits. But you already had too many credits. Your bag overflowed.",
+      "lose": "%1$sSadly, you lost %2$,d credits. %3$s",
       "lose_all": "all of your",
       "credits": "credits",
-      "too_much": "%1$sYou can only gamble up to 275 million at once. You don't want to go full broke do you? *(Gamble single limit: %2$d credits)*",
+      "too_much": "%1$sYou can only gamble up to 275 million at once. You don't want to go full broke do you? *(Gamble single limit: %2$,d credits)*",
       "too_little": "%1$sYou cannot gamble so little money (Minimum: 100 credits)"
     },
     "loot": {
       "player_locked": "%1$sYou cannot loot now.",
       "item_overflow": "But you already had too many items, so you decided to throw away the excess.",
       "with_item": {
-        "found": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits!** %4$s",
-        "found_but_overflow": "%1$sDigging through messages, you found %2$s, along with **$%3$d credits.**%4$sBut you already had too many credits, so I donated the excess.",
+        "found": "%1$sDigging through messages, you found %2$s, along with **$%3$,d credits!** %4$s",
+        "found_but_overflow": "%1$sDigging through messages, you found %2$s, along with **$%3$,d credits.**%4$sBut you already had too many credits, so I donated the excess.",
         "found_only_item_but_overflow": "%1$sDigging through messages, you found %2$s. %3$s"
       },
       "without_item": {
         "found": "%1$sDigging through messages, you found **$%2$s credits!**",
-        "found_but_overflow_no_item": "%1$sDigging through messages, you found **$%2$d credits.** But you already had too many credits, so I donated the excess."
+        "found_but_overflow_no_item": "%1$sDigging through messages, you found **$%2$,d credits.** But you already had too many credits, so I donated the excess."
       },
       "dust": "Digging through messages, you found nothing but dust (Dust level %1$s%%)",
       "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
@@ -1406,7 +1406,7 @@
       "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`",
       "not_suitable": "%1$sThis is not a pick you can use to mine!",
       "not_in_inventory": "%1$sYou don't have this pick on your inventory, switching to the default pick.",
-      "success": "%1$sYou mined minerals worth **$%2$s credits**, using a *%3$s*",
+      "success": "%1$sYou mined minerals worth **$%2$,d credits**, using a *%3$s*",
       "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*",
       "diamond": {
         "overflow": "Huh, you found a diamond while mining, but you already had too much, so I sold it for you.",
@@ -1441,7 +1441,7 @@
         "no_valid_amount": "%1$sThat's not a valid amount of money! (Example of valid amounts: 1000, 1k, 14000, 2M)"
       },
       "roll": "%1$s**You used %2$s and rolled the slot machine**\n",
-      "win": "And you won **%1$d** credits and got to keep what you bet (%2$d credits)! Lucky!",
+      "win": "And you won **%1$,d** credits and got to keep what you bet (%2$,d credits)! Lucky!",
       "lose": "And you lost %1$s\nI hope you do better next time!",
       "tickets": "slots ticket(s)",
       "credits": "credits"
