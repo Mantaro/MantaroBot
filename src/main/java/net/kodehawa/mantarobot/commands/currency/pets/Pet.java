@@ -18,15 +18,22 @@ package net.kodehawa.mantarobot.commands.currency.pets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 
 import java.beans.ConstructorProperties;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 
 @Getter
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Pet {
     private String owner;
 
@@ -42,19 +49,23 @@ public class Pet {
 
     private PetData data;
 
+    @JsonIgnore
+    private final transient Inventory petInventory = new Inventory();
+
     @JsonCreator
-    @ConstructorProperties({"owner", "name", "stats", "data", "element", "inventory", "age"})
-    public Pet(@JsonProperty("owner") String owner, @JsonProperty("name") String name, @JsonProperty("stats") PetStats stats, @JsonProperty("data") PetData data, @JsonProperty("element") Type element, @JsonProperty("age")  long age) {
+    @ConstructorProperties({"owner", "name", "stats", "data", "element", "inventory", "age", "inventory"})
+    public Pet(@JsonProperty("owner") String owner, @JsonProperty("name") String name, @JsonProperty("stats") PetStats stats, @JsonProperty("data") PetData data, @JsonProperty("element") Type element, @JsonProperty("age")  long age, @JsonProperty("inventory") Map<Integer, Integer> inventory) {
         this.owner = owner;
         this.name = name;
         this.stats = stats;
         this.data = data;
         this.element = element;
         this.age = age;
+        this.petInventory.replaceWith(unserialize(inventory));
     }
 
     public static Pet create(String owner, String name, Type element) {
-        Pet pet = new Pet(owner, name, new PetStats(), new PetData(), element, 1);
+        Pet pet = new Pet(owner, name, new PetStats(), new PetData(), element, 1, new HashMap<>());
         pet.setEpochCreatedAt(System.currentTimeMillis());
         return pet;
     }

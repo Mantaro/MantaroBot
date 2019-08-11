@@ -234,7 +234,7 @@ public class CurrencyCmds {
                                 .setThumbnail("https://png.icons8.com/metro/540/shopping-cart.png");
                         List<MessageEmbed.Field> fields = new LinkedList<>();
                         Stream.of(Items.ALL).forEach(item -> {
-                            if(!item.isHidden()) {
+                            if(!item.isHidden() && item.getItemType() != ItemType.PET) {
                                 String buyValue = item.isBuyable() ? String.format("$%d", item.getValue()) : "N/A";
                                 String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
 

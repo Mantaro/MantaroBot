@@ -1191,7 +1191,7 @@
         "only_letters": "%1$sThe name can only contain letters from a to z.",
         "no_egg": "%1$sYou don't have an incubator egg on your inventory.",
         "not_enough_slots": "%1$sYou don't have enough pet slots left. (Total: %2$s, Used: %3$s)",
-        "no_money": "%1$sYou don't have enough money to incubate this egg. (Required: %2$s)",
+        "no_money": "%1$sYou don't have enough money to incubate this egg. (Required: **%2$s** credits)",
         "success": "%1$sSuccessfully incubated your pet egg! Your new pet %2$s `(ID: %3$s)` is now ready. Check `~>pet <name>` to check pet stats."
       }
     },

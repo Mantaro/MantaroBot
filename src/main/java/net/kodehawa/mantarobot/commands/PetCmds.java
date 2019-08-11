@@ -70,84 +70,6 @@ public class PetCmds {
     private final static String BLOCK_ACTIVE = "\u25A0";
     private static final int TOTAL_BLOCKS = 5;
 
-    @Subscribe
-    public void pet(CommandRegistry cr) {
-        SimpleCommand petCommand = (SimpleCommand) cr.register("pet", new SimpleCommand(Category.PETS) {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                ManagedDatabase db = MantaroData.db();
-                List<Member> found = FinderUtil.findMembers(content, event.getGuild());
-                String userId;
-                String petName;
-
-                if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.pet.no_content"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                //We only want one result, don't we?
-                if(found.size() > 1) {
-                    event.getChannel().sendMessageFormat(languageContext.get("general.too_many_members"), EmoteReference.THINKING, found.stream().limit(7).map(m -> String.format("%s#%s", m.getUser().getName(), m.getUser().getDiscriminator())).collect(Collectors.joining(", "))).queue();
-                    return;
-                }
-
-                if(found.isEmpty()) {
-                    userId = event.getAuthor().getId();
-                    petName = content;
-                } else {
-                    userId = found.get(0).getUser().getId();
-                    petName = args[1];
-                }
-
-
-                if(petName.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.pet.not_specified"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                Player player = db.getPlayer(userId);
-                PlayerData playerData = player.getData();
-
-                Pet pet = playerData.getProfilePets().get(petName);
-                if(pet == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.pet.not_found"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                final PetStats stats = pet.getStats();
-                DateTimeFormatter formatter =
-                        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
-                                .withLocale(Locale.UK)
-                                .withZone(ZoneId.systemDefault());
-
-                //This is a placeholder to test stuff. Mostly how it'll look on release though.
-                event.getChannel().sendMessage(
-                        new EmbedBuilder()
-                                .setAuthor("Pet Overview and Statistics", null, event.getAuthor().getEffectiveAvatarUrl())
-                                //change to pet image when i actually have it
-                                .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
-                                .setDescription(
-                                        Utils.prettyDisplay("Name", pet.getName()) + "\n" +
-                                        Utils.prettyDisplay("Tier", String.valueOf(pet.calculateTier())) + "\n" +
-                                        // ------ Change to translatable when I have the translation tables ready for this
-                                        Utils.prettyDisplay("Element", pet.getElement().getReadable()) + "\n" +
-                                        Utils.prettyDisplay("Owner", MantaroBot.getInstance().getUserById(pet.getOwner()).getAsTag())  + "\n" +
-                                        Utils.prettyDisplay("Created At", formatter.format(Instant.ofEpochMilli(pet.getEpochCreatedAt())))
-                                )
-                                .addField("Affection", getProgressBar(stats.getAffection(), 50) + String.format(" (%s/%s)", stats.getAffection(), 50), true)
-                                .addField("Current HP", getProgressBar(stats.getCurrentHP(), stats.getHp()) + String.format(" (%s/%s)", stats.getCurrentHP(), stats.getHp()), true)
-                                .addField("Current Stamina", getProgressBar(stats.getCurrentStamina(), stats.getStamina()) + String.format(" (%s/%s)", stats.getCurrentStamina(), stats.getStamina()), true)
-                                .addField("Fly", String.valueOf(pet.getStats().isFly()), true)
-                                .addField("Venom", String.valueOf(pet.getStats().isVenom()), true)
-                                .setFooter("Pet ID: " + pet.getData().getId(), null)
-                                .setColor(Color.PINK)
-                                .build()
-                ).queue();
-            }
-        });
-
-        cr.registerAlias("pet", "petstats");
-    }
 
     @Subscribe
     public void petAction(CommandRegistry cr) {
@@ -169,13 +91,82 @@ public class PetCmds {
                 .pool(MantaroData.getDefaultJedisPool())
                 .build();
 
-        TreeCommand petActionCommand = (TreeCommand) cr.register("petaction", new TreeCommand(Category.PETS) {
+        TreeCommand petActionCommand = (TreeCommand) cr.register("pet", new TreeCommand(Category.PETS) {
             @Override
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        event.getChannel().sendMessageFormat(EmoteReference.TALKING + languageContext.get("commands.petactions.general"), EmoteReference.TALKING).queue();
+                        String[] args = StringUtils.advancedSplitArgs(content, 2);
+                        ManagedDatabase db = MantaroData.db();
+                        List<Member> found = FinderUtil.findMembers(content, event.getGuild());
+                        String userId;
+                        String petName;
+
+                        if(content.isEmpty()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.pet.no_content"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
+                        //We only want one result, don't we?
+                        if(found.size() > 1 && args.length > 1) {
+                            event.getChannel().sendMessageFormat(languageContext.get("general.too_many_members"), EmoteReference.THINKING, found.stream().limit(7).map(m -> String.format("%s#%s", m.getUser().getName(), m.getUser().getDiscriminator())).collect(Collectors.joining(", "))).queue();
+                            return;
+                        }
+
+                        if(found.isEmpty() || args.length == 1) {
+                            userId = event.getAuthor().getId();
+                            petName = content;
+                        } else {
+                            userId = found.get(0).getUser().getId();
+                            petName = args[1];
+                        }
+
+
+                        if(petName.isEmpty()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.pet.not_specified"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
+                        Player player = db.getPlayer(userId);
+                        PlayerData playerData = player.getData();
+
+                        Pet pet = playerData.getProfilePets().get(petName);
+                        if(pet == null) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.pet.not_found"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
+                        final PetStats stats = pet.getStats();
+                        DateTimeFormatter formatter =
+                                DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
+                                        .withLocale(Locale.UK)
+                                        .withZone(ZoneId.systemDefault());
+
+                        //This is a placeholder to test stuff. Mostly how it'll look on release though.
+                        event.getChannel().sendMessage(
+                                new EmbedBuilder()
+                                        .setAuthor("Pet Overview and Statistics", null, event.getAuthor().getEffectiveAvatarUrl())
+                                        //change to pet image when i actually have it
+                                        .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
+                                        .setDescription(
+                                                Utils.prettyDisplay("Name", pet.getName()) + "\n" +
+                                                        Utils.prettyDisplay("Tier", String.valueOf(pet.calculateTier())) + "\n" +
+                                                        // ------ Change to translatable when I have the translation tables ready for this
+                                                        Utils.prettyDisplay("Element", pet.getElement().getReadable()) + "\n" +
+                                                        Utils.prettyDisplay("Owner", MantaroBot.getInstance().getUserById(pet.getOwner()).getAsTag())  + "\n" +
+                                                        Utils.prettyDisplay("Created At", formatter.format(Instant.ofEpochMilli(pet.getEpochCreatedAt())))
+                                        )
+                                        .addField("Affection", getProgressBar(stats.getAffection(), 50) + String.format(" (%s/%s)", stats.getAffection(), 50), true)
+                                        .addField("Current HP", getProgressBar(stats.getCurrentHP(), stats.getHp()) + String.format(" (%s/%s)", stats.getCurrentHP(), stats.getHp()), true)
+                                        .addField("Current Stamina", getProgressBar(stats.getCurrentStamina(), stats.getStamina()) + String.format(" (%s/%s)", stats.getCurrentStamina(), stats.getStamina()), true)
+                                        .addField("Fly", String.valueOf(pet.getStats().isFly()), true)
+                                        .addField("Venom", String.valueOf(pet.getStats().isVenom()), true)
+                                        .addField("Inventory", ItemStack.toString(pet.getPetInventory().asList()), false)
+                                        .setFooter("Pet ID: " + pet.getData().getId(), null)
+                                        .setColor(Color.PINK)
+                                        .build()
+                        ).queue();
                     }
                 };
             }
@@ -353,6 +344,11 @@ public class PetCmds {
                 ));
 
                 List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(8, fields);
+                if(splitFields.isEmpty()) {
+                    event.getChannel().sendMessageFormat("%1$sYou have no pets.", EmoteReference.BLUE_SMALL_MARKER).queue();
+                    return;
+                }
+
                 boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
 
                 builder.setDescription("**Total pages: " + splitFields.size() + "**\nUse the message reaction to move between pages.\n\n" +
@@ -368,7 +364,7 @@ public class PetCmds {
                     DiscordUtils.listText(event, 120, false, builder, splitFields);
                 }
             }
-        });
+        }).createSubCommandAlias("ls", "list");
 
         Random rand = new SecureRandom();
 
@@ -522,13 +518,11 @@ public class PetCmds {
                 //todo: add water bottle (petshop)
             }
         });
-    }
 
-    @Subscribe
-    public void petshop(CommandRegistry cr) {
-        cr.register("petshop", new SimpleCommand(Category.PETS) {
+        //todo: shop (prolly just gonna use the item repo for this, no need to create a separate item handling logic)
+        petActionCommand.addSubCommand("shop", new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
 
             }
         });
