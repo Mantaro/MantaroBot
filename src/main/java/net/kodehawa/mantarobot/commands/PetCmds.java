@@ -25,7 +25,9 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
+import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.pets.Pet;
 import net.kodehawa.mantarobot.commands.currency.pets.PetData;
@@ -64,6 +66,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
+
+import static net.kodehawa.mantarobot.commands.CurrencyCmds.applyPotionEffect;
 
 @Module
 public class PetCmds {
@@ -456,8 +460,12 @@ public class PetCmds {
                 ManagedDatabase managedDatabase = MantaroData.db();
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
+                Map<String, Optional<String>> t = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split("\\s+"));
 
-                String petName = content.trim();
+                String[] args = StringUtils.advancedSplitArgs(content, 2);
+
+                String potion = args[0];
+                String petName = content.replace(args[0], "").trim();
                 Map<String, Pet> playerPets = playerData.getProfilePets();
 
                 if(!playerPets.containsKey(petName)) {
@@ -466,9 +474,30 @@ public class PetCmds {
                 }
 
                 Pet pet = playerPets.get(petName);
-                PetData data = pet.getData();
+                Item item = Items.fromAnyNoId(potion).orElse(null);
 
-                //todo handle potion effect. PetData#getPotionEffect.
+                //Well, shit.
+                if (item == null) {
+                    event.getChannel().sendMessageFormat(languageContext.get("general.item_lookup.not_found"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if (item.getItemType() != ItemType.INTERACTIVE && item.getItemType() != ItemType.CRATE && item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.not_interactive"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(item.getAction() == null && (item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.interactive_no_action"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(!player.getInventory().containsItem(item)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_item"), EmoteReference.SAD).queue();
+                    return;
+                }
+
+                applyPotionEffect(event, item, player, t, petName, true, languageContext);
             }
         });
 

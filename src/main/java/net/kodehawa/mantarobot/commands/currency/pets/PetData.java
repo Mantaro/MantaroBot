@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
-import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
+import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,9 +69,8 @@ public class PetData {
     private long saturation;
     private long lastFedAt;
 
-    //Effect (for battles/collecting buffs)
-    private PotionEffect potionEffect;
-    private PotionEffect effectAppliedAt;
+    //not so much of "player" anymore
+    private PlayerEquipment equippedItems = new PlayerEquipment(new HashMap<>(), new HashMap<>()); //hashmap is type -> itemId
 
     //Current pet upgrade level
     public long upgradeLevel = 1; //The bigger this number, the easier it is to gain XP.

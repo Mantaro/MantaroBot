@@ -28,6 +28,7 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
+import net.kodehawa.mantarobot.commands.currency.pets.Pet;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
@@ -962,75 +963,7 @@ public class CurrencyCmds {
                             return;
                         }
 
-                        if((item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.BUFF) && item instanceof Potion) {
-                            DBUser dbUser = db.getUser(event.getAuthor());
-                            UserData userData = dbUser.getData();
-                            final PlayerEquipment equippedItems = userData.getEquippedItems();
-                            PlayerEquipment.EquipmentType type = equippedItems.getTypeFor(item);
-
-                            //Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
-                            int amount = t.containsKey("amount") ? Integer.parseInt(t.get("amount").orElse("1")) : 1;
-
-                            if(amount < 1) {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.too_little"), EmoteReference.SAD).queue();
-                                return;
-                            }
-
-                            if(p.getInventory().getAmount(item) < amount) {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.not_enough_items"), EmoteReference.SAD).queue();
-                                return;
-                            }
-
-                            if(equippedItems.isEffectActive(type, ((Potion) item).getMaxUses())) {
-                                PotionEffect currentPotion = equippedItems.getCurrentEffect(type);
-
-                                //Currently has a potion equipped, but wants to stack a potion of other type.
-                                if(currentPotion.getPotion() != Items.idOf(item)) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.not_same_potion"),
-                                            EmoteReference.ERROR, item.getName(), Items.fromId(currentPotion.getPotion()).getName()
-                                    ).queue();
-
-                                    return;
-                                }
-
-                                //Currently has a potion equipped, and is of the same type.
-                                if(currentPotion.equip(amount)) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied_multiple"),
-                                            EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), currentPotion.getAmountEquipped()).queue();
-                                } else {
-                                    //Too many stacked (max: 10).
-                                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size"), EmoteReference.ERROR, item.getName()).queue();
-                                    return;
-                                }
-                            } else {
-                                //No potion stacked.
-                                PotionEffect effect = new PotionEffect(Items.idOf(item), 0, ItemType.PotionType.PLAYER);
-
-                                //If there's more than 1, proceed to equip the stacks.
-                                if(amount > 1)
-                                    effect.equip(amount - 1); //Amount - 1 because we're technically using one.
-                                if(amount > 10) {
-                                    //Too many stacked (max: 10).
-                                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size_2"), EmoteReference.ERROR, item.getName()).queue();
-                                    return;
-                                }
-
-                                //Apply the effect.
-                                equippedItems.applyEffect(effect);
-                                event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied"),
-                                        EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), amount).queue();
-                            }
-
-
-                            //Default: 1
-                            p.getInventory().process(new ItemStack(item, -amount));
-                            p.save();
-                            dbUser.save();
-
-                            return;
-                        }
-
-                        item.getAction().test(event, Pair.of(languageContext, content), false);
+                        applyPotionEffect(event, item, p, t, content, false, languageContext);
                     }
                 };
             }
@@ -1116,5 +1049,87 @@ public class CurrencyCmds {
                         .build();
             }
         });
+    }
+
+    public static void applyPotionEffect(GuildMessageReceivedEvent event, Item item, Player p, Map<String, Optional<String>> arguments, String content, boolean isPet, I18nContext languageContext) {
+        final ManagedDatabase db = MantaroData.db();
+        if((item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.BUFF) && item instanceof Potion) {
+            DBUser dbUser = db.getUser(event.getAuthor());
+            UserData userData = dbUser.getData();
+            Map<String, Pet> profilePets = p.getData().getProfilePets();
+
+            //Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
+            int amount = arguments.containsKey("amount") ? Integer.parseInt(arguments.get("amount").orElse("1")) : 1;
+            String petName = isPet ? content : "";
+
+            if(isPet && petName.isEmpty()) {
+                event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_name"), EmoteReference.SAD).queue();
+                return;
+            }
+
+            final PlayerEquipment equippedItems = isPet ? profilePets.get(petName).getData().getEquippedItems() : userData.getEquippedItems();
+            PlayerEquipment.EquipmentType type = equippedItems.getTypeFor(item);
+
+            if(amount < 1) {
+                event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.too_little"), EmoteReference.SAD).queue();
+                return;
+            }
+
+            if(p.getInventory().getAmount(item) < amount) {
+                event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.not_enough_items"), EmoteReference.SAD).queue();
+                return;
+            }
+
+            if(equippedItems.isEffectActive(type, ((Potion) item).getMaxUses())) {
+                PotionEffect currentPotion = equippedItems.getCurrentEffect(type);
+
+                //Currently has a potion equipped, but wants to stack a potion of other type.
+                if(currentPotion.getPotion() != Items.idOf(item)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.not_same_potion"),
+                            EmoteReference.ERROR, item.getName(), Items.fromId(currentPotion.getPotion()).getName()
+                    ).queue();
+
+                    return;
+                }
+
+                //Currently has a potion equipped, and is of the same type.
+                if(currentPotion.equip(amount)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied_multiple"),
+                            EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), currentPotion.getAmountEquipped()).queue();
+                } else {
+                    //Too many stacked (max: 10).
+                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size"), EmoteReference.ERROR, item.getName()).queue();
+                    return;
+                }
+            } else {
+                //No potion stacked.
+                PotionEffect effect = new PotionEffect(Items.idOf(item), 0, ItemType.PotionType.PLAYER);
+
+                //If there's more than 1, proceed to equip the stacks.
+                if(amount > 1)
+                    effect.equip(amount - 1); //Amount - 1 because we're technically using one.
+                if(amount > 10) {
+                    //Too many stacked (max: 10).
+                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size_2"), EmoteReference.ERROR, item.getName()).queue();
+                    return;
+                }
+
+                //Apply the effect.
+                equippedItems.applyEffect(effect);
+                event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied"),
+                        EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), amount).queue();
+            }
+
+
+            //Default: 1
+            p.getInventory().process(new ItemStack(item, -amount));
+            p.save();
+            dbUser.save();
+
+            return;
+        }
+
+        if(!isPet)
+            item.getAction().test(event, Pair.of(languageContext, content), false);
     }
 }
