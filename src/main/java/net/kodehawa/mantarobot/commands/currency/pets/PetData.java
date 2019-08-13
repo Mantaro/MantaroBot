@@ -16,20 +16,75 @@
 
 package net.kodehawa.mantarobot.commands.currency.pets;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import net.kodehawa.mantarobot.commands.currency.item.Item;
+import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Getter
 @Setter
 public class PetData {
     //lol
     private String test;
+
     private String id; //Why isn't this on the main class?
-    private long xp;
-    private long level;
-    private double affection;
+
+    private long xp; //Increased through collecting, training and battles.
+    private long level; //Same as above.
+
+    private double affection; //Increases randomly with actions that involve "loving" or taking care of your pet.
     private long affectionLevel;
+
     private long timesPetted;
     private long timesCollected;
+
+    //How many battles
     private long battles;
+
+    //To calculate win/lose ratio
+    private long battlesWon;
+    private long battlesLost;
+    private long battlesDraw;
+
+    //Skills learned -> Skill XP
+    private Map<PetSkill, AtomicLong> petSkills = new HashMap<>();
+
+    //Hydration (water type)
+    private long hydrationLevel;
+    private long lastHydratedAt; //to handle decreasing
+
+    //Collect stats
+    private Map<Item, AtomicLong> collected = new HashMap<>();
+    private long collectRate;
+    private long lastCollectedAt; //to handle increasing
+
+    //Hunger (every type except fire)
+    private long hunger;
+    private long saturation;
+    private long lastFedAt;
+
+    //Effect (for battles/collecting buffs)
+    private PotionEffect potionEffect;
+    private PotionEffect effectAppliedAt;
+
+    //Current pet upgrade level
+    public long upgradeLevel = 1; //The bigger this number, the easier it is to gain XP.
+
+    public enum PetSkill {
+        FISH, MINE, COLLECT, FIGHT;
+
+        @JsonIgnore
+        static Random random = new Random();
+
+        public static PetSkill getRandom() {
+            int x = random.nextInt(PetSkill.values().length);
+            return PetSkill.values()[x];
+        }
+    }
 }

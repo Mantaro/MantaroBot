@@ -62,6 +62,7 @@ import java.time.format.FormatStyle;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @Module
@@ -88,6 +89,15 @@ public class PetCmds {
                 .limit(1)
                 .premiumAware(false)
                 .prefix("petpet") //owo
+                .pool(MantaroData.getDefaultJedisPool())
+                .build();
+
+        IncreasingRateLimiter trainRatelimiter = new IncreasingRateLimiter.Builder()
+                .cooldown(10, TimeUnit.MINUTES)
+                .maxCooldown(1, TimeUnit.HOURS)
+                .limit(1)
+                .premiumAware(false)
+                .prefix("pettrain") //owo
                 .pool(MantaroData.getDefaultJedisPool())
                 .build();
 
@@ -403,6 +413,9 @@ public class PetCmds {
         petActionCommand.addSubCommand("train", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                if(!Utils.handleDefaultIncreasingRatelimit(trainRatelimiter, event.getAuthor(), event, languageContext))
+                    return;
+
                 ManagedDatabase managedDatabase = MantaroData.db();
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
@@ -410,15 +423,29 @@ public class PetCmds {
                 String petName = content.trim();
                 Map<String, Pet> playerPets = playerData.getProfilePets();
 
-                if(!playerPets.containsKey(petName)) {
+                if (!playerPets.containsKey(petName)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 Pet pet = playerPets.get(petName);
                 PetData data = pet.getData();
+                int factor = rand.nextInt(100);
+                int experienceFactor;
 
-                //Train experience?
+                if(factor < 50)
+                    experienceFactor = rand.nextInt(120) + factor;
+                else
+                    experienceFactor = rand.nextInt(40) + factor / 2;
+
+                PetData.PetSkill trainedSkill = PetData.PetSkill.getRandom(); //Collect a random skill.
+                Map<PetData.PetSkill, AtomicLong> petSkills = pet.getData().getPetSkills();
+                petSkills.computeIfAbsent(trainedSkill, i -> new AtomicLong(0L));
+
+                petSkills.get(trainedSkill).addAndGet(experienceFactor / 2);
+
+                player.save();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.train.success"), EmoteReference.CORRECT, trainedSkill, experienceFactor, petSkills.get(trainedSkill).get()).queue();
             }
         });
 
@@ -441,7 +468,7 @@ public class PetCmds {
                 Pet pet = playerPets.get(petName);
                 PetData data = pet.getData();
 
-                //PotionEffect will do?
+                //todo handle potion effect. PetData#getPotionEffect.
             }
         });
 
@@ -464,7 +491,7 @@ public class PetCmds {
                 Pet pet = playerPets.get(petName);
                 PetData data = pet.getData();
 
-                //How?
+                //todo PetData#getUpgradeLevel
             }
         });
 
@@ -487,7 +514,7 @@ public class PetCmds {
                 Pet pet = playerPets.get(petName);
                 PetData data = pet.getData();
 
-                //todo: add pet food store (petshop)
+                //todo: add pet food store (petshop) | PetData#getHunger | PetData#getSaturation | PetData#getLastFedAt
             }
         });
 
@@ -515,7 +542,7 @@ public class PetCmds {
                     return;
                 }
 
-                //todo: add water bottle (petshop)
+                //todo: add water bottle (petshop) | PetData#hydrationLevel | PetData#lastHydratedAt
             }
         });
 
