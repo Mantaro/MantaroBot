@@ -29,7 +29,7 @@
             <li>Run <code>gradlew shadowJar</code></li>
             <li>Grab the <code>-all.jar</code> jar from <code>build/libs</code></li>
             <li>Install <code>rethinkdb</code> and <code>redis</code></li>
-            <li>Create the <code>mantaro</code> database with the following tables: mantaro, players, users, guilds, keys, commands</li>
+            <li>Create the <code>mantaro</code> database with the following tables: mantaro, players, users, guilds, keys, commands, seasonalplayers</li>
             <li>Run it and prepare yourself to start filling in configs (open the jar on the command line using java -jar name.jar and wait for it to crash, then it'll generate the config.json file for you to fill).</li>
             <li>In config.json, set the value needApi to false.</li>
         </ol>
