@@ -55,7 +55,8 @@ public enum ItemType {
     WAIFU(false), //So it doesn't drop on a loot crate, lol
 
     //Pet items don't appear in the normal market.
-    PET(true);
+    PET(true),
+    PET_FOOD(false);
 
     private boolean cast;
 

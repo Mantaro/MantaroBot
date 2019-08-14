@@ -25,6 +25,7 @@ import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Getter
@@ -66,14 +67,61 @@ public class PetData {
 
     //Hunger (every type except fire)
     private long hunger;
-    private long saturation;
+    private float saturation;
     private long lastFedAt;
 
     //not so much of "player" anymore
     private PlayerEquipment equippedItems = new PlayerEquipment(new HashMap<>(), new HashMap<>()); //hashmap is type -> itemId
 
     //Current pet upgrade level
-    public long upgradeLevel = 1; //The bigger this number, the easier it is to gain XP.
+    public Level upgradeLevel = Level.BASIC; //The bigger this number, the easier it is to gain XP.
+
+    @JsonIgnore
+    public long increaseHunger(long by) {
+        hunger += by;
+        if(hunger > 100) {
+            hunger = 100;
+            return 100;
+        }
+
+        return hunger;
+    }
+
+    @JsonIgnore
+    //The calculations used to decrease hunger use a negative factor on saturation: the lower, the better.
+    public float increaseSaturation(float by) {
+        saturation -= by;
+
+        if(saturation < 1) {
+            saturation = 1;
+            return 1;
+        }
+
+        return saturation;
+    }
+
+    @JsonIgnore
+    public float updateSaturation() {
+        long hoursSince = TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis() - lastFedAt);
+        if(hoursSince > 5) {
+            saturation = Math.min(10, saturation * hoursSince / 3);
+            return saturation;
+        } else {
+            return saturation;
+        }
+    }
+
+    @JsonIgnore
+    public long checkCurrentHunger() {
+        //very scientific formula
+        if(saturation < 3 && TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis() - lastFedAt) < 10) {
+            return hunger;
+        }
+
+        long reduction = (long) (Math.max(1, TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() / lastFedAt)) / -saturation);
+
+        return hunger - reduction;
+    }
 
     public enum PetSkill {
         FISH, MINE, COLLECT, FIGHT;
@@ -84,6 +132,18 @@ public class PetData {
         public static PetSkill getRandom() {
             int x = random.nextInt(PetSkill.values().length);
             return PetSkill.values()[x];
+        }
+    }
+
+    public enum Level {
+        BASIC("", 0), NORMAL("", 5), ADVANCED("", 20), LEGENDARY("", 50);
+
+        String recipe;
+        long levelRequired;
+
+        Level(String recipe, long level) {
+            this.recipe = recipe;
+            this.levelRequired = level;
         }
     }
 }

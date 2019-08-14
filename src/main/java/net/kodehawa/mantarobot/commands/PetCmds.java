@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.special.Food;
 import net.kodehawa.mantarobot.commands.currency.pets.Pet;
 import net.kodehawa.mantarobot.commands.currency.pets.PetData;
 import net.kodehawa.mantarobot.commands.currency.pets.PetStats;
@@ -74,7 +75,6 @@ public class PetCmds {
     private final static String BLOCK_INACTIVE = "\u25A1";
     private final static String BLOCK_ACTIVE = "\u25A0";
     private static final int TOTAL_BLOCKS = 5;
-
 
     @Subscribe
     public void petAction(CommandRegistry cr) {
@@ -531,19 +531,56 @@ public class PetCmds {
                 ManagedDatabase managedDatabase = MantaroData.db();
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
+                String[] args = StringUtils.advancedSplitArgs(content, 2);
+                String strippedContent = content.replace(args[0], "");
 
-                String petName = content.trim();
+                String petName = args[0];
                 Map<String, Pet> playerPets = playerData.getProfilePets();
 
-                if(!playerPets.containsKey(petName)) {
+                if (!playerPets.containsKey(petName)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 Pet pet = playerPets.get(petName);
-                PetData data = pet.getData();
 
-                //todo: add pet food store (petshop) | PetData#getHunger | PetData#getSaturation | PetData#getLastFedAt
+                //Water-type pets can "eat" bc it wouldn't melt the food. Well, fire type would just make charcoal out of food... there are other ways to increase their energy.
+                if(pet.getElement() == Pet.Type.FIRE) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.feed.fire_type"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                PetData data = pet.getData();
+                Item item = Items.fromAnyNoId(strippedContent).orElse(null);
+
+                if(item == null) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.feed.no_item"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(item.getItemType() != ItemType.PET_FOOD || !(item instanceof Food)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.feed.not_food"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Food foodItem = (Food) item; //Item is of type PET_FOOD, so assuming it's a Food type. Still, an additional check is done up there.
+                float saturationIncrease = foodItem.getSaturation();
+                int hungerIncrease = foodItem.getHungerLevel();
+
+                if(data.getHunger() == 100) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.feed.full"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                //Update current values.
+                data.updateSaturation();
+                data.checkCurrentHunger();
+
+                data.increaseHunger(hungerIncrease);
+                data.increaseSaturation(saturationIncrease);
+
+                player.getInventory().process(new ItemStack(item, -1));
+                event.getChannel().sendMessageFormat(languageContext.get("commands.petaction.feed.success"), EmoteReference.POPPER, petName, data.getHunger(), data.getSaturation()).queue();
             }
         });
 
@@ -571,25 +608,28 @@ public class PetCmds {
                     return;
                 }
 
-                //todo: add water bottle (petshop) | PetData#hydrationLevel | PetData#lastHydratedAt
-            }
-        });
-
-        //todo: shop (prolly just gonna use the item repo for this, no need to create a separate item handling logic)
-        petActionCommand.addSubCommand("shop", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-
+                //todo: add water bottle | PetData#hydrationLevel | PetData#lastHydratedAt
             }
         });
     }
 
     @Subscribe
     public void battle(CommandRegistry cr) {
+        IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                .cooldown(10, TimeUnit.MINUTES)
+                .limit(1)
+                .maxCooldown(5, TimeUnit.MINUTES)
+                .premiumAware(false)
+                .prefix("petshop")
+                .pool(MantaroData.getDefaultJedisPool())
+                .build();
+
         cr.register("battle", new SimpleCommand(Category.PETS) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-
+                //first check if it's in condition to battle, then check if the ratelimiter should run: if this doesn't happen, people will be waiting 10 minutes for a mistake, which isn't intended.
+                if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext, false))
+                    return;
             }
         });
     }
