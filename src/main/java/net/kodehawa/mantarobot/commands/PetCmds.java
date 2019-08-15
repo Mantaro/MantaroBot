@@ -162,24 +162,26 @@ public class PetCmds {
                         //This is a placeholder to test stuff. Mostly how it'll look on release though.
                         event.getChannel().sendMessage(
                                 new EmbedBuilder()
-                                        .setAuthor("Pet Overview and Statistics", null, event.getAuthor().getEffectiveAvatarUrl())
+                                        .setAuthor(languageContext.get("commands.pet.overview"), null, event.getAuthor().getEffectiveAvatarUrl())
                                         //change to pet image when i actually have it
                                         .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
                                         .setDescription(
-                                                Utils.prettyDisplay("Name", pet.getName()) + "\n" +
-                                                        Utils.prettyDisplay("Tier", String.valueOf(pet.calculateTier())) + "\n" +
+                                                Utils.prettyDisplay(languageContext.get("commands.pet.name"), pet.getName()) + "\n" +
+                                                        Utils.prettyDisplay(languageContext.get("commands.pet.tier"), String.valueOf(pet.calculateTier())) + "\n" +
                                                         // ------ Change to translatable when I have the translation tables ready for this
-                                                        Utils.prettyDisplay("Element", pet.getElement().getReadable()) + "\n" +
-                                                        Utils.prettyDisplay("Owner", MantaroBot.getInstance().getUserById(pet.getOwner()).getAsTag())  + "\n" +
-                                                        Utils.prettyDisplay("Created At", formatter.format(Instant.ofEpochMilli(pet.getEpochCreatedAt())))
+                                                        Utils.prettyDisplay(languageContext.get("commands.pet.element"), pet.getElement().getReadable()) + "\n" +
+                                                        Utils.prettyDisplay(languageContext.get("commands.pet.owner"), MantaroBot.getInstance().getUserById(pet.getOwner()).getAsTag())  + "\n" +
+                                                        Utils.prettyDisplay(languageContext.get("commands.pet.created"), formatter.format(Instant.ofEpochMilli(pet.getEpochCreatedAt())))
                                         )
-                                        .addField("Affection", getProgressBar(stats.getAffection(), 50) + String.format(" (%s/%s)", stats.getAffection(), 50), true)
-                                        .addField("Current HP", getProgressBar(stats.getCurrentHP(), stats.getHp()) + String.format(" (%s/%s)", stats.getCurrentHP(), stats.getHp()), true)
-                                        .addField("Current Stamina", getProgressBar(stats.getCurrentStamina(), stats.getStamina()) + String.format(" (%s/%s)", stats.getCurrentStamina(), stats.getStamina()), true)
-                                        .addField("Fly", String.valueOf(pet.getStats().isFly()), true)
-                                        .addField("Venom", String.valueOf(pet.getStats().isVenom()), true)
-                                        .addField("Inventory", ItemStack.toString(pet.getPetInventory().asList()), false)
-                                        .setFooter("Pet ID: " + pet.getData().getId(), null)
+                                        .addField(languageContext.get("commands.pet.affection"), getProgressBar(stats.getAffection(), 50) + String.format(" (%s/%s)", stats.getAffection(), 50), true)
+                                        .addField(languageContext.get("commands.pet.hp"), getProgressBar(stats.getCurrentHP(), stats.getHp()) + String.format(" (%s/%s)", stats.getCurrentHP(), stats.getHp()), true)
+                                        .addField(languageContext.get("commands.pet.stamina"), getProgressBar(stats.getCurrentStamina(), stats.getStamina()) + String.format(" (%s/%s)", stats.getCurrentStamina(), stats.getStamina()), true)
+                                        .addField(languageContext.get("commands.pet.hunger"), getProgressBar(pet.getData().getHunger(), 100) + String.format(" (%s/%s)", pet.getData().getHunger(), 100), true)
+                                        .addField(languageContext.get("commands.pet.hydration"), getProgressBar(pet.getData().getCurrentHydration(), 100) + String.format(" (%s/%s)", pet.getData().getCurrentHydration(), 100), true)
+                                        .addField(languageContext.get("commands.pet.fly"), String.valueOf(pet.getStats().isFly()), true)
+                                        .addField(languageContext.get("commands.pet.venom"), String.valueOf(pet.getStats().isVenom()), true)
+                                        .addField(languageContext.get("commands.pet.inventory"), ItemStack.toString(pet.getPetInventory().asList()), false)
+                                        .setFooter(String.format(languageContext.get("commands.pet.id"), pet.getData().getId()), null)
                                         .setColor(Color.PINK)
                                         .build()
                         ).queue();
@@ -368,10 +370,10 @@ public class PetCmds {
                 List<MessageEmbed.Field> fields = new LinkedList<>();
 
                 playerPets.forEach((key, pet) -> fields.add(new MessageEmbed.Field(pet.getName(),
-                        Utils.prettyDisplay("Tier", String.valueOf(pet.getTier())) + "\n" +
-                                Utils.prettyDisplay("XP", String.format("%s (Level %s)", pet.getData().getXp(), pet.getData().getLevel()) + "\n" +
-                                Utils.prettyDisplay("Element", pet.getElement().getReadable()) + "\n" +
-                                Utils.prettyDisplay("Age", pet.getAgeDays() + " days") + "\n"
+                        Utils.prettyDisplay(languageContext.get("commands.pet.tier"), String.valueOf(pet.getTier())) + "\n" +
+                                Utils.prettyDisplay(languageContext.get("commands.petactions.ls.experience"), String.format("%s (Level %s)", pet.getData().getXp(), pet.getData().getLevel()) + "\n" +
+                                Utils.prettyDisplay(languageContext.get("commands.pet.element"), pet.getElement().getReadable()) + "\n" +
+                                Utils.prettyDisplay(languageContext.get("commands.petactions.ls.age"), pet.getAgeDays() + " days") + "\n"
                         ),
                         true)
                 ));
@@ -384,12 +386,8 @@ public class PetCmds {
 
                 boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
 
-                builder.setDescription("**Total pages: " + splitFields.size() + "**\nUse the message reaction to move between pages.\n\n" +
-                        EmoteReference.TALKING + " This is a list of the pets you currently own.\n" +
-                                "Pets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets" +
-                                " from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to " +
-                                "incubate a pet, which will require you to give it a name."
-                        );
+                builder.setDescription(String.format(languageContext.get("commands.petactions.ls.pages"), splitFields.size()) +
+                        EmoteReference.TALKING + languageContext.get("commands.petactions.ls.header"));
 
                 if(hasReactionPerms) {
                     DiscordUtils.list(event, 120, false, builder, splitFields);
