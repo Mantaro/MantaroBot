@@ -77,6 +77,29 @@ public class PetData {
     public Level upgradeLevel = Level.BASIC; //The bigger this number, the easier it is to gain XP.
 
     @JsonIgnore
+    public long getCurrentHydration() {
+        long hoursSince = TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis() - lastHydratedAt);
+        if(hoursSince > 3) {
+            hydrationLevel = Math.min(10, hydrationLevel * hoursSince / 2);
+            return hydrationLevel;
+        } else {
+            return hydrationLevel;
+        }
+    }
+
+    @JsonIgnore
+    public long increaseHydration() {
+        hydrationLevel += 10;
+
+        if(hydrationLevel > 100) {
+            hydrationLevel = 100;
+            return 100;
+        }
+
+        return hydrationLevel;
+    }
+
+    @JsonIgnore
     public long increaseHunger(long by) {
         hunger += by;
         if(hunger > 100) {

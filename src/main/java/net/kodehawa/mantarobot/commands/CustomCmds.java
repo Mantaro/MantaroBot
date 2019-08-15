@@ -69,7 +69,7 @@ import static net.kodehawa.mantarobot.data.MantaroData.db;
 public class
 CustomCmds {
     private static final Map<String, CustomCommand> customCommands = new ConcurrentHashMap<>();
-    private final static Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+"),
+    public final static Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+"),
             INVALID_CHARACTERS_PATTERN = Pattern.compile("[^a-zA-Z0-9_]"),
             NAME_WILDCARD_PATTERN = Pattern.compile("[a-zA-Z0-9_*]+");
 
@@ -760,7 +760,7 @@ CustomCmds {
                 //easter egg :D
                 TextChannelGround.of(event).dropItemWithChance(8, 2);
             }
-        });
+        }).createSubCommandAlias("add", "new");
     }
 
     //Lazy-load custom commands into cache.
