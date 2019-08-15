@@ -29,7 +29,7 @@
             <li>Run <code>gradlew shadowJar</code></li>
             <li>Grab the <code>-all.jar</code> jar from <code>build/libs</code></li>
             <li>Install <code>rethinkdb</code> and <code>redis</code></li>
-            <li>Create the <code>mantaro</code> database with the following tables: mantaro, players, users, guilds, keys, commands</li>
+            <li>Create the <code>mantaro</code> database with the following tables: mantaro, players, users, guilds, keys, commands, seasonalplayers</li>
             <li>Run it and prepare yourself to start filling in configs (open the jar on the command line using java -jar name.jar and wait for it to crash, then it'll generate the config.json file for you to fill).</li>
             <li>In config.json, set the value needApi to false.</li>
         </ol>
@@ -45,7 +45,7 @@
         <hr>
         <p>Give credit where credit is due. If you wish to use our code in a project, <b>please</b> credit us, and take your time to read our full license. We don't mind you using Mantaro code, <b>as it is</b> open-source for a reason, as long as you don't blatantly copy it or refrain from crediting us.</p>
         <h2>License</h2>
-        <p>Copyright (C) 2016-2019 <b>David Alejandro Rubio Escares</b>/<b>Kodehawa</b></p>
+        <p>Copyright (C) 2016-2019 <b>David Rubio Escares</b> / <b>Kodehawa</b></p>
         <code>
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
