@@ -46,6 +46,8 @@ import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.Pair;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
@@ -194,14 +196,20 @@ public class CommandRegistry {
         if(currentKey != null) {
             //10 days before expiration or best fit.
             if(currentKey.validFor() <= 10 && currentKey.validFor() > 1 && !userData.isReceivedExpirationWarning()) {
-                event.getAuthor().openPrivateChannel().queue(privateChannel ->
-                        privateChannel.sendMessage(EmoteReference.WARNING + "Your premium key is about to run out in **" + Math.max(1, currentKey.validFor()) + " days**!\n" +
-                                EmoteReference.HEART + "*If you're still pledging to Mantaro* you can ask Kodehawa#3457 for a key renewal in the #donators channel. " +
-                                "In the case that you're not longer a patron, you cannot renew, but I sincerely hope you had a good time with the bot and its features! " +
-                                "**If you ever want to pledge again you can check the patreon link at <https://patreon.com/mantaro>**\n\n" +
-                                "Thanks you so much for your support to keep Mantaro alive! It wouldn't be possible without the help of all of you.\n" +
-                                "With love, Kodehawa#3457 " + EmoteReference.HEART + ". This will only be sent once (hopefully).").queue()
-                );
+                Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(event.getAuthor().getId());
+                if(pledgeInfo != null && pledgeInfo.getLeft()) {
+                    currentKey.activate(365); //Renew key automatically if seen as a patreon.
+                } else {
+                    //Send message if the person can't be seen as a patron. Maybe they're still pledging, or wanna pledge again.
+                    event.getAuthor().openPrivateChannel().queue(privateChannel ->
+                            privateChannel.sendMessage(EmoteReference.WARNING + "Your premium key is about to run out in **" + Math.max(1, currentKey.validFor()) + " days**!\n" +
+                                    EmoteReference.HEART + "*If you're still pledging to Mantaro* you can ask Kodehawa#3457 for a key renewal in the #donators channel. " +
+                                    "In the case that you're not longer a patron, you cannot renew, but I sincerely hope you had a good time with the bot and its features! " +
+                                    "**If you ever want to pledge again you can check the patreon link at <https://patreon.com/mantaro>**\n\n" +
+                                    "Thanks you so much for your support to keep Mantaro alive! It wouldn't be possible without the help of all of you.\n" +
+                                    "With love, Kodehawa#3457 " + EmoteReference.HEART + ". This will only be sent once (hopefully).").queue()
+                    );
+                }
 
                 //Set expiration warning flag to true and save.
                 userData.setReceivedExpirationWarning(true);
