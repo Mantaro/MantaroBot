@@ -250,7 +250,8 @@ public class InfoCmds {
                 "Helps you to help yourself.",
                 "Help Inception.",
                 "A help helping helping helping help.",
-                "I wonder if this is what you are looking for..."
+                "I wonder if this is what you are looking for...",
+                "Helping you help the world."
         ));
 
         cr.register("help", new SimpleCommand(Category.INFO) {
