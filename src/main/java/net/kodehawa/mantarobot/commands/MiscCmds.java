@@ -181,7 +181,7 @@ public class MiscCmds {
                     return;
                 }
 
-                event.getChannel().sendMessage("\uD83D\uDCAC " + answer + ".").queue();
+                event.getChannel().sendMessage("\uD83D\uDCAC " + answer + ".").queue(); //owo
             }
 
             @Override
