@@ -238,6 +238,8 @@ public class ImageboardUtils {
                 tags.contains("younger") ||
                 //lol @ rule34
                 tags.contains("underage") || tags.contains("under_age")
+                //lol @ rule34 / @ e621
+                || tags.contains("cub")
                 && !rating.equals(Rating.SAFE);
 
         if(!trigger) {
