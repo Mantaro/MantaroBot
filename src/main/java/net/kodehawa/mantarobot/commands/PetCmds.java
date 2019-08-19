@@ -660,9 +660,9 @@ public class PetCmds {
         IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .cooldown(10, TimeUnit.MINUTES)
                 .limit(1)
-                .maxCooldown(5, TimeUnit.MINUTES)
+                .maxCooldown(15, TimeUnit.MINUTES)
                 .premiumAware(false)
-                .prefix("petshop")
+                .prefix("battle")
                 .pool(MantaroData.getDefaultJedisPool())
                 .build();
 
