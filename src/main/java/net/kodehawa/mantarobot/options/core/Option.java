@@ -63,7 +63,7 @@ public class Option {
     }
 
     public static void addOptionAlias(String current, String name) {
-        Option.optionMap.put(current, optionMap.get(name));
+        Option.optionMap.put(name, optionMap.get(current));
         String toAdd = String.format(
                 "%-34s" + " | %s (Alias) ",
                 name.replace(":", " "),
