@@ -1,4 +1,4 @@
-Did you know that you can provide an argument to help to get extended command about a command? Try `~>help anime`!
+Did you know that you can provide an argument to help to get extended help about a command? Try `~>help anime`!
 You can provide the `-brief` argument to inventory and badges to see a mobile-friendly version of them.
 You can see the amount of games you've won by using `~>game wins`
 Did you know you can start multiple games of the same type at once? Try `~>game multiple trivia 6` or `~>game multiple pokemon 4`!
