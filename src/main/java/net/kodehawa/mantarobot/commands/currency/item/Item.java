@@ -50,7 +50,7 @@ public class Item {
     private String translatedName;
     @Getter
     private String alias;
-
+    
     public Item(ItemType type, String emoji, String name, String alias, String translatedName, String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize, TriPredicate<GuildMessageReceivedEvent, Pair<I18nContext, String>, Boolean> action, String recipe, int... recipeTypes) {
         this.emoji = emoji;
         this.name = name;

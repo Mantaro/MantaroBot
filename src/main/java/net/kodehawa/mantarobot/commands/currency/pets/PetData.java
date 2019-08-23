@@ -61,7 +61,7 @@ public class PetData {
     private long lastHydratedAt; //to handle decreasing
 
     //Collect stats
-    private Map<Item, AtomicLong> collected = new HashMap<>();
+    private Map<Long, AtomicLong> collected = new HashMap<>();
     private long collectRate;
     private long lastCollectedAt; //to handle increasing
 
