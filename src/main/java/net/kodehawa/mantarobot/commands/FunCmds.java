@@ -50,7 +50,6 @@ import java.util.stream.Collectors;
 @Module
 @SuppressWarnings("unused")
 public class FunCmds {
-
     private final Random r = new Random();
     private final Config config = MantaroData.config().get();
 

@@ -76,6 +76,7 @@ public class CommandOptions extends OptionHandler {
             event.getChannel().sendMessageFormat(lang.get("options.server_command_disallow.success"), EmoteReference.MEGA, commandName).queue();
             dbGuild.saveAsync();
         });
+        addOptionAlias("server:command:disallow", "command:disable");
 
         registerOption("server:command:allow", "Command allow",
                 "Allows a command from being triggered. Use the command name\n" +
@@ -102,6 +103,7 @@ public class CommandOptions extends OptionHandler {
             event.getChannel().sendMessageFormat(lang.get("options.server_command_allow.success"), EmoteReference.MEGA, commandName).queue();
             dbGuild.saveAsync();
         });
+        addOptionAlias("server:command:allow", "command:enable");
 
         registerOption("server:command:specific:disallow", "Specific command disallow",
                 "Disallows a command from being triggered at all in a specific channel. Use the channel **name** and command name\n" +
@@ -142,6 +144,7 @@ public class CommandOptions extends OptionHandler {
             dbGuild.saveAsync();
 
         });
+        addOptionAlias("server:command:specific:disallow", "command:specific:disable");
 
         registerOption("server:command:specific:allow", "Specific command allow",
                 "Re-allows a command from being triggered in a specific channel. Use the channel **name** and command name\n" +
@@ -176,6 +179,7 @@ public class CommandOptions extends OptionHandler {
             event.getChannel().sendMessageFormat(lang.get("options.server_command_specific_allow.success"), EmoteReference.MEGA, commandName, channel.getName()).queue();
             dbGuild.saveAsync();
         }));
+        addOptionAlias("server:command:specific:allow", "command:specific:enable");
 
         registerOption("server:channel:disallow", "Channel disallow",
                 "Disallows a channel from commands. Use the channel **name**\n" +
@@ -206,6 +210,7 @@ public class CommandOptions extends OptionHandler {
                 consumer.accept(channel);
             }
         });
+        addOptionAlias("server:channel:disallow", "channel:disable");
 
         registerOption("server:channel:allow", "Channel allow",
                 "Allows a channel from commands. Use the channel **name**\n" +
@@ -231,6 +236,7 @@ public class CommandOptions extends OptionHandler {
                 consumer.accept(channel);
             }
         });
+        addOptionAlias("server:channel:allow", "channel:enable");
 
         registerOption("category:disable", "Disable categories",
                 "Disables a specified category.\n" +
@@ -460,6 +466,8 @@ public class CommandOptions extends OptionHandler {
                 consumer.accept(role);
             }
         });
+        addOptionAlias("server:role:specific:disallow", "role:specific:disable");
+
 
         registerOption("server:role:specific:allow", "Allows a role from executing an specific command", "Allows a role from executing an specific command\n" +
                 "This command takes either the role name, id or mention and the command to disallow afterwards. If the role name contains spaces, wrap it in quotes \"like this\"\n" +
@@ -509,6 +517,7 @@ public class CommandOptions extends OptionHandler {
                 consumer.accept(role);
             }
         });
+        addOptionAlias("server:role:specific:allow", "role:specific:enable");
 
         registerOption("category:role:specific:disable", "Disables a role from executing commands in an specified category.", "Disables a role from executing commands in an specified category\n" +
                 "This command takes the category name and the role to disable afterwards. If the role name contains spaces, wrap it in quotes \"like this\"\n" +

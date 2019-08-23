@@ -62,6 +62,16 @@ public class Option {
         Option.avaliableOptions.add(toAdd);
     }
 
+    public static void addOptionAlias(String current, String name) {
+        Option.optionMap.put(current, optionMap.get(name));
+        String toAdd = String.format(
+                "%-34s" + " | %s (Alias) ",
+                name.replace(":", " "),
+                getShortDescription()
+        );
+        Option.avaliableOptions.add(toAdd);
+    }
+
     public Option setAction(Consumer<GuildMessageReceivedEvent> code) {
         eventConsumer = (event, ignored, ignored2) -> code.accept(event);
         return this;

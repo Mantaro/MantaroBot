@@ -135,6 +135,8 @@ public class GeneralOptions extends OptionHandler {
                 consumer.accept(channel);
             }
         });
+        addOptionAlias("linkprotection:channel:allow", "linkprotection:channel:enable");
+
 
         registerOption("linkprotection:channel:disallow", "Link-protection channel disallow",
                 "Disallows the posting of invites on a channel.\n" +
@@ -162,6 +164,7 @@ public class GeneralOptions extends OptionHandler {
                 consumer.accept(channel);
             }
         });
+        addOptionAlias("linkprotection:channel:disallow", "linkprotection:channel:disable");
 
         registerOption("linkprotection:user:allow", "Link-protection user whitelist", "Allows an user to post invites.\n" +
                 "You need to mention the user.", "Allows an user to post invites.", (event, args, lang) -> {
@@ -185,6 +188,7 @@ public class GeneralOptions extends OptionHandler {
                     EmoteReference.CORRECT, toWhiteList.getName(), toWhiteList.getDiscriminator()
             ).queue();
         });
+        addOptionAlias("linkprotection:user:allow", "linkprotection:user:enable");
 
         registerOption("linkprotection:user:disallow", "Link-protection user blacklist", "Disallows an user to post invites.\n" +
                 "You need to mention the user. (This is the default behaviour)", "Allows an user to post invites (This is the default behaviour)", (event, args, lang) -> {
@@ -214,6 +218,7 @@ public class GeneralOptions extends OptionHandler {
                     EmoteReference.CORRECT, toBlackList.getName(), toBlackList.getDiscriminator()
             ).queue();
         });
+        addOptionAlias("linkprotection:user:disallow", "linkprotection:user:disable");
 
         registerOption("imageboard:tags:blacklist:add", "Blacklist imageboard tags", "Blacklists the specified imageboard tag from being looked up.",
                 "Blacklist imageboard tags", (event, args, lang) -> {

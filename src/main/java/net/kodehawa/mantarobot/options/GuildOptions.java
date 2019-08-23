@@ -381,6 +381,8 @@ public class GuildOptions extends OptionHandler {
             dbGuild.saveAsync();
             event.getChannel().sendMessageFormat(lang.get("options.usermessage_join_resetchannel.success"), EmoteReference.CORRECT).queue();
         });
+        addOptionAlias("usermessage:join:resetchannel", "resetjoinchannel");
+
 
         registerOption("usermessage:leave:channel", "Sets the leave message channel", "Sets the leave channel, you need the channel **name**\n" +
                 "**Example:** `~>opts usermessage leave channel leave-magic`\n" +
@@ -414,6 +416,7 @@ public class GuildOptions extends OptionHandler {
             dbGuild.saveAsync();
             event.getChannel().sendMessageFormat(lang.get("options.usermessage_leave_resetchannel.success"), EmoteReference.CORRECT).queue();
         });
+        addOptionAlias("usermessage:join:resetchannel", "resetleavechannel");
 
         registerOption("usermessage:channel", "Set message channel",
                 "Sets the join/leave message channel. You need the channel **name**\n" +
@@ -460,6 +463,7 @@ public class GuildOptions extends OptionHandler {
                     dbGuild.save();
                     event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage.success"), EmoteReference.CORRECT, joinMessage).queue();
         });//endregion
+        addOptionAlias("usermessage:joinmessage", "joinmessage");
 
         //region leavemessage
         registerOption("usermessage:leavemessage", "User leave message",
@@ -479,6 +483,7 @@ public class GuildOptions extends OptionHandler {
                     dbGuild.save();
                     event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage.success"), EmoteReference.CORRECT, leaveMessage).queue();
         });//endregion
+        addOptionAlias("usermessage:joinmessage", "leavemessage");
 
         registerOption("usermessage:joinmessages:add", "Join Message extra messages add", "Adds a new join message\n" +
                 "**Example**: `~>opts usermessage joinmessages add hi`" , "Adds a new join message", ((event, args, lang) -> {

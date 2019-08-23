@@ -54,4 +54,8 @@ public abstract class OptionHandler {
                                   TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> code) {
         Option.addOption(name, new Option(displayName, description, type).setActionLang(code).setShortDescription(shortDescription));
     }
+
+    protected void addOptionAlias(String original, String alias) {
+        Option.addOptionAlias(original, alias);
+    }
 }
