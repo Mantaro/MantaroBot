@@ -675,10 +675,6 @@ public class MantaroListener implements EventListener {
                 String v = message.substring(c + 1);
                 String r = message.substring(0, c - m.length()).trim();
 
-                System.out.println(m);
-                System.out.println(r);
-                System.out.println(v);
-
                 if (m.equals("embed")) {
                     EmbedJSON embed;
                     try {
