@@ -191,4 +191,10 @@ public class GuildData {
     private List<String> modLogBlacklistWords = new ArrayList<>();
     @ConfigName("Autoroles categories")
     private Map<String, List<String>> autoroleCategories = new HashMap<>();
+
+    //mod logs customization
+    private String editMessageLog;
+    private String deleteMessageLog;
+    private String bannedMemberLog;
+    private String kickedMemberLog;
 }

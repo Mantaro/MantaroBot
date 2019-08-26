@@ -103,6 +103,16 @@ public class PetCmds {
                 .maxCooldown(1, TimeUnit.HOURS)
                 .limit(1)
                 .premiumAware(false)
+                .randomIncrement(false)
+                .prefix("pettrain") //owo
+                .pool(MantaroData.getDefaultJedisPool())
+                .build();
+
+        IncreasingRateLimiter incubateRatelimiter = new IncreasingRateLimiter.Builder()
+                .cooldown(6, TimeUnit.HOURS)
+                .limit(1)
+                .premiumAware(false)
+                .randomIncrement(false)
                 .prefix("pettrain") //owo
                 .pool(MantaroData.getDefaultJedisPool())
                 .build();
@@ -137,7 +147,6 @@ public class PetCmds {
                             userId = found.get(0).getUser().getId();
                             petName = args[1];
                         }
-
 
                         if(petName.isEmpty()) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.pet.not_specified"), EmoteReference.ERROR).queue();
@@ -198,6 +207,9 @@ public class PetCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                if(!Utils.handleDefaultIncreasingRatelimit(incubateRatelimiter, event.getAuthor(), event, null))
+                    return;
+
                 ManagedDatabase managedDatabase = MantaroData.db();
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
