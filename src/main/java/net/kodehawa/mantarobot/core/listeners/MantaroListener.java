@@ -23,6 +23,7 @@ import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.*;
@@ -41,6 +42,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageUpdateEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.custom.CustomCommandHandler;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.commands.info.stats.manager.GuildStatsManager;
@@ -51,10 +53,7 @@ import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.MantaroObj;
-import net.kodehawa.mantarobot.db.entities.PremiumKey;
+import net.kodehawa.mantarobot.db.entities.*;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
@@ -71,6 +70,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static net.kodehawa.mantarobot.utils.Utils.*;
 
@@ -116,6 +116,8 @@ public class MantaroListener implements EventListener {
     private final MantaroShard shard;
     private final int shardId;
     private final SecureRandom rand = new SecureRandom();
+
+    private Pattern modifierPattern = Pattern.compile("\\b\\p{L}*:\\b");
 
     public MantaroListener(int shardId, MantaroShard shard) {
         this.shardId = shardId;
@@ -661,8 +663,21 @@ public class MantaroListener implements EventListener {
 
             int c = message.indexOf(':');
             if (c != -1) {
-                String m = message.substring(0, c);
+
+                //Wonky?
+                Matcher matcher = modifierPattern.matcher(message);
+                String m = "none";
+                //Find the first occurrence of a modifier (word:)
+                if(matcher.find()) {
+                    m = matcher.group().replace(":", "");
+                }
+
                 String v = message.substring(c + 1);
+                String r = message.substring(0, c - m.length()).trim();
+
+                System.out.println(m);
+                System.out.println(r);
+                System.out.println(v);
 
                 if (m.equals("embed")) {
                     EmbedJSON embed;
@@ -673,7 +688,17 @@ public class MantaroListener implements EventListener {
                         return;
                     }
 
-                    tc.sendMessage(embed.gen(event.getMember())).queue(success -> {}, error -> tc.sendMessage("Failed to send join/leave message.").queue());
+                    MessageBuilder builder = new MessageBuilder()
+                            .setEmbed(embed.gen(event.getMember()));
+
+                    if(!r.isEmpty())
+                        builder.append(r);
+
+                    builder.sendTo(tc)
+                            .queue(success -> {}, error ->
+                                    tc.sendMessage("Failed to send join/leave message.").queue()
+                            );
+
                     return;
                 }
             }

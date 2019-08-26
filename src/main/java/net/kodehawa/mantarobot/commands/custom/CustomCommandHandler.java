@@ -100,6 +100,7 @@ public class CustomCommandHandler {
 
             MiscCmds.iamFunction(iam.trim().replace("\"", ""), event, lang, message);
         });
+
         specialHandlers.put("iamnotcustom", (event, lang, value, args) -> {
             System.out.println(value);
             String[] arg = StringUtils.advancedSplitArgs(value, 2);

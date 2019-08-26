@@ -373,6 +373,7 @@ public class GuildOptions extends OptionHandler {
                 consumer.accept(channel);
             }
         });
+        addOptionAlias("usermessage:join:channel", "joinchannel");
 
         registerOption("usermessage:join:resetchannel", "Resets the join message channel", "Resets the join message channel", (event, lang) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
@@ -408,6 +409,7 @@ public class GuildOptions extends OptionHandler {
                 consumer.accept(channel);
             }
         });
+        addOptionAlias("usermessage:join:channel", "leavechannel");
 
         registerOption("usermessage:leave:resetchannel", "Resets the leave message channel", "Resets the leave message channel", (event, lang) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
@@ -483,7 +485,7 @@ public class GuildOptions extends OptionHandler {
                     dbGuild.save();
                     event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage.success"), EmoteReference.CORRECT, leaveMessage).queue();
         });//endregion
-        addOptionAlias("usermessage:joinmessage", "leavemessage");
+        addOptionAlias("usermessage:leavemessage", "leavemessage");
 
         registerOption("usermessage:joinmessages:add", "Join Message extra messages add", "Adds a new join message\n" +
                 "**Example**: `~>opts usermessage joinmessages add hi`" , "Adds a new join message", ((event, args, lang) -> {
