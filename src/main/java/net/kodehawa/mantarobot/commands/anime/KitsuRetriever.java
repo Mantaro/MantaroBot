@@ -31,13 +31,33 @@ public class KitsuRetriever {
             String body = response.body().string();
             response.close();
 
-            System.out.println(body);
             Type collectionType = new TypeToken<List<KCharacterData>>() {}.getType();
 
             JsonObject json = new JsonParser().parse(body).getAsJsonObject();
             JsonArray jarr = json.getAsJsonObject().getAsJsonArray("data");
-            System.out.println(jarr.toString());
+            return gson.fromJson(jarr, collectionType);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
+    public static List<KAnimeData> searchAnime(String name) {
+        try {
+            Request request = new Request.Builder()
+                    .url(String.format("https://kitsu.io/api/edge/anime?filter[text]=%s", URLEncoder.encode(name, "UTF-8")))
+                    .addHeader("User-Agent", MantaroInfo.USER_AGENT)
+                    .get()
+                    .build();
+
+            Response response = httpClient.newCall(request).execute();
+            String body = response.body().string();
+            response.close();
+
+            Type collectionType = new TypeToken<List<KAnimeData>>() {}.getType();
+
+            JsonObject json = new JsonParser().parse(body).getAsJsonObject();
+            JsonArray jarr = json.getAsJsonObject().getAsJsonArray("data");
             return gson.fromJson(jarr, collectionType);
         } catch (IOException e) {
             e.printStackTrace();

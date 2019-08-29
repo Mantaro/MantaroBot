@@ -16,12 +16,12 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
 import com.google.gson.JsonSyntaxException;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.anime.KAnimeData;
 import net.kodehawa.mantarobot.commands.anime.KCharacterData;
 import net.kodehawa.mantarobot.commands.anime.KitsuRetriever;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -34,9 +34,6 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.graphql.MediaSearchQuery;
-import net.kodehawa.mantarobot.graphql.type.MediaType;
-import net.kodehawa.mantarobot.utils.Anilist;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -44,7 +41,6 @@ import okhttp3.OkHttpClient;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.awt.*;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,10 +62,7 @@ public class AnimeCmds {
                         return;
                     }
 
-                    List<MediaSearchQuery.Medium> found = Anilist.searchMedia(content)
-                            .stream()
-                            .filter(media -> media.type() == MediaType.ANIME)
-                            .collect(Collectors.toList());
+                    List<KAnimeData> found = KitsuRetriever.searchAnime(content);
 
                     if(found.isEmpty()) {
                         event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
@@ -81,12 +74,11 @@ public class AnimeCmds {
                         return;
                     }
 
-                    DiscordUtils.selectList(event, found.stream().limit(7).collect(Collectors.toList()), anime -> String.format("**[%s (%s)](%s)**",
-                            anime.title().english() == null || anime.title().english().isEmpty() ?
-                                    anime.title().romaji() : anime.title().english(), anime.title().native_(), anime.siteUrl()),
+                    DiscordUtils.selectList(event, found.stream().limit(7).collect(Collectors.toList()), anime -> String.format("[**%s** (%s)](%s)",
+                            anime.getAttributes().getCanonicalTitle(), anime.getAttributes().getTitles().getJa_jp(), anime.getURL()),
                             s -> baseEmbed(event, languageContext.withRoot("commands", "anime.selection_start"))
                                     .setDescription(s)
-                                    .setThumbnail("https://anilist.co/img/logo_al.png")
+                                    .setThumbnail("https://avatars.slack-edge.com/2017-07-16/213464927747_f1d4f9fb141ef6666442_512.png")
                                     .setFooter(languageContext.withRoot("commands", "anime.information_footer"), event.getAuthor().getAvatarUrl())
                                     .build(),
                             anime -> animeData(event, languageContext, anime));
@@ -136,10 +128,12 @@ public class AnimeCmds {
                         return;
                     }
 
-                    DiscordUtils.selectList(event, characters.stream().limit(7).collect(Collectors.toList()), character -> String.format("**%s** (%s)", character.getAttributes().getName(), character.getAttributes().getNames().getJa_jp()),
+                    DiscordUtils.selectList(event, characters.stream().limit(7).collect(Collectors.toList()), character ->
+                                        String.format("[**%s** (%s)](%s)", character.getAttributes().getName(), character.getAttributes().getNames().getJa_jp(), character.getURL()
+                                    ),
                             s -> baseEmbed(event, languageContext.withRoot("commands", "anime.information_footer"))
                                     .setDescription(s)
-                                    .setThumbnail("https://anilist.co/img/logo_al.png")
+                                    .setThumbnail("https://avatars.slack-edge.com/2017-07-16/213464927747_f1d4f9fb141ef6666442_512.png")
                                     .setFooter(languageContext.withRoot("commands", "anime.information_footer"), event.getAuthor().getAvatarUrl())
                                     .build(),
                             character -> characterData(event, languageContext, character));
@@ -166,23 +160,21 @@ public class AnimeCmds {
         cr.registerAlias("character", "char");
     }
 
-    private void animeData(GuildMessageReceivedEvent event, I18nContext lang, MediaSearchQuery.Medium type) {
-        String title = type.title().english() == null || type.title().english().isEmpty() ? type.title().romaji() : type.title().english();
-        String releaseDate = type.startDate() == null ? null : type.startDate().day() + "/" + type.startDate().month() + "/" + type.startDate().year();
-        String endDate = type.endDate() == null ? null : type.endDate().day() + "/" + type.endDate().month() + "/" + type.endDate().year();
-        String animeDescription = StringEscapeUtils.unescapeHtml4(type.description().replace("<br>", " "));
-        String averageScore = String.valueOf(type.averageScore());
-        String imageUrl = type.coverImage().large();
-        final String typeName = type.format().name();
+    private void animeData(GuildMessageReceivedEvent event, I18nContext lang, KAnimeData animeData) {
+        KAnimeData.Attributes attributes = animeData.getAttributes();
+
+        String title = attributes.getCanonicalTitle();
+        String releaseDate = attributes.getStartDate();
+        String endDate = attributes.getEndDate();
+        String animeDescription = StringEscapeUtils.unescapeHtml4(attributes.getSynopsis().replace("<br>", " "));
+        String favoriteCount = String.valueOf(attributes.getFavoritesCount());
+        String imageUrl = attributes.getPosterImage().getMedium();
+        final String typeName = attributes.getShowType();
         String animeType = typeName.length() > 3 ? Utils.capitalize(typeName.toLowerCase()) : typeName;
-        String episodes = type.episodes().toString();
-        String episodeDuration = type.duration().toString();
+        String episodes = String.valueOf(attributes.getEpisodeCount());
+        String episodeDuration = String.valueOf(attributes.getEpisodeLength());
 
-        List<String> genres = Lists.newArrayList(type.genres());
-        genres.removeAll(Collections.singleton(""));
-        String genreString = String.join(", ", genres);
-
-        if(genres.contains("Hentai") && !event.getChannel().isNSFW()) {
+        if(attributes.isNsfw() && !event.getChannel().isNSFW()) {
             event.getChannel().sendMessageFormat(lang.get("commands.anime.hentai"), EmoteReference.ERROR).queue();
             return;
         }
@@ -197,16 +189,15 @@ public class AnimeCmds {
         //Start building the embedded message.
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(Color.DARK_GRAY)
-                .setAuthor(String.format(lang.get("commands.anime.information_header"), title), type.siteUrl(), type.coverImage().medium())
+                .setAuthor(String.format(lang.get("commands.anime.information_header"), title), null, imageUrl)
                 .setFooter(lang.get("commands.anime.information_notice"), null)
                 .setThumbnail(imageUrl)
                 .addField(lang.get("commands.anime.release_date"), releaseDate, true)
                 .addField(lang.get("commands.anime.end_date"), (endDate == null || endDate.equals("null") ? lang.get("commands.anime.airing") : endDate), true)
-                .addField(lang.get("commands.anime.average_score"), averageScore + "/100", true)
+                .addField(lang.get("commands.anime.favorite_count"), favoriteCount, true)
                 .addField(lang.get("commands.anime.type"), animeType, true)
                 .addField(lang.get("commands.anime.episodes"), episodes, true)
                 .addField(lang.get("commands.anime.episode_duration"), episodeDuration + " " + lang.get("commands.anime.minutes"), true)
-                .addField(lang.get("commands.anime.genres"), genreString, false)
                 .addField(lang.get("commands.anime.description"), animeDescription.length() <= 850 ? animeDescription : animeDescription.substring(0, 850) + "...", false);
         event.getChannel().sendMessage(embed.build()).queue();
     }

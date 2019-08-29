@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands.anime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 @Getter
@@ -29,4 +30,10 @@ public class KCharacterData {
     public static class Image {
         private String original;
     }
+
+    @JsonIgnore
+    public String getURL() {
+        return "https://kitsu.io/character/" + id;
+    }
+
 }
