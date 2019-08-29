@@ -12,6 +12,7 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import static net.kodehawa.mantarobot.utils.Utils.httpClient;
@@ -37,8 +38,7 @@ public class KitsuRetriever {
             JsonArray jarr = json.getAsJsonObject().getAsJsonArray("data");
             return gson.fromJson(jarr, collectionType);
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -60,8 +60,7 @@ public class KitsuRetriever {
             JsonArray jarr = json.getAsJsonObject().getAsJsonArray("data");
             return gson.fromJson(jarr, collectionType);
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            return new ArrayList<>();
         }
     }
 }
