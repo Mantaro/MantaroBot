@@ -21,8 +21,8 @@ import com.google.gson.JsonSyntaxException;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.anime.KAnimeData;
-import net.kodehawa.mantarobot.commands.anime.KCharacterData;
+import net.kodehawa.mantarobot.commands.anime.AnimeData;
+import net.kodehawa.mantarobot.commands.anime.CharacterData;
 import net.kodehawa.mantarobot.commands.anime.KitsuRetriever;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -62,7 +62,7 @@ public class AnimeCmds {
                         return;
                     }
 
-                    List<KAnimeData> found = KitsuRetriever.searchAnime(content);
+                    List<AnimeData> found = KitsuRetriever.searchAnime(content);
 
                     if(found.isEmpty()) {
                         event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
@@ -117,7 +117,7 @@ public class AnimeCmds {
                         return;
                     }
 
-                    List<KCharacterData> characters = KitsuRetriever.searchCharacters(content);
+                    List<CharacterData> characters = KitsuRetriever.searchCharacters(content);
                     if(characters.isEmpty()) {
                         event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
                         return;
@@ -160,8 +160,8 @@ public class AnimeCmds {
         cr.registerAlias("character", "char");
     }
 
-    private void animeData(GuildMessageReceivedEvent event, I18nContext lang, KAnimeData animeData) {
-        KAnimeData.Attributes attributes = animeData.getAttributes();
+    private void animeData(GuildMessageReceivedEvent event, I18nContext lang, AnimeData animeData) {
+        AnimeData.Attributes attributes = animeData.getAttributes();
 
         String title = attributes.getCanonicalTitle();
         String releaseDate = attributes.getStartDate();
@@ -202,9 +202,9 @@ public class AnimeCmds {
         event.getChannel().sendMessage(embed.build()).queue();
     }
 
-    private void characterData(GuildMessageReceivedEvent event, I18nContext lang, KCharacterData character) {
+    private void characterData(GuildMessageReceivedEvent event, I18nContext lang, CharacterData character) {
         try {
-            KCharacterData.Attributes attributes = character.getAttributes();
+            CharacterData.Attributes attributes = character.getAttributes();
 
             String japName = attributes.getNames().getJa_jp();
             String charName = attributes.getName();

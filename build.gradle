@@ -24,10 +24,6 @@ plugins {
     id 'application'
     //Creates FatJars
     id 'com.github.johnrengelman.shadow' version '4.0.2'
-    //Checks for RestActions
-    //aka did you queue but harsh
-    //RIP jdaction 2017-2018
-    //id 'com.sedmelluq.jdaction' version '1.0.1'
     //Tell me when smth is outdated
     id 'com.github.ben-manes.versions' version '0.20.0'
     //Builds docker images
@@ -108,8 +104,6 @@ dependencies {
     
     compile 'com.github.natanbc.sox:sox-core:14096f6'
 
-    compile project(':graphql')
-    
     //Unit tests
     testCompile 'junit:junit:4.12'
 }

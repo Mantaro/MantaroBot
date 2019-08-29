@@ -17,14 +17,13 @@
 package net.kodehawa.mantarobot.commands.game;
 
 import br.com.brjdevs.java.utils.collections.CollectionUtils;
-import com.apollographql.apollo.exception.ApolloHttpException;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gson.JsonSyntaxException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.anime.KCharacterData;
+import net.kodehawa.mantarobot.commands.anime.CharacterData;
 import net.kodehawa.mantarobot.commands.anime.KitsuRetriever;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.game.core.ImageGame;
@@ -32,16 +31,12 @@ import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.graphql.CharacterSearchQuery;
-import net.kodehawa.mantarobot.utils.Anilist;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j(topic = "Game [Character]")
 public class Character extends ImageGame {
@@ -95,13 +90,13 @@ public class Character extends ImageGame {
             String imageUrl = imgCache.getIfPresent(characterName);
 
             if(imageUrl == null) {
-                List<KCharacterData> characters = KitsuRetriever.searchCharacters(characterName);
+                List<CharacterData> characters = KitsuRetriever.searchCharacters(characterName);
                 if(characters.isEmpty()) {
                     lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.character_load_error"), EmoteReference.WARNING, characterName).queue();
                     return false;
                 }
 
-                KCharacterData character = characters.get(0);
+                CharacterData character = characters.get(0);
 
                 imageUrl = character.getAttributes().getImage().getOriginal();
                 //insert into cache
@@ -121,9 +116,6 @@ public class Character extends ImageGame {
             return true;
         } catch (JsonSyntaxException ex) {
             lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.character_load_error"), EmoteReference.WARNING, characterName).queue();
-            return false;
-        } catch (ApolloHttpException ex) {
-            lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.character_request_error"), EmoteReference.ERROR).queue();
             return false;
         } catch(Exception e) {
             lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.error"), EmoteReference.ERROR).queue();

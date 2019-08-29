@@ -19,7 +19,7 @@ import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 public class KitsuRetriever {
     private static Gson gson = new Gson();
 
-    public static List<KCharacterData> searchCharacters(String name) {
+    public static List<CharacterData> searchCharacters(String name) {
         try {
             Request request = new Request.Builder()
                     .url(String.format("https://kitsu.io/api/edge/characters?filter[name]=%s", URLEncoder.encode(name, "UTF-8")))
@@ -31,7 +31,7 @@ public class KitsuRetriever {
             String body = response.body().string();
             response.close();
 
-            Type collectionType = new TypeToken<List<KCharacterData>>() {}.getType();
+            Type collectionType = new TypeToken<List<CharacterData>>() {}.getType();
 
             JsonObject json = new JsonParser().parse(body).getAsJsonObject();
             JsonArray jarr = json.getAsJsonObject().getAsJsonArray("data");
@@ -42,7 +42,7 @@ public class KitsuRetriever {
         }
     }
 
-    public static List<KAnimeData> searchAnime(String name) {
+    public static List<AnimeData> searchAnime(String name) {
         try {
             Request request = new Request.Builder()
                     .url(String.format("https://kitsu.io/api/edge/anime?filter[text]=%s", URLEncoder.encode(name, "UTF-8")))
@@ -54,7 +54,7 @@ public class KitsuRetriever {
             String body = response.body().string();
             response.close();
 
-            Type collectionType = new TypeToken<List<KAnimeData>>() {}.getType();
+            Type collectionType = new TypeToken<List<AnimeData>>() {}.getType();
 
             JsonObject json = new JsonParser().parse(body).getAsJsonObject();
             JsonArray jarr = json.getAsJsonObject().getAsJsonArray("data");
