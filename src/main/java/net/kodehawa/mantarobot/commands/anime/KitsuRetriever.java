@@ -16,7 +16,7 @@ import java.util.List;
 
 import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 
-public class KRetriever {
+public class KitsuRetriever {
     private static Gson gson = new Gson();
 
     public static List<KCharacterData> searchCharacters(String name) {

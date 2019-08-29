@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.anime.KCharacterData;
-import net.kodehawa.mantarobot.commands.anime.KRetriever;
+import net.kodehawa.mantarobot.commands.anime.KitsuRetriever;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -125,7 +125,7 @@ public class AnimeCmds {
                         return;
                     }
 
-                    List<KCharacterData> characters = KRetriever.searchCharacters(content);
+                    List<KCharacterData> characters = KitsuRetriever.searchCharacters(content);
                     if(characters.isEmpty()) {
                         event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
                         return;
