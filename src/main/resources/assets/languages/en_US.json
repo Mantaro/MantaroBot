@@ -1093,7 +1093,7 @@
       "trivia_end_footer": "You have %1$s attempts and 60 seconds. (Type end to end the game)",
       "error": "%1$sI found an error while setting up the game... (internal error)",
       "character_load_error": "%1$sReport this in the official server please. Failed to setup game for pre-saved character: %2$s",
-      "character_request_error": "%1$sError requesting this character from AniList's API.",
+      "character_request_error": "%1$sError requesting this character from Kitsu's API.",
       "character_start": "Guess the character",
       "too_many_games": "%1$sYou can start a maximum of 4 games at the same time with game lobby. (With Premium: 8)"
     },
@@ -1366,12 +1366,12 @@
     "anime": {
       "no_args": "%1$sYou need to tell me what anime to look for.",
       "selection_start": "Type the number of the anime you want to select.",
-      "information_footer": "Information provided by Anilist. Type &cancel to cancel.",
+      "information_footer": "Information provided by Kitsu.io. Type &cancel to cancel.",
       "no_results": "%1$sNo results found...",
       "malformed_result": "%1$sI got a wrong API result for this specific search. Maybe try with another search term?",
       "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a ``%2$s`` while trying to process the command. (internal error)",
       "information_header": "Anime information for %1$s",
-      "information_notice": "Information provided by AniList. Click the title to go to AniList's page about this anime.",
+      "information_notice": "Information provided by Kitsu.io.",
       "airing": "Airing",
       "release_date": "Release Date",
       "end_date": "End Date",

@@ -20,8 +20,11 @@ import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
 import com.google.gson.JsonSyntaxException;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.anime.KCharacterData;
+import net.kodehawa.mantarobot.commands.anime.KRetriever;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -124,8 +127,7 @@ public class AnimeCmds {
                         return;
                     }
 
-                    List<CharacterSearchQuery.Character> characters = Anilist.searchCharacters(content);
-
+                    List<KCharacterData> characters = KRetriever.searchCharacters(content);
                     if(characters.isEmpty()) {
                         event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
                         return;
@@ -136,9 +138,7 @@ public class AnimeCmds {
                         return;
                     }
 
-                    DiscordUtils.selectList(event, characters.stream().limit(7).collect(Collectors.toList()), character -> String.format("**[%s %s](%s)**",
-                            character.name().last() == null ? "" : character.name().last(), character.name().first(),
-                            character.siteUrl()),
+                    DiscordUtils.selectList(event, characters.stream().limit(7).collect(Collectors.toList()), character -> String.format("**%s** (%s)", character.getAttributes().getName(), character.getAttributes().getNames().getJa_jp()),
                             s -> baseEmbed(event, languageContext.withRoot("commands", "anime.information_footer"))
                                     .setDescription(s)
                                     .setThumbnail("https://anilist.co/img/logo_al.png")
@@ -152,7 +152,6 @@ public class AnimeCmds {
                 } catch (Exception exception) {
                     event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "character.error"),
                             EmoteReference.ERROR, exception.getClass().getSimpleName()).queue();
-                    exception.printStackTrace();
                 }
             }
 
@@ -214,32 +213,36 @@ public class AnimeCmds {
         event.getChannel().sendMessage(embed.build()).queue();
     }
 
-    private void characterData(GuildMessageReceivedEvent event, I18nContext lang, CharacterSearchQuery.Character character) {
-        String japName = character.name().native_() == null ? "" : "\n(" + character.name().native_() + ")";
-        String charName = character.name().first() + ((character.name().last() == null ? "" : " " + character.name().last()) + japName);
-        String aliases = character.name().alternative() == null || character.name().alternative().isEmpty() ? lang.get("commands.character.no_aliases") : lang.get("commands.character.alias_start") + " " + character.name().alternative().stream().collect(Collectors.joining(", "));
-        String imageUrl = character.image().medium();
+    private void characterData(GuildMessageReceivedEvent event, I18nContext lang, KCharacterData character) {
+        try {
+            KCharacterData.Attributes attributes = character.getAttributes();
 
-        String characterDescription = StringEscapeUtils.escapeHtml4(character.description());
+            String japName = attributes.getNames().getJa_jp();
+            String charName = attributes.getName();
+            String imageUrl = attributes.getImage().getOriginal();
 
-        String charDescription = character.description() == null || character.description().isEmpty() ? lang.get("commands.character.no_info")
-                : characterDescription.length() <= 1024 ? characterDescription : characterDescription.substring(0, 1020 - 1) + "...";
+            String characterDescription = StringEscapeUtils.unescapeHtml4(attributes.getDescription().replace("<br>", "\n").replaceAll("\\<.*?>","")); //This is silly.
 
-        Player p = MantaroData.db().getPlayer(event.getAuthor());
-        Badge badge = Utils.getHushBadge(charName.replace(japName, "").trim(), Utils.HushType.CHARACTER);
-        if(badge != null) {
-            p.getData().addBadgeIfAbsent(badge);
-            p.save();
+            String charDescription = attributes.getDescription() == null || attributes.getDescription().isEmpty() ? lang.get("commands.character.no_info")
+                    : characterDescription.length() <= 1024 ? characterDescription : characterDescription.substring(0, 1020 - 1) + "...";
+
+            Player p = MantaroData.db().getPlayer(event.getAuthor());
+            Badge badge = Utils.getHushBadge(charName.replace(japName, "").trim(), Utils.HushType.CHARACTER);
+            if(badge != null) {
+                p.getData().addBadgeIfAbsent(badge);
+                p.save();
+            }
+
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.setColor(Color.LIGHT_GRAY)
+                    .setThumbnail(imageUrl)
+                    .setAuthor(String.format(lang.get("commands.character.information_header"), charName), null, imageUrl)
+                    .addField(lang.get("commands.character.information"), charDescription, true)
+                    .setFooter(lang.get("commands.anime.information_notice"), null);
+
+            event.getChannel().sendMessage(embed.build()).queue(success -> {}, failure -> failure.printStackTrace());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        EmbedBuilder embed = new EmbedBuilder();
-        embed.setColor(Color.LIGHT_GRAY)
-                .setThumbnail(imageUrl)
-                .setAuthor(String.format(lang.get("commands.character.information_header"), charName), character.siteUrl(), imageUrl)
-                .setDescription(aliases)
-                .addField(lang.get("commands.character.information"), charDescription, true)
-                .setFooter(lang.get("commands.anime.information_notice"), null);
-
-        event.getChannel().sendMessage(embed.build()).queue();
     }
 }
