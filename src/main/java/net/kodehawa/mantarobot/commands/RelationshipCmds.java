@@ -620,7 +620,8 @@ public class RelationshipCmds {
                                 );
                             } else {
                                 fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + user.getName() + "#" + user.getDiscriminator(),
-                                        languageContext.get("commands.waifu.value_format") + " " + calculateWaifuValue(user).getFinalValue() + " " +
+                                        languageContext.get("commands.waifu.id") + " " + user.getId() + "\n" +
+                                                languageContext.get("commands.waifu.value_format") + " " + calculateWaifuValue(user).getFinalValue() + " " +
                                                 languageContext.get("commands.waifu.credits_format") + "\n" +
                                                 languageContext.get("commands.waifu.value_b_format") + " " + userData.getWaifus().get(waifu) +
                                                 languageContext.get("commands.waifu.credits_format"), false)

@@ -524,6 +524,7 @@
     "waifu": {
       "bot": "%1$sA bot can't be a waifu, even if you want to...",
       "notice": "This feature isn't meant to have any kind of relationship, either implicit or explicit, with real life events.",
+      "id": "ID:",
       "stats": {
         "header": "Your waifu stats",
         "header_other": "%1$s's waifu stats",
