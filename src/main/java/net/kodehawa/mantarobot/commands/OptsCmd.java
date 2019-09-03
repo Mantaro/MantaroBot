@@ -16,8 +16,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.functions.interfaces.TriConsumer;
-import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -38,9 +36,7 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.options.core.OptionType;
-import net.kodehawa.mantarobot.utils.DiscordUtils;
-import net.kodehawa.mantarobot.utils.Pair;
-import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.*;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
@@ -180,7 +176,7 @@ public class OptsCmd {
                         return;
                     }
 
-                    Map<String, Optional<String>> opts = StringUtils.parse(args);
+                    Map<String, String> opts = StringUtils.parse(args);
                     if(opts.containsKey("print")) {
                         StringBuilder builder = new StringBuilder();
                         for(Entry<String, Pair<String, Object>> e : fieldMap.entrySet()) {

@@ -76,7 +76,7 @@ public class MuteCmds {
                 DBGuild dbGuild = db.getGuild(event.getGuild());
                 GuildData guildData = dbGuild.getData();
                 String reason = "Not specified";
-                Map<String, Optional<String>> opts = br.com.brjdevs.java.utils.texts.StringUtils.parse(args);
+                Map<String, String> opts = StringUtils.parse(args);
 
                 if(guildData.getMutedRole() == null) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_mute_role"), EmoteReference.ERROR).queue();
@@ -112,12 +112,12 @@ public class MuteCmds {
                 long time = guildData.getSetModTimeout() > 0 ? System.currentTimeMillis() + guildData.getSetModTimeout() : 0L;
 
                 if(opts.containsKey("time")) {
-                    if(!opts.get("time").isPresent() || opts.get("time").get().isEmpty()) {
+                    if(opts.get("time") == null || opts.get("time").isEmpty()) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.mute.time_not_specified"), EmoteReference.WARNING).queue();
                         return;
                     }
 
-                    time = System.currentTimeMillis() + Utils.parseTime(opts.get("time").get());
+                    time = System.currentTimeMillis() + Utils.parseTime(opts.get("time"));
 
                     if(time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.mute.time_too_long"), EmoteReference.ERROR).queue();

@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands.game;
 
-import br.com.brjdevs.java.utils.collections.CollectionUtils;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -37,6 +36,7 @@ import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Slf4j(topic = "Game [Character]")
 public class Character extends ImageGame {
@@ -50,6 +50,7 @@ public class Character extends ImageGame {
     private final int maxAttempts = 5;
     private String characterName;
     private List<String> characterNameL;
+    private Random random = new Random();
 
     public Character() {
         super(10);
@@ -83,9 +84,10 @@ public class Character extends ImageGame {
     public boolean onStart(GameLobby lobby) {
         final I18nContext languageContext = lobby.getLanguageContext();
         try {
+            List<String> strings = NAMES.get();
             GameStatsManager.log(name());
             characterNameL = new ArrayList<>();
-            characterName = CollectionUtils.random(NAMES.get());
+            characterName = strings.get(random.nextInt(strings.size()));
 
             String imageUrl = imgCache.getIfPresent(characterName);
 

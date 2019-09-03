@@ -258,10 +258,4 @@ public class MantaroBot extends ShardedJDA {
     public void forceRestartShardFromGuild(String guildId) {
         restartShard(getShardForGuild(guildId).getId(), true);
     }
-
-    @Override
-    public void restartAll() {
-        log.warn("Restarting bot...");
-        System.exit(REBOOT_FAILURE);
-    }
 }

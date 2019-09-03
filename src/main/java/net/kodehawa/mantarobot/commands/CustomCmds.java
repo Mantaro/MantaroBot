@@ -52,6 +52,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -60,7 +61,6 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static net.kodehawa.mantarobot.data.MantaroData.db;
 
 @Slf4j
@@ -72,6 +72,8 @@ CustomCmds {
     public final static Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+"),
             INVALID_CHARACTERS_PATTERN = Pattern.compile("[^a-zA-Z0-9_]"),
             NAME_WILDCARD_PATTERN = Pattern.compile("[a-zA-Z0-9_*]+");
+    private static SecureRandom random = new SecureRandom();
+
 
     public static boolean handle(String cmdName, GuildMessageReceivedEvent event, I18nContext lang, String args) {
         CustomCommand customCommand = getCustomCommand(event.getGuild().getId(), cmdName);
@@ -104,7 +106,7 @@ CustomCmds {
 
         CommandStatsManager.log("custom command");
 
-        String response = random(values);
+        String response = values.get(random.nextInt(values.size()));
         try {
             new CustomCommandHandler(event, lang, response, args).handle();
         } catch (SyntaxException e) {

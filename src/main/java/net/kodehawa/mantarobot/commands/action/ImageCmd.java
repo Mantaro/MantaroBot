@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.commands.action;
 
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
@@ -30,9 +29,8 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
-
-import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 
 public class ImageCmd extends NoArgsCommand {
     public static final URLCache CACHE = new URLCache(10);
@@ -45,6 +43,7 @@ public class ImageCmd extends NoArgsCommand {
     private List<String> images;
     private boolean noMentions = false;
     private String type;
+    private final Random rand = new Random();
 
     public ImageCmd(String name, String desc, String imageName, List<String> images, String toSend) {
         super(Category.ACTION);
@@ -99,7 +98,7 @@ public class ImageCmd extends NoArgsCommand {
 
             random = images.get(0); //Guaranteed random selection :^).
         } else {
-            random = random(images);
+            random = images.get(rand.nextInt(images.size()));
         }
 
         String extension = random.substring(random.lastIndexOf("."));

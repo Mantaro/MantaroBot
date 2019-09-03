@@ -16,10 +16,10 @@
 
 package net.kodehawa.mantarobot.options.core;
 
-import br.com.brjdevs.java.utils.functions.interfaces.TriConsumer;
 import lombok.Setter;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.utils.TriConsumer;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;

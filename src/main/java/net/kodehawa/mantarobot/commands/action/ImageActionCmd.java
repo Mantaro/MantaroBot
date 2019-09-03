@@ -35,10 +35,10 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.awt.*;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
 
 @Slf4j
@@ -59,6 +59,7 @@ public class ImageActionCmd extends NoArgsCommand {
     private String type;
     private EmoteReference emoji;
     private String botLine;
+    private final Random rand = new Random();
 
     public ImageActionCmd(String name, String desc, Color color, String imageName, EmoteReference emoji, String format, List<String> images, String lonelyLine, String botLine, boolean swap) {
         super(Category.ACTION);
@@ -141,7 +142,7 @@ public class ImageActionCmd extends NoArgsCommand {
                 random = images.get(0); //Guaranteed random selection :^).
             }
         } else {
-            random = random(images);
+            random = images.get(rand.nextInt(images.size()));
         }
 
         try {

@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
@@ -37,13 +36,16 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.security.SecureRandom;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -143,22 +145,22 @@ public class FunCmds {
                 if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
-                Map<String, Optional<String>> opts = StringUtils.parse(args);
+                Map<String, String> opts = StringUtils.parse(args);
                 int size = 6, amount = 1;
 
                 if(opts.containsKey("size")) {
                     try {
-                        size = Integer.parseInt(opts.get("size").orElse(""));
+                        size = Integer.parseInt(opts.get("size"));
                     } catch(Exception ignored) { }
                 }
 
                 if(opts.containsKey("amount")) {
                     try {
-                        amount = Integer.parseInt(opts.get("amount").orElse(""));
+                        amount = Integer.parseInt(opts.get("amount"));
                     } catch(Exception ignored) { }
                 } else if(opts.containsKey(null)) { //Backwards Compatibility
                     try {
-                        amount = Integer.parseInt(opts.get(null).orElse(""));
+                        amount = Integer.parseInt(opts.get(null));
                     } catch(Exception ignored) { }
                 }
 

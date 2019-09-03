@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
@@ -50,6 +49,7 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
@@ -58,8 +58,8 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.awt.*;
 import java.text.ParsePosition;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -932,8 +932,8 @@ public class CurrencyCmds {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                         final ManagedDatabase db = MantaroData.db();
-                        String[] args = StringUtils.efficientSplitArgs(content, 2);
-                        Map<String, Optional<String>> t = StringUtils.parse(content.split("\\s+"));
+                        String[] args = StringUtils.advancedSplitArgs(content, 2);
+                        Map<String, String> t = StringUtils.parse(content.split("\\s+"));
 
                         if (content.isEmpty()) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_items_specified"), EmoteReference.ERROR).queue();
@@ -1051,7 +1051,7 @@ public class CurrencyCmds {
         });
     }
 
-    public static void applyPotionEffect(GuildMessageReceivedEvent event, Item item, Player p, Map<String, Optional<String>> arguments, String content, boolean isPet, I18nContext languageContext) {
+    public static void applyPotionEffect(GuildMessageReceivedEvent event, Item item, Player p, Map<String, String> arguments, String content, boolean isPet, I18nContext languageContext) {
         final ManagedDatabase db = MantaroData.db();
         if((item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.BUFF) && item instanceof Potion) {
             DBUser dbUser = db.getUser(event.getAuthor());
@@ -1059,7 +1059,7 @@ public class CurrencyCmds {
             Map<String, Pet> profilePets = p.getData().getProfilePets();
 
             //Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
-            int amount = arguments.containsKey("amount") ? Integer.parseInt(arguments.get("amount").orElse("1")) : 1;
+            int amount = arguments.containsKey("amount") ? Integer.parseInt(arguments.get("amount")) : 1;
             String petName = isPet ? content : "";
 
             if(isPet && petName.isEmpty()) {

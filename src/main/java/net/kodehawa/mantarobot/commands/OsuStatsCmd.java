@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.osu.api.ciyfhx.*;
@@ -36,6 +35,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.SentryHelper;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONException;
@@ -45,7 +45,6 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.*;
 
 @Slf4j
@@ -148,13 +147,13 @@ public class OsuStatsCmd {
         try {
             long start = System.currentTimeMillis();
             String[] args = content.split(" ");
-            Map<String, Optional<String>> options = StringUtils.parse(args);
+            Map<String, String> options = StringUtils.parse(args);
 
             int mode = 0;
             boolean modeSpecified = false;
-            if(options.containsKey("mode") && options.get("mode").isPresent()) {
+            if(options.containsKey("mode") && options.get("mode") != null) {
                 try {
-                    mode = Integer.parseInt(options.get("mode").get());
+                    mode = Integer.parseInt(options.get("mode"));
                     modeSpecified = true;
                 } catch (NumberFormatException e) {
                     return String.format(languageContext.get("general.invalid_number"), EmoteReference.ERROR);
@@ -218,13 +217,13 @@ public class OsuStatsCmd {
         String mods1 = "";
         try {
             String[] args = content.split(" ");
-            Map<String, Optional<String>> options = StringUtils.parse(args);
+            Map<String, String> options = StringUtils.parse(args);
 
             int mode = 0;
             boolean modeSpecified = false;
-            if(options.containsKey("mode") && options.get("mode").isPresent()) {
+            if(options.containsKey("mode") && options.get("mode") != null) {
                 try {
-                    mode = Integer.parseInt(options.get("mode").get());
+                    mode = Integer.parseInt(options.get("mode"));
                     modeSpecified = true;
                 } catch (NumberFormatException e) {
                     return String.format(languageContext.get("general.invalid_number"), EmoteReference.ERROR);

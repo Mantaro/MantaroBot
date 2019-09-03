@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -46,6 +45,7 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -57,22 +57,20 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
 import java.util.List;
 import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 
 @Slf4j
 @Module
 @SuppressWarnings("unused")
 public class UtilsCmds {
     private static Pattern timePattern = Pattern.compile(" -time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
-
+    private static Random random = new Random();
     protected static String dateGMT(Guild guild, String tz) {
         DateFormat format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
         Date date = new Date();
@@ -272,7 +270,7 @@ public class UtilsCmds {
                     return;
                 }
 
-                String send = Utils.DISCORD_INVITE.matcher(random(args)).replaceAll("-inv link-");
+                String send = Utils.DISCORD_INVITE.matcher(args[random.nextInt(args.length)]).replaceAll("-inv link-");
                 send = Utils.DISCORD_INVITE_2.matcher(send).replaceAll("-inv link-");
 
                 new MessageBuilder().setContent(String.format(languageContext.get("commands.choose.success"), EmoteReference.EYES, send))
@@ -283,7 +281,7 @@ public class UtilsCmds {
 
             @Override
             public String[] splitArgs(String content) {
-                return StringUtils.efficientSplitArgs(content, -1);
+                return StringUtils.advancedSplitArgs(content, -1);
             }
 
             @Override
@@ -383,21 +381,21 @@ public class UtilsCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        Map<String, Optional<String>> t = StringUtils.parse(StringUtils.splitArgs(content, 0));
+                        Map<String, String> t = StringUtils.parse(StringUtils.splitArgs(content, 0));
 
                         if(!t.containsKey("time")) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_time"), EmoteReference.ERROR).queue();
                             return;
                         }
 
-                        if(!t.get("time").isPresent()) {
+                        if(t.get("time") == null) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_time"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         String toRemind = timePattern.matcher(content).replaceAll("");
                         User user = event.getAuthor();
-                        long time = Utils.parseTime(t.get("time").get());
+                        long time = Utils.parseTime(t.get("time"));
 
                         if(time < 10000) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.too_little_time"), EmoteReference.ERROR).queue();

@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands.custom.legacy;
 
-import br.com.brjdevs.java.utils.texts.MatcherUtils;
 import com.google.gson.JsonPrimitive;
 import net.kodehawa.mantarobot.utils.URLEncoding;
 
@@ -121,7 +120,10 @@ public class ConditionalCustoms {
         if(depth > 4)
             return string;
 
-        return MatcherUtils.replaceAll(GETTER_MODIFIER.matcher(string), s -> {
+        return GETTER_MODIFIER.matcher(string).replaceAll(r -> {
+            //TODO: this might NOT be group.
+            String s = r.group();
+
             s = s.substring(1, s.length() - 1);
 
             if(GETTER_MODIFIER.matcher(s).find())

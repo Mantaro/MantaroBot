@@ -495,7 +495,7 @@ public class PetCmds {
                 ManagedDatabase managedDatabase = MantaroData.db();
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
-                Map<String, Optional<String>> t = br.com.brjdevs.java.utils.texts.StringUtils.parse(content.split("\\s+"));
+                Map<String, String> t = StringUtils.parse(content.split("\\s+"));
 
                 String[] args = StringUtils.advancedSplitArgs(content, 2);
 

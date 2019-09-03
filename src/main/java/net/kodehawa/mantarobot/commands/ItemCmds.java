@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -44,6 +43,7 @@ import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
@@ -91,7 +91,7 @@ public class ItemCmds {
                         Map<String, String> t = getArguments(content);
                         content = Utils.replaceArguments(t, content, "season", "s").trim();
 
-                        String[] arguments = StringUtils.efficientSplitArgs(content, -1);
+                        String[] arguments = StringUtils.advancedSplitArgs(content, -1);
 
                         boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
                         boolean isMultiple = t.containsKey("amount");
@@ -358,7 +358,7 @@ public class ItemCmds {
                         boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
 
                         content = Utils.replaceArguments(t, content, "season", "s");
-                        String[] args = StringUtils.efficientSplitArgs(content, -1);
+                        String[] args = StringUtils.advancedSplitArgs(content, -1);
 
                         //Get the necessary entities.
                         SeasonPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());

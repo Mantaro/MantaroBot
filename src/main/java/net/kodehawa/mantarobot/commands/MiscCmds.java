@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -42,6 +41,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -53,8 +53,6 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 
 @Module
 @Slf4j
@@ -350,37 +348,37 @@ public class MiscCmds {
         registry.register("createpoll", new SimpleCommand(Category.MISC) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Map<String, Optional<String>> opts = StringUtils.parse(args);
+                Map<String, String> opts = StringUtils.parse(args);
                 PollBuilder builder = Poll.builder();
-                if(!opts.containsKey("time") || !opts.get("time").isPresent()) {
+                if(!opts.containsKey("time") || opts.get("time") == null) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.poll.missing"), EmoteReference.ERROR, "`-time`", "Example: `~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
                     return;
                 }
 
-                if(!opts.containsKey("options") || !opts.get("options").isPresent()) {
+                if(!opts.containsKey("options") || opts.get("options") == null) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.poll.missing"), EmoteReference.ERROR, "`-options`", "Example: ~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
                     return;
                 }
 
-                if(!opts.containsKey("name") || !opts.get("name").isPresent()) {
+                if(!opts.containsKey("name") || opts.get("name") == null) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.poll.missing"), EmoteReference.ERROR, "`-name`", "Example: ~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
                     return;
                 }
 
-                if(opts.containsKey("name") && opts.get("name").isPresent()) {
-                    builder.setName(opts.get("name").get().replaceAll(String.valueOf('"'), ""));
+                if(opts.containsKey("name") && opts.get("name") != null) {
+                    builder.setName(opts.get("name").replaceAll(String.valueOf('"'), ""));
                 }
 
-                if(opts.containsKey("image") && opts.get("image").isPresent()) {
-                    builder.setImage(opts.get("image").get());
+                if(opts.containsKey("image") && opts.get("image") != null) {
+                    builder.setImage(opts.get("image"));
                 }
 
 
-                String[] options = pollOptionSeparator.split(opts.get("options").get().replaceAll(String.valueOf('"'), ""));
+                String[] options = pollOptionSeparator.split(opts.get("options").replaceAll(String.valueOf('"'), ""));
                 long timeout;
 
                 try {
-                    timeout = Utils.parseTime(opts.get("time").get());
+                    timeout = Utils.parseTime(opts.get("time"));
                 } catch (Exception e) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.poll.incorrect_time_format"), EmoteReference.ERROR).queue();
                     return;
@@ -416,6 +414,6 @@ public class MiscCmds {
      * @return a random hex color.
      */
     private String randomColor() {
-        return IntStream.range(0, 6).mapToObj(i -> random(HEX_LETTERS)).collect(Collectors.joining());
+        return IntStream.range(0, 6).mapToObj(i -> HEX_LETTERS[rand.nextInt(HEX_LETTERS.length)]).collect(Collectors.joining());
     }
 }

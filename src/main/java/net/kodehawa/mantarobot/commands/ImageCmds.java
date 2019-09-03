@@ -16,10 +16,8 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.collections.CollectionUtils;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.imageboards.DefaultImageBoards;
 import net.kodehawa.lib.imageboards.ImageBoard;
@@ -37,7 +35,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import okhttp3.OkHttpClient;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.awt.*;
+import java.util.Random;
 
 import static net.kodehawa.mantarobot.commands.image.ImageboardUtils.getImage;
 import static net.kodehawa.mantarobot.commands.image.ImageboardUtils.nsfwCheck;
@@ -57,6 +55,7 @@ public class ImageCmds {
     private final ImageBoard<SafebooruImage> safebooru = DefaultImageBoards.SAFEBOORU; //safebooru.org, not the danbooru one.
     private final ImageBoard<YandereImage> yandere = DefaultImageBoards.YANDERE;
     private final WeebAPIRequester weebAPIRequester = new WeebAPIRequester();
+    private final Random random = new Random();
 
     @Subscribe
     public void cat(CommandRegistry cr) {
@@ -70,7 +69,7 @@ public class ImageCmds {
                     String url = result.getKey();
                     event.getChannel().sendMessage(
                             new MessageBuilder().append(EmoteReference.TALKING).append(
-                                    CollectionUtils.random(catResponses).replace("%mention%", event.getAuthor().getName()))
+                                    catResponses[random.nextInt(catResponses.length)].replace("%mention%", event.getAuthor().getName()))
                                     .build()
                             ).addFile(CACHE.getFile(url), "cat-" + result.getValue() + ".png")
                             .queue();

@@ -25,8 +25,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.awt.*;
 import java.util.List;
-
-import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
+import java.util.Random;
 
 public class TextActionCmd extends NoArgsCommand {
     private final Color color;
@@ -34,6 +33,7 @@ public class TextActionCmd extends NoArgsCommand {
     private final String format;
     private final String name;
     private final List<String> strings;
+    private final Random rand = new Random();
 
     public TextActionCmd(String name, String desc, Color color, String format, List<String> strings) {
         super(Category.ACTION);
@@ -46,7 +46,7 @@ public class TextActionCmd extends NoArgsCommand {
 
     @Override
     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-        event.getChannel().sendMessage(String.format(format, random(strings))).queue();
+        event.getChannel().sendMessage(String.format(format, strings.get(rand.nextInt(strings.size())))).queue();
     }
 
     @Override
