@@ -22,7 +22,7 @@
         <br>
         <p><b>Steps for building</b></p>
         <ol>
-            <li>Make sure you have at least JDK or OpenJDK 9, RebirthDB and Redis installed -and- running.</li>
+            <li>Make sure you have at least JDK or OpenJDK 9, RebirthDB/RethinkDB and Redis installed -and- running.</li>
             <li>Clone this repository.</li>
             <li>If you are going to edit code, make sure your IDE supports <a href="http://projectlombok.org">Lombok</a> and enable Annotation Processing!</li>
             <li>Open a Terminal in the root folder.</li>
