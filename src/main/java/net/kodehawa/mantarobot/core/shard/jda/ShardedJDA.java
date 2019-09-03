@@ -25,6 +25,7 @@ import net.dv8tion.jda.api.utils.cache.CacheView;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
@@ -95,18 +96,20 @@ public abstract class ShardedJDA implements UnifiedJDA {
     }
 
     @Override
+    @Nonnull
     public RestAction<User> retrieveUserById(long id) {
-        return stream().map(jda -> jda.retrieveUserById(id)).filter(Objects::nonNull).findFirst().orElse(null);
+        return stream().map(jda -> jda.retrieveUserById(id)).findFirst().get();
     }
 
     @Override
+    @Nonnull
     public List<Guild> getGuilds() {
         return stream().map(JDA::getGuilds).flatMap(Collection::stream).collect(Collectors.toList());
     }
 
     @Override
-    public Guild getGuildById(@Nonnull String id) {
-        return MantaroBot.getInstance().getShard((int) (Long.valueOf(id) >> 22 % MantaroBot.getInstance().getShardList().size())).getGuildById(id);
+    public Guild getGuildById(@NotNull String id) {
+        return MantaroBot.getInstance().getShard((int) (Long.parseLong(id) >> 22 % MantaroBot.getInstance().getShardList().size())).getGuildById(id);
     }
 
     @Override
@@ -121,23 +124,25 @@ public abstract class ShardedJDA implements UnifiedJDA {
     }
 
     @Override
+    @Nonnull
     public List<Role> getRoles() {
-        return stream().map(JDA::getRoles).filter(Objects::nonNull).findFirst().orElse(null);
+        return stream().map(JDA::getRoles).findFirst().get();
     }
 
     @Override
     public Role getRoleById(@Nonnull String id) {
-        return stream().map(jda -> jda.getRoleById(id)).filter(Objects::nonNull).findFirst().orElse(null);
+        return stream().map(jda -> jda.getRoleById(id)).filter(Objects::nonNull).findFirst().get();
     }
 
     @Override
     public Role getRoleById(long id) {
-        return stream().map(jda -> jda.getRoleById(id)).filter(Objects::nonNull).findFirst().orElse(null);
+        return stream().map(jda -> jda.getRoleById(id)).filter(Objects::nonNull).findFirst().get();
     }
 
     @Override
-    public List<Role> getRolesByName(String name, boolean ignoreCase) {
-        return stream().map(jda -> jda.getRolesByName(name, ignoreCase)).filter(Objects::nonNull).findFirst().orElse(null);
+    @Nonnull
+    public List<Role> getRolesByName(@Nonnull String name, boolean ignoreCase) {
+        return stream().map(jda -> jda.getRolesByName(name, ignoreCase)).findFirst().get();
     }
 
     @Override
@@ -276,52 +281,59 @@ public abstract class ShardedJDA implements UnifiedJDA {
         return MantaroData.config().get().maxJdaReconnectDelay;
     }
 
+    @NotNull
     @Override
     public SnowflakeCacheView<User> getUserCache() {
         return allSnowflakes(() -> stream().map(JDA::getUserCache));
     }
 
+    @NotNull
     @Override
     public SnowflakeCacheView<Guild> getGuildCache() {
         return allSnowflakes(() -> stream().map(JDA::getGuildCache));
     }
 
+    @NotNull
     @Override
     public SnowflakeCacheView<Category> getCategoryCache() {
         return allSnowflakes(() -> stream().map(JDA::getCategoryCache));
     }
 
+    @NotNull
     @Override
     public SnowflakeCacheView<TextChannel> getTextChannelCache() {
         return allSnowflakes(() -> stream().map(JDA::getTextChannelCache));
     }
 
+    @NotNull
     @Override
     public SnowflakeCacheView<VoiceChannel> getVoiceChannelCache() {
         return allSnowflakes(() -> stream().map(JDA::getVoiceChannelCache));
     }
 
+    @NotNull
     @Override
     public SnowflakeCacheView<PrivateChannel> getPrivateChannelCache() {
         return allSnowflakes(() -> stream().map(JDA::getPrivateChannelCache));
     }
 
+    @NotNull
     @Override
     public SnowflakeCacheView<Role> getRoleCache() {
         return allSnowflakes(() -> stream().map(JDA::getRoleCache));
     }
 
+    @NotNull
     @Override
     public SnowflakeCacheView<Emote> getEmoteCache() {
         return allSnowflakes(() -> stream().map(JDA::getEmoteCache));
     }
 
+    @NotNull
     @Override
     public CacheView<AudioManager> getAudioManagerCache() {
         return CacheView.all(() -> stream().map(JDA::getAudioManagerCache));
     }
 
     public abstract void restartShard(int shardId, boolean force);
-
-    public abstract void restartAll();
 }
