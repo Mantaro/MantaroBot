@@ -17,12 +17,12 @@
 package net.kodehawa.mantarobot.commands.interaction.polls;
 
 import lombok.Getter;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -187,7 +187,7 @@ public class Poll extends Lobby {
                 AtomicInteger react = new AtomicInteger(0);
                 AtomicInteger counter = new AtomicInteger(0);
 
-                getChannel().getMessageById(message.getIdLong()).queue(message -> {
+                getChannel().retrieveMessageById(message.getIdLong()).queue(message -> {
                     String votes = message.getReactions().stream()
                             .filter(r -> react.getAndIncrement() <= options.length)
                             .map(r -> String.format(languageContext.get("commands.poll.vote_results"), r.getCount() - 1, options[counter.getAndIncrement()]))

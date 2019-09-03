@@ -17,7 +17,7 @@
 package net.kodehawa.mantarobot.core.listeners.events;
 
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.events.Event;
+import net.dv8tion.jda.api.events.Event;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;

@@ -16,7 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.info.stats.manager;
 
-import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.util.Comparator;
 import java.util.Map;

@@ -16,22 +16,28 @@
 
 package net.kodehawa.mantarobot.core.shard.jda;
 
-import net.dv8tion.jda.bot.JDABot;
-import net.dv8tion.jda.client.JDAClient;
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.SelfUser;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.entities.Webhook;
-import net.dv8tion.jda.core.hooks.IEventManager;
-import net.dv8tion.jda.core.managers.AudioManager;
-import net.dv8tion.jda.core.managers.Presence;
-import net.dv8tion.jda.core.requests.RestAction;
-import net.dv8tion.jda.core.requests.restaction.GuildAction;
+import net.dv8tion.jda.api.AccountType;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.hooks.IEventManager;
+import net.dv8tion.jda.api.managers.AudioManager;
+import net.dv8tion.jda.api.managers.DirectAudioController;
+import net.dv8tion.jda.api.managers.Presence;
+import net.dv8tion.jda.api.requests.RestAction;
+import net.dv8tion.jda.api.requests.restaction.GuildAction;
+import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
+import okhttp3.OkHttpClient;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -42,36 +48,43 @@ public interface UnifiedJDA extends JDA, Iterable<JDA> {
 
     Status[] getShardStatus();
 
+    @Nonnull
     @Override
     default Status getStatus() {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     @Override
     default List<Object> getRegisteredListeners() {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     @Override
-    default RestAction<User> retrieveUserById(String id) {
+    default RestAction<User> retrieveUserById(@Nonnull String id) {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     @Override
     default SelfUser getSelfUser() {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     @Override
     default Presence getPresence() {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     @Override
     default ShardInfo getShardInfo() {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     @Override
     default String getToken() {
         throw new UnsupportedOperationException();
@@ -88,27 +101,13 @@ public interface UnifiedJDA extends JDA, Iterable<JDA> {
     }
 
     @Override
-    default boolean isAudioEnabled() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     default boolean isBulkDeleteSplittingEnabled() {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     @Override
     default AccountType getAccountType() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    default JDAClient asClient() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    default JDABot asBot() {
         throw new UnsupportedOperationException();
     }
 
@@ -117,36 +116,102 @@ public interface UnifiedJDA extends JDA, Iterable<JDA> {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     @Override
-    default GuildAction createGuild(String name) {
+    default GuildAction createGuild(@Nonnull String name) {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     @Override
-    default RestAction<Webhook> getWebhookById(String webhook) {
+    default JDA awaitStatus(@Nonnull Status status) {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    default JDA awaitStatus(Status status) {
-        throw new UnsupportedOperationException();
-    }
-
+    @Nonnull
     @Override
     default JDA awaitReady() {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     @Override
     default List<AudioManager> getAudioManagers() {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     @Override
     default IEventManager getEventManager() {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
+    @Override
+    default ScheduledExecutorService getRateLimitPool() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nonnull
+    @Override
+    default ScheduledExecutorService getGatewayPool() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nonnull
+    @Override
+    default ExecutorService getCallbackPool() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nonnull
+    @Override
+    default OkHttpClient getHttpClient() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nonnull
+    @Override
+    default DirectAudioController getDirectAudioController() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nonnull
+    @Override
+    default SnowflakeCacheView<StoreChannel> getStoreChannelCache() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nonnull
+    @Override
+    default RestAction<ApplicationInfo> retrieveApplicationInfo() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nonnull
+    @Override
+    default String getInviteUrl(@Nullable Permission... permissions) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nonnull
+    @Override
+    default String getInviteUrl(@Nullable Collection<Permission> permissions) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nullable
+    @Override
+    //We're the shard manager...
+    default ShardManager getShardManager() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nonnull
+    @Override
+    default RestAction<Webhook> retrieveWebhookById(@Nonnull String webhookId) {
+        throw new UnsupportedOperationException();
+    }
 
     default Stream<JDA> stream() {
         return StreamSupport.stream(spliterator(), false).filter(Objects::nonNull).sorted(Comparator.comparingInt(jda -> jda.getShardInfo().getShardId()));

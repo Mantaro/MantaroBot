@@ -17,7 +17,7 @@
 package net.kodehawa.mantarobot.commands.music.utils;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 
 import java.util.concurrent.ConcurrentLinkedDeque;

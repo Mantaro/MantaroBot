@@ -18,7 +18,7 @@ package net.kodehawa.mantarobot.commands.info.stats.manager;
 
 import com.github.natanbc.usagetracker.Bucket;
 import com.github.natanbc.usagetracker.TrackerGroup;
-import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.util.stream.Collectors;
 

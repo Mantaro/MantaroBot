@@ -18,11 +18,12 @@ package net.kodehawa.mantarobot.commands;
 
 import com.github.natanbc.usagetracker.DefaultBucket;
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.OnlineStatus;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.Region;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.stats.manager.*;
@@ -159,13 +160,13 @@ public class InfoCmds {
                         .addField(languageContext.get("commands.serverinfo.users"),
                                 (int) guild.getMembers().stream().filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() + "/" + guild.getMembers().size(), true)
                         .addField(languageContext.get("commands.serverinfo.created"),
-                                guild.getCreationTime().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), true)
+                                guild.getTimeCreated().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), true)
                         .addField(languageContext.get("commands.serverinfo.channels"),
                                 guild.getVoiceChannels().size() + "/" + guild.getTextChannels().size(), true)
                         .addField(languageContext.get("commands.serverinfo.owner"),
                                 guild.getOwner().getUser().getName() + "#" + guild.getOwner().getUser().getDiscriminator(), true)
                         .addField(languageContext.get("commands.serverinfo.region"),
-                                guild.getRegion() == null ? languageContext.get("general.unknown") : guild.getRegion().getName(), true)
+                                guild.getRegion() == Region.UNKNOWN ? languageContext.get("general.unknown") : guild.getRegion().getName(), true)
                         .addField(String.format(languageContext.get("commands.serverinfo.roles"),
                                 guild.getRoles().size()), roles, false)
                         .setFooter(String.format(languageContext.get("commands.serverinfo.id_show"), guild.getId()), null)
@@ -598,11 +599,11 @@ public class InfoCmds {
                 String s = String.join("\n",
                         prettyDisplay(languageContext.get("commands.userinfo.id"), user.getId()),
                         prettyDisplay(languageContext.get("commands.userinfo.join_date"),
-                                member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", "")),
+                                member.getTimeJoined().format(DateTimeFormatter.ISO_DATE).replace("Z", "")),
                         prettyDisplay(languageContext.get("commands.userinfo.created"),
-                                user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", "")),
+                                user.getTimeCreated().format(DateTimeFormatter.ISO_DATE).replace("Z", "")),
                         prettyDisplay(languageContext.get("commands.userinfo.account_age"),
-                                TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getCreationTime().toInstant().toEpochMilli())
+                                TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getTimeCreated().toInstant().toEpochMilli())
                                         + " " + languageContext.get("general.days")),
                         prettyDisplay(languageContext.get("commands.userinfo.mutual_guilds"), String.valueOf(MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).size())),
                         prettyDisplay(languageContext.get("commands.userinfo.vc"),
@@ -684,9 +685,9 @@ public class InfoCmds {
                 String s = String.join("\n",
                         prettyDisplay(languageContext.get("commands.roleinfo.id"), r.getId()),
                         prettyDisplay(languageContext.get("commands.roleinfo.created"),
-                                r.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", "")),
+                                r.getTimeCreated().format(DateTimeFormatter.ISO_DATE).replace("Z", "")),
                         prettyDisplay(languageContext.get("commands.roleinfo.age"),
-                                TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - r.getCreationTime().toInstant().toEpochMilli()) +
+                                TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - r.getTimeCreated().toInstant().toEpochMilli()) +
                                         " " + languageContext.get("general.days")),
                         prettyDisplay(languageContext.get("commands.roleinfo.color"),
                                 r.getColor() == null ? languageContext.get("general.none") : ("#" +  Integer.toHexString(r.getColor().getRGB()).substring(2))),

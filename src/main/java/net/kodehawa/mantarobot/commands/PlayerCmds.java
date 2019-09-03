@@ -18,11 +18,12 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.utils.AttachmentOption;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
@@ -119,7 +120,7 @@ public class PlayerCmds {
 
                 user = member.getUser();
                 User author = event.getAuthor();
-                Predicate<User> oldEnough = (u -> u.getCreationTime().isBefore(OffsetDateTime.now().minus(5, ChronoUnit.DAYS)));
+                Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(5, ChronoUnit.DAYS)));
 
                 //Didn't want to repeat the code twice, lol.
                 if(!oldEnough.test(user)) {
@@ -788,7 +789,7 @@ public class PlayerCmds {
                         .build()
                 ).build();
 
-                event.getChannel().sendFile(badge.icon, "icon.png", message).queue();
+                event.getChannel().sendMessage(message).addFile(badge.icon, "icon.png").queue();
             }
         });
     }
@@ -825,6 +826,6 @@ public class PlayerCmds {
             throw new AssertionError("io error", e);
         }
 
-        channel.sendFile(badge.apply(bytes), "avatar.png", message).queue();
+        channel.sendMessage(message).addFile(badge.apply(bytes), "avatar.png").queue();
     }
 }

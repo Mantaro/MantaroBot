@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.commands.currency.profile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;

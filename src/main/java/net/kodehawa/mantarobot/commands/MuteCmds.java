@@ -17,12 +17,12 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -164,7 +164,7 @@ public class MuteCmds {
                 }
 
                 final DBGuild dbg = db.getGuild(event.getGuild());
-                event.getGuild().getController().addSingleRoleToMember(member, mutedRole)
+                event.getGuild().addRoleToMember(member, mutedRole)
                         .reason(String.format("Muted by %#s for %s: %s", event.getAuthor(), Utils.formatDuration(time - System.currentTimeMillis()), finalReason))
                         .queue();
 
@@ -335,7 +335,7 @@ public class MuteCmds {
                     }
 
                     if(m.getRoles().contains(mutedRole)) {
-                        event.getGuild().getController().removeSingleRoleFromMember(m, mutedRole)
+                        event.getGuild().removeRoleFromMember(m, mutedRole)
                                 .reason(String.format("Unmuted by %#s: %s", event.getAuthor(), finalReason))
                                 .queue();
 

@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.commands.music;
 import lavalink.client.io.jda.JdaLink;
 import lombok.Getter;
 import lombok.Setter;
-import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.api.entities.Guild;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;

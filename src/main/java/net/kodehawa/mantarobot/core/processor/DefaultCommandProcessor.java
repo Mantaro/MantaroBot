@@ -18,7 +18,7 @@ package net.kodehawa.mantarobot.core.processor;
 
 import io.prometheus.client.Histogram;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;

@@ -18,8 +18,8 @@ package net.kodehawa.mantarobot.core.shard.watcher;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.impl.JDAImpl;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.internal.JDAImpl;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.events.EventUtils;
@@ -176,7 +176,7 @@ public class ShardWatcher implements Runnable {
                 } else {
                     //yay
                     MantaroEventManager.getLog().info("No dead shards found");
-                    long ping = MantaroBot.getInstance().getPing();
+                    long ping = MantaroBot.getInstance().getGatewayPing();
 
                     //We might have a few soft-dead shards on here... (or internet went to shit)
                     if(ping > 850) {

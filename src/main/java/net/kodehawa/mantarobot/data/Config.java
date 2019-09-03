@@ -17,8 +17,8 @@
 package net.kodehawa.mantarobot.data;
 
 import lombok.Data;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.seasons.Season;
 
 import java.util.ArrayList;

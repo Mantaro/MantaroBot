@@ -17,12 +17,12 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.exceptions.PermissionException;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -176,7 +176,7 @@ public class MessageCmds {
     }
 
     private void prune(GuildMessageReceivedEvent event, I18nContext languageContext, List<Message> messageHistory) {
-        messageHistory = messageHistory.stream().filter(message -> !message.getCreationTime()
+        messageHistory = messageHistory.stream().filter(message -> !message.getTimeCreated()
                 .isBefore(OffsetDateTime.now().minusWeeks(2)))
                 .collect(Collectors.toList());
 

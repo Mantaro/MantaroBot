@@ -18,11 +18,11 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.exceptions.PermissionException;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -101,7 +101,7 @@ public class ModerationCmds {
                 }
                 final DBGuild db = MantaroData.db().getGuild(event.getGuild());
 
-                guild.getController().ban(member, 7).reason(finalReason).queue(
+                guild.ban(member, 7).reason(finalReason).queue(
                         success -> {
                             user.openPrivateChannel().queue(privateChannel ->
                                     privateChannel.sendMessage(String.format("%sYou were **softbanned** by %s#%s for reason %s on server **%s**.",
@@ -110,7 +110,7 @@ public class ModerationCmds {
                             db.saveAsync();
 
                             channel.sendMessage(String.format(languageContext.get("commands.softban.success"), EmoteReference.ZAP, languageContext.get("general.mod_quotes"), user.getName())).queue();
-                            guild.getController().unban(member.getUser()).reason(finalReason).queue(aVoid -> {
+                            guild.unban(member.getUser()).reason(finalReason).queue(aVoid -> {
                             }, error -> {
                                 if(error instanceof PermissionException) {
                                     channel.sendMessage(String.format(languageContext.get("commands.softban.error"), EmoteReference.ERROR,
@@ -214,7 +214,7 @@ public class ModerationCmds {
 
                 final DBGuild db = MantaroData.db().getGuild(event.getGuild());
 
-                guild.getController().ban(member, 7).reason(finalReason).queue(
+                guild.ban(member, 7).reason(finalReason).queue(
                         success -> user.openPrivateChannel().queue(privateChannel -> {
                             if(!user.isBot()) {
                                 privateChannel.sendMessage(String.format("%sYou were **banned** by %s#%s on server **%s**. Reason: %s.",
@@ -315,7 +315,7 @@ public class ModerationCmds {
                 }
                 final DBGuild db = MantaroData.db().getGuild(event.getGuild());
 
-                guild.getController().kick(member).reason(finalReason).queue(
+                guild.kick(member).reason(finalReason).queue(
                         success -> {
                             if(!user.isBot()) {
                                 user.openPrivateChannel().queue(privateChannel ->

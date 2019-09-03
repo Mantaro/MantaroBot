@@ -17,8 +17,8 @@
 package net.kodehawa.mantarobot.core;
 
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.events.Event;
-import net.dv8tion.jda.core.hooks.InterfacedEventManager;
+import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.hooks.InterfacedEventManager;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import org.slf4j.Logger;
 
@@ -31,7 +31,7 @@ public class MantaroEventManager extends InterfacedEventManager {
     }
 
     @Override
-    public void handle(Event event) {
+    public void handle(GenericEvent event) {
         if(!(event instanceof ShardMonitorEvent)) {
             LAST_JDA_EVENT = System.currentTimeMillis();
         }

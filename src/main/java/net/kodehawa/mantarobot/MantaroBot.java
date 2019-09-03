@@ -21,8 +21,8 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lavalink.client.io.jda.JdaLavalink;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Guild;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.moderation.MuteTask;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
@@ -182,12 +182,12 @@ public class MantaroBot extends ShardedJDA {
         return ExtraRuntimeOptions.VERBOSE;
     }
 
-    public Guild getGuildById(String guildId) {
-        return getShardForGuild(guildId).getGuildById(guildId);
-    }
-
     public MantaroShard getShard(int id) {
         return Arrays.stream(shardedMantaro.getShards()).filter(Objects::nonNull).filter(shard -> shard.getId() == id).findFirst().orElse(null);
+    }
+
+    public Guild getGuildById(String guildId) {
+        return getShardForGuild(guildId).getGuildById(guildId);
     }
 
     @Override

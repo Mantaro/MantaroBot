@@ -17,7 +17,7 @@
 package net.kodehawa.mantarobot.commands.currency.profile;
 
 import lombok.Getter;
-import net.dv8tion.jda.core.utils.IOUtil;
+import net.dv8tion.jda.internal.utils.IOUtil;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;

@@ -16,7 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.interaction.polls;
 
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.util.UUID;

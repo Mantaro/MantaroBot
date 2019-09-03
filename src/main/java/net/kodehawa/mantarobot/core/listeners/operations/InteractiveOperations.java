@@ -16,10 +16,11 @@
 
 package net.kodehawa.mantarobot.core.listeners.operations;
 
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.events.Event;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.EventListener;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.EventListener;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.utils.Prometheus;
@@ -76,11 +77,11 @@ public class InteractiveOperations {
     }
 
     /**
-     * Creates a new {@link InteractiveOperation} on the specified {@link net.dv8tion.jda.core.entities.TextChannel} id provided.
+     * Creates a new {@link InteractiveOperation} on the specified {@link net.dv8tion.jda.api.entities.TextChannel} id provided.
      * This method will not make a new {@link InteractiveOperation} if there's already another one running.
      * You can check the return type to give a response to the user.
      *
-     * @param channel      The id of the {@link net.dv8tion.jda.core.entities.TextChannel} we want this Operation to run on.
+     * @param channel      The id of the {@link net.dv8tion.jda.api.entities.TextChannel} we want this Operation to run on.
      * @param timeoutSeconds How much seconds until it stops listening to us.
      * @param operation      The {@link InteractiveOperation} itself.
      * @return The uncompleted {@link Future<Void>} of this InteractiveOperation.
@@ -90,11 +91,11 @@ public class InteractiveOperations {
     }
 
     /**
-     * Creates a new {@link InteractiveOperation} on the specified {@link net.dv8tion.jda.core.entities.TextChannel} id provided.
+     * Creates a new {@link InteractiveOperation} on the specified {@link net.dv8tion.jda.api.entities.TextChannel} id provided.
      * This method will not make a new {@link InteractiveOperation} if there's already another one running.
      * You can check the return type to give a response to the user.
      *
-     * @param channelId      The id of the {@link net.dv8tion.jda.core.entities.TextChannel} we want this Operation to run on.
+     * @param channelId      The id of the {@link net.dv8tion.jda.api.entities.TextChannel} we want this Operation to run on.
      * @param timeoutSeconds How much seconds until it stops listening to us.
      * @param operation      The {@link InteractiveOperation} itself.
      * @return The uncompleted {@link Future<Void>} of this InteractiveOperation.
@@ -134,7 +135,7 @@ public class InteractiveOperations {
      */
     public static class InteractiveListener implements EventListener {
         @Override
-        public void onEvent(Event e) {
+        public void onEvent(GenericEvent e) {
             if(!(e instanceof GuildMessageReceivedEvent))
                 return;
 

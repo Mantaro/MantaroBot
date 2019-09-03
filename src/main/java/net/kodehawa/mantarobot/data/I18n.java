@@ -17,9 +17,9 @@
 package net.kodehawa.mantarobot.data;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.guild.GenericGuildEvent;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.guild.GenericGuildEvent;
 import net.kodehawa.mantarobot.utils.LanguageKeyNotFoundException;
 import org.apache.commons.io.IOUtils;
 

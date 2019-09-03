@@ -18,9 +18,9 @@ package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.collections.CollectionUtils;
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.imageboards.DefaultImageBoards;
 import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.lib.imageboards.entities.impl.*;
@@ -68,10 +68,12 @@ public class ImageCmds {
                 try {
                     Pair<String, String> result = weebAPIRequester.getRandomImageByType("animal_cat", false, null);
                     String url = result.getKey();
-                    event.getChannel().sendFile(CACHE.getFile(url), "cat-" + result.getValue() + ".png",
+                    event.getChannel().sendMessage(
                             new MessageBuilder().append(EmoteReference.TALKING).append(
-                                    CollectionUtils.random(catResponses).replace("%mention%", event.getAuthor().getName())
-                            ).build()).queue();
+                                    CollectionUtils.random(catResponses).replace("%mention%", event.getAuthor().getName()))
+                                    .build()
+                            ).addFile(CACHE.getFile(url), "cat-" + result.getValue() + ".png")
+                            .queue();
                 } catch(Exception e) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.imageboard.cat.error"), EmoteReference.ERROR).queue();
                 }
@@ -105,7 +107,7 @@ public class ImageCmds {
                         return;
                     }
 
-                    event.getChannel().sendFile(CACHE.getInput(image), "catgirl-" + result.getValue() + ".png", null).queue();
+                    event.getChannel().sendFile(CACHE.getInput(image), "catgirl-" + result.getValue() + ".png").queue();
                 } catch(Exception e) {
                     event.getChannel().sendMessage(languageContext.get("commands.imageboard.catgirl.error")).queue();
                 }

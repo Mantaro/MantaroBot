@@ -16,11 +16,11 @@
 
 package net.kodehawa.mantarobot.utils;
 
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
@@ -176,8 +176,6 @@ public class DiscordUtils {
         return ReactionOperations.create(m, timeoutSeconds, (e) -> {
             if(!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong())
                 return Operation.IGNORED;
-            if(e.getChannel().getMessageById(m.getIdLong()) == null)
-                return Operation.IGNORED;
             switch(e.getReactionEmote().getName()) {
                 case "\u2b05": //left arrow
                     if(index.get() == 0) break;
@@ -248,8 +246,6 @@ public class DiscordUtils {
         return InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
             if(!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong())
                 return Operation.IGNORED;
-            if(e.getChannel().getMessageById(m.getIdLong()) == null)
-                return Operation.IGNORED;
 
             if(e.getMessage().getContentRaw().equals("&p <<") || e.getMessage().getContentRaw().equals("&page <<")) {
                 if(index.get() == 0)
@@ -303,8 +299,6 @@ public class DiscordUtils {
         return ReactionOperations.create(m, timeoutSeconds, (e) -> {
             if(!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong())
                 return Operation.IGNORED;
-            if(e.getChannel().getMessageById(m.getIdLong()) == null)
-                return Operation.IGNORED;
 
             switch(e.getReactionEmote().getName()) {
                 case "\u2b05": //left arrow
@@ -349,8 +343,6 @@ public class DiscordUtils {
         Message m = event.getChannel().sendMessage(base.build()).complete();
         return ReactionOperations.create(m, timeoutSeconds, (e) -> {
             if(!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong())
-                return Operation.IGNORED;
-            if(e.getChannel().getMessageById(m.getIdLong()) == null)
                 return Operation.IGNORED;
 
             switch(e.getReactionEmote().getName()) {
@@ -400,8 +392,6 @@ public class DiscordUtils {
         return InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
             if(!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong())
                 return Operation.IGNORED;
-            if(e.getChannel().getMessageById(m.getIdLong()) == null)
-                return Operation.IGNORED;
 
             if(e.getMessage().getContentRaw().equals("&p <<") || e.getMessage().getContentRaw().equals("&page <<")) {
                 if(index.get() == 0)
@@ -443,9 +433,6 @@ public class DiscordUtils {
         return InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
             if(!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong())
                 return Operation.IGNORED;
-            if(e.getChannel().getMessageById(m.getIdLong()) == null)
-                return Operation.IGNORED;
-
 
             if(e.getMessage().getContentRaw().equals("&p <<") || e.getMessage().getContentRaw().equals("&page <<")) {
                 if(index.get() == 0) return Operation.IGNORED;

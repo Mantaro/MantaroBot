@@ -18,7 +18,7 @@ package net.kodehawa.mantarobot.core.listeners.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 
 @AllArgsConstructor

@@ -21,10 +21,10 @@ import com.github.natanbc.javaeval.CompilationResult;
 import com.github.natanbc.javaeval.JavaEvaluator;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -65,7 +65,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 @SuppressWarnings("unused")
 public class OwnerCmd {
     private static final String JAVA_EVAL_IMPORTS = "" +
-            "import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;\n" +
+            "import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;\n" +
             "import net.kodehawa.mantarobot.*;\n" +
             "import net.kodehawa.mantarobot.core.listeners.operations.*;\n" +
             "import net.kodehawa.mantarobot.data.*;\n" +
@@ -73,7 +73,7 @@ public class OwnerCmd {
             "import net.kodehawa.mantarobot.db.entities.*;\n" +
             "import net.kodehawa.mantarobot.commands.currency.*;\n" +
             "import net.kodehawa.mantarobot.utils.*;\n" +
-            "import net.dv8tion.jda.core.entities.*;\n";
+            "import net.dv8tion.jda.api.entities.*;\n";
 
     @Subscribe
     public void blacklist(CommandRegistry cr) {

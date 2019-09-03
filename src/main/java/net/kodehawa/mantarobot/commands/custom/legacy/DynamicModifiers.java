@@ -16,12 +16,12 @@
 
 package net.kodehawa.mantarobot.commands.custom.legacy;
 
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.events.guild.member.GenericGuildMemberEvent;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.guild.member.GenericGuildMemberEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -67,15 +67,16 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
 
     public DynamicModifiers mapMember(String prefix, Member member) {
         return this
-            .set(prefix, member.getAsMention())
-            .set(prefix, "username", member.getUser().getName())
-            .set(prefix, "discriminator", member.getUser().getDiscriminator())
-            .set(prefix, "name", member.getEffectiveName())
-            .set(prefix, "game", member.getGame() != null ? member.getGame().getName() : "None")
-            .set(prefix, "status", capitalize(member.getOnlineStatus().getKey()))
-            .set(prefix, "mention", member.getAsMention())
-            .set(prefix, "avatar", member.getUser().getEffectiveAvatarUrl())
-            .set(prefix, "id", member.getUser().getId());
+                .set(prefix, member.getAsMention())
+                .set(prefix, "username", member.getUser().getName())
+                .set(prefix, "discriminator", member.getUser().getDiscriminator())
+                .set(prefix, "name", member.getEffectiveName())
+                //TODO: i want this to compile already come on
+                //.set(prefix, "game", member.getGame() != null ? member.getGame().getName() : "None")
+                .set(prefix, "status", capitalize(member.getOnlineStatus().getKey()))
+                .set(prefix, "mention", member.getAsMention())
+                .set(prefix, "avatar", member.getUser().getEffectiveAvatarUrl())
+                .set(prefix, "id", member.getUser().getId());
     }
 
     public DynamicModifiers mapEvent(String prefix, GuildMessageReceivedEvent event) {

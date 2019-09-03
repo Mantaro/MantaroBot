@@ -16,10 +16,10 @@
 
 package net.kodehawa.mantarobot.commands.action;
 
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -109,17 +109,19 @@ public class ImageCmd extends NoArgsCommand {
         if(!noMentions) {
             List<User> users = event.getMessage().getMentionedUsers();
             String names = "";
-            if(users != null)
-                names = users.stream().distinct().map(user -> event.getGuild().getMember(user).getEffectiveName()).collect(Collectors.joining(", "));
-            if(!names.isEmpty()) builder.append("**").append(names).append("**, ");
+            names = users.stream().distinct().map(user -> {
+                if(event.getGuild().getMember(user) == null) {
+                    return "unknown";
+                }
+
+                return event.getGuild().getMember(user).getEffectiveName();
+            }).collect(Collectors.joining(", "));
+            if(!names.isEmpty())
+                builder.append("**").append(names).append("**, ");
         }
 
         builder.append(languageContext.get(toSend));
-        event.getChannel().sendFile(
-                CACHE.getInput(random),
-                imageName + "-" + id + "." + extension,
-                builder.build()
-        ).queue();
+        event.getChannel().sendMessage(builder.build()).addFile(CACHE.getInput(random),imageName + "-" + id + "." + extension).queue();
     }
 
     @Override

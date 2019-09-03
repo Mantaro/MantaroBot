@@ -18,7 +18,7 @@ package net.kodehawa.mantarobot.options.core;
 
 import br.com.brjdevs.java.utils.functions.interfaces.TriConsumer;
 import lombok.Getter;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.util.ArrayList;

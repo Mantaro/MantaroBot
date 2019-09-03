@@ -62,8 +62,9 @@ task generateLanguageList {
 
 dependencies {
     //remember to update this 3 all the time lul
-    compile 'net.dv8tion:JDA:3.8.3_464'
-    compile 'com.github.FredBoat:Lavalink-Client:8c20d5714c'
+    compile 'net.dv8tion:JDA:4.0.0_45'
+    compile 'com.github.FredBoat:Lavalink-Client:9bda4ea060'
+    compile 'club.minnced:discord-webhooks:0.1.7'
 
     //before: classpathscanner
     compile 'io.github.classgraph:classgraph:4.6.3'
@@ -94,7 +95,7 @@ dependencies {
     compile 'redis.clients:jedis:2.9.0'
 
     //Basically for FinderUtil
-    compile 'com.jagrosh:jda-utilities:2.1.4'
+    compile 'com.jagrosh:jda-utilities:3.0.1'
 
     compile 'com.github.natanbc:usage-tracker:0.1.1'
 

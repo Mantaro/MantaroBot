@@ -17,7 +17,9 @@
 package net.kodehawa.mantarobot.commands.moderation;
 
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -63,6 +65,8 @@ public class MuteTask {
                         continue;
                     }
 
+                    final Member memberById = guild.getMemberById(id);
+
                     //I spent an entire month trying to figure out why this didn't work to then come to the conclusion that I'm completely stupid.
                     //I was checking against `id` instead of against the mute role id because I probably was high or something when I did this
                     //It literally took me a fucking month to figure this shit out
@@ -77,7 +81,11 @@ public class MuteTask {
                             log.debug("Unmuted {} because time ran out", id);
                             data.getMutes().remove(id);
                             data.save();
-                            guild.getController().removeRolesFromMember(guild.getMemberById(id), guild.getRoleById(guildData.getMutedRole())).queue();
+                            Role roleById = guild.getRoleById(guildData.getMutedRole());
+
+                            if(memberById != null && roleById != null)
+                                guild.removeRoleFromMember(memberById, roleById).queue();
+
                             guildData.setCases(guildData.getCases() + 1);
                             dbGuild.saveAsync();
                             ModLog.log(guild.getSelfMember(), MantaroBot.getInstance().getUserById(id), "Mute timeout expired", "none", ModLog.ModAction.UNMUTE, guildData.getCases());

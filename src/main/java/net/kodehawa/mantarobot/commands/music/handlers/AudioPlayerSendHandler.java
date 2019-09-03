@@ -21,7 +21,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
 import com.sedmelluq.discord.lavaplayer.track.playback.MutableAudioFrame;
 import lombok.Getter;
-import net.dv8tion.jda.core.audio.AudioSendHandler;
+import net.dv8tion.jda.api.audio.AudioSendHandler;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 
 import java.nio.ByteBuffer;
@@ -57,8 +57,8 @@ public class AudioPlayerSendHandler implements AudioSendHandler {
     }
 
     @Override
-    public byte[] provide20MsAudio() {
-        return (ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER ? lastFrame : frame).getData();
+    public ByteBuffer provide20MsAudio() {
+        return ByteBuffer.wrap((ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER ? lastFrame : frame).getData());
     }
 
     @Override

@@ -19,14 +19,14 @@ package net.kodehawa.mantarobot.commands;
 import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.exceptions.PermissionException;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
 import net.kodehawa.mantarobot.commands.interaction.polls.PollBuilder;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -87,7 +87,7 @@ public class MiscCmds {
                     return;
                 }
                 try {
-                    event.getGuild().getController().addSingleRoleToMember(event.getMember(), role)
+                    event.getGuild().addRoleToMember(event.getMember(), role)
                             //don't translate the reason!
                             .reason("Auto-assignable roles assigner (~>iam)")
                             .queue(aVoid -> {
@@ -136,7 +136,7 @@ public class MiscCmds {
                     return;
                 }
                 try {
-                    event.getGuild().getController().removeRolesFromMember(event.getMember(), role)
+                    event.getGuild().removeRoleFromMember(event.getMember(), role)
                             .queue(aVoid -> {
                                 if(message == null || message.isEmpty())
                                     event.getChannel().sendMessageFormat(languageContext.get("commands.iamnot.success"), EmoteReference.OK, event.getAuthor().getName(), role.getName()).queue();

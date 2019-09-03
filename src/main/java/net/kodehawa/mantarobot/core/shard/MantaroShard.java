@@ -21,14 +21,14 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.Getter;
 import lombok.experimental.Delegate;
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.exceptions.RateLimitedException;
-import net.dv8tion.jda.core.utils.SessionController;
-import net.dv8tion.jda.core.utils.SessionControllerAdapter;
-import net.dv8tion.jda.core.utils.cache.CacheFlag;
+import net.dv8tion.jda.api.AccountType;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.exceptions.RateLimitedException;
+import net.dv8tion.jda.api.utils.SessionController;
+import net.dv8tion.jda.api.utils.SessionControllerAdapter;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
@@ -186,9 +186,10 @@ public class MantaroShard implements JDA {
                 .setSessionController(sessionController)
                 .setBulkDeleteSplittingEnabled(false)
                 .useSharding(shardId, totalShards)
-                .addEventListener(MantaroBot.getInstance().getLavalink()) //try here then down there ig
-                .setDisabledCacheFlags(EnumSet.of(CacheFlag.GAME, CacheFlag.EMOTE))
-                .setGame(Game.playing("Hold on to your seatbelts!"));
+                .addEventListeners(MantaroBot.getInstance().getLavalink()) //try here then down there ig
+                .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavalink().getVoiceInterceptor())
+                .setDisabledCacheFlags(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE))
+                .setActivity(Activity.playing("Hold on to your seatbelts!"));
 
         if(shardId < getTotalShards() - 1) {
             jda = jdaBuilder.build();
@@ -234,10 +235,10 @@ public class MantaroShard implements JDA {
         Runnable changeStatus = () -> {
             //insert $CURRENT_YEAR meme here
             if(DateUtils.isSameDay(christmas, Calendar.getInstance())) {
-                getJDA().getPresence().setGame(Game.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], "Merry Christmas!", getId())));
+                getJDA().getPresence().setActivity(Activity.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], "Merry Christmas!", getId())));
                 return;
             } else if (DateUtils.isSameDay(newYear, Calendar.getInstance())) {
-                getJDA().getPresence().setGame(Game.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], "Happy New Year!", getId())));
+                getJDA().getPresence().setActivity(Activity.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], "Happy New Year!", getId())));
                 return;
             }
 
@@ -278,7 +279,7 @@ public class MantaroShard implements JDA {
                     .replace("%prettyusercount%", pretty(users.get()))
                     .replace("%prettyguildcount%", pretty(guilds.get()));
 
-            getJDA().getPresence().setGame(Game.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], newStatus, getId())));
+            getJDA().getPresence().setActivity(Activity.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], newStatus, getId())));
             log.debug("Changed status to: " + newStatus);
         };
 

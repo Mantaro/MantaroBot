@@ -16,7 +16,7 @@
 
 package net.kodehawa.mantarobot.core.processor.core;
 
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 /**
  * Remember that custom processor stuff that was planned for some stuff?

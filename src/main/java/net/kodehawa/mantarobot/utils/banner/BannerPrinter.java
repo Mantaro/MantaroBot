@@ -16,7 +16,7 @@
 
 package net.kodehawa.mantarobot.utils.banner;
 
-import net.dv8tion.jda.core.JDAInfo;
+import net.dv8tion.jda.api.JDAInfo;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;

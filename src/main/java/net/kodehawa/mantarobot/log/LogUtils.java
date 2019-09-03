@@ -16,16 +16,17 @@
 
 package net.kodehawa.mantarobot.log;
 
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.webhook.WebhookClient;
-import net.dv8tion.jda.webhook.WebhookClientBuilder;
+import club.minnced.discord.webhook.WebhookClient;
+import club.minnced.discord.webhook.WebhookClientBuilder;
+import club.minnced.discord.webhook.send.WebhookEmbed;
+import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 
-import java.awt.*;
+import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class LogUtils {
@@ -53,25 +54,16 @@ public class LogUtils {
         }
     }
 
-    public static MessageEmbed createLogEmbed(String title, String message) {
-        return new EmbedBuilder()
-                .setTitle(title)
-                .setDescription(message)
-                .setColor(Color.PINK)
-                .setFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL)
-                .build();
-    }
-
     public static void shard(String message) {
         if(SHARD_WEBHOOK == null) return;
 
         try {
-            SHARD_WEBHOOK.send(new EmbedBuilder()
-                    .setTitle("Shard")
-                    .setDescription(message)
-                    .setColor(Color.PINK)
-                    .setFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL)
-                    .build());
+            SHARD_WEBHOOK.send(new WebhookEmbed(
+                    null, Color.PINK.getRGB(), message,
+                    null, null,
+                    new WebhookEmbed.EmbedFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL),
+                    new WebhookEmbed.EmbedTitle("Shard", null), null,
+                    new ArrayList<>()));
         } catch(Exception e) {
             SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
@@ -81,12 +73,12 @@ public class LogUtils {
         if(LOGBACK_WEBHOOK == null) return;
 
         try {
-            LOGBACK_WEBHOOK.send(new EmbedBuilder()
-                    .setTitle(title)
-                    .setDescription(message)
-                    .setColor(Color.PINK)
-                    .setFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL)
-                    .build());
+            LOGBACK_WEBHOOK.send(new WebhookEmbed(
+                    null, Color.PINK.getRGB(), message,
+                    null, null,
+                    new WebhookEmbed.EmbedFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL),
+                    new WebhookEmbed.EmbedTitle(title, null), null,
+                    new ArrayList<>()));
         } catch(Exception e) {
             SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
@@ -96,12 +88,12 @@ public class LogUtils {
         if(LOGBACK_WEBHOOK == null) return;
 
         try {
-            LOGBACK_WEBHOOK.send(new EmbedBuilder()
-                    .setTitle("Log")
-                    .setDescription(message)
-                    .setColor(Color.PINK)
-                    .setFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL)
-                    .build());
+            LOGBACK_WEBHOOK.send(new WebhookEmbed(
+                    null, Color.PINK.getRGB(), message,
+                    null, null,
+                    new WebhookEmbed.EmbedFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL),
+                    new WebhookEmbed.EmbedTitle("Log", null), null,
+                    new ArrayList<>()));
         } catch(Exception e) {
             SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
@@ -130,19 +122,18 @@ public class LogUtils {
     public static void spambot(User user) {
         if(SPAMBOT_WEBHOOK == null) return;
         try {
-            SPAMBOT_WEBHOOK.send(new EmbedBuilder()
-                    .setTitle("Possible spambot detected")
-                    .setThumbnail(user.getEffectiveAvatarUrl())
-                    .addField("Tag", String.format("%#s", user), true)
-                    .addField("ID", user.getId(), true)
-                    .addField("Account creation", user.getCreationTime().toString(), true)
-                    .addField("Mutual Guilds", user.getMutualGuilds().stream().map(g->
-                        g.getId() + ": " + g.getMemberCache().size() + " members"
-                    ).collect(Collectors.joining("\n")), false)
-                    .setColor(Color.PINK)
-                    .setFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL)
-                    .build()
-            );
+            List<WebhookEmbed.EmbedField> fields = new ArrayList<>();
+            fields.add(new WebhookEmbed.EmbedField(true, "Tag", String.format("%#s", user)));
+            fields.add(new WebhookEmbed.EmbedField(true, "ID", user.getId()));
+            fields.add(new WebhookEmbed.EmbedField(true, "Account Creation", user.getTimeCreated().toString()));
+            fields.add(new WebhookEmbed.EmbedField(true, "Mutual Guilds", user.getMutualGuilds().stream().map(g ->
+                    g.getId() + ": " + g.getMemberCache().size() + " members"
+            ).collect(Collectors.joining("\n"))));
+
+            SPAMBOT_WEBHOOK.send(new WebhookEmbed(null, Color.PINK.getRGB(),
+                    null, user.getEffectiveAvatarUrl(),
+                    null, new WebhookEmbed.EmbedFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL),
+                    new WebhookEmbed.EmbedTitle("Possible spambot detected", null), null, fields));
         } catch(Exception e) {
             SentryHelper.captureException("Cannot post to spambot webhook", e, LogUtils.class);
         }

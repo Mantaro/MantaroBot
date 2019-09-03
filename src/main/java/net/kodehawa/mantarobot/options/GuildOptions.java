@@ -17,12 +17,12 @@
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -130,7 +130,7 @@ public class GuildOptions extends OptionHandler {
             //Value used in lambda... blabla :c
             final String finalMessage = message;
 
-            event.getGuild().getController().addSingleRoleToMember(m, birthdayRole).queue(success ->
+            event.getGuild().addRoleToMember(m, birthdayRole).queue(success ->
                     new MessageBuilder(finalMessage).stripMentions(event.getJDA()).sendTo(birthdayChannel).queue(s ->
                             event.getChannel().sendMessageFormat(lang.get("options.birthday_test.success"),
                                     EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()

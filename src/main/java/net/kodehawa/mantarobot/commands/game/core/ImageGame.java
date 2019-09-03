@@ -16,11 +16,11 @@
 
 package net.kodehawa.mantarobot.commands.game.core;
 
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.requests.RestAction;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 
@@ -38,8 +38,9 @@ public abstract class ImageGame extends Game<String> {
         embedConfigurator.accept(eb);
         if(MantaroData.config().get().cacheGames) {
             eb.setImage("attachment://image.png");
-            return channel.sendFile(cache.getInput(url), "image.png", new MessageBuilder().setEmbed(eb.build()).build());
+            return channel.sendMessage(new MessageBuilder().setEmbed(eb.build()).build()).addFile(cache.getInput(url), "image.png");
         }
+
         eb.setImage(url);
         return channel.sendMessage(eb.build());
     }

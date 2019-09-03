@@ -18,13 +18,13 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDAInfo;
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDAInfo;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -43,7 +43,6 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.lang.management.ManagementFactory;
 import java.util.LinkedList;
@@ -54,7 +53,6 @@ import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
-import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 @Module
 @SuppressWarnings("unused")
@@ -138,7 +136,7 @@ public class DebugCmds {
                 event.getChannel().sendTyping().queue(v -> {
                     long ping = System.currentTimeMillis() - start;
                     //display: show a random quote, translated.
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.ping.text"), EmoteReference.MEGA, languageContext.get("commands.ping.display"), ping, ratePing(ping, languageContext), event.getJDA().getPing()).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.ping.text"), EmoteReference.MEGA, languageContext.get("commands.ping.display"), ping, ratePing(ping, languageContext), event.getJDA().getGatewayPing()).queue();
                 });
             }
 
@@ -167,15 +165,15 @@ public class DebugCmds {
                     JDA jda = shard.getJDA();
                     builder.append(String.format(
                             "%-17s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s",
-                            jda.getShardInfo() == null ? "Shard [0 / 1]" : jda.getShardInfo(),
+                            jda.getShardInfo(),
                             jda.getStatus(),
                             jda.getUserCache().size(),
                             jda.getGuildCache().size(),
                             shard.getShardEventManager().getLastJDAEventTimeDiff() + " ms",
-                            jda.getPing()
+                            jda.getGatewayPing()
                     ));
 
-                    if(shard.getJDA().getShardInfo() != null && shard.getJDA().getShardInfo().equals(event.getJDA().getShardInfo())) {
+                    if(shard.getJDA().getShardInfo().equals(event.getJDA().getShardInfo())) {
                         builder.append(" <- CURRENT");
                     }
 
@@ -210,7 +208,7 @@ public class DebugCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 MantaroBot bot = MantaroBot.getInstance();
-                long ping = bot.getPing();
+                long ping = bot.getGatewayPing();
                 List<MantaroShard> shards = bot.getShardList();
                 StringBuilder stringBuilder = new StringBuilder();
                 int dead = 0;
@@ -243,7 +241,7 @@ public class DebugCmds {
                     stringBuilder.append("WARNING: A very large number of shards has a high last event time! A restart might be needed if this doesn't fix itself on some minutes!\n");
                 if(dead > 5)
                     stringBuilder.append("WARNING: Several shards (").append(dead).append(") ")
-                            .append("appear to be dead! If this doesn't get fixed in 10 minutes please report this!\n");
+                            .append("appear to be dead! If this doesn't get fixed in 30 minutes please report this!\n");
 
                 stringBuilder.append(String.format(
                         "Uptime: %s.\n\n" +
@@ -261,8 +259,8 @@ public class DebugCmds {
                         Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()), MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION, ping,
                         bot.getShardList().stream().filter(Objects::nonNull)
                                 //"high" ping shards
-                                .filter(shard -> shard.getPing() > 350)
-                                .map(shard -> shard.getId() + ": " + shard.getPing() + "ms")
+                                .filter(shard -> shard.getGatewayPing() > 350)
+                                .map(shard -> shard.getId() + ": " + shard.getGatewayPing() + "ms")
                                 .collect(Collectors.joining(", ")),
                         dead, reconnecting, connecting, high, String.format("%,d", bot.getGuildCache().size()),
                         String.format("%,d", bot.getUserCache().size()), bot.getShardList().size()));

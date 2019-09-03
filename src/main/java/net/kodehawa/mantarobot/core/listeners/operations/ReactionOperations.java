@@ -16,12 +16,13 @@
 
 package net.kodehawa.mantarobot.core.listeners.operations;
 
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.events.Event;
-import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
-import net.dv8tion.jda.core.events.message.react.MessageReactionRemoveAllEvent;
-import net.dv8tion.jda.core.events.message.react.MessageReactionRemoveEvent;
-import net.dv8tion.jda.core.hooks.EventListener;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveAllEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
+import net.dv8tion.jda.api.hooks.EventListener;
 import net.jodah.expiringmap.ExpiringMap;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ReactionOperation;
@@ -168,7 +169,7 @@ public final class ReactionOperations {
 
     public static class ReactionListener implements EventListener {
         @Override
-        public void onEvent(Event e) {
+        public void onEvent(GenericEvent e) {
 
             if(e instanceof MessageReactionAddEvent) {
                 MessageReactionAddEvent event = (MessageReactionAddEvent) e;
