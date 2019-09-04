@@ -909,7 +909,7 @@ public class MoneyCmds {
                     player.getData().addBadgeIfAbsent(Badge.GEM_FINDER);
                 }
 
-                if((r.nextInt(400) > 395 && item == Items.GEM2_PICKAXE) || (r.nextInt(400) > 390 && (item == Items.GEM1_PICKAXE || item == Items.GEM5_PICKAXE_2))) {
+                if((r.nextInt(400) > 395 && item == Items.GEM1_PICKAXE) || (r.nextInt(400) > 390 && (item == Items.GEM2_PICKAXE || item == Items.GEM5_PICKAXE_2))) {
                     Item gem = Items.GEM5_2;
                     if(inventory.getAmount(gem) + 1 >= 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.sparkle.overflow");
