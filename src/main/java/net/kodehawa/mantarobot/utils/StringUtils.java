@@ -22,7 +22,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 /**
- * Class made by AdrianTodt with a lot of useful and fast {@link String} and String[] utilities methods.
+ * Class made by AdrianTodt (and modified by Kodehawa) with a lot of useful and fast {@link String} and String[] utilities methods.
  */
 public class StringUtils {
     public static final Pattern SPLIT_PATTERN = Pattern.compile("\\s+");
@@ -32,14 +32,16 @@ public class StringUtils {
         boolean inAString = false;
         StringBuilder currentBlock = new StringBuilder();
         for(int i = 0; i < args.length(); i++) {
-            if(args.charAt(i) == '"' && (i == 0 || args.charAt(i - 1) != '\\' || args.charAt(i - 2) == '\\'))
+            char c = args.charAt(i);
+            if((c == '"' || c == '“' || c == '”') && (i == 0 || args.charAt(i - 1) != '\\' || args.charAt(i - 2) == '\\'))
                 inAString = !inAString;
 
             if(inAString)
-                currentBlock.append(args.charAt(i));
-            else if(Character.isSpaceChar(args.charAt(i))) {
+                currentBlock.append(c);
+            else if(Character.isSpaceChar(c)) {
                 if(currentBlock.length() != 0) {
-                    if(currentBlock.charAt(0) == '"' && currentBlock.charAt(currentBlock.length() - 1) == '"') {
+                    if(((currentBlock.charAt(0) == '"' || currentBlock.charAt(0) == '“') &&
+                            (currentBlock.charAt(currentBlock.length() - 1) == '"' || currentBlock.charAt(currentBlock.length() - 1) == '”'))) {
                         currentBlock.deleteCharAt(0);
                         currentBlock.deleteCharAt(currentBlock.length() - 1);
                     }
@@ -47,11 +49,12 @@ public class StringUtils {
                     result.add(advSplArgUnb(currentBlock.toString()));
                     currentBlock = new StringBuilder();
                 }
-            } else currentBlock.append(args.charAt(i));
+            } else currentBlock.append(c);
         }
 
         if(currentBlock.length() != 0) {
-            if(currentBlock.charAt(0) == '"' && currentBlock.charAt(currentBlock.length() - 1) == '"') {
+            if((currentBlock.charAt(0) == '"' || currentBlock.charAt(0) == '“') &&
+                    (currentBlock.charAt(currentBlock.length() - 1) == '"' || currentBlock.charAt(currentBlock.length() - 1) == '”')) {
                 currentBlock.deleteCharAt(0);
                 currentBlock.deleteCharAt(currentBlock.length() - 1);
             }
@@ -61,7 +64,9 @@ public class StringUtils {
 
         String[] raw = result.toArray(new String[result.size()]);
 
-        if(expectedArgs < 1) return raw;
+        if(expectedArgs < 1)
+            return raw;
+
         return normalizeArray(raw, expectedArgs);
     }
 
