@@ -22,16 +22,16 @@
         <br>
         <p><b>Steps for building</b></p>
         <ol>
+            <li>Make sure you have at least JDK or OpenJDK 9, RebirthDB/RethinkDB and Redis installed -and- running.</li>
             <li>Clone this repository.</li>
             <li>If you are going to edit code, make sure your IDE supports <a href="http://projectlombok.org">Lombok</a> and enable Annotation Processing!</li>
             <li>Open a Terminal in the root folder.</li>
-            <li>Run <code>gradlew generateApolloClasses</code></li>
             <li>Run <code>gradlew shadowJar</code></li>
             <li>Grab the <code>-all.jar</code> jar from <code>build/libs</code></li>
             <li>Install <code>rethinkdb</code> and <code>redis</code></li>
             <li>Create the <code>mantaro</code> database with the following tables: mantaro, players, users, guilds, keys, commands, seasonalplayers</li>
             <li>Run it and prepare yourself to start filling in configs (open the jar on the command line using java -jar name.jar and wait for it to crash, then it'll generate the config.json file for you to fill).</li>
-            <li>In config.json, set the value needApi to false.</li>
+            <li>In config.json, set the value needApi to false. (Or clone and run https://github.com/Kodehawa/mantaro-api)</li>
         </ol>
         <hr>
         <h2>Mantaro Uses and loves</h2>
@@ -59,6 +59,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see http://www.gnu.org/licenses/
         </code>
         <br>
-        <a href="https://github.com/Kodehawa/MantaroBot/blob/development/LICENSE">The full license can be found here.</a>
+        <a href="https://github.com/Kodehawa/MantaroBot/blob/master/LICENSE">The full license can be found here.</a>
     </body>
 </html>
