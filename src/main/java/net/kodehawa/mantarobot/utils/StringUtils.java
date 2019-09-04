@@ -28,50 +28,71 @@ public class StringUtils {
     public static final Pattern SPLIT_PATTERN = Pattern.compile("\\s+");
 
     public static String[] advancedSplitArgs(String args, int expectedArgs) {
+        //Final result to work with.
         List<String> result = new ArrayList<>();
-        boolean inAString = false;
-        StringBuilder currentBlock = new StringBuilder();
-        for(int i = 0; i < args.length(); i++) {
-            char c = args.charAt(i);
-            if((c == '"' || c == '“' || c == '”') && (i == 0 || args.charAt(i - 1) != '\\' || args.charAt(i - 2) == '\\'))
-                inAString = !inAString;
 
-            if(inAString)
-                currentBlock.append(c);
-            else if(Character.isSpaceChar(c)) {
+        //Whether a string is in a "quotation block".
+        boolean inBlock = false;
+        //Current "quotation block"
+        StringBuilder currentBlock = new StringBuilder();
+
+        for(int i = 0; i < args.length(); i++) {
+            char currentChar = args.charAt(i);
+            //Flip inBlock if current character is a " or a start/end smart quote character aka “ or ” (but only if it's not escaped)
+            if((currentChar == '"' || currentChar == '“' || currentChar == '”') && (i == 0 || args.charAt(i - 1) != '\\' || args.charAt(i - 2) == '\\'))
+                inBlock = !inBlock;
+
+            //If character is currently in a block (aka "this is one block"), append to the current block.
+            if(inBlock)
+                currentBlock.append(currentChar);
+            //If current character is a space.
+            else if(Character.isSpaceChar(currentChar)) {
+                //Check if next or last character is a " or a start/end smart quote character aka “ or ” and remove them.
                 if(currentBlock.length() != 0) {
                     if(((currentBlock.charAt(0) == '"' || currentBlock.charAt(0) == '“') &&
-                            (currentBlock.charAt(currentBlock.length() - 1) == '"' || currentBlock.charAt(currentBlock.length() - 1) == '”'))) {
+                            (currentBlock.charAt(currentBlock.length() - 1) == '"' || currentBlock.charAt(currentBlock.length() - 1) == '”'))
+                    ) {
+                        //Remove start quote.
                         currentBlock.deleteCharAt(0);
+                        //Remove end quote.
                         currentBlock.deleteCharAt(currentBlock.length() - 1);
                     }
 
-                    result.add(advSplArgUnb(currentBlock.toString()));
+                    //Add the unboxed result to the current block.
+                    result.add(advancedSplitArgsUnbox(currentBlock.toString()));
+                    //Reset the current block: end of block, parse another argument (assume each block is one argument)
                     currentBlock = new StringBuilder();
                 }
-            } else currentBlock.append(c);
+            } else {
+                //Append to current block.
+                currentBlock.append(currentChar);
+            }
         }
 
         if(currentBlock.length() != 0) {
+            //Check if next or last character is a " or a start/end smart quote character aka “ or ” and remove them.
             if((currentBlock.charAt(0) == '"' || currentBlock.charAt(0) == '“') &&
-                    (currentBlock.charAt(currentBlock.length() - 1) == '"' || currentBlock.charAt(currentBlock.length() - 1) == '”')) {
+                    (currentBlock.charAt(currentBlock.length() - 1) == '"' || currentBlock.charAt(currentBlock.length() - 1) == '”')
+            ) {
+                //Remove start quote.
                 currentBlock.deleteCharAt(0);
+                //Remove end quote.
                 currentBlock.deleteCharAt(currentBlock.length() - 1);
             }
 
-            result.add(advSplArgUnb(currentBlock.toString()));
+            //Remove escape characters.
+            result.add(advancedSplitArgsUnbox(currentBlock.toString()));
         }
 
+        //Convert result to an string array.
         String[] raw = result.toArray(new String[result.size()]);
 
+        //If the amount of arguments this detected is less than one, just return the string as a whole.
         if(expectedArgs < 1)
             return raw;
 
+        //Whatever this is. Really, I have no idea, but it returns the result.
         return normalizeArray(raw, expectedArgs);
-    }
-
-    public static boolean isNullOrEmpty(String s) {
-        return s == null || s.isEmpty();
     }
 
     public static String limit(String value, int length) {
@@ -96,13 +117,10 @@ public class StringUtils {
 
         Arrays.fill(normalized, "");
         for(int i = 0; i < normalized.length; i++)
-            if(i < raw.length && raw[i] != null && !raw[i].isEmpty()) normalized[i] = raw[i];
-        return normalized;
-    }
+            if(i < raw.length && raw[i] != null && !raw[i].isEmpty())
+                normalized[i] = raw[i];
 
-    public static String notNullOrDefault(String str, String defaultStr) {
-        if(str == null || str.trim().isEmpty()) return defaultStr;
-        return str;
+        return normalized;
     }
 
     public static Map<String, String> parse(String[] args) {
@@ -189,11 +207,8 @@ public class StringUtils {
         return normalizeArray(raw, expectedArgs);
     }
 
-    //Short for:
-    //advancedSplitArgsUnbox
-    //Note to Adrian like 10 months after this was added:
-    //Just call it advancedSplitArgsUnbox for fucks sake.
-    private static String advSplArgUnb(String s) {
+    //Basically removes escape characters.
+    private static String advancedSplitArgsUnbox(String s) {
         return s.replace("\\n", "\n").replace("\\r", "\r").replace("\\t", "\t").replace("\\\"", "\"").replace("\\\\", "\\");
     }
 }
