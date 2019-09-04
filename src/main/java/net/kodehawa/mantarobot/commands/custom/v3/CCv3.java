@@ -78,6 +78,41 @@ public class CCv3 {
             return "";
         });
 
+        DEFAULT_OPERATIONS.put("and", (__, args) -> {
+            //evaluate argument 1 and 2
+            String i1 = args.get(0).evaluate();
+            String i2 = args.get(1).evaluate();
+
+            //if true
+            String it = args.get(2).evaluate();
+            //if false
+            String ifl = args.get(3).evaluate();
+
+            //if argument 1 is the same as argument 2. They both return -string-, so they gotta be the same, basically.
+            if(i1.equals(i2))
+                return it;
+            else
+                return ifl;
+        });
+
+        //Same as above, but ignores case.
+        DEFAULT_OPERATIONS.put("andic", (__, args) -> {
+            //evaluate argument 1 and 2
+            String i1 = args.get(0).evaluate();
+            String i2 = args.get(1).evaluate();
+
+            //if true
+            String it = args.get(2).evaluate();
+            //if false
+            String ifl = args.get(3).evaluate();
+
+            //if argument 1 is the same as argument 2. They both return -string-, so they gotta be the same, basically.
+            if(i1.equalsIgnoreCase(i2))
+                return it;
+            else
+                return ifl;
+        });
+
         //@{not-empty[;arg]+?}
         DEFAULT_OPERATIONS.put("not-empty", (__, args) -> {
             for(Operation.Argument arg : args) {
