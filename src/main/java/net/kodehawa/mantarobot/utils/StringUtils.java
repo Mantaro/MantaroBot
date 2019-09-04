@@ -16,8 +16,6 @@
 
 package net.kodehawa.mantarobot.utils;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -147,51 +145,6 @@ public class StringUtils {
         } catch (Exception e) {
             return new HashMap<>();
         }
-    }
-
-    public static String parseTime(long duration) {
-        final long
-                years = duration / 31104000000L,
-                months = duration / 2592000000L % 12,
-                days = duration / 86400000L % 30,
-                hours = duration / 3600000L % 24,
-                minutes = duration / 60000L % 60,
-                seconds = duration / 1000L % 60;
-        String uptime = (years == 0 ? "" : years + " Years, ") + (months == 0 ? "" : months + " Months, ")
-                + (days == 0 ? "" : days + " Days, ") + (hours == 0 ? "" : hours + " Hours, ")
-                + (minutes == 0 ? "" : minutes + " Minutes, ") + (seconds == 0 ? "" : seconds + " Seconds, ");
-
-        uptime = replaceLast(uptime, ", ", "");
-        return replaceLast(uptime, ",", " and");
-    }
-
-    public static String removeLines(String str, int startline, int numlines) {
-        try(BufferedReader br = new BufferedReader(new StringReader(str))) {
-            //String buffer to store contents of the file
-            StringBuilder builder = new StringBuilder();
-
-            //Keep track of the line number
-            int linenumber = 0;
-            numlines--;
-            String line;
-
-            while((line = br.readLine()) != null) {
-                //Store each valid line in the string buffer
-                if(linenumber < startline || linenumber >= startline + numlines)
-                    builder.append(line).append("\n");
-                linenumber++;
-            }
-
-            return builder.toString();
-        } catch(RuntimeException e) {
-            throw e;
-        } catch(Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static String replaceLast(String text, String regex, String replacement) {
-        return text.replaceFirst("(?s)(.*)" + regex, "$1" + replacement);
     }
 
     /**
