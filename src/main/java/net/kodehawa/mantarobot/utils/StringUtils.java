@@ -91,7 +91,7 @@ public class StringUtils {
         if(expectedArgs < 1)
             return raw;
 
-        //Whatever this is. Really, I have no idea, but it returns the result.
+        //Normalize array to the amount of arguments expected (aka, if we expect 3 arguments but have 6, join the last 3 in one argument)
         return normalizeArray(raw, expectedArgs);
     }
 
