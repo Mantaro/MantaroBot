@@ -113,6 +113,31 @@ public class CCv3 {
                 return ifl;
         });
 
+        DEFAULT_OPERATIONS.put("or", (__, args) -> {
+            String input1 = args.get(0).evaluate();
+            String c1 = args.get(0).evaluate();
+            String input2 = args.get(2).evaluate();
+
+            String input3 = args.get(3).evaluate();
+            String c2 = args.get(4).evaluate();
+            String input4 = args.get(5).evaluate();
+
+            String result = args.get(6).evaluate();
+            String relse = args.get(7).evaluate();
+
+            BiPredicate<String, String> comparator1 = comparators.get(c1);
+            BiPredicate<String, String> comparator2 = comparators.get(c2);
+
+            if(comparator1 != null && comparator2 != null) {
+                if(comparator1.test(input1, input2) || comparator2.test(input3, input4))
+                    return result;
+                else
+                    return relse;
+            } else {
+                return "You need two comparators to check if an OR operation is correct.";
+            }
+        });
+
         //@{not-empty[;arg]+?}
         DEFAULT_OPERATIONS.put("not-empty", (__, args) -> {
             for(Operation.Argument arg : args) {
