@@ -75,7 +75,7 @@ CustomCmds {
     private static SecureRandom random = new SecureRandom();
 
 
-    public static boolean handle(String cmdName, GuildMessageReceivedEvent event, I18nContext lang, String args) {
+    public static boolean handle(String prefix, String cmdName, GuildMessageReceivedEvent event, I18nContext lang, String args) {
         CustomCommand customCommand = getCustomCommand(event.getGuild().getId(), cmdName);
         GuildData guildData = db().getGuild(event.getGuild()).getData();
 
@@ -108,7 +108,7 @@ CustomCmds {
 
         String response = values.get(random.nextInt(values.size()));
         try {
-            new CustomCommandHandler(event, lang, response, args).handle();
+            new CustomCommandHandler(prefix, event, lang, response, args).handle();
         } catch (SyntaxException e) {
             new MessageBuilder().append(String.format(lang.get("commands.custom.error_running_new"), EmoteReference.ERROR, e.getMessage()))
                     .sendTo(event.getChannel())
@@ -320,7 +320,8 @@ CustomCmds {
                     ctn = Utils.DISCORD_INVITE.matcher(ctn).replaceAll("-invite link-");
                     ctn = Utils.DISCORD_INVITE_2.matcher(ctn).replaceAll("-invite link-");
 
-                    new CustomCommandHandler(event, languageContext, ctn).handle(true);
+                    //Sadly no way to get the prefix used, so eval will have the old bug still.
+                    new CustomCommandHandler("", event, languageContext, ctn).handle(true);
                 } catch (SyntaxException e) {
                     new MessageBuilder().append(String.format(languageContext.get("commands.custom.eval.new_error"), EmoteReference.ERROR, e.getMessage()))
                             .sendTo(event.getChannel())

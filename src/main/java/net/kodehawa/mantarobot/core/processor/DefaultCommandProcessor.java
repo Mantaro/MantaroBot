@@ -50,7 +50,8 @@ public class DefaultCommandProcessor implements ICommandProcessor {
         String lowerRawCmd = rawCmd.toLowerCase();
 
         for(String s : prefix) {
-            if(lowerRawCmd.startsWith(s)) usedPrefix = s;
+            if(lowerRawCmd.startsWith(s))
+                usedPrefix = s;
         }
 
         if(usedPrefix != null && lowerRawCmd.startsWith(usedPrefix.toLowerCase())) {
@@ -66,7 +67,7 @@ public class DefaultCommandProcessor implements ICommandProcessor {
         String[] parts = splitArgs(rawCmd, 2);
         String cmdName = parts[0], content = parts[1];
 
-        REGISTRY.process(event, cmdName, content);
+        REGISTRY.process(event, cmdName, content, usedPrefix);
 
         long end = System.currentTimeMillis();
         commandTime.observe(end - start);

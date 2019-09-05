@@ -102,7 +102,6 @@ public class CustomCommandHandler {
         });
 
         specialHandlers.put("iamnotcustom", (event, lang, value, args) -> {
-            System.out.println(value);
             String[] arg = StringUtils.advancedSplitArgs(value, 2);
             String iam = arg[0];
             String message = this.processText(arg[1]);
@@ -115,16 +114,18 @@ public class CustomCommandHandler {
     private final GuildMessageReceivedEvent event;
     private final I18nContext langContext;
     private String response;
+    private String prefixUsed;
 
-    public CustomCommandHandler(GuildMessageReceivedEvent event, I18nContext lang, String response) {
-        this(event, lang, response, "");
+    public CustomCommandHandler(String prefixUsed, GuildMessageReceivedEvent event, I18nContext lang, String response) {
+        this(prefixUsed, event, lang, response, "");
     }
 
-    public CustomCommandHandler(GuildMessageReceivedEvent event, I18nContext lang, String response, String args) {
+    public CustomCommandHandler(String prefixUsed, GuildMessageReceivedEvent event, I18nContext lang, String response, String args) {
         this.event = event;
         this.response = response;
         this.langContext = lang;
         this.args = args;
+        this.prefixUsed = prefixUsed;
     }
 
     public void handle(boolean preview) {
@@ -134,7 +135,7 @@ public class CustomCommandHandler {
             return;
 
         if(response.startsWith("v3:")) {
-            CCv3.process(event, new Parser(response.substring(3)).parse(), preview);
+            CCv3.process(prefixUsed, event, new Parser(response.substring(3)).parse(), preview);
             return;
         }
 
@@ -175,7 +176,7 @@ public class CustomCommandHandler {
     private String processText(String text) {
         if (text.contains("$(")) {
             text = new DynamicModifiers()
-                .mapEvent("event", event)
+                .mapEvent(prefixUsed, "event", event)
                 .resolve(text);
         }
 

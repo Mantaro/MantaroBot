@@ -92,7 +92,7 @@ public class CommandRegistry {
 
     //BEWARE OF INSTANCEOF CALLS
     //I know there are better approaches to this, THIS IS JUST A WORKAROUND, DON'T TRY TO REPLICATE THIS.
-    public boolean process(GuildMessageReceivedEvent event, String cmdName, String content) {
+    public boolean process(GuildMessageReceivedEvent event, String cmdName, String content, String prefix) {
         final ManagedDatabase managedDatabase = MantaroData.db();
         long start = System.currentTimeMillis();
 
@@ -104,7 +104,7 @@ public class CommandRegistry {
         GuildData guildData = dbg.getData();
 
         if (command == null) {
-            CustomCmds.handle(cmdName, event, new I18nContext(guildData, userData), content);
+            CustomCmds.handle(prefix, cmdName, event, new I18nContext(guildData, userData), content);
             return false;
         }
 

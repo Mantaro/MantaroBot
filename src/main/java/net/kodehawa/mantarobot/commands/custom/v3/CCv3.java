@@ -211,9 +211,9 @@ public class CCv3 {
         });
     }
 
-    public static void process(GuildMessageReceivedEvent event, Node ast, boolean preview) {
+    public static void process(String prefix, GuildMessageReceivedEvent event, Node ast, boolean preview) {
         InterpreterContext context = new InterpreterContext(new DynamicModifiers()
-                .mapEvent("event", event), DEFAULT_OPERATIONS, event);
+                .mapEvent(prefix, "event", event), DEFAULT_OPERATIONS, event);
 
         String result = ast.accept(new InterpreterVisitor(), context);
         EmbedJSON embed = context.get("embed");

@@ -42,7 +42,8 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
     }
 
     public String resolve(String string) {
-        if (!string.contains("$(")) return string;
+        if (!string.contains("$("))
+            return string;
 
         Set<String> dejaVu = new HashSet<>();
         for (String key : iterate(GETTER_MODIFIER, string)) {
@@ -79,14 +80,14 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
                 .set(prefix, "id", member.getUser().getId());
     }
 
-    public DynamicModifiers mapEvent(String prefix, GuildMessageReceivedEvent event) {
+    public DynamicModifiers mapEvent(String botPrefix, String prefix, GuildMessageReceivedEvent event) {
         return this.set(prefix, event.getMember().getAsMention() + "@" + event.getChannel().getAsMention())
                 .set(prefix, "timestamp", new Date(System.currentTimeMillis()).toString())
                 .mapChannel(k(prefix, "channel"), event.getChannel())
                 .mapGuild(k(prefix, "guild"), event.getGuild())
                 .mapMember(k(prefix, "me"), event.getGuild().getSelfMember())
                 .mapMember(k(prefix, "author"), event.getMember())
-                .mapMessage(k(prefix, "message"), event.getMessage());
+                .mapMessage(k(prefix, "message"), new CustomMessage(event.getMessage(), botPrefix));
     }
 
     public DynamicModifiers mapEvent(String prefix, GenericGuildMemberEvent event) {
@@ -97,13 +98,12 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
             .mapMember(k(prefix, "user"), event.getMember());
     }
 
-    //TODO: handle prefixes properly. We could just pass a mock Message object to handle this if we really need raw/stripped/display.
-    public DynamicModifiers mapMessage(String prefix, Message message) {
+    public DynamicModifiers mapMessage(String prefix, CustomMessage message) {
         return this
-            .set(prefix, splitArgs(message.getContentRaw(), 2)[1])
-            .set(prefix, "raw", splitArgs(message.getContentRaw(), 2)[1])
-            .set(prefix, "textual", splitArgs(message.getContentDisplay(), 2)[1])
-            .set(prefix, "stripped", splitArgs(message.getContentStripped(), 2)[1]);
+            .set(prefix, message.getContentRaw())
+            .set(prefix, "raw", message.getContentRaw())
+            .set(prefix, "textual", message.getContentDisplay())
+            .set(prefix, "stripped", message.getContentStripped());
     }
 
     public DynamicModifiers mapChannel(String prefix, TextChannel channel) {
