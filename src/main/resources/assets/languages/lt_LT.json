@@ -329,7 +329,7 @@
             },
             "import": {
                 "not_found": "%1$sNėra jokios pasirinktinės komandos, atitinkančios tavo paieškos kriterijus.",
-                "header": "`%1$s` - Serveris: `%2$s`",
+                "header": "`%1$s` (Responses: %2$s) - Serveris: `%3$s`",
                 "selection": "Pasirink komandą:",
                 "note": "(Tu matai tik tų serverių pasirinktines komandas, kuriuose tu esi)",
                 "success": "Importuota `%1$s` pasirinktinė komanda iš `%2$s` serverio su %1$d atsakymais."

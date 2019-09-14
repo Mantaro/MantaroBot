@@ -427,7 +427,7 @@ CustomCmds {
 
                 DiscordUtils.selectList(
                         event, filtered,
-                        pair -> String.format(languageContext.get("commands.custom.import.header"), pair.getValue().getName(), pair.getKey()),
+                        pair -> String.format(languageContext.get("commands.custom.import.header"), pair.getValue().getName(), pair.getRight().getValues().size(), pair.getKey()),
                         s -> baseEmbed(event, languageContext.get("commands.custom.import.selection")).setDescription(s)
                                 .setFooter(
                                         languageContext.get("commands.custom.import.note"),

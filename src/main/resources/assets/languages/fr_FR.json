@@ -387,7 +387,7 @@
       },
       "import": {
         "not_found": "%1$sAucune commande personnalisée ne correspond à ta requête de recherche..",
-        "header": "`%1$s` - Guilde: `%2$s`",
+        "header": "`%1$s` (Responses: %2$s) - Guilde: `%3$s`",
         "selection": "Sélection de la commande:",
         "note": "(Tu peux sélectionner une commande personnalisée uniquement d'une guilde dont tu es membre)",
         "success": "Commande personnalisée `%1$s` importée de la guilde `%2$s` avec un total de %1$d résponses."

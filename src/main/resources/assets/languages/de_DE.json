@@ -387,7 +387,7 @@
       },
       "import": {
         "not_found": "%1$sEs gab keine benutzerdefinierten Befehle, die der Suchanfrage entsprachen.",
-        "header": "`%1$s` - Server: `%2$s`",
+        "header": "`%1$s` (Responses: %2$s) - Server: `%3$s`",
         "selection": "Wähle den Befehl:",
         "note": "(Du kannst nur benutzerdefinierte Befehle von Servern, in denen du dich befindest, auswählen.)",
         "success": "Benutzerdifinierter Befehl `%1$s` von Server `%2$s` mit %3$d Antworten importiert."
