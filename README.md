@@ -56,8 +56,11 @@ Give credit where credit is due. If you wish to use our code in a project, **ple
 ## Important Contributors
 Many thanks to
 [@natanbc](https://github.com/natanbc) - A lot of backend improvements and developing. Active.
+
 [@mrlar](https://github.com/mrlar) - Basically made all of the user-facing documentation.
+
 [@adriantodt](https://github.com/adriantodt) - Backend development on the early stages of the bot. Was crucial to the development and thanks to him this bot is what it is now. Inactive.
+
 
 And a lot more people. Check the *Contributors* tab!
 
