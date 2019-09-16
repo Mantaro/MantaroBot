@@ -23,7 +23,7 @@ If you still want to build your own instance of Mantaro, you will need multiple 
 
 **We will not help you with the process of obtaining said api keys nor in the process of building and hosting the bot yourself!**
 
-The bot necessarly doesn't need the keys to function, but some functionality might be limited by the lack of them (ex. without Wolke's API keys, you can't use the action commands). Due to the closed nature of that API, we encourage you to submit a patch that would allow custom images to be used on self-hosted instances if you'd like (ex. by pushing your own -loca- API server), but keep them in line with the rest of the code. 
+The bot necessarly doesn't need the keys to function, but some functionality might be limited by the lack of them (ex. without Wolke's API keys, you can't use the action commands). Due to the closed nature of that API, we encourage you to submit a patch that would allow custom images to be used on self-hosted instances if you'd like (ex. by pushing your own -local- API server), but keep them in line with the rest of the code. 
 
 Mantaro isn't a modular bot (sadly), but removing features is fairly easy. You can just remove the respective command or the Module file on the commands directory and everything -should- still work. The exception are some Modules that are required by other Modules.
 
