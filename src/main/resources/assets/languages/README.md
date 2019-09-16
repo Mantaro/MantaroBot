@@ -2,7 +2,7 @@
 If this way is too complicated for you scroll a little bit down and there is an alternative and more easy way.
 
  - Create a Github account
-   - We would prefer you to also join [Mantaro Hub](https://discord.gg/ppKeqqh) and contact either MrLar#2565 or Kodehawa#3457.
+   - We would prefer you to also join [Mantaro Hub](https://discord.gg/ppKeqqh) and contact Kodehawa#3457.
 
  - Fork Mantaro's Repository.
 
@@ -26,14 +26,14 @@ If this way is too complicated for you scroll a little bit down and there is an 
    + Don't remove or "translate" anything remotely like %1$s, %2$s or %\<number\>$s. [More info](https://docs.oracle.com/javase/9/docs/api/java/util/Formattable.html)
    + Don't change the formatting marks (\*\*, \*, etc). If a word is \*\*like this\*\* translate it \*\*como esto\*\*, for example.
    + We're gonna review translation files before going to production, so no worries if something happens to go wrong we will point it out and assist you.
-   + If you're unsure what a parameter is, you can try using the command or contact MrLar#2565 or Kodehawa#3457.
-   + For languages that are read backwards (compared to english), the %\<number\>$s-alike parameters can be moved to accommodate your language reading. You can contact MrLar#2565 or Kodehawa#3457 on Discord if you're lost.
+   + If you're unsure what a parameter is, you can try using the command or contact Kodehawa#3457.
+   + For languages that are read backwards (compared to english), the %\<number\>$s-alike parameters can be moved to accommodate your language reading. You can contact Kodehawa#3457 on Discord if you're lost.
  
  - (if applicable) Multiple versions of the same string can be provided by making the value an array of strings. A random element of the array is selected when used.
     - To make it an array, simply surround it with `[]` (`"key": "value"` -> `"key": ["value"]`).
     - To add elements to the array, separate them with a comma (`"key": ["value"]` -> `"key": ["value", "other value"]`).
    
- - After you are done, send the changed file to Kodehawa#3457 or MrLar#2565 on Discord for review (Please include a message on why you are sending it, as well as the language you translated to).
+ - After you are done, send the changed file to Kodehawa#3457 on Discord for review (Please include a message on why you are sending it, as well as the language you translated to).
  
  - Once reviewed and being given the ok, go back to your Github desktop client.
 
@@ -86,12 +86,17 @@ If this way is too complicated for you scroll a little bit down and there is an 
    + Don't remove or "translate" anything remotely like %1$s, %2$s or %\<number\>$s. [More info](https://docs.oracle.com/javase/9/docs/api/java/util/Formattable.html)
    + Don't change the formatting marks (\*\*, \*, etc). If a word is \*\*like this\*\* translate it \*\*como esto\*\*, for example.
    + We're gonna review translation files before going to production, so no worries if something happens to go wrong we will point it out and assist you.
-   + If you're unsure what a parameter is, you can try using the command or contact MrLar#2565 or Kodehawa#3457.
-   + For languages that are read backwards (compared to english), the %\<number\>$s-alike parameters can be moved to accommodate your language reading. You can contact MrLar#2565 or Kodehawa#3457 on Discord if you're lost.
+   + If you're unsure what a parameter is, you can try using the command or contact Kodehawa#3457.
+   + For languages that are read backwards (compared to english), the %\<number\>$s-alike parameters can be moved to accommodate your language reading. You can contact Kodehawa#3457 on Discord if you're lost.
  
  - (if applicable) Multiple versions of the same string can be provided by making the value an array of strings. A random element of the array is selected when used.
     - To make it an array, simply surround it with `[]` (`"key": "value"` -> `"key": ["value"]`).
     - To add elements to the array, separate them with a comma (`"key": ["value"]` -> `"key": ["value", "other value"]`).
+
+# To have in mind
+If you can't DM Kodehawa, add him as a friend. Please ping me in Mantaro Hub before adding so I know who you are. 
+
+Thanks you.
 
 # Credits
 You may add yourself to this table while making a translation.
