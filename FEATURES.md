@@ -1,6 +1,3 @@
-
-* * *
-
 _Configuration guide: https://github.com/Mantaro/MantaroBot/wiki_
 
 Customizable prefix! Use `~>opts prefix set` with your prefix (example `~>opts prefix set !` to set another prefix!
