@@ -13,7 +13,8 @@ You can see more information about the bot itself by reading the summary on [her
 
 ## Building Mantaro on your own
 
-**WARNING**: The owners of Mantaro do not recommend compiling Mantaro as it is not documented and most builds here will be extremely unstable and (probably) untested, probably including unfinished features.  
+**WARNING**: The owners of Mantaro do not recommend compiling Mantaro as it is not documented and most builds here will be extremely unstable and (probably) untested, probably including unfinished features. There's no *stable* branch, all of the features are inmediatly added to upstream, though, sometimes when we're working on a new point release you will find a branch called *legacy*, which contains the last working code before starting to work on the new release (for bug fixing and important updates). We recommend you base your clone of Mantaro off the *legacy* branch if you need it working without any issues.
+
 If you still want to build your own instance of Mantaro, you will need multiple api keys including **(but not limited to)**
 *   osu! API
 *   AniList API
