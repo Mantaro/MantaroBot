@@ -7,10 +7,12 @@
 ## Using the Official Mantaro Bot
 
 **Just one [click](https://add.mantaro.site) and you can add Mantaro to your own server and enjoy its full feature set!**
+
 You can see more information about the bot itself by reading the summary on [here](https://github.com/Mantaro/MantaroBot/blob/master/FEATURES.md). This is the file we use to publish our bots on bot lists, too. You're welcome to use it as a guide for your own.
 * * *
 
 ## Building Mantaro on your own
+
 **WARNING**: The owners of Mantaro do not recommend compiling Mantaro as it is not documented and most builds here will be extremely unstable and (probably) untested, probably including unfinished features.  
 If you still want to build your own instance of Mantaro, you will need multiple api keys including **(but not limited to)**
 *   osu! API
@@ -20,7 +22,9 @@ If you still want to build your own instance of Mantaro, you will need multiple 
 *   etc...
 
 **We will not help you with the process of obtaining said api keys nor in the process of building and hosting the bot yourself!**
+
 The bot necessarly doesn't need the keys to function, but some functionality might be limited by the lack of them (ex. without Wolke's API keys, you can't use the action commands). Due to the closed nature of that API, we encourage you to submit a patch that would allow custom images to be used on self-hosted instances if you'd like (ex. by pushing your own -loca- API server), but keep them in line with the rest of the code. 
+
 Mantaro isn't a modular bot (sadly), but removing features is fairly easy. You can just remove the respective command or the Module file on the commands directory and everything -should- still work. The exception are some Modules that are required by other Modules.
 
 **Steps for building**
