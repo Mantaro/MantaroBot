@@ -53,6 +53,14 @@ Mantaro isn't a modular bot (sadly), but removing features is fairly easy. You c
 
 Give credit where credit is due. If you wish to use our code in a project, **please** credit us, and take your time to read our full license. We don't mind you using Mantaro code, **as it is** open-source for a reason, as long as you don't blatantly copy it or refrain from crediting us.
 
+## Important Contributors
+Many thanks to
+[@natanbc](https://github.com/natanbc) - A lot of backend improvements and developing. Active.
+[@mrlar](https://github.com/mrlar) - Basically made all of the user-facing documentation.
+[@adriantodt](https://github.com/adriantodt) - Backend development on the early stages of the bot. Was crucial to the development and thanks to him this bot is what it is now. Inactive.
+
+And a lot more people. Check the *Contributors* tab!
+
 ## License
 
 Copyright (C) 2016-2019 **David Rubio Escares** / **Kodehawa**
