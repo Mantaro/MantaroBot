@@ -55,17 +55,15 @@ import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
-import net.kodehawa.mantarobot.utils.commands.RateLimit;
 
 import java.awt.*;
-import java.lang.annotation.ElementType;
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
@@ -178,7 +176,6 @@ public class PetCmds {
                                         .setDescription(
                                                 Utils.prettyDisplay(languageContext.get("commands.pet.name"), pet.getName()) + "\n" +
                                                         Utils.prettyDisplay(languageContext.get("commands.pet.tier"), String.valueOf(pet.calculateTier())) + "\n" +
-                                                        // ------ Change to translatable when I have the translation tables ready for this
                                                         Utils.prettyDisplay(languageContext.get("commands.pet.element"), pet.getElement().getReadable()) + "\n" +
                                                         Utils.prettyDisplay(languageContext.get("commands.pet.owner"), MantaroBot.getInstance().getUserById(pet.getOwner()).getAsTag())  + "\n" +
                                                         Utils.prettyDisplay(languageContext.get("commands.pet.created"), formatter.format(Instant.ofEpochMilli(pet.getEpochCreatedAt())))
@@ -668,7 +665,7 @@ public class PetCmds {
         });
     }
 
-    @Subscribe
+    //@Subscribe
     public void battle(CommandRegistry cr) {
         IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .cooldown(10, TimeUnit.MINUTES)

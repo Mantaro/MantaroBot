@@ -236,7 +236,7 @@ public class CurrencyCmds {
                                 .setThumbnail("https://png.icons8.com/metro/540/shopping-cart.png");
                         List<MessageEmbed.Field> fields = new LinkedList<>();
                         Stream.of(Items.ALL).forEach(item -> {
-                            if(!item.isHidden() && item.getItemType() != ItemType.PET) {
+                            if(!item.isPetOnly() && !item.isHidden() && item.getItemType() != ItemType.PET) {
                                 String buyValue = item.isBuyable() ? String.format("$%d", item.getValue()) : "N/A";
                                 String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
 
@@ -567,7 +567,7 @@ public class CurrencyCmds {
                 }
 
                 try {
-                    if(!itemToBuy.isBuyable()) {
+                    if(!itemToBuy.isBuyable() && itemToBuy.isPetOnly()) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.no_buy_price"), EmoteReference.ERROR).queue();
                         return;
                     }
