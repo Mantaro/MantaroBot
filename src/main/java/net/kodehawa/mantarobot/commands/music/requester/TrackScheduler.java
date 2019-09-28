@@ -223,8 +223,11 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         getVoteSkips().clear();
 
         Guild g = getGuild();
-        if(g == null)
+        if(g == null) {
+            //Why?
+            this.getAudioPlayer().destroy();
             return;
+        }
 
         boolean premium = MantaroData.db().getGuild(g).isPremium();
         try {
