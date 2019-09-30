@@ -125,7 +125,7 @@ compileJava.dependsOn generateLanguageList
 
 task ci {
     dependsOn shadowJar
-    dependsOn docker
+    dependsOn tasks.docker
 }
 
 //This doesn't work?
