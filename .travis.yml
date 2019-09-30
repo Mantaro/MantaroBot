@@ -1,3 +1,13 @@
+language: java
+sudo: false
+install: true
+
+jdk:
+  - openjdk11
+
+services:
+  - docker
+
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -5,6 +15,7 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-language: java
-jdk:
-  - oraclejdk8
+
+script:
+  - chmod +x gradlew
+  - env "TAG=$TRAVIS_TAG" ./gradlew ci

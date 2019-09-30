@@ -108,10 +108,16 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
+task copyFileToAssets(type: Copy) {
+    from shadowJar.outputs
+    into file('assets')
+}
+
+copyFileToAssets.dependsOn shadowJar
+
 docker {
     name "mantaro/mantaro:$ver"
     tag "latest", "mantaro/mantaro:latest"
-    files shadowJar.outputs, "jlink.sh"
     copySpec.from("assets").into("assets")
     buildArgs([
         version: ver.toString(),
@@ -120,8 +126,14 @@ docker {
 }
 
 docker.dependsOn shadowJar
+docker.dependsOn copyFileToAssets
 
 compileJava.dependsOn generateLanguageList
+
+task ci {
+    dependsOn shadowJar
+    dependsOn tasks.docker
+}
 
 //This doesn't work?
 test.dependsOn generateLanguageList
