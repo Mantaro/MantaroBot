@@ -39,7 +39,7 @@ If you are going to edit code, make sure your IDE supports [Lombok](http://proje
 Mantaro isn't a modular bot (sadly), but removing features is fairly easy. You can just remove the respective command or the Module file on the commands directory and everything -should- still work. The exception are some Modules that are required by other Modules.
 Make sure you pay close attention to the [License](https://github.com/Mantaro/MantaroBot/blob/master/LICENSE) as you will be required to disclose your source as well as state any changes made.
 
-###Steps for building:
+### Steps for building:
 <sub>Please do note that you will not receive any help whatsoever while trying to build your own Mantaro.</sub>
 1.  Make sure you have the prerequisites installed and running.
 2.  Clone this repository (you can also fork this repo and clone your fork). 
