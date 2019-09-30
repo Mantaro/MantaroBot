@@ -1,7 +1,7 @@
 ---
 name: Bug Report
 about: Report a bug within Mantaro
-title: '[ Bug ] <Replace this with a short description>'
+title: '[ Bug ] Put a short description of the bug here (leave the leading brackets and the text in it)'
 labels: 'bug'
 assignees: ''
 
