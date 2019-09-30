@@ -319,6 +319,7 @@ public class MantaroListener implements EventListener {
                 String message;
                 if(data.getBannedMemberLog() != null) {
                     message = new DynamicModifiers()
+                            .set("hour", hour)
                             .mapEvent("event", event)
                             .mapUser("event.user", event.getUser())
                             .resolve(data.getBannedMemberLog());
@@ -446,6 +447,7 @@ public class MantaroListener implements EventListener {
                     String message;
                     if(data.getUnbannedMemberLog() != null) {
                         message = new DynamicModifiers()
+                                .set("hour", hour)
                                 .mapEvent("event", event)
                                 .mapUser("event.user", event.getUser())
                                 .resolve(data.getUnbannedMemberLog());
