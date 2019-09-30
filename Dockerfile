@@ -4,7 +4,7 @@ ARG version
 
 WORKDIR /mantaro
 
-COPY assets/Mantaro-${version}.jar mantaro.jar
+COPY assets/MantaroBot-${version}.jar mantaro.jar
 COPY assets/jlink.sh jlink.sh
 
 ENV ADDITIONAL_MODULES=jdk.crypto.ec

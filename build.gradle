@@ -118,7 +118,6 @@ copyFileToAssets.dependsOn shadowJar
 docker {
     name "mantaro/mantaro:$ver"
     tag "latest", "mantaro/mantaro:latest"
-    files shadowJar.outputs, "jlink.sh"
     copySpec.from("assets").into("assets")
     buildArgs([
         version: ver.toString(),
