@@ -5,6 +5,9 @@ install: true
 jdk:
   - openjdk11
 
+services:
+  - docker
+
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
