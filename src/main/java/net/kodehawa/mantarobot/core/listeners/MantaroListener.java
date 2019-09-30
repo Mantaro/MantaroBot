@@ -311,12 +311,21 @@ public class MantaroListener implements EventListener {
 
     private void logBan(GuildBanEvent event) {
         String hour = df.format(new Date(System.currentTimeMillis()));
-        String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
+        GuildData data = MantaroData.db().getGuild(event.getGuild()).getData();
+        String logChannel = data.getGuildLogChannel();
         if (logChannel != null) {
             TextChannel tc = event.getGuild().getTextChannelById(logChannel);
             if (tc != null) {
-                tc.sendMessage
-                        (EmoteReference.WARNING + "`[" + hour + "]` " + event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got banned.").queue();
+                String message;
+                if(data.getBannedMemberLog() != null) {
+                    message = new DynamicModifiers()
+                            .mapEvent("event", event)
+                            .mapUser("event.user", event.getUser())
+                            .resolve(data.getBannedMemberLog());
+                } else {
+                    message = EmoteReference.WARNING + "`[" + hour + "]` " + event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got banned.";
+                }
+                tc.sendMessage(message).queue();
                 logTotal++;
             }
         }
@@ -429,11 +438,21 @@ public class MantaroListener implements EventListener {
     private void logUnban(GuildUnbanEvent event) {
         try {
             String hour = df.format(new Date(System.currentTimeMillis()));
-            String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
+            GuildData data = MantaroData.db().getGuild(event.getGuild()).getData();
+            String logChannel = data.getGuildLogChannel();
             if (logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
                 if (tc != null) {
-                    tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` %s#%s just got unbanned.", hour, event.getUser().getName(), event.getUser().getDiscriminator())).queue();
+                    String message;
+                    if(data.getUnbannedMemberLog() != null) {
+                        message = new DynamicModifiers()
+                                .mapEvent("event", event)
+                                .mapUser("event.user", event.getUser())
+                                .resolve(data.getUnbannedMemberLog());
+                    } else {
+                        message = String.format(EmoteReference.WARNING + "`[%s]` %s#%s just got unbanned.", hour, event.getUser().getName(), event.getUser().getDiscriminator());
+                    }
+                    tc.sendMessage(message).queue();
                     logTotal++;
                 }
             }

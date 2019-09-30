@@ -197,5 +197,6 @@ public class GuildData {
     private String editMessageLog;
     private String deleteMessageLog;
     private String bannedMemberLog;
+    private String unbannedMemberLog;
     private String kickedMemberLog;
 }
