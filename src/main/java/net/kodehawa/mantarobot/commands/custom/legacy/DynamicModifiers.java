@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands.custom.legacy;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.GenericGuildEvent;
 import net.dv8tion.jda.api.events.guild.member.GenericGuildMemberEvent;
+import net.dv8tion.jda.api.events.message.guild.GenericGuildMessageEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Date;
@@ -90,13 +91,17 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
     }
 
     public DynamicModifiers mapEvent(String botPrefix, String prefix, GuildMessageReceivedEvent event) {
-        return this.set(prefix, event.getMember().getAsMention() + "@" + event.getChannel().getAsMention())
-                .set(prefix, "timestamp", new Date(System.currentTimeMillis()).toString())
-                .mapChannel(k(prefix, "channel"), event.getChannel())
-                .mapGuild(k(prefix, "guild"), event.getGuild())
-                .mapMember(k(prefix, "me"), event.getGuild().getSelfMember())
+        return this.mapEvent(botPrefix, prefix, (GenericGuildMessageEvent)event)
+                .set(prefix, event.getMember().getAsMention() + "@" + event.getChannel().getAsMention())
                 .mapMember(k(prefix, "author"), event.getMember())
                 .mapMessage(k(prefix, "message"), new CustomMessage(event.getMessage(), botPrefix));
+    }
+
+    public DynamicModifiers mapEvent(String botPrefix, String prefix, GenericGuildMessageEvent event) {
+        return this.set(prefix, "timestamp", new Date(System.currentTimeMillis()).toString())
+                .mapChannel(k(prefix, "channel"), event.getChannel())
+                .mapGuild(k(prefix, "guild"), event.getGuild())
+                .mapMember(k(prefix, "me"), event.getGuild().getSelfMember());
     }
 
     public DynamicModifiers mapEvent(String prefix, GenericGuildMemberEvent event) {

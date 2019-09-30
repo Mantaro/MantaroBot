@@ -364,9 +364,20 @@ public class MantaroListener implements EventListener {
                         }
                     }
 
+                    String message;
+                    if(data.getDeleteMessageLog() != null) {
+                        message = new DynamicModifiers()
+                                .set("hour", hour)
+                                .set("content", deletedMessage.getContent().replace("```", ""))
+                                .mapEvent("event", event)
+                                .resolve(data.getEditMessageLog());
+                    } else {
+                        message = String.format(EmoteReference.WARNING + "`[%s]` Message (ID: %s) created by **%s#%s** (ID: %s) in channel **%s** was deleted.\n" +
+                                "```diff\n-%s```", hour, event.getMessageId(), deletedMessage.getAuthor().getName(), deletedMessage.getAuthor().getDiscriminator(), deletedMessage.getAuthor().getId(), event.getChannel().getName(), deletedMessage.getContent().replace("```", ""));
+                    }
+
                     logTotal++;
-                    tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` Message (ID: %s) created by **%s#%s** (ID: %s) in channel **%s** was deleted.\n" +
-                            "```diff\n-%s```", hour, event.getMessageId(), deletedMessage.getAuthor().getName(), deletedMessage.getAuthor().getDiscriminator(), deletedMessage.getAuthor().getId(), event.getChannel().getName(), deletedMessage.getContent().replace("```", ""))).queue();
+                    tc.sendMessage(message).queue();
                 }
             }
         } catch (Exception e) {
@@ -415,8 +426,20 @@ public class MantaroListener implements EventListener {
                         }
                     }
 
-                    tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` Message (ID: %s) created by **%s#%s** in channel **%s** was modified.\n```diff\n-%s\n+%s```",
-                            hour, event.getMessage().getId(), author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContentDisplay().replace("```", ""))).queue();
+                    String message;
+                    if(guildData.getEditMessageLog() != null) {
+                        message = new DynamicModifiers()
+                                .set("hour", hour)
+                                .set("old", editedMessage.getContent().replace("```", ""))
+                                .set("new", event.getMessage().getContentDisplay().replace("```", ""))
+                                .mapEvent("event", event)
+                                .resolve(guildData.getEditMessageLog());
+                    } else {
+                        message = String.format(EmoteReference.WARNING + "`[%s]` Message (ID: %s) created by **%s#%s** in channel **%s** was modified.\n```diff\n-%s\n+%s```",
+                                hour, event.getMessage().getId(), author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContentDisplay().replace("```", ""));
+                    }
+
+                    tc.sendMessage(message).queue();
 
                     logTotal++;
                 }
