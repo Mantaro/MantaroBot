@@ -109,7 +109,7 @@ public class OptsCmd {
                                 EmbedBuilder builder = new EmbedBuilder()
                                         .setAuthor(option.getOptionName(), null, event.getAuthor().getEffectiveAvatarUrl())
                                         .setDescription(option.getDescription())
-                                        .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
+                                        .setThumbnail("https://i.imgur.com/lFTJSE4.png")
                                         .addField("Type", option.getType().toString(), false);
                                 event.getChannel().sendMessage(builder.build()).queue();
                             } catch(IndexOutOfBoundsException ignored) {}
