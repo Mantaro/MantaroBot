@@ -1,7 +1,7 @@
 ---
 name: Feature Request
 about: Request a feature to be added to Mantaro
-title: '[ Feature Req. ] <Replace this with a short description>'
+title: '[ Feature Req./Suggestion ] Replace this with a short description of what you want to be added (leave the leading brackets and the text in it)'
 labels: 'feature request'
 assignees: ''
 
