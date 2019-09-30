@@ -1,60 +1,65 @@
-<p align="center">
-  <img src="https://i.imgur.com/b00buRW.png"/>
-</p>
+<img alt="Mantaro" src="https://i.imgur.com/b00buRW.png"/>
 
 **Complete and configurable music, currency and games multipurpose Discord bot**
 
-## Using the Official Mantaro Bot
+# Using the Official Mantaro Bot
 
 **Just one [click](https://add.mantaro.site) and you can add Mantaro to your own server and enjoy its full feature set!**
 
 You can see more information about the bot itself by reading the summary on [here](https://github.com/Mantaro/MantaroBot/blob/master/FEATURES.md). This is the file we use to publish our bots on bot lists, too. You're welcome to use it as a guide for your own.
-* * *
 
-## Building Mantaro on your own
 
-**WARNING**: The owners of Mantaro do not recommend compiling Mantaro as it is not documented and most builds here will be extremely unstable and (probably) untested, probably including unfinished features. There's no *stable* branch, all of the features are inmediatly added to upstream.
+# Building your own Mantaro
 
-Note: Sometimes when we're working on a new point release you will find a branch called *legacy*, which contains the last working code before starting to work on the new release (for bug fixing and important updates). We recommend you base your clone of Mantaro off the *legacy* branch if you need it working without any issues.
+## ⚠ **Read before attempting**
+The owners of Mantaro do not recommend compiling Mantaro as it is not documented and most builds here will be extremely unstable and (probably) untested, probably including unfinished features. There's no *stable* branch, all of the features are immediately added to upstream.\
+You will however sometimes see a legacy branch, a branch we create before publishing larger update containing working code, it is highly recommended to base your building process from the legacy branch, as the master branch will very likely contain broken and non-working code, at least in a case where a legay branch exist.
 
-If you still want to build your own instance of Mantaro, you will need multiple api keys including **(but not limited to)**
-*   osu! API
-*   AniList API
-*   OpenWeatherMap API.
-*   Wolke's Weeb API (For most of the action commands).
-*   etc...
+## Building the Bot
 
-**We will not help you with the process of obtaining said api keys nor in the process of building and hosting the bot yourself!**
+### Prerequisite:
 
-The bot necessarly doesn't need the keys to function, but some functionality might be limited by the lack of them (ex. without Wolke's API keys, you can't use the action commands). Due to the closed nature of that API, we encourage you to submit a patch that would allow custom images to be used on self-hosted instances if you'd like (ex. by pushing your own -local- API server), but keep them in line with the rest of the code. 
+You will need the following to utilize all of Mantaro's features (items marked with a star are optional):
+* RethinkDB/RebirthDB
+* JDK
+* Redis
+* And IDE supporting [Lombok](http://projectlombok.org) (if you edit code)*
+* osu! API*
+* AniList API*
+* OpenWeatherMap API*
+* Wolke's Weeb API (For most of the action commands)*
+* Other unmentioned API keys*
 
+**We will not provide any support whatsoever in obtaining any of the above.**
+
+<sub>Note: The bot does not necessarily need these keys to function, but some functionality might be limited by the lack of them (ex. without Wolke's API keys, you can't use the action commands). Due to the closed nature of that API, we encourage you to submit a patch that would allow custom images to be used on self-hosted instances if you'd like (ex. by pushing your own -local- API server), but keep them in line with the rest of the code.</sub> 
+
+### Editing Code:
+If you are going to edit code, make sure your IDE supports [Lombok](http://projectlombok.org) and enable Annotation Processing!\
 Mantaro isn't a modular bot (sadly), but removing features is fairly easy. You can just remove the respective command or the Module file on the commands directory and everything -should- still work. The exception are some Modules that are required by other Modules.
+Make sure you pay close attention to the [License](https://github.com/Mantaro/MantaroBot/blob/master/LICENSE) as you will be required to disclose your source as well as state any changes made.
 
-**Steps for building**
+### Steps for building:
+<sub>Please do note that you will not receive any help whatsoever while trying to build your own Mantaro.</sub>
+1.  Make sure you have the prerequisites installed and running.
+2.  Clone this repository (you can also fork this repo and clone your fork). 
+3.  Open a Terminal in the root folder.
+4.  Run `gradlew shadowJar`
+5.  Grab the `-all.jar` jar from `build/libs`
+6.  Install `rethinkdb` and `redis`
+7.  Create the `mantaro` database with the following tables: mantaro, players, users, guilds, keys, commands, seasonalplayers
+8.  Run it and prepare yourself to start filling in configs (open the jar on the command line using java -jar name.jar and wait for it to crash, then it'll generate the config.json file for you to fill).
+9.  In config.json, set the value needApi to false. (Or clone and run https://github.com/Kodehawa/mantaro-api)
 
-1.  Make sure you have at least JDK or OpenJDK 9, RebirthDB/RethinkDB and Redis installed -and- running.
-2.  Clone this repository.
-3.  If you are going to edit code, make sure your IDE supports [Lombok](http://projectlombok.org) and enable Annotation Processing!
-4.  Open a Terminal in the root folder.
-5.  Run `gradlew shadowJar`
-6.  Grab the `-all.jar` jar from `build/libs`
-7.  Install `rethinkdb` and `redis`
-8.  Create the `mantaro` database with the following tables: mantaro, players, users, guilds, keys, commands, seasonalplayers
-9.  Run it and prepare yourself to start filling in configs (open the jar on the command line using java -jar name.jar and wait for it to crash, then it'll generate the config.json file for you to fill).
-10.  In config.json, set the value needApi to false. (Or clone and run https://github.com/Kodehawa/mantaro-api)
 
-* * *
+# Tools and Contributors
 
-## Mantaro Uses and loves
+## Tools Mantaro uses
 *   [JDA by DV8FromTheWorld and MinnDevelopment](https://github.com/DV8FromTheWorld/JDA)
 *   [Lavaplayer by sedmelluq](https://github.com/sedmelluq/lavaplayer)
 *   [RethinkDB by the RethinkDB team](http://rethinkdb.com)
 *   [Redis by the redis team.](https://redis.io)
 *   And a lot more!
-
-* * *
-
-Give credit where credit is due. If you wish to use our code in a project, **please** credit us, and take your time to read our full license. We don't mind you using Mantaro code, **as it is** open-source for a reason, as long as you don't blatantly copy it or refrain from crediting us.
 
 ## Important Contributors
 Many thanks to
@@ -63,9 +68,14 @@ Many thanks to
 * [@mrlar](https://github.com/mrlar) - Basically made all of the user-facing documentation.
 * [@adriantodt](https://github.com/adriantodt) - Backend development on the early stages of the bot. Was crucial to the development and thanks to him this bot is what it is now. Inactive.
 
-And a lot more people. Check the *Contributors* tab!
+And a lot more people. Check the *[Contributors](https://github.com/Mantaro/MantaroBot/graphs/contributors)* tab!
 
-* * *
+Want to contribute? Join our [server](https://support.mantaro.site) and ask in the support channel for what we need help with (you may need to wait with receiving an answer.).\
+Alternatively send us a Pull Request with what you see fit/think we need. However this process may end in a rejected PR more easily.
+# Legal Stuff
+
+## Using our code
+Give credit where credit is due. If you wish to use our code in a project, **please** credit us, and take your time to read our full license. We don't mind you using Mantaro code, **as it is** open-source for a reason, as long as you don't blatantly copy it or refrain from crediting us.
 
 ## License
 
