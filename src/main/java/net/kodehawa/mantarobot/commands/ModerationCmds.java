@@ -38,6 +38,8 @@ import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.util.List;
+
 @Slf4j(topic = "Moderation")
 @Module
 @SuppressWarnings("unused")
@@ -191,54 +193,62 @@ public class ModerationCmds {
                 }
 
                 final String finalReason = String.format("Banned by %#s: %s", event.getAuthor(), reason);
-                User user = event.getMessage().getMentionedUsers().get(0);
-                Member member = guild.getMember(user);
+                List<User> mentionedUsers = event.getMessage().getMentionedUsers();
 
-                if(!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
-                    event.getChannel().sendMessage(String.format(languageContext.get("commands.ban.hierarchy_conflict"), EmoteReference.ERROR, EmoteReference.SMILE)).queue();
-                    return;
+                for(User user : mentionedUsers) {
+                    Member member = guild.getMember(user);
+
+                    if(!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
+                        event.getChannel().sendMessage(String.format(languageContext.get("commands.ban.hierarchy_conflict"), EmoteReference.ERROR, EmoteReference.SMILE)).queue();
+                        return;
+                    }
+
+                    if(event.getAuthor().getId().equals(user.getId())) {
+                        channel.sendMessage(String.format(languageContext.get("commands.ban.yourself_note"), EmoteReference.ERROR)).queue();
+                        return;
+                    }
+
+                    if(!guild.getSelfMember().canInteract(member)) {
+                        new MessageBuilder().setContent(String.format(languageContext.get("commands.ban.self_hierarchy_conflict"), EmoteReference.ERROR, user.getName()))
+                                .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
+                                .sendTo(event.getChannel())
+                                .queue();
+
+                        return;
+                    }
+
+                    final DBGuild db = MantaroData.db().getGuild(event.getGuild());
+
+                    guild.ban(member, 7).reason(finalReason).queue(
+                            success -> user.openPrivateChannel().queue(privateChannel -> {
+                                if(!user.isBot()) {
+                                    privateChannel.sendMessage(String.format("%sYou were **banned** by %s#%s on server **%s**. Reason: %s.",
+                                            EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), event.getGuild().getName(), finalReason)).queue();
+                                }
+                                db.getData().setCases(db.getData().getCases() + 1);
+                                db.saveAsync();
+                                if(mentionedUsers.size() == 1)
+                                    channel.sendMessage(String.format(languageContext.get("commands.ban.success"), EmoteReference.ZAP, languageContext.get("general.mod_quotes"), user.getName())).queue();
+
+                                ModLog.log(event.getMember(), user, finalReason, event.getChannel().getName(), ModLog.ModAction.BAN, db.getData().getCases());
+                                TextChannelGround.of(event).dropItemWithChance(1, 2);
+                            }),
+                            error ->
+                            {
+                                if(error instanceof PermissionException) {
+                                    channel.sendMessage(String.format(languageContext.get("commands.ban.error"),
+                                            EmoteReference.ERROR, user.getName(), ((PermissionException) error).getPermission())).queue();
+                                } else {
+                                    channel.sendMessage(String.format(languageContext.get("commands.ban.unknown_error"),
+                                            EmoteReference.ERROR, user.getName())).queue();
+                                    log.warn("Encountered an unexpected error while trying to ban someone.", error);
+                                }
+                            });
                 }
 
-                if(event.getAuthor().getId().equals(user.getId())) {
-                    channel.sendMessage(String.format(languageContext.get("commands.ban.yourself_note"), EmoteReference.ERROR)).queue();
-                    return;
+                if(mentionedUsers.size() > 1) {
+                    channel.sendMessage(String.format(languageContext.get("commands.ban.success_multiple"), EmoteReference.ZAP, languageContext.get("general.mod_quotes"), mentionedUsers.size())).queue();
                 }
-
-                if(!guild.getSelfMember().canInteract(member)) {
-                    new MessageBuilder().setContent(String.format(languageContext.get("commands.ban.self_hierarchy_conflict"), EmoteReference.ERROR, user.getName()))
-                            .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
-                            .sendTo(event.getChannel())
-                            .queue();
-
-                    return;
-                }
-
-                final DBGuild db = MantaroData.db().getGuild(event.getGuild());
-
-                guild.ban(member, 7).reason(finalReason).queue(
-                        success -> user.openPrivateChannel().queue(privateChannel -> {
-                            if(!user.isBot()) {
-                                privateChannel.sendMessage(String.format("%sYou were **banned** by %s#%s on server **%s**. Reason: %s.",
-                                        EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), event.getGuild().getName(), finalReason)).queue();
-                            }
-                            db.getData().setCases(db.getData().getCases() + 1);
-                            db.saveAsync();
-                            channel.sendMessage(String.format(languageContext.get("commands.ban.success"), EmoteReference.ZAP, languageContext.get("general.mod_quotes"), user.getName())).queue();
-                            ModLog.log(event.getMember(), user, finalReason, event.getChannel().getName(), ModLog.ModAction.BAN, db.getData().getCases());
-                            TextChannelGround.of(event).dropItemWithChance(1, 2);
-                        }),
-                        error ->
-                        {
-                            if(error instanceof PermissionException) {
-                                channel.sendMessage(String.format(languageContext.get("commands.ban.error"),
-                                        EmoteReference.ERROR, user.getName(), ((PermissionException) error).getPermission())).queue();
-                            } else {
-                                channel.sendMessage(String.format(languageContext.get("commands.ban.unknown_error"),
-                                        EmoteReference.ERROR, user.getName())).queue();
-                                log.warn("Encountered an unexpected error while trying to ban someone.", error);
-                            }
-                        });
-
             }
 
             @Override

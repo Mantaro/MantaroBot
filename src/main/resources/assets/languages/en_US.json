@@ -140,6 +140,7 @@
       "yourself_note": "%1$sWhy are you trying to ban yourself, silly?",
       "self_hierarchy_conflict": "%1$sCannot ban member: %2$s, they are higher or the same hierarchy than I am!",
       "success": "%1$s%2$s (%3$s got banned)",
+      "success_multiple": "%1$s%2$s (%3$s people got banned)",
       "error": "%1$sError banning %2$s: (I need the permission %3$s)",
       "unknown_error": "%1$sHuh, I encountered an unknown error while banning %2$s"
     },
