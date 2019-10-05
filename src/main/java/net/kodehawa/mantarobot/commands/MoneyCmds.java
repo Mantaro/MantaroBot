@@ -875,6 +875,8 @@ public class MoneyCmds {
 
                 //old: Items.handlePotion(Items.POTION_HASTE, 2, player)
                 boolean hasPotion = Items.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), Items.POTION_HASTE, dbUser);
+
+                //Diamond find
                 if(r.nextInt(400) > (hasPotion ? 290 : 350)) {
                     if(inventory.getAmount(Items.DIAMOND) == 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.diamond.overflow");
@@ -887,6 +889,7 @@ public class MoneyCmds {
                     player.getData().addBadgeIfAbsent(Badge.MINER);
                 }
 
+                //Gem find
                 if(r.nextInt(400) > (hasPotion ? 278 : 325)) {
                     List<Item> gem = Stream.of(Items.ALL)
                             .filter(i -> i.getItemType() == ItemType.MINE && !i.isHidden() && i.isSellable())
@@ -910,6 +913,7 @@ public class MoneyCmds {
                     player.getData().addBadgeIfAbsent(Badge.GEM_FINDER);
                 }
 
+                //Sparkle find
                 if((r.nextInt(400) > 395 && item == Items.GEM1_PICKAXE) || (r.nextInt(400) > 390 && (item == Items.GEM2_PICKAXE || item == Items.GEM5_PICKAXE_2))) {
                     Item gem = Items.GEM5_2;
                     if(inventory.getAmount(gem) + 1 >= 5000) {

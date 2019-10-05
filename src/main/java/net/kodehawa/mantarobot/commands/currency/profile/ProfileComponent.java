@@ -92,9 +92,15 @@ public enum ProfileComponent {
         if(marriedTo == null && marriedToNew == null) {
             return i18nContext.get("commands.profile.nobody");
         } else if(isNewMarriage) {
-            return String.format("%s#%s", marriedToNew.getName(), marriedToNew.getDiscriminator());
-        } else {
-            return String.format("%s#%s", marriedTo.getName(), marriedTo.getDiscriminator());
+            if(userData.isPrivateTag())
+                return String.format("%s", marriedToNew.getName());
+            else
+                return String.format("%s#%s", marriedToNew.getName(), marriedToNew.getDiscriminator());
+        } else { //is this still needed?
+            if(userData.isPrivateTag())
+                return String.format("%s", marriedTo.getName());
+            else
+                return String.format("%s#%s", marriedTo.getName(), marriedTo.getDiscriminator());
         }
     }),
     INVENTORY(EmoteReference.POUCH, i18nContext -> i18nContext.get("commands.profile.inventory"), (holder, i18nContext) -> {

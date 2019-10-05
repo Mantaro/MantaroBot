@@ -305,6 +305,25 @@ public class PlayerCmds {
         });
 
 
+        //Hide tags from profile/waifu list.
+        profileCommand.addSubCommand("hidetag", new SubCommand() {
+            @Override
+            public String description() {
+                return "Hide the member tags (and IDs) from profile/waifu list. This is a switch.";
+            }
+
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                DBUser user = MantaroData.db().getUser(event.getAuthor());
+                UserData data = user.getData();
+
+                data.setPrivateTag(!data.isPrivateTag());
+                user.save();
+
+                event.getChannel().sendMessageFormat(languageContext.get("commands.profile.hide_tag.success"), EmoteReference.POPPER, data.isPrivateTag()).queue();
+            }
+        });
+
         profileCommand.addSubCommand("equip", new SubCommand() {
             @Override
             public String description() {
