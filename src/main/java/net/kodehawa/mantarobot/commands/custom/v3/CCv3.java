@@ -62,6 +62,8 @@ public class CCv3 {
         Map<String, Predicate<String>> predicates = new HashMap<>();
 
         predicates.put("usermention", s -> USER_MENTION_PATTERN.matcher(s).find());
+        predicates.put("is-empty", String::isEmpty);
+        predicates.put("is-not-empty", s -> !s.isEmpty());
         comparators.put("equals", String::equals);
         comparators.put("ignorecase-equals", String::equalsIgnoreCase);
         comparators.put("greater-than", (s1, s2) -> s1.compareTo(s2) > 0);
@@ -160,7 +162,7 @@ public class CCv3 {
                 if(v.equals("true") || v.equals("false")) {
                     res &= Boolean.parseBoolean(v);
                 } else {
-                    return "{And: value " + i + " is not a boolean}";
+                    return "{And: value " + v + " at index " + i + " is not a boolean}";
                 }
                 i++;
             }
@@ -175,11 +177,23 @@ public class CCv3 {
                 if(v.equals("true") || v.equals("false")) {
                     res |= Boolean.parseBoolean(v);
                 } else {
-                    return "{Or: value " + i + " is not a boolean}";
+                    return "{Or: value " + v + " at index " + i + " is not a boolean}";
                 }
                 i++;
             }
             return Boolean.toString(res);
+        });
+
+        DEFAULT_OPERATIONS.put("not", (__, args) -> {
+            if(args.size() < 1) {
+                return "{Not: missing required parameter <value>}";
+            }
+            String s = args.get(0).evaluate();
+            switch(s) {
+                case "true": return "false";
+                case "false": return "true";
+                default: return "{Not: value " + s + " is not a boolean}";
+            }
         });
 
         //@{not-empty[;arg]+?}
@@ -234,6 +248,9 @@ public class CCv3 {
         });
 
         DEFAULT_OPERATIONS.put("iam", (context, args) -> {
+            if(args.size() < 1) {
+                return "{Iam: missing required argument <role>}";
+            }
             String iam = args.get(0).evaluate();
             String ctn = args.stream().skip(1).map(Operation.Argument::evaluate).collect(Collectors.joining(" "));
             GuildMessageReceivedEvent event = context.event();
@@ -247,6 +264,9 @@ public class CCv3 {
         });
 
         DEFAULT_OPERATIONS.put("iamnot", (context, args) -> {
+            if(args.size() < 1) {
+                return "{Iamnot: missing required argument <role>}";
+            }
             String iam = args.get(0).evaluate();
             String ctn = args.stream().skip(1).map(Operation.Argument::evaluate).collect(Collectors.joining(" "));
 
