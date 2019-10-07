@@ -30,6 +30,11 @@ import net.kodehawa.mantarobot.commands.custom.v3.interpreter.Operation;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
+import java.time.DateTimeException;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiPredicate;
@@ -37,11 +42,20 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_TIME;
+
 @SuppressWarnings("Duplicates")
 public class CCv3 {
     private static final Pattern USER_MENTION_PATTERN = Pattern.compile("(?:<@!?)?(\\d{1,20})>?");
     private static final Map<String, Operation> DEFAULT_OPERATIONS = new HashMap<>();
     private static final Pattern FILTER = Pattern.compile("([a-zA-Z0-9]{24}\\.[a-zA-Z0-9]{6}\\.[a-zA-Z0-9_\\-])\\w+");
+    private static final DateTimeFormatter DEFAULT_TIMESTAMP_FORMATTER = new DateTimeFormatterBuilder()
+            .parseCaseInsensitive()
+            .append(ISO_LOCAL_DATE)
+            .appendLiteral(' ')
+            .append(ISO_LOCAL_TIME)
+            .toFormatter();
 
     static {
         Map<String, BiPredicate<String, String>> comparators = new HashMap<>();
@@ -225,6 +239,31 @@ public class CCv3 {
                 MiscCmds.iamnotFunction(iam, event, null, ctn);
 
             return "";
+        });
+
+        DEFAULT_OPERATIONS.put("timestamp", (context, args) -> {
+            DateTimeFormatter formatter = DEFAULT_TIMESTAMP_FORMATTER;
+            ZoneId zone = ZoneId.of("UTC");
+            if(args.size() > 0) {
+                String pattern = args.get(0).evaluate();
+                try {
+                    formatter = DateTimeFormatter.ofPattern(pattern);
+                } catch(IllegalArgumentException e) {
+                    return "{Timestamp: provided format " + pattern + " is invalid: " + e.getMessage() + "}";
+                }
+            }
+            if(args.size() > 1) {
+                String z = args.get(1).evaluate();
+                try {
+                    zone = ZoneId.of(z);
+                } catch(DateTimeException e) {
+                    return "{Timestamp: provided zone " + z + " is invalid: " + e.getMessage() + "}";
+                }
+            }
+            if(args.size() > 2) {
+                args.subList(2, args.size() - 1).forEach(Operation.Argument::evaluate);
+            }
+            return formatter.format(OffsetDateTime.now(zone));
         });
     }
 
