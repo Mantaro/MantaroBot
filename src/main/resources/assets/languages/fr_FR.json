@@ -1373,7 +1373,7 @@
       "success": "%1$sTu as miné des minerais valant **$%2$s credits** avec ta *%3$s*",
       "reminder": "\n*Tu peux te fabriquer ne meilleur pioche grâce aux minerais récoltés. Utilise `~>cast ls` pour voir la liste de ce que tu peux fabriquer et leur recette*",
       "diamond": {
-        "overflow": "Huh, Tu as trouvé un diamant mais tu en avais déjà trop donc je l'ai vendu pour toi.",
+        "overflow": "Huh, Tu as trouvé %1$s diamant mais tu en avais déjà trop donc je l'ai vendu pour toi.",
         "success": "Huh! Quelle chance, tu as trouvé un diamant en minant ! Regarde dans ton inventaire !"
       },
       "gem": {

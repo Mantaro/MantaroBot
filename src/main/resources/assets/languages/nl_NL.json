@@ -1219,7 +1219,7 @@
             "not_in_inventory": "%1$sJe hebt deze pikhouweel niet in je inventaris. Je wordt omgeschakeld naar de standaard pikhouweel.",
             "success": "%1$sJe hebt mineralen gemijnd met een waarde van **$%2$s credits!**",
             "diamond": {
-                "overflow": "\nHuh, je hebt tijdens het mijnen een diamant gevonden, maar je had al te veel, dus heb ik het voor je verkocht.",
+                "overflow": "\nHuh, je hebt tijdens het mijnen %1$s diamant gevonden, maar je had al te veel, dus heb ik het voor je verkocht.",
                 "success": "\nHuh! Je hebt geluk gehad en een diamant gevonden tijdens het mijnen, controleer je inventaris!"
             },
             "gem": {

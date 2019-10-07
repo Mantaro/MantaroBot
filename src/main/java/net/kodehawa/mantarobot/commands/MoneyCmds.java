@@ -886,8 +886,14 @@ public class MoneyCmds {
                         message += "\n" + languageContext.withRoot("commands", "mine.diamond.overflow");
                         money += Items.DIAMOND.getValue() * 0.9;
                     } else {
-                        inventory.process(new ItemStack(Items.DIAMOND, 1));
-                        message += "\n" + EmoteReference.DIAMOND + languageContext.withRoot("commands", "mine.diamond.success");
+                        int amount = 1;
+                        if(item == Items.GEM2_PICKAXE || item == Items.GEM1_PICKAXE)
+                            amount += r.nextInt(2);
+                        if(item == Items.GEM5_PICKAXE_2)
+                            amount += r.nextInt(4);
+
+                        inventory.process(new ItemStack(Items.DIAMOND, amount));
+                        message += "\n" + EmoteReference.DIAMOND + String.format(languageContext.withRoot("commands", "mine.diamond.success"), amount);
                     }
 
                     player.getData().addBadgeIfAbsent(Badge.MINER);

@@ -1372,7 +1372,7 @@
       "success": "%1$sDu hast Mineralien im Wert von **$%2$s Credits abgebaut**, indem du %3$s genutzt hast.",
       "reminder": "\n*Du kannst bessere Spitzhacken mit den Edelsteinen herstellen, die du beim Abbauen bekommst. Schau unter `~>cast ls` für eine Liste an Dingen, die du herstellen kannst*",
       "diamond": {
-        "overflow": "Huch, du hast einen Diamanten während des Abbauens gefunden, aber du hattest schon zu viele, also habe ich ihn für dich verkauft.",
+        "overflow": "Huch, du hast %1$s Diamanten während des Abbauens gefunden, aber du hattest schon zu viele, also habe ich ihn für dich verkauft.",
         "success": "Huch! Du hattest Glück und hast beim Abbauen einen Diamanten gefunden, schau in dein Inventar!"
       },
       "gem": {
