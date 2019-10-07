@@ -122,62 +122,6 @@ public class CCv3 {
             return "";
         });
 
-        DEFAULT_OPERATIONS.put("and", (__, args) -> {
-            if(args.size() < 1) {
-                return "{And: missing required parameter <first>}";
-            }
-            if(args.size() < 2) {
-                return "{And: missing required parameter <second>}";
-            }
-            //evaluate argument 1 and 2
-            String i1 = args.get(0).evaluate();
-            String i2 = args.get(1).evaluate();
-
-            //if argument 1 is the same as argument 2. They both return -string-, so they gotta be the same, basically.
-            if(i1.equals(i2)) {
-                return args.size() > 2 ? args.get(2).evaluate() : "";
-            } else {
-                return args.size() > 3 ? args.get(3).evaluate() : "";
-            }
-        });
-
-        //Same as above, but ignores case.
-        DEFAULT_OPERATIONS.put("andic", (__, args) -> {
-            //evaluate argument 1 and 2
-            String i1 = args.get(0).evaluate();
-            String i2 = args.get(1).evaluate();
-
-            //if argument 1 is the same as argument 2. They both return -string-, so they gotta be the same, basically.
-            if(i1.equalsIgnoreCase(i2)) {
-                return args.size() > 2 ? args.get(2).evaluate() : "";
-            } else {
-                return args.size() > 3 ? args.get(3).evaluate() : "";
-            }
-        });
-
-        DEFAULT_OPERATIONS.put("or", (__, args) -> {
-            String c1 = args.get(1).evaluate();
-            String c2 = args.get(4).evaluate();
-
-            BiPredicate<String, String> comparator1 = comparators.get(c1);
-            BiPredicate<String, String> comparator2 = comparators.get(c2);
-
-            if(comparator1 != null && comparator2 != null) {
-                String input1 = args.get(0).evaluate();
-                String input2 = args.get(2).evaluate();
-                String input3 = args.get(3).evaluate();
-                String input4 = args.get(5).evaluate();
-
-                if(comparator1.test(input1, input2) || comparator2.test(input3, input4)) {
-                    return args.get(6).evaluate();
-                }
-                else
-                    return args.get(7).evaluate();
-            } else {
-                return "You need two comparators to check if an OR operation is correct.";
-            }
-        });
-
         //@{not-empty[;arg]+?}
         DEFAULT_OPERATIONS.put("not-empty", (__, args) -> {
             for(Operation.Argument arg : args) {
