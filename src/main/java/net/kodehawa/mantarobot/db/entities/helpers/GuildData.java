@@ -194,9 +194,13 @@ public class GuildData {
     private Map<String, List<String>> autoroleCategories = new HashMap<>();
 
     //mod logs customization
+    @ConfigName("Edit message")
     private String editMessageLog;
+    @ConfigName("Delete message")
     private String deleteMessageLog;
+    @ConfigName("Ban message")
     private String bannedMemberLog;
+    @ConfigName("Unban message")
     private String unbannedMemberLog;
     private String kickedMemberLog;
 }
