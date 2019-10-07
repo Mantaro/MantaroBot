@@ -170,7 +170,7 @@ public class GuildData {
     private HashMap<String, List<Category>> roleSpecificDisabledCategories = new HashMap<>();
     @ConfigName("Disabled Commands for Role (id)")
     private HashMap<String, List<String>> roleSpecificDisabledCommands = new HashMap<>();
-    @ConfigName("Server lenguage")
+    @ConfigName("Server language")
     private String lang = "en_US";
     @ConfigName("Music vote toggle")
     private boolean musicVote = true;
