@@ -79,16 +79,11 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
 
     public DynamicModifiers mapMember(String prefix, Member member) {
         return this
-                .set(prefix, member.getAsMention())
-                .set(prefix, "username", member.getUser().getName())
-                .set(prefix, "discriminator", member.getUser().getDiscriminator())
+                .mapUser(prefix, member.getUser())
                 .set(prefix, "name", member.getEffectiveName())
                 //TODO: i want this to compile already come on
                 //.set(prefix, "game", member.getGame() != null ? member.getGame().getName() : "None")
-                .set(prefix, "status", capitalize(member.getOnlineStatus().getKey()))
-                .set(prefix, "mention", member.getAsMention())
-                .set(prefix, "avatar", member.getUser().getEffectiveAvatarUrl())
-                .set(prefix, "id", member.getUser().getId());
+                .set(prefix, "status", capitalize(member.getOnlineStatus().getKey()));
     }
 
     public DynamicModifiers mapEvent(String botPrefix, String prefix, GuildMessageReceivedEvent event) {
