@@ -78,8 +78,18 @@ public class CCv3 {
         comparators.put("ignorecase-contains", (s1, s2) -> s1.toLowerCase().contains(s2.toLowerCase()));
 
         DEFAULT_OPERATIONS.put("if", (__, args) -> {
-            if(args.size() < 4)
-                return "`if requires at least 4 parameters`";
+            if(args.size() < 1) {
+                return "{If: missing required parameter <lhs>}";
+            }
+            if(args.size() < 2) {
+                return "{If: missing required parameter <condition>}";
+            }
+            if(args.size() < 3) {
+                return "{If: missing required parameter <rhs>}";
+            }
+            if(args.size() < 4) {
+                return "{If: missing required parameter <iftrue>}";
+            }
             String input1 = args.get(0).evaluate();
             String compare = args.get(1).evaluate();
             String input2 = args.get(2).evaluate();
@@ -89,41 +99,46 @@ public class CCv3 {
 
             if(comparator == null) {
                 if(predicate == null) {
-                    return "`'The " + compare + "' comparator doesn't exist`";
+                    return "{If: comparator " + compare + " does not exist}";
                 }
             }
 
             if(predicate != null) {
-                if(predicate.test(input1))
+                if(predicate.test(input1)) {
                     return args.get(3).evaluate();
+                }
             }
 
             if(comparator != null) {
-                if(comparator.test(input1, input2))
+                if(comparator.test(input1, input2)) {
                     return args.get(3).evaluate();
+                }
             }
 
-            if(args.size() >= 5)
+            if(args.size() >= 5) {
                 return args.get(4).evaluate();
+            }
 
             return "";
         });
 
         DEFAULT_OPERATIONS.put("and", (__, args) -> {
+            if(args.size() < 1) {
+                return "{And: missing required parameter <first>}";
+            }
+            if(args.size() < 2) {
+                return "{And: missing required parameter <second>}";
+            }
             //evaluate argument 1 and 2
             String i1 = args.get(0).evaluate();
             String i2 = args.get(1).evaluate();
 
-            //if true
-            String it = args.get(2).evaluate();
-            //if false
-            String ifl = args.get(3).evaluate();
-
             //if argument 1 is the same as argument 2. They both return -string-, so they gotta be the same, basically.
-            if(i1.equals(i2))
-                return it;
-            else
-                return ifl;
+            if(i1.equals(i2)) {
+                return args.size() > 2 ? args.get(2).evaluate() : "";
+            } else {
+                return args.size() > 3 ? args.get(3).evaluate() : "";
+            }
         });
 
         //Same as above, but ignores case.
@@ -132,16 +147,12 @@ public class CCv3 {
             String i1 = args.get(0).evaluate();
             String i2 = args.get(1).evaluate();
 
-            //if true
-            String it = args.get(2).evaluate();
-            //if false
-            String ifl = args.get(3).evaluate();
-
             //if argument 1 is the same as argument 2. They both return -string-, so they gotta be the same, basically.
-            if(i1.equalsIgnoreCase(i2))
-                return it;
-            else
-                return ifl;
+            if(i1.equalsIgnoreCase(i2)) {
+                return args.size() > 2 ? args.get(2).evaluate() : "";
+            } else {
+                return args.size() > 3 ? args.get(3).evaluate() : "";
+            }
         });
 
         DEFAULT_OPERATIONS.put("or", (__, args) -> {
@@ -205,12 +216,16 @@ public class CCv3 {
         });
 
         DEFAULT_OPERATIONS.put("set", (context, args) -> {
-            if(args.size() < 2) {
-                return "Usage: set <name> <value>";
+            if(args.size() < 1) {
+                return "{Set: missing required parameter <name>}";
             }
+            if(args.size() < 2) {
+                return "{Set: missing required parameter <value>}";
+            }
+            String key = args.get(0).evaluate();
             String value = args.stream().skip(1)
                     .map(Operation.Argument::evaluate).collect(Collectors.joining(";"));
-            context.vars().put(args.get(0).evaluate(), value);
+            context.vars().put(key, value);
             return "";
         });
 
