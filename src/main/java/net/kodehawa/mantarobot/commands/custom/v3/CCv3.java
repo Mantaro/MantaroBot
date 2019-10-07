@@ -78,6 +78,10 @@ public class CCv3 {
         comparators.put("ignorecase-not-less-than", comparators.get("ignorecase-less-than").negate());
         comparators.put("contains", String::contains);
         comparators.put("ignorecase-contains", (s1, s2) -> s1.toLowerCase().contains(s2.toLowerCase()));
+        comparators.put("starts-with", String::startsWith);
+        comparators.put("ignorecase-starts-with", (s1, s2) -> s1.toLowerCase().startsWith(s2.toLowerCase()));
+        comparators.put("ends-with", String::endsWith);
+        comparators.put("ignorecase-ends-with", (s1, s2) -> s1.toLowerCase().endsWith(s2.toLowerCase()));
 
         DEFAULT_OPERATIONS.put("if", (__, args) -> {
             if(args.size() < 1) {
