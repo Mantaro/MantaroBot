@@ -858,8 +858,12 @@ public class MoneyCmds {
                     return;
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
+
+                //Add money buff to higher pickaxes.
+                if(item == Items.GEM2_PICKAXE || item == Items.GEM1_PICKAXE)
+                    money += r.nextInt(100);
                 if(item == Items.GEM5_PICKAXE_2)
-                    money += r.nextInt(50);
+                    money += r.nextInt(300);
 
                 boolean waifuHelp = false;
                 //old: Items.handlePotion(Items.WAIFU_PILL, 5, player)
