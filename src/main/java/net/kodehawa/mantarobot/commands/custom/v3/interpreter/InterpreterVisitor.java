@@ -42,7 +42,7 @@ public class InterpreterVisitor implements NodeVisitor<String, InterpreterContex
         String type = node.name().accept(this, context);
         Operation op = context.operations().get(type);
         if(op == null) {
-            return "";
+            return "{Unknown operation " + type + "}";
         }
         return op.apply(context, node.args().stream()
                 .map(n -> (Operation.Argument) () -> n.accept(this, context))
