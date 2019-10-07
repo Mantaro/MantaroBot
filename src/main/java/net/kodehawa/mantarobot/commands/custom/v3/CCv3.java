@@ -301,6 +301,33 @@ public class CCv3 {
             }
             return formatter.format(OffsetDateTime.now(zone));
         });
+
+        DEFAULT_OPERATIONS.put("lower", (__, args) -> args.stream()
+                .map(Operation.Argument::evaluate)
+                .map(String::toLowerCase)
+                .collect(Collectors.joining(";")));
+
+        DEFAULT_OPERATIONS.put("upper", (__, args) -> args.stream()
+                .map(Operation.Argument::evaluate)
+                .map(String::toUpperCase)
+                .collect(Collectors.joining(";")));
+
+        DEFAULT_OPERATIONS.put("replace", (__, args) -> {
+            if(args.size() < 1) {
+                return "{Replace: missing required parameter <search>}";
+            }
+            if(args.size() < 2) {
+                return "{Replace: missing required parameter <replacement>}";
+            }
+            if(args.size() < 3) {
+                return "{Replace: missing required parameter <text>}";
+            }
+            String search = args.get(0).evaluate();
+            String replace = args.get(1).evaluate();
+            return args.stream().skip(2).map(Operation.Argument::evaluate)
+                    .map(s -> s.replace(search, replace))
+                    .collect(Collectors.joining(";"));
+        });
     }
 
     public static void process(String prefix, GuildMessageReceivedEvent event, Node ast, boolean preview) {
