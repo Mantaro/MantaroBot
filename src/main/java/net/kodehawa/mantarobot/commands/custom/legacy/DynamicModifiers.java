@@ -16,11 +16,10 @@
 
 package net.kodehawa.mantarobot.commands.custom.legacy;
 
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.guild.GenericGuildEvent;
 import net.dv8tion.jda.api.events.guild.member.GenericGuildMemberEvent;
+import net.dv8tion.jda.api.events.message.guild.GenericGuildMessageEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Date;
@@ -66,6 +65,18 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
             .set(prefix, "totalusers", String.valueOf(guild.getMembers().size()));
     }
 
+    public DynamicModifiers mapUser(String prefix, User member) {
+        return this
+                .set(prefix, member.getAsMention())
+                .set(prefix, "tag", member.getAsTag())
+                .set(prefix, "username", member.getName())
+                .set(prefix, "discriminator", member.getDiscriminator())
+                .set(prefix, "name", member.getName())
+                .set(prefix, "mention", member.getAsMention())
+                .set(prefix, "avatar", member.getEffectiveAvatarUrl())
+                .set(prefix, "id", member.getId());
+    }
+
     public DynamicModifiers mapMember(String prefix, Member member) {
         return this
                 .set(prefix, member.getAsMention())
@@ -81,21 +92,35 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
     }
 
     public DynamicModifiers mapEvent(String botPrefix, String prefix, GuildMessageReceivedEvent event) {
-        return this.set(prefix, event.getMember().getAsMention() + "@" + event.getChannel().getAsMention())
-                .set(prefix, "timestamp", new Date(System.currentTimeMillis()).toString())
-                .mapChannel(k(prefix, "channel"), event.getChannel())
-                .mapGuild(k(prefix, "guild"), event.getGuild())
-                .mapMember(k(prefix, "me"), event.getGuild().getSelfMember())
+        return this.mapEvent(botPrefix, prefix, (GenericGuildMessageEvent)event)
+                .set(prefix, event.getMember().getAsMention() + "@" + event.getChannel().getAsMention())
                 .mapMember(k(prefix, "author"), event.getMember())
                 .mapMessage(k(prefix, "message"), new CustomMessage(event.getMessage(), botPrefix));
     }
 
+    public DynamicModifiers mapEvent(String botPrefix, String prefix, GenericGuildMessageEvent event) {
+        return this.set(prefix, "timestamp", new Date(System.currentTimeMillis()).toString())
+                .mapChannel(k(prefix, "channel"), event.getChannel())
+                .mapGuild(k(prefix, "guild"), event.getGuild())
+                .mapMember(k(prefix, "me"), event.getGuild().getSelfMember());
+    }
+
     public DynamicModifiers mapEvent(String prefix, GenericGuildMemberEvent event) {
         return this
-            .set(prefix, event.getMember().getAsMention() + "@" + event.getGuild().getName())
-            .mapGuild(k(prefix, "guild"), event.getGuild())
-            .mapMember(k(prefix, "me"), event.getGuild().getSelfMember())
-            .mapMember(k(prefix, "user"), event.getMember());
+                .set(prefix, event.getMember().getAsMention() + "@" + event.getGuild().getName())
+                .mapGuild(k(prefix, "guild"), event.getGuild())
+                .mapMember(k(prefix, "me"), event.getGuild().getSelfMember())
+                .mapMember(k(prefix, "user"), event.getMember());
+    }
+
+    public DynamicModifiers mapEvent(String prefix, GenericGuildEvent event) {
+        return this
+                .mapGuild(k(prefix, "guild"), event.getGuild())
+                .mapMember(k(prefix, "me"), event.getGuild().getSelfMember());
+    }
+
+    public DynamicModifiers mapMessage(String prefix, Message message) {
+        return mapMessage(prefix, new CustomMessage(message, ""));
     }
 
     public DynamicModifiers mapMessage(String prefix, CustomMessage message) {

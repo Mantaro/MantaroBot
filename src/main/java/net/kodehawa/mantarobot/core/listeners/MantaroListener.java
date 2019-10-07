@@ -37,6 +37,7 @@ import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberLeaveEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.api.events.http.HttpRequestEvent;
+import net.dv8tion.jda.api.events.message.guild.GenericGuildMessageEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageUpdateEvent;
@@ -311,12 +312,22 @@ public class MantaroListener implements EventListener {
 
     private void logBan(GuildBanEvent event) {
         String hour = df.format(new Date(System.currentTimeMillis()));
-        String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
+        GuildData data = MantaroData.db().getGuild(event.getGuild()).getData();
+        String logChannel = data.getGuildLogChannel();
         if (logChannel != null) {
             TextChannel tc = event.getGuild().getTextChannelById(logChannel);
             if (tc != null) {
-                tc.sendMessage
-                        (EmoteReference.WARNING + "`[" + hour + "]` " + event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got banned.").queue();
+                String message;
+                if(data.getBannedMemberLog() != null) {
+                    message = new DynamicModifiers()
+                            .set("hour", hour)
+                            .mapEvent("event", event)
+                            .mapUser("event.user", event.getUser())
+                            .resolve(data.getBannedMemberLog());
+                } else {
+                    message = EmoteReference.WARNING + "`[" + hour + "]` " + event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got banned.";
+                }
+                tc.sendMessage(message).queue();
                 logTotal++;
             }
         }
@@ -354,9 +365,23 @@ public class MantaroListener implements EventListener {
                         }
                     }
 
+                    String message;
+                    if(data.getDeleteMessageLog() != null) {
+                        message = new DynamicModifiers()
+                                .set("hour", hour)
+                                .set("content", deletedMessage.getContent().replace("```", ""))
+                                .mapEvent("event", event)
+                                .mapChannel("event.channel", event.getChannel())
+                                .mapUser("event.user", deletedMessage.getAuthor())
+                                .set("event.message.id", event.getMessageId())
+                                .resolve(data.getDeleteMessageLog());
+                    } else {
+                        message = String.format(EmoteReference.WARNING + "`[%s]` Message (ID: %s) created by **%s#%s** (ID: %s) in channel **%s** was deleted.\n" +
+                                "```diff\n-%s```", hour, event.getMessageId(), deletedMessage.getAuthor().getName(), deletedMessage.getAuthor().getDiscriminator(), deletedMessage.getAuthor().getId(), event.getChannel().getName(), deletedMessage.getContent().replace("```", ""));
+                    }
+
                     logTotal++;
-                    tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` Message (ID: %s) created by **%s#%s** (ID: %s) in channel **%s** was deleted.\n" +
-                            "```diff\n-%s```", hour, event.getMessageId(), deletedMessage.getAuthor().getName(), deletedMessage.getAuthor().getDiscriminator(), deletedMessage.getAuthor().getId(), event.getChannel().getName(), deletedMessage.getContent().replace("```", ""))).queue();
+                    tc.sendMessage(message).queue();
                 }
             }
         } catch (Exception e) {
@@ -405,8 +430,23 @@ public class MantaroListener implements EventListener {
                         }
                     }
 
-                    tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` Message (ID: %s) created by **%s#%s** in channel **%s** was modified.\n```diff\n-%s\n+%s```",
-                            hour, event.getMessage().getId(), author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContentDisplay().replace("```", ""))).queue();
+                    String message;
+                    if(guildData.getEditMessageLog() != null) {
+                        message = new DynamicModifiers()
+                                .set("hour", hour)
+                                .set("old", editedMessage.getContent().replace("```", ""))
+                                .set("new", event.getMessage().getContentDisplay().replace("```", ""))
+                                .mapEvent("event", event)
+                                .mapChannel("event.channel", event.getChannel())
+                                .mapUser("event.user", editedMessage.getAuthor())
+                                .mapMessage("event.message", event.getMessage())
+                                .resolve(guildData.getEditMessageLog());
+                    } else {
+                        message = String.format(EmoteReference.WARNING + "`[%s]` Message (ID: %s) created by **%s#%s** in channel **%s** was modified.\n```diff\n-%s\n+%s```",
+                                hour, event.getMessage().getId(), author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContentDisplay().replace("```", ""));
+                    }
+
+                    tc.sendMessage(message).queue();
 
                     logTotal++;
                 }
@@ -429,11 +469,22 @@ public class MantaroListener implements EventListener {
     private void logUnban(GuildUnbanEvent event) {
         try {
             String hour = df.format(new Date(System.currentTimeMillis()));
-            String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
+            GuildData data = MantaroData.db().getGuild(event.getGuild()).getData();
+            String logChannel = data.getGuildLogChannel();
             if (logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
                 if (tc != null) {
-                    tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` %s#%s just got unbanned.", hour, event.getUser().getName(), event.getUser().getDiscriminator())).queue();
+                    String message;
+                    if(data.getUnbannedMemberLog() != null) {
+                        message = new DynamicModifiers()
+                                .set("hour", hour)
+                                .mapEvent("event", event)
+                                .mapUser("event.user", event.getUser())
+                                .resolve(data.getUnbannedMemberLog());
+                    } else {
+                        message = String.format(EmoteReference.WARNING + "`[%s]` %s#%s just got unbanned.", hour, event.getUser().getName(), event.getUser().getDiscriminator());
+                    }
+                    tc.sendMessage(message).queue();
                     logTotal++;
                 }
             }
