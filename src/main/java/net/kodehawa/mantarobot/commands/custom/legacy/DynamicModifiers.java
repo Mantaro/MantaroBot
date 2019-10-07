@@ -28,7 +28,6 @@ import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 import static net.kodehawa.mantarobot.utils.Utils.iterate;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 
@@ -48,7 +47,11 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
         for (String key : iterate(GETTER_MODIFIER, string)) {
             if (dejaVu.contains(key)) continue;
             String mapKey = key.substring(2, key.length() - 1);
-            string = string.replace(key, getOrDefault(mapKey, mapKey).replaceAll("[^\\\\]\\\\[^\\\\]","\\\\"));
+            String value = get(mapKey);
+            if(value == null) {
+                value = "{Unresolved variable " + mapKey + "}";
+            }
+            string = string.replace(key, value.replaceAll("[^\\\\]\\\\[^\\\\]","\\\\"));
             if (!string.contains("$(")) break;
             dejaVu.add(key);
         }
