@@ -28,6 +28,7 @@ import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.moderation.MuteTask;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
+import net.kodehawa.mantarobot.commands.utils.reminders.ReminderTask;
 import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
@@ -153,7 +154,10 @@ public class MantaroBot extends ShardedJDA {
 
         birthdayCacher = new BirthdayCacher();
         final MuteTask muteTask = new MuteTask();
+        final ReminderTask reminderTask = new ReminderTask();
+
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mute Handler")).scheduleAtFixedRate(muteTask::handle, 0, 1, TimeUnit.MINUTES);
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Reminder Handler")).scheduleAtFixedRate(reminderTask::handle, 0, 5, TimeUnit.MINUTES);
         //Yes, this is needed.
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Ratelimit Map Handler")).scheduleAtFixedRate(Utils.ratelimitedUsers::clear, 0, 24, TimeUnit.HOURS);
     }

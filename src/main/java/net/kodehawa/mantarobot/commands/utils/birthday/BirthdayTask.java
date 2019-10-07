@@ -42,7 +42,7 @@ public class BirthdayTask {
     private static FastDateFormat dateFormat = FastDateFormat.getInstance("dd-MM-yyyy");
     private ManagedDatabase db = MantaroData.db();
     private static final Counter birthdayCounter = Counter.build()
-            .name("birthdays_logged").help("Logged birthdays (guild id)")
+            .name("birthdays_logged").help("Logged birthdays")
             .register();
 
     public void handle(int shardId) {

@@ -57,11 +57,6 @@ public class UserData {
     //Hide tag (and ID on waifu) on marriage/waifu list
     private boolean privateTag = false; //just explicitly setting it to false to make sure people know it's the default.
 
-    //TODO
-    //Remake the reminder system alongside it pretty please -Oct, 2019
-    //Persistent reminders, so it works on bot reboot.
-    //private Map<String, ReminderObj> reminderMap = new HashMap<>();
-
     @JsonIgnore
     public Marriage getMarriage() {
         //we're going full round trip here

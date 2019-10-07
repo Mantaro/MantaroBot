@@ -27,10 +27,11 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.utils.Reminder;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.WeatherData;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
+import net.kodehawa.mantarobot.commands.utils.reminders.Reminder;
+import net.kodehawa.mantarobot.commands.utils.reminders.ReminderObject;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -42,6 +43,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -52,6 +54,9 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.ScanParams;
+import redis.clients.jedis.ScanResult;
 
 import java.awt.*;
 import java.io.UnsupportedEncodingException;
@@ -397,13 +402,19 @@ public class UtilsCmds {
                         String toRemind = timePattern.matcher(content).replaceAll("");
                         User user = event.getAuthor();
                         long time = Utils.parseTime(t.get("time"));
+                        DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
+                        if(dbUser.getData().getReminders().size() > 25) {
+                            //Max amount of reminders reached
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.too_many_reminders"), EmoteReference.ERROR).queue();
+                            return;
+                        }
 
                         if(time < 10000) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.too_little_time"), EmoteReference.ERROR).queue();
                             return;
                         }
 
-                        if(System.currentTimeMillis() + time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(90)) {
+                        if(System.currentTimeMillis() + time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(180)) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.too_long"), EmoteReference.ERROR).queue();
                             return;
                         }
@@ -417,7 +428,6 @@ public class UtilsCmds {
                                 .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.ROLE, Message.MentionType.HERE)
                                 .sendTo(event.getChannel()).queue();
 
-                        //TODO save to db
                         new Reminder.Builder()
                                 .id(user.getId())
                                 .guild(event.getGuild().getId())
@@ -450,22 +460,40 @@ public class UtilsCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Reminder> reminders = Reminder.CURRENT_REMINDERS.get(event.getAuthor().getId());
+                ManagedDatabase db = MantaroData.db();
+                List<String> r = db.getUser(event.getAuthor()).getData().getReminders();
+                try(Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
+                    //What a big method. Get all reminders with * id which match the ID. Cursor size is 25 as in that's the maximum amount of reminders you can have.
+                    ScanResult<Map.Entry<String, String>> result = j.hscan("reminders", "25", new ScanParams().match("*:" + event.getAuthor().getId()));
 
-                if(reminders == null || reminders.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_reminders"), EmoteReference.ERROR).queue();
-                    return;
+                    List<ReminderObject> reminders = new ArrayList<>();
+                    for(Map.Entry<String, String> rem : result.getResult()) {
+                        JSONObject json = new JSONObject(rem.getValue());
+                        reminders.add(ReminderObject.builder()
+                                .id(rem.getKey().split(":")[0])
+                                .userId(json.getString("user"))
+                                .guildId(json.getString("guild"))
+                                .scheduledAtMillis(json.getLong("scheduledAt"))
+                                .time(json.getLong("at"))
+                                .reminder(json.getString("reminder"))
+                                .build());
+                    }
+
+                    if(reminders.isEmpty()) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_reminders"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    StringBuilder builder = new StringBuilder();
+                    AtomicInteger i = new AtomicInteger();
+                    for(ReminderObject rems : reminders) {
+                        builder.append("**").append(i.incrementAndGet()).append(".-**").append("R: *").append(rems.getReminder()).append("*, Due in: **")
+                                .append(Utils.getHumanizedTime(rems.getTime() - System.currentTimeMillis())).append("**").append("\n");
+                    }
+
+                    Queue<Message> toSend = new MessageBuilder().append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+                    toSend.forEach(message -> event.getChannel().sendMessage(message).queue());
                 }
-
-                StringBuilder builder = new StringBuilder();
-                AtomicInteger i = new AtomicInteger();
-                for(Reminder r : reminders) {
-                    builder.append("**").append(i.incrementAndGet()).append(".-**").append("R: *").append(r.reminder).append("*, Due in: **")
-                            .append(Utils.getHumanizedTime(r.time - System.currentTimeMillis())).append("**").append("\n");
-                }
-
-                Queue<Message> toSend = new MessageBuilder().append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
-                toSend.forEach(message -> event.getChannel().sendMessage(message).queue());
             }
         });
 
@@ -481,7 +509,8 @@ public class UtilsCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 try {
-                    List<Reminder> reminders = Reminder.CURRENT_REMINDERS.get(event.getAuthor().getId());
+                    ManagedDatabase db = MantaroData.db();
+                    List<String> reminders = db.getUser(event.getAuthor()).getData().getReminders();
 
                     if(reminders.isEmpty()) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_reminders"), EmoteReference.ERROR).queue();
@@ -489,19 +518,38 @@ public class UtilsCmds {
                     }
 
                     if(reminders.size() == 1) {
-                        reminders.get(0).cancel();
+                        Reminder.cancel(event.getAuthor().getId(), reminders.get(0)); //Cancel first reminder.
                         event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.cancel.success"), EmoteReference.CORRECT).queue();
                     } else {
-                        reminders = reminders.stream().filter(reminder -> reminder.time - System.currentTimeMillis() > 3).collect(Collectors.toList());
-                        DiscordUtils.selectList(event, reminders,
-                                (r) -> String.format("%s, Due in: %s", r.reminder, Utils.getHumanizedTime(r.time - System.currentTimeMillis())),
-                                r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle(languageContext.get("commands.remindme.cancel.select"), null)
-                                        .setDescription(r1)
-                                        .setFooter(String.format(languageContext.get("general.timeout"), 10), null).build(),
-                                sr -> {
-                                    sr.cancel();
-                                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder").queue();
-                                });
+                        try(Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
+                            //What a big method. Get all reminders with * id which match the ID. Cursor size is 25 as in that's the maximum amount of reminders you can have.
+                            ScanResult<Map.Entry<String, String>> result = j.hscan("reminders", "25", new ScanParams().match("*:" + event.getAuthor().getId()));
+
+                            List<ReminderObject> rems = new ArrayList<>();
+                            for(Map.Entry<String, String> rem : result.getResult()) {
+                                JSONObject json = new JSONObject(rem.getValue());
+                                rems.add(ReminderObject.builder()
+                                        .id(rem.getKey().split(":")[0])
+                                        .userId(json.getString("user"))
+                                        .guildId(json.getString("guild"))
+                                        .scheduledAtMillis(json.getLong("scheduledAt"))
+                                        .time(json.getLong("at"))
+                                        .reminder(json.getString("reminder"))
+                                        .build());
+                            }
+
+                            rems = rems.stream().filter(reminder -> reminder.time - System.currentTimeMillis() > 3).collect(Collectors.toList());
+                            DiscordUtils.selectList(event, rems,
+                                    (r) -> String.format("%s, Due in: %s", r.reminder, Utils.getHumanizedTime(r.time - System.currentTimeMillis())),
+                                    r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle(languageContext.get("commands.remindme.cancel.select"), null)
+                                            .setDescription(r1)
+                                            .setFooter(String.format(languageContext.get("general.timeout"), 10), null).build(),
+                                    sr -> {
+                                        Reminder.cancel(event.getAuthor().getId(), sr.id);
+                                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder").queue();
+                                    });
+                        }
+
                     }
                 } catch(Exception e) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.no_reminders"), EmoteReference.ERROR).queue();
