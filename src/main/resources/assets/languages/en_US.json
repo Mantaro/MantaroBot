@@ -1930,6 +1930,14 @@
       "no_message": "%1$sYou need to specify what message you want me to say when someone deletes a message!",
       "success": "%1$sMessage delete message set to: `%2$s`"
     },
+    "logs_banmessage": {
+      "no_message": "%1$sYou need to specify what message you want me to say when someone gets banned!",
+      "success": "%1$sBan message set to: `%2$s`"
+    },
+    "logs_unbanmessage": {
+      "no_message": "%1$sYou need to specify what message you want me to say when someone gets unbanned!",
+      "success": "%1$sUnban message set to: `%2$s`"
+    },
     "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
     "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
     "no_command": "%1$sNo command called %2$s",

@@ -1152,6 +1152,47 @@ public class GuildOptions extends OptionHandler {
                 });//endregion
         addOptionAlias("logs:deletemessage", "deletemessage");
 
+        //region banmessage
+        registerOption("logs:banmessage", "Ban log message",
+                "Sets the ban message.\n" +
+                        "**Example:** `~>opts logs banmessage [$(hour)] $(event.user.tag) just got banned.`",
+                "Sets the ban message.", (event, args, lang) -> {
+                    if (args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.logs_banmessage.no_message"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    String banMessage = String.join(" ", args);
+                    guildData.setBannedMemberLog(banMessage);
+                    dbGuild.save();
+                    event.getChannel().sendMessageFormat(lang.get("options.logs_banmessage.success"), EmoteReference.CORRECT, banMessage).queue();
+                });//endregion
+        addOptionAlias("logs:banmessage", "banmessage");
+
+        //region ubbanmessage
+        registerOption("logs:unbanmessage", "Unban log message",
+                "Sets the unban message.\n" +
+                        "**Example:** `~>opts logs unbanmessage [$(hour)] $(event.user.tag) just got unbanned.`",
+                "Sets the unban message.", (event, args, lang) -> {
+                    if (args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.logs_unbanmessage.no_message"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    String unbanMessage = String.join(" ", args);
+                    guildData.setUnbannedMemberLog(unbanMessage);
+                    dbGuild.save();
+                    event.getChannel().sendMessageFormat(lang.get("options.logs_unbanmessage.success"), EmoteReference.CORRECT, unbanMessage).queue();
+                });//endregion
+        addOptionAlias("logs:unbanmessage", "unbanmessage");
+
+
         //TODO:
         //bannedMemberLog;
         //unbannedMemberLog;
