@@ -324,11 +324,14 @@ public class Items {
                     //old: handleBuff(FISHING_BAIT, 1, p)
                     boolean buff = handleEffect(PlayerEquipment.EquipmentType.BUFF, u.getData().getEquippedItems(), FISHING_BAIT, u);
                     int amount = buff ? Math.max(1, random.nextInt(item.getLevel() + 4)) : Math.max(1, random.nextInt(item.getLevel()));
+                    if(nominalLevel >= 2)
+                        amount += random.nextInt(4);
+
                     fish.forEach((i1) -> fishItems.add(3, i1));
 
                     //Basically more chance if you have a better rod.
                     if (select > (75 - nominalLevel)) {
-                        money = Math.max(5, random.nextInt(85 + (3 * nominalLevel)));
+                        money = Math.max(5, random.nextInt(130 + (3 * nominalLevel)));
                     }
 
                     //START OF WAIFU HELP IMPLEMENTATION
