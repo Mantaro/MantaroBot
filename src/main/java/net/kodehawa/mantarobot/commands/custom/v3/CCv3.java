@@ -122,6 +122,42 @@ public class CCv3 {
             return "";
         });
 
+        DEFAULT_OPERATIONS.put("compare", (__, args) -> {
+            if(args.size() < 1) {
+                return "{Compare: missing required parameter <lhs>}";
+            }
+            if(args.size() < 2) {
+                return "{Compare: missing required parameter <comparator>}";
+            }
+            if(args.size() < 3) {
+                return "{Compare: missing required parameter <rhs>}";
+            }
+            String lhs = args.get(0).evaluate();
+            String cmp = args.get(1).evaluate();
+            String rhs = args.get(2).evaluate();
+            BiPredicate<String, String> comparator = comparators.get(cmp);
+            if(comparator == null) {
+                return "{Compare: unknown comparator " + comparator + "}";
+            }
+            return Boolean.toString(comparator.test(lhs, rhs));
+        });
+
+        DEFAULT_OPERATIONS.put("test", (__, args) -> {
+            if(args.size() < 1) {
+                return "{Test: missing required parameter <predicate>}";
+            }
+            if(args.size() < 2) {
+                return "{Test: missing required parameter <operand>}";
+            }
+            String predicate = args.get(0).evaluate();
+            String operand = args.get(1).evaluate();
+            Predicate<String> p = predicates.get(predicate);
+            if(p == null) {
+                return "{Test: unknown predicate " + predicate + "}";
+            }
+            return Boolean.toString(p.test(operand));
+        });
+
         //@{not-empty[;arg]+?}
         DEFAULT_OPERATIONS.put("not-empty", (__, args) -> {
             for(Operation.Argument arg : args) {
@@ -218,9 +254,6 @@ public class CCv3 {
                 } catch(DateTimeException e) {
                     return "{Timestamp: provided zone " + z + " is invalid: " + e.getMessage() + "}";
                 }
-            }
-            if(args.size() > 2) {
-                args.subList(2, args.size() - 1).forEach(Operation.Argument::evaluate);
             }
             return formatter.format(OffsetDateTime.now(zone));
         });
