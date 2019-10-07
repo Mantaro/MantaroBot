@@ -85,41 +85,35 @@ public class CCv3 {
                 return "{If: missing required parameter <condition>}";
             }
             if(args.size() < 3) {
-                return "{If: missing required parameter <rhs>}";
-            }
-            if(args.size() < 4) {
-                return "{If: missing required parameter <iftrue>}";
+                return "{If: missing required parameter <rhs/iftrue>}";
             }
             String input1 = args.get(0).evaluate();
             String compare = args.get(1).evaluate();
-            String input2 = args.get(2).evaluate();
 
+            int resultIdx;
             BiPredicate<String, String> comparator = comparators.get(compare);
             Predicate<String> predicate = predicates.get(compare);
-
-            if(comparator == null) {
-                if(predicate == null) {
-                    return "{If: comparator " + compare + " does not exist}";
-                }
-            }
-
-            if(predicate != null) {
-                if(predicate.test(input1)) {
-                    return args.get(3).evaluate();
-                }
-            }
-
             if(comparator != null) {
-                if(comparator.test(input1, input2)) {
-                    return args.get(3).evaluate();
+                String input2 = args.get(2).evaluate();
+                resultIdx = comparator.test(input1, input2) ? 3 : 4;
+            } else if(predicate != null) {
+                if(predicate.test(input1)) {
+                    return args.get(2).evaluate();
+                }
+                resultIdx = 3;
+            } else {
+                if(compare.equals("true") || compare.equals("false")) {
+                    resultIdx = compare.equals("true") ? 0 : 2;
+                } else {
+                    return "{If: operand " + compare + " is not a comparator, predicate nor boolean}";
                 }
             }
 
-            if(args.size() >= 5) {
-                return args.get(4).evaluate();
+            if(args.size() > resultIdx) {
+                return args.get(resultIdx).evaluate();
+            } else {
+                return "";
             }
-
-            return "";
         });
 
         DEFAULT_OPERATIONS.put("compare", (__, args) -> {
@@ -156,6 +150,36 @@ public class CCv3 {
                 return "{Test: unknown predicate " + predicate + "}";
             }
             return Boolean.toString(p.test(operand));
+        });
+
+        DEFAULT_OPERATIONS.put("and", (__, args) -> {
+            boolean res = true;
+            int i = 1;
+            for(Operation.Argument arg : args) {
+                String v = arg.evaluate();
+                if(v.equals("true") || v.equals("false")) {
+                    res &= Boolean.parseBoolean(v);
+                } else {
+                    return "{And: value " + i + " is not a boolean}";
+                }
+                i++;
+            }
+            return Boolean.toString(res);
+        });
+
+        DEFAULT_OPERATIONS.put("or", (__, args) -> {
+            boolean res = false;
+            int i = 1;
+            for(Operation.Argument arg : args) {
+                String v = arg.evaluate();
+                if(v.equals("true") || v.equals("false")) {
+                    res |= Boolean.parseBoolean(v);
+                } else {
+                    return "{Or: value " + i + " is not a boolean}";
+                }
+                i++;
+            }
+            return Boolean.toString(res);
         });
 
         //@{not-empty[;arg]+?}
