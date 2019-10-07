@@ -1111,6 +1111,51 @@ public class GuildOptions extends OptionHandler {
                     dbGuild.save();
                     event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_remove.success"), EmoteReference.CORRECT, word).queue();
         });//endregion
+
+        //region editmessage
+        registerOption("logs:editmessage", "Edit log message",
+                "Sets the edit message.\n" +
+                        "**Example:** `~>opts logs editmessage [$(hour)] Message (ID: $(event.message.id)) created by **$(event.user.tag)** in channel **$(event.channel.name)** was modified.\n```diff\n-$(old)\n+$(new)````",
+                "Sets the edit message.", (event, args, lang) -> {
+                    if (args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.logs_editmessage.no_message"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    String editMessage = String.join(" ", args);
+                    guildData.setEditMessageLog(editMessage);
+                    dbGuild.save();
+                    event.getChannel().sendMessageFormat(lang.get("options.logs_editmessage.success"), EmoteReference.CORRECT, editMessage).queue();
+                });//endregion
+        addOptionAlias("logs:editmessage", "editmessage");
+
+        //region deletemessage
+        registerOption("logs:deletemessage", "Delete log message",
+                "Sets the delete message.\n" +
+                        "**Example:** `~>opts logs deletemessage [$(hour)] Message (ID: $(event.message.id)) created by **$(event.user.tag)** (ID: $(event.user.id)) in channel **$(event.channel.name)** was deleted.```diff\n-$(content)``` `",
+                "Sets the delete message.", (event, args, lang) -> {
+                    if (args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.logs_deletemessage.no_message"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    String deleteMessage = String.join(" ", args);
+                    guildData.setDeleteMessageLog(deleteMessage);
+                    dbGuild.save();
+                    event.getChannel().sendMessageFormat(lang.get("options.logs_deletemessage.success"), EmoteReference.CORRECT, deleteMessage).queue();
+                });//endregion
+        addOptionAlias("logs:deletemessage", "deletemessage");
+
+        //TODO:
+        //bannedMemberLog;
+        //unbannedMemberLog;
+
     }
 
     @Override

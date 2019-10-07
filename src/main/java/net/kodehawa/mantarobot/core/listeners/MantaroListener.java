@@ -37,6 +37,7 @@ import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberLeaveEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.api.events.http.HttpRequestEvent;
+import net.dv8tion.jda.api.events.message.guild.GenericGuildMessageEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageUpdateEvent;
@@ -370,7 +371,10 @@ public class MantaroListener implements EventListener {
                                 .set("hour", hour)
                                 .set("content", deletedMessage.getContent().replace("```", ""))
                                 .mapEvent("event", event)
-                                .resolve(data.getEditMessageLog());
+                                .mapChannel("event.channel", event.getChannel())
+                                .mapUser("event.user", deletedMessage.getAuthor())
+                                .set("event.message.id", event.getMessageId())
+                                .resolve(data.getDeleteMessageLog());
                     } else {
                         message = String.format(EmoteReference.WARNING + "`[%s]` Message (ID: %s) created by **%s#%s** (ID: %s) in channel **%s** was deleted.\n" +
                                 "```diff\n-%s```", hour, event.getMessageId(), deletedMessage.getAuthor().getName(), deletedMessage.getAuthor().getDiscriminator(), deletedMessage.getAuthor().getId(), event.getChannel().getName(), deletedMessage.getContent().replace("```", ""));
@@ -433,6 +437,9 @@ public class MantaroListener implements EventListener {
                                 .set("old", editedMessage.getContent().replace("```", ""))
                                 .set("new", event.getMessage().getContentDisplay().replace("```", ""))
                                 .mapEvent("event", event)
+                                .mapChannel("event.channel", event.getChannel())
+                                .mapUser("event.user", editedMessage.getAuthor())
+                                .mapMessage("event.message", event.getMessage())
                                 .resolve(guildData.getEditMessageLog());
                     } else {
                         message = String.format(EmoteReference.WARNING + "`[%s]` Message (ID: %s) created by **%s#%s** in channel **%s** was modified.\n```diff\n-%s\n+%s```",

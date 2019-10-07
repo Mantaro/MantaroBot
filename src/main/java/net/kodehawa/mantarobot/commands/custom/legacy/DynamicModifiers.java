@@ -68,6 +68,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
     public DynamicModifiers mapUser(String prefix, User member) {
         return this
                 .set(prefix, member.getAsMention())
+                .set("prefix", "tag", member.getAsTag())
                 .set(prefix, "username", member.getName())
                 .set(prefix, "discriminator", member.getDiscriminator())
                 .set(prefix, "name", member.getName())
@@ -116,6 +117,10 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
         return this
                 .mapGuild(k(prefix, "guild"), event.getGuild())
                 .mapMember(k(prefix, "me"), event.getGuild().getSelfMember());
+    }
+
+    public DynamicModifiers mapMessage(String prefix, Message message) {
+        return mapMessage(prefix, new CustomMessage(message, ""));
     }
 
     public DynamicModifiers mapMessage(String prefix, CustomMessage message) {
