@@ -137,7 +137,7 @@ public class CCv3 {
             String rhs = args.get(2).evaluate();
             BiPredicate<String, String> comparator = comparators.get(cmp);
             if(comparator == null) {
-                return "{Compare: unknown comparator " + comparator + "}";
+                return "{Compare: unknown comparator " + cmp + "}";
             }
             return Boolean.toString(comparator.test(lhs, rhs));
         });
