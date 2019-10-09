@@ -64,8 +64,9 @@ task generateLanguageList {
 dependencies {
     //remember to update this 3 all the time lul
     compile 'net.dv8tion:JDA:4.0.0_45'
-    compile 'com.github.FredBoat:Lavalink-Client:9bda4ea060'
+    compile 'com.github.FredBoat:Lavalink-Client:5502c9e403'
     compile 'club.minnced:discord-webhooks:0.1.7'
+    compile: 'com.sedmelluq:lavaplayer:1.3.22.pbjtest3'
 
     //before: classpathscanner
     compile 'io.github.classgraph:classgraph:4.6.3'
