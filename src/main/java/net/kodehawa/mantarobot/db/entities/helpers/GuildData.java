@@ -170,7 +170,7 @@ public class GuildData {
     private HashMap<String, List<Category>> roleSpecificDisabledCategories = new HashMap<>();
     @ConfigName("Disabled Commands for Role (id)")
     private HashMap<String, List<String>> roleSpecificDisabledCommands = new HashMap<>();
-    @ConfigName("Server lenguage")
+    @ConfigName("Server language")
     private String lang = "en_US";
     @ConfigName("Music vote toggle")
     private boolean musicVote = true;
@@ -194,8 +194,13 @@ public class GuildData {
     private Map<String, List<String>> autoroleCategories = new HashMap<>();
 
     //mod logs customization
+    @ConfigName("Edit message")
     private String editMessageLog;
+    @ConfigName("Delete message")
     private String deleteMessageLog;
+    @ConfigName("Ban message")
     private String bannedMemberLog;
+    @ConfigName("Unban message")
+    private String unbannedMemberLog;
     private String kickedMemberLog;
 }

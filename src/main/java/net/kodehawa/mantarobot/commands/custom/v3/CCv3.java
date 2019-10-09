@@ -30,6 +30,11 @@ import net.kodehawa.mantarobot.commands.custom.v3.interpreter.Operation;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
+import java.time.DateTimeException;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiPredicate;
@@ -37,17 +42,28 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_TIME;
+
 @SuppressWarnings("Duplicates")
 public class CCv3 {
     private static final Pattern USER_MENTION_PATTERN = Pattern.compile("(?:<@!?)?(\\d{1,20})>?");
     private static final Map<String, Operation> DEFAULT_OPERATIONS = new HashMap<>();
     private static final Pattern FILTER = Pattern.compile("([a-zA-Z0-9]{24}\\.[a-zA-Z0-9]{6}\\.[a-zA-Z0-9_\\-])\\w+");
+    private static final DateTimeFormatter DEFAULT_TIMESTAMP_FORMATTER = new DateTimeFormatterBuilder()
+            .parseCaseInsensitive()
+            .append(ISO_LOCAL_DATE)
+            .appendLiteral(' ')
+            .append(ISO_LOCAL_TIME)
+            .toFormatter();
 
     static {
         Map<String, BiPredicate<String, String>> comparators = new HashMap<>();
         Map<String, Predicate<String>> predicates = new HashMap<>();
 
         predicates.put("usermention", s -> USER_MENTION_PATTERN.matcher(s).find());
+        predicates.put("is-empty", String::isEmpty);
+        predicates.put("is-not-empty", s -> !s.isEmpty());
         comparators.put("equals", String::equals);
         comparators.put("ignorecase-equals", String::equalsIgnoreCase);
         comparators.put("greater-than", (s1, s2) -> s1.compareTo(s2) > 0);
@@ -62,94 +78,125 @@ public class CCv3 {
         comparators.put("ignorecase-not-less-than", comparators.get("ignorecase-less-than").negate());
         comparators.put("contains", String::contains);
         comparators.put("ignorecase-contains", (s1, s2) -> s1.toLowerCase().contains(s2.toLowerCase()));
+        comparators.put("starts-with", String::startsWith);
+        comparators.put("ignorecase-starts-with", (s1, s2) -> s1.toLowerCase().startsWith(s2.toLowerCase()));
+        comparators.put("ends-with", String::endsWith);
+        comparators.put("ignorecase-ends-with", (s1, s2) -> s1.toLowerCase().endsWith(s2.toLowerCase()));
 
         DEFAULT_OPERATIONS.put("if", (__, args) -> {
-            if(args.size() < 4)
-                return "`if requires at least 4 parameters`";
+            if(args.size() < 1) {
+                return "{If: missing required parameter <lhs>}";
+            }
+            if(args.size() < 2) {
+                return "{If: missing required parameter <condition>}";
+            }
+            if(args.size() < 3) {
+                return "{If: missing required parameter <rhs/iftrue>}";
+            }
             String input1 = args.get(0).evaluate();
             String compare = args.get(1).evaluate();
-            String input2 = args.get(2).evaluate();
 
+            int resultIdx;
             BiPredicate<String, String> comparator = comparators.get(compare);
             Predicate<String> predicate = predicates.get(compare);
-
-            if(comparator == null) {
-                if(predicate == null) {
-                    return "`'The " + compare + "' comparator doesn't exist`";
+            if(comparator != null) {
+                String input2 = args.get(2).evaluate();
+                resultIdx = comparator.test(input1, input2) ? 3 : 4;
+            } else if(predicate != null) {
+                if(predicate.test(input1)) {
+                    return args.get(2).evaluate();
+                }
+                resultIdx = 3;
+            } else {
+                if(compare.equals("true") || compare.equals("false")) {
+                    resultIdx = compare.equals("true") ? 0 : 2;
+                } else {
+                    return "{If: operand " + compare + " is not a comparator, predicate nor boolean}";
                 }
             }
 
-            if(predicate != null) {
-                if(predicate.test(input1))
-                    return args.get(3).evaluate();
+            if(args.size() > resultIdx) {
+                return args.get(resultIdx).evaluate();
+            } else {
+                return "";
             }
+        });
 
-            if(comparator != null) {
-                if(comparator.test(input1, input2))
-                    return args.get(3).evaluate();
+        DEFAULT_OPERATIONS.put("compare", (__, args) -> {
+            if(args.size() < 1) {
+                return "{Compare: missing required parameter <lhs>}";
             }
+            if(args.size() < 2) {
+                return "{Compare: missing required parameter <comparator>}";
+            }
+            if(args.size() < 3) {
+                return "{Compare: missing required parameter <rhs>}";
+            }
+            String lhs = args.get(0).evaluate();
+            String cmp = args.get(1).evaluate();
+            String rhs = args.get(2).evaluate();
+            BiPredicate<String, String> comparator = comparators.get(cmp);
+            if(comparator == null) {
+                return "{Compare: unknown comparator " + cmp + "}";
+            }
+            return Boolean.toString(comparator.test(lhs, rhs));
+        });
 
-            if(args.size() >= 5)
-                return args.get(4).evaluate();
-
-            return "";
+        DEFAULT_OPERATIONS.put("test", (__, args) -> {
+            if(args.size() < 1) {
+                return "{Test: missing required parameter <predicate>}";
+            }
+            if(args.size() < 2) {
+                return "{Test: missing required parameter <operand>}";
+            }
+            String predicate = args.get(0).evaluate();
+            String operand = args.get(1).evaluate();
+            Predicate<String> p = predicates.get(predicate);
+            if(p == null) {
+                return "{Test: unknown predicate " + predicate + "}";
+            }
+            return Boolean.toString(p.test(operand));
         });
 
         DEFAULT_OPERATIONS.put("and", (__, args) -> {
-            //evaluate argument 1 and 2
-            String i1 = args.get(0).evaluate();
-            String i2 = args.get(1).evaluate();
-
-            //if true
-            String it = args.get(2).evaluate();
-            //if false
-            String ifl = args.get(3).evaluate();
-
-            //if argument 1 is the same as argument 2. They both return -string-, so they gotta be the same, basically.
-            if(i1.equals(i2))
-                return it;
-            else
-                return ifl;
-        });
-
-        //Same as above, but ignores case.
-        DEFAULT_OPERATIONS.put("andic", (__, args) -> {
-            //evaluate argument 1 and 2
-            String i1 = args.get(0).evaluate();
-            String i2 = args.get(1).evaluate();
-
-            //if true
-            String it = args.get(2).evaluate();
-            //if false
-            String ifl = args.get(3).evaluate();
-
-            //if argument 1 is the same as argument 2. They both return -string-, so they gotta be the same, basically.
-            if(i1.equalsIgnoreCase(i2))
-                return it;
-            else
-                return ifl;
+            boolean res = true;
+            int i = 1;
+            for(Operation.Argument arg : args) {
+                String v = arg.evaluate();
+                if(v.equals("true") || v.equals("false")) {
+                    res &= Boolean.parseBoolean(v);
+                } else {
+                    return "{And: value " + v + " at index " + i + " is not a boolean}";
+                }
+                i++;
+            }
+            return Boolean.toString(res);
         });
 
         DEFAULT_OPERATIONS.put("or", (__, args) -> {
-            String c1 = args.get(1).evaluate();
-            String c2 = args.get(4).evaluate();
-
-            BiPredicate<String, String> comparator1 = comparators.get(c1);
-            BiPredicate<String, String> comparator2 = comparators.get(c2);
-
-            if(comparator1 != null && comparator2 != null) {
-                String input1 = args.get(0).evaluate();
-                String input2 = args.get(2).evaluate();
-                String input3 = args.get(3).evaluate();
-                String input4 = args.get(5).evaluate();
-
-                if(comparator1.test(input1, input2) || comparator2.test(input3, input4)) {
-                    return args.get(6).evaluate();
+            boolean res = false;
+            int i = 1;
+            for(Operation.Argument arg : args) {
+                String v = arg.evaluate();
+                if(v.equals("true") || v.equals("false")) {
+                    res |= Boolean.parseBoolean(v);
+                } else {
+                    return "{Or: value " + v + " at index " + i + " is not a boolean}";
                 }
-                else
-                    return args.get(7).evaluate();
-            } else {
-                return "You need two comparators to check if an OR operation is correct.";
+                i++;
+            }
+            return Boolean.toString(res);
+        });
+
+        DEFAULT_OPERATIONS.put("not", (__, args) -> {
+            if(args.size() < 1) {
+                return "{Not: missing required parameter <value>}";
+            }
+            String s = args.get(0).evaluate();
+            switch(s) {
+                case "true": return "false";
+                case "false": return "true";
+                default: return "{Not: value " + s + " is not a boolean}";
             }
         });
 
@@ -191,16 +238,23 @@ public class CCv3 {
         });
 
         DEFAULT_OPERATIONS.put("set", (context, args) -> {
-            if(args.size() < 2) {
-                return "Usage: set <name> <value>";
+            if(args.size() < 1) {
+                return "{Set: missing required parameter <name>}";
             }
+            if(args.size() < 2) {
+                return "{Set: missing required parameter <value>}";
+            }
+            String key = args.get(0).evaluate();
             String value = args.stream().skip(1)
                     .map(Operation.Argument::evaluate).collect(Collectors.joining(";"));
-            context.vars().put(args.get(0).evaluate(), value);
+            context.vars().put(key, value);
             return "";
         });
 
         DEFAULT_OPERATIONS.put("iam", (context, args) -> {
+            if(args.size() < 1) {
+                return "{Iam: missing required argument <role>}";
+            }
             String iam = args.get(0).evaluate();
             String ctn = args.stream().skip(1).map(Operation.Argument::evaluate).collect(Collectors.joining(" "));
             GuildMessageReceivedEvent event = context.event();
@@ -214,6 +268,9 @@ public class CCv3 {
         });
 
         DEFAULT_OPERATIONS.put("iamnot", (context, args) -> {
+            if(args.size() < 1) {
+                return "{Iamnot: missing required argument <role>}";
+            }
             String iam = args.get(0).evaluate();
             String ctn = args.stream().skip(1).map(Operation.Argument::evaluate).collect(Collectors.joining(" "));
 
@@ -225,6 +282,55 @@ public class CCv3 {
                 MiscCmds.iamnotFunction(iam, event, null, ctn);
 
             return "";
+        });
+
+        DEFAULT_OPERATIONS.put("timestamp", (context, args) -> {
+            DateTimeFormatter formatter = DEFAULT_TIMESTAMP_FORMATTER;
+            ZoneId zone = ZoneId.of("UTC");
+            if(args.size() > 0) {
+                String pattern = args.get(0).evaluate();
+                try {
+                    formatter = DateTimeFormatter.ofPattern(pattern);
+                } catch(IllegalArgumentException e) {
+                    return "{Timestamp: provided format " + pattern + " is invalid: " + e.getMessage() + "}";
+                }
+            }
+            if(args.size() > 1) {
+                String z = args.get(1).evaluate();
+                try {
+                    zone = ZoneId.of(z);
+                } catch(DateTimeException e) {
+                    return "{Timestamp: provided zone " + z + " is invalid: " + e.getMessage() + "}";
+                }
+            }
+            return formatter.format(OffsetDateTime.now(zone));
+        });
+
+        DEFAULT_OPERATIONS.put("lower", (__, args) -> args.stream()
+                .map(Operation.Argument::evaluate)
+                .map(String::toLowerCase)
+                .collect(Collectors.joining(";")));
+
+        DEFAULT_OPERATIONS.put("upper", (__, args) -> args.stream()
+                .map(Operation.Argument::evaluate)
+                .map(String::toUpperCase)
+                .collect(Collectors.joining(";")));
+
+        DEFAULT_OPERATIONS.put("replace", (__, args) -> {
+            if(args.size() < 1) {
+                return "{Replace: missing required parameter <search>}";
+            }
+            if(args.size() < 2) {
+                return "{Replace: missing required parameter <replacement>}";
+            }
+            if(args.size() < 3) {
+                return "{Replace: missing required parameter <text>}";
+            }
+            String search = args.get(0).evaluate();
+            String replace = args.get(1).evaluate();
+            return args.stream().skip(2).map(Operation.Argument::evaluate)
+                    .map(s -> s.replace(search, replace))
+                    .collect(Collectors.joining(";"));
         });
     }
 

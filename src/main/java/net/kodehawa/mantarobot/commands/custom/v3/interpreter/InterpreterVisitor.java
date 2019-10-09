@@ -29,7 +29,12 @@ public class InterpreterVisitor implements NodeVisitor<String, InterpreterContex
 
     @Override
     public String visitVariable(VariableNode node, InterpreterContext context) {
-        return context.vars().getOrDefault(node.name().accept(this, context), "");
+        String key = node.name().accept(this, context);
+        String value = context.vars().get(key);
+        if(value == null) {
+            return "{Unresolved variable " + key + "}";
+        }
+        return value;
     }
 
     @Override
@@ -37,7 +42,7 @@ public class InterpreterVisitor implements NodeVisitor<String, InterpreterContex
         String type = node.name().accept(this, context);
         Operation op = context.operations().get(type);
         if(op == null) {
-            return "";
+            return "{Unknown operation " + type + "}";
         }
         return op.apply(context, node.args().stream()
                 .map(n -> (Operation.Argument) () -> n.accept(this, context))

@@ -1111,6 +1111,92 @@ public class GuildOptions extends OptionHandler {
                     dbGuild.save();
                     event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_remove.success"), EmoteReference.CORRECT, word).queue();
         });//endregion
+
+        //region editmessage
+        registerOption("logs:editmessage", "Edit log message",
+                "Sets the edit message.\n" +
+                        "**Example:** `~>opts logs editmessage [$(hour)] Message (ID: $(event.message.id)) created by **$(event.user.tag)** in channel **$(event.channel.name)** was modified.\n```diff\n-$(old)\n+$(new)````",
+                "Sets the edit message.", (event, args, lang) -> {
+                    if (args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.logs_editmessage.no_message"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    String editMessage = String.join(" ", args);
+                    guildData.setEditMessageLog(editMessage);
+                    dbGuild.save();
+                    event.getChannel().sendMessageFormat(lang.get("options.logs_editmessage.success"), EmoteReference.CORRECT, editMessage).queue();
+                });//endregion
+        addOptionAlias("logs:editmessage", "editmessage");
+
+        //region deletemessage
+        registerOption("logs:deletemessage", "Delete log message",
+                "Sets the delete message.\n" +
+                        "**Example:** `~>opts logs deletemessage [$(hour)] Message (ID: $(event.message.id)) created by **$(event.user.tag)** (ID: $(event.user.id)) in channel **$(event.channel.name)** was deleted.```diff\n-$(content)``` `",
+                "Sets the delete message.", (event, args, lang) -> {
+                    if (args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.logs_deletemessage.no_message"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    String deleteMessage = String.join(" ", args);
+                    guildData.setDeleteMessageLog(deleteMessage);
+                    dbGuild.save();
+                    event.getChannel().sendMessageFormat(lang.get("options.logs_deletemessage.success"), EmoteReference.CORRECT, deleteMessage).queue();
+                });//endregion
+        addOptionAlias("logs:deletemessage", "deletemessage");
+
+        //region banmessage
+        registerOption("logs:banmessage", "Ban log message",
+                "Sets the ban message.\n" +
+                        "**Example:** `~>opts logs banmessage [$(hour)] $(event.user.tag) just got banned.`",
+                "Sets the ban message.", (event, args, lang) -> {
+                    if (args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.logs_banmessage.no_message"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    String banMessage = String.join(" ", args);
+                    guildData.setBannedMemberLog(banMessage);
+                    dbGuild.save();
+                    event.getChannel().sendMessageFormat(lang.get("options.logs_banmessage.success"), EmoteReference.CORRECT, banMessage).queue();
+                });//endregion
+        addOptionAlias("logs:banmessage", "banmessage");
+
+        //region ubbanmessage
+        registerOption("logs:unbanmessage", "Unban log message",
+                "Sets the unban message.\n" +
+                        "**Example:** `~>opts logs unbanmessage [$(hour)] $(event.user.tag) just got unbanned.`",
+                "Sets the unban message.", (event, args, lang) -> {
+                    if (args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.logs_unbanmessage.no_message"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    String unbanMessage = String.join(" ", args);
+                    guildData.setUnbannedMemberLog(unbanMessage);
+                    dbGuild.save();
+                    event.getChannel().sendMessageFormat(lang.get("options.logs_unbanmessage.success"), EmoteReference.CORRECT, unbanMessage).queue();
+                });//endregion
+        addOptionAlias("logs:unbanmessage", "unbanmessage");
+
+
+        //TODO:
+        //bannedMemberLog;
+        //unbannedMemberLog;
+
     }
 
     @Override
