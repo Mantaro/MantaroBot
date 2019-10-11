@@ -35,53 +35,58 @@ import java.util.function.Consumer;
 @Slf4j
 public class ReminderTask {
     private static final Counter reminderCount = Counter.build()
-            .name("birthdays_logged").help("Logged reminders")
+            .name("reminders_logged").help("Logged reminders")
             .register();
 
     private final JedisPool pool = MantaroData.getDefaultJedisPool();
     private final MantaroBot mantaro = MantaroBot.getInstance();
     public void handle() {
         log.debug("Checking reminder data...");
-        //Assume HKEYS won't impact performance if ran every few minutes... assuming.
+        //Assume HGETALL won't impact performance if ran every few minutes... assuming.
         try(Jedis j = pool.getResource()) {
             //ID : Data
-            Map<String, String> reminders = j.hgetAll("reminders");
-            log.debug("Reminder amount: {}", reminders.size());
+            Map<String, String> reminders = j.hgetAll("reminder");
+            log.info("Reminder amount: {}", reminders.size());
 
             //Iterate
             for(Map.Entry<String, String> r : reminders.entrySet()) {
-                String id = r.getKey().split(":")[0]; //We append the userId on the json, which is the [1] arg here, but that's needed for lookup purposes.
-                JSONObject data = new JSONObject(r.getValue());
+                try {
+                    String id = r.getKey().split(":")[0]; //We append the userId on the json, which is the [1] arg here, but that's needed for lookup purposes.
+                    JSONObject data = new JSONObject(r.getValue());
 
-                long fireAt = data.getLong("at");
-                //If the time has passed...
-                if(System.currentTimeMillis() >= fireAt) {
-                    log.debug("Reminder date has passed, remind accordingly.");
-                    String userId = data.getString("user");
-                    String guildId = data.getString("guild");
-                    long scheduledAt = data.getLong("scheduledAt");
+                    long fireAt = data.getLong("at");
+                    //If the time has passed...
+                    System.out.println("time: " + System.currentTimeMillis() + ", expected: " + fireAt);
+                    if(System.currentTimeMillis() >= fireAt) {
+                        log.debug("Reminder date has passed, remind accordingly.");
+                        String userId = data.getString("user");
+                        String guildId = data.getString("guild");
+                        long scheduledAt = data.getLong("scheduledAt");
 
-                    String reminder = data.getString("reminder"); //The actual reminder data
+                        String reminder = data.getString("reminder"); //The actual reminder data
 
-                    User user = mantaro.getUserById(userId);
-                    Guild guild = mantaro.getGuildById(guildId);
+                        User user = mantaro.getUserById(userId);
+                        Guild guild = mantaro.getGuildById(guildId);
 
-                    if(user == null) {
-                        Reminder.cancel(userId, id);
-                        return;
+                        if(user == null) {
+                            Reminder.cancel(userId, id);
+                            return;
+                        }
+
+                        reminderCount.inc();
+                        Consumer<Throwable> ignore = (t) -> {};
+                        user.openPrivateChannel().queue(channel -> channel.sendMessage(
+                                EmoteReference.POPPER + "**Reminder!**\n" + "You asked me to remind you of: " + reminder + "\nAt: " + new Date(scheduledAt) +
+                                        (guild != null ? "\n*Asked on: " + guild.getName() + "*" : "")
+                        ).queue(sc -> {
+                            //FYI: This only logs on debug the id data, no personal stuff. We don't see your personal data. I don't wanna see it either, lmao.
+                            log.debug("Reminded {} of {}. Removing from remind database", userId, id);
+                            //Remove reminder from our database.
+                            Reminder.cancel(userId, id);
+                        }, ignore));
                     }
-
-                    reminderCount.inc();
-                    Consumer<Throwable> ignore = (t) -> {};
-                    user.openPrivateChannel().queue(channel -> channel.sendMessage(
-                            EmoteReference.POPPER + "**Reminder!**\n" + "You asked me to remind you of: " + reminder + "\nAt: " + new Date(scheduledAt) +
-                                    (guild != null ? "\n*Asked on: " + guild.getName() + "*" : "")
-                    ).queue(sc -> {
-                        //FYI: This only logs on debug the id data, no personal stuff. We don't see your personal data. I don't wanna see it either, lmao.
-                        log.debug("Reminded {} of {}. Removing from remind database", userId, id);
-                        //Remove reminder from our database.
-                        Reminder.cancel(userId, id);
-                    }, ignore));
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
