@@ -463,20 +463,22 @@ public class UtilsCmds {
                 ManagedDatabase db = MantaroData.db();
                 List<String> r = db.getUser(event.getAuthor()).getData().getReminders();
                 try(Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
-                    //What a big method. Get all reminders with * id which match the ID. Cursor size is 25 as in that's the maximum amount of reminders you can have.
-                    ScanResult<Map.Entry<String, String>> result = j.hscan("reminders", "25", new ScanParams().match("*:" + event.getAuthor().getId()));
+                    List<String> reminders = db.getUser(event.getAuthor()).getData().getReminders();
 
-                    List<ReminderObject> reminders = new ArrayList<>();
-                    for(Map.Entry<String, String> rem : result.getResult()) {
-                        JSONObject json = new JSONObject(rem.getValue());
-                        reminders.add(ReminderObject.builder()
-                                .id(rem.getKey().split(":")[0])
-                                .userId(json.getString("user"))
-                                .guildId(json.getString("guild"))
-                                .scheduledAtMillis(json.getLong("scheduledAt"))
-                                .time(json.getLong("at"))
-                                .reminder(json.getString("reminder"))
-                                .build());
+                    List<ReminderObject> rms = new ArrayList<>();
+                    for(String s : reminders) {
+                        String rem = j.hget("reminder", s);
+                        if (rem != null) {
+                            JSONObject json = new JSONObject(rem);
+                            rms.add(ReminderObject.builder()
+                                    .id(s.split(":")[0])
+                                    .userId(json.getString("user"))
+                                    .guildId(json.getString("guild"))
+                                    .scheduledAtMillis(json.getLong("scheduledAt"))
+                                    .time(json.getLong("at"))
+                                    .reminder(json.getString("reminder"))
+                                    .build());
+                        }
                     }
 
                     if(reminders.isEmpty()) {
@@ -486,7 +488,7 @@ public class UtilsCmds {
 
                     StringBuilder builder = new StringBuilder();
                     AtomicInteger i = new AtomicInteger();
-                    for(ReminderObject rems : reminders) {
+                    for(ReminderObject rems : rms) {
                         builder.append("**").append(i.incrementAndGet()).append(".-**").append("R: *").append(rems.getReminder()).append("*, Due in: **")
                                 .append(Utils.getHumanizedTime(rems.getTime() - System.currentTimeMillis())).append("**").append("\n");
                     }
@@ -522,20 +524,20 @@ public class UtilsCmds {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.cancel.success"), EmoteReference.CORRECT).queue();
                     } else {
                         try(Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
-                            //What a big method. Get all reminders with * id which match the ID. Cursor size is 25 as in that's the maximum amount of reminders you can have.
-                            ScanResult<Map.Entry<String, String>> result = j.hscan("reminders", "25", new ScanParams().match("*:" + event.getAuthor().getId()));
-
                             List<ReminderObject> rems = new ArrayList<>();
-                            for(Map.Entry<String, String> rem : result.getResult()) {
-                                JSONObject json = new JSONObject(rem.getValue());
-                                rems.add(ReminderObject.builder()
-                                        .id(rem.getKey().split(":")[0])
-                                        .userId(json.getString("user"))
-                                        .guildId(json.getString("guild"))
-                                        .scheduledAtMillis(json.getLong("scheduledAt"))
-                                        .time(json.getLong("at"))
-                                        .reminder(json.getString("reminder"))
-                                        .build());
+                            for(String s : reminders) {
+                                String rem = j.hget("reminder", s);
+                                if (rem != null) {
+                                    JSONObject json = new JSONObject(rem);
+                                    rems.add(ReminderObject.builder()
+                                            .id(s.split(":")[0])
+                                            .userId(json.getString("user"))
+                                            .guildId(json.getString("guild"))
+                                            .scheduledAtMillis(json.getLong("scheduledAt"))
+                                            .time(json.getLong("at"))
+                                            .reminder(json.getString("reminder"))
+                                            .build());
+                                }
                             }
 
                             rems = rems.stream().filter(reminder -> reminder.time - System.currentTimeMillis() > 3).collect(Collectors.toList());
