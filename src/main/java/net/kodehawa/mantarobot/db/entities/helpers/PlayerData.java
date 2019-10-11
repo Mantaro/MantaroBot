@@ -18,6 +18,7 @@
 package net.kodehawa.mantarobot.db.entities.helpers;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -29,6 +30,7 @@ import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
 import java.util.*;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayerData {
     public long experience = 0;
     private List<Badge> badges = new ArrayList<>();
@@ -51,6 +53,8 @@ public class PlayerData {
     private long waifuCachedValue;
     private List<ProfileComponent> profileComponents = new LinkedList<>();
 
+    //lol?
+    private List<Pet> profilePets = new LinkedList<>();
     private long petSlots = 4;
     private Map<String, Pet> pets = new HashMap<>();
 
