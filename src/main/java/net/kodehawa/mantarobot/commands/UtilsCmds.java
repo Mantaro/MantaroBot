@@ -464,7 +464,6 @@ public class UtilsCmds {
                 List<String> r = db.getUser(event.getAuthor()).getData().getReminders();
                 try(Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
                     List<String> reminders = db.getUser(event.getAuthor()).getData().getReminders();
-                    System.out.println(reminders);
 
                     List<ReminderObject> rms = new ArrayList<>();
                     for(String s : reminders) {
@@ -548,7 +547,7 @@ public class UtilsCmds {
                                             .setDescription(r1)
                                             .setFooter(String.format(languageContext.get("general.timeout"), 10), null).build(),
                                     sr -> {
-                                        Reminder.cancel(event.getAuthor().getId(), sr.id);
+                                        Reminder.cancel(event.getAuthor().getId(), sr.id + ":" + sr.getUserId());
                                         event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder").queue();
                                     });
                         }
