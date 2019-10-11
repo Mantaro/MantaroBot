@@ -30,6 +30,7 @@ import redis.clients.jedis.JedisPool;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
 @Slf4j
@@ -40,19 +41,16 @@ public class ReminderTask {
 
     private final JedisPool pool = MantaroData.getDefaultJedisPool();
     private final MantaroBot mantaro = MantaroBot.getInstance();
+
     public void handle() {
         log.debug("Checking reminder data...");
-        //Assume HGETALL won't impact performance if ran every few minutes... assuming.
         try(Jedis j = pool.getResource()) {
-            //ID : Data
-            Map<String, String> reminders = j.hgetAll("reminder");
-            log.info("Reminder check - remainder is: {}", reminders.size());
+            Set<String> reminders = j.zrange("zreminder", 0, 14);
+            log.debug("Reminder check - remainder is: {}", reminders.size());
 
-            //Iterate
-            for(Map.Entry<String, String> r : reminders.entrySet()) {
+            for(String rem : reminders) {
                 try {
-                    String id = r.getKey().split(":")[0]; //We append the userId on the json, which is the [1] arg here, but that's needed for lookup purposes.
-                    JSONObject data = new JSONObject(r.getValue());
+                    JSONObject data = new JSONObject(rem);
 
                     long fireAt = data.getLong("at");
                     //If the time has passed...
@@ -60,6 +58,7 @@ public class ReminderTask {
                     if(System.currentTimeMillis() >= fireAt) {
                         log.debug("Reminder date has passed, remind accordingly.");
                         String userId = data.getString("user");
+                        String fullId = data.getString("id") + ":" + userId;
                         String guildId = data.getString("guild");
                         long scheduledAt = data.getLong("scheduledAt");
 
@@ -69,7 +68,7 @@ public class ReminderTask {
                         Guild guild = mantaro.getGuildById(guildId);
 
                         if(user == null) {
-                            Reminder.cancel(userId, id);
+                            Reminder.cancel(userId, fullId);
                             return;
                         }
 
@@ -80,9 +79,9 @@ public class ReminderTask {
                                         (guild != null ? "\n*Asked on: " + guild.getName() + "*" : "")
                         ).queue(sc -> {
                             //FYI: This only logs on debug the id data, no personal stuff. We don't see your personal data. I don't wanna see it either, lmao.
-                            log.debug("Reminded {} of {}. Removing from remind database", userId, id);
+                            log.debug("Reminded {}. Removing from remind database", fullId);
                             //Remove reminder from our database.
-                            Reminder.cancel(userId, r.getKey());
+                            Reminder.cancel(userId, fullId);
                         }, ignore));
                     }
                 } catch (Exception e) {

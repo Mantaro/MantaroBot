@@ -157,7 +157,7 @@ public class MantaroBot extends ShardedJDA {
         final ReminderTask reminderTask = new ReminderTask();
 
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mute Handler")).scheduleAtFixedRate(muteTask::handle, 0, 1, TimeUnit.MINUTES);
-        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Reminder Handler")).scheduleAtFixedRate(reminderTask::handle, 0, 5, TimeUnit.MINUTES);
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Reminder Handler")).scheduleAtFixedRate(reminderTask::handle, 0, 30, TimeUnit.SECONDS);
         //Yes, this is needed.
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Ratelimit Map Handler")).scheduleAtFixedRate(Utils.ratelimitedUsers::clear, 0, 24, TimeUnit.HOURS);
     }

@@ -409,7 +409,7 @@ public class UtilsCmds {
                             return;
                         }
 
-                        if(time < 180000) {
+                        if(time < 60000) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.too_little_time"), EmoteReference.ERROR).queue();
                             return;
                         }
@@ -464,6 +464,7 @@ public class UtilsCmds {
                 List<String> r = db.getUser(event.getAuthor()).getData().getReminders();
                 try(Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
                     List<String> reminders = db.getUser(event.getAuthor()).getData().getReminders();
+                    System.out.println(reminders);
 
                     List<ReminderObject> rms = new ArrayList<>();
                     for(String s : reminders) {
