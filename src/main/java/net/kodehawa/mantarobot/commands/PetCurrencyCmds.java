@@ -40,7 +40,7 @@ import java.util.Map;
 
 @Module
 public class PetCurrencyCmds {
-    @Subscribe
+    //@Subscribe
     public void petInventory(CommandRegistry cr) {
         cr.register("petinventory", new SimpleCommand(Category.PETS) {
             @Override
@@ -64,7 +64,7 @@ public class PetCurrencyCmds {
         });
     }
 
-    @Subscribe
+    //@Subscribe
     public void petMarket(CommandRegistry cr) {
         TreeCommand petMarketCmd = (TreeCommand) cr.register("petmarket", new TreeCommand(Category.PETS) {
             @Override

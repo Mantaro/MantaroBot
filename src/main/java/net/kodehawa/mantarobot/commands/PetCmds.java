@@ -77,7 +77,7 @@ public class PetCmds {
     private final static String BLOCK_ACTIVE = "\u25A0";
     private static final int TOTAL_BLOCKS = 5;
 
-    @Subscribe
+    //@Subscribe
     public void petAction(CommandRegistry cr) {
         IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .cooldown(20, TimeUnit.SECONDS)
