@@ -46,7 +46,7 @@ public class ReminderTask {
         try(Jedis j = pool.getResource()) {
             //ID : Data
             Map<String, String> reminders = j.hgetAll("reminder");
-            log.info("Reminder amount: {}", reminders.size());
+            log.info("Reminder check - remainder is: {}", reminders.size());
 
             //Iterate
             for(Map.Entry<String, String> r : reminders.entrySet()) {
@@ -56,7 +56,7 @@ public class ReminderTask {
 
                     long fireAt = data.getLong("at");
                     //If the time has passed...
-                    System.out.println("time: " + System.currentTimeMillis() + ", expected: " + fireAt);
+                    //System.out.println("time: " + System.currentTimeMillis() + ", expected: " + fireAt);
                     if(System.currentTimeMillis() >= fireAt) {
                         log.debug("Reminder date has passed, remind accordingly.");
                         String userId = data.getString("user");
