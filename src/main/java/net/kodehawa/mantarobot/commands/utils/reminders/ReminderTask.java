@@ -80,7 +80,7 @@ public class ReminderTask {
                                         (guild != null ? "\n*Asked on: " + guild.getName() + "*" : "")
                         ).queue(sc -> {
                             //FYI: This only logs on debug the id data, no personal stuff. We don't see your personal data. I don't wanna see it either, lmao.
-                            log.info("Reminded {} of {}. Removing from remind database", userId, id);
+                            log.debug("Reminded {} of {}. Removing from remind database", userId, id);
                             //Remove reminder from our database.
                             Reminder.cancel(userId, r.getKey());
                         }, ignore));

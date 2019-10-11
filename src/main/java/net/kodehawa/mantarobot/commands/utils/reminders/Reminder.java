@@ -70,13 +70,13 @@ public class Reminder {
 
         DBUser user = db.getUser(userId);
         UserData data = user.getData();
-        data.getReminders().add(id);
+        data.getReminders().add(id + ":" + userId);
         user.save();
     }
 
     public void cancel() {
         try (Jedis redis = pool.getResource()) {
-            redis.hdel(table, id);
+            redis.hdel(table, id + ":" + userId);
         }
 
         DBUser user = db.getUser(userId);

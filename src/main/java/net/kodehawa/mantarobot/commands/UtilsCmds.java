@@ -409,7 +409,7 @@ public class UtilsCmds {
                             return;
                         }
 
-                        if(time < 300000) {
+                        if(time < 180000) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.too_little_time"), EmoteReference.ERROR).queue();
                             return;
                         }
