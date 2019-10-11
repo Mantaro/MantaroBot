@@ -50,7 +50,7 @@ public class PetCurrencyCmds {
                 PlayerData playerData = player.getData();
 
                 String petName = content.trim();
-                Map<String, Pet> profilePets = playerData.getProfilePets();
+                Map<String, Pet> profilePets = playerData.getPets();
                 if(!profilePets.containsKey(petName)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
                     return;

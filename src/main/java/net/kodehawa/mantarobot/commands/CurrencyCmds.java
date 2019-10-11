@@ -1057,7 +1057,7 @@ public class CurrencyCmds {
         if((item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.BUFF) && item instanceof Potion) {
             DBUser dbUser = db.getUser(event.getAuthor());
             UserData userData = dbUser.getData();
-            Map<String, Pet> profilePets = p.getData().getProfilePets();
+            Map<String, Pet> profilePets = p.getData().getPets();
 
             //Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
             int amount = arguments.containsKey("amount") ? Integer.parseInt(arguments.get("amount")) : 1;

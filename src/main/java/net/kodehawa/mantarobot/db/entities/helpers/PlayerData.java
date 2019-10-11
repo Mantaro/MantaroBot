@@ -52,7 +52,7 @@ public class PlayerData {
     private List<ProfileComponent> profileComponents = new LinkedList<>();
 
     private long petSlots = 4;
-    private Map<String, Pet> profilePets = new HashMap<>();
+    private Map<String, Pet> pets = new HashMap<>();
 
     @JsonIgnore
     //LEGACY SUPPORT
