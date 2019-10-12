@@ -54,7 +54,10 @@ public class PlayerData {
     private List<ProfileComponent> profileComponents = new LinkedList<>();
 
     //lol?
+    //this is needed so it actually works, even though it does absolutely nothing
+    //thanks rethonkdb
     private List<Pet> profilePets = new LinkedList<>();
+
     private long petSlots = 4;
     private Map<String, Pet> pets = new HashMap<>();
 

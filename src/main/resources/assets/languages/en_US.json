@@ -2070,6 +2070,7 @@
     "broken_comet_rod": "Broken Comet Rod",
     "broken_sparkle_rod": "Broken Sparkle Rod",
     "broken_star_rod": "Broken Star Rod",
+    "incubator_egg": "Incubator Egg",
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
       "ban_hammer": "Left by an admin.",
@@ -2158,8 +2159,8 @@
       "broken_star_pick": "A star pick that broke while mining. Still salvageable.",
       "broken_comet_rod": "A comet rod that broke while fishing. Still salvageable.",
       "broken_sparkle_rod": "A sparkle rod that broke while fishing. Still salvageable.",
-      "broken_star_rod": "A star rod that broke while fishing. Still salvageable."
-
+      "broken_star_rod": "A star rod that broke while fishing. Still salvageable.",
+      "incubator_egg": "TBD"
     }
   },
   "test": {
