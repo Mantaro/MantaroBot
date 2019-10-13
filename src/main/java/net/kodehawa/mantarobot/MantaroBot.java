@@ -19,6 +19,8 @@ package net.kodehawa.mantarobot;
 
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import lavalink.client.io.LavalinkLoadBalancer;
+import lavalink.client.io.PenaltyProvider;
 import lavalink.client.io.jda.JdaLavalink;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -129,6 +131,9 @@ public class MantaroBot extends ShardedJDA {
         for(String node : config.getLavalinkNodes()) {
             lavalink.addNode(new URI(node), config.lavalinkPass);
         }
+
+        //Choose the server with the lowest player amount
+        lavalink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getPlayerPenalty);
 
         core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
         discordBotsAPI = new DiscordBotsAPI.Builder().setToken(config.dbotsorgToken).build();
