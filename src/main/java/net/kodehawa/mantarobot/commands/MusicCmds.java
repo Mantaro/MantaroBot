@@ -302,7 +302,7 @@ public class MusicCmds {
                 if(!getConfig().isPremiumBot() && getConfig().isNeedApi()) {
                     try {
                         Request request = new Request.Builder()
-                                .url(getConfig().apiTwoUrl + "/mantaroapi/bot/pokemon")
+                                .url(getConfig().apiTwoUrl + "/mantaroapi/bot/music")
                                 .addHeader("Authorization", getConfig().getApiAuthKey())
                                 .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                                 .get()
