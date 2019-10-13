@@ -126,7 +126,9 @@ public class MantaroBot extends ShardedJDA {
                 shardId -> getShard(shardId).getJDA()
         );
 
-        lavalink.addNode(new URI(config.lavalinkNode), config.lavalinkPass);
+        for(String node : config.getLavalinkNodes()) {
+            lavalink.addNode(new URI(node), config.lavalinkPass);
+        }
 
         core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
         discordBotsAPI = new DiscordBotsAPI.Builder().setToken(config.dbotsorgToken).build();
