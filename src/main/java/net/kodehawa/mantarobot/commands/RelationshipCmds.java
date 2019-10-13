@@ -54,6 +54,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
@@ -593,6 +594,8 @@ public class RelationshipCmds {
                         //If the waifu status is mutual, the MP game boost will go up by 20% and giving your daily to that waifu will increase the amount of money that your
                         //waifu will receive.
 
+                        Map<String, String> opts = StringUtils.parse(content.split("\\s+"));
+
                         //Default call will bring out the waifu list.
                         DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
                         UserData userData = dbUser.getData();
@@ -610,6 +613,8 @@ public class RelationshipCmds {
                             return;
                         }
 
+                        boolean id = opts.containsKey("id");
+
                         java.util.List<MessageEmbed.Field> fields = new LinkedList<>();
                         for(String waifu : userData.getWaifus().keySet()) {
                             User user = MantaroBot.getInstance().getUserById(waifu);
@@ -621,7 +626,7 @@ public class RelationshipCmds {
                                 );
                             } else {
                                 fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + user.getName() + (!userData.isPrivateTag() ? "#" + user.getDiscriminator() : ""),
-                                                (!userData.isPrivateTag() ? languageContext.get("commands.waifu.id") + " " + user.getId() + "\n" : "") +
+                                                (id ? languageContext.get("commands.waifu.id") + " " + user.getId() + "\n" : "") +
                                                 languageContext.get("commands.waifu.value_format") + " " + calculateWaifuValue(user).getFinalValue() + " " +
                                                 languageContext.get("commands.waifu.credits_format") + "\n" +
                                                 languageContext.get("commands.waifu.value_b_format") + " " + userData.getWaifus().get(waifu) +
@@ -660,6 +665,7 @@ public class RelationshipCmds {
                                 "`~>waifu <command> [@user]`")
                         .addParameter("command", "The subcommand to use. Check the sub-command section for more information on which ones you can use.")
                         .addParameter("@user", "The user you want to do the action with.")
+                        .addParameterOptional("-id", "Shows the user id.")
                         .build();
             }
         });

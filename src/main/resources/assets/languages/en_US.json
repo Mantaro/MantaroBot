@@ -526,7 +526,7 @@
     "waifu": {
       "bot": "%1$sA bot can't be a waifu, even if you want to...",
       "notice": "This feature isn't meant to have any kind of relationship, either implicit or explicit, with real life events.",
-      "id": "ID:",
+      "id": "**ID:**",
       "stats": {
         "header": "Your waifu stats",
         "header_other": "%1$s's waifu stats",
@@ -539,7 +539,7 @@
         "no_user": "%1$sYou didn't mention any user to claim.",
         "locked": "%1$sYou're currently unable to perform this action.",
         "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed.",
-        "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s)**",
+        "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s credits)**",
         "not_enough_slots": "%1$sYou don't have enough slots available to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
         "success": "%1$sSuccessfully claimed `%2$s` for %3$,d. Slots used: %4$s",
         "yourself": "%1$sYou cannot claim yourself!",
@@ -566,8 +566,8 @@
       "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
       "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `~>waifu claim` to get started.",
       "footer": "Total waifus: %1$,d - available slots: %2$s",
-      "value_format": "**- Value:**",
-      "value_b_format": "**- Bought for:**",
+      "value_format": "**Value:**",
+      "value_b_format": "**Bought for:**",
       "credits_format": " credits.",
       "waifu_header": "**Your waifus:**",
       "not_claimed": "%1$sYou haven't claimed this waifu."
