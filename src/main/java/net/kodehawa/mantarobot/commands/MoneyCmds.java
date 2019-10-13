@@ -191,7 +191,7 @@ public class MoneyCmds {
                         int bonus = 150;
 
                         if(authorPlayerData.getDailyStreak() > 15)
-                            bonus += Math.min(700, Math.floor(150 * authorPlayerData.getDailyStreak() / 15));
+                            bonus += Math.min(700, Math.floor(150 * authorPlayerData.getDailyStreak() / 10));
 
                         streak += String.format(languageContext.withRoot("commands", "daily.streak.given.bonus"), (mentionedUser == null ? "You" : mentionedUser.getName()), bonus);
                         money += bonus;

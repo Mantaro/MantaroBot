@@ -84,6 +84,7 @@ public enum EmoteReference {
     DUST(":dash:", "\uD83D\uDCA8"),
     TROPHY(":trophy:", "\uD83C\uDFC6"),
     WRENCH(":wrench:", "\ud83d\udd27"),
+    WHITE_CIRCLE(":white_circle:", "\u25CB"),
     //Custom emotes.
     LOOT_CRATE("<:lootbox:556992254749966346>", null),
     MINE_CRATE("<:mine_lootbox:556992254623875073>", null),
