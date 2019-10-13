@@ -608,7 +608,7 @@ public class UtilsCmds {
                     return;
                 }
 
-                String commandArguments[] = content.split("->");
+                String[] commandArguments = content.split("->");
                 EmbedBuilder embed = new EmbedBuilder();
 
                 String url = null;

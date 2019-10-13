@@ -186,6 +186,7 @@
         "timeout": "%1$sUnable to connect to %2$s: connection timed out. Try changing the server region and running the command again.",
         "unknown": "%1$sUnable to connect to %2$s: unknown error"
       },
+      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`~>play soundcloud <search term>)`",
       "no_song": "%1$sYou need to tell me what song you want to play! *(YouTube, Soundcloud, Twitch URL or search queries are allowed)*",
       "not_playing": "%1$sI'm not currently playing anything.",
       "dj_only": "%1$sYou need to be a DJ to use this command.",
