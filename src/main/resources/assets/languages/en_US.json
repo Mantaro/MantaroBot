@@ -1438,7 +1438,7 @@
       "cancelled_bet": "%1$sCancelled bet.",
       "win": "%1$sCongrats, you won %2$,d credits and got to keep what you had.",
       "win_overflow": "%1$sCongrats, you won %2$,d credits. But you already had too many credits. Your bag overflowed.",
-      "lose": "%1$sSadly, you lost %2$,d credits. %3$s",
+      "lose": "%1$sSadly, you lost %2$s credits. %3$s",
       "lose_all": "all of your",
       "credits": "credits",
       "too_much": "%1$sYou can only gamble up to 275 million at once. You don't want to go full broke do you? *(Gamble single limit: %2$,d credits)*",
