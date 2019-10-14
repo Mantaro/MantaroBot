@@ -31,6 +31,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
+import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -42,6 +43,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.notfab.caching.client.CacheClient;
 
 import java.awt.*;
 import java.util.List;
@@ -52,6 +54,11 @@ import java.util.concurrent.TimeUnit;
 public class AudioLoader implements AudioLoadResultHandler {
     private static final Counter trackEvents = Counter.build()
             .name("track_event").help("Music Track Events (failed/loaded/searched)")
+            .labelNames("type")
+            .register();
+
+    private static final Counter cacheEvents = Counter.build()
+            .name("track_cache_events").help("Music Cache Events (hit/miss)")
             .labelNames("type")
             .register();
 
@@ -73,11 +80,21 @@ public class AudioLoader implements AudioLoadResultHandler {
 
     @Override
     public void trackLoaded(AudioTrack track) {
+        cacheEvents.labels(MantaroAudioManager.isResultFromCache() ? "hit" : "miss").inc();
+        if(!MantaroAudioManager.isResultFromCache()) {
+            CacheClient client = MantaroBot.getInstance().getCacheClient();
+            if(client != null) client.addToIndex(track);
+        }
         loadSingle(track, false);
     }
 
     @Override
     public void playlistLoaded(AudioPlaylist playlist) {
+        cacheEvents.labels(MantaroAudioManager.isResultFromCache() ? "hit" : "miss").inc();
+        if(!MantaroAudioManager.isResultFromCache()) {
+            CacheClient client = MantaroBot.getInstance().getCacheClient();
+            if(client != null) client.addToIndex(playlist);
+        }
         if(playlist.isSearchResult()) {
             if(!skipSelection) {
                 onSearch(playlist);

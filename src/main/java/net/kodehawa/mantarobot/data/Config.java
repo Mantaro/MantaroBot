@@ -69,6 +69,8 @@ public class Config {
     public String lavalinkPass;
     public String jedisPoolAddress = "127.0.0.1";
     public int jedisPoolPort = 6379;
+    public String cacheClientEndpoint;
+    public String cacheClientToken;
 
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());

@@ -42,6 +42,7 @@ import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.notfab.caching.client.CacheClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.collections4.iterators.ArrayIterator;
@@ -81,6 +82,8 @@ public class MantaroBot extends ShardedJDA {
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3, new ThreadFactoryBuilder().setNameFormat("Mantaro-ScheduledExecutor Thread-%d").build());
     @Getter
     private final JdaLavalink lavalink;
+    @Getter
+    private final CacheClient cacheClient;
 
     //just in case
     static {
@@ -99,6 +102,12 @@ public class MantaroBot extends ShardedJDA {
     private MantaroBot() throws Exception {
         instance = this;
         Config config = MantaroData.config().get();
+
+        if(config.cacheClientEndpoint != null && !config.cacheClientEndpoint.trim().isEmpty()) {
+            cacheClient = new CacheClient(config.cacheClientEndpoint, config.cacheClientToken);
+        } else {
+            cacheClient = null;
+        }
 
         if(config.needApi) {
             try {
