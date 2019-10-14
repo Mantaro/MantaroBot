@@ -409,7 +409,7 @@ public class UtilsCmds {
                             return;
                         }
 
-                        if(time < 10000) {
+                        if(time < 60000) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.too_little_time"), EmoteReference.ERROR).queue();
                             return;
                         }
@@ -463,20 +463,22 @@ public class UtilsCmds {
                 ManagedDatabase db = MantaroData.db();
                 List<String> r = db.getUser(event.getAuthor()).getData().getReminders();
                 try(Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
-                    //What a big method. Get all reminders with * id which match the ID. Cursor size is 25 as in that's the maximum amount of reminders you can have.
-                    ScanResult<Map.Entry<String, String>> result = j.hscan("reminders", "25", new ScanParams().match("*:" + event.getAuthor().getId()));
+                    List<String> reminders = db.getUser(event.getAuthor()).getData().getReminders();
 
-                    List<ReminderObject> reminders = new ArrayList<>();
-                    for(Map.Entry<String, String> rem : result.getResult()) {
-                        JSONObject json = new JSONObject(rem.getValue());
-                        reminders.add(ReminderObject.builder()
-                                .id(rem.getKey().split(":")[0])
-                                .userId(json.getString("user"))
-                                .guildId(json.getString("guild"))
-                                .scheduledAtMillis(json.getLong("scheduledAt"))
-                                .time(json.getLong("at"))
-                                .reminder(json.getString("reminder"))
-                                .build());
+                    List<ReminderObject> rms = new ArrayList<>();
+                    for(String s : reminders) {
+                        String rem = j.hget("reminder", s);
+                        if (rem != null) {
+                            JSONObject json = new JSONObject(rem);
+                            rms.add(ReminderObject.builder()
+                                    .id(s.split(":")[0])
+                                    .userId(json.getString("user"))
+                                    .guildId(json.getString("guild"))
+                                    .scheduledAtMillis(json.getLong("scheduledAt"))
+                                    .time(json.getLong("at"))
+                                    .reminder(json.getString("reminder"))
+                                    .build());
+                        }
                     }
 
                     if(reminders.isEmpty()) {
@@ -486,7 +488,7 @@ public class UtilsCmds {
 
                     StringBuilder builder = new StringBuilder();
                     AtomicInteger i = new AtomicInteger();
-                    for(ReminderObject rems : reminders) {
+                    for(ReminderObject rems : rms) {
                         builder.append("**").append(i.incrementAndGet()).append(".-**").append("R: *").append(rems.getReminder()).append("*, Due in: **")
                                 .append(Utils.getHumanizedTime(rems.getTime() - System.currentTimeMillis())).append("**").append("\n");
                     }
@@ -522,20 +524,20 @@ public class UtilsCmds {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.remindme.cancel.success"), EmoteReference.CORRECT).queue();
                     } else {
                         try(Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
-                            //What a big method. Get all reminders with * id which match the ID. Cursor size is 25 as in that's the maximum amount of reminders you can have.
-                            ScanResult<Map.Entry<String, String>> result = j.hscan("reminders", "25", new ScanParams().match("*:" + event.getAuthor().getId()));
-
                             List<ReminderObject> rems = new ArrayList<>();
-                            for(Map.Entry<String, String> rem : result.getResult()) {
-                                JSONObject json = new JSONObject(rem.getValue());
-                                rems.add(ReminderObject.builder()
-                                        .id(rem.getKey().split(":")[0])
-                                        .userId(json.getString("user"))
-                                        .guildId(json.getString("guild"))
-                                        .scheduledAtMillis(json.getLong("scheduledAt"))
-                                        .time(json.getLong("at"))
-                                        .reminder(json.getString("reminder"))
-                                        .build());
+                            for(String s : reminders) {
+                                String rem = j.hget("reminder", s);
+                                if (rem != null) {
+                                    JSONObject json = new JSONObject(rem);
+                                    rems.add(ReminderObject.builder()
+                                            .id(s.split(":")[0])
+                                            .userId(json.getString("user"))
+                                            .guildId(json.getString("guild"))
+                                            .scheduledAtMillis(json.getLong("scheduledAt"))
+                                            .time(json.getLong("at"))
+                                            .reminder(json.getString("reminder"))
+                                            .build());
+                                }
                             }
 
                             rems = rems.stream().filter(reminder -> reminder.time - System.currentTimeMillis() > 3).collect(Collectors.toList());
@@ -545,7 +547,7 @@ public class UtilsCmds {
                                             .setDescription(r1)
                                             .setFooter(String.format(languageContext.get("general.timeout"), 10), null).build(),
                                     sr -> {
-                                        Reminder.cancel(event.getAuthor().getId(), sr.id);
+                                        Reminder.cancel(event.getAuthor().getId(), sr.id + ":" + sr.getUserId());
                                         event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder").queue();
                                     });
                         }
@@ -606,7 +608,7 @@ public class UtilsCmds {
                     return;
                 }
 
-                String commandArguments[] = content.split("->");
+                String[] commandArguments = content.split("->");
                 EmbedBuilder embed = new EmbedBuilder();
 
                 String url = null;

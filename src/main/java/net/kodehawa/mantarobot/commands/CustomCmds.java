@@ -116,6 +116,7 @@ CustomCmds {
                     .queue();
         } catch (Exception e) {
             event.getChannel().sendMessageFormat(lang.get("commands.custom.error_running"), EmoteReference.ERROR).queue();
+            e.printStackTrace();
         }
 
         return true;

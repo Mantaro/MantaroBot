@@ -31,6 +31,7 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.stats.manager.StatsManager;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
@@ -54,7 +55,11 @@ import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import okhttp3.Request;
+import okhttp3.Response;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -62,6 +67,7 @@ import java.util.stream.IntStream;
 
 import static net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils.embedForQueue;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 import static org.apache.commons.lang3.StringUtils.replaceEach;
 
 @Module
@@ -283,12 +289,37 @@ public class MusicCmds {
 
     @Subscribe
     public void play(CommandRegistry cr) {
+        RateLimiter warningRatelimiter = new RateLimiter(TimeUnit.MINUTES, 3);
+
         cr.register("play", new SimpleCommand(Category.MUSIC) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 if(content.trim().isEmpty()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.music_general.no_song"), EmoteReference.ERROR).queue();
                     return;
+                }
+
+                if(!getConfig().isPremiumBot() && getConfig().isNeedApi()) {
+                    try {
+                        Request request = new Request.Builder()
+                                .url(getConfig().apiTwoUrl + "/mantaroapi/bot/music")
+                                .addHeader("Authorization", getConfig().getApiAuthKey())
+                                .addHeader("User-Agent", MantaroInfo.USER_AGENT)
+                                .get()
+                                .build();
+
+                        Response response = httpClient.newCall(request).execute();
+                        String body = response.body().string();
+                        response.close();
+
+                        if(body.equals("not_working")) {
+                            if(Utils.handleDefaultRatelimit(warningRatelimiter, event.getAuthor(), event, languageContext)) {
+                                event.getChannel().sendMessageFormat("commands.music_general.not_working").queue();
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 try {

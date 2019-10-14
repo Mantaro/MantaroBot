@@ -65,10 +65,10 @@ public class Config {
     public String apiAuthKey;
     public Season currentSeason = Season.FIRST;
     public String clientId; //why not ig.
-    public String lavalinkNode;
-    public String lavalinkPass;
     public String jedisPoolAddress = "127.0.0.1";
     public int jedisPoolPort = 6379;
+    public List<String> lavalinkNodes = new ArrayList<>();
+    public String lavalinkPass;
     public String cacheClientEndpoint;
     public String cacheClientToken;
 

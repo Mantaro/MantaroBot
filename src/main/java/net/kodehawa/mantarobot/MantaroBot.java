@@ -19,6 +19,8 @@ package net.kodehawa.mantarobot;
 
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import lavalink.client.io.LavalinkLoadBalancer;
+import lavalink.client.io.PenaltyProvider;
 import lavalink.client.io.jda.JdaLavalink;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -135,7 +137,12 @@ public class MantaroBot extends ShardedJDA {
                 shardId -> getShard(shardId).getJDA()
         );
 
-        lavalink.addNode(new URI(config.lavalinkNode), config.lavalinkPass);
+        for(String node : config.getLavalinkNodes()) {
+            lavalink.addNode(new URI(node), config.lavalinkPass);
+        }
+
+        //Choose the server with the lowest player amount
+        lavalink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getPlayerPenalty);
 
         core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
         discordBotsAPI = new DiscordBotsAPI.Builder().setToken(config.dbotsorgToken).build();
@@ -166,7 +173,7 @@ public class MantaroBot extends ShardedJDA {
         final ReminderTask reminderTask = new ReminderTask();
 
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mute Handler")).scheduleAtFixedRate(muteTask::handle, 0, 1, TimeUnit.MINUTES);
-        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Reminder Handler")).scheduleAtFixedRate(reminderTask::handle, 0, 10, TimeUnit.MINUTES);
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Reminder Handler")).scheduleAtFixedRate(reminderTask::handle, 0, 30, TimeUnit.SECONDS);
         //Yes, this is needed.
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Ratelimit Map Handler")).scheduleAtFixedRate(Utils.ratelimitedUsers::clear, 0, 24, TimeUnit.HOURS);
     }

@@ -31,7 +31,7 @@ public class CustomMessage {
     }
 
     public String getContentRaw() {
-        if(prefix.isEmpty()) {
+        if(prefix == null || prefix.isEmpty()) {
             return splitArgs(message.getContentRaw(), 2)[1];
         }
 
@@ -39,7 +39,7 @@ public class CustomMessage {
     }
 
     public String getContentDisplay() {
-        if(prefix.isEmpty()) {
+        if(prefix == null || prefix.isEmpty()) {
             return splitArgs(message.getContentDisplay(), 2)[1];
         }
 
@@ -47,7 +47,7 @@ public class CustomMessage {
     }
 
     public String getContentStripped() {
-        if(prefix.isEmpty()) {
+        if(prefix == null || prefix.isEmpty()) {
             return splitArgs(message.getContentStripped(), 2)[1];
         }
 

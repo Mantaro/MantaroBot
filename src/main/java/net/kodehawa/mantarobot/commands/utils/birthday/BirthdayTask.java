@@ -58,7 +58,8 @@ public class BirthdayTask {
 
             JDA jda = MantaroBot.getInstance().getShard(shardId);
 
-            log.info("Checking birthdays in shard {} to assign roles...", jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId());
+            jda.getShardInfo();
+            log.info("Checking birthdays in shard {} to assign roles...", jda.getShardInfo().getShardId());
             long start = System.currentTimeMillis();
             Calendar cal = Calendar.getInstance();
             String now = dateFormat.format(cal.getTime()).substring(0, 5);

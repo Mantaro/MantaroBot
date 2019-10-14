@@ -77,7 +77,7 @@ public class PetCmds {
     private final static String BLOCK_ACTIVE = "\u25A0";
     private static final int TOTAL_BLOCKS = 5;
 
-    @Subscribe
+    //@Subscribe
     public void petAction(CommandRegistry cr) {
         IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .cooldown(20, TimeUnit.SECONDS)
@@ -155,7 +155,7 @@ public class PetCmds {
                         Player player = db.getPlayer(userId);
                         PlayerData playerData = player.getData();
 
-                        Pet pet = playerData.getProfilePets().get(petName);
+                        Pet pet = playerData.getPets().get(petName);
                         if(pet == null) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.pet.not_found"), EmoteReference.ERROR).queue();
                             return;
@@ -236,12 +236,12 @@ public class PetCmds {
                     return;
                 }
 
-                if(playerData.getPetSlots() < playerData.getProfilePets().size() + 1) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.not_enough_slots"), EmoteReference.ERROR, playerData.getPetSlots(), playerData.getProfilePets().size()).queue();
+                if(playerData.getPetSlots() < playerData.getPets().size() + 1) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.not_enough_slots"), EmoteReference.ERROR, playerData.getPetSlots(), playerData.getPets().size()).queue();
                     return;
                 }
 
-                if(playerData.getProfilePets().containsKey(name)) {
+                if(playerData.getPets().containsKey(name)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.already_exists"), EmoteReference.ERROR).queue();
                     return;
                 }
@@ -253,7 +253,7 @@ public class PetCmds {
                 }
 
                 Pet pet = generatePet(event.getAuthor().getId(), name);
-                playerData.getProfilePets().put(name, pet);
+                playerData.getPets().put(name, pet);
 
                 player.getInventory().process(new ItemStack(Items.INCUBATOR_EGG, -1));
                 player.save();
@@ -271,7 +271,7 @@ public class PetCmds {
                 DBGuild guildData = managedDatabase.getGuild(event.getGuild());
                 PlayerData playerData = player.getData();
 
-                Map<String, Pet> playerPets = playerData.getProfilePets();
+                Map<String, Pet> playerPets = playerData.getPets();
                 String[] args = StringUtils.advancedSplitArgs(content, -1);
                 if (args.length < 2) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.rename.not_enough_args"), EmoteReference.ERROR).queue();
@@ -328,7 +328,7 @@ public class PetCmds {
                     if(message.equalsIgnoreCase("yes")) {
                         Player player2 = managedDatabase.getPlayer(event.getAuthor());
                         PlayerData playerData2 = player.getData();
-                        Map<String, Pet> playerPetsConfirmed = playerData2.getProfilePets();
+                        Map<String, Pet> playerPetsConfirmed = playerData2.getPets();
                         if (!playerPetsConfirmed.containsKey(originalName)) {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.rename.no_pet"), EmoteReference.ERROR).queue();
                             return Operation.COMPLETED;
@@ -344,8 +344,8 @@ public class PetCmds {
                             return Operation.COMPLETED;
                         }
 
-                        Pet renamedPet = playerData2.getProfilePets().remove(originalName);
-                        playerData2.getProfilePets().put(rename, renamedPet);
+                        Pet renamedPet = playerData2.getPets().remove(originalName);
+                        playerData2.getPets().put(rename, renamedPet);
                         player2.removeMoney(500);
 
                         player2.save();
@@ -370,12 +370,12 @@ public class PetCmds {
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
 
-                Map<String, Pet> playerPets = playerData.getProfilePets();
+                Map<String, Pet> playerPets = playerData.getPets();
                 EmbedBuilder builder = new EmbedBuilder()
                         .setAuthor("Pet List", null, event.getAuthor().getEffectiveAvatarUrl())
                         .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
                         .setColor(Color.DARK_GRAY)
-                        .setFooter("Pet slots: " + playerData.getPetSlots() + ", Used: " + playerData.getProfilePets().size(), null);
+                        .setFooter("Pet slots: " + playerData.getPetSlots() + ", Used: " + playerData.getPets().size(), null);
 
                 List<MessageEmbed.Field> fields = new LinkedList<>();
 
@@ -418,7 +418,7 @@ public class PetCmds {
                 PlayerData playerData = player.getData();
 
                 String petName = content.trim();
-                Map<String, Pet> playerPets = playerData.getProfilePets();
+                Map<String, Pet> playerPets = playerData.getPets();
 
                 if(!playerPets.containsKey(petName)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
@@ -453,7 +453,7 @@ public class PetCmds {
                 PlayerData playerData = player.getData();
 
                 String petName = content.trim();
-                Map<String, Pet> playerPets = playerData.getProfilePets();
+                Map<String, Pet> playerPets = playerData.getPets();
 
                 if (!playerPets.containsKey(petName)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
@@ -499,7 +499,7 @@ public class PetCmds {
 
                 String potion = args[0];
                 String petName = content.replace(args[0], "").trim();
-                Map<String, Pet> playerPets = playerData.getProfilePets();
+                Map<String, Pet> playerPets = playerData.getPets();
 
                 if(!playerPets.containsKey(petName)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
@@ -543,7 +543,7 @@ public class PetCmds {
                 PlayerData playerData = player.getData();
 
                 String petName = content.trim();
-                Map<String, Pet> playerPets = playerData.getProfilePets();
+                Map<String, Pet> playerPets = playerData.getPets();
 
                 if(!playerPets.containsKey(petName)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
@@ -568,7 +568,7 @@ public class PetCmds {
                 String strippedContent = content.replace(args[0], "");
 
                 String petName = args[0];
-                Map<String, Pet> playerPets = playerData.getProfilePets();
+                Map<String, Pet> playerPets = playerData.getPets();
 
                 if (!playerPets.containsKey(petName)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
@@ -627,7 +627,7 @@ public class PetCmds {
                 PlayerData playerData = player.getData();
 
                 String petName = content.trim();
-                Map<String, Pet> playerPets = playerData.getProfilePets();
+                Map<String, Pet> playerPets = playerData.getPets();
 
                 if(!playerPets.containsKey(petName)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();

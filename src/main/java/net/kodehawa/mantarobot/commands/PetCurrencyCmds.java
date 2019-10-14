@@ -40,7 +40,7 @@ import java.util.Map;
 
 @Module
 public class PetCurrencyCmds {
-    @Subscribe
+    //@Subscribe
     public void petInventory(CommandRegistry cr) {
         cr.register("petinventory", new SimpleCommand(Category.PETS) {
             @Override
@@ -50,7 +50,7 @@ public class PetCurrencyCmds {
                 PlayerData playerData = player.getData();
 
                 String petName = content.trim();
-                Map<String, Pet> profilePets = playerData.getProfilePets();
+                Map<String, Pet> profilePets = playerData.getPets();
                 if(!profilePets.containsKey(petName)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
                     return;
@@ -64,7 +64,7 @@ public class PetCurrencyCmds {
         });
     }
 
-    @Subscribe
+    //@Subscribe
     public void petMarket(CommandRegistry cr) {
         TreeCommand petMarketCmd = (TreeCommand) cr.register("petmarket", new TreeCommand(Category.PETS) {
             @Override

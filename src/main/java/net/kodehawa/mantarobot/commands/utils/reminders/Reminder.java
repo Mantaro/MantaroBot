@@ -29,6 +29,7 @@ import java.util.UUID;
 
 public class Reminder {
     private static final String table = "reminder";
+    private static final String ztable = "zreminder";
     private static final JedisPool pool = MantaroData.getDefaultJedisPool();
     private static final ManagedDatabase db = MantaroData.db();
 
@@ -58,6 +59,7 @@ public class Reminder {
 
     public void schedule() {
         JSONObject r = new JSONObject()
+                .put("id", id)
                 .put("user", userId)
                 .put("guild", guildId)
                 .put("scheduledAt", scheduledAtMillis)
@@ -65,36 +67,31 @@ public class Reminder {
                 .put("at", time);
 
         try (Jedis redis = pool.getResource()) {
+            redis.zadd(ztable, time, r.toString());
+            //Needed for removal.
             redis.hset(table, id + ":" + userId, r.toString());
         }
 
         DBUser user = db.getUser(userId);
         UserData data = user.getData();
-        data.getReminders().add(id);
-        user.save();
-    }
-
-    public void cancel() {
-        try (Jedis redis = pool.getResource()) {
-            redis.hdel(table, id);
-        }
-
-        DBUser user = db.getUser(userId);
-        UserData data = user.getData();
-        data.getReminders().remove(id);
-        user.save();
+        data.getReminders().add(id + ":" + userId);
+        user.saveAsync();
     }
 
     //This is more useful now
-    public static void cancel(String userId, String id) {
+    //Id here contains the full id aka UUID:userId, unlike in the other methods
+    public static void cancel(String userId, String fullId) {
         try (Jedis redis = pool.getResource()) {
-            redis.hdel(table, id);
+            String data = redis.hget(table, fullId);
+
+            redis.zrem(ztable, data);
+            redis.hdel(table, fullId);
         }
 
         DBUser user = db.getUser(userId);
         UserData data = user.getData();
-        data.getReminders().remove(id);
-        user.save();
+        data.getReminders().remove(fullId);
+        user.saveAsync();
     }
 
     public static class Builder {
@@ -103,7 +100,6 @@ public class Reminder {
         private long time;
         private String userId;
         private String guildId;
-        private long offset;
 
         public Builder id(String id) {
             userId = id;
