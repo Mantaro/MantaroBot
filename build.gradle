@@ -70,7 +70,7 @@ dependencies {
     compile ('com.github.FredBoat:Lavalink-Client:5502c9e403') {
         exclude group: 'com.sedmelluq', module: 'lavaplayer'
     }
-    compile group: 'com.sedmelluq', name: 'lavaplayer', version: "1.3.22.pbjtest3" //LL client has an outdated build: doesn't work properly
+    compile 'com.github.Devoxin:lavaplayer:e2dd8dc037' //LL client has an outdated build: doesn't work properly
 
     //before: classpathscanner
     compile 'io.github.classgraph:classgraph:4.6.3'
