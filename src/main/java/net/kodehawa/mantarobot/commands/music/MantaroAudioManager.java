@@ -30,6 +30,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.playback.NonAllocatingAudioFrameBuffer;
+import lavalink.client.io.Lavalink;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Guild;
@@ -39,6 +40,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.requester.AudioLoader;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
+import net.kodehawa.mantarobot.commands.music.utils.LavalinkTrackLoader;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import net.notfab.caching.client.CacheClient;
@@ -167,7 +169,12 @@ public class MantaroAudioManager {
                     }
                 }
 
-                playerManager.loadItemOrdered(musicManager, trackUrl, loader);
+                Lavalink<?> ll = MantaroBot.getInstance().getLavalink();
+                if(ll == null) {
+                    playerManager.loadItemOrdered(musicManager, trackUrl, loader);
+                } else {
+                    LavalinkTrackLoader.load(playerManager, ll, trackUrl, loader);
+                }
             }
         }, LOAD_EXECUTOR);
     }
