@@ -92,13 +92,15 @@ public class MantaroAudioManager {
         Prometheus.THREAD_POOL_COLLECTOR.add("lavaplayer-track-playback", apm.getExecutor());
         this.playerManager = apm;
 
-        //Damn you, YouTube.
-        AbstractRoutePlanner planner = new RotatingIpRoutePlanner(new Ipv6Block(config.getIpv6Block()));
         YoutubeAudioSourceManager youtubeAudioSourceManager;
-        if(!config.getIpv6Block().isEmpty())
+        if(!config.getIpv6Block().isEmpty()) {
+            //Damn you, YouTube.
+            AbstractRoutePlanner planner = new RotatingIpRoutePlanner(new Ipv6Block(config.getIpv6Block()));
             youtubeAudioSourceManager = new YoutubeAudioSourceManager(true, planner);
-        else
+        }
+        else {
             youtubeAudioSourceManager = new YoutubeAudioSourceManager(true);
+        }
 
         youtubeAudioSourceManager.configureRequests(config -> RequestConfig.copy(config).setCookieSpec(CookieSpecs.IGNORE_COOKIES).build());
         playerManager.registerSourceManager(youtubeAudioSourceManager);

@@ -72,7 +72,7 @@ dependencies {
         exclude group: 'com.sedmelluq', module: 'lavaplayer'
     }
     compile 'com.github.ByteAlex:lavaplayer:c30f019be4'
-    compile 'net.notfab.cache:cache-client:1.0'
+    compile 'net.notfab.cache:cache-client:1.1'
 
     //before: classpathscanner
     compile 'io.github.classgraph:classgraph:4.6.3'
