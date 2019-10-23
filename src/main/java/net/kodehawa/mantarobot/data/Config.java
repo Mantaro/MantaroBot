@@ -71,6 +71,7 @@ public class Config {
     public String lavalinkPass;
     public String cacheClientEndpoint;
     public String cacheClientToken;
+    public String ipv6Block = "";
 
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());

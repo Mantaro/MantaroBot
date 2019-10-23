@@ -48,6 +48,7 @@ repositories {
     mavenCentral()
     maven { url "https://dl.bintray.com/kodehawa/maven" }
     maven { url 'https://dl.bintray.com/natanbc/maven' }
+    maven { url 'https://maven.notfab.net/Hosted' }
     maven { url 'https://jitpack.io' }
 }
 
@@ -70,7 +71,8 @@ dependencies {
     compile ('com.github.FredBoat:Lavalink-Client:5502c9e403') {
         exclude group: 'com.sedmelluq', module: 'lavaplayer'
     }
-    compile 'com.github.Devoxin:lavaplayer:e2dd8dc037' //LL client has an outdated build: doesn't work properly
+    compile 'com.github.ByteAlex:lavaplayer:c30f019be4'
+    compile 'net.notfab.cache:cache-client:1.0'
 
     //before: classpathscanner
     compile 'io.github.classgraph:classgraph:4.6.3'

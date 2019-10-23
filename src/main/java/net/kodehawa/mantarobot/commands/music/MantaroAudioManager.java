@@ -27,6 +27,9 @@ import com.sedmelluq.discord.lavaplayer.source.twitch.TwitchStreamAudioSourceMan
 import com.sedmelluq.discord.lavaplayer.source.vimeo.VimeoAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
+import com.sedmelluq.discord.lavaplayer.tools.Ipv6Block;
+import com.sedmelluq.discord.lavaplayer.tools.http.AbstractRoutePlanner;
+import com.sedmelluq.discord.lavaplayer.tools.http.RotatingIpRoutePlanner;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.playback.NonAllocatingAudioFrameBuffer;
@@ -40,6 +43,8 @@ import net.kodehawa.mantarobot.commands.music.requester.AudioLoader;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import net.notfab.caching.client.CacheClient;
 import net.notfab.caching.shared.CacheResponse;
@@ -48,6 +53,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.conn.routing.HttpRoutePlanner;
 
 import java.net.URISyntaxException;
 import java.util.List;
@@ -76,14 +82,25 @@ public class MantaroAudioManager {
     @Getter
     private final AudioPlayerManager playerManager;
 
+    private final Config config = MantaroData.config().get();
+
     public MantaroAudioManager() {
         this.musicManagers = new ConcurrentHashMap<>();
         DefaultAudioPlayerManager apm = new DefaultAudioPlayerManager();
         Prometheus.THREAD_POOL_COLLECTOR.add("lavaplayer-track-playback", apm.getExecutor());
         this.playerManager = apm;
-        YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager();
+
+        //Damn you, YouTube.
+        AbstractRoutePlanner planner = new RotatingIpRoutePlanner(new Ipv6Block(config.getIpv6Block()));
+        YoutubeAudioSourceManager youtubeAudioSourceManager;
+        if(!config.getIpv6Block().isEmpty())
+            youtubeAudioSourceManager = new YoutubeAudioSourceManager(true, planner);
+        else
+            youtubeAudioSourceManager = new YoutubeAudioSourceManager(true);
+
         youtubeAudioSourceManager.configureRequests(config -> RequestConfig.copy(config).setCookieSpec(CookieSpecs.IGNORE_COOKIES).build());
         playerManager.registerSourceManager(youtubeAudioSourceManager);
+
         playerManager.registerSourceManager(new SoundCloudAudioSourceManager());
         playerManager.registerSourceManager(new BandcampAudioSourceManager());
         playerManager.registerSourceManager(new VimeoAudioSourceManager());
