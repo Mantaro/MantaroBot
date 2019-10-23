@@ -191,7 +191,7 @@ public class MoneyCmds {
                         int bonus = 150;
 
                         if(authorPlayerData.getDailyStreak() > 15)
-                            bonus += Math.min(700, Math.floor(150 * authorPlayerData.getDailyStreak() / 10));
+                            bonus += Math.min(1400, Math.floor(150 * authorPlayerData.getDailyStreak() / 10));
 
                         streak += String.format(languageContext.withRoot("commands", "daily.streak.given.bonus"), (mentionedUser == null ? "You" : mentionedUser.getName()), bonus);
                         money += bonus;
@@ -257,7 +257,7 @@ public class MoneyCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person). Maximum amount it can give is 1000 credits (a bit more for shared dailies)\n" +
+                        .setDescription("Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person). Maximum amount it can give is ~2000 credits (a bit more for shared dailies)\n" +
                                 "This command gives a reward for claiming it every day (daily streak)")
                         .setUsage("`~>daily [@user]`")
                         .addParameter("@user", "The user to give your daily to. This is optional, without this it gives it to yourself.")
