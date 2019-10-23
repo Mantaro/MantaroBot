@@ -399,7 +399,7 @@
         "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3$d responses."
       },
       "edit": {
-        "no_command": "$1$sYou need to specify what command you want to edit.",
+        "no_command": "%1$sYou need to specify what command you want to edit.",
         "invalid_number": "%1$sYou need to specify a correct number to change.",
         "no_index": "%1$sYou cannot edit a non-existent index.",
         "empty_response": "%1$sCannot edit to an empty response",

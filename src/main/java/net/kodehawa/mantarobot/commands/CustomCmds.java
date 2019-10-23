@@ -523,8 +523,8 @@ CustomCmds {
 
                 int where;
                 String index = args[1];
-                //lol
-                String commandContent = content.replace(args[0], "").trim().replace(args[1], "").trim();
+                //replace first occurrence and second argument: custom command and index.
+                String commandContent = ctn.replaceFirst(args[0], "").replaceFirst(args[1], "");
                 try {
                     where = Math.abs(Integer.parseInt(index));
                 } catch(NumberFormatException e) {
