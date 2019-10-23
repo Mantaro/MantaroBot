@@ -704,7 +704,7 @@ CustomCmds {
                 }
 
                 String cmd = args[0];
-                String value = content.replace(args[0], "").trim();
+                String value = content.replaceFirst(args[0], "").trim();
 
                 Map<String, String> opts = new HashMap<>();
                 try {
