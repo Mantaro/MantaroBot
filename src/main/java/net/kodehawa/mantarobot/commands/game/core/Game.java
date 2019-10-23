@@ -65,11 +65,6 @@ public abstract class Game<T> {
             }
         }
 
-        if(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix() != null &&
-                e.getMessage().getContentRaw().startsWith(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix())) {
-            return Operation.IGNORED;
-        }
-
         if(players.contains(e.getAuthor().getId())) {
             if(e.getMessage().getContentRaw().equalsIgnoreCase("end")) {
                 lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.ended_game"), EmoteReference.CORRECT, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(", "))).queue();
