@@ -97,8 +97,7 @@ public class MantaroAudioManager {
             //Damn you, YouTube.
             AbstractRoutePlanner planner = new RotatingIpRoutePlanner(new Ipv6Block(config.getIpv6Block()));
             youtubeAudioSourceManager = new YoutubeAudioSourceManager(true, planner);
-        }
-        else {
+        } else {
             youtubeAudioSourceManager = new YoutubeAudioSourceManager(true);
         }
 
@@ -138,7 +137,9 @@ public class MantaroAudioManager {
                 IS_RESULT_FROM_CACHE.set(false);
                 AudioLoader loader = new AudioLoader(musicManager, event, skipSelection, addFirst);
 
-                CacheClient client = MantaroBot.getInstance().getCacheClient();
+                playerManager.loadItemOrdered(musicManager, trackUrl, loader);
+
+                /* CacheClient client = MantaroBot.getInstance().getCacheClient();
                 if(client != null && isYoutube(trackUrl)) {
                     boolean playlist = trackUrl.startsWith("ytsearch:");
                     try {
@@ -193,7 +194,8 @@ public class MantaroAudioManager {
                     playerManager.loadItemOrdered(musicManager, trackUrl, loader);
                 } else {
                     LavalinkTrackLoader.load(playerManager, ll, trackUrl, loader);
-                }
+                } */
+
             }
         }, LOAD_EXECUTOR);
     }
