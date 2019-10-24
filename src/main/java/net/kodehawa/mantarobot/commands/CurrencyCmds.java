@@ -567,7 +567,7 @@ public class CurrencyCmds {
                 }
 
                 try {
-                    if(!itemToBuy.isBuyable() && itemToBuy.isPetOnly()) {
+                    if(!itemToBuy.isBuyable() || itemToBuy.isPetOnly()) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.no_buy_price"), EmoteReference.ERROR).queue();
                         return;
                     }
