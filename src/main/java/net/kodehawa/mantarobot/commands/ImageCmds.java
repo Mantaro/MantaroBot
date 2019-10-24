@@ -55,6 +55,7 @@ public class ImageCmds {
     private final ImageBoard<Rule34Image> rule34 = DefaultImageBoards.RULE34;
     private final ImageBoard<SafebooruImage> safebooru = DefaultImageBoards.SAFEBOORU; //safebooru.org, not the danbooru one.
     private final ImageBoard<YandereImage> yandere = DefaultImageBoards.YANDERE;
+    private final ImageBoard<GelbooruImage> gelbooru = DefaultImageBoards.GELBOORU;
     private final WeebAPIRequester weebAPIRequester = new WeebAPIRequester();
     private final Random random = new Random();
 
@@ -306,6 +307,43 @@ public class ImageCmds {
                         .setUsage("`~>yandere` - Retrieves a random image.\n" +
                                 "`~>yandere <tag> <rating>` - Fetches an image with the respective tag and specified parameters.")
                         .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on yande.re's website.")
+                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit.")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void gelbooru(CommandRegistry cr) {
+        cr.register("gelbooru", new SimpleCommand(Category.IMAGE) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                if(!event.getChannel().isNSFW()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.imageboard.yandere_nsfw_notice"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                String noArgs = content.split(" ")[0];
+                switch(noArgs) {
+                    case "":
+                    case "random":
+                        getImage(gelbooru, ImageRequestType.RANDOM, false, "gelbooru", args, content, event, languageContext);
+                        break;
+                    default:
+                        getImage(gelbooru, ImageRequestType.TAGS, false, "gelbooru", args, content, event, languageContext);
+                        break;
+                }
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Retrieves images from the Gelbooru image board.\n" +
+                                "This command only works on NSFW channels, regarding of rating " +
+                                "(because we're not sure if it'll really put safe images all the time, rating is still left to the user).")
+                        .setUsage("`~>gelbooru` - Retrieves a random image.\n" +
+                                "`~>gelbooru <tag> <rating>` - Fetches an image with the respective tag and specified parameters.")
+                        .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on gelbooru's website.")
                         .addParameter("rating", "The image rating, can be either safe, questionable or explicit.")
                         .build();
             }
