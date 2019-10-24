@@ -37,7 +37,6 @@ import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
-import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONException;
@@ -53,13 +52,11 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
 /**
  * Represents a Sharded bot.
  * This class will still be used whether we have zero or a billion shards tho, but Mantaro is more optimized to run with shards.
- * It holds all the necessary info for the bot to correctly function in a sharded enviroment, while also providing access to {@link ICommandProcessor} and
+ * It holds all the necessary info for the bot to correctly function in a sharded environment, while also providing access to {@link ICommandProcessor} and
  * other extremely important stuff.
  */
 @Slf4j
 public class ShardedMantaro {
-    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-
     private final Carbonitex carbonitex = new Carbonitex();
     private final Config config = MantaroData.config().get();
     private final DiscordBotsAPI discordBotsAPI = new DiscordBotsAPI.Builder().setToken(MantaroData.config().get().dbotsorgToken).build();
@@ -84,6 +81,9 @@ public class ShardedMantaro {
         if(isDebug || shardAmount < 16) {
             sessionController = new SessionControllerAdapter();
         } else {
+            //If you're self-hosting you shouldn't have this many shards, but keep this one in mind, lol.
+            //If you're another big bot looking how to do batch login, refer to BucketedController
+            log.info("Using buckets of 16 shards to start the bot! Assuming we're on big bot :tm: sharding.");
             sessionController = new BucketedController();
         }
         this.totalShards = shardAmount;
@@ -174,7 +174,7 @@ public class ShardedMantaro {
     }
 
     private void startUpdaters() {
-        Executors.newSingleThreadScheduledExecutor(r->new Thread(r, "Carbonitex post task"))
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Carbonitex post task"))
                 .scheduleAtFixedRate(carbonitex::handle, 0, 30, TimeUnit.MINUTES);
 
         if(config.dbotsorgToken != null) {
@@ -188,12 +188,6 @@ public class ShardedMantaro {
             }, 0, 1, TimeUnit.HOURS);
         } else {
             log.warn("discordbots.org token not set in config, cannot start posting stats!");
-        }
-
-        String dbotsToken = config.dbotsToken;
-
-        if(dbotsToken != null) {
-            //we're blocked
         }
 
         for(MantaroShard shard : getShards()) {
