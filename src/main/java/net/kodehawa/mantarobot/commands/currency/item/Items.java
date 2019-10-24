@@ -190,7 +190,7 @@ public class Items {
             BROKEN_STAR_ROD = new Broken(71, EmoteReference.BROKEN_STAR_ROD.getDiscordNotation(), "Broken Star Rod", "items.broken_star_rod", "items.description.broken_star_rod", 30, "1,49;3,84;3,50"),
             // ---------------------------------- 5.3 BROKEN ITEMS END HERE ----------------------------------
             // ---------------------------------- 5.4 PET ITEMS START HERE ----------------------------------
-            INCUBATOR_EGG = new Item(ItemType.PET, "\uD83E\uDD5A", "Incubator Egg", "items.incubator_egg", "items.description.incubator_egg", 300, true, true, "4;3;1", 11, 12, 18),
+            INCUBATOR_EGG = new Item(ItemType.PET, "\uD83E\uDD5A", "Incubator Egg", "items.incubator_egg", "items.description.incubator_egg", 300, false, false, "4;3;1", 11, 12, 18),
             WATER_BOTTLE = new Item(ItemType.PET, "", "Water Bottle", "items.water_bottle", "items.description.water_bottle", 100, true, true),
 
     };
