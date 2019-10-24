@@ -48,6 +48,7 @@ import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.utils.URIBuilder;
 
+import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -84,8 +85,22 @@ public class MantaroAudioManager {
 
         YoutubeAudioSourceManager youtubeAudioSourceManager;
         if(!config.getIpv6Block().isEmpty()) {
+            AbstractRoutePlanner planner;
+
             //Damn you, YouTube.
-            AbstractRoutePlanner planner = new RotatingIpRoutePlanner(new Ipv6Block(config.getIpv6Block()));
+            if(config.getExcludeAddress().isEmpty())
+                planner = new RotatingIpRoutePlanner(new Ipv6Block(config.getIpv6Block()));
+            else {
+                try {
+                    InetAddress blacklistedGW = InetAddress.getByName(config.getExcludeAddress());
+                    planner = new RotatingIpRoutePlanner(new Ipv6Block(config.getIpv6Block()), inetAddress -> !inetAddress.equals(blacklistedGW));
+                } catch (Exception e) {
+                    //Fallback: did I screw up putting the IP in? lmao
+                    planner = new RotatingIpRoutePlanner(new Ipv6Block(config.getIpv6Block()));
+                    e.printStackTrace();
+                }
+            }
+
             youtubeAudioSourceManager = new YoutubeAudioSourceManager(true, planner);
         } else {
             youtubeAudioSourceManager = new YoutubeAudioSourceManager(true);

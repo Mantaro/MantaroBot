@@ -71,7 +71,7 @@ dependencies {
     compile ('com.github.FredBoat:Lavalink-Client:5502c9e403') {
         exclude group: 'com.sedmelluq', module: 'lavaplayer'
     }
-    compile 'com.github.ByteAlex:lavaplayer:c30f019be4'
+    compile 'com.github.ByteAlex:lavaplayer:b7a1d21'
     compile 'net.notfab.cache:cache-client:1.1'
 
     //before: classpathscanner
