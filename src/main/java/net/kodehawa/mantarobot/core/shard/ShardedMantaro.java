@@ -20,6 +20,8 @@ package net.kodehawa.mantarobot.core.shard;
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.api.utils.SessionController;
+import net.dv8tion.jda.api.utils.SessionControllerAdapter;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.LoadState;
@@ -27,6 +29,7 @@ import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
+import net.kodehawa.mantarobot.core.shard.jda.BucketedController;
 import net.kodehawa.mantarobot.core.shard.watcher.ShardWatcher;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -69,6 +72,7 @@ public class ShardedMantaro {
     private final int totalShards;
     private final int fromShard;
     private final int toShard;
+    private final SessionController sessionController;
 
     public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token, ICommandProcessor commandProcessor, int fromShard, int toShard) {
         int shardAmount = totalShards;
@@ -77,6 +81,11 @@ public class ShardedMantaro {
         if(isDebug)
             shardAmount = 2;
 
+        if(isDebug || shardAmount < 16) {
+            sessionController = new SessionControllerAdapter();
+        } else {
+            sessionController = new BucketedController();
+        }
         this.totalShards = shardAmount;
         this.processor = commandProcessor;
         this.fromShard = fromShard == 0 ? ExtraRuntimeOptions.FROM_SHARD.orElse(fromShard) : fromShard;
@@ -134,7 +143,7 @@ public class ShardedMantaro {
                 managers.add(manager);
 
                 //Builds the new MantaroShard instance, which will start the shard.
-                shards[i] = new MantaroShard(i, totalShards, manager, processor);
+                shards[i] = new MantaroShard(i, totalShards, manager, processor, sessionController);
                 log.debug("Finished loading shard #" + i + ".");
             }
 
