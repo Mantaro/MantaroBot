@@ -83,8 +83,8 @@ public class ShardedMantaro {
         } else {
             //If you're self-hosting you shouldn't have this many shards, but keep this one in mind, lol.
             //If you're another big bot looking how to do batch login, refer to BucketedController
-            log.info("Using buckets of 16 shards to start the bot! Assuming we're on big bot :tm: sharding.");
-            sessionController = new BucketedController();
+            log.info("Using buckets of 4 shards to start the bot! Assuming we're on big bot :tm: sharding.");
+            sessionController = new BucketedController(4);
         }
         this.totalShards = shardAmount;
         this.processor = commandProcessor;
