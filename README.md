@@ -60,6 +60,7 @@ Make sure you pay close attention to the [License](https://github.com/Mantaro/Ma
 *   [Lavalink by Frederikam](https://github.com/Frederikam/Lavalink)
 *   [RethinkDB by the RethinkDB team](http://rethinkdb.com)
 *   [Redis by the redis team.](https://redis.io)
+*   [imageboard-api by Kodehawa](https://github.com/Kodehawa/imageboard-api)
 *   And a lot more!
 
 ## Important Contributors
