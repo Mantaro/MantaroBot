@@ -68,8 +68,6 @@ import static net.kodehawa.mantarobot.utils.Utils.pretty;
  * This also handles posting stats to dbots/dbots.org/carbonitex. Because uh... no other class was fit for it.
  */
 public class MantaroShard implements JDA {
-    private static SessionController sessionController = new SessionControllerAdapter();
-
     private final Logger log;
     private static final VoiceChannelListener VOICE_CHANNEL_LISTENER = new VoiceChannelListener();
     private final CommandListener commandListener;
@@ -96,6 +94,7 @@ public class MantaroShard implements JDA {
     private final ExecutorService threadPool;
     @Getter
     private final ExecutorService commandPool;
+    private final SessionController sessionController;
     @Delegate
     private JDA jda;
 
@@ -106,16 +105,17 @@ public class MantaroShard implements JDA {
      * @param totalShards      The total quantity of shards that the bot will startup with.
      * @param manager          The event manager.
      * @param commandProcessor The {@link ICommandProcessor} used to process upcoming Commands.
-     * @throws RateLimitedException
      * @throws LoginException
      * @throws InterruptedException
      */
-    public MantaroShard(int shardId, int totalShards, MantaroEventManager manager, ICommandProcessor commandProcessor) throws RateLimitedException, LoginException, InterruptedException {
+    public MantaroShard(int shardId, int totalShards, MantaroEventManager manager, ICommandProcessor commandProcessor,
+                        SessionController controller) throws LoginException, InterruptedException {
         this.callbackPoolIdentifierString = "callback-pool-shard-" + shardId;
         this.ratelimitPoolIdentifierString = "ratelimit-pool-shard-" + shardId;
         this.shardId = shardId;
         this.totalShards = totalShards;
         this.manager = manager;
+        this.sessionController = controller;
 
         ThreadFactory normalTPNamedFactory =
                 new ThreadFactoryBuilder()
