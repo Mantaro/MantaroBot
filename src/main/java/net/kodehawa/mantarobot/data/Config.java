@@ -73,6 +73,7 @@ public class Config {
     public String cacheClientToken;
     public String ipv6Block = "";
     public String excludeAddress = "";
+    public int bucketFactor = 4;
 
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());
