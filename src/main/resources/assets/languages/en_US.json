@@ -610,7 +610,7 @@
       "ls": {
         "header": "Castable Item List",
         "cost": "Cast Cost: ",
-        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name (example: `~>cast diamond pickaxe` or `~>cast diamond p` works)\n**Casting has a minimum cost of half the price of the item. The casting price will be shown down below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name (example: `~>cast \"diamond pickaxe\",` or `~>cast \"diamond p`\", works)\n**Casting has a minimum cost of half the price of the item. The casting price will be shown down below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       },
       "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?"
     },
