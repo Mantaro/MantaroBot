@@ -143,6 +143,37 @@ public class OwnerCmd {
         });
     }
 
+    @Subscribe
+    public void restoreStreak(CommandRegistry cr) {
+        cr.register("restorestreak", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                if(args.length < 2) {
+                    event.getChannel().sendMessage("You need to provide the id and the amount").queue();
+                    return;
+                }
+
+                String id = args[0];
+                long amount = Long.parseLong(args[1]);
+                User u = MantaroBot.getInstance().getUserById(id);
+
+                if(u == null) {
+                    event.getChannel().sendMessage("Can't find user").queue();
+                    return;
+                }
+
+                Player p = MantaroData.db().getPlayer(id);
+                PlayerData pd = p.getData();
+                pd.setLastDailyAt(System.currentTimeMillis());
+                pd.setDailyStreak(amount);
+
+                p.save();
+
+                event.getChannel().sendMessage("Done, new streak is " + amount).queue();
+            }
+        });
+    }
+
     //This is for testing lol
     @Subscribe
     public void giveItem(CommandRegistry cr) {

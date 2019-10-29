@@ -43,6 +43,7 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.CustomCommand;
 import net.kodehawa.mantarobot.db.entities.helpers.CustomCommandData;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -125,6 +126,7 @@ CustomCmds {
     @Subscribe
     public void custom(CommandRegistry cr) {
         String any = "[\\d\\D]*?";
+        final ManagedDatabase db = db();
 
         //People spamming crap... we cant have nice things owo
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
@@ -412,7 +414,7 @@ CustomCmds {
                 Map<String, Guild> mapped = MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).stream()
                         .collect(Collectors.toMap(ISnowflake::getId, g -> g));
 
-                List<Pair<Guild, CustomCommand>> filtered = MantaroData.db()
+                List<Pair<Guild, CustomCommand>> filtered = db
                         .getCustomCommandsByName(("*" + cmd + "*").replace("*", any)).stream()
                         .map(customCommand -> {
                             Guild guild = mapped.get(customCommand.getGuildId());
@@ -732,6 +734,13 @@ CustomCmds {
                     return;
                 }
 
+                Guild guild = event.getGuild();
+                //Are the first two checks redundant?
+                if(!getConfig().isPremiumBot && !db.getGuild(guild).isPremium() && db.getCustomCommands(guild).size() > 100) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.add.too_many_commands"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 cmdSource = cmdSource.replace("@everyone", "[nice meme]").replace("@here", "[you tried]");
 
                 if(cmdSource.contains("v3:")) {
@@ -743,7 +752,7 @@ CustomCmds {
                     }
                 }
 
-                CustomCommand custom = CustomCommand.of(event.getGuild().getId(), cmd, Collections.singletonList(cmdSource));
+                CustomCommand custom = CustomCommand.of(guild.getId(), cmd, Collections.singletonList(cmdSource));
                 if(custom != null) {
                     CustomCommand c = db().getCustomCommand(event, cmd);
 
