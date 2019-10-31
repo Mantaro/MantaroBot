@@ -3,7 +3,7 @@ name: Documentation Issue
 about: Report things that are wrong with our documentation of Mantaro (this can be spelling mistakes, features that don't exist but are documented etc.)
 title: '[ Docs/Wiki ] Replace this with a short description of your issue (leave the leading brackets and the text in it)'
 labels: 'documentation issue'
-assignees: 'MrLar'
+assignees: 'Haxiz'
 
 ---
 
