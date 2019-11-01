@@ -410,7 +410,7 @@ public class GuildOptions extends OptionHandler {
                 consumer.accept(channel);
             }
         });
-        addOptionAlias("usermessage:join:channel", "leavechannel");
+        addOptionAlias("usermessage:leave:channel", "leavechannel");
 
         registerOption("usermessage:leave:resetchannel", "Resets the leave message channel", "Resets the leave message channel", (event, lang) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
