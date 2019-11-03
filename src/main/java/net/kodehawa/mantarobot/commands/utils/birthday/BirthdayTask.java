@@ -109,7 +109,8 @@ public class BirthdayTask {
                                         member.getEffectiveName());
 
                                 if(tempGuildData.getBirthdayMessage() != null) {
-                                    tempBirthdayMessage = tempGuildData.getBirthdayMessage().replace("$(user)", member.getEffectiveName());
+                                    tempBirthdayMessage = tempGuildData.getBirthdayMessage().replace("$(user)", member.getEffectiveName())
+                                            .replace("$(usermention)", member.getAsMention());
                                 }
 
                                 //Variable used in lambda expression should be final or effectively final...
