@@ -125,7 +125,8 @@ public class GuildOptions extends OptionHandler {
             User user = m.getUser();
             String message = String.format("%s%s is a year older now! (test)", EmoteReference.POPPER, m.getEffectiveName());
             if(dbGuild.getData().getBirthdayMessage() != null) {
-                message = dbGuild.getData().getBirthdayMessage().replace("$(user)", m.getEffectiveName());
+                message = dbGuild.getData().getBirthdayMessage().replace("$(user)", m.getEffectiveName())
+                        .replace("$(usermention)", m.getAsMention());
             }
 
             //Value used in lambda... blabla :c
