@@ -81,20 +81,23 @@ public class AudioLoader implements AudioLoadResultHandler {
     @Override
     public void trackLoaded(AudioTrack track) {
         cacheEvents.labels(MantaroAudioManager.isResultFromCache() ? "hit" : "miss").inc();
-        if(!MantaroAudioManager.isResultFromCache()) {
+        /* if(!MantaroAudioManager.isResultFromCache()) {
             CacheClient client = MantaroBot.getInstance().getCacheClient();
             if(client != null) client.addToIndex(track);
-        }
+        } */
         loadSingle(track, false);
     }
 
     @Override
     public void playlistLoaded(AudioPlaylist playlist) {
         cacheEvents.labels(MantaroAudioManager.isResultFromCache() ? "hit" : "miss").inc();
-        if(!MantaroAudioManager.isResultFromCache()) {
+        //TODO: only do this when the thing is active, but since we commented it out all results aren't from cache.
+
+        /* if(!MantaroAudioManager.isResultFromCache()) {
             CacheClient client = MantaroBot.getInstance().getCacheClient();
             if(client != null) client.addToIndex(playlist);
-        }
+        } */
+
         if(playlist.isSearchResult()) {
             if(!skipSelection) {
                 onSearch(playlist);
