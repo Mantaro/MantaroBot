@@ -63,6 +63,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     private long requestedChannel;
     @Getter
     private final I18n language;
+    private long errorCount = 0;
 
     public TrackScheduler(Link player, String guildId) {
         this.audioPlayer = player;
@@ -163,10 +164,13 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     public void onTrackException(IPlayer player, AudioTrack track, Exception exception) {
         if(getRequestedChannelParsed() != null && getRequestedChannelParsed().canTalk()) {
             //Avoid massive spam of when song error in mass.
-            if(lastErrorSentAt == 0 || lastErrorSentAt + 10000 < System.currentTimeMillis()) {
+            if((lastErrorSentAt == 0 || System.currentTimeMillis() > lastErrorSentAt + 60000) && errorCount < 10) {
                 getRequestedChannelParsed().sendMessageFormat(
                         language.get("commands.music_general.track_error"), EmoteReference.SAD
-                ).queue(success -> lastErrorSentAt = System.currentTimeMillis());
+                ).queue(success -> {
+                    lastErrorSentAt = System.currentTimeMillis();
+                    errorCount++;
+                });
             }
         }
     }
@@ -241,6 +245,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         } catch(Exception ignored) { }
 
         requestedChannel = 0;
+        errorCount = 0;
         //If not set to null, those two objects will always be in scope and dangle around in the heap forever.
         //Some AudioTrack objects were of almost 500kb of size, I guess 100k of those can cause a meme.
         currentTrack = null;
