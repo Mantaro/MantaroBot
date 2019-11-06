@@ -20,6 +20,8 @@ package net.kodehawa.mantarobot.core.shard;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import io.prometheus.client.Counter;
+import io.prometheus.client.Gauge;
 import lombok.Getter;
 import lombok.experimental.Delegate;
 import net.dv8tion.jda.api.AccountType;
@@ -30,6 +32,8 @@ import net.dv8tion.jda.api.exceptions.RateLimitedException;
 import net.dv8tion.jda.api.utils.SessionController;
 import net.dv8tion.jda.api.utils.SessionControllerAdapter;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import net.dv8tion.jda.internal.JDAImpl;
+import net.dv8tion.jda.internal.requests.ratelimit.IBucket;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
@@ -43,6 +47,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -55,6 +60,8 @@ import javax.security.auth.login.LoginException;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import static net.kodehawa.mantarobot.data.MantaroData.config;
 import static net.kodehawa.mantarobot.utils.Utils.httpClient;
@@ -95,8 +102,39 @@ public class MantaroShard implements JDA {
     @Getter
     private final ExecutorService commandPool;
     private final SessionController sessionController;
+    private static final Gauge ratelimitBucket = new Gauge.Builder().name("ratelimitBucket").labelNames("shardId").create();
     @Delegate
     private JDA jda;
+
+    public static final Function<JDA, Integer> QUEUE_SIZE = jda -> {
+        int sum = 0;
+        for (final IBucket bucket : ((JDAImpl) jda).getRequester().getRateLimiter().getRouteBuckets()) {
+            sum += bucket.getRequests().size();
+        }
+
+        return sum;
+    };
+
+    public static final BiFunction<JDA, String, Integer> ROUTE_QUEUE_SIZE = (jda, route) -> {
+        for (final IBucket bucket : ((JDAImpl) jda).getRequester().getRateLimiter().getRouteBuckets()) {
+            if (bucket.getRoute().equals(route))
+                return bucket.getRequests().size();
+        }
+
+        return 0;
+    };
+
+    public static final Function<JDA, List<Pair<String, Integer>>> GET_BUCKETS_WITH_QUEUE = jda -> {
+        final List<Pair<String, Integer>> routes = new ArrayList<>();
+        final List<IBucket> buckets = ((JDAImpl) jda).getRequester().getRateLimiter().getRouteBuckets();
+        for (final IBucket bucket : buckets) {
+            if (bucket.getRequests().size() > 0) {
+                routes.add(Pair.of(bucket.getRoute(), bucket.getRequests().size()));
+            }
+        }
+
+        return routes;
+    };
 
     /**
      * Builds a new instance of a MantaroShard.
@@ -139,6 +177,11 @@ public class MantaroShard implements JDA {
         commandListener = new CommandListener(shardId, this, commandProcessor);
 
         start(false);
+
+        //Gauge the current ratelimit bucket queue size per shard.
+        Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+            ratelimitBucket.labels(String.valueOf(shardId)).set(QUEUE_SIZE.apply(jda));
+        }, 1, 1, TimeUnit.MINUTES);
     }
 
     /**

@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot;
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lavalink.client.io.LavalinkLoadBalancer;
-import lavalink.client.io.PenaltyProvider;
 import lavalink.client.io.jda.JdaLavalink;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +63,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static net.kodehawa.mantarobot.utils.ShutdownCodes.*;
+import static net.kodehawa.mantarobot.utils.ShutdownCodes.API_HANDSHAKE_FAILURE;
+import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 
 @Slf4j
 public class MantaroBot extends ShardedJDA {
