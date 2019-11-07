@@ -87,7 +87,7 @@ public class ModerationCmds {
 
                 User user = event.getMessage().getMentionedUsers().get(0);
                 Member member = guild.getMember(user);
-                if(!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
+                if(!guild.getMember(event.getAuthor()).canInteract(member)) {
                     channel.sendMessage(String.format(languageContext.get("commands.softban.hierarchy_conflict"), EmoteReference.ERROR)).queue();
                     return;
                 }
