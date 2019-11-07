@@ -279,6 +279,7 @@ public class MoneyCmds {
                     .maxCooldown(5, TimeUnit.MINUTES)
                     .pool(MantaroData.getDefaultJedisPool())
                     .prefix("gamble")
+                    .premiumAware(true)
                     .build();
 
             SecureRandom r = new SecureRandom();
@@ -584,6 +585,7 @@ public class MoneyCmds {
                 .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
                 .maxCooldown(5, TimeUnit.MINUTES)
                 .pool(MantaroData.getDefaultJedisPool())
+                .premiumAware(true)
                 .prefix("slots")
                 .build();
 
