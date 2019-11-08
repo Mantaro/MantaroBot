@@ -391,7 +391,7 @@ public class ItemCmds {
                         }
 
                         if(((Wrench) wrench).getLevel() < 2) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_enough_level")).queue();
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_enough_level"), EmoteReference.ERROR).queue();
                             return;
                         }
 
