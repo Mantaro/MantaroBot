@@ -157,6 +157,8 @@ public class DebugCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 StringBuilder builder = new StringBuilder();
                 int connecting = 0;
+                int bigqueue = 0;
+
                 for(MantaroShard shard : MantaroBot.getInstance().getShardList()) {
                     if(shard == null) {
                         connecting++;
@@ -164,14 +166,20 @@ public class DebugCmds {
                     }
 
                     JDA jda = shard.getJDA();
+                    int queueSize = MantaroShard.QUEUE_SIZE.apply(jda);
+                    if(queueSize > 100) {
+                        bigqueue++;
+                    }
+
                     builder.append(String.format(
-                            "%-17s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s",
+                            "%-17s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s | Q: %-8s",
                             jda.getShardInfo(),
                             jda.getStatus(),
                             jda.getUserCache().size(),
                             jda.getGuildCache().size(),
                             shard.getShardEventManager().getLastJDAEventTimeDiff() + " ms",
-                            jda.getGatewayPing()
+                            jda.getGatewayPing(),
+                            queueSize
                     ));
 
                     if(shard.getJDA().getShardInfo().equals(event.getJDA().getShardInfo())) {
@@ -183,6 +191,8 @@ public class DebugCmds {
 
                 if(connecting > 0)
                     builder.append("\nWARNING: Number of shards still booting up: ").append(connecting);
+                if(bigqueue > 0)
+                    builder.append("\nWARNING: Number of shards with +100 events in queue: ").append(connecting);
 
                 List<String> m = DiscordUtils.divideString(builder);
                 List<String> messages = new LinkedList<>();
