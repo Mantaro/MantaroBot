@@ -24,6 +24,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -1198,6 +1199,15 @@ public class GuildOptions extends OptionHandler {
         //bannedMemberLog;
         //unbannedMemberLog;
 
+        registerOption("commands:showdisablewarning", "Show disable warning", "Toggles on/off the disabled command warning.",
+                "Toggles on/off the disabled command warning.", (event, args, lang) -> {
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    guildData.setCommandWarningDisplay(!guildData.isCommandWarningDisplay()); //lombok names are amusing
+                    dbGuild.save();
+                    event.getChannel().sendMessageFormat(lang.get("options.showdisablewarning.success"), EmoteReference.CORRECT, guildData.isCommandWarningDisplay()).queue();
+                });
     }
 
     @Override

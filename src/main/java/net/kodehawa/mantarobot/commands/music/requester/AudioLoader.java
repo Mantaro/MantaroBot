@@ -178,7 +178,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                 ).queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             return;
         }
-
+        
         if(audioTrack.getInfo().length > MAX_SONG_LENGTH && (!dbUser.isPremium() && !dbGuild.isPremium())) {
             event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.over_32_minutes"),
                     EmoteReference.WARNING, title, AudioUtils.getLength(length)

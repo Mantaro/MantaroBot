@@ -20,6 +20,7 @@ package net.kodehawa.mantarobot.core;
 import com.google.common.base.Preconditions;
 import io.prometheus.client.Counter;
 import io.prometheus.client.Histogram;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
@@ -130,25 +131,30 @@ public class CommandRegistry {
         final Command cmd = command;
 
         if (guildData.getDisabledCommands().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName.toLowerCase())) {
+            sendDisabledNotice(event, guildData, CommandDisableLevel.COMMAND);
             return false;
         }
 
         List<String> channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
         if (channelDisabledCommands != null && channelDisabledCommands.contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName.toLowerCase())) {
+            sendDisabledNotice(event, guildData, CommandDisableLevel.COMMAND_SPECIFIC);
             return false;
         }
 
         if (guildData.getDisabledUsers().contains(event.getAuthor().getId()) && !isAdmin(event.getMember())) {
+            sendDisabledNotice(event, guildData, CommandDisableLevel.USER);
             return false;
         }
 
         if (guildData.getDisabledChannels().contains(event.getChannel().getId()) && (cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() != Category.MODERATION : cmd.category() != Category.MODERATION)) {
+            sendDisabledNotice(event, guildData, CommandDisableLevel.CHANNEL);
             return false;
         }
 
         if (guildData.getDisabledCategories().contains(
                 cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category()
         )  && !cmdName.toLowerCase().equals("opts")) {
+            sendDisabledNotice(event, guildData, CommandDisableLevel.CATEGORY);
             return false;
         }
 
@@ -156,6 +162,7 @@ public class CommandRegistry {
                 new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() :
                     cmd.category())
                 &&  !cmdName.toLowerCase().equals("opts")) {
+            sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_CATEGORY);
             return false;
         }
 
@@ -168,16 +175,19 @@ public class CommandRegistry {
         }
 
         if (!guildData.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream().anyMatch(r -> guildData.getDisabledRoles().contains(r.getId())) && !isAdmin(event.getMember())) {
+            sendDisabledNotice(event, guildData, CommandDisableLevel.ROLE);
             return false;
         }
 
         HashMap<String, List<String>> roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
         if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) && !isAdmin(event.getMember())) {
+            sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_ROLE);
             return false;
         }
 
         HashMap<String, List<Category>> roleSpecificDisabledCategories = guildData.getRoleSpecificDisabledCategories();
         if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCategories.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) && !isAdmin(event.getMember())) {
+            sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_ROLE_CATEGORY);
             return false;
         }
 
@@ -276,4 +286,35 @@ public class CommandRegistry {
     private boolean isAdmin(Member member) {
         return CommandPermission.ADMIN.test(member);
     }
+
+    public void sendDisabledNotice(GuildMessageReceivedEvent event, GuildData data, CommandDisableLevel level) {
+        if(data.isCommandWarningDisplay() && level != CommandDisableLevel.NONE) {
+            event.getChannel().sendMessageFormat("%sThis command is disabled on this server. Reason: %s",
+                    EmoteReference.ERROR, Utils.capitalize(level.getName())
+            ).queue();
+        } //else don't
+    }
+
+    //lol @ this
+    enum CommandDisableLevel {
+        NONE("None"),
+        CATEGORY("Disabled category on server"),
+        SPECIFIC_CATEGORY("Disabled category on specific channel"),
+        COMMAND("Disabled command"),
+        COMMAND_SPECIFIC("Disabled command on specific channel"),
+        GUILD("Disabled command on this server"),
+        ROLE("Disabled role on this server"),
+        ROLE_CATEGORY("Disabled role for this category"),
+        SPECIFIC_ROLE("Disabled role on this channel"),
+        SPECIFIC_ROLE_CATEGORY("Disabled role on this channel for this category"),
+        CHANNEL("Disabled channel"),
+        USER("Disabled user");
+
+        @Getter
+        String name;
+        CommandDisableLevel(String name) {
+            this.name = name;
+        }
+    }
+
 }

@@ -202,5 +202,9 @@ public class GuildData {
     private String bannedMemberLog;
     @ConfigName("Unban message")
     private String unbannedMemberLog;
+    @ConfigName("Kick message")
     private String kickedMemberLog;
+
+    @ConfigName("Disabled command warning display")
+    private boolean commandWarningDisplay = false;
 }
