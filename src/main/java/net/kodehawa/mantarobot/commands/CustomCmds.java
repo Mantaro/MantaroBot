@@ -735,12 +735,6 @@ CustomCmds {
                 }
 
                 Guild guild = event.getGuild();
-                //Are the first two checks redundant?
-                if(!getConfig().isPremiumBot && !db.getGuild(guild).isPremium() && db.getCustomCommands(guild).size() > 100) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.add.too_many_commands"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
                 cmdSource = cmdSource.replace("@everyone", "[nice meme]").replace("@here", "[you tried]");
 
                 if(cmdSource.contains("v3:")) {
@@ -753,11 +747,18 @@ CustomCmds {
                 }
 
                 CustomCommand custom = CustomCommand.of(guild.getId(), cmd, Collections.singletonList(cmdSource));
-                if(custom != null) {
-                    CustomCommand c = db().getCustomCommand(event, cmd);
+                CustomCommand c = db().getCustomCommand(event, cmd);
 
-                    if(c != null) custom.getValues().addAll(c.getValues());
+                if(c != null) {
+                    custom.getValues().addAll(c.getValues());
+                } else {
+                    //Are the first two checks redundant?
+                    if(!getConfig().isPremiumBot && !db.getGuild(guild).isPremium() && db.getCustomCommands(guild).size() > 100) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.add.too_many_commands"), EmoteReference.ERROR).queue();
+                        return;
+                    }
                 }
+
 
                 custom.getData().setOwner(event.getAuthor().getId());
                 if(opts.containsKey("nsfw")) {

@@ -160,6 +160,11 @@ public class OwnerCmd {
                     }
                 }
 
+                if(faultShards.isEmpty()) {
+                    event.getChannel().sendMessage("Nothing to see.").queue();
+                    return;
+                }
+
                 StringBuilder builder = new StringBuilder();
                 for(Map.Entry<String, Pair<Integer, Integer>> fs : faultShards.entrySet()) {
                     String route = fs.getKey();
