@@ -102,7 +102,7 @@ public class MantaroShard implements JDA {
     @Getter
     private final ExecutorService commandPool;
     private final SessionController sessionController;
-    private static final Gauge ratelimitBucket = new Gauge.Builder().name("ratelimitBucket").labelNames("shardId").create();
+    private static final Gauge ratelimitBucket = new Gauge.Builder().name("ratelimitBucket").help("shard queue size").labelNames("shardId").create();
     @Delegate
     private JDA jda;
 

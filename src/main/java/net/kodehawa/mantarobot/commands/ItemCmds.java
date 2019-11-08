@@ -122,9 +122,9 @@ public class ItemCmds {
                             if(isMultiple)
                                 amountSpecified = Math.max(1, Integer.parseInt(t.get("amount")));
                             else if(arguments.length > 2)
-                                amountSpecified = Integer.parseInt(arguments[2]);
+                                amountSpecified = Math.max(1, Integer.parseInt(arguments[2]));
                             else if(!optionalWrench.isPresent() && arguments.length > 1)
-                                amountSpecified = Integer.parseInt(arguments[1]);
+                                amountSpecified = Math.max(1, Integer.parseInt(arguments[1]));
                         } catch (Exception ignored) { }
 
                         Item castItem = toCast.get();
