@@ -174,10 +174,10 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             //Avoid massive spam of when song error in mass.
             if((lastErrorSentAt == 0 || lastErrorSentAt + 60000 < System.currentTimeMillis()) && errorCount < 10) {
                 lastErrorSentAt = System.currentTimeMillis();
-                errorCount++;
-
                 getRequestedChannelParsed().sendMessageFormat(language.get("commands.music_general.track_error"), EmoteReference.SAD).queue();
             }
+
+            errorCount++;
         }
     }
 
