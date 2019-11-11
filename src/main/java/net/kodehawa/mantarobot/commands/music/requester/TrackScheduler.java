@@ -165,12 +165,9 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         if(getRequestedChannelParsed() != null && getRequestedChannelParsed().canTalk()) {
             //Avoid massive spam of when song error in mass.
             if((lastErrorSentAt == 0 || System.currentTimeMillis() > lastErrorSentAt + 60000) && errorCount < 10) {
-                getRequestedChannelParsed().sendMessageFormat(
-                        language.get("commands.music_general.track_error"), EmoteReference.SAD
-                ).queue(success -> {
-                    lastErrorSentAt = System.currentTimeMillis();
-                    errorCount++;
-                });
+                getRequestedChannelParsed().sendMessageFormat(language.get("commands.music_general.track_error"), EmoteReference.SAD).queue();
+                lastErrorSentAt = System.currentTimeMillis();
+                errorCount++;
             }
         }
     }
