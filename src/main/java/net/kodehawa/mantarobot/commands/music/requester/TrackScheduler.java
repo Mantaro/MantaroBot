@@ -123,7 +123,15 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
 
             //What kind of massive meme is this?
             //It's called mantaro
-            if(voiceChannel == null) return;
+            if(voiceChannel == null)
+                return;
+
+            //Force it in case it keeps going all the time?
+            if(errorCount > 20) {
+                getRequestedChannelParsed().sendMessageFormat(language.get("commands.music_general.too_many_errors"), EmoteReference.ERROR).queue();
+                onStop();
+                return;
+            }
 
             if(getRequestedChannelParsed().canTalk()) {
                 AudioTrackInfo information = currentTrack.getInfo();
@@ -164,10 +172,11 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     public void onTrackException(IPlayer player, AudioTrack track, Exception exception) {
         if(getRequestedChannelParsed() != null && getRequestedChannelParsed().canTalk()) {
             //Avoid massive spam of when song error in mass.
-            if((lastErrorSentAt == 0 || System.currentTimeMillis() > lastErrorSentAt + 60000) && errorCount < 10) {
-                getRequestedChannelParsed().sendMessageFormat(language.get("commands.music_general.track_error"), EmoteReference.SAD).queue();
+            if((lastErrorSentAt == 0 || lastErrorSentAt + 60000 < System.currentTimeMillis()) && errorCount < 10) {
                 lastErrorSentAt = System.currentTimeMillis();
                 errorCount++;
+
+                getRequestedChannelParsed().sendMessageFormat(language.get("commands.music_general.track_error"), EmoteReference.SAD).queue();
             }
         }
     }
