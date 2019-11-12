@@ -102,11 +102,11 @@ public enum ProfileComponent {
             else
                 return String.format("%s#%s", marriedTo.getName(), marriedTo.getDiscriminator());
         }
-    }),
+    }, true, false),
     INVENTORY(EmoteReference.POUCH, i18nContext -> i18nContext.get("commands.profile.inventory"), (holder, i18nContext) -> {
         Inventory inv = holder.isSeasonal() ? holder.getSeasonalPlayer().getInventory() : holder.getPlayer().getInventory();
         return inv.asList().stream().map(i -> i.getItem().getEmoji()).collect(Collectors.joining("  "));
-    }),
+    }, true, false),
     BADGES(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.badges"), (holder, i18nContext) -> {
         String displayBadges = holder.getBadges().stream().map(Badge::getUnicode).limit(5).collect(Collectors.joining("  "));
 
@@ -114,7 +114,7 @@ public enum ProfileComponent {
             return i18nContext.get("commands.profile.no_badges");
         else
             return displayBadges;
-    }, true, true),
+    }, true, false),
     FOOTER(null, null, (holder, i18nContext) -> {
         UserData userData = holder.getDbUser().getData();
         String timezone;

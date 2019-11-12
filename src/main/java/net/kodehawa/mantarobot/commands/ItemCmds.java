@@ -306,7 +306,7 @@ public class ItemCmds {
                             languageContext.get(item.getDesc()) + "\n**" + languageContext.get("commands.cast.ls.cost") + "**" +
                                     item.getValue() / 2 + " " + languageContext.get("commands.gamble.credits") + ".\n**Recipe: **" + recipe +
                                     "\n**Wrench Tier: **" + castLevel + ".",
-                            true)
+                            false)
                     );
                 }
 
