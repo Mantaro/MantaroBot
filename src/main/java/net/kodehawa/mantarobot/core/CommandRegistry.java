@@ -204,13 +204,13 @@ public class CommandRegistry {
         }
 
         PremiumKey currentKey = managedDatabase.getPremiumKey(userData.getPremiumKey());
+        PremiumKey guildKey = managedDatabase.getPremiumKey(guildData.getPremiumKey());
+
         if(currentKey != null) {
             //10 days before expiration or best fit.
             if(currentKey.validFor() <= 10 && currentKey.validFor() > 1 && !userData.isReceivedExpirationWarning()) {
-                Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(event.getAuthor().getId());
-                if(pledgeInfo != null && pledgeInfo.getLeft()) {
-                    currentKey.activate(365); //Renew key automatically if seen as a patreon.
-                } else {
+                //Handling is done inside the PremiumKey#renew method.
+                if(!currentKey.renew()) {
                     //Send message if the person can't be seen as a patron. Maybe they're still pledging, or wanna pledge again.
                     event.getAuthor().openPrivateChannel().queue(privateChannel ->
                             privateChannel.sendMessage(EmoteReference.WARNING + "Your premium key is about to run out in **" + Math.max(1, currentKey.validFor()) + " days**!\n" +
@@ -227,6 +227,10 @@ public class CommandRegistry {
                 dbUser.save();
             }
         }
+
+        //Handling is done inside the PremiumKey#renew method. This only gets fired if the key has less than 10 days left.
+        if(guildKey != null)
+            guildKey.renew();
 
         //COMMAND LOGGING
         long end = System.currentTimeMillis();

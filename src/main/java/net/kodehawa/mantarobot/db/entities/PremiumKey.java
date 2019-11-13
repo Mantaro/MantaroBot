@@ -24,6 +24,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
+import net.kodehawa.mantarobot.utils.Pair;
+import net.kodehawa.mantarobot.utils.Utils;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
@@ -107,6 +109,31 @@ public class PremiumKey implements ManagedObject {
         this.duration = TimeUnit.DAYS.toMillis(days);
         this.expiration = currentTimeMillis() + TimeUnit.DAYS.toMillis(days);
         save();
+    }
+
+    @JsonIgnore
+    public boolean renew() {
+        if(this.validFor() <= 10 && this.validFor() > 1) {
+            if (data.getLinkedTo() != null && !data.getLinkedTo().isEmpty()) {
+                Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(data.getLinkedTo());
+                if (pledgeInfo != null && pledgeInfo.getLeft()) {
+                    switch (type) {
+                        case 1: //user
+                            this.activate(365);
+                        case 2: //server
+                            this.activate(180);
+                        default:
+                            this.activate(60);
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        return false;
     }
 
     public enum Type {
