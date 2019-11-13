@@ -113,24 +113,20 @@ public class PremiumKey implements ManagedObject {
 
     @JsonIgnore
     public boolean renew() {
-        if(this.validFor() <= 10 && this.validFor() > 1) {
-            if (data.getLinkedTo() != null && !data.getLinkedTo().isEmpty()) {
-                Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(data.getLinkedTo());
-                if (pledgeInfo != null && pledgeInfo.getLeft()) {
-                    switch (type) {
-                        case 1: //user
-                            this.activate(365);
-                        case 2: //server
-                            this.activate(180);
-                        default:
-                            this.activate(60);
-                    }
-
-                    return true;
+        if (data.getLinkedTo() != null && !data.getLinkedTo().isEmpty()) {
+            Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(data.getLinkedTo());
+            if (pledgeInfo != null && pledgeInfo.getLeft()) {
+                switch (type) {
+                    case 1: //user
+                        this.activate(365);
+                    case 2: //server
+                        this.activate(180);
+                    default:
+                        this.activate(60);
                 }
-            }
 
-            return false;
+                return true;
+            }
         }
 
         return false;

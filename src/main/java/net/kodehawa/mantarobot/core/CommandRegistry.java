@@ -208,9 +208,9 @@ public class CommandRegistry {
 
         if(currentKey != null) {
             //10 days before expiration or best fit.
-            if(currentKey.validFor() <= 10 && currentKey.validFor() > 1 && !userData.isReceivedExpirationWarning()) {
-                //Handling is done inside the PremiumKey#renew method.
-                if(!currentKey.renew()) {
+            if(currentKey.validFor() <= 10 && currentKey.validFor() > 1) {
+                //Handling is done inside the PremiumKey#renew method. This only gets fired if the key has less than 10 days left.
+                if(!currentKey.renew() && !userData.isReceivedExpirationWarning()) {
                     //Send message if the person can't be seen as a patron. Maybe they're still pledging, or wanna pledge again.
                     event.getAuthor().openPrivateChannel().queue(privateChannel ->
                             privateChannel.sendMessage(EmoteReference.WARNING + "Your premium key is about to run out in **" + Math.max(1, currentKey.validFor()) + " days**!\n" +
@@ -229,8 +229,11 @@ public class CommandRegistry {
         }
 
         //Handling is done inside the PremiumKey#renew method. This only gets fired if the key has less than 10 days left.
-        if(guildKey != null)
-            guildKey.renew();
+        if(guildKey != null) {
+            if(guildKey.validFor() <= 10 && guildKey.validFor() > 1) {
+                guildKey.renew();
+            }
+        }
 
         //COMMAND LOGGING
         long end = System.currentTimeMillis();
