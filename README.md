@@ -16,6 +16,9 @@ Our [webpage](https://mantaro.site) is hosted in [Github Pages](https://github.c
 The owners of Mantaro do not recommend compiling Mantaro as it is not documented and most builds here will be extremely unstable and (probably) untested, probably including unfinished features. There's no *stable* branch, all of the features are immediately added to upstream.\
 You will however sometimes see a legacy branch, a branch we create before publishing larger update containing working code, it is highly recommended to base your building process from the legacy branch, as the master branch will very likely contain broken and non-working code, at least in a case where a legay branch exist.
 
+**We will not provide any support whatsoever in selfhosting or building the bot by yourself.**
+The reason for this is because not only can the builds in here be highly unstable, but also there are very few people who could actually help with questions regarding this, most of which are busy and not available to answer said questions.
+
 ## Building the Bot
 
 ### Prerequisite:
