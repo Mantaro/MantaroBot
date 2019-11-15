@@ -119,8 +119,10 @@ public class PremiumKey implements ManagedObject {
                 switch (type) {
                     case 1: //user
                         this.activate(365);
+                        break;
                     case 2: //server
                         this.activate(180);
+                        break;
                     default:
                         this.activate(60);
                 }
