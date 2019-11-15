@@ -258,7 +258,11 @@ CustomCmds {
                 List<MessageEmbed.Field> fields = new ArrayList<>();
                 AtomicInteger count = new AtomicInteger();
                 for(String value : custom.getValues()) {
-                    fields.add(new MessageEmbed.Field("Response N° " + count.incrementAndGet(), value, true));
+                    String val = value;
+                    if(value.length() > 900)
+                        val = Utils.paste(value);
+
+                    fields.add(new MessageEmbed.Field("Response N° " + count.incrementAndGet(), val, true));
                 }
 
                 EmbedBuilder embed = baseEmbed(event, String.format(languageContext.get("commands.custom.raw.header"), command))
