@@ -83,6 +83,9 @@ Alternatively send us a Pull Request with what you see fit/think we need. Howeve
 ## Using our code
 Give credit where credit is due. If you wish to use our code in a project, **please** credit us, and take your time to read our full license. We don't mind you using Mantaro code, **as it is** open-source for a reason, as long as you don't blatantly copy it or refrain from crediting us.
 
+# Why is your code of conduct non-existant / stupid / it offends me
+We shall bring no politics into OSS. Of course I pledge for everyone to treat themselves with respect and I *expect* them to do so. We'll take appropiate action if someone is *actually* being mean, but we don't care about politics and am not bringing them here. Please enjoy the code, contribute if you want and have a nice day.
+
 ## License
 
 Copyright (C) 2016-2019 **David Rubio Escares** / **Kodehawa**
