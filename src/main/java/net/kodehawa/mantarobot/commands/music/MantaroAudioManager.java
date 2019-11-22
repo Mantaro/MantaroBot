@@ -27,10 +27,12 @@ import com.sedmelluq.discord.lavaplayer.source.twitch.TwitchStreamAudioSourceMan
 import com.sedmelluq.discord.lavaplayer.source.vimeo.VimeoAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
-import com.sedmelluq.discord.lavaplayer.tools.Ipv6Block;
-import com.sedmelluq.discord.lavaplayer.tools.http.AbstractRoutePlanner;
-import com.sedmelluq.discord.lavaplayer.tools.http.RotatingIpRoutePlanner;
 import com.sedmelluq.discord.lavaplayer.track.playback.NonAllocatingAudioFrameBuffer;
+import com.sedmelluq.lava.extensions.youtuberotator.YoutubeIpRotatorSetup;
+import com.sedmelluq.lava.extensions.youtuberotator.planner.AbstractRoutePlanner;
+import com.sedmelluq.lava.extensions.youtuberotator.planner.RotatingIpRoutePlanner;
+import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.IpBlock;
+import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.Ipv6Block;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Guild;
@@ -50,6 +52,8 @@ import org.apache.http.client.utils.URIBuilder;
 
 import java.net.InetAddress;
 import java.net.URISyntaxException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
@@ -83,27 +87,29 @@ public class MantaroAudioManager {
         Prometheus.THREAD_POOL_COLLECTOR.add("lavaplayer-track-playback", apm.getExecutor());
         this.playerManager = apm;
 
-        YoutubeAudioSourceManager youtubeAudioSourceManager;
+        YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager(true);
         if(!config.getIpv6Block().isEmpty()) {
             AbstractRoutePlanner planner;
+            String block = config.getIpv6Block();
+            List<IpBlock> blocks = Collections.singletonList(new Ipv6Block(block));
 
             //Damn you, YouTube.
             if(config.getExcludeAddress().isEmpty())
-                planner = new RotatingIpRoutePlanner(new Ipv6Block(config.getIpv6Block()));
+                planner = new RotatingIpRoutePlanner(blocks);
             else {
                 try {
                     InetAddress blacklistedGW = InetAddress.getByName(config.getExcludeAddress());
-                    planner = new RotatingIpRoutePlanner(new Ipv6Block(config.getIpv6Block()), inetAddress -> !inetAddress.equals(blacklistedGW));
+                    planner = new RotatingIpRoutePlanner(blocks, inetAddress -> !inetAddress.equals(blacklistedGW));
                 } catch (Exception e) {
                     //Fallback: did I screw up putting the IP in? lmao
-                    planner = new RotatingIpRoutePlanner(new Ipv6Block(config.getIpv6Block()));
+                    planner = new RotatingIpRoutePlanner(blocks);
                     e.printStackTrace();
                 }
             }
 
-            youtubeAudioSourceManager = new YoutubeAudioSourceManager(true, planner);
-        } else {
-            youtubeAudioSourceManager = new YoutubeAudioSourceManager(true);
+            new YoutubeIpRotatorSetup(planner)
+                    .forSource(youtubeAudioSourceManager)
+                    .setup();
         }
 
         youtubeAudioSourceManager.configureRequests(config -> RequestConfig.copy(config).setCookieSpec(CookieSpecs.IGNORE_COOKIES).build());

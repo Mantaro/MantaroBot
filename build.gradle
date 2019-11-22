@@ -49,6 +49,9 @@ repositories {
     maven { url "https://dl.bintray.com/kodehawa/maven" }
     maven { url 'https://dl.bintray.com/natanbc/maven' }
     maven { url 'https://maven.notfab.net/Hosted' }
+    maven {
+        url 'https://dl.bintray.com/sedmelluq/com.sedmelluq'
+    }
     maven { url 'https://jitpack.io' }
 }
 
@@ -64,14 +67,16 @@ task generateLanguageList {
 
 dependencies {
     //remember to update this 3 all the time lul
-    compile 'net.dv8tion:JDA:4.0.0_51'
+    compile 'net.dv8tion:JDA:4.0.0_62'
     compile 'club.minnced:discord-webhooks:0.1.7'
 
     //Music
     compile ('com.github.FredBoat:Lavalink-Client:5502c9e403') {
         exclude group: 'com.sedmelluq', module: 'lavaplayer'
     }
-    compile 'com.github.ByteAlex:lavaplayer:b7a1d21'
+
+    compile 'com.sedmelluq:lavaplayer:1.3.27'
+    compile group: 'com.sedmelluq', name: 'lavaplayer-ext-youtube-rotator', version: "0.2.1"
     compile 'net.notfab.cache:cache-client:1.1'
 
     //before: classpathscanner
