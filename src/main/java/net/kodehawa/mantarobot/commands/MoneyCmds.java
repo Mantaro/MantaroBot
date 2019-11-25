@@ -853,8 +853,8 @@ public class MoneyCmds {
                     return;
                 }
 
-                //if(!handleDefaultIncreasingRatelimit(rateLimiter, user, event, languageContext, false))
-                //    return;
+                if(!handleDefaultIncreasingRatelimit(rateLimiter, user, event, languageContext, false))
+                    return;
 
                 if(!Items.handlePickaxe(event, languageContext, item, player, dbUser, seasonalPlayer, item.getChance(), isSeasonal))
                     return;
