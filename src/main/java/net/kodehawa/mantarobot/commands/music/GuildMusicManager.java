@@ -27,9 +27,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-
 public class GuildMusicManager {
-    private final JdaLink lavaLink; //hah, punny
     private final String guildId;
 
     @Getter
@@ -42,7 +40,8 @@ public class GuildMusicManager {
 
     public GuildMusicManager(String guildId) {
         this.guildId = guildId;
-        lavaLink = MantaroBot.getInstance().getLavalink().getLink(guildId);
+
+        JdaLink lavaLink = MantaroBot.getInstance().getLavalink().getLink(guildId);
         trackScheduler = new TrackScheduler(lavaLink, guildId);
 
         lavaLink.getPlayer().addListener(trackScheduler);
@@ -67,12 +66,14 @@ public class GuildMusicManager {
     public void scheduleLeave() {
         if(leaveTask != null)
             return;
+
         leaveTask = MantaroBot.getInstance().getExecutorService().schedule(this::leave, 2, TimeUnit.MINUTES);
     }
 
     public void cancelLeave() {
         if(leaveTask == null)
             return;
+
         leaveTask.cancel(true);
         leaveTask = null;
     }

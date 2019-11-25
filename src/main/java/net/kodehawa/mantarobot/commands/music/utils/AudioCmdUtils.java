@@ -19,10 +19,12 @@ package net.kodehawa.mantarobot.commands.music.utils;
 
 import lavalink.client.io.Link;
 import lavalink.client.io.jda.JdaLink;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -42,6 +44,7 @@ import java.util.concurrent.CompletionStage;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static net.kodehawa.mantarobot.utils.data.SimpleFileDataManager.NEWLINE_PATTERN;
 
+@Slf4j
 public class AudioCmdUtils {
     private final static String BLOCK_INACTIVE = "\u25AC";
     private final static String BLOCK_ACTIVE = "\uD83D\uDD18";
@@ -71,6 +74,8 @@ public class AudioCmdUtils {
         if(!guild.getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION)) {
             String line = null;
             StringBuilder sb = new StringBuilder();
+            //i don't understand a single thing of this
+            //FIXME: Can't we just use the splitter we already use literally everywhere else?
             int total;
             {
                 int t = 0;
@@ -168,6 +173,7 @@ public class AudioCmdUtils {
             return completedFuture(null);
         } catch(NullPointerException e) {
             event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.non_existing_channel"), EmoteReference.ERROR).queue();
+
             //Reset custom channel.
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             dbGuild.getData().setMusicChannel(null);
@@ -180,65 +186,80 @@ public class AudioCmdUtils {
 
     public static CompletionStage<Boolean> connectToVoiceChannel(GuildMessageReceivedEvent event, I18nContext lang) {
         VoiceChannel userChannel = event.getMember().getVoiceState().getChannel();
+        Guild guild = event.getGuild();
+        TextChannel textChannel = event.getChannel();
 
+        //I can't see you in any VC here?
         if(userChannel == null) {
-            event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.user_no_vc"), EmoteReference.ERROR).queue();
+            textChannel.sendMessageFormat(lang.get("commands.music_general.connect.user_no_vc"), EmoteReference.ERROR).queue();
             return completedFuture(false);
         }
 
-        if(!event.getGuild().getSelfMember().hasPermission(userChannel, Permission.VOICE_CONNECT)) {
-            event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.missing_permissions_connect"), EmoteReference.ERROR, lang.get("discord_permissions.voice_connect")).queue();
+        //Can't connect to this channel
+        if(!guild.getSelfMember().hasPermission(userChannel, Permission.VOICE_CONNECT)) {
+            textChannel.sendMessageFormat(lang.get("commands.music_general.connect.missing_permissions_connect"), EmoteReference.ERROR, lang.get("discord_permissions.voice_connect")).queue();
             return completedFuture(false);
         }
 
-        if(!event.getGuild().getSelfMember().hasPermission(userChannel, Permission.VOICE_SPEAK)) {
-            event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.missing_permission_speak"), EmoteReference.ERROR, lang.get("discord_permissions.voice_speak")).queue();
+        //Can't speak on this channel
+        if(!guild.getSelfMember().hasPermission(userChannel, Permission.VOICE_SPEAK)) {
+            textChannel.sendMessageFormat(lang.get("commands.music_general.connect.missing_permission_speak"), EmoteReference.ERROR, lang.get("discord_permissions.voice_speak")).queue();
             return completedFuture(false);
         }
 
+        //Set the custom guild music channel from the db value
         VoiceChannel guildMusicChannel = null;
-        if(MantaroData.db().getGuild(event.getGuild()).getData().getMusicChannel() != null) {
-            guildMusicChannel = event.getGuild().getVoiceChannelById(MantaroData.db().getGuild(event.getGuild()).getData().getMusicChannel());
-        }
+        if(MantaroData.db().getGuild(guild).getData().getMusicChannel() != null)
+            guildMusicChannel = guild.getVoiceChannelById(MantaroData.db().getGuild(guild).getData().getMusicChannel());
 
-        JdaLink link = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getLavaLink();
+        //This is where we call LL.
+        JdaLink link = MantaroBot.getInstance().getAudioManager().getMusicManager(guild).getLavaLink();
         if(guildMusicChannel != null) {
+            //If the channel is not the set one, reject this connect.
             if(!userChannel.equals(guildMusicChannel)) {
-                event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.channel_locked"), EmoteReference.ERROR, guildMusicChannel.getName()).queue();
+                textChannel.sendMessageFormat(lang.get("commands.music_general.connect.channel_locked"), EmoteReference.ERROR, guildMusicChannel.getName()).queue();
                 return completedFuture(false);
             }
 
+            //If the link is not currently connected or connecting, accept connection and call openAudioConnection
             if(link.getState() != Link.State.CONNECTED && link.getState() != Link.State.CONNECTING) {
-                return openAudioConnection(event, link, userChannel, lang)
-                        .thenApply(__ -> true);
+                log.debug("Connected to channel {}. Reason: Link is not CONNECTED or CONNECTING and we requested a connection from connectToVoiceChannel (custom music channel)", userChannel.getId());
+                return openAudioConnection(event, link, userChannel, lang).thenApply(__ -> true);
             }
 
+            //Nothing to connect to, but pass true so we can load the song (for example, it's already connected)
             return completedFuture(true);
         }
 
+        //Assume last channel it's the one it was attempting to connect to? (on the one below this too)
+        //If the link is CONNECTED and the lastChannel is not the one it's already connected to, reject connection
         if(link.getState() == Link.State.CONNECTED && link.getLastChannel() != null && !link.getLastChannel().equals(userChannel.getId())) {
-            event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.already_connected"), EmoteReference.WARNING, event.getGuild().getVoiceChannelById(link.getLastChannel()).getName()).queue();
+            textChannel.sendMessageFormat(lang.get("commands.music_general.connect.already_connected"), EmoteReference.WARNING, guild.getVoiceChannelById(link.getLastChannel()).getName()).queue();
             return completedFuture(false);
         }
 
-        //Assume last channel it's the one it was attempting to connect to?
+        //If the link is CONNECTING and the lastChannel is not the one it's already connected to, reject connection
         if(link.getState() == Link.State.CONNECTING && link.getLastChannel() != null && !link.getLastChannel().equals(userChannel.getId())) {
-            event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.attempting_to_connect"), EmoteReference.ERROR, event.getGuild().getVoiceChannelById(link.getLastChannel()).getName()).queue();
+            textChannel.sendMessageFormat(lang.get("commands.music_general.connect.attempting_to_connect"), EmoteReference.ERROR, guild.getVoiceChannelById(link.getLastChannel()).getName()).queue();
             return completedFuture(false);
         }
 
+        //If the link is not currently connected or connecting, accept connection and call openAudioConnection
         if(link.getState() != Link.State.CONNECTED && link.getState() != Link.State.CONNECTING) {
-            return openAudioConnection(event, link, userChannel, lang)
-                    .thenApply(__ -> true);
+            log.debug("Connected to voice channel {}. Reason: Link is not CONNECTED or CONNECTING and we requested a connection from connectToVoiceChannel", userChannel.getId());
+            return openAudioConnection(event, link, userChannel, lang).thenApply(__ -> true);
         }
 
+        //Nothing to connect to, but pass true so we can load the song (for example, it's already connected)
         return completedFuture(true);
     }
 
     public static String getProgressBar(long now, long total) {
         int activeBlocks = (int) ((float) now / total * TOTAL_BLOCKS);
         StringBuilder builder = new StringBuilder();
-        for(int i = 0; i < TOTAL_BLOCKS; i++) builder.append(activeBlocks == i ? BLOCK_ACTIVE : BLOCK_INACTIVE);
+        for(int i = 0; i < TOTAL_BLOCKS; i++)
+            builder.append(activeBlocks == i ? BLOCK_ACTIVE : BLOCK_INACTIVE);
+
         return builder.append(BLOCK_INACTIVE).toString();
     }
 

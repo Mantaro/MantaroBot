@@ -84,11 +84,11 @@ public class MantaroAudioManager {
     @SuppressWarnings("rawtypes")
     public MantaroAudioManager() {
         this.musicManagers = new ConcurrentHashMap<>();
-        DefaultAudioPlayerManager apm = new DefaultAudioPlayerManager();
-        Prometheus.THREAD_POOL_COLLECTOR.add("lavaplayer-track-playback", apm.getExecutor());
-        this.playerManager = apm;
+        this.playerManager = new DefaultAudioPlayerManager();
 
+        //Youtube is special because rotation stuff.
         YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager(true);
+        //IPv6 rotation config start
         if(!config.getIpv6Block().isEmpty()) {
             AbstractRoutePlanner planner;
             String block = config.getIpv6Block();
@@ -112,10 +112,12 @@ public class MantaroAudioManager {
                     .forSource(youtubeAudioSourceManager)
                     .setup();
         }
+        //IPv6 rotation config end
 
         youtubeAudioSourceManager.configureRequests(config -> RequestConfig.copy(config).setCookieSpec(CookieSpecs.IGNORE_COOKIES).build());
-        playerManager.registerSourceManager(youtubeAudioSourceManager);
 
+        //Register source manager and configure the Player
+        playerManager.registerSourceManager(youtubeAudioSourceManager);
         playerManager.registerSourceManager(new SoundCloudAudioSourceManager());
         playerManager.registerSourceManager(new BandcampAudioSourceManager());
         playerManager.registerSourceManager(new VimeoAudioSourceManager());
@@ -146,68 +148,8 @@ public class MantaroAudioManager {
                 if(scheduler.getQueue().isEmpty())
                     scheduler.setRepeatMode(null);
 
-                IS_RESULT_FROM_CACHE.set(false);
                 AudioLoader loader = new AudioLoader(musicManager, event, skipSelection, addFirst);
-
                 playerManager.loadItemOrdered(musicManager, trackUrl, loader);
-
-                /* CacheClient client = MantaroBot.getInstance().getCacheClient();
-                if(client != null && isYoutube(trackUrl)) {
-                    boolean playlist = trackUrl.startsWith("ytsearch:");
-                    try {
-                        if(playlist) {
-                            String search = trackUrl.substring("ytsearch:".length()).trim();
-                            List<AudioTrack> l = client.search(new SearchParams()
-                                    .setSearch(search)
-                                    .setTitle(search)
-                            ).stream()
-                                    .map(t -> t.toAudioTrack(playerManager.source(YoutubeAudioSourceManager.class)))
-                                    .collect(Collectors.toList());
-                            if(!l.isEmpty()) {
-                                IS_RESULT_FROM_CACHE.set(true);
-                                loader.playlistLoaded(new AudioPlaylist() {
-                                    @Override
-                                    public String getName() {
-                                        return "<unknown name>";
-                                    }
-
-                                    @Override
-                                    public List<AudioTrack> getTracks() {
-                                        return l;
-                                    }
-
-                                    @Override
-                                    public AudioTrack getSelectedTrack() {
-                                        return null;
-                                    }
-
-                                    @Override
-                                    public boolean isSearchResult() {
-                                        return true;
-                                    }
-                                });
-                                return;
-                            }
-                        } else {
-                            CacheResponse r = client.get(YTExtractor.getIdentifier(trackUrl));
-                            if(!r.failure) {
-                                IS_RESULT_FROM_CACHE.set(true);
-                                loader.trackLoaded(r.getTrack().toAudioTrack(playerManager.source(YoutubeAudioSourceManager.class)));
-                                return;
-                            }
-                        }
-                    } catch(Exception e) {
-                        log.error("Error loading from cache", e);
-                    }
-                }
-
-                Lavalink<?> ll = MantaroBot.getInstance().getLavalink();
-                if(ll == null) {
-                    playerManager.loadItemOrdered(musicManager, trackUrl, loader);
-                } else {
-                    LavalinkTrackLoader.load(playerManager, ll, trackUrl, loader);
-                } */
-
             }
         }, LOAD_EXECUTOR);
     }
