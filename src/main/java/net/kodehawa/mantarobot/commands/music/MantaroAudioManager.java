@@ -81,6 +81,7 @@ public class MantaroAudioManager {
 
     private final Config config = MantaroData.config().get();
 
+    @SuppressWarnings("rawtypes")
     public MantaroAudioManager() {
         this.musicManagers = new ConcurrentHashMap<>();
         DefaultAudioPlayerManager apm = new DefaultAudioPlayerManager();
