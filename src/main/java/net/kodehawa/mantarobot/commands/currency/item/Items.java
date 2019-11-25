@@ -692,7 +692,7 @@ public class Items {
         float ch = Float.parseFloat(df.format(r.nextFloat()));
         float breakingChance = (float) (handleEffect(PlayerEquipment.EquipmentType.POTION, user.getData().getEquippedItems(), POTION_STAMINA, user) ? Math.max(0.01, (chance) - 0.05) : chance);
 
-        System.out.println(ch + " < " + breakingChance);
+        //System.out.println(ch + " < " + breakingChance);
         if(ch < breakingChance) {
             playerInventory.process(new ItemStack(item, -1));
 
