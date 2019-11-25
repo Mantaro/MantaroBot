@@ -460,7 +460,7 @@ public class CurrencyCmds {
                     }
 
                     Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-                    Item toSell = Items.fromAny(itemName).orElse(null);
+                    Item toSell = Items.fromAny(itemName.replace("\"", "")).orElse(null);
 
                     if(toSell == null) {
                         event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.non_existent"), EmoteReference.ERROR).queue();
@@ -559,7 +559,7 @@ public class CurrencyCmds {
                     }
                 }
 
-                Item itemToBuy = Items.fromAnyNoId(itemName).orElse(null);
+                Item itemToBuy = Items.fromAnyNoId(itemName.replace("\"", "")).orElse(null);
 
                 if(itemToBuy == null) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.non_existent"), EmoteReference.ERROR).queue();
@@ -889,7 +889,7 @@ public class CurrencyCmds {
 
                 Player p = managedDatabase.getPlayer(event.getAuthor());
                 SeasonPlayer sp = managedDatabase.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
-                Item item = Items.fromAnyNoId(content).orElse(null);
+                Item item = Items.fromAnyNoId(content.replace("\"", "")).orElse(null);
 
                 //Open default crate if nothing's specified.
                 if(item == null || content.isEmpty())
@@ -1034,7 +1034,7 @@ public class CurrencyCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Map<String, String> t = getArguments(content);
                 boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
-                content = Utils.replaceArguments(t, content, "season", "s").trim();
+                content = Utils.replaceArguments(t, content, "season", "s").trim().replace("\"", "");
 
                 Items.FISHING_ROD.getAction().test(event, Pair.of(languageContext, content), isSeasonal);
             }

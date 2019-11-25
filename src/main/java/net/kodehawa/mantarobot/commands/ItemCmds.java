@@ -563,7 +563,7 @@ public class ItemCmds {
                     return;
                 }
 
-                Optional<Item> itemOptional = Items.fromAnyNoId(content);
+                Optional<Item> itemOptional = Items.fromAnyNoId(content.replace("\"", ""));
 
                 if(!itemOptional.isPresent()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.iteminfo.no_item"), EmoteReference.ERROR).queue();
