@@ -337,7 +337,7 @@ public class PlayerCmds {
                     return;
                 }
 
-                Item item = Items.fromAnyNoId(content).orElse(null);
+                Item item = Items.fromAnyNoId(content.replace("\"", "")).orElse(null);
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
                 DBUser user = MantaroData.db().getUser(event.getAuthor());
 

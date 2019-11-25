@@ -332,6 +332,7 @@ public class CurrencyCmds {
 
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
                 SeasonPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+
                 Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
 
                 if(!playerInventory.containsItem(item)) {
