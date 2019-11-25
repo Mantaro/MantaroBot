@@ -169,7 +169,7 @@ public class Items {
             GEM1_ROD = new FishRod(ItemType.CAST_FISH, 6, 1, 15, EmoteReference.COMET_ROD.getDiscordNotation(), "Comet Gem Rod", "Comet Rod", "items.comet_rod", "items.description.comet_rod", 150, "1;3", 44, 48),
             GEM2_ROD = new FishRod(ItemType.CAST_FISH, 9, 2, 10, EmoteReference.STAR_ROD.getDiscordNotation(), "Star Gem Rod", "Star Rod", "items.star_rod", "items.description.star_rod", 250, "1;3", 44, 49),
             GEM5_ROD = new FishRod(ItemType.COMMON, 3, -1, -1,"\uD83C\uDFA3", "Old Sparkle Rod", "general.deprecated", "general.deprecated", 65, "",2),
-            GEM5_PICKAXE_2 = new Pickaxe(ItemType.MINE_RARE_PICK, 0.03f, 3, 5, EmoteReference.SPARKLE_PICK.getDiscordNotation(),"Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 1200, true, false, "1;3;1", 10, 74, 18),
+            GEM5_PICKAXE_2 = new Pickaxe(ItemType.MINE_RARE_PICK, 0.04f, 3, 5, EmoteReference.SPARKLE_PICK.getDiscordNotation(),"Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 1200, true, false, "1;3;1", 10, 74, 18),
             GEM5_2 = new Item(ItemType.MINE_RARE, "\u2728", "Sparkle Fragment", "items.sparkle", "items.description.sparkle", 605, false),
             GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 14, 3, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(), "Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 800, "1;3;1", 44, 74, 18),
             FISH_4 = new Fish(ItemType.FISHING_RARE, 5, "\uD83D\uDC1A","Shell", "items.shell", "items.description.shell", 1150, false),
@@ -688,7 +688,11 @@ public class Items {
             return false;
 
         //old: handlePotion(POTION_STAMINA, 4, player)
-        if(r.nextFloat() < (handleEffect(PlayerEquipment.EquipmentType.POTION, user.getData().getEquippedItems(), POTION_STAMINA, user) ? (chance) - 0.07 : chance)) {
+        float ch = r.nextFloat();
+        float breakingChance = (float) (handleEffect(PlayerEquipment.EquipmentType.POTION, user.getData().getEquippedItems(), POTION_STAMINA, user) ? Math.max(0.01, (chance) - 0.05) : chance);
+
+        System.out.println(ch + " < " + breakingChance);
+        if(ch < breakingChance) {
             playerInventory.process(new ItemStack(item, -1));
 
             String broken = "";
