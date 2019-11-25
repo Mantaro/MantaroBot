@@ -1463,7 +1463,7 @@
     },
     "mine": {
       "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`. If you're specifying the name of the pickaxe, please don't use quotes.",
-      "not_suitable": "%1$sThis is not a pick you can use to mine!",
+      "not_suitable": "%1$sThis is not a pick you can use to mine! If you're specifying the name of the pickaxe, please don't use quotes.",
       "not_in_inventory": "%1$sYou don't have this pick on your inventory, switching to the default pick.",
       "success": "%1$sYou mined minerals worth **$%2$,d credits**, using a *%3$s*",
       "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*",
