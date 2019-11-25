@@ -32,9 +32,10 @@ import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.security.SecureRandom;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
@@ -42,7 +43,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
-import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 @Slf4j
 @SuppressWarnings("WeakerAccess")
@@ -80,6 +80,7 @@ public class Items {
             .prefix("fish")
             .build();
     private static final Config config = MantaroData.config().get();
+    private static final DecimalFormat df = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.US));
 
     public static final Item[] ALL = {
             HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7", "Headphones", "items.headphones", "items.description.headphones", 5, true, false, false),
@@ -682,13 +683,13 @@ public class Items {
 
     public static boolean handlePickaxe(GuildMessageReceivedEvent event, I18nContext lang, Item item, Player player, DBUser user, SeasonPlayer seasonPlayer, float chance, boolean isSeasonal) {
         Inventory playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
-
         //Defensive programming :D
         if(!playerInventory.containsItem(item))
             return false;
 
         //old: handlePotion(POTION_STAMINA, 4, player)
-        float ch = r.nextFloat();
+        //Limit chance output to two decimals.
+        float ch = Float.parseFloat(df.format(r.nextFloat()));
         float breakingChance = (float) (handleEffect(PlayerEquipment.EquipmentType.POTION, user.getData().getEquippedItems(), POTION_STAMINA, user) ? Math.max(0.01, (chance) - 0.05) : chance);
 
         System.out.println(ch + " < " + breakingChance);
