@@ -820,7 +820,7 @@ public class MoneyCmds {
 
                 Pickaxe item = (Pickaxe) Items.BROM_PICKAXE; //default pick
                 int equipped = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK);
-                Optional<Item> itemOpt = Items.fromAnyNoId(content);
+                Optional<Item> itemOpt = Items.fromAnyNoId(content.replace("\"", ""));
 
                 if(equipped != 0 && !isSeasonal) {
                     Item temp = Items.fromId(equipped);
