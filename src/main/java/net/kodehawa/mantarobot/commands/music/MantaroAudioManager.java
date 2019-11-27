@@ -30,7 +30,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.playback.NonAllocatingAudioFrameBuffer;
 import com.sedmelluq.lava.extensions.youtuberotator.YoutubeIpRotatorSetup;
 import com.sedmelluq.lava.extensions.youtuberotator.planner.AbstractRoutePlanner;
-import com.sedmelluq.lava.extensions.youtuberotator.planner.RotatingIpRoutePlanner;
+import com.sedmelluq.lava.extensions.youtuberotator.planner.RotatingNanoIpRoutePlanner;
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.IpBlock;
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.Ipv6Block;
 import lombok.Getter;
@@ -44,10 +44,7 @@ import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.Prometheus;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.InetAddress;
@@ -88,6 +85,7 @@ public class MantaroAudioManager {
 
         //Youtube is special because rotation stuff.
         YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager(true);
+
         //IPv6 rotation config start
         if(!config.getIpv6Block().isEmpty()) {
             AbstractRoutePlanner planner;
@@ -96,14 +94,14 @@ public class MantaroAudioManager {
 
             //Damn you, YouTube.
             if(config.getExcludeAddress().isEmpty())
-                planner = new RotatingIpRoutePlanner(blocks);
+                planner = new RotatingNanoIpRoutePlanner(blocks);
             else {
                 try {
                     InetAddress blacklistedGW = InetAddress.getByName(config.getExcludeAddress());
-                    planner = new RotatingIpRoutePlanner(blocks, inetAddress -> !inetAddress.equals(blacklistedGW));
+                    planner = new RotatingNanoIpRoutePlanner(blocks, inetAddress -> !inetAddress.equals(blacklistedGW));
                 } catch (Exception e) {
                     //Fallback: did I screw up putting the IP in? lmao
-                    planner = new RotatingIpRoutePlanner(blocks);
+                    planner = new RotatingNanoIpRoutePlanner(blocks);
                     e.printStackTrace();
                 }
             }
@@ -113,8 +111,6 @@ public class MantaroAudioManager {
                     .setup();
         }
         //IPv6 rotation config end
-
-        youtubeAudioSourceManager.configureRequests(config -> RequestConfig.copy(config).setCookieSpec(CookieSpecs.IGNORE_COOKIES).build());
 
         //Register source manager and configure the Player
         playerManager.registerSourceManager(youtubeAudioSourceManager);
