@@ -926,6 +926,50 @@ public class CurrencyCmds {
     }
 
     @Subscribe
+    public void openPremiumCrate(CommandRegistry cr) {
+        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                .limit(1)
+                .spamTolerance(2)
+                .cooldown(24, TimeUnit.HOURS)
+                .maxCooldown(24, TimeUnit.HOURS)
+                .randomIncrement(false)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("dailycrate")
+                .build();
+
+        cr.register("dailycrate", new SimpleCommand(Category.CURRENCY) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                ManagedDatabase managedDatabase = MantaroData.db();
+
+                if(!managedDatabase.getUser(event.getAuthor()).isPremium()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.dailycrate.not_premium"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                    return;
+
+                Player p = managedDatabase.getPlayer(event.getAuthor());
+                Random random = new Random();
+
+                Item randomCrate = random.nextBoolean() ? Items.MINE_PREMIUM_CRATE : Items.FISH_PREMIUM_CRATE;
+
+                randomCrate.getAction().test(event, Pair.of(languageContext, content), false);
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Opens a daily premium loot crate.")
+                        .setUsage("`~>dailycrate` - Opens daily premium loot crate.\n" +
+                                "You need a crate key to open any crate.")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
     public void useItem(CommandRegistry cr) {
         TreeCommand ui = (TreeCommand) cr.register("useitem", new TreeCommand(Category.CURRENCY) {
             @Override
