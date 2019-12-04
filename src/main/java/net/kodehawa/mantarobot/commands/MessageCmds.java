@@ -66,7 +66,7 @@ public class MessageCmds {
                     channel.getHistory().retrievePast(100).queue(
                             messageHistory -> {
                                 String prefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
-                                getMessageHistory(event, messageHistory, languageContext, "commands.prune.bots_no_messages",
+                                getMessageHistory(event, channel, messageHistory, languageContext, "commands.prune.bots_no_messages",
                                         message -> message.getAuthor().isBot() || message.getContentRaw().startsWith(prefix == null ? "~>" : prefix));
                             },
                             error -> {
@@ -91,7 +91,7 @@ public class MessageCmds {
                     }
 
                     channel.getHistory().retrievePast(Math.min(i, 100)).queue(
-                            messageHistory -> getMessageHistory(event, messageHistory, languageContext, "commands.prune.no_pins_no_messages", message -> !message.isPinned()),
+                            messageHistory -> getMessageHistory(event, channel, messageHistory, languageContext, "commands.prune.no_pins_no_messages", message -> !message.isPinned()),
                             error -> {
                                 channel.sendMessage(String.format(languageContext.get("commands.prune.error_retrieving"),
                                         EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
@@ -120,7 +120,7 @@ public class MessageCmds {
                     }
 
                     channel.getHistory().retrievePast(Math.min(i, 100)).queue(
-                            messageHistory -> getMessageHistory(event, messageHistory, languageContext, "commands.prune.mention_no_messages", message -> users.contains(message.getAuthor().getIdLong())),
+                            messageHistory -> getMessageHistory(event, channel, messageHistory, languageContext, "commands.prune.mention_no_messages", message -> users.contains(message.getAuthor().getIdLong())),
                             error -> {
                                 channel.sendMessage(String.format(languageContext.get("commands.prune.error_retrieving"),
                                         EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
@@ -160,16 +160,16 @@ public class MessageCmds {
         });
     }
 
-    private void getMessageHistory(GuildMessageReceivedEvent event, List<Message> messageHistory, I18nContext languageContext, String i18n, Predicate<Message> predicate) {
+    private void getMessageHistory(GuildMessageReceivedEvent event, TextChannel channel, List<Message> messageHistory, I18nContext languageContext, String i18n, Predicate<Message> predicate) {
         messageHistory = messageHistory.stream().filter(predicate).collect(Collectors.toList());
 
         if(messageHistory.isEmpty()) {
-            event.getChannel().sendMessageFormat(languageContext.get(i18n), EmoteReference.ERROR).queue();
+            channel.sendMessageFormat(languageContext.get(i18n), EmoteReference.ERROR).queue();
             return;
         }
 
         if(messageHistory.size() < 3) {
-            event.getChannel().sendMessageFormat(languageContext.get("commands.prune.too_few_messages"), EmoteReference.ERROR).queue();
+            channel.sendMessageFormat(languageContext.get("commands.prune.too_few_messages"), EmoteReference.ERROR).queue();
             return;
         }
 
