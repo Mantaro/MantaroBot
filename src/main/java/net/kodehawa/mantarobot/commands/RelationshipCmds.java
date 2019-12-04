@@ -21,10 +21,7 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.Waifu;
@@ -80,8 +77,10 @@ public class RelationshipCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        TextChannel channel = event.getChannel();
+
                         if(event.getMessage().getMentionedUsers().isEmpty()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.no_mention"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.marry.no_mention"), EmoteReference.ERROR).queue();
                             return;
                         }
 
@@ -120,7 +119,7 @@ public class RelationshipCmds {
 
                         //Why would you do this...
                         if(proposedToUser.getId().equals(event.getAuthor().getId())) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.marry_yourself_notice"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.marry.marry_yourself_notice"), EmoteReference.ERROR).queue();
                             return;
                         }
 
@@ -135,40 +134,40 @@ public class RelationshipCmds {
 
                         //Proposed to is a bot user, cannot marry bots, this is still not 2100.
                         if(proposedToUser.isBot()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.marry_bot_notice"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.marry.marry_bot_notice"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         //Already married to the same person you're proposing to.
                         if((proposingMarriage != null && proposedToMarriage != null) && proposedToUserData.getMarriage().getId().equals(proposingMarriage.getId())) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.already_married_receipt"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.marry.already_married_receipt"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         //You're already married. Huh huh.
                         if(proposingMarriage != null) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.already_married"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.marry.already_married"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         //Receipt is married, cannot continue.
                         if(proposedToMarriage != null) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.receipt_married"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.marry.receipt_married"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         //Not enough rings to continue. Buy more rings w.
                         if(!proposingPlayerInventory.containsItem(Items.RING) || proposingPlayerInventory.getAmount(Items.RING) < 2) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.no_ring"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.marry.no_ring"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         //Send confirmation message.
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.marry.confirmation"), EmoteReference.MEGA,
+                        channel.sendMessageFormat(languageContext.get("commands.marry.confirmation"), EmoteReference.MEGA,
                                 proposedToUser.getName(), event.getAuthor().getName(), EmoteReference.STOPWATCH
                         ).queue();
 
-                        InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 120, (ie) -> {
+                        InteractiveOperations.create(channel, event.getAuthor().getIdLong(), 120, (ie) -> {
                             //Ignore all messages from anyone that isn't the user we already proposed to. Waiting for confirmation...
                             if(!ie.getAuthor().getId().equals(proposedToUser.getId()))
                                 return Operation.IGNORED;
@@ -204,12 +203,12 @@ public class RelationshipCmds {
                                 final Marriage proposedToMarriageFinal = proposedToUserDB.getData().getMarriage();
 
                                 if(proposingMarriageFinal != null) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.already_married"), EmoteReference.ERROR).queue();
+                                    channel.sendMessageFormat(languageContext.get("commands.marry.already_married"), EmoteReference.ERROR).queue();
                                     return Operation.COMPLETED;
                                 }
 
                                 if(proposedToMarriageFinal != null) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.receipt_married"), EmoteReference.ERROR).queue();
+                                    channel.sendMessageFormat(languageContext.get("commands.marry.receipt_married"), EmoteReference.ERROR).queue();
                                     return Operation.COMPLETED;
                                 }
                                 // ---------------- END OF FINAL MARRIAGE CHECK ----------------
@@ -220,7 +219,7 @@ public class RelationshipCmds {
                                 final Inventory proposedToPlayerInventory = proposedToPlayer.getInventory();
 
                                 if(proposingPlayerFinalInventory.getAmount(Items.RING) < 2) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.ring_check_fail"), EmoteReference.ERROR).queue();
+                                    channel.sendMessageFormat(languageContext.get("commands.marry.ring_check_fail"), EmoteReference.ERROR).queue();
                                     return Operation.COMPLETED;
                                 }
 
@@ -309,6 +308,8 @@ public class RelationshipCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                final TextChannel channel = event.getChannel();
+
                 final ManagedDatabase db = MantaroData.db();
                 final User author = event.getAuthor();
 
@@ -322,34 +323,34 @@ public class RelationshipCmds {
 
                     //Check if the user is married, is the proposed player, there's no love letter and that the love letter is less than 1500 characters long.
                     if(currentMarriage == null) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.no_marriage"), EmoteReference.SAD).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.marry.loveletter.no_marriage"), EmoteReference.SAD).queue();
                         return;
                     }
 
                     if(!author.getId().equals(currentMarriage.getPlayer1())) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.not_proposing_player"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.marry.loveletter.not_proposing_player"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(currentMarriage.getData().getLoveLetter() != null) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.already_done"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.marry.loveletter.already_done"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(content.isEmpty()) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.empty"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.marry.loveletter.empty"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(content.length() > 500) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.too_long"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.marry.loveletter.too_long"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     //Can we find the user this is married to?
                     final User marriedTo = MantaroBot.getInstance().getUserById(currentMarriage.getOtherPlayer(author.getId()));
                     if(marriedTo == null) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.cannot_see"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.marry.loveletter.cannot_see"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -361,11 +362,11 @@ public class RelationshipCmds {
                             .setContent(String.format(languageContext.get("commands.marry.loveletter.confirmation"), EmoteReference.TALKING, marriedTo.getName(),
                                     marriedTo.getDiscriminator(), finalContent))
                             .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.USER)
-                            .sendTo(event.getChannel())
+                            .sendTo(channel)
                             .queue();
 
                     //Start the operation.
-                    InteractiveOperations.create(event.getChannel(), author.getIdLong(), 60, e -> {
+                    InteractiveOperations.create(channel, author.getIdLong(), 60, e -> {
                         if(!e.getAuthor().getId().equals(author.getId())) {
                             return Operation.IGNORED;
                         }
@@ -392,12 +393,12 @@ public class RelationshipCmds {
 
                             //We need to do most of the checks all over again just to make sure nothing important slipped through.
                             if(currentMarriageFinal == null) {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.no_marriage"), EmoteReference.SAD).queue();
+                                channel.sendMessageFormat(languageContext.get("commands.marry.loveletter.no_marriage"), EmoteReference.SAD).queue();
                                 return Operation.COMPLETED;
                             }
 
                             if(!inventoryFinal.containsItem(Items.LOVE_LETTER)) {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.no_letter"), EmoteReference.SAD).queue();
+                                channel.sendMessageFormat(languageContext.get("commands.marry.loveletter.no_letter"), EmoteReference.SAD).queue();
                                 return Operation.COMPLETED;
                             }
 
@@ -410,17 +411,17 @@ public class RelationshipCmds {
                             currentMarriageFinal.getData().setLoveLetter(content);
                             currentMarriageFinal.save();
 
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.confirmed"), EmoteReference.CORRECT).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.marry.loveletter.confirmed"), EmoteReference.CORRECT).queue();
                             return Operation.COMPLETED;
                         } else if (c.equalsIgnoreCase("no")) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.scrapped"), EmoteReference.CORRECT).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.marry.loveletter.scrapped"), EmoteReference.CORRECT).queue();
                             return Operation.COMPLETED;
                         }
 
                         return Operation.IGNORED;
                     });
                 } else {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.no_letter"), EmoteReference.SAD).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.marry.loveletter.no_letter"), EmoteReference.SAD).queue();
                 }
             }
         });
@@ -433,6 +434,8 @@ public class RelationshipCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
+
                 final ManagedDatabase db = MantaroData.db();
                 final User author = event.getAuthor();
                 DBUser dbUser = db.getUser(author);
@@ -440,14 +443,14 @@ public class RelationshipCmds {
 
                 //What status would we have without marriage? Well, we can be unmarried omegalul.
                 if (currentMarriage == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.status.no_marriage"), EmoteReference.SAD).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.marry.status.no_marriage"), EmoteReference.SAD).queue();
                     return;
                 }
 
                 //Can we find the user this is married to?
                 final User marriedTo = MantaroBot.getInstance().getUserById(currentMarriage.getOtherPlayer(author.getId()));
                 if (marriedTo == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.marry.loveletter.cannot_see"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.marry.loveletter.cannot_see"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -472,7 +475,7 @@ public class RelationshipCmds {
                         .setFooter("Marriage ID: " + currentMarriage.getId(), null);
 
 
-                event.getChannel().sendMessage(embedBuilder.build()).queue();
+                channel.sendMessage(embedBuilder.build()).queue();
             }
         });
 
@@ -484,6 +487,8 @@ public class RelationshipCmds {
         cr.register("divorce", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 final ManagedDatabase managedDatabase = MantaroData.db();
                 final Player divorceePlayer = managedDatabase.getPlayer(event.getAuthor());
                 //Assume we're dealing with a new marriage?
@@ -493,7 +498,7 @@ public class RelationshipCmds {
 
                     //We, indeed, have no marriage here.
                     if (marriage == null) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.divorce.not_married"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.divorce.not_married"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -520,7 +525,7 @@ public class RelationshipCmds {
 
                     //Scrape this marriage.
                     marriage.delete();
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.divorce.success"), EmoteReference.CORRECT).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.divorce.success"), EmoteReference.CORRECT).queue();
 
                     return;
                 }
@@ -533,7 +538,7 @@ public class RelationshipCmds {
                     divorceePlayer.getData().setMarriedSince(0L);
                     divorceePlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
                     divorceePlayer.saveAsync();
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.divorce.success"), EmoteReference.CORRECT).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.divorce.success"), EmoteReference.CORRECT).queue();
                     return;
                 }
 
@@ -550,7 +555,7 @@ public class RelationshipCmds {
                 divorceePlayer.save();
                 // ---------------- END OF LEGACY MARRIAGE SUPPORT ----------------
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.divorce.success"), EmoteReference.CORRECT).queue();
+                channel.sendMessageFormat(languageContext.get("commands.divorce.success"), EmoteReference.CORRECT).queue();
             }
 
             @Override
@@ -594,6 +599,7 @@ public class RelationshipCmds {
                         //If the waifu status is mutual, the MP game boost will go up by 20% and giving your daily to that waifu will increase the amount of money that your
                         //waifu will receive.
 
+                        TextChannel channel = event.getChannel();
                         Map<String, String> opts = StringUtils.parse(content.split("\\s+"));
 
                         //Default call will bring out the waifu list.
@@ -609,7 +615,7 @@ public class RelationshipCmds {
 
                         if(userData.getWaifus().isEmpty()) {
                             waifusEmbed.setDescription(description);
-                            event.getChannel().sendMessage(waifusEmbed.build()).queue();
+                            channel.sendMessage(waifusEmbed.build()).queue();
                             return;
                         }
 
@@ -636,7 +642,7 @@ public class RelationshipCmds {
                         }
 
                         List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
-                        boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                        boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(channel, Permission.MESSAGE_ADD_REACTION);
 
                         if(hasReactionPerms) {
                             waifusEmbed.setDescription(
@@ -681,13 +687,14 @@ public class RelationshipCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
                 Member member = Utils.findMember(event, event.getMember(), content);
                 if(member == null)
                     return;
 
                 User toLookup = member.getUser();
                 if(toLookup.isBot()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.bot"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.waifu.bot"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -706,7 +713,7 @@ public class RelationshipCmds {
                         .addField(languageContext.get("commands.waifu.stats.value"), EmoteReference.BUY + String.format(languageContext.get("commands.waifu.stats.credits"), waifuStats.getFinalValue()), false)
                         .setFooter(languageContext.get("commands.waifu.notice"), null);
 
-                event.getChannel().sendMessage(statsBuilder.build()).queue();
+                channel.sendMessage(statsBuilder.build()).queue();
             }
         });
 
@@ -718,8 +725,9 @@ public class RelationshipCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.no_user"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.waifu.claim.no_user"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -727,7 +735,7 @@ public class RelationshipCmds {
                 User toLookup = event.getMessage().getMentionedUsers().get(0);
 
                 if(toLookup.isBot()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.bot"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.waifu.bot"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -745,36 +753,36 @@ public class RelationshipCmds {
 
                 //Checks.
                 if(toLookup.getIdLong() == event.getAuthor().getIdLong()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.yourself"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.waifu.claim.yourself"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(claimerUser.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getKey().equals(toLookup.getId()))) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.already_claimed"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.waifu.claim.already_claimed"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 //If the to-be claimed has the claim key in their inventory, it cannot be claimed.
                 if(claimedPlayer.getInventory().containsItem(Items.CLAIM_KEY)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.key_locked"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.waifu.claim.key_locked"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(claimerPlayer.isLocked()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.claim.locked"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.waifu.claim.locked"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 //Deduct from balance and checks for money.
                 if(!claimerPlayer.removeMoney(waifuFinalValue)) {
-                    event.getChannel().sendMessageFormat(
+                    channel.sendMessageFormat(
                             languageContext.get("commands.waifu.claim.not_enough_money"), EmoteReference.ERROR, waifuFinalValue
                     ).queue();
                     return;
                 }
 
                 if(claimerUserData.getWaifus().size() >= claimerUserData.getWaifuSlots()) {
-                    event.getChannel().sendMessageFormat(
+                    channel.sendMessageFormat(
                             languageContext.get("commands.waifu.claim.not_enough_slots"),
                             EmoteReference.ERROR, claimerUserData.getWaifuSlots(), claimerUserData.getWaifus().size()
                     ).queue();
@@ -805,7 +813,7 @@ public class RelationshipCmds {
                 claimerUser.saveAsync();
 
                 //Send confirmation message
-                event.getChannel().sendMessageFormat(
+                channel.sendMessageFormat(
                         languageContext.get("commands.waifu.claim.success"), EmoteReference.CORRECT, toLookup.getName(), waifuFinalValue, claimerUserData.getWaifus().size()
                 ).queue();
             }
@@ -819,12 +827,14 @@ public class RelationshipCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
+
                 Map<String, String> t = getArguments(content);
                 content = Utils.replaceArguments(t, content, "unknown");
                 boolean isId = content.matches("\\d{16,20}");
 
                 if(content.isEmpty() && !isId) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.no_user"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.waifu.unclaim.no_user"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -840,13 +850,13 @@ public class RelationshipCmds {
                 User toLookup = isId ? MantaroBot.getInstance().getUserById(content) : member.getUser();
                 boolean isUnknown = isId && t.containsKey("unknown") && toLookup == null;
                 if(toLookup == null && !isUnknown) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.not_found"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.waifu.unclaim.not_found"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 //It'll only be null if -unknown is passed with an unknown ID. This is unclaim, so this check is a bit irrelevant though.
                 if(!isUnknown && toLookup.isBot()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.bot"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.waifu.bot"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -858,18 +868,18 @@ public class RelationshipCmds {
                 Long value = data.getWaifus().get(userId);
 
                 if(value == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.not_claimed"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.waifu.not_claimed"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 long valuePayment = (long) (value * 0.15);
 
                 //Send confirmation message.
-                event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.confirmation"), EmoteReference.MEGA,
+                channel.sendMessageFormat(languageContext.get("commands.waifu.unclaim.confirmation"), EmoteReference.MEGA,
                         name, valuePayment, EmoteReference.STOPWATCH
                 ).queue();
 
-                InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 60, (ie) -> {
+                InteractiveOperations.create(channel, event.getAuthor().getIdLong(), 60, (ie) -> {
                     if(!ie.getAuthor().getId().equals(event.getAuthor().getId())) {
                         return Operation.IGNORED;
                     }
@@ -894,12 +904,12 @@ public class RelationshipCmds {
                         final UserData userData = user.getData();
 
                         if(p.getMoney() < valuePayment) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.not_enough_money"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.waifu.unclaim.not_enough_money"), EmoteReference.ERROR).queue();
                             return Operation.COMPLETED;
                         }
 
                         if(p.isLocked()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.player_locked"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.waifu.unclaim.player_locked"), EmoteReference.ERROR).queue();
                             return Operation.COMPLETED;
                         }
 
@@ -908,10 +918,10 @@ public class RelationshipCmds {
                         user.save();
                         p.save();
 
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.success"), EmoteReference.CORRECT, name, valuePayment).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.waifu.unclaim.success"), EmoteReference.CORRECT, name, valuePayment).queue();
                         return Operation.COMPLETED;
                     } else if (c.equalsIgnoreCase("no")) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.unclaim.scrapped"), EmoteReference.CORRECT).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.waifu.unclaim.scrapped"), EmoteReference.CORRECT).queue();
                         return Operation.COMPLETED;
                     }
 
@@ -928,6 +938,8 @@ public class RelationshipCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
+                
                 final ManagedDatabase db = MantaroData.db();
                 int baseValue = 3000;
 
@@ -940,17 +952,17 @@ public class RelationshipCmds {
                 int finalValue = baseValue * baseMultiplier;
 
                 if(player.isLocked()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.buyslot.locked"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.waifu.buyslot.locked"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(player.getMoney() < finalValue) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.buyslot.not_enough_money"), EmoteReference.ERROR, finalValue).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.waifu.buyslot.not_enough_money"), EmoteReference.ERROR, finalValue).queue();
                     return;
                 }
 
                 if(userData.getWaifuSlots() >= 20) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.buyslot.too_many"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.waifu.buyslot.too_many"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -959,7 +971,7 @@ public class RelationshipCmds {
                 user.save();
                 player.save();
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.waifu.buyslot.success"), EmoteReference.CORRECT, finalValue, userData.getWaifuSlots(), (userData.getWaifuSlots() - userData.getWaifus().size())).queue();
+                channel.sendMessageFormat(languageContext.get("commands.waifu.buyslot.success"), EmoteReference.CORRECT, finalValue, userData.getWaifuSlots(), (userData.getWaifuSlots() - userData.getWaifus().size())).queue();
             }
         });
     }

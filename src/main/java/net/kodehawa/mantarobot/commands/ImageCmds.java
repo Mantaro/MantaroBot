@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.imageboards.DefaultImageBoards;
 import net.kodehawa.lib.imageboards.ImageBoard;
@@ -94,6 +95,7 @@ public class ImageCmds {
         cr.register("catgirl", new SimpleCommand(Category.IMAGE) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
                 boolean nsfw = args.length > 0 && args[0].equalsIgnoreCase("nsfw");
 
                 if(nsfw && !nsfwCheck(event, languageContext, true, true, null))
@@ -104,13 +106,13 @@ public class ImageCmds {
                     String image = result.getKey();
 
                     if(image == null) {
-                        event.getChannel().sendMessage(languageContext.get("commands.imageboard.catgirl.error")).queue();
+                        channel.sendMessage(languageContext.get("commands.imageboard.catgirl.error")).queue();
                         return;
                     }
 
-                    event.getChannel().sendFile(CACHE.getInput(image), "catgirl-" + result.getValue() + ".png").queue();
+                    channel.sendFile(CACHE.getInput(image), "catgirl-" + result.getValue() + ".png").queue();
                 } catch(Exception e) {
-                    event.getChannel().sendMessage(languageContext.get("commands.imageboard.catgirl.error")).queue();
+                    channel.sendMessage(languageContext.get("commands.imageboard.catgirl.error")).queue();
                 }
             }
 

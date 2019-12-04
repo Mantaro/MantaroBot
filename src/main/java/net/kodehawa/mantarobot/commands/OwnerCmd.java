@@ -24,6 +24,7 @@ import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -83,56 +84,63 @@ public class OwnerCmd {
         cr.register("blacklist", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
                 MantaroObj obj = MantaroData.db().getMantaroData();
-                if(args[0].equals("guild")) {
-                    if(args[1].equals("add")) {
+
+                String context = args[0];
+                String action = args[1];
+
+                if(context.equals("guild")) {
+                    if(action.equals("add")) {
                         if(MantaroBot.getInstance().getGuildById(args[2]) == null) return;
                         obj.getBlackListedGuilds().add(args[2]);
-                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + MantaroBot.getInstance().getGuildById(args[2])).queue();
+                        channel.sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + MantaroBot.getInstance().getGuildById(args[2])).queue();
                         obj.saveAsync();
+
                         return;
-                    } else if(args[1].equals("remove")) {
+                    } else if(action.equals("remove")) {
                         if(!obj.getBlackListedGuilds().contains(args[2])) return;
                         obj.getBlackListedGuilds().remove(args[2]);
-                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]).queue();
+                        channel.sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]).queue();
                         obj.saveAsync();
+
                         return;
                     }
 
-                    event.getChannel().sendMessage("Invalid guild scope. (Valid: add, remove)").queue();
+                    channel.sendMessage("Invalid guild scope. (Valid: add, remove)").queue();
                     return;
                 }
 
-                if(args[0].equals("user")) {
-                    if(args[1].equals("add")) {
+                if(context.equals("user")) {
+                    if(action.equals("add")) {
                         if(MantaroBot.getInstance().getUserById(args[2]) == null) {
-                            event.getChannel().sendMessage("Can't find user.").queue();
+                            channel.sendMessage("Can't find user.").queue();
                             return;
                         }
 
                         obj.getBlackListedUsers().add(args[2]);
-                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + MantaroBot.getInstance().getUserById(args[2])).queue();
-
+                        channel.sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + MantaroBot.getInstance().getUserById(args[2])).queue();
                         obj.saveAsync();
+
                         return;
-                    } else if(args[1].equals("remove")) {
+                    } else if(action.equals("remove")) {
                         if(!obj.getBlackListedUsers().contains(args[2])) {
-                            event.getChannel().sendMessage("User not in blacklist.").queue();
+                            channel.sendMessage("User not in blacklist.").queue();
                             return;
                         }
 
                         obj.getBlackListedUsers().remove(args[2]);
-                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + MantaroBot.getInstance().getUserById(args[2])).queue();
-
+                        channel.sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + MantaroBot.getInstance().getUserById(args[2])).queue();
                         obj.saveAsync();
+
                         return;
                     }
 
-                    event.getChannel().sendMessage("Invalid user scope. (Valid: add, remove)").queue();
+                    channel.sendMessage("Invalid user scope. (Valid: add, remove)").queue();
                     return;
                 }
 
-                event.getChannel().sendMessage("Invalid scope. (Valid: user, guild)").queue();
+                channel.sendMessage("Invalid scope. (Valid: user, guild)").queue();
             }
 
             @Override
@@ -150,6 +158,8 @@ public class OwnerCmd {
         cr.register("faultshards", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 Map<String, Pair<Integer, Integer>> faultShards = new HashMap<>();
                 for(MantaroShard shard : MantaroBot.getInstance().getShardList()) {
                     List<Pair<String, Integer>> queueBuckets = MantaroShard.GET_BUCKETS_WITH_QUEUE.apply(shard.getJDA());
@@ -161,7 +171,7 @@ public class OwnerCmd {
                 }
 
                 if(faultShards.isEmpty()) {
-                    event.getChannel().sendMessage("Nothing to see.").queue();
+                    channel.sendMessage("Nothing to see.").queue();
                     return;
                 }
 
@@ -192,8 +202,10 @@ public class OwnerCmd {
         cr.register("restorestreak", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 if(args.length < 2) {
-                    event.getChannel().sendMessage("You need to provide the id and the amount").queue();
+                    channel.sendMessage("You need to provide the id and the amount").queue();
                     return;
                 }
 
@@ -202,7 +214,7 @@ public class OwnerCmd {
                 User u = MantaroBot.getInstance().getUserById(id);
 
                 if(u == null) {
-                    event.getChannel().sendMessage("Can't find user").queue();
+                    channel.sendMessage("Can't find user").queue();
                     return;
                 }
 
@@ -213,7 +225,7 @@ public class OwnerCmd {
 
                 p.save();
 
-                event.getChannel().sendMessage("Done, new streak is " + amount).queue();
+                channel.sendMessage("Done, new streak is " + amount).queue();
             }
         });
     }
@@ -224,15 +236,17 @@ public class OwnerCmd {
         cr.register("giveitem", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to tell me which item to give you.").queue();
+                    channel.sendMessage(EmoteReference.ERROR + "You need to tell me which item to give you.").queue();
                     return;
                 }
 
                 Item i = Items.fromAnyNoId(content).orElse(null);
 
                 if(i == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find that item.").queue();
+                    channel.sendMessage(EmoteReference.ERROR + "I didn't find that item.").queue();
                     return;
                 }
 
@@ -240,11 +254,11 @@ public class OwnerCmd {
                 if(p.getInventory().getAmount(i) < 5000) {
                     p.getInventory().process(new ItemStack(i, 1));
                 } else {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Too many of this item already.").queue();
+                    channel.sendMessage(EmoteReference.ERROR + "Too many of this item already.").queue();
                 }
 
                 p.saveAsync();
-                event.getChannel().sendMessage("Gave you " + i).queue();
+                channel.sendMessage("Gave you " + i).queue();
             }
         });
     }
@@ -310,13 +324,15 @@ public class OwnerCmd {
         cr.register("addbadge", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to give me a user to apply the badge to!").queue();
+                    channel.sendMessage(EmoteReference.ERROR + "You need to give me a user to apply the badge to!").queue();
                     return;
                 }
 
                 if(args.length != 2) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong args length").queue();
+                    channel.sendMessage(EmoteReference.ERROR + "Wrong args length").queue();
                     return;
                 }
 
@@ -324,7 +340,7 @@ public class OwnerCmd {
                 List<User> users = event.getMessage().getMentionedUsers();
                 Badge badge = Badge.lookupFromString(b);
                 if(badge == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "No badge with that enum name! Valid badges: " +
+                    channel.sendMessage(EmoteReference.ERROR + "No badge with that enum name! Valid badges: " +
                             Arrays.stream(Badge.values()).map(b1 -> "`" + b1.name() + "`").collect(Collectors.joining(" ,"))).queue();
                     return;
                 }
@@ -335,7 +351,7 @@ public class OwnerCmd {
                     p.saveAsync();
                 }
 
-                event.getChannel().sendMessage(
+                channel.sendMessage(
                         EmoteReference.CORRECT + "Added badge " + badge + " to " + users.stream().map(User::getName).collect(Collectors.joining(" ,"))
                 ).queue();
             }
@@ -344,13 +360,15 @@ public class OwnerCmd {
         cr.register("removebadge", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to give me a user to remove the badge from!").queue();
+                    channel.sendMessage(EmoteReference.ERROR + "You need to give me a user to remove the badge from!").queue();
                     return;
                 }
 
                 if(args.length != 2) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong args length").queue();
+                    channel.sendMessage(EmoteReference.ERROR + "Wrong args length").queue();
                     return;
                 }
 
@@ -358,7 +376,7 @@ public class OwnerCmd {
                 List<User> users = event.getMessage().getMentionedUsers();
                 Badge badge = Badge.lookupFromString(b);
                 if(badge == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "No badge with that enum name! Valid badges: " +
+                    channel.sendMessage(EmoteReference.ERROR + "No badge with that enum name! Valid badges: " +
                             Arrays.stream(Badge.values()).map(b1 -> "`" + b1.name() + "`").collect(Collectors.joining(" ,"))).queue();
                     return;
                 }
@@ -369,7 +387,7 @@ public class OwnerCmd {
                     p.saveAsync();
                 }
 
-                event.getChannel().sendMessage(
+                channel.sendMessage(
                         String.format("%sRemoved badge %s from %s", EmoteReference.CORRECT, badge, users.stream().map(User::getName).collect(Collectors.joining(" ,")))
                 ).queue();
             }
@@ -496,15 +514,16 @@ public class OwnerCmd {
         cr.register("link", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                final TextChannel channel = event.getChannel();
                 final Config config = MantaroData.config().get();
 
                 if(!config.isPremiumBot()) {
-                    event.getChannel().sendMessage("This command can only be ran in MP, as it'll link a guild to an MP holder.").queue();
+                    channel.sendMessage("This command can only be ran in MP, as it'll link a guild to an MP holder.").queue();
                     return;
                 }
 
                 if(args.length < 2) {
-                    event.getChannel().sendMessage("You need to enter both the user and the guild id (example: 132584525296435200 493297606311542784).").queue();
+                    channel.sendMessage("You need to enter both the user and the guild id (example: 132584525296435200 493297606311542784).").queue();
                     return;
                 }
 
@@ -513,7 +532,7 @@ public class OwnerCmd {
                 Guild guild = MantaroBot.getInstance().getGuildById(guildString);
                 User user = MantaroBot.getInstance().getUserById(userString);
                 if(guild == null || user == null) {
-                    event.getChannel().sendMessage("User or guild not found.").queue();
+                    channel.sendMessage("User or guild not found.").queue();
                     return;
                 }
 
@@ -523,14 +542,14 @@ public class OwnerCmd {
                     dbGuild.getData().setMpLinkedTo(null);
                     dbGuild.save();
 
-                    event.getChannel().sendMessageFormat("Un-linked MP for guild %s (%s).", guild.getName(), guild.getId()).queue();
+                    channel.sendMessageFormat("Un-linked MP for guild %s (%s).", guild.getName(), guild.getId()).queue();
                     return;
                 }
 
                 Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(user.getId());
                 //guaranteed to be an integer
                 if(pledgeInfo == null || !pledgeInfo.getLeft() || Double.parseDouble(pledgeInfo.getRight()) < 4) {
-                    event.getChannel().sendMessage("Pledge not found, pledge amount not enough or pledge was cancelled.").queue();
+                    channel.sendMessage("Pledge not found, pledge amount not enough or pledge was cancelled.").queue();
                     return;
                 }
 
@@ -538,7 +557,7 @@ public class OwnerCmd {
                 dbGuild.getData().setMpLinkedTo(userString); //Patreon check will run from this user.
                 dbGuild.save();
 
-                event.getChannel().sendMessageFormat("Linked MP for guild %s (%s) to user %s (%s). Including this guild in pledge check (id -> user -> pledge).", guild.getName(), guild.getId(), user.getName(), user.getId()).queue();
+                channel.sendMessageFormat("Linked MP for guild %s (%s) to user %s (%s). Including this guild in pledge check (id -> user -> pledge).", guild.getName(), guild.getId(), user.getName(), user.getId()).queue();
             }
 
             @Override
@@ -568,8 +587,10 @@ public class OwnerCmd {
 
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 if(args.length < 1) {
-                    event.getChannel().sendMessage("Not enough arguments.").queue();
+                    channel.sendMessage("Not enough arguments.").queue();
                     return;
                 }
 
@@ -583,19 +604,19 @@ public class OwnerCmd {
                             DBGuild db = MantaroData.db().getGuild(values[1]);
                             db.incrementPremium(TimeUnit.DAYS.toMillis(Long.parseLong(values[2])));
                             db.saveAsync();
-                            event.getChannel().sendMessage(EmoteReference.CORRECT +
+                            channel.sendMessage(EmoteReference.CORRECT +
                                     "The premium feature for guild " + db.getId() + " now is until " +
                                     new Date(db.getPremiumUntil())).queue();
                             return;
                         } catch(IndexOutOfBoundsException e) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify id and number of days").queue();
+                            channel.sendMessage(EmoteReference.ERROR + "You need to specify id and number of days").queue();
                             e.printStackTrace();
                             return;
                         }
                     }
                 }
 
-                event.getChannel().sendMessage("You're not meant to use this incorrectly, silly.").queue();
+                channel.sendMessage("You're not meant to use this incorrectly, silly.").queue();
             }
 
             @Override

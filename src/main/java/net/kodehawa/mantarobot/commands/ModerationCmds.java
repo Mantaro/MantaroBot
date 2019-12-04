@@ -52,6 +52,7 @@ public class ModerationCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Guild guild = event.getGuild();
                 User author = event.getAuthor();
+
                 TextChannel channel = event.getChannel();
                 Message receivedMessage = event.getMessage();
                 String reason = content;
@@ -83,16 +84,16 @@ public class ModerationCmds {
                     reason = "Reason not specified";
                 }
 
-                final String finalReason = String.format("Softbanned by %#s: %s", event.getAuthor(), reason);
+                final String finalReason = String.format("Softbanned by %#s: %s", author, reason);
 
                 User user = event.getMessage().getMentionedUsers().get(0);
                 Member member = guild.getMember(user);
-                if(!guild.getMember(event.getAuthor()).canInteract(member)) {
+                if(!guild.getMember(author).canInteract(member)) {
                     channel.sendMessage(String.format(languageContext.get("commands.softban.hierarchy_conflict"), EmoteReference.ERROR)).queue();
                     return;
                 }
 
-                if(event.getAuthor().getId().equals(user.getId())) {
+                if(author.getId().equals(user.getId())) {
                     channel.sendMessage(String.format(languageContext.get("commands.softban.yourself_note"), EmoteReference.ERROR)).queue();
                     return;
                 }
@@ -108,7 +109,7 @@ public class ModerationCmds {
                         success -> {
                             user.openPrivateChannel().queue(privateChannel ->
                                     privateChannel.sendMessage(String.format("%sYou were **softbanned** by %s#%s for reason %s on server **%s**.",
-                                            EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), finalReason, event.getGuild().getName())).queue());
+                                            EmoteReference.MEGA, author.getName(), author.getDiscriminator(), finalReason, event.getGuild().getName())).queue());
                             db.getData().setCases(db.getData().getCases() + 1);
                             db.saveAsync();
 
@@ -192,18 +193,18 @@ public class ModerationCmds {
                     reason = "Reason not specified";
                 }
 
-                final String finalReason = String.format("Banned by %#s: %s", event.getAuthor(), reason);
+                final String finalReason = String.format("Banned by %#s: %s", author, reason);
                 List<User> mentionedUsers = event.getMessage().getMentionedUsers();
 
                 for(User user : mentionedUsers) {
                     Member member = guild.getMember(user);
 
-                    if(!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
+                    if(!event.getGuild().getMember(author).canInteract(member)) {
                         event.getChannel().sendMessage(String.format(languageContext.get("commands.ban.hierarchy_conflict"), EmoteReference.ERROR, EmoteReference.SMILE)).queue();
                         return;
                     }
 
-                    if(event.getAuthor().getId().equals(user.getId())) {
+                    if(author.getId().equals(user.getId())) {
                         channel.sendMessage(String.format(languageContext.get("commands.ban.yourself_note"), EmoteReference.ERROR)).queue();
                         return;
                     }
@@ -223,10 +224,12 @@ public class ModerationCmds {
                             success -> user.openPrivateChannel().queue(privateChannel -> {
                                 if(!user.isBot()) {
                                     privateChannel.sendMessage(String.format("%sYou were **banned** by %s#%s on server **%s**. Reason: %s.",
-                                            EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), event.getGuild().getName(), finalReason)).queue();
+                                            EmoteReference.MEGA, author.getName(), author.getDiscriminator(), event.getGuild().getName(), finalReason)).queue();
                                 }
+
                                 db.getData().setCases(db.getData().getCases() + 1);
                                 db.saveAsync();
+
                                 if(mentionedUsers.size() == 1)
                                     channel.sendMessage(String.format(languageContext.get("commands.ban.success"), EmoteReference.ZAP, languageContext.get("general.mod_quotes"), user.getName())).queue();
 
@@ -236,11 +239,9 @@ public class ModerationCmds {
                             error ->
                             {
                                 if(error instanceof PermissionException) {
-                                    channel.sendMessage(String.format(languageContext.get("commands.ban.error"),
-                                            EmoteReference.ERROR, user.getName(), ((PermissionException) error).getPermission())).queue();
+                                    channel.sendMessage(String.format(languageContext.get("commands.ban.error"), EmoteReference.ERROR, user.getName(), ((PermissionException) error).getPermission())).queue();
                                 } else {
-                                    channel.sendMessage(String.format(languageContext.get("commands.ban.unknown_error"),
-                                            EmoteReference.ERROR, user.getName())).queue();
+                                    channel.sendMessage(String.format(languageContext.get("commands.ban.unknown_error"), EmoteReference.ERROR, user.getName())).queue();
                                     log.warn("Encountered an unexpected error while trying to ban someone.", error);
                                 }
                             });
@@ -308,7 +309,7 @@ public class ModerationCmds {
 
                 User user = member.getUser();
 
-                if(!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
+                if(!event.getGuild().getMember(event.getAuthor()).canInteract(member)) {
                     channel.sendMessage(String.format(languageContext.get("commands.kick.hierarchy_conflict"), EmoteReference.ERROR)).queue();
                     return;
                 }

@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -61,10 +62,12 @@ public class PremiumCmds {
         cr.register("activatekey", new SimpleCommand(Category.UTILS) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 final ManagedDatabase db = MantaroData.db();
 
                 if(config.isPremiumBot()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.mp"), EmoteReference.WARNING).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.activatekey.mp"), EmoteReference.WARNING).queue();
                     return;
                 }
 
@@ -72,22 +75,22 @@ public class PremiumCmds {
                     PremiumKey currentKey = db.getPremiumKey(db.getUser(event.getAuthor()).getData().getPremiumKey());
 
                     if(currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()) { //Should always be enabled...
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.check.key_valid_for"), EmoteReference.EYES, currentKey.validFor()).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.activatekey.check.key_valid_for"), EmoteReference.EYES, currentKey.validFor()).queue();
                     } else {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.check.no_key_found"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.activatekey.check.no_key_found"), EmoteReference.ERROR).queue();
                     }
                     return;
                 }
 
                 if(args.length < 1) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.no_key_provided"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.activatekey.no_key_provided"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 PremiumKey key = db.getPremiumKey(args[0]);
 
                 if(key == null || (key.isEnabled())) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.invalid_key"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.activatekey.invalid_key"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -99,12 +102,12 @@ public class PremiumCmds {
                     PremiumKey currentKey = db.getPremiumKey(guild.getData().getPremiumKey());
 
                     if(currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()) { //Should always be enabled...
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.guild_already_premium"), EmoteReference.POPPER).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.activatekey.guild_already_premium"), EmoteReference.POPPER).queue();
                         return;
                     }
 
                     key.activate(180);
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.guild_successful"), EmoteReference.POPPER, key.getDurationDays()).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.activatekey.guild_successful"), EmoteReference.POPPER, key.getDurationDays()).queue();
                     guild.getData().setPremiumKey(key.getId());
                     guild.saveAsync();
                     return;
@@ -117,7 +120,7 @@ public class PremiumCmds {
                     PremiumKey currentUserKey = db.getPremiumKey(user.getData().getPremiumKey());
 
                     if(user.isPremium()) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.user_already_premium"), EmoteReference.POPPER).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.activatekey.user_already_premium"), EmoteReference.POPPER).queue();
                         return;
                     }
 
@@ -134,7 +137,7 @@ public class PremiumCmds {
                     }
 
                     key.activate(event.getAuthor().getId().equals(key.getOwner()) ? 365 : 180);
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.user_successful"), EmoteReference.POPPER, key.getDurationDays()).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.activatekey.user_successful"), EmoteReference.POPPER, key.getDurationDays()).queue();
                     user.getData().setPremiumKey(key.getId());
                     user.saveAsync();
                 }
@@ -158,8 +161,10 @@ public class PremiumCmds {
         cr.register("claimkey", new SimpleCommand(Category.UTILS) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 if(config.isPremiumBot()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.mp"), EmoteReference.WARNING).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.activatekey.mp"), EmoteReference.WARNING).queue();
                     return;
                 }
 
@@ -169,7 +174,7 @@ public class PremiumCmds {
                     try {
                         scopeParsed = PremiumKey.Type.valueOf(args[0].toUpperCase());
                     } catch (IllegalArgumentException e) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.claimkey.invalid_scope"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.claimkey.invalid_scope"), EmoteReference.ERROR).queue();
                     }
                 }
 
@@ -179,7 +184,7 @@ public class PremiumCmds {
                 //left: isPatron, right: pledgeAmount, basically.
                 Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(author.getId());
                 if(pledgeInfo == null || !pledgeInfo.getLeft()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.claimkey.not_patron"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.claimkey.not_patron"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -189,7 +194,7 @@ public class PremiumCmds {
 
                 //Check for pledge changes on DBUser#isPremium
                 if(pledgeAmount == 1 || data.getKeysClaimed().size() >= (pledgeAmount / 2)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.claimkey.already_top"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.claimkey.already_top"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -206,8 +211,8 @@ public class PremiumCmds {
                             EmoteReference.HEART, newKey.getId(), amountClaimed, (int) ((pledgeAmount / 2) - amountClaimed), newKey.getParsedType()).queue();
                             dbUser.saveAsync();
                             newKey.saveAsync();
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.claimkey.success"), EmoteReference.CORRECT).queue();
-                        }, error -> event.getChannel().sendMessageFormat(languageContext.get("commands.claimkey.cant_dm"), EmoteReference.ERROR).queue());
+                            channel.sendMessageFormat(languageContext.get("commands.claimkey.success"), EmoteReference.CORRECT).queue();
+                        }, error -> channel.sendMessageFormat(languageContext.get("commands.claimkey.cant_dm"), EmoteReference.ERROR).queue());
             }
         });
     }
@@ -217,8 +222,10 @@ public class PremiumCmds {
         cr.register("vipstatus", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 if(config.isPremiumBot()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.activatekey.mp"), EmoteReference.WARNING).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.activatekey.mp"), EmoteReference.WARNING).queue();
                     return;
                 }
 
@@ -233,7 +240,7 @@ public class PremiumCmds {
 
                     DBUser dbUser = MantaroData.db().getUser(toCheck);
                     if(!dbUser.isPremium()) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.vipstatus.user.not_premium"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.vipstatus.user.not_premium"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -292,12 +299,12 @@ public class PremiumCmds {
                     }
 
                     embedBuilder.setFooter(languageContext.get("commands.vipstatus.thank_note"), null);
-                    event.getChannel().sendMessage(embedBuilder.build()).queue();
+                    channel.sendMessage(embedBuilder.build()).queue();
                 } else {
                     if(args[0].equals("guild")) {
                         DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                         if(!dbGuild.isPremium()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.vipstatus.guild.not_premium"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.vipstatus.guild.not_premium"), EmoteReference.ERROR).queue();
                             return;
                         }
 
@@ -335,11 +342,11 @@ public class PremiumCmds {
                         }
 
                         embedBuilder.setFooter(languageContext.get("commands.vipstatus.thank_note"), null);
-                        event.getChannel().sendMessage(embedBuilder.build()).queue();
+                        channel.sendMessage(embedBuilder.build()).queue();
                         return;
                     }
 
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.vipstatus.wrong_args"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.vipstatus.wrong_args"), EmoteReference.ERROR).queue();
                 }
             }
 
@@ -361,8 +368,10 @@ public class PremiumCmds {
         cr.register("createkey", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 if(args.length < 3) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a scope, an id and whether this key is linked (example: guild 1558674582032875529 true)").queue();
+                    channel.sendMessage(EmoteReference.ERROR + "You need to provide a scope, an id and whether this key is linked (example: guild 1558674582032875529 true)").queue();
                     return;
                 }
 
@@ -376,13 +385,13 @@ public class PremiumCmds {
                 } catch(IllegalArgumentException ignored) {}
 
                 if(scopeParsed == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid scope (Valid ones are: `user` or `guild`)").queue();
+                    channel.sendMessage(EmoteReference.ERROR + "Invalid scope (Valid ones are: `user` or `guild`)").queue();
                     return;
                 }
 
                 //This method generates a premium key AND saves it on the database! Please use this result!
                 PremiumKey generated = PremiumKey.generatePremiumKey(owner, scopeParsed, linked);
-                event.getChannel().sendMessage(EmoteReference.CORRECT + String.format("Generated: `%s` (S: %s) **[NOT ACTIVATED]** (Linked: %s)",
+                channel.sendMessage(EmoteReference.CORRECT + String.format("Generated: `%s` (S: %s) **[NOT ACTIVATED]** (Linked: %s)",
                         generated.getId(), generated.getParsedType(), linked)).queue();
             }
 

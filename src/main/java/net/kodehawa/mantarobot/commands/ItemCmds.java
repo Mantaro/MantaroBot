@@ -21,6 +21,7 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -81,8 +82,10 @@ public class ItemCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        TextChannel channel = event.getChannel();
+
                         if(content.trim().isEmpty()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_item_found"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.cast.no_item_found"), EmoteReference.ERROR).queue();
                             return;
                         }
 
@@ -110,7 +113,7 @@ public class ItemCmds {
                             optionalWrench = Items.fromAnyNoId(arguments[1]);
 
                         if(!toCast.isPresent()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_item_found"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.cast.no_item_found"), EmoteReference.ERROR).queue();
                             return;
                         }
 
@@ -130,12 +133,12 @@ public class ItemCmds {
                         Item castItem = toCast.get();
                         //This is a good way of getting if it's castable, since implementing an interface wouldn't cut it (some rods aren't castable, for example)
                         if(!castItem.getItemType().isCastable()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.item_not_cast"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.cast.item_not_cast"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         if(castItem.getRecipe() == null || castItem.getRecipe().isEmpty()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.item_not_cast"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.cast.item_not_cast"), EmoteReference.ERROR).queue();
                             return;
                         }
 
@@ -149,7 +152,7 @@ public class ItemCmds {
                         Wrench wrench = (Wrench) wrenchItem;
 
                         if(amountSpecified > 1 && wrench.getLevel() < 2) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.low_tier"), EmoteReference.ERROR, wrench.getLevel()).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.cast.low_tier"), EmoteReference.ERROR, wrench.getLevel()).queue();
                             return;
                         }
 
@@ -166,31 +169,31 @@ public class ItemCmds {
                         int wrenchLevelRequired = isItemCastable ? ((Castable) castItem).getCastLevelRequired() : 1;
 
                         if(money < castCost) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_money"), EmoteReference.ERROR, castCost).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.cast.not_enough_money"), EmoteReference.ERROR, castCost).queue();
                             return;
                         }
 
                         if(wrench.getLevel() < wrenchLevelRequired) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_wrench_level"), EmoteReference.ERROR, wrench.getLevel(), wrenchLevelRequired).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.cast.not_enough_wrench_level"), EmoteReference.ERROR, wrench.getLevel(), wrenchLevelRequired).queue();
                             return;
                         }
 
                         int limit = (isItemCastable ? ((Castable) castItem).getMaximumCastAmount() : 5);
                         if(amountSpecified > limit) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.too_many_amount"), EmoteReference.ERROR, limit, amountSpecified).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.cast.too_many_amount"), EmoteReference.ERROR, limit, amountSpecified).queue();
                             return;
                         }
 
                         Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
 
                         if(!playerInventory.containsItem(wrenchItem)) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_tool"), EmoteReference.ERROR, Items.WRENCH.getName()).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.cast.no_tool"), EmoteReference.ERROR, Items.WRENCH.getName()).queue();
                             return;
                         }
 
                         int dust = user.getData().getDustLevel();
                         if(dust > 95) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.dust"), EmoteReference.ERROR, dust).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.cast.dust"), EmoteReference.ERROR, dust).queue();
                             return;
                         }
 
@@ -202,13 +205,13 @@ public class ItemCmds {
                             int amount = Integer.valueOf(splitRecipe[increment]) * amountSpecified;
 
                             if(!playerInventory.containsItem(item)) {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.cast.no_item"), EmoteReference.ERROR, item.getName()).queue();
+                                channel.sendMessageFormat(languageContext.get("commands.cast.no_item"), EmoteReference.ERROR, item.getName()).queue();
                                 return;
                             }
 
                             int inventoryAmount = playerInventory.getAmount(item);
                             if(inventoryAmount < amount) {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.cast.not_enough_items"), EmoteReference.ERROR, item.getName(), amount, inventoryAmount).queue();
+                                channel.sendMessageFormat(languageContext.get("commands.cast.not_enough_items"), EmoteReference.ERROR, item.getName(), amount, inventoryAmount).queue();
                                 return;
                             }
 
@@ -218,7 +221,7 @@ public class ItemCmds {
                         }
 
                         if(playerInventory.getAmount(castItem) + amountSpecified > 5000) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.cast.too_many"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.cast.too_many"), EmoteReference.ERROR).queue();
                             return;
                         }
 
@@ -249,7 +252,7 @@ public class ItemCmds {
                             player.save();
                         }
 
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.cast.success") + "\n" + message,
+                        channel.sendMessageFormat(languageContext.get("commands.cast.success") + "\n" + message,
                                 EmoteReference.WRENCH, castItem.getEmoji(), castItem.getName(), castCost, recipeString.toString().trim()
                         ).queue();
                     }
@@ -279,6 +282,8 @@ public class ItemCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
+
                 List<Item> castableItems = Arrays.stream(Items.ALL)
                         .filter(i -> i.getItemType().isCastable() && i.getRecipeTypes() != null && i.getRecipe() != null)
                         .collect(Collectors.toList());
@@ -311,7 +316,7 @@ public class ItemCmds {
                 }
 
                 List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
-                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(channel, Permission.MESSAGE_ADD_REACTION);
                 if(hasReactionPerms) {
                     builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.cast.ls.desc")));
                     DiscordUtils.list(event, 45, false, builder, splitFields);
@@ -347,8 +352,10 @@ public class ItemCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        TextChannel channel = event.getChannel();
+
                         if(content.isEmpty()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_item"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.repair.no_item"), EmoteReference.ERROR).queue();
                             return;
                         }
 
@@ -376,38 +383,38 @@ public class ItemCmds {
                         }
 
                         if(item == null) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_item_found"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.repair.no_item_found"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         if(!(item instanceof Broken)) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.cant_repair"), EmoteReference.ERROR, item.getName()).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.repair.cant_repair"), EmoteReference.ERROR, item.getName()).queue();
                             return;
                         }
 
                         if(!(wrench instanceof Wrench)) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_wrench"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.repair.not_wrench"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         if(((Wrench) wrench).getLevel() < 2) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_enough_level"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.repair.not_enough_level"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         if(!playerInventory.containsItem(item)) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_main_item"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.repair.no_main_item"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         if(!playerInventory.containsItem(wrench)) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_tool"), EmoteReference.ERROR, Items.WRENCH.getName()).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.repair.no_tool"), EmoteReference.ERROR, Items.WRENCH.getName()).queue();
                             return;
                         }
 
                         int dust = user.getData().getDustLevel();
                         if(dust > 95) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.dust"), EmoteReference.ERROR, dust).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.repair.dust"), EmoteReference.ERROR, dust).queue();
                             return;
                         }
 
@@ -420,7 +427,7 @@ public class ItemCmds {
 
                         long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
                         if(playerMoney < repairCost) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_enough_money"), EmoteReference.ERROR, playerMoney, repairCost).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.repair.not_enough_money"), EmoteReference.ERROR, playerMoney, repairCost).queue();
                             return;
                         }
 
@@ -435,13 +442,13 @@ public class ItemCmds {
                             Item needed = Items.fromId(Integer.parseInt(split[1]));
 
                             if(!playerInventory.containsItem(needed)) {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.repair.no_item_recipe"), EmoteReference.ERROR, needed.getName()).queue();
+                                channel.sendMessageFormat(languageContext.get("commands.repair.no_item_recipe"), EmoteReference.ERROR, needed.getName()).queue();
                                 return;
                             }
 
                             int inventoryAmount = playerInventory.getAmount(needed);
                             if(inventoryAmount < amount) {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.repair.not_enough_items"), EmoteReference.ERROR, needed.getName(), amount, inventoryAmount).queue();
+                                channel.sendMessageFormat(languageContext.get("commands.repair.not_enough_items"), EmoteReference.ERROR, needed.getName(), amount, inventoryAmount).queue();
                                 return;
                             }
 
@@ -477,7 +484,7 @@ public class ItemCmds {
                             player.save();
                         }
 
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.repair.success") + "\n" + message,
+                        channel.sendMessageFormat(languageContext.get("commands.repair.success") + "\n" + message,
                                 EmoteReference.WRENCH, brokenItem.getEmoji(), brokenItem.getName(), repairedItem.getEmoji(), repairedItem.getName(), repairCost, recipeString.toString().trim()
                         ).queue();
                     }
@@ -503,6 +510,8 @@ public class ItemCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
+
                 List<Broken> repairableItems = Arrays.stream(Items.ALL)
                         .filter(i -> i instanceof Broken)
                         .map(i -> (Broken) i)
@@ -541,7 +550,7 @@ public class ItemCmds {
                 }
 
                 List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
-                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(channel, Permission.MESSAGE_ADD_REACTION);
                 if(hasReactionPerms) {
                     builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.repair.ls.desc")));
                     DiscordUtils.list(event, 45, false, builder, splitFields);
@@ -558,21 +567,23 @@ public class ItemCmds {
         registry.register("iteminfo", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.iteminfo.no_content"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.iteminfo.no_content"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 Optional<Item> itemOptional = Items.fromAnyNoId(content.replace("\"", ""));
 
                 if(!itemOptional.isPresent()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.iteminfo.no_item"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.iteminfo.no_item"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 Item item = itemOptional.get();
                 String description = languageContext.get(item.getDesc());
-                event.getChannel().sendMessageFormat(languageContext.get("commands.iteminfo.success"), EmoteReference.BLUE_SMALL_MARKER, item.getEmoji(), item.getName(), item.getItemType(), description).queue();
+                channel.sendMessageFormat(languageContext.get("commands.iteminfo.success"), EmoteReference.BLUE_SMALL_MARKER, item.getEmoji(), item.getName(), item.getItemType(), description).queue();
             }
 
             @Override

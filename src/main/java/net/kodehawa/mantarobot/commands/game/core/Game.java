@@ -21,6 +21,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
@@ -31,6 +32,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.List;
@@ -51,7 +53,8 @@ public abstract class Game<T> {
 
     protected int callDefault(GuildMessageReceivedEvent e,
                               GameLobby lobby, List<String> players, List<T> expectedAnswer, int attempts, int maxAttempts, int extra) {
-        if(!e.getChannel().getId().equals(lobby.getChannel().getId())) {
+        TextChannel channel = lobby.getChannel();
+        if(!e.getChannel().getId().equals(channel.getId())) {
             return Operation.IGNORED;
         }
 
@@ -59,49 +62,52 @@ public abstract class Game<T> {
             return Operation.IGNORED;
         }
 
+        Message message = e.getMessage();
+
         for(String s : MantaroData.config().get().getPrefix()) {
-            if(e.getMessage().getContentRaw().startsWith(s)) {
+            if(message.getContentRaw().startsWith(s)) {
                 return Operation.IGNORED;
             }
         }
 
         if(players.contains(e.getAuthor().getId())) {
-            if(e.getMessage().getContentRaw().equalsIgnoreCase("end")) {
-                lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.ended_game"), EmoteReference.CORRECT, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(", "))).queue();
+            if(message.getContentRaw().equalsIgnoreCase("end")) {
+                channel.sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.ended_game"), EmoteReference.CORRECT, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(", "))).queue();
                 lobby.startNextGame(true);
                 return Operation.COMPLETED;
             }
 
-            if(e.getMessage().getContentRaw().equalsIgnoreCase("endlobby")) {
-                lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.ended_lobby"),EmoteReference.CORRECT).queue();
+            if(message.getContentRaw().equalsIgnoreCase("endlobby")) {
+                channel.sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.ended_lobby"),EmoteReference.CORRECT).queue();
                 lobby.getGamesToPlay().clear();
                 lobby.startNextGame(true);
                 return Operation.COMPLETED;
             }
 
-            if(expectedAnswer.stream().map(String::valueOf).anyMatch(e.getMessage().getContentRaw()::equalsIgnoreCase)) {
+            if(expectedAnswer.stream().map(String::valueOf).anyMatch(message.getContentRaw()::equalsIgnoreCase)) {
                 UnifiedPlayer unifiedPlayer = UnifiedPlayer.of(e.getAuthor(), config.getCurrentSeason());
                 Player player = unifiedPlayer.getPlayer();
+                PlayerData data = player.getData();
                 SeasonPlayer seasonalPlayer = unifiedPlayer.getSeasonalPlayer();
                 int gains = 45 + extra;
                 unifiedPlayer.addMoney(gains);
 
-                if(player.getData().getGamesWon() == 100)
-                    player.getData().addBadgeIfAbsent(Badge.GAMER);
+                if(data.getGamesWon() == 100)
+                    data.addBadgeIfAbsent(Badge.GAMER);
 
-                if(player.getData().getGamesWon() == 1000)
-                    player.getData().addBadgeIfAbsent(Badge.ADDICTED_GAMER);
+                if(data.getGamesWon() == 1000)
+                    data.addBadgeIfAbsent(Badge.ADDICTED_GAMER);
 
                 if(maxAttempts > 2)
                     seasonalPlayer.getData().setGamesWon(seasonalPlayer.getData().getGamesWon() + 1);
 
-                player.getData().setGamesWon(player.getData().getGamesWon() + 1);
+                data.setGamesWon(data.getGamesWon() + 1);
                 unifiedPlayer.save();
 
                 TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
                 new MessageBuilder().setContent(String.format(lobby.getLanguageContext().get("commands.game.lobby.won_game"), EmoteReference.MEGA, e.getMember().getEffectiveName(), gains))
                         .stripMentions(e.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
-                        .sendTo(lobby.getChannel())
+                        .sendTo(channel)
                         .queue();
 
                 lobby.startNextGame(true);
@@ -109,12 +115,12 @@ public abstract class Game<T> {
             }
 
             if(attempts >= maxAttempts) {
-                lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.all_attempts_used"), EmoteReference.ERROR, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(", "))).queue();
+                channel.sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.all_attempts_used"), EmoteReference.ERROR, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(", "))).queue();
                 lobby.startNextGame(true); //This should take care of removing the lobby, actually.
                 return Operation.COMPLETED;
             }
 
-            lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.incorrect_answer"), EmoteReference.ERROR, (maxAttempts - attempts)).queue();
+            channel.sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.incorrect_answer"), EmoteReference.ERROR, (maxAttempts - attempts)).queue();
             setAttempts(getAttempts() + 1);
             return Operation.IGNORED;
         }

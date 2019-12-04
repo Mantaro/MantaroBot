@@ -21,10 +21,7 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
@@ -179,12 +176,13 @@ public class CurrencyCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 Member member = Utils.findMember(event, event.getMember(), content);
+                TextChannel channel = event.getChannel();
 
                 if(member == null)
                     return;
 
                 if(member.getUser().isBot()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.level.bot_notice"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.level.bot_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -192,11 +190,11 @@ public class CurrencyCmds {
                 long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
 
                 if(member.getUser().getIdLong() == event.getAuthor().getIdLong()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.level.own_success"),
+                    channel.sendMessageFormat(languageContext.get("commands.level.own_success"),
                             EmoteReference.ZAP, player.getLevel(), player.getData().getExperience(), experienceNext
                     ).queue();
                 } else {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.level.success_other"),
+                    channel.sendMessageFormat(languageContext.get("commands.level.success_other"),
                             EmoteReference.ZAP, member.getUser().getAsTag(), player.getLevel(), player.getData().getExperience(), experienceNext
                     ).queue();
                 }
@@ -300,8 +298,10 @@ public class CurrencyCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
+
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.no_item"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.market.dump.no_item"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -318,7 +318,7 @@ public class CurrencyCmds {
                         itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
                         itemName = itemName.replace(args[0], "").trim();
                     } catch (NumberFormatException e) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.invalid"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.market.dump.invalid"), EmoteReference.ERROR).queue();
                         return;
                     }
                 }
@@ -326,7 +326,7 @@ public class CurrencyCmds {
                 Item item = Items.fromAny(itemName).orElse(null);
 
                 if(item == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.non_existent"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.market.dump.non_existent"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -336,12 +336,12 @@ public class CurrencyCmds {
                 Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
 
                 if(!playerInventory.containsItem(item)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.player_no_item"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.market.dump.player_no_item"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(playerInventory.getAmount(item) < itemNumber) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.more_items_than_player"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.market.dump.more_items_than_player"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -351,7 +351,7 @@ public class CurrencyCmds {
                 else
                     player.saveAsync();
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.market.dump.success"),
+                channel.sendMessageFormat(languageContext.get("commands.market.dump.success"),
                         EmoteReference.CORRECT, itemNumber, item.getEmoji(), item.getName()).queue();
             }
         }).createSubCommandAlias("dump", "trash");
@@ -398,8 +398,10 @@ public class CurrencyCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
+
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.no_item_amount"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.market.sell.no_item_amount"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -416,19 +418,19 @@ public class CurrencyCmds {
                 boolean isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
                 if(isMassive) {
                     try {
-                        itemNumber = Math.abs(Integer.valueOf(split));
+                        itemNumber = Math.abs(Integer.parseInt(split));
                         itemName = itemName.replace(args[0], "").trim();
                     } catch (NumberFormatException e) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.invalid"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.market.sell.invalid"), EmoteReference.ERROR).queue();
                         return;
                     }
                 }
 
                 try {
                     if(args[0].equals("all") && !isSeasonal) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.all.confirmation"), EmoteReference.WARNING).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.market.sell.all.confirmation"), EmoteReference.WARNING).queue();
                         //Start the operation.
-                        InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 60, e -> {
+                        InteractiveOperations.create(channel, event.getAuthor().getIdLong(), 60, e -> {
                             if(!e.getAuthor().getId().equals(event.getAuthor().getId())) {
                                 return Operation.IGNORED;
                             }
@@ -444,13 +446,13 @@ public class CurrencyCmds {
                                 player.getInventory().clearOnlySellables();
                                 player.addMoney(all);
 
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.all.success"), EmoteReference.MONEY, all).queue();
+                                channel.sendMessageFormat(languageContext.get("commands.market.sell.all.success"), EmoteReference.MONEY, all).queue();
 
                                 player.saveAsync();
 
                                 return Operation.COMPLETED;
                             } else if (c.equalsIgnoreCase("no")) {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.all.cancelled"), EmoteReference.CORRECT).queue();
+                                channel.sendMessageFormat(languageContext.get("commands.market.sell.all.cancelled"), EmoteReference.CORRECT).queue();
                                 return Operation.COMPLETED;
                             }
 
@@ -464,22 +466,22 @@ public class CurrencyCmds {
                     Item toSell = Items.fromAny(itemName.replace("\"", "")).orElse(null);
 
                     if(toSell == null) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.non_existent"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.market.sell.non_existent"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(!toSell.isSellable()) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.no_sell_price"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.market.sell.no_sell_price"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(playerInventory.getAmount(toSell) < 1) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.no_item_player"), EmoteReference.STOP).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.market.sell.no_item_player"), EmoteReference.STOP).queue();
                         return;
                     }
 
                     if(playerInventory.getAmount(toSell) < itemNumber) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.more_items_than_player"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.market.sell.more_items_than_player"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -492,7 +494,7 @@ public class CurrencyCmds {
                         player.addMoney(amount);
 
                     player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.sell.success"),
+                    channel.sendMessageFormat(languageContext.get("commands.market.sell.success"),
                             EmoteReference.CORRECT, Math.abs(many), toSell.getName(), amount).queue();
 
                     player.saveAsync();
@@ -500,7 +502,7 @@ public class CurrencyCmds {
                     if(isSeasonal)
                         seasonalPlayer.saveAsync();
                 } catch(Exception e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + languageContext.get("general.invalid_syntax")).queue();
+                    channel.sendMessage(EmoteReference.ERROR + languageContext.get("general.invalid_syntax")).queue();
                 }
             }
         });
@@ -514,8 +516,9 @@ public class CurrencyCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.no_item_amount"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.market.buy.no_item_amount"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -535,7 +538,7 @@ public class CurrencyCmds {
                         itemNumber = Math.abs(Integer.valueOf(split));
                         itemName = itemName.replace(args[0], "").trim();
                     } catch (NumberFormatException e) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.invalid"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.market.buy.invalid"), EmoteReference.ERROR).queue();
                         return;
                     }
                 } else {
@@ -560,16 +563,16 @@ public class CurrencyCmds {
                     }
                 }
 
-                Item itemToBuy = Items.fromAnyNoId(itemName.replace("\"", "")).orElse(null);
+                final Item itemToBuy = Items.fromAnyNoId(itemName.replace("\"", "")).orElse(null);
 
                 if(itemToBuy == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.non_existent"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.market.buy.non_existent"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 try {
                     if(!itemToBuy.isBuyable() || itemToBuy.isPetOnly()) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.no_buy_price"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.market.buy.no_buy_price"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -577,7 +580,7 @@ public class CurrencyCmds {
                     ItemStack stack = playerInventory.getStackOf(itemToBuy);
                     if((stack != null && !stack.canJoin(new ItemStack(itemToBuy, itemNumber))) || itemNumber > 5000) {
                         //assume overflow
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.item_limit_reached"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.market.buy.item_limit_reached"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -596,14 +599,14 @@ public class CurrencyCmds {
 
                         long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
 
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.success"),
+                        channel.sendMessageFormat(languageContext.get("commands.market.buy.success"),
                                 EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber, playerMoney).queue();
 
                     } else {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.market.buy.not_enough_money"), EmoteReference.STOP).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.market.buy.not_enough_money"), EmoteReference.STOP).queue();
                     }
                 } catch(Exception e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + languageContext.get("general.invalid_syntax")).queue();
+                    channel.sendMessage(EmoteReference.ERROR + languageContext.get("general.invalid_syntax")).queue();
                 }
             }
         });
@@ -626,25 +629,27 @@ public class CurrencyCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 if(args.length < 2) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.no_item_mention"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.itemtransfer.no_item_mention"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                List<User> mentionedUsers = event.getMessage().getMentionedUsers();
+                final List<User> mentionedUsers = event.getMessage().getMentionedUsers();
                 if(mentionedUsers.size() == 0) {
-                    event.getChannel().sendMessageFormat(languageContext.get("general.mention_user_required"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("general.mention_user_required"), EmoteReference.ERROR).queue();
                 }
                 else {
                     User giveTo = mentionedUsers.get(0);
 
                     if(event.getAuthor().getId().equals(giveTo.getId())) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.transfer_yourself_note"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.itemtransfer.transfer_yourself_note"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(giveTo.isBot()) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.bot_notice"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.itemtransfer.bot_notice"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -653,10 +658,10 @@ public class CurrencyCmds {
 
                     Item item = Items.fromAnyNoId(args[1]).orElse(null);
                     if(item == null) {
-                        event.getChannel().sendMessage(languageContext.get("general.item_lookup.no_item_emoji")).queue();
+                        channel.sendMessage(languageContext.get("general.item_lookup.no_item_emoji")).queue();
                     } else {
                         if(item == Items.CLAIM_KEY) {
-                            event.getChannel().sendMessage(languageContext.get("general.item_lookup.claim_key")).queue();
+                            channel.sendMessage(languageContext.get("general.item_lookup.claim_key")).queue();
                             return;
                         }
 
@@ -664,19 +669,19 @@ public class CurrencyCmds {
                         Player giveToPlayer = MantaroData.db().getPlayer(giveTo);
 
                         if(player.isLocked()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.locked_notice"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.itemtransfer.locked_notice"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         if(args.length == 2) {
                             if(player.getInventory().containsItem(item)) {
                                 if(item.isHidden()) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.hidden_item"), EmoteReference.ERROR).queue();
+                                    channel.sendMessageFormat(languageContext.get("commands.itemtransfer.hidden_item"), EmoteReference.ERROR).queue();
                                     return;
                                 }
 
                                 if(giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() >= 5000) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.overflow"), EmoteReference.ERROR).queue();
+                                    channel.sendMessageFormat(languageContext.get("commands.itemtransfer.overflow"), EmoteReference.ERROR).queue();
                                     return;
                                 }
 
@@ -685,10 +690,10 @@ public class CurrencyCmds {
                                 new MessageBuilder().setContent(String.format(languageContext.get("commands.itemtransfer.success"),
                                             EmoteReference.OK, event.getMember().getEffectiveName(), 1, item.getName(), event.getGuild().getMember(giveTo).getEffectiveName()))
                                         .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
-                                        .sendTo(event.getChannel())
+                                        .sendTo(channel)
                                         .queue();
                             } else {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.multiple_items_error"), EmoteReference.ERROR).queue();
+                                channel.sendMessageFormat(languageContext.get("commands.itemtransfer.multiple_items_error"), EmoteReference.ERROR).queue();
                             }
 
                             player.saveAsync();
@@ -700,12 +705,12 @@ public class CurrencyCmds {
                             int amount = Math.abs(Integer.parseInt(args[2]));
                             if(player.getInventory().containsItem(item) && player.getInventory().getAmount(item) >= amount) {
                                 if(item.isHidden()) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.hidden_item"), EmoteReference.ERROR).queue();
+                                    channel.sendMessageFormat(languageContext.get("commands.itemtransfer.hidden_item"), EmoteReference.ERROR).queue();
                                     return;
                                 }
 
                                 if(giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() + amount > 5000) {
-                                    event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.overflow"), EmoteReference.ERROR).queue();
+                                    channel.sendMessageFormat(languageContext.get("commands.itemtransfer.overflow"), EmoteReference.ERROR).queue();
                                     return;
                                 }
 
@@ -715,13 +720,13 @@ public class CurrencyCmds {
                                 new MessageBuilder().setContent(String.format(languageContext.get("commands.itemtransfer.success"), EmoteReference.OK,
                                             event.getMember().getEffectiveName(), amount, item.getName(), event.getGuild().getMember(giveTo).getEffectiveName()))
                                         .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
-                                        .sendTo(event.getChannel())
+                                        .sendTo(channel)
                                         .queue();
                             } else {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.itemtransfer.error"), EmoteReference.ERROR).queue();
+                                channel.sendMessageFormat(languageContext.get("commands.itemtransfer.error"), EmoteReference.ERROR).queue();
                             }
                         } catch(NumberFormatException nfe) {
-                            event.getChannel().sendMessageFormat(languageContext.get("general.invalid_number") + " " + languageContext.get("general.space_notice"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("general.invalid_number") + " " + languageContext.get("general.space_notice"), EmoteReference.ERROR).queue();
                         }
 
                         player.saveAsync();
@@ -764,20 +769,22 @@ public class CurrencyCmds {
 
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                final TextChannel channel = event.getChannel();
+
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("general.mention_user_required"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("general.mention_user_required"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                User giveTo = event.getMessage().getMentionedUsers().get(0);
+                final User giveTo = event.getMessage().getMentionedUsers().get(0);
 
                 if(giveTo.equals(event.getAuthor())) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.transfer_yourself_note"), EmoteReference.THINKING).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.transfer.transfer_yourself_note"), EmoteReference.THINKING).queue();
                     return;
                 }
 
                 if(giveTo.isBot()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.bot_notice"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.transfer.bot_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -790,22 +797,22 @@ public class CurrencyCmds {
                     //Convert negative values to absolute.
                     toSend = Math.abs(new RoundedMetricPrefixFormat().parseObject(args[1], new ParsePosition(0)));
                 } catch(Exception e) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.no_amount"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.transfer.no_amount"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(toSend == 0) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.no_money_specified_notice"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.transfer.no_money_specified_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(Items.fromAnyNoId(args[1]).isPresent()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.item_transfer"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.transfer.item_transfer"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(toSend > TRANSFER_LIMIT) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.over_transfer_limit"),
+                    channel.sendMessageFormat(languageContext.get("commands.transfer.over_transfer_limit"),
                             EmoteReference.ERROR, TRANSFER_LIMIT).queue();
                     return;
                 }
@@ -814,28 +821,28 @@ public class CurrencyCmds {
                 Player toTransfer = MantaroData.db().getPlayer(event.getGuild().getMember(giveTo));
 
                 if(transferPlayer.isLocked()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.own_locked_notice"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.transfer.own_locked_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(transferPlayer.getMoney() < toSend) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.no_money_notice"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.transfer.no_money_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(toTransfer.isLocked()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.receipt_locked_notice"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.transfer.receipt_locked_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(toTransfer.getMoney() > (long) TRANSFER_LIMIT * 18) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.receipt_over_limit"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.transfer.receipt_over_limit"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 String partyKey = event.getAuthor().getId() + ":" + giveTo.getId();
                 if(!partyRateLimiter.process(partyKey)) {
-                    event.getChannel().sendMessage(
+                    channel.sendMessage(
                             EmoteReference.STOPWATCH +
                                     String.format(languageContext.get("commands.transfer.party"), giveTo.getName()) + " (Ratelimited)" +
                                     "\n **You'll be able to transfer to this user again in " + Utils.getHumanizedTime(partyRateLimiter.tryAgainIn(partyKey))
@@ -852,14 +859,14 @@ public class CurrencyCmds {
                     transferPlayer.removeMoney(toSend);
                     transferPlayer.saveAsync();
 
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.success"), EmoteReference.CORRECT, toSend, amountTransfer,
+                    channel.sendMessageFormat(languageContext.get("commands.transfer.success"), EmoteReference.CORRECT, toSend, amountTransfer,
                             event.getMessage().getMentionedUsers().get(0).getName()
                     ).queue();
 
                     toTransfer.saveAsync();
                     rateLimiter.limit(toTransfer.getUserId());
                 } else {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.transfer.receipt_overflow_notice"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.transfer.receipt_overflow_notice"), EmoteReference.ERROR).queue();
                 }
             }
 
@@ -882,7 +889,9 @@ public class CurrencyCmds {
         registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                ManagedDatabase managedDatabase = MantaroData.db();
+                final TextChannel channel = event.getChannel();
+
+                final ManagedDatabase managedDatabase = MantaroData.db();
                 //Argument parsing.
                 Map<String, String> t = getArguments(args);
                 content = Utils.replaceArguments(t, content, "season", "s").trim();
@@ -897,13 +906,13 @@ public class CurrencyCmds {
                     item = Items.LOOT_CRATE;
 
                 if(item.getItemType() != ItemType.CRATE) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.opencrate.not_crate"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.opencrate.not_crate"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 boolean containsItem = isSeasonal ? sp.getInventory().containsItem(item) : p.getInventory().containsItem(item);
                 if(!containsItem) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.opencrate.no_crate"), EmoteReference.SAD, item.getName()).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.opencrate.no_crate"), EmoteReference.SAD, item.getName()).queue();
                     return;
                 }
 
@@ -940,7 +949,7 @@ public class CurrencyCmds {
         cr.register("dailycrate", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                ManagedDatabase managedDatabase = MantaroData.db();
+                final ManagedDatabase managedDatabase = MantaroData.db();
 
                 if(!managedDatabase.getUser(event.getAuthor()).isPremium()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.dailycrate.not_premium"), EmoteReference.ERROR).queue();
@@ -980,32 +989,33 @@ public class CurrencyCmds {
                         final ManagedDatabase db = MantaroData.db();
                         String[] args = StringUtils.advancedSplitArgs(content, 2);
                         Map<String, String> t = StringUtils.parse(content.split("\\s+"));
+                        final TextChannel channel = event.getChannel();
 
                         if (content.isEmpty()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_items_specified"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.useitem.no_items_specified"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         Item item = Items.fromAnyNoId(args[0]).orElse(null);
                         //Well, shit.
                         if (item == null) {
-                            event.getChannel().sendMessageFormat(languageContext.get("general.item_lookup.not_found"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("general.item_lookup.not_found"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         if (item.getItemType() != ItemType.INTERACTIVE && item.getItemType() != ItemType.CRATE && item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.not_interactive"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.useitem.not_interactive"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         if(item.getAction() == null && (item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF)) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.interactive_no_action"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.useitem.interactive_no_action"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         Player p = db.getPlayer(event.getAuthor());
                         if(!p.getInventory().containsItem(item)) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_item"), EmoteReference.SAD).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.useitem.no_item"), EmoteReference.SAD).queue();
                             return;
                         }
 
@@ -1103,13 +1113,14 @@ public class CurrencyCmds {
             DBUser dbUser = db.getUser(event.getAuthor());
             UserData userData = dbUser.getData();
             Map<String, Pet> profilePets = p.getData().getPets();
+            final TextChannel channel = event.getChannel();
 
             //Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
             int amount = arguments.containsKey("amount") ? Integer.parseInt(arguments.get("amount")) : 1;
             String petName = isPet ? content : "";
 
             if(isPet && petName.isEmpty()) {
-                event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_name"), EmoteReference.SAD).queue();
+                channel.sendMessageFormat(languageContext.get("commands.useitem.no_name"), EmoteReference.SAD).queue();
                 return;
             }
 
@@ -1117,12 +1128,12 @@ public class CurrencyCmds {
             PlayerEquipment.EquipmentType type = equippedItems.getTypeFor(item);
 
             if(amount < 1) {
-                event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.too_little"), EmoteReference.SAD).queue();
+                channel.sendMessageFormat(languageContext.get("commands.useitem.too_little"), EmoteReference.SAD).queue();
                 return;
             }
 
             if(p.getInventory().getAmount(item) < amount) {
-                event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.not_enough_items"), EmoteReference.SAD).queue();
+                channel.sendMessageFormat(languageContext.get("commands.useitem.not_enough_items"), EmoteReference.SAD).queue();
                 return;
             }
 
@@ -1131,7 +1142,7 @@ public class CurrencyCmds {
 
                 //Currently has a potion equipped, but wants to stack a potion of other type.
                 if(currentPotion.getPotion() != Items.idOf(item)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.not_same_potion"),
+                    channel.sendMessageFormat(languageContext.get("general.misc_item_usage.not_same_potion"),
                             EmoteReference.ERROR, item.getName(), Items.fromId(currentPotion.getPotion()).getName()
                     ).queue();
 
@@ -1140,11 +1151,11 @@ public class CurrencyCmds {
 
                 //Currently has a potion equipped, and is of the same type.
                 if(currentPotion.equip(amount)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied_multiple"),
+                    channel.sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied_multiple"),
                             EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), currentPotion.getAmountEquipped()).queue();
                 } else {
                     //Too many stacked (max: 10).
-                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size"), EmoteReference.ERROR, item.getName()).queue();
+                    channel.sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size"), EmoteReference.ERROR, item.getName()).queue();
                     return;
                 }
             } else {
@@ -1156,13 +1167,13 @@ public class CurrencyCmds {
                     effect.equip(amount - 1); //Amount - 1 because we're technically using one.
                 if(amount > 10) {
                     //Too many stacked (max: 10).
-                    event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size_2"), EmoteReference.ERROR, item.getName()).queue();
+                    channel.sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size_2"), EmoteReference.ERROR, item.getName()).queue();
                     return;
                 }
 
                 //Apply the effect.
                 equippedItems.applyEffect(effect);
-                event.getChannel().sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied"),
+                channel.sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied"),
                         EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), amount).queue();
             }
 

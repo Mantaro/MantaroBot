@@ -24,6 +24,7 @@ import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
@@ -122,6 +123,7 @@ public class PetCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        TextChannel channel = event.getChannel();
                         String[] args = StringUtils.advancedSplitArgs(content, 2);
                         ManagedDatabase db = MantaroData.db();
                         List<Member> found = FinderUtil.findMembers(content, event.getGuild());
@@ -129,13 +131,13 @@ public class PetCmds {
                         String petName;
 
                         if(content.isEmpty()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.pet.no_content"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.pet.no_content"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         //We only want one result, don't we?
                         if(found.size() > 1 && args.length > 1) {
-                            event.getChannel().sendMessageFormat(languageContext.get("general.too_many_members"), EmoteReference.THINKING, found.stream().limit(7).map(m -> String.format("%s#%s", m.getUser().getName(), m.getUser().getDiscriminator())).collect(Collectors.joining(", "))).queue();
+                            channel.sendMessageFormat(languageContext.get("general.too_many_members"), EmoteReference.THINKING, found.stream().limit(7).map(m -> String.format("%s#%s", m.getUser().getName(), m.getUser().getDiscriminator())).collect(Collectors.joining(", "))).queue();
                             return;
                         }
 
@@ -148,7 +150,7 @@ public class PetCmds {
                         }
 
                         if(petName.isEmpty()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.pet.not_specified"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.pet.not_specified"), EmoteReference.ERROR).queue();
                             return;
                         }
 
@@ -157,7 +159,7 @@ public class PetCmds {
 
                         Pet pet = playerData.getPets().get(petName);
                         if(pet == null) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.pet.not_found"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.pet.not_found"), EmoteReference.ERROR).queue();
                             return;
                         }
 
@@ -168,7 +170,7 @@ public class PetCmds {
                                         .withZone(ZoneId.systemDefault());
 
                         //This is a placeholder to test stuff. Mostly how it'll look on release though.
-                        event.getChannel().sendMessage(
+                        channel.sendMessage(
                                 new EmbedBuilder()
                                         .setAuthor(languageContext.get("commands.pet.overview"), null, event.getAuthor().getEffectiveAvatarUrl())
                                         //change to pet image when i actually have it
@@ -208,6 +210,8 @@ public class PetCmds {
                 if(!Utils.handleDefaultIncreasingRatelimit(incubateRatelimiter, event.getAuthor(), event, null))
                     return;
 
+                TextChannel channel = event.getChannel();
+
                 ManagedDatabase managedDatabase = MantaroData.db();
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
@@ -215,40 +219,40 @@ public class PetCmds {
                 String name;
 
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.no_name"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.incubate.no_name"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(!content.trim().matches("^[A-Za-z]+$")) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.only_letters"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.incubate.only_letters"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 name = content.trim();
 
                 if(!NAME_PATTERN.matcher(name).matches()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.pet.character_not_allowed"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.pet.character_not_allowed"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(!player.getInventory().containsItem(Items.INCUBATOR_EGG)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.no_egg"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.incubate.no_egg"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(playerData.getPetSlots() < playerData.getPets().size() + 1) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.not_enough_slots"), EmoteReference.ERROR, playerData.getPetSlots(), playerData.getPets().size()).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.incubate.not_enough_slots"), EmoteReference.ERROR, playerData.getPetSlots(), playerData.getPets().size()).queue();
                     return;
                 }
 
                 if(playerData.getPets().containsKey(name)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.already_exists"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.incubate.already_exists"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 long moneyNeeded = Math.max(70, random.nextInt(1000));
                 if(player.getMoney() < moneyNeeded) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.no_money"), EmoteReference.ERROR, moneyNeeded).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.incubate.no_money"), EmoteReference.ERROR, moneyNeeded).queue();
                     return;
                 }
 
@@ -258,7 +262,7 @@ public class PetCmds {
                 player.getInventory().process(new ItemStack(Items.INCUBATOR_EGG, -1));
                 player.save();
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.incubate.success"), EmoteReference.POPPER, name, pet.getData().getId()).queue();
+                channel.sendMessageFormat(languageContext.get("commands.petactions.incubate.success"), EmoteReference.POPPER, name, pet.getData().getId()).queue();
             }
         });
 
@@ -266,6 +270,7 @@ public class PetCmds {
             long renameCost = 500L;
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
                 ManagedDatabase managedDatabase = MantaroData.db();
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 DBGuild guildData = managedDatabase.getGuild(event.getGuild());
@@ -274,7 +279,7 @@ public class PetCmds {
                 Map<String, Pet> playerPets = playerData.getPets();
                 String[] args = StringUtils.advancedSplitArgs(content, -1);
                 if (args.length < 2) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.rename.not_enough_args"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.rename.not_enough_args"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -282,32 +287,32 @@ public class PetCmds {
                 String rename = args[1];
 
                 if(!NAME_PATTERN.matcher(rename).matches()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.pet.character_not_allowed"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.pet.character_not_allowed"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if (!playerPets.containsKey(originalName)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if (playerPets.containsKey(rename)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.rename.new_name_exists"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.rename.new_name_exists"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(player.getMoney() < renameCost) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.rename.not_enough_money"), EmoteReference.ERROR, renameCost).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.rename.not_enough_money"), EmoteReference.ERROR, renameCost).queue();
                     return;
                 }
 
                 new MessageBuilder()
                         .append(String.format(languageContext.get("commands.petactions.rename.confirmation"), EmoteReference.WARNING, originalName, rename))
                         .stripMentions(event.getJDA())
-                        .sendTo(event.getChannel())
+                        .sendTo(channel)
                         .queue();
 
-                InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 30, ie -> {
+                InteractiveOperations.create(channel, event.getAuthor().getIdLong(), 30, ie -> {
                     //Ignore all messages from anyone that isn't the user we already proposed to. Waiting for confirmation...
                     if(!ie.getAuthor().getId().equals(event.getAuthor().getId()))
                         return Operation.IGNORED;
@@ -330,17 +335,17 @@ public class PetCmds {
                         PlayerData playerData2 = player.getData();
                         Map<String, Pet> playerPetsConfirmed = playerData2.getPets();
                         if (!playerPetsConfirmed.containsKey(originalName)) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.rename.no_pet"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.petactions.rename.no_pet"), EmoteReference.ERROR).queue();
                             return Operation.COMPLETED;
                         }
 
                         if (playerPetsConfirmed.containsKey(rename)) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.rename.new_name_exists"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.petactions.rename.new_name_exists"), EmoteReference.ERROR).queue();
                             return Operation.COMPLETED;
                         }
 
                         if(player2.getMoney() < renameCost) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.rename.not_enough_money"), EmoteReference.ERROR, renameCost).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.petactions.rename.not_enough_money"), EmoteReference.ERROR, renameCost).queue();
                             return Operation.COMPLETED;
                         }
 
@@ -351,7 +356,7 @@ public class PetCmds {
                         player2.save();
                         new MessageBuilder().setContent(String.format(languageContext.get("commands.petactions.rename.success"), EmoteReference.ERROR, originalName, rename, renamedPet.getData().getId(), renameCost))
                                 .stripMentions(event.getJDA())
-                                .sendTo(event.getChannel())
+                                .sendTo(channel)
                                 .queue();
 
                         return Operation.COMPLETED;
@@ -366,6 +371,7 @@ public class PetCmds {
         petActionCommand.addSubCommand("ls", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
                 ManagedDatabase managedDatabase = MantaroData.db();
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
@@ -390,11 +396,11 @@ public class PetCmds {
 
                 List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(8, fields);
                 if(splitFields.isEmpty()) {
-                    event.getChannel().sendMessageFormat("%1$sYou have no pets.", EmoteReference.BLUE_SMALL_MARKER).queue();
+                    channel.sendMessageFormat("%1$sYou have no pets.", EmoteReference.BLUE_SMALL_MARKER).queue();
                     return;
                 }
 
-                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(channel, Permission.MESSAGE_ADD_REACTION);
 
                 builder.setDescription(String.format(languageContext.get("commands.petactions.ls.pages"), splitFields.size()) +
                         EmoteReference.TALKING + languageContext.get("commands.petactions.ls.header"));
@@ -413,6 +419,7 @@ public class PetCmds {
         petActionCommand.addSubCommand("pet", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
                 ManagedDatabase managedDatabase = MantaroData.db();
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
@@ -421,7 +428,7 @@ public class PetCmds {
                 Map<String, Pet> playerPets = playerData.getPets();
 
                 if(!playerPets.containsKey(petName)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -436,7 +443,7 @@ public class PetCmds {
                 long affectionIncrease = data.getTimesPetted() / Math.max(10, rand.nextInt(50));
                 data.setAffection(data.getAffection() + affectionIncrease);
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.pet"), EmoteReference.HEART, data.getAffection(), data.getTimesPetted()).queue();
+                channel.sendMessageFormat(languageContext.get("commands.petactions.pet.pet"), EmoteReference.HEART, data.getAffection(), data.getTimesPetted()).queue();
                 player.save();
             }
         });
@@ -448,6 +455,7 @@ public class PetCmds {
                 if(!Utils.handleDefaultIncreasingRatelimit(trainRatelimiter, event.getAuthor(), event, languageContext))
                     return;
 
+                TextChannel channel = event.getChannel();
                 ManagedDatabase managedDatabase = MantaroData.db();
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
@@ -456,12 +464,12 @@ public class PetCmds {
                 Map<String, Pet> playerPets = playerData.getPets();
 
                 if (!playerPets.containsKey(petName)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(player.getMoney() < trainCost) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.rename.not_enough_money"), EmoteReference.ERROR, trainCost).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.rename.not_enough_money"), EmoteReference.ERROR, trainCost).queue();
                     return;
                 }
 
@@ -482,7 +490,7 @@ public class PetCmds {
                 petSkills.get(trainedSkill).addAndGet(experienceFactor / 2);
 
                 player.save();
-                event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.train.success"), EmoteReference.CORRECT, trainedSkill, experienceFactor, petSkills.get(trainedSkill).get(), trainCost).queue();
+                channel.sendMessageFormat(languageContext.get("commands.petactions.train.success"), EmoteReference.CORRECT, trainedSkill, experienceFactor, petSkills.get(trainedSkill).get(), trainCost).queue();
             }
         });
 
@@ -490,6 +498,7 @@ public class PetCmds {
         petActionCommand.addSubCommand("effect", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
                 ManagedDatabase managedDatabase = MantaroData.db();
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
@@ -502,7 +511,7 @@ public class PetCmds {
                 Map<String, Pet> playerPets = playerData.getPets();
 
                 if(!playerPets.containsKey(petName)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -511,22 +520,22 @@ public class PetCmds {
 
                 //Well, shit.
                 if (item == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("general.item_lookup.not_found"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("general.item_lookup.not_found"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if (item.getItemType() != ItemType.INTERACTIVE && item.getItemType() != ItemType.CRATE && item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.not_interactive"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.useitem.not_interactive"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(item.getAction() == null && (item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.interactive_no_action"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.useitem.interactive_no_action"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(!player.getInventory().containsItem(item)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.useitem.no_item"), EmoteReference.SAD).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.useitem.no_item"), EmoteReference.SAD).queue();
                     return;
                 }
 
@@ -538,6 +547,7 @@ public class PetCmds {
         petActionCommand.addSubCommand("upgrade", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
                 ManagedDatabase managedDatabase = MantaroData.db();
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
@@ -546,7 +556,7 @@ public class PetCmds {
                 Map<String, Pet> playerPets = playerData.getPets();
 
                 if(!playerPets.containsKey(petName)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -561,6 +571,7 @@ public class PetCmds {
         petActionCommand.addSubCommand("feed", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
                 ManagedDatabase managedDatabase = MantaroData.db();
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
@@ -571,7 +582,7 @@ public class PetCmds {
                 Map<String, Pet> playerPets = playerData.getPets();
 
                 if (!playerPets.containsKey(petName)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -579,7 +590,7 @@ public class PetCmds {
 
                 //Water-type pets can "eat" bc it wouldn't melt the food. Well, fire type would just make charcoal out of food... there are other ways to increase their energy.
                 if(pet.getElement() == Pet.Type.FIRE) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.feed.fire_type"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.feed.fire_type"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -587,12 +598,12 @@ public class PetCmds {
                 Item item = Items.fromAnyNoId(strippedContent).orElse(null);
 
                 if(item == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.feed.no_item"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.feed.no_item"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(item.getItemType() != ItemType.PET_FOOD || !(item instanceof Food)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.feed.not_food"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.feed.not_food"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -601,7 +612,7 @@ public class PetCmds {
                 int hungerIncrease = foodItem.getHungerLevel();
 
                 if(data.getHunger() == 100) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.feed.full"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.feed.full"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -613,7 +624,7 @@ public class PetCmds {
                 data.increaseSaturation(saturationIncrease);
 
                 player.getInventory().process(new ItemStack(item, -1));
-                event.getChannel().sendMessageFormat(languageContext.get("commands.petaction.feed.success"), EmoteReference.POPPER, petName, data.getHunger(), data.getSaturation()).queue();
+                channel.sendMessageFormat(languageContext.get("commands.petaction.feed.success"), EmoteReference.POPPER, petName, data.getHunger(), data.getSaturation()).queue();
             }
         });
 
@@ -621,6 +632,7 @@ public class PetCmds {
         petActionCommand.addSubCommand("hydrate", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
                 ManagedDatabase managedDatabase = MantaroData.db();
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 Inventory playerInventory = player.getInventory();
@@ -630,7 +642,7 @@ public class PetCmds {
                 Map<String, Pet> playerPets = playerData.getPets();
 
                 if(!playerPets.containsKey(petName)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -639,17 +651,17 @@ public class PetCmds {
 
                 //You'd put them off...
                 if(pet.getElement() == Pet.Type.FIRE) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.hydrate.fire_type"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.hydrate.fire_type"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(pet.getElement() != Pet.Type.WATER) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.hydrate.not_water"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petactions.hydrate.not_water"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(!playerInventory.containsItem(Items.WATER_BOTTLE)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.petaction.hydrate.no_water"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.petaction.hydrate.no_water"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -660,7 +672,7 @@ public class PetCmds {
                 petData.setLastHydratedAt(System.currentTimeMillis());
 
                 player.save();
-                event.getChannel().sendMessageFormat(languageContext.get("commands.petaction.hydrate.success"), EmoteReference.POPPER, after).queue();
+                channel.sendMessageFormat(languageContext.get("commands.petaction.hydrate.success"), EmoteReference.POPPER, after).queue();
             }
         });
     }
@@ -682,6 +694,8 @@ public class PetCmds {
                 //first check if it's in condition to battle, then check if the ratelimiter should run: if this doesn't happen, people will be waiting 10 minutes for a mistake, which isn't intended.
                 if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext, false))
                     return;
+
+                TextChannel channel = event.getChannel();
             }
         });
     }

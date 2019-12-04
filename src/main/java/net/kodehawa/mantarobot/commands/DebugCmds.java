@@ -23,6 +23,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
@@ -63,10 +64,10 @@ public class DebugCmds {
         cr.register("info", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                MantaroBot mantaroBot = MantaroBot.getInstance();
+                final MantaroBot mantaroBot = MantaroBot.getInstance();
 
-                SnowflakeCacheView<Guild> guilds = mantaroBot.getGuildCache();
-                SnowflakeCacheView<User> users = mantaroBot.getUserCache();
+                final SnowflakeCacheView<Guild> guilds = mantaroBot.getGuildCache();
+                final SnowflakeCacheView<User> users = mantaroBot.getUserCache();
 
                 event.getChannel().sendMessage("```prolog\n"
                         + " --------- Technical Information --------- \n\n"
@@ -130,14 +131,16 @@ public class DebugCmds {
         cr.register("ping", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext, false))
                     return;
 
                 long start = System.currentTimeMillis();
-                event.getChannel().sendTyping().queue(v -> {
+                channel.sendTyping().queue(v -> {
                     long ping = System.currentTimeMillis() - start;
                     //display: show a random quote, translated.
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.ping.text"), EmoteReference.MEGA, languageContext.get("commands.ping.display"), ping, ratePing(ping, languageContext), event.getJDA().getGatewayPing()).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.ping.text"), EmoteReference.MEGA, languageContext.get("commands.ping.display"), ping, ratePing(ping, languageContext), event.getJDA().getGatewayPing()).queue();
                 });
             }
 

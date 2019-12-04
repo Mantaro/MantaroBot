@@ -22,6 +22,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
@@ -61,17 +62,19 @@ public class FunCmds {
         cr.register("coinflip", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 int times;
                 if(args.length == 0 || content.length() == 0) times = 1;
                 else {
                     try {
                         times = Integer.parseInt(args[0]);
                         if(times > 1000) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.coinflip.over_limit"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.coinflip.over_limit"), EmoteReference.ERROR).queue();
                             return;
                         }
                     } catch(NumberFormatException nfe) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.coinflip.no_repetitions"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.coinflip.no_repetitions"), EmoteReference.ERROR).queue();
                         return;
                     }
                 }
@@ -84,7 +87,7 @@ public class FunCmds {
                     else tails[0]++;
                 });
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.coinflip.success"), EmoteReference.PENNY, times, heads[0], tails[0]).queue();
+                channel.sendMessageFormat(languageContext.get("commands.coinflip.success"), EmoteReference.PENNY, times, heads[0], tails[0]).queue();
             }
 
             @Override
@@ -103,16 +106,21 @@ public class FunCmds {
         cr.register("ratewaifu", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 if(args.length == 0) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.ratewaifu.nothing_specified"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.ratewaifu.nothing_specified"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 int waifuRate = content.replaceAll("\\s+", " ").replaceAll("<@!?(\\d+)>", "<@$1>").chars().sum() % 101;
-                if(content.equalsIgnoreCase("mantaro")) waifuRate = 100;
+
+                //hehe~
+                if(content.equalsIgnoreCase("mantaro"))
+                    waifuRate = 100;
 
                 new MessageBuilder().setContent(String.format(languageContext.get("commands.ratewaifu.success"), EmoteReference.THINKING, content, waifuRate))
-                        .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE).sendTo(event.getChannel()).queue();
+                        .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE).sendTo(channel).queue();
             }
 
             @Override
@@ -143,6 +151,8 @@ public class FunCmds {
         registry.register("roll", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
@@ -175,9 +185,9 @@ public class FunCmds {
                     p.saveAsync();
                 }
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.roll.success"), EmoteReference.DICE, result, amount == 1 ? "!" : (String.format("\nDoing **%d** rolls.", amount))).queue();
+                channel.sendMessageFormat(languageContext.get("commands.roll.success"), EmoteReference.DICE, result, amount == 1 ? "!" : (String.format("\nDoing **%d** rolls.", amount))).queue();
 
-                TextChannelGround.of(event.getChannel()).dropItemWithChance(Items.LOADED_DICE, 5);
+                TextChannelGround.of(channel).dropItemWithChance(Items.LOADED_DICE, 5);
             }
 
             @Override
@@ -199,11 +209,13 @@ public class FunCmds {
         registry.register("love", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 List<User> mentioned = event.getMessage().getMentionedUsers();
                 String result;
 
                 if(mentioned.size() < 1) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.love.no_mention"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.love.no_mention"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -251,7 +263,7 @@ public class FunCmds {
                         .setColor(event.getMember().getColor())
                         .build();
 
-                event.getChannel().sendMessage(loveEmbed).queue();
+                channel.sendMessage(loveEmbed).queue();
             }
 
             @Override

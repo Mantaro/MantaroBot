@@ -19,10 +19,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -61,15 +58,17 @@ public class MuteCmds {
         Command mute = registry.register("mute", new SimpleCommand(Category.MODERATION) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 if(args.length == 0) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_users"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.mute.no_users"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 String affected = args[0];
 
                 if(!(event.getMember().hasPermission(Permission.KICK_MEMBERS) || event.getMember().hasPermission(Permission.BAN_MEMBERS))) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_permissions"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.mute.no_permissions"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -80,13 +79,13 @@ public class MuteCmds {
                 Map<String, String> opts = StringUtils.parse(args);
 
                 if(guildData.getMutedRole() == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_mute_role"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.mute.no_mute_role"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 Role mutedRole = event.getGuild().getRoleById(guildData.getMutedRole());
                 if(mutedRole == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.null_mute_role"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.mute.null_mute_role"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -95,7 +94,7 @@ public class MuteCmds {
                 }
 
                 if(!event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_ROLES)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_manage_roles"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.mute.no_manage_roles"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -114,19 +113,19 @@ public class MuteCmds {
 
                 if(opts.containsKey("time")) {
                     if(opts.get("time") == null || opts.get("time").isEmpty()) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.time_not_specified"), EmoteReference.WARNING).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.mute.time_not_specified"), EmoteReference.WARNING).queue();
                         return;
                     }
 
                     time = System.currentTimeMillis() + Utils.parseTime(opts.get("time"));
 
                     if(time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.time_too_long"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.mute.time_too_long"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(time < 0) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.negative_time_notice"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.mute.negative_time_notice"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -136,7 +135,7 @@ public class MuteCmds {
                 } else {
                     if(time > 0) {
                         if(time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.mute.default_time_too_long"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.mute.default_time_too_long"), EmoteReference.ERROR).queue();
                             return;
                         }
 
@@ -144,23 +143,23 @@ public class MuteCmds {
                         data.save();
                         dbGuild.save();
                     } else {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_time"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.mute.no_time"), EmoteReference.ERROR).queue();
                         return;
                     }
                 }
 
                 if(member.getRoles().contains(mutedRole)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.already_muted"), EmoteReference.WARNING).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.mute.already_muted"), EmoteReference.WARNING).queue();
                     return;
                 }
 
                 if(!event.getGuild().getSelfMember().canInteract(member)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.self_hierarchy_error"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.mute.self_hierarchy_error"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(!event.getMember().canInteract(member)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.user_hierarchy_error"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.mute.user_hierarchy_error"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -169,11 +168,11 @@ public class MuteCmds {
                         .reason(String.format("Muted by %#s for %s: %s", event.getAuthor(), Utils.formatDuration(time - System.currentTimeMillis()), finalReason))
                         .queue();
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.mute.success"), EmoteReference.CORRECT, member.getEffectiveName(), Utils.getHumanizedTime(time - System.currentTimeMillis())).queue();
+                channel.sendMessageFormat(languageContext.get("commands.mute.success"), EmoteReference.CORRECT, member.getEffectiveName(), Utils.getHumanizedTime(time - System.currentTimeMillis())).queue();
 
                 dbg.getData().setCases(dbg.getData().getCases() + 1);
                 dbg.saveAsync();
-                ModLog.log(event.getMember(), user, finalReason, event.getChannel().getName(), ModLog.ModAction.MUTE, dbg.getData().getCases());
+                ModLog.log(event.getMember(), user, finalReason, channel.getName(), ModLog.ModAction.MUTE, dbg.getData().getCases());
             }
 
             @Override
@@ -281,9 +280,10 @@ public class MuteCmds {
         commandRegistry.register("unmute", new SimpleCommand(Category.MODERATION) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
 
                 if(!event.getMember().hasPermission(Permission.KICK_MEMBERS) || !event.getMember().hasPermission(Permission.KICK_MEMBERS)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.unmute.no_permissions"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.unmute.no_permissions"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -293,14 +293,14 @@ public class MuteCmds {
                 String reason = "Not specified";
 
                 if(guildData.getMutedRole() == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_mute_role"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.mute.no_mute_role"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 Role mutedRole = event.getGuild().getRoleById(guildData.getMutedRole());
 
                 if(mutedRole == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.null_mute_role"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.mute.null_mute_role"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -309,12 +309,12 @@ public class MuteCmds {
                 }
 
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.unmute.no_mentions"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.unmute.no_mentions"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(!event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_ROLES)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.mute.no_manage_roles"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.mute.no_manage_roles"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -326,12 +326,12 @@ public class MuteCmds {
 
                     guildData.getMutedTimelyUsers().remove(user.getIdLong());
                     if(!event.getGuild().getSelfMember().canInteract(m)) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.self_hierarchy_error"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.mute.self_hierarchy_error"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     if(!event.getMember().canInteract(m)) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.mute.user_hierarchy_error"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.mute.user_hierarchy_error"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -340,13 +340,13 @@ public class MuteCmds {
                                 .reason(String.format("Unmuted by %#s: %s", event.getAuthor(), finalReason))
                                 .queue();
 
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.unmute.success"), EmoteReference.CORRECT, user.getName()).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.unmute.success"), EmoteReference.CORRECT, user.getName()).queue();
 
                         dbg.getData().setCases(dbg.getData().getCases() + 1);
                         dbg.saveAsync();
                         ModLog.log(event.getMember(), user, finalReason, "none", ModLog.ModAction.UNMUTE, db.getGuild(event.getGuild()).getData().getCases());
                     } else {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.unmute.no_role_assigned"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.unmute.no_role_assigned"), EmoteReference.ERROR).queue();
                     }
                 });
             }

@@ -22,6 +22,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
@@ -125,6 +126,8 @@ public class ImageActionCmd extends NoArgsCommand {
         if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, null))
             return;
 
+        TextChannel channel = event.getChannel();
+
         I18nContext languageContext = new I18nContext(MantaroData.db().getGuild(event.getGuild()).getData(), null);
         String random = "";
         String id = "";
@@ -135,7 +138,7 @@ public class ImageActionCmd extends NoArgsCommand {
                 id = result.getValue();
 
                 if(image == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.action.error_retrieving"), EmoteReference.SAD).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.action.error_retrieving"), EmoteReference.SAD).queue();
                     return;
                 }
 
@@ -148,7 +151,7 @@ public class ImageActionCmd extends NoArgsCommand {
 
         try {
             if(event.getMessage().getMentionedUsers().isEmpty()) {
-                event.getChannel().sendMessageFormat(languageContext.get("commands.action.no_mention"), EmoteReference.ERROR).queue();
+                channel.sendMessageFormat(languageContext.get("commands.action.no_mention"), EmoteReference.ERROR).queue();
                 return;
             }
 
@@ -172,9 +175,9 @@ public class ImageActionCmd extends NoArgsCommand {
             }
 
             toSend.setEmbed(new EmbedBuilder().setColor(Color.DARK_GRAY).setImage(random).build());
-            toSend.sendTo(event.getChannel()).queue();
+            toSend.sendTo(channel).queue();
         } catch(Exception e) {
-            event.getChannel().sendMessageFormat(languageContext.get("commands.action.permission_or_unexpected_error"), EmoteReference.ERROR).queue();
+            channel.sendMessageFormat(languageContext.get("commands.action.permission_or_unexpected_error"), EmoteReference.ERROR).queue();
         }
     }
 

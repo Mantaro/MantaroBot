@@ -22,10 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.ISnowflake;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
@@ -198,9 +195,10 @@ CustomCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
                 String[] args = StringUtils.splitArgs(content, 2);
                 if(args.length < 2) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.view.not_found"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.view.not_found"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -208,7 +206,7 @@ CustomCmds {
                 CustomCommand command = db().getCustomCommand(event.getGuild(), cmd);
 
                 if(command == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.view.not_found"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.view.not_found"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -216,16 +214,16 @@ CustomCmds {
                 try {
                     number = Integer.parseInt(args[1]) - 1;
                 } catch(NumberFormatException e) {
-                    event.getChannel().sendMessageFormat(languageContext.get("general.invalid_number"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("general.invalid_number"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(command.getValues().size() < number) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.view.less_than_specified"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.view.less_than_specified"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.custom.view.success"), (number + 1), command.getName(), command.getValues().get(number)).queue();
+                channel.sendMessageFormat(languageContext.get("commands.custom.view.success"), (number + 1), command.getName(), command.getValues().get(number)).queue();
 
             }
         }).createSubCommandAlias("view", "vw");
@@ -238,9 +236,10 @@ CustomCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
                 String command = content.trim();
                 if(command.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.raw.no_command"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.raw.no_command"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -249,7 +248,7 @@ CustomCmds {
                     new MessageBuilder()
                             .setContent(String.format(languageContext.get("commands.custom.not_found"), EmoteReference.ERROR2, command))
                             .stripMentions(event.getJDA())
-                            .sendTo(event.getChannel())
+                            .sendTo(channel)
                             .queue();
 
                     return;
@@ -271,7 +270,7 @@ CustomCmds {
 
                 List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
 
-                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(channel, Permission.MESSAGE_ADD_REACTION);
                 if(hasReactionPerms) {
                     embed.appendDescription("\n" + String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(), ""));
                     DiscordUtils.list(event, 100, false, embed, splitFields);
@@ -294,15 +293,16 @@ CustomCmds {
                     return;
                 }
 
+                TextChannel channel = event.getChannel();
                 List<CustomCommand> customCommands = db().getCustomCommands(event.getGuild());
 
                 if(customCommands.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.no_cc"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.no_cc"), EmoteReference.ERROR).queue();
                 }
                 int size = customCommands.size();
                 customCommands.forEach(CustomCommand::deleteAsync);
                 customCommands.forEach(c -> CustomCmds.customCommands.remove(c.getId()));
-                event.getChannel().sendMessageFormat(languageContext.get("commands.custom.clear.success"), EmoteReference.PENCIL, size).queue();
+                channel.sendMessageFormat(languageContext.get("commands.custom.clear.success"), EmoteReference.PENCIL, size).queue();
             }
         }).createSubCommandAlias("clear", "clr");
 
@@ -354,26 +354,28 @@ CustomCmds {
                     return;
                 }
 
+                TextChannel channel = event.getChannel();
+
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.remove.no_command"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.remove.no_command"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 String cmd = content;
                 if(!NAME_PATTERN.matcher(cmd).matches()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.character_not_allowed"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.character_not_allowed"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 //hint: always check for this
                 if(DefaultCommandProcessor.REGISTRY.commands().containsKey(cmd)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.already_exists"), EmoteReference.ERROR, cmd).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.already_exists"), EmoteReference.ERROR, cmd).queue();
                     return;
                 }
 
                 CustomCommand custom = getCustomCommand(event.getGuild().getId(), cmd);
                 if(custom == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.not_found"), EmoteReference.ERROR2, cmd).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.not_found"), EmoteReference.ERROR2, cmd).queue();
                     return;
                 }
 
@@ -387,7 +389,7 @@ CustomCmds {
                 if(customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
                     customCommands.remove(cmd);
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.custom.remove.success"), EmoteReference.PENCIL, cmd).queue();
+                channel.sendMessageFormat(languageContext.get("commands.custom.remove.success"), EmoteReference.PENCIL, cmd).queue();
             }
         }).createSubCommandAlias("remove", "rm");
 
@@ -403,15 +405,17 @@ CustomCmds {
                     return;
                 }
 
+                TextChannel channel = event.getChannel();
+
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.import.no_command"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.import.no_command"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 String cmd = content;
 
                 if(!NAME_WILDCARD_PATTERN.matcher(cmd).matches()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.character_not_allowed"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.character_not_allowed"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -429,7 +433,7 @@ CustomCmds {
                         .collect(Collectors.toList());
 
                 if(filtered.size() == 0) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.import.not_found"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.import.not_found"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -449,7 +453,7 @@ CustomCmds {
                             //reflect at local
                             customCommands.put(custom.getId(), custom);
 
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.custom.import.success"),
+                            channel.sendMessageFormat(languageContext.get("commands.custom.import.success"),
                                     custom.getName(), pair.getKey().getName(), custom.getValues().size()
                             ).queue();
 
@@ -504,8 +508,10 @@ CustomCmds {
                     return;
                 }
 
+                TextChannel channel = event.getChannel();
+
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.edit.no_command"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.edit.no_command"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -517,13 +523,13 @@ CustomCmds {
 
                 String[] args = StringUtils.splitArgs(ctn, -1);
                 if(args.length < 2) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.edit.not_enough_args"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.edit.not_enough_args"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 CustomCommand custom = db().getCustomCommand(event.getGuild(), args[0]);
                 if(custom == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.not_found"), EmoteReference.ERROR2, args[0]).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.not_found"), EmoteReference.ERROR2, args[0]).queue();
                     return;
                 }
 
@@ -534,18 +540,18 @@ CustomCmds {
                 try {
                     where = Math.abs(Integer.parseInt(index));
                 } catch(NumberFormatException e) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.edit.invalid_number"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.edit.invalid_number"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 List<String> values = custom.getValues();
                 if(where - 1 > values.size()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.edit.no_index"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.edit.no_index"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(commandContent.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.edit.empty_response"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.edit.empty_response"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -558,7 +564,7 @@ CustomCmds {
                 custom.saveAsync();
                 customCommands.put(custom.getId(), custom);
 
-                event.getChannel().sendMessage(String.format(languageContext.get("commands.custom.edit.success"), EmoteReference.CORRECT, where, custom.getName())).queue();
+                channel.sendMessage(String.format(languageContext.get("commands.custom.edit.success"), EmoteReference.CORRECT, where, custom.getName())).queue();
             }
         });
 
@@ -574,20 +580,22 @@ CustomCmds {
                     return;
                 }
 
+                TextChannel channel = event.getChannel();
+
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.deleteresponse.no_command"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.deleteresponse.no_command"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 String[] args = StringUtils.splitArgs(content, -1);
                 if(args.length < 1) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.deleteresponse.not_enough_args"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.deleteresponse.not_enough_args"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 CustomCommand custom = db().getCustomCommand(event.getGuild(), args[0]);
                 if(custom == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.not_found"), EmoteReference.ERROR2, args[0]).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.not_found"), EmoteReference.ERROR2, args[0]).queue();
                     return;
                 }
 
@@ -596,13 +604,13 @@ CustomCmds {
                 try {
                     where = Math.abs(Integer.parseInt(index));
                 } catch(NumberFormatException e) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.deleteresponse.invalid_number"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.deleteresponse.invalid_number"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 List<String> values = custom.getValues();
                 if(where - 1 > values.size()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.deleteresponse.no_index"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.deleteresponse.no_index"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -611,7 +619,7 @@ CustomCmds {
                 custom.saveAsync();
                 customCommands.put(custom.getId(), custom);
 
-                event.getChannel().sendMessage(String.format(languageContext.get("commands.custom.deleteresponse.success"), EmoteReference.CORRECT, where, custom.getName())).queue();
+                channel.sendMessage(String.format(languageContext.get("commands.custom.deleteresponse.success"), EmoteReference.CORRECT, where, custom.getName())).queue();
             }
         }).createSubCommandAlias("deleteresponse", "dlr");
 
@@ -626,6 +634,8 @@ CustomCmds {
                 if(!adminPredicate.test(event)) {
                     return;
                 }
+
+                TextChannel channel = event.getChannel();
 
                 if(content.isEmpty()) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.custom.rename.no_command"), EmoteReference.ERROR).queue();
@@ -697,15 +707,17 @@ CustomCmds {
                     return;
                 }
 
+                TextChannel channel = event.getChannel();
+
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.add.no_command"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.add.no_command"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 String[] args = StringUtils.splitArgs(content, -1);
 
                 if(args.length < 2) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.add.not_enough_args"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.add.not_enough_args"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -719,22 +731,22 @@ CustomCmds {
                 String cmdSource = Utils.replaceArguments(opts, value, "nsfw");
 
                 if(cmdSource.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.add.empty_content"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.add.empty_content"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(!NAME_PATTERN.matcher(cmd).matches()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.character_not_allowed"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.character_not_allowed"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(cmd.length() >= 50) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.name_too_long"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.name_too_long"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(DefaultCommandProcessor.REGISTRY.commands().containsKey(cmd)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.already_exists"), EmoteReference.ERROR, cmd).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.already_exists"), EmoteReference.ERROR, cmd).queue();
                     return;
                 }
 
@@ -745,7 +757,7 @@ CustomCmds {
                     try {
                         new Parser(cmdSource).parse();
                     } catch (SyntaxException e) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.new_error"), EmoteReference.ERROR, e.getMessage()).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.custom.new_error"), EmoteReference.ERROR, e.getMessage()).queue();
                         return;
                     }
                 }
@@ -758,7 +770,7 @@ CustomCmds {
                 } else {
                     //Are the first two checks redundant?
                     if(!getConfig().isPremiumBot && !db.getGuild(guild).isPremium() && db.getCustomCommands(guild).size() > 100) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.custom.add.too_many_commands"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.custom.add.too_many_commands"), EmoteReference.ERROR).queue();
                         return;
                     }
                 }
@@ -774,7 +786,7 @@ CustomCmds {
                 //reflect at local
                 customCommands.put(custom.getId(), custom);
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.custom.add.success"), EmoteReference.CORRECT, cmd).queue();
+                channel.sendMessageFormat(languageContext.get("commands.custom.add.success"), EmoteReference.CORRECT, cmd).queue();
 
                 //easter egg :D
                 TextChannelGround.of(event).dropItemWithChance(8, 2);

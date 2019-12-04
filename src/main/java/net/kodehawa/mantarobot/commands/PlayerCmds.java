@@ -101,17 +101,18 @@ public class PlayerCmds {
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 long rl = rateLimiter.getRemaniningCooldown(event.getAuthor());
 
+                TextChannel channel = event.getChannel();
                 User user;
 
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessage(String.format(languageContext.get("commands.rep.no_mentions"), EmoteReference.ERROR,
+                    channel.sendMessage(String.format(languageContext.get("commands.rep.no_mentions"), EmoteReference.ERROR,
                             (rl > 0 ?  String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.getVerboseTime(rl)) : languageContext.get("commands.rep.cooldown.pass")))).queue();
                     return;
                 }
 
                 List<User> mentioned = event.getMessage().getMentionedUsers();
                 if(!mentioned.isEmpty() && mentioned.size() > 1) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.rep.more_than_one"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.rep.more_than_one"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -125,24 +126,24 @@ public class PlayerCmds {
 
                 //Didn't want to repeat the code twice, lol.
                 if(!oldEnough.test(user)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.rep.new_account_notice"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.rep.new_account_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(!oldEnough.test(author)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.rep.new_account_notice"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.rep.new_account_notice"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(user.isBot()) {
-                    event.getChannel().sendMessage(String.format(languageContext.get("commands.rep.rep_bot"), EmoteReference.THINKING,
+                    channel.sendMessage(String.format(languageContext.get("commands.rep.rep_bot"), EmoteReference.THINKING,
                             (rl > 0 ? String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.getVerboseTime(rl))
                              : languageContext.get("commands.rep.cooldown.pass")))).queue();
                     return;
                 }
 
                 if(user.equals(event.getAuthor())) {
-                    event.getChannel().sendMessage(String.format(languageContext.get("commands.rep.rep_yourself"), EmoteReference.THINKING,
+                    channel.sendMessage(String.format(languageContext.get("commands.rep.rep_yourself"), EmoteReference.THINKING,
                             (rl > 0 ?  String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.getVerboseTime(rl))
                              : languageContext.get("commands.rep.cooldown.pass")))).queue();
                     return;
@@ -158,7 +159,7 @@ public class PlayerCmds {
 
                 new MessageBuilder().setContent(String.format(languageContext.get("commands.rep.success"), EmoteReference.CORRECT,  member.getEffectiveName()))
                         .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
-                        .sendTo(event.getChannel())
+                        .sendTo(channel)
                         .queue();
             }
 
@@ -199,6 +200,8 @@ public class PlayerCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        TextChannel channel = event.getChannel();
+
                         Map<String, String> t = getArguments(content);
                         content = Utils.replaceArguments(t, content, "season", "s").trim();
                         boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
@@ -212,12 +215,12 @@ public class PlayerCmds {
                         List<Member> found = FinderUtil.findMembers(content, event.getGuild());
 
                         if(found.isEmpty() && !content.isEmpty()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("general.find_members_failure"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("general.find_members_failure"), EmoteReference.ERROR).queue();
                             return;
                         }
 
                         if(found.size() > 1 && !content.isEmpty()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("general.too_many_members"), EmoteReference.THINKING, found.stream().limit(7).map(m -> String.format("%s#%s", m.getUser().getName(), m.getUser().getDiscriminator())).collect(Collectors.joining(", "))).queue();
+                            channel.sendMessageFormat(languageContext.get("general.too_many_members"), EmoteReference.THINKING, found.stream().limit(7).map(m -> String.format("%s#%s", m.getUser().getName(), m.getUser().getDiscriminator())).collect(Collectors.joining(", "))).queue();
                             return;
                         }
 
@@ -226,7 +229,7 @@ public class PlayerCmds {
                             memberLooked = found.get(0);
 
                             if(userLooked.isBot()) {
-                                event.getChannel().sendMessageFormat(languageContext.get("commands.profile.bot_notice"), EmoteReference.ERROR).queue();
+                                channel.sendMessageFormat(languageContext.get("commands.profile.bot_notice"), EmoteReference.ERROR).queue();
                                 return;
                             }
 
@@ -282,7 +285,7 @@ public class PlayerCmds {
                             profileBuilder.addField(component.getTitle(languageContext), component.getContent().apply(holder, languageContext), component.isInline());
                         }
 
-                        applyBadge(event.getChannel(),
+                        applyBadge(channel,
                                 badges.isEmpty() ? null : (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()), userLooked, profileBuilder
                         );
 
@@ -332,8 +335,10 @@ public class PlayerCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
+
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.no_content"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.no_content"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -342,20 +347,20 @@ public class PlayerCmds {
                 DBUser user = MantaroData.db().getUser(event.getAuthor());
 
                 if(item == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.no_item"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.no_item"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(!player.getInventory().containsItem(item)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.not_owned"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.not_owned"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 if(user.getData().getEquippedItems().equipItem(item)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.success"), EmoteReference.CORRECT, item.getEmoji(), item.getName()).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.success"), EmoteReference.CORRECT, item.getEmoji(), item.getName()).queue();
                     user.save();
                 } else {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.equip.not_suitable"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.not_suitable"), EmoteReference.ERROR).queue();
                 }
             }
         });
@@ -368,11 +373,13 @@ public class PlayerCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
+
                 DBUser dbUser = managedDatabase.getUser(event.getAuthor());
                 String[] args = content.split(" ");
 
                 if(args.length < 1) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.timezone.not_specified"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.timezone.not_specified"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -381,25 +388,25 @@ public class PlayerCmds {
                 if(timezone.equalsIgnoreCase("reset")) {
                     dbUser.getData().setTimezone(null);
                     dbUser.saveAsync();
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.timezone.reset_success"), EmoteReference.CORRECT).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.timezone.reset_success"), EmoteReference.CORRECT).queue();
                     return;
                 }
 
                 if(!Utils.isValidTimeZone(timezone)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.timezone.invalid"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.timezone.invalid"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 try {
                     UtilsCmds.dateGMT(event.getGuild(), timezone);
                 } catch(Exception e) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.timezone.invalid"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.timezone.invalid"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 dbUser.getData().setTimezone(timezone);
                 dbUser.saveAsync();
-                event.getChannel().sendMessage(String.format(languageContext.get("commands.profile.timezone.success"), EmoteReference.CORRECT, timezone)).queue();
+                channel.sendMessage(String.format(languageContext.get("commands.profile.timezone.success"), EmoteReference.CORRECT, timezone)).queue();
             }
         });
 
@@ -415,12 +422,14 @@ public class PlayerCmds {
                 if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
+                TextChannel channel = event.getChannel();
+
                 String[] args = content.split(" ");
                 User author = event.getAuthor();
                 Player player = managedDatabase.getPlayer(author);
 
                 if(args.length == 0) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.description.no_argument"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.description.no_argument"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -431,14 +440,14 @@ public class PlayerCmds {
                         MAX_LENGTH = 500;
 
                     if(args.length < 2) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.profile.description.no_content"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.profile.description.no_content"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     String content1 = SPLIT_PATTERN.split(content, 2)[1];
 
                     if(content1.length() > MAX_LENGTH) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.profile.description.too_long"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.profile.description.too_long"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -449,7 +458,7 @@ public class PlayerCmds {
 
                     new MessageBuilder().setContent(String.format(languageContext.get("commands.profile.description.success"), EmoteReference.POPPER, content1))
                             .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE, Message.MentionType.USER)
-                            .sendTo(event.getChannel())
+                            .sendTo(channel)
                             .queue();
 
                     player.getData().addBadgeIfAbsent(Badge.WRITER);
@@ -459,7 +468,7 @@ public class PlayerCmds {
 
                 if(args[0].equals("clear")) {
                     player.getData().setDescription(null);
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.description.clear_success"), EmoteReference.CORRECT).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.description.clear_success"), EmoteReference.CORRECT).queue();
                     player.save();
                 }
             }
@@ -474,9 +483,11 @@ public class PlayerCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
+
                 String[] args = content.split(" ");
                 if(args.length == 0) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.displaybadge.not_specified"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.displaybadge.not_specified"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -485,7 +496,7 @@ public class PlayerCmds {
 
                 if(args[0].equalsIgnoreCase("none")) {
                     data.setShowBadge(false);
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.displaybadge.reset_success"), EmoteReference.CORRECT).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.displaybadge.reset_success"), EmoteReference.CORRECT).queue();
                     player.saveAsync();
                     return;
                 }
@@ -493,7 +504,7 @@ public class PlayerCmds {
                 if(args[0].equalsIgnoreCase("reset")) {
                     data.setMainBadge(null);
                     data.setShowBadge(true);
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.displaybadge.important_success"), EmoteReference.CORRECT).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.displaybadge.important_success"), EmoteReference.CORRECT).queue();
                     player.saveAsync();
                     return;
                 }
@@ -501,19 +512,19 @@ public class PlayerCmds {
                 Badge badge = Badge.lookupFromString(content);
 
                 if(badge == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.displaybadge.no_such_badge"), EmoteReference.ERROR, player.getData().getBadges().stream().map(Badge::getDisplay).collect(Collectors.joining(", "))).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.displaybadge.no_such_badge"), EmoteReference.ERROR, player.getData().getBadges().stream().map(Badge::getDisplay).collect(Collectors.joining(", "))).queue();
                     return;
                 }
 
                 if(!data.getBadges().contains(badge)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.displaybadge.player_missing_badge"), EmoteReference.ERROR, player.getData().getBadges().stream().map(Badge::getDisplay).collect(Collectors.joining(", "))).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.displaybadge.player_missing_badge"), EmoteReference.ERROR, player.getData().getBadges().stream().map(Badge::getDisplay).collect(Collectors.joining(", "))).queue();
                     return;
                 }
 
                 data.setShowBadge(true);
                 data.setMainBadge(badge);
                 player.saveAsync();
-                event.getChannel().sendMessageFormat(languageContext.get("commands.profile.displaybadge.success"), EmoteReference.CORRECT, badge.display).queue();
+                channel.sendMessageFormat(languageContext.get("commands.profile.displaybadge.success"), EmoteReference.CORRECT, badge.display).queue();
             }
         });
 
@@ -525,8 +536,10 @@ public class PlayerCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
+
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.lang.nothing_specified"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.lang.nothing_specified"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -535,7 +548,7 @@ public class PlayerCmds {
                 if(content.equalsIgnoreCase("reset")) {
                     dbUser.getData().setLang(null);
                     dbUser.save();
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.lang.reset_success"), EmoteReference.CORRECT).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.lang.reset_success"), EmoteReference.CORRECT).queue();
                     return;
                 }
 
@@ -545,9 +558,9 @@ public class PlayerCmds {
                     I18nContext newContext = new I18nContext(managedDatabase.getGuild(event.getGuild().getId()).getData(), dbUser.getData());
 
                     dbUser.save();
-                    event.getChannel().sendMessageFormat(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content).queue();
+                    channel.sendMessageFormat(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content).queue();
                 } else {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.lang.invalid"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.lang.invalid"), EmoteReference.ERROR).queue();
                 }
             }
         });
@@ -560,6 +573,7 @@ public class PlayerCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext ctx, String content) {
+                TextChannel channel = event.getChannel();
                 Member member = Utils.findMember(event, event.getMember(), content);
 
                 if(member == null)
@@ -629,7 +643,7 @@ public class PlayerCmds {
                         );
 
 
-                event.getChannel().sendMessage(new EmbedBuilder()
+                channel.sendMessage(new EmbedBuilder()
                         .setThumbnail(toLookup.getEffectiveAvatarUrl())
                         .setAuthor(String.format(ctx.get("commands.profile.stats.header"), toLookup.getName()), null, toLookup.getEffectiveAvatarUrl())
                         .setDescription("\n" + s)
@@ -647,9 +661,11 @@ public class PlayerCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
+
                 DBUser user = managedDatabase.getUser(event.getAuthor());
                 if(!user.isPremium()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.not_premium"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.display.not_premium"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -657,7 +673,7 @@ public class PlayerCmds {
                 PlayerData data = player.getData();
 
                 if(content.equalsIgnoreCase("ls") || content.equalsIgnoreCase("is")) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.ls") + languageContext.get("commands.profile.display.example"), EmoteReference.ZAP,
+                    channel.sendMessageFormat(languageContext.get("commands.profile.display.ls") + languageContext.get("commands.profile.display.example"), EmoteReference.ZAP,
                             EmoteReference.BLUE_SMALL_MARKER, defaultOrder.stream().map(Enum::name).collect(Collectors.joining(", ")),
                             data.getProfileComponents().size() == 0 ? "Not personalized" : data.getProfileComponents().stream().map(Enum::name).collect(Collectors.joining(", "))
                     ).queue();
@@ -668,7 +684,7 @@ public class PlayerCmds {
                     data.getProfileComponents().clear();
                     player.saveAsync();
 
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.reset"), EmoteReference.CORRECT).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.display.reset"), EmoteReference.CORRECT).queue();
                     return;
                 }
 
@@ -683,14 +699,14 @@ public class PlayerCmds {
                 }
 
                 if(newComponents.size() < 3) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.not_enough") + languageContext.get("commands.profile.display.example"), EmoteReference.WARNING).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.profile.display.not_enough") + languageContext.get("commands.profile.display.example"), EmoteReference.WARNING).queue();
                     return;
                 }
 
                 data.setProfileComponents(newComponents);
                 player.saveAsync();
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.profile.display.success"),
+                channel.sendMessageFormat(languageContext.get("commands.profile.display.success"),
                         EmoteReference.CORRECT, newComponents.stream().map(Enum::name).collect(Collectors.joining(", "))
                 ).queue();
             }
@@ -706,6 +722,8 @@ public class PlayerCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        TextChannel channel = event.getChannel();
+
                         Map<String, String> t = getArguments(content);
                         content = Utils.replaceArguments(t, content, "brief");
                         Member member = Utils.findMember(event, event.getMember(), content);
@@ -720,7 +738,7 @@ public class PlayerCmds {
                             new MessageBuilder().setContent(String.format(languageContext.get("commands.badges.brief_success"), member.getEffectiveName(),
                                         playerData.getBadges().stream().map(b -> "*" + b.display + "*").collect(Collectors.joining(", "))))
                                     .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
-                                    .sendTo(event.getChannel())
+                                    .sendTo(channel)
                                     .queue();
                             return;
                         }
@@ -741,12 +759,12 @@ public class PlayerCmds {
 
                         if(badges.isEmpty()) {
                             embed.setDescription(languageContext.get("commands.badges.no_badges"));
-                            event.getChannel().sendMessage(embed.build()).queue();
+                            channel.sendMessage(embed.build()).queue();
                             return;
                         }
 
                         List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
-                        boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                        boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(channel, Permission.MESSAGE_ADD_REACTION);
 
                         embed.setFooter(languageContext.get("commands.badges.footer"), null);
 
@@ -784,15 +802,17 @@ public class PlayerCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
+
                 if(content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.badges.info.not_specified"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.badges.info.not_specified"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 Badge badge = Badge.lookupFromString(content);
                 //shouldn't NPE bc null check is done first, in order
                 if(badge == null || badge == Badge.DJ) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.badges.info.not_found"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.badges.info.not_found"), EmoteReference.ERROR).queue();
                     return;
                 }
 
@@ -809,7 +829,7 @@ public class PlayerCmds {
                         .build()
                 ).build();
 
-                event.getChannel().sendMessage(message).addFile(badge.icon, "icon.png").queue();
+                channel.sendMessage(message).addFile(badge.icon, "icon.png").queue();
             }
         });
     }

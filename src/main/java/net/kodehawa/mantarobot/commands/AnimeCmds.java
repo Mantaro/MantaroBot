@@ -21,6 +21,7 @@ import com.google.common.eventbus.Subscribe;
 import com.google.gson.JsonSyntaxException;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.anime.AnimeData;
 import net.kodehawa.mantarobot.commands.anime.CharacterData;
@@ -57,16 +58,17 @@ public class AnimeCmds {
         cr.register("anime", new SimpleCommand(Category.FUN) {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
                 try {
                     if(content.isEmpty()) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.anime.no_args"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.anime.no_args"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     List<AnimeData> found = KitsuRetriever.searchAnime(content);
 
                     if(found.isEmpty()) {
-                        event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -84,12 +86,12 @@ public class AnimeCmds {
                                     .build(),
                             anime -> animeData(event, languageContext, anime));
                 } catch (JsonSyntaxException jsonException) {
-                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
                 } catch (NullPointerException nullException) {
                     nullException.printStackTrace();
-                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.malformed_result"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.withRoot("commands", "anime.malformed_result"), EmoteReference.ERROR).queue();
                 } catch (Exception exception) {
-                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.error"),
+                    channel.sendMessageFormat(languageContext.withRoot("commands", "anime.error"),
                             EmoteReference.ERROR, exception.getClass().getSimpleName()).queue();
                 }
             }
@@ -112,15 +114,16 @@ public class AnimeCmds {
         cr.register("character", new SimpleCommand(Category.FUN) {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
                 try {
                     if(content.isEmpty()) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.character.no_args"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.character.no_args"), EmoteReference.ERROR).queue();
                         return;
                     }
 
                     List<CharacterData> characters = KitsuRetriever.searchCharacters(content);
                     if(characters.isEmpty()) {
-                        event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
                         return;
                     }
 
@@ -139,11 +142,11 @@ public class AnimeCmds {
                                     .build(),
                             character -> characterData(event, languageContext, character));
                 } catch (JsonSyntaxException jsonException) {
-                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
                 } catch (NullPointerException nullException) {
-                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "anime.malformed_results"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.withRoot("commands", "anime.malformed_results"), EmoteReference.ERROR).queue();
                 } catch (Exception exception) {
-                    event.getChannel().sendMessageFormat(languageContext.withRoot("commands", "character.error"),
+                    channel.sendMessageFormat(languageContext.withRoot("commands", "character.error"),
                             EmoteReference.ERROR, exception.getClass().getSimpleName()).queue();
                 }
             }
@@ -164,16 +167,16 @@ public class AnimeCmds {
     private void animeData(GuildMessageReceivedEvent event, I18nContext lang, AnimeData animeData) {
         AnimeData.Attributes attributes = animeData.getAttributes();
 
-        String title = attributes.getCanonicalTitle();
-        String releaseDate = attributes.getStartDate();
-        String endDate = attributes.getEndDate();
-        String animeDescription = StringEscapeUtils.unescapeHtml4(attributes.getSynopsis().replace("<br>", " "));
-        String favoriteCount = String.valueOf(attributes.getFavoritesCount());
-        String imageUrl = attributes.getPosterImage().getMedium();
+        final String title = attributes.getCanonicalTitle();
+        final String releaseDate = attributes.getStartDate();
+        final String endDate = attributes.getEndDate();
+        final String animeDescription = StringEscapeUtils.unescapeHtml4(attributes.getSynopsis().replace("<br>", " "));
+        final String favoriteCount = String.valueOf(attributes.getFavoritesCount());
+        final String imageUrl = attributes.getPosterImage().getMedium();
         final String typeName = attributes.getShowType();
-        String animeType = typeName.length() > 3 ? Utils.capitalize(typeName.toLowerCase()) : typeName;
-        String episodes = String.valueOf(attributes.getEpisodeCount());
-        String episodeDuration = String.valueOf(attributes.getEpisodeLength());
+        final String animeType = typeName.length() > 3 ? Utils.capitalize(typeName.toLowerCase()) : typeName;
+        final String episodes = String.valueOf(attributes.getEpisodeCount());
+        final String episodeDuration = String.valueOf(attributes.getEpisodeLength());
 
         if(attributes.isNsfw() && !event.getChannel().isNSFW()) {
             event.getChannel().sendMessageFormat(lang.get("commands.anime.hentai"), EmoteReference.ERROR).queue();
@@ -205,15 +208,15 @@ public class AnimeCmds {
 
     private void characterData(GuildMessageReceivedEvent event, I18nContext lang, CharacterData character) {
         try {
-            CharacterData.Attributes attributes = character.getAttributes();
+            final CharacterData.Attributes attributes = character.getAttributes();
 
-            String japName = attributes.getNames().getJa_jp();
-            String charName = attributes.getName();
-            String imageUrl = attributes.getImage().getOriginal();
+            final  String japName = attributes.getNames().getJa_jp();
+            final String charName = attributes.getName();
+            final String imageUrl = attributes.getImage().getOriginal();
 
-            String characterDescription = StringEscapeUtils.unescapeHtml4(attributes.getDescription().replace("<br>", "\n").replaceAll("\\<.*?>","")); //This is silly.
+            final String characterDescription = StringEscapeUtils.unescapeHtml4(attributes.getDescription().replace("<br>", "\n").replaceAll("\\<.*?>","")); //This is silly.
 
-            String charDescription = attributes.getDescription() == null || attributes.getDescription().isEmpty() ? lang.get("commands.character.no_info")
+            final String charDescription = attributes.getDescription() == null || attributes.getDescription().isEmpty() ? lang.get("commands.character.no_info")
                     : characterDescription.length() <= 1024 ? characterDescription : characterDescription.substring(0, 1020 - 1) + "...";
 
             Player p = MantaroData.db().getPlayer(event.getAuthor());

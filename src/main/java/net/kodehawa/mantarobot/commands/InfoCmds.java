@@ -262,6 +262,8 @@ public class InfoCmds {
                 if(!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext, false))
                     return;
 
+                TextChannel channel = event.getChannel();
+
                 if(content.isEmpty()) {
                     buildHelp(event, content, languageContext, null);
                 } else if (Category.lookupFromString(content) != null) {
@@ -273,7 +275,7 @@ public class InfoCmds {
 
                     if(command != null) {
                         if(command.category() == Category.OWNER && !CommandPermission.OWNER.test(event.getMember())) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.help.extended.not_found"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.help.extended.not_found"), EmoteReference.ERROR).queue();
                             return;
                         }
 
@@ -337,12 +339,12 @@ public class InfoCmds {
                                 }
                             }
 
-                            event.getChannel().sendMessage(builder.build()).queue();
+                            channel.sendMessage(builder.build()).queue();
                         } else {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.help.extended.no_help"), EmoteReference.ERROR).queue();
+                            channel.sendMessageFormat(languageContext.get("commands.help.extended.no_help"), EmoteReference.ERROR).queue();
                         }
                     } else {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.help.extended.not_found"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.help.extended.not_found"), EmoteReference.ERROR).queue();
                     }
                 }
             }
@@ -478,32 +480,34 @@ public class InfoCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
+
                 String[] args = content.split(" ");
                 if(args.length > 0) {
                     String what = args[0];
                     if(what.equals("total")) {
-                        event.getChannel().sendMessage(CommandStatsManager.fillEmbed(DefaultBucket.TOTAL, baseEmbed(event, "Command Stats | Total")).build()).queue();
+                        channel.sendMessage(CommandStatsManager.fillEmbed(DefaultBucket.TOTAL, baseEmbed(event, "Command Stats | Total")).build()).queue();
                         return;
                     }
 
                     if(what.equals("daily")) {
-                        event.getChannel().sendMessage(CommandStatsManager.fillEmbed(DefaultBucket.DAY, baseEmbed(event, "Command Stats | Daily")).build()).queue();
+                        channel.sendMessage(CommandStatsManager.fillEmbed(DefaultBucket.DAY, baseEmbed(event, "Command Stats | Daily")).build()).queue();
                         return;
                     }
 
                     if(what.equals("hourly")) {
-                        event.getChannel().sendMessage(CommandStatsManager.fillEmbed(DefaultBucket.HOUR, baseEmbed(event, "Command Stats | Hourly")).build()).queue();
+                        channel.sendMessage(CommandStatsManager.fillEmbed(DefaultBucket.HOUR, baseEmbed(event, "Command Stats | Hourly")).build()).queue();
                         return;
                     }
 
                     if(what.equals("now")) {
-                        event.getChannel().sendMessage(CommandStatsManager.fillEmbed(DefaultBucket.MINUTE, baseEmbed(event, "Command Stats | Now")).build()).queue();
+                        channel.sendMessage(CommandStatsManager.fillEmbed(DefaultBucket.MINUTE, baseEmbed(event, "Command Stats | Now")).build()).queue();
                         return;
                     }
                 }
 
                 //Default
-                event.getChannel().sendMessage(baseEmbed(event, "Command Stats")
+                channel.sendMessage(baseEmbed(event, "Command Stats")
                         .addField(languageContext.get("general.now"), CommandStatsManager.resume(DefaultBucket.MINUTE), false)
                         .addField(languageContext.get("general.hourly"), CommandStatsManager.resume(DefaultBucket.HOUR), false)
                         .addField(languageContext.get("general.daily"), CommandStatsManager.resume(DefaultBucket.DAY), false)
@@ -521,32 +525,33 @@ public class InfoCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
                 String[] args = content.split(" ");
                 if(args.length > 0) {
                     String what = args[0];
                     if(what.equals("total")) {
-                        event.getChannel().sendMessage(categoryStatsManager.fillEmbed(CategoryStatsManager.TOTAL_CATS, baseEmbed(event, "Category Stats | Total")).build()).queue();
+                        channel.sendMessage(categoryStatsManager.fillEmbed(CategoryStatsManager.TOTAL_CATS, baseEmbed(event, "Category Stats | Total")).build()).queue();
                         return;
                     }
 
                     if(what.equals("daily")) {
-                        event.getChannel().sendMessage(categoryStatsManager.fillEmbed(CategoryStatsManager.DAY_CATS, baseEmbed(event, "Category Stats | Daily")).build()).queue();
+                        channel.sendMessage(categoryStatsManager.fillEmbed(CategoryStatsManager.DAY_CATS, baseEmbed(event, "Category Stats | Daily")).build()).queue();
                         return;
                     }
 
                     if(what.equals("hourly")) {
-                        event.getChannel().sendMessage(categoryStatsManager.fillEmbed(CategoryStatsManager.HOUR_CATS, baseEmbed(event, "Category Stats | Hourly")).build()).queue();
+                        channel.sendMessage(categoryStatsManager.fillEmbed(CategoryStatsManager.HOUR_CATS, baseEmbed(event, "Category Stats | Hourly")).build()).queue();
                         return;
                     }
 
                     if(what.equals("now")) {
-                        event.getChannel().sendMessage(categoryStatsManager.fillEmbed(CategoryStatsManager.MINUTE_CATS, baseEmbed(event, "Category Stats | Now")).build()).queue();
+                        channel.sendMessage(categoryStatsManager.fillEmbed(CategoryStatsManager.MINUTE_CATS, baseEmbed(event, "Category Stats | Now")).build()).queue();
                         return;
                     }
                 }
 
                 //Default
-                event.getChannel().sendMessage(baseEmbed(event, "Category Stats")
+                channel.sendMessage(baseEmbed(event, "Category Stats")
                         .addField(languageContext.get("general.now"), categoryStatsManager.resume(CategoryStatsManager.MINUTE_CATS), false)
                         .addField(languageContext.get("general.hourly"), categoryStatsManager.resume(CategoryStatsManager.HOUR_CATS), false)
                         .addField(languageContext.get("general.daily"), categoryStatsManager.resume(CategoryStatsManager.DAY_CATS), false)

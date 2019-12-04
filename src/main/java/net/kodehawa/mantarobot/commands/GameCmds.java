@@ -20,10 +20,7 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.Character;
 import net.kodehawa.mantarobot.commands.game.*;
@@ -355,6 +352,8 @@ public class GameCmds {
         if(checkRunning(event, languageContext))
             return;
 
+        TextChannel channel = event.getChannel();
+
         List<String> players = new ArrayList<>();
         players.add(event.getAuthor().getId());
         final List<Role> mentionedRoles = event.getMessage().getMentionedRoles();
@@ -369,7 +368,7 @@ public class GameCmds {
                                 .append(" ");
                     })
             );
-            event.getChannel().sendMessageFormat(languageContext.get("commands.game.started_mp_role"), EmoteReference.MEGA, b.toString()).queue();
+            channel.sendMessageFormat(languageContext.get("commands.game.started_mp_role"), EmoteReference.MEGA, b.toString()).queue();
         }
 
         final List<User> mentionedUsers = event.getMessage().getMentionedUsers();
@@ -384,12 +383,12 @@ public class GameCmds {
             }
 
             if(players.size() > 1) {
-                event.getChannel().sendMessageFormat(languageContext.get("commands.game.started_mp_user"), EmoteReference.MEGA, users).queue();
+                channel.sendMessageFormat(languageContext.get("commands.game.started_mp_user"), EmoteReference.MEGA, users).queue();
             }
         }
 
         if(games.size() > 1) {
-            event.getChannel().sendMessageFormat(languageContext.get("commands.game.lobby_started"),
+            channel.sendMessageFormat(languageContext.get("commands.game.lobby_started"),
                     EmoteReference.CORRECT, games.stream().map(Game::name)
                             .collect(Collectors.joining(", "))
             ).queue();

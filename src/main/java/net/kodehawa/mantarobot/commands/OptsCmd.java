@@ -21,6 +21,7 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -60,8 +61,10 @@ public class OptsCmd {
         registry.register("opts", optsCmd = new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
                 if(args.length == 0) {
-                    event.getChannel().sendMessage(String.format(languageContext.get("options.error_general"), EmoteReference.WARNING)).queue();
+                    channel.sendMessage(String.format(languageContext.get("options.error_general"), EmoteReference.WARNING)).queue();
                     return;
                 }
 
@@ -73,7 +76,7 @@ public class OptsCmd {
 
                     List<String> m = DiscordUtils.divideString(builder);
                     List<String> messages = new LinkedList<>();
-                    boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                    boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(channel, Permission.MESSAGE_ADD_REACTION);
                     for(String s1 : m) {
                         messages.add(String.format(languageContext.get("commands.opts.list.header"),
                                 hasReactionPerms ? languageContext.get("general.text_menu") + " " : languageContext.get("general.arrow_react"), String.format("```prolog\n%s```", s1)));
@@ -89,7 +92,7 @@ public class OptsCmd {
                 }
 
                 if(args.length < 2) {
-                    event.getChannel().sendMessage(String.format(languageContext.get("options.error_general"), EmoteReference.WARNING)).queue();
+                    channel.sendMessage(String.format(languageContext.get("options.error_general"), EmoteReference.WARNING)).queue();
                     return;
                 }
 
@@ -111,12 +114,12 @@ public class OptsCmd {
                                         .setDescription(option.getDescription())
                                         .setThumbnail("https://i.imgur.com/lFTJSE4.png")
                                         .addField("Type", option.getType().toString(), false);
-                                event.getChannel().sendMessage(builder.build()).queue();
+                                channel.sendMessage(builder.build()).queue();
                             } catch(IndexOutOfBoundsException ignored) {}
                             return;
                         }
                     }
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.opts.option_not_found"), EmoteReference.ERROR).queue(
+                    channel.sendMessageFormat(languageContext.get("commands.opts.option_not_found"), EmoteReference.ERROR).queue(
                             message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
                     );
 
@@ -149,7 +152,7 @@ public class OptsCmd {
                     }
                 }
 
-                event.getChannel().sendMessage(String.format(languageContext.get("options.error_general"), EmoteReference.WARNING)).queue();
+                channel.sendMessage(String.format(languageContext.get("options.error_general"), EmoteReference.WARNING)).queue();
             }
 
 
