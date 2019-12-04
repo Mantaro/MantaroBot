@@ -1,9 +1,9 @@
 {
   "general": {
-    "invalid_number": "%1$s Ce n'est pas un nombre valide!",
+    "invalid_number": "%1$s Ce n'est pas un nombre valide !",
     "requested_by": "Demandé par %1$s.",
     "operation_timed_out": "%1$sLe temps de réponse à cette question est épuisé.",
-    "too_many_users_found": "%1$s Trop d'utilisateurs trouvés, essaie d'affiner ta recherche peut-être? (Ex. utilise le nom#discriminateur)\n**utilisateurs trouvés:** %2$s",
+    "too_many_users_found": "%1$s Trop d'utilisateurs trouvés, essaie d'affiner ta recherche peut-être ? (Ex. utilise le nom#discriminateur)\n**utilisateurs trouvés:** %2$s",
     "search_no_result": "%1$sTa recherche n'a donné aucun résultat :(",
     "unknown": "inconnu",
     "days": "jours",
@@ -75,7 +75,7 @@
       "spam_2": "\nJe pense que s'arrêter est la meilleure option pour le moment..."
     },
     "generic_error": "Si tu veux, tu peux rejoindre notre **serveur de support** (Lien sur `support.mantaro.site`), et consulter notre page GitHub (`https://github.com/Kodehawa/MantaroBot`). S’il te plait dis leur d'arrêter de m'exploiter, et stp n'oublies pas le code de l'erreur en rapportant le problème !",
-    "boom_quotes": ["Apparemment, Megumin a fait exploser notre château ... "," Uh-oh, de toute évidence mon maître a oublié des zéros et des uns sur le sol: <"," A-Attends, qu'est-ce qui vient de se passer? "," Je pense que nous avons un début de feu ici ... tu pourrais demander à mon maître de jeter un coup d'œil. "," Je maitrise la magie de l'explosion, tu vois ? "," Peut-être que quelque chose s'est mal passé ici, mais, euh, je peux le réparer ! "," U-Uhh .. Qu'est-ce que tu voulais ?"],
+    "boom_quotes": ["Apparemment, Megumin a fait exploser notre château ... "," Uh-oh, de toute évidence mon maître a oublié des zéros et des uns sur le sol :<"," A-Attends, qu'est-ce qui vient de se passer? "," Je pense que nous avons un début de feu ici ... tu pourrais demander à mon maître de jeter un coup d'œil. "," Je maitrise la magie de l'explosion, tu vois ? "," Peut-être que quelque chose s'est mal passé ici, mais, euh, je peux le réparer ! "," U-Uhh .. Qu'est-ce que tu voulais ?"],
     "ratelimit_quotes": ["Woah ... tu m'appelles un peu trop vite ... je vais avoir la tête qui tourne! "," Ne sois pas si impatient ! "," T-Tu m'appelles si vite que je suis pris de vertiges ... "," Attends ! "," Attends juste un peu plus uwu, "," On va avoir une amende si on continue à aller aussi vite ! "," Je veux le faire ... mais attends un peu s'il te plait. "," Hey, attends, je n'ai pas encore fini ma pause ! "," Tu peux ralentir un peu ?"],
     "mod_quotes": ["Uh-oh, on dirait que quelqu'un vient de recevoir un gros coup! "," C'est juste un travail administratif normal ... "," Le boot a été lancé ! "," Tu vas nous manquer ... pas vraiment en fait "," J'espère que j'ai fait ce qu'il fallait faire ... "," Woah, là, les modérateurs ont parlé ! "," U-Uh ... E-Eh bien, quelqu'un vient de voler à travers la porte."]
   },
@@ -90,11 +90,12 @@
     "fun": "Fun",
     "games": "Jeux",
     "info": "Info",
-    "currency": "Monnaie"
+    "currency": "Monnaie",
+    "pet": "Animal de compagnie"
   },
   "commands": {
     "fish": {
-      "dust": "%1$sLa journée est finie et ton sceau à poisson ne peut recueillir que de la poussière.(Niveau de poussière %2$s%%)",
+      "dust": "%1$sLa journée est finie et ton seau à poisson ne peut recueillir que de la poussière.(Niveau de poussière %2$s%%)",
       "no_rod": "%1$sTu n'as pas de canne à pêche à utiliser!",
       "trash": {
         "overflow": "%1$sTu as trouvé des déchets en pêchant, mais ton inventaire était plein, alors nous avons dû les jeter à l’eau...",
@@ -109,8 +110,8 @@
       },
       "overflow": "%1$sTu as trouvé des poissons, mais une partie de ton inventaire était pleine, nous avons donc dû en jeter une partie dans l’eau....",
       "success": "%1$sEn pêchant tranquillement, tu as trouvé %2$s et tu les as gardé dans ton seau.",
-      "success_money": "%1$sEn pêchant tranquillement, tu as trouvé %2$s et **$%3$d credits** et tu les as gardé dans ton sceau.%4$s",
-      "success_money_noitem": "%1$sEn pêchant tranquillement, tu as trouvé **$%2$d credits** et tu les as gardé dans ton sceau.",
+      "success_money": "%1$sEn pêchant tranquillement, tu as trouvé %2$s et **$%3$d credits** et tu les as gardé dans ton seau.%4$s",
+      "success_money_noitem": "%1$sEn pêchant tranquillement, tu as trouvé **$%2$d credits** et tu les as gardé dans ton seau.",
       "rod_broke": "%1$sTa canne à pêche s'est cassée en essayant d'attraper un poisson :(",
       "waifu_help": "Ta waifu est venue et t'as rejoint dans ton aventure de pêche. Ensemble, vous obtenez un plus grand butin !",
       "not_suitable": "%1$sTu ne peux pas utiliser ça pour pêcher.",
@@ -139,6 +140,7 @@
       "yourself_note": "%1$sPourquoi tu essaies de te bannir toi-même, idiot?",
       "self_hierarchy_conflict": "%1$sImpossible de bannir ce membre: %2$s, il est au même niveau de hiérarchie que moi ou plus élevé!",
       "success": "%1$s%2$s (%3$s a été banni)",
+      "success_multiple": "%1$s%2$s (%3$s personnes bannies)",
       "error": "%1$sErreur lors du bannissement %2$s: (J'ai besoin de la permission %3$s)",
       "unknown_error": "%1$sErreur inconnue lors du bannissement %2$s"
     },
@@ -184,6 +186,7 @@
         "timeout": "%1$sImpossible de se connecter à %2$s: la connexion a expiré. Essaie de changer la région du serveur et d'exécuter à nouveau la commande.",
         "unknown": "%1$sImpossible de se connecter à %2$s: erreur inconnue"
       },
+      "not_working": "%1$sLa musique ne fonctionne pas pour le moment à cause de la régulation du trafic qu'applique YouTube aux gros bots. Notre bot Patreon fonctionne toujours cela dit, tu peux l'essayer en nous faisant don de $4/mois si tu veux. Ça nous aidera également à rediriger nos efforts vers la résolution du problème.\nRends toi sur <https://patreon.com/mantaro>\n\nNous sommes navrés pour la gêne occasionnée. Tu peux aussi essayer la recherche sur soundcloud ! (`~>play soundcloud <objet de la recherche>)`",
       "no_song": "%1$sTu dois me dire quelle chanson tu veux jouer! *(YouTube, Soundcloud, Twitch URL ou les requêtes de recherche sont autorisées)*",
       "not_playing": "%1$sJe ne joue rien en ce moment",
       "dj_only": "%1$sTu as besoin d'être DJ pour utiliser cette commande!",
@@ -194,7 +197,8 @@
       "track_error": "%1$sOuch, quelque chose s'est mal passé en jouant à ce morceau! Désolé, je vais essayer de jouer le prochain morceau disponible s'il y en a un.",
       "queue_finished": "%1$sListe de lecture terminée! J'espère que tu as apprécié.\n%2$s",
       "soundcloud_no_args": "%1$sTu dois me donner le nom de la chanson, je ne suis pas un magicien, je ne peux pas le deviner :(",
-         "no_vc_found": "%1$sJe ne suis connecté à aucun salon vocal même si je devrais. Essaie à nouveau.",
+      "too_many_errors": "%1$sIl y a trop d'erreurs sur cette session, arrêt en cours...",
+      "no_vc_found": "%1$sJe ne suis connecté à aucun salon vocal même si je devrais. Essaie à nouveau.",
       "queue": {
         "no_track_found_np": "Rien ou titre/ durée non trouvé",
         "header": "Lise de lecture du serveur %1$s",
@@ -233,7 +237,7 @@
         "leave": "%1$sJ'ai décidé de partir **%2$s** parce qu’on m'a laissé tout seul :("
       },
       "loader": {
-        "over_limit": "%1$sLa liste de lecture que tu as ajouté a plus de %2$d musiques, alors j'ai ajouté uniquement les musiques jusqu'àu nombre limite et j'ai ignoré les autres.",
+        "over_limit": "%1$sLa liste de lecture que tu as ajouté a plus de %2$d musiques, alors j'ai ajouté uniquement les musiques jusqu'au nombre limite et j'ai ignoré les autres.",
         "loaded_playlist": "%1$sAjout de **%2$d musiques** à la file d'attente de la playlist: **%3$s** *(%4$s)*",
         "no_matches": "%1$sLa recherche n'a donné aucun résultat. Si cela apparaît pour *toutes les chansons* pour lesquelles tu as fait une recherche, utilises`~>play soundcloud <termes recherchés>`à la place. Les liens directs vers YouTube devraient également fonctionner.",
         "error_loading": "%1$sErreur lors de l'extraction de musique: %2$s",
@@ -334,7 +338,7 @@
       "check": "%1$sLe volume actuel de cette session est: %2$d\n\n%3$s",
       "success": "%1$sVolume défini à %2$d\n\n%3$s",
       "no_args": "%1$sTu dois me dire le volume tu souhaites (de 5 à 100).",
-      "premium_only": "%1$sCeci est une fonctionnalité premium uniquement. Pour bénéficier d'avantages comme celui-ci, tu peux faire un don sur le site patreon (https://www.patreon.com/mantaro). Merci de ta compréhension.\nLes fonctionnalités premiums peuvent être liées à un utilisateur ou à un serveur. Si tu fais un don, rejoins la guilde d'assistance et demande ta clé premium..."
+      "premium_only": "%1$sCeci est une fonctionnalité premium uniquement. Pour bénéficier d'avantages comme celui-ci, tu peux faire un don sur le site Patreon (https://www.patreon.com/mantaro). Merci de ta compréhension.\nLes fonctionnalités premiums peuvent être liées à un utilisateur ou à un serveur. Si tu fais un don, rejoins la guilde d'assistance et demande ta clé premium..."
     },
     "prefix": {
       "header": "%1$sLes préfixes par défaut sont %2$s (Je réponds à chacun d'eux!). Le préfixe du serveur est `%3$s` (Cela ne fonctionne que sur ce serveur). Tu peux définir un nouveau préfixe en écrivant `~>opts prefix set <préfixe>`",
@@ -379,31 +383,46 @@
         "no_name_specified": "%1$sTu n'as pas précisé le nom de la commande personnalisée à créer!"
       },
       "eval": {
+        "not_specified": "Tu ne m'as rien donné à évaluer.",
         "new_error": "%1$sUne erreur s'est produite lors de l'évaluation de ta commande.\n**Erreur**:\n```%2$s```",
         "error": "%1$sUne erreur s'est produite lors de l'évaluation de ta commande!%2$s"
       },
       "remove": {
+        "no_command": "%1$sTu dois me dire quelle commande je dois supprimer.",
         "success": "%1$sCommande personnalisée `%2$s` supprimée."
       },
       "import": {
+        "no_command": "%1$sTu dois me dire quelle commande je dois importer.",
         "not_found": "%1$sAucune commande personnalisée ne correspond à ta requête de recherche..",
-        "header": "`%1$s` (Responses: %2$s) - Guilde: `%3$s`",
+        "header": "`%1$s` - Guilde: `%2$s`",
         "selection": "Sélection de la commande:",
         "note": "(Tu peux sélectionner une commande personnalisée uniquement d'une guilde dont tu es membre)",
         "success": "Commande personnalisée `%1$s` importée de la guilde `%2$s` avec un total de %1$d résponses."
       },
       "edit": {
+        "no_command": "%1$sTu dois spécifier la commande à éditer.",
         "invalid_number": "%1$sTu dois spécifier un nombre correct pour faire la modification.",
         "no_index": "%1$sTu ne peux pas éditer un index inexistant.",
         "empty_response": "%1$sImpossible de modifier une réponse vide",
+        "not_enough_args": "%1$sTu dois spécifier la commande, l'index et la nouvelle réponse",
         "success": "%1$sRéponse **#%2$d** de la commande `%3$s` modifiée correctement"
+      },
+      "deleteresponse": {
+        "no_command": "$1$sTu dois spécifier la commande pour laquelle tu veux supprimer une réponse.",
+        "invalid_number": "%1$sTu dois spécifier un numéro correct à changer.",
+        "no_index": "%1$sTu ne peux pas supprimer un index inexistant.",
+        "not_enough_args": "%1$sTu dois spécifier la commande et l'index de la réponse que tu veux supprimer.",
+        "success": "%1$sa supprimé la réponse **#%2$d** de la commande `%3$s` avec succès."
       },
       "rename": {
         "success": "%1$sCommande renommée de `%2$s` à `%3$s`"
       },
       "add": {
+        "no_command": "$1$sTu dois spécifier la commande à ajouter.",
+        "not_enough_args": "%1$sTu dois spécifier le nom et la réponse de la commande à ajouter.",
         "empty_content": "%1$sTu dois spécifier le contenu de cette commande personnalisée.",
-        "success": "%1$sCommande `%2$s` sauvegardée"
+        "success": "%1$sCommande `%2$s` sauvegardée",
+        "too_many_commands": "%1%sIl y a déjà trop de commande personnalisées sur ce serveur(+100), donc tu ne peux plus en ajouter. Sauf si tu deviens premium (Va sur <https://patreon.com/mantaro>)."
       },
       "character_not_allowed": "%1$sCe caractère n'est pas autorisé pour les noms de commandes personnalisées.",
       "already_exists": "%1$sLa commande `%2$s` existe déjà.",
@@ -456,7 +475,7 @@
         "10000": "ça n'a aucun sens :thinking: #BlameSteven",
         "default": "bien trop lent. :dizzy_face:"
       },
-      "display": ["J-J'ai été assez rapide? "," Qu'est-ce que tu fais? "," Q-Qu'est-ce que tu regardes ?! "," Huh. "," Est-ce que je m'en suis bien sorti ? "," Qu'est-ce que t'en penses ? ", "Est-ce que ça souvent ?", "Est-ce que je fonctionne c-correctement ?", "<3", "* tapote *", "Pong.", "Pang.", "Pung.", "Peng.", " Ping pong? Yay! "," U-Uh ... s-salut"],
+      "display": ["J-J'ai été assez rapide? "," Qu'est-ce que tu fais ? "," Q-Qu'est-ce que tu regardes ?! "," Huh. "," Est-ce que je m'en suis bien sorti ? "," Qu'est-ce que t'en penses ? ", "Est-ce que ça souvent ?", "Est-ce que je fonctionne c-correctement ?", "<3", "* tapote *", "Pong.", "Pang.", "Pung.", "Peng.", " Ping pong? Yay! "," U-Uh ... s-salut"],
       "text": "%1$s*%2$s* - Mon temps de réponse: %3$d ms (%4$s) `Websocket:%5$dms`"
     },
     "love": {
@@ -509,6 +528,7 @@
     "waifu": {
       "bot": "%1$sUn bot ne peut pas être une waifu, même si tu le souhaites vraiment...",
       "notice": "Cette fonctionnalité n'est pas faite pour avoir un certain type de relation, que ce soit implicite ou explicite, avec des événements de la vie réelle.",
+      "id": "**ID:**",
       "stats": {
         "header": "Tes statistiques de waifu",
         "header_other": "statistiques de la waifu %1$s",
@@ -531,7 +551,7 @@
       "unclaim": {
         "no_user": "%1$sTu dois mentionner une waifu pour la rejeter.",
         "not_claimed": "%1$sCet utilisateur n'est pas ta waifu!",
-        "confirmation": "%1$sEs-tu *sûr.e* que tu veux rejeter %2$s? Le coût pour le faire est de **%3$s credits**. Ecris *oui* pour confirmer ou *non* pour annuler\n%4$sLe délai d'attente est d'une minute.",
+        "confirmation": "%1$sEs-tu *sûr.e* que tu veux rejeter %2$s? Le coût pour le faire est de **%3$s credits**. Ecris *yes* (oui) pour confirmer ou *no* (non) pour annuler\n%4$sLe délai d'attente est d'une minute.",
         "not_enough_money": "%1$sTu n'as pas assez de monnaie pour rejeter cette waifu!",
         "player_locked": "%1$sTu ne pas faire ça pour le moment.",
         "scrapped": "%1$sRejet de waifu annulé.",
@@ -549,7 +569,7 @@
       "no_waifu": "Aucunes waifus à voir ici, juste de la poussière :(\nTu peux avoir des Waifus en réclamant quelqu'un! Utilise `~>waifu claim` pour commencer.",
       "footer": "Waifus au total: %1$d - emplacements disponibles: %2$s",
       "value_format": "**- Valeur:**",
-      "value_b_format": "**- Acheté pour:**",
+      "value_b_format": "**- Acheté.e pour:**",
       "credits_format": " credits.",
       "waifu_header": "**Tes waifus:**",
       "not_claimed": "%1$sTu n'as pas acheté cette waifu."
@@ -577,37 +597,37 @@
       "brief_notice": "Tu peux utiliser `~>inventory -brief` pour avoir une meilleure version pour mobile."
     },
     "cast": {
-      "no_item_found": "%1$sJe n'ai trouvé aucun objet qui correspond à ça.",
-      "item_not_cast": "%1$sTu ne peux pas faire fondre cet objet. Tu peux regarder `~>cast ls` pour la liste de tous les objets à fondre.",
-      "not_enough_money": "%1$sTu n'as pas assez de monnaie pour fondre ça. **(Cout : %2$s)**",
-      "no_item": "%1$sTu n'as pas l'objet nécessaire *%2$s* pour procéder à cette fonte.",
+      "no_item_found": "%1$sJe n'ai trouvé aucun objet qui corresponde à ça.",
+      "item_not_cast": "%1$sTu ne peux pas fabriquer cet objet. Tu peux regarder `~>cast ls` pour la liste de tous les objets à fabriquer.",
+      "not_enough_money": "%1$sTu n'as pas assez d’argent pour fabriquer ça. **(Cout : %2$s)**",
+      "no_item": "%1$sTu n'as pas l'objet nécessaire *%2$s* pour procéder à cette fabrication.",
       "not_enough_items": "%1$sTu n'as pas assez de *%2$s* pour le faire. **(Nécessaires : %3$s, Possédés : %4$s)**",
-      "success": "%1$sTu as avec succès *fondu %2$s %3$s* pour %4$s credits. *fonte utilisée : %5$s*",
-      "no_tool": "%1$sTu as besoin d'un.s %2$s pour procéder à cette fonte!",
+      "success": "%1$sTu as *fabriqué %2$s %3$s* avec succès pour %4$s credits. *Matériaux utilisés : %5$s*",
+      "no_tool": "%1$sTu as besoin d'un.e %2$s pour procéder à cette fabrication!",
       "item_broke": "\nMalheureusement, ton marteau s'est cassé dans le processus, mais tu as reçu ton objet!",
-      "too_many": "%1$sTu auras plus de 5000 exemplaires de cet objet si tu continues. Essaie d'en faire moins ?",
+      "too_many": "%1$sTu auras plus de 5000 exemplaires de cet objet si tu continues. Essaie d'en faire moins ?!",
       "low_tier": "%1$sTu as besoin d'une clé de tier 2 pour fabriquer plus d'objet en une fois. Actuellement tu possèdes une clé de tier %2$s.",
       "not_enough_wrench_level": "%1$sTa clé n'est pas assez puissante pour forger cet objet. Spécifie peut-être une plus puissante ? *Niveau de ta clé : %2$s, Niveau nécessaire : %3$s*. Exemple : `~>cast \"star pick\" \"comet wrench\"`",
-      "too_many_amount": "%1$sTu ne peux pas forger autant d'exemplaires de cet objet en une fois! Limite : %2$s, Essais: %3$s. Une clé anglaise scintillante double la limite ! A moins que tu ne l'utilises déjà.",
+      "too_many_amount": "%1$sTu ne peux pas forger autant d'exemplaires de cet objet en une fois! Limite : %2$s, Essais : %3$s. Une clé anglaise scintillante double la limite ! A moins que tu ne l'utilises déjà.",
       "ls": {
-        "header": "Liste des objets à fondre",
-        "cost": "Coût de la fonte: ",
-        "desc": "C'est la liste de tous les objets que tu peux fondre un utilisant `~>cast`. Tu dois utiliser le nom complet ou l'abréviation pour le faire (exemple : `~>cast diamond pickaxe` ou `~>cast diamond p` fonctionne)\n**La fonte a un coût de la moitié du prix de l'objet. Le coût de la fonte apparaîtra ci-dessous.**"
+        "header": "Liste des objets à fabriquer",
+        "cost": "Coût de la fabrication: ",
+        "desc": "C'est la liste de tous les objets que tu peux fabriquer un utilisant `~>cast`. Tu dois utiliser le nom complet ou l'abréviation pour le faire (exemple : `~>cast diamond pickaxe` ou `~>cast diamond p` fonctionnent).\n**La fabrication a un coût de la moitié du prix de l'objet. Le coût de la fabrication apparaîtra ci-dessous.**"
       },
-      "dust": "%1$sTu ne peux pas faire fondre avec autant de poussière dans ton inventaire! *(Niveau de poussière : %2$s%%)*. Pourquoi ne pas le laver en utilisant `~>useitem mop`?"
+      "dust": "%1$sTu ne peux pas fabriquer de nouveaux objets avec autant de poussière dans ton inventaire! *(Niveau de poussière : %2$s%%)*. Pourquoi ne pas le laver en utilisant `~>useitem mop`?"
     },
     "market": {
       "dump": {
-        "no_item": "%1$sTu dois préciser la quantité d'objet (s'il n'y en a qu'un, pas besoin de préciser la quantité) et lequel que tu veux jeter.",
-        "invalid": "%1$sPas un nombre valide d'objets à jeter.",
+        "no_item": "%1$sTu dois préciser la quantité (s'il n'y en a qu'un, pas besoin de préciser la quantité) et le nom du ou des objet.s que tu veux jeter.",
+        "invalid": "%1$sNombre invalide d'objets à jeter.",
         "non_existent": "%1$sImpossible de jeter un élément inexistant!",
         "player_no_item": "%1$sImpossible de jeter un élément que tu n'as pas!",
         "more_items_than_player": "%1$sTu ne peux pas jeter plus d'objets que tu en as.",
-        "success": "%1$sEnvoyé %2$dx **%3$s %4$s** à la poubelle."
+        "success": "%1$s a envoyé %2$dx **%3$s %4$s** à la poubelle."
       },
       "price": {
         "non_existent": "%1$sImpossible de vérifier le prix un élément inexistant.",
-        "no_price": "%1$sCet objet est indisponible soit à la vente soit à l'achat (peut être un objet exclusif)",
+        "no_price": "%1$sCet objet est indisponible soit à la vente soit à l'achat (peut-être un objet exclusif)",
         "collectible": "%1$sC'est un objet exclusif. (Valeur à la vente : %2$d credits)",
         "success": "%1$sLe prix de %2$s**%3$s** au marché est de %4$s credits à l'achat et tu peux avoir %5$s credits si tu le vends."
       },
@@ -615,7 +635,7 @@
         "no_item_amount": "%1$sTu dois préciser la quantité d'objet (s'il n'y en a qu'un, pas besoin de préciser la quantité) et l'objet que tu veux vendre.",
         "invalid": "%1$sPas un nombre valide d'objets à vendre.",
         "all": {
-          "confirmation": "%1$sEs-tu *sûr.s* de vouloir vendre **tous** tes objets? Ecris *oui* pour confirmer et *non* pour annuler",
+          "confirmation": "%1$sEs-tu *sûr.e* de vouloir vendre **tous** tes objets? Ecris *yes* (oui) pour confirmer et *no* (non) pour annuler",
           "success": "%1$sTu as vendu tous les objets de ton inventaire et as reçu %2$d credits!",
           "cancelled": "%1$sAnnulé avec succès."
         },
@@ -634,7 +654,8 @@
         "success": "%1$sAchat de %2$d %3$s pour %4$d credits. Tu as désormais %5$d credits.",
         "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter cet objet."
       },
-      "header": "Marché de Mantaro"
+      "header": "Marché de Mantaro",
+      "reference": "\nTu peux acheter et vendre des objets en utilisant `~>market buy <objet>` et `~>market sell <objet>`. Utilise `~>help market` pour plus d'infos. Attention, les commandes fonctionnent uniquement avec le nom des objets en anglais ou avec l'emoji correspondant."
     },
     "itemtransfer": {
       "transfer_yourself_note": "%1$sTu ne peux pas te transférer des objets à toi-même.",
@@ -665,7 +686,7 @@
     "useitem": {
       "ls": {
         "header": "Liste des objets interactifs",
-        "desc": "Ceci est une liste de tous les objets interactifs de Mantaro. Si besoin d'aide, check le wiki!"
+        "desc": "Ceci est une liste de tous les objets interactifs de Mantaro. Si besoin d'aide, check le wiki !"
       },
       "use_command": "%1$sPour cet objet, tu dois utiliser la commande qui lui est propre! (mine pour la pioche, fish pour la canne à pêche)",
       "no_items_specified": "%1$sTu dois spécifier l'objet à utiliser.",
@@ -676,7 +697,7 @@
       "too_little": "%1$sTu ne peux pas utiliser moins d'un objet."
     },
     "opts": {
-      "note": "%1$sHey, si tu es perdu ou que tu veux de l'aide pour utiliser opts, va sur <https://github.com/Mantaro/MantaroBot/wiki/Configuration> pour avoir le guide d'utilisation d'opts.\nNote: Seuls les administrateurs, les gens avec la permission Manage Server ou ceux avec le rôle Bot Commander peuvent utiliser cette commande!",
+      "note": "%1$sHey, si tu es perdu.e ou que tu veux de l'aide pour utiliser opts, va sur <https://github.com/Mantaro/MantaroBot/wiki/Configuration> pour avoir le guide d'utilisation d'opts.\nNote: Seuls les administrateurs, les gens avec la permission Manage Server ou ceux avec le rôle Bot Commander peuvent utiliser cette commande!",
       "list": {
         "header": "**Liste des options de Mantaro**\n%1$s*Toutes les options doivent avoir le préfixe `~>opts` quand tu les utilises*\n%2$s"
       },
@@ -689,16 +710,18 @@
     },
     "iam": {
       "list": {
-        "name": "\nNom de l'autorole: ",
-        "role": " | Donne le rôle **",
-        "header": "Liste des autoroles",
-        "no_autoroles": "Il n'y a pas d'autoroles sur ce serveur."
+        "name": "Nom de l'autorole: ",
+        "role": "Rôle: ",
+        "category": "Categorie: ",
+        "header": "Liste des autorôles",
+        "no_autoroles": "Il n'y a pas d'autorôles sur ce serveur.",
+        "description": "Voici les rôles auto-assignables de ce serveur. Tu peux te les attribuer en faisant `~>iam <nom du rôle>`."
       },
-      "deleted_role": "%1$sLe rôle auquel correspond cet autorole a été supprimé",
+      "deleted_role": "%1$sLe rôle auquel correspond cet autorôle a été supprimé",
       "already_assigned": "%1$sTu as déjà ce rôle, idiot!",
       "success": "%1$s%2$s, tu viens de recevoir le rôle **%3$s**",
       "error": "%1$sJe ne peux pas t'enlever **%2$s. Assure toi que j'ai la permission d'ajouter les rôles et que mon rôle est au-dessus de **%2$s**",
-      "no_role": "%1$sTIl n'y a pas d'autorole avec le nom `%2$s`.",
+      "no_role": "%1$sIl n'y a pas d'autorôle avec le nom `%2$s`.",
       "no_iam": "%1$sTu dois spécifier quel rôle auto-assignable tu veux t'assigner!"
     },
     "iamnot": {
@@ -719,7 +742,7 @@
       "header": "Sondage #%1$d créé par %2$s",
       "success": "**Le sondage commence. Réagis avec les nombres pour voter.**\n*%1$s*\nEnvoie &cancelpoll pour arrêter le sondage en cours.",
       "time": "You have %1$s to vote.",
-      "error": "%1$sUne erreur inconnue est survenue durant la mise en place du sondage. Réessaies peut-être ? (Erreur interne)",
+      "error": "%1$sUne erreur inconnue est survenue durant la mise en place du sondage. Réessaie peut-être ? (Erreur interne)",
       "result_header": "Résultats du sondage",
       "result_screen": "**Voici les résultats du sondage créé par %1$s** du nom de: *%2$s*",
       "vote_results": "+C'est enregistré! %1$d a voté pour l'option %2$s",
@@ -751,7 +774,8 @@
         "not_specified": "%1$sTu dois spécifier un fuseau horaire.",
         "reset": "%1$sFuseau horaire reset.",
         "invalid": "%1$sFuseau horaire invalide.",
-        "success": "%1$sFuseau horaire sauvegardé, ton fuseau horaire est désormais: **%2$s**"
+        "success": "%1$sFuseau horaire sauvegardé, ton fuseau horaire est désormais: **%2$s**",
+        "reset_success": "%1$sTon fuseau horaire a été réinitialisé avec succès."
       },
       "description": {
         "no_argument": "%1$sTu dois me donner un argument! (set ou remove)\nPar exemple, ~>profile description set Hello there!",
@@ -793,6 +817,9 @@
         "days": "jour(s)",
         "times_used": "Nombre d'utilisation",
         "equipment": "Equipement"
+      },
+      "hide_tag": {
+        "success": "%1$sLe statut d'invisibilité des tags est désormais sur: `%2$s`"
       },
       "equip": {
         "no_content": "%1$sTu dois spécifier quel objet équiper!",
@@ -862,7 +889,7 @@
       "reset": "%1$sDate d'anniversaire correctement réinitialisée.",
       "no_global_birthdays": "%1$sIl y a de l'écho par ici tant c'est vide...",
       "no_guild_month_birthdays": "%1$sIl n'y a pas d'anniversaire pour ce mois (%2$s) ici :(\n%3$sSi tu viens juste de programmer l'annonceur d'anniversaires, attends un peu avant de refaire cette commande. (Le cache est rafraichi toutes les 23 heures)",
-      "cache_not_running": "%1$sLe \"Birthday cacher\" ne semble pas fonctionner (erreur interne) :(",
+      "cache_not_running": "%1$sLe \"Birthday cache\" ne semble pas fonctionner (erreur interne) :(",
       "error": "%1$sUne erreur est survenue en cherchant les dates d'anniversaires (erreur interne) :(",
       "header": "**Les anniversaires de %1$s du mois de %2$s**\n",
       "invalid_date": "%1$sCe n'est pas une date valide ou ce n'est pas le bon format.\nPour rappel, le bon format est: `jj-mm-aaaa`",
@@ -881,7 +908,7 @@
       "description": "**Partie de discours:** `%1$s`\n**Adresse au lecteur:** `%2$s`"
     },
     "remindme": {
-      "nothing_specified": "%1$sComment pourrais-je te rappeler quoique ce soit si tu ne me dis pas ce que je dois te rappeler? Oh! Lemme souviens toi de mettre un rappel !",
+      "nothing_specified": "%1$sComment pourrais-je te rappeler quoique ce soit si tu ne me dis pas ce que je dois te rappeler? Oh ! Lemme souviens toi de mettre un rappel !",
       "no_reminders": "%1$sTu n'a pas de rappels.",
       "cancel": {
         "success": "%1$sRappel supprimé.",
@@ -968,10 +995,10 @@
       "error_retrieving": "%1$sUne erreur s'est produite en recherchant ce gif.",
       "permission_or_unexpected_error": "%1$sD-Désolé je ne peux pas envoyer l'image. (Je n'en ai probablement pas la permission)",
       "lonely": {
-        "pat": "Ohh, je vois que tu es seul, voici une caresse <3",
-        "hug": "Ohh, je vois que tu es seul, caliiiiiiin <3",
-        "kiss": "Ohh, je vois que tu es seul, bisouuuuuuuuuuus *embrasse*",
-        "poke": "Ohh, je vois que tu es seul, tiens un petit coup *te touche*",
+        "pat": "Ohh, je vois que tu es seul.e, voici une caresse <3",
+        "hug": "Ohh, je vois que tu es seul.e, caliiiiiiin <3",
+        "kiss": "Ohh, je vois que tu es seul.e, bisouuuuuuuuuuus *embrasse*",
+        "poke": "Ohh, je vois que tu es seul.e, tiens un petit coup *te touche*",
         "slap": "Euh, pourquoi tu veux ça? Bon, bah... *te frappe*",
         "bite": "*te mords*",
         "lick": "*te lèche*",
@@ -1015,12 +1042,12 @@
       "lick": "%1$s tu as été léché.e par %2$s",
       "highfive": "%1$s fait un tape m'en cinq à %2$s :heart:",
       "pout": "%1$s s'énerve contre %2$s *hmph*",
-      "teehee": "%1$s taquine%2$s",
+      "teehee": "%1$s taquine %2$s",
       "smile": "%1$s sourit à %2$s :heart:",
       "stare": "%1$s regarde %2$s",
       "holdhands": "%1$s tient la main de %2$s",
       "cuddle": "%1$s tu as été câliné.e par %2$s",
-      "nuzzle": "%1$s a été reniflé.e %2$s",
+      "nuzzle": "%1$s a été reniflé.e par %2$s",
       "bloodsuck": "%1$s suce le sang de %2$s!",
       "nom": "Succulent.",
       "facedesk": "*se tape la tête contre le bureau*",
@@ -1082,6 +1109,9 @@
     "opencrate": {
       "no_crate": "%1$sTu n'as pas de coffre au trésor de ce type à ouvrir :( (Si tu essaies d'ouvrir un coffre autre que celui par défaut, tu dois le nommer après la commande. Si tu veux utiliser ton inventaire de la saison, ajoute un -s à la fin.)",
       "not_crate": "%1$sCe n'est pas un coffre valide."
+    },
+    "dailycrate": {
+      "not_premium": "%1$sTu peux ouvrir un coffre premium avec plus de chance d'avoir de bons objets quotidiennement si tu deviens premium! Rendez-vous sur <https://patreon.com/mantaro>. Ça peut être fait toutes les 24 heures."
     },
     "prune": {
       "no_messages_specified": "%1$sVous n'avez spécifié aucun message à effacer.",
@@ -1161,6 +1191,72 @@
       "vc": "Canaux vocaux",
       "invite": "Lien d'invitation: http://is.gd/mantaro (Commandes cette session: %1$,d | Partition actuelle: %2$d)"
     },
+    "pet": {
+      "no_content": "%1$sTu dois me dire de quel animal de compagnie tu veux consulter les stats (ainsi que l'utilisateur à qui il appartient, si ce n'est pas le tien. Assure-toi d'avoir mis le nom entre guillemets !).",
+      "not_specified": "%1$sTu ne m'as pas donné le nom de l'animal de compagnie.",
+      "not_found": "%1$sJe n'ai pas trouvé d'animal portant ce nom.",
+      "character_not_allowed": "%1$sCe caractère ne peut pas être utilisé dans le nom des animaux de compagnie. Donne lui un autre nom peut-être ?",
+      "overview": "Statistiques et aperçu de l'animal de compagnie",
+      "name": "Nom",
+      "tier": "Évolution",
+      "element": "Élément",
+      "owner": "Propriétaire",
+      "created": "Créé le",
+      "affection": "Affection",
+      "stamina": "Endurance actuelle",
+      "hp": "PV actuels",
+      "fly": "Vol",
+      "venom": "Venom",
+      "inventory": "Inventaire",
+      "id": "ID: %1$s",
+      "hunger": "Niveau de faim",
+      "hydration": "Hydratation"
+    },
+    "petactions": {
+      "general": "Les animaux sont vos compagnons pour chercher de l'argent! **Tu peux les entrainer, les chouchouter, les nourrir ou les faire combattre entre eux ou contre ceux des autres !** Pour créer un animal de compagnie, tu as besoin d'un incubateur que tu peux créer avec du lait, du breuvage et des diamants, ça te permettra de l'incuber et donc de lui donner un nom.\n\nLes animaux de compagnie peuvent se battre lors d'une PetBattle qui est un combat en tour par tour basé sur une stratégie à un tour. Il y a un tour de secours prévu à la moitié du round si l'écart de PV est trop important entre les deux combattants ce qui te permet de changer de stratégie.\n\nEn compétition, tu devras utiliser diverses méthodes (ce qui nécessitera des animaux de différents types et éléments). Tu les choisis au début ou au milieu de ton tour.\nLes habiletés constituent ton arme principale ! Cependant, les animaux peuvent aussi avoir une arme basée sur leur type et leur affection. L'armurerie est disponible via la commande `~>petaction shop` et tu peux l'équiper grâce à `~>petaction weapon`, les armes *n'ont pas* de multiplicateur de dommages, mais elles peuvent améliorer l'efficacité de certaines attaques, il n'y a donc pas d'arme de mêlée, puisque tous les dégâts causé lors d'une PetBattle sont causés grâce à la volonté et non grâce à la vie du combattant.\n\nUtilise `~>help petaction` pour obtenir la liste des commandes utilisables avec ton animal de compagnie.",
+      "incubate": {
+        "no_name": "%1$sTu dois me donner le nom que tu veux donner à ton animal.",
+        "only_letters": "%1$sLe nom de ton animal dois uniquement être composé des lettres de a à z.",
+        "no_egg": "%1$sTu n'as pas d'incubateur dans ton inventaire.",
+        "not_enough_slots": "%1$sTu n'as pas assez de slots disponibles. (Total : %2$s, Utilisés : %3$s)",
+        "no_money": "%1$sTu n'as pas assez d'argent pour incuber cet œuf. (Required: **%2$s** credits)",
+        "success": "%1$sTu as incubé ton animal de compagnie avec succès! Ton nouvel animal %2$s `(ID: %3$s)` est désormais prêt. Utilise `~>pet <nom>` pour consulter ses stats."
+      },
+      "rename": {
+        "not_enough_args": "%1$sTu dois mentionner son nom actuel et son nouveau nom.",
+        "new_name_exists": "%1$sTu as déjà donné ce nom à l'un de tes animaux.",
+        "not_enough_money": "%1$sTu n'as pas assez d'argent pour ça. **(Argent nécessaire : %2$s)**",
+        "confirmation": "%1$sVeux-tu vraiment renommer **%2$s** en tant **%3$s**? Envoie *yes* pour confirmer ou *no* pour annuler.",
+        "success": "%1$sTu as renommé **%2$s** avec succès! Il s'appelle désormais **%3$s** (ID : %4$s). Coût : %5$s"
+      },
+      "ls": {
+        "experience": "XP",
+        "age": "Age",
+        "no_pets": "%1$sTu n'as pas d'animaux.",
+        "header": "Voici la liste des animaux que tu possèdes pour le moment.\nLes animaux sont vos compagnons pour chercher de l'argent! **Tu peux les entrainer, les chouchouter, les nourrir ou les faire combattre entre eux ou contre ceux des autres !** Pour créer un animal de compagnie, tu as besoin d'un incubateur que tu peux créer avec du lait, du breuvage et des diamants, ça te permettra de l'incuber et donc de lui donner un nom.",
+        "pages": "**Nombre total de pages: %1$s \nUtilise les réaction pour changer de page.\n\n"
+      },
+      "train": {
+        "success": "%1$sTu as entrainer l'habileté de **%2$s** avec succès. Expérience gagnée : %3$s. Expérience actuelle : %4$s. (Coût: %5$s)"
+      },
+      "pet": {
+        "no_pet": "%1$sJe n'ai pas trouvé d'animal portant ce nom.",
+        "pet": "%1$sAww! M-Merci. (Affection : %2$s, Affection totale : %3$s)"
+      },
+      "feed": {
+        "fire_type": "%1$sTu ne peux pas vraiment nourrir un animal de type feu... à moins que tu veuilles du charbon de bois.",
+        "no_item": "%1$sJe ne trouve pas cet objet.",
+        "not_food": "%1$sCe n'est pas de la nourriture.",
+        "full": "%1$sTon animal est gavé, tu ne peux plus le nourrir.",
+        "success": "%1$sTu as bien nourri %2$s. (Niveau de faim actuel: %3$s. Saturation: %4$s)"
+      },
+      "hydrate": {
+        "fire_type": "%1$sTu ne peux pas vraiment hydrater un animal de type feu... à moins que tu veuilles l'éteindre.",
+        "not_water": "%1$sCet animal n'est pas de type eau.",
+        "no_water": "%1$sTu n'as pas de bouteille d'eau dans ton inventaire.",
+        "success": "%1$sTu as bien hydraté ton animal. (Niveau d’hydratation : %2$s)"
+      }
+    },
     "invite": {
       "url": "URL d'invitation",
       "server": "Serveur de support",
@@ -1179,9 +1275,9 @@
       "usage": {
         "header": "Informations d'utilisation de Mantaro",
         "description": "Informations d'utilisation et de la partie hardware (machine physique).",
-        "threads": "Coeurs",
+        "threads": "Cœurs",
         "memory_usage": "Usage mémoire",
-        "cores": "Coeurs CPU",
+        "cores": "Cœurs CPU",
         "cpu_usage": "Usage CPU",
         "assigned_mem": "Mémoire dédiée",
         "assigned_remaining": "Restant du dédié"
@@ -1193,7 +1289,7 @@
       }
     },
     "social": {
-      "header": "%1$sO-Oh, je vois que tu es intéressé.s par mes réseaux sociaux!\n\n",
+      "header": "%1$sO-Oh, je vois que tu es intéressé.e par mes réseaux sociaux!\n\n",
       "description": {
         "1": "B-bien, voilà!",
         "2": "**- Site web:** <%1$s>"
@@ -1246,10 +1342,11 @@
     },
     "help": {
       "title": "Menu d'aide de Mantaro",
-      "base": "Liste des commandes. Pour un guide d'utilisation plus détaillé, merci de te rendre sur le [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
-      "support": "Si tu as des problèmes ou des questions en utilisant Mantaro, rejoins le [server de support](https://support.mantaro.site) (N.B.: le serveur est uniquement en anglais). [*Suis-moi sur Twitter pour les mises à jour !*](https://twitter.com/mantarodiscord)\n",
+      "base_category": "Liste des commandes pour la categorie %1$s. Pour un guide d'utilisation plus détaillé, merci de te rendre sur le [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Guide pour l'argent](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "base": "Liste des commandes. Pour un guide d'utilisation plus détaillé, merci de te rendre sur le [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nAutres guides : [Argent](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Commandes personnalisées](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Messages de bienvenue](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "support": "Si tu as des problèmes ou des questions en utilisant Mantaro, rejoins le [serveur de support](https://support.mantaro.site) (N.B.: le serveur est uniquement en anglais). [*Suis-moi sur Twitter pour les mises à jour !*](https://twitter.com/mantarodiscord)\n",
       "patreon": "[**On a besoin de ton aide pour garder Mantaro en vie! Clique ici pour plus d'infos.**](https://www.patreon.com/mantaro)",
-      "disabled_commands": "Je ne montre que les commandes actives. Nombres total de commandes désactivées : %1$s",
+      "disabled_commands": "Je ne montre que les commandes actives. Nombre total de commandes désactivées : %1$s",
       "channel_specific_disabled_commands": "\nJe ne montre que les commandes actives. Nombre total de commandes désactivées dans ce salon : %1$s",
       "footer": "Pour voir l'utilisation d'une commande, envoie %1$shelp <nom de la commande> // -> Commandes: %2$s",
       "commands": "Commandes",
@@ -1261,9 +1358,10 @@
     "repair": {
       "no_item": "%1$sTu n'as pas spécifié d'objet à réparer. N'oublie pas d'utiliser les guillemets si le nom de l'objet contient des espaces.",
       "no_item_found": "%1$sJe ne trouve pas cet objet. N'oublie pas d'utiliser les guillemets si le nom de l'objet contient des espaces.",
+      "no_main_item": "%1$sTu n'as pas l'objet que tu veux réparer!",
       "cant_repair": "%1$s**%2$s** ce n'est pas un objet réparable. Tu ne peux réparer que ce qui est cassé.",
       "no_tool": "%1$sTu as besoin d'une clé de tier 2 pour réparer cet objet. Assure-toi d'en avoir une et d'avoir spécifié la bonne clé si tu en as spécifié une. N'oublie pas d'utiliser les guillemets si le nom de l'objet contient des espaces.",
-      "dust": "%1$sTon inventaire est trop poussiéreux pour réparer quoi que ce soit. Niveau de poussière: %2$s",
+      "dust": "%1$sTon inventaire est trop poussiéreux pour réparer quoi que ce soit. Niveau de poussière : %2$s",
       "not_wrench": "%1$sTu ne peux pas utiliser ça en guise de clé. N'oublie pas d'utiliser les guillemets si le nom de l'objet contient des espaces.",
       "not_enough_level": "%1$sTu as besoin d'une clé de tier supérieur pour faire cette réparation.",
       "not_enough_money": "%1$sTu n'as pas assez d'argent pour faire cette réparation.",
@@ -1290,6 +1388,7 @@
       "release_date": "Date de lancement",
       "end_date": "Date de fin",
       "average_score": "Sore de popularité",
+      "favorite_count": "Nombre de favoris",
       "type": "Type",
       "episodes": "Episodes",
       "episode_duration": "Duré des épisodes",
@@ -1371,9 +1470,9 @@
       "not_suitable": "%1$sMais ce n'est pas une pioche adapté pour miner ça!",
       "not_in_inventory": "%1$sTu n'as pas cette pioche dans ton inventaire, considérons que tu parlais de ta pioche par défaut.",
       "success": "%1$sTu as miné des minerais valant **$%2$s credits** avec ta *%3$s*",
-      "reminder": "\n*Tu peux te fabriquer ne meilleur pioche grâce aux minerais récoltés. Utilise `~>cast ls` pour voir la liste de ce que tu peux fabriquer et leur recette*",
+      "reminder": "\n*Tu peux te fabriquer une meilleure pioche grâce aux minerais récoltés. Utilise `~>cast ls` pour voir la liste de ce que tu peux fabriquer et leur recette*",
       "diamond": {
-        "overflow": "Huh, Tu as trouvé %1$s diamant mais tu en avais déjà trop donc je l'ai vendu pour toi.",
+        "overflow": "Huh, Tu as trouvé un diamant mais tu en avais déjà trop donc je l'ai vendu pour toi.",
         "success": "Huh! Quelle chance, tu as trouvé un diamant en minant ! Regarde dans ton inventaire !"
       },
       "gem": {
@@ -1382,7 +1481,7 @@
       },
       "sparkle": {
         "overflow": "Tu as trouvé des paillettes mais tu en avais déjà trop donc je les ai vendues pour toi.",
-        "success": "Hurray! tu as trouvé des %1$s paillettes. Garde-les précieusement surtout, tu peux les retrouver dans ton inventaire."
+        "success": "Hurray! tu as trouvé des %1$s paillettes. Garde les précieusement surtout, tu peux les retrouver dans ton inventaire."
       },
       "crate": {
         "overflow": "Tu as trouvé un *%1$s* mais tu en avais déjà trop donc la laissé derrière toi...",
@@ -1449,7 +1548,7 @@
   },
   "options": {
     "options": "Options Mantaro",
-    "error_general": "%1$sUtilisation incorrecte ou éléments manquants.\nSi tu es perdu, va voir <https://github.com/Mantaro/MantaroBot/wiki/Configuration> pour un guide sur l'utilisation des options. Si tu as des problèmes vis-à-vis du Wiki, vas voir <https://support.mantaro.site>",
+    "error_general": "%1$sUtilisation incorrecte ou éléments manquants.\nSi tu es perdu.e, va voir <https://github.com/Mantaro/MantaroBot/wiki/Configuration> pour un guide sur l'utilisation des options. Si tu as des problèmes vis-à-vis du Wiki, vas voir <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sImpossible de récupérer les valeurs. Chose étrange...",
       "header": "Options définies pour le serveur **%1$s**.",
@@ -1623,7 +1722,7 @@
     "birthday_enable": {
       "no_args": "%1$sTu dois spécifier le nom du salon et celui du rôle.",
       "public_role": "%1$sLe rôle everyone ne peut pas servir pour les anniversaires! N'oublie pas qu'il s'agit d'n rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé.",
-      "autorole": "%1$sTu ne peux pas assigner un autorole comme rôle d'anniversaire. N'oublie pas qu'il s'agit d'n rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé.",
+      "autorole": "%1$sTu ne peux pas assigner un autorôle comme rôle d'anniversaire. N'oublie pas qu'il s'agit d'n rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé.",
       "warning": "%1$sN'oublie pas qu'il s'agit d'n rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé. Si tu as le moindre doute sur la configuration, n'hésite pas à rejoindre le serveur de support et à demander. Tu peux aussi regarder `~>opts help birthday enable` par exemple.",
       "warning_1": "C'est à cause du fonctionnement du rôle: Ca assigne un rôle temporaire à ceux dont l'anniversaire arrive et leur enlève une fois le jour passé. **Ce qui veut qu'il leur sera enlevé une fois le jour passé**. Fais bien attention à ce que tu fais, la moindre erreur de configuration peut avoir de terribles conséquences (vraiment) !",
       "warning_2": "Le rôle *doit être un rôle nouvellement créé ou inutilisé*. Il NE DOIT PAS être attribué.",
@@ -1694,6 +1793,19 @@
       "self_hierarchy_conflict": "%1$sCe rôle est placé plus haut que le plus haut de mes rôles, ça ne peut donc pas être un autorole!",
       "success": "%1$sAjout du rôle auto-assignable **%2$s**, qui donne le rôle **%3$s**"
     },
+    "autoroles_category_add": {
+      "no_args": "%1$sTu dois me donner le nom de la catégorie (et le nom du iam que tu veux lui ajouter).",
+      "success_new": "%1$sCréation de la catégorie **%2$s**",
+      "success": "%1$sAjout du rôle **%2$s** à la catégorie **%3$s**",
+      "already_exists": "%1$sCette catégorie existe mais tu ne m'a pas donné de rôle à y ajouter.",
+      "no_role": "%1$sIl n'y a pas d'autorôle **%2$s**, donc je ne peux pas l'ajouter."
+    },
+    "autoroles_category_remove": {
+      "no_args": "%1$sTu dois me donner le nom de la catégorie (et le nom du iam que tu veux lui enlever).",
+      "success_new": "%1$sSuppression de la catégorie **%2$s**",
+      "success": "%1$sRetrait du rôle **%2$s** de la catégorie **%3$s**",
+      "no_category": "%1$sIl n'y a pas de catégorie **%2$s**"
+    },
     "autoroles_remove": {
       "no_args": "%1$sTu dois me donner le nom de l'iam que tu veux supprimer.",
       "not_found": "%1$sJe n'ai pas trouvé de rôle auto-assignable de ce nom.",
@@ -1725,7 +1837,7 @@
       "success": "%1$sLe rôle %2$s peut à nouveau utiliser les commandes."
     },
     "server_ignorebots_autoroles_toggle": {
-      "success": "%1$sLe paramètre d'ignorance des bot est: **%2$s**"
+      "success": "%1$sLe paramètre d'ignorance des bots est: **%2$s**"
     },
     "server_ignorebots_joinleave_toggle": {
       "success": "%1$sLe message de bienvenue/d'aurevoir est: **%2$s**"
@@ -1794,7 +1906,7 @@
     },
     "usermessage_joinmessage_list": {
       "header": "Liste des messages de bienvenue supplémentaires. %1$s\n%2$s",
-      "no_extras": "%1$sIl ny a aucun message de bienvenue supplémentaire..."
+      "no_extras": "%1$sIl n’y a aucun message de bienvenue supplémentaire..."
     },
     "usermessage_leavemessage_add": {
       "no_message": "%1$sTu dois me donner le message supplémentaire que tu veux que j'envoie lorsque quelqu'un nous quitte!",
@@ -1821,6 +1933,25 @@
       "not_in": "%1$sLe mot `%2$s` n'est pas dans la blacklist.",
       "success": "%1$sRetrait du mot `%2$s` de la blacklist."
      },
+     "logs_editmessage": {
+      "no_message": "%1$sTu dois me dire ce que je dois dire quand quelqu'un édite un message!",
+      "success": "%1$sMessage d'édition de message réglé sur: `%2$s`"
+    },
+    "logs_deletemessage": {
+      "no_message": "%1$sTu dois me dire ce que je dois dire quand quelqu'un supprime un message!",
+      "success": "%1$sMessage de suppression de message réglé sur: `%2$s`"
+    },
+    "logs_banmessage": {
+      "no_message": "%1$sTu dois me dire ce que je dois dire quand quelqu'un est bannis!",
+      "success": "%1$sMessage de ban réglé sur: `%2$s`"
+    },
+    "logs_unbanmessage": {
+      "no_message": "%1$sTu dois me dire ce que je dois dire quand quelqu'un est grâcié!",
+      "success": "%1$sMessage de grâce réglé sur: `%2$s`"
+    },
+    "showdisablewarning" : {
+      "success": "%1$sMessage d'alerte lors de la désactivation d'une commande défini sur: %2$s"
+    },
     "invalid_category": "%1$sTu as entré une catégorie invalide. Regarde dans la liste ci-dessous pour trouver une catégorie valide```md\n%2$s```",
     "help_opts_notice": "%1$sTu ne peux pas désactiver les commandes help et options.",
     "no_command": "%1$sAucune commande correspondant à %2$s",
@@ -1835,7 +1966,7 @@
     "manage_server": "Gérer le serveur",
     "message_add_reaction": "Ajouter des réactions",
     "view_audit_logs": "Voir les logs",
-    "view_channel": "Lire les salons textuels & voir les salons vocaux",
+    "view_channel": "Lire les salons textuels et voir les salons vocaux",
     "message_read": "Lire les messages",
     "message_write": "Envoyer des messages",
     "message_tts": "Envoyer des messages TTS",
@@ -1949,6 +2080,8 @@
     "broken_comet_rod": "Canne de comète endommagée",
     "broken_sparkle_rod": "Canne scintillante endommagée",
     "broken_star_rod": "Canne des étoiles endommagée",
+    "incubator_egg": "Incubateur à oeuf",
+    "water_bottle": "Bouteille d'eau",
     "description": {
       "headphones": "C'est ce qui se passe quand tu écoutes trop de musique. Ca doit quand même valoir quelque chose",
       "ban_hammer": "Laissé là par un admin.",
@@ -2038,7 +2171,8 @@
       "broken_comet_rod": "Canne de comète qui a cassé durant une session de pêche, il y a toujours de l'espoir pour la réparer.",
       "broken_sparkle_rod": "Canne scintillante qui a cassé durant une session de pêche, il y a toujours de l'espoir pour la réparer.",
       "broken_star_rod": "Canne des étoiles qui a cassé durant une session de pêche, il y a toujours de l'espoir pour la réparer."
-      
+      "incubator_egg": "Objet utilisé pour faire grandir un œuf.",
+      "water_bottle": "Bouteille contenant de l'eau."
     }
   },
   "test": {
