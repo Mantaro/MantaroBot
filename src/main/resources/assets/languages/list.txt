@@ -1,9 +1,9 @@
 de_DE.json
 en_US.json
 es_ES.json
-fr_FR.json
 lt_LT.json
 nl_NL.json
 pt_BR.json
 ru_RU.json
 tr_TR.json
+fr_FR.json

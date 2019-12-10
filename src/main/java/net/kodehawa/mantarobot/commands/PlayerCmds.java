@@ -273,7 +273,7 @@ public class PlayerCmds {
                         ProfileComponent.Holder holder = new ProfileComponent.Holder(userLooked, player, seasonalPlayer, dbUser, badges);
 
                         EmbedBuilder profileBuilder = new EmbedBuilder();
-                        profileBuilder.setAuthor((ringHolder ? "" : EmoteReference.RING) +
+                        profileBuilder.setAuthor((ringHolder ? EmoteReference.RING :  "") +
                                     String.format(languageContext.get("commands.profile.header"), memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl())
                                 .setDescription(player.getData().getDescription() == null ? languageContext.get("commands.profile.no_desc") : player.getData().getDescription())
                                 .setFooter(ProfileComponent.FOOTER.getContent().apply(holder, languageContext), null);

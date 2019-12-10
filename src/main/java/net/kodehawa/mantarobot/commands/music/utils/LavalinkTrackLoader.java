@@ -35,6 +35,7 @@ public class LavalinkTrackLoader {
             manager.loadItem(query, handler);
             return;
         }
+
         CompletionStage<Runnable> last = tryLoad(manager, sockets.next().getRemoteUri(), query, handler);
         while(sockets.hasNext()) {
             URI uri = sockets.next().getRemoteUri();
