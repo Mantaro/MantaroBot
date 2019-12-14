@@ -1112,7 +1112,8 @@
     },
     "dailycrate": {
       "key": "%1$sYou need a crate key to use this! Please buy one and try again!",
-      "not_premium": "%1$sYou can open a daily premium crate with a high chance of getting good stuff with premium! Please check out more at <https://patreon.com/mantaro>. This can be ran every 24 hours."
+      "not_premium": "%1$sYou can open a daily premium crate with a high chance of getting good stuff with premium! Please check out more at <https://patreon.com/mantaro>. This can be ran every 24 hours.",
+      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key to open it."
     },
     "prune": {
       "no_messages_specified": "%1$sYou specified no messages to prune.",

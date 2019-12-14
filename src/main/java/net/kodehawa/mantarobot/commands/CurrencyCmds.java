@@ -959,11 +959,6 @@ public class CurrencyCmds {
                 Player p = managedDatabase.getPlayer(event.getAuthor());
                 Inventory inventory = p.getInventory();
 
-                if(!inventory.containsItem(Items.LOOT_CRATE_KEY)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.dailycrate.key"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
                 if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
@@ -971,7 +966,10 @@ public class CurrencyCmds {
 
                 Item randomCrate = random.nextBoolean() ? Items.MINE_PREMIUM_CRATE : Items.FISH_PREMIUM_CRATE;
 
-                randomCrate.getAction().test(event, Pair.of(languageContext, content), false);
+                inventory.process(new ItemStack(randomCrate, 1));
+                p.save();
+
+                event.getChannel().sendMessageFormat(languageContext.get("commands.dailycrate.success"), EmoteReference.POPPER, randomCrate.getName()).queue();
             }
 
             @Override
