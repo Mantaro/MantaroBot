@@ -956,10 +956,17 @@ public class CurrencyCmds {
                     return;
                 }
 
+                Player p = managedDatabase.getPlayer(event.getAuthor());
+                Inventory inventory = p.getInventory();
+
+                if(!inventory.containsItem(Items.LOOT_CRATE_KEY)) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.dailycrate.key"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
 
-                Player p = managedDatabase.getPlayer(event.getAuthor());
                 Random random = new Random();
 
                 Item randomCrate = random.nextBoolean() ? Items.MINE_PREMIUM_CRATE : Items.FISH_PREMIUM_CRATE;
