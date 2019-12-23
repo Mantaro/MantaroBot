@@ -20,9 +20,6 @@ package net.kodehawa.mantarobot.db.entities;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -41,9 +38,6 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.currentTimeMillis;
 
-@Getter
-@ToString
-@EqualsAndHashCode
 public class DBUser implements ManagedObject {
     public static final String DB_TABLE = "users";
     private final UserData data;
@@ -178,5 +172,61 @@ public class DBUser implements ManagedObject {
         data.setPremiumKey(null);
         data.setHasReceivedFirstKey(false);
         save();
+    }
+    
+    public UserData getData() {
+        return this.data;
+    }
+    
+    public String getId() {
+        return this.id;
+    }
+    
+    public long getPremiumUntil() {
+        return this.premiumUntil;
+    }
+    
+    public Config getConfig() {
+        return this.config;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof DBUser)) return false;
+        final DBUser other = (DBUser) o;
+        if(!other.canEqual((Object) this)) return false;
+        final Object this$data = this.getData();
+        final Object other$data = other.getData();
+        if(this$data == null ? other$data != null : !this$data.equals(other$data)) return false;
+        final Object this$id = this.getId();
+        final Object other$id = other.getId();
+        if(this$id == null ? other$id != null : !this$id.equals(other$id)) return false;
+        if(this.getPremiumUntil() != other.getPremiumUntil()) return false;
+        final Object this$config = this.getConfig();
+        final Object other$config = other.getConfig();
+        if(this$config == null ? other$config != null : !this$config.equals(other$config)) return false;
+        return true;
+    }
+    
+    protected boolean canEqual(final Object other) {
+        return other instanceof DBUser;
+    }
+    
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final Object $data = this.getData();
+        result = result * PRIME + ($data == null ? 43 : $data.hashCode());
+        final Object $id = this.getId();
+        result = result * PRIME + ($id == null ? 43 : $id.hashCode());
+        final long $premiumUntil = this.getPremiumUntil();
+        result = result * PRIME + (int) ($premiumUntil >>> 32 ^ $premiumUntil);
+        final Object $config = this.getConfig();
+        result = result * PRIME + ($config == null ? 43 : $config.hashCode());
+        return result;
+    }
+    
+    public String toString() {
+        return "DBUser(data=" + this.getData() + ", id=" + this.getId() + ", premiumUntil=" + this.getPremiumUntil() + ", config=" + this.getConfig() + ")";
     }
 }

@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.core.listeners.command;
 
 import com.rethinkdb.gen.exc.ReqlError;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -47,15 +46,16 @@ import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import org.slf4j.Logger;
 
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-@Slf4j
 public class CommandListener implements EventListener {
     //TODO: shared ratelimiter. IncreasingRatelimiter might fail here, so we need another way.
     private static final RateLimiter experienceRatelimiter = new RateLimiter(TimeUnit.SECONDS, 18);
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(CommandListener.class);
     //Commands ran this session.
     private static int commandTotal = 0;
     private final ICommandProcessor commandProcessor;

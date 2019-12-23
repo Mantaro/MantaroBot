@@ -20,18 +20,38 @@ package net.kodehawa.mantarobot.core.shard;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
-import lombok.Getter;
-import lombok.experimental.Delegate;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.exceptions.RateLimitedException;
+import net.dv8tion.jda.api.entities.ApplicationInfo;
+import net.dv8tion.jda.api.entities.Category;
+import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.Emote;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.GuildChannel;
+import net.dv8tion.jda.api.entities.PrivateChannel;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.SelfUser;
+import net.dv8tion.jda.api.entities.StoreChannel;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.Webhook;
+import net.dv8tion.jda.api.hooks.IEventManager;
+import net.dv8tion.jda.api.managers.AudioManager;
+import net.dv8tion.jda.api.managers.DirectAudioController;
+import net.dv8tion.jda.api.managers.Presence;
+import net.dv8tion.jda.api.requests.RestAction;
+import net.dv8tion.jda.api.requests.restaction.AuditableRestAction;
+import net.dv8tion.jda.api.requests.restaction.GuildAction;
+import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.SessionController;
-import net.dv8tion.jda.api.utils.SessionControllerAdapter;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import net.dv8tion.jda.api.utils.cache.CacheView;
+import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 import net.dv8tion.jda.internal.JDAImpl;
 import net.dv8tion.jda.internal.requests.ratelimit.IBucket;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -49,6 +69,7 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Prometheus;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.lang3.time.DateUtils;
@@ -56,9 +77,26 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.CheckReturnValue;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.security.auth.login.LoginException;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -85,7 +123,6 @@ public class MantaroShard implements JDA {
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2, new ThreadFactoryBuilder().setNameFormat("Mantaro-ShardExecutor Thread-%d").build());
     private static final Config config = MantaroData.config().get();
     //Message cache of 2500 cached messages per shard. If it reaches 2500 it will delete the first one stored, and continue being 2500.
-    @Getter
     private final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(5).maximumSize(2500).build();
 
     //Christmas date
@@ -95,15 +132,11 @@ public class MantaroShard implements JDA {
 
     private final String callbackPoolIdentifierString;
     private final String ratelimitPoolIdentifierString;
-    @Getter
     public final MantaroEventManager manager;
-    @Getter
     private final ExecutorService threadPool;
-    @Getter
     private final ExecutorService commandPool;
     private final SessionController sessionController;
     private static final Gauge ratelimitBucket = new Gauge.Builder().name("ratelimitBucket").help("shard queue size").labelNames("shardId").create();
-    @Delegate
     private JDA jda;
 
     public static final Function<JDA, Integer> QUEUE_SIZE = jda -> {
@@ -359,5 +392,582 @@ public class MantaroShard implements JDA {
     @Override
     public String toString() {
         return "MantaroShard [" + (getId()) + " / " + totalShards + "]";
+    }
+    
+    public Cache<String, Optional<CachedMessage>> getMessageCache() {
+        return this.messageCache;
+    }
+    
+    public MantaroEventManager getManager() {
+        return this.manager;
+    }
+    
+    public ExecutorService getThreadPool() {
+        return this.threadPool;
+    }
+    
+    public ExecutorService getCommandPool() {
+        return this.commandPool;
+    }
+    
+    //delegates
+    
+    @Override
+    @Nonnull
+    public Status getStatus() {
+        return jda.getStatus();
+    }
+    
+    @Override
+    public long getGatewayPing() {
+        return jda.getGatewayPing();
+    }
+    
+    @Override
+    @Nonnull
+    public RestAction<Long> getRestPing() {
+        return jda.getRestPing();
+    }
+    
+    @Override
+    @Nonnull
+    public JDA awaitStatus(@Nonnull Status status) throws InterruptedException {
+        return jda.awaitStatus(status);
+    }
+    
+    @Override
+    @Nonnull
+    public JDA awaitStatus(@Nonnull Status status, @Nonnull Status... failOn) throws InterruptedException {
+        return jda.awaitStatus(status, failOn);
+    }
+    
+    @Override
+    @Nonnull
+    public JDA awaitReady() throws InterruptedException {
+        return jda.awaitReady();
+    }
+    
+    @Override
+    @Nonnull
+    public ScheduledExecutorService getRateLimitPool() {
+        return jda.getRateLimitPool();
+    }
+    
+    @Override
+    @Nonnull
+    public ScheduledExecutorService getGatewayPool() {
+        return jda.getGatewayPool();
+    }
+    
+    @Override
+    @Nonnull
+    public ExecutorService getCallbackPool() {
+        return jda.getCallbackPool();
+    }
+    
+    @Override
+    @Nonnull
+    public OkHttpClient getHttpClient() {
+        return jda.getHttpClient();
+    }
+    
+    @Override
+    @Nonnull
+    public DirectAudioController getDirectAudioController() {
+        return jda.getDirectAudioController();
+    }
+    
+    @Override
+    public void setEventManager(@Nullable IEventManager manager) {
+        jda.setEventManager(manager);
+    }
+    
+    @Override
+    public void addEventListener(@Nonnull Object... listeners) {
+        jda.addEventListener(listeners);
+    }
+    
+    @Override
+    public void removeEventListener(@Nonnull Object... listeners) {
+        jda.removeEventListener(listeners);
+    }
+    
+    @Override
+    @Nonnull
+    public List<Object> getRegisteredListeners() {
+        return jda.getRegisteredListeners();
+    }
+    
+    @Override
+    @CheckReturnValue
+    @Nonnull
+    public GuildAction createGuild(@Nonnull String name) {
+        return jda.createGuild(name);
+    }
+    
+    @Override
+    @Nonnull
+    public CacheView<AudioManager> getAudioManagerCache() {
+        return jda.getAudioManagerCache();
+    }
+    
+    @Override
+    @Nonnull
+    public List<AudioManager> getAudioManagers() {
+        return jda.getAudioManagers();
+    }
+    
+    @Override
+    @Nonnull
+    public SnowflakeCacheView<User> getUserCache() {
+        return jda.getUserCache();
+    }
+    
+    @Override
+    @Nonnull
+    public List<User> getUsers() {
+        return jda.getUsers();
+    }
+    
+    @Override
+    @Nullable
+    public User getUserById(@Nonnull String id) {
+        return jda.getUserById(id);
+    }
+    
+    @Override
+    @Nullable
+    public User getUserById(long id) {
+        return jda.getUserById(id);
+    }
+    
+    @Override
+    @Nullable
+    public User getUserByTag(@Nonnull String tag) {
+        return jda.getUserByTag(tag);
+    }
+    
+    @Override
+    @Nullable
+    public User getUserByTag(@Nonnull String username, @Nonnull String discriminator) {
+        return jda.getUserByTag(username, discriminator);
+    }
+    
+    @Override
+    @Nonnull
+    public List<User> getUsersByName(@Nonnull String name, boolean ignoreCase) {
+        return jda.getUsersByName(name, ignoreCase);
+    }
+    
+    @Override
+    @Nonnull
+    public List<Guild> getMutualGuilds(@Nonnull User... users) {
+        return jda.getMutualGuilds(users);
+    }
+    
+    @Override
+    @Nonnull
+    public List<Guild> getMutualGuilds(@Nonnull Collection<User> users) {
+        return jda.getMutualGuilds(users);
+    }
+    
+    @Override
+    @CheckReturnValue
+    @Nonnull
+    public RestAction<User> retrieveUserById(@Nonnull String id) {
+        return jda.retrieveUserById(id);
+    }
+    
+    @Override
+    @CheckReturnValue
+    @Nonnull
+    public RestAction<User> retrieveUserById(long id) {
+        return jda.retrieveUserById(id);
+    }
+    
+    @Override
+    @Nonnull
+    public SnowflakeCacheView<Guild> getGuildCache() {
+        return jda.getGuildCache();
+    }
+    
+    @Override
+    @Nonnull
+    public List<Guild> getGuilds() {
+        return jda.getGuilds();
+    }
+    
+    @Override
+    @Nullable
+    public Guild getGuildById(@Nonnull String id) {
+        return jda.getGuildById(id);
+    }
+    
+    @Override
+    @Nullable
+    public Guild getGuildById(long id) {
+        return jda.getGuildById(id);
+    }
+    
+    @Override
+    @Nonnull
+    public List<Guild> getGuildsByName(@Nonnull String name, boolean ignoreCase) {
+        return jda.getGuildsByName(name, ignoreCase);
+    }
+    
+    @Override
+    @Nonnull
+    public Set<String> getUnavailableGuilds() {
+        return jda.getUnavailableGuilds();
+    }
+    
+    @Override
+    @Nonnull
+    public SnowflakeCacheView<Role> getRoleCache() {
+        return jda.getRoleCache();
+    }
+    
+    @Override
+    @Nonnull
+    public List<Role> getRoles() {
+        return jda.getRoles();
+    }
+    
+    @Override
+    @Nullable
+    public Role getRoleById(@Nonnull String id) {
+        return jda.getRoleById(id);
+    }
+    
+    @Override
+    @Nullable
+    public Role getRoleById(long id) {
+        return jda.getRoleById(id);
+    }
+    
+    @Override
+    @Nonnull
+    public List<Role> getRolesByName(@Nonnull String name, boolean ignoreCase) {
+        return jda.getRolesByName(name, ignoreCase);
+    }
+    
+    @Override
+    @Nullable
+    public GuildChannel getGuildChannelById(@Nonnull String id) {
+        return jda.getGuildChannelById(id);
+    }
+    
+    @Override
+    @Nullable
+    public GuildChannel getGuildChannelById(long id) {
+        return jda.getGuildChannelById(id);
+    }
+    
+    @Override
+    @Nullable
+    public GuildChannel getGuildChannelById(@Nonnull ChannelType type, @Nonnull String id) {
+        return jda.getGuildChannelById(type, id);
+    }
+    
+    @Override
+    @Nullable
+    public GuildChannel getGuildChannelById(@Nonnull ChannelType type, long id) {
+        return jda.getGuildChannelById(type, id);
+    }
+    
+    @Override
+    @Nonnull
+    public SnowflakeCacheView<Category> getCategoryCache() {
+        return jda.getCategoryCache();
+    }
+    
+    @Override
+    @Nullable
+    public Category getCategoryById(@Nonnull String id) {
+        return jda.getCategoryById(id);
+    }
+    
+    @Override
+    @Nullable
+    public Category getCategoryById(long id) {
+        return jda.getCategoryById(id);
+    }
+    
+    @Override
+    @Nonnull
+    public List<Category> getCategories() {
+        return jda.getCategories();
+    }
+    
+    @Override
+    @Nonnull
+    public List<Category> getCategoriesByName(@Nonnull String name, boolean ignoreCase) {
+        return jda.getCategoriesByName(name, ignoreCase);
+    }
+    
+    @Override
+    @Nonnull
+    public SnowflakeCacheView<StoreChannel> getStoreChannelCache() {
+        return jda.getStoreChannelCache();
+    }
+    
+    @Override
+    @Nullable
+    public StoreChannel getStoreChannelById(@Nonnull String id) {
+        return jda.getStoreChannelById(id);
+    }
+    
+    @Override
+    @Nullable
+    public StoreChannel getStoreChannelById(long id) {
+        return jda.getStoreChannelById(id);
+    }
+    
+    @Override
+    @Nonnull
+    public List<StoreChannel> getStoreChannels() {
+        return jda.getStoreChannels();
+    }
+    
+    @Override
+    @Nonnull
+    public List<StoreChannel> getStoreChannelsByName(@Nonnull String name, boolean ignoreCase) {
+        return jda.getStoreChannelsByName(name, ignoreCase);
+    }
+    
+    @Override
+    @Nonnull
+    public SnowflakeCacheView<TextChannel> getTextChannelCache() {
+        return jda.getTextChannelCache();
+    }
+    
+    @Override
+    @Nonnull
+    public List<TextChannel> getTextChannels() {
+        return jda.getTextChannels();
+    }
+    
+    @Override
+    @Nullable
+    public TextChannel getTextChannelById(@Nonnull String id) {
+        return jda.getTextChannelById(id);
+    }
+    
+    @Override
+    @Nullable
+    public TextChannel getTextChannelById(long id) {
+        return jda.getTextChannelById(id);
+    }
+    
+    @Override
+    @Nonnull
+    public List<TextChannel> getTextChannelsByName(@Nonnull String name, boolean ignoreCase) {
+        return jda.getTextChannelsByName(name, ignoreCase);
+    }
+    
+    @Override
+    @Nonnull
+    public SnowflakeCacheView<VoiceChannel> getVoiceChannelCache() {
+        return jda.getVoiceChannelCache();
+    }
+    
+    @Override
+    @Nonnull
+    public List<VoiceChannel> getVoiceChannels() {
+        return jda.getVoiceChannels();
+    }
+    
+    @Override
+    @Nullable
+    public VoiceChannel getVoiceChannelById(@Nonnull String id) {
+        return jda.getVoiceChannelById(id);
+    }
+    
+    @Override
+    @Nullable
+    public VoiceChannel getVoiceChannelById(long id) {
+        return jda.getVoiceChannelById(id);
+    }
+    
+    @Override
+    @Nonnull
+    public List<VoiceChannel> getVoiceChannelsByName(@Nonnull String name, boolean ignoreCase) {
+        return jda.getVoiceChannelsByName(name, ignoreCase);
+    }
+    
+    @Override
+    @Nonnull
+    public SnowflakeCacheView<PrivateChannel> getPrivateChannelCache() {
+        return jda.getPrivateChannelCache();
+    }
+    
+    @Override
+    @Nonnull
+    public List<PrivateChannel> getPrivateChannels() {
+        return jda.getPrivateChannels();
+    }
+    
+    @Override
+    @Nullable
+    public PrivateChannel getPrivateChannelById(@Nonnull String id) {
+        return jda.getPrivateChannelById(id);
+    }
+    
+    @Override
+    @Nullable
+    public PrivateChannel getPrivateChannelById(long id) {
+        return jda.getPrivateChannelById(id);
+    }
+    
+    @Override
+    @Nonnull
+    public SnowflakeCacheView<Emote> getEmoteCache() {
+        return jda.getEmoteCache();
+    }
+    
+    @Override
+    @Nonnull
+    public List<Emote> getEmotes() {
+        return jda.getEmotes();
+    }
+    
+    @Override
+    @Nullable
+    public Emote getEmoteById(@Nonnull String id) {
+        return jda.getEmoteById(id);
+    }
+    
+    @Override
+    @Nullable
+    public Emote getEmoteById(long id) {
+        return jda.getEmoteById(id);
+    }
+    
+    @Override
+    @Nonnull
+    public List<Emote> getEmotesByName(@Nonnull String name, boolean ignoreCase) {
+        return jda.getEmotesByName(name, ignoreCase);
+    }
+    
+    @Override
+    @Nonnull
+    public IEventManager getEventManager() {
+        return jda.getEventManager();
+    }
+    
+    @Override
+    @Nonnull
+    public SelfUser getSelfUser() {
+        return jda.getSelfUser();
+    }
+    
+    @Override
+    @Nonnull
+    public Presence getPresence() {
+        return jda.getPresence();
+    }
+    
+    @Override
+    @Nonnull
+    public ShardInfo getShardInfo() {
+        return jda.getShardInfo();
+    }
+    
+    @Override
+    @Nonnull
+    public String getToken() {
+        return jda.getToken();
+    }
+    
+    @Override
+    public long getResponseTotal() {
+        return jda.getResponseTotal();
+    }
+    
+    @Override
+    public int getMaxReconnectDelay() {
+        return jda.getMaxReconnectDelay();
+    }
+    
+    @Override
+    public void setAutoReconnect(boolean reconnect) {
+        jda.setAutoReconnect(reconnect);
+    }
+    
+    @Override
+    public void setRequestTimeoutRetry(boolean retryOnTimeout) {
+        jda.setRequestTimeoutRetry(retryOnTimeout);
+    }
+    
+    @Override
+    public boolean isAutoReconnect() {
+        return jda.isAutoReconnect();
+    }
+    
+    @Override
+    public boolean isBulkDeleteSplittingEnabled() {
+        return jda.isBulkDeleteSplittingEnabled();
+    }
+    
+    @Override
+    public void shutdown() {
+        jda.shutdown();
+    }
+    
+    @Override
+    public void shutdownNow() {
+        jda.shutdownNow();
+    }
+    
+    @Override
+    @Nonnull
+    public AccountType getAccountType() {
+        return jda.getAccountType();
+    }
+    
+    @Override
+    @CheckReturnValue
+    @Nonnull
+    public RestAction<ApplicationInfo> retrieveApplicationInfo() {
+        return jda.retrieveApplicationInfo();
+    }
+    
+    @Override
+    @Nonnull
+    public String getInviteUrl(@Nullable Permission... permissions) {
+        return jda.getInviteUrl(permissions);
+    }
+    
+    @Override
+    @Nonnull
+    public String getInviteUrl(@Nullable Collection<Permission> permissions) {
+        return jda.getInviteUrl(permissions);
+    }
+    
+    @Override
+    @Nullable
+    public ShardManager getShardManager() {
+        return jda.getShardManager();
+    }
+    
+    @Override
+    @CheckReturnValue
+    @Nonnull
+    public RestAction<Webhook> retrieveWebhookById(@Nonnull String webhookId) {
+        return jda.retrieveWebhookById(webhookId);
+    }
+    
+    @Override
+    @CheckReturnValue
+    @Nonnull
+    public RestAction<Webhook> retrieveWebhookById(long webhookId) {
+        return jda.retrieveWebhookById(webhookId);
+    }
+    
+    @Override
+    @CheckReturnValue
+    @Nonnull
+    public AuditableRestAction<Integer> installAuxiliaryPort() {
+        return jda.installAuxiliaryPort();
     }
 }

@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.db.entities;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.db.ManagedObject;
@@ -29,7 +28,6 @@ import net.kodehawa.mantarobot.db.entities.helpers.MarriageData;
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
 
-@Getter
 public class Marriage implements ManagedObject {
     public static final String DB_TABLE = "marriages";
     private final String player1;
@@ -85,5 +83,21 @@ public class Marriage implements ManagedObject {
     @Override
     public String getTableName() {
         return DB_TABLE;
+    }
+    
+    public String getPlayer1() {
+        return this.player1;
+    }
+    
+    public String getPlayer2() {
+        return this.player2;
+    }
+    
+    public String getId() {
+        return this.id;
+    }
+    
+    public MarriageData getData() {
+        return this.data;
     }
 }

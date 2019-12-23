@@ -18,17 +18,14 @@
 package net.kodehawa.mantarobot.core.modules.commands.base;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * "Assisted" version of the {@link Command} interface, providing some "common ground" for all Commands based on it.

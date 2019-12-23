@@ -17,18 +17,18 @@
 
 package net.kodehawa.mantarobot.core.listeners.events;
 
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.Event;
+import org.slf4j.Logger;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-@Slf4j
 public class ShardMonitorEvent extends Event implements MantaroEvent {
 
     public static final int
             MANTARO_LISTENER = 0,
             COMMAND_LISTENER = 1;
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(ShardMonitorEvent.class);
     private final Set<ShardListeners> alive = new CopyOnWriteArraySet<>();
     private final Set<ShardListeners> dead = new CopyOnWriteArraySet<>();
 

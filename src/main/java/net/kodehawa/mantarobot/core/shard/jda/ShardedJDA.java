@@ -18,7 +18,14 @@
 package net.kodehawa.mantarobot.core.shard.jda;
 
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Category;
+import net.dv8tion.jda.api.entities.Emote;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.PrivateChannel;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.hooks.IEventManager;
 import net.dv8tion.jda.api.managers.AudioManager;
 import net.dv8tion.jda.api.requests.RestAction;
@@ -32,6 +39,7 @@ import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static net.dv8tion.jda.api.utils.cache.CacheView.allSnowflakes;
@@ -42,7 +50,13 @@ public abstract class ShardedJDA implements UnifiedJDA {
     public long getGatewayPing() {
         return ((long) stream().mapToLong(JDA::getGatewayPing).average().orElseThrow(() -> new IllegalStateException("no JDA instances")));
     }
-
+    
+    @Nonnull
+    @Override
+    public JDA awaitStatus(@Nonnull Status status, @Nonnull Status... failOn) {
+        throw new UnsupportedOperationException();
+    }
+    
     public long[] getPings() {
         return stream().mapToLong(JDA::getGatewayPing).toArray();
     }
@@ -99,7 +113,7 @@ public abstract class ShardedJDA implements UnifiedJDA {
     @Override
     @Nonnull
     public RestAction<User> retrieveUserById(long id) {
-        return stream().map(jda -> jda.retrieveUserById(id)).findFirst().get();
+        return stream().map(jda -> jda.retrieveUserById(id)).findFirst().orElseThrow();
     }
 
     @Override
@@ -123,27 +137,33 @@ public abstract class ShardedJDA implements UnifiedJDA {
     public List<Guild> getGuildsByName(@Nonnull String name, boolean ignoreCase) {
         return stream().flatMap(jda -> jda.getGuildsByName(name, ignoreCase).stream()).collect(Collectors.toList());
     }
-
+    
+    @Nonnull
+    @Override
+    public Set<String> getUnavailableGuilds() {
+        return stream().flatMap(j -> j.getUnavailableGuilds().stream()).collect(Collectors.toSet());
+    }
+    
     @Override
     @Nonnull
     public List<Role> getRoles() {
-        return stream().map(JDA::getRoles).findFirst().get();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Role getRoleById(@Nonnull String id) {
-        return stream().map(jda -> jda.getRoleById(id)).filter(Objects::nonNull).findFirst().get();
+        return stream().map(jda -> jda.getRoleById(id)).filter(Objects::nonNull).findFirst().orElseThrow();
     }
 
     @Override
     public Role getRoleById(long id) {
-        return stream().map(jda -> jda.getRoleById(id)).filter(Objects::nonNull).findFirst().get();
+        return stream().map(jda -> jda.getRoleById(id)).filter(Objects::nonNull).findFirst().orElseThrow();
     }
 
     @Override
     @Nonnull
     public List<Role> getRolesByName(@Nonnull String name, boolean ignoreCase) {
-        return stream().map(jda -> jda.getRolesByName(name, ignoreCase)).findFirst().get();
+        return stream().map(jda -> jda.getRolesByName(name, ignoreCase)).findFirst().orElseThrow();
     }
 
     @Override
@@ -182,13 +202,6 @@ public abstract class ShardedJDA implements UnifiedJDA {
     @Override
     public VoiceChannel getVoiceChannelById(long id) {
         return stream().map(jda -> jda.getVoiceChannelById(id)).filter(Objects::nonNull).findFirst().orElse(null);
-    }
-
-    @Deprecated
-    @Override
-    @Nonnull
-    public List<VoiceChannel> getVoiceChannelByName(@Nonnull String name, boolean ignoreCase) {
-        return stream().flatMap(jda -> jda.getVoiceChannelByName(name, ignoreCase).stream()).collect(Collectors.toList());
     }
 
     @Deprecated

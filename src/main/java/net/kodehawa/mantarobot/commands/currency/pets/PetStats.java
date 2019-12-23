@@ -17,12 +17,8 @@
 
 package net.kodehawa.mantarobot.commands.currency.pets;
 
-import lombok.Getter;
-import lombok.Setter;
 import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 
-@Getter
-@Setter
 public class PetStats {
     private boolean inBattle = false;
 
@@ -60,4 +56,180 @@ public class PetStats {
 
     private long epochLastBattle;
     private long epochLastIdle;
+    
+    public boolean isInBattle() {
+        return this.inBattle;
+    }
+    
+    public long getStamina() {
+        return this.stamina;
+    }
+    
+    public long getHp() {
+        return this.hp;
+    }
+    
+    public boolean isFly() {
+        return this.fly;
+    }
+    
+    public boolean isVenom() {
+        return this.venom;
+    }
+    
+    public long getAffection() {
+        return this.affection;
+    }
+    
+    public double getIdleRecoveryCoef() {
+        return this.idleRecoveryCoef;
+    }
+    
+    public double getIdleStaminaRecoveryCoef() {
+        return this.idleStaminaRecoveryCoef;
+    }
+    
+    public double getBattleRecoveryCoef() {
+        return this.battleRecoveryCoef;
+    }
+    
+    public double getBattleStaminaRecoveryCoef() {
+        return this.battleStaminaRecoveryCoef;
+    }
+    
+    public double getRecoveryMult() {
+        return this.recoveryMult;
+    }
+    
+    public double getStaminaRecoveryMult() {
+        return this.staminaRecoveryMult;
+    }
+    
+    public long getCurrentStamina() {
+        return this.currentStamina;
+    }
+    
+    public long getCurrentHP() {
+        return this.currentHP;
+    }
+    
+    public boolean isElementAffinity() {
+        return this.elementAffinity;
+    }
+    
+    public boolean isElementBoost() {
+        return this.elementBoost;
+    }
+    
+    public boolean isElementQualification() {
+        return this.elementQualification;
+    }
+    
+    public PotionEffect getCurrentEffect() {
+        return this.currentEffect;
+    }
+    
+    public long getRegenStat() {
+        return this.regenStat;
+    }
+    
+    public long getStaminaRegenCoef() {
+        return this.staminaRegenCoef;
+    }
+    
+    public long getEpochLastBattle() {
+        return this.epochLastBattle;
+    }
+    
+    public long getEpochLastIdle() {
+        return this.epochLastIdle;
+    }
+    
+    public void setInBattle(boolean inBattle) {
+        this.inBattle = inBattle;
+    }
+    
+    public void setStamina(long stamina) {
+        this.stamina = stamina;
+    }
+    
+    public void setHp(long hp) {
+        this.hp = hp;
+    }
+    
+    public void setFly(boolean fly) {
+        this.fly = fly;
+    }
+    
+    public void setVenom(boolean venom) {
+        this.venom = venom;
+    }
+    
+    public void setAffection(long affection) {
+        this.affection = affection;
+    }
+    
+    public void setIdleRecoveryCoef(double idleRecoveryCoef) {
+        this.idleRecoveryCoef = idleRecoveryCoef;
+    }
+    
+    public void setIdleStaminaRecoveryCoef(double idleStaminaRecoveryCoef) {
+        this.idleStaminaRecoveryCoef = idleStaminaRecoveryCoef;
+    }
+    
+    public void setBattleRecoveryCoef(double battleRecoveryCoef) {
+        this.battleRecoveryCoef = battleRecoveryCoef;
+    }
+    
+    public void setBattleStaminaRecoveryCoef(double battleStaminaRecoveryCoef) {
+        this.battleStaminaRecoveryCoef = battleStaminaRecoveryCoef;
+    }
+    
+    public void setRecoveryMult(double recoveryMult) {
+        this.recoveryMult = recoveryMult;
+    }
+    
+    public void setStaminaRecoveryMult(double staminaRecoveryMult) {
+        this.staminaRecoveryMult = staminaRecoveryMult;
+    }
+    
+    public void setCurrentStamina(long currentStamina) {
+        this.currentStamina = currentStamina;
+    }
+    
+    public void setCurrentHP(long currentHP) {
+        this.currentHP = currentHP;
+    }
+    
+    public void setElementAffinity(boolean elementAffinity) {
+        this.elementAffinity = elementAffinity;
+    }
+    
+    public void setElementBoost(boolean elementBoost) {
+        this.elementBoost = elementBoost;
+    }
+    
+    public void setElementQualification(boolean elementQualification) {
+        this.elementQualification = elementQualification;
+    }
+    
+    public void setCurrentEffect(PotionEffect currentEffect) {
+        this.currentEffect = currentEffect;
+    }
+    
+    public void setRegenStat(long regenStat) {
+        this.regenStat = regenStat;
+    }
+    
+    public void setStaminaRegenCoef(long staminaRegenCoef) {
+        this.staminaRegenCoef = staminaRegenCoef;
+    }
+    
+    public void setEpochLastBattle(long epochLastBattle) {
+        this.epochLastBattle = epochLastBattle;
+    }
+    
+    public void setEpochLastIdle(long epochLastIdle) {
+        this.epochLastIdle = epochLastIdle;
+    }
 }

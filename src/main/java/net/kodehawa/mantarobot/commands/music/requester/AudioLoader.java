@@ -23,12 +23,10 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import io.prometheus.client.Counter;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
@@ -43,14 +41,13 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.notfab.caching.client.CacheClient;
+import org.slf4j.Logger;
 
 import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-@Slf4j
 public class AudioLoader implements AudioLoadResultHandler {
     private static final Counter trackEvents = Counter.build()
             .name("track_event").help("Music Track Events (failed/loaded/searched)")
@@ -64,6 +61,7 @@ public class AudioLoader implements AudioLoadResultHandler {
 
     private static final int MAX_QUEUE_LENGTH = 350;
     private static final long MAX_SONG_LENGTH = 1920000; //32 minutes
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(AudioLoader.class);
     private final GuildMessageReceivedEvent event;
     private final boolean insertFirst;
     private final GuildMusicManager musicManager;

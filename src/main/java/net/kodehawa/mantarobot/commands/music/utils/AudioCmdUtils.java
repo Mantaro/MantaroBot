@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.commands.music.utils;
 
 import lavalink.client.io.Link;
 import lavalink.client.io.jda.JdaLink;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -36,6 +35,7 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.slf4j.Logger;
 
 import java.awt.*;
 import java.util.concurrent.CompletableFuture;
@@ -44,12 +44,12 @@ import java.util.concurrent.CompletionStage;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static net.kodehawa.mantarobot.utils.data.SimpleFileDataManager.NEWLINE_PATTERN;
 
-@Slf4j
 public class AudioCmdUtils {
     private final static String BLOCK_INACTIVE = "\u25AC";
     private final static String BLOCK_ACTIVE = "\uD83D\uDD18";
     private static final int TOTAL_BLOCKS = 10;
-
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(AudioCmdUtils.class);
+    
     public static void embedForQueue(int page, GuildMessageReceivedEvent event, GuildMusicManager musicManager, I18nContext lang) {
         final TrackScheduler trackScheduler = musicManager.getTrackScheduler();
         final String toSend = AudioUtils.getQueueList(trackScheduler.getQueue());

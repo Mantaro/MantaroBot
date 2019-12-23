@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.pets.Pet;

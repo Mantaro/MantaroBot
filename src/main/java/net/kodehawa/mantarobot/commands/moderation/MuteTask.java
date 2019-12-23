@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.commands.moderation;
 
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -27,12 +26,14 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.Pair;
+import org.slf4j.Logger;
 
 import java.util.Map;
 
-@Slf4j
 public class MuteTask {
-
+    
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(MuteTask.class);
+    
     public void handle() {
         try {
             MantaroObj data = MantaroData.db().getMantaroData();

@@ -1,6 +1,11 @@
 package com.rethinkdb.ast;
 
-import com.rethinkdb.gen.ast.*;
+import com.rethinkdb.gen.ast.Datum;
+import com.rethinkdb.gen.ast.Func;
+import com.rethinkdb.gen.ast.Iso8601;
+import com.rethinkdb.gen.ast.MakeArray;
+import com.rethinkdb.gen.ast.MakeObj;
+import com.rethinkdb.gen.ast.ReqlExpr;
 import com.rethinkdb.gen.exc.ReqlDriverCompileError;
 import com.rethinkdb.gen.exc.ReqlDriverError;
 import com.rethinkdb.model.Arguments;
@@ -13,7 +18,6 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 

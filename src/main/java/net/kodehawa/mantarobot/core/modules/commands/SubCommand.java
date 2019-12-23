@@ -17,8 +17,6 @@
 
 package net.kodehawa.mantarobot.core.modules.commands;
 
-import lombok.Getter;
-import lombok.Setter;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.AssistedCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
@@ -26,8 +24,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.InnerCommand;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 public abstract class SubCommand implements InnerCommand, AssistedCommand {
-    @Setter
-    @Getter
     public boolean child;
 
     private CommandPermission permission = null;
@@ -67,5 +63,13 @@ public abstract class SubCommand implements InnerCommand, AssistedCommand {
                 return null;
             }
         };
+    }
+    
+    public boolean isChild() {
+        return this.child;
+    }
+    
+    public void setChild(boolean child) {
+        this.child = child;
     }
 }

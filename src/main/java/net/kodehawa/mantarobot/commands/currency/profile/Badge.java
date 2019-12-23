@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.commands.currency.profile;
 
-import lombok.Getter;
 import net.dv8tion.jda.internal.utils.IOUtil;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.db.entities.DBUser;
@@ -28,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.function.BiPredicate;
+
 public enum Badge {
     //IF THE PREDICATE RETURNS FALSE IT MEANS THAT ITS EITHER HANDLED MANUALLY OR ELSEWHERE, NOT IN THE AUTOMATIC PROFILE CHECK.
 
@@ -365,24 +365,19 @@ public enum Badge {
     // ---------------------------------- LEGACY BADGES END HERE ----------------------------------
 
     //What does the fox say?
-    @Getter
     public final String description;
 
     //The name to display.
-    @Getter
     public final String display;
 
     //What to put on the user's avatar
-    @Getter
     public final byte[] icon;
     //The unicode to display.
-    @Getter
     public final String unicode;
     //Where does the icon go in the X axis relative to the circle placement on the avatar replacement.
     private final int iconStartX;
     //Where does the icon go in the Y axis relative to the circle placement on the avatar replacement.
     private final int iconStartY;
-    @Getter
     private final BiPredicate<Player, DBUser> badgePredicate;
 
     /**
@@ -486,7 +481,27 @@ public enum Badge {
             }
         }
     }
-
+    
+    public String getDescription() {
+        return this.description;
+    }
+    
+    public String getDisplay() {
+        return this.display;
+    }
+    
+    public byte[] getIcon() {
+        return this.icon;
+    }
+    
+    public String getUnicode() {
+        return this.unicode;
+    }
+    
+    public BiPredicate<Player, DBUser> getBadgePredicate() {
+        return this.badgePredicate;
+    }
+    
     //need this to get access to a logger in the constructor
     private static class LoggerHolder {
         static final Logger LOGGER = LoggerFactory.getLogger("Badge");

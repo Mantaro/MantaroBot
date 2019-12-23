@@ -19,12 +19,10 @@ package net.kodehawa.mantarobot.commands.currency.item;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
 
 import java.beans.ConstructorProperties;
 import java.util.UUID;
 
-@Data
 public class PotionEffect {
     private String uuid;
     private int potion; //item id
@@ -41,7 +39,10 @@ public class PotionEffect {
         this.until = until;
         this.type = type;
     }
-
+    
+    public PotionEffect() {
+    }
+    
     @JsonIgnore
     public boolean use() {
         long newAmount = amountEquipped - 1;
@@ -69,5 +70,96 @@ public class PotionEffect {
     @JsonIgnore
     public boolean equip() {
         return equip(1);
+    }
+    
+    public String getUuid() {
+        return this.uuid;
+    }
+    
+    public int getPotion() {
+        return this.potion;
+    }
+    
+    public long getUntil() {
+        return this.until;
+    }
+    
+    public ItemType.PotionType getType() {
+        return this.type;
+    }
+    
+    public long getTimesUsed() {
+        return this.timesUsed;
+    }
+    
+    public long getAmountEquipped() {
+        return this.amountEquipped;
+    }
+    
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+    
+    public void setPotion(int potion) {
+        this.potion = potion;
+    }
+    
+    public void setUntil(long until) {
+        this.until = until;
+    }
+    
+    public void setType(ItemType.PotionType type) {
+        this.type = type;
+    }
+    
+    public void setTimesUsed(long timesUsed) {
+        this.timesUsed = timesUsed;
+    }
+    
+    public void setAmountEquipped(long amountEquipped) {
+        this.amountEquipped = amountEquipped;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof PotionEffect)) return false;
+        final PotionEffect other = (PotionEffect) o;
+        if(!other.canEqual((Object) this)) return false;
+        final Object this$uuid = this.uuid;
+        final Object other$uuid = other.uuid;
+        if(this$uuid == null ? other$uuid != null : !this$uuid.equals(other$uuid)) return false;
+        if(this.potion != other.potion) return false;
+        if(this.until != other.until) return false;
+        final Object this$type = this.type;
+        final Object other$type = other.type;
+        if(this$type == null ? other$type != null : !this$type.equals(other$type)) return false;
+        if(this.timesUsed != other.timesUsed) return false;
+        if(this.amountEquipped != other.amountEquipped) return false;
+        return true;
+    }
+    
+    protected boolean canEqual(final Object other) {
+        return other instanceof PotionEffect;
+    }
+    
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final Object $uuid = this.uuid;
+        result = result * PRIME + ($uuid == null ? 43 : $uuid.hashCode());
+        result = result * PRIME + this.potion;
+        final long $until = this.until;
+        result = result * PRIME + (int) ($until >>> 32 ^ $until);
+        final Object $type = this.type;
+        result = result * PRIME + ($type == null ? 43 : $type.hashCode());
+        final long $timesUsed = this.timesUsed;
+        result = result * PRIME + (int) ($timesUsed >>> 32 ^ $timesUsed);
+        final long $amountEquipped = this.amountEquipped;
+        result = result * PRIME + (int) ($amountEquipped >>> 32 ^ $amountEquipped);
+        return result;
+    }
+    
+    public String toString() {
+        return "PotionEffect(uuid=" + this.uuid + ", potion=" + this.potion + ", until=" + this.until + ", type=" + this.type + ", timesUsed=" + this.timesUsed + ", amountEquipped=" + this.amountEquipped + ")";
     }
 }

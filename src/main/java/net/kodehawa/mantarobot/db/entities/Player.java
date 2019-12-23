@@ -21,8 +21,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -42,20 +40,14 @@ import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.uns
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Player implements ManagedObject {
     public static final String DB_TABLE = "players";
-    @Getter
     private final PlayerData data;
-    @Getter
     private final String id;
 
     @JsonIgnore
     private final transient Inventory inventory = new Inventory();
 
-    @Getter
     private Long level;
-    @Getter
     private Long money;
-    @Getter
-    @Setter
     private Long reputation;
 
     @JsonCreator
@@ -193,5 +185,29 @@ public class Player implements ManagedObject {
     @JsonIgnore
     public void setLocked(boolean locked) {
         data.setLockedUntil(locked ? System.currentTimeMillis() + 35000 : 0);
+    }
+    
+    public PlayerData getData() {
+        return this.data;
+    }
+    
+    public String getId() {
+        return this.id;
+    }
+    
+    public Long getLevel() {
+        return this.level;
+    }
+    
+    public Long getMoney() {
+        return this.money;
+    }
+    
+    public Long getReputation() {
+        return this.reputation;
+    }
+    
+    public void setReputation(Long reputation) {
+        this.reputation = reputation;
     }
 }

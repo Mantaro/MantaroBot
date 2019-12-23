@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
 import net.kodehawa.mantarobot.utils.Pair;
@@ -34,7 +33,6 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.currentTimeMillis;
 
-@Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PremiumKey implements ManagedObject {
     public static final String DB_TABLE = "keys";
@@ -133,7 +131,35 @@ public class PremiumKey implements ManagedObject {
 
         return false;
     }
-
+    
+    public long getDuration() {
+        return this.duration;
+    }
+    
+    public boolean isEnabled() {
+        return this.enabled;
+    }
+    
+    public long getExpiration() {
+        return this.expiration;
+    }
+    
+    public String getId() {
+        return this.id;
+    }
+    
+    public String getOwner() {
+        return this.owner;
+    }
+    
+    public int getType() {
+        return this.type;
+    }
+    
+    public PremiumKeyData getData() {
+        return this.data;
+    }
+    
     public enum Type {
         MASTER, USER, GUILD
     }

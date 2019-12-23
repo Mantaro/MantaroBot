@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.core.shard.watcher;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.internal.JDAImpl;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -30,9 +29,14 @@ import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.Prometheus;
+import org.slf4j.Logger;
 
 import java.util.Arrays;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class acts as a Watcher for all the {@link MantaroShard} instances.
@@ -51,9 +55,9 @@ import java.util.concurrent.*;
  * There are two loops on this code. The first one handles checking the restart queue (populated after a RESUME request fails) and the second one handles the actual procedure
  * for detecting dead shards and attempts to send a RESUME on them.
  */
-@Slf4j
 public class ShardWatcher implements Runnable {
-
+    
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(ShardWatcher.class);
     //The pool that will run the FutureTask to wait for the shard to finish its pre-load phase.
     //No longer needed?
     private final ExecutorService THREAD_POOL = Executors.newCachedThreadPool();

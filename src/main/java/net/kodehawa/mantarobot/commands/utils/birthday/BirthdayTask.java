@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.commands.utils.birthday;
 
 import io.prometheus.client.Counter;
 import io.sentry.Sentry;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -32,13 +31,14 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.time.FastDateFormat;
+import org.slf4j.Logger;
 
 import java.util.Calendar;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Slf4j
 public class BirthdayTask {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(BirthdayTask.class);
     private static FastDateFormat dateFormat = FastDateFormat.getInstance("dd-MM-yyyy");
     private ManagedDatabase db = MantaroData.db();
     private static final Counter birthdayCounter = Counter.build()

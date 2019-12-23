@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.options.core;
 
-import lombok.Setter;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.TriConsumer;
@@ -26,7 +25,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public abstract class OptionHandler {
-    @Setter
     protected OptionType type = OptionType.GENERAL;
 
     public abstract String description();
@@ -58,5 +56,9 @@ public abstract class OptionHandler {
 
     protected void addOptionAlias(String original, String alias) {
         Option.addOptionAlias(original, alias);
+    }
+    
+    public void setType(OptionType type) {
+        this.type = type;
     }
 }

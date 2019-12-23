@@ -17,22 +17,18 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.TriPredicate;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
 
-@Slf4j
 public class Item {
-    @Getter
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(Item.class);
     //EXAMPLE: 1;3 will mean require two items of type 1 and 3 of type 2. For example a pick will require 2 of type 1 and 1 of type 2.
     //You can have as many types as you want.
     //If the recipe it's an empty string (or null), it means the item has no recipe.
     private String recipe;
-    @Getter
     private int[] recipeTypes;
 
     protected final long value;
@@ -42,16 +38,10 @@ public class Item {
     private final long maxSize;
     private final boolean sellable;
     private long price;
-    @Getter
-    @Setter
     private TriPredicate<GuildMessageReceivedEvent, Pair<I18nContext, String>, Boolean> action;
-    @Getter
     private ItemType itemType;
-    @Getter
     private String translatedName;
-    @Getter
     private String alias;
-    @Getter
     private boolean petOnly;
     
     public Item(ItemType type, String emoji, String name, String alias, String translatedName, String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize, TriPredicate<GuildMessageReceivedEvent, Pair<I18nContext, String>, Boolean> action, String recipe, boolean petOnly, int... recipeTypes) {
@@ -185,5 +175,37 @@ public class Item {
 
     public long maxSize() {
         return maxSize;
+    }
+    
+    public String getRecipe() {
+        return this.recipe;
+    }
+    
+    public int[] getRecipeTypes() {
+        return this.recipeTypes;
+    }
+    
+    public TriPredicate<GuildMessageReceivedEvent, Pair<I18nContext, String>, Boolean> getAction() {
+        return this.action;
+    }
+    
+    public ItemType getItemType() {
+        return this.itemType;
+    }
+    
+    public String getTranslatedName() {
+        return this.translatedName;
+    }
+    
+    public String getAlias() {
+        return this.alias;
+    }
+    
+    public boolean isPetOnly() {
+        return this.petOnly;
+    }
+    
+    public void setAction(TriPredicate<GuildMessageReceivedEvent, Pair<I18nContext, String>, Boolean> action) {
+        this.action = action;
     }
 }

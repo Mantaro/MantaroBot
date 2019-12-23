@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.db;
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Cursor;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
@@ -28,7 +27,15 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.commands.currency.seasons.Season;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
-import net.kodehawa.mantarobot.db.entities.*;
+import net.kodehawa.mantarobot.db.entities.CustomCommand;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.MantaroObj;
+import net.kodehawa.mantarobot.db.entities.Marriage;
+import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.PlayerStats;
+import net.kodehawa.mantarobot.db.entities.PremiumKey;
+import org.slf4j.Logger;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
@@ -37,8 +44,8 @@ import java.util.List;
 
 import static com.rethinkdb.RethinkDB.r;
 
-@Slf4j
 public class ManagedDatabase {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(ManagedDatabase.class);
     private final Connection conn;
 
     public ManagedDatabase(@Nonnull Connection conn) {

@@ -18,12 +18,18 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.Character;
-import net.kodehawa.mantarobot.commands.game.*;
+import net.kodehawa.mantarobot.commands.game.GuessTheNumber;
+import net.kodehawa.mantarobot.commands.game.Pokemon;
+import net.kodehawa.mantarobot.commands.game.Trivia;
+import net.kodehawa.mantarobot.commands.game.TriviaDifficulty;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -42,8 +48,13 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import org.slf4j.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -51,10 +62,10 @@ import java.util.stream.Collectors;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 import static net.kodehawa.mantarobot.utils.Utils.createLinkedList;
 
-@Slf4j
 @Module
 @SuppressWarnings("unused")
 public class GameCmds {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(GameCmds.class);
     private final Map<String, Function<TriviaDifficulty, Game<?>>> games = new HashMap<>();
 
     @Subscribe

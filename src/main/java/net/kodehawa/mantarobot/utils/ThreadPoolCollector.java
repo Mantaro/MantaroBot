@@ -20,8 +20,16 @@ package net.kodehawa.mantarobot.utils;
 import io.prometheus.client.Collector;
 import io.prometheus.client.GaugeMetricFamily;
 
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class ThreadPoolCollector extends Collector {
     private final ConcurrentMap<String, ThreadPoolExecutor> executors = new ConcurrentHashMap<>();

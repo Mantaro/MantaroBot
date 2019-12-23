@@ -18,9 +18,6 @@
 package net.kodehawa.mantarobot.commands.currency.pets;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
-import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 
 import java.util.HashMap;
@@ -29,8 +26,6 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-@Getter
-@Setter
 public class PetData {
     //lol
     private String test;
@@ -146,7 +141,191 @@ public class PetData {
 
         return hunger - reduction;
     }
-
+    
+    public String getTest() {
+        return this.test;
+    }
+    
+    public String getId() {
+        return this.id;
+    }
+    
+    public long getXp() {
+        return this.xp;
+    }
+    
+    public long getLevel() {
+        return this.level;
+    }
+    
+    public double getAffection() {
+        return this.affection;
+    }
+    
+    public long getAffectionLevel() {
+        return this.affectionLevel;
+    }
+    
+    public long getTimesPetted() {
+        return this.timesPetted;
+    }
+    
+    public long getTimesCollected() {
+        return this.timesCollected;
+    }
+    
+    public long getBattles() {
+        return this.battles;
+    }
+    
+    public long getBattlesWon() {
+        return this.battlesWon;
+    }
+    
+    public long getBattlesLost() {
+        return this.battlesLost;
+    }
+    
+    public long getBattlesDraw() {
+        return this.battlesDraw;
+    }
+    
+    public Map<PetSkill, AtomicLong> getPetSkills() {
+        return this.petSkills;
+    }
+    
+    public long getHydrationLevel() {
+        return this.hydrationLevel;
+    }
+    
+    public long getLastHydratedAt() {
+        return this.lastHydratedAt;
+    }
+    
+    public Map<Long, AtomicLong> getCollected() {
+        return this.collected;
+    }
+    
+    public long getCollectRate() {
+        return this.collectRate;
+    }
+    
+    public long getLastCollectedAt() {
+        return this.lastCollectedAt;
+    }
+    
+    public long getHunger() {
+        return this.hunger;
+    }
+    
+    public float getSaturation() {
+        return this.saturation;
+    }
+    
+    public long getLastFedAt() {
+        return this.lastFedAt;
+    }
+    
+    public PlayerEquipment getEquippedItems() {
+        return this.equippedItems;
+    }
+    
+    public Level getUpgradeLevel() {
+        return this.upgradeLevel;
+    }
+    
+    public void setTest(String test) {
+        this.test = test;
+    }
+    
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    public void setXp(long xp) {
+        this.xp = xp;
+    }
+    
+    public void setLevel(long level) {
+        this.level = level;
+    }
+    
+    public void setAffection(double affection) {
+        this.affection = affection;
+    }
+    
+    public void setAffectionLevel(long affectionLevel) {
+        this.affectionLevel = affectionLevel;
+    }
+    
+    public void setTimesPetted(long timesPetted) {
+        this.timesPetted = timesPetted;
+    }
+    
+    public void setTimesCollected(long timesCollected) {
+        this.timesCollected = timesCollected;
+    }
+    
+    public void setBattles(long battles) {
+        this.battles = battles;
+    }
+    
+    public void setBattlesWon(long battlesWon) {
+        this.battlesWon = battlesWon;
+    }
+    
+    public void setBattlesLost(long battlesLost) {
+        this.battlesLost = battlesLost;
+    }
+    
+    public void setBattlesDraw(long battlesDraw) {
+        this.battlesDraw = battlesDraw;
+    }
+    
+    public void setPetSkills(Map<PetSkill, AtomicLong> petSkills) {
+        this.petSkills = petSkills;
+    }
+    
+    public void setHydrationLevel(long hydrationLevel) {
+        this.hydrationLevel = hydrationLevel;
+    }
+    
+    public void setLastHydratedAt(long lastHydratedAt) {
+        this.lastHydratedAt = lastHydratedAt;
+    }
+    
+    public void setCollected(Map<Long, AtomicLong> collected) {
+        this.collected = collected;
+    }
+    
+    public void setCollectRate(long collectRate) {
+        this.collectRate = collectRate;
+    }
+    
+    public void setLastCollectedAt(long lastCollectedAt) {
+        this.lastCollectedAt = lastCollectedAt;
+    }
+    
+    public void setHunger(long hunger) {
+        this.hunger = hunger;
+    }
+    
+    public void setSaturation(float saturation) {
+        this.saturation = saturation;
+    }
+    
+    public void setLastFedAt(long lastFedAt) {
+        this.lastFedAt = lastFedAt;
+    }
+    
+    public void setEquippedItems(PlayerEquipment equippedItems) {
+        this.equippedItems = equippedItems;
+    }
+    
+    public void setUpgradeLevel(Level upgradeLevel) {
+        this.upgradeLevel = upgradeLevel;
+    }
+    
     public enum PetSkill {
         FISH, MINE, COLLECT, FIGHT;
 

@@ -18,23 +18,22 @@
 package net.kodehawa.mantarobot.core.processor;
 
 import io.prometheus.client.Histogram;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
+import org.slf4j.Logger;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
-@Slf4j
 public class DefaultCommandProcessor implements ICommandProcessor {
     private static final Histogram commandTime = Histogram.build()
             .name("command_time").help("Time it takes for a command to be ran.")
             .register();
 
     public static final CommandRegistry REGISTRY = new CommandRegistry();
-
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(DefaultCommandProcessor.class);
+    
     @Override
     public boolean run(GuildMessageReceivedEvent event) {
         //When did we start processing this command?...

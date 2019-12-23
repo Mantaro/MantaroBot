@@ -17,19 +17,15 @@
 
 package net.kodehawa.mantarobot.commands.currency.item.special;
 
-import lombok.Getter;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 
 public class Fish extends Item {
-    @Getter
     private int level;
 
     //wink wink
-    @Getter
     private PotionEffect effect;
-    @Getter
     public boolean isEdible;
 
     public Fish(ItemType type, int level, String emoji, String name, String translatedName, String desc, long value, String recipe, int... recipeTypes) {
@@ -45,5 +41,17 @@ public class Fish extends Item {
     public Fish(ItemType type, int level, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.level = level;
+    }
+    
+    public int getLevel() {
+        return this.level;
+    }
+    
+    public PotionEffect getEffect() {
+        return this.effect;
+    }
+    
+    public boolean isEdible() {
+        return this.isEdible;
     }
 }

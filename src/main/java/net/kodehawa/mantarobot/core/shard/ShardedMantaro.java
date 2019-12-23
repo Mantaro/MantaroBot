@@ -18,8 +18,6 @@
 package net.kodehawa.mantarobot.core.shard;
 
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.utils.SessionController;
 import net.dv8tion.jda.api.utils.SessionControllerAdapter;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
@@ -41,6 +39,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,17 +54,14 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
  * It holds all the necessary info for the bot to correctly function in a sharded environment, while also providing access to {@link ICommandProcessor} and
  * other extremely important stuff.
  */
-@Slf4j
 public class ShardedMantaro {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(ShardedMantaro.class);
     private final Carbonitex carbonitex = new Carbonitex();
     private final Config config = MantaroData.config().get();
     private final DiscordBotsAPI discordBotsAPI = new DiscordBotsAPI.Builder().setToken(MantaroData.config().get().dbotsorgToken).build();
-    @Getter
     private final List<MantaroEventManager> managers = new ArrayList<>();
     private final ICommandProcessor processor;
-    @Getter
     private final MantaroShard[] shards;
-    @Getter
     private final int totalShards;
     private final int fromShard;
     private final int toShard;
@@ -194,5 +190,17 @@ public class ShardedMantaro {
         for(MantaroShard shard : getShards()) {
             shard.updateStatus();
         }
+    }
+    
+    public List<MantaroEventManager> getManagers() {
+        return this.managers;
+    }
+    
+    public MantaroShard[] getShards() {
+        return this.shards;
+    }
+    
+    public int getTotalShards() {
+        return this.totalShards;
     }
 }

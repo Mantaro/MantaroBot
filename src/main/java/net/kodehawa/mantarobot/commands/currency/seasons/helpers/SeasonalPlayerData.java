@@ -17,11 +17,66 @@
 
 package net.kodehawa.mantarobot.commands.currency.seasons.helpers;
 
-import lombok.Data;
-
-@Data
 public class SeasonalPlayerData {
     private long gamesWon = 0;
     private long waifuCachedValue = 0;
     private long lockedUntil = 0;
+    
+    public SeasonalPlayerData() {
+    }
+    
+    public long getGamesWon() {
+        return this.gamesWon;
+    }
+    
+    public long getWaifuCachedValue() {
+        return this.waifuCachedValue;
+    }
+    
+    public long getLockedUntil() {
+        return this.lockedUntil;
+    }
+    
+    public void setGamesWon(long gamesWon) {
+        this.gamesWon = gamesWon;
+    }
+    
+    public void setWaifuCachedValue(long waifuCachedValue) {
+        this.waifuCachedValue = waifuCachedValue;
+    }
+    
+    public void setLockedUntil(long lockedUntil) {
+        this.lockedUntil = lockedUntil;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof SeasonalPlayerData)) return false;
+        final SeasonalPlayerData other = (SeasonalPlayerData) o;
+        if(!other.canEqual((Object) this)) return false;
+        if(this.gamesWon != other.gamesWon) return false;
+        if(this.waifuCachedValue != other.waifuCachedValue) return false;
+        if(this.lockedUntil != other.lockedUntil) return false;
+        return true;
+    }
+    
+    protected boolean canEqual(final Object other) {
+        return other instanceof SeasonalPlayerData;
+    }
+    
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final long $gamesWon = this.gamesWon;
+        result = result * PRIME + (int) ($gamesWon >>> 32 ^ $gamesWon);
+        final long $waifuCachedValue = this.waifuCachedValue;
+        result = result * PRIME + (int) ($waifuCachedValue >>> 32 ^ $waifuCachedValue);
+        final long $lockedUntil = this.lockedUntil;
+        result = result * PRIME + (int) ($lockedUntil >>> 32 ^ $lockedUntil);
+        return result;
+    }
+    
+    public String toString() {
+        return "SeasonalPlayerData(gamesWon=" + this.gamesWon + ", waifuCachedValue=" + this.waifuCachedValue + ", lockedUntil=" + this.lockedUntil + ")";
+    }
 }

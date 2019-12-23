@@ -19,8 +19,11 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.osu.api.ciyfhx.*;
-import lombok.extern.slf4j.Slf4j;
+import com.osu.api.ciyfhx.BeatMap;
+import com.osu.api.ciyfhx.Mod;
+import com.osu.api.ciyfhx.OsuClient;
+import com.osu.api.ciyfhx.User;
+import com.osu.api.ciyfhx.UserScore;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -40,18 +43,24 @@ import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONException;
+import org.slf4j.Logger;
 
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
-@Slf4j
 @Module
 @SuppressWarnings("unused")
 public class OsuStatsCmd {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(OsuStatsCmd.class);
     private final Map<String, Object> map = new HashMap<>();
     private final ExecutorService pool = Executors.newCachedThreadPool(
             new ThreadFactoryBuilder()

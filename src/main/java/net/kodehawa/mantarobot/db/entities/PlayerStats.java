@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.db.entities;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.db.ManagedObject;
@@ -32,17 +31,11 @@ import java.beans.ConstructorProperties;
 public class PlayerStats implements ManagedObject {
     public static final String DB_TABLE = "playerstats";
 
-    @Getter
     private final String id;
-    @Getter
     private long gambleWins;
-    @Getter
     private long slotsWins;
-    @Getter
     private long gambleWinAmount;
-    @Getter
     private long slotsWinAmount;
-    @Getter
     private final PlayerStatsData data;
 
     @JsonCreator
@@ -99,5 +92,29 @@ public class PlayerStats implements ManagedObject {
     @Override
     public String getDatabaseId() {
         return getId();
+    }
+    
+    public String getId() {
+        return this.id;
+    }
+    
+    public long getGambleWins() {
+        return this.gambleWins;
+    }
+    
+    public long getSlotsWins() {
+        return this.slotsWins;
+    }
+    
+    public long getGambleWinAmount() {
+        return this.gambleWinAmount;
+    }
+    
+    public long getSlotsWinAmount() {
+        return this.slotsWinAmount;
+    }
+    
+    public PlayerStatsData getData() {
+        return this.data;
     }
 }

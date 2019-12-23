@@ -17,7 +17,7 @@
 
 package net.kodehawa.mantarobot.commands.info;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
@@ -26,13 +26,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-@Slf4j
 public class AsyncInfoMonitor {
     private static final ScheduledExecutorService POOL = Executors.newSingleThreadScheduledExecutor(task -> {
         return new Thread(task, "AsyncInfoMonitor");
     });
 
     private static final double gb = 1024 * 1024 * 1024;
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(AsyncInfoMonitor.class);
     private static int availableProcessors = Runtime.getRuntime().availableProcessors();
     private static double cpuUsage = 0;
     private static double freeMemory = 0;

@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import lombok.Getter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -271,7 +270,6 @@ public class InvestigateCmd {
         }
     }
 
-    @Getter
     private static class InvestigatedMessage {
         private final String id;
         private final String authorName;
@@ -324,6 +322,34 @@ public class InvestigateCmd {
             return new InvestigatedMessage(message.getId(), message.getAuthor().getName(),
                     message.getAuthor().getDiscriminator(), message.getAuthor().getId(),
                     message.getAuthor().isBot(), message.getContentRaw(), message.getContentStripped());
+        }
+    
+        public String getId() {
+            return this.id;
+        }
+    
+        public String getAuthorName() {
+            return this.authorName;
+        }
+    
+        public String getAuthorDiscriminator() {
+            return this.authorDiscriminator;
+        }
+    
+        public String getAuthorId() {
+            return this.authorId;
+        }
+    
+        public boolean isBot() {
+            return this.bot;
+        }
+    
+        public String getRaw() {
+            return this.raw;
+        }
+    
+        public String getContent() {
+            return this.content;
         }
     }
 }

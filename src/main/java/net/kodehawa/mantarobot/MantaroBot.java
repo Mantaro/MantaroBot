@@ -21,8 +21,6 @@ import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lavalink.client.io.LavalinkLoadBalancer;
 import lavalink.client.io.jda.JdaLavalink;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
@@ -47,6 +45,9 @@ import net.notfab.caching.client.CacheClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.collections4.iterators.ArrayIterator;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import java.net.ConnectException;
@@ -66,25 +67,17 @@ import java.util.concurrent.TimeUnit;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.API_HANDSHAKE_FAILURE;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 
-@Slf4j
 public class MantaroBot extends ShardedJDA {
-    @Getter
+    private static final Logger log = LoggerFactory.getLogger(MantaroBot.class);
+    
     private static MantaroBot instance;
-    @Getter
     private final MantaroAudioManager audioManager;
-    @Getter
     private final MantaroCore core;
-    @Getter
     private final DiscordBotsAPI discordBotsAPI;
-    @Getter
     private final ShardedMantaro shardedMantaro;
-    @Getter
     private BirthdayCacher birthdayCacher;
-    @Getter
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3, new ThreadFactoryBuilder().setNameFormat("Mantaro-ScheduledExecutor Thread-%d").build());
-    @Getter
     private final JdaLavalink lavalink;
-    @Getter
     private final CacheClient cacheClient;
 
     //just in case
@@ -202,12 +195,16 @@ public class MantaroBot extends ShardedJDA {
     public static boolean isVerbose() {
         return ExtraRuntimeOptions.VERBOSE;
     }
-
+    
+    public static MantaroBot getInstance() {
+        return MantaroBot.instance;
+    }
+    
     public MantaroShard getShard(int id) {
         return Arrays.stream(shardedMantaro.getShards()).filter(Objects::nonNull).filter(shard -> shard.getId() == id).findFirst().orElse(null);
     }
 
-    public Guild getGuildById(String guildId) {
+    public Guild getGuildById(@NotNull String guildId) {
         return getShardForGuild(guildId).getGuildById(guildId);
     }
 
@@ -278,5 +275,37 @@ public class MantaroBot extends ShardedJDA {
 
     public void forceRestartShardFromGuild(String guildId) {
         restartShard(getShardForGuild(guildId).getId(), true);
+    }
+    
+    public MantaroAudioManager getAudioManager() {
+        return this.audioManager;
+    }
+    
+    public MantaroCore getCore() {
+        return this.core;
+    }
+    
+    public DiscordBotsAPI getDiscordBotsAPI() {
+        return this.discordBotsAPI;
+    }
+    
+    public ShardedMantaro getShardedMantaro() {
+        return this.shardedMantaro;
+    }
+    
+    public BirthdayCacher getBirthdayCacher() {
+        return this.birthdayCacher;
+    }
+    
+    public ScheduledExecutorService getExecutorService() {
+        return this.executorService;
+    }
+    
+    public JdaLavalink getLavalink() {
+        return this.lavalink;
+    }
+    
+    public CacheClient getCacheClient() {
+        return this.cacheClient;
     }
 }

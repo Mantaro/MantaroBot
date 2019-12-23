@@ -53,7 +53,12 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
+import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.getAvailableProcessors;
+import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.getFreeMemory;
+import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.getInstanceCPUUsage;
+import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.getMaxMemory;
+import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.getTotalMemory;
+import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.start;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
 
 @Module

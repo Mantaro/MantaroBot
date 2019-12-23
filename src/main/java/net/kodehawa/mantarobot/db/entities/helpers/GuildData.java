@@ -17,16 +17,19 @@
 
 package net.kodehawa.mantarobot.db.entities.helpers;
 
-import lombok.Data;
 import net.kodehawa.mantarobot.commands.moderation.WarnAction;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.annotations.ConfigName;
 import net.kodehawa.mantarobot.utils.annotations.UnusedConfig;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Data
 //UnusedConfig annotation is used to not interfere with serialization of old configs: backwards compatibility. The annotation only takes effect on check data.
 public class GuildData {
     @UnusedConfig //nobody used it, ended up getting removed in early 4.x
@@ -207,4 +210,1003 @@ public class GuildData {
 
     @ConfigName("Disabled command warning display")
     private boolean commandWarningDisplay = false;
+    
+    public GuildData() {
+    }
+    
+    public boolean isAntiSpam() {
+        return this.antiSpam;
+    }
+    
+    public HashMap<String, String> getAutoroles() {
+        return this.autoroles;
+    }
+    
+    public String getBirthdayChannel() {
+        return this.birthdayChannel;
+    }
+    
+    public String getBirthdayRole() {
+        return this.birthdayRole;
+    }
+    
+    public long getCases() {
+        return this.cases;
+    }
+    
+    public HashMap<String, List<Category>> getChannelSpecificDisabledCategories() {
+        return this.channelSpecificDisabledCategories;
+    }
+    
+    public HashMap<String, List<String>> getChannelSpecificDisabledCommands() {
+        return this.channelSpecificDisabledCommands;
+    }
+    
+    public boolean isCustomAdminLock() {
+        return this.customAdminLock;
+    }
+    
+    public Set<Category> getDisabledCategories() {
+        return this.disabledCategories;
+    }
+    
+    public Set<String> getDisabledChannels() {
+        return this.disabledChannels;
+    }
+    
+    public Set<String> getDisabledCommands() {
+        return this.disabledCommands;
+    }
+    
+    public Set<String> getDisabledRoles() {
+        return this.disabledRoles;
+    }
+    
+    public List<String> getDisabledUsers() {
+        return this.disabledUsers;
+    }
+    
+    public String getGuildAutoRole() {
+        return this.guildAutoRole;
+    }
+    
+    public String getGuildCustomPrefix() {
+        return this.guildCustomPrefix;
+    }
+    
+    public String getGuildLogChannel() {
+        return this.guildLogChannel;
+    }
+    
+    public Set<String> getGuildUnsafeChannels() {
+        return this.guildUnsafeChannels;
+    }
+    
+    public String getJoinMessage() {
+        return this.joinMessage;
+    }
+    
+    public String getLeaveMessage() {
+        return this.leaveMessage;
+    }
+    
+    public boolean isLinkProtection() {
+        return this.linkProtection;
+    }
+    
+    public Set<String> getLinkProtectionAllowedChannels() {
+        return this.linkProtectionAllowedChannels;
+    }
+    
+    public Set<String> getLogExcludedChannels() {
+        return this.logExcludedChannels;
+    }
+    
+    public String getLogJoinLeaveChannel() {
+        return this.logJoinLeaveChannel;
+    }
+    
+    public int getMaxFairQueue() {
+        return this.maxFairQueue;
+    }
+    
+    public int getMaxResultsSearch() {
+        return this.maxResultsSearch;
+    }
+    
+    public Set<String> getModlogBlacklistedPeople() {
+        return this.modlogBlacklistedPeople;
+    }
+    
+    public boolean isMusicAnnounce() {
+        return this.musicAnnounce;
+    }
+    
+    public String getMusicChannel() {
+        return this.musicChannel;
+    }
+    
+    public Long getMusicQueueSizeLimit() {
+        return this.musicQueueSizeLimit;
+    }
+    
+    public Long getMusicSongDurationLimit() {
+        return this.musicSongDurationLimit;
+    }
+    
+    public String getMutedRole() {
+        return this.mutedRole;
+    }
+    
+    public ConcurrentHashMap<Long, Long> getMutedTimelyUsers() {
+        return this.mutedTimelyUsers;
+    }
+    
+    public boolean isNoMentionsAction() {
+        return this.noMentionsAction;
+    }
+    
+    public String getPremiumKey() {
+        return this.premiumKey;
+    }
+    
+    public long getQuoteLastId() {
+        return this.quoteLastId;
+    }
+    
+    public long getRanPolls() {
+        return this.ranPolls;
+    }
+    
+    public boolean isReactionMenus() {
+        return this.reactionMenus;
+    }
+    
+    public ArrayList<String> getRolesBlockedFromCommands() {
+        return this.rolesBlockedFromCommands;
+    }
+    
+    public boolean isRpgDevaluation() {
+        return this.rpgDevaluation;
+    }
+    
+    public boolean isRpgLocalMode() {
+        return this.rpgLocalMode;
+    }
+    
+    public long getSetModTimeout() {
+        return this.setModTimeout;
+    }
+    
+    public boolean isSlowMode() {
+        return this.slowMode;
+    }
+    
+    public Set<String> getSlowModeChannels() {
+        return this.slowModeChannels;
+    }
+    
+    public Set<String> getSpamModeChannels() {
+        return this.spamModeChannels;
+    }
+    
+    public int getTimeDisplay() {
+        return this.timeDisplay;
+    }
+    
+    public Map<Long, WarnAction> getWarnActions() {
+        return this.warnActions;
+    }
+    
+    public Map<String, Long> getWarnCount() {
+        return this.warnCount;
+    }
+    
+    public String getGameTimeoutExpectedAt() {
+        return this.gameTimeoutExpectedAt;
+    }
+    
+    public boolean isIgnoreBotsWelcomeMessage() {
+        return this.ignoreBotsWelcomeMessage;
+    }
+    
+    public boolean isIgnoreBotsAutoRole() {
+        return this.ignoreBotsAutoRole;
+    }
+    
+    public boolean isEnabledLevelUpMessages() {
+        return this.enabledLevelUpMessages;
+    }
+    
+    public String getLevelUpChannel() {
+        return this.levelUpChannel;
+    }
+    
+    public String getLevelUpMessage() {
+        return this.levelUpMessage;
+    }
+    
+    public Set<String> getBlackListedImageTags() {
+        return this.blackListedImageTags;
+    }
+    
+    public String getLogJoinChannel() {
+        return this.logJoinChannel;
+    }
+    
+    public String getLogLeaveChannel() {
+        return this.logLeaveChannel;
+    }
+    
+    public List<LocalExperienceData> getLocalPlayerExperience() {
+        return this.localPlayerExperience;
+    }
+    
+    public Set<String> getLinkProtectionAllowedUsers() {
+        return this.linkProtectionAllowedUsers;
+    }
+    
+    public HashMap<String, List<Category>> getRoleSpecificDisabledCategories() {
+        return this.roleSpecificDisabledCategories;
+    }
+    
+    public HashMap<String, List<String>> getRoleSpecificDisabledCommands() {
+        return this.roleSpecificDisabledCommands;
+    }
+    
+    public String getLang() {
+        return this.lang;
+    }
+    
+    public boolean isMusicVote() {
+        return this.musicVote;
+    }
+    
+    public List<String> getExtraJoinMessages() {
+        return this.extraJoinMessages;
+    }
+    
+    public List<String> getExtraLeaveMessages() {
+        return this.extraLeaveMessages;
+    }
+    
+    public String getWhitelistedRole() {
+        return this.whitelistedRole;
+    }
+    
+    public String getBirthdayMessage() {
+        return this.birthdayMessage;
+    }
+    
+    public boolean isCustomAdminLockNew() {
+        return this.customAdminLockNew;
+    }
+    
+    public String getMpLinkedTo() {
+        return this.mpLinkedTo;
+    }
+    
+    public List<String> getModLogBlacklistWords() {
+        return this.modLogBlacklistWords;
+    }
+    
+    public Map<String, List<String>> getAutoroleCategories() {
+        return this.autoroleCategories;
+    }
+    
+    public String getEditMessageLog() {
+        return this.editMessageLog;
+    }
+    
+    public String getDeleteMessageLog() {
+        return this.deleteMessageLog;
+    }
+    
+    public String getBannedMemberLog() {
+        return this.bannedMemberLog;
+    }
+    
+    public String getUnbannedMemberLog() {
+        return this.unbannedMemberLog;
+    }
+    
+    public String getKickedMemberLog() {
+        return this.kickedMemberLog;
+    }
+    
+    public boolean isCommandWarningDisplay() {
+        return this.commandWarningDisplay;
+    }
+    
+    public void setAntiSpam(boolean antiSpam) {
+        this.antiSpam = antiSpam;
+    }
+    
+    public void setAutoroles(HashMap<String, String> autoroles) {
+        this.autoroles = autoroles;
+    }
+    
+    public void setBirthdayChannel(String birthdayChannel) {
+        this.birthdayChannel = birthdayChannel;
+    }
+    
+    public void setBirthdayRole(String birthdayRole) {
+        this.birthdayRole = birthdayRole;
+    }
+    
+    public void setCases(long cases) {
+        this.cases = cases;
+    }
+    
+    public void setChannelSpecificDisabledCategories(HashMap<String, List<Category>> channelSpecificDisabledCategories) {
+        this.channelSpecificDisabledCategories = channelSpecificDisabledCategories;
+    }
+    
+    public void setChannelSpecificDisabledCommands(HashMap<String, List<String>> channelSpecificDisabledCommands) {
+        this.channelSpecificDisabledCommands = channelSpecificDisabledCommands;
+    }
+    
+    public void setCustomAdminLock(boolean customAdminLock) {
+        this.customAdminLock = customAdminLock;
+    }
+    
+    public void setDisabledCategories(Set<Category> disabledCategories) {
+        this.disabledCategories = disabledCategories;
+    }
+    
+    public void setDisabledChannels(Set<String> disabledChannels) {
+        this.disabledChannels = disabledChannels;
+    }
+    
+    public void setDisabledCommands(Set<String> disabledCommands) {
+        this.disabledCommands = disabledCommands;
+    }
+    
+    public void setDisabledRoles(Set<String> disabledRoles) {
+        this.disabledRoles = disabledRoles;
+    }
+    
+    public void setDisabledUsers(List<String> disabledUsers) {
+        this.disabledUsers = disabledUsers;
+    }
+    
+    public void setGuildAutoRole(String guildAutoRole) {
+        this.guildAutoRole = guildAutoRole;
+    }
+    
+    public void setGuildCustomPrefix(String guildCustomPrefix) {
+        this.guildCustomPrefix = guildCustomPrefix;
+    }
+    
+    public void setGuildLogChannel(String guildLogChannel) {
+        this.guildLogChannel = guildLogChannel;
+    }
+    
+    public void setGuildUnsafeChannels(Set<String> guildUnsafeChannels) {
+        this.guildUnsafeChannels = guildUnsafeChannels;
+    }
+    
+    public void setJoinMessage(String joinMessage) {
+        this.joinMessage = joinMessage;
+    }
+    
+    public void setLeaveMessage(String leaveMessage) {
+        this.leaveMessage = leaveMessage;
+    }
+    
+    public void setLinkProtection(boolean linkProtection) {
+        this.linkProtection = linkProtection;
+    }
+    
+    public void setLinkProtectionAllowedChannels(Set<String> linkProtectionAllowedChannels) {
+        this.linkProtectionAllowedChannels = linkProtectionAllowedChannels;
+    }
+    
+    public void setLogExcludedChannels(Set<String> logExcludedChannels) {
+        this.logExcludedChannels = logExcludedChannels;
+    }
+    
+    public void setLogJoinLeaveChannel(String logJoinLeaveChannel) {
+        this.logJoinLeaveChannel = logJoinLeaveChannel;
+    }
+    
+    public void setMaxFairQueue(int maxFairQueue) {
+        this.maxFairQueue = maxFairQueue;
+    }
+    
+    public void setMaxResultsSearch(int maxResultsSearch) {
+        this.maxResultsSearch = maxResultsSearch;
+    }
+    
+    public void setModlogBlacklistedPeople(Set<String> modlogBlacklistedPeople) {
+        this.modlogBlacklistedPeople = modlogBlacklistedPeople;
+    }
+    
+    public void setMusicAnnounce(boolean musicAnnounce) {
+        this.musicAnnounce = musicAnnounce;
+    }
+    
+    public void setMusicChannel(String musicChannel) {
+        this.musicChannel = musicChannel;
+    }
+    
+    public void setMusicQueueSizeLimit(Long musicQueueSizeLimit) {
+        this.musicQueueSizeLimit = musicQueueSizeLimit;
+    }
+    
+    public void setMusicSongDurationLimit(Long musicSongDurationLimit) {
+        this.musicSongDurationLimit = musicSongDurationLimit;
+    }
+    
+    public void setMutedRole(String mutedRole) {
+        this.mutedRole = mutedRole;
+    }
+    
+    public void setMutedTimelyUsers(ConcurrentHashMap<Long, Long> mutedTimelyUsers) {
+        this.mutedTimelyUsers = mutedTimelyUsers;
+    }
+    
+    public void setNoMentionsAction(boolean noMentionsAction) {
+        this.noMentionsAction = noMentionsAction;
+    }
+    
+    public void setPremiumKey(String premiumKey) {
+        this.premiumKey = premiumKey;
+    }
+    
+    public void setQuoteLastId(long quoteLastId) {
+        this.quoteLastId = quoteLastId;
+    }
+    
+    public void setRanPolls(long ranPolls) {
+        this.ranPolls = ranPolls;
+    }
+    
+    public void setReactionMenus(boolean reactionMenus) {
+        this.reactionMenus = reactionMenus;
+    }
+    
+    public void setRolesBlockedFromCommands(ArrayList<String> rolesBlockedFromCommands) {
+        this.rolesBlockedFromCommands = rolesBlockedFromCommands;
+    }
+    
+    public void setRpgDevaluation(boolean rpgDevaluation) {
+        this.rpgDevaluation = rpgDevaluation;
+    }
+    
+    public void setRpgLocalMode(boolean rpgLocalMode) {
+        this.rpgLocalMode = rpgLocalMode;
+    }
+    
+    public void setSetModTimeout(long setModTimeout) {
+        this.setModTimeout = setModTimeout;
+    }
+    
+    public void setSlowMode(boolean slowMode) {
+        this.slowMode = slowMode;
+    }
+    
+    public void setSlowModeChannels(Set<String> slowModeChannels) {
+        this.slowModeChannels = slowModeChannels;
+    }
+    
+    public void setSpamModeChannels(Set<String> spamModeChannels) {
+        this.spamModeChannels = spamModeChannels;
+    }
+    
+    public void setTimeDisplay(int timeDisplay) {
+        this.timeDisplay = timeDisplay;
+    }
+    
+    public void setWarnActions(Map<Long, WarnAction> warnActions) {
+        this.warnActions = warnActions;
+    }
+    
+    public void setWarnCount(Map<String, Long> warnCount) {
+        this.warnCount = warnCount;
+    }
+    
+    public void setGameTimeoutExpectedAt(String gameTimeoutExpectedAt) {
+        this.gameTimeoutExpectedAt = gameTimeoutExpectedAt;
+    }
+    
+    public void setIgnoreBotsWelcomeMessage(boolean ignoreBotsWelcomeMessage) {
+        this.ignoreBotsWelcomeMessage = ignoreBotsWelcomeMessage;
+    }
+    
+    public void setIgnoreBotsAutoRole(boolean ignoreBotsAutoRole) {
+        this.ignoreBotsAutoRole = ignoreBotsAutoRole;
+    }
+    
+    public void setEnabledLevelUpMessages(boolean enabledLevelUpMessages) {
+        this.enabledLevelUpMessages = enabledLevelUpMessages;
+    }
+    
+    public void setLevelUpChannel(String levelUpChannel) {
+        this.levelUpChannel = levelUpChannel;
+    }
+    
+    public void setLevelUpMessage(String levelUpMessage) {
+        this.levelUpMessage = levelUpMessage;
+    }
+    
+    public void setBlackListedImageTags(Set<String> blackListedImageTags) {
+        this.blackListedImageTags = blackListedImageTags;
+    }
+    
+    public void setLogJoinChannel(String logJoinChannel) {
+        this.logJoinChannel = logJoinChannel;
+    }
+    
+    public void setLogLeaveChannel(String logLeaveChannel) {
+        this.logLeaveChannel = logLeaveChannel;
+    }
+    
+    public void setLocalPlayerExperience(List<LocalExperienceData> localPlayerExperience) {
+        this.localPlayerExperience = localPlayerExperience;
+    }
+    
+    public void setLinkProtectionAllowedUsers(Set<String> linkProtectionAllowedUsers) {
+        this.linkProtectionAllowedUsers = linkProtectionAllowedUsers;
+    }
+    
+    public void setRoleSpecificDisabledCategories(HashMap<String, List<Category>> roleSpecificDisabledCategories) {
+        this.roleSpecificDisabledCategories = roleSpecificDisabledCategories;
+    }
+    
+    public void setRoleSpecificDisabledCommands(HashMap<String, List<String>> roleSpecificDisabledCommands) {
+        this.roleSpecificDisabledCommands = roleSpecificDisabledCommands;
+    }
+    
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
+    
+    public void setMusicVote(boolean musicVote) {
+        this.musicVote = musicVote;
+    }
+    
+    public void setExtraJoinMessages(List<String> extraJoinMessages) {
+        this.extraJoinMessages = extraJoinMessages;
+    }
+    
+    public void setExtraLeaveMessages(List<String> extraLeaveMessages) {
+        this.extraLeaveMessages = extraLeaveMessages;
+    }
+    
+    public void setWhitelistedRole(String whitelistedRole) {
+        this.whitelistedRole = whitelistedRole;
+    }
+    
+    public void setBirthdayMessage(String birthdayMessage) {
+        this.birthdayMessage = birthdayMessage;
+    }
+    
+    public void setCustomAdminLockNew(boolean customAdminLockNew) {
+        this.customAdminLockNew = customAdminLockNew;
+    }
+    
+    public void setMpLinkedTo(String mpLinkedTo) {
+        this.mpLinkedTo = mpLinkedTo;
+    }
+    
+    public void setModLogBlacklistWords(List<String> modLogBlacklistWords) {
+        this.modLogBlacklistWords = modLogBlacklistWords;
+    }
+    
+    public void setAutoroleCategories(Map<String, List<String>> autoroleCategories) {
+        this.autoroleCategories = autoroleCategories;
+    }
+    
+    public void setEditMessageLog(String editMessageLog) {
+        this.editMessageLog = editMessageLog;
+    }
+    
+    public void setDeleteMessageLog(String deleteMessageLog) {
+        this.deleteMessageLog = deleteMessageLog;
+    }
+    
+    public void setBannedMemberLog(String bannedMemberLog) {
+        this.bannedMemberLog = bannedMemberLog;
+    }
+    
+    public void setUnbannedMemberLog(String unbannedMemberLog) {
+        this.unbannedMemberLog = unbannedMemberLog;
+    }
+    
+    public void setKickedMemberLog(String kickedMemberLog) {
+        this.kickedMemberLog = kickedMemberLog;
+    }
+    
+    public void setCommandWarningDisplay(boolean commandWarningDisplay) {
+        this.commandWarningDisplay = commandWarningDisplay;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof GuildData)) return false;
+        final GuildData other = (GuildData) o;
+        if(!other.canEqual((Object) this)) return false;
+        if(this.isAntiSpam() != other.isAntiSpam()) return false;
+        final Object this$autoroles = this.getAutoroles();
+        final Object other$autoroles = other.getAutoroles();
+        if(this$autoroles == null ? other$autoroles != null : !this$autoroles.equals(other$autoroles)) return false;
+        final Object this$birthdayChannel = this.getBirthdayChannel();
+        final Object other$birthdayChannel = other.getBirthdayChannel();
+        if(this$birthdayChannel == null ? other$birthdayChannel != null : !this$birthdayChannel.equals(other$birthdayChannel))
+            return false;
+        final Object this$birthdayRole = this.getBirthdayRole();
+        final Object other$birthdayRole = other.getBirthdayRole();
+        if(this$birthdayRole == null ? other$birthdayRole != null : !this$birthdayRole.equals(other$birthdayRole))
+            return false;
+        if(this.getCases() != other.getCases()) return false;
+        final Object this$channelSpecificDisabledCategories = this.getChannelSpecificDisabledCategories();
+        final Object other$channelSpecificDisabledCategories = other.getChannelSpecificDisabledCategories();
+        if(this$channelSpecificDisabledCategories == null ? other$channelSpecificDisabledCategories != null : !this$channelSpecificDisabledCategories.equals(other$channelSpecificDisabledCategories))
+            return false;
+        final Object this$channelSpecificDisabledCommands = this.getChannelSpecificDisabledCommands();
+        final Object other$channelSpecificDisabledCommands = other.getChannelSpecificDisabledCommands();
+        if(this$channelSpecificDisabledCommands == null ? other$channelSpecificDisabledCommands != null : !this$channelSpecificDisabledCommands.equals(other$channelSpecificDisabledCommands))
+            return false;
+        if(this.isCustomAdminLock() != other.isCustomAdminLock()) return false;
+        final Object this$disabledCategories = this.getDisabledCategories();
+        final Object other$disabledCategories = other.getDisabledCategories();
+        if(this$disabledCategories == null ? other$disabledCategories != null : !this$disabledCategories.equals(other$disabledCategories))
+            return false;
+        final Object this$disabledChannels = this.getDisabledChannels();
+        final Object other$disabledChannels = other.getDisabledChannels();
+        if(this$disabledChannels == null ? other$disabledChannels != null : !this$disabledChannels.equals(other$disabledChannels))
+            return false;
+        final Object this$disabledCommands = this.getDisabledCommands();
+        final Object other$disabledCommands = other.getDisabledCommands();
+        if(this$disabledCommands == null ? other$disabledCommands != null : !this$disabledCommands.equals(other$disabledCommands))
+            return false;
+        final Object this$disabledRoles = this.getDisabledRoles();
+        final Object other$disabledRoles = other.getDisabledRoles();
+        if(this$disabledRoles == null ? other$disabledRoles != null : !this$disabledRoles.equals(other$disabledRoles))
+            return false;
+        final Object this$disabledUsers = this.getDisabledUsers();
+        final Object other$disabledUsers = other.getDisabledUsers();
+        if(this$disabledUsers == null ? other$disabledUsers != null : !this$disabledUsers.equals(other$disabledUsers))
+            return false;
+        final Object this$guildAutoRole = this.getGuildAutoRole();
+        final Object other$guildAutoRole = other.getGuildAutoRole();
+        if(this$guildAutoRole == null ? other$guildAutoRole != null : !this$guildAutoRole.equals(other$guildAutoRole))
+            return false;
+        final Object this$guildCustomPrefix = this.getGuildCustomPrefix();
+        final Object other$guildCustomPrefix = other.getGuildCustomPrefix();
+        if(this$guildCustomPrefix == null ? other$guildCustomPrefix != null : !this$guildCustomPrefix.equals(other$guildCustomPrefix))
+            return false;
+        final Object this$guildLogChannel = this.getGuildLogChannel();
+        final Object other$guildLogChannel = other.getGuildLogChannel();
+        if(this$guildLogChannel == null ? other$guildLogChannel != null : !this$guildLogChannel.equals(other$guildLogChannel))
+            return false;
+        final Object this$guildUnsafeChannels = this.getGuildUnsafeChannels();
+        final Object other$guildUnsafeChannels = other.getGuildUnsafeChannels();
+        if(this$guildUnsafeChannels == null ? other$guildUnsafeChannels != null : !this$guildUnsafeChannels.equals(other$guildUnsafeChannels))
+            return false;
+        final Object this$joinMessage = this.getJoinMessage();
+        final Object other$joinMessage = other.getJoinMessage();
+        if(this$joinMessage == null ? other$joinMessage != null : !this$joinMessage.equals(other$joinMessage))
+            return false;
+        final Object this$leaveMessage = this.getLeaveMessage();
+        final Object other$leaveMessage = other.getLeaveMessage();
+        if(this$leaveMessage == null ? other$leaveMessage != null : !this$leaveMessage.equals(other$leaveMessage))
+            return false;
+        if(this.isLinkProtection() != other.isLinkProtection()) return false;
+        final Object this$linkProtectionAllowedChannels = this.getLinkProtectionAllowedChannels();
+        final Object other$linkProtectionAllowedChannels = other.getLinkProtectionAllowedChannels();
+        if(this$linkProtectionAllowedChannels == null ? other$linkProtectionAllowedChannels != null : !this$linkProtectionAllowedChannels.equals(other$linkProtectionAllowedChannels))
+            return false;
+        final Object this$logExcludedChannels = this.getLogExcludedChannels();
+        final Object other$logExcludedChannels = other.getLogExcludedChannels();
+        if(this$logExcludedChannels == null ? other$logExcludedChannels != null : !this$logExcludedChannels.equals(other$logExcludedChannels))
+            return false;
+        final Object this$logJoinLeaveChannel = this.getLogJoinLeaveChannel();
+        final Object other$logJoinLeaveChannel = other.getLogJoinLeaveChannel();
+        if(this$logJoinLeaveChannel == null ? other$logJoinLeaveChannel != null : !this$logJoinLeaveChannel.equals(other$logJoinLeaveChannel))
+            return false;
+        if(this.getMaxFairQueue() != other.getMaxFairQueue()) return false;
+        if(this.getMaxResultsSearch() != other.getMaxResultsSearch()) return false;
+        final Object this$modlogBlacklistedPeople = this.getModlogBlacklistedPeople();
+        final Object other$modlogBlacklistedPeople = other.getModlogBlacklistedPeople();
+        if(this$modlogBlacklistedPeople == null ? other$modlogBlacklistedPeople != null : !this$modlogBlacklistedPeople.equals(other$modlogBlacklistedPeople))
+            return false;
+        if(this.isMusicAnnounce() != other.isMusicAnnounce()) return false;
+        final Object this$musicChannel = this.getMusicChannel();
+        final Object other$musicChannel = other.getMusicChannel();
+        if(this$musicChannel == null ? other$musicChannel != null : !this$musicChannel.equals(other$musicChannel))
+            return false;
+        final Object this$musicQueueSizeLimit = this.getMusicQueueSizeLimit();
+        final Object other$musicQueueSizeLimit = other.getMusicQueueSizeLimit();
+        if(this$musicQueueSizeLimit == null ? other$musicQueueSizeLimit != null : !this$musicQueueSizeLimit.equals(other$musicQueueSizeLimit))
+            return false;
+        final Object this$musicSongDurationLimit = this.getMusicSongDurationLimit();
+        final Object other$musicSongDurationLimit = other.getMusicSongDurationLimit();
+        if(this$musicSongDurationLimit == null ? other$musicSongDurationLimit != null : !this$musicSongDurationLimit.equals(other$musicSongDurationLimit))
+            return false;
+        final Object this$mutedRole = this.getMutedRole();
+        final Object other$mutedRole = other.getMutedRole();
+        if(this$mutedRole == null ? other$mutedRole != null : !this$mutedRole.equals(other$mutedRole)) return false;
+        final Object this$mutedTimelyUsers = this.getMutedTimelyUsers();
+        final Object other$mutedTimelyUsers = other.getMutedTimelyUsers();
+        if(this$mutedTimelyUsers == null ? other$mutedTimelyUsers != null : !this$mutedTimelyUsers.equals(other$mutedTimelyUsers))
+            return false;
+        if(this.isNoMentionsAction() != other.isNoMentionsAction()) return false;
+        final Object this$premiumKey = this.getPremiumKey();
+        final Object other$premiumKey = other.getPremiumKey();
+        if(this$premiumKey == null ? other$premiumKey != null : !this$premiumKey.equals(other$premiumKey)) return false;
+        if(this.getQuoteLastId() != other.getQuoteLastId()) return false;
+        if(this.getRanPolls() != other.getRanPolls()) return false;
+        if(this.isReactionMenus() != other.isReactionMenus()) return false;
+        final Object this$rolesBlockedFromCommands = this.getRolesBlockedFromCommands();
+        final Object other$rolesBlockedFromCommands = other.getRolesBlockedFromCommands();
+        if(this$rolesBlockedFromCommands == null ? other$rolesBlockedFromCommands != null : !this$rolesBlockedFromCommands.equals(other$rolesBlockedFromCommands))
+            return false;
+        if(this.isRpgDevaluation() != other.isRpgDevaluation()) return false;
+        if(this.isRpgLocalMode() != other.isRpgLocalMode()) return false;
+        if(this.getSetModTimeout() != other.getSetModTimeout()) return false;
+        if(this.isSlowMode() != other.isSlowMode()) return false;
+        final Object this$slowModeChannels = this.getSlowModeChannels();
+        final Object other$slowModeChannels = other.getSlowModeChannels();
+        if(this$slowModeChannels == null ? other$slowModeChannels != null : !this$slowModeChannels.equals(other$slowModeChannels))
+            return false;
+        final Object this$spamModeChannels = this.getSpamModeChannels();
+        final Object other$spamModeChannels = other.getSpamModeChannels();
+        if(this$spamModeChannels == null ? other$spamModeChannels != null : !this$spamModeChannels.equals(other$spamModeChannels))
+            return false;
+        if(this.getTimeDisplay() != other.getTimeDisplay()) return false;
+        final Object this$warnActions = this.getWarnActions();
+        final Object other$warnActions = other.getWarnActions();
+        if(this$warnActions == null ? other$warnActions != null : !this$warnActions.equals(other$warnActions))
+            return false;
+        final Object this$warnCount = this.getWarnCount();
+        final Object other$warnCount = other.getWarnCount();
+        if(this$warnCount == null ? other$warnCount != null : !this$warnCount.equals(other$warnCount)) return false;
+        final Object this$gameTimeoutExpectedAt = this.getGameTimeoutExpectedAt();
+        final Object other$gameTimeoutExpectedAt = other.getGameTimeoutExpectedAt();
+        if(this$gameTimeoutExpectedAt == null ? other$gameTimeoutExpectedAt != null : !this$gameTimeoutExpectedAt.equals(other$gameTimeoutExpectedAt))
+            return false;
+        if(this.isIgnoreBotsWelcomeMessage() != other.isIgnoreBotsWelcomeMessage()) return false;
+        if(this.isIgnoreBotsAutoRole() != other.isIgnoreBotsAutoRole()) return false;
+        if(this.isEnabledLevelUpMessages() != other.isEnabledLevelUpMessages()) return false;
+        final Object this$levelUpChannel = this.getLevelUpChannel();
+        final Object other$levelUpChannel = other.getLevelUpChannel();
+        if(this$levelUpChannel == null ? other$levelUpChannel != null : !this$levelUpChannel.equals(other$levelUpChannel))
+            return false;
+        final Object this$levelUpMessage = this.getLevelUpMessage();
+        final Object other$levelUpMessage = other.getLevelUpMessage();
+        if(this$levelUpMessage == null ? other$levelUpMessage != null : !this$levelUpMessage.equals(other$levelUpMessage))
+            return false;
+        final Object this$blackListedImageTags = this.getBlackListedImageTags();
+        final Object other$blackListedImageTags = other.getBlackListedImageTags();
+        if(this$blackListedImageTags == null ? other$blackListedImageTags != null : !this$blackListedImageTags.equals(other$blackListedImageTags))
+            return false;
+        final Object this$logJoinChannel = this.getLogJoinChannel();
+        final Object other$logJoinChannel = other.getLogJoinChannel();
+        if(this$logJoinChannel == null ? other$logJoinChannel != null : !this$logJoinChannel.equals(other$logJoinChannel))
+            return false;
+        final Object this$logLeaveChannel = this.getLogLeaveChannel();
+        final Object other$logLeaveChannel = other.getLogLeaveChannel();
+        if(this$logLeaveChannel == null ? other$logLeaveChannel != null : !this$logLeaveChannel.equals(other$logLeaveChannel))
+            return false;
+        final Object this$localPlayerExperience = this.getLocalPlayerExperience();
+        final Object other$localPlayerExperience = other.getLocalPlayerExperience();
+        if(this$localPlayerExperience == null ? other$localPlayerExperience != null : !this$localPlayerExperience.equals(other$localPlayerExperience))
+            return false;
+        final Object this$linkProtectionAllowedUsers = this.getLinkProtectionAllowedUsers();
+        final Object other$linkProtectionAllowedUsers = other.getLinkProtectionAllowedUsers();
+        if(this$linkProtectionAllowedUsers == null ? other$linkProtectionAllowedUsers != null : !this$linkProtectionAllowedUsers.equals(other$linkProtectionAllowedUsers))
+            return false;
+        final Object this$roleSpecificDisabledCategories = this.getRoleSpecificDisabledCategories();
+        final Object other$roleSpecificDisabledCategories = other.getRoleSpecificDisabledCategories();
+        if(this$roleSpecificDisabledCategories == null ? other$roleSpecificDisabledCategories != null : !this$roleSpecificDisabledCategories.equals(other$roleSpecificDisabledCategories))
+            return false;
+        final Object this$roleSpecificDisabledCommands = this.getRoleSpecificDisabledCommands();
+        final Object other$roleSpecificDisabledCommands = other.getRoleSpecificDisabledCommands();
+        if(this$roleSpecificDisabledCommands == null ? other$roleSpecificDisabledCommands != null : !this$roleSpecificDisabledCommands.equals(other$roleSpecificDisabledCommands))
+            return false;
+        final Object this$lang = this.getLang();
+        final Object other$lang = other.getLang();
+        if(this$lang == null ? other$lang != null : !this$lang.equals(other$lang)) return false;
+        if(this.isMusicVote() != other.isMusicVote()) return false;
+        final Object this$extraJoinMessages = this.getExtraJoinMessages();
+        final Object other$extraJoinMessages = other.getExtraJoinMessages();
+        if(this$extraJoinMessages == null ? other$extraJoinMessages != null : !this$extraJoinMessages.equals(other$extraJoinMessages))
+            return false;
+        final Object this$extraLeaveMessages = this.getExtraLeaveMessages();
+        final Object other$extraLeaveMessages = other.getExtraLeaveMessages();
+        if(this$extraLeaveMessages == null ? other$extraLeaveMessages != null : !this$extraLeaveMessages.equals(other$extraLeaveMessages))
+            return false;
+        final Object this$whitelistedRole = this.getWhitelistedRole();
+        final Object other$whitelistedRole = other.getWhitelistedRole();
+        if(this$whitelistedRole == null ? other$whitelistedRole != null : !this$whitelistedRole.equals(other$whitelistedRole))
+            return false;
+        final Object this$birthdayMessage = this.getBirthdayMessage();
+        final Object other$birthdayMessage = other.getBirthdayMessage();
+        if(this$birthdayMessage == null ? other$birthdayMessage != null : !this$birthdayMessage.equals(other$birthdayMessage))
+            return false;
+        if(this.isCustomAdminLockNew() != other.isCustomAdminLockNew()) return false;
+        final Object this$mpLinkedTo = this.getMpLinkedTo();
+        final Object other$mpLinkedTo = other.getMpLinkedTo();
+        if(this$mpLinkedTo == null ? other$mpLinkedTo != null : !this$mpLinkedTo.equals(other$mpLinkedTo)) return false;
+        final Object this$modLogBlacklistWords = this.getModLogBlacklistWords();
+        final Object other$modLogBlacklistWords = other.getModLogBlacklistWords();
+        if(this$modLogBlacklistWords == null ? other$modLogBlacklistWords != null : !this$modLogBlacklistWords.equals(other$modLogBlacklistWords))
+            return false;
+        final Object this$autoroleCategories = this.getAutoroleCategories();
+        final Object other$autoroleCategories = other.getAutoroleCategories();
+        if(this$autoroleCategories == null ? other$autoroleCategories != null : !this$autoroleCategories.equals(other$autoroleCategories))
+            return false;
+        final Object this$editMessageLog = this.getEditMessageLog();
+        final Object other$editMessageLog = other.getEditMessageLog();
+        if(this$editMessageLog == null ? other$editMessageLog != null : !this$editMessageLog.equals(other$editMessageLog))
+            return false;
+        final Object this$deleteMessageLog = this.getDeleteMessageLog();
+        final Object other$deleteMessageLog = other.getDeleteMessageLog();
+        if(this$deleteMessageLog == null ? other$deleteMessageLog != null : !this$deleteMessageLog.equals(other$deleteMessageLog))
+            return false;
+        final Object this$bannedMemberLog = this.getBannedMemberLog();
+        final Object other$bannedMemberLog = other.getBannedMemberLog();
+        if(this$bannedMemberLog == null ? other$bannedMemberLog != null : !this$bannedMemberLog.equals(other$bannedMemberLog))
+            return false;
+        final Object this$unbannedMemberLog = this.getUnbannedMemberLog();
+        final Object other$unbannedMemberLog = other.getUnbannedMemberLog();
+        if(this$unbannedMemberLog == null ? other$unbannedMemberLog != null : !this$unbannedMemberLog.equals(other$unbannedMemberLog))
+            return false;
+        final Object this$kickedMemberLog = this.getKickedMemberLog();
+        final Object other$kickedMemberLog = other.getKickedMemberLog();
+        if(this$kickedMemberLog == null ? other$kickedMemberLog != null : !this$kickedMemberLog.equals(other$kickedMemberLog))
+            return false;
+        if(this.isCommandWarningDisplay() != other.isCommandWarningDisplay()) return false;
+        return true;
+    }
+    
+    protected boolean canEqual(final Object other) {
+        return other instanceof GuildData;
+    }
+    
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        result = result * PRIME + (this.isAntiSpam() ? 79 : 97);
+        final Object $autoroles = this.getAutoroles();
+        result = result * PRIME + ($autoroles == null ? 43 : $autoroles.hashCode());
+        final Object $birthdayChannel = this.getBirthdayChannel();
+        result = result * PRIME + ($birthdayChannel == null ? 43 : $birthdayChannel.hashCode());
+        final Object $birthdayRole = this.getBirthdayRole();
+        result = result * PRIME + ($birthdayRole == null ? 43 : $birthdayRole.hashCode());
+        final long $cases = this.getCases();
+        result = result * PRIME + (int) ($cases >>> 32 ^ $cases);
+        final Object $channelSpecificDisabledCategories = this.getChannelSpecificDisabledCategories();
+        result = result * PRIME + ($channelSpecificDisabledCategories == null ? 43 : $channelSpecificDisabledCategories.hashCode());
+        final Object $channelSpecificDisabledCommands = this.getChannelSpecificDisabledCommands();
+        result = result * PRIME + ($channelSpecificDisabledCommands == null ? 43 : $channelSpecificDisabledCommands.hashCode());
+        result = result * PRIME + (this.isCustomAdminLock() ? 79 : 97);
+        final Object $disabledCategories = this.getDisabledCategories();
+        result = result * PRIME + ($disabledCategories == null ? 43 : $disabledCategories.hashCode());
+        final Object $disabledChannels = this.getDisabledChannels();
+        result = result * PRIME + ($disabledChannels == null ? 43 : $disabledChannels.hashCode());
+        final Object $disabledCommands = this.getDisabledCommands();
+        result = result * PRIME + ($disabledCommands == null ? 43 : $disabledCommands.hashCode());
+        final Object $disabledRoles = this.getDisabledRoles();
+        result = result * PRIME + ($disabledRoles == null ? 43 : $disabledRoles.hashCode());
+        final Object $disabledUsers = this.getDisabledUsers();
+        result = result * PRIME + ($disabledUsers == null ? 43 : $disabledUsers.hashCode());
+        final Object $guildAutoRole = this.getGuildAutoRole();
+        result = result * PRIME + ($guildAutoRole == null ? 43 : $guildAutoRole.hashCode());
+        final Object $guildCustomPrefix = this.getGuildCustomPrefix();
+        result = result * PRIME + ($guildCustomPrefix == null ? 43 : $guildCustomPrefix.hashCode());
+        final Object $guildLogChannel = this.getGuildLogChannel();
+        result = result * PRIME + ($guildLogChannel == null ? 43 : $guildLogChannel.hashCode());
+        final Object $guildUnsafeChannels = this.getGuildUnsafeChannels();
+        result = result * PRIME + ($guildUnsafeChannels == null ? 43 : $guildUnsafeChannels.hashCode());
+        final Object $joinMessage = this.getJoinMessage();
+        result = result * PRIME + ($joinMessage == null ? 43 : $joinMessage.hashCode());
+        final Object $leaveMessage = this.getLeaveMessage();
+        result = result * PRIME + ($leaveMessage == null ? 43 : $leaveMessage.hashCode());
+        result = result * PRIME + (this.isLinkProtection() ? 79 : 97);
+        final Object $linkProtectionAllowedChannels = this.getLinkProtectionAllowedChannels();
+        result = result * PRIME + ($linkProtectionAllowedChannels == null ? 43 : $linkProtectionAllowedChannels.hashCode());
+        final Object $logExcludedChannels = this.getLogExcludedChannels();
+        result = result * PRIME + ($logExcludedChannels == null ? 43 : $logExcludedChannels.hashCode());
+        final Object $logJoinLeaveChannel = this.getLogJoinLeaveChannel();
+        result = result * PRIME + ($logJoinLeaveChannel == null ? 43 : $logJoinLeaveChannel.hashCode());
+        result = result * PRIME + this.getMaxFairQueue();
+        result = result * PRIME + this.getMaxResultsSearch();
+        final Object $modlogBlacklistedPeople = this.getModlogBlacklistedPeople();
+        result = result * PRIME + ($modlogBlacklistedPeople == null ? 43 : $modlogBlacklistedPeople.hashCode());
+        result = result * PRIME + (this.isMusicAnnounce() ? 79 : 97);
+        final Object $musicChannel = this.getMusicChannel();
+        result = result * PRIME + ($musicChannel == null ? 43 : $musicChannel.hashCode());
+        final Object $musicQueueSizeLimit = this.getMusicQueueSizeLimit();
+        result = result * PRIME + ($musicQueueSizeLimit == null ? 43 : $musicQueueSizeLimit.hashCode());
+        final Object $musicSongDurationLimit = this.getMusicSongDurationLimit();
+        result = result * PRIME + ($musicSongDurationLimit == null ? 43 : $musicSongDurationLimit.hashCode());
+        final Object $mutedRole = this.getMutedRole();
+        result = result * PRIME + ($mutedRole == null ? 43 : $mutedRole.hashCode());
+        final Object $mutedTimelyUsers = this.getMutedTimelyUsers();
+        result = result * PRIME + ($mutedTimelyUsers == null ? 43 : $mutedTimelyUsers.hashCode());
+        result = result * PRIME + (this.isNoMentionsAction() ? 79 : 97);
+        final Object $premiumKey = this.getPremiumKey();
+        result = result * PRIME + ($premiumKey == null ? 43 : $premiumKey.hashCode());
+        final long $quoteLastId = this.getQuoteLastId();
+        result = result * PRIME + (int) ($quoteLastId >>> 32 ^ $quoteLastId);
+        final long $ranPolls = this.getRanPolls();
+        result = result * PRIME + (int) ($ranPolls >>> 32 ^ $ranPolls);
+        result = result * PRIME + (this.isReactionMenus() ? 79 : 97);
+        final Object $rolesBlockedFromCommands = this.getRolesBlockedFromCommands();
+        result = result * PRIME + ($rolesBlockedFromCommands == null ? 43 : $rolesBlockedFromCommands.hashCode());
+        result = result * PRIME + (this.isRpgDevaluation() ? 79 : 97);
+        result = result * PRIME + (this.isRpgLocalMode() ? 79 : 97);
+        final long $setModTimeout = this.getSetModTimeout();
+        result = result * PRIME + (int) ($setModTimeout >>> 32 ^ $setModTimeout);
+        result = result * PRIME + (this.isSlowMode() ? 79 : 97);
+        final Object $slowModeChannels = this.getSlowModeChannels();
+        result = result * PRIME + ($slowModeChannels == null ? 43 : $slowModeChannels.hashCode());
+        final Object $spamModeChannels = this.getSpamModeChannels();
+        result = result * PRIME + ($spamModeChannels == null ? 43 : $spamModeChannels.hashCode());
+        result = result * PRIME + this.getTimeDisplay();
+        final Object $warnActions = this.getWarnActions();
+        result = result * PRIME + ($warnActions == null ? 43 : $warnActions.hashCode());
+        final Object $warnCount = this.getWarnCount();
+        result = result * PRIME + ($warnCount == null ? 43 : $warnCount.hashCode());
+        final Object $gameTimeoutExpectedAt = this.getGameTimeoutExpectedAt();
+        result = result * PRIME + ($gameTimeoutExpectedAt == null ? 43 : $gameTimeoutExpectedAt.hashCode());
+        result = result * PRIME + (this.isIgnoreBotsWelcomeMessage() ? 79 : 97);
+        result = result * PRIME + (this.isIgnoreBotsAutoRole() ? 79 : 97);
+        result = result * PRIME + (this.isEnabledLevelUpMessages() ? 79 : 97);
+        final Object $levelUpChannel = this.getLevelUpChannel();
+        result = result * PRIME + ($levelUpChannel == null ? 43 : $levelUpChannel.hashCode());
+        final Object $levelUpMessage = this.getLevelUpMessage();
+        result = result * PRIME + ($levelUpMessage == null ? 43 : $levelUpMessage.hashCode());
+        final Object $blackListedImageTags = this.getBlackListedImageTags();
+        result = result * PRIME + ($blackListedImageTags == null ? 43 : $blackListedImageTags.hashCode());
+        final Object $logJoinChannel = this.getLogJoinChannel();
+        result = result * PRIME + ($logJoinChannel == null ? 43 : $logJoinChannel.hashCode());
+        final Object $logLeaveChannel = this.getLogLeaveChannel();
+        result = result * PRIME + ($logLeaveChannel == null ? 43 : $logLeaveChannel.hashCode());
+        final Object $localPlayerExperience = this.getLocalPlayerExperience();
+        result = result * PRIME + ($localPlayerExperience == null ? 43 : $localPlayerExperience.hashCode());
+        final Object $linkProtectionAllowedUsers = this.getLinkProtectionAllowedUsers();
+        result = result * PRIME + ($linkProtectionAllowedUsers == null ? 43 : $linkProtectionAllowedUsers.hashCode());
+        final Object $roleSpecificDisabledCategories = this.getRoleSpecificDisabledCategories();
+        result = result * PRIME + ($roleSpecificDisabledCategories == null ? 43 : $roleSpecificDisabledCategories.hashCode());
+        final Object $roleSpecificDisabledCommands = this.getRoleSpecificDisabledCommands();
+        result = result * PRIME + ($roleSpecificDisabledCommands == null ? 43 : $roleSpecificDisabledCommands.hashCode());
+        final Object $lang = this.getLang();
+        result = result * PRIME + ($lang == null ? 43 : $lang.hashCode());
+        result = result * PRIME + (this.isMusicVote() ? 79 : 97);
+        final Object $extraJoinMessages = this.getExtraJoinMessages();
+        result = result * PRIME + ($extraJoinMessages == null ? 43 : $extraJoinMessages.hashCode());
+        final Object $extraLeaveMessages = this.getExtraLeaveMessages();
+        result = result * PRIME + ($extraLeaveMessages == null ? 43 : $extraLeaveMessages.hashCode());
+        final Object $whitelistedRole = this.getWhitelistedRole();
+        result = result * PRIME + ($whitelistedRole == null ? 43 : $whitelistedRole.hashCode());
+        final Object $birthdayMessage = this.getBirthdayMessage();
+        result = result * PRIME + ($birthdayMessage == null ? 43 : $birthdayMessage.hashCode());
+        result = result * PRIME + (this.isCustomAdminLockNew() ? 79 : 97);
+        final Object $mpLinkedTo = this.getMpLinkedTo();
+        result = result * PRIME + ($mpLinkedTo == null ? 43 : $mpLinkedTo.hashCode());
+        final Object $modLogBlacklistWords = this.getModLogBlacklistWords();
+        result = result * PRIME + ($modLogBlacklistWords == null ? 43 : $modLogBlacklistWords.hashCode());
+        final Object $autoroleCategories = this.getAutoroleCategories();
+        result = result * PRIME + ($autoroleCategories == null ? 43 : $autoroleCategories.hashCode());
+        final Object $editMessageLog = this.getEditMessageLog();
+        result = result * PRIME + ($editMessageLog == null ? 43 : $editMessageLog.hashCode());
+        final Object $deleteMessageLog = this.getDeleteMessageLog();
+        result = result * PRIME + ($deleteMessageLog == null ? 43 : $deleteMessageLog.hashCode());
+        final Object $bannedMemberLog = this.getBannedMemberLog();
+        result = result * PRIME + ($bannedMemberLog == null ? 43 : $bannedMemberLog.hashCode());
+        final Object $unbannedMemberLog = this.getUnbannedMemberLog();
+        result = result * PRIME + ($unbannedMemberLog == null ? 43 : $unbannedMemberLog.hashCode());
+        final Object $kickedMemberLog = this.getKickedMemberLog();
+        result = result * PRIME + ($kickedMemberLog == null ? 43 : $kickedMemberLog.hashCode());
+        result = result * PRIME + (this.isCommandWarningDisplay() ? 79 : 97);
+        return result;
+    }
+    
+    public String toString() {
+        return "GuildData(antiSpam=" + this.isAntiSpam() + ", autoroles=" + this.getAutoroles() + ", birthdayChannel=" + this.getBirthdayChannel() + ", birthdayRole=" + this.getBirthdayRole() + ", cases=" + this.getCases() + ", channelSpecificDisabledCategories=" + this.getChannelSpecificDisabledCategories() + ", channelSpecificDisabledCommands=" + this.getChannelSpecificDisabledCommands() + ", customAdminLock=" + this.isCustomAdminLock() + ", disabledCategories=" + this.getDisabledCategories() + ", disabledChannels=" + this.getDisabledChannels() + ", disabledCommands=" + this.getDisabledCommands() + ", disabledRoles=" + this.getDisabledRoles() + ", disabledUsers=" + this.getDisabledUsers() + ", guildAutoRole=" + this.getGuildAutoRole() + ", guildCustomPrefix=" + this.getGuildCustomPrefix() + ", guildLogChannel=" + this.getGuildLogChannel() + ", guildUnsafeChannels=" + this.getGuildUnsafeChannels() + ", joinMessage=" + this.getJoinMessage() + ", leaveMessage=" + this.getLeaveMessage() + ", linkProtection=" + this.isLinkProtection() + ", linkProtectionAllowedChannels=" + this.getLinkProtectionAllowedChannels() + ", logExcludedChannels=" + this.getLogExcludedChannels() + ", logJoinLeaveChannel=" + this.getLogJoinLeaveChannel() + ", maxFairQueue=" + this.getMaxFairQueue() + ", maxResultsSearch=" + this.getMaxResultsSearch() + ", modlogBlacklistedPeople=" + this.getModlogBlacklistedPeople() + ", musicAnnounce=" + this.isMusicAnnounce() + ", musicChannel=" + this.getMusicChannel() + ", musicQueueSizeLimit=" + this.getMusicQueueSizeLimit() + ", musicSongDurationLimit=" + this.getMusicSongDurationLimit() + ", mutedRole=" + this.getMutedRole() + ", mutedTimelyUsers=" + this.getMutedTimelyUsers() + ", noMentionsAction=" + this.isNoMentionsAction() + ", premiumKey=" + this.getPremiumKey() + ", quoteLastId=" + this.getQuoteLastId() + ", ranPolls=" + this.getRanPolls() + ", reactionMenus=" + this.isReactionMenus() + ", rolesBlockedFromCommands=" + this.getRolesBlockedFromCommands() + ", rpgDevaluation=" + this.isRpgDevaluation() + ", rpgLocalMode=" + this.isRpgLocalMode() + ", setModTimeout=" + this.getSetModTimeout() + ", slowMode=" + this.isSlowMode() + ", slowModeChannels=" + this.getSlowModeChannels() + ", spamModeChannels=" + this.getSpamModeChannels() + ", timeDisplay=" + this.getTimeDisplay() + ", warnActions=" + this.getWarnActions() + ", warnCount=" + this.getWarnCount() + ", gameTimeoutExpectedAt=" + this.getGameTimeoutExpectedAt() + ", ignoreBotsWelcomeMessage=" + this.isIgnoreBotsWelcomeMessage() + ", ignoreBotsAutoRole=" + this.isIgnoreBotsAutoRole() + ", enabledLevelUpMessages=" + this.isEnabledLevelUpMessages() + ", levelUpChannel=" + this.getLevelUpChannel() + ", levelUpMessage=" + this.getLevelUpMessage() + ", blackListedImageTags=" + this.getBlackListedImageTags() + ", logJoinChannel=" + this.getLogJoinChannel() + ", logLeaveChannel=" + this.getLogLeaveChannel() + ", localPlayerExperience=" + this.getLocalPlayerExperience() + ", linkProtectionAllowedUsers=" + this.getLinkProtectionAllowedUsers() + ", roleSpecificDisabledCategories=" + this.getRoleSpecificDisabledCategories() + ", roleSpecificDisabledCommands=" + this.getRoleSpecificDisabledCommands() + ", lang=" + this.getLang() + ", musicVote=" + this.isMusicVote() + ", extraJoinMessages=" + this.getExtraJoinMessages() + ", extraLeaveMessages=" + this.getExtraLeaveMessages() + ", whitelistedRole=" + this.getWhitelistedRole() + ", birthdayMessage=" + this.getBirthdayMessage() + ", customAdminLockNew=" + this.isCustomAdminLockNew() + ", mpLinkedTo=" + this.getMpLinkedTo() + ", modLogBlacklistWords=" + this.getModLogBlacklistWords() + ", autoroleCategories=" + this.getAutoroleCategories() + ", editMessageLog=" + this.getEditMessageLog() + ", deleteMessageLog=" + this.getDeleteMessageLog() + ", bannedMemberLog=" + this.getBannedMemberLog() + ", unbannedMemberLog=" + this.getUnbannedMemberLog() + ", kickedMemberLog=" + this.getKickedMemberLog() + ", commandWarningDisplay=" + this.isCommandWarningDisplay() + ")";
+    }
 }

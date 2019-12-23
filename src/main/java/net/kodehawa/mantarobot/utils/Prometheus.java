@@ -18,7 +18,12 @@
 package net.kodehawa.mantarobot.utils;
 
 import io.prometheus.client.exporter.HTTPServer;
-import io.prometheus.client.hotspot.*;
+import io.prometheus.client.hotspot.BufferPoolsExports;
+import io.prometheus.client.hotspot.ClassLoadingExports;
+import io.prometheus.client.hotspot.GarbageCollectorExports;
+import io.prometheus.client.hotspot.MemoryPoolsExports;
+import io.prometheus.client.hotspot.StandardExports;
+import io.prometheus.client.hotspot.VersionInfoExports;
 import net.kodehawa.mantarobot.data.MantaroData;
 
 import java.io.IOException;

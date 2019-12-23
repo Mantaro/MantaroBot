@@ -18,13 +18,13 @@
 package net.kodehawa.mantarobot.commands.utils.reminders;
 
 import io.prometheus.client.Counter;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
+import org.slf4j.Logger;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -32,12 +32,12 @@ import java.util.Date;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@Slf4j
 public class ReminderTask {
     private static final Counter reminderCount = Counter.build()
             .name("reminders_logged").help("Logged reminders")
             .register();
-
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(ReminderTask.class);
+    
     private final JedisPool pool = MantaroData.getDefaultJedisPool();
     private final MantaroBot mantaro = MantaroBot.getInstance();
 

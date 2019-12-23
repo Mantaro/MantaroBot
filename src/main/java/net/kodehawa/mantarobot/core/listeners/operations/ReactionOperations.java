@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.core.listeners.operations;
 
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveAllEvent;

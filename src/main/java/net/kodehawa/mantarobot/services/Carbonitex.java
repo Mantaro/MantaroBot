@@ -17,14 +17,18 @@
 
 package net.kodehawa.mantarobot.services;
 
-import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
-import okhttp3.*;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import org.slf4j.Logger;
 
 import static net.kodehawa.mantarobot.data.MantaroData.config;
 
-@Slf4j
 public class Carbonitex {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(Carbonitex.class);
     private final String carbonToken = config().get().carbonToken;
     private final OkHttpClient httpClient = new OkHttpClient();
 

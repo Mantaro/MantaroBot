@@ -17,9 +17,6 @@
 
 package net.kodehawa.mantarobot.core.modules.commands.base;
 
-import lombok.Getter;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 
 import java.util.ArrayList;

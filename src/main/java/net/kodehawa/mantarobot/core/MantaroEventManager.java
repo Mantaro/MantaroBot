@@ -17,14 +17,13 @@
 
 package net.kodehawa.mantarobot.core;
 
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.hooks.InterfacedEventManager;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import org.slf4j.Logger;
 
-@Slf4j
 public class MantaroEventManager extends InterfacedEventManager {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(MantaroEventManager.class);
     private long LAST_JDA_EVENT;
 
     public static Logger getLog() {

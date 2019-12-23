@@ -21,7 +21,6 @@ import com.github.natanbc.javaeval.CompilationException;
 import com.github.natanbc.javaeval.CompilationResult;
 import com.github.natanbc.javaeval.JavaEvaluator;
 import com.google.common.eventbus.Subscribe;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -38,7 +37,6 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -53,18 +51,22 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.slf4j.Logger;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.awt.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
-@Slf4j
 @Module
 @SuppressWarnings("unused")
 public class OwnerCmd {
@@ -78,7 +80,8 @@ public class OwnerCmd {
             "import net.kodehawa.mantarobot.commands.currency.*;\n" +
             "import net.kodehawa.mantarobot.utils.*;\n" +
             "import net.dv8tion.jda.api.entities.*;\n";
-
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(OwnerCmd.class);
+    
     @Subscribe
     public void blacklist(CommandRegistry cr) {
         cr.register("blacklist", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {

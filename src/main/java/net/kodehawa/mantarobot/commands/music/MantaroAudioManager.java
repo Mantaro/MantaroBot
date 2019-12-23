@@ -33,8 +33,6 @@ import com.sedmelluq.lava.extensions.youtuberotator.planner.AbstractRoutePlanner
 import com.sedmelluq.lava.extensions.youtuberotator.planner.RotatingNanoIpRoutePlanner;
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.IpBlock;
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.Ipv6Block;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
@@ -46,6 +44,7 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
+import org.slf4j.Logger;
 
 import java.net.InetAddress;
 import java.net.URISyntaxException;
@@ -61,7 +60,6 @@ import java.util.stream.Collectors;
 
 import static com.sedmelluq.discord.lavaplayer.tools.FriendlyException.Severity.COMMON;
 
-@Slf4j
 public class MantaroAudioManager {
     private static final ThreadLocal<Boolean> IS_RESULT_FROM_CACHE = ThreadLocal.withInitial(() -> false);
     //CacheClient is blocking
@@ -70,10 +68,9 @@ public class MantaroAudioManager {
             .setDaemon(true)
             .build()
     );
-
-    @Getter
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(MantaroAudioManager.class);
+    
     private final Map<String, GuildMusicManager> musicManagers;
-    @Getter
     private final AudioPlayerManager playerManager;
 
     private final Config config = MantaroData.config().get();
@@ -158,7 +155,15 @@ public class MantaroAudioManager {
         if(url.startsWith("ytsearch:")) return true;
         return YTExtractor.getIdentifier(url) != null;
     }
-
+    
+    public Map<String, GuildMusicManager> getMusicManagers() {
+        return this.musicManagers;
+    }
+    
+    public AudioPlayerManager getPlayerManager() {
+        return this.playerManager;
+    }
+    
     private static class YTExtractor {
         private static final String PROTOCOL_REGEX = "(?:http://|https://|)";
         private static final String DOMAIN_REGEX = "(?:www\\.|m\\.|music\\.|)youtube\\.com";

@@ -17,8 +17,6 @@
 
 package net.kodehawa.mantarobot.commands.game.core;
 
-import lombok.Getter;
-import lombok.Setter;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -39,8 +37,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class Game<T> {
-    @Setter
-    @Getter
     private int attempts = 1;
 
     protected Config config = MantaroData.config().get();
@@ -126,5 +122,13 @@ public abstract class Game<T> {
         }
 
         return Operation.IGNORED;
+    }
+    
+    public int getAttempts() {
+        return this.attempts;
+    }
+    
+    public void setAttempts(int attempts) {
+        this.attempts = attempts;
     }
 }

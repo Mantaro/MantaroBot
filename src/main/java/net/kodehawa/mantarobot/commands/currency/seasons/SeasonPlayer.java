@@ -20,8 +20,6 @@ package net.kodehawa.mantarobot.commands.currency.seasons;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.SeasonalPlayerData;
@@ -38,17 +36,11 @@ import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.uns
 
 public class SeasonPlayer implements ManagedObject {
     public static final String DB_TABLE = "seasonalplayers";
-    @Getter
     private final SeasonalPlayerData data;
-    @Getter
     private final String id;
 
-    @Getter
     private Long money;
-    @Getter
-    @Setter
     private Long reputation;
-    @Getter
     private Season season;
     private final transient Inventory inventory = new Inventory();
 
@@ -156,5 +148,29 @@ public class SeasonPlayer implements ManagedObject {
     @JsonIgnore
     public void setLocked(boolean locked) {
         data.setLockedUntil(locked ? System.currentTimeMillis() + 35000 : 0);
+    }
+    
+    public SeasonalPlayerData getData() {
+        return this.data;
+    }
+    
+    public String getId() {
+        return this.id;
+    }
+    
+    public Long getMoney() {
+        return this.money;
+    }
+    
+    public Long getReputation() {
+        return this.reputation;
+    }
+    
+    public Season getSeason() {
+        return this.season;
+    }
+    
+    public void setReputation(Long reputation) {
+        this.reputation = reputation;
     }
 }

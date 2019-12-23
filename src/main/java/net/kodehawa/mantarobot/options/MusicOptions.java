@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -29,13 +28,15 @@ import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.slf4j.Logger;
 
 import java.util.function.Consumer;
 
 @Option
-@Slf4j
 public class MusicOptions extends OptionHandler {
-
+    
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(MusicOptions.class);
+    
     public MusicOptions() {
         setType(OptionType.MUSIC);
     }

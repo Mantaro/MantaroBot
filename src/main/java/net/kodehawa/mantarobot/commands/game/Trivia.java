@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.commands.game;
 
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.Game;
@@ -29,6 +28,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
+import org.slf4j.Logger;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -37,8 +37,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j(topic = "Game [Trivia]")
 public class Trivia extends Game<String> {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger("Game [Trivia]");
     private final String OTDB_URL = "https://opentdb.com/api.php?amount=1&encode=base64";
     private final int maxAttempts = 2;
     private TriviaDifficulty difficulty;

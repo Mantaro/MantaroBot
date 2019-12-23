@@ -22,12 +22,20 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.*;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Invite;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.DisconnectEvent;
+import net.dv8tion.jda.api.events.ExceptionEvent;
+import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.events.ResumedEvent;
+import net.dv8tion.jda.api.events.StatusChangeEvent;
 import net.dv8tion.jda.api.events.guild.GuildBanEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
@@ -37,7 +45,6 @@ import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberLeaveEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.api.events.http.HttpRequestEvent;
-import net.dv8tion.jda.api.events.message.guild.GenericGuildMessageEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageUpdateEvent;
@@ -63,6 +70,7 @@ import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import org.slf4j.Logger;
 
 import java.security.SecureRandom;
 import java.text.DateFormat;
@@ -76,9 +84,10 @@ import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static net.kodehawa.mantarobot.utils.Utils.*;
+import static net.kodehawa.mantarobot.utils.Utils.DISCORD_INVITE;
+import static net.kodehawa.mantarobot.utils.Utils.DISCORD_INVITE_2;
+import static net.kodehawa.mantarobot.utils.Utils.THIRD_PARTY_INVITE;
 
-@Slf4j
 public class MantaroListener implements EventListener {
     private static final Cache<String, Long> INVITES = CacheBuilder.newBuilder()
             .maximumSize(5500)
@@ -112,6 +121,7 @@ public class MantaroListener implements EventListener {
     private static final Counter patronCounter = Counter.build()
             .name("patrons").help("New patrons")
             .register();
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(MantaroListener.class);
     //END OF METRIC CONNECTORS DECLARATION.
 
     private static int logTotal = 0;

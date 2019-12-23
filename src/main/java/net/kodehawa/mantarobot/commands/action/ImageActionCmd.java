@@ -17,11 +17,9 @@
 
 package net.kodehawa.mantarobot.commands.action;
 
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
@@ -33,6 +31,7 @@ import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
 
 import java.awt.*;
 import java.util.Collections;
@@ -43,10 +42,10 @@ import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
 
-@Slf4j
 public class ImageActionCmd extends NoArgsCommand {
     public static final URLCache CACHE = new URLCache(10);
-
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(ImageActionCmd.class);
+    
     private IncreasingRateLimiter rateLimiter;
 
     private final Color color;

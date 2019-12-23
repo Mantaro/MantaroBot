@@ -17,9 +17,6 @@
 
 package net.kodehawa.mantarobot.commands.currency.profile;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
@@ -133,11 +130,8 @@ public enum ProfileComponent {
     private EmoteReference emoji;
     private Function<I18nContext, String> title;
 
-    @Getter
     private BiFunction<Holder, I18nContext, String> content;
-    @Getter
     private boolean assignable;
-    @Getter
     private boolean inline;
 
     ProfileComponent(EmoteReference emoji, Function<I18nContext, String> title, BiFunction<Holder, I18nContext, String> content, boolean isAssignable, boolean inline) {
@@ -182,18 +176,127 @@ public enum ProfileComponent {
         }
         return null;
     }
-
-    @AllArgsConstructor
-    @Data
+    
+    public BiFunction<Holder, I18nContext, String> getContent() {
+        return this.content;
+    }
+    
+    public boolean isAssignable() {
+        return this.assignable;
+    }
+    
+    public boolean isInline() {
+        return this.inline;
+    }
+    
     public static class Holder {
         private User user;
         private Player player;
         private SeasonPlayer seasonalPlayer;
         private DBUser dbUser;
         private List<Badge> badges;
-
+        
+        public Holder(User user, Player player, SeasonPlayer seasonalPlayer, DBUser dbUser, List<Badge> badges) {
+            this.user = user;
+            this.player = player;
+            this.seasonalPlayer = seasonalPlayer;
+            this.dbUser = dbUser;
+            this.badges = badges;
+        }
+        
+        public Holder() {
+        }
+        
         public boolean isSeasonal() {
             return seasonalPlayer != null;
+        }
+        
+        public User getUser() {
+            return this.user;
+        }
+        
+        public Player getPlayer() {
+            return this.player;
+        }
+        
+        public SeasonPlayer getSeasonalPlayer() {
+            return this.seasonalPlayer;
+        }
+        
+        public DBUser getDbUser() {
+            return this.dbUser;
+        }
+        
+        public List<Badge> getBadges() {
+            return this.badges;
+        }
+        
+        public void setUser(User user) {
+            this.user = user;
+        }
+        
+        public void setPlayer(Player player) {
+            this.player = player;
+        }
+        
+        public void setSeasonalPlayer(SeasonPlayer seasonalPlayer) {
+            this.seasonalPlayer = seasonalPlayer;
+        }
+        
+        public void setDbUser(DBUser dbUser) {
+            this.dbUser = dbUser;
+        }
+        
+        public void setBadges(List<Badge> badges) {
+            this.badges = badges;
+        }
+        
+        public boolean equals(final Object o) {
+            if(o == this) return true;
+            if(!(o instanceof Holder)) return false;
+            final Holder other = (Holder) o;
+            if(!other.canEqual((Object) this)) return false;
+            final Object this$user = this.user;
+            final Object other$user = other.user;
+            if(this$user == null ? other$user != null : !this$user.equals(other$user)) return false;
+            final Object this$player = this.player;
+            final Object other$player = other.player;
+            if(this$player == null ? other$player != null : !this$player.equals(other$player)) return false;
+            final Object this$seasonalPlayer = this.seasonalPlayer;
+            final Object other$seasonalPlayer = other.seasonalPlayer;
+            if(this$seasonalPlayer == null ? other$seasonalPlayer != null : !this$seasonalPlayer.equals(other$seasonalPlayer))
+                return false;
+            final Object this$dbUser = this.dbUser;
+            final Object other$dbUser = other.dbUser;
+            if(this$dbUser == null ? other$dbUser != null : !this$dbUser.equals(other$dbUser)) return false;
+            final Object this$badges = this.badges;
+            final Object other$badges = other.badges;
+            if(this$badges == null ? other$badges != null : !this$badges.equals(other$badges)) return false;
+            return true;
+        }
+        
+        protected boolean canEqual(final Object other) {
+            return other instanceof Holder;
+        }
+        
+        public int hashCode() {
+            final int PRIME = 59;
+            int result = 1;
+            final Object $user = this.user;
+            result = result * PRIME + ($user == null ? 43 : $user.hashCode());
+            final Object $player = this.player;
+            result = result * PRIME + ($player == null ? 43 : $player.hashCode());
+            final Object $seasonalPlayer = this.seasonalPlayer;
+            result = result * PRIME + ($seasonalPlayer == null ? 43 : $seasonalPlayer.hashCode());
+            final Object $dbUser = this.dbUser;
+            result = result * PRIME + ($dbUser == null ? 43 : $dbUser.hashCode());
+            final Object $badges = this.badges;
+            result = result * PRIME + ($badges == null ? 43 : $badges.hashCode());
+            return result;
+        }
+        
+        public String toString() {
+            return "ProfileComponent.Holder(user=" + this.user + ", player=" + this.player + ", seasonalPlayer=" + this.seasonalPlayer + ", dbUser=" + this.dbUser + ", badges=" + this.badges + ")";
         }
     }
 }

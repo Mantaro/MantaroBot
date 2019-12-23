@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.CustomCommandData;
 import net.kodehawa.mantarobot.utils.URLEncoding;
@@ -31,7 +30,6 @@ import java.beans.ConstructorProperties;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomCommand implements ManagedObject {
     public static final String DB_TABLE = "commands";
@@ -82,5 +80,13 @@ public class CustomCommand implements ManagedObject {
     @JsonIgnore
     public List<String> getValues() {
         return values;
+    }
+    
+    public String getId() {
+        return this.id;
+    }
+    
+    public CustomCommandData getData() {
+        return this.data;
     }
 }

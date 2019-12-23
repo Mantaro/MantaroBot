@@ -17,12 +17,9 @@
 
 package net.kodehawa.mantarobot.commands.currency.seasons;
 
-import lombok.Getter;
-
 public enum Season {
     FIRST("1st");
 
-    @Getter
     String display;
 
     Season(String display) {
@@ -43,5 +40,8 @@ public enum Season {
         }
         return null;
     }
-
+    
+    public String getDisplay() {
+        return this.display;
+    }
 }

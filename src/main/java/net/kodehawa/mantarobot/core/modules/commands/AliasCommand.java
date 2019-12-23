@@ -17,8 +17,6 @@
 
 package net.kodehawa.mantarobot.core.modules.commands;
 
-import lombok.Getter;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
@@ -27,11 +25,8 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.options.core.Option;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-@Getter
 public class AliasCommand implements Command {
     private List<String> aliases;
     private final Command command;
@@ -83,5 +78,16 @@ public class AliasCommand implements Command {
     public List<String> getAliases() {
         return aliases;
     }
-
+    
+    public Command getCommand() {
+        return this.command;
+    }
+    
+    public String getCommandName() {
+        return this.commandName;
+    }
+    
+    public String getOriginalName() {
+        return this.originalName;
+    }
 }

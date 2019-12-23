@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.utils.commands;
 
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBUser;
 import org.apache.commons.io.IOUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;

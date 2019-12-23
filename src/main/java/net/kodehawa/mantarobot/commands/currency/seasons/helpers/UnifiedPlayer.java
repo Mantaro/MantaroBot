@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.commands.currency.seasons.helpers;
 
-import lombok.Getter;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.seasons.Season;
@@ -29,9 +28,7 @@ import net.kodehawa.mantarobot.db.entities.Player;
 public class UnifiedPlayer {
     private static ManagedDatabase managedDatabase = MantaroData.db();
 
-    @Getter
     public Player player;
-    @Getter
     public SeasonPlayer seasonalPlayer;
 
     private UnifiedPlayer() { }
@@ -110,5 +107,12 @@ public class UnifiedPlayer {
         player.saveAsync();
         seasonalPlayer.saveAsync();
     }
-
+    
+    public Player getPlayer() {
+        return this.player;
+    }
+    
+    public SeasonPlayer getSeasonalPlayer() {
+        return this.seasonalPlayer;
+    }
 }

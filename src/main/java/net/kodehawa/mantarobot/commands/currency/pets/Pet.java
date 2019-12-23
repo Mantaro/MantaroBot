@@ -21,8 +21,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 
 import java.beans.ConstructorProperties;
@@ -32,8 +30,6 @@ import java.util.concurrent.TimeUnit;
 
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 
-@Getter
-@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Pet {
     private String owner;
@@ -80,19 +76,101 @@ public class Pet {
     public long calculateTier() {
         return 1;
     }
-
+    
+    public String getOwner() {
+        return this.owner;
+    }
+    
+    public ImageType getImage() {
+        return this.image;
+    }
+    
+    public String getName() {
+        return this.name;
+    }
+    
+    public PetStats getStats() {
+        return this.stats;
+    }
+    
+    public Type getElement() {
+        return this.element;
+    }
+    
+    public long getEpochCreatedAt() {
+        return this.epochCreatedAt;
+    }
+    
+    public long getTier() {
+        return this.tier;
+    }
+    
+    public long getTradePrice() {
+        return this.tradePrice;
+    }
+    
+    public PetData getData() {
+        return this.data;
+    }
+    
+    public Inventory getPetInventory() {
+        return this.petInventory;
+    }
+    
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+    
+    public void setImage(ImageType image) {
+        this.image = image;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void setStats(PetStats stats) {
+        this.stats = stats;
+    }
+    
+    public void setElement(Type element) {
+        this.element = element;
+    }
+    
+    public void setEpochCreatedAt(long epochCreatedAt) {
+        this.epochCreatedAt = epochCreatedAt;
+    }
+    
+    public void setAge(long age) {
+        this.age = age;
+    }
+    
+    public void setTier(long tier) {
+        this.tier = tier;
+    }
+    
+    public void setTradePrice(long tradePrice) {
+        this.tradePrice = tradePrice;
+    }
+    
+    public void setData(PetData data) {
+        this.data = data;
+    }
+    
     public enum ImageType {
         //hello sukeban studios (https://va11halla.fandom.com/wiki/Lilim)
         SPACESHIP(""), CAT(""), DOG(""), ROBOT(""), LILIM(""), CATGIRL("");
 
-        @Getter
         public String image;
         ImageType(String image) {
             this.image = image;
         }
+        
+        public String getImage() {
+            return this.image;
+        }
     }
 
-    @Getter
     public enum Type {
         EARTH("Earth", "commands.pet.types.earth"), WATER("Water", "commands.pet.types.water"), FIRE("Fire", "commands.pet.types.fire");
 
@@ -101,6 +179,14 @@ public class Pet {
         Type(String readable, String translatable) {
             this.readable = readable;
             this.translatable = translatable;
+        }
+    
+        public String getReadable() {
+            return this.readable;
+        }
+    
+        public String getTranslatable() {
+            return this.translatable;
         }
     }
 

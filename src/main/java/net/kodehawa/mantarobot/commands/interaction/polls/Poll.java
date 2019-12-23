@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.commands.interaction.polls;
 
-import lombok.Getter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
@@ -50,7 +49,6 @@ public class Poll extends Lobby {
     private static final Map<String, Poll> runningPolls = new HashMap<>();
     private Future<Void> runningPoll;
 
-    @Getter
     private final String id;
     private final long timeout;
     private boolean isCompliant = true;
@@ -210,5 +208,9 @@ public class Poll extends Lobby {
         }, reactions(options.length));
 
         return runningPoll;
+    }
+    
+    public String getId() {
+        return this.id;
     }
 }

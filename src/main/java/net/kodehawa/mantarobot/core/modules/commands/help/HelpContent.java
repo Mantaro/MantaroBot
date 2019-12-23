@@ -17,23 +17,46 @@
 
 package net.kodehawa.mantarobot.core.modules.commands.help;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@AllArgsConstructor
-@Getter
 public class HelpContent {
     private String description;
     private Map<String, String> parameters;
     private String usage;
     private List<String> related;
     private boolean seasonal;
-
+    
+    public HelpContent(String description, Map<String, String> parameters, String usage, List<String> related, boolean seasonal) {
+        this.description = description;
+        this.parameters = parameters;
+        this.usage = usage;
+        this.related = related;
+        this.seasonal = seasonal;
+    }
+    
+    public String getDescription() {
+        return this.description;
+    }
+    
+    public Map<String, String> getParameters() {
+        return this.parameters;
+    }
+    
+    public String getUsage() {
+        return this.usage;
+    }
+    
+    public List<String> getRelated() {
+        return this.related;
+    }
+    
+    public boolean isSeasonal() {
+        return this.seasonal;
+    }
+    
     public static class Builder {
         private String description = null;
         private Map<String, String> parameters = new HashMap<>();

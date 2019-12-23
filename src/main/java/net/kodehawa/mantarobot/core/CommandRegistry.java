@@ -20,10 +20,6 @@ package net.kodehawa.mantarobot.core;
 import com.google.common.base.Preconditions;
 import io.prometheus.client.Counter;
 import io.prometheus.client.Histogram;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -35,7 +31,6 @@ import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.AbstractCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
@@ -48,10 +43,10 @@ import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
-import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,7 +54,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-@Slf4j
 public class CommandRegistry {
     //Wiki says they should always be static?
     private static final Histogram commandLatency = Histogram.build()
@@ -73,10 +67,10 @@ public class CommandRegistry {
             .name("categories").help("Amounts of categories ran (name, userId, guildId")
             .labelNames("name")
             .register();
-
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(CommandRegistry.class);
+    
     private final Map<String, Command> commands;
     private final Config conf = MantaroData.config().get();
-    @Setter
     private boolean logCommands = false;
     private RateLimiter rl = new RateLimiter(TimeUnit.MINUTES, 1);
 
@@ -301,7 +295,11 @@ public class CommandRegistry {
             ).queue();
         } //else don't
     }
-
+    
+    public void setLogCommands(boolean logCommands) {
+        this.logCommands = logCommands;
+    }
+    
     //lol @ this
     enum CommandDisableLevel {
         NONE("None"),
@@ -317,10 +315,13 @@ public class CommandRegistry {
         CHANNEL("Disabled channel"),
         USER("Disabled user");
 
-        @Getter
         String name;
         CommandDisableLevel(String name) {
             this.name = name;
+        }
+        
+        public String getName() {
+            return this.name;
         }
     }
 

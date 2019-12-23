@@ -17,16 +17,19 @@
 
 package net.kodehawa.mantarobot.core.modules.commands.i18n;
 
-import lombok.AllArgsConstructor;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 
-@AllArgsConstructor
 public class I18nContext {
     private GuildData guildData;
     private UserData userData;
-
+    
+    public I18nContext(GuildData guildData, UserData userData) {
+        this.guildData = guildData;
+        this.userData = userData;
+    }
+    
     public String get(String s) {
         I18n context = I18n.getForLanguage(getContextLanguage());
         return context.get(s);

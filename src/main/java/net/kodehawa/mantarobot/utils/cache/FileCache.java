@@ -20,9 +20,13 @@ package net.kodehawa.mantarobot.utils.cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import lombok.SneakyThrows;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.concurrent.ExecutionException;
 
 public class FileCache {
@@ -32,10 +36,9 @@ public class FileCache {
         cache = CacheBuilder.newBuilder()
                 .maximumSize(maxSize)
                 .concurrencyLevel(concurrencyLevel)
-                .build(new CacheLoader<File, byte[]>() {
-                    @SneakyThrows
+                .build(new CacheLoader<>() {
                     @Override
-                    public byte[] load(File key) throws Exception {
+                    public byte[] load(@NotNull File key) throws Exception {
                         if(!key.isFile()) throw new IllegalArgumentException(key + ": not a file");
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
                         FileInputStream fis = new FileInputStream(key);

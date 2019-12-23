@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.commands.game;
 
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
@@ -33,13 +32,14 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.slf4j.Logger;
 
 import java.util.List;
 
 import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 
-@Slf4j(topic = "Game [Pokemon Trivia]")
 public class Pokemon extends ImageGame {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger("Game [Pokemon Trivia]");
     private final int maxAttempts = 5;
     private List<String> expectedAnswer;
     private static final Config config = MantaroData.config().get();

@@ -19,38 +19,47 @@ package net.kodehawa.mantarobot.utils.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.function.Supplier;
 
-@Slf4j
 public class GsonDataManager<T> implements DataManager<T> {
     public static final Gson GSON_PRETTY = new GsonBuilder()
             .setPrettyPrinting()
             .serializeNulls()
             .create(), GSON_UNPRETTY = new GsonBuilder().serializeNulls().create();
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(GsonDataManager.class);
     private final Path configPath;
     private final T data;
 
-    @SneakyThrows
     public GsonDataManager(Class<T> clazz, String file, Supplier<T> constructor) {
         this.configPath = Paths.get(file);
         if(!configPath.toFile().exists()) {
             log.info("Could not find config file at " + configPath.toFile().getAbsolutePath() + ", creating a new one...");
-            if(configPath.toFile().createNewFile()) {
-                log.info("Generated new config file at " + configPath.toFile().getAbsolutePath() + ".");
-                FileIOUtils.write(configPath, GSON_PRETTY.toJson(constructor.get()));
-                log.info("Please, fill the file with valid properties.");
-            } else {
-                log.warn("Could not create config file at " + file);
+            try {
+                if(configPath.toFile().createNewFile()) {
+                    log.info("Generated new config file at " + configPath.toFile().getAbsolutePath() + ".");
+                    FileIOUtils.write(configPath, GSON_PRETTY.toJson(constructor.get()));
+                    log.info("Please, fill the file with valid properties.");
+                } else {
+                    log.warn("Could not create config file at " + file);
+                }
+            } catch(IOException e) {
+                e.printStackTrace();
+                System.exit(1);
             }
             System.exit(0);
         }
-
-        this.data = GSON_PRETTY.fromJson(FileIOUtils.read(configPath), clazz);
+    
+        try {
+            this.data = GSON_PRETTY.fromJson(FileIOUtils.read(configPath), clazz);
+        } catch(IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     public static Gson gson(boolean pretty) {
@@ -63,8 +72,11 @@ public class GsonDataManager<T> implements DataManager<T> {
     }
 
     @Override
-    @SneakyThrows
     public void save() {
-        FileIOUtils.write(configPath, GSON_PRETTY.toJson(data));
+        try {
+            FileIOUtils.write(configPath, GSON_PRETTY.toJson(data));
+        } catch(IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }

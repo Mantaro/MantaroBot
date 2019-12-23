@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.ISnowflake;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -33,6 +32,7 @@ import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.concurrent.Future;
@@ -40,9 +40,10 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Option
-@Slf4j
 public class GeneralOptions extends OptionHandler {
-
+    
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(GeneralOptions.class);
+    
     @Subscribe
     public void onRegistry(OptionRegistryEvent e) {
         registerOption("lobby:reset", "Lobby reset", "Fixes stuck game/poll/operations session.", (event, lang) -> {

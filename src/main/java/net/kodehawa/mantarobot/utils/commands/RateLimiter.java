@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.utils.commands;
 
-import lombok.Getter;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -45,7 +44,6 @@ public class RateLimiter {
     private static final ScheduledExecutorService ses = Executors.newScheduledThreadPool(1);
     private final long max;
     private final long timeout;
-    @Getter
     private final ConcurrentHashMap<String, Pair<AtomicInteger, Long>> usersRateLimited = new ConcurrentHashMap<>();
     private boolean isPremiumAware = false;
 
@@ -136,7 +134,11 @@ public class RateLimiter {
     public boolean process(Member member) {
         return process(member.getUser());
     }
-
+    
+    public ConcurrentHashMap<String, Pair<AtomicInteger, Long>> getUsersRateLimited() {
+        return this.usersRateLimited;
+    }
+    
     private static class Pair<F, S> {
         F first;
         S second;

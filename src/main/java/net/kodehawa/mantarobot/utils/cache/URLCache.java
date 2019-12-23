@@ -18,11 +18,11 @@
 package net.kodehawa.mantarobot.utils.cache;
 
 import com.google.common.base.Preconditions;
-import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,11 +30,11 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Slf4j
 public class URLCache {
     public static final File DEFAULT_CACHE_DIR = new File("urlcache_files");
     private static final Map<String, File> saved = new ConcurrentHashMap<>();
     private static final OkHttpClient okHttp = new OkHttpClient();
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(URLCache.class);
     private final FileCache cache;
     private File cacheDir;
 

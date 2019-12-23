@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.commands.currency.item;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
 import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
 
 import java.beans.ConstructorProperties;
@@ -28,10 +27,8 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public class PlayerEquipment {
-    @Getter
     //int = itemId
     private Map<EquipmentType, Integer> equipment;
-    @Getter
     private Map<EquipmentType, PotionEffect> effects;
 
     @JsonCreator
@@ -117,19 +114,33 @@ public class PlayerEquipment {
 
         return null;
     }
-
+    
+    public Map<EquipmentType, Integer> getEquipment() {
+        return this.equipment;
+    }
+    
+    public Map<EquipmentType, PotionEffect> getEffects() {
+        return this.effects;
+    }
+    
     public enum EquipmentType {
         ROD(item -> item instanceof FishRod, 0), PICK(item -> item.getItemType() == ItemType.MINE_PICK || item.getItemType() == ItemType.MINE_RARE_PICK, 0),
         POTION(item -> item.getItemType() == ItemType.POTION, 1), BUFF(item -> item.getItemType() == ItemType.BUFF, 1);
 
-        @Getter
         private Predicate<Item> predicate;
-        @Getter
         private int type;
 
         EquipmentType(Predicate<Item> predicate, int type) {
             this.predicate = predicate;
             this.type = type;
+        }
+        
+        public Predicate<Item> getPredicate() {
+            return this.predicate;
+        }
+        
+        public int getType() {
+            return this.type;
         }
     }
 }

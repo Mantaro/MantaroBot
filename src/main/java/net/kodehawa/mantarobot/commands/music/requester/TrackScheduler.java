@@ -24,10 +24,12 @@ import lavalink.client.io.Link;
 import lavalink.client.player.IPlayer;
 import lavalink.client.player.LavalinkPlayer;
 import lavalink.client.player.event.PlayerEventListenerAdapter;
-import lombok.Getter;
-import lombok.Setter;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
@@ -46,22 +48,14 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     private Link audioPlayer;
 
     private final String guildId;
-    @Getter
     private final ConcurrentLinkedDeque<AudioTrack> queue;
-    @Getter
     private final List<String> voteSkips;
-    @Getter
     private final List<String> voteStop;
     private long lastMessageSentAt;
     private long lastErrorSentAt;
-    @Getter
     private AudioTrack previousTrack, currentTrack;
-    @Getter
-    @Setter
     private Repeat repeatMode;
-    @Setter
     private long requestedChannel;
-    @Getter
     private final I18n language;
     private long errorCount = 0;
 
@@ -260,7 +254,43 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         //Disconnect this audio player.
         this.getAudioPlayer().disconnect();
     }
-
+    
+    public ConcurrentLinkedDeque<AudioTrack> getQueue() {
+        return this.queue;
+    }
+    
+    public List<String> getVoteSkips() {
+        return this.voteSkips;
+    }
+    
+    public List<String> getVoteStop() {
+        return this.voteStop;
+    }
+    
+    public AudioTrack getPreviousTrack() {
+        return this.previousTrack;
+    }
+    
+    public AudioTrack getCurrentTrack() {
+        return this.currentTrack;
+    }
+    
+    public Repeat getRepeatMode() {
+        return this.repeatMode;
+    }
+    
+    public I18n getLanguage() {
+        return this.language;
+    }
+    
+    public void setRepeatMode(Repeat repeatMode) {
+        this.repeatMode = repeatMode;
+    }
+    
+    public void setRequestedChannel(long requestedChannel) {
+        this.requestedChannel = requestedChannel;
+    }
+    
     public enum Repeat {
         SONG, QUEUE
     }

@@ -20,8 +20,6 @@ package net.kodehawa.mantarobot.commands.game;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gson.JsonSyntaxException;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.anime.CharacterData;
 import net.kodehawa.mantarobot.commands.anime.KitsuRetriever;
@@ -34,20 +32,20 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@Slf4j(topic = "Game [Character]")
 public class Character extends ImageGame {
     private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger("Game [Character]");
     //Avoid AniList ratelimits, we don't need more than fetching the image either way and URL shouldn't change in a short amount of time.
     private static Cache<String, String> imgCache = CacheBuilder.newBuilder()
             .maximumSize(50)
             .build();
 
-    @Getter
     private final int maxAttempts = 5;
     private String characterName;
     private List<String> characterNameL;
@@ -130,5 +128,9 @@ public class Character extends ImageGame {
     @Override
     public String name() {
         return "character";
+    }
+    
+    public int getMaxAttempts() {
+        return this.maxAttempts;
     }
 }

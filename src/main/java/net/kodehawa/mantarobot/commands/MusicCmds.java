@@ -24,10 +24,13 @@ import gnu.trove.set.hash.TIntHashSet;
 import lavalink.client.io.jda.JdaLink;
 import lavalink.client.player.IPlayer;
 import lavalink.client.player.LavalinkPlayer;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -55,6 +58,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import org.slf4j.Logger;
 
 import java.net.URL;
 import java.util.List;
@@ -66,9 +70,10 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelim
 import static org.apache.commons.lang3.StringUtils.replaceEach;
 
 @Module
-@Slf4j
 @SuppressWarnings("unused")
 public class MusicCmds {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(MusicCmds.class);
+    
     @Subscribe
     public void forceskip(CommandRegistry cr) {
         cr.register("forceskip", new SimpleCommand(Category.MUSIC, CommandPermission.ADMIN) {

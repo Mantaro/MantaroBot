@@ -17,12 +17,10 @@
 
 package net.kodehawa.mantarobot.commands.currency.item.special;
 
-import lombok.Getter;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 
 public class Potion extends Item {
-    @Getter
     private int maxUses;
 
     public Potion(ItemType type, int maxUses, String emoji, String name, String translatedName, String desc, long value, String recipe, int... recipeTypes) {
@@ -38,5 +36,9 @@ public class Potion extends Item {
     public Potion(ItemType type, int maxUses, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.maxUses = maxUses;
+    }
+    
+    public int getMaxUses() {
+        return this.maxUses;
     }
 }

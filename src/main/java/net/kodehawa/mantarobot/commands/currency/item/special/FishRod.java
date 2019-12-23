@@ -17,17 +17,13 @@
 
 package net.kodehawa.mantarobot.commands.currency.item.special;
 
-import lombok.Getter;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 
 public class FishRod extends Item implements Castable {
-    @Getter
     private int level;
-    @Getter
     private int castLevelRequired;
-    @Getter
     private int maximumCastAmount;
 
     public FishRod(ItemType type, int level, int castLevelRequired, int maximumCastAmount, String emoji, String name, String translatedName, String desc, long value, String recipe, int... recipeTypes) {
@@ -61,5 +57,17 @@ public class FishRod extends Item implements Castable {
 
     public int getBreakRatio() {
         return 73 + (level + 4);
+    }
+    
+    public int getLevel() {
+        return this.level;
+    }
+    
+    public int getCastLevelRequired() {
+        return this.castLevelRequired;
+    }
+    
+    public int getMaximumCastAmount() {
+        return this.maximumCastAmount;
     }
 }

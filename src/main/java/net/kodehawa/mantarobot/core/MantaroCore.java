@@ -22,9 +22,6 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.sentry.Sentry;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
@@ -36,6 +33,7 @@ import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
+import org.slf4j.Logger;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;
@@ -43,11 +41,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-import static net.kodehawa.mantarobot.core.LoadState.*;
+import static net.kodehawa.mantarobot.core.LoadState.LOADED;
+import static net.kodehawa.mantarobot.core.LoadState.LOADING;
+import static net.kodehawa.mantarobot.core.LoadState.POSTLOAD;
+import static net.kodehawa.mantarobot.core.LoadState.PRELOAD;
 
-@Slf4j
 public class MantaroCore {
-
+    
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(MantaroCore.class);
     private final Config config;
     private final boolean isDebug;
     private final boolean useBanner;
@@ -56,14 +57,9 @@ public class MantaroCore {
     private String optsPackage;
     private ShardedMantaro shardedMantaro;
 
-    @Getter
     private ICommandProcessor commandProcessor = new DefaultCommandProcessor();
-    @Getter
     private EventBus shardEventBus;
-    @Getter
     private ExecutorService commonExecutor = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("Mantaro-CommonExecutor Thread-%d").build());
-    @Getter
-    @Setter
     private static LoadState loadState = PRELOAD;
 
     public MantaroCore(Config config, boolean useBanner, boolean useSentry, boolean isDebug) {
@@ -77,7 +73,15 @@ public class MantaroCore {
     public static boolean hasLoadedCompletely() {
         return getLoadState().equals(POSTLOAD);
     }
-
+    
+    public static LoadState getLoadState() {
+        return MantaroCore.loadState;
+    }
+    
+    public static void setLoadState(LoadState loadState) {
+        MantaroCore.loadState = loadState;
+    }
+    
     public MantaroCore setOptionsPackage(String optionsPackage) {
         this.optsPackage = optionsPackage;
         return this;
@@ -195,4 +199,16 @@ public class MantaroCore {
                 .getAllClasses().stream().filter(classInfo -> classInfo.hasAnnotation(annotation.getName())).map(ClassInfo::loadClass)
                 .collect(Collectors.toSet());
         }
+    
+    public ICommandProcessor getCommandProcessor() {
+        return this.commandProcessor;
+    }
+    
+    public EventBus getShardEventBus() {
+        return this.shardEventBus;
+    }
+    
+    public ExecutorService getCommonExecutor() {
+        return this.commonExecutor;
+    }
 }

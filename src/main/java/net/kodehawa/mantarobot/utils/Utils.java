@@ -19,9 +19,11 @@ package net.kodehawa.mantarobot.utils;
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import com.rethinkdb.net.Connection;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
@@ -37,14 +39,30 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimit;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
-import okhttp3.*;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import org.json.JSONObject;
+import org.slf4j.Logger;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
-import java.util.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -57,9 +75,9 @@ import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
 
-@Slf4j
 public class Utils {
     public static final Map<Long, AtomicInteger> ratelimitedUsers = new ConcurrentHashMap<>();
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(Utils.class);
     private static Set<String> loggedUsers = ConcurrentHashMap.newKeySet();
 
     public static final OkHttpClient httpClient = new OkHttpClient();
@@ -532,9 +550,8 @@ public class Utils {
         }
     }
 
-    @SneakyThrows
     private static String urlEncodeUTF8(String s) {
-        return URLEncoder.encode(s, "UTF-8");
+        return URLEncoder.encode(s, StandardCharsets.UTF_8);
     }
 
     private static Iterable<String> iterate(Matcher matcher) {
