@@ -30,28 +30,16 @@ public class MarriageData {
         return this.marriageCreationMillis;
     }
     
-    public String getLoveLetter() {
-        return this.loveLetter;
-    }
-    
     public void setMarriageCreationMillis(long marriageCreationMillis) {
         this.marriageCreationMillis = marriageCreationMillis;
     }
     
-    public void setLoveLetter(String loveLetter) {
-        this.loveLetter = loveLetter;
+    public String getLoveLetter() {
+        return this.loveLetter;
     }
     
-    public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof MarriageData)) return false;
-        final MarriageData other = (MarriageData) o;
-        if(!other.canEqual((Object) this)) return false;
-        if(this.getMarriageCreationMillis() != other.getMarriageCreationMillis()) return false;
-        final Object this$loveLetter = this.getLoveLetter();
-        final Object other$loveLetter = other.getLoveLetter();
-        if(this$loveLetter == null ? other$loveLetter != null : !this$loveLetter.equals(other$loveLetter)) return false;
-        return true;
+    public void setLoveLetter(String loveLetter) {
+        this.loveLetter = loveLetter;
     }
     
     protected boolean canEqual(final Object other) {
@@ -66,6 +54,17 @@ public class MarriageData {
         final Object $loveLetter = this.getLoveLetter();
         result = result * PRIME + ($loveLetter == null ? 43 : $loveLetter.hashCode());
         return result;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof MarriageData)) return false;
+        final MarriageData other = (MarriageData) o;
+        if(!other.canEqual(this)) return false;
+        if(this.getMarriageCreationMillis() != other.getMarriageCreationMillis()) return false;
+        final Object this$loveLetter = this.getLoveLetter();
+        final Object other$loveLetter = other.getLoveLetter();
+        return this$loveLetter == null ? other$loveLetter == null : this$loveLetter.equals(other$loveLetter);
     }
     
     public String toString() {

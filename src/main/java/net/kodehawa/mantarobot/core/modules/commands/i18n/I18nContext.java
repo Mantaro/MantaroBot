@@ -34,23 +34,23 @@ public class I18nContext {
         I18n context = I18n.getForLanguage(getContextLanguage());
         return context.get(s);
     }
-
+    
     public String withRoot(String root, String s) {
         I18n context = I18n.getForLanguage(getContextLanguage());
         return context.withRoot(root, s);
     }
-
+    
     public String getContextLanguage() {
         if(guildData == null && userData == null) {
             return "en_US";
         }
-
+        
         String lang;
         if(userData == null)
             lang = guildData.getLang();
         else
             lang = userData.getLang() == null || userData.getLang().isEmpty() ? guildData.getLang() : userData.getLang();
-
+        
         I18n context = I18n.getForLanguage(lang);
         return context == null ? "en_US" : lang;
     }

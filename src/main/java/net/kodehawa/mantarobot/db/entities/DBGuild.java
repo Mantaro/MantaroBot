@@ -45,10 +45,10 @@ public class DBGuild implements ManagedObject {
     private final GuildData data;
     private final String id;
     private long premiumUntil;
-
+    
     @JsonIgnore
     private Config config = MantaroData.config().get();
-
+    
     @JsonCreator
     @ConstructorProperties({"id", "premiumUntil", "data"})
     public DBGuild(@JsonProperty("id") String id, @JsonProperty("premiumUntil") long premiumUntil, @JsonProperty("data") GuildData data) {
@@ -56,31 +56,24 @@ public class DBGuild implements ManagedObject {
         this.premiumUntil = premiumUntil;
         this.data = data;
     }
-
+    
     public static DBGuild of(String id) {
         return new DBGuild(id, 0, new GuildData());
     }
-
+    
     public static DBGuild of(String id, long premiumUntil) {
         return new DBGuild(id, premiumUntil, new GuildData());
     }
-
-    @JsonIgnore
-    @Override
-    @Nonnull
-    public String getTableName() {
-        return DB_TABLE;
-    }
-
+    
     public Guild getGuild(JDA jda) {
         return jda.getGuildById(getId());
     }
-
+    
     @JsonIgnore
     public long getPremiumLeft() {
         return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
     }
-
+    
     public void incrementPremium(long milliseconds) {
         if(isPremium()) {
             this.premiumUntil += milliseconds;
@@ -88,7 +81,7 @@ public class DBGuild implements ManagedObject {
             this.premiumUntil = currentTimeMillis() + milliseconds;
         }
     }
-
+    
     @JsonIgnore
     public boolean isPremium() {
         PremiumKey key = MantaroData.db().getPremiumKey(data.getPremiumKey());
@@ -100,11 +93,11 @@ public class DBGuild implements ManagedObject {
                 UserData ownerData = owner.getData();
                 ownerData.getKeysClaimed().remove(getId());
                 owner.save();
-
+                
                 key.delete();
                 return false;
             }
-
+            
             //Link key to owner if key == owner and key holder is on patreon.
             //Sadly gotta skip of holder isn't patron here bc there are some bought keys (paypal) which I can't convert without invalidating
             Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(key.getOwner());
@@ -112,7 +105,7 @@ public class DBGuild implements ManagedObject {
                 key.getData().setLinkedTo(key.getOwner());
                 key.save(); //doesn't matter if it doesn't save immediately, will do later anyway (key is usually immutable in db)
             }
-
+            
             //If the receipt is not the owner, account them to the keys the owner has claimed.
             //This has usage later when seeing how many keys can they take. The second/third check is kind of redundant, but necessary anyway to see if it works.
             String keyLinkedTo = key.getData().getLinkedTo();
@@ -125,7 +118,7 @@ public class DBGuild implements ManagedObject {
                 }
             }
         }
-
+        
         //Patreon bot link check.
         String linkedTo = getData().getMpLinkedTo();
         if(config.isPremiumBot() && linkedTo != null && key == null) { //Key should always be null in MP anyway.
@@ -135,11 +128,11 @@ public class DBGuild implements ManagedObject {
                 return true;
             }
         }
-
+        
         //TODO: remove currentTimeMillis() < premiumUntil check whenever you're done transferring MP guilds to the new system.
         return currentTimeMillis() < premiumUntil || (key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.GUILD));
     }
-
+    
     @JsonIgnore
     public PremiumKey generateAndApplyPremiumKey(int days) {
         String premiumId = UUID.randomUUID().toString();
@@ -150,7 +143,7 @@ public class DBGuild implements ManagedObject {
         saveAsync();
         return newKey;
     }
-
+    
     @JsonIgnore
     public void removePremiumKey() {
         data.setPremiumKey(null);
@@ -165,30 +158,19 @@ public class DBGuild implements ManagedObject {
         return this.id;
     }
     
+    @JsonIgnore
+    @Override
+    @Nonnull
+    public String getTableName() {
+        return DB_TABLE;
+    }
+    
     public long getPremiumUntil() {
         return this.premiumUntil;
     }
     
     public Config getConfig() {
         return this.config;
-    }
-    
-    public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof DBGuild)) return false;
-        final DBGuild other = (DBGuild) o;
-        if(!other.canEqual((Object) this)) return false;
-        final Object this$data = this.getData();
-        final Object other$data = other.getData();
-        if(this$data == null ? other$data != null : !this$data.equals(other$data)) return false;
-        final Object this$id = this.getId();
-        final Object other$id = other.getId();
-        if(this$id == null ? other$id != null : !this$id.equals(other$id)) return false;
-        if(this.getPremiumUntil() != other.getPremiumUntil()) return false;
-        final Object this$config = this.getConfig();
-        final Object other$config = other.getConfig();
-        if(this$config == null ? other$config != null : !this$config.equals(other$config)) return false;
-        return true;
     }
     
     protected boolean canEqual(final Object other) {
@@ -207,6 +189,23 @@ public class DBGuild implements ManagedObject {
         final Object $config = this.getConfig();
         result = result * PRIME + ($config == null ? 43 : $config.hashCode());
         return result;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof DBGuild)) return false;
+        final DBGuild other = (DBGuild) o;
+        if(!other.canEqual(this)) return false;
+        final Object this$data = this.getData();
+        final Object other$data = other.getData();
+        if(this$data == null ? other$data != null : !this$data.equals(other$data)) return false;
+        final Object this$id = this.getId();
+        final Object other$id = other.getId();
+        if(this$id == null ? other$id != null : !this$id.equals(other$id)) return false;
+        if(this.getPremiumUntil() != other.getPremiumUntil()) return false;
+        final Object this$config = this.getConfig();
+        final Object other$config = other.getConfig();
+        return this$config == null ? other$config == null : this$config.equals(other$config);
     }
     
     public String toString() {

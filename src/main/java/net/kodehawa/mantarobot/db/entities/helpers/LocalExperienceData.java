@@ -22,22 +22,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LocalExperienceData {
-
+    
+    private String userId;
+    private long experience;
+    private long level;
     @JsonCreator
     public LocalExperienceData(@JsonProperty("userId") String userId, @JsonProperty("experience") long experience, @JsonProperty("level") long level) {
         this.userId = userId;
         this.experience = experience;
         this.level = level;
     }
-
     @JsonIgnore
     public LocalExperienceData(String userId) {
         this.userId = userId;
     }
-
-    private String userId;
-    private long experience;
-    private long level;
     
     public LocalExperienceData() {
     }
@@ -46,37 +44,24 @@ public class LocalExperienceData {
         return this.userId;
     }
     
-    public long getExperience() {
-        return this.experience;
-    }
-    
-    public long getLevel() {
-        return this.level;
-    }
-    
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+    
+    public long getExperience() {
+        return this.experience;
     }
     
     public void setExperience(long experience) {
         this.experience = experience;
     }
     
-    public void setLevel(long level) {
-        this.level = level;
+    public long getLevel() {
+        return this.level;
     }
     
-    public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof LocalExperienceData)) return false;
-        final LocalExperienceData other = (LocalExperienceData) o;
-        if(!other.canEqual((Object) this)) return false;
-        final Object this$userId = this.getUserId();
-        final Object other$userId = other.getUserId();
-        if(this$userId == null ? other$userId != null : !this$userId.equals(other$userId)) return false;
-        if(this.getExperience() != other.getExperience()) return false;
-        if(this.getLevel() != other.getLevel()) return false;
-        return true;
+    public void setLevel(long level) {
+        this.level = level;
     }
     
     protected boolean canEqual(final Object other) {
@@ -93,6 +78,18 @@ public class LocalExperienceData {
         final long $level = this.getLevel();
         result = result * PRIME + (int) ($level >>> 32 ^ $level);
         return result;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof LocalExperienceData)) return false;
+        final LocalExperienceData other = (LocalExperienceData) o;
+        if(!other.canEqual(this)) return false;
+        final Object this$userId = this.getUserId();
+        final Object other$userId = other.getUserId();
+        if(this$userId == null ? other$userId != null : !this$userId.equals(other$userId)) return false;
+        if(this.getExperience() != other.getExperience()) return false;
+        return this.getLevel() == other.getLevel();
     }
     
     public String toString() {

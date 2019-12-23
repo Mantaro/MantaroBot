@@ -29,35 +29,24 @@ public class SeasonalPlayerData {
         return this.gamesWon;
     }
     
-    public long getWaifuCachedValue() {
-        return this.waifuCachedValue;
-    }
-    
-    public long getLockedUntil() {
-        return this.lockedUntil;
-    }
-    
     public void setGamesWon(long gamesWon) {
         this.gamesWon = gamesWon;
+    }
+    
+    public long getWaifuCachedValue() {
+        return this.waifuCachedValue;
     }
     
     public void setWaifuCachedValue(long waifuCachedValue) {
         this.waifuCachedValue = waifuCachedValue;
     }
     
-    public void setLockedUntil(long lockedUntil) {
-        this.lockedUntil = lockedUntil;
+    public long getLockedUntil() {
+        return this.lockedUntil;
     }
     
-    public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof SeasonalPlayerData)) return false;
-        final SeasonalPlayerData other = (SeasonalPlayerData) o;
-        if(!other.canEqual((Object) this)) return false;
-        if(this.gamesWon != other.gamesWon) return false;
-        if(this.waifuCachedValue != other.waifuCachedValue) return false;
-        if(this.lockedUntil != other.lockedUntil) return false;
-        return true;
+    public void setLockedUntil(long lockedUntil) {
+        this.lockedUntil = lockedUntil;
     }
     
     protected boolean canEqual(final Object other) {
@@ -74,6 +63,16 @@ public class SeasonalPlayerData {
         final long $lockedUntil = this.lockedUntil;
         result = result * PRIME + (int) ($lockedUntil >>> 32 ^ $lockedUntil);
         return result;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof SeasonalPlayerData)) return false;
+        final SeasonalPlayerData other = (SeasonalPlayerData) o;
+        if(!other.canEqual(this)) return false;
+        if(this.gamesWon != other.gamesWon) return false;
+        if(this.waifuCachedValue != other.waifuCachedValue) return false;
+        return this.lockedUntil == other.lockedUntil;
     }
     
     public String toString() {

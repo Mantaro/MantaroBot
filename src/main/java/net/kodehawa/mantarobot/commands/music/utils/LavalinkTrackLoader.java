@@ -40,7 +40,7 @@ public class LavalinkTrackLoader {
             manager.loadItem(query, handler);
             return;
         }
-
+        
         CompletionStage<Runnable> last = tryLoad(manager, sockets.next().getRemoteUri(), query, handler);
         while(sockets.hasNext()) {
             URI uri = sockets.next().getRemoteUri();
@@ -50,7 +50,10 @@ public class LavalinkTrackLoader {
                     .exceptionally(e -> tryLoad(manager, uri, query, handler))
                     .thenCompose(Function.identity())
                     .thenAccept(cf::complete)
-                    .exceptionally(e -> { cf.completeExceptionally(e); return null; });
+                    .exceptionally(e -> {
+                        cf.completeExceptionally(e);
+                        return null;
+                    });
             last = cf;
             //last = last.exceptionallyCompose(e -> tryLoad(manager, uri, query, handler));
         }
@@ -62,20 +65,20 @@ public class LavalinkTrackLoader {
             }
         });
     }
-
+    
     private static CompletionStage<Runnable> tryLoad(AudioPlayerManager manager, URI node, String query,
                                                      AudioLoadResultHandler handler) {
         CompletableFuture<Runnable> future = new CompletableFuture<>();
         Utils.httpClient.newCall(new Request.Builder()
-                .url(node.toString() + "/loadtracks?identifier" + URLEncoding.encode(query))
-                .header("Authorization", MantaroData.config().get().lavalinkPass)
-            .build()
+                                         .url(node.toString() + "/loadtracks?identifier" + URLEncoding.encode(query))
+                                         .header("Authorization", MantaroData.config().get().lavalinkPass)
+                                         .build()
         ).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 future.completeExceptionally(e);
             }
-
+            
             @Override
             public void onResponse(Call call, Response response) {
                 try(Response r = response) {
@@ -142,7 +145,7 @@ public class LavalinkTrackLoader {
         });
         return future;
     }
-
+    
     private static AudioTrack decode(AudioPlayerManager manager, String track) {
         try {
             return manager.decodeTrack(new MessageInput(new ByteArrayInputStream(

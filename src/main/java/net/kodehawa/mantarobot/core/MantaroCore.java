@@ -49,6 +49,7 @@ import static net.kodehawa.mantarobot.core.LoadState.PRELOAD;
 public class MantaroCore {
     
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(MantaroCore.class);
+    private static LoadState loadState = PRELOAD;
     private final Config config;
     private final boolean isDebug;
     private final boolean useBanner;
@@ -56,12 +57,10 @@ public class MantaroCore {
     private String commandsPackage;
     private String optsPackage;
     private ShardedMantaro shardedMantaro;
-
     private ICommandProcessor commandProcessor = new DefaultCommandProcessor();
     private EventBus shardEventBus;
     private ExecutorService commonExecutor = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("Mantaro-CommonExecutor Thread-%d").build());
-    private static LoadState loadState = PRELOAD;
-
+    
     public MantaroCore(Config config, boolean useBanner, boolean useSentry, boolean isDebug) {
         this.config = config;
         this.useBanner = useBanner;
@@ -69,7 +68,7 @@ public class MantaroCore {
         this.isDebug = isDebug;
         Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-core-common-executor", commonExecutor);
     }
-
+    
     public static boolean hasLoadedCompletely() {
         return getLoadState().equals(POSTLOAD);
     }
@@ -86,74 +85,74 @@ public class MantaroCore {
         this.optsPackage = optionsPackage;
         return this;
     }
-
+    
     public MantaroCore setCommandsPackage(String commandsPackage) {
         this.commandsPackage = commandsPackage;
         return this;
     }
-
+    
     public MantaroCore setCustomCommandProcessor(ICommandProcessor processor) {
         this.commandProcessor = processor;
         return this;
     }
-
+    
     private void startShardedInstance(int fromShard, int toShard) {
         loadState = LOADING;
-
+        
         shardedMantaro = new ShardedBuilder()
-                .debug(isDebug)
-                .auto(true)
-                .token(config.token)
-                .commandProcessor(commandProcessor)
-                .build();
-
+                                 .debug(isDebug)
+                                 .auto(true)
+                                 .token(config.token)
+                                 .commandProcessor(commandProcessor)
+                                 .build();
+        
         new Thread(shardedMantaro::shard, "MantaroCore-ShardInit").start();
-
+        
         loadState = LOADED;
     }
-
+    
     private void startSingleShardInstance() {
         loadState = LOADING;
-
+        
         shardedMantaro = new ShardedBuilder()
-                .amount(1)
-                .token(config.token)
-                .amountNode(config.fromShard, config.upToShard)
-                .commandProcessor(commandProcessor)
-                .build();
-
+                                 .amount(1)
+                                 .token(config.token)
+                                 .amountNode(config.fromShard, config.upToShard)
+                                 .commandProcessor(commandProcessor)
+                                 .build();
+        
         new Thread(shardedMantaro::shard, "MantaroCore-ShardInit").start();
-
+        
         loadState = LOADED;
     }
-
+    
     public MantaroCore startMainComponents(boolean single) {
         return startMainComponents(single, 0, 0);
     }
-
+    
     public MantaroCore startMainComponents(boolean single, int shardStart, int shardEnd) {
         if(config == null)
             throw new IllegalArgumentException("Config cannot be null!");
-
+        
         if(useSentry)
             Sentry.init(config.sentryDSN);
         if(useBanner)
             new BannerPrinter(1).printBanner();
-
+        
         if(commandsPackage == null)
             throw new IllegalArgumentException("Cannot look for commands if you don't specify where!");
         if(optsPackage == null)
             throw new IllegalArgumentException("Cannot look for options if you don't specify where!");
-
+        
         Set<Class<?>> commands = lookForAnnotatedOn(commandsPackage, Module.class);
         Set<Class<?>> options = lookForAnnotatedOn(optsPackage, Option.class);
-
+        
         if(single) {
             startSingleShardInstance();
         } else {
             startShardedInstance(shardStart, shardEnd);
         }
-
+        
         shardEventBus = new EventBus();
         for(Class<?> aClass : commands) {
             try {
@@ -162,7 +161,7 @@ public class MantaroCore {
                 log.error("Invalid module: no zero arg public constructor found for " + aClass);
             }
         }
-
+        
         for(Class<?> clazz : options) {
             try {
                 shardEventBus.register(clazz.getDeclaredConstructor().newInstance());
@@ -170,7 +169,7 @@ public class MantaroCore {
                 log.error("Invalid module: no zero arg public constructor found for " + clazz);
             }
         }
-
+        
         new Thread(() -> {
             //For now, only used by AsyncInfoMonitor startup and Anime Login Task.
             shardEventBus.post(new PreLoadEvent());
@@ -179,26 +178,26 @@ public class MantaroCore {
             //Registers all options
             shardEventBus.post(new OptionRegistryEvent());
         }, "Mantaro EventBus-Post").start();
-
+        
         return this;
     }
-
+    
     public ShardedMantaro getShardedInstance() {
         return shardedMantaro;
     }
-
+    
     public void markAsReady() {
         loadState = POSTLOAD;
     }
-
+    
     private Set<Class<?>> lookForAnnotatedOn(String packageName, Class<? extends Annotation> annotation) {
         return new ClassGraph()
-                .whitelistPackages(packageName)
-                .enableAnnotationInfo()
-                .scan(2)
-                .getAllClasses().stream().filter(classInfo -> classInfo.hasAnnotation(annotation.getName())).map(ClassInfo::loadClass)
-                .collect(Collectors.toSet());
-        }
+                       .whitelistPackages(packageName)
+                       .enableAnnotationInfo()
+                       .scan(2)
+                       .getAllClasses().stream().filter(classInfo -> classInfo.hasAnnotation(annotation.getName())).map(ClassInfo::loadClass)
+                       .collect(Collectors.toSet());
+    }
     
     public ICommandProcessor getCommandProcessor() {
         return this.commandProcessor;

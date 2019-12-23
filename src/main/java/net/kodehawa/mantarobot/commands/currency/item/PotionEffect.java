@@ -30,7 +30,7 @@ public class PotionEffect {
     private ItemType.PotionType type;
     private long timesUsed;
     private long amountEquipped = 1;
-
+    
     @JsonCreator
     @ConstructorProperties({"potionId", "until", "type"})
     public PotionEffect(int potionId, long until, ItemType.PotionType type) {
@@ -54,7 +54,7 @@ public class PotionEffect {
             return true;
         }
     }
-
+    
     @JsonIgnore
     public boolean equip(int amount) {
         long newAmount = amountEquipped + amount;
@@ -63,10 +63,10 @@ public class PotionEffect {
         } else {
             setAmountEquipped(newAmount);
         }
-
+        
         return true;
     }
-
+    
     @JsonIgnore
     public boolean equip() {
         return equip(1);
@@ -76,66 +76,48 @@ public class PotionEffect {
         return this.uuid;
     }
     
-    public int getPotion() {
-        return this.potion;
-    }
-    
-    public long getUntil() {
-        return this.until;
-    }
-    
-    public ItemType.PotionType getType() {
-        return this.type;
-    }
-    
-    public long getTimesUsed() {
-        return this.timesUsed;
-    }
-    
-    public long getAmountEquipped() {
-        return this.amountEquipped;
-    }
-    
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+    
+    public int getPotion() {
+        return this.potion;
     }
     
     public void setPotion(int potion) {
         this.potion = potion;
     }
     
+    public long getUntil() {
+        return this.until;
+    }
+    
     public void setUntil(long until) {
         this.until = until;
+    }
+    
+    public ItemType.PotionType getType() {
+        return this.type;
     }
     
     public void setType(ItemType.PotionType type) {
         this.type = type;
     }
     
+    public long getTimesUsed() {
+        return this.timesUsed;
+    }
+    
     public void setTimesUsed(long timesUsed) {
         this.timesUsed = timesUsed;
     }
     
-    public void setAmountEquipped(long amountEquipped) {
-        this.amountEquipped = amountEquipped;
+    public long getAmountEquipped() {
+        return this.amountEquipped;
     }
     
-    public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof PotionEffect)) return false;
-        final PotionEffect other = (PotionEffect) o;
-        if(!other.canEqual((Object) this)) return false;
-        final Object this$uuid = this.uuid;
-        final Object other$uuid = other.uuid;
-        if(this$uuid == null ? other$uuid != null : !this$uuid.equals(other$uuid)) return false;
-        if(this.potion != other.potion) return false;
-        if(this.until != other.until) return false;
-        final Object this$type = this.type;
-        final Object other$type = other.type;
-        if(this$type == null ? other$type != null : !this$type.equals(other$type)) return false;
-        if(this.timesUsed != other.timesUsed) return false;
-        if(this.amountEquipped != other.amountEquipped) return false;
-        return true;
+    public void setAmountEquipped(long amountEquipped) {
+        this.amountEquipped = amountEquipped;
     }
     
     protected boolean canEqual(final Object other) {
@@ -157,6 +139,23 @@ public class PotionEffect {
         final long $amountEquipped = this.amountEquipped;
         result = result * PRIME + (int) ($amountEquipped >>> 32 ^ $amountEquipped);
         return result;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof PotionEffect)) return false;
+        final PotionEffect other = (PotionEffect) o;
+        if(!other.canEqual(this)) return false;
+        final Object this$uuid = this.uuid;
+        final Object other$uuid = other.uuid;
+        if(this$uuid == null ? other$uuid != null : !this$uuid.equals(other$uuid)) return false;
+        if(this.potion != other.potion) return false;
+        if(this.until != other.until) return false;
+        final Object this$type = this.type;
+        final Object other$type = other.type;
+        if(this$type == null ? other$type != null : !this$type.equals(other$type)) return false;
+        if(this.timesUsed != other.timesUsed) return false;
+        return this.amountEquipped == other.amountEquipped;
     }
     
     public String toString() {

@@ -24,11 +24,11 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 @FunctionalInterface
 public interface ReactionOperation extends Operation {
     int add(MessageReactionAddEvent event);
-
+    
     default int remove(MessageReactionRemoveEvent event) {
         return IGNORED;
     }
-
+    
     default int removeAll(MessageReactionRemoveAllEvent event) {
         return IGNORED;
     }

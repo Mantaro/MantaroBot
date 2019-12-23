@@ -31,7 +31,7 @@ public class AudioUtils {
                 TimeUnit.MILLISECONDS.toSeconds(length) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))
         );
     }
-
+    
     public static String getQueueList(ConcurrentLinkedDeque<AudioTrack> queue) {
         StringBuilder sb = new StringBuilder();
         int n = 1;
@@ -41,7 +41,7 @@ public class AudioUtils {
                     TimeUnit.MILLISECONDS.toMinutes(aDuration),
                     TimeUnit.MILLISECONDS.toSeconds(aDuration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(aDuration))
             );
-
+            
             User dj = audioTrack.getUserData() != null ? MantaroBot.getInstance().getUserById(String.valueOf(audioTrack.getUserData())) : null;
             String title = audioTrack.getInfo().title;
             if(title.length() > 30) title = title.substring(0, 30) + "...";

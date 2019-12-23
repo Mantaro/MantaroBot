@@ -25,37 +25,37 @@ import java.util.stream.Collectors;
 
 public class CommandStatsManager extends StatsManager<String> {
     private static final TrackerGroup<String> TRACKERS = new TrackerGroup<>();
-
+    
     public static void log(String cmd) {
         if(cmd.isEmpty()) return;
         TRACKERS.tracker(cmd).increment();
     }
-
+    
     public static String resume(Bucket bucket) {
         long total = TRACKERS.total(bucket);
-
+        
         return (total == 0) ? ("No Events Logged.") : ("Count: " + total + "\n" + TRACKERS.highest(bucket, 5)
-                .map(tracker -> {
-                    int percent = Math.round((float) bucket.amount(tracker) * 100 / total);
-                    return String.format("%s %d%% **%s** (%d)", bar(percent, 15), percent, tracker.getKey(), bucket.amount(tracker));
-                })
-                .collect(Collectors.joining("\n")));
+                                                                                          .map(tracker -> {
+                                                                                              int percent = Math.round((float) bucket.amount(tracker) * 100 / total);
+                                                                                              return String.format("%s %d%% **%s** (%d)", bar(percent, 15), percent, tracker.getKey(), bucket.amount(tracker));
+                                                                                          })
+                                                                                          .collect(Collectors.joining("\n")));
     }
-
+    
     public static EmbedBuilder fillEmbed(Bucket bucket, EmbedBuilder builder) {
         long total = TRACKERS.total(bucket);
-
+        
         if(total == 0) {
             builder.addField("Nothing Here.", "Just dust.", false);
             return builder;
         }
-
+        
         TRACKERS.highest(bucket, 12)
                 .forEach(tracker -> {
                     long percent = bucket.amount(tracker) * 100 / total;
                     builder.addField(tracker.getKey(), String.format("%s %d%% (%d)", bar(percent, 15), percent, bucket.amount(tracker)), false);
                 });
-
+        
         return builder;
     }
 }

@@ -54,12 +54,12 @@ public class PlayerData {
     private PotionEffect activeBuff;
     private long waifuCachedValue;
     private List<ProfileComponent> profileComponents = new LinkedList<>();
-
+    
     //lol?
     //this is needed so it actually works, even though it does absolutely nothing
     //thanks rethonkdb
     private List<Pet> profilePets = new LinkedList<>();
-
+    
     private long petSlots = 4;
     private Map<String, Pet> pets = new HashMap<>();
     
@@ -72,28 +72,28 @@ public class PlayerData {
     public boolean isMarried() {
         return marriedWith != null && MantaroBot.getInstance().getUserById(marriedWith) != null;
     }
-
+    
     @JsonIgnore
     public boolean hasBadge(Badge b) {
         return badges.contains(b);
     }
-
+    
     @JsonIgnore
     public boolean addBadgeIfAbsent(Badge b) {
         if(hasBadge(b)) {
             return false;
         }
-
+        
         badges.add(b);
         return true;
     }
-
+    
     @JsonIgnore
     public boolean removeBadge(Badge b) {
         if(!hasBadge(b)) {
             return false;
         }
-
+        
         badges.remove(b);
         return true;
     }
@@ -102,214 +102,160 @@ public class PlayerData {
         return this.experience;
     }
     
-    public List<Badge> getBadges() {
-        return this.badges;
-    }
-    
-    public long getDailyStreak() {
-        return this.dailyStreak;
-    }
-    
-    public String getDescription() {
-        return this.description;
-    }
-    
-    public long getGamesWon() {
-        return this.gamesWon;
-    }
-    
-    public long getLastDailyAt() {
-        return this.lastDailyAt;
-    }
-    
-    public long getLockedUntil() {
-        return this.lockedUntil;
-    }
-    
-    public Long getMarriedSince() {
-        return this.marriedSince;
-    }
-    
-    public String getMarriedWith() {
-        return this.marriedWith;
-    }
-    
-    public long getMoneyOnBank() {
-        return this.moneyOnBank;
-    }
-    
-    public Badge getMainBadge() {
-        return this.mainBadge;
-    }
-    
-    public long getMarketUsed() {
-        return this.marketUsed;
-    }
-    
-    public boolean isShowBadge() {
-        return this.showBadge;
-    }
-    
-    public PotionEffect getActivePotion() {
-        return this.activePotion;
-    }
-    
-    public PotionEffect getActiveBuff() {
-        return this.activeBuff;
-    }
-    
-    public long getWaifuCachedValue() {
-        return this.waifuCachedValue;
-    }
-    
-    public List<ProfileComponent> getProfileComponents() {
-        return this.profileComponents;
-    }
-    
-    public List<Pet> getProfilePets() {
-        return this.profilePets;
-    }
-    
-    public long getPetSlots() {
-        return this.petSlots;
-    }
-    
-    public Map<String, Pet> getPets() {
-        return this.pets;
-    }
-    
     public void setExperience(long experience) {
         this.experience = experience;
+    }
+    
+    public List<Badge> getBadges() {
+        return this.badges;
     }
     
     public void setBadges(List<Badge> badges) {
         this.badges = badges;
     }
     
+    public long getDailyStreak() {
+        return this.dailyStreak;
+    }
+    
     public void setDailyStreak(long dailyStreak) {
         this.dailyStreak = dailyStreak;
+    }
+    
+    public String getDescription() {
+        return this.description;
     }
     
     public void setDescription(String description) {
         this.description = description;
     }
     
+    public long getGamesWon() {
+        return this.gamesWon;
+    }
+    
     public void setGamesWon(long gamesWon) {
         this.gamesWon = gamesWon;
+    }
+    
+    public long getLastDailyAt() {
+        return this.lastDailyAt;
     }
     
     public void setLastDailyAt(long lastDailyAt) {
         this.lastDailyAt = lastDailyAt;
     }
     
+    public long getLockedUntil() {
+        return this.lockedUntil;
+    }
+    
     public void setLockedUntil(long lockedUntil) {
         this.lockedUntil = lockedUntil;
+    }
+    
+    public Long getMarriedSince() {
+        return this.marriedSince;
     }
     
     public void setMarriedSince(Long marriedSince) {
         this.marriedSince = marriedSince;
     }
     
+    public String getMarriedWith() {
+        return this.marriedWith;
+    }
+    
     public void setMarriedWith(String marriedWith) {
         this.marriedWith = marriedWith;
+    }
+    
+    public long getMoneyOnBank() {
+        return this.moneyOnBank;
     }
     
     public void setMoneyOnBank(long moneyOnBank) {
         this.moneyOnBank = moneyOnBank;
     }
     
+    public Badge getMainBadge() {
+        return this.mainBadge;
+    }
+    
     public void setMainBadge(Badge mainBadge) {
         this.mainBadge = mainBadge;
+    }
+    
+    public long getMarketUsed() {
+        return this.marketUsed;
     }
     
     public void setMarketUsed(long marketUsed) {
         this.marketUsed = marketUsed;
     }
     
+    public boolean isShowBadge() {
+        return this.showBadge;
+    }
+    
     public void setShowBadge(boolean showBadge) {
         this.showBadge = showBadge;
+    }
+    
+    public PotionEffect getActivePotion() {
+        return this.activePotion;
     }
     
     public void setActivePotion(PotionEffect activePotion) {
         this.activePotion = activePotion;
     }
     
+    public PotionEffect getActiveBuff() {
+        return this.activeBuff;
+    }
+    
     public void setActiveBuff(PotionEffect activeBuff) {
         this.activeBuff = activeBuff;
+    }
+    
+    public long getWaifuCachedValue() {
+        return this.waifuCachedValue;
     }
     
     public void setWaifuCachedValue(long waifuCachedValue) {
         this.waifuCachedValue = waifuCachedValue;
     }
     
+    public List<ProfileComponent> getProfileComponents() {
+        return this.profileComponents;
+    }
+    
     public void setProfileComponents(List<ProfileComponent> profileComponents) {
         this.profileComponents = profileComponents;
+    }
+    
+    public List<Pet> getProfilePets() {
+        return this.profilePets;
     }
     
     public void setProfilePets(List<Pet> profilePets) {
         this.profilePets = profilePets;
     }
     
+    public long getPetSlots() {
+        return this.petSlots;
+    }
+    
     public void setPetSlots(long petSlots) {
         this.petSlots = petSlots;
     }
     
-    public void setPets(Map<String, Pet> pets) {
-        this.pets = pets;
+    public Map<String, Pet> getPets() {
+        return this.pets;
     }
     
-    public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof PlayerData)) return false;
-        final PlayerData other = (PlayerData) o;
-        if(!other.canEqual((Object) this)) return false;
-        if(this.getExperience() != other.getExperience()) return false;
-        final Object this$badges = this.getBadges();
-        final Object other$badges = other.getBadges();
-        if(this$badges == null ? other$badges != null : !this$badges.equals(other$badges)) return false;
-        if(this.getDailyStreak() != other.getDailyStreak()) return false;
-        final Object this$description = this.getDescription();
-        final Object other$description = other.getDescription();
-        if(this$description == null ? other$description != null : !this$description.equals(other$description))
-            return false;
-        if(this.getGamesWon() != other.getGamesWon()) return false;
-        if(this.getLastDailyAt() != other.getLastDailyAt()) return false;
-        if(this.getLockedUntil() != other.getLockedUntil()) return false;
-        final Object this$marriedSince = this.getMarriedSince();
-        final Object other$marriedSince = other.getMarriedSince();
-        if(this$marriedSince == null ? other$marriedSince != null : !this$marriedSince.equals(other$marriedSince))
-            return false;
-        final Object this$marriedWith = this.getMarriedWith();
-        final Object other$marriedWith = other.getMarriedWith();
-        if(this$marriedWith == null ? other$marriedWith != null : !this$marriedWith.equals(other$marriedWith))
-            return false;
-        if(this.getMoneyOnBank() != other.getMoneyOnBank()) return false;
-        final Object this$mainBadge = this.getMainBadge();
-        final Object other$mainBadge = other.getMainBadge();
-        if(this$mainBadge == null ? other$mainBadge != null : !this$mainBadge.equals(other$mainBadge)) return false;
-        if(this.getMarketUsed() != other.getMarketUsed()) return false;
-        if(this.isShowBadge() != other.isShowBadge()) return false;
-        final Object this$activePotion = this.getActivePotion();
-        final Object other$activePotion = other.getActivePotion();
-        if(this$activePotion == null ? other$activePotion != null : !this$activePotion.equals(other$activePotion))
-            return false;
-        final Object this$activeBuff = this.getActiveBuff();
-        final Object other$activeBuff = other.getActiveBuff();
-        if(this$activeBuff == null ? other$activeBuff != null : !this$activeBuff.equals(other$activeBuff)) return false;
-        if(this.getWaifuCachedValue() != other.getWaifuCachedValue()) return false;
-        final Object this$profileComponents = this.getProfileComponents();
-        final Object other$profileComponents = other.getProfileComponents();
-        if(this$profileComponents == null ? other$profileComponents != null : !this$profileComponents.equals(other$profileComponents))
-            return false;
-        final Object this$profilePets = this.getProfilePets();
-        final Object other$profilePets = other.getProfilePets();
-        if(this$profilePets == null ? other$profilePets != null : !this$profilePets.equals(other$profilePets))
-            return false;
-        if(this.getPetSlots() != other.getPetSlots()) return false;
-        final Object this$pets = this.getPets();
-        final Object other$pets = other.getPets();
-        if(this$pets == null ? other$pets != null : !this$pets.equals(other$pets)) return false;
-        return true;
+    public void setPets(Map<String, Pet> pets) {
+        this.pets = pets;
     }
     
     protected boolean canEqual(final Object other) {
@@ -359,6 +305,59 @@ public class PlayerData {
         final Object $pets = this.getPets();
         result = result * PRIME + ($pets == null ? 43 : $pets.hashCode());
         return result;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof PlayerData)) return false;
+        final PlayerData other = (PlayerData) o;
+        if(!other.canEqual(this)) return false;
+        if(this.getExperience() != other.getExperience()) return false;
+        final Object this$badges = this.getBadges();
+        final Object other$badges = other.getBadges();
+        if(this$badges == null ? other$badges != null : !this$badges.equals(other$badges)) return false;
+        if(this.getDailyStreak() != other.getDailyStreak()) return false;
+        final Object this$description = this.getDescription();
+        final Object other$description = other.getDescription();
+        if(this$description == null ? other$description != null : !this$description.equals(other$description))
+            return false;
+        if(this.getGamesWon() != other.getGamesWon()) return false;
+        if(this.getLastDailyAt() != other.getLastDailyAt()) return false;
+        if(this.getLockedUntil() != other.getLockedUntil()) return false;
+        final Object this$marriedSince = this.getMarriedSince();
+        final Object other$marriedSince = other.getMarriedSince();
+        if(this$marriedSince == null ? other$marriedSince != null : !this$marriedSince.equals(other$marriedSince))
+            return false;
+        final Object this$marriedWith = this.getMarriedWith();
+        final Object other$marriedWith = other.getMarriedWith();
+        if(this$marriedWith == null ? other$marriedWith != null : !this$marriedWith.equals(other$marriedWith))
+            return false;
+        if(this.getMoneyOnBank() != other.getMoneyOnBank()) return false;
+        final Object this$mainBadge = this.getMainBadge();
+        final Object other$mainBadge = other.getMainBadge();
+        if(this$mainBadge == null ? other$mainBadge != null : !this$mainBadge.equals(other$mainBadge)) return false;
+        if(this.getMarketUsed() != other.getMarketUsed()) return false;
+        if(this.isShowBadge() != other.isShowBadge()) return false;
+        final Object this$activePotion = this.getActivePotion();
+        final Object other$activePotion = other.getActivePotion();
+        if(this$activePotion == null ? other$activePotion != null : !this$activePotion.equals(other$activePotion))
+            return false;
+        final Object this$activeBuff = this.getActiveBuff();
+        final Object other$activeBuff = other.getActiveBuff();
+        if(this$activeBuff == null ? other$activeBuff != null : !this$activeBuff.equals(other$activeBuff)) return false;
+        if(this.getWaifuCachedValue() != other.getWaifuCachedValue()) return false;
+        final Object this$profileComponents = this.getProfileComponents();
+        final Object other$profileComponents = other.getProfileComponents();
+        if(this$profileComponents == null ? other$profileComponents != null : !this$profileComponents.equals(other$profileComponents))
+            return false;
+        final Object this$profilePets = this.getProfilePets();
+        final Object other$profilePets = other.getProfilePets();
+        if(this$profilePets == null ? other$profilePets != null : !this$profilePets.equals(other$profilePets))
+            return false;
+        if(this.getPetSlots() != other.getPetSlots()) return false;
+        final Object this$pets = this.getPets();
+        final Object other$pets = other.getPets();
+        return this$pets == null ? other$pets == null : this$pets.equals(other$pets);
     }
     
     public String toString() {

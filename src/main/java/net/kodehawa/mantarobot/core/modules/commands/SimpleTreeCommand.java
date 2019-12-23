@@ -37,35 +37,15 @@ import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 public abstract class SimpleTreeCommand extends AbstractCommand implements ITreeCommand {
     private Map<String, SubCommand> subCommands = new HashMap<>();
     private Predicate<GuildMessageReceivedEvent> predicate = event -> true;
-
+    
     public SimpleTreeCommand(Category category) {
         super(category);
     }
-
+    
     public SimpleTreeCommand(Category category, CommandPermission permission) {
         super(category, permission);
     }
-
-    /**
-     * Handling for when the Sub-Command isn't found.
-     *
-     * @param event       the Event
-     * @param commandName the Name of the not-found command.
-     */
-    public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
-        //why?
-        if(commandName.isEmpty())
-            commandName = "none";
-
-        new MessageBuilder()
-                .append(String.format("%1$sNo subcommand `%2$s` found in the `%3$s` command!. Check `~>help %3$s` for available subcommands", EmoteReference.ERROR, commandName, mainCommand))
-                .stripMentions(event.getJDA())
-                .sendTo(event.getChannel())
-                .queue();
-
-        return null;
-    }
-
+    
     /**
      * Invokes the command to be executed.
      *
@@ -76,32 +56,27 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
     @Override
     public void run(GuildMessageReceivedEvent event, I18nContext languageContext, String commandName, String content) {
         String[] args = splitArgs(content, 2);
-
+        
         if(subCommands.isEmpty()) {
             throw new IllegalArgumentException("No subcommands registered!");
         }
-
+        
         Command command = subCommands.get(args[0]);
-
+        
         if(command == null) {
             defaultTrigger(event, commandName, args[0]);
             return;
         }
-
+        
         if(!predicate.test(event)) return;
         command.run(event, languageContext, commandName + " " + args[0], args[1]);
     }
-
+    
     public ITreeCommand setPredicate(Predicate<GuildMessageReceivedEvent> predicate) {
         this.predicate = predicate;
         return this;
     }
-
-    public SimpleTreeCommand addSubCommand(String name, SubCommand command) {
-        subCommands.put(name, command);
-        return this;
-    }
-
+    
     public SimpleTreeCommand addSubCommand(String name, BiConsumer<GuildMessageReceivedEvent, String> command) {
         subCommands.put(name, new SubCommand() {
             @Override
@@ -111,24 +86,49 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
         });
         return this;
     }
-
-    @Override
-    public Map<String, SubCommand> getSubCommands() {
-        return subCommands;
-    }
-
+    
     @Override
     public SimpleTreeCommand createSubCommandAlias(String name, String alias) {
         SubCommand cmd = subCommands.get(name);
         if(cmd == null) {
             throw new IllegalArgumentException("Cannot create an alias of a non-existent sub command!");
         }
-
+        
         //Creates a fully new instance. Without this, it'd be dependant on the original instance, and changing the child status would change it's parent's status too.
         SubCommand clone = SubCommand.copy(cmd);
         clone.setChild(true);
         subCommands.put(alias, clone);
-
+        
         return this;
+    }
+    
+    public SimpleTreeCommand addSubCommand(String name, SubCommand command) {
+        subCommands.put(name, command);
+        return this;
+    }
+    
+    @Override
+    public Map<String, SubCommand> getSubCommands() {
+        return subCommands;
+    }
+    
+    /**
+     * Handling for when the Sub-Command isn't found.
+     *
+     * @param event       the Event
+     * @param commandName the Name of the not-found command.
+     */
+    public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+        //why?
+        if(commandName.isEmpty())
+            commandName = "none";
+        
+        new MessageBuilder()
+                .append(String.format("%1$sNo subcommand `%2$s` found in the `%3$s` command!. Check `~>help %3$s` for available subcommands", EmoteReference.ERROR, commandName, mainCommand))
+                .stripMentions(event.getJDA())
+                .sendTo(event.getChannel())
+                .queue();
+        
+        return null;
     }
 }

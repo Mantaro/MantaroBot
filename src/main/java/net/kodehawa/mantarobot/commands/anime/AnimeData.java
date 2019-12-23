@@ -37,39 +37,44 @@ public class AnimeData {
         return this.attributes;
     }
     
+    @JsonIgnore
+    public String getURL() {
+        return "https://kitsu.io/anime/" + id;
+    }
+    
     public static class Attributes {
         private Names titles;
         //The normal title.
         private String canonicalTitle;
-
+        
         //Usually has some weird characters?
         private String synopsis;
         private Image image;
-
+        
         //Popularity stuff. How many people have favorited it.
         private int favoritesCount;
-
+        
         //yyyy-mm-dd, seems ISO.
         private String startDate;
         private String endDate;
-
+        
         //Popularity stuff
         private int ratingRank;
         private int popularityRank;
-
+        
         //TV or Movie/OVA
         private String showType;
-
+        
         //Ongoing or Finished
         private String status;
-
+        
         //Image to show the user
         private PosterImage posterImage;
-
+        
         private int episodeCount;
         //In minutes.
         private int episodeLength;
-
+        
         private boolean nsfw;
         
         public Names getTitles() {
@@ -132,36 +137,31 @@ public class AnimeData {
             return this.nsfw;
         }
     }
-
-    @JsonIgnore
-    public String getURL() {
-        return "https://kitsu.io/anime/" + id;
-    }
-
+    
     public static class PosterImage {
         private String medium;
-    
+        
         public String getMedium() {
             return this.medium;
         }
     }
-
+    
     public static class Names {
         private String en;
         private String ja_jp;
-    
+        
         public String getEn() {
             return this.en;
         }
-    
+        
         public String getJa_jp() {
             return this.ja_jp;
         }
     }
-
+    
     public static class Image {
         private String original;
-    
+        
         public String getOriginal() {
             return this.original;
         }

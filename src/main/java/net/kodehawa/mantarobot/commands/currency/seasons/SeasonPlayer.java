@@ -38,12 +38,11 @@ public class SeasonPlayer implements ManagedObject {
     public static final String DB_TABLE = "seasonalplayers";
     private final SeasonalPlayerData data;
     private final String id;
-
+    private final transient Inventory inventory = new Inventory();
     private Long money;
     private Long reputation;
     private Season season;
-    private final transient Inventory inventory = new Inventory();
-
+    
     @JsonCreator
     @ConstructorProperties({"id", "season", "money", "inventory", "reputation", "data"})
     public SeasonPlayer(@JsonProperty("id") String id, @JsonProperty("season") Season season, @JsonProperty("money") Long money, @JsonProperty("inventory") Map<Integer, Integer> inventory, @JsonProperty("reputation") Long reputation, @JsonProperty("data") SeasonalPlayerData data) {
@@ -54,38 +53,24 @@ public class SeasonPlayer implements ManagedObject {
         this.data = data;
         this.inventory.replaceWith(unserialize(inventory));
     }
-
+    
     public static SeasonPlayer of(User user, Season season) {
         return of(user.getId(), season);
     }
-
+    
     public static SeasonPlayer of(Member member, Season season) {
         return of(member.getUser(), season);
     }
-
+    
     public static SeasonPlayer of(String userId, Season season) {
         return new SeasonPlayer(userId + ":" + season, season, 0L, new HashMap<>(), 0L, new SeasonalPlayerData());
     }
-
-    @JsonIgnore
-    @Override
-    @Nonnull
-    public String getTableName() {
-        return DB_TABLE;
-    }
-
-    @JsonIgnore
-    @Nonnull
-    @Override
-    public String getDatabaseId() {
-        return getUserId();
-    }
-
+    
     @JsonIgnore
     public String getUserId() {
         return getId().split(":")[0];
     }
-
+    
     /**
      * Adds x amount of money from the player.
      *
@@ -102,7 +87,7 @@ public class SeasonPlayer implements ManagedObject {
             return false;
         }
     }
-
+    
     /**
      * Adds x amount of reputation to a player. Normally 1.
      *
@@ -112,7 +97,7 @@ public class SeasonPlayer implements ManagedObject {
         this.reputation += rep;
         this.setReputation(reputation);
     }
-
+    
     /**
      * Removes x amount of money from the player. Only goes though if money removed sums more than zero (avoids negative values).
      *
@@ -123,28 +108,23 @@ public class SeasonPlayer implements ManagedObject {
         this.money -= money;
         return true;
     }
-
-    public SeasonPlayer setMoney(long money) {
-        this.money = money < 0 ? 0 : money;
-        return this;
-    }
-
+    
     @JsonProperty("inventory")
     public Map<Integer, Integer> rawInventory() {
         return serialize(inventory.asList());
     }
-
+    
     @JsonIgnore
     public Inventory getInventory() {
         return inventory;
     }
-
+    
     //it's 3am and i cba to replace usages of this so whatever
     @JsonIgnore
     public boolean isLocked() {
         return data.getLockedUntil() - System.currentTimeMillis() > 0;
     }
-
+    
     @JsonIgnore
     public void setLocked(boolean locked) {
         data.setLockedUntil(locked ? System.currentTimeMillis() + 35000 : 0);
@@ -158,19 +138,38 @@ public class SeasonPlayer implements ManagedObject {
         return this.id;
     }
     
+    @JsonIgnore
+    @Override
+    @Nonnull
+    public String getTableName() {
+        return DB_TABLE;
+    }
+    
+    @JsonIgnore
+    @Nonnull
+    @Override
+    public String getDatabaseId() {
+        return getUserId();
+    }
+    
     public Long getMoney() {
         return this.money;
+    }
+    
+    public SeasonPlayer setMoney(long money) {
+        this.money = money < 0 ? 0 : money;
+        return this;
     }
     
     public Long getReputation() {
         return this.reputation;
     }
     
-    public Season getSeason() {
-        return this.season;
-    }
-    
     public void setReputation(Long reputation) {
         this.reputation = reputation;
+    }
+    
+    public Season getSeason() {
+        return this.season;
     }
 }

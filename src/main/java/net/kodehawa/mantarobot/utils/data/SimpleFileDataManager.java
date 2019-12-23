@@ -34,7 +34,7 @@ public class SimpleFileDataManager implements DataManager<List<String>> {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(SimpleFileDataManager.class);
     private final List<String> data = new ArrayList<>();
     private final Path path;
-
+    
     public SimpleFileDataManager(String file) {
         this.path = Paths.get(file);
         if(!this.path.toFile().exists()) {
@@ -51,7 +51,7 @@ public class SimpleFileDataManager implements DataManager<List<String>> {
                 throw new UncheckedIOException(e);
             }
         }
-    
+        
         try {
             Collections.addAll(data, NEWLINE_PATTERN.split(FileIOUtils.read(this.path)));
         } catch(IOException e) {
@@ -59,12 +59,12 @@ public class SimpleFileDataManager implements DataManager<List<String>> {
         }
         data.removeIf(s -> s.startsWith("//"));
     }
-
+    
     @Override
     public List<String> get() {
         return data;
     }
-
+    
     @Override
     public void save() {
         try {

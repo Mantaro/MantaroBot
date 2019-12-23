@@ -25,28 +25,29 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
 public class GuildMusicManager {
     private final String guildId;
-
+    
     private final TrackScheduler trackScheduler;
     private boolean isAwaitingDeath;
-
+    
     private ScheduledFuture<?> leaveTask = null;
-
+    
     public GuildMusicManager(String guildId) {
         this.guildId = guildId;
-
+        
         JdaLink lavaLink = MantaroBot.getInstance().getLavalink().getLink(guildId);
         trackScheduler = new TrackScheduler(lavaLink, guildId);
-
+        
         lavaLink.getPlayer().addListener(trackScheduler);
     }
-
+    
     private void leave() {
         Guild guild = trackScheduler.getGuild();
-
+        
         if(guild == null) return;
-
+        
         isAwaitingDeath = false;
         trackScheduler.getQueue().clear();
         if(trackScheduler.getRequestedChannelParsed() != null) {
@@ -54,25 +55,25 @@ public class GuildMusicManager {
                     EmoteReference.SAD, guild.getSelfMember().getVoiceState().getChannel().getName()
             ).queue();
         }
-
+        
         trackScheduler.nextTrack(true, true);
     }
-
+    
     public void scheduleLeave() {
         if(leaveTask != null)
             return;
-
+        
         leaveTask = MantaroBot.getInstance().getExecutorService().schedule(this::leave, 2, TimeUnit.MINUTES);
     }
-
+    
     public void cancelLeave() {
         if(leaveTask == null)
             return;
-
+        
         leaveTask.cancel(true);
         leaveTask = null;
     }
-
+    
     public JdaLink getLavaLink() {
         return MantaroBot.getInstance().getLavalink().getLink(guildId);
     }

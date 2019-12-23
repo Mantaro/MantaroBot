@@ -36,14 +36,15 @@ import java.util.concurrent.TimeUnit;
 
 public class VoiceChannelListener implements EventListener {
     private RateLimiter vcRatelimiter = new RateLimiter(TimeUnit.SECONDS, 10);
+    
     private static boolean validate(GuildVoiceState state) {
         return state == null || !state.inVoiceChannel();
     }
-
+    
     private static boolean isAlone(VoiceChannel vc) {
         return vc.getMembers().stream().allMatch(m -> m.getUser().isBot());
     }
-
+    
     @Override
     public void onEvent(GenericEvent event) {
         if(event instanceof GuildVoiceMoveEvent) {
@@ -56,33 +57,33 @@ public class VoiceChannelListener implements EventListener {
             onGuildVoiceMute((GuildVoiceMuteEvent) event);
         }
     }
-
+    
     private void onGuildVoiceMove(GuildVoiceMoveEvent event) {
         if(event.getChannelJoined().getMembers().contains(event.getGuild().getSelfMember()))
             onJoin(event.getChannelJoined());
-
+        
         if(event.getChannelLeft().getMembers().contains(event.getGuild().getSelfMember()))
             onLeave(event.getChannelLeft());
     }
-
+    
     private void onGuildVoiceJoin(GuildVoiceJoinEvent event) {
         if(event.getChannelJoined().getMembers().contains(event.getGuild().getSelfMember()))
             onJoin(event.getChannelJoined());
     }
-
+    
     private void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
         if(event.getChannelLeft().getMembers().contains(event.getGuild().getSelfMember()))
             onLeave(event.getChannelLeft());
     }
-
+    
     private void onGuildVoiceMute(GuildVoiceMuteEvent event) {
         if(event.getMember().getUser().getIdLong() != event.getJDA().getSelfUser().getIdLong())
             return;
-
+        
         GuildVoiceState vs = event.getVoiceState();
         if(validate(vs))
             return;
-
+        
         GuildMusicManager gmm = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
         if(gmm != null) {
             if(event.isMuted()) {
@@ -104,12 +105,12 @@ public class VoiceChannelListener implements EventListener {
             }
         }
     }
-
+    
     private void onJoin(VoiceChannel vc) {
         GuildVoiceState vs = vc.getGuild().getSelfMember().getVoiceState();
         if(validate(vs))
             return;
-
+        
         if(!isAlone(vc)) {
             GuildMusicManager gmm = MantaroBot.getInstance().getAudioManager().getMusicManager(vc.getGuild());
             if(gmm != null) {
@@ -122,19 +123,19 @@ public class VoiceChannelListener implements EventListener {
                         }
                     }
                 }
-
+                
                 gmm.cancelLeave();
                 gmm.setAwaitingDeath(false);
                 gmm.getLavaLink().getPlayer().setPaused(false);
             }
         }
     }
-
+    
     private void onLeave(VoiceChannel vc) {
         GuildVoiceState vs = vc.getGuild().getSelfMember().getVoiceState();
         if(validate(vs))
             return;
-
+        
         if(isAlone(vc)) {
             GuildMusicManager gmm = MantaroBot.getInstance().getAudioManager().getMusicManager(vc.getGuild());
             if(gmm != null) {
@@ -147,7 +148,7 @@ public class VoiceChannelListener implements EventListener {
                         );
                     }
                 }
-
+                
                 gmm.setAwaitingDeath(true);
                 gmm.scheduleLeave();
                 gmm.getLavaLink().getPlayer().setPaused(true);

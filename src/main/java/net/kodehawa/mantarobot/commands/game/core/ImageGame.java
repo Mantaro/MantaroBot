@@ -29,11 +29,11 @@ import java.util.function.Consumer;
 
 public abstract class ImageGame extends Game<String> {
     private final URLCache cache;
-
+    
     public ImageGame(int cacheSize) {
         cache = new URLCache(cacheSize);
     }
-
+    
     protected RestAction<Message> sendEmbedImage(MessageChannel channel, String url, Consumer<EmbedBuilder> embedConfigurator) {
         EmbedBuilder eb = new EmbedBuilder();
         embedConfigurator.accept(eb);
@@ -41,7 +41,7 @@ public abstract class ImageGame extends Game<String> {
             eb.setImage("attachment://image.png");
             return channel.sendMessage(new MessageBuilder().setEmbed(eb.build()).build()).addFile(cache.getInput(url), "image.png");
         }
-
+        
         eb.setImage(url);
         return channel.sendMessage(eb.build());
     }

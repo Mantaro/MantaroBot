@@ -49,140 +49,140 @@ public class GeneralOptions extends OptionHandler {
         registerOption("lobby:reset", "Lobby reset", "Fixes stuck game/poll/operations session.", (event, lang) -> {
             GameLobby.LOBBYS.remove(event.getChannel().getIdLong());
             Poll.getRunningPolls().remove(event.getChannel().getId());
-
+            
             List<Future<Void>> stuck = InteractiveOperations.get(event.getChannel());
             if(stuck.size() > 0)
-                stuck.forEach(f->f.cancel(true));
-
+                stuck.forEach(f -> f.cancel(true));
+            
             event.getChannel().sendMessageFormat(lang.get("options.lobby_reset.success"), EmoteReference.CORRECT).queue();
         });
-
+        
         registerOption("modlog:blacklist", "Prevents an user from appearing in modlogs",
                 "Prevents an user from appearing in modlogs.\n" +
                         "You need the user mention.\n" +
                         "Example: ~>opts modlog blacklist @user", (event, lang) -> {
-            List<User> mentioned = event.getMessage().getMentionedUsers();
-            if(mentioned.isEmpty()) {
-                event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklist.no_mentions"), EmoteReference.ERROR).queue();
-                return;
-            }
-
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-
-            List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
-            String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
-
-            guildData.getModlogBlacklistedPeople().addAll(toBlackList);
-            dbGuild.save();
-
-            event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklist.success"), EmoteReference.CORRECT, blacklisted).queue();
-        });
-
+                    List<User> mentioned = event.getMessage().getMentionedUsers();
+                    if(mentioned.isEmpty()) {
+                        event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklist.no_mentions"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+                    
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    
+                    List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
+                    String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
+                    
+                    guildData.getModlogBlacklistedPeople().addAll(toBlackList);
+                    dbGuild.save();
+                    
+                    event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklist.success"), EmoteReference.CORRECT, blacklisted).queue();
+                });
+        
         registerOption("modlog:whitelist", "Allows an user from appearing in modlogs (everyone by default)",
                 "Allows an user from appearing in modlogs.\n" +
                         "You need the user mention.\n" +
                         "Example: ~>opts modlog whitelist @user", (event, lang) -> {
-            List<User> mentioned = event.getMessage().getMentionedUsers();
-            if(mentioned.isEmpty()) {
-                event.getChannel().sendMessageFormat(lang.get("options.modlog_whitelist.no_mentions"), EmoteReference.ERROR).queue();
-                return;
-            }
-
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-
-            List<String> toUnBlacklist = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
-            String unBlacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
-
-            guildData.getModlogBlacklistedPeople().removeAll(toUnBlacklist);
-            dbGuild.save();
-
-            event.getChannel().sendMessageFormat(lang.get("options.modlog_whitelist.success"), EmoteReference.CORRECT, unBlacklisted).queue();
-        });
-
+                    List<User> mentioned = event.getMessage().getMentionedUsers();
+                    if(mentioned.isEmpty()) {
+                        event.getChannel().sendMessageFormat(lang.get("options.modlog_whitelist.no_mentions"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+                    
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    
+                    List<String> toUnBlacklist = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
+                    String unBlacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
+                    
+                    guildData.getModlogBlacklistedPeople().removeAll(toUnBlacklist);
+                    dbGuild.save();
+                    
+                    event.getChannel().sendMessageFormat(lang.get("options.modlog_whitelist.success"), EmoteReference.CORRECT, unBlacklisted).queue();
+                });
+        
         registerOption("linkprotection:toggle", "Link-protection toggle", "Toggles anti-link protection.", (event, lang) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             boolean toggler = guildData.isLinkProtection();
-
+            
             guildData.setLinkProtection(!toggler);
             event.getChannel().sendMessageFormat(lang.get("options.linkprotection_toggle.success"), EmoteReference.CORRECT, !toggler).queue();
             dbGuild.save();
         });
-
+        
         registerOption("linkprotection:channel:allow", "Link-protection channel allow",
                 "Allows the posting of invites on a channel.\n" +
                         "You need the channel name.\n" +
                         "Example: ~>opts linkprotection channel allow promote-here",
                 "Allows the posting of invites on a channel.", (event, args, lang) -> {
-            if(args.length == 0) {
-                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_allow.no_channel"), EmoteReference.ERROR).queue();
-                return;
-            }
-
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-            String channelName = args[0];
-
-            Consumer<TextChannel> consumer = tc -> {
-                guildData.getLinkProtectionAllowedChannels().add(tc.getId());
-                dbGuild.save();
-                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_allow.success"), EmoteReference.OK, tc.getAsMention()).queue();
-            };
-
-            TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
-
-            if (channel != null) {
-                consumer.accept(channel);
-            }
-        });
+                    if(args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_allow.no_channel"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+                    
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    String channelName = args[0];
+                    
+                    Consumer<TextChannel> consumer = tc -> {
+                        guildData.getLinkProtectionAllowedChannels().add(tc.getId());
+                        dbGuild.save();
+                        event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_allow.success"), EmoteReference.OK, tc.getAsMention()).queue();
+                    };
+                    
+                    TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
+                    
+                    if(channel != null) {
+                        consumer.accept(channel);
+                    }
+                });
         addOptionAlias("linkprotection:channel:allow", "linkprotection:channel:enable");
-
-
+        
+        
         registerOption("linkprotection:channel:disallow", "Link-protection channel disallow",
                 "Disallows the posting of invites on a channel.\n" +
                         "You need the channel name.\n" +
                         "Example: ~>opts linkprotection channel disallow general",
                 "Disallows the posting of invites on a channel (every channel by default)", (event, args, lang) -> {
-            if(args.length == 0) {
-                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_disallow.no_channel"), EmoteReference.ERROR).queue();
-                return;
-            }
-
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-            String channelName = args[0];
-
-            Consumer<TextChannel> consumer = tc -> {
-                guildData.getLinkProtectionAllowedChannels().remove(tc.getId());
-                dbGuild.save();
-                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_disallow.success"), EmoteReference.OK, tc.getAsMention()).queue();
-            };
-
-            TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
-
-            if (channel != null) {
-                consumer.accept(channel);
-            }
-        });
+                    if(args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_disallow.no_channel"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+                    
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    String channelName = args[0];
+                    
+                    Consumer<TextChannel> consumer = tc -> {
+                        guildData.getLinkProtectionAllowedChannels().remove(tc.getId());
+                        dbGuild.save();
+                        event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_disallow.success"), EmoteReference.OK, tc.getAsMention()).queue();
+                    };
+                    
+                    TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
+                    
+                    if(channel != null) {
+                        consumer.accept(channel);
+                    }
+                });
         addOptionAlias("linkprotection:channel:disallow", "linkprotection:channel:disable");
-
+        
         registerOption("linkprotection:user:allow", "Link-protection user whitelist", "Allows an user to post invites.\n" +
-                "You need to mention the user.", "Allows an user to post invites.", (event, args, lang) -> {
+                                                                                              "You need to mention the user.", "Allows an user to post invites.", (event, args, lang) -> {
             if(args.length == 0) {
                 event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_allow.no_user"), EmoteReference.ERROR).queue();
                 return;
             }
-
+            
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
-
+            
             if(event.getMessage().getMentionedUsers().isEmpty()) {
                 event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_allow.no_mentions"), EmoteReference.ERROR).queue();
                 return;
             }
-
+            
             User toWhiteList = event.getMessage().getMentionedUsers().get(0);
             guildData.getLinkProtectionAllowedUsers().add(toWhiteList.getId());
             dbGuild.save();
@@ -191,29 +191,29 @@ public class GeneralOptions extends OptionHandler {
             ).queue();
         });
         addOptionAlias("linkprotection:user:allow", "linkprotection:user:enable");
-
+        
         registerOption("linkprotection:user:disallow", "Link-protection user blacklist", "Disallows an user to post invites.\n" +
-                "You need to mention the user. (This is the default behaviour)", "Allows an user to post invites (This is the default behaviour)", (event, args, lang) -> {
+                                                                                                 "You need to mention the user. (This is the default behaviour)", "Allows an user to post invites (This is the default behaviour)", (event, args, lang) -> {
             if(args.length == 0) {
                 event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_disallow.no_user"), EmoteReference.ERROR).queue();
                 return;
             }
-
+            
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
-
+            
             if(event.getMessage().getMentionedUsers().isEmpty()) {
                 event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_disallow.no_mentions"), EmoteReference.ERROR).queue();
                 return;
             }
-
+            
             User toBlackList = event.getMessage().getMentionedUsers().get(0);
-
+            
             if(!guildData.getLinkProtectionAllowedUsers().contains(toBlackList.getId())) {
                 event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_disallow.not_whitelisted"), EmoteReference.ERROR).queue();
                 return;
             }
-
+            
             guildData.getLinkProtectionAllowedUsers().remove(toBlackList.getId());
             dbGuild.save();
             event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_disallow.success"),
@@ -221,48 +221,48 @@ public class GeneralOptions extends OptionHandler {
             ).queue();
         });
         addOptionAlias("linkprotection:user:disallow", "linkprotection:user:disable");
-
+        
         registerOption("imageboard:tags:blacklist:add", "Blacklist imageboard tags", "Blacklists the specified imageboard tag from being looked up.",
                 "Blacklist imageboard tags", (event, args, lang) -> {
-            if(args.length == 0) {
-                event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_add.no_tag"), EmoteReference.ERROR).queue();
-                return;
-            }
-
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-
-            for(String tag : args) {
-                guildData.getBlackListedImageTags().add(tag.toLowerCase());
-            }
-
-            dbGuild.saveAsync();
-            event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_add.success"),
-                    EmoteReference.CORRECT, String.join(" ,", args)
-            ).queue();
-        });
-
+                    if(args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_add.no_tag"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+                    
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    
+                    for(String tag : args) {
+                        guildData.getBlackListedImageTags().add(tag.toLowerCase());
+                    }
+                    
+                    dbGuild.saveAsync();
+                    event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_add.success"),
+                            EmoteReference.CORRECT, String.join(" ,", args)
+                    ).queue();
+                });
+        
         registerOption("imageboard:tags:blacklist:remove", "Un-blacklist imageboard tags", "Un-blacklist the specified imageboard tag from being looked up.",
                 "Un-blacklist imageboard tags", (event, args, lang) -> {
-            if(args.length == 0) {
-                event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_remove.no_tag"), EmoteReference.ERROR).queue();
-                return;
-            }
-
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-
-            for(String tag : args) {
-                guildData.getBlackListedImageTags().remove(tag.toLowerCase());
-            }
-
-            dbGuild.saveAsync();
-            event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_remove.success"),
-                    EmoteReference.CORRECT, String.join(" ,", args)
-            ).queue();
-        });
+                    if(args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_remove.no_tag"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+                    
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    
+                    for(String tag : args) {
+                        guildData.getBlackListedImageTags().remove(tag.toLowerCase());
+                    }
+                    
+                    dbGuild.saveAsync();
+                    event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_remove.success"),
+                            EmoteReference.CORRECT, String.join(" ,", args)
+                    ).queue();
+                });
     }
-
+    
     @Override
     public String description() {
         return "Everything that doesn't fit anywhere else.";

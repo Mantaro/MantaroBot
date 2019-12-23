@@ -51,16 +51,16 @@ public class CCv3 {
     private static final Map<String, Operation> DEFAULT_OPERATIONS = new HashMap<>();
     private static final Pattern FILTER = Pattern.compile("([a-zA-Z0-9]{24}\\.[a-zA-Z0-9]{6}\\.[a-zA-Z0-9_\\-])\\w+");
     private static final DateTimeFormatter DEFAULT_TIMESTAMP_FORMATTER = new DateTimeFormatterBuilder()
-            .parseCaseInsensitive()
-            .append(ISO_LOCAL_DATE)
-            .appendLiteral(' ')
-            .append(ISO_LOCAL_TIME)
-            .toFormatter();
-
+                                                                                 .parseCaseInsensitive()
+                                                                                 .append(ISO_LOCAL_DATE)
+                                                                                 .appendLiteral(' ')
+                                                                                 .append(ISO_LOCAL_TIME)
+                                                                                 .toFormatter();
+    
     static {
         Map<String, BiPredicate<String, String>> comparators = new HashMap<>();
         Map<String, Predicate<String>> predicates = new HashMap<>();
-
+        
         predicates.put("usermention", s -> USER_MENTION_PATTERN.matcher(s).find());
         predicates.put("is-empty", String::isEmpty);
         predicates.put("is-not-empty", s -> !s.isEmpty());
@@ -82,7 +82,7 @@ public class CCv3 {
         comparators.put("ignorecase-starts-with", (s1, s2) -> s1.toLowerCase().startsWith(s2.toLowerCase()));
         comparators.put("ends-with", String::endsWith);
         comparators.put("ignorecase-ends-with", (s1, s2) -> s1.toLowerCase().endsWith(s2.toLowerCase()));
-
+        
         DEFAULT_OPERATIONS.put("if", (__, args) -> {
             if(args.size() < 1) {
                 return "{If: missing required parameter <lhs>}";
@@ -95,7 +95,7 @@ public class CCv3 {
             }
             String input1 = args.get(0).evaluate();
             String compare = args.get(1).evaluate();
-
+            
             int resultIdx;
             BiPredicate<String, String> comparator = comparators.get(compare);
             Predicate<String> predicate = predicates.get(compare);
@@ -114,14 +114,14 @@ public class CCv3 {
                     return "{If: operand " + compare + " is not a comparator, predicate nor boolean}";
                 }
             }
-
+            
             if(args.size() > resultIdx) {
                 return args.get(resultIdx).evaluate();
             } else {
                 return "";
             }
         });
-
+        
         DEFAULT_OPERATIONS.put("compare", (__, args) -> {
             if(args.size() < 1) {
                 return "{Compare: missing required parameter <lhs>}";
@@ -141,7 +141,7 @@ public class CCv3 {
             }
             return Boolean.toString(comparator.test(lhs, rhs));
         });
-
+        
         DEFAULT_OPERATIONS.put("test", (__, args) -> {
             if(args.size() < 1) {
                 return "{Test: missing required parameter <predicate>}";
@@ -157,7 +157,7 @@ public class CCv3 {
             }
             return Boolean.toString(p.test(operand));
         });
-
+        
         DEFAULT_OPERATIONS.put("and", (__, args) -> {
             boolean res = true;
             int i = 1;
@@ -172,7 +172,7 @@ public class CCv3 {
             }
             return Boolean.toString(res);
         });
-
+        
         DEFAULT_OPERATIONS.put("or", (__, args) -> {
             boolean res = false;
             int i = 1;
@@ -187,19 +187,22 @@ public class CCv3 {
             }
             return Boolean.toString(res);
         });
-
+        
         DEFAULT_OPERATIONS.put("not", (__, args) -> {
             if(args.size() < 1) {
                 return "{Not: missing required parameter <value>}";
             }
             String s = args.get(0).evaluate();
             switch(s) {
-                case "true": return "false";
-                case "false": return "true";
-                default: return "{Not: value " + s + " is not a boolean}";
+                case "true":
+                    return "false";
+                case "false":
+                    return "true";
+                default:
+                    return "{Not: value " + s + " is not a boolean}";
             }
         });
-
+        
         //@{not-empty[;arg]+?}
         DEFAULT_OPERATIONS.put("not-empty", (__, args) -> {
             for(Operation.Argument arg : args) {
@@ -207,10 +210,10 @@ public class CCv3 {
                 if(!value.isEmpty())
                     return value;
             }
-
+            
             return "";
         });
-
+        
         //@{not-empty-strict[;arg]+?}
         DEFAULT_OPERATIONS.put("not-empty-strict", (__, args) -> {
             for(Operation.Argument arg : args) {
@@ -218,25 +221,25 @@ public class CCv3 {
                 if(!value.trim().isEmpty())
                     return value;
             }
-
+            
             return "";
         });
-
+        
         DEFAULT_OPERATIONS.put("embed", (interpreter, args) -> {
             try {
                 EmbedJSON embed = GsonDataManager.gson(false)
-                        .fromJson('{' +
-                                args.stream()
-                                        .map(Operation.Argument::evaluate)
-                                        .collect(Collectors.joining(";"))
-                                + '}', EmbedJSON.class);
+                                          .fromJson('{' +
+                                                            args.stream()
+                                                                    .map(Operation.Argument::evaluate)
+                                                                    .collect(Collectors.joining(";"))
+                                                            + '}', EmbedJSON.class);
                 interpreter.set("embed", embed);
             } catch(Exception e) {
                 return e.toString();
             }
             return "";
         });
-
+        
         DEFAULT_OPERATIONS.put("set", (context, args) -> {
             if(args.size() < 1) {
                 return "{Set: missing required parameter <name>}";
@@ -246,11 +249,11 @@ public class CCv3 {
             }
             String key = args.get(0).evaluate();
             String value = args.stream().skip(1)
-                    .map(Operation.Argument::evaluate).collect(Collectors.joining(";"));
+                                   .map(Operation.Argument::evaluate).collect(Collectors.joining(";"));
             context.vars().put(key, value);
             return "";
         });
-
+        
         DEFAULT_OPERATIONS.put("iam", (context, args) -> {
             if(args.size() < 1) {
                 return "{Iam: missing required argument <role>}";
@@ -258,32 +261,32 @@ public class CCv3 {
             String iam = args.get(0).evaluate();
             String ctn = args.stream().skip(1).map(Operation.Argument::evaluate).collect(Collectors.joining(" "));
             GuildMessageReceivedEvent event = context.event();
-
+            
             if(ctn.isEmpty())
                 MiscCmds.iamFunction(iam, event, null);
             else
                 MiscCmds.iamFunction(iam, event, null, ctn);
-
+            
             return "";
         });
-
+        
         DEFAULT_OPERATIONS.put("iamnot", (context, args) -> {
             if(args.size() < 1) {
                 return "{Iamnot: missing required argument <role>}";
             }
             String iam = args.get(0).evaluate();
             String ctn = args.stream().skip(1).map(Operation.Argument::evaluate).collect(Collectors.joining(" "));
-
+            
             GuildMessageReceivedEvent event = context.event();
-
+            
             if(ctn.isEmpty())
                 MiscCmds.iamnotFunction(iam, event, null);
             else
                 MiscCmds.iamnotFunction(iam, event, null, ctn);
-
+            
             return "";
         });
-
+        
         DEFAULT_OPERATIONS.put("timestamp", (context, args) -> {
             DateTimeFormatter formatter = DEFAULT_TIMESTAMP_FORMATTER;
             ZoneId zone = ZoneId.of("UTC");
@@ -305,17 +308,17 @@ public class CCv3 {
             }
             return formatter.format(OffsetDateTime.now(zone));
         });
-
+        
         DEFAULT_OPERATIONS.put("lower", (__, args) -> args.stream()
-                .map(Operation.Argument::evaluate)
-                .map(String::toLowerCase)
-                .collect(Collectors.joining(";")));
-
+                                                              .map(Operation.Argument::evaluate)
+                                                              .map(String::toLowerCase)
+                                                              .collect(Collectors.joining(";")));
+        
         DEFAULT_OPERATIONS.put("upper", (__, args) -> args.stream()
-                .map(Operation.Argument::evaluate)
-                .map(String::toUpperCase)
-                .collect(Collectors.joining(";")));
-
+                                                              .map(Operation.Argument::evaluate)
+                                                              .map(String::toUpperCase)
+                                                              .collect(Collectors.joining(";")));
+        
         DEFAULT_OPERATIONS.put("replace", (__, args) -> {
             if(args.size() < 1) {
                 return "{Replace: missing required parameter <search>}";
@@ -329,25 +332,25 @@ public class CCv3 {
             String search = args.get(0).evaluate();
             String replace = args.get(1).evaluate();
             return args.stream().skip(2).map(Operation.Argument::evaluate)
-                    .map(s -> s.replace(search, replace))
-                    .collect(Collectors.joining(";"));
+                           .map(s -> s.replace(search, replace))
+                           .collect(Collectors.joining(";"));
         });
     }
-
+    
     public static void process(String prefix, GuildMessageReceivedEvent event, Node ast, boolean preview) {
         InterpreterContext context = new InterpreterContext(new DynamicModifiers()
-                .mapEvent(prefix, "event", event), DEFAULT_OPERATIONS, event);
-
+                                                                    .mapEvent(prefix, "event", event), DEFAULT_OPERATIONS, event);
+        
         String result = ast.accept(new InterpreterVisitor(), context);
         EmbedJSON embed = context.get("embed");
-
+        
         if(embed == null && result.isEmpty()) {
             event.getChannel().sendMessageFormat("Command response is empty.").queue();
             return;
         }
-
+        
         MessageBuilder builder = new MessageBuilder().setContent(FILTER.matcher(result).replaceAll("-filtered regex-"));
-
+        
         if(preview) {
             builder.append("\n\n")
                     .append(EmoteReference.WARNING)
@@ -359,7 +362,7 @@ public class CCv3 {
                     .append("`")
                     .stripMentions(event.getJDA());
         }
-
+        
         builder.setEmbed(embed == null ? null : embed.gen(event.getMember()))
                 .stripMentions(event.getJDA(), Message.MentionType.HERE, Message.MentionType.EVERYONE)
                 .sendTo(event.getChannel()).queue();

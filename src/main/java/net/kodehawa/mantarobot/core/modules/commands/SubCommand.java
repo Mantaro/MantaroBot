@@ -25,29 +25,19 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 public abstract class SubCommand implements InnerCommand, AssistedCommand {
     public boolean child;
-
+    
     private CommandPermission permission = null;
-
-    public SubCommand() {}
-
+    
+    public SubCommand() {
+    }
+    
     public SubCommand(CommandPermission permission) {
         this.permission = permission;
     }
-
-    protected abstract void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content);
-
-    @Override
-    public CommandPermission permission() {
-        return permission;
-    }
-
-    @Override
-    public void run(GuildMessageReceivedEvent event, I18nContext languageContext, String commandName, String content) {
-        call(event, languageContext, content);
-    }
-
+    
     /**
      * Creates a copy of a SubCommand, usually to assign child status to it.
+     *
      * @param original The original SubCommand to copy.
      * @return The copy of the original SubCommand, without the description.
      */
@@ -57,12 +47,24 @@ public abstract class SubCommand implements InnerCommand, AssistedCommand {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 original.call(event, languageContext, content);
             }
-
+            
             @Override
             public String description() {
                 return null;
             }
         };
+    }
+    
+    protected abstract void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content);
+    
+    @Override
+    public CommandPermission permission() {
+        return permission;
+    }
+    
+    @Override
+    public void run(GuildMessageReceivedEvent event, I18nContext languageContext, String commandName, String content) {
+        call(event, languageContext, content);
     }
     
     public boolean isChild() {

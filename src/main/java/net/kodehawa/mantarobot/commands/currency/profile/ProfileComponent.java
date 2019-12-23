@@ -40,17 +40,17 @@ public enum ProfileComponent {
         PlayerData playerData = holder.getPlayer().getData();
         if(holder.getBadges().isEmpty() || !playerData.isShowBadge())
             return "None";
-
+        
         if(playerData.getMainBadge() != null)
             return String.format("**%s**\n", playerData.getMainBadge());
         else
             return String.format("**%s**\n", holder.getBadges().get(0));
     }, true, false),
     CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.credits"), (holder, i18nContext) ->
-            "$ " + (holder.isSeasonal() ? holder.getSeasonalPlayer().getMoney() : holder.getPlayer().getMoney())
+                                                                                                       "$ " + (holder.isSeasonal() ? holder.getSeasonalPlayer().getMoney() : holder.getPlayer().getMoney())
     ),
     REPUTATION(EmoteReference.REP, i18nContext -> i18nContext.get("commands.profile.rep"), (holder, i18nContext) ->
-            holder.isSeasonal() ? String.valueOf(holder.getSeasonalPlayer().getReputation()) : String.valueOf(holder.getPlayer().getReputation())
+                                                                                                   holder.isSeasonal() ? String.valueOf(holder.getSeasonalPlayer().getReputation()) : String.valueOf(holder.getPlayer().getReputation())
     ),
     LEVEL(EmoteReference.ZAP, i18nContext -> i18nContext.get("commands.profile.level"), (holder, i18nContext) -> {
         Player player = holder.getPlayer();
@@ -68,13 +68,13 @@ public enum ProfileComponent {
         PlayerData playerData = player.getData();
         //LEGACY SUPPORT
         User marriedTo = (playerData.getMarriedWith() == null || playerData.getMarriedWith().isEmpty()) ? null : MantaroBot.getInstance().getUserById(playerData.getMarriedWith());
-
+        
         //New marriage support.
         UserData userData = holder.getDbUser().getData();
         Marriage currentMarriage = userData.getMarriage();
         User marriedToNew = null;
         boolean isNewMarriage = false;
-
+        
         //Expecting save to work in PlayerCmds, not here, just handle this here.
         if(currentMarriage != null) {
             String marriedToId = currentMarriage.getOtherPlayer(holder.getUser().getId());
@@ -85,7 +85,7 @@ public enum ProfileComponent {
                 isNewMarriage = true;
             }
         }
-
+        
         if(marriedTo == null && marriedToNew == null) {
             return i18nContext.get("commands.profile.nobody");
         } else if(isNewMarriage) {
@@ -106,7 +106,7 @@ public enum ProfileComponent {
     }, true, false),
     BADGES(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.badges"), (holder, i18nContext) -> {
         String displayBadges = holder.getBadges().stream().map(Badge::getUnicode).limit(5).collect(Collectors.joining("  "));
-
+        
         if(displayBadges.isEmpty())
             return i18nContext.get("commands.profile.no_badges");
         else
@@ -115,25 +115,25 @@ public enum ProfileComponent {
     FOOTER(null, null, (holder, i18nContext) -> {
         UserData userData = holder.getDbUser().getData();
         String timezone;
-
+        
         if(userData.getTimezone() == null)
             timezone = i18nContext.get("commands.profile.no_timezone");
         else
             timezone = userData.getTimezone();
-
+        
         String seasonal = holder.isSeasonal() ? " | Seasonal profile (" + MantaroData.config().get().getCurrentSeason().getDisplay() + ")" : "";
-
+        
         return String.format("%s%s", String.format(i18nContext.get("commands.profile.timezone_user"), timezone), seasonal);
     }, false);
-
+    
     //See: getTitle()
     private EmoteReference emoji;
     private Function<I18nContext, String> title;
-
+    
     private BiFunction<Holder, I18nContext, String> content;
     private boolean assignable;
     private boolean inline;
-
+    
     ProfileComponent(EmoteReference emoji, Function<I18nContext, String> title, BiFunction<Holder, I18nContext, String> content, boolean isAssignable, boolean inline) {
         this.emoji = emoji;
         this.title = title;
@@ -141,7 +141,7 @@ public enum ProfileComponent {
         this.assignable = isAssignable;
         this.inline = inline;
     }
-
+    
     ProfileComponent(EmoteReference emoji, Function<I18nContext, String> title, BiFunction<Holder, I18nContext, String> content, boolean isAssignable) {
         this.emoji = emoji;
         this.title = title;
@@ -149,7 +149,7 @@ public enum ProfileComponent {
         this.assignable = isAssignable;
         this.inline = true;
     }
-
+    
     ProfileComponent(EmoteReference emoji, Function<I18nContext, String> title, BiFunction<Holder, I18nContext, String> content) {
         this.emoji = emoji;
         this.title = title;
@@ -157,11 +157,7 @@ public enum ProfileComponent {
         this.assignable = true;
         this.inline = true;
     }
-
-    public String getTitle(I18nContext context) {
-        return (emoji == null ? "" : emoji) + title.apply(context);
-    }
-
+    
     /**
      * Looks up the component based on a String value, if nothing is found returns null.
      *
@@ -170,11 +166,15 @@ public enum ProfileComponent {
      */
     public static ProfileComponent lookupFromString(String name) {
         for(ProfileComponent c : ProfileComponent.values()) {
-            if (c.name().equalsIgnoreCase(name)) {
+            if(c.name().equalsIgnoreCase(name)) {
                 return c;
             }
         }
         return null;
+    }
+    
+    public String getTitle(I18nContext context) {
+        return (emoji == null ? "" : emoji) + title.apply(context);
     }
     
     public BiFunction<Holder, I18nContext, String> getContent() {
@@ -215,64 +215,40 @@ public enum ProfileComponent {
             return this.user;
         }
         
-        public Player getPlayer() {
-            return this.player;
-        }
-        
-        public SeasonPlayer getSeasonalPlayer() {
-            return this.seasonalPlayer;
-        }
-        
-        public DBUser getDbUser() {
-            return this.dbUser;
-        }
-        
-        public List<Badge> getBadges() {
-            return this.badges;
-        }
-        
         public void setUser(User user) {
             this.user = user;
+        }
+        
+        public Player getPlayer() {
+            return this.player;
         }
         
         public void setPlayer(Player player) {
             this.player = player;
         }
         
+        public SeasonPlayer getSeasonalPlayer() {
+            return this.seasonalPlayer;
+        }
+        
         public void setSeasonalPlayer(SeasonPlayer seasonalPlayer) {
             this.seasonalPlayer = seasonalPlayer;
+        }
+        
+        public DBUser getDbUser() {
+            return this.dbUser;
         }
         
         public void setDbUser(DBUser dbUser) {
             this.dbUser = dbUser;
         }
         
-        public void setBadges(List<Badge> badges) {
-            this.badges = badges;
+        public List<Badge> getBadges() {
+            return this.badges;
         }
         
-        public boolean equals(final Object o) {
-            if(o == this) return true;
-            if(!(o instanceof Holder)) return false;
-            final Holder other = (Holder) o;
-            if(!other.canEqual((Object) this)) return false;
-            final Object this$user = this.user;
-            final Object other$user = other.user;
-            if(this$user == null ? other$user != null : !this$user.equals(other$user)) return false;
-            final Object this$player = this.player;
-            final Object other$player = other.player;
-            if(this$player == null ? other$player != null : !this$player.equals(other$player)) return false;
-            final Object this$seasonalPlayer = this.seasonalPlayer;
-            final Object other$seasonalPlayer = other.seasonalPlayer;
-            if(this$seasonalPlayer == null ? other$seasonalPlayer != null : !this$seasonalPlayer.equals(other$seasonalPlayer))
-                return false;
-            final Object this$dbUser = this.dbUser;
-            final Object other$dbUser = other.dbUser;
-            if(this$dbUser == null ? other$dbUser != null : !this$dbUser.equals(other$dbUser)) return false;
-            final Object this$badges = this.badges;
-            final Object other$badges = other.badges;
-            if(this$badges == null ? other$badges != null : !this$badges.equals(other$badges)) return false;
-            return true;
+        public void setBadges(List<Badge> badges) {
+            this.badges = badges;
         }
         
         protected boolean canEqual(final Object other) {
@@ -293,6 +269,29 @@ public enum ProfileComponent {
             final Object $badges = this.badges;
             result = result * PRIME + ($badges == null ? 43 : $badges.hashCode());
             return result;
+        }
+        
+        public boolean equals(final Object o) {
+            if(o == this) return true;
+            if(!(o instanceof Holder)) return false;
+            final Holder other = (Holder) o;
+            if(!other.canEqual(this)) return false;
+            final Object this$user = this.user;
+            final Object other$user = other.user;
+            if(this$user == null ? other$user != null : !this$user.equals(other$user)) return false;
+            final Object this$player = this.player;
+            final Object other$player = other.player;
+            if(this$player == null ? other$player != null : !this$player.equals(other$player)) return false;
+            final Object this$seasonalPlayer = this.seasonalPlayer;
+            final Object other$seasonalPlayer = other.seasonalPlayer;
+            if(this$seasonalPlayer == null ? other$seasonalPlayer != null : !this$seasonalPlayer.equals(other$seasonalPlayer))
+                return false;
+            final Object this$dbUser = this.dbUser;
+            final Object other$dbUser = other.dbUser;
+            if(this$dbUser == null ? other$dbUser != null : !this$dbUser.equals(other$dbUser)) return false;
+            final Object this$badges = this.badges;
+            final Object other$badges = other.badges;
+            return this$badges == null ? other$badges == null : this$badges.equals(other$badges);
         }
         
         public String toString() {

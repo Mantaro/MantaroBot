@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.commands.game;
 
 public enum TriviaDifficulty {
     EASY, MEDIUM, HARD;
-
+    
     public static TriviaDifficulty lookupFromString(String name) {
         for(TriviaDifficulty t : TriviaDifficulty.values()) {
             //field name search
@@ -28,5 +28,5 @@ public enum TriviaDifficulty {
             }
         }
         return null;
-    }     
+    }
 }

@@ -39,12 +39,12 @@ import java.util.stream.Collectors;
 
 public class BirthdayTask {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(BirthdayTask.class);
+    private static final Counter birthdayCounter = Counter.build()
+                                                           .name("birthdays_logged").help("Logged birthdays")
+                                                           .register();
     private static FastDateFormat dateFormat = FastDateFormat.getInstance("dd-MM-yyyy");
     private ManagedDatabase db = MantaroData.db();
-    private static final Counter birthdayCounter = Counter.build()
-            .name("birthdays_logged").help("Logged birthdays")
-            .register();
-
+    
     public void handle(int shardId) {
         try {
             BirthdayCacher cache = MantaroBot.getInstance().getBirthdayCacher();
@@ -52,12 +52,12 @@ public class BirthdayTask {
                 return;
             if(!cache.isDone)
                 return;
-
+            
             int i = 0;
             int r = 0;
-
+            
             JDA jda = MantaroBot.getInstance().getShard(shardId);
-
+            
             jda.getShardInfo();
             log.info("Checking birthdays in shard {} to assign roles...", jda.getShardInfo().getShardId());
             long start = System.currentTimeMillis();
@@ -65,13 +65,13 @@ public class BirthdayTask {
             String now = dateFormat.format(cal.getTime()).substring(0, 5);
             Map<String, BirthdayCacher.BirthdayData> cached = cache.cachedBirthdays;
             SnowflakeCacheView<Guild> guilds = jda.getGuildCache();
-
+            
             for(Guild guild : guilds) {
                 GuildData tempGuildData = db.getGuild(guild).getData();
                 if(tempGuildData.getBirthdayChannel() != null && tempGuildData.getBirthdayRole() != null) {
                     Role birthdayRole = guild.getRoleById(tempGuildData.getBirthdayRole());
                     TextChannel channel = guild.getTextChannelById(tempGuildData.getBirthdayChannel());
-
+                    
                     if(channel != null && birthdayRole != null) {
                         if(!guild.getSelfMember().canInteract(birthdayRole))
                             continue; //Go to next guild...
@@ -83,14 +83,14 @@ public class BirthdayTask {
                             continue;
                         if(birthdayRole.isManaged())
                             continue;
-
+                        
                         Map<String, BirthdayCacher.BirthdayData> guildMap = cached.entrySet().stream().filter(map -> guild.getMemberById(map.getKey()) != null)
-                                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
+                                                                                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                        
                         for(Map.Entry<String, BirthdayCacher.BirthdayData> data : guildMap.entrySet()) {
                             Member member = guild.getMemberById(data.getKey());
                             String birthday = data.getValue().birthday;
-
+                            
                             if(birthday == null) {
                                 log.debug("Birthday is null? Removing role if present and continuing to next iteration...");
                                 if(member.getRoles().contains(birthdayRole)) {
@@ -101,30 +101,30 @@ public class BirthdayTask {
                                 continue; //shouldn't happen
                             }
                             //else start the assigning
-
+                            
                             //tada!
                             if(birthday.substring(0, 5).equals(now)) {
                                 log.debug("Assigning birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                 String tempBirthdayMessage = String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
                                         member.getEffectiveName());
-
+                                
                                 if(tempGuildData.getBirthdayMessage() != null) {
                                     tempBirthdayMessage = tempGuildData.getBirthdayMessage().replace("$(user)", member.getEffectiveName())
-                                            .replace("$(usermention)", member.getAsMention());
+                                                                  .replace("$(usermention)", member.getAsMention());
                                 }
-
+                                
                                 //Variable used in lambda expression should be final or effectively final...
                                 final String birthdayMessage = tempBirthdayMessage;
-
+                                
                                 if(!member.getRoles().contains(birthdayRole)) {
                                     try {
                                         guild.addRoleToMember(member, birthdayRole)
                                                 .reason("Birthday assigner. If you see this happening for every member of your server, or in unintended ways, please do ~>opts birthday disable")
                                                 .queue(s -> {
-                                                    channel.sendMessage(birthdayMessage).queue();
-                                                    birthdayCounter.inc();
-                                                }
-                                        );
+                                                            channel.sendMessage(birthdayMessage).queue();
+                                                            birthdayCounter.inc();
+                                                        }
+                                                );
                                         log.debug("Assigned birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                         i++;
                                         //Something went boom, ignore and continue
@@ -153,12 +153,12 @@ public class BirthdayTask {
                     }
                 }
             }
-
+            
             long end = System.currentTimeMillis();
-
+            
             String toSend = String.format("Finished checking birthdays for shard %s, people assigned: %d, people divested: %d, took %dms",
                     jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId(), i, r, (end - start));
-
+            
             log.info(toSend);
         } catch(Exception e) {
             e.printStackTrace();

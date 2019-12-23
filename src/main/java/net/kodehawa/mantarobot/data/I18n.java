@@ -41,8 +41,6 @@ public class I18n {
     public static final List<String> LANGUAGES = new ArrayList<>();
     private static final ThreadLocal<String> ROOT = new ThreadLocal<>();
     private static final Map<String, I18n> LANGUAGE_MAP;
-    private final Map<String, ?> map;
-    private final String language;
 
     static {
         Map<String, I18n> m = new HashMap<>();
@@ -52,16 +50,16 @@ public class I18n {
                 String language = s.trim();
                 LANGUAGES.add(language);
             }
-
+            
         } catch(IOException e) {
             throw new ExceptionInInitializerError(e);
         }
-
+        
         for(String s : LANGUAGES) {
             InputStream is = I18n.class.getResourceAsStream("/assets/languages/" + s);
             try {
                 @SuppressWarnings("unchecked")
-                Map<String, ?> map = (Map<String, ?>)mapper.readValue(is, Map.class);
+                Map<String, ?> map = (Map<String, ?>) mapper.readValue(is, Map.class);
                 m.put(s.replace(".json", ""), new I18n(map, s));
             } catch(Exception e) {
                 throw new Error("Unable to initialize I18n", e);
@@ -70,41 +68,81 @@ public class I18n {
         LANGUAGE_MAP = Collections.unmodifiableMap(m);
     }
 
+    private final Map<String, ?> map;
+    private final String language;
+    
     private I18n(Map<String, ?> map, String language) {
         this.map = map;
         this.language = language;
     }
-
+    
+    public static I18n of(String guildId) {
+        String lang = MantaroData.db().getGuild(guildId).getData().getLang();
+        return getForLanguage(lang);
+    }
+    
+    public static I18n ofUser(String userId) {
+        String lang = MantaroData.db().getUser(userId).getData().getLang();
+        return getForLanguage(lang);
+    }
+    
+    public static I18n of(Guild guild) {
+        return of(guild.getId());
+    }
+    
+    public static I18n ofUser(User user) {
+        return of(user.getId());
+    }
+    
+    public static I18n of(GenericGuildEvent event) {
+        return of(event.getGuild().getId());
+    }
+    
+    public static I18n getForLanguage(String language) {
+        I18n i = LANGUAGE_MAP.get(language);
+        if(i == null) return LANGUAGE_MAP.get("en_US");
+        return i;
+    }
+    
+    public static boolean isValidLanguage(String lang) {
+        return LANGUAGE_MAP.containsKey(lang);
+    }
+    
+    public static void root(String newRoot) {
+        ROOT.set(newRoot);
+    }
+    
     @SuppressWarnings("unchecked")
     private String get(Map<String, ?> map, String[] parts, boolean recursion) {
         int index = 0;
         while(index != parts.length - 1) {
             Object maybeMap = map.get(parts[index]);
             if(maybeMap instanceof Map) {
-                map = (Map<String, ?>)maybeMap;
+                map = (Map<String, ?>) maybeMap;
                 index++;
             } else {
-                if(language.equals("en_US") || recursion) throw new LanguageKeyNotFoundException("Missing i18n key " + Arrays.stream(parts).collect(Collectors.joining(".")));
+                if(language.equals("en_US") || recursion)
+                    throw new LanguageKeyNotFoundException("Missing i18n key " + Arrays.stream(parts).collect(Collectors.joining(".")));
                 return get(LANGUAGE_MAP.get("en_US").map, parts, true);
             }
         }
         Object maybeString = map.get(parts[index]);
         if(maybeString instanceof String) {
-            return (String)maybeString;
+            return (String) maybeString;
         }
         if(maybeString instanceof Collection) {
-            Collection<String> c = ((Collection<String>)maybeString);
+            Collection<String> c = ((Collection<String>) maybeString);
             return c.stream()
-                    .skip(ThreadLocalRandom.current().nextInt(c.size()))
-                    .findFirst()
-                    .orElseThrow(AssertionError::new);
+                           .skip(ThreadLocalRandom.current().nextInt(c.size()))
+                           .findFirst()
+                           .orElseThrow(AssertionError::new);
         }
         if(language.equals("en_US") || recursion)
             throw new LanguageKeyNotFoundException("Missing i18n key " + Arrays.stream(parts).collect(Collectors.joining(".")));
-
+        
         return get(LANGUAGE_MAP.get("en_US").map, parts, true);
     }
-
+    
     public String get(String query) {
         String root = ROOT.get();
         String actualQuery;
@@ -115,7 +153,7 @@ public class I18n {
         }
         return get(map, actualQuery.split("\\."), false);
     }
-
+    
     public String withRoot(String root, String query) {
         String s = ROOT.get();
         ROOT.set(root);
@@ -124,41 +162,5 @@ public class I18n {
         } finally {
             ROOT.set(s);
         }
-    }
-
-    public static I18n of(String guildId) {
-        String lang = MantaroData.db().getGuild(guildId).getData().getLang();
-        return getForLanguage(lang);
-    }
-
-    public static I18n ofUser(String userId) {
-        String lang = MantaroData.db().getUser(userId).getData().getLang();
-        return getForLanguage(lang);
-    }
-
-    public static I18n of(Guild guild) {
-        return of(guild.getId());
-    }
-
-    public static I18n ofUser(User user) {
-        return of(user.getId());
-    }
-
-    public static I18n of(GenericGuildEvent event) {
-        return of(event.getGuild().getId());
-    }
-
-    public static I18n getForLanguage(String language) {
-        I18n i = LANGUAGE_MAP.get(language);
-        if(i == null) return LANGUAGE_MAP.get("en_US");
-        return i;
-    }
-
-    public static boolean isValidLanguage(String lang) {
-        return LANGUAGE_MAP.containsKey(lang);
-    }
-
-    public static void root(String newRoot) {
-        ROOT.set(newRoot);
     }
 }

@@ -51,7 +51,8 @@ public class Parser {
                         }
                         break;
                     }
-                    default: get(t.type()).apply(it, name, t);
+                    default:
+                        get(t.type()).apply(it, name, t);
                 }
             }
             if(stack.size() > 0) {
@@ -91,7 +92,8 @@ public class Parser {
                         hasName = true;
                         break;
                     }
-                    default: get(t.type()).apply(it, current, t);
+                    default:
+                        get(t.type()).apply(it, current, t);
                 }
             }
             if(stack.size() > 0) {
@@ -107,31 +109,18 @@ public class Parser {
         put(TokenType.RIGHT_PAREN, (__1, c, __2) -> c.add(new LiteralNode(")")));
         put(TokenType.RIGHT_BRACE, (__1, c, __2) -> c.add(new LiteralNode("}")));
         put(TokenType.SEMICOLON, (__1, c, __2) -> c.add(new LiteralNode(";")));
-
+        
     }};
     private final TokenIterator iterator;
-
+    
     public Parser(TokenIterator iterator) {
         this.iterator = iterator;
     }
-
+    
     public Parser(String input) {
         this(new TokenIterator(input));
     }
-
-    public Node parse() {
-        List<Node> code = new ArrayList<>();
-        while(iterator.hasNext()) {
-            Token token = iterator.next();
-            PARSELETS.get(token.type()).apply(iterator, code, token);
-        }
-        return new MultiNode(code).simplify();
-    }
-
-    private interface Parselet {
-        void apply(TokenIterator iterator, List<Node> code, Token token);
-    }
-
+    
     private static void count(Token token, Stack<Position> stack, char c) {
         String v = token.value();
         int line = token.position().line();
@@ -147,7 +136,7 @@ public class Parser {
             column++;
         }
     }
-
+    
     private static RuntimeException syntaxError(TokenIterator iterator, Position p, char unclosed) {
         int column = (p.end() < 0 ? p.column() : p.end() + 1);
         String line = iterator.source().split("\n")[p.line() - 1];
@@ -161,5 +150,18 @@ public class Parser {
         }
         sb.append('^');
         throw new SyntaxException(sb.toString());
+    }
+    
+    public Node parse() {
+        List<Node> code = new ArrayList<>();
+        while(iterator.hasNext()) {
+            Token token = iterator.next();
+            PARSELETS.get(token.type()).apply(iterator, code, token);
+        }
+        return new MultiNode(code).simplify();
+    }
+    
+    private interface Parselet {
+        void apply(TokenIterator iterator, List<Node> code, Token token);
     }
 }

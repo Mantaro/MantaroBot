@@ -79,11 +79,11 @@ public class Config {
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());
     }
-
+    
     public boolean isOwner(User user) {
         return isOwner(user.getId());
     }
-
+    
     public boolean isOwner(String id) {
         return owners.contains(id);
     }
@@ -92,383 +92,471 @@ public class Config {
         return this.alClient;
     }
     
-    public String getAlsecret() {
-        return this.alsecret;
-    }
-    
-    public String getApiLoginCreds() {
-        return this.apiLoginCreds;
-    }
-    
-    public boolean isCacheGames() {
-        return this.cacheGames;
-    }
-    
-    public String getCarbonToken() {
-        return this.carbonToken;
-    }
-    
-    public String getConsoleChannel() {
-        return this.consoleChannel;
-    }
-    
-    public String getDbDb() {
-        return this.dbDb;
-    }
-    
-    public String getDbHost() {
-        return this.dbHost;
-    }
-    
-    public String getDbPassword() {
-        return this.dbPassword;
-    }
-    
-    public int getDbPort() {
-        return this.dbPort;
-    }
-    
-    public String getDbUser() {
-        return this.dbUser;
-    }
-    
-    public String getDbotsToken() {
-        return this.dbotsToken;
-    }
-    
-    public String getDbotsorgToken() {
-        return this.dbotsorgToken;
-    }
-    
-    public boolean isBeta() {
-        return this.isBeta;
-    }
-    
-    public boolean isPremiumBot() {
-        return this.isPremiumBot;
-    }
-    
-    public int getMaxJdaReconnectDelay() {
-        return this.maxJdaReconnectDelay;
-    }
-    
-    public String getOsuApiKey() {
-        return this.osuApiKey;
-    }
-    
-    public List<String> getOwners() {
-        return this.owners;
-    }
-    
-    public String[] getPrefix() {
-        return this.prefix;
-    }
-    
-    public String getSentryDSN() {
-        return this.sentryDSN;
-    }
-    
-    public int getShardWatcherTimeout() {
-        return this.shardWatcherTimeout;
-    }
-    
-    public int getShardWatcherWait() {
-        return this.shardWatcherWait;
-    }
-    
-    public String getShardWebhookUrl() {
-        return this.shardWebhookUrl;
-    }
-    
-    public String getToken() {
-        return this.token;
-    }
-    
-    public int getTotalShards() {
-        return this.totalShards;
-    }
-    
-    public int getFromShard() {
-        return this.fromShard;
-    }
-    
-    public int getUpToShard() {
-        return this.upToShard;
-    }
-    
-    public String getWeatherAppId() {
-        return this.weatherAppId;
-    }
-    
-    public String getWebhookUrl() {
-        return this.webhookUrl;
-    }
-    
-    public String getSpambotUrl() {
-        return this.spambotUrl;
-    }
-    
-    public String getWeebapiKey() {
-        return this.weebapiKey;
-    }
-    
-    public String getApiTwoUrl() {
-        return this.apiTwoUrl;
-    }
-    
-    public boolean isNeedApi() {
-        return this.needApi;
-    }
-    
-    public int getPrometheusPort() {
-        return this.prometheusPort;
-    }
-    
-    public int getRatelimitPoolSize() {
-        return this.ratelimitPoolSize;
-    }
-    
-    public String getApiAuthKey() {
-        return this.apiAuthKey;
-    }
-    
-    public Season getCurrentSeason() {
-        return this.currentSeason;
-    }
-    
-    public String getClientId() {
-        return this.clientId;
-    }
-    
-    public String getJedisPoolAddress() {
-        return this.jedisPoolAddress;
-    }
-    
-    public int getJedisPoolPort() {
-        return this.jedisPoolPort;
-    }
-    
-    public List<String> getLavalinkNodes() {
-        return this.lavalinkNodes;
-    }
-    
-    public String getLavalinkPass() {
-        return this.lavalinkPass;
-    }
-    
-    public String getCacheClientEndpoint() {
-        return this.cacheClientEndpoint;
-    }
-    
-    public String getCacheClientToken() {
-        return this.cacheClientToken;
-    }
-    
-    public String getIpv6Block() {
-        return this.ipv6Block;
-    }
-    
-    public String getExcludeAddress() {
-        return this.excludeAddress;
-    }
-    
-    public int getBucketFactor() {
-        return this.bucketFactor;
-    }
-    
     public void setAlClient(String alClient) {
         this.alClient = alClient;
+    }
+    
+    public String getAlsecret() {
+        return this.alsecret;
     }
     
     public void setAlsecret(String alsecret) {
         this.alsecret = alsecret;
     }
     
+    public String getApiLoginCreds() {
+        return this.apiLoginCreds;
+    }
+    
     public void setApiLoginCreds(String apiLoginCreds) {
         this.apiLoginCreds = apiLoginCreds;
+    }
+    
+    public boolean isCacheGames() {
+        return this.cacheGames;
     }
     
     public void setCacheGames(boolean cacheGames) {
         this.cacheGames = cacheGames;
     }
     
+    public String getCarbonToken() {
+        return this.carbonToken;
+    }
+    
     public void setCarbonToken(String carbonToken) {
         this.carbonToken = carbonToken;
+    }
+    
+    public String getConsoleChannel() {
+        return this.consoleChannel;
     }
     
     public void setConsoleChannel(String consoleChannel) {
         this.consoleChannel = consoleChannel;
     }
     
+    public String getDbDb() {
+        return this.dbDb;
+    }
+    
     public void setDbDb(String dbDb) {
         this.dbDb = dbDb;
+    }
+    
+    public String getDbHost() {
+        return this.dbHost;
     }
     
     public void setDbHost(String dbHost) {
         this.dbHost = dbHost;
     }
     
+    public String getDbPassword() {
+        return this.dbPassword;
+    }
+    
     public void setDbPassword(String dbPassword) {
         this.dbPassword = dbPassword;
+    }
+    
+    public int getDbPort() {
+        return this.dbPort;
     }
     
     public void setDbPort(int dbPort) {
         this.dbPort = dbPort;
     }
     
+    public String getDbUser() {
+        return this.dbUser;
+    }
+    
     public void setDbUser(String dbUser) {
         this.dbUser = dbUser;
+    }
+    
+    public String getDbotsToken() {
+        return this.dbotsToken;
     }
     
     public void setDbotsToken(String dbotsToken) {
         this.dbotsToken = dbotsToken;
     }
     
+    public String getDbotsorgToken() {
+        return this.dbotsorgToken;
+    }
+    
     public void setDbotsorgToken(String dbotsorgToken) {
         this.dbotsorgToken = dbotsorgToken;
+    }
+    
+    public boolean isBeta() {
+        return this.isBeta;
     }
     
     public void setBeta(boolean isBeta) {
         this.isBeta = isBeta;
     }
     
+    public boolean isPremiumBot() {
+        return this.isPremiumBot;
+    }
+    
     public void setPremiumBot(boolean isPremiumBot) {
         this.isPremiumBot = isPremiumBot;
+    }
+    
+    public int getMaxJdaReconnectDelay() {
+        return this.maxJdaReconnectDelay;
     }
     
     public void setMaxJdaReconnectDelay(int maxJdaReconnectDelay) {
         this.maxJdaReconnectDelay = maxJdaReconnectDelay;
     }
     
+    public String getOsuApiKey() {
+        return this.osuApiKey;
+    }
+    
     public void setOsuApiKey(String osuApiKey) {
         this.osuApiKey = osuApiKey;
+    }
+    
+    public List<String> getOwners() {
+        return this.owners;
     }
     
     public void setOwners(List<String> owners) {
         this.owners = owners;
     }
     
+    public String[] getPrefix() {
+        return this.prefix;
+    }
+    
     public void setPrefix(String[] prefix) {
         this.prefix = prefix;
+    }
+    
+    public String getSentryDSN() {
+        return this.sentryDSN;
     }
     
     public void setSentryDSN(String sentryDSN) {
         this.sentryDSN = sentryDSN;
     }
     
+    public int getShardWatcherTimeout() {
+        return this.shardWatcherTimeout;
+    }
+    
     public void setShardWatcherTimeout(int shardWatcherTimeout) {
         this.shardWatcherTimeout = shardWatcherTimeout;
+    }
+    
+    public int getShardWatcherWait() {
+        return this.shardWatcherWait;
     }
     
     public void setShardWatcherWait(int shardWatcherWait) {
         this.shardWatcherWait = shardWatcherWait;
     }
     
+    public String getShardWebhookUrl() {
+        return this.shardWebhookUrl;
+    }
+    
     public void setShardWebhookUrl(String shardWebhookUrl) {
         this.shardWebhookUrl = shardWebhookUrl;
+    }
+    
+    public String getToken() {
+        return this.token;
     }
     
     public void setToken(String token) {
         this.token = token;
     }
     
+    public int getTotalShards() {
+        return this.totalShards;
+    }
+    
     public void setTotalShards(int totalShards) {
         this.totalShards = totalShards;
+    }
+    
+    public int getFromShard() {
+        return this.fromShard;
     }
     
     public void setFromShard(int fromShard) {
         this.fromShard = fromShard;
     }
     
+    public int getUpToShard() {
+        return this.upToShard;
+    }
+    
     public void setUpToShard(int upToShard) {
         this.upToShard = upToShard;
+    }
+    
+    public String getWeatherAppId() {
+        return this.weatherAppId;
     }
     
     public void setWeatherAppId(String weatherAppId) {
         this.weatherAppId = weatherAppId;
     }
     
+    public String getWebhookUrl() {
+        return this.webhookUrl;
+    }
+    
     public void setWebhookUrl(String webhookUrl) {
         this.webhookUrl = webhookUrl;
+    }
+    
+    public String getSpambotUrl() {
+        return this.spambotUrl;
     }
     
     public void setSpambotUrl(String spambotUrl) {
         this.spambotUrl = spambotUrl;
     }
     
+    public String getWeebapiKey() {
+        return this.weebapiKey;
+    }
+    
     public void setWeebapiKey(String weebapiKey) {
         this.weebapiKey = weebapiKey;
+    }
+    
+    public String getApiTwoUrl() {
+        return this.apiTwoUrl;
     }
     
     public void setApiTwoUrl(String apiTwoUrl) {
         this.apiTwoUrl = apiTwoUrl;
     }
     
+    public boolean isNeedApi() {
+        return this.needApi;
+    }
+    
     public void setNeedApi(boolean needApi) {
         this.needApi = needApi;
+    }
+    
+    public int getPrometheusPort() {
+        return this.prometheusPort;
     }
     
     public void setPrometheusPort(int prometheusPort) {
         this.prometheusPort = prometheusPort;
     }
     
+    public int getRatelimitPoolSize() {
+        return this.ratelimitPoolSize;
+    }
+    
     public void setRatelimitPoolSize(int ratelimitPoolSize) {
         this.ratelimitPoolSize = ratelimitPoolSize;
+    }
+    
+    public String getApiAuthKey() {
+        return this.apiAuthKey;
     }
     
     public void setApiAuthKey(String apiAuthKey) {
         this.apiAuthKey = apiAuthKey;
     }
     
+    public Season getCurrentSeason() {
+        return this.currentSeason;
+    }
+    
     public void setCurrentSeason(Season currentSeason) {
         this.currentSeason = currentSeason;
+    }
+    
+    public String getClientId() {
+        return this.clientId;
     }
     
     public void setClientId(String clientId) {
         this.clientId = clientId;
     }
     
+    public String getJedisPoolAddress() {
+        return this.jedisPoolAddress;
+    }
+    
     public void setJedisPoolAddress(String jedisPoolAddress) {
         this.jedisPoolAddress = jedisPoolAddress;
+    }
+    
+    public int getJedisPoolPort() {
+        return this.jedisPoolPort;
     }
     
     public void setJedisPoolPort(int jedisPoolPort) {
         this.jedisPoolPort = jedisPoolPort;
     }
     
+    public List<String> getLavalinkNodes() {
+        return this.lavalinkNodes;
+    }
+    
     public void setLavalinkNodes(List<String> lavalinkNodes) {
         this.lavalinkNodes = lavalinkNodes;
+    }
+    
+    public String getLavalinkPass() {
+        return this.lavalinkPass;
     }
     
     public void setLavalinkPass(String lavalinkPass) {
         this.lavalinkPass = lavalinkPass;
     }
     
+    public String getCacheClientEndpoint() {
+        return this.cacheClientEndpoint;
+    }
+    
     public void setCacheClientEndpoint(String cacheClientEndpoint) {
         this.cacheClientEndpoint = cacheClientEndpoint;
+    }
+    
+    public String getCacheClientToken() {
+        return this.cacheClientToken;
     }
     
     public void setCacheClientToken(String cacheClientToken) {
         this.cacheClientToken = cacheClientToken;
     }
     
+    public String getIpv6Block() {
+        return this.ipv6Block;
+    }
+    
     public void setIpv6Block(String ipv6Block) {
         this.ipv6Block = ipv6Block;
+    }
+    
+    public String getExcludeAddress() {
+        return this.excludeAddress;
     }
     
     public void setExcludeAddress(String excludeAddress) {
         this.excludeAddress = excludeAddress;
     }
     
+    public int getBucketFactor() {
+        return this.bucketFactor;
+    }
+    
     public void setBucketFactor(int bucketFactor) {
         this.bucketFactor = bucketFactor;
+    }
+    
+    protected boolean canEqual(final Object other) {
+        return other instanceof Config;
+    }
+    
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final Object $alClient = this.alClient;
+        result = result * PRIME + ($alClient == null ? 43 : $alClient.hashCode());
+        final Object $alsecret = this.alsecret;
+        result = result * PRIME + ($alsecret == null ? 43 : $alsecret.hashCode());
+        final Object $apiLoginCreds = this.apiLoginCreds;
+        result = result * PRIME + ($apiLoginCreds == null ? 43 : $apiLoginCreds.hashCode());
+        result = result * PRIME + (this.cacheGames ? 79 : 97);
+        final Object $carbonToken = this.carbonToken;
+        result = result * PRIME + ($carbonToken == null ? 43 : $carbonToken.hashCode());
+        final Object $consoleChannel = this.consoleChannel;
+        result = result * PRIME + ($consoleChannel == null ? 43 : $consoleChannel.hashCode());
+        final Object $dbDb = this.dbDb;
+        result = result * PRIME + ($dbDb == null ? 43 : $dbDb.hashCode());
+        final Object $dbHost = this.dbHost;
+        result = result * PRIME + ($dbHost == null ? 43 : $dbHost.hashCode());
+        final Object $dbPassword = this.dbPassword;
+        result = result * PRIME + ($dbPassword == null ? 43 : $dbPassword.hashCode());
+        result = result * PRIME + this.dbPort;
+        final Object $dbUser = this.dbUser;
+        result = result * PRIME + ($dbUser == null ? 43 : $dbUser.hashCode());
+        final Object $dbotsToken = this.dbotsToken;
+        result = result * PRIME + ($dbotsToken == null ? 43 : $dbotsToken.hashCode());
+        final Object $dbotsorgToken = this.dbotsorgToken;
+        result = result * PRIME + ($dbotsorgToken == null ? 43 : $dbotsorgToken.hashCode());
+        result = result * PRIME + (this.isBeta ? 79 : 97);
+        result = result * PRIME + (this.isPremiumBot ? 79 : 97);
+        result = result * PRIME + this.maxJdaReconnectDelay;
+        final Object $osuApiKey = this.osuApiKey;
+        result = result * PRIME + ($osuApiKey == null ? 43 : $osuApiKey.hashCode());
+        final Object $owners = this.owners;
+        result = result * PRIME + ($owners == null ? 43 : $owners.hashCode());
+        result = result * PRIME + java.util.Arrays.deepHashCode(this.prefix);
+        final Object $sentryDSN = this.sentryDSN;
+        result = result * PRIME + ($sentryDSN == null ? 43 : $sentryDSN.hashCode());
+        result = result * PRIME + this.shardWatcherTimeout;
+        result = result * PRIME + this.shardWatcherWait;
+        final Object $shardWebhookUrl = this.shardWebhookUrl;
+        result = result * PRIME + ($shardWebhookUrl == null ? 43 : $shardWebhookUrl.hashCode());
+        final Object $token = this.token;
+        result = result * PRIME + ($token == null ? 43 : $token.hashCode());
+        result = result * PRIME + this.totalShards;
+        result = result * PRIME + this.fromShard;
+        result = result * PRIME + this.upToShard;
+        final Object $weatherAppId = this.weatherAppId;
+        result = result * PRIME + ($weatherAppId == null ? 43 : $weatherAppId.hashCode());
+        final Object $webhookUrl = this.webhookUrl;
+        result = result * PRIME + ($webhookUrl == null ? 43 : $webhookUrl.hashCode());
+        final Object $spambotUrl = this.spambotUrl;
+        result = result * PRIME + ($spambotUrl == null ? 43 : $spambotUrl.hashCode());
+        final Object $weebapiKey = this.weebapiKey;
+        result = result * PRIME + ($weebapiKey == null ? 43 : $weebapiKey.hashCode());
+        final Object $apiTwoUrl = this.apiTwoUrl;
+        result = result * PRIME + ($apiTwoUrl == null ? 43 : $apiTwoUrl.hashCode());
+        result = result * PRIME + (this.needApi ? 79 : 97);
+        result = result * PRIME + this.prometheusPort;
+        result = result * PRIME + this.ratelimitPoolSize;
+        final Object $apiAuthKey = this.apiAuthKey;
+        result = result * PRIME + ($apiAuthKey == null ? 43 : $apiAuthKey.hashCode());
+        final Object $currentSeason = this.currentSeason;
+        result = result * PRIME + ($currentSeason == null ? 43 : $currentSeason.hashCode());
+        final Object $clientId = this.clientId;
+        result = result * PRIME + ($clientId == null ? 43 : $clientId.hashCode());
+        final Object $jedisPoolAddress = this.jedisPoolAddress;
+        result = result * PRIME + ($jedisPoolAddress == null ? 43 : $jedisPoolAddress.hashCode());
+        result = result * PRIME + this.jedisPoolPort;
+        final Object $lavalinkNodes = this.lavalinkNodes;
+        result = result * PRIME + ($lavalinkNodes == null ? 43 : $lavalinkNodes.hashCode());
+        final Object $lavalinkPass = this.lavalinkPass;
+        result = result * PRIME + ($lavalinkPass == null ? 43 : $lavalinkPass.hashCode());
+        final Object $cacheClientEndpoint = this.cacheClientEndpoint;
+        result = result * PRIME + ($cacheClientEndpoint == null ? 43 : $cacheClientEndpoint.hashCode());
+        final Object $cacheClientToken = this.cacheClientToken;
+        result = result * PRIME + ($cacheClientToken == null ? 43 : $cacheClientToken.hashCode());
+        final Object $ipv6Block = this.ipv6Block;
+        result = result * PRIME + ($ipv6Block == null ? 43 : $ipv6Block.hashCode());
+        final Object $excludeAddress = this.excludeAddress;
+        result = result * PRIME + ($excludeAddress == null ? 43 : $excludeAddress.hashCode());
+        result = result * PRIME + this.bucketFactor;
+        return result;
     }
     
     public boolean equals(final Object o) {
         if(o == this) return true;
         if(!(o instanceof Config)) return false;
         final Config other = (Config) o;
-        if(!other.canEqual((Object) this)) return false;
+        if(!other.canEqual(this)) return false;
         final Object this$alClient = this.alClient;
         final Object other$alClient = other.alClient;
         if(this$alClient == null ? other$alClient != null : !this$alClient.equals(other$alClient)) return false;
@@ -590,96 +678,7 @@ public class Config {
         final Object other$excludeAddress = other.excludeAddress;
         if(this$excludeAddress == null ? other$excludeAddress != null : !this$excludeAddress.equals(other$excludeAddress))
             return false;
-        if(this.bucketFactor != other.bucketFactor) return false;
-        return true;
-    }
-    
-    protected boolean canEqual(final Object other) {
-        return other instanceof Config;
-    }
-    
-    public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final Object $alClient = this.alClient;
-        result = result * PRIME + ($alClient == null ? 43 : $alClient.hashCode());
-        final Object $alsecret = this.alsecret;
-        result = result * PRIME + ($alsecret == null ? 43 : $alsecret.hashCode());
-        final Object $apiLoginCreds = this.apiLoginCreds;
-        result = result * PRIME + ($apiLoginCreds == null ? 43 : $apiLoginCreds.hashCode());
-        result = result * PRIME + (this.cacheGames ? 79 : 97);
-        final Object $carbonToken = this.carbonToken;
-        result = result * PRIME + ($carbonToken == null ? 43 : $carbonToken.hashCode());
-        final Object $consoleChannel = this.consoleChannel;
-        result = result * PRIME + ($consoleChannel == null ? 43 : $consoleChannel.hashCode());
-        final Object $dbDb = this.dbDb;
-        result = result * PRIME + ($dbDb == null ? 43 : $dbDb.hashCode());
-        final Object $dbHost = this.dbHost;
-        result = result * PRIME + ($dbHost == null ? 43 : $dbHost.hashCode());
-        final Object $dbPassword = this.dbPassword;
-        result = result * PRIME + ($dbPassword == null ? 43 : $dbPassword.hashCode());
-        result = result * PRIME + this.dbPort;
-        final Object $dbUser = this.dbUser;
-        result = result * PRIME + ($dbUser == null ? 43 : $dbUser.hashCode());
-        final Object $dbotsToken = this.dbotsToken;
-        result = result * PRIME + ($dbotsToken == null ? 43 : $dbotsToken.hashCode());
-        final Object $dbotsorgToken = this.dbotsorgToken;
-        result = result * PRIME + ($dbotsorgToken == null ? 43 : $dbotsorgToken.hashCode());
-        result = result * PRIME + (this.isBeta ? 79 : 97);
-        result = result * PRIME + (this.isPremiumBot ? 79 : 97);
-        result = result * PRIME + this.maxJdaReconnectDelay;
-        final Object $osuApiKey = this.osuApiKey;
-        result = result * PRIME + ($osuApiKey == null ? 43 : $osuApiKey.hashCode());
-        final Object $owners = this.owners;
-        result = result * PRIME + ($owners == null ? 43 : $owners.hashCode());
-        result = result * PRIME + java.util.Arrays.deepHashCode(this.prefix);
-        final Object $sentryDSN = this.sentryDSN;
-        result = result * PRIME + ($sentryDSN == null ? 43 : $sentryDSN.hashCode());
-        result = result * PRIME + this.shardWatcherTimeout;
-        result = result * PRIME + this.shardWatcherWait;
-        final Object $shardWebhookUrl = this.shardWebhookUrl;
-        result = result * PRIME + ($shardWebhookUrl == null ? 43 : $shardWebhookUrl.hashCode());
-        final Object $token = this.token;
-        result = result * PRIME + ($token == null ? 43 : $token.hashCode());
-        result = result * PRIME + this.totalShards;
-        result = result * PRIME + this.fromShard;
-        result = result * PRIME + this.upToShard;
-        final Object $weatherAppId = this.weatherAppId;
-        result = result * PRIME + ($weatherAppId == null ? 43 : $weatherAppId.hashCode());
-        final Object $webhookUrl = this.webhookUrl;
-        result = result * PRIME + ($webhookUrl == null ? 43 : $webhookUrl.hashCode());
-        final Object $spambotUrl = this.spambotUrl;
-        result = result * PRIME + ($spambotUrl == null ? 43 : $spambotUrl.hashCode());
-        final Object $weebapiKey = this.weebapiKey;
-        result = result * PRIME + ($weebapiKey == null ? 43 : $weebapiKey.hashCode());
-        final Object $apiTwoUrl = this.apiTwoUrl;
-        result = result * PRIME + ($apiTwoUrl == null ? 43 : $apiTwoUrl.hashCode());
-        result = result * PRIME + (this.needApi ? 79 : 97);
-        result = result * PRIME + this.prometheusPort;
-        result = result * PRIME + this.ratelimitPoolSize;
-        final Object $apiAuthKey = this.apiAuthKey;
-        result = result * PRIME + ($apiAuthKey == null ? 43 : $apiAuthKey.hashCode());
-        final Object $currentSeason = this.currentSeason;
-        result = result * PRIME + ($currentSeason == null ? 43 : $currentSeason.hashCode());
-        final Object $clientId = this.clientId;
-        result = result * PRIME + ($clientId == null ? 43 : $clientId.hashCode());
-        final Object $jedisPoolAddress = this.jedisPoolAddress;
-        result = result * PRIME + ($jedisPoolAddress == null ? 43 : $jedisPoolAddress.hashCode());
-        result = result * PRIME + this.jedisPoolPort;
-        final Object $lavalinkNodes = this.lavalinkNodes;
-        result = result * PRIME + ($lavalinkNodes == null ? 43 : $lavalinkNodes.hashCode());
-        final Object $lavalinkPass = this.lavalinkPass;
-        result = result * PRIME + ($lavalinkPass == null ? 43 : $lavalinkPass.hashCode());
-        final Object $cacheClientEndpoint = this.cacheClientEndpoint;
-        result = result * PRIME + ($cacheClientEndpoint == null ? 43 : $cacheClientEndpoint.hashCode());
-        final Object $cacheClientToken = this.cacheClientToken;
-        result = result * PRIME + ($cacheClientToken == null ? 43 : $cacheClientToken.hashCode());
-        final Object $ipv6Block = this.ipv6Block;
-        result = result * PRIME + ($ipv6Block == null ? 43 : $ipv6Block.hashCode());
-        final Object $excludeAddress = this.excludeAddress;
-        result = result * PRIME + ($excludeAddress == null ? 43 : $excludeAddress.hashCode());
-        result = result * PRIME + this.bucketFactor;
-        return result;
+        return this.bucketFactor == other.bucketFactor;
     }
     
     public String toString() {

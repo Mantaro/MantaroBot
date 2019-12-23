@@ -31,21 +31,21 @@ public class Carbonitex {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(Carbonitex.class);
     private final String carbonToken = config().get().carbonToken;
     private final OkHttpClient httpClient = new OkHttpClient();
-
+    
     public void handle() {
         if(carbonToken != null) {
             long newC = MantaroBot.getInstance().getGuildCache().size();
             try {
                 RequestBody body = new FormBody.Builder()
-                        .add("key", carbonToken)
-                        .add("servercount", String.valueOf(newC))
-                        .build();
-
+                                           .add("key", carbonToken)
+                                           .add("servercount", String.valueOf(newC))
+                                           .build();
+                
                 Request request = new Request.Builder()
-                        .url("https://www.carbonitex.net/discord/data/botdata.php")
-                        .post(body)
-                        .build();
-
+                                          .url("https://www.carbonitex.net/discord/data/botdata.php")
+                                          .post(body)
+                                          .build();
+                
                 Response response = httpClient.newCall(request).execute();
                 response.close();
             } catch(Exception ignored) {

@@ -39,7 +39,7 @@ public class MantaroObj implements ManagedObject {
     public List<String> patreonUsers;
     private Map<Long, Pair<String, Long>> mutes;
     private Map<String, Long> tempBans;
-
+    
     @ConstructorProperties({"blackListedGuilds", "blackListedUsers", "patreonUsers", "tempbans", "mutes"})
     @JsonCreator
     public MantaroObj(@JsonProperty("blackListedGuilds") List<String> blackListedGuilds,
@@ -60,7 +60,11 @@ public class MantaroObj implements ManagedObject {
     public static MantaroObj create() {
         return new MantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap<>(), new ConcurrentHashMap<>());
     }
-
+    
+    public String getId() {
+        return this.id;
+    }
+    
     @JsonIgnore
     @Override
     @Nonnull
@@ -68,77 +72,44 @@ public class MantaroObj implements ManagedObject {
         return DB_TABLE;
     }
     
-    public String getId() {
-        return this.id;
-    }
-    
     public List<String> getBlackListedGuilds() {
         return this.blackListedGuilds;
-    }
-    
-    public List<String> getBlackListedUsers() {
-        return this.blackListedUsers;
-    }
-    
-    public List<String> getPatreonUsers() {
-        return this.patreonUsers;
-    }
-    
-    public Map<Long, Pair<String, Long>> getMutes() {
-        return this.mutes;
-    }
-    
-    public Map<String, Long> getTempBans() {
-        return this.tempBans;
     }
     
     public void setBlackListedGuilds(List<String> blackListedGuilds) {
         this.blackListedGuilds = blackListedGuilds;
     }
     
+    public List<String> getBlackListedUsers() {
+        return this.blackListedUsers;
+    }
+    
     public void setBlackListedUsers(List<String> blackListedUsers) {
         this.blackListedUsers = blackListedUsers;
+    }
+    
+    public List<String> getPatreonUsers() {
+        return this.patreonUsers;
     }
     
     public void setPatreonUsers(List<String> patreonUsers) {
         this.patreonUsers = patreonUsers;
     }
     
+    public Map<Long, Pair<String, Long>> getMutes() {
+        return this.mutes;
+    }
+    
     public void setMutes(Map<Long, Pair<String, Long>> mutes) {
         this.mutes = mutes;
     }
     
-    public void setTempBans(Map<String, Long> tempBans) {
-        this.tempBans = tempBans;
+    public Map<String, Long> getTempBans() {
+        return this.tempBans;
     }
     
-    public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof MantaroObj)) return false;
-        final MantaroObj other = (MantaroObj) o;
-        if(!other.canEqual((Object) this)) return false;
-        final Object this$id = this.getId();
-        final Object other$id = other.getId();
-        if(this$id == null ? other$id != null : !this$id.equals(other$id)) return false;
-        final Object this$blackListedGuilds = this.getBlackListedGuilds();
-        final Object other$blackListedGuilds = other.getBlackListedGuilds();
-        if(this$blackListedGuilds == null ? other$blackListedGuilds != null : !this$blackListedGuilds.equals(other$blackListedGuilds))
-            return false;
-        final Object this$blackListedUsers = this.getBlackListedUsers();
-        final Object other$blackListedUsers = other.getBlackListedUsers();
-        if(this$blackListedUsers == null ? other$blackListedUsers != null : !this$blackListedUsers.equals(other$blackListedUsers))
-            return false;
-        final Object this$patreonUsers = this.getPatreonUsers();
-        final Object other$patreonUsers = other.getPatreonUsers();
-        if(this$patreonUsers == null ? other$patreonUsers != null : !this$patreonUsers.equals(other$patreonUsers))
-            return false;
-        final Object this$mutes = this.getMutes();
-        final Object other$mutes = other.getMutes();
-        if(this$mutes == null ? other$mutes != null : !this$mutes.equals(other$mutes)) return false;
-        final Object this$tempBans = this.getTempBans();
-        final Object other$tempBans = other.getTempBans();
-        if(this$tempBans == null ? other$tempBans != null : !this$tempBans.equals(other$tempBans)) return false;
-        return true;
+    public void setTempBans(Map<String, Long> tempBans) {
+        this.tempBans = tempBans;
     }
     
     protected boolean canEqual(final Object other) {
@@ -161,6 +132,34 @@ public class MantaroObj implements ManagedObject {
         final Object $tempBans = this.getTempBans();
         result = result * PRIME + ($tempBans == null ? 43 : $tempBans.hashCode());
         return result;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof MantaroObj)) return false;
+        final MantaroObj other = (MantaroObj) o;
+        if(!other.canEqual(this)) return false;
+        final Object this$id = this.getId();
+        final Object other$id = other.getId();
+        if(this$id == null ? other$id != null : !this$id.equals(other$id)) return false;
+        final Object this$blackListedGuilds = this.getBlackListedGuilds();
+        final Object other$blackListedGuilds = other.getBlackListedGuilds();
+        if(this$blackListedGuilds == null ? other$blackListedGuilds != null : !this$blackListedGuilds.equals(other$blackListedGuilds))
+            return false;
+        final Object this$blackListedUsers = this.getBlackListedUsers();
+        final Object other$blackListedUsers = other.getBlackListedUsers();
+        if(this$blackListedUsers == null ? other$blackListedUsers != null : !this$blackListedUsers.equals(other$blackListedUsers))
+            return false;
+        final Object this$patreonUsers = this.getPatreonUsers();
+        final Object other$patreonUsers = other.getPatreonUsers();
+        if(this$patreonUsers == null ? other$patreonUsers != null : !this$patreonUsers.equals(other$patreonUsers))
+            return false;
+        final Object this$mutes = this.getMutes();
+        final Object other$mutes = other.getMutes();
+        if(this$mutes == null ? other$mutes != null : !this$mutes.equals(other$mutes)) return false;
+        final Object this$tempBans = this.getTempBans();
+        final Object other$tempBans = other.getTempBans();
+        return this$tempBans == null ? other$tempBans == null : this$tempBans.equals(other$tempBans);
     }
     
     public String toString() {

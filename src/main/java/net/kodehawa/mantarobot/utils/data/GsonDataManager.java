@@ -29,13 +29,13 @@ import java.util.function.Supplier;
 
 public class GsonDataManager<T> implements DataManager<T> {
     public static final Gson GSON_PRETTY = new GsonBuilder()
-            .setPrettyPrinting()
-            .serializeNulls()
-            .create(), GSON_UNPRETTY = new GsonBuilder().serializeNulls().create();
+                                                   .setPrettyPrinting()
+                                                   .serializeNulls()
+                                                   .create(), GSON_UNPRETTY = new GsonBuilder().serializeNulls().create();
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(GsonDataManager.class);
     private final Path configPath;
     private final T data;
-
+    
     public GsonDataManager(Class<T> clazz, String file, Supplier<T> constructor) {
         this.configPath = Paths.get(file);
         if(!configPath.toFile().exists()) {
@@ -54,23 +54,23 @@ public class GsonDataManager<T> implements DataManager<T> {
             }
             System.exit(0);
         }
-    
+        
         try {
             this.data = GSON_PRETTY.fromJson(FileIOUtils.read(configPath), clazz);
         } catch(IOException e) {
             throw new UncheckedIOException(e);
         }
     }
-
+    
     public static Gson gson(boolean pretty) {
         return pretty ? GSON_PRETTY : GSON_UNPRETTY;
     }
-
+    
     @Override
     public T get() {
         return data;
     }
-
+    
     @Override
     public void save() {
         try {

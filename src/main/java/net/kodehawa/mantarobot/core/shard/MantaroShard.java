@@ -113,62 +113,57 @@ import static net.kodehawa.mantarobot.utils.Utils.pretty;
  * This also handles posting stats to dbots/dbots.org/carbonitex. Because uh... no other class was fit for it.
  */
 public class MantaroShard implements JDA {
-    private final Logger log;
+    public static final Function<JDA, Integer> QUEUE_SIZE = jda -> {
+        int sum = 0;
+        for(final IBucket bucket : ((JDAImpl) jda).getRequester().getRateLimiter().getRouteBuckets()) {
+            sum += bucket.getRequests().size();
+        }
+        
+        return sum;
+    };
+    public static final BiFunction<JDA, String, Integer> ROUTE_QUEUE_SIZE = (jda, route) -> {
+        for(final IBucket bucket : ((JDAImpl) jda).getRequester().getRateLimiter().getRouteBuckets()) {
+            if(bucket.getRoute().equals(route))
+                return bucket.getRequests().size();
+        }
+        
+        return 0;
+    };
+    public static final Function<JDA, List<Pair<String, Integer>>> GET_BUCKETS_WITH_QUEUE = jda -> {
+        final List<Pair<String, Integer>> routes = new ArrayList<>();
+        final List<IBucket> buckets = ((JDAImpl) jda).getRequester().getRateLimiter().getRouteBuckets();
+        for(final IBucket bucket : buckets) {
+            if(bucket.getRequests().size() > 0) {
+                routes.add(Pair.of(bucket.getRoute(), bucket.getRequests().size()));
+            }
+        }
+        
+        return routes;
+    };
     private static final VoiceChannelListener VOICE_CHANNEL_LISTENER = new VoiceChannelListener();
-    private final CommandListener commandListener;
-    private final MantaroListener mantaroListener;
-    private final int shardId;
-    private final int totalShards;
-    private BirthdayTask birthdayTask = new BirthdayTask();
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2, new ThreadFactoryBuilder().setNameFormat("Mantaro-ShardExecutor Thread-%d").build());
     private static final Config config = MantaroData.config().get();
-    //Message cache of 2500 cached messages per shard. If it reaches 2500 it will delete the first one stored, and continue being 2500.
-    private final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(5).maximumSize(2500).build();
-
     //Christmas date
     private static final Calendar christmas = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.DECEMBER, 25).build();
     //New year date
     private static final Calendar newYear = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.JANUARY, 1).build();
-
+    private static final Gauge ratelimitBucket = new Gauge.Builder().name("ratelimitBucket").help("shard queue size").labelNames("shardId").create();
+    public final MantaroEventManager manager;
+    private final Logger log;
+    private final CommandListener commandListener;
+    private final MantaroListener mantaroListener;
+    private final int shardId;
+    private final int totalShards;
+    //Message cache of 2500 cached messages per shard. If it reaches 2500 it will delete the first one stored, and continue being 2500.
+    private final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(5).maximumSize(2500).build();
     private final String callbackPoolIdentifierString;
     private final String ratelimitPoolIdentifierString;
-    public final MantaroEventManager manager;
     private final ExecutorService threadPool;
     private final ExecutorService commandPool;
     private final SessionController sessionController;
-    private static final Gauge ratelimitBucket = new Gauge.Builder().name("ratelimitBucket").help("shard queue size").labelNames("shardId").create();
+    private BirthdayTask birthdayTask = new BirthdayTask();
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2, new ThreadFactoryBuilder().setNameFormat("Mantaro-ShardExecutor Thread-%d").build());
     private JDA jda;
-
-    public static final Function<JDA, Integer> QUEUE_SIZE = jda -> {
-        int sum = 0;
-        for (final IBucket bucket : ((JDAImpl) jda).getRequester().getRateLimiter().getRouteBuckets()) {
-            sum += bucket.getRequests().size();
-        }
-
-        return sum;
-    };
-
-    public static final BiFunction<JDA, String, Integer> ROUTE_QUEUE_SIZE = (jda, route) -> {
-        for (final IBucket bucket : ((JDAImpl) jda).getRequester().getRateLimiter().getRouteBuckets()) {
-            if (bucket.getRoute().equals(route))
-                return bucket.getRequests().size();
-        }
-
-        return 0;
-    };
-
-    public static final Function<JDA, List<Pair<String, Integer>>> GET_BUCKETS_WITH_QUEUE = jda -> {
-        final List<Pair<String, Integer>> routes = new ArrayList<>();
-        final List<IBucket> buckets = ((JDAImpl) jda).getRequester().getRateLimiter().getRouteBuckets();
-        for (final IBucket bucket : buckets) {
-            if (bucket.getRequests().size() > 0) {
-                routes.add(Pair.of(bucket.getRoute(), bucket.getRequests().size()));
-            }
-        }
-
-        return routes;
-    };
-
+    
     /**
      * Builds a new instance of a MantaroShard.
      *
@@ -187,36 +182,36 @@ public class MantaroShard implements JDA {
         this.totalShards = totalShards;
         this.manager = manager;
         this.sessionController = controller;
-
+        
         ThreadFactory normalTPNamedFactory =
                 new ThreadFactoryBuilder()
                         .setNameFormat("MantaroShard-Executor[" + shardId + "/" + totalShards + "] Thread-%d")
                         .build();
-
+        
         ThreadFactory commandTPNamedFactory =
                 new ThreadFactoryBuilder()
                         .setNameFormat("MantaroShard-Command[" + shardId + "/" + totalShards + "] Thread-%d")
                         .build();
-
+        
         threadPool = Executors.newCachedThreadPool(normalTPNamedFactory);
         commandPool = Executors.newCachedThreadPool(commandTPNamedFactory);
-
+        
         Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-shard-" + shardId + "-birthday-executor", executorService);
         Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-shard-" + shardId + "-thread-pool", threadPool);
         Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-shard-" + shardId + "-command-pool", commandPool);
-
+        
         log = LoggerFactory.getLogger("MantaroShard-" + shardId);
         mantaroListener = new MantaroListener(shardId, this);
         commandListener = new CommandListener(shardId, this, commandProcessor);
-
+        
         start(false);
-
+        
         //Gauge the current ratelimit bucket queue size per shard.
         Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
             ratelimitBucket.labels(String.valueOf(shardId)).set(QUEUE_SIZE.apply(jda));
         }, 1, 1, TimeUnit.MINUTES);
     }
-
+    
     /**
      * Starts a new Shard.
      * This method builds a {@link JDA} instance and then attempts to start it up.
@@ -233,16 +228,16 @@ public class MantaroShard implements JDA {
         if(jda != null) {
             log.info("Attempting to drop shard {}...", shardId);
             prepareShutdown();
-
+            
             if(!force)
                 jda.shutdown();
             else
                 jda.shutdownNow();
-
+            
             log.info("Dropped shard #{} successfully!", shardId);
             removeListeners();
         }
-
+        
         ThreadPoolExecutor callbackPool;
         ScheduledThreadPoolExecutor ratelimitPool;
         synchronized(this) {
@@ -253,43 +248,43 @@ public class MantaroShard implements JDA {
             Prometheus.THREAD_POOL_COLLECTOR.remove(ratelimitPoolIdentifierString);
             Prometheus.THREAD_POOL_COLLECTOR.add(ratelimitPoolIdentifierString, ratelimitPool);
         }
-
+        
         JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
-                .setToken(config().get().token)
-                .setAutoReconnect(true)
-                .setRateLimitPool(ratelimitPool, true)
-                .setCallbackPool(callbackPool, true)
-                .setEventManager(manager)
-                .setSessionController(sessionController)
-                .setBulkDeleteSplittingEnabled(false)
-                .useSharding(shardId, totalShards)
-                .addEventListeners(MantaroBot.getInstance().getLavalink()) //try here then down there ig
-                .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavalink().getVoiceInterceptor())
-                .setDisabledCacheFlags(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE))
-                .setActivity(Activity.playing("Hold on to your seatbelts!"));
-
+                                        .setToken(config().get().token)
+                                        .setAutoReconnect(true)
+                                        .setRateLimitPool(ratelimitPool, true)
+                                        .setCallbackPool(callbackPool, true)
+                                        .setEventManager(manager)
+                                        .setSessionController(sessionController)
+                                        .setBulkDeleteSplittingEnabled(false)
+                                        .useSharding(shardId, totalShards)
+                                        .addEventListeners(MantaroBot.getInstance().getLavalink()) //try here then down there ig
+                                        .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavalink().getVoiceInterceptor())
+                                        .setDisabledCacheFlags(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE))
+                                        .setActivity(Activity.playing("Hold on to your seatbelts!"));
+        
         if(shardId < getTotalShards() - 1) {
             jda = jdaBuilder.build();
         } else {
             //Block until all shards start up properly.
             jda = jdaBuilder.build().awaitReady();
         }
-
+        
         //Assume everything is alright~
         addListeners();
     }
-
+    
     private void addListeners() {
         log.debug("Added all listeners for shard {}", shardId);
         //jda.addEventListener(MantaroBot.getInstance().getLavalink());
         jda.addEventListener(mantaroListener, commandListener, VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(), ReactionOperations.listener());
     }
-
+    
     private void removeListeners() {
         log.debug("Removed all listeners for shard {}", shardId);
         jda.removeEventListener(mantaroListener, commandListener, VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(), ReactionOperations.listener());
     }
-
+    
     /**
      * Starts the birthday task wait until tomorrow. When 00:00 arrives, this will call {@link BirthdayTask#handle(int)} every 24 hours.
      * Every shard has one birthday task.
@@ -298,11 +293,11 @@ public class MantaroShard implements JDA {
      */
     public void startBirthdayTask(long millisecondsUntilTomorrow) {
         log.debug("Started birthday task for shard {}, scheduled to run in {} ms more", shardId, millisecondsUntilTomorrow);
-
+        
         executorService.scheduleWithFixedDelay(() -> birthdayTask.handle(shardId),
                 millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
     }
-
+    
     /**
      * Updates Mantaro's "splash".
      * Splashes are random gags like "now seen in theaters!" that show on Mantaro's status.
@@ -314,11 +309,11 @@ public class MantaroShard implements JDA {
             if(DateUtils.isSameDay(christmas, Calendar.getInstance())) {
                 getJDA().getPresence().setActivity(Activity.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], "Merry Christmas!", getId())));
                 return;
-            } else if (DateUtils.isSameDay(newYear, Calendar.getInstance())) {
+            } else if(DateUtils.isSameDay(newYear, Calendar.getInstance())) {
                 getJDA().getPresence().setActivity(Activity.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], "Happy New Year!", getId())));
                 return;
             }
-
+            
             AtomicInteger users = new AtomicInteger(0), guilds = new AtomicInteger(0);
             if(MantaroBot.getInstance() != null) {
                 Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).filter(Objects::nonNull).filter(mantaroShard -> mantaroShard.getJDA() != null).map(MantaroShard::getJDA).forEach(jda -> {
@@ -326,69 +321,69 @@ public class MantaroShard implements JDA {
                     guilds.addAndGet((int) jda.getGuildCache().size());
                 });
             }
-
+            
             JSONObject reply;
-
+            
             try {
                 Request request = new Request.Builder()
-                        .url(config.apiTwoUrl + "/mantaroapi/bot/splashes/random")
-                        .addHeader("Authorization", config.getApiAuthKey())
-                        .addHeader("User-Agent", MantaroInfo.USER_AGENT)
-                        .get()
-                        .build();
-
+                                          .url(config.apiTwoUrl + "/mantaroapi/bot/splashes/random")
+                                          .addHeader("Authorization", config.getApiAuthKey())
+                                          .addHeader("User-Agent", MantaroInfo.USER_AGENT)
+                                          .get()
+                                          .build();
+                
                 Response response = httpClient.newCall(request).execute();
                 String body = response.body().string();
                 response.close();
-
+                
                 reply = new JSONObject(body);
-            } catch (Exception e) {
+            } catch(Exception e) {
                 //I had to, lol.
                 reply = new JSONObject().put("splash", "With a missing status!");
             }
-
+            
             String newStatus = reply.getString("splash")
-                    //Replace fest.
-                    .replace("%ramgb%", String.valueOf(((long) (Runtime.getRuntime().maxMemory() * 1.2D)) >> 30L))
-                    .replace("%usercount%", users.toString())
-                    .replace("%guildcount%", guilds.toString())
-                    .replace("%shardcount%", String.valueOf(getTotalShards()))
-                    .replace("%prettyusercount%", pretty(users.get()))
-                    .replace("%prettyguildcount%", pretty(guilds.get()));
-
+                                       //Replace fest.
+                                       .replace("%ramgb%", String.valueOf(((long) (Runtime.getRuntime().maxMemory() * 1.2D)) >> 30L))
+                                       .replace("%usercount%", users.toString())
+                                       .replace("%guildcount%", guilds.toString())
+                                       .replace("%shardcount%", String.valueOf(getTotalShards()))
+                                       .replace("%prettyusercount%", pretty(users.get()))
+                                       .replace("%prettyguildcount%", pretty(guilds.get()));
+            
             getJDA().getPresence().setActivity(Activity.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], newStatus, getId())));
             log.debug("Changed status to: " + newStatus);
         };
-
+        
         changeStatus.run();
-        Executors.newSingleThreadScheduledExecutor(r->new Thread(r, "Splash Thread"))
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Splash Thread"))
                 .scheduleAtFixedRate(changeStatus, 10, 10, TimeUnit.MINUTES);
     }
-
+    
     /**
      * @return The current {@link MantaroEventManager} for this specific instance.
      */
     public MantaroEventManager getShardEventManager() {
         return manager;
     }
-
+    
     public int getId() {
         return shardId;
     }
-
+    
     public JDA getJDA() {
         return jda;
     }
-
+    
     private int getTotalShards() {
         return totalShards;
     }
-
+    
     //This used to be bigger...
     public void prepareShutdown() {
         jda.removeEventListener(jda.getRegisteredListeners().toArray());
     }
-
+    
     @Override
     public String toString() {
         return "MantaroShard [" + (getId()) + " / " + totalShards + "]";

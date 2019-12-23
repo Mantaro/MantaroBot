@@ -66,14 +66,14 @@ public class ShardedMantaro {
     private final int fromShard;
     private final int toShard;
     private final SessionController sessionController;
-
+    
     public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token, ICommandProcessor commandProcessor, int fromShard, int toShard) {
         int shardAmount = totalShards;
         if(auto)
             shardAmount = getRecommendedShards(token);
         if(isDebug)
             shardAmount = 2;
-
+        
         if(isDebug || shardAmount < 16) {
             sessionController = new SessionControllerAdapter();
         } else {
@@ -89,19 +89,19 @@ public class ShardedMantaro {
         this.toShard = toShard == 0 ? ExtraRuntimeOptions.TO_SHARD.orElse(toShard) : toShard;
         this.shards = new MantaroShard[this.totalShards];
     }
-
+    
     private static int getRecommendedShards(String token) {
         if(MantaroData.config().get().totalShards != 0) {
             return MantaroData.config().get().totalShards;
         }
-
+        
         try {
             Request shards = new Request.Builder()
-                    .url("https://discordapp.com/api/gateway/bot")
-                    .header("Authorization", "Bot " + token)
-                    .header("Content-Type", "application/json")
-                    .build();
-
+                                     .url("https://discordapp.com/api/gateway/bot")
+                                     .header("Authorization", "Bot " + token)
+                                     .header("Content-Type", "application/json")
+                                     .build();
+            
             Response response = Utils.httpClient.newCall(shards).execute();
             JSONObject shardObject = new JSONObject(response.body().string());
             response.close();
@@ -117,7 +117,7 @@ public class ShardedMantaro {
         }
         return 1;
     }
-
+    
     /**
      * Starts building all the necessary Shards to start this bot instance.
      * After finishing loading all the necessary shards, this will call {@link ShardedMantaro#startPostLoadProcedure(long)} and set everything so the bot
@@ -132,18 +132,18 @@ public class ShardedMantaro {
             for(int i = fromShard; i < (toShard == 0 ? totalShards : toShard); i++) {
                 if(MantaroData.config().get().upToShard != 0 && i > MantaroData.config().get().upToShard)
                     continue;
-
+                
                 log.info("Starting shard #" + i + " of " + (toShard == 0 ? totalShards : toShard - fromShard));
-
+                
                 //The custom event manager instance is important so we can track when we received the last event, or if we're receiving events at all.
                 MantaroEventManager manager = new MantaroEventManager();
                 managers.add(manager);
-
+                
                 //Builds the new MantaroShard instance, which will start the shard.
                 shards[i] = new MantaroShard(i, totalShards, manager, processor, sessionController);
                 log.debug("Finished loading shard #" + i + ".");
             }
-
+            
             //Beep-boop, we finished loading!
             this.startPostLoadProcedure(start);
         } catch(Exception e) {
@@ -151,42 +151,43 @@ public class ShardedMantaro {
             SentryHelper.captureExceptionContext("Shards failed to initialize!", e, this.getClass(), "Shard Loader");
         }
     }
-
+    
     private void startPostLoadProcedure(long start) {
         long end = System.currentTimeMillis();
         MantaroBot bot = MantaroBot.getInstance();
-
+        
         //Start the reconnect queue.
         bot.getCore().markAsReady();
-
+        
         System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
         LogUtils.shard(String.format("Loaded all %d (of a total of %d) shards in %d seconds.", config.upToShard, totalShards, (end - start) / 1000));
         log.info("Loaded all shards successfully... Starting ShardWatcher! Status: {}", MantaroCore.getLoadState());
-
+        
         new Thread(new ShardWatcher(), "ShardWatcherThread").start();
         bot.getCore().getShardEventBus().post(new PostLoadEvent());
-
+        
         startUpdaters();
         bot.startCheckingBirthdays();
     }
-
+    
     private void startUpdaters() {
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Carbonitex post task"))
                 .scheduleAtFixedRate(carbonitex::handle, 0, 30, TimeUnit.MINUTES);
-
+        
         if(config.dbotsorgToken != null) {
-            Executors.newSingleThreadScheduledExecutor(r->new Thread(r, "dbots.org update thread")).scheduleAtFixedRate(() -> {
+            Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "dbots.org update thread")).scheduleAtFixedRate(() -> {
                 try {
                     long count = MantaroBot.getInstance().getGuildCache().size();
                     int[] shards = MantaroBot.getInstance().getShardList().stream().mapToInt(shard -> (int) shard.getGuildCache().size()).toArray();
                     discordBotsAPI.postStats(shards).execute();
                     log.debug("Updated server count ({}) for discordbots.org", count);
-                } catch(Exception ignored) {}
+                } catch(Exception ignored) {
+                }
             }, 0, 1, TimeUnit.HOURS);
         } else {
             log.warn("discordbots.org token not set in config, cannot start posting stats!");
         }
-
+        
         for(MantaroShard shard : getShards()) {
             shard.updateStatus();
         }

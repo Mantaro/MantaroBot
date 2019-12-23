@@ -63,43 +63,43 @@ public class HelpContent {
         private String usage = null;
         private List<String> related = new ArrayList<>();
         private boolean seasonal = false;
-
+        
         public Builder setDescription(String description) {
             this.description = description;
             return this;
         }
-
+        
         public Builder addParameter(String parameterName, String content) {
             parameters.put(parameterName, content);
             return this;
         }
-
+        
         //I was lazy to make last one take a boolean bc that'd mean replacing existing ones, bleh.
         public Builder addParameterOptional(String parameterName, String content) {
             parameters.put(parameterName, content + " This is optional");
             return this;
         }
-
+        
         public Builder setUsage(String usage) {
             this.usage = usage;
             return this;
         }
-
+        
         public Builder setUsagePrefixed(String usage) {
             this.usage = "~>" + usage;
             return this;
         }
-
+        
         public Builder setRelated(List<String> related) {
             this.related = related;
             return this;
         }
-
+        
         public Builder setSeasonal(boolean seasonal) {
             this.seasonal = seasonal;
             return this;
         }
-
+        
         public HelpContent build() {
             return new HelpContent(description, parameters, usage, related, seasonal);
         }

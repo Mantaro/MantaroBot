@@ -70,40 +70,41 @@ public class DebugCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 final MantaroBot mantaroBot = MantaroBot.getInstance();
-
+                
                 final SnowflakeCacheView<Guild> guilds = mantaroBot.getGuildCache();
                 final SnowflakeCacheView<User> users = mantaroBot.getUserCache();
-
+                
                 event.getChannel().sendMessage("```prolog\n"
-                        + " --------- Technical Information --------- \n\n"
-                        + "Commands: " + DefaultCommandProcessor.REGISTRY.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
-                        + "Bot Version: " + MantaroInfo.VERSION + "\n"
-                        + "JDA Version: " + JDAInfo.VERSION + "\n"
-                        + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
-                        + "API Responses: " + String.format("%,d", mantaroBot.getResponseTotal()) + "\n"
-                        + "CPU Usage: " + String.format("%.2f", getInstanceCPUUsage()) + "%" + "\n"
-                        + "CPU Cores: " + getAvailableProcessors() + "\n"
-                        + "Shard Info: " + event.getJDA().getShardInfo()
-                        + "\n\n --------- Mantaro Information --------- \n\n"
-                        + "Guilds: " + String.format("%,d", guilds.size()) + "\n"
-                        + "Users: " + String.format("%,d", users.size()) + "\n"
-                        + "Shards: " + mantaroBot.getShardedMantaro().getTotalShards() + " (Current: " + (mantaroBot.getShardForGuild(event.getGuild().getId()).getId()) + ")" + "\n"
-                        + "Threads: " + String.format("%,d", Thread.activeCount()) + "\n"
-                        + "Executed Commands: " + String.format("%,d", CommandListener.getCommandTotalInt()) + "\n"
-                        + "Logs: " + String.format("%,d", MantaroListener.getLogTotalInt()) + "\n"
-                        + "Memory: " + String.format("%,dMB/%,dMB", (int)(getTotalMemory() - getFreeMemory()), (int)getMaxMemory()) + "\n"
-                        + "Queue Size: " + String.format("%,d", mantaroBot.getAudioManager().getTotalQueueSize())
-                        + "```").queue();
+                                                       + " --------- Technical Information --------- \n\n"
+                                                       + "Commands: " + DefaultCommandProcessor.REGISTRY.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
+                                                       + "Bot Version: " + MantaroInfo.VERSION + "\n"
+                                                       + "JDA Version: " + JDAInfo.VERSION + "\n"
+                                                       + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
+                                                       + "API Responses: " + String.format("%,d", mantaroBot.getResponseTotal()) + "\n"
+                                                       + "CPU Usage: " + String.format("%.2f", getInstanceCPUUsage()) + "%" + "\n"
+                                                       + "CPU Cores: " + getAvailableProcessors() + "\n"
+                                                       + "Shard Info: " + event.getJDA().getShardInfo()
+                                                       + "\n\n --------- Mantaro Information --------- \n\n"
+                                                       + "Guilds: " + String.format("%,d", guilds.size()) + "\n"
+                                                       + "Users: " + String.format("%,d", users.size()) + "\n"
+                                                       + "Shards: " + mantaroBot.getShardedMantaro().getTotalShards() + " (Current: " + (mantaroBot.getShardForGuild(event.getGuild().getId()).getId()) + ")" + "\n"
+                                                       + "Threads: " + String.format("%,d", Thread.activeCount()) + "\n"
+                                                       + "Executed Commands: " + String.format("%,d", CommandListener.getCommandTotalInt()) + "\n"
+                                                       + "Logs: " + String.format("%,d", MantaroListener.getLogTotalInt()) + "\n"
+                                                       + "Memory: " + String.format("%,dMB/%,dMB", (int) (getTotalMemory() - getFreeMemory()), (int) getMaxMemory()) + "\n"
+                                                       + "Queue Size: " + String.format("%,d", mantaroBot.getAudioManager().getTotalQueueSize())
+                                                       + "```").queue();
             }
+            
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Gets the bot technical information. Nothing all that interesting, but shows cute stats.")
-                        .build();
+                               .setDescription("Gets the bot technical information. Nothing all that interesting, but shows cute stats.")
+                               .build();
             }
         });
     }
-
+    
     @Subscribe
     public void shard(CommandRegistry cr) {
         cr.register("shard", new SimpleCommand(Category.INFO) {
@@ -111,36 +112,36 @@ public class DebugCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 event.getChannel().sendMessageFormat(languageContext.get("commands.shard.info"), event.getJDA().getShardInfo() == null ? 0 : event.getJDA().getShardInfo().getShardId()).queue();
             }
-
+            
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Returns in what shard I am.")
-                        .build();
+                               .setDescription("Returns in what shard I am.")
+                               .build();
             }
         });
     }
-
+    
     @Subscribe
     public void ping(CommandRegistry cr) {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
-                .limit(1)
-                .spamTolerance(2)
-                .cooldown(10, TimeUnit.SECONDS)
-                .maxCooldown(10, TimeUnit.SECONDS)
-                .randomIncrement(true)
-                .pool(MantaroData.getDefaultJedisPool())
-                .prefix("ping")
-                .build();
-
+                                                          .limit(1)
+                                                          .spamTolerance(2)
+                                                          .cooldown(10, TimeUnit.SECONDS)
+                                                          .maxCooldown(10, TimeUnit.SECONDS)
+                                                          .randomIncrement(true)
+                                                          .pool(MantaroData.getDefaultJedisPool())
+                                                          .prefix("ping")
+                                                          .build();
+        
         cr.register("ping", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 TextChannel channel = event.getChannel();
-
+                
                 if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext, false))
                     return;
-
+                
                 long start = System.currentTimeMillis();
                 channel.sendTyping().queue(v -> {
                     long ping = System.currentTimeMillis() - start;
@@ -148,16 +149,16 @@ public class DebugCmds {
                     channel.sendMessageFormat(languageContext.get("commands.ping.text"), EmoteReference.MEGA, languageContext.get("commands.ping.display"), ping, ratePing(ping, languageContext), event.getJDA().getGatewayPing()).queue();
                 });
             }
-
+            
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Plays Ping-Pong with Discord and prints out the result.")
-                        .build();
+                               .setDescription("Plays Ping-Pong with Discord and prints out the result.")
+                               .build();
             }
         });
     }
-
+    
     @Subscribe
     public void shardinfo(CommandRegistry cr) {
         cr.register("shardinfo", new SimpleCommand(Category.INFO) {
@@ -166,19 +167,19 @@ public class DebugCmds {
                 StringBuilder builder = new StringBuilder();
                 int connecting = 0;
                 int bigqueue = 0;
-
+                
                 for(MantaroShard shard : MantaroBot.getInstance().getShardList()) {
                     if(shard == null) {
                         connecting++;
                         continue;
                     }
-
+                    
                     JDA jda = shard.getJDA();
                     int queueSize = MantaroShard.QUEUE_SIZE.apply(jda);
                     if(queueSize > 100) {
                         bigqueue++;
                     }
-
+                    
                     builder.append(String.format(
                             "%-17s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s | Q: %-8s",
                             jda.getShardInfo(),
@@ -189,38 +190,38 @@ public class DebugCmds {
                             jda.getGatewayPing(),
                             queueSize
                     ));
-
+                    
                     if(shard.getJDA().getShardInfo().equals(event.getJDA().getShardInfo())) {
                         builder.append(" <- CURRENT");
                     }
-
+                    
                     builder.append("\n");
                 }
-
+                
                 if(connecting > 0)
                     builder.append("\nWARNING: Number of shards still booting up: ").append(connecting);
                 if(bigqueue > 0)
                     builder.append("\nWARNING: Number of shards with +100 events in queue: ").append(connecting);
-
+                
                 List<String> m = DiscordUtils.divideString(builder);
                 List<String> messages = new LinkedList<>();
-
+                
                 for(String s1 : m) {
                     messages.add(String.format("%s\n```prolog\n%s```", "**Mantaro's Shard Information. Use &p >> and &p << to move pages, &cancel to exit.**", s1));
                 }
-
+                
                 DiscordUtils.listText(event, 45, false, messages);
             }
-
+            
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Returns information about shards.")
-                        .build();
+                               .setDescription("Returns information about shards.")
+                               .build();
             }
         });
     }
-
+    
     @Subscribe
     public void debug(CommandRegistry cr) {
         cr.register("status", new SimpleCommand(Category.INFO) {
@@ -234,13 +235,13 @@ public class DebugCmds {
                 int reconnecting = 0;
                 int connecting = 0;
                 int high = 0;
-
+                
                 for(MantaroShard shard : shards) {
                     if(shard == null) {
                         connecting++;
                         continue;
                     }
-
+                    
                     boolean reconnect = shard.getStatus().equals(JDA.Status.RECONNECT_QUEUED);
                     if(shard.getShardEventManager().getLastJDAEventTimeDiff() > 50000 && !reconnect)
                         dead++;
@@ -249,19 +250,19 @@ public class DebugCmds {
                     if(shard.getShardEventManager().getLastJDAEventTimeDiff() > 1650 && !reconnect)
                         high++;
                 }
-
+                
                 String status = (dead == 0 && (high == 0 || reconnecting > 10)) ? "Status: Okay :)\n\n" : "Status: Warning :(\n\n";
                 stringBuilder.append(status);
-
+                
                 if(reconnecting > 10)
                     stringBuilder.append("WARNING: A large number of shards are reconnecting right now!" +
-                            " Bot might be unavailable on several thousands guilds for some minutes! (").append(reconnecting).append(" shards reconnecting now)\n");
+                                                 " Bot might be unavailable on several thousands guilds for some minutes! (").append(reconnecting).append(" shards reconnecting now)\n");
                 if(high > 20)
                     stringBuilder.append("WARNING: A very large number of shards has a high last event time! A restart might be needed if this doesn't fix itself on some minutes!\n");
                 if(dead > 5)
                     stringBuilder.append("WARNING: Several shards (").append(dead).append(") ")
                             .append("appear to be dead! If this doesn't get fixed in 30 minutes please report this!\n");
-
+                
                 stringBuilder.append(String.format(
                         "Uptime: %s.\n\n" +
                                 "Bot Version: %s\n" +
@@ -283,24 +284,24 @@ public class DebugCmds {
                                 .collect(Collectors.joining(", ")),
                         dead, reconnecting, connecting, high, String.format("%,d", bot.getGuildCache().size()),
                         String.format("%,d", bot.getUserCache().size()), bot.getShardList().size()));
-
+                
                 event.getChannel().sendMessage(new MessageBuilder()
-                        .append(EmoteReference.OK)
-                        .append("**Mantaro's Status**")
-                        .append("\n")
-                        .appendCodeBlock(stringBuilder.toString(), "prolog")
-                        .build()).queue();
+                                                       .append(EmoteReference.OK)
+                                                       .append("**Mantaro's Status**")
+                                                       .append("\n")
+                                                       .appendCodeBlock(stringBuilder.toString(), "prolog")
+                                                       .build()).queue();
             }
-
+            
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Is the bot doing fine? Oh who am I kidding, it's probably fire. Or an earthquake, who knows (not really, it's probably doing ok)")
-                        .build();
+                               .setDescription("Is the bot doing fine? Oh who am I kidding, it's probably fire. Or an earthquake, who knows (not really, it's probably doing ok)")
+                               .build();
             }
         });
     }
-
+    
     private String ratePing(long ping, I18nContext languageContext) {
         if(ping == 69)
             return languageContext.get("commands.ping.quotes.69");
@@ -330,10 +331,10 @@ public class DebugCmds {
             return languageContext.get("commands.ping.quotes.1600");
         if(ping <= 10000)
             return languageContext.get("commands.ping.quotes.10000");
-
+        
         return languageContext.get("commands.ping.quotes.default");
     }
-
+    
     @Subscribe
     public void onPreLoad(PreLoadEvent e) {
         start();

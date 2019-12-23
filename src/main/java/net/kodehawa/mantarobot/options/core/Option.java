@@ -29,7 +29,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class Option {
-
+    
     private static final Map<String, Option> optionMap = new HashMap<>();
     //Display names + desc in the avaliable options list.
     private static final List<String> avaliableOptions = new ArrayList<>();
@@ -38,13 +38,13 @@ public class Option {
     private final String optionName;
     private final OptionType type;
     private TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> eventConsumer;
-
+    
     public Option(String displayName, String description, OptionType type) {
         this.optionName = displayName;
         this.description = description;
         this.type = type;
     }
-
+    
     public static void addOption(String name, Option option) {
         Option.optionMap.put(name, option);
         String toAdd = String.format(
@@ -54,7 +54,7 @@ public class Option {
         );
         Option.avaliableOptions.add(toAdd);
     }
-
+    
     public static void addOptionAlias(String current, String name) {
         Option.optionMap.put(name, optionMap.get(current));
         String toAdd = String.format(
@@ -77,28 +77,28 @@ public class Option {
         return Option.shortDescription;
     }
     
+    public Option setShortDescription(String sd) {
+        shortDescription = sd;
+        return this;
+    }
+    
     public Option setAction(Consumer<GuildMessageReceivedEvent> code) {
         eventConsumer = (event, ignored, ignored2) -> code.accept(event);
         return this;
     }
-
+    
     public Option setActionLang(BiConsumer<GuildMessageReceivedEvent, I18nContext> code) {
         eventConsumer = (event, ignored, ctx) -> code.accept(event, ctx);
         return this;
     }
-
+    
     public Option setAction(BiConsumer<GuildMessageReceivedEvent, String[]> code) {
         eventConsumer = (event, c, ignored) -> code.accept(event, c);
         return this;
     }
-
+    
     public Option setActionLang(TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> code) {
         eventConsumer = code;
-        return this;
-    }
-
-    public Option setShortDescription(String sd) {
-        shortDescription = sd;
         return this;
     }
     

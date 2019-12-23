@@ -37,12 +37,17 @@ public class CharacterData {
         return this.attributes;
     }
     
+    @JsonIgnore
+    public String getURL() {
+        return "https://kitsu.io/character/" + id;
+    }
+    
     public static class Attributes {
         private Names names;
         private String name;
-
+        
         private String description;
-
+        
         private Image image;
         
         public Names getNames() {
@@ -61,31 +66,26 @@ public class CharacterData {
             return this.image;
         }
     }
-
+    
     public static class Names {
         private String en;
         private String ja_jp;
-    
+        
         public String getEn() {
             return this.en;
         }
-    
+        
         public String getJa_jp() {
             return this.ja_jp;
         }
     }
-
+    
     public static class Image {
         private String original;
-    
+        
         public String getOriginal() {
             return this.original;
         }
     }
-
-    @JsonIgnore
-    public String getURL() {
-        return "https://kitsu.io/character/" + id;
-    }
-
+    
 }

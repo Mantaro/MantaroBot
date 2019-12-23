@@ -34,7 +34,7 @@ public class EmbedJSON {
     public String image;
     public String thumbnail;
     public String title, titleUrl;
-
+    
     public MessageEmbed gen(Member member) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         if(title != null) embedBuilder.setTitle(title, titleUrl);
@@ -61,7 +61,7 @@ public class EmbedJSON {
             }
             if(col != null) embedBuilder.setColor(col);
         }
-
+        
         fields.forEach(f -> {
             if(f == null) {
                 embedBuilder.addBlankField(false);
@@ -71,10 +71,10 @@ public class EmbedJSON {
                 embedBuilder.addField(f.name == null ? "" : f.name, f.value, f.inline);
             }
         });
-
+        
         return embedBuilder.build();
     }
-
+    
     public static class EmbedField {
         public boolean inline;
         public String name, value;

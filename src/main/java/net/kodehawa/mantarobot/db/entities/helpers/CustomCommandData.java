@@ -28,28 +28,16 @@ public class CustomCommandData {
         return this.owner;
     }
     
-    public boolean isNsfw() {
-        return this.nsfw;
-    }
-    
     public void setOwner(String owner) {
         this.owner = owner;
     }
     
-    public void setNsfw(boolean nsfw) {
-        this.nsfw = nsfw;
+    public boolean isNsfw() {
+        return this.nsfw;
     }
     
-    public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof CustomCommandData)) return false;
-        final CustomCommandData other = (CustomCommandData) o;
-        if(!other.canEqual((Object) this)) return false;
-        final Object this$owner = this.getOwner();
-        final Object other$owner = other.getOwner();
-        if(this$owner == null ? other$owner != null : !this$owner.equals(other$owner)) return false;
-        if(this.isNsfw() != other.isNsfw()) return false;
-        return true;
+    public void setNsfw(boolean nsfw) {
+        this.nsfw = nsfw;
     }
     
     protected boolean canEqual(final Object other) {
@@ -63,6 +51,17 @@ public class CustomCommandData {
         result = result * PRIME + ($owner == null ? 43 : $owner.hashCode());
         result = result * PRIME + (this.isNsfw() ? 79 : 97);
         return result;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof CustomCommandData)) return false;
+        final CustomCommandData other = (CustomCommandData) o;
+        if(!other.canEqual(this)) return false;
+        final Object this$owner = this.getOwner();
+        final Object other$owner = other.getOwner();
+        if(this$owner == null ? other$owner != null : !this$owner.equals(other$owner)) return false;
+        return this.isNsfw() == other.isNsfw();
     }
     
     public String toString() {

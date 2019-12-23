@@ -34,23 +34,23 @@ import java.util.function.Consumer;
 
 public class ReminderTask {
     private static final Counter reminderCount = Counter.build()
-            .name("reminders_logged").help("Logged reminders")
-            .register();
+                                                         .name("reminders_logged").help("Logged reminders")
+                                                         .register();
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(ReminderTask.class);
     
     private final JedisPool pool = MantaroData.getDefaultJedisPool();
     private final MantaroBot mantaro = MantaroBot.getInstance();
-
+    
     public void handle() {
         log.debug("Checking reminder data...");
         try(Jedis j = pool.getResource()) {
             Set<String> reminders = j.zrange("zreminder", 0, 14);
             log.debug("Reminder check - remainder is: {}", reminders.size());
-
+            
             for(String rem : reminders) {
                 try {
                     JSONObject data = new JSONObject(rem);
-
+                    
                     long fireAt = data.getLong("at");
                     //If the time has passed...
                     //System.out.println("time: " + System.currentTimeMillis() + ", expected: " + fireAt);
@@ -60,19 +60,20 @@ public class ReminderTask {
                         String fullId = data.getString("id") + ":" + userId;
                         String guildId = data.getString("guild");
                         long scheduledAt = data.getLong("scheduledAt");
-
+                        
                         String reminder = data.getString("reminder"); //The actual reminder data
-
+                        
                         User user = mantaro.getUserById(userId);
                         Guild guild = mantaro.getGuildById(guildId);
-
+                        
                         if(user == null) {
                             Reminder.cancel(userId, fullId);
                             return;
                         }
-
+                        
                         reminderCount.inc();
-                        Consumer<Throwable> ignore = (t) -> {};
+                        Consumer<Throwable> ignore = (t) -> {
+                        };
                         user.openPrivateChannel().queue(channel -> channel.sendMessage(
                                 EmoteReference.POPPER + "**Reminder!**\n" + "You asked me to remind you of: " + reminder + "\nAt: " + new Date(scheduledAt) +
                                         (guild != null ? "\n*Asked on: " + guild.getName() + "*" : "")
@@ -83,7 +84,7 @@ public class ReminderTask {
                             Reminder.cancel(userId, fullId);
                         }, ignore));
                     }
-                } catch (Exception e) {
+                } catch(Exception e) {
                     e.printStackTrace();
                 }
             }

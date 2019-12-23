@@ -43,71 +43,56 @@ public class Waifu {
         return this.moneyValue;
     }
     
-    public long getBadgeValue() {
-        return this.badgeValue;
-    }
-    
-    public long getExperienceValue() {
-        return this.experienceValue;
-    }
-    
-    public double getReputationMultiplier() {
-        return this.reputationMultiplier;
-    }
-    
-    public long getClaimValue() {
-        return this.claimValue;
-    }
-    
-    public long getFinalValue() {
-        return this.finalValue;
-    }
-    
-    public long getPerformance() {
-        return this.performance;
-    }
-    
     public void setMoneyValue(long moneyValue) {
         this.moneyValue = moneyValue;
+    }
+    
+    public long getBadgeValue() {
+        return this.badgeValue;
     }
     
     public void setBadgeValue(long badgeValue) {
         this.badgeValue = badgeValue;
     }
     
+    public long getExperienceValue() {
+        return this.experienceValue;
+    }
+    
     public void setExperienceValue(long experienceValue) {
         this.experienceValue = experienceValue;
+    }
+    
+    public double getReputationMultiplier() {
+        return this.reputationMultiplier;
     }
     
     public void setReputationMultiplier(double reputationMultiplier) {
         this.reputationMultiplier = reputationMultiplier;
     }
     
+    public long getClaimValue() {
+        return this.claimValue;
+    }
+    
     public void setClaimValue(long claimValue) {
         this.claimValue = claimValue;
+    }
+    
+    public long getFinalValue() {
+        return this.finalValue;
     }
     
     public void setFinalValue(long finalValue) {
         this.finalValue = finalValue;
     }
     
-    public void setPerformance(long performance) {
-        this.performance = performance;
+    public long getPerformance() {
+        return this.performance;
     }
     
-    public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof Waifu)) return false;
-        final Waifu other = (Waifu) o;
-        if(!other.canEqual((Object) this)) return false;
-        if(this.moneyValue != other.moneyValue) return false;
-        if(this.badgeValue != other.badgeValue) return false;
-        if(this.experienceValue != other.experienceValue) return false;
-        if(Double.compare(this.reputationMultiplier, other.reputationMultiplier) != 0) return false;
-        if(this.claimValue != other.claimValue) return false;
-        if(this.finalValue != other.finalValue) return false;
-        if(this.performance != other.performance) return false;
-        return true;
+    public void setPerformance(long performance) {
+        this.performance = performance;
     }
     
     protected boolean canEqual(final Object other) {
@@ -132,6 +117,20 @@ public class Waifu {
         final long $performance = this.performance;
         result = result * PRIME + (int) ($performance >>> 32 ^ $performance);
         return result;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof Waifu)) return false;
+        final Waifu other = (Waifu) o;
+        if(!other.canEqual(this)) return false;
+        if(this.moneyValue != other.moneyValue) return false;
+        if(this.badgeValue != other.badgeValue) return false;
+        if(this.experienceValue != other.experienceValue) return false;
+        if(Double.compare(this.reputationMultiplier, other.reputationMultiplier) != 0) return false;
+        if(this.claimValue != other.claimValue) return false;
+        if(this.finalValue != other.finalValue) return false;
+        return this.performance == other.performance;
     }
     
     public String toString() {

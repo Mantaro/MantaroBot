@@ -71,14 +71,6 @@ public class MantaroBot extends ShardedJDA {
     private static final Logger log = LoggerFactory.getLogger(MantaroBot.class);
     
     private static MantaroBot instance;
-    private final MantaroAudioManager audioManager;
-    private final MantaroCore core;
-    private final DiscordBotsAPI discordBotsAPI;
-    private final ShardedMantaro shardedMantaro;
-    private BirthdayCacher birthdayCacher;
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3, new ThreadFactoryBuilder().setNameFormat("Mantaro-ScheduledExecutor Thread-%d").build());
-    private final JdaLavalink lavalink;
-    private final CacheClient cacheClient;
 
     //just in case
     static {
@@ -86,91 +78,100 @@ public class MantaroBot extends ShardedJDA {
             System.setOut(new CompactPrintStream(System.out));
             System.setErr(new CompactPrintStream(System.err));
         }
-
+        
         if(ExtraRuntimeOptions.DEBUG) {
             log.info("Running in debug mode!");
         }
-
+        
         log.info("Filtering all logs below " + LogFilter.LEVEL);
     }
 
+    private final MantaroAudioManager audioManager;
+    private final MantaroCore core;
+    private final DiscordBotsAPI discordBotsAPI;
+    private final ShardedMantaro shardedMantaro;
+    private final JdaLavalink lavalink;
+    private final CacheClient cacheClient;
+    private BirthdayCacher birthdayCacher;
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3, new ThreadFactoryBuilder().setNameFormat("Mantaro-ScheduledExecutor Thread-%d").build());
+    
     private MantaroBot() throws Exception {
         instance = this;
         Config config = MantaroData.config().get();
-
+        
         if(config.cacheClientEndpoint != null && !config.cacheClientEndpoint.trim().isEmpty()) {
             cacheClient = new CacheClient(config.cacheClientEndpoint, config.cacheClientToken);
         } else {
             cacheClient = null;
         }
-
+        
         if(config.needApi) {
             try {
                 Request request = new Request.Builder()
-                        .url(config.apiTwoUrl + "/mantaroapi/ping")
-                        .build();
+                                          .url(config.apiTwoUrl + "/mantaroapi/ping")
+                                          .build();
                 Response httpResponse = Utils.httpClient.newCall(request).execute();
-
+                
                 if(httpResponse.code() != 200) {
-                    log.error("Cannot connect to the API! Wrong status code..." );
+                    log.error("Cannot connect to the API! Wrong status code...");
                     System.exit(API_HANDSHAKE_FAILURE);
                 }
-
+                
                 httpResponse.close();
-            } catch (ConnectException e) {
+            } catch(ConnectException e) {
                 log.error("Cannot connect to the API! Exiting...", e);
                 System.exit(API_HANDSHAKE_FAILURE);
             }
         }
-
+        
         //Lavalink stuff.
         lavalink = new JdaLavalink(
                 config.clientId,
                 config.totalShards,
                 shardId -> getShard(shardId).getJDA()
         );
-
+        
         for(String node : config.getLavalinkNodes()) {
             lavalink.addNode(new URI(node), config.lavalinkPass);
         }
-
+        
         //Choose the server with the lowest player amount
         lavalink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getPlayerPenalty);
-
+        
         core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
         discordBotsAPI = new DiscordBotsAPI.Builder().setToken(config.dbotsorgToken).build();
-
+        
         LogUtils.log("Startup", String.format("Starting up MantaroBot %s\n" + "Hold your seatbelts! <3", MantaroInfo.VERSION));
-
+        
         long start = System.currentTimeMillis();
-
+        
         core.setCommandsPackage("net.kodehawa.mantarobot.commands")
                 .setOptionsPackage("net.kodehawa.mantarobot.options")
                 .startMainComponents(false);
-
+        
         shardedMantaro = core.getShardedInstance();
         audioManager = new MantaroAudioManager();
         Items.setItemActions();
-
+        
         long end = System.currentTimeMillis();
-
+        
         System.out.println("Finished loading basic components. Current status: " + MantaroCore.getLoadState());
         MantaroData.config().save();
-
+        
         LogUtils.log("Startup",
                 String.format("Partially loaded %d commands in %d seconds.\n" +
-                        "Shards are still waking up!", DefaultCommandProcessor.REGISTRY.commands().size(), (end - start) / 1000));
-
+                                      "Shards are still waking up!", DefaultCommandProcessor.REGISTRY.commands().size(), (end - start) / 1000));
+        
         birthdayCacher = new BirthdayCacher();
         final MuteTask muteTask = new MuteTask();
         final ReminderTask reminderTask = new ReminderTask();
-
+        
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mute Handler")).scheduleAtFixedRate(muteTask::handle, 0, 1, TimeUnit.MINUTES);
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Reminder Handler")).scheduleAtFixedRate(reminderTask::handle, 0, 30, TimeUnit.SECONDS);
         //Yes, this is needed.
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Ratelimit Map Handler")).scheduleAtFixedRate(Utils.ratelimitedUsers::clear, 0, 24, TimeUnit.HOURS);
     }
-
+    
     public static void main(String[] args) {
         try {
             new MantaroBot();
@@ -187,11 +188,11 @@ public class MantaroBot extends ShardedJDA {
             log.error("Unable to start prometheus client!", e);
         }
     }
-
+    
     public static boolean isDebug() {
         return ExtraRuntimeOptions.DEBUG;
     }
-
+    
     public static boolean isVerbose() {
         return ExtraRuntimeOptions.VERBOSE;
     }
@@ -203,61 +204,16 @@ public class MantaroBot extends ShardedJDA {
     public MantaroShard getShard(int id) {
         return Arrays.stream(shardedMantaro.getShards()).filter(Objects::nonNull).filter(shard -> shard.getId() == id).findFirst().orElse(null);
     }
-
-    public Guild getGuildById(@NotNull String guildId) {
-        return getShardForGuild(guildId).getGuildById(guildId);
-    }
-
+    
     @Override
     public int getShardAmount() {
         return shardedMantaro.getTotalShards();
     }
-
-    @Nonnull
-    @Override
-    public Iterator<JDA> iterator() {
-        return new ArrayIterator<>(shardedMantaro.getShards());
+    
+    public Guild getGuildById(@NotNull String guildId) {
+        return getShardForGuild(guildId).getGuildById(guildId);
     }
-
-    public int getId(JDA jda) {
-        return jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId();
-    }
-
-    public MantaroShard getShardForGuild(String guildId) {
-        return getShardForGuild(Long.parseLong(guildId));
-    }
-
-    public MantaroShard getShardForGuild(long guildId) {
-        return getShard((int) ((guildId >> 22) % shardedMantaro.getTotalShards()));
-    }
-
-    public List<MantaroShard> getShardList() {
-        return Arrays.asList(shardedMantaro.getShards());
-    }
-
-    public void startCheckingBirthdays() {
-        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2, new ThreadFactoryBuilder().setNameFormat("Mantaro-BirthdayExecutor Thread-%d").build());
-        Prometheus.THREAD_POOL_COLLECTOR.add("birthday-tracker", executorService);
-
-        //How much until tomorrow? That's the initial delay, then run it once a day.
-        ZoneId z = ZoneId.of("America/Chicago");
-        ZonedDateTime now = ZonedDateTime.now(z);
-        LocalDate tomorrow = now.toLocalDate().plusDays(1);
-        ZonedDateTime tomorrowStart = tomorrow.atStartOfDay(z);
-        Duration duration = Duration.between(now, tomorrowStart);
-        long millisecondsUntilTomorrow = duration.toMillis();
-
-        //Start the birthday task on all shards.
-        //This is because running them in parallel is way better than running it once for all shards.
-        //It actually cut off the time from 50 minutes to 20 seconds.
-        for(MantaroShard shard : core.getShardedInstance().getShards()) {
-            shard.startBirthdayTask(millisecondsUntilTomorrow);
-        }
-
-        //Start the birthday cacher.
-        executorService.scheduleWithFixedDelay(birthdayCacher::cache, 22, 23, TimeUnit.HOURS);
-    }
-
+    
     @Override
     public void restartShard(int shardId, boolean force) {
         try {
@@ -268,11 +224,56 @@ public class MantaroBot extends ShardedJDA {
             e.printStackTrace();
         }
     }
-
+    
+    @Nonnull
+    @Override
+    public Iterator<JDA> iterator() {
+        return new ArrayIterator<>(shardedMantaro.getShards());
+    }
+    
+    public int getId(JDA jda) {
+        return jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId();
+    }
+    
+    public MantaroShard getShardForGuild(String guildId) {
+        return getShardForGuild(Long.parseLong(guildId));
+    }
+    
+    public MantaroShard getShardForGuild(long guildId) {
+        return getShard((int) ((guildId >> 22) % shardedMantaro.getTotalShards()));
+    }
+    
+    public List<MantaroShard> getShardList() {
+        return Arrays.asList(shardedMantaro.getShards());
+    }
+    
+    public void startCheckingBirthdays() {
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2, new ThreadFactoryBuilder().setNameFormat("Mantaro-BirthdayExecutor Thread-%d").build());
+        Prometheus.THREAD_POOL_COLLECTOR.add("birthday-tracker", executorService);
+        
+        //How much until tomorrow? That's the initial delay, then run it once a day.
+        ZoneId z = ZoneId.of("America/Chicago");
+        ZonedDateTime now = ZonedDateTime.now(z);
+        LocalDate tomorrow = now.toLocalDate().plusDays(1);
+        ZonedDateTime tomorrowStart = tomorrow.atStartOfDay(z);
+        Duration duration = Duration.between(now, tomorrowStart);
+        long millisecondsUntilTomorrow = duration.toMillis();
+        
+        //Start the birthday task on all shards.
+        //This is because running them in parallel is way better than running it once for all shards.
+        //It actually cut off the time from 50 minutes to 20 seconds.
+        for(MantaroShard shard : core.getShardedInstance().getShards()) {
+            shard.startBirthdayTask(millisecondsUntilTomorrow);
+        }
+        
+        //Start the birthday cacher.
+        executorService.scheduleWithFixedDelay(birthdayCacher::cache, 22, 23, TimeUnit.HOURS);
+    }
+    
     public void forceRestartShard(int shardId) {
         restartShard(shardId, true);
     }
-
+    
     public void forceRestartShardFromGuild(String guildId) {
         restartShard(getShardForGuild(guildId).getId(), true);
     }

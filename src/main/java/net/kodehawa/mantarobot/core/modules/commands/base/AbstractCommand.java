@@ -23,36 +23,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractCommand implements AssistedCommand {
-    public List<String> aliases = new ArrayList<>();
-
     private final Category category;
     private final CommandPermission permission;
-
+    public List<String> aliases = new ArrayList<>();
+    
     public AbstractCommand(Category category) {
         this(category, CommandPermission.USER);
     }
-
+    
     public AbstractCommand(Category category, CommandPermission permission) {
         this.category = category;
         this.permission = permission;
     }
-
+    
     @Override
     public Category category() {
         return category;
     }
-
+    
     @Override
     public CommandPermission permission() {
         return permission;
     }
-
+    
     //defaults to empty for now
     @Override
     public HelpContent help() {
         return new HelpContent.Builder().build();
     }
-
+    
     @Override
     public List<String> getAliases() {
         return aliases;

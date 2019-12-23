@@ -21,7 +21,7 @@ import java.util.List;
 
 public interface Operation {
     String apply(InterpreterContext context, List<Argument> args);
-
+    
     interface Argument {
         String evaluate();
     }

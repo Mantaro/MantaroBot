@@ -40,14 +40,14 @@ import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 
 public class Pokemon extends ImageGame {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger("Game [Pokemon Trivia]");
+    private static final Config config = MantaroData.config().get();
     private final int maxAttempts = 5;
     private List<String> expectedAnswer;
-    private static final Config config = MantaroData.config().get();
-
+    
     public Pokemon() {
         super(10);
     }
-
+    
     @Override
     public void call(GameLobby lobby, List<String> players) {
         InteractiveOperations.create(lobby.getChannel(), Long.parseLong(lobby.getPlayers().get(0)), 75, new InteractiveOperation() {
@@ -55,44 +55,44 @@ public class Pokemon extends ImageGame {
             public int run(GuildMessageReceivedEvent event) {
                 return callDefault(event, lobby, players, expectedAnswer, getAttempts(), maxAttempts, 15);
             }
-
+            
             @Override
             public void onExpire() {
                 if(lobby.getChannel() == null)
                     return;
-
+                
                 lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby_timed_out"), EmoteReference.ERROR, String.join(", ", expectedAnswer)).queue();
                 GameLobby.LOBBYS.remove(lobby.getChannel().getIdLong());
             }
-
+            
             @Override
             public void onCancel() {
                 GameLobby.LOBBYS.remove(lobby.getChannel().getIdLong());
             }
         });
     }
-
+    
     public boolean onStart(GameLobby lobby) {
         final I18nContext languageContext = lobby.getLanguageContext();
-
+        
         try {
             GameStatsManager.log(name());
             Request request = new Request.Builder()
-                    .url(config.apiTwoUrl + "/mantaroapi/bot/pokemon")
-                    .addHeader("Authorization", config.getApiAuthKey())
-                    .addHeader("User-Agent", MantaroInfo.USER_AGENT)
-                    .get()
-                    .build();
-
+                                      .url(config.apiTwoUrl + "/mantaroapi/bot/pokemon")
+                                      .addHeader("Authorization", config.getApiAuthKey())
+                                      .addHeader("User-Agent", MantaroInfo.USER_AGENT)
+                                      .get()
+                                      .build();
+            
             Response response = httpClient.newCall(request).execute();
             String body = response.body().string();
             response.close();
-
+            
             PokemonGameData data = GsonDataManager.GSON_PRETTY.fromJson(body, PokemonGameData.class);
             expectedAnswer = data.getNames();
             sendEmbedImage(lobby.getChannel(), data.getImage(), eb ->
-                    eb.setTitle(languageContext.get("commands.game.pokemon.header"), null)
-                    .setFooter(languageContext.get("commands.game.pokemon.footer"), null)
+                                                                        eb.setTitle(languageContext.get("commands.game.pokemon.header"), null)
+                                                                                .setFooter(languageContext.get("commands.game.pokemon.footer"), null)
             ).queue(success -> lobby.setGameLoaded(true));
             return true;
         } catch(Exception e) {
@@ -101,7 +101,7 @@ public class Pokemon extends ImageGame {
             return false;
         }
     }
-
+    
     @Override
     public String name() {
         return "pokemon";

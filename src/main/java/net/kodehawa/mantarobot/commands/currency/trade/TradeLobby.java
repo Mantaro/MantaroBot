@@ -31,7 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class TradeLobby extends Lobby {
     public static final Map<TextChannel, TradeLobby> LOBBYS = new ConcurrentHashMap<>();
-
+    
     public List<Long> usersTrading = new ArrayList<>();
     public GuildMessageReceivedEvent event;
     public I18nContext language;
@@ -39,10 +39,10 @@ public class TradeLobby extends Lobby {
     public long initialCredits;
     public Map<Long, Long> creditMap = new HashMap<>();
     public Map<Long, List<ItemStack>> itemStackMap = new HashMap<>();
-
+    
     public TradeLobby(GuildMessageReceivedEvent event, I18nContext languageContext, String guild, String channel, ItemStack initialItem, long initialCredits, long... users) {
         super(guild, channel);
-
+        
         this.event = event;
         this.language = languageContext;
         this.initialCredits = initialCredits;
@@ -51,12 +51,12 @@ public class TradeLobby extends Lobby {
             usersTrading.add(user);
         }
     }
-
+    
     //TODO
     public void startLobby() {
-
+    
     }
-
+    
     @Override
     public String toString() {
         return String.format("TradeLobby{%s, (ii %s, ic %s, cm %s, ism %s), users:%d, channel:%s}", event.getGuild(),

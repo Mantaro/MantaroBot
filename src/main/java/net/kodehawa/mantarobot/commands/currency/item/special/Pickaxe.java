@@ -26,14 +26,14 @@ public class Pickaxe extends Item implements Castable {
     //Wrench level, basically.
     private int castLevelRequired;
     private int maximumCastAmount;
-
+    
     public Pickaxe(ItemType type, float chance, int castLevelRequired, int maximumCastAmount, String emoji, String name, String translatedName, String desc, long value, boolean sellable, boolean buyable, String recipe, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, sellable, buyable, recipe, recipeTypes);
         this.chance = chance;
         this.castLevelRequired = castLevelRequired;
         this.maximumCastAmount = maximumCastAmount;
     }
-
+    
     public Pickaxe(ItemType type, float chance, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.chance = chance;

@@ -31,7 +31,7 @@ public class InterpreterVisitor implements NodeVisitor<String, InterpreterContex
     public String visitLiteral(LiteralNode node, InterpreterContext context) {
         return node.value();
     }
-
+    
     @Override
     public String visitVariable(VariableNode node, InterpreterContext context) {
         String key = node.name().accept(this, context);
@@ -41,7 +41,7 @@ public class InterpreterVisitor implements NodeVisitor<String, InterpreterContex
         }
         return value;
     }
-
+    
     @Override
     public String visitOperation(OperationNode node, InterpreterContext context) {
         String type = node.name().accept(this, context);
@@ -50,11 +50,11 @@ public class InterpreterVisitor implements NodeVisitor<String, InterpreterContex
             return "{Unknown operation " + type + "}";
         }
         return op.apply(context, node.args().stream()
-                .map(n -> (Operation.Argument) () -> n.accept(this, context))
-                .collect(Collectors.toList())
+                                         .map(n -> (Operation.Argument) () -> n.accept(this, context))
+                                         .collect(Collectors.toList())
         );
     }
-
+    
     @Override
     public String visitMulti(MultiNode node, InterpreterContext context) {
         StringBuilder sb = new StringBuilder();

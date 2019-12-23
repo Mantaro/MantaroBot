@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameStatsManager extends StatsManager<String> {
     public static final Map<String, AtomicInteger> TOTAL_GAMES = new HashMap<>();
-
+    
     public static void log(String game) {
         if(game.isEmpty()) return;
         TOTAL_GAMES.computeIfAbsent(game, k -> new AtomicInteger(0)).incrementAndGet();

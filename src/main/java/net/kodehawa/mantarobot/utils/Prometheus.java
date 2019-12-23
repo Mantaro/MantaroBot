@@ -31,14 +31,14 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class Prometheus {
     public static final ThreadPoolCollector THREAD_POOL_COLLECTOR = new ThreadPoolCollector().register();
-
+    
     private static final AtomicReference<State> STATE = new AtomicReference<>(State.DISABLED);
     private static volatile HTTPServer server;
-
+    
     public static State currentState() {
         return STATE.get();
     }
-
+    
     public static void enable() throws IOException {
         if(STATE.compareAndSet(State.DISABLED, State.ENABLING)) {
             new StandardExports().register();
@@ -51,7 +51,7 @@ public class Prometheus {
             STATE.set(State.ENABLED);
         }
     }
-
+    
     public static void disable() {
         while(!STATE.compareAndSet(State.ENABLED, State.DISABLED)) {
             if(STATE.get() == State.DISABLED) return;
@@ -59,7 +59,7 @@ public class Prometheus {
         }
         server.stop();
     }
-
+    
     public enum State {
         DISABLED, ENABLING, ENABLED
     }

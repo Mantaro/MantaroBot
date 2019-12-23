@@ -31,41 +31,24 @@ public class PokemonGameData {
         return this.name;
     }
     
-    public String getImage() {
-        return this.image;
-    }
-    
-    public List<String> getNames() {
-        return this.names;
-    }
-    
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public String getImage() {
+        return this.image;
     }
     
     public void setImage(String image) {
         this.image = image;
     }
     
-    public void setNames(List<String> names) {
-        this.names = names;
+    public List<String> getNames() {
+        return this.names;
     }
     
-    public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof PokemonGameData)) return false;
-        final PokemonGameData other = (PokemonGameData) o;
-        if(!other.canEqual((Object) this)) return false;
-        final Object this$name = this.name;
-        final Object other$name = other.name;
-        if(this$name == null ? other$name != null : !this$name.equals(other$name)) return false;
-        final Object this$image = this.image;
-        final Object other$image = other.image;
-        if(this$image == null ? other$image != null : !this$image.equals(other$image)) return false;
-        final Object this$names = this.names;
-        final Object other$names = other.names;
-        if(this$names == null ? other$names != null : !this$names.equals(other$names)) return false;
-        return true;
+    public void setNames(List<String> names) {
+        this.names = names;
     }
     
     protected boolean canEqual(final Object other) {
@@ -82,6 +65,22 @@ public class PokemonGameData {
         final Object $names = this.names;
         result = result * PRIME + ($names == null ? 43 : $names.hashCode());
         return result;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof PokemonGameData)) return false;
+        final PokemonGameData other = (PokemonGameData) o;
+        if(!other.canEqual(this)) return false;
+        final Object this$name = this.name;
+        final Object other$name = other.name;
+        if(this$name == null ? other$name != null : !this$name.equals(other$name)) return false;
+        final Object this$image = this.image;
+        final Object other$image = other.image;
+        if(this$image == null ? other$image != null : !this$image.equals(other$image)) return false;
+        final Object this$names = this.names;
+        final Object other$names = other.names;
+        return this$names == null ? other$names == null : this$names.equals(other$names);
     }
     
     public String toString() {

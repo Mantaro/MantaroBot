@@ -32,8 +32,8 @@ public enum CommandPermission {
         @Override
         public boolean test(Member member) {
             return member.isOwner() || member.hasPermission(Permission.ADMINISTRATOR) ||
-                    member.hasPermission(Permission.MANAGE_SERVER) || OWNER.test(member) ||
-                    member.getRoles().stream().anyMatch(role -> role.getName().equalsIgnoreCase("Bot Commander"));
+                           member.hasPermission(Permission.MANAGE_SERVER) || OWNER.test(member) ||
+                           member.getRoles().stream().anyMatch(role -> role.getName().equalsIgnoreCase("Bot Commander"));
         }
     },
     OWNER() {
@@ -42,9 +42,9 @@ public enum CommandPermission {
             return MantaroData.config().get().isOwner(member);
         }
     };
-
+    
     public abstract boolean test(Member member);
-
+    
     @Override
     public String toString() {
         String name = name().toLowerCase();

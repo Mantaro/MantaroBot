@@ -31,17 +31,6 @@ public class PremiumKeyData {
         this.linkedTo = linkedTo;
     }
     
-    public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof PremiumKeyData)) return false;
-        final PremiumKeyData other = (PremiumKeyData) o;
-        if(!other.canEqual((Object) this)) return false;
-        final Object this$linkedTo = this.getLinkedTo();
-        final Object other$linkedTo = other.getLinkedTo();
-        if(this$linkedTo == null ? other$linkedTo != null : !this$linkedTo.equals(other$linkedTo)) return false;
-        return true;
-    }
-    
     protected boolean canEqual(final Object other) {
         return other instanceof PremiumKeyData;
     }
@@ -52,6 +41,16 @@ public class PremiumKeyData {
         final Object $linkedTo = this.getLinkedTo();
         result = result * PRIME + ($linkedTo == null ? 43 : $linkedTo.hashCode());
         return result;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof PremiumKeyData)) return false;
+        final PremiumKeyData other = (PremiumKeyData) o;
+        if(!other.canEqual(this)) return false;
+        final Object this$linkedTo = this.getLinkedTo();
+        final Object other$linkedTo = other.getLinkedTo();
+        return this$linkedTo == null ? other$linkedTo == null : this$linkedTo.equals(other$linkedTo);
     }
     
     public String toString() {

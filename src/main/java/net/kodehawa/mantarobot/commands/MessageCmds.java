@@ -56,12 +56,12 @@ public class MessageCmds {
                     channel.sendMessageFormat(languageContext.get("commands.prune.no_messages_specified"), EmoteReference.ERROR).queue();
                     return;
                 }
-
+                
                 if(!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.prune.no_permissions"), EmoteReference.ERROR).queue();
                     return;
                 }
-
+                
                 if(content.startsWith("bot")) {
                     channel.getHistory().retrievePast(100).queue(
                             messageHistory -> {
@@ -77,7 +77,7 @@ public class MessageCmds {
                     );
                     return;
                 }
-
+                
                 if(content.startsWith("nopins")) {
                     int i = 100;
                     if(args.length > 1) {
@@ -89,7 +89,7 @@ public class MessageCmds {
                             return;
                         }
                     }
-
+                    
                     channel.getHistory().retrievePast(Math.min(i, 100)).queue(
                             messageHistory -> getMessageHistory(event, channel, messageHistory, languageContext, "commands.prune.no_pins_no_messages", message -> !message.isPinned()),
                             error -> {
@@ -98,18 +98,18 @@ public class MessageCmds {
                                 error.printStackTrace();
                             }
                     );
-
+                    
                     return;
                 }
-
+                
                 if(!event.getMessage().getMentionedUsers().isEmpty()) {
                     List<Long> users = new ArrayList<>();
                     for(User user : event.getMessage().getMentionedUsers()) {
                         users.add(user.getIdLong());
                     }
-
+                    
                     int i = 5;
-
+                    
                     if(args.length > 1) {
                         try {
                             i = Integer.parseInt(args[1]);
@@ -118,7 +118,7 @@ public class MessageCmds {
                             event.getChannel().sendMessageFormat(languageContext.get("commands.prune.not_valid"), EmoteReference.ERROR).queue();
                         }
                     }
-
+                    
                     channel.getHistory().retrievePast(Math.min(i, 100)).queue(
                             messageHistory -> getMessageHistory(event, channel, messageHistory, languageContext, "commands.prune.mention_no_messages", message -> users.contains(message.getAuthor().getIdLong())),
                             error -> {
@@ -126,10 +126,10 @@ public class MessageCmds {
                                         EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
                                 error.printStackTrace();
                             });
-
+                    
                     return;
                 }
-
+                
                 int i;
                 try {
                     i = Integer.parseInt(content);
@@ -137,7 +137,7 @@ public class MessageCmds {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.prune.invalid_number"), EmoteReference.ERROR).queue();
                     return;
                 }
-
+                
                 channel.getHistory().retrievePast(Math.min(i, 100)).queue(
                         messageHistory -> prune(event, languageContext, messageHistory),
                         error -> {
@@ -147,54 +147,54 @@ public class MessageCmds {
                         }
                 );
             }
-
+            
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Prunes a specific amount of messages.")
-                        .setUsage("`~>prune <x>/<@user>` - Prunes messages (can be either x parameter or @user)")
-                        .addParameter("x", "Can be either the number of messages to delete (ex: 50), or `bot` (prune bot messages) or `nopins` (won't prune pinned messages)")
-                        .addParameter("@user", "The user to prune messages from.")
-                        .build();
+                               .setDescription("Prunes a specific amount of messages.")
+                               .setUsage("`~>prune <x>/<@user>` - Prunes messages (can be either x parameter or @user)")
+                               .addParameter("x", "Can be either the number of messages to delete (ex: 50), or `bot` (prune bot messages) or `nopins` (won't prune pinned messages)")
+                               .addParameter("@user", "The user to prune messages from.")
+                               .build();
             }
         });
     }
-
+    
     private void getMessageHistory(GuildMessageReceivedEvent event, TextChannel channel, List<Message> messageHistory, I18nContext languageContext, String i18n, Predicate<Message> predicate) {
         messageHistory = messageHistory.stream().filter(predicate).collect(Collectors.toList());
-
+        
         if(messageHistory.isEmpty()) {
             channel.sendMessageFormat(languageContext.get(i18n), EmoteReference.ERROR).queue();
             return;
         }
-
+        
         if(messageHistory.size() < 3) {
             channel.sendMessageFormat(languageContext.get("commands.prune.too_few_messages"), EmoteReference.ERROR).queue();
             return;
         }
-
+        
         prune(event, languageContext, messageHistory);
     }
-
+    
     private void prune(GuildMessageReceivedEvent event, I18nContext languageContext, List<Message> messageHistory) {
         messageHistory = messageHistory.stream().filter(message -> !message.getTimeCreated()
-                .isBefore(OffsetDateTime.now().minusWeeks(2)))
-                .collect(Collectors.toList());
-
+                                                                            .isBefore(OffsetDateTime.now().minusWeeks(2)))
+                                 .collect(Collectors.toList());
+        
         TextChannel channel = event.getChannel();
-
+        
         if(messageHistory.isEmpty()) {
             channel.sendMessageFormat(languageContext.get("commands.prune.messages_too_old"), EmoteReference.ERROR).queue();
             return;
         }
-
+        
         final int size = messageHistory.size();
-
+        
         if(messageHistory.size() < 3) {
             channel.sendMessageFormat(languageContext.get("commands.prune.too_few_messages"), EmoteReference.ERROR).queue();
             return;
         }
-
+        
         channel.deleteMessages(messageHistory).queue(
                 success -> {
                     channel.sendMessageFormat(languageContext.get("commands.prune.success"), EmoteReference.PENCIL, size)

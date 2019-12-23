@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
 
 public class BucketedController extends SessionControllerAdapter {
     private final SessionController[] shardControllers;
-
+    
     public BucketedController(@Nonnegative int bucketFactor) {
         if(bucketFactor < 1) {
             throw new IllegalArgumentException("Bucket factor must be at least 1");
@@ -19,21 +19,21 @@ public class BucketedController extends SessionControllerAdapter {
             this.shardControllers[i] = new SessionControllerAdapter();
         }
     }
-
+    
     public BucketedController() {
         this(16);
     }
-
+    
     @Override
     public void appendSession(@Nonnull SessionConnectNode node) {
         controllerFor(node).appendSession(node);
     }
-
+    
     @Override
     public void removeSession(@Nonnull SessionConnectNode node) {
         controllerFor(node).removeSession(node);
     }
-
+    
     @Nonnull
     @CheckReturnValue
     private SessionController controllerFor(@Nonnull SessionConnectNode node) {

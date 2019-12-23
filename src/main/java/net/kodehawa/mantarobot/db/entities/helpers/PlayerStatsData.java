@@ -32,7 +32,7 @@ public class PlayerStatsData {
     public void incrementGambleLose() {
         gambleLose += 1;
     }
-
+    
     @JsonIgnore
     public void incrementSlotsLose() {
         slotsLose += 1;
@@ -42,44 +42,32 @@ public class PlayerStatsData {
         return this.looted;
     }
     
-    public long getMined() {
-        return this.mined;
-    }
-    
-    public long getGambleLose() {
-        return this.gambleLose;
-    }
-    
-    public long getSlotsLose() {
-        return this.slotsLose;
-    }
-    
     public void setLooted(long looted) {
         this.looted = looted;
+    }
+    
+    public long getMined() {
+        return this.mined;
     }
     
     public void setMined(long mined) {
         this.mined = mined;
     }
     
+    public long getGambleLose() {
+        return this.gambleLose;
+    }
+    
     public void setGambleLose(long gambleLose) {
         this.gambleLose = gambleLose;
     }
     
-    public void setSlotsLose(long slotsLose) {
-        this.slotsLose = slotsLose;
+    public long getSlotsLose() {
+        return this.slotsLose;
     }
     
-    public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof PlayerStatsData)) return false;
-        final PlayerStatsData other = (PlayerStatsData) o;
-        if(!other.canEqual((Object) this)) return false;
-        if(this.getLooted() != other.getLooted()) return false;
-        if(this.getMined() != other.getMined()) return false;
-        if(this.getGambleLose() != other.getGambleLose()) return false;
-        if(this.getSlotsLose() != other.getSlotsLose()) return false;
-        return true;
+    public void setSlotsLose(long slotsLose) {
+        this.slotsLose = slotsLose;
     }
     
     protected boolean canEqual(final Object other) {
@@ -98,6 +86,17 @@ public class PlayerStatsData {
         final long $slotsLose = this.getSlotsLose();
         result = result * PRIME + (int) ($slotsLose >>> 32 ^ $slotsLose);
         return result;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof PlayerStatsData)) return false;
+        final PlayerStatsData other = (PlayerStatsData) o;
+        if(!other.canEqual(this)) return false;
+        if(this.getLooted() != other.getLooted()) return false;
+        if(this.getMined() != other.getMined()) return false;
+        if(this.getGambleLose() != other.getGambleLose()) return false;
+        return this.getSlotsLose() == other.getSlotsLose();
     }
     
     public String toString() {

@@ -64,31 +64,31 @@ public class MantaroAudioManager {
     private static final ThreadLocal<Boolean> IS_RESULT_FROM_CACHE = ThreadLocal.withInitial(() -> false);
     //CacheClient is blocking
     private static final Executor LOAD_EXECUTOR = Executors.newCachedThreadPool(new ThreadFactoryBuilder()
-            .setNameFormat("AudioLoadThread-%d")
-            .setDaemon(true)
-            .build()
+                                                                                        .setNameFormat("AudioLoadThread-%d")
+                                                                                        .setDaemon(true)
+                                                                                        .build()
     );
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(MantaroAudioManager.class);
     
     private final Map<String, GuildMusicManager> musicManagers;
     private final AudioPlayerManager playerManager;
-
+    
     private final Config config = MantaroData.config().get();
-
+    
     @SuppressWarnings("rawtypes")
     public MantaroAudioManager() {
         this.musicManagers = new ConcurrentHashMap<>();
         this.playerManager = new DefaultAudioPlayerManager();
-
+        
         //Youtube is special because rotation stuff.
         YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager(true);
-
+        
         //IPv6 rotation config start
         if(!config.getIpv6Block().isEmpty()) {
             AbstractRoutePlanner planner;
             String block = config.getIpv6Block();
             List<IpBlock> blocks = Collections.singletonList(new Ipv6Block(block));
-
+            
             //Damn you, YouTube.
             if(config.getExcludeAddress().isEmpty())
                 planner = new RotatingNanoIpRoutePlanner(blocks);
@@ -96,19 +96,19 @@ public class MantaroAudioManager {
                 try {
                     InetAddress blacklistedGW = InetAddress.getByName(config.getExcludeAddress());
                     planner = new RotatingNanoIpRoutePlanner(blocks, inetAddress -> !inetAddress.equals(blacklistedGW));
-                } catch (Exception e) {
+                } catch(Exception e) {
                     //Fallback: did I screw up putting the IP in? lmao
                     planner = new RotatingNanoIpRoutePlanner(blocks);
                     e.printStackTrace();
                 }
             }
-
+            
             new YoutubeIpRotatorSetup(planner)
                     .forSource(youtubeAudioSourceManager)
                     .setup();
         }
         //IPv6 rotation config end
-
+        
         //Register source manager and configure the Player
         playerManager.registerSourceManager(youtubeAudioSourceManager);
         playerManager.registerSourceManager(new SoundCloudAudioSourceManager());
@@ -122,38 +122,38 @@ public class MantaroAudioManager {
         }
         //playerManager.getConfiguration().setFilterHotSwapEnabled(true);
     }
-
+    
+    public static boolean isResultFromCache() {
+        return IS_RESULT_FROM_CACHE.get();
+    }
+    
+    private static boolean isYoutube(String url) {
+        if(url.startsWith("ytsearch:")) return true;
+        return YTExtractor.getIdentifier(url) != null;
+    }
+    
     public GuildMusicManager getMusicManager(Guild guild) {
         return musicManagers.computeIfAbsent(guild.getId(), id -> new GuildMusicManager(guild.getId()));
     }
-
+    
     public long getTotalQueueSize() {
         return musicManagers.values().stream().map(m -> m.getTrackScheduler().getQueue().size()).mapToInt(Integer::intValue).sum();
     }
-
+    
     public void loadAndPlay(GuildMessageReceivedEvent event, String trackUrl, boolean skipSelection, boolean addFirst, I18nContext lang) {
         AudioCmdUtils.connectToVoiceChannel(event, lang).thenAcceptAsync(b -> {
             if(b) {
                 GuildMusicManager musicManager = getMusicManager(event.getGuild());
                 TrackScheduler scheduler = musicManager.getTrackScheduler();
                 scheduler.getMusicPlayer().setPaused(false);
-
+                
                 if(scheduler.getQueue().isEmpty())
                     scheduler.setRepeatMode(null);
-
+                
                 AudioLoader loader = new AudioLoader(musicManager, event, skipSelection, addFirst);
                 playerManager.loadItemOrdered(musicManager, trackUrl, loader);
             }
         }, LOAD_EXECUTOR);
-    }
-
-    public static boolean isResultFromCache() {
-        return IS_RESULT_FROM_CACHE.get();
-    }
-
-    private static boolean isYoutube(String url) {
-        if(url.startsWith("ytsearch:")) return true;
-        return YTExtractor.getIdentifier(url) != null;
     }
     
     public Map<String, GuildMusicManager> getMusicManagers() {
@@ -170,14 +170,14 @@ public class MantaroAudioManager {
         private static final String SHORT_DOMAIN_REGEX = "(?:www\\.|)youtu\\.be";
         private static final String VIDEO_ID_REGEX = "(?<v>[a-zA-Z0-9_-]{11})";
         private static final String PLAYLIST_ID_REGEX = "(?<list>(PL|LL|FL|UU)[a-zA-Z0-9_-]+)";
-
+        
         private static final Extractor[] EXTRACTORS = new Extractor[] {
                 new Extractor(Pattern.compile("^" + VIDEO_ID_REGEX + "$"), Function.identity()),
                 new Extractor(Pattern.compile("^" + PLAYLIST_ID_REGEX + "$"), Function.identity()),
                 new Extractor(Pattern.compile("^" + PROTOCOL_REGEX + DOMAIN_REGEX + "/.*"), YTExtractor::idFromMainDomain),
                 new Extractor(Pattern.compile("^" + PROTOCOL_REGEX + SHORT_DOMAIN_REGEX + "/.*"), YTExtractor::idFromShortDomain)
         };
-
+        
         static String getIdentifier(String url) {
             for(Extractor e : EXTRACTORS) {
                 if(e.pattern.matcher(url).matches()) {
@@ -186,23 +186,13 @@ public class MantaroAudioManager {
             }
             return null;
         }
-
-        private static class Extractor {
-            private final Pattern pattern;
-            private final Function<String, String> idFunction;
-
-            private Extractor(Pattern pattern, Function<String, String> idFunction) {
-                this.pattern = pattern;
-                this.idFunction = idFunction;
-            }
-        }
-
+        
         private static String idFromMainDomain(String identifier) {
             UrlInfo urlInfo = getUrlInfo(identifier, true);
-
-            if ("/watch".equals(urlInfo.path)) {
+            
+            if("/watch".equals(urlInfo.path)) {
                 return urlInfo.parameters.get("v");
-            } else if ("/playlist".equals(urlInfo.path)) {
+            } else if("/playlist".equals(urlInfo.path)) {
                 return urlInfo.parameters.get("list");
             }/* else if ("/watch_videos".equals(urlInfo.path)) {
                 String videoIds = urlInfo.parameters.get("video_ids");
@@ -210,42 +200,51 @@ public class MantaroAudioManager {
                     return loadAnonymous(videoIds);
                 }
             }*/
-
+            
             return null;
         }
-
+        
         private static String idFromShortDomain(String identifier) {
             UrlInfo urlInfo = getUrlInfo(identifier, true);
             return urlInfo.path.substring(1);
         }
-
-
-        private static class UrlInfo {
-            private final String path;
-            private final Map<String, String> parameters;
-
-            private UrlInfo(String path, Map<String, String> parameters) {
-                this.path = path;
-                this.parameters = parameters;
-            }
-        }
-
+        
         private static UrlInfo getUrlInfo(String url, boolean retryValidPart) {
             try {
-                if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                if(!url.startsWith("http://") && !url.startsWith("https://")) {
                     url = "https://" + url;
                 }
-
+                
                 URIBuilder builder = new URIBuilder(url);
                 return new UrlInfo(builder.getPath(), builder.getQueryParams().stream()
-                        .filter(it -> it.getValue() != null)
-                        .collect(Collectors.toMap(NameValuePair::getName, NameValuePair::getValue, (a, b) -> a)));
-            } catch (URISyntaxException e) {
-                if (retryValidPart) {
+                                                              .filter(it -> it.getValue() != null)
+                                                              .collect(Collectors.toMap(NameValuePair::getName, NameValuePair::getValue, (a, b) -> a)));
+            } catch(URISyntaxException e) {
+                if(retryValidPart) {
                     return getUrlInfo(url.substring(0, e.getIndex() - 1), false);
                 } else {
                     throw new FriendlyException("Not a valid URL: " + url, COMMON, e);
                 }
+            }
+        }
+        
+        private static class Extractor {
+            private final Pattern pattern;
+            private final Function<String, String> idFunction;
+            
+            private Extractor(Pattern pattern, Function<String, String> idFunction) {
+                this.pattern = pattern;
+                this.idFunction = idFunction;
+            }
+        }
+        
+        private static class UrlInfo {
+            private final String path;
+            private final Map<String, String> parameters;
+            
+            private UrlInfo(String path, Map<String, String> parameters) {
+                this.path = path;
+                this.parameters = parameters;
             }
         }
     }

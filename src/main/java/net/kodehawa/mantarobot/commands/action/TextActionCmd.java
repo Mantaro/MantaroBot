@@ -34,7 +34,7 @@ public class TextActionCmd extends NoArgsCommand {
     private final String name;
     private final List<String> strings;
     private final Random rand = new Random();
-
+    
     public TextActionCmd(String name, String desc, Color color, String format, List<String> strings) {
         super(Category.ACTION);
         this.name = name;
@@ -43,16 +43,16 @@ public class TextActionCmd extends NoArgsCommand {
         this.format = format;
         this.strings = strings;
     }
-
+    
     @Override
     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
         event.getChannel().sendMessage(String.format(format, strings.get(rand.nextInt(strings.size())))).queue();
     }
-
+    
     @Override
     public HelpContent help() {
         return new HelpContent.Builder()
-                .setDescription(desc)
-                .build();
+                       .setDescription(desc)
+                       .build();
     }
 }
