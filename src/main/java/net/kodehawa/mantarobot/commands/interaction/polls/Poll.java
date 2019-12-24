@@ -168,7 +168,6 @@ public class Poll extends Lobby {
             @Override
             public int add(MessageReactionAddEvent e) {
                 int i = e.getReactionEmote().getName().charAt(0) - '\u0030';
-                if(i < 1 || i > options.length) return Operation.IGNORED;
                 return Operation.IGNORED; //always return false anyway lul
             }
             

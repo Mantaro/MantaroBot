@@ -45,7 +45,6 @@ import java.util.stream.Collectors;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_TIME;
 
-@SuppressWarnings("Duplicates")
 public class CCv3 {
     private static final Pattern USER_MENTION_PATTERN = Pattern.compile("(?:<@!?)?(\\d{1,20})>?");
     private static final Map<String, Operation> DEFAULT_OPERATIONS = new HashMap<>();

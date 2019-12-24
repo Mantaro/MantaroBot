@@ -58,7 +58,6 @@ import org.slf4j.Logger;
 import redis.clients.jedis.Jedis;
 
 import java.awt.*;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
@@ -73,6 +72,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Random;
@@ -212,7 +212,6 @@ public class UtilsCmds {
                 }
                 
                 //Inspection excluded below not needed, I'm passing a proper value.
-                //noinspection MagicConstant
                 calendar.set(calendar.get(Calendar.YEAR), month, Calendar.MONDAY);
                 
                 try {
@@ -330,14 +329,17 @@ public class UtilsCmds {
                     channel.sendMessageFormat(languageContext.get("commands.dictionary.no_word"), EmoteReference.ERROR).queue();
                     return;
                 }
-                
-                String word = content;
-                
+    
                 JSONObject main;
                 String definition, part_of_speech, headword, example;
                 
                 try {
-                    main = new JSONObject(Utils.wgetOkHttp("http://api.pearson.com/v2/dictionaries/laes/entries?headword=" + word));
+                    main = new JSONObject(
+                            Objects.requireNonNull(
+                                    Utils.wgetOkHttp("http://api.pearson.com/v2/dictionaries/laes/entries?headword=" + content),
+                                    "Failed to fetch definition"
+                            )
+                    );
                     JSONArray results = main.getJSONArray("results");
                     JSONObject result = results.getJSONObject(0);
                     JSONArray senses = result.getJSONArray("senses");
@@ -378,7 +380,7 @@ public class UtilsCmds {
                 }
                 
                 EmbedBuilder eb = new EmbedBuilder();
-                eb.setAuthor("Definition for " + word, null, event.getAuthor().getAvatarUrl())
+                eb.setAuthor("Definition for " + content, null, event.getAuthor().getAvatarUrl())
                         .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wikt_dynamic_dictionary_logo.svg/1000px-Wikt_dynamic_dictionary_logo.svg.png")
                         .addField(languageContext.get("general.definition"), "**" + definition + "**", false)
                         .addField(languageContext.get("general.example"), "**" + example + "**", false)
@@ -671,7 +673,6 @@ public class UtilsCmds {
                             .addField(":thumbsup:", urbanData.thumbs_up, true)
                             .addField(":thumbsdown:", urbanData.thumbs_down, true)
                             .setFooter(languageContext.get("commands.urban.footer"), null);
-                    channel.sendMessage(embed.build()).queue();
                 } else {
                     UrbanData.List urbanData = data.getList().get(0);
                     embed.setAuthor(
@@ -684,8 +685,8 @@ public class UtilsCmds {
                             .addField(":thumbsup:", urbanData.thumbs_up, true)
                             .addField(":thumbsdown:", urbanData.thumbs_down, true)
                             .setFooter(languageContext.get("commands.urban.footer"), null);
-                    channel.sendMessage(embed.build()).queue();
                 }
+                channel.sendMessage(embed.build()).queue();
             }
             
             @Override

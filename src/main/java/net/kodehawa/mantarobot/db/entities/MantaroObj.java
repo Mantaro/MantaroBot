@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MantaroObj implements ManagedObject {
@@ -141,25 +142,25 @@ public class MantaroObj implements ManagedObject {
         if(!other.canEqual(this)) return false;
         final Object this$id = this.getId();
         final Object other$id = other.getId();
-        if(this$id == null ? other$id != null : !this$id.equals(other$id)) return false;
+        if(!Objects.equals(this$id, other$id)) return false;
         final Object this$blackListedGuilds = this.getBlackListedGuilds();
         final Object other$blackListedGuilds = other.getBlackListedGuilds();
-        if(this$blackListedGuilds == null ? other$blackListedGuilds != null : !this$blackListedGuilds.equals(other$blackListedGuilds))
+        if(!Objects.equals(this$blackListedGuilds, other$blackListedGuilds))
             return false;
         final Object this$blackListedUsers = this.getBlackListedUsers();
         final Object other$blackListedUsers = other.getBlackListedUsers();
-        if(this$blackListedUsers == null ? other$blackListedUsers != null : !this$blackListedUsers.equals(other$blackListedUsers))
+        if(!Objects.equals(this$blackListedUsers, other$blackListedUsers))
             return false;
         final Object this$patreonUsers = this.getPatreonUsers();
         final Object other$patreonUsers = other.getPatreonUsers();
-        if(this$patreonUsers == null ? other$patreonUsers != null : !this$patreonUsers.equals(other$patreonUsers))
+        if(!Objects.equals(this$patreonUsers, other$patreonUsers))
             return false;
         final Object this$mutes = this.getMutes();
         final Object other$mutes = other.getMutes();
-        if(this$mutes == null ? other$mutes != null : !this$mutes.equals(other$mutes)) return false;
+        if(!Objects.equals(this$mutes, other$mutes)) return false;
         final Object this$tempBans = this.getTempBans();
         final Object other$tempBans = other.getTempBans();
-        return this$tempBans == null ? other$tempBans == null : this$tempBans.equals(other$tempBans);
+        return Objects.equals(this$tempBans, other$tempBans);
     }
     
     public String toString() {

@@ -34,9 +34,7 @@ public class BannerPrinter {
             StringBuilder builder = new StringBuilder();
             
             if(spaces >= 1) {
-                for(int i = 0; i < spaces; i++) {
-                    builder.append("\n");
-                }
+                builder.append("\n".repeat(spaces));
             }
             
             for(String line : lines) {
@@ -46,9 +44,7 @@ public class BannerPrinter {
             }
             
             if(spaces > 1) {
-                for(int i = 1; i < spaces; i++) {
-                    builder.append("\n");
-                }
+                builder.append("\n".repeat(spaces - 1));
             }
             
             toPrint = builder.toString();
@@ -63,9 +59,7 @@ public class BannerPrinter {
         StringBuilder builder = new StringBuilder();
         
         if(spaces >= 1) {
-            for(int i = 0; i < spaces; i++) {
-                builder.append("\n");
-            }
+            builder.append("\n".repeat(spaces));
         }
         
         for(String line : lines) {
@@ -75,9 +69,7 @@ public class BannerPrinter {
         }
         
         if(spaces >= 1) {
-            for(int i = 0; i < spaces; i++) {
-                builder.append("\n");
-            }
+            builder.append("\n".repeat(spaces));
         }
         
         toPrint = builder.toString();

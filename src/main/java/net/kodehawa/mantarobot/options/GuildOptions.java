@@ -795,11 +795,10 @@ public class GuildOptions extends OptionHandler {
                             categories.get(category).add(autorole);
                             dbGuild.save();
                             event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.success"), EmoteReference.CORRECT, category, autorole).queue();
-                            return;
                         } else {
                             event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.no_role"), EmoteReference.ERROR, autorole).queue();
-                            return;
                         }
+                        return;
                     }
                     
                     dbGuild.save();

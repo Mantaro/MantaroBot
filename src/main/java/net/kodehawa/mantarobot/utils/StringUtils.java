@@ -88,7 +88,7 @@ public class StringUtils {
         }
         
         //Convert result to an string array.
-        String[] raw = result.toArray(new String[result.size()]);
+        String[] raw = result.toArray(new String[0]);
         
         //If the amount of arguments this detected is less than one, just return the string as a whole.
         if(expectedArgs < 1)

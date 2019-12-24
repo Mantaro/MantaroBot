@@ -31,9 +31,9 @@ import java.util.HashMap;
 
 public class WeebAPIRequester {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(WeebAPIRequester.class);
-    private final String ALL_TAGS = "/tags";
-    private final String ALL_TYPES = "/types";
-    private final String API_BASE_URL = "https://api.weeb.sh/images";
+    private static final String ALL_TAGS = "/tags";
+    private static final String ALL_TYPES = "/types";
+    private static final String API_BASE_URL = "https://api.weeb.sh/images";
     private final String AUTH_HEADER = "Bearer " + MantaroData.config().get().weebapiKey;
     private final String RANDOM_IMAGE = "/random";
     private final OkHttpClient httpClient = new OkHttpClient();

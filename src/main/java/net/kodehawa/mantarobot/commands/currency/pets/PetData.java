@@ -65,10 +65,8 @@ public class PetData {
         long hoursSince = TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis() - lastHydratedAt);
         if(hoursSince > 3) {
             hydrationLevel = Math.min(10, hydrationLevel * hoursSince / 2);
-            return hydrationLevel;
-        } else {
-            return hydrationLevel;
         }
+        return hydrationLevel;
     }
     
     @JsonIgnore
@@ -112,10 +110,8 @@ public class PetData {
         long hoursSince = TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis() - lastFedAt);
         if(hoursSince > 5) {
             saturation = Math.min(10, saturation * hoursSince / 3);
-            return saturation;
-        } else {
-            return saturation;
         }
+        return saturation;
     }
     
     @JsonIgnore

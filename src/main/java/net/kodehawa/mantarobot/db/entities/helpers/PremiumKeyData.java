@@ -17,6 +17,8 @@
 
 package net.kodehawa.mantarobot.db.entities.helpers;
 
+import java.util.Objects;
+
 public class PremiumKeyData {
     private String linkedTo = null;
     
@@ -50,7 +52,7 @@ public class PremiumKeyData {
         if(!other.canEqual(this)) return false;
         final Object this$linkedTo = this.getLinkedTo();
         final Object other$linkedTo = other.getLinkedTo();
-        return this$linkedTo == null ? other$linkedTo == null : this$linkedTo.equals(other$linkedTo);
+        return Objects.equals(this$linkedTo, other$linkedTo);
     }
     
     public String toString() {

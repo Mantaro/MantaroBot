@@ -18,6 +18,7 @@
 package net.kodehawa.mantarobot.commands.utils;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class UrbanData {
     
@@ -49,14 +50,14 @@ public class UrbanData {
         if(!other.canEqual(this)) return false;
         final Object this$list = this.list;
         final Object other$list = other.list;
-        return this$list == null ? other$list == null : this$list.equals(other$list);
+        return Objects.equals(this$list, other$list);
     }
     
     public String toString() {
         return "UrbanData(list=" + this.list + ")";
     }
     
-    public class List {
+    public static class List {
         public String author;
         public String definition;
         public String example;
@@ -144,24 +145,24 @@ public class UrbanData {
             if(!other.canEqual(this)) return false;
             final Object this$author = this.author;
             final Object other$author = other.author;
-            if(this$author == null ? other$author != null : !this$author.equals(other$author)) return false;
+            if(!Objects.equals(this$author, other$author)) return false;
             final Object this$definition = this.definition;
             final Object other$definition = other.definition;
-            if(this$definition == null ? other$definition != null : !this$definition.equals(other$definition))
+            if(!Objects.equals(this$definition, other$definition))
                 return false;
             final Object this$example = this.example;
             final Object other$example = other.example;
-            if(this$example == null ? other$example != null : !this$example.equals(other$example)) return false;
+            if(!Objects.equals(this$example, other$example)) return false;
             final Object this$permalink = this.permalink;
             final Object other$permalink = other.permalink;
-            if(this$permalink == null ? other$permalink != null : !this$permalink.equals(other$permalink)) return false;
+            if(!Objects.equals(this$permalink, other$permalink)) return false;
             final Object this$thumbs_down = this.thumbs_down;
             final Object other$thumbs_down = other.thumbs_down;
-            if(this$thumbs_down == null ? other$thumbs_down != null : !this$thumbs_down.equals(other$thumbs_down))
+            if(!Objects.equals(this$thumbs_down, other$thumbs_down))
                 return false;
             final Object this$thumbs_up = this.thumbs_up;
             final Object other$thumbs_up = other.thumbs_up;
-            return this$thumbs_up == null ? other$thumbs_up == null : this$thumbs_up.equals(other$thumbs_up);
+            return Objects.equals(this$thumbs_up, other$thumbs_up);
         }
         
         public String toString() {

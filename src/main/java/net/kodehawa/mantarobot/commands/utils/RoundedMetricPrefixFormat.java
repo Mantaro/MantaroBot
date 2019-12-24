@@ -18,6 +18,7 @@
 package net.kodehawa.mantarobot.commands.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
@@ -46,11 +47,11 @@ public class RoundedMetricPrefixFormat extends Format {
     
     private static final Pattern TRAILING_DECIMAL_POINT = Pattern.compile("[0-9]+\\.[kMGT]");
     
-    private static final Pattern METRIC_PREFIXED_NUMBER = Pattern.compile("\\-?[0-9]+(\\.[0-9])?[kMGT]");
+    private static final Pattern METRIC_PREFIXED_NUMBER = Pattern.compile("-?[0-9]+(\\.[0-9])?[kMGT]");
     
     @Override
-    public StringBuffer format(Object obj, StringBuffer output, FieldPosition pos) {
-        double number = Double.valueOf(obj.toString());
+    public StringBuffer format(Object obj, @NotNull StringBuffer output, @NotNull FieldPosition pos) {
+        double number = Double.parseDouble(obj.toString());
         // if the number is negative, convert it to a positive number and add the minus sign to the output at the end
         boolean isNegative = number < 0;
         number = Math.abs(number);
@@ -90,7 +91,7 @@ public class RoundedMetricPrefixFormat extends Format {
      * @return Long
      */
     @Override
-    public Long parseObject(String source, ParsePosition pos) {
+    public Long parseObject(String source, @NotNull ParsePosition pos) {
         if(StringUtils.isNumeric(source)) {
             //I don't need decimals. Original returned Object and not Long because it kept decimals.
             pos.setIndex(source.length());

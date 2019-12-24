@@ -207,9 +207,10 @@ public class MantaroShard implements JDA {
         start(false);
         
         //Gauge the current ratelimit bucket queue size per shard.
-        Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
-            ratelimitBucket.labels(String.valueOf(shardId)).set(QUEUE_SIZE.apply(jda));
-        }, 1, 1, TimeUnit.MINUTES);
+        Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(
+                () -> ratelimitBucket.labels(String.valueOf(shardId))
+                              .set(QUEUE_SIZE.apply(jda)), 1, 1, TimeUnit.MINUTES
+        );
     }
     
     /**

@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Stack;
 
 public class Parser {
-    private static final Map<TokenType, Parselet> PARSELETS = new HashMap<TokenType, Parselet>() {{
+    private static final Map<TokenType, Parselet> PARSELETS = new HashMap<>() {{
         put(TokenType.LITERAL, (__, c, t) -> c.add(new LiteralNode(t.value())));
         put(TokenType.START_VAR, (it, c, t) -> {
             Stack<Position> stack = new Stack<>();
@@ -145,9 +145,7 @@ public class Parser {
         sb.append("Unclosed ").append(unclosed).append(" at line ")
                 .append(p.line()).append(", column ").append(column).append('\n');
         sb.append(str).append('\n');
-        for(int i = 0; i < Math.min(10, column - 1); i++) {
-            sb.append(' ');
-        }
+        sb.append(" ".repeat(Math.max(0, Math.min(10, column - 1))));
         sb.append('^');
         throw new SyntaxException(sb.toString());
     }

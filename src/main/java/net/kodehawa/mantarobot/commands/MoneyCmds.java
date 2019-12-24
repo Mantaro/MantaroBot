@@ -162,7 +162,7 @@ public class MoneyCmds {
                     if(playerData.getDailyStreak() > 5) {
                         int bonus = 150;
                         if(playerData.getDailyStreak() > 15)
-                            bonus += Math.min(700, Math.floor(150 * playerData.getDailyStreak() / 15));
+                            bonus += Math.min(700, Math.floor(150 * playerData.getDailyStreak() / 15D));
                         
                         streak += String.format(languageContext.withRoot("commands", "daily.streak.bonus"), bonus);
                         money += bonus;
@@ -201,7 +201,7 @@ public class MoneyCmds {
                         int bonus = 150;
                         
                         if(authorPlayerData.getDailyStreak() > 15)
-                            bonus += Math.min(1700, Math.floor(150 * authorPlayerData.getDailyStreak() / 10));
+                            bonus += Math.min(1700, Math.floor(150 * authorPlayerData.getDailyStreak() / 10D));
                         
                         streak += String.format(languageContext.withRoot("commands", "daily.streak.given.bonus"), (mentionedUser == null ? "You" : mentionedUser.getName()), bonus);
                         money += bonus;
@@ -339,7 +339,7 @@ public class MoneyCmds {
                                         ? Math.round(PERCENT_FORMAT.get().parse(content).doubleValue() * player.getMoney())
                                         : new RoundedMetricPrefixFormat().parseObject(content, new ParsePosition(0));
                             if(i > player.getMoney() || i < 0) throw new UnsupportedOperationException();
-                            multiplier = 1.1d + (i / player.getMoney() * r.nextInt(1300) / 1000d);
+                            multiplier = 1.1d + (i / ((double)player.getMoney()) * r.nextInt(1300) / 1000d);
                             luck = 17 + (int) (multiplier * 13) + r.nextInt(12);
                             break;
                     }

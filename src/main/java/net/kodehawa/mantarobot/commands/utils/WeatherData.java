@@ -47,11 +47,11 @@ public class WeatherData {
         return wind;
     }
     
-    public class Clouds {
+    public static class Clouds {
         public int all;
     }
     
-    public class Main {
+    public static class Main {
         private int humidity; //Humidity in percentage.
         private double pressure = 0;
         private double speed; //Speed in m/h.
@@ -74,15 +74,15 @@ public class WeatherData {
         }
     }
     
-    public class Sys {
+    public static class Sys {
         public String country = null;
     }
     
-    public class Weather {
+    public static class Weather {
         public String main = null;
     }
     
-    public class Wind {
+    public static class Wind {
         public double speed = 0;
     }
 }

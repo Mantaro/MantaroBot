@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class UserData {
     private String birthday;
@@ -262,41 +263,41 @@ public class UserData {
         if(!other.canEqual(this)) return false;
         final Object this$birthday = this.getBirthday();
         final Object other$birthday = other.getBirthday();
-        if(this$birthday == null ? other$birthday != null : !this$birthday.equals(other$birthday)) return false;
+        if(!Objects.equals(this$birthday, other$birthday)) return false;
         if(this.isHasReceivedFirstKey() != other.isHasReceivedFirstKey()) return false;
         final Object this$premiumKey = this.getPremiumKey();
         final Object other$premiumKey = other.getPremiumKey();
-        if(this$premiumKey == null ? other$premiumKey != null : !this$premiumKey.equals(other$premiumKey)) return false;
+        if(!Objects.equals(this$premiumKey, other$premiumKey)) return false;
         if(this.getReminderN() != other.getReminderN()) return false;
         final Object this$timezone = this.getTimezone();
         final Object other$timezone = other.getTimezone();
-        if(this$timezone == null ? other$timezone != null : !this$timezone.equals(other$timezone)) return false;
+        if(!Objects.equals(this$timezone, other$timezone)) return false;
         final Object this$lang = this.getLang();
         final Object other$lang = other.getLang();
-        if(this$lang == null ? other$lang != null : !this$lang.equals(other$lang)) return false;
+        if(!Objects.equals(this$lang, other$lang)) return false;
         if(this.getDustLevel() != other.getDustLevel()) return false;
         if(this.getEquippedPick() != other.getEquippedPick()) return false;
         if(this.getEquippedRod() != other.getEquippedRod()) return false;
         final Object this$equippedItems = this.getEquippedItems();
         final Object other$equippedItems = other.getEquippedItems();
-        if(this$equippedItems == null ? other$equippedItems != null : !this$equippedItems.equals(other$equippedItems))
+        if(!Objects.equals(this$equippedItems, other$equippedItems))
             return false;
         if(this.isReceivedExpirationWarning() != other.isReceivedExpirationWarning()) return false;
         final Object this$keysClaimed = this.getKeysClaimed();
         final Object other$keysClaimed = other.getKeysClaimed();
-        if(this$keysClaimed == null ? other$keysClaimed != null : !this$keysClaimed.equals(other$keysClaimed))
+        if(!Objects.equals(this$keysClaimed, other$keysClaimed))
             return false;
         final Object this$marriageId = this.getMarriageId();
         final Object other$marriageId = other.getMarriageId();
-        if(this$marriageId == null ? other$marriageId != null : !this$marriageId.equals(other$marriageId)) return false;
+        if(!Objects.equals(this$marriageId, other$marriageId)) return false;
         final Object this$waifus = this.getWaifus();
         final Object other$waifus = other.getWaifus();
-        if(this$waifus == null ? other$waifus != null : !this$waifus.equals(other$waifus)) return false;
+        if(!Objects.equals(this$waifus, other$waifus)) return false;
         if(this.getWaifuSlots() != other.getWaifuSlots()) return false;
         if(this.getTimesClaimed() != other.getTimesClaimed()) return false;
         final Object this$reminders = this.getReminders();
         final Object other$reminders = other.getReminders();
-        if(this$reminders == null ? other$reminders != null : !this$reminders.equals(other$reminders)) return false;
+        if(!Objects.equals(this$reminders, other$reminders)) return false;
         return this.isPrivateTag() == other.isPrivateTag();
     }
     

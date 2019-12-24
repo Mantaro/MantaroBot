@@ -23,6 +23,7 @@ import net.kodehawa.mantarobot.commands.currency.seasons.Season;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Config {
     public String alClient;
@@ -559,124 +560,124 @@ public class Config {
         if(!other.canEqual(this)) return false;
         final Object this$alClient = this.alClient;
         final Object other$alClient = other.alClient;
-        if(this$alClient == null ? other$alClient != null : !this$alClient.equals(other$alClient)) return false;
+        if(!Objects.equals(this$alClient, other$alClient)) return false;
         final Object this$alsecret = this.alsecret;
         final Object other$alsecret = other.alsecret;
-        if(this$alsecret == null ? other$alsecret != null : !this$alsecret.equals(other$alsecret)) return false;
+        if(!Objects.equals(this$alsecret, other$alsecret)) return false;
         final Object this$apiLoginCreds = this.apiLoginCreds;
         final Object other$apiLoginCreds = other.apiLoginCreds;
-        if(this$apiLoginCreds == null ? other$apiLoginCreds != null : !this$apiLoginCreds.equals(other$apiLoginCreds))
+        if(!Objects.equals(this$apiLoginCreds, other$apiLoginCreds))
             return false;
         if(this.cacheGames != other.cacheGames) return false;
         final Object this$carbonToken = this.carbonToken;
         final Object other$carbonToken = other.carbonToken;
-        if(this$carbonToken == null ? other$carbonToken != null : !this$carbonToken.equals(other$carbonToken))
+        if(!Objects.equals(this$carbonToken, other$carbonToken))
             return false;
         final Object this$consoleChannel = this.consoleChannel;
         final Object other$consoleChannel = other.consoleChannel;
-        if(this$consoleChannel == null ? other$consoleChannel != null : !this$consoleChannel.equals(other$consoleChannel))
+        if(!Objects.equals(this$consoleChannel, other$consoleChannel))
             return false;
         final Object this$dbDb = this.dbDb;
         final Object other$dbDb = other.dbDb;
-        if(this$dbDb == null ? other$dbDb != null : !this$dbDb.equals(other$dbDb)) return false;
+        if(!Objects.equals(this$dbDb, other$dbDb)) return false;
         final Object this$dbHost = this.dbHost;
         final Object other$dbHost = other.dbHost;
-        if(this$dbHost == null ? other$dbHost != null : !this$dbHost.equals(other$dbHost)) return false;
+        if(!Objects.equals(this$dbHost, other$dbHost)) return false;
         final Object this$dbPassword = this.dbPassword;
         final Object other$dbPassword = other.dbPassword;
-        if(this$dbPassword == null ? other$dbPassword != null : !this$dbPassword.equals(other$dbPassword)) return false;
+        if(!Objects.equals(this$dbPassword, other$dbPassword)) return false;
         if(this.dbPort != other.dbPort) return false;
         final Object this$dbUser = this.dbUser;
         final Object other$dbUser = other.dbUser;
-        if(this$dbUser == null ? other$dbUser != null : !this$dbUser.equals(other$dbUser)) return false;
+        if(!Objects.equals(this$dbUser, other$dbUser)) return false;
         final Object this$dbotsToken = this.dbotsToken;
         final Object other$dbotsToken = other.dbotsToken;
-        if(this$dbotsToken == null ? other$dbotsToken != null : !this$dbotsToken.equals(other$dbotsToken)) return false;
+        if(!Objects.equals(this$dbotsToken, other$dbotsToken)) return false;
         final Object this$dbotsorgToken = this.dbotsorgToken;
         final Object other$dbotsorgToken = other.dbotsorgToken;
-        if(this$dbotsorgToken == null ? other$dbotsorgToken != null : !this$dbotsorgToken.equals(other$dbotsorgToken))
+        if(!Objects.equals(this$dbotsorgToken, other$dbotsorgToken))
             return false;
         if(this.isBeta != other.isBeta) return false;
         if(this.isPremiumBot != other.isPremiumBot) return false;
         if(this.maxJdaReconnectDelay != other.maxJdaReconnectDelay) return false;
         final Object this$osuApiKey = this.osuApiKey;
         final Object other$osuApiKey = other.osuApiKey;
-        if(this$osuApiKey == null ? other$osuApiKey != null : !this$osuApiKey.equals(other$osuApiKey)) return false;
+        if(!Objects.equals(this$osuApiKey, other$osuApiKey)) return false;
         final Object this$owners = this.owners;
         final Object other$owners = other.owners;
-        if(this$owners == null ? other$owners != null : !this$owners.equals(other$owners)) return false;
+        if(!Objects.equals(this$owners, other$owners)) return false;
         if(!java.util.Arrays.deepEquals(this.prefix, other.prefix)) return false;
         final Object this$sentryDSN = this.sentryDSN;
         final Object other$sentryDSN = other.sentryDSN;
-        if(this$sentryDSN == null ? other$sentryDSN != null : !this$sentryDSN.equals(other$sentryDSN)) return false;
+        if(!Objects.equals(this$sentryDSN, other$sentryDSN)) return false;
         if(this.shardWatcherTimeout != other.shardWatcherTimeout) return false;
         if(this.shardWatcherWait != other.shardWatcherWait) return false;
         final Object this$shardWebhookUrl = this.shardWebhookUrl;
         final Object other$shardWebhookUrl = other.shardWebhookUrl;
-        if(this$shardWebhookUrl == null ? other$shardWebhookUrl != null : !this$shardWebhookUrl.equals(other$shardWebhookUrl))
+        if(!Objects.equals(this$shardWebhookUrl, other$shardWebhookUrl))
             return false;
         final Object this$token = this.token;
         final Object other$token = other.token;
-        if(this$token == null ? other$token != null : !this$token.equals(other$token)) return false;
+        if(!Objects.equals(this$token, other$token)) return false;
         if(this.totalShards != other.totalShards) return false;
         if(this.fromShard != other.fromShard) return false;
         if(this.upToShard != other.upToShard) return false;
         final Object this$weatherAppId = this.weatherAppId;
         final Object other$weatherAppId = other.weatherAppId;
-        if(this$weatherAppId == null ? other$weatherAppId != null : !this$weatherAppId.equals(other$weatherAppId))
+        if(!Objects.equals(this$weatherAppId, other$weatherAppId))
             return false;
         final Object this$webhookUrl = this.webhookUrl;
         final Object other$webhookUrl = other.webhookUrl;
-        if(this$webhookUrl == null ? other$webhookUrl != null : !this$webhookUrl.equals(other$webhookUrl)) return false;
+        if(!Objects.equals(this$webhookUrl, other$webhookUrl)) return false;
         final Object this$spambotUrl = this.spambotUrl;
         final Object other$spambotUrl = other.spambotUrl;
-        if(this$spambotUrl == null ? other$spambotUrl != null : !this$spambotUrl.equals(other$spambotUrl)) return false;
+        if(!Objects.equals(this$spambotUrl, other$spambotUrl)) return false;
         final Object this$weebapiKey = this.weebapiKey;
         final Object other$weebapiKey = other.weebapiKey;
-        if(this$weebapiKey == null ? other$weebapiKey != null : !this$weebapiKey.equals(other$weebapiKey)) return false;
+        if(!Objects.equals(this$weebapiKey, other$weebapiKey)) return false;
         final Object this$apiTwoUrl = this.apiTwoUrl;
         final Object other$apiTwoUrl = other.apiTwoUrl;
-        if(this$apiTwoUrl == null ? other$apiTwoUrl != null : !this$apiTwoUrl.equals(other$apiTwoUrl)) return false;
+        if(!Objects.equals(this$apiTwoUrl, other$apiTwoUrl)) return false;
         if(this.needApi != other.needApi) return false;
         if(this.prometheusPort != other.prometheusPort) return false;
         if(this.ratelimitPoolSize != other.ratelimitPoolSize) return false;
         final Object this$apiAuthKey = this.apiAuthKey;
         final Object other$apiAuthKey = other.apiAuthKey;
-        if(this$apiAuthKey == null ? other$apiAuthKey != null : !this$apiAuthKey.equals(other$apiAuthKey)) return false;
+        if(!Objects.equals(this$apiAuthKey, other$apiAuthKey)) return false;
         final Object this$currentSeason = this.currentSeason;
         final Object other$currentSeason = other.currentSeason;
-        if(this$currentSeason == null ? other$currentSeason != null : !this$currentSeason.equals(other$currentSeason))
+        if(!Objects.equals(this$currentSeason, other$currentSeason))
             return false;
         final Object this$clientId = this.clientId;
         final Object other$clientId = other.clientId;
-        if(this$clientId == null ? other$clientId != null : !this$clientId.equals(other$clientId)) return false;
+        if(!Objects.equals(this$clientId, other$clientId)) return false;
         final Object this$jedisPoolAddress = this.jedisPoolAddress;
         final Object other$jedisPoolAddress = other.jedisPoolAddress;
-        if(this$jedisPoolAddress == null ? other$jedisPoolAddress != null : !this$jedisPoolAddress.equals(other$jedisPoolAddress))
+        if(!Objects.equals(this$jedisPoolAddress, other$jedisPoolAddress))
             return false;
         if(this.jedisPoolPort != other.jedisPoolPort) return false;
         final Object this$lavalinkNodes = this.lavalinkNodes;
         final Object other$lavalinkNodes = other.lavalinkNodes;
-        if(this$lavalinkNodes == null ? other$lavalinkNodes != null : !this$lavalinkNodes.equals(other$lavalinkNodes))
+        if(!Objects.equals(this$lavalinkNodes, other$lavalinkNodes))
             return false;
         final Object this$lavalinkPass = this.lavalinkPass;
         final Object other$lavalinkPass = other.lavalinkPass;
-        if(this$lavalinkPass == null ? other$lavalinkPass != null : !this$lavalinkPass.equals(other$lavalinkPass))
+        if(!Objects.equals(this$lavalinkPass, other$lavalinkPass))
             return false;
         final Object this$cacheClientEndpoint = this.cacheClientEndpoint;
         final Object other$cacheClientEndpoint = other.cacheClientEndpoint;
-        if(this$cacheClientEndpoint == null ? other$cacheClientEndpoint != null : !this$cacheClientEndpoint.equals(other$cacheClientEndpoint))
+        if(!Objects.equals(this$cacheClientEndpoint, other$cacheClientEndpoint))
             return false;
         final Object this$cacheClientToken = this.cacheClientToken;
         final Object other$cacheClientToken = other.cacheClientToken;
-        if(this$cacheClientToken == null ? other$cacheClientToken != null : !this$cacheClientToken.equals(other$cacheClientToken))
+        if(!Objects.equals(this$cacheClientToken, other$cacheClientToken))
             return false;
         final Object this$ipv6Block = this.ipv6Block;
         final Object other$ipv6Block = other.ipv6Block;
-        if(this$ipv6Block == null ? other$ipv6Block != null : !this$ipv6Block.equals(other$ipv6Block)) return false;
+        if(!Objects.equals(this$ipv6Block, other$ipv6Block)) return false;
         final Object this$excludeAddress = this.excludeAddress;
         final Object other$excludeAddress = other.excludeAddress;
-        if(this$excludeAddress == null ? other$excludeAddress != null : !this$excludeAddress.equals(other$excludeAddress))
+        if(!Objects.equals(this$excludeAddress, other$excludeAddress))
             return false;
         return this.bucketFactor == other.bucketFactor;
     }

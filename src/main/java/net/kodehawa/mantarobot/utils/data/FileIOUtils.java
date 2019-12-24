@@ -27,7 +27,7 @@ public class FileIOUtils {
     private static final Charset UTF8 = StandardCharsets.UTF_8;
     
     public static String read(Path path) throws IOException {
-        return new String(Files.readAllBytes(path), UTF8);
+        return Files.readString(path, UTF8);
     }
     
     public static void write(Path path, String contents) throws IOException {

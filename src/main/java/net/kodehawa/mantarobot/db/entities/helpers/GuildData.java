@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -974,118 +975,118 @@ public class GuildData {
         if(this.isAntiSpam() != other.isAntiSpam()) return false;
         final Object this$autoroles = this.getAutoroles();
         final Object other$autoroles = other.getAutoroles();
-        if(this$autoroles == null ? other$autoroles != null : !this$autoroles.equals(other$autoroles)) return false;
+        if(!Objects.equals(this$autoroles, other$autoroles)) return false;
         final Object this$birthdayChannel = this.getBirthdayChannel();
         final Object other$birthdayChannel = other.getBirthdayChannel();
-        if(this$birthdayChannel == null ? other$birthdayChannel != null : !this$birthdayChannel.equals(other$birthdayChannel))
+        if(!Objects.equals(this$birthdayChannel, other$birthdayChannel))
             return false;
         final Object this$birthdayRole = this.getBirthdayRole();
         final Object other$birthdayRole = other.getBirthdayRole();
-        if(this$birthdayRole == null ? other$birthdayRole != null : !this$birthdayRole.equals(other$birthdayRole))
+        if(!Objects.equals(this$birthdayRole, other$birthdayRole))
             return false;
         if(this.getCases() != other.getCases()) return false;
         final Object this$channelSpecificDisabledCategories = this.getChannelSpecificDisabledCategories();
         final Object other$channelSpecificDisabledCategories = other.getChannelSpecificDisabledCategories();
-        if(this$channelSpecificDisabledCategories == null ? other$channelSpecificDisabledCategories != null : !this$channelSpecificDisabledCategories.equals(other$channelSpecificDisabledCategories))
+        if(!Objects.equals(this$channelSpecificDisabledCategories, other$channelSpecificDisabledCategories))
             return false;
         final Object this$channelSpecificDisabledCommands = this.getChannelSpecificDisabledCommands();
         final Object other$channelSpecificDisabledCommands = other.getChannelSpecificDisabledCommands();
-        if(this$channelSpecificDisabledCommands == null ? other$channelSpecificDisabledCommands != null : !this$channelSpecificDisabledCommands.equals(other$channelSpecificDisabledCommands))
+        if(!Objects.equals(this$channelSpecificDisabledCommands, other$channelSpecificDisabledCommands))
             return false;
         if(this.isCustomAdminLock() != other.isCustomAdminLock()) return false;
         final Object this$disabledCategories = this.getDisabledCategories();
         final Object other$disabledCategories = other.getDisabledCategories();
-        if(this$disabledCategories == null ? other$disabledCategories != null : !this$disabledCategories.equals(other$disabledCategories))
+        if(!Objects.equals(this$disabledCategories, other$disabledCategories))
             return false;
         final Object this$disabledChannels = this.getDisabledChannels();
         final Object other$disabledChannels = other.getDisabledChannels();
-        if(this$disabledChannels == null ? other$disabledChannels != null : !this$disabledChannels.equals(other$disabledChannels))
+        if(!Objects.equals(this$disabledChannels, other$disabledChannels))
             return false;
         final Object this$disabledCommands = this.getDisabledCommands();
         final Object other$disabledCommands = other.getDisabledCommands();
-        if(this$disabledCommands == null ? other$disabledCommands != null : !this$disabledCommands.equals(other$disabledCommands))
+        if(!Objects.equals(this$disabledCommands, other$disabledCommands))
             return false;
         final Object this$disabledRoles = this.getDisabledRoles();
         final Object other$disabledRoles = other.getDisabledRoles();
-        if(this$disabledRoles == null ? other$disabledRoles != null : !this$disabledRoles.equals(other$disabledRoles))
+        if(!Objects.equals(this$disabledRoles, other$disabledRoles))
             return false;
         final Object this$disabledUsers = this.getDisabledUsers();
         final Object other$disabledUsers = other.getDisabledUsers();
-        if(this$disabledUsers == null ? other$disabledUsers != null : !this$disabledUsers.equals(other$disabledUsers))
+        if(!Objects.equals(this$disabledUsers, other$disabledUsers))
             return false;
         final Object this$guildAutoRole = this.getGuildAutoRole();
         final Object other$guildAutoRole = other.getGuildAutoRole();
-        if(this$guildAutoRole == null ? other$guildAutoRole != null : !this$guildAutoRole.equals(other$guildAutoRole))
+        if(!Objects.equals(this$guildAutoRole, other$guildAutoRole))
             return false;
         final Object this$guildCustomPrefix = this.getGuildCustomPrefix();
         final Object other$guildCustomPrefix = other.getGuildCustomPrefix();
-        if(this$guildCustomPrefix == null ? other$guildCustomPrefix != null : !this$guildCustomPrefix.equals(other$guildCustomPrefix))
+        if(!Objects.equals(this$guildCustomPrefix, other$guildCustomPrefix))
             return false;
         final Object this$guildLogChannel = this.getGuildLogChannel();
         final Object other$guildLogChannel = other.getGuildLogChannel();
-        if(this$guildLogChannel == null ? other$guildLogChannel != null : !this$guildLogChannel.equals(other$guildLogChannel))
+        if(!Objects.equals(this$guildLogChannel, other$guildLogChannel))
             return false;
         final Object this$guildUnsafeChannels = this.getGuildUnsafeChannels();
         final Object other$guildUnsafeChannels = other.getGuildUnsafeChannels();
-        if(this$guildUnsafeChannels == null ? other$guildUnsafeChannels != null : !this$guildUnsafeChannels.equals(other$guildUnsafeChannels))
+        if(!Objects.equals(this$guildUnsafeChannels, other$guildUnsafeChannels))
             return false;
         final Object this$joinMessage = this.getJoinMessage();
         final Object other$joinMessage = other.getJoinMessage();
-        if(this$joinMessage == null ? other$joinMessage != null : !this$joinMessage.equals(other$joinMessage))
+        if(!Objects.equals(this$joinMessage, other$joinMessage))
             return false;
         final Object this$leaveMessage = this.getLeaveMessage();
         final Object other$leaveMessage = other.getLeaveMessage();
-        if(this$leaveMessage == null ? other$leaveMessage != null : !this$leaveMessage.equals(other$leaveMessage))
+        if(!Objects.equals(this$leaveMessage, other$leaveMessage))
             return false;
         if(this.isLinkProtection() != other.isLinkProtection()) return false;
         final Object this$linkProtectionAllowedChannels = this.getLinkProtectionAllowedChannels();
         final Object other$linkProtectionAllowedChannels = other.getLinkProtectionAllowedChannels();
-        if(this$linkProtectionAllowedChannels == null ? other$linkProtectionAllowedChannels != null : !this$linkProtectionAllowedChannels.equals(other$linkProtectionAllowedChannels))
+        if(!Objects.equals(this$linkProtectionAllowedChannels, other$linkProtectionAllowedChannels))
             return false;
         final Object this$logExcludedChannels = this.getLogExcludedChannels();
         final Object other$logExcludedChannels = other.getLogExcludedChannels();
-        if(this$logExcludedChannels == null ? other$logExcludedChannels != null : !this$logExcludedChannels.equals(other$logExcludedChannels))
+        if(!Objects.equals(this$logExcludedChannels, other$logExcludedChannels))
             return false;
         final Object this$logJoinLeaveChannel = this.getLogJoinLeaveChannel();
         final Object other$logJoinLeaveChannel = other.getLogJoinLeaveChannel();
-        if(this$logJoinLeaveChannel == null ? other$logJoinLeaveChannel != null : !this$logJoinLeaveChannel.equals(other$logJoinLeaveChannel))
+        if(!Objects.equals(this$logJoinLeaveChannel, other$logJoinLeaveChannel))
             return false;
         if(this.getMaxFairQueue() != other.getMaxFairQueue()) return false;
         if(this.getMaxResultsSearch() != other.getMaxResultsSearch()) return false;
         final Object this$modlogBlacklistedPeople = this.getModlogBlacklistedPeople();
         final Object other$modlogBlacklistedPeople = other.getModlogBlacklistedPeople();
-        if(this$modlogBlacklistedPeople == null ? other$modlogBlacklistedPeople != null : !this$modlogBlacklistedPeople.equals(other$modlogBlacklistedPeople))
+        if(!Objects.equals(this$modlogBlacklistedPeople, other$modlogBlacklistedPeople))
             return false;
         if(this.isMusicAnnounce() != other.isMusicAnnounce()) return false;
         final Object this$musicChannel = this.getMusicChannel();
         final Object other$musicChannel = other.getMusicChannel();
-        if(this$musicChannel == null ? other$musicChannel != null : !this$musicChannel.equals(other$musicChannel))
+        if(!Objects.equals(this$musicChannel, other$musicChannel))
             return false;
         final Object this$musicQueueSizeLimit = this.getMusicQueueSizeLimit();
         final Object other$musicQueueSizeLimit = other.getMusicQueueSizeLimit();
-        if(this$musicQueueSizeLimit == null ? other$musicQueueSizeLimit != null : !this$musicQueueSizeLimit.equals(other$musicQueueSizeLimit))
+        if(!Objects.equals(this$musicQueueSizeLimit, other$musicQueueSizeLimit))
             return false;
         final Object this$musicSongDurationLimit = this.getMusicSongDurationLimit();
         final Object other$musicSongDurationLimit = other.getMusicSongDurationLimit();
-        if(this$musicSongDurationLimit == null ? other$musicSongDurationLimit != null : !this$musicSongDurationLimit.equals(other$musicSongDurationLimit))
+        if(!Objects.equals(this$musicSongDurationLimit, other$musicSongDurationLimit))
             return false;
         final Object this$mutedRole = this.getMutedRole();
         final Object other$mutedRole = other.getMutedRole();
-        if(this$mutedRole == null ? other$mutedRole != null : !this$mutedRole.equals(other$mutedRole)) return false;
+        if(!Objects.equals(this$mutedRole, other$mutedRole)) return false;
         final Object this$mutedTimelyUsers = this.getMutedTimelyUsers();
         final Object other$mutedTimelyUsers = other.getMutedTimelyUsers();
-        if(this$mutedTimelyUsers == null ? other$mutedTimelyUsers != null : !this$mutedTimelyUsers.equals(other$mutedTimelyUsers))
+        if(!Objects.equals(this$mutedTimelyUsers, other$mutedTimelyUsers))
             return false;
         if(this.isNoMentionsAction() != other.isNoMentionsAction()) return false;
         final Object this$premiumKey = this.getPremiumKey();
         final Object other$premiumKey = other.getPremiumKey();
-        if(this$premiumKey == null ? other$premiumKey != null : !this$premiumKey.equals(other$premiumKey)) return false;
+        if(!Objects.equals(this$premiumKey, other$premiumKey)) return false;
         if(this.getQuoteLastId() != other.getQuoteLastId()) return false;
         if(this.getRanPolls() != other.getRanPolls()) return false;
         if(this.isReactionMenus() != other.isReactionMenus()) return false;
         final Object this$rolesBlockedFromCommands = this.getRolesBlockedFromCommands();
         final Object other$rolesBlockedFromCommands = other.getRolesBlockedFromCommands();
-        if(this$rolesBlockedFromCommands == null ? other$rolesBlockedFromCommands != null : !this$rolesBlockedFromCommands.equals(other$rolesBlockedFromCommands))
+        if(!Objects.equals(this$rolesBlockedFromCommands, other$rolesBlockedFromCommands))
             return false;
         if(this.isRpgDevaluation() != other.isRpgDevaluation()) return false;
         if(this.isRpgLocalMode() != other.isRpgLocalMode()) return false;
@@ -1093,114 +1094,114 @@ public class GuildData {
         if(this.isSlowMode() != other.isSlowMode()) return false;
         final Object this$slowModeChannels = this.getSlowModeChannels();
         final Object other$slowModeChannels = other.getSlowModeChannels();
-        if(this$slowModeChannels == null ? other$slowModeChannels != null : !this$slowModeChannels.equals(other$slowModeChannels))
+        if(!Objects.equals(this$slowModeChannels, other$slowModeChannels))
             return false;
         final Object this$spamModeChannels = this.getSpamModeChannels();
         final Object other$spamModeChannels = other.getSpamModeChannels();
-        if(this$spamModeChannels == null ? other$spamModeChannels != null : !this$spamModeChannels.equals(other$spamModeChannels))
+        if(!Objects.equals(this$spamModeChannels, other$spamModeChannels))
             return false;
         if(this.getTimeDisplay() != other.getTimeDisplay()) return false;
         final Object this$warnActions = this.getWarnActions();
         final Object other$warnActions = other.getWarnActions();
-        if(this$warnActions == null ? other$warnActions != null : !this$warnActions.equals(other$warnActions))
+        if(!Objects.equals(this$warnActions, other$warnActions))
             return false;
         final Object this$warnCount = this.getWarnCount();
         final Object other$warnCount = other.getWarnCount();
-        if(this$warnCount == null ? other$warnCount != null : !this$warnCount.equals(other$warnCount)) return false;
+        if(!Objects.equals(this$warnCount, other$warnCount)) return false;
         final Object this$gameTimeoutExpectedAt = this.getGameTimeoutExpectedAt();
         final Object other$gameTimeoutExpectedAt = other.getGameTimeoutExpectedAt();
-        if(this$gameTimeoutExpectedAt == null ? other$gameTimeoutExpectedAt != null : !this$gameTimeoutExpectedAt.equals(other$gameTimeoutExpectedAt))
+        if(!Objects.equals(this$gameTimeoutExpectedAt, other$gameTimeoutExpectedAt))
             return false;
         if(this.isIgnoreBotsWelcomeMessage() != other.isIgnoreBotsWelcomeMessage()) return false;
         if(this.isIgnoreBotsAutoRole() != other.isIgnoreBotsAutoRole()) return false;
         if(this.isEnabledLevelUpMessages() != other.isEnabledLevelUpMessages()) return false;
         final Object this$levelUpChannel = this.getLevelUpChannel();
         final Object other$levelUpChannel = other.getLevelUpChannel();
-        if(this$levelUpChannel == null ? other$levelUpChannel != null : !this$levelUpChannel.equals(other$levelUpChannel))
+        if(!Objects.equals(this$levelUpChannel, other$levelUpChannel))
             return false;
         final Object this$levelUpMessage = this.getLevelUpMessage();
         final Object other$levelUpMessage = other.getLevelUpMessage();
-        if(this$levelUpMessage == null ? other$levelUpMessage != null : !this$levelUpMessage.equals(other$levelUpMessage))
+        if(!Objects.equals(this$levelUpMessage, other$levelUpMessage))
             return false;
         final Object this$blackListedImageTags = this.getBlackListedImageTags();
         final Object other$blackListedImageTags = other.getBlackListedImageTags();
-        if(this$blackListedImageTags == null ? other$blackListedImageTags != null : !this$blackListedImageTags.equals(other$blackListedImageTags))
+        if(!Objects.equals(this$blackListedImageTags, other$blackListedImageTags))
             return false;
         final Object this$logJoinChannel = this.getLogJoinChannel();
         final Object other$logJoinChannel = other.getLogJoinChannel();
-        if(this$logJoinChannel == null ? other$logJoinChannel != null : !this$logJoinChannel.equals(other$logJoinChannel))
+        if(!Objects.equals(this$logJoinChannel, other$logJoinChannel))
             return false;
         final Object this$logLeaveChannel = this.getLogLeaveChannel();
         final Object other$logLeaveChannel = other.getLogLeaveChannel();
-        if(this$logLeaveChannel == null ? other$logLeaveChannel != null : !this$logLeaveChannel.equals(other$logLeaveChannel))
+        if(!Objects.equals(this$logLeaveChannel, other$logLeaveChannel))
             return false;
         final Object this$localPlayerExperience = this.getLocalPlayerExperience();
         final Object other$localPlayerExperience = other.getLocalPlayerExperience();
-        if(this$localPlayerExperience == null ? other$localPlayerExperience != null : !this$localPlayerExperience.equals(other$localPlayerExperience))
+        if(!Objects.equals(this$localPlayerExperience, other$localPlayerExperience))
             return false;
         final Object this$linkProtectionAllowedUsers = this.getLinkProtectionAllowedUsers();
         final Object other$linkProtectionAllowedUsers = other.getLinkProtectionAllowedUsers();
-        if(this$linkProtectionAllowedUsers == null ? other$linkProtectionAllowedUsers != null : !this$linkProtectionAllowedUsers.equals(other$linkProtectionAllowedUsers))
+        if(!Objects.equals(this$linkProtectionAllowedUsers, other$linkProtectionAllowedUsers))
             return false;
         final Object this$roleSpecificDisabledCategories = this.getRoleSpecificDisabledCategories();
         final Object other$roleSpecificDisabledCategories = other.getRoleSpecificDisabledCategories();
-        if(this$roleSpecificDisabledCategories == null ? other$roleSpecificDisabledCategories != null : !this$roleSpecificDisabledCategories.equals(other$roleSpecificDisabledCategories))
+        if(!Objects.equals(this$roleSpecificDisabledCategories, other$roleSpecificDisabledCategories))
             return false;
         final Object this$roleSpecificDisabledCommands = this.getRoleSpecificDisabledCommands();
         final Object other$roleSpecificDisabledCommands = other.getRoleSpecificDisabledCommands();
-        if(this$roleSpecificDisabledCommands == null ? other$roleSpecificDisabledCommands != null : !this$roleSpecificDisabledCommands.equals(other$roleSpecificDisabledCommands))
+        if(!Objects.equals(this$roleSpecificDisabledCommands, other$roleSpecificDisabledCommands))
             return false;
         final Object this$lang = this.getLang();
         final Object other$lang = other.getLang();
-        if(this$lang == null ? other$lang != null : !this$lang.equals(other$lang)) return false;
+        if(!Objects.equals(this$lang, other$lang)) return false;
         if(this.isMusicVote() != other.isMusicVote()) return false;
         final Object this$extraJoinMessages = this.getExtraJoinMessages();
         final Object other$extraJoinMessages = other.getExtraJoinMessages();
-        if(this$extraJoinMessages == null ? other$extraJoinMessages != null : !this$extraJoinMessages.equals(other$extraJoinMessages))
+        if(!Objects.equals(this$extraJoinMessages, other$extraJoinMessages))
             return false;
         final Object this$extraLeaveMessages = this.getExtraLeaveMessages();
         final Object other$extraLeaveMessages = other.getExtraLeaveMessages();
-        if(this$extraLeaveMessages == null ? other$extraLeaveMessages != null : !this$extraLeaveMessages.equals(other$extraLeaveMessages))
+        if(!Objects.equals(this$extraLeaveMessages, other$extraLeaveMessages))
             return false;
         final Object this$whitelistedRole = this.getWhitelistedRole();
         final Object other$whitelistedRole = other.getWhitelistedRole();
-        if(this$whitelistedRole == null ? other$whitelistedRole != null : !this$whitelistedRole.equals(other$whitelistedRole))
+        if(!Objects.equals(this$whitelistedRole, other$whitelistedRole))
             return false;
         final Object this$birthdayMessage = this.getBirthdayMessage();
         final Object other$birthdayMessage = other.getBirthdayMessage();
-        if(this$birthdayMessage == null ? other$birthdayMessage != null : !this$birthdayMessage.equals(other$birthdayMessage))
+        if(!Objects.equals(this$birthdayMessage, other$birthdayMessage))
             return false;
         if(this.isCustomAdminLockNew() != other.isCustomAdminLockNew()) return false;
         final Object this$mpLinkedTo = this.getMpLinkedTo();
         final Object other$mpLinkedTo = other.getMpLinkedTo();
-        if(this$mpLinkedTo == null ? other$mpLinkedTo != null : !this$mpLinkedTo.equals(other$mpLinkedTo)) return false;
+        if(!Objects.equals(this$mpLinkedTo, other$mpLinkedTo)) return false;
         final Object this$modLogBlacklistWords = this.getModLogBlacklistWords();
         final Object other$modLogBlacklistWords = other.getModLogBlacklistWords();
-        if(this$modLogBlacklistWords == null ? other$modLogBlacklistWords != null : !this$modLogBlacklistWords.equals(other$modLogBlacklistWords))
+        if(!Objects.equals(this$modLogBlacklistWords, other$modLogBlacklistWords))
             return false;
         final Object this$autoroleCategories = this.getAutoroleCategories();
         final Object other$autoroleCategories = other.getAutoroleCategories();
-        if(this$autoroleCategories == null ? other$autoroleCategories != null : !this$autoroleCategories.equals(other$autoroleCategories))
+        if(!Objects.equals(this$autoroleCategories, other$autoroleCategories))
             return false;
         final Object this$editMessageLog = this.getEditMessageLog();
         final Object other$editMessageLog = other.getEditMessageLog();
-        if(this$editMessageLog == null ? other$editMessageLog != null : !this$editMessageLog.equals(other$editMessageLog))
+        if(!Objects.equals(this$editMessageLog, other$editMessageLog))
             return false;
         final Object this$deleteMessageLog = this.getDeleteMessageLog();
         final Object other$deleteMessageLog = other.getDeleteMessageLog();
-        if(this$deleteMessageLog == null ? other$deleteMessageLog != null : !this$deleteMessageLog.equals(other$deleteMessageLog))
+        if(!Objects.equals(this$deleteMessageLog, other$deleteMessageLog))
             return false;
         final Object this$bannedMemberLog = this.getBannedMemberLog();
         final Object other$bannedMemberLog = other.getBannedMemberLog();
-        if(this$bannedMemberLog == null ? other$bannedMemberLog != null : !this$bannedMemberLog.equals(other$bannedMemberLog))
+        if(!Objects.equals(this$bannedMemberLog, other$bannedMemberLog))
             return false;
         final Object this$unbannedMemberLog = this.getUnbannedMemberLog();
         final Object other$unbannedMemberLog = other.getUnbannedMemberLog();
-        if(this$unbannedMemberLog == null ? other$unbannedMemberLog != null : !this$unbannedMemberLog.equals(other$unbannedMemberLog))
+        if(!Objects.equals(this$unbannedMemberLog, other$unbannedMemberLog))
             return false;
         final Object this$kickedMemberLog = this.getKickedMemberLog();
         final Object other$kickedMemberLog = other.getKickedMemberLog();
-        if(this$kickedMemberLog == null ? other$kickedMemberLog != null : !this$kickedMemberLog.equals(other$kickedMemberLog))
+        if(!Objects.equals(this$kickedMemberLog, other$kickedMemberLog))
             return false;
         return this.isCommandWarningDisplay() == other.isCommandWarningDisplay();
     }

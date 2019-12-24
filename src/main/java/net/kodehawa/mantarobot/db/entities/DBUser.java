@@ -33,6 +33,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -215,14 +216,14 @@ public class DBUser implements ManagedObject {
         if(!other.canEqual(this)) return false;
         final Object this$data = this.getData();
         final Object other$data = other.getData();
-        if(this$data == null ? other$data != null : !this$data.equals(other$data)) return false;
+        if(!Objects.equals(this$data, other$data)) return false;
         final Object this$id = this.getId();
         final Object other$id = other.getId();
-        if(this$id == null ? other$id != null : !this$id.equals(other$id)) return false;
+        if(!Objects.equals(this$id, other$id)) return false;
         if(this.getPremiumUntil() != other.getPremiumUntil()) return false;
         final Object this$config = this.getConfig();
         final Object other$config = other.getConfig();
-        return this$config == null ? other$config == null : this$config.equals(other$config);
+        return Objects.equals(this$config, other$config);
     }
     
     public String toString() {

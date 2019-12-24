@@ -405,22 +405,21 @@ public class CustomCmds {
                     channel.sendMessageFormat(languageContext.get("commands.custom.remove.no_command"), EmoteReference.ERROR).queue();
                     return;
                 }
-                
-                String cmd = content;
-                if(!NAME_PATTERN.matcher(cmd).matches()) {
+    
+                if(!NAME_PATTERN.matcher(content).matches()) {
                     channel.sendMessageFormat(languageContext.get("commands.custom.character_not_allowed"), EmoteReference.ERROR).queue();
                     return;
                 }
                 
                 //hint: always check for this
-                if(DefaultCommandProcessor.REGISTRY.commands().containsKey(cmd)) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.already_exists"), EmoteReference.ERROR, cmd).queue();
+                if(DefaultCommandProcessor.REGISTRY.commands().containsKey(content)) {
+                    channel.sendMessageFormat(languageContext.get("commands.custom.already_exists"), EmoteReference.ERROR, content).queue();
                     return;
                 }
                 
-                CustomCommand custom = getCustomCommand(event.getGuild().getId(), cmd);
+                CustomCommand custom = getCustomCommand(event.getGuild().getId(), content);
                 if(custom == null) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.not_found"), EmoteReference.ERROR2, cmd).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.custom.not_found"), EmoteReference.ERROR2, content).queue();
                     return;
                 }
                 
@@ -431,10 +430,10 @@ public class CustomCmds {
                 customCommands.remove(custom.getId());
                 
                 //clear commands if none
-                if(customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
-                    customCommands.remove(cmd);
+                if(customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + content)))
+                    customCommands.remove(content);
                 
-                channel.sendMessageFormat(languageContext.get("commands.custom.remove.success"), EmoteReference.PENCIL, cmd).queue();
+                channel.sendMessageFormat(languageContext.get("commands.custom.remove.success"), EmoteReference.PENCIL, content).queue();
             }
         }).createSubCommandAlias("remove", "rm");
         
@@ -456,10 +455,8 @@ public class CustomCmds {
                     channel.sendMessageFormat(languageContext.get("commands.custom.import.no_command"), EmoteReference.ERROR).queue();
                     return;
                 }
-                
-                String cmd = content;
-                
-                if(!NAME_WILDCARD_PATTERN.matcher(cmd).matches()) {
+    
+                if(!NAME_WILDCARD_PATTERN.matcher(content).matches()) {
                     channel.sendMessageFormat(languageContext.get("commands.custom.character_not_allowed"), EmoteReference.ERROR).queue();
                     return;
                 }
@@ -468,7 +465,7 @@ public class CustomCmds {
                                                     .collect(Collectors.toMap(ISnowflake::getId, g -> g));
                 
                 List<Pair<Guild, CustomCommand>> filtered = db
-                                                                    .getCustomCommandsByName(("*" + cmd + "*").replace("*", any)).stream()
+                                                                    .getCustomCommandsByName(("*" + content + "*").replace("*", any)).stream()
                                                                     .map(customCommand -> {
                                                                         Guild guild = mapped.get(customCommand.getGuildId());
                                                                         return guild == null ? null : Pair.of(guild, customCommand);
@@ -521,13 +518,12 @@ public class CustomCmds {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.custom.raw.no_command"), EmoteReference.ERROR).queue();
                     return;
                 }
-                
-                String cmd = content;
-                CustomCommand command = db().getCustomCommand(event.getGuild(), cmd);
+    
+                CustomCommand command = db().getCustomCommand(event.getGuild(), content);
                 String owner = command.getData().getOwner();
                 User user = owner.isEmpty() ? null : MantaroBot.getInstance().getUserCache().getElementById(owner);
                 event.getChannel().sendMessage(new EmbedBuilder()
-                                                       .setAuthor("Custom Command Information for " + cmd, null, event.getAuthor().getEffectiveAvatarUrl())
+                                                       .setAuthor("Custom Command Information for " + content, null, event.getAuthor().getEffectiveAvatarUrl())
                                                        .setDescription(
                                                                EmoteReference.BLUE_SMALL_MARKER + "**Owner:** " + (user == null ? "Nobody" : user.getName() + "#" + user.getDiscriminator()) + "\n" +
                                                                        EmoteReference.BLUE_SMALL_MARKER + "**Owner ID:** " + (user == null ? "None" : user.getId()) + "\n" +

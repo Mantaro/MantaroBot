@@ -18,6 +18,7 @@
 package net.kodehawa.mantarobot.commands.game.core;
 
 import java.util.List;
+import java.util.Objects;
 
 public class PokemonGameData {
     private String name;
@@ -74,13 +75,13 @@ public class PokemonGameData {
         if(!other.canEqual(this)) return false;
         final Object this$name = this.name;
         final Object other$name = other.name;
-        if(this$name == null ? other$name != null : !this$name.equals(other$name)) return false;
+        if(!Objects.equals(this$name, other$name)) return false;
         final Object this$image = this.image;
         final Object other$image = other.image;
-        if(this$image == null ? other$image != null : !this$image.equals(other$image)) return false;
+        if(!Objects.equals(this$image, other$image)) return false;
         final Object this$names = this.names;
         final Object other$names = other.names;
-        return this$names == null ? other$names == null : this$names.equals(other$names);
+        return Objects.equals(this$names, other$names);
     }
     
     public String toString() {

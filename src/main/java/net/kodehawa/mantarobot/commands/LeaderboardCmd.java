@@ -199,10 +199,15 @@ public class LeaderboardCmd {
                 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.lvl"), EmoteReference.ZAP), "commands.leaderboard.level", c,
-                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString() +
-                                                                                                                             "\n -" + languageContext.get("commands.leaderboard.inner.experience") + ":** " +
-                                                                                                                             ((Map) map.get("data")).get("experience") + "**"), "%s**%s#%s** - %s", false)
-                                                       .build()
+                        map -> {
+                            @SuppressWarnings("unchecked")
+                            var experience = ((Map<String, Object>) map.get("data")).get("experience");
+                            return Pair.of(
+                                    MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                    map.get("level").toString() + "\n -" +
+                                            languageContext.get("commands.leaderboard.inner.experience") + ":** " +
+                                            experience + "**");
+                            }, "%s**%s#%s** - %s", false).build()
                 ).queue();
             }
         });
@@ -248,8 +253,14 @@ public class LeaderboardCmd {
                 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.streak"), EmoteReference.POPPER), "commands.leaderboard.daily", c,
-                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
-                                ((HashMap) (map.get("data"))).get("dailyStrike").toString()), "%s**%s#%s** - %sx", false)
+                        map -> {
+                            @SuppressWarnings("unchecked")
+                            var strike = ((Map<String, Object>) (map.get("data"))).get("dailyStrike").toString();
+                            return Pair.of(
+                                    MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                    strike
+                            );
+                        }, "%s**%s#%s** - %sx", false)
                                                        .build()
                 ).queue();
             }
@@ -274,8 +285,14 @@ public class LeaderboardCmd {
                 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.waifu"), EmoteReference.MONEY), "commands.leaderboard.waifu", c,
-                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
-                                ((HashMap) (map.get("data"))).get("waifuCachedValue").toString()), "%s**%s#%s** - $%,d", isSeasonal)
+                        map -> {
+                            @SuppressWarnings("unchecked")
+                            var waifuValue = ((Map<String, Object>) (map.get("data"))).get("waifuCachedValue").toString();
+                            return Pair.of(
+                                    MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                    waifuValue
+                            );
+                        }, "%s**%s#%s** - $%,d", isSeasonal)
                                                        .build()
                 ).queue();
             }
@@ -295,8 +312,14 @@ public class LeaderboardCmd {
                 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.claim"), EmoteReference.HEART), "commands.leaderboard.claim", c,
-                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
-                                ((HashMap) (map.get("data"))).get("timesClaimed").toString()), "%s**%s#%s** - %,d", false)
+                        map -> {
+                            @SuppressWarnings("unchecked")
+                            var timesClaimed = ((Map<String, Object>) (map.get("data"))).get("timesClaimed").toString();
+                            return Pair.of(
+                                    MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                    timesClaimed
+                            );
+                        }, "%s**%s#%s** - %,d", false)
                                                        .build()
                 ).queue();
             }
@@ -321,8 +344,14 @@ public class LeaderboardCmd {
                 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.game"), EmoteReference.ZAP), "commands.leaderboard.game", c,
-                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
-                                ((HashMap) (map.get("data"))).get("gamesWon").toString()), "%s**%s#%s** - %,d", isSeasonal)
+                        map -> {
+                            @SuppressWarnings("unchecked")
+                            var gamesWon = ((Map<String, Object>) (map.get("data"))).get("gamesWon").toString();
+                            return Pair.of(
+                                    MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                    gamesWon
+                            );
+                        }, "%s**%s#%s** - %,d", isSeasonal)
                                                        .build()
                 ).queue();
             }

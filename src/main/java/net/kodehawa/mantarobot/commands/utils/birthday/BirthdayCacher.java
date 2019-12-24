@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -58,7 +59,8 @@ public class BirthdayCacher {
                 
                 for(Map<?, ?> r : m1) {
                     //Blame rethinkdb for the casting hell thx
-                    String birthday = (String) ((HashMap) r.get("data")).get("birthday");
+                    @SuppressWarnings("unchecked")
+                    String birthday = ((Map<String, String>) r.get("data")).get("birthday");
                     if(birthday != null && !birthday.isEmpty()) {
                         log.debug("-> PROCESS: {}", r);
                         String[] bd = birthday.split("-");
@@ -77,7 +79,7 @@ public class BirthdayCacher {
         });
     }
     
-    public class BirthdayData {
+    public static class BirthdayData {
         public String birthday;
         public String day;
         public String month;
@@ -138,13 +140,13 @@ public class BirthdayCacher {
             if(!other.canEqual(this)) return false;
             final Object this$birthday = this.birthday;
             final Object other$birthday = other.birthday;
-            if(this$birthday == null ? other$birthday != null : !this$birthday.equals(other$birthday)) return false;
+            if(!Objects.equals(this$birthday, other$birthday)) return false;
             final Object this$day = this.day;
             final Object other$day = other.day;
-            if(this$day == null ? other$day != null : !this$day.equals(other$day)) return false;
+            if(!Objects.equals(this$day, other$day)) return false;
             final Object this$month = this.month;
             final Object other$month = other.month;
-            return this$month == null ? other$month == null : this$month.equals(other$month);
+            return Objects.equals(this$month, other$month);
         }
         
         public String toString() {

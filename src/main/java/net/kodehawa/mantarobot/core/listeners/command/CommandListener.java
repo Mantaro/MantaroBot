@@ -150,7 +150,7 @@ public class CommandListener implements EventListener {
                         data.setExperience(data.getExperience() + Math.round(random.nextInt(5)));
                         
                         //Apply some black magic.
-                        if(data.getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2)) {
+                        if(data.getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2D)) {
                             player.setLevel(player.getLevel() + 1);
                             //Check if the member is not null, just to be sure it happened in-between.
                             if(player.getLevel() > 1 && event.getGuild().getMemberById(player.getUserId()) != null) {

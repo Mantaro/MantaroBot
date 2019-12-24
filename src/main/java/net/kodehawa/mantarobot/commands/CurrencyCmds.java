@@ -410,7 +410,7 @@ public class CurrencyCmds {
                 boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
                 if(isMassive) {
                     try {
-                        itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
+                        itemNumber = Math.abs(Integer.parseInt(itemName.split(" ")[0]));
                         itemName = itemName.replace(args[0], "").trim();
                     } catch(NumberFormatException e) {
                         channel.sendMessageFormat(languageContext.get("commands.market.dump.invalid"), EmoteReference.ERROR).queue();
@@ -630,7 +630,7 @@ public class CurrencyCmds {
                 boolean isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
                 if(isMassive) {
                     try {
-                        itemNumber = Math.abs(Integer.valueOf(split));
+                        itemNumber = Math.abs(Integer.parseInt(split));
                         itemName = itemName.replace(args[0], "").trim();
                     } catch(NumberFormatException e) {
                         channel.sendMessageFormat(languageContext.get("commands.market.buy.invalid"), EmoteReference.ERROR).queue();

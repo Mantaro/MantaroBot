@@ -31,6 +31,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -278,20 +279,20 @@ public enum ProfileComponent {
             if(!other.canEqual(this)) return false;
             final Object this$user = this.user;
             final Object other$user = other.user;
-            if(this$user == null ? other$user != null : !this$user.equals(other$user)) return false;
+            if(!Objects.equals(this$user, other$user)) return false;
             final Object this$player = this.player;
             final Object other$player = other.player;
-            if(this$player == null ? other$player != null : !this$player.equals(other$player)) return false;
+            if(!Objects.equals(this$player, other$player)) return false;
             final Object this$seasonalPlayer = this.seasonalPlayer;
             final Object other$seasonalPlayer = other.seasonalPlayer;
-            if(this$seasonalPlayer == null ? other$seasonalPlayer != null : !this$seasonalPlayer.equals(other$seasonalPlayer))
+            if(!Objects.equals(this$seasonalPlayer, other$seasonalPlayer))
                 return false;
             final Object this$dbUser = this.dbUser;
             final Object other$dbUser = other.dbUser;
-            if(this$dbUser == null ? other$dbUser != null : !this$dbUser.equals(other$dbUser)) return false;
+            if(!Objects.equals(this$dbUser, other$dbUser)) return false;
             final Object this$badges = this.badges;
             final Object other$badges = other.badges;
-            return this$badges == null ? other$badges == null : this$badges.equals(other$badges);
+            return Objects.equals(this$badges, other$badges);
         }
         
         public String toString() {

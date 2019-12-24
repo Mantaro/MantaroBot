@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.beans.ConstructorProperties;
+import java.util.Objects;
 import java.util.UUID;
 
 public class PotionEffect {
@@ -148,12 +149,12 @@ public class PotionEffect {
         if(!other.canEqual(this)) return false;
         final Object this$uuid = this.uuid;
         final Object other$uuid = other.uuid;
-        if(this$uuid == null ? other$uuid != null : !this$uuid.equals(other$uuid)) return false;
+        if(!Objects.equals(this$uuid, other$uuid)) return false;
         if(this.potion != other.potion) return false;
         if(this.until != other.until) return false;
         final Object this$type = this.type;
         final Object other$type = other.type;
-        if(this$type == null ? other$type != null : !this$type.equals(other$type)) return false;
+        if(!Objects.equals(this$type, other$type)) return false;
         if(this.timesUsed != other.timesUsed) return false;
         return this.amountEquipped == other.amountEquipped;
     }

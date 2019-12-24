@@ -73,8 +73,6 @@ public class MantaroAudioManager {
     private final Map<String, GuildMusicManager> musicManagers;
     private final AudioPlayerManager playerManager;
     
-    private final Config config = MantaroData.config().get();
-    
     @SuppressWarnings("rawtypes")
     public MantaroAudioManager() {
         this.musicManagers = new ConcurrentHashMap<>();
@@ -84,6 +82,7 @@ public class MantaroAudioManager {
         YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager(true);
         
         //IPv6 rotation config start
+        Config config = MantaroData.config().get();
         if(!config.getIpv6Block().isEmpty()) {
             AbstractRoutePlanner planner;
             String block = config.getIpv6Block();

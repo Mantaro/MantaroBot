@@ -207,7 +207,7 @@ public class ItemCmds {
                         StringBuilder recipeString = new StringBuilder();
                         for(int i : castItem.getRecipeTypes()) {
                             Item item = Items.fromId(i);
-                            int amount = Integer.valueOf(splitRecipe[increment]) * amountSpecified;
+                            int amount = Integer.parseInt(splitRecipe[increment]) * amountSpecified;
                             
                             if(!playerInventory.containsItem(item)) {
                                 channel.sendMessageFormat(languageContext.get("commands.cast.no_item"), EmoteReference.ERROR, item.getName()).queue();
@@ -518,8 +518,8 @@ public class ItemCmds {
                 TextChannel channel = event.getChannel();
                 
                 List<Broken> repairableItems = Arrays.stream(Items.ALL)
-                                                       .filter(i -> i instanceof Broken)
-                                                       .map(i -> (Broken) i)
+                                                       .filter(Broken.class::isInstance)
+                                                       .map(Broken.class::cast)
                                                        .collect(Collectors.toList());
                 
                 List<MessageEmbed.Field> fields = new LinkedList<>();

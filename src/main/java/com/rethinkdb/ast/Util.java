@@ -79,7 +79,7 @@ public class Util {
         
         if(val instanceof List) {
             Arguments innerValues = new Arguments();
-            for(Object innerValue : (List) val) {
+            for(Object innerValue : (List<?>) val) {
                 innerValues.add(toReqlAst(innerValue, remainingDepth - 1));
             }
             return new MakeArray(innerValues, null);

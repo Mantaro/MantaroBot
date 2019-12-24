@@ -21,6 +21,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 public class LocalExperienceData {
     
     private String userId;
@@ -87,7 +89,7 @@ public class LocalExperienceData {
         if(!other.canEqual(this)) return false;
         final Object this$userId = this.getUserId();
         final Object other$userId = other.getUserId();
-        if(this$userId == null ? other$userId != null : !this$userId.equals(other$userId)) return false;
+        if(!Objects.equals(this$userId, other$userId)) return false;
         if(this.getExperience() != other.getExperience()) return false;
         return this.getLevel() == other.getLevel();
     }

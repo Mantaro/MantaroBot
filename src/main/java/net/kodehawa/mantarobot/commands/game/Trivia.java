@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 
 public class Trivia extends Game<String> {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger("Game [Trivia]");
-    private final String OTDB_URL = "https://opentdb.com/api.php?amount=1&encode=base64";
+    private static final String OTDB_URL = "https://opentdb.com/api.php?amount=1&encode=base64";
     private final int maxAttempts = 2;
     private TriviaDifficulty difficulty;
     private List<String> expectedAnswer = new ArrayList<>();

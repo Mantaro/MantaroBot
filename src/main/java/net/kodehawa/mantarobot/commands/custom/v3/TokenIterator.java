@@ -68,8 +68,6 @@ public class TokenIterator implements Iterator<Token> {
         private final StringBuilder current = new StringBuilder();
         private final List<Token> out = new ArrayList<>();
         private final String source;
-        private int line = 1;
-        private int columnStart = 0;
         private int i = 0;
         
         private Lexer(String source) {
@@ -89,6 +87,8 @@ public class TokenIterator implements Iterator<Token> {
         }
         
         private Position position(int from, int to) {
+            int line = 1;
+            int columnStart = 0;
             return new Position(line, from - columnStart + 1, from, to);
         }
         

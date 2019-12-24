@@ -45,6 +45,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 
@@ -197,7 +198,7 @@ public class Utils {
     public static Iterable<String> iterate(Pattern pattern, String string) {
         return () -> {
             Matcher matcher = pattern.matcher(string);
-            return new Iterator<String>() {
+            return new Iterator<>() {
                 @Override
                 public boolean hasNext() {
                     return matcher.find();
@@ -551,10 +552,11 @@ public class Utils {
     }
     
     private static Iterable<String> iterate(Matcher matcher) {
-        return new Iterable<String>() {
+        return new Iterable<>() {
+            @NotNull
             @Override
             public Iterator<String> iterator() {
-                return new Iterator<String>() {
+                return new Iterator<>() {
                     @Override
                     public boolean hasNext() {
                         return matcher.find();
@@ -584,9 +586,6 @@ public class Utils {
             String l = string.substring(0, string.length() - 1);
             TimeUnit unit;
             switch(string.charAt(string.length() - 1)) {
-                case 's':
-                    unit = TimeUnit.SECONDS;
-                    break;
                 case 'm':
                     unit = TimeUnit.MINUTES;
                     break;
@@ -596,6 +595,7 @@ public class Utils {
                 case 'd':
                     unit = TimeUnit.DAYS;
                     break;
+                case 's':
                 default:
                     unit = TimeUnit.SECONDS;
                     break;

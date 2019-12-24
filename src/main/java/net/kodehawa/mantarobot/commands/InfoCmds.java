@@ -116,6 +116,7 @@ public class InfoCmds {
         });
     }
     
+    @SuppressWarnings("UnstableApiUsage")
     @Subscribe
     public void language(CommandRegistry cr) {
         cr.register("lang", new SimpleCommand(Category.INFO) {
@@ -268,7 +269,7 @@ public class InfoCmds {
                                                           .build();
         
         Random r = new Random();
-        List<String> jokes = Collections.unmodifiableList(Arrays.asList(
+        List<String> jokes = List.of(
                 "Yo damn I heard you like help, because you just issued the help command to get the help about the help command.",
                 "Congratulations, you managed to use the help command.",
                 "Helps you to help yourself.",
@@ -276,7 +277,7 @@ public class InfoCmds {
                 "A help helping helping helping help.",
                 "I wonder if this is what you are looking for...",
                 "Helping you help the world."
-        ));
+        );
         
         cr.register("help", new SimpleCommand(Category.INFO) {
             @Override

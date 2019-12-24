@@ -82,9 +82,7 @@ public class InvestigateCmd {
             tc.getIterableHistory().takeAsync(200)
                     .thenAccept(messages -> {
                         List<InvestigatedMessage> res = investigation.get(tc);
-                        messages.forEach(m -> {
-                            res.add(0, InvestigatedMessage.from(m));
-                        });
+                        messages.forEach(m -> res.add(0, InvestigatedMessage.from(m)));
                         f.complete(null);
                     })
                     .exceptionally(e -> {
@@ -93,9 +91,7 @@ public class InvestigateCmd {
                     });
             return f;
         }).toArray(CompletableFuture[]::new))
-                .thenRun(() -> {
-                    investigation.result(guild, event);
-                })
+                .thenRun(() -> investigation.result(guild, event))
                 .exceptionally(e -> {
                     e.printStackTrace();
                     event.getChannel().sendMessage("Unable to execute: " + e).queue();
@@ -111,9 +107,7 @@ public class InvestigateCmd {
         EmbedBuilder eb = new EmbedBuilder()
                                   .setTitle("Please pick a guild")
                                   .setColor(Color.PINK);
-        DiscordUtils.selectList(event, user.getMutualGuilds(), Guild::toString, s -> eb.setDescription(s).build(), g -> {
-            investigateGuild(event, g, file);
-        });
+        DiscordUtils.selectList(event, user.getMutualGuilds(), Guild::toString, s -> eb.setDescription(s).build(), g -> investigateGuild(event, g, file));
     }
     
     private static void investigateChannel(GuildMessageReceivedEvent event, TextChannel channel, boolean file) {
@@ -125,13 +119,9 @@ public class InvestigateCmd {
         channel.getIterableHistory().takeAsync(200)
                 .thenAccept(messages -> {
                     List<InvestigatedMessage> res = investigation.get(channel);
-                    messages.forEach(m -> {
-                        res.add(0, InvestigatedMessage.from(m));
-                    });
+                    messages.forEach(m -> res.add(0, InvestigatedMessage.from(m)));
                 })
-                .thenRun(() -> {
-                    investigation.result(channel.getGuild(), event);
-                })
+                .thenRun(() -> investigation.result(channel.getGuild(), event))
                 .exceptionally(e -> {
                     e.printStackTrace();
                     event.getChannel().sendMessage("Unable to execute: " + e).queue();
@@ -209,9 +199,7 @@ public class InvestigateCmd {
         public void result(Guild target, GuildMessageReceivedEvent event) {
             if(file) {
                 JSONObject channels = new JSONObject();
-                parts.forEach((channelId, channel) -> {
-                    channels.put(channelId, channel.toJson());
-                });
+                parts.forEach((channelId, channel) -> channels.put(channelId, channel.toJson()));
                 JSONObject object = new JSONObject()
                                             .put("name", target.getName())
                                             .put("id", target.getId())

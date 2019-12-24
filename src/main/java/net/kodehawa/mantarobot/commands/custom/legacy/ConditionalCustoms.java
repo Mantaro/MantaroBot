@@ -27,7 +27,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
-@SuppressWarnings("Duplicates")
 public class ConditionalCustoms {
     private static final Pattern GETTER_MODIFIER = Pattern.compile("@[a-z]+\\{.*?}", Pattern.MULTILINE),
             FUNCNAME = Pattern.compile("\\{", Pattern.MULTILINE),

@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayerData {
@@ -315,49 +316,49 @@ public class PlayerData {
         if(this.getExperience() != other.getExperience()) return false;
         final Object this$badges = this.getBadges();
         final Object other$badges = other.getBadges();
-        if(this$badges == null ? other$badges != null : !this$badges.equals(other$badges)) return false;
+        if(!Objects.equals(this$badges, other$badges)) return false;
         if(this.getDailyStreak() != other.getDailyStreak()) return false;
         final Object this$description = this.getDescription();
         final Object other$description = other.getDescription();
-        if(this$description == null ? other$description != null : !this$description.equals(other$description))
+        if(!Objects.equals(this$description, other$description))
             return false;
         if(this.getGamesWon() != other.getGamesWon()) return false;
         if(this.getLastDailyAt() != other.getLastDailyAt()) return false;
         if(this.getLockedUntil() != other.getLockedUntil()) return false;
         final Object this$marriedSince = this.getMarriedSince();
         final Object other$marriedSince = other.getMarriedSince();
-        if(this$marriedSince == null ? other$marriedSince != null : !this$marriedSince.equals(other$marriedSince))
+        if(!Objects.equals(this$marriedSince, other$marriedSince))
             return false;
         final Object this$marriedWith = this.getMarriedWith();
         final Object other$marriedWith = other.getMarriedWith();
-        if(this$marriedWith == null ? other$marriedWith != null : !this$marriedWith.equals(other$marriedWith))
+        if(!Objects.equals(this$marriedWith, other$marriedWith))
             return false;
         if(this.getMoneyOnBank() != other.getMoneyOnBank()) return false;
         final Object this$mainBadge = this.getMainBadge();
         final Object other$mainBadge = other.getMainBadge();
-        if(this$mainBadge == null ? other$mainBadge != null : !this$mainBadge.equals(other$mainBadge)) return false;
+        if(!Objects.equals(this$mainBadge, other$mainBadge)) return false;
         if(this.getMarketUsed() != other.getMarketUsed()) return false;
         if(this.isShowBadge() != other.isShowBadge()) return false;
         final Object this$activePotion = this.getActivePotion();
         final Object other$activePotion = other.getActivePotion();
-        if(this$activePotion == null ? other$activePotion != null : !this$activePotion.equals(other$activePotion))
+        if(!Objects.equals(this$activePotion, other$activePotion))
             return false;
         final Object this$activeBuff = this.getActiveBuff();
         final Object other$activeBuff = other.getActiveBuff();
-        if(this$activeBuff == null ? other$activeBuff != null : !this$activeBuff.equals(other$activeBuff)) return false;
+        if(!Objects.equals(this$activeBuff, other$activeBuff)) return false;
         if(this.getWaifuCachedValue() != other.getWaifuCachedValue()) return false;
         final Object this$profileComponents = this.getProfileComponents();
         final Object other$profileComponents = other.getProfileComponents();
-        if(this$profileComponents == null ? other$profileComponents != null : !this$profileComponents.equals(other$profileComponents))
+        if(!Objects.equals(this$profileComponents, other$profileComponents))
             return false;
         final Object this$profilePets = this.getProfilePets();
         final Object other$profilePets = other.getProfilePets();
-        if(this$profilePets == null ? other$profilePets != null : !this$profilePets.equals(other$profilePets))
+        if(!Objects.equals(this$profilePets, other$profilePets))
             return false;
         if(this.getPetSlots() != other.getPetSlots()) return false;
         final Object this$pets = this.getPets();
         final Object other$pets = other.getPets();
-        return this$pets == null ? other$pets == null : this$pets.equals(other$pets);
+        return Objects.equals(this$pets, other$pets);
     }
     
     public String toString() {

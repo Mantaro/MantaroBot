@@ -17,6 +17,8 @@
 
 package net.kodehawa.mantarobot.db.entities.helpers;
 
+import java.util.Objects;
+
 public class CustomCommandData {
     private String owner = "";
     private boolean nsfw = false;
@@ -60,7 +62,7 @@ public class CustomCommandData {
         if(!other.canEqual(this)) return false;
         final Object this$owner = this.getOwner();
         final Object other$owner = other.getOwner();
-        if(this$owner == null ? other$owner != null : !this$owner.equals(other$owner)) return false;
+        if(!Objects.equals(this$owner, other$owner)) return false;
         return this.isNsfw() == other.isNsfw();
     }
     

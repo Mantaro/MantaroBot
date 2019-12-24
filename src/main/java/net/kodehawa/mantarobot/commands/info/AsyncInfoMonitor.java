@@ -27,9 +27,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class AsyncInfoMonitor {
-    private static final ScheduledExecutorService POOL = Executors.newSingleThreadScheduledExecutor(task -> {
-        return new Thread(task, "AsyncInfoMonitor");
-    });
+    private static final ScheduledExecutorService POOL = Executors.newSingleThreadScheduledExecutor(
+            task -> new Thread(task, "AsyncInfoMonitor")
+    );
     
     private static final double gb = 1024 * 1024 * 1024;
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(AsyncInfoMonitor.class);
@@ -104,7 +104,7 @@ public class AsyncInfoMonitor {
         OperatingSystemMXBean os = ManagementFactory.getOperatingSystemMXBean();
         ThreadMXBean thread = ManagementFactory.getThreadMXBean();
         Runtime r = Runtime.getRuntime();
-        int mb = 0x100000;
+        double mb = 0x100000;
         
         lastSystemTime = System.nanoTime();
         lastProcessCpuTime = calculateProcessCpuTime(os);

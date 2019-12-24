@@ -17,6 +17,8 @@
 
 package net.kodehawa.mantarobot.db.entities.helpers;
 
+import java.util.Objects;
+
 //Just in case we need more stuff here. Don't want to run into issues later down the road.
 public class MarriageData {
     private long marriageCreationMillis;
@@ -64,7 +66,7 @@ public class MarriageData {
         if(this.getMarriageCreationMillis() != other.getMarriageCreationMillis()) return false;
         final Object this$loveLetter = this.getLoveLetter();
         final Object other$loveLetter = other.getLoveLetter();
-        return this$loveLetter == null ? other$loveLetter == null : this$loveLetter.equals(other$loveLetter);
+        return Objects.equals(this$loveLetter, other$loveLetter);
     }
     
     public String toString() {

@@ -125,7 +125,7 @@ public class MusicOptions extends OptionHandler {
                     GuildData guildData = dbGuild.getData();
                     try {
                         int finalSize = Integer.parseInt(args[0]);
-                        int applySize = finalSize >= 300 ? 300 : finalSize;
+                        int applySize = Math.min(finalSize, 300);
                         guildData.setMusicQueueSizeLimit((long) applySize);
                         dbGuild.save();
                         event.getChannel().sendMessageFormat(lang.get("options.music_queuelimit.success"), EmoteReference.MEGA, applySize).queue();
