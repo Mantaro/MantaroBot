@@ -34,7 +34,7 @@ public class Carbonitex {
     
     public void handle() {
         if(carbonToken != null) {
-            long newC = MantaroBot.getInstance().getGuildCache().size();
+            long newC = MantaroBot.getInstance().getShardManager().getGuildCache().size();
             try {
                 RequestBody body = new FormBody.Builder()
                                            .add("key", carbonToken)

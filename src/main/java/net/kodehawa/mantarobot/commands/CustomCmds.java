@@ -461,7 +461,9 @@ public class CustomCmds {
                     return;
                 }
                 
-                Map<String, Guild> mapped = MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).stream()
+                Map<String, Guild> mapped = MantaroBot.getInstance()
+                                                    .getShardManager()
+                                                    .getMutualGuilds(event.getAuthor()).stream()
                                                     .collect(Collectors.toMap(ISnowflake::getId, g -> g));
                 
                 List<Pair<Guild, CustomCommand>> filtered = db
@@ -521,7 +523,7 @@ public class CustomCmds {
     
                 CustomCommand command = db().getCustomCommand(event.getGuild(), content);
                 String owner = command.getData().getOwner();
-                User user = owner.isEmpty() ? null : MantaroBot.getInstance().getUserCache().getElementById(owner);
+                User user = owner.isEmpty() ? null : MantaroBot.getInstance().getShardManager().getUserCache().getElementById(owner);
                 event.getChannel().sendMessage(new EmbedBuilder()
                                                        .setAuthor("Custom Command Information for " + content, null, event.getAuthor().getEffectiveAvatarUrl())
                                                        .setDescription(

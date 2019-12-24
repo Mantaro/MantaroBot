@@ -56,6 +56,7 @@ import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.commands.info.stats.manager.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.GuildStatsManager.LoggedEvent;
 import net.kodehawa.mantarobot.core.MantaroCore;
+import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -69,6 +70,7 @@ import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 import java.security.SecureRandom;
@@ -162,9 +164,11 @@ public class MantaroListener implements EventListener {
     }
     
     @Override
-    public void onEvent(GenericEvent event) {
+    public void onEvent(@NotNull GenericEvent event) {
         if(event instanceof ShardMonitorEvent) {
-            if(MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getShardEventManager().getLastJDAEventTimeDiff() > 50000)
+            //we can't use Event#getJDA because ShardMonitorEvent has no JDA instance
+            var jda = MantaroBot.getInstance().getShard(shardId).getJDA();
+            if(((MantaroEventManager)jda.getEventManager()).getLastJDAEventTimeDiff() > 50000)
                 return;
             
             ((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.MANTARO_LISTENER);

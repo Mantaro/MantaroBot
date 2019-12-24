@@ -25,7 +25,7 @@ import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.events.EventUtils;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
-import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
+import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.Prometheus;
@@ -37,6 +37,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * This class acts as a Watcher for all the {@link MantaroShard} instances.
@@ -64,10 +65,7 @@ public class ShardWatcher implements Runnable {
     //The scheduler that manages the wait between one shard being resumed and the backoff period to check if it successfully revived.
     private final ScheduledExecutorService RESUME_WAITER = Executors.newScheduledThreadPool(1, new ThreadFactoryBuilder().setNameFormat("Mantaro-ResumeWaiter Thread-%d").build());
     //The queue where shards that didn't get revived used a RESUME get added. Here they get completely scrapped and re-built when they get polled from the queue.
-    private final ConcurrentLinkedQueue<MantaroShard> RESTART_QUEUE = new ConcurrentLinkedQueue<>();
-    
-    //Mantaro's sharded instance
-    private ShardedMantaro shardedMantaro;
+    private final ConcurrentLinkedQueue<Shard> RESTART_QUEUE = new ConcurrentLinkedQueue<>();
     
     public ShardWatcher() {
         Prometheus.THREAD_POOL_COLLECTOR.add("shard-watcher-thread-pool", THREAD_POOL);
@@ -81,7 +79,7 @@ public class ShardWatcher implements Runnable {
         //Executes the restart queue handler. For the actual logic behind all this, check the next while(true) loop.
         THREAD_POOL.execute(() -> {
             while(true) {
-                MantaroShard shard = RESTART_QUEUE.poll();
+                Shard shard = RESTART_QUEUE.poll();
                 if(shard == null) {
                     //poll the queue every 10 seconds
                     try {
@@ -102,7 +100,7 @@ public class ShardWatcher implements Runnable {
                 
                 try {
                     //Reboot the shard.
-                    shard.start(true);
+                    MantaroBot.getInstance().getShardManager().restart(shard.getId());
                 } catch(Exception e) {
                     //If the shard wasn't able to restart by itself, alert us so we can reboot manually later.
                     LogUtils.shard(String.format("Shard %d was unable to be restarted: %s", shard.getId(), e));
@@ -124,13 +122,9 @@ public class ShardWatcher implements Runnable {
                 Thread.sleep(wait);
                 MantaroEventManager.getLog().info("Checking shards...");
                 
-                //Just in case...
-                if(shardedMantaro == null)
-                    shardedMantaro = MantaroBot.getInstance().getShardedMantaro();
-                
                 //Get and propagate the shard event.
                 //This event will propagate over all Mantaro-specific listeners, and see if the shards are responding accordingly.
-                ShardMonitorEvent sme = new ShardMonitorEvent(shardedMantaro.getTotalShards());
+                ShardMonitorEvent sme = new ShardMonitorEvent(MantaroBot.getInstance().getShardManager().getShardsTotal());
                 EventUtils.propagateEvent(sme);
                 
                 //Start the procedure...
@@ -144,17 +138,18 @@ public class ShardWatcher implements Runnable {
                     //Under the hood this basically calls for a RESUME JDA instance and if it fails, it adds it to the restart queue to replace it with a completely new one.
                     for(int id : dead) {
                         try {
-                            MantaroShard shard = MantaroBot.getInstance().getShard(id);
+                            Shard shard = MantaroBot.getInstance().getShard(id);
                             
+                            var jda = shard.getNullableJDA();
                             //Silently ignore this.
-                            if(shard.getStatus() == JDA.Status.SHUTDOWN) {
+                            if(jda == null || jda.getStatus() == JDA.Status.SHUTDOWN) {
                                 continue;
                             }
                             
                             //If we are dealing with a shard reconnecting, don't make its job harder by rebooting it twice.
                             //But, if the shard has been inactive for too long, we're better off scrapping this session as the shard might be stuck on connecting.
-                            if((shard.getStatus() == JDA.Status.RECONNECT_QUEUED || shard.getStatus() == JDA.Status.ATTEMPTING_TO_RECONNECT) &&
-                                       shard.getShardEventManager().getLastJDAEventTimeDiff() < 400000) {
+                            if((jda.getStatus() == JDA.Status.RECONNECT_QUEUED || jda.getStatus() == JDA.Status.ATTEMPTING_TO_RECONNECT) &&
+                                       ((MantaroEventManager)jda.getEventManager()).getLastJDAEventTimeDiff() < 400000) {
                                 LogUtils.shard(String.format("Skipping shard %d due to it being currently reconnecting to the websocket or was shutdown manually...", id));
                                 continue;
                             }
@@ -165,7 +160,7 @@ public class ShardWatcher implements Runnable {
                             ((JDAImpl) (shard.getJDA())).getClient().close(4000);
                             
                             RESUME_WAITER.schedule(() -> {
-                                if(shard.getShardEventManager().getLastJDAEventTimeDiff() > 27000) {
+                                if(((MantaroEventManager)jda.getEventManager()).getLastJDAEventTimeDiff() > 27000) {
                                     RESTART_QUEUE.add(shard);
                                 }
                             }, 30, TimeUnit.SECONDS);
@@ -181,12 +176,17 @@ public class ShardWatcher implements Runnable {
                 } else {
                     //yay
                     MantaroEventManager.getLog().info("No dead shards found");
-                    long ping = MantaroBot.getInstance().getGatewayPing();
+                    long ping = (long)MantaroBot.getInstance().getShardManager()
+                                              .getShards().stream().mapToLong(JDA::getGatewayPing).average()
+                                              .orElse(-1);
                     
                     //We might have a few soft-dead shards on here... (or internet went to shit)
                     if(ping > 850) {
                         LogUtils.shard(String.format("No dead shards found, but average ping is high (%dms). Ping breakdown: %s",
-                                ping, Arrays.toString(MantaroBot.getInstance().getPings())));
+                                ping, MantaroBot.getInstance().getShardManager()
+                                              .getShards().stream().mapToLong(JDA::getGatewayPing)
+                                              .mapToObj(String::valueOf).collect(Collectors.joining(", "))
+                        ));
                     }
                 }
             } catch(InterruptedException e) {

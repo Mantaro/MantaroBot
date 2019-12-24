@@ -13,7 +13,9 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ScheduledFuture;
@@ -61,22 +63,37 @@ public class Shard {
         };
     }
     
+    @CheckReturnValue
     public int getId() {
         return id;
     }
     
+    @Nonnull
+    @CheckReturnValue
     public Cache<Long, Optional<CachedMessage>> getMessageCache() {
         return messageCache;
     }
     
+    @Nonnull
+    @CheckReturnValue
     public MantaroEventManager getManager() {
         return manager;
     }
     
+    @Nonnull
+    @CheckReturnValue
     public EventListener getListener() {
         return listener;
     }
     
+    @Nullable
+    @CheckReturnValue
+    public JDA getNullableJDA() {
+        return jda;
+    }
+    
+    @Nonnull
+    @CheckReturnValue
     public JDA getJDA() {
         return Objects.requireNonNull(jda, "Shard has not been started yet");
     }

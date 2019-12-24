@@ -62,7 +62,7 @@ public class InvestigateCmd {
                 investigateUser(event, MantaroBot.getInstance().getUserById(id), file);
                 return;
             case CHANNEL:
-                investigateChannel(event, MantaroBot.getInstance().getTextChannelById(id), file);
+                investigateChannel(event, MantaroBot.getInstance().getShardManager().getTextChannelById(id), file);
                 return;
             default:
                 throw new AssertionError();

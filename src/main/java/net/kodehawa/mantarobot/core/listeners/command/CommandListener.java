@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
+import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -46,6 +47,7 @@ import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 import java.util.Optional;
@@ -86,9 +88,10 @@ public class CommandListener implements EventListener {
     }
     
     @Override
-    public void onEvent(GenericEvent event) {
+    public void onEvent(@NotNull GenericEvent event) {
         if(event instanceof ShardMonitorEvent) {
-            if(MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getShardEventManager().getLastJDAEventTimeDiff() > 50000)
+            var jda = MantaroBot.getInstance().getShard(shardId).getJDA();
+            if(((MantaroEventManager)jda.getEventManager()).getLastJDAEventTimeDiff() > 50000)
                 return;
             
             //Stopped receiving message events?

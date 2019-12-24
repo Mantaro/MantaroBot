@@ -21,10 +21,10 @@ import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lavalink.client.io.LavalinkLoadBalancer;
 import lavalink.client.io.jda.JdaLavalink;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.MiscUtil;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.moderation.MuteTask;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
@@ -36,7 +36,6 @@ import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
-import net.kodehawa.mantarobot.core.shard.jda.ShardedJDA;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogFilter;
@@ -48,12 +47,9 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.notfab.caching.client.CacheClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.apache.commons.collections4.iterators.ArrayIterator;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nonnull;
 import java.net.ConnectException;
 import java.net.URI;
 import java.time.Duration;
@@ -61,7 +57,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executors;
@@ -221,8 +216,8 @@ public class MantaroBot {
         return getShardManager().getGuildById(id);
     }
     
-    public MantaroShard getShard(int id) {
-        return Arrays.stream(shardedMantaro.getShards()).filter(Objects::nonNull).filter(shard -> shard.getId() == id).findFirst().orElse(null);
+    public Shard getShard(int id) {
+        return core.getShard(id);
     }
     
     public void restartShard(int shardId, boolean force) {
@@ -235,12 +230,12 @@ public class MantaroBot {
         }
     }
     
-    public MantaroShard getShardForGuild(String guildId) {
-        return getShardForGuild(Long.parseLong(guildId));
+    public Shard getShardForGuild(String guildId) {
+        return getShardForGuild(MiscUtil.parseSnowflake(guildId));
     }
     
-    public MantaroShard getShardForGuild(long guildId) {
-        return getShard((int) ((guildId >> 22) % shardedMantaro.getTotalShards()));
+    public Shard getShardForGuild(long guildId) {
+        return getShard((int) ((guildId >> 22) % getShardManager().getShardsTotal()));
     }
     
     public List<MantaroShard> getShardList() {
@@ -291,10 +286,6 @@ public class MantaroBot {
     
     public DiscordBotsAPI getDiscordBotsAPI() {
         return this.discordBotsAPI;
-    }
-    
-    public ShardedMantaro getShardedMantaro() {
-        return this.shardedMantaro;
     }
     
     public BirthdayCacher getBirthdayCacher() {

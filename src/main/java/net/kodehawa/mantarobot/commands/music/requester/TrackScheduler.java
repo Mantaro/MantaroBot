@@ -193,15 +193,11 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         queue.addAll(tempList);
     }
     
-    public MantaroShard getShard() {
-        return MantaroBot.getInstance().getShard(getGuild().getJDA().getShardInfo().getShardId());
-    }
-    
     public TextChannel getRequestedChannelParsed() {
         if(requestedChannel == 0)
             return null;
         
-        return MantaroBot.getInstance().getTextChannelById(requestedChannel);
+        return MantaroBot.getInstance().getShardManager().getTextChannelById(requestedChannel);
     }
     
     public void stop() {

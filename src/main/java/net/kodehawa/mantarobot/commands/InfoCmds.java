@@ -632,7 +632,9 @@ public class InfoCmds {
                         prettyDisplay(languageContext.get("commands.userinfo.account_age"),
                                 TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getTimeCreated().toInstant().toEpochMilli())
                                         + " " + languageContext.get("general.days")),
-                        prettyDisplay(languageContext.get("commands.userinfo.mutual_guilds"), String.valueOf(MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).size())),
+                        prettyDisplay(languageContext.get("commands.userinfo.mutual_guilds"), String.valueOf(MantaroBot.getInstance()
+                                                                                                                     .getShardManager()
+                                                                                                                     .getMutualGuilds(event.getAuthor()).size())),
                         prettyDisplay(languageContext.get("commands.userinfo.vc"),
                                 member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : languageContext.get("general.none")),
                         prettyDisplay(languageContext.get("commands.userinfo.color"),

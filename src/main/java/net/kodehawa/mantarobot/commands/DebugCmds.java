@@ -22,11 +22,8 @@ import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -40,6 +37,7 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
+import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -69,10 +67,14 @@ public class DebugCmds {
         cr.register("info", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                final MantaroBot mantaroBot = MantaroBot.getInstance();
+                var mantaroBot = MantaroBot.getInstance();
                 
-                final SnowflakeCacheView<Guild> guilds = mantaroBot.getGuildCache();
-                final SnowflakeCacheView<User> users = mantaroBot.getUserCache();
+                var guilds = mantaroBot.getShardManager().getGuildCache();
+                var users = mantaroBot.getShardManager().getUserCache();
+                var responseTotal = mantaroBot.getShardManager().getShards()
+                        .stream()
+                        .mapToLong(JDA::getResponseTotal)
+                        .sum();
                 
                 event.getChannel().sendMessage("```prolog\n"
                                                        + " --------- Technical Information --------- \n\n"
@@ -80,14 +82,14 @@ public class DebugCmds {
                                                        + "Bot Version: " + MantaroInfo.VERSION + "\n"
                                                        + "JDA Version: " + JDAInfo.VERSION + "\n"
                                                        + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
-                                                       + "API Responses: " + String.format("%,d", mantaroBot.getResponseTotal()) + "\n"
+                                                       + "API Responses: " + String.format("%,d", responseTotal) + "\n"
                                                        + "CPU Usage: " + String.format("%.2f", getInstanceCPUUsage()) + "%" + "\n"
                                                        + "CPU Cores: " + getAvailableProcessors() + "\n"
                                                        + "Shard Info: " + event.getJDA().getShardInfo()
                                                        + "\n\n --------- Mantaro Information --------- \n\n"
                                                        + "Guilds: " + String.format("%,d", guilds.size()) + "\n"
                                                        + "Users: " + String.format("%,d", users.size()) + "\n"
-                                                       + "Shards: " + mantaroBot.getShardedMantaro().getTotalShards() + " (Current: " + (mantaroBot.getShardForGuild(event.getGuild().getId()).getId()) + ")" + "\n"
+                                                       + "Shards: " + mantaroBot.getShardManager().getShardsTotal() + " (Current: " + (mantaroBot.getShardForGuild(event.getGuild().getId()).getId()) + ")" + "\n"
                                                        + "Threads: " + String.format("%,d", Thread.activeCount()) + "\n"
                                                        + "Executed Commands: " + String.format("%,d", CommandListener.getCommandTotalInt()) + "\n"
                                                        + "Logs: " + String.format("%,d", MantaroListener.getLogTotalInt()) + "\n"
@@ -110,7 +112,8 @@ public class DebugCmds {
         cr.register("shard", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                event.getChannel().sendMessageFormat(languageContext.get("commands.shard.info"), event.getJDA().getShardInfo() == null ? 0 : event.getJDA().getShardInfo().getShardId()).queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.shard.info"),
+                        event.getJDA().getShardInfo().getShardId()).queue();
             }
             
             @Override
@@ -175,7 +178,7 @@ public class DebugCmds {
                     }
                     
                     JDA jda = shard.getJDA();
-                    int queueSize = MantaroShard.QUEUE_SIZE.apply(jda);
+                    int queueSize = Shard.QUEUE_SIZE.apply(jda);
                     if(queueSize > 100) {
                         bigqueue++;
                     }
@@ -228,7 +231,9 @@ public class DebugCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 MantaroBot bot = MantaroBot.getInstance();
-                long ping = bot.getGatewayPing();
+                long ping = (long)bot.getShardManager()
+                        .getShards().stream().mapToLong(JDA::getGatewayPing).average()
+                        .orElse(-1);
                 List<MantaroShard> shards = bot.getShardList();
                 StringBuilder stringBuilder = new StringBuilder();
                 int dead = 0;
@@ -282,8 +287,8 @@ public class DebugCmds {
                                 .filter(shard -> shard.getGatewayPing() > 350)
                                 .map(shard -> shard.getId() + ": " + shard.getGatewayPing() + "ms")
                                 .collect(Collectors.joining(", ")),
-                        dead, reconnecting, connecting, high, String.format("%,d", bot.getGuildCache().size()),
-                        String.format("%,d", bot.getUserCache().size()), bot.getShardList().size()));
+                        dead, reconnecting, connecting, high, String.format("%,d", bot.getShardManager().getGuildCache().size()),
+                        String.format("%,d", bot.getShardManager().getUserCache().size()), bot.getShardList().size()));
                 
                 event.getChannel().sendMessage(new MessageBuilder()
                                                        .append(EmoteReference.OK)
