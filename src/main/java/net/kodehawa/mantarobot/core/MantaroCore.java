@@ -17,12 +17,16 @@
 
 package net.kodehawa.mantarobot.core;
 
+import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.sentry.Sentry;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.SessionController;
@@ -32,6 +36,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
+import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
@@ -40,13 +45,17 @@ import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.core.shard.jda.BucketedController;
+import net.kodehawa.mantarobot.core.shard.watcher.ShardWatcher;
 import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
+import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
 import org.slf4j.Logger;
 
+import javax.annotation.Nonnull;
 import javax.security.auth.login.LoginException;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
@@ -56,8 +65,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.core.LoadState.LOADED;
@@ -128,11 +139,13 @@ public class MantaroCore {
         }
     
         try {
+            var listener = new ShardStartListener();
             var builder = new DefaultShardManagerBuilder(config.token)
                                   .setSessionController(controller)
                                   .addEventListeners(
                                           VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
-                                          ReactionOperations.listener(), MantaroBot.getInstance().getLavalink()
+                                          ReactionOperations.listener(), MantaroBot.getInstance().getLavalink(),
+                                          listener
                                   )
                                   .addEventListenerProviders(List.of(
                                           id -> new CommandListener(id, commandProcessor, threadPool, getShard(id).getMessageCache()),
@@ -161,8 +174,15 @@ public class MantaroCore {
                     builder.setShardsTotal(ExtraRuntimeOptions.SHARD_COUNT.orElse(-1));
                 }
             }
+            MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
+            log.info("Spawning shards...");
+            var start = System.currentTimeMillis();
             shardManager = builder.build();
-        } catch(LoginException e) {
+            listener.latch.await();
+            var elapsed = System.currentTimeMillis() - start;
+            shardManager.removeEventListener(listener);
+            startPostLoadProcedure(elapsed);
+        } catch(LoginException | InterruptedException e) {
             throw new IllegalStateException(e);
         }
     
@@ -245,5 +265,60 @@ public class MantaroCore {
     
     public EventBus getShardEventBus() {
         return this.shardEventBus;
+    }
+    
+    private void startPostLoadProcedure(long elapsed) {
+        MantaroBot bot = MantaroBot.getInstance();
+        
+        //Start the reconnect queue.
+        bot.getCore().markAsReady();
+        
+        System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
+        LogUtils.shard(String.format("Loaded all %d (of a total of %d) shards in %d seconds.", shardManager.getShardsRunning(),
+                shardManager.getShardsTotal(), elapsed / 1000));
+        log.info("Loaded all shards successfully... Starting ShardWatcher! Status: {}", MantaroCore.getLoadState());
+        
+        new Thread(new ShardWatcher(), "ShardWatcherThread").start();
+        bot.getCore().getShardEventBus().post(new PostLoadEvent());
+        
+        startUpdaters();
+        bot.startCheckingBirthdays();
+    }
+    
+    private void startUpdaters() {
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Carbonitex post task"))
+                .scheduleAtFixedRate(Carbonitex::handle, 0, 30, TimeUnit.MINUTES);
+        
+        if(config.dbotsorgToken != null) {
+            var discordBotsAPI = new DiscordBotsAPI.Builder()
+                                         .setToken(config.dbotsorgToken)
+                                         .build();
+            Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "dbots.org update thread")).scheduleAtFixedRate(() -> {
+                try {
+                    long count = MantaroBot.getInstance().getShardManager().getGuildCache().size();
+                    int[] shards = MantaroBot.getInstance().getShardList().stream().mapToInt(shard -> (int) shard.getJDA().getGuildCache().size()).toArray();
+                    discordBotsAPI.postStats(shards).execute();
+                    log.debug("Updated server count ({}) for discordbots.org", count);
+                } catch(Exception ignored) {
+                }
+            }, 0, 1, TimeUnit.HOURS);
+        } else {
+            log.warn("discordbots.org token not set in config, cannot start posting stats!");
+        }
+    }
+    
+    private static class ShardStartListener implements EventListener {
+        private final CountDownLatch latch = new CountDownLatch(1);
+        
+        @Override
+        public void onEvent(@Nonnull GenericEvent event) {
+            if(event instanceof ReadyEvent) {
+                var sm = event.getJDA().getShardManager();
+                if(sm == null) throw new AssertionError();
+                if(sm.getShardsQueued() == 0) {
+                    latch.countDown();
+                }
+            }
+        }
     }
 }

@@ -18,23 +18,19 @@
 package net.kodehawa.mantarobot.services;
 
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.utils.Utils;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import org.slf4j.Logger;
 
 import static net.kodehawa.mantarobot.data.MantaroData.config;
 
 public class Carbonitex {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(Carbonitex.class);
-    private final String carbonToken = config().get().carbonToken;
-    private final OkHttpClient httpClient = new OkHttpClient();
-    
-    public void handle() {
+    public static void handle() {
+        var carbonToken = config().get().carbonToken;
         if(carbonToken != null) {
-            long newC = MantaroBot.getInstance().getShardManager().getGuildCache().size();
+            var newC = MantaroBot.getInstance().getShardManager().getGuildCache().size();
             try {
                 RequestBody body = new FormBody.Builder()
                                            .add("key", carbonToken)
@@ -46,7 +42,7 @@ public class Carbonitex {
                                           .post(body)
                                           .build();
                 
-                Response response = httpClient.newCall(request).execute();
+                Response response = Utils.httpClient.newCall(request).execute();
                 response.close();
             } catch(Exception ignored) {
             }
