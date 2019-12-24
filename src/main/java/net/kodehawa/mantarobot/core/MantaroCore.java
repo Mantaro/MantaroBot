@@ -27,6 +27,7 @@ import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.SessionController;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
@@ -116,10 +117,6 @@ public class MantaroCore {
     private void startShardedInstance() {
         loadState = LOADING;
         
-        var shardCount = -1;
-        if(isDebug) {
-            shardCount = 2;
-        }
         SessionController controller;
         if(isDebug) {
             //bucketed controller still prioritizes home guild and reconnecting shards
@@ -131,24 +128,40 @@ public class MantaroCore {
         }
     
         try {
-            shardManager = new DefaultShardManagerBuilder(config.token)
-                    .setSessionController(controller)
-                    .setShardsTotal(shardCount)
-                    .addEventListeners(
-                            VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
-                            ReactionOperations.listener(), MantaroBot.getInstance().getLavalink()
-                    )
-                    .addEventListenerProviders(List.of(
-                            id -> new CommandListener(id, commandProcessor, threadPool, getShard(id).getMessageCache()),
-                            id -> new MantaroListener(id, threadPool, getShard(id).getMessageCache()),
-                            id -> getShard(id).getListener()
-                    ))
-                    .setEventManagerProvider(id -> getShard(id).getManager())
-                    .setBulkDeleteSplittingEnabled(false)
-                    .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavalink().getVoiceInterceptor())
-                    .setDisabledCacheFlags(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE))
-                    .setActivity(Activity.playing("Hold on to your seatbelts!"))
-                    .build();
+            var builder = new DefaultShardManagerBuilder(config.token)
+                                  .setSessionController(controller)
+                                  .addEventListeners(
+                                          VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
+                                          ReactionOperations.listener(), MantaroBot.getInstance().getLavalink()
+                                  )
+                                  .addEventListenerProviders(List.of(
+                                          id -> new CommandListener(id, commandProcessor, threadPool, getShard(id).getMessageCache()),
+                                          id -> new MantaroListener(id, threadPool, getShard(id).getMessageCache()),
+                                          id -> getShard(id).getListener()
+                                  ))
+                                  .setEventManagerProvider(id -> getShard(id).getManager())
+                                  .setBulkDeleteSplittingEnabled(false)
+                                  .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavalink().getVoiceInterceptor())
+                                  .setDisabledCacheFlags(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE))
+                                  .setActivity(Activity.playing("Hold on to your seatbelts!"));
+            if(isDebug) {
+                builder.setShardsTotal(2);
+            } else {
+                if(ExtraRuntimeOptions.SHARD_SUBSET_MISSING) {
+                    throw new IllegalStateException("Both mantaro.from-shard and mantaro.to-shard must be specified " +
+                                                            "when using shard subsets. Please specify the missing one.");
+                }
+                if(ExtraRuntimeOptions.SHARD_SUBSET) {
+                    builder.setShardsTotal(ExtraRuntimeOptions.SHARD_COUNT.orElseThrow())
+                            .setShards(
+                                    ExtraRuntimeOptions.FROM_SHARD.orElseThrow(),
+                                    ExtraRuntimeOptions.TO_SHARD.orElseThrow()
+                            );
+                } else {
+                    builder.setShardsTotal(ExtraRuntimeOptions.SHARD_COUNT.orElse(-1));
+                }
+            }
+            shardManager = builder.build();
         } catch(LoginException e) {
             throw new IllegalStateException(e);
         }
