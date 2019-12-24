@@ -178,7 +178,7 @@ public class ShardedMantaro {
             Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "dbots.org update thread")).scheduleAtFixedRate(() -> {
                 try {
                     long count = MantaroBot.getInstance().getShardManager().getGuildCache().size();
-                    int[] shards = MantaroBot.getInstance().getShardList().stream().mapToInt(shard -> (int) shard.getGuildCache().size()).toArray();
+                    int[] shards = MantaroBot.getInstance().getShardList().stream().mapToInt(shard -> (int) shard.getJDA().getGuildCache().size()).toArray();
                     discordBotsAPI.postStats(shards).execute();
                     log.debug("Updated server count ({}) for discordbots.org", count);
                 } catch(Exception ignored) {

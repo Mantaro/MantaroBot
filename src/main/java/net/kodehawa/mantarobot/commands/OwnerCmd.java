@@ -164,7 +164,7 @@ public class OwnerCmd {
                 TextChannel channel = event.getChannel();
                 
                 Map<String, Pair<Integer, Integer>> faultShards = new HashMap<>();
-                for(MantaroShard shard : MantaroBot.getInstance().getShardList()) {
+                for(var shard : MantaroBot.getInstance().getShardList()) {
                     List<Pair<String, Integer>> queueBuckets = MantaroShard.GET_BUCKETS_WITH_QUEUE.apply(shard.getJDA());
                     for(Pair<String, Integer> qb : queueBuckets) {
                         int amount = qb.getRight();
@@ -634,8 +634,8 @@ public class OwnerCmd {
     }
     
     private static class EvalClassLoader extends ClassLoader {
-        public Class<?> define(byte[] bytes) {
-            return super.defineClass(null, bytes, 0, bytes.length);
+        public void define(byte[] bytes) {
+            super.defineClass(null, bytes, 0, bytes.length);
         }
     }
 }

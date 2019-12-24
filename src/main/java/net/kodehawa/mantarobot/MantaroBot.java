@@ -62,6 +62,8 @@ import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.API_HANDSHAKE_FAILURE;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
@@ -221,13 +223,7 @@ public class MantaroBot {
     }
     
     public void restartShard(int shardId, boolean force) {
-        try {
-            MantaroShard shard = getShardList().get(shardId);
-            shard.start(force);
-        } catch(Exception e) {
-            LogUtils.shard("Error while restarting shard " + shardId);
-            e.printStackTrace();
-        }
+        getShardManager().restart(shardId);
     }
     
     public Shard getShardForGuild(String guildId) {
@@ -238,8 +234,10 @@ public class MantaroBot {
         return getShard((int) ((guildId >> 22) % getShardManager().getShardsTotal()));
     }
     
-    public List<MantaroShard> getShardList() {
-        return Arrays.asList(shardedMantaro.getShards());
+    public List<Shard> getShardList() {
+        return IntStream.range(0, getShardManager().getShardsTotal())
+                .mapToObj(this::getShard)
+                .collect(Collectors.toList());
     }
     
     public void startCheckingBirthdays() {
@@ -266,10 +264,6 @@ public class MantaroBot {
         
         //Start the birthday cacher.
         executorService.scheduleWithFixedDelay(birthdayCacher::cache, 22, 23, TimeUnit.HOURS);
-    }
-    
-    public void forceRestartShard(int shardId) {
-        restartShard(shardId, true);
     }
     
     public void forceRestartShardFromGuild(String guildId) {

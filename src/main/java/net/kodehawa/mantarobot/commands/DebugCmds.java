@@ -27,6 +27,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
@@ -36,7 +37,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
-import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
@@ -47,7 +47,6 @@ import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import java.lang.management.ManagementFactory;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -171,14 +170,14 @@ public class DebugCmds {
                 int connecting = 0;
                 int bigqueue = 0;
                 
-                for(MantaroShard shard : MantaroBot.getInstance().getShardList()) {
-                    if(shard == null) {
+                for(var shard : MantaroBot.getInstance().getShardList()) {
+                    if(shard.getNullableJDA() == null) {
                         connecting++;
                         continue;
                     }
                     
-                    JDA jda = shard.getJDA();
-                    int queueSize = Shard.QUEUE_SIZE.apply(jda);
+                    var jda = shard.getJDA();
+                    var queueSize = Shard.QUEUE_SIZE.apply(jda);
                     if(queueSize > 100) {
                         bigqueue++;
                     }
@@ -189,7 +188,7 @@ public class DebugCmds {
                             jda.getStatus(),
                             jda.getUserCache().size(),
                             jda.getGuildCache().size(),
-                            shard.getShardEventManager().getLastJDAEventTimeDiff() + " ms",
+                            ((MantaroEventManager)jda.getEventManager()).getLastJDAEventTimeDiff() + " ms",
                             jda.getGatewayPing(),
                             queueSize
                     ));
@@ -234,25 +233,26 @@ public class DebugCmds {
                 long ping = (long)bot.getShardManager()
                         .getShards().stream().mapToLong(JDA::getGatewayPing).average()
                         .orElse(-1);
-                List<MantaroShard> shards = bot.getShardList();
                 StringBuilder stringBuilder = new StringBuilder();
                 int dead = 0;
                 int reconnecting = 0;
                 int connecting = 0;
                 int high = 0;
                 
-                for(MantaroShard shard : shards) {
-                    if(shard == null) {
+                for(var shard : bot.getShardList()) {
+                    if(shard.getNullableJDA() == null) {
                         connecting++;
                         continue;
                     }
                     
-                    boolean reconnect = shard.getStatus().equals(JDA.Status.RECONNECT_QUEUED);
-                    if(shard.getShardEventManager().getLastJDAEventTimeDiff() > 50000 && !reconnect)
+                    var jda = shard.getJDA();
+                    var reconnect = jda.getStatus() == JDA.Status.RECONNECT_QUEUED;
+                    var manager = ((MantaroEventManager)jda.getEventManager());
+                    if(manager.getLastJDAEventTimeDiff() > 50000 && !reconnect)
                         dead++;
                     if(reconnect)
                         reconnecting++;
-                    if(shard.getShardEventManager().getLastJDAEventTimeDiff() > 1650 && !reconnect)
+                    if(manager.getLastJDAEventTimeDiff() > 1650 && !reconnect)
                         high++;
                 }
                 
@@ -282,10 +282,10 @@ public class DebugCmds {
                                 "--- Guilds: %-4s | Users: %-8s | Shards: %-3s"
                         ,
                         Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()), MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION, ping,
-                        bot.getShardList().stream().filter(Objects::nonNull)
+                        bot.getShardList().stream().filter(s -> s.getNullableJDA() != null)
                                 //"high" ping shards
-                                .filter(shard -> shard.getGatewayPing() > 350)
-                                .map(shard -> shard.getId() + ": " + shard.getGatewayPing() + "ms")
+                                .filter(shard -> shard.getJDA().getGatewayPing() > 350)
+                                .map(shard -> shard.getId() + ": " + shard.getJDA().getGatewayPing() + "ms")
                                 .collect(Collectors.joining(", ")),
                         dead, reconnecting, connecting, high, String.format("%,d", bot.getShardManager().getGuildCache().size()),
                         String.format("%,d", bot.getShardManager().getUserCache().size()), bot.getShardList().size()));
