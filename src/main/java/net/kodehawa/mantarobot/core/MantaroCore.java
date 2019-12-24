@@ -143,6 +143,10 @@ public class MantaroCore {
             controller = new BucketedController(bucketFactor, 213468583252983809L);
         }
         
+        var callbackThreadFactory = new ThreadFactoryBuilder()
+                .setNameFormat("CallbackThread-%d")
+                .setDaemon(true)
+                .build();
         var gatewayThreadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("GatewayThread-%d")
                 .setDaemon(true)
@@ -174,6 +178,7 @@ public class MantaroCore {
                                   .setActivity(Activity.playing("Hold on to your seatbelts!"));
             if(isDebug) {
                 builder.setShardsTotal(2)
+                        .setCallbackPool(Executors.newFixedThreadPool(1, callbackThreadFactory))
                         .setGatewayPool(Executors.newSingleThreadScheduledExecutor(gatewayThreadFactory))
                         .setRateLimitPool(Executors.newScheduledThreadPool(2, requesterThreadFactory));
             } else {
@@ -183,6 +188,7 @@ public class MantaroCore {
                 }
                 var count = getInstanceShards(config.token);
                 builder
+                        .setCallbackPool(Executors.newFixedThreadPool(Math.max(1, count / 4), callbackThreadFactory))
                         .setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, count / 16), gatewayThreadFactory))
                         .setRateLimitPool(Executors.newScheduledThreadPool(Math.max(2, count / 8), requesterThreadFactory));
                 if(ExtraRuntimeOptions.SHARD_SUBSET) {
