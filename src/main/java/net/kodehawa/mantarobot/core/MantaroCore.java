@@ -178,9 +178,9 @@ public class MantaroCore {
                                   .setActivity(Activity.playing("Hold on to your seatbelts!"));
             if(isDebug) {
                 builder.setShardsTotal(2)
-                        .setCallbackPool(Executors.newFixedThreadPool(1, callbackThreadFactory))
-                        .setGatewayPool(Executors.newSingleThreadScheduledExecutor(gatewayThreadFactory))
-                        .setRateLimitPool(Executors.newScheduledThreadPool(2, requesterThreadFactory));
+                        .setCallbackPool(Executors.newFixedThreadPool(1, callbackThreadFactory), true)
+                        .setGatewayPool(Executors.newSingleThreadScheduledExecutor(gatewayThreadFactory), true)
+                        .setRateLimitPool(Executors.newScheduledThreadPool(2, requesterThreadFactory), true);
             } else {
                 if(ExtraRuntimeOptions.SHARD_SUBSET_MISSING) {
                     throw new IllegalStateException("Both mantaro.from-shard and mantaro.to-shard must be specified " +
@@ -188,9 +188,9 @@ public class MantaroCore {
                 }
                 var count = getInstanceShards(config.token);
                 builder
-                        .setCallbackPool(Executors.newFixedThreadPool(Math.max(1, count / 4), callbackThreadFactory))
-                        .setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, count / 16), gatewayThreadFactory))
-                        .setRateLimitPool(Executors.newScheduledThreadPool(Math.max(2, count / 8), requesterThreadFactory));
+                        .setCallbackPool(Executors.newFixedThreadPool(Math.max(1, count / 4), callbackThreadFactory), true)
+                        .setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, count / 16), gatewayThreadFactory), true)
+                        .setRateLimitPool(Executors.newScheduledThreadPool(Math.max(2, count / 8), requesterThreadFactory), true);
                 if(ExtraRuntimeOptions.SHARD_SUBSET) {
                     builder.setShardsTotal(ExtraRuntimeOptions.SHARD_COUNT.orElseThrow())
                             .setShards(
