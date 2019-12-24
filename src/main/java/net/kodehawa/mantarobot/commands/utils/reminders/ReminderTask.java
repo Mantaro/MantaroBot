@@ -26,7 +26,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
 import java.util.Date;
 import java.util.Set;

@@ -24,7 +24,6 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.events.EventUtils;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
-import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
@@ -40,16 +39,16 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
- * This class acts as a Watcher for all the {@link MantaroShard} instances.
+ * This class acts as a Watcher for all the {@link net.kodehawa.mantarobot.core.shard.Shard} instances.
  * The always-running ShardWatcherThread looks over all the shards and listeners to make sure no shard is either not receiving events or deadlocked.
  * This works by sending a foreign event to all the shards, asking for a response back.
  * There are two ways for a Shard to send a signal that's dead: by having one or more listeners deadlocked, or by having a {@link MantaroEventManager#getLastJDAEventTimeDiff()}
  * time of over 30000ms (30 seconds without receiving any event).
  * <p>
  * After acknowledging the dead shards, the ShardWatcherThread will proceed to attempt to RESUME all of the dead shards. If this doesn't work,
- * it will restart the dead shards by sending a signal to {@link MantaroShard#start(boolean)} with a value of "true", which will send {@link JDA#shutdownNow()}
+ * it will restart the dead shards by sending a signal to {@link net.dv8tion.jda.api.sharding.ShardManager#restart(int)} with a value of "true", which will send {@link JDA#shutdownNow()}
  * to the old shard instance, and attempt to build a completely new one. This sends a timeout after two minutes of wait.
- * There is a backoff of 6 seconds between rebooting shards, to avoid OP2 spam during this procedure (5 seconds from the {@link MantaroShard#start(boolean)} call, and one extra second on this procedure).
+ * There is a backoff of 6 seconds between rebooting shards, to avoid OP2 spam during this procedure (5 seconds from the {@link net.dv8tion.jda.api.sharding.ShardManager#restart(int)} call, and one extra second on this procedure).
  * <p>
  * After rebooting the shard, everything on it *should* go back to normal and it should be able to listen to events and dispatch messages again without issues.
  * <p>

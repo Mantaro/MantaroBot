@@ -40,7 +40,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.core.shard.MantaroShard;
+import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -165,7 +165,7 @@ public class OwnerCmd {
                 
                 Map<String, Pair<Integer, Integer>> faultShards = new HashMap<>();
                 for(var shard : MantaroBot.getInstance().getShardList()) {
-                    List<Pair<String, Integer>> queueBuckets = MantaroShard.GET_BUCKETS_WITH_QUEUE.apply(shard.getJDA());
+                    List<Pair<String, Integer>> queueBuckets = Shard.GET_BUCKETS_WITH_QUEUE.apply(shard.getJDA());
                     for(Pair<String, Integer> qb : queueBuckets) {
                         int amount = qb.getRight();
                         if(amount > 10)

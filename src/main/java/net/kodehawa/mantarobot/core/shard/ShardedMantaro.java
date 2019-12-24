@@ -187,10 +187,6 @@ public class ShardedMantaro {
         } else {
             log.warn("discordbots.org token not set in config, cannot start posting stats!");
         }
-        
-        for(MantaroShard shard : getShards()) {
-            shard.updateStatus();
-        }
     }
     
     public List<MantaroEventManager> getManagers() {

@@ -17,10 +17,6 @@
 
 package net.kodehawa.mantarobot.core.shard;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import io.prometheus.client.Gauge;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -52,28 +48,13 @@ import net.dv8tion.jda.api.utils.SessionController;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.dv8tion.jda.api.utils.cache.CacheView;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
-import net.dv8tion.jda.internal.JDAImpl;
-import net.dv8tion.jda.internal.requests.ratelimit.IBucket;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.MantaroInfo;
-import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
-import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
-import net.kodehawa.mantarobot.core.listeners.MantaroListener;
-import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
-import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
-import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import org.apache.commons.lang3.time.DateUtils;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,29 +62,17 @@ import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.security.auth.login.LoginException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 import static net.kodehawa.mantarobot.data.MantaroData.config;
-import static net.kodehawa.mantarobot.utils.Utils.httpClient;
-import static net.kodehawa.mantarobot.utils.Utils.pretty;
 
 /**
  * Represents a Discord shard.
@@ -113,23 +82,7 @@ import static net.kodehawa.mantarobot.utils.Utils.pretty;
  * This also handles posting stats to dbots/dbots.org/carbonitex. Because uh... no other class was fit for it.
  */
 public class MantaroShard implements JDA {
-    public static final Function<JDA, List<Pair<String, Integer>>> GET_BUCKETS_WITH_QUEUE = jda -> {
-        final List<Pair<String, Integer>> routes = new ArrayList<>();
-        final List<IBucket> buckets = ((JDAImpl) jda).getRequester().getRateLimiter().getRouteBuckets();
-        for(final IBucket bucket : buckets) {
-            if(bucket.getRequests().size() > 0) {
-                routes.add(Pair.of(bucket.getRoute(), bucket.getRequests().size()));
-            }
-        }
-        
-        return routes;
-    };
-    private static final VoiceChannelListener VOICE_CHANNEL_LISTENER = new VoiceChannelListener();
     private static final Config config = MantaroData.config().get();
-    //Christmas date
-    private static final Calendar christmas = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.DECEMBER, 25).build();
-    //New year date
-    private static final Calendar newYear = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.JANUARY, 1).build();
     
     public final MantaroEventManager manager;
     private final Logger log;
@@ -138,7 +91,6 @@ public class MantaroShard implements JDA {
     private final String callbackPoolIdentifierString;
     private final String ratelimitPoolIdentifierString;
     private final SessionController sessionController;
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2, new ThreadFactoryBuilder().setNameFormat("Mantaro-ShardExecutor Thread-%d").build());
     private JDA jda;
     
     /**
@@ -148,8 +100,6 @@ public class MantaroShard implements JDA {
      * @param totalShards      The total quantity of shards that the bot will startup with.
      * @param manager          The event manager.
      * @param commandProcessor The {@link ICommandProcessor} used to process upcoming Commands.
-     * @throws LoginException
-     * @throws InterruptedException
      */
     public MantaroShard(int shardId, int totalShards, MantaroEventManager manager, ICommandProcessor commandProcessor,
                         SessionController controller) throws LoginException, InterruptedException {
@@ -159,18 +109,6 @@ public class MantaroShard implements JDA {
         this.totalShards = totalShards;
         this.manager = manager;
         this.sessionController = controller;
-        
-        ThreadFactory normalTPNamedFactory =
-                new ThreadFactoryBuilder()
-                        .setNameFormat("MantaroShard-Executor[" + shardId + "/" + totalShards + "] Thread-%d")
-                        .build();
-        
-        ThreadFactory commandTPNamedFactory =
-                new ThreadFactoryBuilder()
-                        .setNameFormat("MantaroShard-Command[" + shardId + "/" + totalShards + "] Thread-%d")
-                        .build();
-        
-        Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-shard-" + shardId + "-birthday-executor", executorService);
         
         log = LoggerFactory.getLogger("MantaroShard-" + shardId);
         
@@ -233,85 +171,6 @@ public class MantaroShard implements JDA {
             //Block until all shards start up properly.
             jda = jdaBuilder.build().awaitReady();
         }
-    }
-    
-    /**
-     * Starts the birthday task wait until tomorrow. When 00:00 arrives, this will call {@link BirthdayTask#handle(int)} every 24 hours.
-     * Every shard has one birthday task.
-     *
-     * @param millisecondsUntilTomorrow The amount of milliseconds until 00:00.
-     */
-    public void startBirthdayTask(long millisecondsUntilTomorrow) {
-    
-    }
-    
-    /**
-     * Updates Mantaro's "splash".
-     * Splashes are random gags like "now seen in theaters!" that show on Mantaro's status.
-     * This has been on Mantaro since 2016, so it's part of its "personality" as a bot.
-     */
-    public void updateStatus() {
-        Runnable changeStatus = () -> {
-            //insert $CURRENT_YEAR meme here
-            if(DateUtils.isSameDay(christmas, Calendar.getInstance())) {
-                getJDA().getPresence().setActivity(Activity.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], "Merry Christmas!", getId())));
-                return;
-            } else if(DateUtils.isSameDay(newYear, Calendar.getInstance())) {
-                getJDA().getPresence().setActivity(Activity.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], "Happy New Year!", getId())));
-                return;
-            }
-            
-            AtomicInteger users = new AtomicInteger(0), guilds = new AtomicInteger(0);
-            if(MantaroBot.getInstance() != null) {
-                /*Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).filter(Objects::nonNull).filter(mantaroShard -> mantaroShard.getJDA() != null).map(MantaroShard::getJDA).forEach(jda -> {
-                    users.addAndGet((int) jda.getUserCache().size());
-                    guilds.addAndGet((int) jda.getGuildCache().size());
-                });*/
-            }
-            
-            JSONObject reply;
-            
-            try {
-                Request request = new Request.Builder()
-                                          .url(config.apiTwoUrl + "/mantaroapi/bot/splashes/random")
-                                          .addHeader("Authorization", config.getApiAuthKey())
-                                          .addHeader("User-Agent", MantaroInfo.USER_AGENT)
-                                          .get()
-                                          .build();
-                
-                Response response = httpClient.newCall(request).execute();
-                String body = response.body().string();
-                response.close();
-                
-                reply = new JSONObject(body);
-            } catch(Exception e) {
-                //I had to, lol.
-                reply = new JSONObject().put("splash", "With a missing status!");
-            }
-            
-            String newStatus = reply.getString("splash")
-                                       //Replace fest.
-                                       .replace("%ramgb%", String.valueOf(((long) (Runtime.getRuntime().maxMemory() * 1.2D)) >> 30L))
-                                       .replace("%usercount%", users.toString())
-                                       .replace("%guildcount%", guilds.toString())
-                                       .replace("%shardcount%", String.valueOf(getTotalShards()))
-                                       .replace("%prettyusercount%", pretty(users.get()))
-                                       .replace("%prettyguildcount%", pretty(guilds.get()));
-            
-            getJDA().getPresence().setActivity(Activity.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], newStatus, getId())));
-            log.debug("Changed status to: " + newStatus);
-        };
-        
-        changeStatus.run();
-        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Splash Thread"))
-                .scheduleAtFixedRate(changeStatus, 10, 10, TimeUnit.MINUTES);
-    }
-    
-    /**
-     * @return The current {@link MantaroEventManager} for this specific instance.
-     */
-    public MantaroEventManager getShardEventManager() {
-        return manager;
     }
     
     public int getId() {
