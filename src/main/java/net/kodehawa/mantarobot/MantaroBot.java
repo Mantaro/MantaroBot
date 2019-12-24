@@ -23,14 +23,18 @@ import lavalink.client.io.LavalinkLoadBalancer;
 import lavalink.client.io.jda.JdaLavalink;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.moderation.MuteTask;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
+import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
 import net.kodehawa.mantarobot.commands.utils.reminders.ReminderTask;
 import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
+import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
 import net.kodehawa.mantarobot.core.shard.jda.ShardedJDA;
 import net.kodehawa.mantarobot.data.Config;
@@ -67,7 +71,7 @@ import java.util.concurrent.TimeUnit;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.API_HANDSHAKE_FAILURE;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 
-public class MantaroBot extends ShardedJDA {
+public class MantaroBot {
     private static final Logger log = LoggerFactory.getLogger(MantaroBot.class);
     
     private static MantaroBot instance;
@@ -89,7 +93,6 @@ public class MantaroBot extends ShardedJDA {
     private final MantaroAudioManager audioManager;
     private final MantaroCore core;
     private final DiscordBotsAPI discordBotsAPI;
-    private final ShardedMantaro shardedMantaro;
     private final JdaLavalink lavalink;
     private final CacheClient cacheClient;
     private BirthdayCacher birthdayCacher;
@@ -140,6 +143,11 @@ public class MantaroBot extends ShardedJDA {
         
         core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
         discordBotsAPI = new DiscordBotsAPI.Builder().setToken(config.dbotsorgToken).build();
+    
+        audioManager = new MantaroAudioManager();
+        Items.setItemActions();
+    
+        birthdayCacher = new BirthdayCacher();
         
         LogUtils.log("Startup", String.format("Starting up MantaroBot %s\n" + "Hold your seatbelts! <3", MantaroInfo.VERSION));
         
@@ -147,11 +155,7 @@ public class MantaroBot extends ShardedJDA {
         
         core.setCommandsPackage("net.kodehawa.mantarobot.commands")
                 .setOptionsPackage("net.kodehawa.mantarobot.options")
-                .startMainComponents(false);
-        
-        shardedMantaro = core.getShardedInstance();
-        audioManager = new MantaroAudioManager();
-        Items.setItemActions();
+                .start();
         
         long end = System.currentTimeMillis();
         
@@ -162,12 +166,8 @@ public class MantaroBot extends ShardedJDA {
                 String.format("Partially loaded %d commands in %d seconds.\n" +
                                       "Shards are still waking up!", DefaultCommandProcessor.REGISTRY.commands().size(), (end - start) / 1000));
         
-        birthdayCacher = new BirthdayCacher();
-        final MuteTask muteTask = new MuteTask();
-        final ReminderTask reminderTask = new ReminderTask();
-        
-        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mute Handler")).scheduleAtFixedRate(muteTask::handle, 0, 1, TimeUnit.MINUTES);
-        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Reminder Handler")).scheduleAtFixedRate(reminderTask::handle, 0, 30, TimeUnit.SECONDS);
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mute Handler")).scheduleAtFixedRate(MuteTask::handle, 0, 1, TimeUnit.MINUTES);
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Reminder Handler")).scheduleAtFixedRate(ReminderTask::handle, 0, 30, TimeUnit.SECONDS);
         //Yes, this is needed.
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Ratelimit Map Handler")).scheduleAtFixedRate(Utils.ratelimitedUsers::clear, 0, 24, TimeUnit.HOURS);
     }
@@ -201,20 +201,30 @@ public class MantaroBot extends ShardedJDA {
         return MantaroBot.instance;
     }
     
+    public ShardManager getShardManager() {
+        return core.getShardManager();
+    }
+    
+    public User getUserById(String id) {
+        return getShardManager().getUserById(id);
+    }
+    
+    public User getUserById(long id) {
+        return getShardManager().getUserById(id);
+    }
+    
+    public Guild getGuildById(String id) {
+        return getShardManager().getGuildById(id);
+    }
+    
+    public Guild getGuildById(long id) {
+        return getShardManager().getGuildById(id);
+    }
+    
     public MantaroShard getShard(int id) {
         return Arrays.stream(shardedMantaro.getShards()).filter(Objects::nonNull).filter(shard -> shard.getId() == id).findFirst().orElse(null);
     }
     
-    @Override
-    public int getShardAmount() {
-        return shardedMantaro.getTotalShards();
-    }
-    
-    public Guild getGuildById(@NotNull String guildId) {
-        return getShardForGuild(guildId).getGuildById(guildId);
-    }
-    
-    @Override
     public void restartShard(int shardId, boolean force) {
         try {
             MantaroShard shard = getShardList().get(shardId);
@@ -223,16 +233,6 @@ public class MantaroBot extends ShardedJDA {
             LogUtils.shard("Error while restarting shard " + shardId);
             e.printStackTrace();
         }
-    }
-    
-    @Nonnull
-    @Override
-    public Iterator<JDA> iterator() {
-        return new ArrayIterator<>(shardedMantaro.getShards());
-    }
-    
-    public int getId(JDA jda) {
-        return jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId();
     }
     
     public MantaroShard getShardForGuild(String guildId) {
@@ -262,8 +262,11 @@ public class MantaroBot extends ShardedJDA {
         //Start the birthday task on all shards.
         //This is because running them in parallel is way better than running it once for all shards.
         //It actually cut off the time from 50 minutes to 20 seconds.
-        for(MantaroShard shard : core.getShardedInstance().getShards()) {
-            shard.startBirthdayTask(millisecondsUntilTomorrow);
+        for(Shard shard : core.getShards()) {
+            log.debug("Started birthday task for shard {}, scheduled to run in {} ms more", shard.getId(), millisecondsUntilTomorrow);
+    
+            executorService.scheduleWithFixedDelay(() -> BirthdayTask.handle(shard.getId()),
+                    millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
         }
         
         //Start the birthday cacher.

@@ -17,6 +17,7 @@
 
 package net.kodehawa.mantarobot.core.listeners.command;
 
+import com.google.common.cache.Cache;
 import com.rethinkdb.gen.exc.ReqlError;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -33,7 +34,6 @@ import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
-import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -50,6 +50,7 @@ import org.slf4j.Logger;
 
 import java.util.Optional;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class CommandListener implements EventListener {
@@ -58,16 +59,18 @@ public class CommandListener implements EventListener {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(CommandListener.class);
     //Commands ran this session.
     private static int commandTotal = 0;
-    private final ICommandProcessor commandProcessor;
     private final Random random = new Random();
-    private final MantaroShard shard;
     private final int shardId;
+    private final ICommandProcessor commandProcessor;
+    private final ExecutorService threadPool;
+    private final Cache<Long, Optional<CachedMessage>> messageCache;
     private long lastMessageReceivedAt;
     
-    public CommandListener(int shardId, MantaroShard shard, ICommandProcessor processor) {
+    public CommandListener(int shardId, ICommandProcessor processor, ExecutorService threadPool, Cache<Long, Optional<CachedMessage>> messageCache) {
         this.shardId = shardId;
-        this.shard = shard;
         this.commandProcessor = processor;
+        this.threadPool = threadPool;
+        this.messageCache = messageCache;
     }
     
     public static String getCommandTotal() {
@@ -101,13 +104,13 @@ public class CommandListener implements EventListener {
             lastMessageReceivedAt = System.currentTimeMillis();
             GuildMessageReceivedEvent msg = (GuildMessageReceivedEvent) event;
             //Inserts a cached message into the cache. This only holds the id and the content, and is way lighter than saving the entire jda object.
-            shard.getMessageCache().put(msg.getMessage().getId(), Optional.of(new CachedMessage(msg.getAuthor().getIdLong(), msg.getMessage().getContentDisplay())));
+            messageCache.put(msg.getMessage().getIdLong(), Optional.of(new CachedMessage(msg.getAuthor().getIdLong(), msg.getMessage().getContentDisplay())));
             
             //Ignore myself and bots.
             if(msg.getAuthor().isBot() || msg.getAuthor().equals(msg.getJDA().getSelfUser()))
                 return;
             
-            shard.getCommandPool().execute(() -> onCommand(msg));
+            threadPool.execute(() -> onCommand(msg));
         }
     }
     

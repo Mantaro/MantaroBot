@@ -58,7 +58,6 @@ import net.kodehawa.mantarobot.commands.info.stats.manager.GuildStatsManager.Log
 import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
-import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -81,6 +80,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -127,15 +127,17 @@ public class MantaroListener implements EventListener {
     private static int logTotal = 0;
     private final ManagedDatabase db = MantaroData.db();
     private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
-    private final MantaroShard shard;
-    private final int shardId;
     private final SecureRandom rand = new SecureRandom();
+    private final int shardId;
+    private final ExecutorService threadPool;
+    private final Cache<Long, Optional<CachedMessage>> messageCache;
     
     private Pattern modifierPattern = Pattern.compile("\\b\\p{L}*:\\b");
     
-    public MantaroListener(int shardId, MantaroShard shard) {
+    public MantaroListener(int shardId, ExecutorService threadPool, Cache<Long, Optional<CachedMessage>> messageCache) {
         this.shardId = shardId;
-        this.shard = shard;
+        this.threadPool = threadPool;
+        this.messageCache = messageCache;
     }
     
     public static int getLogTotalInt() {
@@ -177,12 +179,12 @@ public class MantaroListener implements EventListener {
         }
         
         if(event instanceof GuildMemberJoinEvent) {
-            shard.getThreadPool().execute(() -> onUserJoin((GuildMemberJoinEvent) event));
+            threadPool.execute(() -> onUserJoin((GuildMemberJoinEvent) event));
             return;
         }
         
         if(event instanceof GuildMemberLeaveEvent) {
-            shard.getThreadPool().execute(() -> onUserLeave((GuildMemberLeaveEvent) event));
+            threadPool.execute(() -> onUserLeave((GuildMemberLeaveEvent) event));
             return;
         }
         
@@ -222,8 +224,8 @@ public class MantaroListener implements EventListener {
             onJoin(e);
             
             if(MantaroCore.hasLoadedCompletely()) {
-                guildCount.set(MantaroBot.getInstance().getGuildCache().size());
-                userCount.set(MantaroBot.getInstance().getUserCache().size());
+                guildCount.set(MantaroBot.getInstance().getShardManager().getGuildCache().size());
+                userCount.set(MantaroBot.getInstance().getShardManager().getUserCache().size());
             }
             
             return;
@@ -236,8 +238,8 @@ public class MantaroListener implements EventListener {
             MantaroBot.getInstance().getLavalink().getLink(((GuildLeaveEvent) event).getGuild()).destroy();
             
             if(MantaroCore.hasLoadedCompletely()) {
-                guildCount.set(MantaroBot.getInstance().getGuildCache().size());
-                userCount.set(MantaroBot.getInstance().getUserCache().size());
+                guildCount.set(MantaroBot.getInstance().getShardManager().getGuildCache().size());
+                userCount.set(MantaroBot.getInstance().getShardManager().getUserCache().size());
             }
             
             return;
@@ -283,7 +285,7 @@ public class MantaroListener implements EventListener {
     private void handleNewPatron(GenericGuildMemberEvent event) {
         //Only in mantaro's guild...
         if(event.getGuild().getIdLong() == 213468583252983809L && !MantaroData.config().get().isPremiumBot) {
-            shard.getThreadPool().execute(() -> {
+            threadPool.execute(() -> {
                 User user = event.getUser();
                 //who...
                 DBUser dbUser = db.getUser(user);
@@ -357,7 +359,7 @@ public class MantaroListener implements EventListener {
                 if(tc == null)
                     return;
                 
-                CachedMessage deletedMessage = shard.getMessageCache().get(event.getMessageId(), Optional::empty).orElse(null);
+                CachedMessage deletedMessage = messageCache.get(event.getMessageIdLong(), Optional::empty).orElse(null);
                 if(deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel) && !deletedMessage.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
                     if(data.getModlogBlacklistedPeople().contains(deletedMessage.getAuthor().getId())) {
                         return;
@@ -414,11 +416,11 @@ public class MantaroListener implements EventListener {
                     return;
                 
                 User author = event.getAuthor();
-                CachedMessage editedMessage = shard.getMessageCache().get(event.getMessage().getId(), Optional::empty).orElse(null);
+                CachedMessage editedMessage = messageCache.get(event.getMessage().getIdLong(), Optional::empty).orElse(null);
                 
                 if(editedMessage != null && !editedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
                     //Update message in cache in any case.
-                    shard.getMessageCache().put(event.getMessage().getId(), Optional.of(new CachedMessage(event.getAuthor().getIdLong(), event.getMessage().getContentDisplay())));
+                    messageCache.put(event.getMessage().getIdLong(), Optional.of(new CachedMessage(event.getAuthor().getIdLong(), event.getMessage().getContentDisplay())));
                     
                     if(guildData.getLogExcludedChannels().contains(event.getChannel().getId())) {
                         return;
@@ -574,7 +576,7 @@ public class MantaroListener implements EventListener {
             //Has link protection enabled, let's check if they don't have admin stuff.
             if(event.getMember() != null && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
                 //Check if invite is valid. This is async because hasInvite uses complete sometimes.
-                shard.getThreadPool().execute(() -> {
+                threadPool.execute(() -> {
                     //If this message has an invite and it's not an invite to the same guild it was sent on, proceed to delete.
                     if(hasInvite(event.getJDA(), event.getGuild(), event.getMessage().getContentRaw())) {
                         Member bot = event.getGuild().getSelfMember();

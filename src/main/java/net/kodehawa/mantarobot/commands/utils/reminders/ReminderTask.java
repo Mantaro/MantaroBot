@@ -38,12 +38,9 @@ public class ReminderTask {
                                                          .register();
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(ReminderTask.class);
     
-    private final JedisPool pool = MantaroData.getDefaultJedisPool();
-    private final MantaroBot mantaro = MantaroBot.getInstance();
-    
-    public void handle() {
+    public static void handle() {
         log.debug("Checking reminder data...");
-        try(Jedis j = pool.getResource()) {
+        try(Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
             Set<String> reminders = j.zrange("zreminder", 0, 14);
             log.debug("Reminder check - remainder is: {}", reminders.size());
             
@@ -63,8 +60,8 @@ public class ReminderTask {
                         
                         String reminder = data.getString("reminder"); //The actual reminder data
                         
-                        User user = mantaro.getUserById(userId);
-                        Guild guild = mantaro.getGuildById(guildId);
+                        User user = MantaroBot.getInstance().getUserById(userId);
+                        Guild guild = MantaroBot.getInstance().getGuildById(guildId);
                         
                         if(user == null) {
                             Reminder.cancel(userId, fullId);

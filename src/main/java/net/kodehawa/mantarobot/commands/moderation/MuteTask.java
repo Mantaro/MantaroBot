@@ -34,7 +34,7 @@ public class MuteTask {
     
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(MuteTask.class);
     
-    public void handle() {
+    public static void handle() {
         try {
             MantaroObj data = MantaroData.db().getMantaroData();
             Map<Long, Pair<String, Long>> mutes = data.getMutes();

@@ -17,17 +17,35 @@
 
 package net.kodehawa.mantarobot.core;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.sentry.Sentry;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
+import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.SessionController;
+import net.dv8tion.jda.api.utils.SessionControllerAdapter;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
+import net.kodehawa.mantarobot.core.listeners.MantaroListener;
+import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
+import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
+import net.kodehawa.mantarobot.core.shard.MantaroShard;
+import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.core.shard.ShardedBuilder;
 import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
+import net.kodehawa.mantarobot.core.shard.jda.BucketedController;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
@@ -35,8 +53,16 @@ import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
 import org.slf4j.Logger;
 
+import javax.security.auth.login.LoginException;
 import java.lang.annotation.Annotation;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -47,26 +73,30 @@ import static net.kodehawa.mantarobot.core.LoadState.POSTLOAD;
 import static net.kodehawa.mantarobot.core.LoadState.PRELOAD;
 
 public class MantaroCore {
-    
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(MantaroCore.class);
+    private static final VoiceChannelListener VOICE_CHANNEL_LISTENER = new VoiceChannelListener();
+    
     private static LoadState loadState = PRELOAD;
+    private final Map<Integer, Shard> shards = new ConcurrentHashMap<>();
     private final Config config;
     private final boolean isDebug;
     private final boolean useBanner;
     private final boolean useSentry;
     private String commandsPackage;
     private String optsPackage;
-    private ShardedMantaro shardedMantaro;
     private ICommandProcessor commandProcessor = new DefaultCommandProcessor();
     private EventBus shardEventBus;
-    private ExecutorService commonExecutor = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("Mantaro-CommonExecutor Thread-%d").build());
+    private ExecutorService threadPool = Executors.newCachedThreadPool(
+            new ThreadFactoryBuilder().setNameFormat("Mantaro-Thread-%d").build()
+    );
+    private ShardManager shardManager;
     
     public MantaroCore(Config config, boolean useBanner, boolean useSentry, boolean isDebug) {
         this.config = config;
         this.useBanner = useBanner;
         this.useSentry = useSentry;
         this.isDebug = isDebug;
-        Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-core-common-executor", commonExecutor);
+        Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-executor", threadPool);
     }
     
     public static boolean hasLoadedCompletely() {
@@ -91,47 +121,51 @@ public class MantaroCore {
         return this;
     }
     
-    public MantaroCore setCustomCommandProcessor(ICommandProcessor processor) {
-        this.commandProcessor = processor;
-        return this;
-    }
-    
-    private void startShardedInstance(int fromShard, int toShard) {
+    private void startShardedInstance() {
         loadState = LOADING;
         
-        shardedMantaro = new ShardedBuilder()
-                                 .debug(isDebug)
-                                 .auto(true)
-                                 .token(config.token)
-                                 .commandProcessor(commandProcessor)
-                                 .build();
-        
-        new Thread(shardedMantaro::shard, "MantaroCore-ShardInit").start();
-        
-        loadState = LOADED;
-    }
+        var shardCount = -1;
+        if(isDebug) {
+            shardCount = 2;
+        }
+        SessionController controller;
+        if(isDebug) {
+            //bucketed controller still prioritizes home guild and reconnecting shards
+            controller = new BucketedController(1, 213468583252983809L);
+        } else {
+            var bucketFactor = config.getBucketFactor();
+            log.info("Using buckets of {} shards to start the bot! Assuming we're on big bot :tm: sharding.", bucketFactor);
+            controller = new BucketedController(bucketFactor, 213468583252983809L);
+        }
     
-    private void startSingleShardInstance() {
-        loadState = LOADING;
-        
-        shardedMantaro = new ShardedBuilder()
-                                 .amount(1)
-                                 .token(config.token)
-                                 .amountNode(config.fromShard, config.upToShard)
-                                 .commandProcessor(commandProcessor)
-                                 .build();
-        
-        new Thread(shardedMantaro::shard, "MantaroCore-ShardInit").start();
-        
-        loadState = LOADED;
-    }
+        try {
+            shardManager = new DefaultShardManagerBuilder(config.token)
+                    .setSessionController(controller)
+                    .setShardsTotal(shardCount)
+                    .addEventListeners(
+                            VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
+                            ReactionOperations.listener(), MantaroBot.getInstance().getLavalink()
+                    )
+                    .addEventListenerProviders(List.of(
+                            id -> new CommandListener(id, commandProcessor, threadPool, getShard(id).getMessageCache()),
+                            id -> new MantaroListener(id, threadPool, getShard(id).getMessageCache()),
+                            id -> getShard(id).getListener()
+                    ))
+                    .setEventManagerProvider(id -> getShard(id).getManager())
+                    .setBulkDeleteSplittingEnabled(false)
+                    .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavalink().getVoiceInterceptor())
+                    .setDisabledCacheFlags(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE))
+                    .setActivity(Activity.playing("Hold on to your seatbelts!"))
+                    .build();
+        } catch(LoginException e) {
+            throw new IllegalStateException(e);
+        }
     
-    public MantaroCore startMainComponents(boolean single) {
-        return startMainComponents(single, 0, 0);
+        loadState = LOADED;
     }
     
     @SuppressWarnings("UnstableApiUsage")
-    public MantaroCore startMainComponents(boolean single, int shardStart, int shardEnd) {
+    public MantaroCore start() {
         if(config == null)
             throw new IllegalArgumentException("Config cannot be null!");
         
@@ -147,12 +181,8 @@ public class MantaroCore {
         
         Set<Class<?>> commands = lookForAnnotatedOn(commandsPackage, Module.class);
         Set<Class<?>> options = lookForAnnotatedOn(optsPackage, Option.class);
-        
-        if(single) {
-            startSingleShardInstance();
-        } else {
-            startShardedInstance(shardStart, shardEnd);
-        }
+    
+        startShardedInstance();
         
         shardEventBus = new EventBus();
         for(Class<?> aClass : commands) {
@@ -183,12 +213,20 @@ public class MantaroCore {
         return this;
     }
     
-    public ShardedMantaro getShardedInstance() {
-        return shardedMantaro;
-    }
-    
     public void markAsReady() {
         loadState = POSTLOAD;
+    }
+    
+    public ShardManager getShardManager() {
+        return shardManager;
+    }
+    
+    public Shard getShard(int id) {
+        return shards.computeIfAbsent(id, Shard::new);
+    }
+    
+    public Collection<Shard> getShards() {
+        return Collections.unmodifiableCollection(shards.values());
     }
     
     private Set<Class<?>> lookForAnnotatedOn(String packageName, Class<? extends Annotation> annotation) {
@@ -200,15 +238,7 @@ public class MantaroCore {
                        .collect(Collectors.toSet());
     }
     
-    public ICommandProcessor getCommandProcessor() {
-        return this.commandProcessor;
-    }
-    
     public EventBus getShardEventBus() {
         return this.shardEventBus;
-    }
-    
-    public ExecutorService getCommonExecutor() {
-        return this.commonExecutor;
     }
 }

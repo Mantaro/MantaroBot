@@ -655,6 +655,7 @@ public class Utils {
             
             //Assuming it's an user RL if it can parse a long since we use UUIDs for other RLs.
             try {
+                //noinspection ResultOfMethodCallIgnored
                 Long.parseUnsignedLong(u);
                 User user = MantaroBot.getInstance().getUserById(u);
                 onRateLimit(user);
