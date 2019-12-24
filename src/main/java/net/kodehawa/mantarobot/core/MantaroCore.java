@@ -52,7 +52,11 @@ import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.Prometheus;
+import net.kodehawa.mantarobot.utils.SentryHelper;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
+import okhttp3.Request;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 
 import javax.annotation.Nonnull;
@@ -75,6 +79,7 @@ import static net.kodehawa.mantarobot.core.LoadState.LOADED;
 import static net.kodehawa.mantarobot.core.LoadState.LOADING;
 import static net.kodehawa.mantarobot.core.LoadState.POSTLOAD;
 import static net.kodehawa.mantarobot.core.LoadState.PRELOAD;
+import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
 
 public class MantaroCore {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(MantaroCore.class);
@@ -82,6 +87,9 @@ public class MantaroCore {
     
     private static LoadState loadState = PRELOAD;
     private final Map<Integer, Shard> shards = new ConcurrentHashMap<>();
+    private final ExecutorService threadPool = Executors.newCachedThreadPool(
+            new ThreadFactoryBuilder().setNameFormat("Mantaro-Thread-%d").build()
+    );
     private final Config config;
     private final boolean isDebug;
     private final boolean useBanner;
@@ -90,9 +98,6 @@ public class MantaroCore {
     private String optsPackage;
     private ICommandProcessor commandProcessor = new DefaultCommandProcessor();
     private EventBus shardEventBus;
-    private ExecutorService threadPool = Executors.newCachedThreadPool(
-            new ThreadFactoryBuilder().setNameFormat("Mantaro-Thread-%d").build()
-    );
     private ShardManager shardManager;
     
     public MantaroCore(Config config, boolean useBanner, boolean useSentry, boolean isDebug) {
@@ -137,6 +142,16 @@ public class MantaroCore {
             log.info("Using buckets of {} shards to start the bot! Assuming we're on big bot :tm: sharding.", bucketFactor);
             controller = new BucketedController(bucketFactor, 213468583252983809L);
         }
+        
+        var gatewayThreadFactory = new ThreadFactoryBuilder()
+                .setNameFormat("GatewayThread-%d")
+                .setDaemon(true)
+                .setPriority(Thread.MAX_PRIORITY)
+                .build();
+        var requesterThreadFactory = new ThreadFactoryBuilder()
+                .setNameFormat("RequesterThread-%d")
+                .setDaemon(true)
+                .build();
     
         try {
             var listener = new ShardStartListener();
@@ -158,12 +173,18 @@ public class MantaroCore {
                                   .setDisabledCacheFlags(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE))
                                   .setActivity(Activity.playing("Hold on to your seatbelts!"));
             if(isDebug) {
-                builder.setShardsTotal(2);
+                builder.setShardsTotal(2)
+                        .setGatewayPool(Executors.newSingleThreadScheduledExecutor(gatewayThreadFactory))
+                        .setRateLimitPool(Executors.newScheduledThreadPool(2, requesterThreadFactory));
             } else {
                 if(ExtraRuntimeOptions.SHARD_SUBSET_MISSING) {
                     throw new IllegalStateException("Both mantaro.from-shard and mantaro.to-shard must be specified " +
                                                             "when using shard subsets. Please specify the missing one.");
                 }
+                var count = getInstanceShards(config.token);
+                builder
+                        .setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, count / 16), gatewayThreadFactory))
+                        .setRateLimitPool(Executors.newScheduledThreadPool(Math.max(2, count / 8), requesterThreadFactory));
                 if(ExtraRuntimeOptions.SHARD_SUBSET) {
                     builder.setShardsTotal(ExtraRuntimeOptions.SHARD_COUNT.orElseThrow())
                             .setShards(
@@ -306,6 +327,42 @@ public class MantaroCore {
             log.warn("discordbots.org token not set in config, cannot start posting stats!");
         }
     }
+    
+    private static int getInstanceShards(String token) {
+        if(ExtraRuntimeOptions.SHARD_SUBSET) {
+            return ExtraRuntimeOptions.TO_SHARD.orElseThrow() - ExtraRuntimeOptions.FROM_SHARD.orElseThrow();
+        }
+        if(ExtraRuntimeOptions.SHARD_COUNT.isPresent()) {
+            return ExtraRuntimeOptions.SHARD_COUNT.getAsInt();
+        }
+        
+        try {
+            var shards = new Request.Builder()
+                                     .url("https://discordapp.com/api/gateway/bot")
+                                     .header("Authorization", "Bot " + token)
+                                     .header("Content-Type", "application/json")
+                                     .build();
+            
+            try(var response = Utils.httpClient.newCall(shards).execute()) {
+                var body = response.body();
+                if(body == null) {
+                    throw new IllegalStateException("Error requesting shard count: " + response.code() + " " + response.message());
+                }
+                var shardObject = new JSONObject(body.string());
+                return shardObject.getInt("shards");
+            }
+            
+        } catch(Exception e) {
+            SentryHelper.captureExceptionContext(
+                    "Exception thrown when trying to get shard count, discord isn't responding?", e, MantaroBot.class, "Shard Count Fetcher"
+            );
+            log.error("Unable to fetch shard count", e);
+            System.exit(SHARD_FETCH_FAILURE);
+        }
+        return 1;
+    }
+    
+    
     
     private static class ShardStartListener implements EventListener {
         private final CountDownLatch latch = new CountDownLatch(1);
