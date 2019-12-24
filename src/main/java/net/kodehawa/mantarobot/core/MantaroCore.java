@@ -130,6 +130,7 @@ public class MantaroCore {
         return startMainComponents(single, 0, 0);
     }
     
+    @SuppressWarnings("UnstableApiUsage")
     public MantaroCore startMainComponents(boolean single, int shardStart, int shardEnd) {
         if(config == null)
             throw new IllegalArgumentException("Config cannot be null!");

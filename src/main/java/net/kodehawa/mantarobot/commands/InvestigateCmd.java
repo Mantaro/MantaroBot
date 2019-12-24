@@ -140,6 +140,7 @@ public class InvestigateCmd {
                 }
                 String id;
                 try {
+                    //noinspection ResultOfMethodCallIgnored
                     Long.parseUnsignedLong(id = args[0]);
                 } catch(NumberFormatException e) {
                     event.getChannel().sendMessage("That's not a valid id!").queue();

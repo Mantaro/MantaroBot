@@ -22,7 +22,7 @@ import java.util.Objects;
 
 public class UrbanData {
     
-    public final ArrayList<List> list = null;
+    public ArrayList<List> list = null;
     
     public UrbanData() {
     }
@@ -48,9 +48,7 @@ public class UrbanData {
         if(!(o instanceof UrbanData)) return false;
         final UrbanData other = (UrbanData) o;
         if(!other.canEqual(this)) return false;
-        final Object this$list = this.list;
-        final Object other$list = other.list;
-        return Objects.equals(this$list, other$list);
+        return Objects.equals(this.list, other.list);
     }
     
     public String toString() {

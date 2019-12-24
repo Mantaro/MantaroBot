@@ -26,7 +26,10 @@ import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -40,10 +43,17 @@ public class URLCache {
     
     public URLCache(File cacheDir, int cacheSize) {
         this.cacheDir = cacheDir;
+        var path = cacheDir.toPath();
+        if(Files.exists(path) && !Files.isDirectory(path)) {
+            try {
+                Files.delete(path);
+                Files.createDirectories(path);
+            } catch(IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        }
+        
         cache = new FileCache(cacheSize);
-        if(cacheDir.isFile())
-            cacheDir.delete();
-        cacheDir.mkdirs();
     }
     
     public URLCache(int cacheSize) {
@@ -66,20 +76,25 @@ public class URLCache {
                                 .url(url)
                                 .build();
             
-            Response response = okHttp.newCall(r).execute();
-            try(InputStream is = response.body().byteStream();
+            try(Response response = okHttp.newCall(r).execute();
                 FileOutputStream fos = new FileOutputStream(file)) {
-                byte[] buffer = new byte[1024];
-                int read;
-                while((read = is.read(buffer)) != -1)
-                    fos.write(buffer, 0, read);
+                var body = response.body();
+                if(body == null) {
+                    throw new IllegalStateException("Null response body! Code: " + response.code() + " " + response.message());
+                }
+                body.byteStream().transferTo(fos);
                 saved.put(url, file);
-                response.close();
                 return file;
             }
         } catch(Exception e) {
+            if(file != null) {
+                try {
+                    Files.delete(file.toPath());
+                } catch(IOException e2) {
+                    e.addSuppressed(e2);
+                }
+            }
             e.printStackTrace();
-            if(file != null) file.delete();
             SentryHelper.captureExceptionContext("Error caching", e, this.getClass(), "Cacher");
             throw new InternalError();
         }
