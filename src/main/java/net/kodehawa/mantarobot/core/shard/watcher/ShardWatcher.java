@@ -60,9 +60,17 @@ public class ShardWatcher implements Runnable {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(ShardWatcher.class);
     //The pool that will run the FutureTask to wait for the shard to finish its pre-load phase.
     //No longer needed?
-    private final ExecutorService THREAD_POOL = Executors.newCachedThreadPool();
+    private final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(1, new ThreadFactoryBuilder()
+            .setNameFormat("ShardWatcher-QueueWorker")
+            .setDaemon(true)
+            .build()
+    );
     //The scheduler that manages the wait between one shard being resumed and the backoff period to check if it successfully revived.
-    private final ScheduledExecutorService RESUME_WAITER = Executors.newScheduledThreadPool(1, new ThreadFactoryBuilder().setNameFormat("Mantaro-ResumeWaiter Thread-%d").build());
+    private final ScheduledExecutorService RESUME_WAITER = Executors.newScheduledThreadPool(1, new ThreadFactoryBuilder()
+            .setNameFormat("ShardWatcher-WaiterThread")
+            .setDaemon(true)
+            .build()
+    );
     //The queue where shards that didn't get revived used a RESUME get added. Here they get completely scrapped and re-built when they get polled from the queue.
     private final ConcurrentLinkedQueue<Shard> RESTART_QUEUE = new ConcurrentLinkedQueue<>();
     

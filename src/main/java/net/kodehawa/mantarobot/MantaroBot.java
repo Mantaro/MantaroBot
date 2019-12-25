@@ -21,8 +21,6 @@ import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lavalink.client.io.LavalinkLoadBalancer;
 import lavalink.client.io.jda.JdaLavalink;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.RestAction;
@@ -41,7 +39,7 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogFilter;
 import net.kodehawa.mantarobot.log.LogUtils;
-import net.kodehawa.mantarobot.utils.CompactPrintStream;
+import net.kodehawa.mantarobot.utils.TracingPrintStream;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -75,8 +73,8 @@ public class MantaroBot {
     //just in case
     static {
         if(ExtraRuntimeOptions.VERBOSE) {
-            System.setOut(new CompactPrintStream(System.out));
-            System.setErr(new CompactPrintStream(System.err));
+            System.setOut(new TracingPrintStream(System.out));
+            System.setErr(new TracingPrintStream(System.err));
         }
     
         RestAction.setPassContext(true);
