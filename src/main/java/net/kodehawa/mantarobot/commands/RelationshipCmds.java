@@ -410,7 +410,7 @@ public class RelationshipCmds {
                     }
                     
                     //Can we find the user this is married to?
-                    final User marriedTo = MantaroBot.getInstance().getUserById(currentMarriage.getOtherPlayer(author.getId()));
+                    final User marriedTo = MantaroBot.getInstance().getShardManager().getUserById(currentMarriage.getOtherPlayer(author.getId()));
                     if(marriedTo == null) {
                         channel.sendMessageFormat(languageContext.get("commands.marry.loveletter.cannot_see"), EmoteReference.ERROR).queue();
                         return;
@@ -510,7 +510,7 @@ public class RelationshipCmds {
                 }
                 
                 //Can we find the user this is married to?
-                final User marriedTo = MantaroBot.getInstance().getUserById(currentMarriage.getOtherPlayer(author.getId()));
+                final User marriedTo = MantaroBot.getInstance().getShardManager().getUserById(currentMarriage.getOtherPlayer(author.getId()));
                 if(marriedTo == null) {
                     channel.sendMessageFormat(languageContext.get("commands.marry.loveletter.cannot_see"), EmoteReference.ERROR).queue();
                     return;
@@ -593,7 +593,7 @@ public class RelationshipCmds {
                 }
                 
                 // ---------------- START OF LEGACY MARRIAGE SUPPORT ----------------
-                User userMarriedWith = divorceePlayer.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getUserById(divorceePlayer.getData().getMarriedWith());
+                User userMarriedWith = divorceePlayer.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getShardManager().getUserById(divorceePlayer.getData().getMarriedWith());
                 
                 if(userMarriedWith == null) {
                     divorceePlayer.getData().setMarriedWith(null);
@@ -685,7 +685,7 @@ public class RelationshipCmds {
                         
                         java.util.List<MessageEmbed.Field> fields = new LinkedList<>();
                         for(String waifu : userData.getWaifus().keySet()) {
-                            User user = MantaroBot.getInstance().getUserById(waifu);
+                            User user = MantaroBot.getInstance().getShardManager().getUserById(waifu);
                             if(user == null) {
                                 fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + String.format("Unknown User (ID: %s)", waifu),
                                         languageContext.get("commands.waifu.value_format") + " unknown\n" +
@@ -909,7 +909,7 @@ public class RelationshipCmds {
                 }
                 
                 final ManagedDatabase db = MantaroData.db();
-                User toLookup = isId ? MantaroBot.getInstance().getUserById(content) : member.getUser();
+                User toLookup = isId ? MantaroBot.getInstance().getShardManager().getUserById(content) : member.getUser();
                 boolean isUnknown = isId && t.containsKey("unknown") && toLookup == null;
                 if(toLookup == null && !isUnknown) {
                     channel.sendMessageFormat(languageContext.get("commands.waifu.unclaim.not_found"), EmoteReference.ERROR).queue();

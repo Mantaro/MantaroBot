@@ -262,7 +262,7 @@ public class PlayerCmds {
                         playerData.setWaifuCachedValue(RelationshipCmds.calculateWaifuValue(userLooked).getFinalValue());
                         
                         //start of badge assigning
-                        Guild mh = MantaroBot.getInstance().getGuildById("213468583252983809");
+                        Guild mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
                         Member mhMember = mh == null ? null : mh.getMemberById(memberLooked.getUser().getId());
                         
                         //Badge assigning code

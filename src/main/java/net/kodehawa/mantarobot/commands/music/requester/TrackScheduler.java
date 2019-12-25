@@ -132,7 +132,8 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                 
                 User user = null;
                 if(getCurrentTrack().getUserData() != null) {
-                    user = MantaroBot.getInstance().getUserById(String.valueOf(getCurrentTrack().getUserData()));
+                    user = MantaroBot.getInstance().getShardManager()
+                                   .getUserById(String.valueOf(getCurrentTrack().getUserData()));
                 }
                 
                 //Avoid massive spam of "now playing..." when repeating songs.
@@ -174,7 +175,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     }
     
     public Guild getGuild() {
-        return MantaroBot.getInstance().getGuildById(guildId);
+        return MantaroBot.getInstance().getShardManager().getGuildById(guildId);
     }
     
     public int getRequiredVotes() {

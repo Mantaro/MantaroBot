@@ -95,9 +95,10 @@ public class OwnerCmd {
                 
                 if(context.equals("guild")) {
                     if(action.equals("add")) {
-                        if(MantaroBot.getInstance().getGuildById(args[2]) == null) return;
+                        if(MantaroBot.getInstance().getShardManager().getGuildById(args[2]) == null) return;
                         obj.getBlackListedGuilds().add(args[2]);
-                        channel.sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + MantaroBot.getInstance().getGuildById(args[2])).queue();
+                        channel.sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " +
+                                                    MantaroBot.getInstance().getShardManager().getGuildById(args[2])).queue();
                         obj.saveAsync();
                         
                         return;
@@ -116,13 +117,13 @@ public class OwnerCmd {
                 
                 if(context.equals("user")) {
                     if(action.equals("add")) {
-                        if(MantaroBot.getInstance().getUserById(args[2]) == null) {
+                        if(MantaroBot.getInstance().getShardManager().getUserById(args[2]) == null) {
                             channel.sendMessage("Can't find user.").queue();
                             return;
                         }
                         
                         obj.getBlackListedUsers().add(args[2]);
-                        channel.sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + MantaroBot.getInstance().getUserById(args[2])).queue();
+                        channel.sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + MantaroBot.getInstance().getShardManager().getUserById(args[2])).queue();
                         obj.saveAsync();
                         
                         return;
@@ -133,7 +134,7 @@ public class OwnerCmd {
                         }
                         
                         obj.getBlackListedUsers().remove(args[2]);
-                        channel.sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + MantaroBot.getInstance().getUserById(args[2])).queue();
+                        channel.sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + MantaroBot.getInstance().getShardManager().getUserById(args[2])).queue();
                         obj.saveAsync();
                         
                         return;
@@ -214,7 +215,7 @@ public class OwnerCmd {
                 
                 String id = args[0];
                 long amount = Long.parseLong(args[1]);
-                User u = MantaroBot.getInstance().getUserById(id);
+                User u = MantaroBot.getInstance().getShardManager().getUserById(id);
                 
                 if(u == null) {
                     channel.sendMessage("Can't find user").queue();
@@ -532,8 +533,8 @@ public class OwnerCmd {
                 
                 String userString = args[0];
                 String guildString = args[1];
-                Guild guild = MantaroBot.getInstance().getGuildById(guildString);
-                User user = MantaroBot.getInstance().getUserById(userString);
+                Guild guild = MantaroBot.getInstance().getShardManager().getGuildById(guildString);
+                User user = MantaroBot.getInstance().getShardManager().getUserById(userString);
                 if(guild == null || user == null) {
                     channel.sendMessage("User or guild not found.").queue();
                     return;

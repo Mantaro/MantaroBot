@@ -31,7 +31,7 @@ public class Lobby {
     }
     
     public Guild getGuild() {
-        return MantaroBot.getInstance().getGuildById(guild);
+        return MantaroBot.getInstance().getShardManager().getGuildById(guild);
     }
     
     public TextChannel getChannel() {

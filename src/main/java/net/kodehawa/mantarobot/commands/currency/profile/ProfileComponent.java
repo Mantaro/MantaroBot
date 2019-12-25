@@ -68,7 +68,8 @@ public enum ProfileComponent {
         Player player = holder.getPlayer();
         PlayerData playerData = player.getData();
         //LEGACY SUPPORT
-        User marriedTo = (playerData.getMarriedWith() == null || playerData.getMarriedWith().isEmpty()) ? null : MantaroBot.getInstance().getUserById(playerData.getMarriedWith());
+        User marriedTo = (playerData.getMarriedWith() == null || playerData.getMarriedWith().isEmpty()) ? null :
+                                 MantaroBot.getInstance().getShardManager().getUserById(playerData.getMarriedWith());
         
         //New marriage support.
         UserData userData = holder.getDbUser().getData();
@@ -80,7 +81,7 @@ public enum ProfileComponent {
         if(currentMarriage != null) {
             String marriedToId = currentMarriage.getOtherPlayer(holder.getUser().getId());
             if(marriedToId != null) {
-                marriedToNew = MantaroBot.getInstance().getUserById(marriedToId);
+                marriedToNew = MantaroBot.getInstance().getShardManager().getUserById(marriedToId);
                 playerData.setMarriedWith(null); //delete old marriage
                 marriedTo = null;
                 isNewMarriage = true;

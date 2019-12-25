@@ -112,7 +112,7 @@ public class Poll extends Lobby {
                 toShow = String.format(languageContext.get("commands.poll.too_long"), Utils.paste(toShow));
             }
             
-            User author = MantaroBot.getInstance().getUserById(owner);
+            User author = MantaroBot.getInstance().getShardManager().getUserById(owner);
             
             EmbedBuilder builder = new EmbedBuilder().setAuthor(String.format(languageContext.get("commands.poll.header"),
                     data.getRanPolls(), author.getName()), null, author.getAvatarUrl())
@@ -178,7 +178,8 @@ public class Poll extends Lobby {
                 
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                                                     .setTitle(languageContext.get("commands.poll.result_header"))
-                                                    .setDescription(String.format(languageContext.get("commands.poll.result_screen"), MantaroBot.getInstance().getUserById(owner).getName(), name))
+                                                    .setDescription(String.format(languageContext.get("commands.poll.result_screen"),
+                                                            MantaroBot.getInstance().getShardManager().getUserById(owner).getName(), name))
                                                     .setFooter(languageContext.get("commands.poll.thank_note"), null);
                 
                 AtomicInteger react = new AtomicInteger(0);

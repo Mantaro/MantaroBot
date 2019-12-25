@@ -191,7 +191,7 @@ public class PetCmds {
                                                 Utils.prettyDisplay(languageContext.get("commands.pet.name"), pet.getName()) + "\n" +
                                                         Utils.prettyDisplay(languageContext.get("commands.pet.tier"), String.valueOf(pet.calculateTier())) + "\n" +
                                                         Utils.prettyDisplay(languageContext.get("commands.pet.element"), pet.getElement().getReadable()) + "\n" +
-                                                        Utils.prettyDisplay(languageContext.get("commands.pet.owner"), MantaroBot.getInstance().getUserById(pet.getOwner()).getAsTag()) + "\n" +
+                                                        Utils.prettyDisplay(languageContext.get("commands.pet.owner"), MantaroBot.getInstance().getShardManager().getUserById(pet.getOwner()).getAsTag()) + "\n" +
                                                         Utils.prettyDisplay(languageContext.get("commands.pet.created"), formatter.format(Instant.ofEpochMilli(pet.getEpochCreatedAt())))
                                         )
                                         .addField(languageContext.get("commands.pet.affection"), getProgressBar(stats.getAffection(), 50) + String.format(" (%s/%s)", stats.getAffection(), 50), true)

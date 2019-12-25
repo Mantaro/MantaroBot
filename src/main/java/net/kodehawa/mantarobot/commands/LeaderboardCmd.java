@@ -89,12 +89,12 @@ public class LeaderboardCmd {
                                                                 EmoteReference.TALKING + "This page shows the top 5 in slots and gamble wins, both in amount and quantity. The old money leaderboard is avaliable on `~>leaderboard money`")
                                         .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
                                         .addField("Gamble", lb1.stream()
-                                                                    .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("gambleWinAmount").toString()))
+                                                                    .map(map -> Pair.of(MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]), map.get("gambleWinAmount").toString()))
                                                                     .filter(p -> Objects.nonNull(p.getKey()))
                                                                     .map(p -> String.format("%s**%s#%s** - $%,d", EmoteReference.BLUE_SMALL_MARKER, p.getKey().getName(), p.getKey().getDiscriminator(), Long.parseLong(p.getValue())))
                                                                     .collect(Collectors.joining("\n")), true)
                                         .addField("Slots", lb2.stream()
-                                                                   .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("slotsWinAmount").toString()))
+                                                                   .map(map -> Pair.of(MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]), map.get("slotsWinAmount").toString()))
                                                                    .filter(p -> Objects.nonNull(p.getKey()))
                                                                    .map(p -> String.format("%s**%s#%s** - $%,d", EmoteReference.BLUE_SMALL_MARKER, p.getKey().getName(), p.getKey().getDiscriminator(), Long.parseLong(p.getValue())))
                                                                    .collect(Collectors.joining("\n")), true)
@@ -129,7 +129,7 @@ public class LeaderboardCmd {
                 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.gamble"), EmoteReference.MONEY), "commands.leaderboard.gamble", c,
-                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                        map -> Pair.of(MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
                                 map.get("gambleWins").toString()), "%s**%s#%s** - %,d", false)
                                                        .build()
                 ).queue();
@@ -150,7 +150,7 @@ public class LeaderboardCmd {
                 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.slots"), EmoteReference.MONEY), "commands.leaderboard.slots", c,
-                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                        map -> Pair.of(MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
                                 map.get("slotsWins").toString()), "%s**%s#%s** - %,d", false)
                                                        .build()
                 ).queue();
@@ -176,7 +176,7 @@ public class LeaderboardCmd {
                 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format((isSeasonal ? languageContext.get("commands.leaderboard.inner.seasonal_money") : languageContext.get("commands.leaderboard.inner.money")), EmoteReference.MONEY), "commands.leaderboard.money", c,
-                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                        map -> Pair.of(MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
                                 map.get("money").toString()), "%s**%s#%s** - $%,d", isSeasonal)
                                                        .build()
                 ).queue();
@@ -202,7 +202,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var experience = ((Map<String, Object>) map.get("data")).get("experience");
                             return Pair.of(
-                                    MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                    MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
                                     map.get("level").toString() + "\n -" +
                                             languageContext.get("commands.leaderboard.inner.experience") + ":** " +
                                             experience + "**");
@@ -230,7 +230,7 @@ public class LeaderboardCmd {
                 
                 event.getChannel().sendMessage(generateLeaderboardEmbed(event, languageContext,
                         String.format(languageContext.get("commands.leaderboard.inner.rep"), EmoteReference.REP), "commands.leaderboard.reputation", c,
-                        map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                        map -> Pair.of(MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
                                 map.get("reputation").toString()), "%s**%s#%s** - %,d", isSeasonal)
                                                        .build()
                 ).queue();
@@ -256,7 +256,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var strike = ((Map<String, Object>) (map.get("data"))).get("dailyStrike").toString();
                             return Pair.of(
-                                    MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                    MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
                                     strike
                             );
                         }, "%s**%s#%s** - %sx", false)
@@ -288,7 +288,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var waifuValue = ((Map<String, Object>) (map.get("data"))).get("waifuCachedValue").toString();
                             return Pair.of(
-                                    MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                    MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
                                     waifuValue
                             );
                         }, "%s**%s#%s** - $%,d", isSeasonal)
@@ -315,7 +315,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var timesClaimed = ((Map<String, Object>) (map.get("data"))).get("timesClaimed").toString();
                             return Pair.of(
-                                    MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                    MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
                                     timesClaimed
                             );
                         }, "%s**%s#%s** - %,d", false)
@@ -347,7 +347,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var gamesWon = ((Map<String, Object>) (map.get("data"))).get("gamesWon").toString();
                             return Pair.of(
-                                    MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]),
+                                    MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
                                     gamesWon
                             );
                         }, "%s**%s#%s** - %,d", isSeasonal)

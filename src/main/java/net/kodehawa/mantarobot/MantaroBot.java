@@ -207,27 +207,11 @@ public class MantaroBot {
         return core.getShardManager();
     }
     
-    public User getUserById(String id) {
-        return getShardManager().getUserById(id);
-    }
-    
-    public User getUserById(long id) {
-        return getShardManager().getUserById(id);
-    }
-    
-    public Guild getGuildById(String id) {
-        return getShardManager().getGuildById(id);
-    }
-    
-    public Guild getGuildById(long id) {
-        return getShardManager().getGuildById(id);
-    }
-    
     public Shard getShard(int id) {
         return core.getShard(id);
     }
     
-    public void restartShard(int shardId, boolean force) {
+    public void restartShard(int shardId) {
         getShardManager().restart(shardId);
     }
     
@@ -272,7 +256,7 @@ public class MantaroBot {
     }
     
     public void forceRestartShardFromGuild(String guildId) {
-        restartShard(getShardForGuild(guildId).getId(), true);
+        restartShard(getShardForGuild(guildId).getId());
     }
     
     public MantaroAudioManager getAudioManager() {

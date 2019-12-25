@@ -59,8 +59,8 @@ public class ReminderTask {
                         
                         String reminder = data.getString("reminder"); //The actual reminder data
                         
-                        User user = MantaroBot.getInstance().getUserById(userId);
-                        Guild guild = MantaroBot.getInstance().getGuildById(guildId);
+                        User user = MantaroBot.getInstance().getShardManager().getUserById(userId);
+                        Guild guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
                         
                         if(user == null) {
                             Reminder.cancel(userId, fullId);

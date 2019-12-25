@@ -36,12 +36,14 @@ import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.Ipv6Block;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.requester.AudioLoader;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Lazy;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.slf4j.Logger;
@@ -63,11 +65,18 @@ import static com.sedmelluq.discord.lavaplayer.tools.FriendlyException.Severity.
 public class MantaroAudioManager {
     private static final ThreadLocal<Boolean> IS_RESULT_FROM_CACHE = ThreadLocal.withInitial(() -> false);
     //CacheClient is blocking
-    private static final Executor LOAD_EXECUTOR = Executors.newCachedThreadPool(new ThreadFactoryBuilder()
-                                                                                        .setNameFormat("AudioLoadThread-%d")
-                                                                                        .setDaemon(true)
-                                                                                        .build()
-    );
+    private static final Lazy<Executor> LOAD_EXECUTOR = new Lazy<>(() -> {
+        if(MantaroBot.getInstance().getCacheClient() == null) {
+            return Runnable::run;
+        } else {
+            return Executors.newCachedThreadPool(
+                    new ThreadFactoryBuilder()
+                            .setNameFormat("AudioLoadThread-%d")
+                            .setDaemon(true)
+                            .build()
+            );
+        }
+    });
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(MantaroAudioManager.class);
     
     private final Map<String, GuildMusicManager> musicManagers;
@@ -116,7 +125,7 @@ public class MantaroAudioManager {
         playerManager.registerSourceManager(new TwitchStreamAudioSourceManager());
         playerManager.registerSourceManager(new BeamAudioSourceManager());
         if(!ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER) {
-            log.info("STARTUP: Disabled non-allocating buffer.");
+            log.info("STARTUP: Enabled non-allocating buffer.");
             playerManager.getConfiguration().setFrameBufferFactory(NonAllocatingAudioFrameBuffer::new);
         }
         //playerManager.getConfiguration().setFilterHotSwapEnabled(true);
@@ -152,7 +161,7 @@ public class MantaroAudioManager {
                 AudioLoader loader = new AudioLoader(musicManager, event, skipSelection, addFirst);
                 playerManager.loadItemOrdered(musicManager, trackUrl, loader);
             }
-        }, LOAD_EXECUTOR);
+        }, LOAD_EXECUTOR.get());
     }
     
     public Map<String, GuildMusicManager> getMusicManagers() {

@@ -657,7 +657,7 @@ public class Utils {
             try {
                 //noinspection ResultOfMethodCallIgnored
                 Long.parseUnsignedLong(u);
-                User user = MantaroBot.getInstance().getUserById(u);
+                User user = MantaroBot.getInstance().getShardManager().getUserById(u);
                 onRateLimit(user);
             } catch(Exception ignored) {
             }

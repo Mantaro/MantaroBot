@@ -56,10 +56,10 @@ public class InvestigateCmd {
     public static void investigate(GuildMessageReceivedEvent event, Type type, String id, boolean file) {
         switch(type) {
             case GUILD:
-                investigateGuild(event, MantaroBot.getInstance().getGuildById(id), file);
+                investigateGuild(event, MantaroBot.getInstance().getShardManager().getGuildById(id), file);
                 return;
             case USER:
-                investigateUser(event, MantaroBot.getInstance().getUserById(id), file);
+                investigateUser(event, MantaroBot.getInstance().getShardManager().getUserById(id), file);
                 return;
             case CHANNEL:
                 investigateChannel(event, MantaroBot.getInstance().getShardManager().getTextChannelById(id), file);

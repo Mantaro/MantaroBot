@@ -67,7 +67,7 @@ public class DBUser implements ManagedObject {
     
     @JsonIgnore
     public User getUser() {
-        return MantaroBot.getInstance().getUserById(getId());
+        return MantaroBot.getInstance().getShardManager().getUserById(getId());
     }
     
     @JsonIgnore

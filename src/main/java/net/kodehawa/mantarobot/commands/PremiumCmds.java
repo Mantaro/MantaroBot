@@ -253,7 +253,7 @@ public class PremiumCmds {
                     PremiumKey currentKey = MantaroData.db().getPremiumKey(data.getPremiumKey());
                     
                     if(currentKey != null && currentKey.validFor() > 0) {
-                        User owner = MantaroBot.getInstance().getUserById(currentKey.getOwner());
+                        User owner = MantaroBot.getInstance().getShardManager().getUserById(currentKey.getOwner());
                         boolean marked = false;
                         if(owner == null) {
                             marked = true;
@@ -290,7 +290,7 @@ public class PremiumCmds {
                         }
                         
                         if(linkedTo != null) {
-                            User linkedUser = MantaroBot.getInstance().getUserById(currentKey.getOwner());
+                            User linkedUser = MantaroBot.getInstance().getShardManager().getUserById(currentKey.getOwner());
                             embedBuilder.addField(languageContext.get("commands.vipstatus.linked_to"), linkedUser.getName() + "#" + linkedUser.getDiscriminator(), true);
                         }
                     } else {
@@ -313,7 +313,7 @@ public class PremiumCmds {
                         PremiumKey currentKey = MantaroData.db().getPremiumKey(dbGuild.getData().getPremiumKey());
                         
                         if(currentKey != null && currentKey.validFor() > 0) {
-                            User owner = MantaroBot.getInstance().getUserById(currentKey.getOwner());
+                            User owner = MantaroBot.getInstance().getShardManager().getUserById(currentKey.getOwner());
                             if(owner == null)
                                 owner = event.getGuild().getOwner().getUser();
                             
@@ -329,7 +329,7 @@ public class PremiumCmds {
                                     .addField(languageContext.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), false);
                             
                             if(linkedTo != null) {
-                                User linkedUser = MantaroBot.getInstance().getUserById(currentKey.getOwner());
+                                User linkedUser = MantaroBot.getInstance().getShardManager().getUserById(currentKey.getOwner());
                                 embedBuilder.addField(languageContext.get("commands.vipstatus.linked_to"), linkedUser.getName() + "#" + linkedUser.getDiscriminator(), false);
                             }
                         } else {
