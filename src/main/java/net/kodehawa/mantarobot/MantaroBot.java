@@ -23,6 +23,9 @@ import lavalink.client.io.LavalinkLoadBalancer;
 import lavalink.client.io.jda.JdaLavalink;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.requests.ErrorResponse;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.MiscUtil;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
@@ -75,9 +78,15 @@ public class MantaroBot {
             System.setOut(new CompactPrintStream(System.out));
             System.setErr(new CompactPrintStream(System.err));
         }
-        
+    
+        RestAction.setPassContext(true);
         if(ExtraRuntimeOptions.DEBUG) {
             log.info("Running in debug mode!");
+        } else {
+            RestAction.setDefaultFailure(ErrorResponseException.ignore(
+                    RestAction.getDefaultFailure(),
+                    ErrorResponse.UNKNOWN_MESSAGE
+            ));
         }
         
         log.info("Filtering all logs below " + LogFilter.LEVEL);
