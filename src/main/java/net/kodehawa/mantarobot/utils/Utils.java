@@ -786,15 +786,22 @@ public class Utils {
         return list;
     }
     
+    private static String formatMemoryHelper(long bytes, long unitSize, String unit) {
+        if(bytes % unitSize == 0) {
+            return String.format("%d %s", bytes / unitSize, unit);
+        }
+        return String.format("%.1f %s", bytes / (double)unitSize, unit);
+    }
+    
     public static String formatMemoryAmount(long bytes) {
         if(bytes > 1L<<30) {
-            return String.format("%.1f GiB", bytes / (double)(1L<<30));
+            return formatMemoryHelper(bytes, 1L<<30, "GiB");
         }
         if(bytes > 1L<<20) {
-            return String.format("%.1f MiB", bytes / (double)(1L<<20));
+            return formatMemoryHelper(bytes, 1L<<20, "MiB");
         }
         if(bytes > 1L<<10) {
-            return String.format("%.1f KiB", bytes / (double)(1L<<10));
+            return formatMemoryHelper(bytes, 1L<<10, "KiB");
         }
         return String.format("%d B", bytes);
     }
