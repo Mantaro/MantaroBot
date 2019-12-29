@@ -92,7 +92,7 @@ public class DebugCmds {
                                                        + "Threads: " + String.format("%,d", Thread.activeCount()) + "\n"
                                                        + "Executed Commands: " + String.format("%,d", CommandListener.getCommandTotalInt()) + "\n"
                                                        + "Logs: " + String.format("%,d", MantaroListener.getLogTotalInt()) + "\n"
-                                                       + "Memory: " + String.format("%,dMB/%,dMB", (int) (getTotalMemory() - getFreeMemory()), (int) getMaxMemory()) + "\n"
+                                                       + "Memory: " + Utils.formatMemoryUsage(getTotalMemory() - getFreeMemory(), getMaxMemory()) + "\n"
                                                        + "Queue Size: " + String.format("%,d", mantaroBot.getAudioManager().getTotalQueueSize())
                                                        + "```").queue();
             }

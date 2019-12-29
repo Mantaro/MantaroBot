@@ -786,6 +786,23 @@ public class Utils {
         return list;
     }
     
+    public static String formatMemoryAmount(long bytes) {
+        if(bytes > 1L<<30) {
+            return String.format("%.1f GiB", bytes / (double)(1L<<30));
+        }
+        if(bytes > 1L<<20) {
+            return String.format("%.1f MiB", bytes / (double)(1L<<20));
+        }
+        if(bytes > 1L<<10) {
+            return String.format("%.1f KiB", bytes / (double)(1L<<10));
+        }
+        return String.format("%d B", bytes);
+    }
+    
+    public static String formatMemoryUsage(long used, long total) {
+        return String.format("%s/%s", formatMemoryAmount(used), formatMemoryAmount(total));
+    }
+    
     public enum HushType {
         ANIME, CHARACTER, MUSIC
     }

@@ -462,11 +462,11 @@ public class InfoCmds {
                                                        .setDescription(languageContext.get("commands.stats.usage.description"))
                                                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
                                                        .addField(languageContext.get("commands.stats.usage.threads"), getThreadCount() + " Threads", true)
-                                                       .addField(languageContext.get("commands.stats.usage.memory_usage"), getTotalMemory() - getFreeMemory() + "MB/" + getMaxMemory() + "MB", true)
+                                                       .addField(languageContext.get("commands.stats.usage.memory_usage"), Utils.formatMemoryUsage(getTotalMemory() - getFreeMemory(), getMaxMemory()), true)
                                                        .addField(languageContext.get("commands.stats.usage.cores"), getAvailableProcessors() + " Cores", true)
                                                        .addField(languageContext.get("commands.stats.usage.cpu_usage"), String.format("%.2f", getInstanceCPUUsage()) + "%", true)
-                                                       .addField(languageContext.get("commands.stats.usage.assigned_mem"), getTotalMemory() + "MB", true)
-                                                       .addField(languageContext.get("commands.stats.usage.assigned_remaining"), getFreeMemory() + "MB", true)
+                                                       .addField(languageContext.get("commands.stats.usage.assigned_mem"), Utils.formatMemoryAmount(getTotalMemory()), true)
+                                                       .addField(languageContext.get("commands.stats.usage.assigned_remaining"), Utils.formatMemoryAmount(getFreeMemory()), true)
                                                        .build()
                 ).queue();
                 TextChannelGround.of(event).dropItemWithChance(4, 5);
