@@ -26,12 +26,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class Config {
-    public String alClient;
-    public String alsecret;
-    public String apiLoginCreds;
     public boolean cacheGames = false;
     public String carbonToken;
-    public String consoleChannel = "266231083341840385";
     public String dbDb = "mantaro";
     public String dbHost = "localhost";
     public String dbPassword;
@@ -39,20 +35,16 @@ public class Config {
     public String dbUser;
     public String dbotsToken;
     public String dbotsorgToken;
-    public boolean isBeta = false;
     public boolean isPremiumBot = false;
     public int maxJdaReconnectDelay = 3; //3 seconds
     public String osuApiKey;
     public List<String> owners = new ArrayList<>();
     public String[] prefix = {"~>", "->"};
     public String sentryDSN;
-    public int shardWatcherTimeout = 1500; //wait 1500ms for the handlers to run
     public int shardWatcherWait = 600000; //run once every 600 seconds (10 minutes)
     public String shardWebhookUrl;
     public String token;
     public int totalShards = 0;
-    public int fromShard = 0;
-    public int upToShard = 0;
     public String weatherAppId;
     public String webhookUrl;
     public String spambotUrl;
@@ -60,7 +52,6 @@ public class Config {
     public String apiTwoUrl = "http://127.0.0.1:5874";
     public boolean needApi = true;
     public int prometheusPort = 9091;
-    public int ratelimitPoolSize = 4;
     public String apiAuthKey;
     public Season currentSeason = Season.FIRST;
     public String clientId; //why not ig.
@@ -89,30 +80,6 @@ public class Config {
         return owners.contains(id);
     }
     
-    public String getAlClient() {
-        return this.alClient;
-    }
-    
-    public void setAlClient(String alClient) {
-        this.alClient = alClient;
-    }
-    
-    public String getAlsecret() {
-        return this.alsecret;
-    }
-    
-    public void setAlsecret(String alsecret) {
-        this.alsecret = alsecret;
-    }
-    
-    public String getApiLoginCreds() {
-        return this.apiLoginCreds;
-    }
-    
-    public void setApiLoginCreds(String apiLoginCreds) {
-        this.apiLoginCreds = apiLoginCreds;
-    }
-    
     public boolean isCacheGames() {
         return this.cacheGames;
     }
@@ -127,14 +94,6 @@ public class Config {
     
     public void setCarbonToken(String carbonToken) {
         this.carbonToken = carbonToken;
-    }
-    
-    public String getConsoleChannel() {
-        return this.consoleChannel;
-    }
-    
-    public void setConsoleChannel(String consoleChannel) {
-        this.consoleChannel = consoleChannel;
     }
     
     public String getDbDb() {
@@ -193,14 +152,6 @@ public class Config {
         this.dbotsorgToken = dbotsorgToken;
     }
     
-    public boolean isBeta() {
-        return this.isBeta;
-    }
-    
-    public void setBeta(boolean isBeta) {
-        this.isBeta = isBeta;
-    }
-    
     public boolean isPremiumBot() {
         return this.isPremiumBot;
     }
@@ -249,14 +200,6 @@ public class Config {
         this.sentryDSN = sentryDSN;
     }
     
-    public int getShardWatcherTimeout() {
-        return this.shardWatcherTimeout;
-    }
-    
-    public void setShardWatcherTimeout(int shardWatcherTimeout) {
-        this.shardWatcherTimeout = shardWatcherTimeout;
-    }
-    
     public int getShardWatcherWait() {
         return this.shardWatcherWait;
     }
@@ -287,22 +230,6 @@ public class Config {
     
     public void setTotalShards(int totalShards) {
         this.totalShards = totalShards;
-    }
-    
-    public int getFromShard() {
-        return this.fromShard;
-    }
-    
-    public void setFromShard(int fromShard) {
-        this.fromShard = fromShard;
-    }
-    
-    public int getUpToShard() {
-        return this.upToShard;
-    }
-    
-    public void setUpToShard(int upToShard) {
-        this.upToShard = upToShard;
     }
     
     public String getWeatherAppId() {
@@ -359,14 +286,6 @@ public class Config {
     
     public void setPrometheusPort(int prometheusPort) {
         this.prometheusPort = prometheusPort;
-    }
-    
-    public int getRatelimitPoolSize() {
-        return this.ratelimitPoolSize;
-    }
-    
-    public void setRatelimitPoolSize(int ratelimitPoolSize) {
-        this.ratelimitPoolSize = ratelimitPoolSize;
     }
     
     public String getApiAuthKey() {
@@ -472,17 +391,9 @@ public class Config {
     public int hashCode() {
         final int PRIME = 59;
         int result = 1;
-        final Object $alClient = this.alClient;
-        result = result * PRIME + ($alClient == null ? 43 : $alClient.hashCode());
-        final Object $alsecret = this.alsecret;
-        result = result * PRIME + ($alsecret == null ? 43 : $alsecret.hashCode());
-        final Object $apiLoginCreds = this.apiLoginCreds;
-        result = result * PRIME + ($apiLoginCreds == null ? 43 : $apiLoginCreds.hashCode());
         result = result * PRIME + (this.cacheGames ? 79 : 97);
         final Object $carbonToken = this.carbonToken;
         result = result * PRIME + ($carbonToken == null ? 43 : $carbonToken.hashCode());
-        final Object $consoleChannel = this.consoleChannel;
-        result = result * PRIME + ($consoleChannel == null ? 43 : $consoleChannel.hashCode());
         final Object $dbDb = this.dbDb;
         result = result * PRIME + ($dbDb == null ? 43 : $dbDb.hashCode());
         final Object $dbHost = this.dbHost;
@@ -496,7 +407,6 @@ public class Config {
         result = result * PRIME + ($dbotsToken == null ? 43 : $dbotsToken.hashCode());
         final Object $dbotsorgToken = this.dbotsorgToken;
         result = result * PRIME + ($dbotsorgToken == null ? 43 : $dbotsorgToken.hashCode());
-        result = result * PRIME + (this.isBeta ? 79 : 97);
         result = result * PRIME + (this.isPremiumBot ? 79 : 97);
         result = result * PRIME + this.maxJdaReconnectDelay;
         final Object $osuApiKey = this.osuApiKey;
@@ -506,15 +416,12 @@ public class Config {
         result = result * PRIME + java.util.Arrays.deepHashCode(this.prefix);
         final Object $sentryDSN = this.sentryDSN;
         result = result * PRIME + ($sentryDSN == null ? 43 : $sentryDSN.hashCode());
-        result = result * PRIME + this.shardWatcherTimeout;
         result = result * PRIME + this.shardWatcherWait;
         final Object $shardWebhookUrl = this.shardWebhookUrl;
         result = result * PRIME + ($shardWebhookUrl == null ? 43 : $shardWebhookUrl.hashCode());
         final Object $token = this.token;
         result = result * PRIME + ($token == null ? 43 : $token.hashCode());
         result = result * PRIME + this.totalShards;
-        result = result * PRIME + this.fromShard;
-        result = result * PRIME + this.upToShard;
         final Object $weatherAppId = this.weatherAppId;
         result = result * PRIME + ($weatherAppId == null ? 43 : $weatherAppId.hashCode());
         final Object $webhookUrl = this.webhookUrl;
@@ -527,7 +434,6 @@ public class Config {
         result = result * PRIME + ($apiTwoUrl == null ? 43 : $apiTwoUrl.hashCode());
         result = result * PRIME + (this.needApi ? 79 : 97);
         result = result * PRIME + this.prometheusPort;
-        result = result * PRIME + this.ratelimitPoolSize;
         final Object $apiAuthKey = this.apiAuthKey;
         result = result * PRIME + ($apiAuthKey == null ? 43 : $apiAuthKey.hashCode());
         final Object $currentSeason = this.currentSeason;
@@ -558,24 +464,10 @@ public class Config {
         if(!(o instanceof Config)) return false;
         final Config other = (Config) o;
         if(!other.canEqual(this)) return false;
-        final Object this$alClient = this.alClient;
-        final Object other$alClient = other.alClient;
-        if(!Objects.equals(this$alClient, other$alClient)) return false;
-        final Object this$alsecret = this.alsecret;
-        final Object other$alsecret = other.alsecret;
-        if(!Objects.equals(this$alsecret, other$alsecret)) return false;
-        final Object this$apiLoginCreds = this.apiLoginCreds;
-        final Object other$apiLoginCreds = other.apiLoginCreds;
-        if(!Objects.equals(this$apiLoginCreds, other$apiLoginCreds))
-            return false;
         if(this.cacheGames != other.cacheGames) return false;
         final Object this$carbonToken = this.carbonToken;
         final Object other$carbonToken = other.carbonToken;
         if(!Objects.equals(this$carbonToken, other$carbonToken))
-            return false;
-        final Object this$consoleChannel = this.consoleChannel;
-        final Object other$consoleChannel = other.consoleChannel;
-        if(!Objects.equals(this$consoleChannel, other$consoleChannel))
             return false;
         final Object this$dbDb = this.dbDb;
         final Object other$dbDb = other.dbDb;
@@ -597,7 +489,6 @@ public class Config {
         final Object other$dbotsorgToken = other.dbotsorgToken;
         if(!Objects.equals(this$dbotsorgToken, other$dbotsorgToken))
             return false;
-        if(this.isBeta != other.isBeta) return false;
         if(this.isPremiumBot != other.isPremiumBot) return false;
         if(this.maxJdaReconnectDelay != other.maxJdaReconnectDelay) return false;
         final Object this$osuApiKey = this.osuApiKey;
@@ -610,7 +501,6 @@ public class Config {
         final Object this$sentryDSN = this.sentryDSN;
         final Object other$sentryDSN = other.sentryDSN;
         if(!Objects.equals(this$sentryDSN, other$sentryDSN)) return false;
-        if(this.shardWatcherTimeout != other.shardWatcherTimeout) return false;
         if(this.shardWatcherWait != other.shardWatcherWait) return false;
         final Object this$shardWebhookUrl = this.shardWebhookUrl;
         final Object other$shardWebhookUrl = other.shardWebhookUrl;
@@ -620,8 +510,6 @@ public class Config {
         final Object other$token = other.token;
         if(!Objects.equals(this$token, other$token)) return false;
         if(this.totalShards != other.totalShards) return false;
-        if(this.fromShard != other.fromShard) return false;
-        if(this.upToShard != other.upToShard) return false;
         final Object this$weatherAppId = this.weatherAppId;
         final Object other$weatherAppId = other.weatherAppId;
         if(!Objects.equals(this$weatherAppId, other$weatherAppId))
@@ -640,7 +528,6 @@ public class Config {
         if(!Objects.equals(this$apiTwoUrl, other$apiTwoUrl)) return false;
         if(this.needApi != other.needApi) return false;
         if(this.prometheusPort != other.prometheusPort) return false;
-        if(this.ratelimitPoolSize != other.ratelimitPoolSize) return false;
         final Object this$apiAuthKey = this.apiAuthKey;
         final Object other$apiAuthKey = other.apiAuthKey;
         if(!Objects.equals(this$apiAuthKey, other$apiAuthKey)) return false;
@@ -683,6 +570,6 @@ public class Config {
     }
     
     public String toString() {
-        return "Config(alClient=" + this.alClient + ", alsecret=" + this.alsecret + ", apiLoginCreds=" + this.apiLoginCreds + ", cacheGames=" + this.cacheGames + ", carbonToken=" + this.carbonToken + ", consoleChannel=" + this.consoleChannel + ", dbDb=" + this.dbDb + ", dbHost=" + this.dbHost + ", dbPassword=" + this.dbPassword + ", dbPort=" + this.dbPort + ", dbUser=" + this.dbUser + ", dbotsToken=" + this.dbotsToken + ", dbotsorgToken=" + this.dbotsorgToken + ", isBeta=" + this.isBeta + ", isPremiumBot=" + this.isPremiumBot + ", maxJdaReconnectDelay=" + this.maxJdaReconnectDelay + ", osuApiKey=" + this.osuApiKey + ", owners=" + this.owners + ", prefix=" + java.util.Arrays.deepToString(this.prefix) + ", sentryDSN=" + this.sentryDSN + ", shardWatcherTimeout=" + this.shardWatcherTimeout + ", shardWatcherWait=" + this.shardWatcherWait + ", shardWebhookUrl=" + this.shardWebhookUrl + ", token=" + this.token + ", totalShards=" + this.totalShards + ", fromShard=" + this.fromShard + ", upToShard=" + this.upToShard + ", weatherAppId=" + this.weatherAppId + ", webhookUrl=" + this.webhookUrl + ", spambotUrl=" + this.spambotUrl + ", weebapiKey=" + this.weebapiKey + ", apiTwoUrl=" + this.apiTwoUrl + ", needApi=" + this.needApi + ", prometheusPort=" + this.prometheusPort + ", ratelimitPoolSize=" + this.ratelimitPoolSize + ", apiAuthKey=" + this.apiAuthKey + ", currentSeason=" + this.currentSeason + ", clientId=" + this.clientId + ", jedisPoolAddress=" + this.jedisPoolAddress + ", jedisPoolPort=" + this.jedisPoolPort + ", lavalinkNodes=" + this.lavalinkNodes + ", lavalinkPass=" + this.lavalinkPass + ", cacheClientEndpoint=" + this.cacheClientEndpoint + ", cacheClientToken=" + this.cacheClientToken + ", ipv6Block=" + this.ipv6Block + ", excludeAddress=" + this.excludeAddress + ", bucketFactor=" + this.bucketFactor + ")";
+        return "Config(cacheGames=" + this.cacheGames + ", carbonToken=" + this.carbonToken + ", dbDb=" + this.dbDb + ", dbHost=" + this.dbHost + ", dbPassword=" + this.dbPassword + ", dbPort=" + this.dbPort + ", dbUser=" + this.dbUser + ", dbotsToken=" + this.dbotsToken + ", dbotsorgToken=" + this.dbotsorgToken + ", isPremiumBot=" + this.isPremiumBot + ", maxJdaReconnectDelay=" + this.maxJdaReconnectDelay + ", osuApiKey=" + this.osuApiKey + ", owners=" + this.owners + ", prefix=" + java.util.Arrays.deepToString(this.prefix) + ", sentryDSN=" + this.sentryDSN + ", shardWatcherWait=" + this.shardWatcherWait + ", shardWebhookUrl=" + this.shardWebhookUrl + ", token=" + this.token + ", totalShards=" + this.totalShards + ", weatherAppId=" + this.weatherAppId + ", webhookUrl=" + this.webhookUrl + ", spambotUrl=" + this.spambotUrl + ", weebapiKey=" + this.weebapiKey + ", apiTwoUrl=" + this.apiTwoUrl + ", needApi=" + this.needApi + ", prometheusPort=" + this.prometheusPort + ", apiAuthKey=" + this.apiAuthKey + ", currentSeason=" + this.currentSeason + ", clientId=" + this.clientId + ", jedisPoolAddress=" + this.jedisPoolAddress + ", jedisPoolPort=" + this.jedisPoolPort + ", lavalinkNodes=" + this.lavalinkNodes + ", lavalinkPass=" + this.lavalinkPass + ", cacheClientEndpoint=" + this.cacheClientEndpoint + ", cacheClientToken=" + this.cacheClientToken + ", ipv6Block=" + this.ipv6Block + ", excludeAddress=" + this.excludeAddress + ", bucketFactor=" + this.bucketFactor + ")";
     }
 }
