@@ -486,8 +486,14 @@ public class InfoCmds {
                                                     .setAuthor(languageContext.get("commands.stats.server.header"), null, event.getJDA().getSelfUser().getAvatarUrl())
                                                     .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
                                                     .addField(languageContext.get("commands.stats.server.cpu_usage"), String.format("%.2f", getInstanceCPUUsage()) + "%", true)
-                                                    .addField(languageContext.get("commands.stats.server.rem"), String.format("%.2f", getVpsMaxMemory()) + "GB/" + String.format("%.2f", getVpsFreeMemory())
-                                                                                                                        + "GB/" + String.format("%.2f", getVpsUsedMemory()) + "GB", false);
+                                                    .addField(languageContext.get("commands.stats.server.rem"),
+                                                            String.format(
+                                                                    "%s/%s/%s",
+                                                                    Utils.formatMemoryAmount(getVpsMaxMemory()),
+                                                                    Utils.formatMemoryAmount(getVpsFreeMemory()),
+                                                                    Utils.formatMemoryAmount(getVpsUsedMemory())
+                                                            ), false
+                                                    );
                 
                 event.getChannel().sendMessage(embedBuilder.build()).queue();
             }
