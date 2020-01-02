@@ -233,10 +233,10 @@ public class MantaroCore {
         
         Set<Class<?>> commands = lookForAnnotatedOn(commandsPackage, Module.class);
         Set<Class<?>> options = lookForAnnotatedOn(optsPackage, Option.class);
-    
+        shardEventBus = new EventBus();
+
         startShardedInstance();
         
-        shardEventBus = new EventBus();
         for(Class<?> aClass : commands) {
             try {
                 shardEventBus.register(aClass.getDeclaredConstructor().newInstance());

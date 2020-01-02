@@ -65,8 +65,7 @@ public class Config {
     public String excludeAddress = "";
     public int bucketFactor = 4;
     
-    public Config() {
-    }
+    public Config() { }
     
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());
