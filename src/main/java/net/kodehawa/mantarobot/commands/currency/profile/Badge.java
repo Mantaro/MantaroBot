@@ -66,6 +66,14 @@ public enum Badge {
             ((player, dbUser) -> false), false
     ),
 
+    SEASON_WINNER1_MONEY("Season 1: Top #1 Money", "\uD83D\uDC7E", "The player with the most money at the end of the first season.", 92, 94,
+            ((player, dbUser) -> false), false
+    ),
+
+    SEASON_WINNER1_REP("Season 1: Top #1 Rep", "\uD83D\uDC7E", "The player with the most money at the end of the first season.", 92, 94,
+            ((player, dbUser) -> false), false
+    ),
+
     //Have more than 8 billion credits.
     ALTERNATIVE_WORLD("Isekai", "\uD83C\uDF0E", "Have more than 8 billion credits at any given time.", 92, 92,
             ((player, dbUser) -> player.getMoney() > 7526527671L), false
@@ -76,9 +84,58 @@ public enum Badge {
             (player, dbUser) -> player.getLevel() >= 200, false
     ),
 
+    // --- START OF FIRST SEASON BADGES ---
+    SEASON_WINNER2_MONEY("Season 1: Top #2 Money", "\uD83D\uDC7E", "The 2nd player with the most money at the end of the first season.", 92, 94,
+            ((player, dbUser) -> false), false
+    ),
+
+    SEASON_WINNER2_REP("Season 1: Top #2 Rep", "\uD83D\uDC7E", "The 2nd player with the most rep at the end of the first season.", 92, 94,
+            ((player, dbUser) -> false), false
+    ),
+
+    SEASON_WINNER3_MONEY("Season 1: Top #3 Money", "\uD83D\uDC7E", "The 3rd player with the most money at the end of the first season.", 92, 94,
+            ((player, dbUser) -> false), false
+    ),
+
+    SEASON_WINNER3_REP("Season 1: Top #3 Rep", "\uD83D\uDC7E", "The 3rd player with the most rep at the end of the first season.", 92, 94,
+            ((player, dbUser) -> false), false
+    ),
+
+    SEASON_WINNER4_MONEY("Season 1: Top #4 Money", "\uD83D\uDC7E", "The 4th player with the most money at the end of the first season.", 92, 94,
+            ((player, dbUser) -> false), false
+    ),
+
+    SEASON_WINNER4_REP("Season 1: Top #4 Rep", "\uD83D\uDC7E", "The 4th player with the most rep at the end of the first season.", 92, 94,
+            ((player, dbUser) -> false), false
+    ),
+
+    SEASON_WINNER5_MONEY("Season 1: Top #5 Money", "\uD83D\uDC7E", "The 5th player with the most money at the end of the first season.", 92, 94,
+            ((player, dbUser) -> false), false
+    ),
+
+    SEASON_WINNER5_REP("Season 1: Top #5 Rep", "\uD83D\uDC7E", "The 5th player with the most rep at the end of the first season.", 92, 94,
+            ((player, dbUser) -> false), false
+    ),
+    // --- END OF FIRST SEASON BADGES ---
+
     //Win more than 1000 games
     ADDICTED_GAMER("Addicted Gamer", "\uD83C\uDFAE", "Win 1000 games.", 91, 92,
             (player, dbUser) -> player.getData().getGamesWon() >= 1000, false
+    ),
+
+    //Self-explanatory. (Description)
+    MARATHON_RUNNER("Marathon Runner", "\uD83C\uDF96", "Get to level 150 in Mantaro.", 91, 92,
+            (player, dbUser) -> player.getLevel() >= 150, false
+    ),
+
+    //Self-explanatory. (Description)
+    FAST_RUNNER("Fast Runner", "\uD83D\uDEA9", "Get to level 100 in Mantaro.", 91, 92,
+            (player, dbUser) -> player.getLevel() >= 100, false
+    ),
+
+    //Win more than 100 games
+    GAMER("Gamer", "\uD83D\uDD79", "Win 100 games.", 91, 92,
+            (player, dbUser) -> player.getData().getGamesWon() >= 100, false
     ),
 
     //Get a loot crate.
@@ -96,21 +153,6 @@ public enum Badge {
     //Open a loot crate.
     THE_SECRET("The Secret", "\uD83D\uDCBC", "Open a loot crate.", 92, 92,
             (player, dbUser) -> false, false
-    ),
-
-    //Self-explanatory. (Description)
-    MARATHON_RUNNER("Marathon Runner", "\uD83C\uDF96", "Get to level 150 in Mantaro.", 91, 92,
-            (player, dbUser) -> player.getLevel() >= 150, false
-    ),
-
-    //Self-explanatory. (Description)
-    FAST_RUNNER("Fast Runner", "\uD83D\uDEA9", "Get to level 100 in Mantaro.", 91, 92,
-            (player, dbUser) -> player.getLevel() >= 100, false
-    ),
-
-    //Win more than 100 games
-    GAMER("Gamer", "\uD83D\uDD79", "Win 100 games.", 91, 92,
-            (player, dbUser) -> player.getData().getGamesWon() >= 100, false
     ),
 
     //Self-explanatory. (Description)
