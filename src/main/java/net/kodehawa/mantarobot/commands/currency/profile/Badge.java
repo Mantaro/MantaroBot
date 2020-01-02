@@ -66,13 +66,15 @@ public enum Badge {
             ((player, dbUser) -> false), false
     ),
 
-    SEASON_WINNER1_MONEY("Season 1: Top #1 Money", "\uD83D\uDC7E", "The player with the most money at the end of the first season.", 92, 94,
+    // --- START OF FIRST SEASON BADGES  (Top 1) ---
+    SEASON1_WINNER1_MONEY("Season 1: Top #1 Money", "\uD83D\uDC7E", "The player with the most money at the end of the first season.", 92, 94,
             ((player, dbUser) -> false), false
     ),
 
-    SEASON_WINNER1_REP("Season 1: Top #1 Rep", "\uD83D\uDC7E", "The player with the most money at the end of the first season.", 92, 94,
+    SEASON1_WINNER1_REP("Season 1: Top #1 Rep", "\uD83D\uDC7E", "The player with the most money at the end of the first season.", 92, 94,
             ((player, dbUser) -> false), false
     ),
+    // --- END OF FIRST SEASON BADGES  (Top 1) ---
 
     //Have more than 8 billion credits.
     ALTERNATIVE_WORLD("Isekai", "\uD83C\uDF0E", "Have more than 8 billion credits at any given time.", 92, 92,
@@ -84,39 +86,39 @@ public enum Badge {
             (player, dbUser) -> player.getLevel() >= 200, false
     ),
 
-    // --- START OF FIRST SEASON BADGES ---
-    SEASON_WINNER2_MONEY("Season 1: Top #2 Money", "\uD83D\uDC7E", "The 2nd player with the most money at the end of the first season.", 92, 94,
+    // --- START OF FIRST SEASON BADGES (Top 2 - 5) ---
+    SEASON1_WINNER2_MONEY("Season 1: Top #2 Money", "\uD83D\uDC7E", "The 2nd player with the most money at the end of the first season.", 92, 94,
             ((player, dbUser) -> false), false
     ),
 
-    SEASON_WINNER2_REP("Season 1: Top #2 Rep", "\uD83D\uDC7E", "The 2nd player with the most rep at the end of the first season.", 92, 94,
+    SEASON1_WINNER2_REP("Season 1: Top #2 Rep", "\uD83D\uDC7E", "The 2nd player with the most rep at the end of the first season.", 92, 94,
             ((player, dbUser) -> false), false
     ),
 
-    SEASON_WINNER3_MONEY("Season 1: Top #3 Money", "\uD83D\uDC7E", "The 3rd player with the most money at the end of the first season.", 92, 94,
+    SEASON1_WINNER3_MONEY("Season 1: Top #3 Money", "\uD83D\uDC7E", "The 3rd player with the most money at the end of the first season.", 92, 94,
             ((player, dbUser) -> false), false
     ),
 
-    SEASON_WINNER3_REP("Season 1: Top #3 Rep", "\uD83D\uDC7E", "The 3rd player with the most rep at the end of the first season.", 92, 94,
+    SEASON1_WINNER3_REP("Season 1: Top #3 Rep", "\uD83D\uDC7E", "The 3rd player with the most rep at the end of the first season.", 92, 94,
             ((player, dbUser) -> false), false
     ),
 
-    SEASON_WINNER4_MONEY("Season 1: Top #4 Money", "\uD83D\uDC7E", "The 4th player with the most money at the end of the first season.", 92, 94,
+    SEASON1_WINNER4_MONEY("Season 1: Top #4 Money", "\uD83D\uDC7E", "The 4th player with the most money at the end of the first season.", 92, 94,
             ((player, dbUser) -> false), false
     ),
 
-    SEASON_WINNER4_REP("Season 1: Top #4 Rep", "\uD83D\uDC7E", "The 4th player with the most rep at the end of the first season.", 92, 94,
+    SEASON1_WINNER4_REP("Season 1: Top #4 Rep", "\uD83D\uDC7E", "The 4th player with the most rep at the end of the first season.", 92, 94,
             ((player, dbUser) -> false), false
     ),
 
-    SEASON_WINNER5_MONEY("Season 1: Top #5 Money", "\uD83D\uDC7E", "The 5th player with the most money at the end of the first season.", 92, 94,
+    SEASON1_WINNER5_MONEY("Season 1: Top #5 Money", "\uD83D\uDC7E", "The 5th player with the most money at the end of the first season.", 92, 94,
             ((player, dbUser) -> false), false
     ),
 
-    SEASON_WINNER5_REP("Season 1: Top #5 Rep", "\uD83D\uDC7E", "The 5th player with the most rep at the end of the first season.", 92, 94,
+    SEASON1_WINNER5_REP("Season 1: Top #5 Rep", "\uD83D\uDC7E", "The 5th player with the most rep at the end of the first season.", 92, 94,
             ((player, dbUser) -> false), false
     ),
-    // --- END OF FIRST SEASON BADGES ---
+    // --- END OF FIRST SEASON BADGES (Top 2 - 5) ---
 
     //Win more than 1000 games
     ADDICTED_GAMER("Addicted Gamer", "\uD83C\uDFAE", "Win 1000 games.", 91, 92,
