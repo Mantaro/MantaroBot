@@ -333,6 +333,12 @@ public class OwnerCmd {
 
                 String b = args[1];
                 User user = MantaroBot.getInstance().getUserById(args[0]);
+
+                if(user == null) {
+                    channel.sendMessage(EmoteReference.ERROR + "User not found.").queue();
+                    return;
+                }
+
                 Badge badge = Badge.lookupFromString(b);
                 if(badge == null) {
                     channel.sendMessage(EmoteReference.ERROR + "No badge with that enum name! Valid badges: " +
