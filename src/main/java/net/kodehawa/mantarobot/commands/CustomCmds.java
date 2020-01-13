@@ -527,7 +527,8 @@ CustomCmds {
                     return;
                 }
 
-                CustomCommand custom = db().getCustomCommand(event.getGuild(), args[0]);
+                String cmd = args[0];
+                CustomCommand custom = db().getCustomCommand(event.getGuild(), cmd);
                 if(custom == null) {
                     channel.sendMessageFormat(languageContext.get("commands.custom.not_found"), EmoteReference.ERROR2, args[0]).queue();
                     return;
@@ -536,7 +537,7 @@ CustomCmds {
                 int where;
                 String index = args[1];
                 //replace first occurrence and second argument: custom command and index.
-                String commandContent = ctn.replaceFirst(args[0], "").replaceFirst(args[1], "");
+                String commandContent = ctn.replaceFirst(cmd, "").replaceFirst(index, "").trim();
                 try {
                     where = Math.abs(Integer.parseInt(index));
                 } catch(NumberFormatException e) {
