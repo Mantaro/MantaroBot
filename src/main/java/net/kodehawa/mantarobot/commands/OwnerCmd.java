@@ -335,7 +335,7 @@ public class OwnerCmd {
                 }
                 
                 String b = args[1];
-                User user = MantaroBot.getInstance().getUserById(args[0]);
+                User user = MantaroBot.getInstance().getShardManager().getUserById(args[0]);
 
                 if(user == null) {
                     channel.sendMessage(EmoteReference.ERROR + "User not found.").queue();

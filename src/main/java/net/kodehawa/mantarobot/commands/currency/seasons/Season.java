@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.commands.currency.seasons;
 
 public enum Season {
-    FIRST("1st");
     FIRST("1st"),
     SECOND("2nd");
 

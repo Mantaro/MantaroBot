@@ -86,22 +86,6 @@ public enum Badge {
             (player, dbUser) -> player.getLevel() >= 200, false
     ),
     
-    //Get a loot crate.
-    LUCKY("Lucky", "\uD83C\uDF40", "Be lucky enough to loot a loot crate.", 92, 92,
-            (player, dbUser) -> false, false
-    ),
-    
-    //Have more than 5000 items stacked.
-    SHOPPER("Shopper", "\uD83D\uDED2", "Have more than 5000 items of any kind.", 91, 92,
-            (player, dbUser) -> player.getInventory().asList().stream()
-                                        .filter(itemStack -> itemStack.getItem() != Items.CLAIM_KEY)
-                                        .anyMatch(stack -> stack.getAmount() == 5000), false
-    ),
-    
-    //Open a loot crate.
-    THE_SECRET("The Secret", "\uD83D\uDCBC", "Open a loot crate.", 92, 92,
-            (player, dbUser) -> false, false),
-
     // --- START OF FIRST SEASON BADGES (Top 2 - 5) ---
     SEASON1_WINNER2_MONEY("Season 1: Top #2 Money", "\uD83D\uDC7E", "The 2nd player with the most money at the end of the first season.", 92, 94,
             ((player, dbUser) -> false), false
