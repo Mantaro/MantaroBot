@@ -1,9 +1,0 @@
-de_DE.json
-es_ES.json
-lt_LT.json
-nl_NL.json
-pt_BR.json
-ru_RU.json
-tr_TR.json
-fr_FR.json
-en_US.json
