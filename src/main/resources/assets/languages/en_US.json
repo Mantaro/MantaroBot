@@ -1112,7 +1112,7 @@
     },
     "dailycrate": {
       "key": "%1$sYou need a crate key to use this! Please buy one and try again!",
-      "not_premium": "%1$sYou can open a daily premium crate with a high chance of getting good stuff with premium! Please check out more at <https://patreon.com/mantaro>. This can be ran every 24 hours.",
+      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>.\nThis can be ran every 24 hours.",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key to open it."
     },
     "prune": {
@@ -2113,7 +2113,7 @@
       "cookie": "Delicious",
       "die_2": "Even more loaded. `Leftover from Currency version 1. No longer obtainable.`",
       "booster": "Used to give you some kind of boost, now it's broken. `Leftover from Currency version 1. No longer obtainable.`",
-      "berserk": "Currency Berserker? Anyone? `Leftover from Currency version 1. No longer obtainable.`",
+      "berserk": "Currency Berserk? Anyone? `Leftover from Currency version 1. No longer obtainable.`",
       "companion": "Aw, such a cute dog. `Leftover from Currency version 1. No longer obtainable.`",
       "special_ring": "It's so special, it's not even a ring. `Leftover from Currency version 1. No longer obtainable.`",
       "enchancer": "A broken enchanter, I wonder if it could be fixed? `Leftover from Currency version 1. No longer obtainable.`",
@@ -2123,8 +2123,8 @@
       "slot_ticket": "Gives you extra chance in slots, also works as bulk storage.",
       "house": "Cozy place to live in.",
       "car": "To move around.",
-      "bell": "Christmas event 2017/2018 reward. Gives you a cozy christmas feeling on your tree.",
-      "tree": "Christmas event 2017/2018 reward. Who doesn't like a christmas tree?.",
+      "bell": "Christmas reward. Gives you a cozy christmas feeling on your tree.",
+      "tree": "Christmas reward. Who doesn't like a christmas tree?.",
       "pants": "Basically what you wear on your legs... hopefully.",
       "haste": "Allows you to collect more stuff from lootable commands for 2 sessions.",
       "milky": "Clears all potion effects.",

@@ -35,7 +35,7 @@ plugins {
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 
 //Use an unified versioning system
-def ver = new Version(major: 5, minor: 4, revision: 0)
+def ver = new Version(major: 5, minor: 4, revision: 2)
 version ver.toString()
 
 sourceCompatibility = 11

@@ -329,35 +329,30 @@ public class OwnerCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 TextChannel channel = event.getChannel();
-                
-                if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    channel.sendMessage(EmoteReference.ERROR + "You need to give me a user to apply the badge to!").queue();
-                    return;
-                }
-                
                 if(args.length != 2) {
                     channel.sendMessage(EmoteReference.ERROR + "Wrong args length").queue();
                     return;
                 }
                 
                 String b = args[1];
-                List<User> users = event.getMessage().getMentionedUsers();
+                User user = MantaroBot.getInstance().getUserById(args[0]);
+
+                if(user == null) {
+                    channel.sendMessage(EmoteReference.ERROR + "User not found.").queue();
+                    return;
+                }
+
                 Badge badge = Badge.lookupFromString(b);
                 if(badge == null) {
                     channel.sendMessage(EmoteReference.ERROR + "No badge with that enum name! Valid badges: " +
                                                 Arrays.stream(Badge.values()).map(b1 -> "`" + b1.name() + "`").collect(Collectors.joining(" ,"))).queue();
                     return;
                 }
-                
-                for(User u : users) {
-                    Player p = MantaroData.db().getPlayer(u);
-                    p.getData().addBadgeIfAbsent(badge);
-                    p.saveAsync();
-                }
-                
-                channel.sendMessage(
-                        EmoteReference.CORRECT + "Added badge " + badge + " to " + users.stream().map(User::getName).collect(Collectors.joining(" ,"))
-                ).queue();
+                Player p = MantaroData.db().getPlayer(user);
+                p.getData().addBadgeIfAbsent(badge);
+                p.saveAsync();
+
+                channel.sendMessage(EmoteReference.CORRECT + "Added badge " + badge + " to " + user.getAsTag()).queue();
             }
         });
         

@@ -101,7 +101,8 @@ public class Character extends ImageGame {
                 
                 imageUrl = character.getAttributes().getImage().getOriginal();
                 //insert into cache
-                if(imageUrl != null) imgCache.put(characterName, imageUrl);
+                if(imageUrl != null)
+                    imgCache.put(characterName, imageUrl);
             }
             
             //Allow for replying with only the first name of the character.
