@@ -24,20 +24,20 @@ import net.kodehawa.mantarobot.MantaroBot;
 public class Lobby {
     private final String channel;
     private final String guild;
-
+    
     public Lobby(String guild, String channel) {
         this.guild = guild;
         this.channel = channel;
     }
-
+    
     public Guild getGuild() {
-        return MantaroBot.getInstance().getGuildById(guild);
+        return MantaroBot.getInstance().getShardManager().getGuildById(guild);
     }
-
+    
     public TextChannel getChannel() {
         if(getGuild() == null)
             return null;
-
+        
         return getGuild().getTextChannelById(channel);
     }
 }

@@ -17,24 +17,39 @@
 
 package net.kodehawa.mantarobot;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.OptionalInt;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class ExtraRuntimeOptions {
-    public static final boolean DISABLE_NON_ALLOCATING_BUFFER = System.getProperty("mantaro.disable-non-allocating-buffer") != null;
-    public static final boolean DEBUG = System.getProperty("mantaro.debug") != null;
-    public static final boolean DEBUG_LOGS = System.getProperty("mantaro.debug_logs") != null;
-    public static final boolean LOG_DB_ACCESS = System.getProperty("mantaro.log_db_access") != null;
-    public static final boolean TRACE_LOGS = System.getProperty("mantaro.trace_logs") != null;
-    public static final boolean VERBOSE = System.getProperty("mantaro.verbose") != null;
+    public static final boolean DISABLE_NON_ALLOCATING_BUFFER = getValue("mantaro.disable-non-allocating-buffer") != null;
+    public static final boolean DEBUG = getValue("mantaro.debug") != null;
+    public static final boolean DEBUG_LOGS = getValue("mantaro.debug_logs") != null;
+    public static final boolean LOG_DB_ACCESS = getValue("mantaro.log_db_access") != null;
+    public static final boolean TRACE_LOGS = getValue("mantaro.trace_logs") != null;
+    public static final boolean VERBOSE = getValue("mantaro.verbose") != null;
+    
     public static final OptionalInt FROM_SHARD = maybeInt("mantaro.from-shard");
     public static final OptionalInt TO_SHARD = maybeInt("mantaro.to-shard");
-
+    public static final OptionalInt SHARD_COUNT = maybeInt("mantaro.shard-count");
+    public static final boolean SHARD_SUBSET = FROM_SHARD.isPresent() && TO_SHARD.isPresent() && SHARD_COUNT.isPresent();
+    public static final boolean SHARD_SUBSET_MISSING = !SHARD_SUBSET && (
+            FROM_SHARD.isPresent() || TO_SHARD.isPresent()
+    );
+    
     private static OptionalInt maybeInt(String name) {
+        var value = getValue(name);
+        if(value == null) return OptionalInt.empty();
         try {
-            return OptionalInt.of(Integer.parseInt(System.getProperty(name)));
-        } catch(Exception e) {
+            return OptionalInt.of(Integer.parseInt(value));
+        } catch(NumberFormatException e) {
             return OptionalInt.empty();
         }
+    }
+    
+    @Nullable
+    private static String getValue(@Nonnull String name) {
+        return System.getProperty(name, System.getenv(name.replace(".", "_").toUpperCase()));
     }
 }

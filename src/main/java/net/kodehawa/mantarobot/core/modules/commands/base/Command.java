@@ -34,9 +34,9 @@ public interface Command {
      * @return a Nullable {@link Category}. Null means that the command should be hidden from Help.
      */
     Category category();
-
+    
     CommandPermission permission();
-
+    
     /**
      * Invokes the command to be executed.
      *
@@ -45,10 +45,10 @@ public interface Command {
      * @param content     the arguments of the command
      */
     void run(GuildMessageReceivedEvent event, I18nContext languageContext, String commandName, String content);
-
+    
     HelpContent help();
-
+    
     Command addOption(String call, Option option);
-
+    
     List<String> getAliases();
 }

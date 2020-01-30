@@ -17,37 +17,40 @@
 
 package net.kodehawa.mantarobot.core.modules.commands.i18n;
 
-import lombok.AllArgsConstructor;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 
-@AllArgsConstructor
 public class I18nContext {
     private GuildData guildData;
     private UserData userData;
-
+    
+    public I18nContext(GuildData guildData, UserData userData) {
+        this.guildData = guildData;
+        this.userData = userData;
+    }
+    
     public String get(String s) {
         I18n context = I18n.getForLanguage(getContextLanguage());
         return context.get(s);
     }
-
+    
     public String withRoot(String root, String s) {
         I18n context = I18n.getForLanguage(getContextLanguage());
         return context.withRoot(root, s);
     }
-
+    
     public String getContextLanguage() {
         if(guildData == null && userData == null) {
             return "en_US";
         }
-
+        
         String lang;
         if(userData == null)
             lang = guildData.getLang();
         else
             lang = userData.getLang() == null || userData.getLang().isEmpty() ? guildData.getLang() : userData.getLang();
-
+        
         I18n context = I18n.getForLanguage(lang);
         return context == null ? "en_US" : lang;
     }

@@ -17,26 +17,23 @@
 
 package net.kodehawa.mantarobot.commands.currency.seasons;
 
-import lombok.Getter;
-
 public enum Season {
     FIRST("1st"),
     SECOND("2nd");
 
-    @Getter
-    String display;
-
+    private final String display;
+    
     Season(String display) {
         this.display = display;
     }
-
+    
     public static Season lookupFromString(String name) {
         for(Season b : Season.values()) {
             //field name search
             if(b.name().equalsIgnoreCase(name)) {
                 return b;
             }
-
+            
             //show name search
             if(b.display.equalsIgnoreCase(name)) {
                 return b;
@@ -44,5 +41,8 @@ public enum Season {
         }
         return null;
     }
-
+    
+    public String getDisplay() {
+        return this.display;
+    }
 }

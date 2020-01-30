@@ -18,8 +18,6 @@
 package net.kodehawa.mantarobot.commands.music;
 
 import lavalink.client.io.jda.JdaLink;
-import lombok.Getter;
-import lombok.Setter;
 import net.dv8tion.jda.api.entities.Guild;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
@@ -27,31 +25,29 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
 public class GuildMusicManager {
     private final String guildId;
-
-    @Getter
+    
     private final TrackScheduler trackScheduler;
-    @Getter
-    @Setter
     private boolean isAwaitingDeath;
-
+    
     private ScheduledFuture<?> leaveTask = null;
-
+    
     public GuildMusicManager(String guildId) {
         this.guildId = guildId;
-
+        
         JdaLink lavaLink = MantaroBot.getInstance().getLavalink().getLink(guildId);
         trackScheduler = new TrackScheduler(lavaLink, guildId);
-
+        
         lavaLink.getPlayer().addListener(trackScheduler);
     }
-
+    
     private void leave() {
         Guild guild = trackScheduler.getGuild();
-
+        
         if(guild == null) return;
-
+        
         isAwaitingDeath = false;
         trackScheduler.getQueue().clear();
         if(trackScheduler.getRequestedChannelParsed() != null) {
@@ -59,26 +55,38 @@ public class GuildMusicManager {
                     EmoteReference.SAD, guild.getSelfMember().getVoiceState().getChannel().getName()
             ).queue();
         }
-
+        
         trackScheduler.nextTrack(true, true);
     }
-
+    
     public void scheduleLeave() {
         if(leaveTask != null)
             return;
-
+        
         leaveTask = MantaroBot.getInstance().getExecutorService().schedule(this::leave, 2, TimeUnit.MINUTES);
     }
-
+    
     public void cancelLeave() {
         if(leaveTask == null)
             return;
-
+        
         leaveTask.cancel(true);
         leaveTask = null;
     }
-
+    
     public JdaLink getLavaLink() {
         return MantaroBot.getInstance().getLavalink().getLink(guildId);
+    }
+    
+    public TrackScheduler getTrackScheduler() {
+        return this.trackScheduler;
+    }
+    
+    public boolean isAwaitingDeath() {
+        return this.isAwaitingDeath;
+    }
+    
+    public void setAwaitingDeath(boolean isAwaitingDeath) {
+        this.isAwaitingDeath = isAwaitingDeath;
     }
 }

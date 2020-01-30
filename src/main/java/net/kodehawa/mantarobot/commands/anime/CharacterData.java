@@ -18,39 +18,74 @@
 package net.kodehawa.mantarobot.commands.anime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
 
-@Getter
 //Kitsu API character data.
 public class CharacterData {
     private String id;
     private String type;
     private Attributes attributes;
-
-    @Getter
-    public static class Attributes {
-        private Names names;
-        private String name;
-
-        private String description;
-
-        private Image image;
+    
+    public String getId() {
+        return this.id;
     }
-
-    @Getter
-    public static class Names {
-        private String en;
-        private String ja_jp;
+    
+    public String getType() {
+        return this.type;
     }
-
-    @Getter
-    public static class Image {
-        private String original;
+    
+    public Attributes getAttributes() {
+        return this.attributes;
     }
-
+    
     @JsonIgnore
     public String getURL() {
         return "https://kitsu.io/character/" + id;
     }
-
+    
+    public static class Attributes {
+        private Names names;
+        private String name;
+        
+        private String description;
+        
+        private Image image;
+        
+        public Names getNames() {
+            return this.names;
+        }
+        
+        public String getName() {
+            return this.name;
+        }
+        
+        public String getDescription() {
+            return this.description;
+        }
+        
+        public Image getImage() {
+            return this.image;
+        }
+    }
+    
+    public static class Names {
+        private String en;
+        private String ja_jp;
+        
+        public String getEn() {
+            return this.en;
+        }
+        
+        public String getJa_jp() {
+            return this.ja_jp;
+        }
+    }
+    
+    public static class Image {
+        private String original;
+        
+        public String getOriginal() {
+            return this.original;
+        }
+    }
+    
 }

@@ -20,24 +20,81 @@ package net.kodehawa.mantarobot.db.entities.helpers;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
 
-@Data
+import java.util.Objects;
+
 public class LocalExperienceData {
-
+    
+    private String userId;
+    private long experience;
+    private long level;
     @JsonCreator
     public LocalExperienceData(@JsonProperty("userId") String userId, @JsonProperty("experience") long experience, @JsonProperty("level") long level) {
         this.userId = userId;
         this.experience = experience;
         this.level = level;
     }
-
     @JsonIgnore
     public LocalExperienceData(String userId) {
         this.userId = userId;
     }
-
-    private String userId;
-    private long experience;
-    private long level;
+    
+    public LocalExperienceData() {
+    }
+    
+    public String getUserId() {
+        return this.userId;
+    }
+    
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+    
+    public long getExperience() {
+        return this.experience;
+    }
+    
+    public void setExperience(long experience) {
+        this.experience = experience;
+    }
+    
+    public long getLevel() {
+        return this.level;
+    }
+    
+    public void setLevel(long level) {
+        this.level = level;
+    }
+    
+    protected boolean canEqual(final Object other) {
+        return other instanceof LocalExperienceData;
+    }
+    
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final Object $userId = this.getUserId();
+        result = result * PRIME + ($userId == null ? 43 : $userId.hashCode());
+        final long $experience = this.getExperience();
+        result = result * PRIME + (int) ($experience >>> 32 ^ $experience);
+        final long $level = this.getLevel();
+        result = result * PRIME + (int) ($level >>> 32 ^ $level);
+        return result;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof LocalExperienceData)) return false;
+        final LocalExperienceData other = (LocalExperienceData) o;
+        if(!other.canEqual(this)) return false;
+        final Object this$userId = this.getUserId();
+        final Object other$userId = other.getUserId();
+        if(!Objects.equals(this$userId, other$userId)) return false;
+        if(this.getExperience() != other.getExperience()) return false;
+        return this.getLevel() == other.getLevel();
+    }
+    
+    public String toString() {
+        return "LocalExperienceData(userId=" + this.getUserId() + ", experience=" + this.getExperience() + ", level=" + this.getLevel() + ")";
+    }
 }

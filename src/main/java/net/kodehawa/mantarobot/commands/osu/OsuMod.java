@@ -35,25 +35,25 @@ public enum OsuMod {
     SPUN_OUT(Mod.SPUN_OUT, "SO"),
     SUDDEN_DEATH(Mod.SUDDEN_DEATH, "SD"),
     PERFECT(Mod.PERFECT, "PF");
-
+    
     private final String abbreviation;
     private final Mod mod;
-
+    
     OsuMod(Mod mod, String abbreviation) {
         this.mod = mod;
         this.abbreviation = abbreviation;
     }
-
+    
     public static OsuMod get(Mod mod) {
         return Arrays.stream(values())
-                .filter(osuMod -> osuMod.mod == mod)
-                .findFirst().orElse(null);
+                       .filter(osuMod -> osuMod.mod == mod)
+                       .findFirst().orElse(null);
     }
-
+    
     public String getAbbreviation() {
         return abbreviation;
     }
-
+    
     public Mod getMod() {
         return mod;
     }

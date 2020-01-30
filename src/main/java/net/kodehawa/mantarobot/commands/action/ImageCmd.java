@@ -35,17 +35,17 @@ import java.util.stream.Collectors;
 
 public class ImageCmd extends NoArgsCommand {
     public static final URLCache CACHE = new URLCache(10);
-
+    
     private final String desc;
     private final String imageName;
     private final String name;
     private final String toSend;
     private final WeebAPIRequester weebapi = new WeebAPIRequester();
+    private final Random rand = new Random();
     private List<String> images;
     private boolean noMentions = false;
     private String type;
-    private final Random rand = new Random();
-
+    
     public ImageCmd(String name, String desc, String imageName, List<String> images, String toSend) {
         super(Category.ACTION);
         this.name = name;
@@ -54,7 +54,7 @@ public class ImageCmd extends NoArgsCommand {
         this.images = images;
         this.toSend = toSend;
     }
-
+    
     public ImageCmd(String name, String desc, String imageName, List<String> images, String toSend, boolean noMentions) {
         super(Category.ACTION);
         this.name = name;
@@ -64,7 +64,7 @@ public class ImageCmd extends NoArgsCommand {
         this.toSend = toSend;
         this.noMentions = noMentions;
     }
-
+    
     public ImageCmd(String name, String desc, String imageName, String type, String toSend) {
         super(Category.ACTION);
         this.name = name;
@@ -74,7 +74,7 @@ public class ImageCmd extends NoArgsCommand {
         this.toSend = toSend;
         this.type = type;
     }
-
+    
     public ImageCmd(String name, String desc, String imageName, String type, String toSend, boolean noMentions) {
         super(Category.ACTION);
         this.name = name;
@@ -85,7 +85,7 @@ public class ImageCmd extends NoArgsCommand {
         this.noMentions = noMentions;
         this.type = type;
     }
-
+    
     @Override
     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
         String random;
@@ -96,16 +96,16 @@ public class ImageCmd extends NoArgsCommand {
                 images = Collections.singletonList(result.getKey());
                 id = result.getValue();
             }
-
+            
             random = images.get(0); //Guaranteed random selection :^).
         } else {
             random = images.get(rand.nextInt(images.size()));
         }
-
+        
         String extension = random.substring(random.lastIndexOf("."));
         MessageBuilder builder = new MessageBuilder();
         builder.append(EmoteReference.TALKING);
-
+        
         if(!noMentions) {
             List<User> users = event.getMessage().getMentionedUsers();
             String names = "";
@@ -113,21 +113,21 @@ public class ImageCmd extends NoArgsCommand {
                 if(event.getGuild().getMember(user) == null) {
                     return "unknown";
                 }
-
+                
                 return event.getGuild().getMember(user).getEffectiveName();
             }).collect(Collectors.joining(", "));
             if(!names.isEmpty())
                 builder.append("**").append(names).append("**, ");
         }
-
+        
         builder.append(languageContext.get(toSend));
-        event.getChannel().sendMessage(builder.build()).addFile(CACHE.getInput(random),imageName + "-" + id + "." + extension).queue();
+        event.getChannel().sendMessage(builder.build()).addFile(CACHE.getInput(random), imageName + "-" + id + "." + extension).queue();
     }
-
+    
     @Override
     public HelpContent help() {
         return new HelpContent.Builder()
-                .setDescription(desc)
-                .build();
+                       .setDescription(desc)
+                       .build();
     }
 }

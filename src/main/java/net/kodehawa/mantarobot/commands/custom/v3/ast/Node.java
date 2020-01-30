@@ -24,14 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface Node {
-    <T, C> T accept(NodeVisitor<T, C> visitor, C context);
-
-    Node simplify();
-
     static Node fromJSON(JSONObject serialized) {
         switch(serialized.getString("type")) {
-            case "literal": return new LiteralNode(serialized.getString("value"));
-            case "variable": return new VariableNode(fromJSON(serialized.getJSONObject("name")));
+            case "literal":
+                return new LiteralNode(serialized.getString("value"));
+            case "variable":
+                return new VariableNode(fromJSON(serialized.getJSONObject("name")));
             case "op": {
                 List<Node> args = new ArrayList<>();
                 JSONArray raw = serialized.getJSONArray("args");
@@ -53,4 +51,8 @@ public interface Node {
             }
         }
     }
+    
+    <T, C> T accept(NodeVisitor<T, C> visitor, C context);
+    
+    Node simplify();
 }

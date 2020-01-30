@@ -17,30 +17,30 @@
 
 package net.kodehawa.mantarobot.core;
 
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.hooks.InterfacedEventManager;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-@Slf4j
 public class MantaroEventManager extends InterfacedEventManager {
-    private long LAST_JDA_EVENT;
-
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(MantaroEventManager.class);
+    private long lastJdaEvent;
+    
     public static Logger getLog() {
         return log;
     }
-
+    
     @Override
-    public void handle(GenericEvent event) {
+    public void handle(@NotNull GenericEvent event) {
         if(!(event instanceof ShardMonitorEvent)) {
-            LAST_JDA_EVENT = System.currentTimeMillis();
+            lastJdaEvent = System.currentTimeMillis();
         }
-
+        
         super.handle(event);
     }
-
+    
     public long getLastJDAEventTimeDiff() {
-        return System.currentTimeMillis() - LAST_JDA_EVENT;
+        return System.currentTimeMillis() - lastJdaEvent;
     }
 }

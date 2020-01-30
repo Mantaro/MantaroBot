@@ -17,18 +17,23 @@
 
 package net.kodehawa.mantarobot.core.listeners.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 
-@AllArgsConstructor
 public class CachedMessage {
     private long author;
-    @Getter
     private String content;
-
+    
+    public CachedMessage(long author, String content) {
+        this.author = author;
+        this.content = content;
+    }
+    
     public User getAuthor() {
-        return MantaroBot.getInstance().getUserById(author);
+        return MantaroBot.getInstance().getShardManager().getUserById(author);
+    }
+    
+    public String getContent() {
+        return this.content;
     }
 }

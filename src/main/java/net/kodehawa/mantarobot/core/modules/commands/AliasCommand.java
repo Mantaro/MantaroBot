@@ -17,8 +17,6 @@
 
 package net.kodehawa.mantarobot.core.modules.commands;
 
-import lombok.Getter;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
@@ -27,61 +25,69 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.options.core.Option;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-@Getter
 public class AliasCommand implements Command {
-    private List<String> aliases;
     private final Command command;
     private final String commandName;
     private final String originalName;
-
+    private List<String> aliases;
+    
     public AliasCommand(String commandName, String originalName, Command command) {
         this.commandName = commandName;
         this.command = command;
         this.originalName = originalName;
         this.aliases = command.getAliases();
     }
-
+    
     public Category parentCategory() {
         return command.category();
     }
-
+    
     public String parentName() {
         return originalName;
     }
-
+    
     @Override
     public Category category() {
         return null; //Alias Commands are hidden
     }
-
-    @Override
-    public HelpContent help() {
-        return command.help();
-    }
-
+    
     @Override
     public CommandPermission permission() {
         return command.permission();
     }
-
+    
     @Override
     public void run(GuildMessageReceivedEvent event, I18nContext languageContext, String ignored, String content) {
         command.run(event, languageContext, commandName, content);
     }
-
+    
+    @Override
+    public HelpContent help() {
+        return command.help();
+    }
+    
     @Override
     public Command addOption(String call, Option option) {
         Option.addOption(call, option);
         return this;
     }
-
+    
     @Override
     public List<String> getAliases() {
         return aliases;
     }
-
+    
+    public Command getCommand() {
+        return this.command;
+    }
+    
+    public String getCommandName() {
+        return this.commandName;
+    }
+    
+    public String getOriginalName() {
+        return this.originalName;
+    }
 }

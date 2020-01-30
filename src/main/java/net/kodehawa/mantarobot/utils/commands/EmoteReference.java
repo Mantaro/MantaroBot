@@ -106,24 +106,24 @@ public enum EmoteReference {
     BROKEN_SPARKLE_ROD("<:broken_sparkle_rod:560885907562037248>", null),
     BROKEN_COMET_ROD("<:broken_comet_rod:560885907004325889>", null),
     BROKEN_STAR_ROD("<:broken_star_rod:560885906857263116>", null);
-
+    
     final String discordNotation;
     final String unicode;
-
+    
     EmoteReference(String discordNotation, String unicode) {
         this.discordNotation = discordNotation;
         this.unicode = unicode;
     }
-
+    
     @Override
     public String toString() {
         return Optional.ofNullable(unicode).orElse(discordNotation) + " ";
     }
-
+    
     public String getDiscordNotation() {
         return discordNotation;
     }
-
+    
     public String getUnicode() {
         return unicode;
     }

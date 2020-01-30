@@ -21,7 +21,6 @@ import com.sedmelluq.discord.lavaplayer.format.StandardAudioDataFormats;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
 import com.sedmelluq.discord.lavaplayer.track.playback.MutableAudioFrame;
-import lombok.Getter;
 import net.dv8tion.jda.api.audio.AudioSendHandler;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 
@@ -31,11 +30,9 @@ public class AudioPlayerSendHandler implements AudioSendHandler {
     private final AudioPlayer audioPlayer;
     private final MutableAudioFrame frame;
     private AudioFrame lastFrame;
-    @Getter
     private int lost;
-    @Getter
     private int total;
-
+    
     public AudioPlayerSendHandler(AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
         if(ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER) {
@@ -46,7 +43,7 @@ public class AudioPlayerSendHandler implements AudioSendHandler {
             frame.setBuffer(ByteBuffer.allocate(StandardAudioDataFormats.DISCORD_OPUS.maximumChunkSize()));
         }
     }
-
+    
     @Override
     public boolean canProvide() {
         boolean provided = ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER ? (lastFrame = audioPlayer.provide()) != null : audioPlayer.provide(frame);
@@ -56,14 +53,22 @@ public class AudioPlayerSendHandler implements AudioSendHandler {
         }
         return provided;
     }
-
+    
     @Override
     public ByteBuffer provide20MsAudio() {
         return ByteBuffer.wrap((ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER ? lastFrame : frame).getData());
     }
-
+    
     @Override
     public boolean isOpus() {
         return true;
+    }
+    
+    public int getLost() {
+        return this.lost;
+    }
+    
+    public int getTotal() {
+        return this.total;
     }
 }

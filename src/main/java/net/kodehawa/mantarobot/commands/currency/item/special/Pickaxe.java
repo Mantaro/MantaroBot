@@ -17,32 +17,39 @@
 
 package net.kodehawa.mantarobot.commands.currency.item.special;
 
-import lombok.Getter;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 
 public class Pickaxe extends Item implements Castable {
-    @Getter
     private float chance;
-    @Getter
     //Wrench level, basically.
     private int castLevelRequired;
-    @Getter
     private int maximumCastAmount;
-
+    
     public Pickaxe(ItemType type, float chance, int castLevelRequired, int maximumCastAmount, String emoji, String name, String translatedName, String desc, long value, boolean sellable, boolean buyable, String recipe, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, sellable, buyable, recipe, recipeTypes);
         this.chance = chance;
         this.castLevelRequired = castLevelRequired;
         this.maximumCastAmount = maximumCastAmount;
     }
-
+    
     public Pickaxe(ItemType type, float chance, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.chance = chance;
         this.castLevelRequired = -1;
         this.maximumCastAmount = -1;
     }
-
+    
+    public float getChance() {
+        return this.chance;
+    }
+    
+    public int getCastLevelRequired() {
+        return this.castLevelRequired;
+    }
+    
+    public int getMaximumCastAmount() {
+        return this.maximumCastAmount;
+    }
 }

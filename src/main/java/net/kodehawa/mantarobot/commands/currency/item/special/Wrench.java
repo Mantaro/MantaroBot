@@ -17,29 +17,37 @@
 
 package net.kodehawa.mantarobot.commands.currency.item.special;
 
-import lombok.Getter;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 
 public class Wrench extends Item {
-    @Getter
     private float chance;
-    @Getter
     private int level;
-    @Getter
     private double multiplierReduction;
-
+    
     public Wrench(ItemType type, float chance, int level, double multiplierReduction, String emoji, String name, String translatedName, String desc, long value, boolean sellable, boolean buyable, String recipe, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, sellable, buyable, recipe, recipeTypes);
         this.chance = chance;
         this.level = level;
         this.multiplierReduction = multiplierReduction;
     }
-
+    
     public Wrench(ItemType type, float chance, int level, double multiplierReduction, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.chance = chance;
         this.level = level;
         this.multiplierReduction = multiplierReduction;
+    }
+    
+    public float getChance() {
+        return this.chance;
+    }
+    
+    public int getLevel() {
+        return this.level;
+    }
+    
+    public double getMultiplierReduction() {
+        return this.multiplierReduction;
     }
 }

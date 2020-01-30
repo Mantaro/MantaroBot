@@ -24,13 +24,14 @@ import lavalink.client.io.Link;
 import lavalink.client.player.IPlayer;
 import lavalink.client.player.LavalinkPlayer;
 import lavalink.client.player.event.PlayerEventListenerAdapter;
-import lombok.Getter;
-import lombok.Setter;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
-import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -43,39 +44,30 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class TrackScheduler extends PlayerEventListenerAdapter {
-    private Link audioPlayer;
-
     private final String guildId;
-    @Getter
     private final ConcurrentLinkedDeque<AudioTrack> queue;
-    @Getter
     private final List<String> voteSkips;
-    @Getter
     private final List<String> voteStop;
+    private final I18n language;
+    private Link audioPlayer;
     private long lastMessageSentAt;
     private long lastErrorSentAt;
-    @Getter
     private AudioTrack previousTrack, currentTrack;
-    @Getter
-    @Setter
     private Repeat repeatMode;
-    @Setter
     private long requestedChannel;
-    @Getter
-    private final I18n language;
     private long errorCount = 0;
-
+    
     public TrackScheduler(Link player, String guildId) {
         this.audioPlayer = player;
         this.queue = new ConcurrentLinkedDeque<>();
         this.guildId = guildId;
         this.voteSkips = new ArrayList<>();
         this.voteStop = new ArrayList<>();
-
+        
         //Only take guild language settings into consideration for announcement messages.
         this.language = I18n.of(guildId);
     }
-
+    
     public void queue(AudioTrack track, boolean addFirst) {
         if(getMusicPlayer().getPlayingTrack() != null) {
             if(addFirst)
@@ -87,11 +79,11 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             currentTrack = track;
         }
     }
-
+    
     public void queue(AudioTrack track) {
         queue(track, false);
     }
-
+    
     public void nextTrack(boolean force, boolean skip) {
         getVoteSkips().clear();
         if(repeatMode == Repeat.SONG && currentTrack != null && !force) {
@@ -100,55 +92,56 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             if(currentTrack != null)
                 previousTrack = currentTrack;
             currentTrack = queue.poll();
-
+            
             //This actually reads wrongly, but current = next in this context, since we switched it already.
             if(currentTrack != null)
                 getMusicPlayer().playTrack(currentTrack);
-
+            
             if(skip)
                 onTrackStart();
             if(repeatMode == Repeat.QUEUE)
                 queue(previousTrack.makeClone());
         }
     }
-
+    
     private void onTrackStart() {
         if(currentTrack == null) {
             onStop();
             return;
         }
-
+        
         if(MantaroData.db().getGuild(guildId).getData().isMusicAnnounce() && requestedChannel != 0 && getRequestedChannelParsed() != null) {
             VoiceChannel voiceChannel = getRequestedChannelParsed().getGuild().getSelfMember().getVoiceState().getChannel();
-
+            
             //What kind of massive meme is this?
             //It's called mantaro
             if(voiceChannel == null)
                 return;
-
+            
             //Force it in case it keeps going all the time?
             if(errorCount > 20) {
                 getRequestedChannelParsed().sendMessageFormat(language.get("commands.music_general.too_many_errors"), EmoteReference.ERROR).queue();
                 onStop();
                 return;
             }
-
+            
             if(getRequestedChannelParsed().canTalk()) {
                 AudioTrackInfo information = currentTrack.getInfo();
                 String title = information.title;
                 long trackLength = information.length;
-
+                
                 User user = null;
                 if(getCurrentTrack().getUserData() != null) {
-                    user = MantaroBot.getInstance().getUserById(String.valueOf(getCurrentTrack().getUserData()));
+                    user = MantaroBot.getInstance().getShardManager()
+                                   .getUserById(String.valueOf(getCurrentTrack().getUserData()));
                 }
-
+                
                 //Avoid massive spam of "now playing..." when repeating songs.
                 if(lastMessageSentAt == 0 || lastMessageSentAt + 10000 < System.currentTimeMillis()) {
                     getRequestedChannelParsed().sendMessage(
                             new MessageBuilder().append(String.format(language.get("commands.music_general.np_message"),
                                     "\uD83D\uDCE3", title, AudioUtils.getLength(trackLength), voiceChannel.getName(), user != null ?
-                                            String.format(language.get("general.requested_by"), String.format("**%s#%s**", user.getName(), user.getDiscriminator())) : ""))
+                                                                                                                              String.format(language.get("general.requested_by"), String.format("**%s#%s**", user.getName(), user.getDiscriminator())) : ""))
                                     .stripMentions(getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
                                     .build()
                     ).queue(message -> {
@@ -159,7 +152,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             }
         }
     }
-
+    
     @Override
     public void onTrackEnd(IPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
         if(endReason.mayStartNext) {
@@ -167,7 +160,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             onTrackStart();
         }
     }
-
+    
     @Override
     public void onTrackException(IPlayer player, AudioTrack track, Exception exception) {
         if(getRequestedChannelParsed() != null && getRequestedChannelParsed().canTalk()) {
@@ -176,69 +169,65 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                 lastErrorSentAt = System.currentTimeMillis();
                 getRequestedChannelParsed().sendMessageFormat(language.get("commands.music_general.track_error"), EmoteReference.SAD).queue();
             }
-
+            
             errorCount++;
         }
     }
-
+    
     public Guild getGuild() {
-        return MantaroBot.getInstance().getGuildById(guildId);
+        return MantaroBot.getInstance().getShardManager().getGuildById(guildId);
     }
-
+    
     public int getRequiredVotes() {
         int listeners = (int) getGuild().getVoiceChannelById(getAudioPlayer().getChannel()).getMembers().stream().filter(m -> !m.getUser().isBot() && !m.getVoiceState().isDeafened())
-                .count();
-
+                                      .count();
+        
         return (int) Math.ceil(listeners * .55);
     }
-
+    
     public void shuffle() {
         List<AudioTrack> tempList = new ArrayList<>(getQueue());
         Collections.shuffle(tempList);
-
+        
         queue.clear();
         queue.addAll(tempList);
     }
-
-    public MantaroShard getShard() {
-        return MantaroBot.getInstance().getShard(getGuild().getJDA().getShardInfo().getShardId());
-    }
-
+    
     public TextChannel getRequestedChannelParsed() {
         if(requestedChannel == 0)
             return null;
-
-        return MantaroBot.getInstance().getTextChannelById(requestedChannel);
+        
+        return MantaroBot.getInstance().getShardManager().getTextChannelById(requestedChannel);
     }
-
+    
     public void stop() {
         queue.clear();
         onStop();
     }
-
+    
     public void getQueueAsList(Consumer<List<AudioTrack>> list) {
         List<AudioTrack> tempList = new ArrayList<>(getQueue());
         list.accept(tempList);
         queue.clear();
         queue.addAll(tempList);
     }
-
+    
     private void onStop() {
         //stop the track.
         LavalinkPlayer lavalinkPlayer = getAudioPlayer().getPlayer();
         if(lavalinkPlayer.getPlayingTrack() != null)
             lavalinkPlayer.stopTrack();
-
+        
         getVoteStop().clear();
         getVoteSkips().clear();
-
+        
         Guild g = getGuild();
         if(g == null) {
             //Why?
             this.getAudioPlayer().destroy();
             return;
         }
-
+        
         boolean premium = MantaroData.db().getGuild(g).isPremium();
         try {
             TextChannel ch = getRequestedChannelParsed();
@@ -248,32 +237,69 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                         EmoteReference.MEGA, premium ? "" : String.format(language.get("commands.music_general.premium_beg"), EmoteReference.HEART)
                 ).queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             }
-        } catch(Exception ignored) { }
-
+        } catch(Exception ignored) {
+        }
+        
         requestedChannel = 0;
         errorCount = 0;
         //If not set to null, those two objects will always be in scope and dangle around in the heap forever.
         //Some AudioTrack objects were of almost 500kb of size, I guess 100k of those can cause a meme.
         currentTrack = null;
         previousTrack = null;
-
+        
         //Disconnect this audio player.
         this.getAudioPlayer().disconnect();
     }
-
-    public enum Repeat {
-        SONG, QUEUE
+    
+    public ConcurrentLinkedDeque<AudioTrack> getQueue() {
+        return this.queue;
     }
-
+    
+    public List<String> getVoteSkips() {
+        return this.voteSkips;
+    }
+    
+    public List<String> getVoteStop() {
+        return this.voteStop;
+    }
+    
+    public AudioTrack getPreviousTrack() {
+        return this.previousTrack;
+    }
+    
+    public AudioTrack getCurrentTrack() {
+        return this.currentTrack;
+    }
+    
+    public Repeat getRepeatMode() {
+        return this.repeatMode;
+    }
+    
+    public void setRepeatMode(Repeat repeatMode) {
+        this.repeatMode = repeatMode;
+    }
+    
+    public I18n getLanguage() {
+        return this.language;
+    }
+    
+    public void setRequestedChannel(long requestedChannel) {
+        this.requestedChannel = requestedChannel;
+    }
+    
     public Link getAudioPlayer() {
         if(audioPlayer == null) {
             audioPlayer = MantaroBot.getInstance().getLavalink().getLink(guildId);
         }
-
+        
         return audioPlayer;
     }
-
+    
     public IPlayer getMusicPlayer() {
         return getAudioPlayer().getPlayer();
+    }
+    
+    public enum Repeat {
+        SONG, QUEUE
     }
 }

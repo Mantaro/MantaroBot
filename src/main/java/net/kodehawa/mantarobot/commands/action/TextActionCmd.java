@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.commands.action;
 
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
@@ -35,7 +34,7 @@ public class TextActionCmd extends NoArgsCommand {
     private final String name;
     private final List<String> strings;
     private final Random rand = new Random();
-
+    
     public TextActionCmd(String name, String desc, Color color, String format, List<String> strings) {
         super(Category.ACTION);
         this.name = name;
@@ -44,16 +43,16 @@ public class TextActionCmd extends NoArgsCommand {
         this.format = format;
         this.strings = strings;
     }
-
+    
     @Override
     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
         event.getChannel().sendMessage(String.format(format, strings.get(rand.nextInt(strings.size())))).queue();
     }
-
+    
     @Override
     public HelpContent help() {
         return new HelpContent.Builder()
-                .setDescription(desc)
-                .build();
+                       .setDescription(desc)
+                       .build();
     }
 }

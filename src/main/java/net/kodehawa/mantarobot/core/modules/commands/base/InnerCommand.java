@@ -17,8 +17,6 @@
 
 package net.kodehawa.mantarobot.core.modules.commands.base;
 
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 
 import java.util.Collections;
@@ -29,22 +27,22 @@ public interface InnerCommand extends Command {
     default Category category() {
         return null;
     }
-
+    
     @Override
     default HelpContent help() {
         return null;
     }
-
+    
+    default List<String> getAliases() {
+        return Collections.emptyList();
+    }
+    
     //Override this for the subcommand usage to appear on help!
     default String description() {
         return "";
     }
-
+    
     default boolean isChild() {
         return false;
-    }
-
-    default List<String> getAliases() {
-        return Collections.emptyList();
     }
 }

@@ -44,7 +44,7 @@ public class ModerationOptions extends OptionHandler {
     public ModerationOptions() {
         setType(OptionType.MODERATION);
     }
-
+    
     @Subscribe
     public void onRegistry(OptionRegistryEvent e) {
         registerOption("localblacklist:add", "Local Blacklist add",
@@ -52,61 +52,61 @@ public class ModerationOptions extends OptionHandler {
                         "You need to mention the user. You can mention multiple users.\n" +
                         "**Example:** `~>opts localblacklist add @user1 @user2`",
                 "Adds someone to the local blacklist.", (event, args, lang) -> {
-
+                    
                     List<User> mentioned = event.getMessage().getMentionedUsers();
-
+                    
                     if(mentioned.isEmpty()) {
                         event.getChannel().sendMessageFormat(lang.get("options.localblacklist_add.invalid"), EmoteReference.ERROR).queue();
                         return;
                     }
-
+                    
                     if(mentioned.contains(event.getAuthor())) {
                         event.getChannel().sendMessageFormat(lang.get("options.localblacklist_add.yourself_notice"), EmoteReference.ERROR).queue();
                         return;
                     }
-
+                    
                     Guild guild = event.getGuild();
                     if(mentioned.stream().anyMatch(u -> CommandPermission.ADMIN.test(guild.getMember(u)))) {
                         event.getChannel().sendMessageFormat(lang.get("options.localblacklist_add.admin_notice"), EmoteReference.ERROR).queue();
                         return;
                     }
-
+                    
                     DBGuild dbGuild = MantaroData.db().getGuild(guild);
                     GuildData guildData = dbGuild.getData();
                     List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
-
+                    
                     String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
-
+                    
                     guildData.getDisabledUsers().addAll(toBlackList);
                     dbGuild.save();
-
+                    
                     event.getChannel().sendMessageFormat(lang.get("options.localblacklist_add.success"), EmoteReference.CORRECT, blacklisted).queue();
                 });
-
+        
         registerOption("localblacklist:remove", "Local Blacklist remove",
                 "Removes someone from the local blacklist.\n" +
                         "You need to mention the user. You can mention multiple users.\n" +
                         "**Example:** `~>opts localblacklist remove @user1 @user2`",
                 "Removes someone from the local blacklist.", (event, args, lang) -> {
                     List<User> mentioned = event.getMessage().getMentionedUsers();
-
+                    
                     if(mentioned.isEmpty()) {
                         event.getChannel().sendMessageFormat(lang.get("options.localblacklist_remove.invalid"), EmoteReference.ERROR).queue();
                         return;
                     }
-
+                    
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
-
+                    
                     List<String> toUnBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
                     String unBlackListed = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
-
+                    
                     guildData.getDisabledUsers().removeAll(toUnBlackList);
                     dbGuild.save();
-
+                    
                     event.getChannel().sendMessageFormat(lang.get("options.localblacklist_remove.success"), EmoteReference.CORRECT, unBlackListed).queue();
                 });
-
+        
         registerOption("logs:enable", "Enable logs",
                 "Enables logs. You need to use the channel name.\n" +
                         "**Example:** `~>opts logs enable mod-logs`",
@@ -115,11 +115,11 @@ public class ModerationOptions extends OptionHandler {
                         event.getChannel().sendMessageFormat(lang.get("options.logs_enable.no_channel"), EmoteReference.ERROR).queue();
                         return;
                     }
-
+                    
                     String logChannel = args[0];
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
-
+                    
                     Consumer<TextChannel> consumer = textChannel -> {
                         guildData.setGuildLogChannel(textChannel.getId());
                         dbGuild.saveAsync();
@@ -127,14 +127,14 @@ public class ModerationOptions extends OptionHandler {
                                 EmoteReference.MEGA, textChannel.getName(), textChannel.getId())
                         ).queue();
                     };
-
+                    
                     TextChannel channel = Utils.findChannelSelect(event, logChannel, consumer);
-
-                    if (channel != null) {
+                    
+                    if(channel != null) {
                         consumer.accept(channel);
                     }
                 });
-
+        
         registerOption("logs:exclude", "Exclude log channel.",
                 "Excludes a channel from logging. You need to use the channel name, *not* the mention.\n" +
                         "**Example:** `~>opts logs exclude staff`. " +
@@ -146,64 +146,64 @@ public class ModerationOptions extends OptionHandler {
                     }
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
-
+                    
                     if(args[0].equals("clearchannels")) {
                         guildData.getLogExcludedChannels().clear();
                         dbGuild.saveAsync();
                         event.getChannel().sendMessageFormat(lang.get("options.logs_exclude.clearchannels.success"), EmoteReference.OK).queue();
                         return;
                     }
-
+                    
                     if(args[0].equals("remove")) {
                         if(args.length < 2) {
                             event.getChannel().sendMessageFormat(lang.get("options.log_exclude.invalid"), EmoteReference.ERROR).queue();
                             return;
                         }
                         String channel = args[1];
-
+                        
                         Consumer<TextChannel> consumer = textChannel -> {
                             guildData.getLogExcludedChannels().remove(textChannel.getId());
                             dbGuild.saveAsync();
-                            event.getChannel().sendMessageFormat(lang.get("options.logs_exclude.remove.success"), 
+                            event.getChannel().sendMessageFormat(lang.get("options.logs_exclude.remove.success"),
                                     EmoteReference.OK, textChannel.getAsMention()
                             ).queue();
                         };
-
+                        
                         TextChannel ch = Utils.findChannelSelect(event, channel, consumer);
-
-                        if (ch != null) {
+                        
+                        if(ch != null) {
                             consumer.accept(ch);
                         }
                         return;
                     }
-
+                    
                     String channel = args[0];
                     Consumer<TextChannel> consumer = textChannel -> {
                         guildData.getLogExcludedChannels().add(textChannel.getId());
                         dbGuild.saveAsync();
                         event.getChannel().sendMessageFormat(lang.get("options.logs_exclude.success"), EmoteReference.OK, textChannel.getAsMention()).queue();
                     };
-
+                    
                     TextChannel ch = Utils.findChannelSelect(event, channel, consumer);
-
-                    if (ch != null) {
+                    
+                    if(ch != null) {
                         consumer.accept(ch);
                     }
                 });
-
-
+        
+        
         registerOptionShort("logs:disable", "Disable logs",
                 "Disables logs.\n" +
                         "**Example:** `~>opts logs disable`",
                 "Disables logs.", (GuildMessageReceivedEvent event, I18nContext lang) -> {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-            guildData.setGuildLogChannel(null);
-            dbGuild.saveAsync();
-            event.getChannel().sendMessageFormat(lang.get("options.logs_disable.success"), EmoteReference.MEGA).queue();
-        });
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    guildData.setGuildLogChannel(null);
+                    dbGuild.saveAsync();
+                    event.getChannel().sendMessageFormat(lang.get("options.logs_disable.success"), EmoteReference.MEGA).queue();
+                });
     }
-
+    
     @Override
     public String description() {
         return null;

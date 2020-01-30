@@ -17,9 +17,45 @@
 
 package net.kodehawa.mantarobot.db.entities.helpers;
 
-import lombok.Data;
+import java.util.Objects;
 
-@Data
 public class PremiumKeyData {
     private String linkedTo = null;
+    
+    public PremiumKeyData() {
+    }
+    
+    public String getLinkedTo() {
+        return this.linkedTo;
+    }
+    
+    public void setLinkedTo(String linkedTo) {
+        this.linkedTo = linkedTo;
+    }
+    
+    protected boolean canEqual(final Object other) {
+        return other instanceof PremiumKeyData;
+    }
+    
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final Object $linkedTo = this.getLinkedTo();
+        result = result * PRIME + ($linkedTo == null ? 43 : $linkedTo.hashCode());
+        return result;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof PremiumKeyData)) return false;
+        final PremiumKeyData other = (PremiumKeyData) o;
+        if(!other.canEqual(this)) return false;
+        final Object this$linkedTo = this.getLinkedTo();
+        final Object other$linkedTo = other.getLinkedTo();
+        return Objects.equals(this$linkedTo, other$linkedTo);
+    }
+    
+    public String toString() {
+        return "PremiumKeyData(linkedTo=" + this.getLinkedTo() + ")";
+    }
 }

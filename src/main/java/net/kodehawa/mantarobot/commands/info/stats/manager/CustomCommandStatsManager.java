@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class CustomCommandStatsManager extends StatsManager<String> {
     public static final Map<String, AtomicInteger> TOTAL_CUSTOM_CMDS = new HashMap<>();
-
+    
     public static void log(String cmd) {
         if(cmd.isEmpty()) return;
         TOTAL_CUSTOM_CMDS.computeIfAbsent(cmd, k -> new AtomicInteger(0)).incrementAndGet();

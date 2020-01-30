@@ -18,8 +18,6 @@
 package net.kodehawa.mantarobot.commands.game.core;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import lombok.Getter;
-import lombok.Setter;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
@@ -37,34 +35,26 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("unchecked")
 public class GameLobby extends Lobby {
-
+    
     public static final Map<Long, GameLobby> LOBBYS = new ConcurrentHashMap<>();
     private static final ExecutorService executorService = Executors.newCachedThreadPool(
             new ThreadFactoryBuilder()
-                .setNameFormat("GameLobby-CachedExecutor")
-                .build()
+                    .setNameFormat("GameLobby-CachedExecutor")
+                    .build()
     );
-
-    @Getter
-    GuildMessageReceivedEvent event;
-    @Getter
-    LinkedList<Game<?>> gamesToPlay;
-    @Getter
-    Guild guild;
-    @Getter
-    List<String> players;
-    @Getter
-    I18nContext languageContext;
-    @Setter
-    @Getter
-    public boolean gameLoaded = false;
-
+    
     static {
         Prometheus.THREAD_POOL_COLLECTOR.add("game-lobbies", executorService);
     }
 
+    public boolean gameLoaded = false;
+    GuildMessageReceivedEvent event;
+    LinkedList<Game<?>> gamesToPlay;
+    Guild guild;
+    List<String> players;
+    I18nContext languageContext;
+    
     public GameLobby(GuildMessageReceivedEvent event, I18nContext languageContext, List<String> players, LinkedList<Game<?>> games) {
         super(event.getGuild().getId(), event.getChannel().getId());
         this.guild = event.getGuild();
@@ -73,13 +63,13 @@ public class GameLobby extends Lobby {
         this.languageContext = languageContext;
         this.gamesToPlay = games;
     }
-
+    
     @Override
     public String toString() {
         return String.format("GameLobby{%s, %s, players:%d, channel:%s}", event.getGuild(),
                 gamesToPlay.stream().map(Game::name).collect(Collectors.toList()), players.size(), getChannel());
     }
-
+    
     public void startFirstGame() {
         if(gamesToPlay.getFirst().onStart(this)) {
             setGameLoaded(false);
@@ -87,7 +77,7 @@ public class GameLobby extends Lobby {
             DBGuild dbGuild = MantaroData.db().getGuild(guild);
             dbGuild.getData().setGameTimeoutExpectedAt(String.valueOf(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(70)));
             dbGuild.save();
-
+            
             gamesToPlay.getFirst().call(this, players);
         } else {
             //if first game fails we need this.
@@ -95,7 +85,7 @@ public class GameLobby extends Lobby {
             startNextGame(false);
         }
     }
-
+    
     //This runs async because I need the operation to end *before* this, also if this takes too long games get stuck.
     public void startNextGame(boolean success) {
         executorService.execute(() -> {
@@ -110,7 +100,7 @@ public class GameLobby extends Lobby {
                     LOBBYS.remove(getChannel().getIdLong());
                     return;
                 }
-
+                
                 //fuck userbots
                 Thread.sleep(250); //250ms.
                 if(gamesToPlay.getFirst().onStart(this)) {
@@ -124,5 +114,33 @@ public class GameLobby extends Lobby {
                 LOBBYS.remove(getChannel().getIdLong());
             }
         });
+    }
+    
+    public GuildMessageReceivedEvent getEvent() {
+        return this.event;
+    }
+    
+    public LinkedList<Game<?>> getGamesToPlay() {
+        return this.gamesToPlay;
+    }
+    
+    public Guild getGuild() {
+        return this.guild;
+    }
+    
+    public List<String> getPlayers() {
+        return this.players;
+    }
+    
+    public I18nContext getLanguageContext() {
+        return this.languageContext;
+    }
+    
+    public boolean isGameLoaded() {
+        return this.gameLoaded;
+    }
+    
+    public void setGameLoaded(boolean gameLoaded) {
+        this.gameLoaded = gameLoaded;
     }
 }

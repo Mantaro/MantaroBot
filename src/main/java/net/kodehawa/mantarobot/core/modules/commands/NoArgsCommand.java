@@ -27,13 +27,13 @@ public abstract class NoArgsCommand extends AbstractCommand {
     public NoArgsCommand(Category category) {
         super(category);
     }
-
+    
     public NoArgsCommand(Category category, CommandPermission permission) {
         super(category, permission);
     }
-
+    
     protected abstract void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content);
-
+    
     @Override
     public void run(GuildMessageReceivedEvent event, I18nContext languageContext, String commandName, String content) {
         call(event, languageContext, content);

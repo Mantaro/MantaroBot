@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.commands.currency.seasons.helpers;
 
-import lombok.Getter;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.seasons.Season;
@@ -28,31 +27,30 @@ import net.kodehawa.mantarobot.db.entities.Player;
 
 public class UnifiedPlayer {
     private static ManagedDatabase managedDatabase = MantaroData.db();
-
-    @Getter
+    
     public Player player;
-    @Getter
     public SeasonPlayer seasonalPlayer;
-
-    private UnifiedPlayer() { }
-
+    
+    private UnifiedPlayer() {
+    }
+    
     private UnifiedPlayer(Player player, SeasonPlayer seasonalPlayer) {
         this.player = player;
         this.seasonalPlayer = seasonalPlayer;
     }
-
+    
     public static UnifiedPlayer of(String userId, Season season) {
         return new UnifiedPlayer(managedDatabase.getPlayer(userId), managedDatabase.getPlayerForSeason(userId, season));
     }
-
+    
     public static UnifiedPlayer of(User user, Season season) {
         return UnifiedPlayer.of(user.getId(), season);
     }
-
+    
     public static UnifiedPlayer of(Member member, Season season) {
         return UnifiedPlayer.of(member.getUser().getId(), season);
     }
-
+    
     /**
      * Adds x amount of money from the player.
      *
@@ -71,7 +69,7 @@ public class UnifiedPlayer {
             return false;
         }
     }
-
+    
     /**
      * Adds x amount of reputation to a player. Normally 1.
      *
@@ -81,9 +79,10 @@ public class UnifiedPlayer {
         player.setReputation(player.getReputation() + rep);
         seasonalPlayer.setReputation(seasonalPlayer.getReputation() + rep);
     }
-
+    
     /**
      * Removes x amount of money from the player. Only goes though if money removed sums more than zero (avoids negative values).
+     *
      * @param money How much?
      */
     public boolean removeMoney(long money) {
@@ -93,22 +92,29 @@ public class UnifiedPlayer {
         if(seasonalPlayer.getMoney() - money > 0) {
             seasonalPlayer.setMoney(Math.subtractExact(seasonalPlayer.getMoney(), money));
         }
-
+        
         if(player.getMoney() - money > 0) {
             player.setMoney(Math.subtractExact(player.getMoney(), money));
         }
-
+        
         return true;
     }
-
+    
     public void save() {
         player.save();
         seasonalPlayer.save();
     }
-
+    
     public void saveAsync() {
         player.saveAsync();
         seasonalPlayer.saveAsync();
     }
-
+    
+    public Player getPlayer() {
+        return this.player;
+    }
+    
+    public SeasonPlayer getSeasonalPlayer() {
+        return this.seasonalPlayer;
+    }
 }

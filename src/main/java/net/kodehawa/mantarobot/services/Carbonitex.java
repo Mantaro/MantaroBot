@@ -17,32 +17,32 @@
 
 package net.kodehawa.mantarobot.services;
 
-import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
-import okhttp3.*;
+import net.kodehawa.mantarobot.utils.Utils;
+import okhttp3.FormBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import static net.kodehawa.mantarobot.data.MantaroData.config;
 
-@Slf4j
 public class Carbonitex {
-    private final String carbonToken = config().get().carbonToken;
-    private final OkHttpClient httpClient = new OkHttpClient();
-
-    public void handle() {
+    public static void handle() {
+        var carbonToken = config().get().carbonToken;
         if(carbonToken != null) {
-            long newC = MantaroBot.getInstance().getGuildCache().size();
+            var newC = MantaroBot.getInstance().getShardManager().getGuildCache().size();
             try {
                 RequestBody body = new FormBody.Builder()
-                        .add("key", carbonToken)
-                        .add("servercount", String.valueOf(newC))
-                        .build();
-
+                                           .add("key", carbonToken)
+                                           .add("servercount", String.valueOf(newC))
+                                           .build();
+                
                 Request request = new Request.Builder()
-                        .url("https://www.carbonitex.net/discord/data/botdata.php")
-                        .post(body)
-                        .build();
-
-                Response response = httpClient.newCall(request).execute();
+                                          .url("https://www.carbonitex.net/discord/data/botdata.php")
+                                          .post(body)
+                                          .build();
+                
+                Response response = Utils.httpClient.newCall(request).execute();
                 response.close();
             } catch(Exception ignored) {
             }

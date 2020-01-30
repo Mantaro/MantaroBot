@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.utils.commands;
 
-import lombok.Getter;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -43,16 +42,16 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class RateLimiter {
     private static final ScheduledExecutorService ses = Executors.newScheduledThreadPool(1);
-    private final long max;
-    private final long timeout;
-    @Getter
-    private final ConcurrentHashMap<String, Pair<AtomicInteger, Long>> usersRateLimited = new ConcurrentHashMap<>();
-    private boolean isPremiumAware = false;
 
     static {
         Prometheus.THREAD_POOL_COLLECTOR.add("rate-limiter", ses);
     }
 
+    private final long max;
+    private final long timeout;
+    private final ConcurrentHashMap<String, Pair<AtomicInteger, Long>> usersRateLimited = new ConcurrentHashMap<>();
+    private boolean isPremiumAware = false;
+    
     /**
      * Default constructor normally used in Currency commands to ratelimit all people.
      *
@@ -62,7 +61,7 @@ public class RateLimiter {
         this.max = 1;
         this.timeout = timeUnit.toMillis(timeout);
     }
-
+    
     /**
      * Defines a premium-aware ratelimiter.
      * Premium users enjoy 25% less ratelimits on the bot in some commands.
@@ -74,7 +73,7 @@ public class RateLimiter {
         this.isPremiumAware = isPremiumAware;
         this.timeout = timeUnit.toMillis(timeout);
     }
-
+    
     /**
      * @param timeUnit The timeunit you'll input the RL time in. For example, TimeUnit#SECONDS.
      * @param max      How many times before you get ratelimited.
@@ -84,59 +83,63 @@ public class RateLimiter {
         this.max = max;
         this.timeout = timeUnit.toMillis(timeout);
     }
-
+    
     //Basically where you get b1nzy'd.
     public boolean process(String key) {
         boolean isPremium = isPremiumAware && MantaroData.db().getUser(key).isPremium();
         Pair<AtomicInteger, Long> p = usersRateLimited.get(key);
-
+        
         //Put the user on the RL map if they aren't here already, but we already let him pass.
         if(p == null) {
             usersRateLimited.put(key, p = new Pair<>());
             p.first = new AtomicInteger();
         }
-
+        
         AtomicInteger a = p.first;
         long i = a.get();
         if(i >= max) return false;
-
+        
         a.incrementAndGet();
         long now = System.currentTimeMillis();
-
+        
         Long tryAgain = p.second;
         if(tryAgain == null || tryAgain < now) {
             p.second = now + (isPremium ? (long) (timeout * 0.75) : timeout);
         }
-
+        
         ses.schedule(a::decrementAndGet, isPremium ? (long) (timeout * 0.75) : timeout, TimeUnit.MILLISECONDS);
         return true;
     }
-
+    
     //Method overload.
     public long tryAgainIn(String key) {
         Pair<AtomicInteger, Long> p = usersRateLimited.get(key);
         if(p == null || p.second == null)
             return 0;
-
+        
         return Math.max(p.second - System.currentTimeMillis(), 0);
     }
-
+    
     public long tryAgainIn(Member key) {
         return tryAgainIn(key.getUser().getId());
     }
-
+    
     public long tryAgainIn(User key) {
         return tryAgainIn(key.getId());
     }
-
+    
     public boolean process(User user) {
         return process(user.getId());
     }
-
+    
     public boolean process(Member member) {
         return process(member.getUser());
     }
-
+    
+    public ConcurrentHashMap<String, Pair<AtomicInteger, Long>> getUsersRateLimited() {
+        return this.usersRateLimited;
+    }
+    
     private static class Pair<F, S> {
         F first;
         S second;

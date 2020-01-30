@@ -20,9 +20,6 @@ package net.kodehawa.mantarobot.db.entities;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -36,23 +33,21 @@ import net.kodehawa.mantarobot.utils.Utils;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.currentTimeMillis;
 
-@Getter
-@ToString
-@EqualsAndHashCode
 public class DBUser implements ManagedObject {
     public static final String DB_TABLE = "users";
     private final UserData data;
     private final String id;
     private long premiumUntil;
-
+    
     @JsonIgnore
     private Config config = MantaroData.config().get();
-
+    
     @JsonCreator
     @ConstructorProperties({"id", "premiumUntil", "data"})
     public DBUser(@JsonProperty("id") String id, @JsonProperty("premiumUntil") long premiumUntil, @JsonProperty("data") UserData data) {
@@ -60,33 +55,26 @@ public class DBUser implements ManagedObject {
         this.premiumUntil = premiumUntil;
         this.data = data;
     }
-
+    
     public static DBUser of(String id) {
         return new DBUser(id, 0, new UserData());
     }
-
-    @JsonIgnore
-    @Override
-    @Nonnull
-    public String getTableName() {
-        return DB_TABLE;
-    }
-
+    
     @JsonIgnore
     public User getUser(JDA jda) {
         return jda.getUserById(getId());
     }
-
+    
     @JsonIgnore
     public User getUser() {
-        return MantaroBot.getInstance().getUserById(getId());
+        return MantaroBot.getInstance().getShardManager().getUserById(getId());
     }
-
+    
     @JsonIgnore
     public long getPremiumLeft() {
         return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
     }
-
+    
     public DBUser incrementPremium(long milliseconds) {
         if(isPremium()) {
             this.premiumUntil += milliseconds;
@@ -95,38 +83,38 @@ public class DBUser implements ManagedObject {
         }
         return this;
     }
-
+    
     @JsonIgnore
     //Slowly convert old key system to new key system (link old accounts).
     public boolean isPremium() {
         //Return true if this is running in MP, as all users are considered Premium on it.
         if(config.isPremiumBot())
             return true;
-
+        
         PremiumKey key = MantaroData.db().getPremiumKey(data.getPremiumKey());
         boolean isActive = false;
-
+        
         if(key != null) {
             //Check for this because there's no need to check if this key is active.
             boolean isKeyActive = currentTimeMillis() < key.getExpiration();
             if(!isKeyActive) {
                 DBUser owner = MantaroData.db().getUser(key.getOwner());
                 UserData ownerData = owner.getData();
-
+                
                 //Remove from owner's key ownership storage if key owner != key holder.
                 if(!key.getOwner().equals(getId())) {
                     ownerData.getKeysClaimed().remove(getId());
                     owner.save();
                 }
-
+                
                 //Handle this so we don't go over this check again. Remove premium key from user object.
                 key.delete();
                 removePremiumKey();
-
+                
                 //User is not premium.
                 return false;
             }
-
+            
             //Link key to owner if key == owner and key holder is on patreon.
             //Sadly gotta skip of holder isnt patron here bc there are some bought keys (paypal) which I can't convert without invalidating
             Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(key.getOwner());
@@ -134,7 +122,7 @@ public class DBUser implements ManagedObject {
                 key.getData().setLinkedTo(key.getOwner());
                 key.save(); //doesn't matter if it doesnt save immediately, will do later anyway (key is usually immutable in db)
             }
-
+            
             //If the receipt is not the owner, account them to the keys the owner has claimed.
             //This has usage later when seeing how many keys can they take. The second/third check is kind of redundant, but necessary anyway to see if it works.
             String keyLinkedTo = key.getData().getLinkedTo();
@@ -146,23 +134,23 @@ public class DBUser implements ManagedObject {
                     owner.save();
                 }
             }
-
+            
             isActive = key.getData().getLinkedTo() == null || (pledgeInfo != null ? pledgeInfo.getLeft() : true); //default to true if no link
         }
-
+        
         if(!isActive && key != null) {
             //Handle this so we don't go over this check again. Remove premium key from user object.
             key.delete();
             removePremiumKey();
         }
-
+        
         //TODO remove old system check.
         return  //old system, deprecated, maybe remove later?
                 currentTimeMillis() < premiumUntil ||
-                //Key parsing
-                (key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.USER) && isActive);
+                        //Key parsing
+                        (key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.USER) && isActive);
     }
-
+    
     @JsonIgnore
     public PremiumKey generateAndApplyPremiumKey(int days, String owner) {
         String premiumId = UUID.randomUUID().toString();
@@ -172,11 +160,73 @@ public class DBUser implements ManagedObject {
         save();
         return newKey;
     }
-
+    
     @JsonIgnore
     public void removePremiumKey() {
         data.setPremiumKey(null);
         data.setHasReceivedFirstKey(false);
         save();
+    }
+    
+    public UserData getData() {
+        return this.data;
+    }
+    
+    public String getId() {
+        return this.id;
+    }
+    
+    @JsonIgnore
+    @Override
+    @Nonnull
+    public String getTableName() {
+        return DB_TABLE;
+    }
+    
+    public long getPremiumUntil() {
+        return this.premiumUntil;
+    }
+    
+    public Config getConfig() {
+        return this.config;
+    }
+    
+    protected boolean canEqual(final Object other) {
+        return other instanceof DBUser;
+    }
+    
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final Object $data = this.getData();
+        result = result * PRIME + ($data == null ? 43 : $data.hashCode());
+        final Object $id = this.getId();
+        result = result * PRIME + ($id == null ? 43 : $id.hashCode());
+        final long $premiumUntil = this.getPremiumUntil();
+        result = result * PRIME + (int) ($premiumUntil >>> 32 ^ $premiumUntil);
+        final Object $config = this.getConfig();
+        result = result * PRIME + ($config == null ? 43 : $config.hashCode());
+        return result;
+    }
+    
+    public boolean equals(final Object o) {
+        if(o == this) return true;
+        if(!(o instanceof DBUser)) return false;
+        final DBUser other = (DBUser) o;
+        if(!other.canEqual(this)) return false;
+        final Object this$data = this.getData();
+        final Object other$data = other.getData();
+        if(!Objects.equals(this$data, other$data)) return false;
+        final Object this$id = this.getId();
+        final Object other$id = other.getId();
+        if(!Objects.equals(this$id, other$id)) return false;
+        if(this.getPremiumUntil() != other.getPremiumUntil()) return false;
+        final Object this$config = this.getConfig();
+        final Object other$config = other.getConfig();
+        return Objects.equals(this$config, other$config);
+    }
+    
+    public String toString() {
+        return "DBUser(data=" + this.getData() + ", id=" + this.getId() + ", premiumUntil=" + this.getPremiumUntil() + ", config=" + this.getConfig() + ")";
     }
 }
