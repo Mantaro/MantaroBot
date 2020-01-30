@@ -309,14 +309,15 @@ public class CurrencyCmds {
     @Subscribe
     public void market(CommandRegistry cr) {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
-                                                          .limit(1)
-                                                          .spamTolerance(2)
-                                                          .cooldown(6, TimeUnit.SECONDS)
-                                                          .maxCooldown(6, TimeUnit.SECONDS)
-                                                          .randomIncrement(true)
-                                                          .pool(MantaroData.getDefaultJedisPool())
-                                                          .prefix("market")
-                                                          .build();
+                .limit(1)
+                .spamTolerance(2)
+                .cooldown(6, TimeUnit.SECONDS)
+                .maxCooldown(6, TimeUnit.SECONDS)
+                .randomIncrement(true)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("market")
+                .premiumAware(true)
+                .build();
         
         
         TreeCommand marketCommand = (TreeCommand) cr.register("market", new TreeCommand(Category.CURRENCY) {

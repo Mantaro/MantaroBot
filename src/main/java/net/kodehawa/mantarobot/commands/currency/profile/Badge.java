@@ -75,7 +75,7 @@ public enum Badge {
             ((player, dbUser) -> false), false
     ),
     // --- END OF FIRST SEASON BADGES  (Top 1) --
-    //
+
     //Have more than 8 billion credits.
     ALTERNATIVE_WORLD("Isekai", "\uD83C\uDF0E", "Have more than 8 billion credits at any given time.", 92, 92,
             ((player, dbUser) -> player.getMoney() > 7526527671L), false
