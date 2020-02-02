@@ -64,7 +64,7 @@ Did you know that the bot is completely free and open-source? Check out <https:/
 Did you know that Mantaro changes the splash of its status every 10 minutes? Check it out, you might like it!
 The pokemon game of Mantaro has 850+ pokemons, including evolutions and forms.
 We have a public stats commands! Check `~>help stats` for more info.
-You can check your current premium status with `~>vipinfo`. The guild's vip status can be checked using `~>vipinfo guild`!
+You can check your current premium status with `~>vipstatus`. The guild's vip status can be checked using `~>vipstatus guild`!
 Use the `~>wiki` command for quick access to Mantaro's wiki page!
 The music player will leave after it's left alone or the queue is over, but you can queue more music!
 Restarts reset all ratelimits, meaning you can daily more than once a day if a restart is done on that day and you did daily before the restart!
