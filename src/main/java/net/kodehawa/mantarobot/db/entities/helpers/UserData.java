@@ -83,7 +83,7 @@ public class UserData {
         this.birthday = birthday;
     }
     
-    public boolean isHasReceivedFirstKey() {
+    public boolean hasReceivedFirstKey() {
         return this.hasReceivedFirstKey;
     }
     
@@ -155,7 +155,7 @@ public class UserData {
         this.equippedItems = equippedItems;
     }
     
-    public boolean isReceivedExpirationWarning() {
+    public boolean hasReceivedExpirationWarning() {
         return this.receivedExpirationWarning;
     }
     
@@ -222,86 +222,8 @@ public class UserData {
     protected boolean canEqual(final Object other) {
         return other instanceof UserData;
     }
-    
-    public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final Object $birthday = this.getBirthday();
-        result = result * PRIME + ($birthday == null ? 43 : $birthday.hashCode());
-        result = result * PRIME + (this.isHasReceivedFirstKey() ? 79 : 97);
-        final Object $premiumKey = this.getPremiumKey();
-        result = result * PRIME + ($premiumKey == null ? 43 : $premiumKey.hashCode());
-        result = result * PRIME + this.getReminderN();
-        final Object $timezone = this.getTimezone();
-        result = result * PRIME + ($timezone == null ? 43 : $timezone.hashCode());
-        final Object $lang = this.getLang();
-        result = result * PRIME + ($lang == null ? 43 : $lang.hashCode());
-        result = result * PRIME + this.getDustLevel();
-        result = result * PRIME + this.getEquippedPick();
-        result = result * PRIME + this.getEquippedRod();
-        final Object $equippedItems = this.getEquippedItems();
-        result = result * PRIME + ($equippedItems == null ? 43 : $equippedItems.hashCode());
-        result = result * PRIME + (this.isReceivedExpirationWarning() ? 79 : 97);
-        final Object $keysClaimed = this.getKeysClaimed();
-        result = result * PRIME + ($keysClaimed == null ? 43 : $keysClaimed.hashCode());
-        final Object $marriageId = this.getMarriageId();
-        result = result * PRIME + ($marriageId == null ? 43 : $marriageId.hashCode());
-        final Object $waifus = this.getWaifus();
-        result = result * PRIME + ($waifus == null ? 43 : $waifus.hashCode());
-        result = result * PRIME + this.getWaifuSlots();
-        result = result * PRIME + this.getTimesClaimed();
-        final Object $reminders = this.getReminders();
-        result = result * PRIME + ($reminders == null ? 43 : $reminders.hashCode());
-        result = result * PRIME + (this.isPrivateTag() ? 79 : 97);
-        return result;
-    }
-    
-    public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof UserData)) return false;
-        final UserData other = (UserData) o;
-        if(!other.canEqual(this)) return false;
-        final Object this$birthday = this.getBirthday();
-        final Object other$birthday = other.getBirthday();
-        if(!Objects.equals(this$birthday, other$birthday)) return false;
-        if(this.isHasReceivedFirstKey() != other.isHasReceivedFirstKey()) return false;
-        final Object this$premiumKey = this.getPremiumKey();
-        final Object other$premiumKey = other.getPremiumKey();
-        if(!Objects.equals(this$premiumKey, other$premiumKey)) return false;
-        if(this.getReminderN() != other.getReminderN()) return false;
-        final Object this$timezone = this.getTimezone();
-        final Object other$timezone = other.getTimezone();
-        if(!Objects.equals(this$timezone, other$timezone)) return false;
-        final Object this$lang = this.getLang();
-        final Object other$lang = other.getLang();
-        if(!Objects.equals(this$lang, other$lang)) return false;
-        if(this.getDustLevel() != other.getDustLevel()) return false;
-        if(this.getEquippedPick() != other.getEquippedPick()) return false;
-        if(this.getEquippedRod() != other.getEquippedRod()) return false;
-        final Object this$equippedItems = this.getEquippedItems();
-        final Object other$equippedItems = other.getEquippedItems();
-        if(!Objects.equals(this$equippedItems, other$equippedItems))
-            return false;
-        if(this.isReceivedExpirationWarning() != other.isReceivedExpirationWarning()) return false;
-        final Object this$keysClaimed = this.getKeysClaimed();
-        final Object other$keysClaimed = other.getKeysClaimed();
-        if(!Objects.equals(this$keysClaimed, other$keysClaimed))
-            return false;
-        final Object this$marriageId = this.getMarriageId();
-        final Object other$marriageId = other.getMarriageId();
-        if(!Objects.equals(this$marriageId, other$marriageId)) return false;
-        final Object this$waifus = this.getWaifus();
-        final Object other$waifus = other.getWaifus();
-        if(!Objects.equals(this$waifus, other$waifus)) return false;
-        if(this.getWaifuSlots() != other.getWaifuSlots()) return false;
-        if(this.getTimesClaimed() != other.getTimesClaimed()) return false;
-        final Object this$reminders = this.getReminders();
-        final Object other$reminders = other.getReminders();
-        if(!Objects.equals(this$reminders, other$reminders)) return false;
-        return this.isPrivateTag() == other.isPrivateTag();
-    }
-    
+
     public String toString() {
-        return "UserData(birthday=" + this.getBirthday() + ", hasReceivedFirstKey=" + this.isHasReceivedFirstKey() + ", premiumKey=" + this.getPremiumKey() + ", reminderN=" + this.getReminderN() + ", timezone=" + this.getTimezone() + ", lang=" + this.getLang() + ", dustLevel=" + this.getDustLevel() + ", equippedPick=" + this.getEquippedPick() + ", equippedRod=" + this.getEquippedRod() + ", equippedItems=" + this.getEquippedItems() + ", receivedExpirationWarning=" + this.isReceivedExpirationWarning() + ", keysClaimed=" + this.getKeysClaimed() + ", marriageId=" + this.getMarriageId() + ", waifus=" + this.getWaifus() + ", waifuSlots=" + this.getWaifuSlots() + ", timesClaimed=" + this.getTimesClaimed() + ", reminders=" + this.getReminders() + ", privateTag=" + this.isPrivateTag() + ")";
+        return "UserData(birthday=" + this.getBirthday() + ", hasReceivedFirstKey=" + this.hasReceivedFirstKey() + ", premiumKey=" + this.getPremiumKey() + ", reminderN=" + this.getReminderN() + ", timezone=" + this.getTimezone() + ", lang=" + this.getLang() + ", dustLevel=" + this.getDustLevel() + ", equippedPick=" + this.getEquippedPick() + ", equippedRod=" + this.getEquippedRod() + ", equippedItems=" + this.getEquippedItems() + ", receivedExpirationWarning=" + this.hasReceivedExpirationWarning() + ", keysClaimed=" + this.getKeysClaimed() + ", marriageId=" + this.getMarriageId() + ", waifus=" + this.getWaifus() + ", waifuSlots=" + this.getWaifuSlots() + ", timesClaimed=" + this.getTimesClaimed() + ", reminders=" + this.getReminders() + ", privateTag=" + this.isPrivateTag() + ")";
     }
 }
