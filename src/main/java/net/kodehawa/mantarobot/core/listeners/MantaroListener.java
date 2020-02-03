@@ -293,9 +293,11 @@ public class MantaroListener implements EventListener {
                 User user = event.getUser();
                 //who...
                 DBUser dbUser = db.getUser(user);
+                PremiumKey currentKey = MantaroData.db().getPremiumKey(dbUser.getData().getPremiumKey());
+
                 if(event.getMember().getRoles().stream().anyMatch(r -> r.getId().equals("290257037072531466"))) {
                     //Thanks lombok for the meme names
-                    if(!dbUser.getData().isHasReceivedFirstKey()) {
+                    if(!dbUser.getData().isHasReceivedFirstKey() && (currentKey == null || currentKey.validFor() < 20)) {
                         //Attempt to open a PM and send a key!
                         user.openPrivateChannel().queue(channel -> {
                             //Sellout message :^)
