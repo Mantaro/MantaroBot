@@ -65,36 +65,4 @@ public class LocalExperienceData {
     public void setLevel(long level) {
         this.level = level;
     }
-    
-    protected boolean canEqual(final Object other) {
-        return other instanceof LocalExperienceData;
-    }
-    
-    public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final Object $userId = this.getUserId();
-        result = result * PRIME + ($userId == null ? 43 : $userId.hashCode());
-        final long $experience = this.getExperience();
-        result = result * PRIME + (int) ($experience >>> 32 ^ $experience);
-        final long $level = this.getLevel();
-        result = result * PRIME + (int) ($level >>> 32 ^ $level);
-        return result;
-    }
-    
-    public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof LocalExperienceData)) return false;
-        final LocalExperienceData other = (LocalExperienceData) o;
-        if(!other.canEqual(this)) return false;
-        final Object this$userId = this.getUserId();
-        final Object other$userId = other.getUserId();
-        if(!Objects.equals(this$userId, other$userId)) return false;
-        if(this.getExperience() != other.getExperience()) return false;
-        return this.getLevel() == other.getLevel();
-    }
-    
-    public String toString() {
-        return "LocalExperienceData(userId=" + this.getUserId() + ", experience=" + this.getExperience() + ", level=" + this.getLevel() + ")";
-    }
 }

@@ -222,8 +222,4 @@ public class UserData {
     protected boolean canEqual(final Object other) {
         return other instanceof UserData;
     }
-
-    public String toString() {
-        return "UserData(birthday=" + this.getBirthday() + ", hasReceivedFirstKey=" + this.hasReceivedFirstKey() + ", premiumKey=" + this.getPremiumKey() + ", reminderN=" + this.getReminderN() + ", timezone=" + this.getTimezone() + ", lang=" + this.getLang() + ", dustLevel=" + this.getDustLevel() + ", equippedPick=" + this.getEquippedPick() + ", equippedRod=" + this.getEquippedRod() + ", equippedItems=" + this.getEquippedItems() + ", receivedExpirationWarning=" + this.hasReceivedExpirationWarning() + ", keysClaimed=" + this.getKeysClaimed() + ", marriageId=" + this.getMarriageId() + ", waifus=" + this.getWaifus() + ", waifuSlots=" + this.getWaifuSlots() + ", timesClaimed=" + this.getTimesClaimed() + ", reminders=" + this.getReminders() + ", privateTag=" + this.isPrivateTag() + ")";
-    }
 }

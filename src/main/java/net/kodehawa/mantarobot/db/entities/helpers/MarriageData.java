@@ -43,33 +43,4 @@ public class MarriageData {
     public void setLoveLetter(String loveLetter) {
         this.loveLetter = loveLetter;
     }
-    
-    protected boolean canEqual(final Object other) {
-        return other instanceof MarriageData;
-    }
-    
-    public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final long $marriageCreationMillis = this.getMarriageCreationMillis();
-        result = result * PRIME + (int) ($marriageCreationMillis >>> 32 ^ $marriageCreationMillis);
-        final Object $loveLetter = this.getLoveLetter();
-        result = result * PRIME + ($loveLetter == null ? 43 : $loveLetter.hashCode());
-        return result;
-    }
-    
-    public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof MarriageData)) return false;
-        final MarriageData other = (MarriageData) o;
-        if(!other.canEqual(this)) return false;
-        if(this.getMarriageCreationMillis() != other.getMarriageCreationMillis()) return false;
-        final Object this$loveLetter = this.getLoveLetter();
-        final Object other$loveLetter = other.getLoveLetter();
-        return Objects.equals(this$loveLetter, other$loveLetter);
-    }
-    
-    public String toString() {
-        return "MarriageData(marriageCreationMillis=" + this.getMarriageCreationMillis() + ", loveLetter=" + this.getLoveLetter() + ")";
-    }
 }

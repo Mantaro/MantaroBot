@@ -69,37 +69,4 @@ public class PlayerStatsData {
     public void setSlotsLose(long slotsLose) {
         this.slotsLose = slotsLose;
     }
-    
-    protected boolean canEqual(final Object other) {
-        return other instanceof PlayerStatsData;
-    }
-    
-    public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final long $looted = this.getLooted();
-        result = result * PRIME + (int) ($looted >>> 32 ^ $looted);
-        final long $mined = this.getMined();
-        result = result * PRIME + (int) ($mined >>> 32 ^ $mined);
-        final long $gambleLose = this.getGambleLose();
-        result = result * PRIME + (int) ($gambleLose >>> 32 ^ $gambleLose);
-        final long $slotsLose = this.getSlotsLose();
-        result = result * PRIME + (int) ($slotsLose >>> 32 ^ $slotsLose);
-        return result;
-    }
-    
-    public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof PlayerStatsData)) return false;
-        final PlayerStatsData other = (PlayerStatsData) o;
-        if(!other.canEqual(this)) return false;
-        if(this.getLooted() != other.getLooted()) return false;
-        if(this.getMined() != other.getMined()) return false;
-        if(this.getGambleLose() != other.getGambleLose()) return false;
-        return this.getSlotsLose() == other.getSlotsLose();
-    }
-    
-    public String toString() {
-        return "PlayerStatsData(looted=" + this.getLooted() + ", mined=" + this.getMined() + ", gambleLose=" + this.getGambleLose() + ", slotsLose=" + this.getSlotsLose() + ")";
-    }
 }
