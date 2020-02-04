@@ -19,9 +19,10 @@ package net.kodehawa.mantarobot.commands.currency.item.special;
 
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 
-public class FishRod extends Item implements Castable {
+public class FishRod extends Item implements Castable, Breakable {
     private int level;
     private int castLevelRequired;
     private int maximumCastAmount;
@@ -59,6 +60,7 @@ public class FishRod extends Item implements Castable {
         this.maxDurability = maxDurability;
     }
 
+    @Override
     public int getMaxDurability() {
         return maxDurability;
     }

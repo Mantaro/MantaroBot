@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 
 import java.beans.ConstructorProperties;
 import java.util.Map;
@@ -48,10 +49,8 @@ public class PlayerEquipment {
             return false;
 
         equipment.put(type, Items.idOf(item));
-        if(item instanceof Pickaxe)
-            durability.put(type, ((Pickaxe) item).getMaxDurability());
-        if(item instanceof FishRod)
-            durability.put(type, ((FishRod) item).getMaxDurability());
+        if(item instanceof Breakable) //should always be?
+            durability.put(type, ((Breakable) item).getMaxDurability());
         return true;
     }
 

@@ -19,9 +19,10 @@ package net.kodehawa.mantarobot.commands.currency.item.special;
 
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 
-public class Pickaxe extends Item implements Castable {
+public class Pickaxe extends Item implements Castable, Breakable {
     private float chance;
     //Wrench level, basically.
     private int castLevelRequired;
