@@ -707,6 +707,16 @@ public class InfoCmds {
             }
         });
     }
+
+    @Subscribe
+    public void support(CommandRegistry registry) {
+        registry.register("support", new SimpleCommand(Category.INFO) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                event.getChannel().sendMessageFormat(languageContext.get("commands.support.info"), EmoteReference.POPPER).queue();
+            }
+        });
+    }
     
     @Subscribe
     public void roleinfo(CommandRegistry cr) {
