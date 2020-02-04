@@ -175,7 +175,69 @@ public class UtilsCmds {
                 event.getChannel().sendMessageFormat(languageContext.get("commands.birthday.reset"), EmoteReference.CORRECT).queue();
             }
         });
-        
+
+        birthdayCommand.addSubCommand("list", new SubCommand() {
+            @Override
+            public String description() {
+                return "Gives all of the birthdays for this server.";
+            }
+
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
+                BirthdayCacher cacher = MantaroBot.getInstance().getBirthdayCacher();
+
+                try {
+                    //Why would this happen is out of my understanding.
+                    if(cacher != null) {
+                        //same as above unless testing?
+                        if(cacher.cachedBirthdays.isEmpty()) {
+                            channel.sendMessageFormat(languageContext.get("commands.birthday.no_global_birthdays"), EmoteReference.SAD).queue();
+                            return;
+                        }
+
+                        //O(1) lookups. Probably.
+                        HashSet<String> ids = event.getGuild().getMemberCache().stream().map(m -> m.getUser().getId()).collect(Collectors.toCollection(HashSet::new));
+                        Map<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = cacher.cachedBirthdays;
+
+                        //No birthdays to be seen here? (This month)
+                        if(guildCurrentBirthdays.isEmpty()) {
+                            channel.sendMessageFormat(languageContext.get("commands.birthday.no_guild_birthdays"), EmoteReference.ERROR).queue();
+                            return;
+                        }
+
+                        //Build the message. This is duplicated on birthday month with a lil different.
+                        String birthdays = guildCurrentBirthdays.entrySet().stream()
+                                .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
+                                .map((entry) -> String.format("+ %-20s : %s ", event.getGuild().getMemberById(entry.getKey()).getEffectiveName(), entry.getValue().getBirthday()))
+                                .collect(Collectors.joining("\n"));
+
+                        List<String> parts = DiscordUtils.divideString(1000, birthdays);
+                        boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(channel, Permission.MESSAGE_ADD_REACTION);
+
+                        List<String> messages = new LinkedList<>();
+                        for(String s1 : parts) {
+                            messages.add(String.format(languageContext.get("commands.birthday.full_header"), event.getGuild().getName(),
+                                    (parts.size() > 1 ? (hasReactionPerms ? languageContext.get("general.arrow_react") : languageContext.get("general.text_menu")) : "") +
+                                    String.format("```diff\n%s```", s1)));
+                        }
+
+                        //Show the message.
+                        //Probably a p big one tbh.
+                        if(hasReactionPerms)
+                            DiscordUtils.list(event, 45, false, messages);
+                        else
+                            DiscordUtils.listText(event, 45, false, messages);
+                    } else {
+                        channel.sendMessageFormat(languageContext.get("commands.birthday.cache_not_running"), EmoteReference.SAD).queue();
+                    }
+                } catch(Exception e) {
+                    channel.sendMessageFormat(languageContext.get("commands.birthday.error"), EmoteReference.SAD).queue();
+                    log.error("Error on birthday list display!", e);
+                }
+        }
+        });
+
         birthdayCommand.addSubCommand("month", new SubCommand() {
             @Override
             public String description() {

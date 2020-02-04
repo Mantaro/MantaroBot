@@ -304,6 +304,11 @@ public class PlayerCmds {
 
         profileCommand.addSubCommand("claimlock", new SubCommand() {
             @Override
+            public String description() {
+                return "Locks you from being waifu claimed. Needs a claim key to be in your inventory.";
+            }
+
+            @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
 
@@ -392,6 +397,11 @@ public class PlayerCmds {
         });
 
         profileCommand.addSubCommand("unequip", new SubCommand() {
+            @Override
+            public String description() {
+                return "Unequips an equipped slot (pick/rod).";
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 TextChannel channel = event.getChannel();
