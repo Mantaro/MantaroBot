@@ -26,12 +26,7 @@ import net.kodehawa.mantarobot.commands.currency.pets.Pet;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayerData {
@@ -55,7 +50,8 @@ public class PlayerData {
     private PotionEffect activeBuff;
     private long waifuCachedValue;
     private List<ProfileComponent> profileComponents = new LinkedList<>();
-    
+    private boolean isClaimLocked = false;
+
     //lol?
     //this is needed so it actually works, even though it does absolutely nothing
     //thanks rethonkdb
@@ -98,7 +94,15 @@ public class PlayerData {
         badges.remove(b);
         return true;
     }
-    
+
+    public boolean isClaimLocked() {
+        return isClaimLocked;
+    }
+
+    public void setClaimLocked(boolean claimLocked) {
+        isClaimLocked = claimLocked;
+    }
+
     public long getExperience() {
         return this.experience;
     }

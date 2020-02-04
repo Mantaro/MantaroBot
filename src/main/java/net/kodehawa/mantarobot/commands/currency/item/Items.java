@@ -101,7 +101,7 @@ public class Items {
             FORGOTTEN_MUSIC = new Item(ItemType.COLLECTABLE, "\uD83C\uDFB5", "Forgotten Music", "items.forgotten", "items.description.forgotten", 15, false, false),
             CC_PENCIL = new Item(ItemType.COLLECTABLE, "\u270f", "Pencil", "items.pencil", "items.description.pencil", 15, false, false),
             OVERFLOWED_BAG = new Item(ItemType.COLLECTABLE, "\uD83D\uDCB0", "Moneybag", "items.moneybag", "items.description.moneybag", 95, true),
-            BROM_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.19f, "\u26cf", "Brom's Pickaxe", "items.pick", "items.description.pick", 100, true),
+            BROM_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.19f, "\u26cf", "Brom's Pickaxe", "items.pick", "items.description.pick", 100, true, 100),
             MILK = new Item(ItemType.COMMON, EmoteReference.POTION1.getUnicode(), "Milk", "items.milk", "items.description.milk", 25, true),
             ALCOHOL = new Item(ItemType.COMMON, EmoteReference.POTION2.getUnicode(), "Old Beverage", "items.beverage", "items.description.beverage", 25, true),
             LEWD_MAGAZINE = new Item(ItemType.COMMON, EmoteReference.MAGAZINE.getUnicode(), "Lewd Magazine", "items.lewd", "items.description.lewd", 25, true),
@@ -160,13 +160,13 @@ public class Items {
             COFFEE = new Item(ItemType.COMMON, "\u2615", "Coffee", "items.coffee", "items.description.coffee", 10, true),
             WAIFU_PILL = new Potion(ItemType.POTION, 2, "\ud83d\udc8a", "Waifu Pill", "items.waifu_pill", "items.description.waifu_pill", 670, true),
             FISHING_BAIT = new Potion(ItemType.BUFF, 1, "\uD83D\uDC1B", "Fishing Bait", "items.bait", "items.description.bait", 15, true),
-            DIAMOND_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.16f, 1, 20, EmoteReference.DIAMOND_PICK.getDiscordNotation(), "Diamond Pickaxe", "items.diamond_pick", "items.description.diamond_pick", 250, true, false, "1;2", 10, 18),
+            DIAMOND_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.16f, 1, 20, EmoteReference.DIAMOND_PICK.getDiscordNotation(), "Diamond Pickaxe", "items.diamond_pick", "items.description.diamond_pick", 250, true, false, "1;2", 150, 10, 18),
             TELEVISION = new Item(ItemType.COMMON, "\uD83D\uDCFA", "Television", "items.tv", "items.description.tv", 45, true),
             WRENCH = new Wrench(ItemType.COMMON, 65, 1, 1.0d, "\ud83d\udd27", "Wrench", "items.wrench", "items.description.wrench", 50, true),
             //car is 1000 credits, so this is 350
             MOTORCYCLE = new Item(ItemType.COMMON, "\uD83C\uDFCD", "Motorcycle", "items.motorcycle", "items.description.motorcycle", 350, true),
-            GEM1_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.13f, 1, 10, EmoteReference.COMET_PICK.getDiscordNotation(), "Comet Pickaxe", "items.comet_pick", "items.description.comet_pick", 290, true, false, "1;2", 10, 48),
-            GEM2_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.09f, 1, 10, EmoteReference.STAR_PICK.getDiscordNotation(), "Star Pickaxe", "items.star_pick", "items.description.star_pick", 350, true, false, "1;2", 10, 49),
+            GEM1_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.13f, 1, 10, EmoteReference.COMET_PICK.getDiscordNotation(), "Comet Pickaxe", "items.comet_pick", "items.description.comet_pick", 290, true, false, "1;2", 250, 10, 48),
+            GEM2_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.09f, 1, 10, EmoteReference.STAR_PICK.getDiscordNotation(), "Star Pickaxe", "items.star_pick", "items.description.star_pick", 350, true, false, "1;2", 300, 10, 49),
             PIZZA = new Item(ItemType.COMMON, "\uD83C\uDF55", "Pizza", "items.pizza", "items.description.pizza", 15, true, false),
             GEM_5 = new Item(ItemType.COMMON, "\u200B", "Old Sparkle Fragment", "general.deprecated", "general.deprecated", 0, false, false),
             GEM5_PICKAXE = new Item(ItemType.COMMON, "\u26cf", "Old Sparkle Pickaxe", "general.deprecated", "general.deprecated", 550, true, false),
@@ -178,7 +178,7 @@ public class Items {
             GEM1_ROD = new FishRod(ItemType.CAST_FISH, 6, 1, 15, EmoteReference.COMET_ROD.getDiscordNotation(), "Comet Gem Rod", "Comet Rod", "items.comet_rod", "items.description.comet_rod", 150, "1;3", 44, 48),
             GEM2_ROD = new FishRod(ItemType.CAST_FISH, 9, 2, 10, EmoteReference.STAR_ROD.getDiscordNotation(), "Star Gem Rod", "Star Rod", "items.star_rod", "items.description.star_rod", 250, "1;3", 44, 49),
             GEM5_ROD = new FishRod(ItemType.COMMON, 3, -1, -1, "\uD83C\uDFA3", "Old Sparkle Rod", "general.deprecated", "general.deprecated", 65, "", 2),
-            GEM5_PICKAXE_2 = new Pickaxe(ItemType.MINE_RARE_PICK, 0.04f, 3, 5, EmoteReference.SPARKLE_PICK.getDiscordNotation(), "Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 1200, true, false, "1;3;1", 10, 74, 18),
+            GEM5_PICKAXE_2 = new Pickaxe(ItemType.MINE_RARE_PICK, 0.04f, 3, 5, EmoteReference.SPARKLE_PICK.getDiscordNotation(), "Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 1200, true, false, "1;3;1", 650,10, 74, 18),
             GEM5_2 = new Item(ItemType.MINE_RARE, "\u2728", "Sparkle Fragment", "items.sparkle", "items.description.sparkle", 605, false),
             GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 14, 3, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(), "Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 800, "1;3;1", 44, 74, 18),
             FISH_4 = new Fish(ItemType.FISHING_RARE, 5, "\uD83D\uDC1A", "Shell", "items.shell", "items.description.shell", 1150, false),
@@ -239,34 +239,18 @@ public class Items {
             Inventory playerInventory = isSeasonal ? sp.getInventory() : p.getInventory();
             
             I18nContext lang = context.getLeft();
-            String itemString = context.getRight();
-            
-            //casting bc old stuff :clap:, the FishRod object is so we can handle level and stuff w/o that many issues
-            FishRod item = (FishRod) FISHING_ROD;
+            FishRod item;
+
             int equipped = u.getData().getEquippedItems().of(PlayerEquipment.EquipmentType.ROD);
-            
-            if(equipped != 0) {
-                Item temp = Items.fromId(equipped);
-                if(!playerInventory.containsItem(temp)) {
-                    event.getChannel().sendMessageFormat(lang.get("commands.fish.missing_equipped"), EmoteReference.ERROR, temp.getName()).queue();
-                    u.getData().getEquippedItems().resetOfType(PlayerEquipment.EquipmentType.ROD);
-                    u.save();
-                } else {
-                    item = (FishRod) temp;
-                }
+
+            if(equipped == 0) {
+                event.getChannel().sendMessageFormat(lang.get("commands.fish.no_rod_equipped"), EmoteReference.ERROR).queue();
+                return false;
             }
-            
-            if(!itemString.isEmpty()) {
-                Optional<Item> opt = Items.fromAnyNoId(itemString);
-                Item i = opt.orElse(FISHING_ROD); //default to normal rod again if it doesn't properly find a fitting item
-                if(!(i instanceof FishRod)) {
-                    event.getChannel().sendMessageFormat(lang.get("commands.fish.not_suitable"), EmoteReference.ERROR).queue();
-                    return true;
-                }
-                
-                item = (FishRod) i;
-            }
-            
+
+            //It can only be a rod, lol.
+            item = (FishRod) Items.fromId(equipped);
+
             if(!playerInventory.containsItem(item)) {
                 event.getChannel().sendMessageFormat(lang.get("commands.fish.no_rod"), EmoteReference.SAD).queue();
                 return false;
@@ -274,32 +258,14 @@ public class Items {
             
             if(!handleDefaultIncreasingRatelimit(fishRatelimiter, event.getAuthor(), event, lang, false))
                 return false;
-            
-            
+
             //Level but starting at 0.
             int nominalLevel = item.getLevel() - 3;
             String extraMessage = "";
             
-            //Rod break ratio is as follows: with stamina it's break ratio (73 + (level + 4)) plus 7 more, while without stamina is just the break ratio.
-            int breakRatio = item.getBreakRatio();
-            //old: handlePotion(POTION_STAMINA, 4, p)
-            if(r.nextInt(100) > (handleEffect(PlayerEquipment.EquipmentType.POTION, u.getData().getEquippedItems(), POTION_STAMINA, u) ? breakRatio + 7 : breakRatio)) {
-                //Remove the item from the player inventory.
-                playerInventory.process(new ItemStack(item, -1));
-                String broken = "";
-                Item brokenItem = getBrokenItemFrom(item);
-                if(brokenItem != null && r.nextInt(100) > 20) {
-                    broken = "\n" + String.format(lang.get("commands.fish.broken_drop"), EmoteReference.HEART, brokenItem.getEmoji(), brokenItem.getName());
-                    playerInventory.process(new ItemStack(brokenItem, 1));
-                }
-                
-                if(isSeasonal)
-                    sp.save();
-                else
-                    p.save();
-                
-                //Your rod is done for, rip.
-                event.getChannel().sendMessageFormat(lang.get("commands.fish.rod_broke") + broken, EmoteReference.SAD).queue();
+            boolean broken = handleDurability(event, lang, item, p, u, sp, isSeasonal);
+            if(broken) {
+                //Handled in the handleDurability method.
                 return false;
             } else {
                 int select = random.nextInt(100);
@@ -692,20 +658,28 @@ public class Items {
         return null;
     }
     
-    public static boolean handlePickaxe(GuildMessageReceivedEvent event, I18nContext lang, Item item, Player player, DBUser user, SeasonPlayer seasonPlayer, float chance, boolean isSeasonal) {
+    public static boolean handleDurability(GuildMessageReceivedEvent event, I18nContext lang, Item item, Player player, DBUser user, SeasonPlayer seasonPlayer, boolean isSeasonal) {
         Inventory playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
         //Defensive programming :D
         if(!playerInventory.containsItem(item))
             return false;
-        
-        //old: handlePotion(POTION_STAMINA, 4, player)
-        //Limit chance output to two decimals.
-        float ch = Float.parseFloat(df.format(r.nextFloat()));
-        float breakingChance = (float) (handleEffect(PlayerEquipment.EquipmentType.POTION, user.getData().getEquippedItems(), POTION_STAMINA, user) ? Math.max(0.01, (chance) - 0.05) : chance);
-        
-        //System.out.println(ch + " < " + breakingChance);
-        if(ch < breakingChance) {
-            playerInventory.process(new ItemStack(item, -1));
+
+        float amount = r.nextInt(6);
+        boolean assumeBroken = false;
+        float substractFrom = (float)
+                (handleEffect(PlayerEquipment.EquipmentType.POTION, user.getData().getEquippedItems(), POTION_STAMINA, user) ?
+                    r.nextInt(4) : 0);
+
+        //We do validation before this...
+        PlayerEquipment.EquipmentType equipmentType = user.getData().getEquippedItems().getTypeFor(item);
+        int durability = user.getData().getEquippedItems().reduceDurability(equipmentType, (int) Math.max(1, (amount - substractFrom)));
+
+        if(durability < 10) {
+            assumeBroken = true;
+        }
+
+        if(assumeBroken) {
+            user.getData().getEquippedItems().resetOfType(equipmentType);
             
             String broken = "";
             Item brokenItem = getBrokenItemFrom(item);
@@ -714,15 +688,19 @@ public class Items {
                 playerInventory.process(new ItemStack(brokenItem, 1));
             }
             
-            event.getChannel().sendMessageFormat(lang.get("commands.mine.pick_broke") + broken, EmoteReference.SAD).queue();
-            
+            event.getChannel().sendMessageFormat(lang.get("commands.mine.item_broke"), EmoteReference.SAD, item.getName(), broken).queue();
             if(isSeasonal)
                 seasonPlayer.save();
             else
                 player.save();
-            
+
             return false;
         } else {
+            if(isSeasonal)
+                seasonPlayer.save();
+            else
+                player.save();
+
             return true;
         }
     }

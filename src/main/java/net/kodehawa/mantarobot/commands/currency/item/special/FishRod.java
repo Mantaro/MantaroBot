@@ -25,36 +25,44 @@ public class FishRod extends Item implements Castable {
     private int level;
     private int castLevelRequired;
     private int maximumCastAmount;
+    private int maxDurability;
     
-    public FishRod(ItemType type, int level, int castLevelRequired, int maximumCastAmount, String emoji, String name, String translatedName, String desc, long value, String recipe, int... recipeTypes) {
+    public FishRod(ItemType type, int level, int castLevelRequired, int maximumCastAmount, String emoji, String name, String translatedName, String desc, long value, String recipe, int maxDurability, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, true, false, recipe, recipeTypes);
         this.level = level;
         this.castLevelRequired = castLevelRequired;
         this.maximumCastAmount = maximumCastAmount;
+        this.maxDurability = maxDurability;
     }
     
-    public FishRod(ItemType type, int level, int castLevelRequired, int maximumCastAmount, String emoji, String name, String alias, String translatedName, String desc, long value, String recipe, int... recipeTypes) {
+    public FishRod(ItemType type, int level, int castLevelRequired, int maximumCastAmount, String emoji, String name, String alias, String translatedName, String desc, long value, String recipe, int maxDurability, int... recipeTypes) {
         super(type, emoji, name, alias, translatedName, desc, value, true, false, recipe, recipeTypes);
         this.level = level;
         this.castLevelRequired = castLevelRequired;
         this.maximumCastAmount = maximumCastAmount;
+        this.maxDurability = maxDurability;
     }
     
-    public FishRod(ItemType type, int level, int castLevelRequired, int maximumCastAmount, String emoji, String name, String translatedName, String desc, long value, boolean buyable, String recipe, int... recipeTypes) {
+    public FishRod(ItemType type, int level, int castLevelRequired, int maximumCastAmount, String emoji, String name, String translatedName, String desc, long value, boolean buyable, String recipe, int maxDurability, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, true, buyable, recipe, recipeTypes);
         this.level = level;
         this.castLevelRequired = castLevelRequired;
         this.maximumCastAmount = maximumCastAmount;
+        this.maxDurability = maxDurability;
     }
     
-    public FishRod(ItemType type, int level, int castLevelRequired, int maximumCastAmount, String emoji, String name, String alias, String translatedName, String desc, long value, boolean buyable, String recipe, int... recipeTypes) {
+    public FishRod(ItemType type, int level, int castLevelRequired, int maximumCastAmount, String emoji, String name, String alias, String translatedName, String desc, long value, boolean buyable, String recipe, int maxDurability, int... recipeTypes) {
         super(type, emoji, name, alias, translatedName, desc, value, true, buyable, recipe, recipeTypes);
         this.level = level;
         this.castLevelRequired = castLevelRequired;
         this.maximumCastAmount = maximumCastAmount;
+        this.maxDurability = maxDurability;
     }
-    
-    
+
+    public int getMaxDurability() {
+        return maxDurability;
+    }
+
     public int getBreakRatio() {
         return 73 + (level + 4);
     }

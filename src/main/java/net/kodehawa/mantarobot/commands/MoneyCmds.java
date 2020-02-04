@@ -819,8 +819,7 @@ public class MoneyCmds {
                 
                 Map<String, String> t = getArguments(content);
                 boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
-                content = Utils.replaceArguments(t, content, "season", "s").trim();
-                
+
                 final User user = event.getAuthor();
                 final ManagedDatabase db = MantaroData.db();
                 
@@ -834,45 +833,20 @@ public class MoneyCmds {
                 
                 Inventory inventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
                 
-                Pickaxe item = (Pickaxe) Items.BROM_PICKAXE; //default pick
+                Pickaxe item;
+                //TODO: handle seasons!
                 int equipped = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK);
-                Optional<Item> itemOpt = Items.fromAnyNoId(content.replace("\"", ""));
-                
-                if(equipped != 0 && !isSeasonal) {
-                    Item temp = Items.fromId(equipped);
-                    if(!inventory.containsItem(temp)) {
-                        channel.sendMessageFormat(languageContext.withRoot("commands", "mine.missing_equipped"), EmoteReference.ERROR, temp.getName()).queue();
-                        userData.getEquippedItems().resetOfType(PlayerEquipment.EquipmentType.PICK);
-                        dbUser.save();
-                    } else {
-                        item = (Pickaxe) temp;
-                    }
-                }
-                
-                //why is the item optional present when there's no content?
-                if(itemOpt.isPresent() && !content.isEmpty()) {
-                    Item temp = itemOpt.get();
-                    if(temp.getItemType() != ItemType.MINE_PICK && temp.getItemType() != ItemType.MINE_RARE_PICK) {
-                        channel.sendMessageFormat(languageContext.withRoot("commands", "mine.not_suitable"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-                    
-                    if(!inventory.containsItem(temp)) {
-                        channel.sendMessageFormat(languageContext.withRoot("commands", "mine.not_in_inventory"), EmoteReference.ERROR, temp).queue();
-                    } else {
-                        item = (Pickaxe) temp;
-                    }
-                }
-                
-                if(!inventory.containsItem(item)) {
-                    channel.sendMessageFormat(languageContext.withRoot("commands", "mine.no_pick"), EmoteReference.ERROR).queue();
+
+                if(equipped == 0) {
                     return;
                 }
-                
+
+                item = (Pickaxe) Items.fromId(equipped);
+
                 if(!handleDefaultIncreasingRatelimit(rateLimiter, user, event, languageContext, false))
                     return;
                 
-                if(!Items.handlePickaxe(event, languageContext, item, player, dbUser, seasonalPlayer, item.getChance(), isSeasonal))
+                if(!Items.handleDurability(event, languageContext, item, player, dbUser, seasonalPlayer, isSeasonal))
                     return;
                 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.

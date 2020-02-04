@@ -825,7 +825,7 @@ public class RelationshipCmds {
                 }
                 
                 //If the to-be claimed has the claim key in their inventory, it cannot be claimed.
-                if(claimedPlayer.getInventory().containsItem(Items.CLAIM_KEY)) {
+                if(claimedPlayer.getData().isClaimLocked()) {
                     channel.sendMessageFormat(languageContext.get("commands.waifu.claim.key_locked"), EmoteReference.ERROR).queue();
                     return;
                 }

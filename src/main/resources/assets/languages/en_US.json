@@ -1489,7 +1489,7 @@
         "overflow": "You found a **%1$s** while mining, but you had too many and left it behind...",
         "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
-      "pick_broke": "%1$sOne of your picks broke while mining.",
+      "item_broke": "%1$sYour %2$s broke while using it :(. %3$s",
       "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!",
       "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset.",
       "broken_drop": "%1$sYour pick broke, but you can repair it. Got broken item: %2$s *%3$s*"

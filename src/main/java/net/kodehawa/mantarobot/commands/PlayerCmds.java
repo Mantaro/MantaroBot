@@ -32,10 +32,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
-import net.kodehawa.mantarobot.commands.currency.item.Item;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
-import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
-import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
+import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
@@ -322,7 +319,30 @@ public class PlayerCmds {
                                .build();
             }
         });
-        
+
+        profileCommand.addSubCommand("claimlock", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                Player player = MantaroData.db().getPlayer(event.getAuthor());
+
+                if(content.equals("remove")) {
+                    player.getData().setClaimLocked(false);
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.claimlock.removed"), EmoteReference.CORRECT).queue();
+                    player.save();
+                    return;
+                }
+
+                Inventory inventory = player.getInventory();
+                if(inventory.containsItem(Items.CLAIM_KEY)) {
+                    player.getData().setClaimLocked(true);
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.claimlock.success"), EmoteReference.CORRECT).queue();
+                    inventory.process(new ItemStack(Items.CLAIM_KEY, -1));
+                    player.save();
+                } else {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.claimlock.no_key"), EmoteReference.ERROR).queue();
+                }
+            }
+        });
         
         //Hide tags from profile/waifu list.
         profileCommand.addSubCommand("hidetag", new SubCommand() {
@@ -348,36 +368,67 @@ public class PlayerCmds {
             public String description() {
                 return "Equips an item in your inventory. Usage: `~>profile equip <item name>`";
             }
-            
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 TextChannel channel = event.getChannel();
-                
-                if(content.isEmpty()) {
+
+                if (content.isEmpty()) {
                     channel.sendMessageFormat(languageContext.get("commands.profile.equip.no_content"), EmoteReference.ERROR).queue();
                     return;
                 }
-                
+
                 Item item = Items.fromAnyNoId(content.replace("\"", "")).orElse(null);
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
                 DBUser user = MantaroData.db().getUser(event.getAuthor());
-                
-                if(item == null) {
+                UserData data = user.getData();
+
+                if (item == null) {
                     channel.sendMessageFormat(languageContext.get("commands.profile.equip.no_item"), EmoteReference.ERROR).queue();
                     return;
                 }
-                
-                if(!player.getInventory().containsItem(item)) {
+
+                if (!player.getInventory().containsItem(item)) {
                     channel.sendMessageFormat(languageContext.get("commands.profile.equip.not_owned"), EmoteReference.ERROR).queue();
                     return;
                 }
-                
-                if(user.getData().getEquippedItems().equipItem(item)) {
+
+                PlayerEquipment.EquipmentType proposedType = data.getEquippedItems().getTypeFor(item);
+                if(data.getEquippedItems().getEquipment().containsKey(proposedType)) {
+                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.already_equipped"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if(data.getEquippedItems().equipItem(item)) {
+                    player.getInventory().process(new ItemStack(item, -1));
                     channel.sendMessageFormat(languageContext.get("commands.profile.equip.success"), EmoteReference.CORRECT, item.getEmoji(), item.getName()).queue();
                     user.save();
                 } else {
                     channel.sendMessageFormat(languageContext.get("commands.profile.equip.not_suitable"), EmoteReference.ERROR).queue();
                 }
+            }
+        });
+
+        profileCommand.addSubCommand("unequip", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                TextChannel channel = event.getChannel();
+
+                if (content.isEmpty()) {
+                    channel.sendMessageFormat(languageContext.get("commands.profile.unequip.no_content"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                DBUser user = MantaroData.db().getUser(event.getAuthor());
+                UserData data = user.getData();
+                PlayerEquipment.EquipmentType type = PlayerEquipment.EquipmentType.fromString(content);
+                if(type == null) {
+                    channel.sendMessageFormat(languageContext.get("commands.profile.unequip.invalid_type"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                data.getEquippedItems().resetOfType(type);
+                channel.sendMessageFormat(languageContext.get("commands.profile.unequip.success"), EmoteReference.CORRECT, type.name().toLowerCase()).queue();
             }
         });
         
