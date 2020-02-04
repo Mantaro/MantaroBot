@@ -17,14 +17,22 @@
 
 package net.kodehawa.mantarobot.commands.currency.seasons.helpers;
 
+import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
+
+import java.util.HashMap;
+
 public class SeasonalPlayerData {
     private long gamesWon = 0;
     private long waifuCachedValue = 0;
     private long lockedUntil = 0;
-    
-    public SeasonalPlayerData() {
+    private PlayerEquipment equippedItems = new PlayerEquipment(new HashMap<>(), new HashMap<>()); //hashmap is type -> itemId
+
+    public SeasonalPlayerData() { }
+
+    public PlayerEquipment getEquippedItems() {
+        return this.equippedItems;
     }
-    
+
     public long getGamesWon() {
         return this.gamesWon;
     }
@@ -47,35 +55,5 @@ public class SeasonalPlayerData {
     
     public void setLockedUntil(long lockedUntil) {
         this.lockedUntil = lockedUntil;
-    }
-    
-    protected boolean canEqual(final Object other) {
-        return other instanceof SeasonalPlayerData;
-    }
-    
-    public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final long $gamesWon = this.gamesWon;
-        result = result * PRIME + (int) ($gamesWon >>> 32 ^ $gamesWon);
-        final long $waifuCachedValue = this.waifuCachedValue;
-        result = result * PRIME + (int) ($waifuCachedValue >>> 32 ^ $waifuCachedValue);
-        final long $lockedUntil = this.lockedUntil;
-        result = result * PRIME + (int) ($lockedUntil >>> 32 ^ $lockedUntil);
-        return result;
-    }
-    
-    public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof SeasonalPlayerData)) return false;
-        final SeasonalPlayerData other = (SeasonalPlayerData) o;
-        if(!other.canEqual(this)) return false;
-        if(this.gamesWon != other.gamesWon) return false;
-        if(this.waifuCachedValue != other.waifuCachedValue) return false;
-        return this.lockedUntil == other.lockedUntil;
-    }
-    
-    public String toString() {
-        return "SeasonalPlayerData(gamesWon=" + this.gamesWon + ", waifuCachedValue=" + this.waifuCachedValue + ", lockedUntil=" + this.lockedUntil + ")";
     }
 }
