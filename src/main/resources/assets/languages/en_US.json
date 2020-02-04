@@ -992,7 +992,7 @@
       "keys_claimed": "Keys Claimed"
     },
     "support": {
-      "info": "If you need support, head to the support server over to <https://support.mantaro.site> and ask your question in the #support channel!"
+      "info": "%1$sIf you need support, head to the support server over to <https://support.mantaro.site> and ask your question in the #support channel!"
     },
     "action": {
       "no_mention": "%1$sYou need to mention a user",
