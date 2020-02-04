@@ -18,12 +18,7 @@
 package net.kodehawa.mantarobot.commands.currency.item;
 
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
-import net.kodehawa.mantarobot.commands.currency.item.special.Fish;
-import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
-import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
-import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
-import net.kodehawa.mantarobot.commands.currency.item.special.Wrench;
+import net.kodehawa.mantarobot.commands.currency.item.special.*;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -39,15 +34,7 @@ import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import org.slf4j.Logger;
 
 import java.security.SecureRandom;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -203,7 +190,6 @@ public class Items {
             WATER_BOTTLE = new Item(ItemType.PET, "", "Water Bottle", "items.water_bottle", "items.description.water_bottle", 100, true, true),
         
     };
-    private static final DecimalFormat df = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.US));
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(Items.class);
     
     
