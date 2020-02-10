@@ -454,7 +454,7 @@ public class Items {
     }
     
     public static Optional<Item> fromEmoji(String emoji) {
-        return Stream.of(ALL).filter(item -> item.getEmoji().equals(emoji)).findFirst();
+        return Stream.of(ALL).filter(item -> item.getEmoji().equals(emoji.replace("\ufe0f", ""))).findFirst();
     }
     
     public static Item fromId(int id) {
