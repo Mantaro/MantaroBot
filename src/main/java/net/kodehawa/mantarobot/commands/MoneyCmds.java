@@ -309,10 +309,7 @@ public class MoneyCmds {
                     channel.sendMessageFormat(languageContext.withRoot("commands", "gamble.too_much_money"), EmoteReference.ERROR2, GAMBLE_ABSOLUTE_MAX_MONEY).queue();
                     return;
                 }
-                
-                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
-                    return;
-                
+
                 double multiplier;
                 long i;
                 int luck;
@@ -363,7 +360,11 @@ public class MoneyCmds {
                     channel.sendMessageFormat(languageContext.withRoot("commands", "gamble.too_much"), EmoteReference.ERROR2, GAMBLE_MAX_MONEY).queue();
                     return;
                 }
-                
+
+                //Handle ratelimits after all of the exceptions/error messages could've been thrown already.
+                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                    return;
+
                 User user = event.getAuthor();
                 long gains = (long) (i * multiplier);
                 gains = Math.round(gains * 0.45);
