@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
+import net.kodehawa.mantarobot.commands.currency.seasons.helpers.SeasonalPlayerData;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -174,7 +175,8 @@ public class PlayerCmds {
 
     @Subscribe
     public void profile(CommandRegistry cr) {
-        final ManagedDatabase managedDatabase = MantaroData.db();
+        final ManagedDatabase db = MantaroData.db();
+        final ManagedDatabase managedDatabase = db;
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .limit(2) //twice every 10m
                 .spamTolerance(1)
@@ -310,7 +312,7 @@ public class PlayerCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                Player player = MantaroData.db().getPlayer(event.getAuthor());
+                Player player = db.getPlayer(event.getAuthor());
 
                 if (content.equals("remove")) {
                     player.getData().setClaimLocked(false);
@@ -340,7 +342,7 @@ public class PlayerCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                DBUser user = MantaroData.db().getUser(event.getAuthor());
+                DBUser user = db.getUser(event.getAuthor());
                 UserData data = user.getData();
 
                 data.setPrivateTag(!data.isPrivateTag());
@@ -353,43 +355,58 @@ public class PlayerCmds {
         profileCommand.addSubCommand("equip", new SubCommand() {
             @Override
             public String description() {
-                return "Equips an item in your inventory. Usage: `~>profile equip <item name>`";
+                return "Equips an item in your inventory. Usage: `~>profile equip <item name>`. Use `-s` to equip it on your seasonal inventory.";
             }
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 TextChannel channel = event.getChannel();
-
                 if (content.isEmpty()) {
                     channel.sendMessageFormat(languageContext.get("commands.profile.equip.no_content"), EmoteReference.ERROR).queue();
                     return;
                 }
 
+                Map<String, String> t = getArguments(content);
+                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+                content = Utils.replaceArguments(t, content, "s", "season");
+
                 Item item = Items.fromAnyNoId(content.replace("\"", "")).orElse(null);
-                Player player = MantaroData.db().getPlayer(event.getAuthor());
-                DBUser user = MantaroData.db().getUser(event.getAuthor());
+                Player player = db.getPlayer(event.getAuthor());
+                DBUser user = db.getUser(event.getAuthor());
                 UserData data = user.getData();
+                SeasonPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                SeasonalPlayerData seasonalPlayerData = seasonalPlayer.getData();
 
                 if (item == null) {
                     channel.sendMessageFormat(languageContext.get("commands.profile.equip.no_item"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                if (!player.getInventory().containsItem(item)) {
+                boolean containsItem = isSeasonal ? seasonalPlayer.getInventory().containsItem(item) : player.getInventory().containsItem(item);
+                if (!containsItem) {
                     channel.sendMessageFormat(languageContext.get("commands.profile.equip.not_owned"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                PlayerEquipment.EquipmentType proposedType = data.getEquippedItems().getTypeFor(item);
-                if (data.getEquippedItems().getEquipment().containsKey(proposedType)) {
+                PlayerEquipment equipment = isSeasonal ? seasonalPlayerData.getEquippedItems() : data.getEquippedItems();
+
+                PlayerEquipment.EquipmentType proposedType = equipment.getTypeFor(item);
+                if (equipment.getEquipment().containsKey(proposedType)) {
                     channel.sendMessageFormat(languageContext.get("commands.profile.equip.already_equipped"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                if (data.getEquippedItems().equipItem(item)) {
-                    player.getInventory().process(new ItemStack(item, -1));
+                if (equipment.equipItem(item)) {
+                    if(isSeasonal) {
+                        seasonalPlayer.getInventory().process(new ItemStack(item, -1));
+                        user.save();
+                    }
+                    else {
+                        player.getInventory().process(new ItemStack(item, -1));
+                        seasonalPlayer.save();
+                    }
+
                     channel.sendMessageFormat(languageContext.get("commands.profile.equip.success"), EmoteReference.CORRECT, item.getEmoji(), item.getName()).queue();
-                    user.save();
                 } else {
                     channel.sendMessageFormat(languageContext.get("commands.profile.equip.not_suitable"), EmoteReference.ERROR).queue();
                 }
@@ -411,15 +428,28 @@ public class PlayerCmds {
                     return;
                 }
 
-                DBUser user = MantaroData.db().getUser(event.getAuthor());
+                Map<String, String> t = getArguments(content);
+                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+                content = Utils.replaceArguments(t, content, "s", "season");
+
+                DBUser user = db.getUser(event.getAuthor());
                 UserData data = user.getData();
+                SeasonPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                SeasonalPlayerData seasonalPlayerData = seasonalPlayer.getData();
+
+                PlayerEquipment equipment = isSeasonal ? seasonalPlayerData.getEquippedItems() : data.getEquippedItems();
                 PlayerEquipment.EquipmentType type = PlayerEquipment.EquipmentType.fromString(content);
                 if (type == null) {
                     channel.sendMessageFormat(languageContext.get("commands.profile.unequip.invalid_type"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                data.getEquippedItems().resetOfType(type);
+                equipment.resetOfType(type);
+                if(isSeasonal)
+                    seasonalPlayer.save();
+                else
+                    user.save();
+
                 channel.sendMessageFormat(languageContext.get("commands.profile.unequip.success"), EmoteReference.CORRECT, type.name().toLowerCase()).queue();
             }
         });

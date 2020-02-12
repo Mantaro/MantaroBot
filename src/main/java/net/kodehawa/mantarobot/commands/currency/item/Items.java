@@ -55,27 +55,27 @@ public class Items {
             FISH_PREMIUM_CRATE, MINE_PREMIUM_CRATE, GEM1_ROD, GEM2_ROD, GEM5_ROD, GEM5_PICKAXE_2, GEM5_2, GEM5_ROD_2, FISH_4,
             FISH_5, WRENCH_COMET, WRENCH_SPARKLE, FISH_6, FISH_7, FISH_8, GEM_6, GEM_7, BROKEN_SPARKLE_PICK, BROKEN_COMET_PICK,
             BROKEN_STAR_PICK, BROKEN_COMET_ROD, BROKEN_STAR_ROD, BROKEN_SPARKLE_ROD, INCUBATOR_EGG, WATER_BOTTLE;
-    
+
     private static final Random r = new Random();
     private static final IncreasingRateLimiter lootCrateRatelimiter = new IncreasingRateLimiter.Builder()
-                                                                              .limit(1)
-                                                                              .spamTolerance(2)
-                                                                              .cooldown(4, TimeUnit.MINUTES)
-                                                                              .maxCooldown(4, TimeUnit.MINUTES)
-                                                                              .randomIncrement(false)
-                                                                              .pool(MantaroData.getDefaultJedisPool())
-                                                                              .prefix("lootcrate")
-                                                                              .build();
-    
+            .limit(1)
+            .spamTolerance(2)
+            .cooldown(4, TimeUnit.MINUTES)
+            .maxCooldown(4, TimeUnit.MINUTES)
+            .randomIncrement(false)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("lootcrate")
+            .build();
+
     private static final IncreasingRateLimiter fishRatelimiter = new IncreasingRateLimiter.Builder()
-                                                                         .limit(1)
-                                                                         .spamTolerance(2)
-                                                                         .cooldown(4, TimeUnit.MINUTES)
-                                                                         .maxCooldown(4, TimeUnit.MINUTES)
-                                                                         .randomIncrement(false)
-                                                                         .pool(MantaroData.getDefaultJedisPool())
-                                                                         .prefix("fish")
-                                                                         .build();
+            .limit(1)
+            .spamTolerance(2)
+            .cooldown(4, TimeUnit.MINUTES)
+            .maxCooldown(4, TimeUnit.MINUTES)
+            .randomIncrement(false)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("fish")
+            .build();
     private static final Config config = MantaroData.config().get();
     public static final Item[] ALL = {
             HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7", "Headphones", "items.headphones", "items.description.headphones", 5, true, false, false),
@@ -104,7 +104,7 @@ public class Items {
             ROSE = new Item(ItemType.COMMON, EmoteReference.ROSE.getUnicode(), "Rose", "items.rose", "items.description.rose", 25, true),
             CHOCOLATE = new Item(ItemType.COMMON, EmoteReference.CHOCOLATE.getUnicode(), "Chocolate", "items.chocolate", "items.description.chocolate", 23, true),
             COOKIES = new Item(ItemType.COMMON, EmoteReference.COOKIE.getUnicode(), "Cookie", "items.cookie", "items.description.cookie", 10, true),
-            
+
             // ---------------------------------- LEFT OVERS FROM CURRENCY V1 STARTS HERE ----------------------------------
             //CANNOT REMOVE BECAUSE WE WERE MEME ENOUGH TO FUCKING SAVE THEM BY THEIR IDS
             LOADED_DICE_2 = new Item("\uD83C\uDFB2", "Special Loaded Die", "items.description.die_2"),
@@ -114,19 +114,19 @@ public class Items {
             RING_2 = new Item("\uD83D\uDC5A", "Special Ring", "items.description.special_ring"),
             ENHANCER = new Item(EmoteReference.MAG.getUnicode(), "Enchancer", "items.description.enchancer"),
             STAR = new Item(ItemType.COLLECTABLE, "\uE335", "Prize", "items.prize", "items.description.prize", 0, false, false, true),
-            
+
             // ---------------------------------- LEFT OVERS FROM CURRENCY V1 END HERE ----------------------------------
             LOOT_CRATE = new Item(ItemType.CRATE, EmoteReference.LOOT_CRATE.getDiscordNotation(), "Loot Crate", "items.crate", "items.description.crate", 0, false, false, true, (event, context, season) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.RARE, 33, EmoteReference.LOOT_CRATE, 3, season)),
             STAR_2 = new Item(ItemType.COMMON, EmoteReference.STAR.getUnicode(), "Consolation Prize", "items.prize_2", "items.description.prize_2", 500, true, false, true),
             SLOT_COIN = new Item(ItemType.COMMON, "\uD83C\uDF9F", "Slot ticket", "items.slot_ticket", "items.description.slot_ticket", 65, true, true),
             HOUSE = new Item(ItemType.COMMON, EmoteReference.HOUSE.getUnicode(), "House", "items.house", "items.description.house", 5000, true, true),
             CAR = new Item(ItemType.COMMON, "\uD83D\uDE97", "Car", "items.car", "items.description.car", 1000, true, true),
-            
+
             // ---------------------------------- CHRISTMAS 2017 EVENT STARTS HERE ----------------------------------
             BELL_SPECIAL = new Item(ItemType.RARE, "\uD83D\uDD14", "Christmas bell", "items.bell", "items.description.bell", 0, false, false, true),
             CHRISTMAS_TREE_SPECIAL = new Item(ItemType.RARE, "\uD83C\uDF84", "Christmas tree", "items.tree", "items.description.tree", 0, false, false, true),
             // ---------------------------------- CHRISTMAS 2017 EVENT ENDS HERE ----------------------------------
-            
+
             // ---------------------------------- 5.0 ITEMS START HERE ----------------------------------
             PANTS = new Item(ItemType.COMMON, "\uD83D\uDC56", "Pants", "items.pants", "items.description.pants", 20, true),
             POTION_HASTE = new Potion(ItemType.POTION, 2, "\uD83C\uDF76", "Haste Potion", "items.haste", "items.description.haste", 490, true),
@@ -165,7 +165,7 @@ public class Items {
             GEM1_ROD = new FishRod(ItemType.CAST_FISH, 6, 1, 15, EmoteReference.COMET_ROD.getDiscordNotation(), "Comet Gem Rod", "Comet Rod", "items.comet_rod", "items.description.comet_rod", 150, "1;3", 140, 44, 48),
             GEM2_ROD = new FishRod(ItemType.CAST_FISH, 9, 2, 10, EmoteReference.STAR_ROD.getDiscordNotation(), "Star Gem Rod", "Star Rod", "items.star_rod", "items.description.star_rod", 250, "1;3", 200, 44, 49),
             GEM5_ROD = new FishRod(ItemType.COMMON, 3, -1, -1, "\uD83C\uDFA3", "Old Sparkle Rod", "general.deprecated", "general.deprecated", 65, "", 2),
-            GEM5_PICKAXE_2 = new Pickaxe(ItemType.MINE_RARE_PICK, 0.04f, 3, 5, EmoteReference.SPARKLE_PICK.getDiscordNotation(), "Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 1200, true, false, "1;3;1", 650,10, 74, 18),
+            GEM5_PICKAXE_2 = new Pickaxe(ItemType.MINE_RARE_PICK, 0.04f, 3, 5, EmoteReference.SPARKLE_PICK.getDiscordNotation(), "Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 1200, true, false, "1;3;1", 650, 10, 74, 18),
             GEM5_2 = new Item(ItemType.MINE_RARE, "\u2728", "Sparkle Fragment", "items.sparkle", "items.description.sparkle", 605, false),
             GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 14, 3, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(), "Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 800, "1;3;1", 350, 44, 74, 18),
             FISH_4 = new Fish(ItemType.FISHING_RARE, 5, "\uD83D\uDC1A", "Shell", "items.shell", "items.description.shell", 1150, false),
@@ -188,25 +188,25 @@ public class Items {
             // ---------------------------------- 5.4 PET ITEMS START HERE ----------------------------------
             INCUBATOR_EGG = new Item(ItemType.PET, "\uD83E\uDD5A", "Incubator Egg", "items.incubator_egg", "items.description.incubator_egg", 300, false, false, "4;3;1", 11, 12, 18),
             WATER_BOTTLE = new Item(ItemType.PET, "", "Water Bottle", "items.water_bottle", "items.description.water_bottle", 100, true, true),
-        
+
     };
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(Items.class);
-    
-    
+
+
     public static void setItemActions() {
         final SecureRandom random = new SecureRandom();
         log.info("Registering item actions...");
         final ManagedDatabase managedDatabase = MantaroData.db();
-        
+
         MOP.setAction(((event, ctx, season) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
             DBUser dbUser = managedDatabase.getUser(event.getAuthor());
             I18nContext lang = ctx.getLeft();
-            
+
             Inventory playerInventory = p.getInventory();
-            if(!playerInventory.containsItem(MOP))
+            if (!playerInventory.containsItem(MOP))
                 return false;
-            
+
             event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.mop"), EmoteReference.DUST).queue();
             playerInventory.process(new ItemStack(MOP, -1));
             p.save();
@@ -214,22 +214,26 @@ public class Items {
             dbUser.save();
             return true;
         }));
-        
+
         //Basically fish command.
         FISHING_ROD.setAction((event, context, season) -> {
             boolean isSeasonal = season;
-            
+
             Player p = managedDatabase.getPlayer(event.getAuthor());
             SeasonPlayer sp = managedDatabase.getPlayerForSeason(event.getAuthor(), config.getCurrentSeason());
             DBUser u = managedDatabase.getUser(event.getAuthor());
             Inventory playerInventory = isSeasonal ? sp.getInventory() : p.getInventory();
-            
+
             I18nContext lang = context.getLeft();
             FishRod item;
 
-            int equipped = u.getData().getEquippedItems().of(PlayerEquipment.EquipmentType.ROD);
+            int equipped = isSeasonal ?
+                    //seasonal equipped
+                    sp.getData().getEquippedItems().of(PlayerEquipment.EquipmentType.ROD) :
+                    //not seasonal
+                    u.getData().getEquippedItems().of(PlayerEquipment.EquipmentType.ROD);
 
-            if(equipped == 0) {
+            if (equipped == 0) {
                 event.getChannel().sendMessageFormat(lang.get("commands.fish.no_rod_equipped"), EmoteReference.ERROR).queue();
                 return false;
             }
@@ -237,81 +241,74 @@ public class Items {
             //It can only be a rod, lol.
             item = (FishRod) Items.fromId(equipped);
 
-            if(!playerInventory.containsItem(item)) {
-                event.getChannel().sendMessageFormat(lang.get("commands.fish.no_rod"), EmoteReference.SAD).queue();
-                return false;
-            }
-            
-            if(!handleDefaultIncreasingRatelimit(fishRatelimiter, event.getAuthor(), event, lang, false))
+            if (!handleDefaultIncreasingRatelimit(fishRatelimiter, event.getAuthor(), event, lang, false))
                 return false;
 
             //Level but starting at 0.
             int nominalLevel = item.getLevel() - 3;
             String extraMessage = "";
-            
+
             boolean broken = handleDurability(event, lang, item, p, u, sp, isSeasonal);
-            if(broken) {
+            if (broken) {
                 //Handled in the handleDurability method.
                 return false;
             } else {
                 int select = random.nextInt(100);
-                
-                if(select < 10) {
+
+                if (select < 10) {
                     //Here your fish rod got dusty. Yes, on the sea.
                     int level = u.getData().increaseDustLevel(r.nextInt(4));
                     event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING, level).queue();
                     u.save();
                     return false;
-                } else if(select < 35) {
+                } else if (select < 35) {
                     //Here you found trash.
                     List<Item> common = Stream.of(ALL)
-                                                .filter(i -> i.getItemType() == ItemType.COMMON && !i.isHidden() && i.isSellable() && i.value < 45)
-                                                .collect(Collectors.toList());
-                    
+                            .filter(i -> i.getItemType() == ItemType.COMMON && !i.isHidden() && i.isSellable() && i.value < 45)
+                            .collect(Collectors.toList());
+
                     Item selected = common.get(random.nextInt(common.size()));
-                    if(playerInventory.getAmount(selected) >= 5000) {
+                    if (playerInventory.getAmount(selected) >= 5000) {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.trash.overflow"), EmoteReference.SAD).queue();
                         return true;
                     }
-                    
+
                     playerInventory.process(new ItemStack(selected, 1));
                     event.getChannel().sendMessageFormat(lang.get("commands.fish.trash.success"), EmoteReference.EYES, selected.getEmoji()).queue();
                 } else {
                     //Here you actually caught fish, congrats.
                     List<Item> fish = Stream.of(ALL)
-                                              .filter(i -> i.getItemType() == ItemType.FISHING && !i.isHidden() && i.isSellable())
-                                              .collect(Collectors.toList());
+                            .filter(i -> i.getItemType() == ItemType.FISHING && !i.isHidden() && i.isSellable())
+                            .collect(Collectors.toList());
                     RandomCollection<Item> fishItems = new RandomCollection<>();
-                    
+
                     int money = 0;
-                    //old: handleBuff(FISHING_BAIT, 1, p)
                     boolean buff = handleEffect(PlayerEquipment.EquipmentType.BUFF, u.getData().getEquippedItems(), FISHING_BAIT, u);
                     int amount = buff ? Math.max(1, random.nextInt(item.getLevel() + 4)) : Math.max(1, random.nextInt(item.getLevel()));
-                    if(nominalLevel >= 2)
+                    if (nominalLevel >= 2)
                         amount += random.nextInt(4);
-                    
+
                     fish.forEach((i1) -> fishItems.add(3, i1));
-                    
+
                     //Basically more chance if you have a better rod.
-                    if(select > (75 - nominalLevel)) {
+                    if (select > (75 - nominalLevel)) {
                         money = Math.max(5, random.nextInt(130 + (3 * nominalLevel)));
                     }
-                    
+
                     //START OF WAIFU HELP IMPLEMENTATION
                     boolean waifuHelp = false;
-                    //old: handlePotion(Items.WAIFU_PILL, 5, p)
-                    if(handleEffect(PlayerEquipment.EquipmentType.POTION, u.getData().getEquippedItems(), WAIFU_PILL, u)) {
-                        if(u.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
+                    if (handleEffect(PlayerEquipment.EquipmentType.POTION, u.getData().getEquippedItems(), WAIFU_PILL, u)) {
+                        if (u.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
                             money += Math.max(10, random.nextInt(100));
                             waifuHelp = true;
                         }
                     }
                     //END OF WAIFU HELP IMPLEMENTATION
-                    
+
                     //START OF FISH LOOT CRATE HANDLING
-                    if(r.nextInt(400) > 380) {
+                    if (r.nextInt(400) > 380) {
                         Item crate = u.isPremium() ? Items.FISH_PREMIUM_CRATE : Items.FISH_CRATE;
-                        if(playerInventory.getAmount(crate) >= 5000) {
+                        if (playerInventory.getAmount(crate) >= 5000) {
                             extraMessage += "\n" + lang.get("commands.fish.crate.overflow");
                         } else {
                             playerInventory.process(new ItemStack(crate, 1));
@@ -319,195 +316,195 @@ public class Items {
                         }
                     }
                     //END OF FISH LOOT CRATE HANDLING
-                    
-                    if(item == GEM5_ROD_2 && r.nextInt(30) > 20) {
-                        if(r.nextInt(100) > 96) {
+
+                    if (item == GEM5_ROD_2 && r.nextInt(30) > 20) {
+                        if (r.nextInt(100) > 96) {
                             fish.addAll(Stream.of(ALL)
-                                                .filter(i -> i.getItemType() == ItemType.FISHING_RARE && !i.isHidden() && i.isSellable())
-                                                .collect(Collectors.toList())
+                                    .filter(i -> i.getItemType() == ItemType.FISHING_RARE && !i.isHidden() && i.isSellable())
+                                    .collect(Collectors.toList())
                             );
                         }
-                        
+
                         playerInventory.process(new ItemStack(FISH_5, 1));
                         extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.shark_success"), FISH_5.getEmoji());
                     }
-                    
+
                     //START OF ITEM ADDING HANDLING
                     List<ItemStack> list = new ArrayList<>(amount);
                     boolean overflow = false;
-                    for(int i = 0; i < amount; i++) {
+                    for (int i = 0; i < amount; i++) {
                         Item it = fishItems.next();
-                        if(playerInventory.getAmount(it) >= 5000) {
+                        if (playerInventory.getAmount(it) >= 5000) {
                             overflow = true;
                             continue;
                         }
-                        
+
                         list.add(new ItemStack(it, 1));
                     }
-                    
-                    if(buff) {
+
+                    if (buff) {
                         extraMessage += "\n" + lang.get("commands.fish.bait");
                     }
-                    
-                    if(overflow) {
+
+                    if (overflow) {
                         extraMessage += "\n" + String.format(lang.get("commands.fish.overflow"), EmoteReference.SAD);
                     }
-                    
+
                     List<ItemStack> reducedList = ItemStack.reduce(list);
                     playerInventory.process(reducedList);
-                    if(isSeasonal)
+                    if (isSeasonal)
                         sp.addMoney(money);
                     else
                         p.addMoney(money);
-                    
+
                     String itemDisplay = ItemStack.toString(reducedList);
                     boolean foundFish = !reducedList.isEmpty();
                     //END OF ITEM ADDING HANDLING
-                    
+
                     //Add fisher badge if the player found fish succesfully.
-                    if(foundFish) {
+                    if (foundFish) {
                         p.getData().addBadgeIfAbsent(Badge.FISHER);
                     }
-                    
-                    if(nominalLevel >= 3 && r.nextInt(110) > 90) {
+
+                    if (nominalLevel >= 3 && r.nextInt(110) > 90) {
                         playerInventory.process(new ItemStack(FISH_4, 1));
                         extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.fossil_success"), FISH_4.getEmoji());
                     }
-                    
+
                     //START OF REPLY HANDLING
                     //Didn't find a thingy thing.
-                    if(money == 0 && !foundFish) {
+                    if (money == 0 && !foundFish) {
                         int level = u.getData().increaseDustLevel(r.nextInt(4));
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING, level).queue();
                         u.save();
                         return false;
                     }
-                    
-                    
+
+
                     //if there's money, but not fish
-                    if(money > 0 && !foundFish) {
+                    if (money > 0 && !foundFish) {
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money_noitem") + extraMessage, item.getEmoji(), money).queue();
-                    } else if(foundFish && money == 0) { //there's fish, but no money
+                    } else if (foundFish && money == 0) { //there's fish, but no money
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.success") + extraMessage, item.getEmoji(), itemDisplay).queue();
-                    } else if(money > 0 && foundFish) { //there's money and fish
+                    } else if (money > 0 && foundFish) { //there's money and fish
                         event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money") + extraMessage,
                                 item.getEmoji(), itemDisplay, money, (waifuHelp ? "\n" + lang.get("commands.fish.waifu_help") : "")
                         ).queue();
                     }
                     //END OF REPLY HANDLING
                 }
-                
+
                 //Save all changes to the player object.
                 p.save();
-                if(isSeasonal)
+                if (isSeasonal)
                     sp.save();
-                
+
                 return true;
             }
         });
-        
+
         POTION_CLEAN.setAction((event, ctx, season) -> {
             I18nContext lang = ctx.getLeft();
             Player p = managedDatabase.getPlayer(event.getAuthor());
             DBUser u = managedDatabase.getUser(event.getAuthor());
-            
+
             u.getData().getEquippedItems().resetEffect(PlayerEquipment.EquipmentType.POTION);
             u.save();
-            
+
             p.getInventory().process(new ItemStack(POTION_CLEAN, -1));
             p.save();
-            
+
             event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.milk"), EmoteReference.CORRECT).queue();
             return true;
         });
     }
-    
+
     public static Optional<Item> fromAny(String any) {
         try {
             Item item = fromId(Integer.parseInt(any));
-            
-            if(item != null)
+
+            if (item != null)
                 return Optional.of(item);
-        } catch(NumberFormatException ignored) {
+        } catch (NumberFormatException ignored) {
         }
-        
+
         return fromAnyNoId(any);
     }
-    
+
     public static Optional<Item> fromAnyNoId(String any) {
         Optional<Item> itemOptional;
-        
+
         itemOptional = fromEmoji(any);
-        if(itemOptional.isPresent())
+        if (itemOptional.isPresent())
             return itemOptional;
-        
+
         itemOptional = fromAlias(any);
-        if(itemOptional.isPresent())
+        if (itemOptional.isPresent())
             return itemOptional;
-        
+
         itemOptional = fromName(any);
-        if(itemOptional.isPresent())
+        if (itemOptional.isPresent())
             return itemOptional;
-        
+
         itemOptional = fromPartialName(any);
         return itemOptional;
     }
-    
+
     public static Optional<Item> fromEmoji(String emoji) {
         return Stream.of(ALL).filter(item -> item.getEmoji().equals(emoji.replace("\ufe0f", ""))).findFirst();
     }
-    
+
     public static Item fromId(int id) {
         return ALL[id];
     }
-    
+
     public static Optional<Item> fromName(String name) {
         return Arrays.stream(ALL).filter(item -> item.getName().toLowerCase().trim().equals(name.toLowerCase().trim())).findFirst();
     }
-    
+
     public static Optional<Item> fromAlias(String name) {
         return Arrays.stream(ALL).filter(item -> {
-            if(item.getAlias() == null) {
+            if (item.getAlias() == null) {
                 return false;
             }
-            
+
             return item.getAlias().toLowerCase().trim().equals(name.toLowerCase().trim());
         }).findFirst();
     }
-    
+
     public static Optional<Item> fromPartialName(String name) {
         return Arrays.stream(ALL).filter(item -> item.getName().toLowerCase().trim().contains(name.toLowerCase().trim())).findFirst();
     }
-    
+
     public static int idOf(Item item) {
         return Arrays.asList(ALL).indexOf(item);
     }
-    
+
     private static boolean openLootCrate(GuildMessageReceivedEvent event, I18nContext lang, ItemType.LootboxType type, int item, EmoteReference typeEmote, int bound, boolean season) {
         ManagedDatabase managedDatabase = MantaroData.db();
-        
+
         Player player = managedDatabase.getPlayer(event.getAuthor());
         SeasonPlayer seasonPlayer = managedDatabase.getPlayerForSeason(event.getAuthor(), config.getCurrentSeason());
         Inventory inventory = season ? seasonPlayer.getInventory() : player.getInventory();
-        
+
         Item crate = fromId(item);
-        
-        if(inventory.containsItem(crate)) {
-            if(inventory.containsItem(LOOT_CRATE_KEY)) {
-                if(!handleDefaultIncreasingRatelimit(lootCrateRatelimiter, event.getAuthor(), event, lang, false))
+
+        if (inventory.containsItem(crate)) {
+            if (inventory.containsItem(LOOT_CRATE_KEY)) {
+                if (!handleDefaultIncreasingRatelimit(lootCrateRatelimiter, event.getAuthor(), event, lang, false))
                     return false;
-                
+
                 inventory.process(new ItemStack(LOOT_CRATE_KEY, -1));
                 inventory.process(new ItemStack(crate, -1));
-                
-                if(crate == LOOT_CRATE)
+
+                if (crate == LOOT_CRATE)
                     player.getData().addBadgeIfAbsent(Badge.THE_SECRET);
-                
+
                 player.save();
                 seasonPlayer.save();
-                
+
                 openLootBox(event, lang, type, typeEmote, bound, season);
-                
+
                 return true;
             } else {
                 event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.crate.no_key"), EmoteReference.ERROR).queue();
@@ -518,52 +515,52 @@ public class Items {
             return false;
         }
     }
-    
+
     private static void openLootBox(GuildMessageReceivedEvent event, I18nContext lang, ItemType.LootboxType type, EmoteReference typeEmote, int bound, boolean seasonal) {
         ManagedDatabase db = MantaroData.db();
-        
+
         List<Item> toAdd = selectItems(r.nextInt(bound) + bound, type);
         Player player = db.getPlayer(event.getAuthor());
         SeasonPlayer seasonPlayer = db.getPlayerForSeason(event.getAuthor(), config.getCurrentSeason());
-        
+
         ArrayList<ItemStack> ita = new ArrayList<>();
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
-        
-        if((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM) && toAdd.contains(GEM5_PICKAXE) && toAdd.contains(GEM5_PICKAXE_2)) {
+
+        if ((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM) && toAdd.contains(GEM5_PICKAXE) && toAdd.contains(GEM5_PICKAXE_2)) {
             player.getData().addBadgeIfAbsent(Badge.DESTINY_REACHES);
         }
-        
-        if((type == ItemType.LootboxType.FISH || type == ItemType.LootboxType.FISH_PREMIUM) && toAdd.contains(FISH_5)) {
+
+        if ((type == ItemType.LootboxType.FISH || type == ItemType.LootboxType.FISH_PREMIUM) && toAdd.contains(FISH_5)) {
             player.getData().addBadgeIfAbsent(Badge.TOO_BIG);
         }
-        
+
         boolean overflow = seasonal ? seasonPlayer.getInventory().merge(ita) : player.getInventory().merge(ita);
         player.saveAsync();
         seasonPlayer.saveAsync();
-        
+
         event.getChannel().sendMessage(String.format(lang.get("general.misc_item_usage.crate.success"),
                 typeEmote.getDiscordNotation() + " ", toAdd.stream().map(item -> item.getEmoji() + " " + item.getName()).collect(Collectors.joining(", ")),
                 overflow ? ". " + lang.get("general.misc_item_usage.crate.overflow") : "")).queue();
     }
-    
+
     //Maybe compact this a bit? works fine, just icks me a bit.
     @SuppressWarnings("fallthrough")
     private static List<Item> selectItems(int amount, ItemType.LootboxType type) {
         List<Item> common = handleItemDrop(i -> i.getItemType() == ItemType.COMMON);
         List<Item> rare = handleItemDrop(i -> i.getItemType() == ItemType.RARE);
         List<Item> premium = handleItemDrop(i -> i.getItemType() == ItemType.PREMIUM);
-        
+
         List<Item> mine = handleItemDrop(i -> i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.CAST_OBTAINABLE || i.getItemType() == ItemType.BROKEN_MINE_COMMON);
         List<Item> fish = handleItemDrop(i -> i.getItemType() == ItemType.FISHING || i.getItemType() == ItemType.BROKEN_FISHING_COMMON);
-        
+
         List<Item> premiumMine = handleItemDrop(i -> i.getItemType() == ItemType.CAST_MINE ||
-                                                             i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.MINE_RARE || i.getItemType() == ItemType.CAST_OBTAINABLE || i.getItemType() == ItemType.MINE_RARE_PICK || i.getItemType() == ItemType.BROKEN_COMMON || i.getItemType() == ItemType.BROKEN);
+                i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.MINE_RARE || i.getItemType() == ItemType.CAST_OBTAINABLE || i.getItemType() == ItemType.MINE_RARE_PICK || i.getItemType() == ItemType.BROKEN_COMMON || i.getItemType() == ItemType.BROKEN);
         List<Item> premiumFish = handleItemDrop(i -> i.getItemType() == ItemType.CAST_FISH ||
-                                                             i.getItemType() == ItemType.FISHING || i.getItemType() == ItemType.FISHING_RARE || i.getItemType() == ItemType.BROKEN_FISHING_COMMON || i.getItemType() == ItemType.BROKEN_FISHING);
-        
+                i.getItemType() == ItemType.FISHING || i.getItemType() == ItemType.FISHING_RARE || i.getItemType() == ItemType.BROKEN_FISHING_COMMON || i.getItemType() == ItemType.BROKEN_FISHING);
+
         RandomCollection<Item> items = new RandomCollection<>();
-        
-        switch(type) {
+
+        switch (type) {
             case PREMIUM:
                 premium.forEach(i -> items.add(2, i));
             case RARE:
@@ -583,40 +580,40 @@ public class Items {
             case FISH:
                 fish.forEach(i -> items.add(8, i));
         }
-        
+
         List<Item> list = new ArrayList<>(amount);
-        for(int i = 0; i < amount; i++) {
+        for (int i = 0; i < amount; i++) {
             list.add(items.next());
         }
-        
+
         return list;
     }
-    
+
     private static List<Item> handleItemDrop(Predicate<Item> predicate) {
         List<Item> all = Arrays.stream(Items.ALL).filter(i -> i.isBuyable() || i.isSellable()).collect(Collectors.toList());
-        
+
         return all.stream().filter(predicate)
-                       .sorted(Comparator.comparingLong(i -> i.value))
-                       .collect(Collectors.toList());
+                .sorted(Comparator.comparingLong(i -> i.value))
+                .collect(Collectors.toList());
     }
-    
+
     public static boolean handleEffect(PlayerEquipment.EquipmentType type, PlayerEquipment equipment, Item item, DBUser user) {
         boolean isEffectPresent = equipment.getCurrentEffect(type) != null;
-        
-        if(isEffectPresent) {
+
+        if (isEffectPresent) {
             //Not the correct item to handle the effect of = not handling this call.
-            if(item != equipment.getEffectItem(type)) {
+            if (item != equipment.getEffectItem(type)) {
                 return false;
             }
-            
+
             //Effect is active when it's been used less than the max amount
-            if(!equipment.isEffectActive(type, ((Potion) item).getMaxUses())) {
+            if (!equipment.isEffectActive(type, ((Potion) item).getMaxUses())) {
                 //Reset effect if the current amount equipped is 0. Else, subtract one from the current amount equipped.
-                if(!equipment.getCurrentEffect(type).use()) { //This call subtracts one from the current amount equipped.
+                if (!equipment.getCurrentEffect(type).use()) { //This call subtracts one from the current amount equipped.
                     equipment.resetEffect(type);
                     //This has to go twice, because I have to return on the next statement.
                     user.save();
-                    
+
                     return false;
                 } else {
                     user.save();
@@ -625,64 +622,64 @@ public class Items {
             } else {
                 equipment.incrementEffectUses(type);
                 user.save();
-                
+
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     public static Item getBrokenItemFrom(Item item) {
-        for(Item i : ALL) {
-            if(i instanceof Broken) {
-                if(((Broken) i).getMainItem() == Items.idOf(item))
+        for (Item i : ALL) {
+            if (i instanceof Broken) {
+                if (((Broken) i).getMainItem() == Items.idOf(item))
                     return i;
             }
         }
-        
+
         return null;
     }
-    
+
     public static boolean handleDurability(GuildMessageReceivedEvent event, I18nContext lang, Item item, Player player, DBUser user, SeasonPlayer seasonPlayer, boolean isSeasonal) {
         Inventory playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
         //Defensive programming :D
-        if(!playerInventory.containsItem(item))
+        if (!playerInventory.containsItem(item))
             return false;
 
         float amount = r.nextInt(6);
         boolean assumeBroken = false;
         float substractFrom = (float)
                 (handleEffect(PlayerEquipment.EquipmentType.POTION, user.getData().getEquippedItems(), POTION_STAMINA, user) ?
-                    r.nextInt(4) : 0);
+                        r.nextInt(4) : 0);
 
         //We do validation before this...
         PlayerEquipment.EquipmentType equipmentType = user.getData().getEquippedItems().getTypeFor(item);
         int durability = user.getData().getEquippedItems().reduceDurability(equipmentType, (int) Math.max(1, (amount - substractFrom)));
 
-        if(durability < 10) {
+        if (durability < 10) {
             assumeBroken = true;
         }
 
-        if(assumeBroken) {
+        if (assumeBroken) {
             user.getData().getEquippedItems().resetOfType(equipmentType);
-            
+
             String broken = "";
             Item brokenItem = getBrokenItemFrom(item);
-            if(brokenItem != null && r.nextInt(100) > 20) {
+            if (brokenItem != null && r.nextInt(100) > 20) {
                 broken = "\n" + String.format(lang.get("commands.mine.broken_drop"), EmoteReference.HEART, brokenItem.getEmoji(), brokenItem.getName());
                 playerInventory.process(new ItemStack(brokenItem, 1));
             }
-            
+
             event.getChannel().sendMessageFormat(lang.get("commands.mine.item_broke"), EmoteReference.SAD, item.getName(), broken).queue();
-            if(isSeasonal)
+            if (isSeasonal)
                 seasonPlayer.save();
             else
                 player.save();
 
             return false;
         } else {
-            if(isSeasonal)
+            if (isSeasonal)
                 seasonPlayer.save();
             else
                 player.save();
