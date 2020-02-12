@@ -43,18 +43,18 @@ public class Character extends ImageGame {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger("Game [Character]");
     //Avoid AniList ratelimits, we don't need more than fetching the image either way and URL shouldn't change in a short amount of time.
     private static Cache<String, String> imgCache = CacheBuilder.newBuilder()
-                                                            .maximumSize(50)
-                                                            .build();
-    
+            .maximumSize(50)
+            .build();
+
     private final int maxAttempts = 5;
     private String characterName;
     private List<String> characterNameL;
     private Random random = new Random();
-    
+
     public Character() {
         super(10);
     }
-    
+
     @Override
     public void call(GameLobby lobby, List<String> players) {
         InteractiveOperations.create(lobby.getChannel(), Long.parseLong(lobby.getPlayers().get(0)), 60, new InteractiveOperation() {
@@ -62,23 +62,23 @@ public class Character extends ImageGame {
             public int run(GuildMessageReceivedEvent e) {
                 return callDefault(e, lobby, players, characterNameL, getAttempts(), maxAttempts, 0);
             }
-            
+
             @Override
             public void onExpire() {
-                if(lobby.getChannel() == null)
+                if (lobby.getChannel() == null)
                     return;
-                
+
                 lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby_timed_out"), EmoteReference.ERROR, String.join(" ,", characterNameL)).queue();
                 GameLobby.LOBBYS.remove(lobby.getChannel().getIdLong());
             }
-            
+
             @Override
             public void onCancel() {
                 GameLobby.LOBBYS.remove(lobby.getChannel().getIdLong());
             }
         });
     }
-    
+
     @Override
     public boolean onStart(GameLobby lobby) {
         final I18nContext languageContext = lobby.getLanguageContext();
@@ -87,50 +87,50 @@ public class Character extends ImageGame {
             GameStatsManager.log(name());
             characterNameL = new ArrayList<>();
             characterName = strings.get(random.nextInt(strings.size()));
-            
+
             String imageUrl = imgCache.getIfPresent(characterName);
-            
-            if(imageUrl == null) {
+
+            if (imageUrl == null) {
                 List<CharacterData> characters = KitsuRetriever.searchCharacters(characterName);
-                if(characters.isEmpty()) {
+                if (characters.isEmpty()) {
                     lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.character_load_error"), EmoteReference.WARNING, characterName).queue();
                     return false;
                 }
-                
+
                 CharacterData character = characters.get(0);
-                
+
                 imageUrl = character.getAttributes().getImage().getOriginal();
                 //insert into cache
-                if(imageUrl != null)
+                if (imageUrl != null)
                     imgCache.put(characterName, imageUrl);
             }
-            
+
             //Allow for replying with only the first name of the character.
-            if(characterName.contains(" ") && !characterName.contains("Sailor")) {
+            if (characterName.contains(" ") && !characterName.contains("Sailor")) {
                 characterNameL.add(characterName.split(" ")[0]);
             }
-            
+
             characterNameL.add(characterName);
             sendEmbedImage(lobby.getChannel(), imageUrl, eb -> eb
-                                                                       .setTitle(languageContext.get("commands.game.character_start"), null)
-                                                                       .setFooter(languageContext.get("commands.game.end_footer"), null)
+                    .setTitle(languageContext.get("commands.game.character_start"), null)
+                    .setFooter(languageContext.get("commands.game.end_footer"), null)
             ).queue(success -> lobby.setGameLoaded(true));
             return true;
-        } catch(JsonSyntaxException ex) {
+        } catch (JsonSyntaxException ex) {
             lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.character_load_error"), EmoteReference.WARNING, characterName).queue();
             return false;
-        } catch(Exception e) {
+        } catch (Exception e) {
             lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.error"), EmoteReference.ERROR).queue();
             log.warn("Exception while setting up a game", e);
             return false;
         }
     }
-    
+
     @Override
     public String name() {
         return "character";
     }
-    
+
     public int getMaxAttempts() {
         return this.maxAttempts;
     }

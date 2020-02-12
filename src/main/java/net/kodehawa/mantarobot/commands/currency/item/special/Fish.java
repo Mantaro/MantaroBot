@@ -26,30 +26,30 @@ public class Fish extends Item {
     private int level;
     //wink wink
     private PotionEffect effect;
-    
+
     public Fish(ItemType type, int level, String emoji, String name, String translatedName, String desc, long value, String recipe, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, true, false, recipe, recipeTypes);
         this.level = level;
     }
-    
+
     public Fish(ItemType type, int level, String emoji, String name, String translatedName, String desc, long value, boolean buyable, String recipe, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, true, buyable, recipe, recipeTypes);
         this.level = level;
     }
-    
+
     public Fish(ItemType type, int level, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.level = level;
     }
-    
+
     public int getLevel() {
         return this.level;
     }
-    
+
     public PotionEffect getEffect() {
         return this.effect;
     }
-    
+
     public boolean isEdible() {
         return this.isEdible;
     }

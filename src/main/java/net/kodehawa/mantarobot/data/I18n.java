@@ -27,13 +27,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -45,23 +39,23 @@ public class I18n {
     static {
         Map<String, I18n> m = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
-        try(InputStream is = I18n.class.getResourceAsStream("/assets/languages/list.txt")) {
-            for(String s : IOUtils.toString(is, StandardCharsets.UTF_8).trim().split("\n")) {
+        try (InputStream is = I18n.class.getResourceAsStream("/assets/languages/list.txt")) {
+            for (String s : IOUtils.toString(is, StandardCharsets.UTF_8).trim().split("\n")) {
                 String language = s.trim();
                 LANGUAGES.add(language);
             }
-            
-        } catch(IOException e) {
+
+        } catch (IOException e) {
             throw new ExceptionInInitializerError(e);
         }
-        
-        for(String s : LANGUAGES) {
+
+        for (String s : LANGUAGES) {
             InputStream is = I18n.class.getResourceAsStream("/assets/languages/" + s);
             try {
                 @SuppressWarnings("unchecked")
                 Map<String, ?> map = (Map<String, ?>) mapper.readValue(is, Map.class);
                 m.put(s.replace(".json", ""), new I18n(map, s));
-            } catch(Exception e) {
+            } catch (Exception e) {
                 throw new Error("Unable to initialize I18n", e);
             }
         }
@@ -70,90 +64,90 @@ public class I18n {
 
     private final Map<String, ?> map;
     private final String language;
-    
+
     private I18n(Map<String, ?> map, String language) {
         this.map = map;
         this.language = language;
     }
-    
+
     public static I18n of(String guildId) {
         String lang = MantaroData.db().getGuild(guildId).getData().getLang();
         return getForLanguage(lang);
     }
-    
+
     public static I18n ofUser(String userId) {
         String lang = MantaroData.db().getUser(userId).getData().getLang();
         return getForLanguage(lang);
     }
-    
+
     public static I18n of(Guild guild) {
         return of(guild.getId());
     }
-    
+
     public static I18n ofUser(User user) {
         return of(user.getId());
     }
-    
+
     public static I18n of(GenericGuildEvent event) {
         return of(event.getGuild().getId());
     }
-    
+
     public static I18n getForLanguage(String language) {
         I18n i = LANGUAGE_MAP.get(language);
-        if(i == null) return LANGUAGE_MAP.get("en_US");
+        if (i == null) return LANGUAGE_MAP.get("en_US");
         return i;
     }
-    
+
     public static boolean isValidLanguage(String lang) {
         return LANGUAGE_MAP.containsKey(lang);
     }
-    
+
     public static void root(String newRoot) {
         ROOT.set(newRoot);
     }
-    
+
     @SuppressWarnings("unchecked")
     private String get(Map<String, ?> map, String[] parts, boolean recursion) {
         int index = 0;
-        while(index != parts.length - 1) {
+        while (index != parts.length - 1) {
             Object maybeMap = map.get(parts[index]);
-            if(maybeMap instanceof Map) {
+            if (maybeMap instanceof Map) {
                 map = (Map<String, ?>) maybeMap;
                 index++;
             } else {
-                if(language.equals("en_US") || recursion)
+                if (language.equals("en_US") || recursion)
                     throw new LanguageKeyNotFoundException("Missing i18n key " + Arrays.stream(parts).collect(Collectors.joining(".")));
                 return get(LANGUAGE_MAP.get("en_US").map, parts, true);
             }
         }
         Object maybeString = map.get(parts[index]);
-        if(maybeString instanceof String) {
+        if (maybeString instanceof String) {
             return (String) maybeString;
         }
-        if(maybeString instanceof Collection) {
+        if (maybeString instanceof Collection) {
             Collection<String> c = ((Collection<String>) maybeString);
             return c.stream()
-                           .skip(ThreadLocalRandom.current().nextInt(c.size()))
-                           .findFirst()
-                           .orElseThrow(AssertionError::new);
+                    .skip(ThreadLocalRandom.current().nextInt(c.size()))
+                    .findFirst()
+                    .orElseThrow(AssertionError::new);
         }
-        if(language.equals("en_US") || recursion)
+        if (language.equals("en_US") || recursion)
             throw new LanguageKeyNotFoundException("Missing i18n key " + Arrays.stream(parts).collect(Collectors.joining(".")));
-        
+
         return get(LANGUAGE_MAP.get("en_US").map, parts, true);
     }
-    
+
     public String get(String query) {
         String root = ROOT.get();
         String actualQuery;
-        if(root == null) {
+        if (root == null) {
             actualQuery = query;
         } else {
             actualQuery = root + "." + query;
         }
         return get(map, actualQuery.split("\\."), false);
     }
-    
+
     public String withRoot(String root, String query) {
         String s = ROOT.get();
         ROOT.set(root);

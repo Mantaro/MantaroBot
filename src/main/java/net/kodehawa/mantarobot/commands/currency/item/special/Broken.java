@@ -27,26 +27,26 @@ public class Broken extends Item {
     //You can have as many types as you want.
     //If the recipe it's an empty string (or null), it means the item has no recipe.
     private String recipe;
-    
-    
+
+
     public Broken(int mainItem, String emoji, String name, String translatedName, String desc, long value, String recipe) {
         super(ItemType.BROKEN, emoji, name, translatedName, desc, value, true, false);
         this.mainItem = mainItem;
         //Repair recipe
         this.recipe = recipe;
     }
-    
+
     public Broken(ItemType type, int mainItem, String emoji, String name, String translatedName, String desc, long value, String recipe) {
         super(type, emoji, name, translatedName, desc, value, true, false);
         this.mainItem = mainItem;
         //Repair recipe
         this.recipe = recipe;
     }
-    
+
     public int getMainItem() {
         return this.mainItem;
     }
-    
+
     public String getRecipe() {
         return this.recipe;
     }

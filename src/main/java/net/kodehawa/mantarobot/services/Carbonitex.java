@@ -29,22 +29,22 @@ import static net.kodehawa.mantarobot.data.MantaroData.config;
 public class Carbonitex {
     public static void handle() {
         var carbonToken = config().get().carbonToken;
-        if(carbonToken != null) {
+        if (carbonToken != null) {
             var newC = MantaroBot.getInstance().getShardManager().getGuildCache().size();
             try {
                 RequestBody body = new FormBody.Builder()
-                                           .add("key", carbonToken)
-                                           .add("servercount", String.valueOf(newC))
-                                           .build();
-                
+                        .add("key", carbonToken)
+                        .add("servercount", String.valueOf(newC))
+                        .build();
+
                 Request request = new Request.Builder()
-                                          .url("https://www.carbonitex.net/discord/data/botdata.php")
-                                          .post(body)
-                                          .build();
-                
+                        .url("https://www.carbonitex.net/discord/data/botdata.php")
+                        .post(body)
+                        .build();
+
                 Response response = Utils.httpClient.newCall(request).execute();
                 response.close();
-            } catch(Exception ignored) {
+            } catch (Exception ignored) {
             }
         }
     }

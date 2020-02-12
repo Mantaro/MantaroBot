@@ -25,11 +25,7 @@ import net.kodehawa.mantarobot.utils.Pair;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MantaroObj implements ManagedObject {
@@ -40,7 +36,7 @@ public class MantaroObj implements ManagedObject {
     public List<String> patreonUsers;
     private Map<Long, Pair<String, Long>> mutes;
     private Map<String, Long> tempBans;
-    
+
     @ConstructorProperties({"blackListedGuilds", "blackListedUsers", "patreonUsers", "tempbans", "mutes"})
     @JsonCreator
     public MantaroObj(@JsonProperty("blackListedGuilds") List<String> blackListedGuilds,
@@ -54,69 +50,69 @@ public class MantaroObj implements ManagedObject {
         this.tempBans = tempBans;
         this.mutes = mutes;
     }
-    
+
     public MantaroObj() {
     }
-    
+
     public static MantaroObj create() {
         return new MantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap<>(), new ConcurrentHashMap<>());
     }
-    
+
     public String getId() {
         return this.id;
     }
-    
+
     @JsonIgnore
     @Override
     @Nonnull
     public String getTableName() {
         return DB_TABLE;
     }
-    
+
     public List<String> getBlackListedGuilds() {
         return this.blackListedGuilds;
     }
-    
+
     public void setBlackListedGuilds(List<String> blackListedGuilds) {
         this.blackListedGuilds = blackListedGuilds;
     }
-    
+
     public List<String> getBlackListedUsers() {
         return this.blackListedUsers;
     }
-    
+
     public void setBlackListedUsers(List<String> blackListedUsers) {
         this.blackListedUsers = blackListedUsers;
     }
-    
+
     public List<String> getPatreonUsers() {
         return this.patreonUsers;
     }
-    
+
     public void setPatreonUsers(List<String> patreonUsers) {
         this.patreonUsers = patreonUsers;
     }
-    
+
     public Map<Long, Pair<String, Long>> getMutes() {
         return this.mutes;
     }
-    
+
     public void setMutes(Map<Long, Pair<String, Long>> mutes) {
         this.mutes = mutes;
     }
-    
+
     public Map<String, Long> getTempBans() {
         return this.tempBans;
     }
-    
+
     public void setTempBans(Map<String, Long> tempBans) {
         this.tempBans = tempBans;
     }
-    
+
     protected boolean canEqual(final Object other) {
         return other instanceof MantaroObj;
     }
-    
+
     public int hashCode() {
         final int PRIME = 59;
         int result = 1;
@@ -134,35 +130,35 @@ public class MantaroObj implements ManagedObject {
         result = result * PRIME + ($tempBans == null ? 43 : $tempBans.hashCode());
         return result;
     }
-    
+
     public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof MantaroObj)) return false;
+        if (o == this) return true;
+        if (!(o instanceof MantaroObj)) return false;
         final MantaroObj other = (MantaroObj) o;
-        if(!other.canEqual(this)) return false;
+        if (!other.canEqual(this)) return false;
         final Object this$id = this.getId();
         final Object other$id = other.getId();
-        if(!Objects.equals(this$id, other$id)) return false;
+        if (!Objects.equals(this$id, other$id)) return false;
         final Object this$blackListedGuilds = this.getBlackListedGuilds();
         final Object other$blackListedGuilds = other.getBlackListedGuilds();
-        if(!Objects.equals(this$blackListedGuilds, other$blackListedGuilds))
+        if (!Objects.equals(this$blackListedGuilds, other$blackListedGuilds))
             return false;
         final Object this$blackListedUsers = this.getBlackListedUsers();
         final Object other$blackListedUsers = other.getBlackListedUsers();
-        if(!Objects.equals(this$blackListedUsers, other$blackListedUsers))
+        if (!Objects.equals(this$blackListedUsers, other$blackListedUsers))
             return false;
         final Object this$patreonUsers = this.getPatreonUsers();
         final Object other$patreonUsers = other.getPatreonUsers();
-        if(!Objects.equals(this$patreonUsers, other$patreonUsers))
+        if (!Objects.equals(this$patreonUsers, other$patreonUsers))
             return false;
         final Object this$mutes = this.getMutes();
         final Object other$mutes = other.getMutes();
-        if(!Objects.equals(this$mutes, other$mutes)) return false;
+        if (!Objects.equals(this$mutes, other$mutes)) return false;
         final Object this$tempBans = this.getTempBans();
         final Object other$tempBans = other.getTempBans();
         return Objects.equals(this$tempBans, other$tempBans);
     }
-    
+
     public String toString() {
         return "MantaroObj(id=" + this.getId() + ", blackListedGuilds=" + this.getBlackListedGuilds() + ", blackListedUsers=" + this.getBlackListedUsers() + ", patreonUsers=" + this.getPatreonUsers() + ", mutes=" + this.getMutes() + ", tempBans=" + this.getTempBans() + ")";
     }

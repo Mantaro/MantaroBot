@@ -26,62 +26,62 @@ public class WeatherData {
     private Sys sys = new Sys();
     private List<Weather> weather = new ArrayList<>();
     private Wind wind = new Wind();
-    
+
     public Clouds getClouds() {
         return clouds;
     }
-    
+
     public Main getMain() {
         return main;
     }
-    
+
     public Sys getSys() {
         return sys;
     }
-    
+
     public List<Weather> getWeather() {
         return weather;
     }
-    
+
     public Wind getWind() {
         return wind;
     }
-    
+
     public static class Clouds {
         public int all;
     }
-    
+
     public static class Main {
         private int humidity; //Humidity in percentage.
         private double pressure = 0;
         private double speed; //Speed in m/h.
         private double temp = 0;
-        
+
         public int getHumidity() {
             return humidity;
         }
-        
+
         public double getPressure() {
             return pressure;
         }
-        
+
         public double getSpeed() {
             return speed;
         }
-        
+
         public double getTemp() {
             return temp;
         }
     }
-    
+
     public static class Sys {
         public String country = null;
     }
-    
+
     public static class Weather {
         public String main = null;
     }
-    
+
     public static class Wind {
         public double speed = 0;
     }

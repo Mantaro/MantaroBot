@@ -22,10 +22,10 @@ import net.kodehawa.mantarobot.MantaroBot;
 
 public class EventUtils {
     public static void propagateEvent(MantaroEvent event) {
-        for(var shard : MantaroBot.getInstance().getShardManager().getShards()) {
+        for (var shard : MantaroBot.getInstance().getShardManager().getShards()) {
             shard.getEventManager().handle((Event) event);
         }
-        
+
         event.onPropagation();
     }
 }

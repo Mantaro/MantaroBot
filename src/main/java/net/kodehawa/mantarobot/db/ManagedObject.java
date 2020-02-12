@@ -26,29 +26,29 @@ public interface ManagedObject {
     @SuppressWarnings("NullableProblems")
     @Nonnull
     String getId();
-    
+
     @JsonIgnore
     @Nonnull
     String getTableName();
-    
+
     @JsonIgnore
     @Nonnull
     default String getDatabaseId() {
         return getId();
     }
-    
+
     default void delete() {
         MantaroData.db().delete(this);
     }
-    
+
     default void save() {
         MantaroData.db().save(this);
     }
-    
+
     default void deleteAsync() {
         MantaroData.queue(this::delete);
     }
-    
+
     default void saveAsync() {
         MantaroData.queue(this::save);
     }

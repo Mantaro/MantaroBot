@@ -32,20 +32,20 @@ public class Mapifier {
     public static <T> T fromMap(Mode mode, Class<T> c, Map<String, Object> map) {
         return mode.mapper.convertValue(map, c);
     }
-    
+
     public static <T> T fromMap(Class<T> c, Map<String, Object> map) {
         return fromMap(Mode.SOFT, c, map);
     }
-    
+
     public static Map<String, Object> toMap(Object object) {
         return toMap(Mode.SOFT, object);
     }
-    
+
     @SuppressWarnings("unchecked")
     public static Map<String, Object> toMap(Mode mode, Object object) {
         return (Map<String, Object>) mode.mapper.convertValue(object, Map.class);
     }
-    
+
     public enum Mode {
         SOFT(() -> {
             ObjectMapper m = new ObjectMapper();
@@ -63,9 +63,9 @@ public class Mapifier {
             m.registerModule(pair);
             return m;
         });
-        
+
         private final ObjectMapper mapper;
-        
+
         Mode(Supplier<ObjectMapper> mapper) {
             this.mapper = mapper.get();
         }

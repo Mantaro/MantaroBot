@@ -28,18 +28,18 @@ public abstract class SimpleCommand extends AbstractCommand {
     public SimpleCommand(Category category) {
         super(category);
     }
-    
+
     public SimpleCommand(Category category, CommandPermission permission) {
         super(category, permission);
     }
-    
+
     protected abstract void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args);
-    
+
     @Override
     public void run(GuildMessageReceivedEvent event, I18nContext languageContext, String commandName, String content) {
         call(event, languageContext, content, splitArgs(content));
     }
-    
+
     protected String[] splitArgs(String content) {
         return StringUtils.advancedSplitArgs(content, 0);
     }

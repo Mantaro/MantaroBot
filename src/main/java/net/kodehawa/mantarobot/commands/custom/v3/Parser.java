@@ -17,17 +17,9 @@
 
 package net.kodehawa.mantarobot.commands.custom.v3;
 
-import net.kodehawa.mantarobot.commands.custom.v3.ast.LiteralNode;
-import net.kodehawa.mantarobot.commands.custom.v3.ast.MultiNode;
-import net.kodehawa.mantarobot.commands.custom.v3.ast.Node;
-import net.kodehawa.mantarobot.commands.custom.v3.ast.OperationNode;
-import net.kodehawa.mantarobot.commands.custom.v3.ast.VariableNode;
+import net.kodehawa.mantarobot.commands.custom.v3.ast.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 public class Parser {
     private static final Map<TokenType, Parselet> PARSELETS = new HashMap<>() {{
@@ -36,9 +28,9 @@ public class Parser {
             Stack<Position> stack = new Stack<>();
             stack.push(t.position());
             List<Node> name = new ArrayList<>();
-            while(stack.size() > 0 && it.hasNext()) {
+            while (stack.size() > 0 && it.hasNext()) {
                 t = it.next();
-                switch(t.type()) {
+                switch (t.type()) {
                     case LITERAL: {
                         count(t, stack, '(');
                         get(TokenType.LITERAL).apply(it, name, t);
@@ -46,7 +38,7 @@ public class Parser {
                     }
                     case RIGHT_PAREN: {
                         stack.pop();
-                        if(stack.size() > 0) {
+                        if (stack.size() > 0) {
                             get(TokenType.LITERAL).apply(it, name, t);
                         }
                         break;
@@ -55,7 +47,7 @@ public class Parser {
                         get(t.type()).apply(it, name, t);
                 }
             }
-            if(stack.size() > 0) {
+            if (stack.size() > 0) {
                 throw syntaxError(it, stack.pop(), '(');
             }
             c.add(new VariableNode(new MultiNode(name).simplify()));
@@ -67,9 +59,9 @@ public class Parser {
             List<Node> name = new ArrayList<>();
             List<Node> args = new ArrayList<>();
             List<Node> current = new ArrayList<>();
-            while(stack.size() > 0 && it.hasNext()) {
+            while (stack.size() > 0 && it.hasNext()) {
                 t = it.next();
-                switch(t.type()) {
+                switch (t.type()) {
                     case LITERAL: {
                         count(t, stack, '{');
                         get(TokenType.LITERAL).apply(it, current, t);
@@ -77,13 +69,13 @@ public class Parser {
                     }
                     case RIGHT_BRACE: {
                         stack.pop();
-                        if(stack.size() > 0) {
+                        if (stack.size() > 0) {
                             get(TokenType.LITERAL).apply(it, current, t);
                         }
                         break;
                     }
                     case SEMICOLON: {
-                        if(!hasName) {
+                        if (!hasName) {
                             name = current;
                         } else {
                             args.add(new MultiNode(current).simplify());
@@ -96,10 +88,10 @@ public class Parser {
                         get(t.type()).apply(it, current, t);
                 }
             }
-            if(stack.size() > 0) {
+            if (stack.size() > 0) {
                 throw syntaxError(it, stack.pop(), '{');
             }
-            if(!hasName) {
+            if (!hasName) {
                 name = current;
             } else {
                 args.add(new MultiNode(current).simplify());
@@ -109,34 +101,34 @@ public class Parser {
         put(TokenType.RIGHT_PAREN, (__1, c, __2) -> c.add(new LiteralNode(")")));
         put(TokenType.RIGHT_BRACE, (__1, c, __2) -> c.add(new LiteralNode("}")));
         put(TokenType.SEMICOLON, (__1, c, __2) -> c.add(new LiteralNode(";")));
-        
+
     }};
     private final TokenIterator iterator;
-    
+
     public Parser(TokenIterator iterator) {
         this.iterator = iterator;
     }
-    
+
     public Parser(String input) {
         this(new TokenIterator(input));
     }
-    
+
     private static void count(Token token, Stack<Position> stack, char c) {
         String v = token.value();
         int line = token.position().line();
         int column = token.position().column();
-        for(int i = 0; i < v.length(); i++) {
-            if(v.charAt(i) == '\n') {
+        for (int i = 0; i < v.length(); i++) {
+            if (v.charAt(i) == '\n') {
                 line++;
                 column = 0;
             }
-            if(v.charAt(i) == c) {
+            if (v.charAt(i) == c) {
                 stack.push(new Position(line, column, -1, -1));
             }
             column++;
         }
     }
-    
+
     private static RuntimeException syntaxError(TokenIterator iterator, Position p, char unclosed) {
         int column = (p.end() < 0 ? p.column() : p.end() + 1);
         String line = iterator.source().split("\n")[p.line() - 1];
@@ -149,16 +141,16 @@ public class Parser {
         sb.append('^');
         throw new SyntaxException(sb.toString());
     }
-    
+
     public Node parse() {
         List<Node> code = new ArrayList<>();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Token token = iterator.next();
             PARSELETS.get(token.type()).apply(iterator, code, token);
         }
         return new MultiNode(code).simplify();
     }
-    
+
     private interface Parselet {
         void apply(TokenIterator iterator, List<Node> code, Token token);
     }

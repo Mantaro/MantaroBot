@@ -31,7 +31,7 @@ public class PotionEffect {
     private ItemType.PotionType type;
     private long timesUsed;
     private long amountEquipped = 1;
-    
+
     @JsonCreator
     @ConstructorProperties({"potionId", "until", "type"})
     public PotionEffect(int potionId, long until, ItemType.PotionType type) {
@@ -40,14 +40,14 @@ public class PotionEffect {
         this.until = until;
         this.type = type;
     }
-    
+
     public PotionEffect() {
     }
-    
+
     @JsonIgnore
     public boolean use() {
         long newAmount = amountEquipped - 1;
-        if(newAmount < 1) {
+        if (newAmount < 1) {
             return false;
         } else {
             setAmountEquipped(newAmount);
@@ -55,76 +55,76 @@ public class PotionEffect {
             return true;
         }
     }
-    
+
     @JsonIgnore
     public boolean equip(int amount) {
         long newAmount = amountEquipped + amount;
-        if(newAmount >= 10) {
+        if (newAmount >= 10) {
             setAmountEquipped(9);
         } else {
             setAmountEquipped(newAmount);
         }
-        
+
         return true;
     }
-    
+
     @JsonIgnore
     public boolean equip() {
         return equip(1);
     }
-    
+
     public String getUuid() {
         return this.uuid;
     }
-    
+
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
-    
+
     public int getPotion() {
         return this.potion;
     }
-    
+
     public void setPotion(int potion) {
         this.potion = potion;
     }
-    
+
     public long getUntil() {
         return this.until;
     }
-    
+
     public void setUntil(long until) {
         this.until = until;
     }
-    
+
     public ItemType.PotionType getType() {
         return this.type;
     }
-    
+
     public void setType(ItemType.PotionType type) {
         this.type = type;
     }
-    
+
     public long getTimesUsed() {
         return this.timesUsed;
     }
-    
+
     public void setTimesUsed(long timesUsed) {
         this.timesUsed = timesUsed;
     }
-    
+
     public long getAmountEquipped() {
         return this.amountEquipped;
     }
-    
+
     public void setAmountEquipped(long amountEquipped) {
         this.amountEquipped = amountEquipped;
     }
-    
+
     protected boolean canEqual(final Object other) {
         return other instanceof PotionEffect;
     }
-    
+
     public int hashCode() {
         final int PRIME = 59;
         int result = 1;
@@ -141,24 +141,24 @@ public class PotionEffect {
         result = result * PRIME + (int) ($amountEquipped >>> 32 ^ $amountEquipped);
         return result;
     }
-    
+
     public boolean equals(final Object o) {
-        if(o == this) return true;
-        if(!(o instanceof PotionEffect)) return false;
+        if (o == this) return true;
+        if (!(o instanceof PotionEffect)) return false;
         final PotionEffect other = (PotionEffect) o;
-        if(!other.canEqual(this)) return false;
+        if (!other.canEqual(this)) return false;
         final Object this$uuid = this.uuid;
         final Object other$uuid = other.uuid;
-        if(!Objects.equals(this$uuid, other$uuid)) return false;
-        if(this.potion != other.potion) return false;
-        if(this.until != other.until) return false;
+        if (!Objects.equals(this$uuid, other$uuid)) return false;
+        if (this.potion != other.potion) return false;
+        if (this.until != other.until) return false;
         final Object this$type = this.type;
         final Object other$type = other.type;
-        if(!Objects.equals(this$type, other$type)) return false;
-        if(this.timesUsed != other.timesUsed) return false;
+        if (!Objects.equals(this$type, other$type)) return false;
+        if (this.timesUsed != other.timesUsed) return false;
         return this.amountEquipped == other.amountEquipped;
     }
-    
+
     public String toString() {
         return "PotionEffect(uuid=" + this.uuid + ", potion=" + this.potion + ", until=" + this.until + ", type=" + this.type + ", timesUsed=" + this.timesUsed + ", amountEquipped=" + this.amountEquipped + ")";
     }

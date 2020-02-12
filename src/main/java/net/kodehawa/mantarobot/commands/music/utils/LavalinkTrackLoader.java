@@ -29,11 +29,7 @@ import lavalink.client.io.LavalinkSocket;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.URLEncoding;
 import net.kodehawa.mantarobot.utils.Utils;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -53,13 +49,13 @@ public class LavalinkTrackLoader {
     public static void load(AudioPlayerManager manager, Lavalink<?> lavalink, String query,
                             AudioLoadResultHandler handler) {
         Iterator<LavalinkSocket> sockets = lavalink.getNodes().iterator();
-        if(!sockets.hasNext()) {
+        if (!sockets.hasNext()) {
             manager.loadItem(query, handler);
             return;
         }
-        
+
         CompletionStage<Runnable> last = tryLoad(manager, sockets.next().getRemoteUri(), query, handler);
-        while(sockets.hasNext()) {
+        while (sockets.hasNext()) {
             URI uri = sockets.next().getRemoteUri();
             //TODO: java 12 replace this with the line commented below
             var cf = new CompletableFuture<Runnable>();
@@ -75,39 +71,39 @@ public class LavalinkTrackLoader {
             //last = last.exceptionallyCompose(e -> tryLoad(manager, uri, query, handler));
         }
         last.whenComplete((ok, oof) -> {
-            if(oof != null) {
+            if (oof != null) {
                 handler.loadFailed(new FriendlyException("Failed to load", FriendlyException.Severity.SUSPICIOUS, oof));
             } else {
                 ok.run();
             }
         });
     }
-    
+
     private static CompletionStage<Runnable> tryLoad(AudioPlayerManager manager, URI node, String query,
                                                      AudioLoadResultHandler handler) {
         CompletableFuture<Runnable> future = new CompletableFuture<>();
         Utils.httpClient.newCall(new Request.Builder()
-                                         .url(node.toString() + "/loadtracks?identifier" + URLEncoding.encode(query))
-                                         .header("Authorization", MantaroData.config().get().lavalinkPass)
-                                         .build()
+                .url(node.toString() + "/loadtracks?identifier" + URLEncoding.encode(query))
+                .header("Authorization", MantaroData.config().get().lavalinkPass)
+                .build()
         ).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 future.completeExceptionally(e);
             }
-            
+
             @Override
             public void onResponse(Call call, Response response) {
-                try(Response r = response) {
+                try (Response r = response) {
                     ResponseBody body = r.body();
-                    if(body == null) {
+                    if (body == null) {
                         future.completeExceptionally(new IllegalArgumentException(
                                 "Response body was null! Code " + response.code()
                         ));
                         return;
                     }
                     JSONObject json = new JSONObject(new JSONTokener(body.byteStream()));
-                    switch(json.getString("loadType")) {
+                    switch (json.getString("loadType")) {
                         case "LOAD_FAILED": {
                             future.completeExceptionally(new IllegalArgumentException(
                                     json.getJSONObject("exception").getString("message")
@@ -123,7 +119,7 @@ public class LavalinkTrackLoader {
                             try {
                                 AudioTrack t = decode(manager, track);
                                 future.complete(() -> handler.trackLoaded(t));
-                            } catch(Exception e) {
+                            } catch (Exception e) {
                                 future.completeExceptionally(e);
                             }
                             break;
@@ -132,10 +128,10 @@ public class LavalinkTrackLoader {
                         case "SEARCH_RESULT": {
                             List<AudioTrack> decoded = new ArrayList<>();
                             JSONArray tracks = json.getJSONArray("tracks");
-                            for(int i = 0; i < tracks.length(); i++) {
+                            for (int i = 0; i < tracks.length(); i++) {
                                 try {
                                     decoded.add(decode(manager, tracks.getJSONObject(i).getString("track")));
-                                } catch(Exception e) {
+                                } catch (Exception e) {
                                     future.completeExceptionally(e);
                                     return;
                                 }
@@ -155,20 +151,20 @@ public class LavalinkTrackLoader {
                             break;
                         }
                     }
-                } catch(Exception e) {
+                } catch (Exception e) {
                     future.completeExceptionally(e);
                 }
             }
         });
         return future;
     }
-    
+
     private static AudioTrack decode(AudioPlayerManager manager, String track) {
         try {
             return manager.decodeTrack(new MessageInput(new ByteArrayInputStream(
                     Base64.getDecoder().decode(track)
             ))).decodedTrack;
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new IllegalArgumentException("Failed to decode track", e);
         }
     }

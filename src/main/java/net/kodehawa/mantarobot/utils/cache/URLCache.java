@@ -24,11 +24,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.slf4j.Logger;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,57 +36,57 @@ public class URLCache {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(URLCache.class);
     private final FileCache cache;
     private File cacheDir;
-    
+
     public URLCache(File cacheDir, int cacheSize) {
         this.cacheDir = cacheDir;
         var path = cacheDir.toPath();
-        if(Files.exists(path) && !Files.isDirectory(path)) {
+        if (Files.exists(path) && !Files.isDirectory(path)) {
             try {
                 Files.delete(path);
                 Files.createDirectories(path);
-            } catch(IOException e) {
+            } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }
         }
-        
+
         cache = new FileCache(cacheSize);
     }
-    
+
     public URLCache(int cacheSize) {
         this(DEFAULT_CACHE_DIR, cacheSize);
     }
-    
+
     public void changeCacheDir(File newDir) {
-        if(newDir == null) throw new NullPointerException("newDir");
-        if(!newDir.isDirectory()) throw new IllegalArgumentException("Not a directory: " + newDir);
+        if (newDir == null) throw new NullPointerException("newDir");
+        if (!newDir.isDirectory()) throw new IllegalArgumentException("Not a directory: " + newDir);
         cacheDir = newDir;
     }
-    
+
     public File getFile(String url) {
         File cachedFile = saved.get(Preconditions.checkNotNull(url, "url"));
-        if(cachedFile != null) return cachedFile;
+        if (cachedFile != null) return cachedFile;
         File file = null;
         try {
             file = new File(cacheDir, url.replace('/', '_').replace(':', '_'));
             Request r = new Request.Builder()
-                                .url(url)
-                                .build();
-            
-            try(Response response = okHttp.newCall(r).execute();
-                FileOutputStream fos = new FileOutputStream(file)) {
+                    .url(url)
+                    .build();
+
+            try (Response response = okHttp.newCall(r).execute();
+                 FileOutputStream fos = new FileOutputStream(file)) {
                 var body = response.body();
-                if(body == null) {
+                if (body == null) {
                     throw new IllegalStateException("Null response body! Code: " + response.code() + " " + response.message());
                 }
                 body.byteStream().transferTo(fos);
                 saved.put(url, file);
                 return file;
             }
-        } catch(Exception e) {
-            if(file != null) {
+        } catch (Exception e) {
+            if (file != null) {
                 try {
                     Files.delete(file.toPath());
-                } catch(IOException e2) {
+                } catch (IOException e2) {
                     e.addSuppressed(e2);
                 }
             }
@@ -99,7 +95,7 @@ public class URLCache {
             throw new InternalError();
         }
     }
-    
+
     public InputStream getInput(String url) {
         return cache.input(getFile(url));
     }

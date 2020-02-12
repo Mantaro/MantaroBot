@@ -37,52 +37,52 @@ public class MantaroData {
     private static GsonDataManager<Config> config;
     private static Connection conn;
     private static ManagedDatabase db;
-    
+
     private static JedisPool defaultJedisPool = new JedisPool(config().get().jedisPoolAddress, config().get().jedisPoolPort);
-    
+
     static {
         Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-data", exec);
     }
-    
+
     public static GsonDataManager<Config> config() {
-        if(config == null)
+        if (config == null)
             config = new GsonDataManager<>(Config.class, "config.json", Config::new);
-        
+
         return config;
     }
-    
+
     public static Connection conn() {
         Config c = config().get();
-        if(conn == null) {
-            synchronized(MantaroData.class) {
-                if(conn != null) return conn;
+        if (conn == null) {
+            synchronized (MantaroData.class) {
+                if (conn != null) return conn;
                 conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect();
                 log.info("Established first database connection to {}:{} ({})", c.dbHost, c.dbPort, c.dbUser);
             }
         }
         return conn;
     }
-    
-    
+
+
     public static ManagedDatabase db() {
-        if(db == null) {
+        if (db == null) {
             db = new ManagedDatabase(conn());
         }
         return db;
     }
-    
+
     public static ScheduledExecutorService getExecutor() {
         return exec;
     }
-    
+
     public static void queue(Callable<?> action) {
         getExecutor().submit(action);
     }
-    
+
     public static void queue(Runnable runnable) {
         getExecutor().submit(runnable);
     }
-    
+
     public static JedisPool getDefaultJedisPool() {
         return MantaroData.defaultJedisPool;
     }

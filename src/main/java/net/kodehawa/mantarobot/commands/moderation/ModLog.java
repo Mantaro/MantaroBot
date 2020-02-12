@@ -32,51 +32,51 @@ import net.kodehawa.mantarobot.utils.Utils;
 
 public class ModLog {
     private static ManagedDatabase db = MantaroData.db();
-    
+
     public static void log(Member author, User target, String reason, String channel, ModAction action, long caseNumber, int messagesDeleted) {
         DBGuild guildDB = db.getGuild(author.getGuild());
         Player player = db.getPlayer(author);
         PlayerData playerData = player.getData();
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        
+
         embedBuilder.addField("Responsible Moderator", author.getEffectiveName(), true);
-        
-        if(target != null) {
+
+        if (target != null) {
             embedBuilder.addField("Member", target.getName(), true);
             embedBuilder.setThumbnail(target.getEffectiveAvatarUrl());
         } else {
             embedBuilder.setThumbnail(author.getUser().getEffectiveAvatarUrl());
         }
-        
+
         embedBuilder.addField("Reason", reason, false);
         embedBuilder.addField("Channel", channel, true);
-        
-        if(action == ModAction.PRUNE) {
+
+        if (action == ModAction.PRUNE) {
             embedBuilder.addField("Messages Deleted", String.valueOf(messagesDeleted), true);
         }
-        
+
         //Why was this a giant switch statement?
         embedBuilder.setAuthor(String.format("%s | Case #%s", Utils.capitalize(action.name()), caseNumber),
                 null, author.getUser().getEffectiveAvatarUrl());
-        
-        if(!playerData.hasBadge(Badge.POWER_USER)) {
+
+        if (!playerData.hasBadge(Badge.POWER_USER)) {
             playerData.addBadgeIfAbsent(Badge.POWER_USER);
             player.saveAsync();
         }
-        
-        if(guildDB.getData().getGuildLogChannel() != null) {
+
+        if (guildDB.getData().getGuildLogChannel() != null) {
             TextChannel logChannel = MantaroBot.getInstance().getShardManager().getTextChannelById(guildDB.getData().getGuildLogChannel());
-            if(logChannel != null) {
+            if (logChannel != null) {
                 logChannel.sendMessage(embedBuilder.build()).queue();
             }
         }
     }
-    
+
     //Overload
     public static void log(Member author, User target, String reason, String channel, ModAction action, long caseNumber) {
         log(author, target, reason, channel, action, caseNumber, 0);
     }
-    
+
     public enum ModAction {
         TEMP_BAN, BAN, KICK, MUTE, UNMUTE, WARN, PRUNE
     }

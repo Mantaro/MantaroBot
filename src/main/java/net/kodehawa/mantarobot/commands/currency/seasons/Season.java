@@ -22,26 +22,26 @@ public enum Season {
     SECOND("2nd");
 
     private final String display;
-    
+
     Season(String display) {
         this.display = display;
     }
-    
+
     public static Season lookupFromString(String name) {
-        for(Season b : Season.values()) {
+        for (Season b : Season.values()) {
             //field name search
-            if(b.name().equalsIgnoreCase(name)) {
+            if (b.name().equalsIgnoreCase(name)) {
                 return b;
             }
-            
+
             //show name search
-            if(b.display.equalsIgnoreCase(name)) {
+            if (b.display.equalsIgnoreCase(name)) {
                 return b;
             }
         }
         return null;
     }
-    
+
     public String getDisplay() {
         return this.display;
     }

@@ -32,10 +32,10 @@ public class AudioPlayerSendHandler implements AudioSendHandler {
     private AudioFrame lastFrame;
     private int lost;
     private int total;
-    
+
     public AudioPlayerSendHandler(AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
-        if(ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER) {
+        if (ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER) {
             this.frame = null;
         } else {
             this.frame = new MutableAudioFrame();
@@ -43,31 +43,31 @@ public class AudioPlayerSendHandler implements AudioSendHandler {
             frame.setBuffer(ByteBuffer.allocate(StandardAudioDataFormats.DISCORD_OPUS.maximumChunkSize()));
         }
     }
-    
+
     @Override
     public boolean canProvide() {
         boolean provided = ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER ? (lastFrame = audioPlayer.provide()) != null : audioPlayer.provide(frame);
-        if(!audioPlayer.isPaused()) {
+        if (!audioPlayer.isPaused()) {
             total++;
-            if(!provided) lost++;
+            if (!provided) lost++;
         }
         return provided;
     }
-    
+
     @Override
     public ByteBuffer provide20MsAudio() {
         return ByteBuffer.wrap((ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER ? lastFrame : frame).getData());
     }
-    
+
     @Override
     public boolean isOpus() {
         return true;
     }
-    
+
     public int getLost() {
         return this.lost;
     }
-    
+
     public int getTotal() {
         return this.total;
     }

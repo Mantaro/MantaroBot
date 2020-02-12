@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
-import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 
 import java.beans.ConstructorProperties;
@@ -45,11 +44,11 @@ public class PlayerEquipment {
     @JsonIgnore
     public boolean equipItem(Item item) {
         EquipmentType type = getTypeFor(item);
-        if(type == null || type.getType() != 0)
+        if (type == null || type.getType() != 0)
             return false;
 
         equipment.put(type, Items.idOf(item));
-        if(item instanceof Breakable) //should always be?
+        if (item instanceof Breakable) //should always be?
             durability.put(type, ((Breakable) item).getMaxDurability());
         return true;
     }
@@ -57,7 +56,7 @@ public class PlayerEquipment {
     @JsonIgnore
     public void applyEffect(PotionEffect effect) {
         EquipmentType type = getTypeFor(Items.fromId(effect.getPotion()));
-        if(type == null || type.getType() != 1)
+        if (type == null || type.getType() != 1)
             return;
 
         effects.put(type, effect);
@@ -87,7 +86,7 @@ public class PlayerEquipment {
     @JsonIgnore
     public boolean isEffectActive(EquipmentType type, int maxUses) {
         PotionEffect effect = effects.get(type);
-        if(effect == null) {
+        if (effect == null) {
             return false;
         }
 
@@ -113,8 +112,8 @@ public class PlayerEquipment {
 
     @JsonIgnore
     public EquipmentType getTypeFor(Item item) {
-        for(EquipmentType type : EquipmentType.values()) {
-            if(type.getPredicate().test(item)) {
+        for (EquipmentType type : EquipmentType.values()) {
+            if (type.getPredicate().test(item)) {
                 return type;
             }
         }
@@ -153,14 +152,6 @@ public class PlayerEquipment {
             this.type = type;
         }
 
-        public Predicate<Item> getPredicate() {
-            return this.predicate;
-        }
-
-        public int getType() {
-            return this.type;
-        }
-
         public static EquipmentType fromString(String text) {
             for (EquipmentType b : EquipmentType.values()) {
                 if (b.name().equalsIgnoreCase(text)) {
@@ -168,6 +159,14 @@ public class PlayerEquipment {
                 }
             }
             return null;
+        }
+
+        public Predicate<Item> getPredicate() {
+            return this.predicate;
+        }
+
+        public int getType() {
+            return this.type;
         }
     }
 }

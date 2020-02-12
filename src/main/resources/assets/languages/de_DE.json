@@ -75,9 +75,35 @@
       "spam_2": "\nIch denke aufhören ist jetzt die beste Option..."
     },
     "generic_error": "Wenn du willst, tritt unserem **Support Server** bei (Link auf `support.mantaro.site` zu finden), oder schau auf unserer GitHub Seite nach (`https://github.com/Kodehawa/MantaroBot`). Bitte sag denen, dass sie aufhören sollen mich hochzujagen und bitte vergiss nicht die Fehler-ID beim Melden eines Fehlers!",
-    "boom_quotes": ["Offenbar hat Megumin unser Schloss in die Luft gejagt...", "Uh-oh, offenbar hat unser Meister ein paar Nullen und Einsen auf dem Boden vergessen :<", "W-Warte, was ist gerade passiert?", "I-Ich denke hier brennt's... Du solltest vielleicht meinen Meister bitten, sich das anzuschauen.", "Ich habe Explosionsmagie gemeistert, siehst du?", "Vielleicht ist hier einfach etwas schiefgegangen, aber, u-uh, Ich kann es nicht richtigstellen!", "U-Uhh.. Was wolltest du?"],
-    "ratelimit_quotes": ["Woah... Du rufst mich viel zu schnell... Mir wird ganz schwindlig.!", "Sei nicht gierig!", "D-Du rufst mich viel zu schnell... Mir ist schwindlig...", "Wart mal!", "Warte nur einen kleiiinen Augenblick länger uwu", "Schaut so aus, als würden wir noch ein Bußgeld bekommen, wenn wir so schnell weitermachen!", "Ich will das machen... aber warte noch einen Moment bitte.", "Hey, wart mal, Ich bin mit meiner Pause noch nicht fertig!", "Kannst du ein bisschen langsamer machen?"],
-    "mod_quotes": ["Uh-oh, schaut so aus, als wäre jemand hart getroffen worden!", "Hier passiert nur normale Adminarbeit...", "Der Stiefel wurde geworfen!", "Wir werden dich vermissen... okay, vielleicht auch nicht.", "Ich hoffe Ich habe das richtige getan...", "Woah, da haben die Moderatoren gesprochen!", "U-Uh... g-gut, jemand flog grad durch die Tür."]
+    "boom_quotes": [
+      "Offenbar hat Megumin unser Schloss in die Luft gejagt...",
+      "Uh-oh, offenbar hat unser Meister ein paar Nullen und Einsen auf dem Boden vergessen :<",
+      "W-Warte, was ist gerade passiert?",
+      "I-Ich denke hier brennt's... Du solltest vielleicht meinen Meister bitten, sich das anzuschauen.",
+      "Ich habe Explosionsmagie gemeistert, siehst du?",
+      "Vielleicht ist hier einfach etwas schiefgegangen, aber, u-uh, Ich kann es nicht richtigstellen!",
+      "U-Uhh.. Was wolltest du?"
+    ],
+    "ratelimit_quotes": [
+      "Woah... Du rufst mich viel zu schnell... Mir wird ganz schwindlig.!",
+      "Sei nicht gierig!",
+      "D-Du rufst mich viel zu schnell... Mir ist schwindlig...",
+      "Wart mal!",
+      "Warte nur einen kleiiinen Augenblick länger uwu",
+      "Schaut so aus, als würden wir noch ein Bußgeld bekommen, wenn wir so schnell weitermachen!",
+      "Ich will das machen... aber warte noch einen Moment bitte.",
+      "Hey, wart mal, Ich bin mit meiner Pause noch nicht fertig!",
+      "Kannst du ein bisschen langsamer machen?"
+    ],
+    "mod_quotes": [
+      "Uh-oh, schaut so aus, als wäre jemand hart getroffen worden!",
+      "Hier passiert nur normale Adminarbeit...",
+      "Der Stiefel wurde geworfen!",
+      "Wir werden dich vermissen... okay, vielleicht auch nicht.",
+      "Ich hoffe Ich habe das richtige getan...",
+      "Woah, da haben die Moderatoren gesprochen!",
+      "U-Uh... g-gut, jemand flog grad durch die Tür."
+    ]
   },
   "categories": {
     "music": "Musik-",
@@ -474,7 +500,24 @@
         "10000": "Dies ergibt kein Sinn :thinking: #BlameSteven",
         "default": "Viel zu langsam. :dizzy_face:"
       },
-      "display": ["W-War Ich schnell genug?", "Was tust du?", "W-Who schaust du hin?!", "Huh.", "War Ich gut?", "Was denkst du?", "Passiert das häufiger?", "Leiste Ich g-genug?", "<3", "*tätschel*", "Pong.", "Pang.", "Pung.", "Peng.", "Ping-pong? Yay!", "U-Uh... h-hi"],
+      "display": [
+        "W-War Ich schnell genug?",
+        "Was tust du?",
+        "W-Who schaust du hin?!",
+        "Huh.",
+        "War Ich gut?",
+        "Was denkst du?",
+        "Passiert das häufiger?",
+        "Leiste Ich g-genug?",
+        "<3",
+        "*tätschel*",
+        "Pong.",
+        "Pang.",
+        "Pung.",
+        "Peng.",
+        "Ping-pong? Yay!",
+        "U-Uh... h-hi"
+      ],
       "text": "%1$s*%2$s* - Meine Latenz: %3$,d ms (%4$s) `Websocket:%5$,dms`"
     },
     "love": {
@@ -1882,7 +1925,7 @@
       "no_message": "%1$sDu musst angeben, welche Nachricht ich ausgeben soll, wenn jemand entbannt wird!",
       "success": "%1$sEntbannnachricht gesetzt auf: `%2$s`"
     },
-    "showdisablewarning" : {
+    "showdisablewarning": {
       "success": "%1$sWarnung bei deaktivierten Befehlen ist gesetzt auf: %2$s"
     },
     "invalid_category": "%1$sDu hast eine ungültige Kategorie eingegeben. Eine Liste gültiger Kategorien zum deaktivieren (Groß- und Kleinschreibung beachten) wird unten angezeigt```md\n%2$s```",

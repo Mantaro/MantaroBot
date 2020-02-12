@@ -24,48 +24,48 @@ public class PlayerStatsData {
     private long mined;
     private long gambleLose;
     private long slotsLose;
-    
+
     public PlayerStatsData() {
     }
-    
+
     @JsonIgnore
     public void incrementGambleLose() {
         gambleLose += 1;
     }
-    
+
     @JsonIgnore
     public void incrementSlotsLose() {
         slotsLose += 1;
     }
-    
+
     public long getLooted() {
         return this.looted;
     }
-    
+
     public void setLooted(long looted) {
         this.looted = looted;
     }
-    
+
     public long getMined() {
         return this.mined;
     }
-    
+
     public void setMined(long mined) {
         this.mined = mined;
     }
-    
+
     public long getGambleLose() {
         return this.gambleLose;
     }
-    
+
     public void setGambleLose(long gambleLose) {
         this.gambleLose = gambleLose;
     }
-    
+
     public long getSlotsLose() {
         return this.slotsLose;
     }
-    
+
     public void setSlotsLose(long slotsLose) {
         this.slotsLose = slotsLose;
     }

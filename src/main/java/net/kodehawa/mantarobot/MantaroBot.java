@@ -39,9 +39,9 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogFilter;
 import net.kodehawa.mantarobot.log.LogUtils;
-import net.kodehawa.mantarobot.utils.TracingPrintStream;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.SentryHelper;
+import net.kodehawa.mantarobot.utils.TracingPrintStream;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.notfab.caching.client.CacheClient;
 import okhttp3.Request;
@@ -67,18 +67,18 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 
 public class MantaroBot {
     private static final Logger log = LoggerFactory.getLogger(MantaroBot.class);
-    
+
     private static MantaroBot instance;
 
     //just in case
     static {
-        if(ExtraRuntimeOptions.VERBOSE) {
+        if (ExtraRuntimeOptions.VERBOSE) {
             System.setOut(new TracingPrintStream(System.out));
             System.setErr(new TracingPrintStream(System.err));
         }
-    
+
         RestAction.setPassContext(true);
-        if(ExtraRuntimeOptions.DEBUG) {
+        if (ExtraRuntimeOptions.DEBUG) {
             log.info("Running in debug mode!");
         } else {
             RestAction.setDefaultFailure(ErrorResponseException.ignore(
@@ -86,7 +86,7 @@ public class MantaroBot {
                     ErrorResponse.UNKNOWN_MESSAGE
             ));
         }
-        
+
         log.info("Filtering all logs below " + LogFilter.LEVEL);
     }
 
@@ -97,85 +97,85 @@ public class MantaroBot {
     private final CacheClient cacheClient;
     private BirthdayCacher birthdayCacher;
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3, new ThreadFactoryBuilder().setNameFormat("Mantaro-ScheduledExecutor Thread-%d").build());
-    
+
     private MantaroBot() throws Exception {
         instance = this;
         Config config = MantaroData.config().get();
-        
-        if(config.cacheClientEndpoint != null && !config.cacheClientEndpoint.trim().isEmpty()) {
+
+        if (config.cacheClientEndpoint != null && !config.cacheClientEndpoint.trim().isEmpty()) {
             cacheClient = new CacheClient(config.cacheClientEndpoint, config.cacheClientToken);
         } else {
             cacheClient = null;
         }
-        
-        if(config.needApi) {
+
+        if (config.needApi) {
             try {
                 Request request = new Request.Builder()
-                                          .url(config.apiTwoUrl + "/mantaroapi/ping")
-                                          .build();
+                        .url(config.apiTwoUrl + "/mantaroapi/ping")
+                        .build();
                 Response httpResponse = Utils.httpClient.newCall(request).execute();
-                
-                if(httpResponse.code() != 200) {
+
+                if (httpResponse.code() != 200) {
                     log.error("Cannot connect to the API! Wrong status code...");
                     System.exit(API_HANDSHAKE_FAILURE);
                 }
-                
+
                 httpResponse.close();
-            } catch(ConnectException e) {
+            } catch (ConnectException e) {
                 log.error("Cannot connect to the API! Exiting...", e);
                 System.exit(API_HANDSHAKE_FAILURE);
             }
         }
-        
+
         //Lavalink stuff.
         lavalink = new JdaLavalink(
                 config.clientId,
                 config.totalShards,
                 shardId -> getShard(shardId).getJDA()
         );
-        
-        for(String node : config.getLavalinkNodes()) {
+
+        for (String node : config.getLavalinkNodes()) {
             lavalink.addNode(new URI(node), config.lavalinkPass);
         }
-        
+
         //Choose the server with the lowest player amount
         lavalink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getPlayerPenalty);
-        
+
         core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
         discordBotsAPI = new DiscordBotsAPI.Builder().setToken(config.dbotsorgToken).build();
-    
+
         audioManager = new MantaroAudioManager();
         Items.setItemActions();
-    
+
         birthdayCacher = new BirthdayCacher();
-        
+
         LogUtils.log("Startup", String.format("Starting up MantaroBot %s\n" + "Hold your seatbelts! <3", MantaroInfo.VERSION));
-        
+
         long start = System.currentTimeMillis();
-        
+
         core.setCommandsPackage("net.kodehawa.mantarobot.commands")
                 .setOptionsPackage("net.kodehawa.mantarobot.options")
                 .start();
-        
+
         long end = System.currentTimeMillis();
-        
+
         System.out.println("Finished loading basic components. Current status: " + MantaroCore.getLoadState());
         MantaroData.config().save();
-        
+
         LogUtils.log("Startup",
                 String.format("Partially loaded %d commands in %d seconds.\n" +
-                                      "Shards are still waking up!", DefaultCommandProcessor.REGISTRY.commands().size(), (end - start) / 1000));
-        
+                        "Shards are still waking up!", DefaultCommandProcessor.REGISTRY.commands().size(), (end - start) / 1000));
+
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mute Handler")).scheduleAtFixedRate(MuteTask::handle, 0, 1, TimeUnit.MINUTES);
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Reminder Handler")).scheduleAtFixedRate(ReminderTask::handle, 0, 30, TimeUnit.SECONDS);
         //Yes, this is needed.
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Ratelimit Map Handler")).scheduleAtFixedRate(Utils.ratelimitedUsers::clear, 0, 24, TimeUnit.HOURS);
     }
-    
+
     public static void main(String[] args) {
         try {
             new MantaroBot();
-        } catch(Exception e) {
+        } catch (Exception e) {
             SentryHelper.captureException("Couldn't start Mantaro at all, so something went seriously wrong", e, MantaroBot.class);
             log.error("Could not complete Main Thread routine!", e);
             log.error("Cannot continue! Exiting program...");
@@ -183,54 +183,54 @@ public class MantaroBot {
         }
         try {
             Prometheus.enable();
-        } catch(Exception e) {
+        } catch (Exception e) {
             SentryHelper.captureException("Unable to start prometheus client", e, MantaroBot.class);
             log.error("Unable to start prometheus client!", e);
         }
     }
-    
+
     public static boolean isDebug() {
         return ExtraRuntimeOptions.DEBUG;
     }
-    
+
     public static boolean isVerbose() {
         return ExtraRuntimeOptions.VERBOSE;
     }
-    
+
     public static MantaroBot getInstance() {
         return MantaroBot.instance;
     }
-    
+
     public ShardManager getShardManager() {
         return core.getShardManager();
     }
-    
+
     public Shard getShard(int id) {
         return core.getShard(id);
     }
-    
+
     public void restartShard(int shardId) {
         getShardManager().restart(shardId);
     }
-    
+
     public Shard getShardForGuild(String guildId) {
         return getShardForGuild(MiscUtil.parseSnowflake(guildId));
     }
-    
+
     public Shard getShardForGuild(long guildId) {
         return getShard((int) ((guildId >> 22) % getShardManager().getShardsTotal()));
     }
-    
+
     public List<Shard> getShardList() {
         return IntStream.range(0, getShardManager().getShardsTotal())
                 .mapToObj(this::getShard)
                 .collect(Collectors.toList());
     }
-    
+
     public void startCheckingBirthdays() {
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2, new ThreadFactoryBuilder().setNameFormat("Mantaro-BirthdayExecutor Thread-%d").build());
         Prometheus.THREAD_POOL_COLLECTOR.add("birthday-tracker", executorService);
-        
+
         //How much until tomorrow? That's the initial delay, then run it once a day.
         ZoneId z = ZoneId.of("America/Chicago");
         ZonedDateTime now = ZonedDateTime.now(z);
@@ -238,49 +238,49 @@ public class MantaroBot {
         ZonedDateTime tomorrowStart = tomorrow.atStartOfDay(z);
         Duration duration = Duration.between(now, tomorrowStart);
         long millisecondsUntilTomorrow = duration.toMillis();
-        
+
         //Start the birthday task on all shards.
         //This is because running them in parallel is way better than running it once for all shards.
         //It actually cut off the time from 50 minutes to 20 seconds.
-        for(Shard shard : core.getShards()) {
+        for (Shard shard : core.getShards()) {
             log.debug("Started birthday task for shard {}, scheduled to run in {} ms more", shard.getId(), millisecondsUntilTomorrow);
-    
+
             executorService.scheduleWithFixedDelay(() -> BirthdayTask.handle(shard.getId()),
                     millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
         }
-        
+
         //Start the birthday cacher.
         executorService.scheduleWithFixedDelay(birthdayCacher::cache, 22, 23, TimeUnit.HOURS);
     }
-    
+
     public void forceRestartShardFromGuild(String guildId) {
         restartShard(getShardForGuild(guildId).getId());
     }
-    
+
     public MantaroAudioManager getAudioManager() {
         return this.audioManager;
     }
-    
+
     public MantaroCore getCore() {
         return this.core;
     }
-    
+
     public DiscordBotsAPI getDiscordBotsAPI() {
         return this.discordBotsAPI;
     }
-    
+
     public BirthdayCacher getBirthdayCacher() {
         return this.birthdayCacher;
     }
-    
+
     public ScheduledExecutorService getExecutorService() {
         return this.executorService;
     }
-    
+
     public JdaLavalink getLavalink() {
         return this.lavalink;
     }
-    
+
     public CacheClient getCacheClient() {
         return this.cacheClient;
     }

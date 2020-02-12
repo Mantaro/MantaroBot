@@ -21,47 +21,47 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Objects;
-
 public class LocalExperienceData {
-    
+
     private String userId;
     private long experience;
     private long level;
+
     @JsonCreator
     public LocalExperienceData(@JsonProperty("userId") String userId, @JsonProperty("experience") long experience, @JsonProperty("level") long level) {
         this.userId = userId;
         this.experience = experience;
         this.level = level;
     }
+
     @JsonIgnore
     public LocalExperienceData(String userId) {
         this.userId = userId;
     }
-    
+
     public LocalExperienceData() {
     }
-    
+
     public String getUserId() {
         return this.userId;
     }
-    
+
     public void setUserId(String userId) {
         this.userId = userId;
     }
-    
+
     public long getExperience() {
         return this.experience;
     }
-    
+
     public void setExperience(long experience) {
         this.experience = experience;
     }
-    
+
     public long getLevel() {
         return this.level;
     }
-    
+
     public void setLevel(long level) {
         this.level = level;
     }

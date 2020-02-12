@@ -27,21 +27,21 @@ public interface InnerCommand extends Command {
     default Category category() {
         return null;
     }
-    
+
     @Override
     default HelpContent help() {
         return null;
     }
-    
+
     default List<String> getAliases() {
         return Collections.emptyList();
     }
-    
+
     //Override this for the subcommand usage to appear on help!
     default String description() {
         return "";
     }
-    
+
     default boolean isChild() {
         return false;
     }

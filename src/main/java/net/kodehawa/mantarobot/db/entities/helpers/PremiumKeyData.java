@@ -17,18 +17,16 @@
 
 package net.kodehawa.mantarobot.db.entities.helpers;
 
-import java.util.Objects;
-
 public class PremiumKeyData {
     private String linkedTo = null;
-    
+
     public PremiumKeyData() {
     }
-    
+
     public String getLinkedTo() {
         return this.linkedTo;
     }
-    
+
     public void setLinkedTo(String linkedTo) {
         this.linkedTo = linkedTo;
     }

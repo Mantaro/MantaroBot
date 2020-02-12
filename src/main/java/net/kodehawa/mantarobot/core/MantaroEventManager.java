@@ -26,20 +26,20 @@ import org.slf4j.Logger;
 public class MantaroEventManager extends InterfacedEventManager {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(MantaroEventManager.class);
     private long lastJdaEvent;
-    
+
     public static Logger getLog() {
         return log;
     }
-    
+
     @Override
     public void handle(@NotNull GenericEvent event) {
-        if(!(event instanceof ShardMonitorEvent)) {
+        if (!(event instanceof ShardMonitorEvent)) {
             lastJdaEvent = System.currentTimeMillis();
         }
-        
+
         super.handle(event);
     }
-    
+
     public long getLastJDAEventTimeDiff() {
         return System.currentTimeMillis() - lastJdaEvent;
     }

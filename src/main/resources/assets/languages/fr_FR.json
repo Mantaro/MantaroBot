@@ -75,9 +75,35 @@
       "spam_2": "\nJe pense que s'arrêter est la meilleure option pour le moment..."
     },
     "generic_error": "Si tu veux, tu peux rejoindre notre **serveur de support** (Lien sur `support.mantaro.site`), et consulter notre page GitHub (`https://github.com/Kodehawa/MantaroBot`). S’il te plait dis leur d'arrêter de m'exploiter, et stp n'oublies pas le code de l'erreur en rapportant le problème !",
-    "boom_quotes": ["Apparemment, Megumin a fait exploser notre château ... "," Uh-oh, de toute évidence mon maître a oublié des zéros et des uns sur le sol :<"," A-Attends, qu'est-ce qui vient de se passer? "," Je pense que nous avons un début de feu ici ... tu pourrais demander à mon maître de jeter un coup d'œil. "," Je maitrise la magie de l'explosion, tu vois ? "," Peut-être que quelque chose s'est mal passé ici, mais, euh, je peux le réparer ! "," U-Uhh .. Qu'est-ce que tu voulais ?"],
-    "ratelimit_quotes": ["Woah ... tu m'appelles un peu trop vite ... je vais avoir la tête qui tourne! "," Ne sois pas si impatient ! "," T-Tu m'appelles si vite que je suis pris de vertiges ... "," Attends ! "," Attends juste un peu plus uwu, "," On va avoir une amende si on continue à aller aussi vite ! "," Je veux le faire ... mais attends un peu s'il te plait. "," Hey, attends, je n'ai pas encore fini ma pause ! "," Tu peux ralentir un peu ?"],
-    "mod_quotes": ["Uh-oh, on dirait que quelqu'un vient de recevoir un gros coup! "," C'est juste un travail administratif normal ... "," Le boot a été lancé ! "," Tu vas nous manquer ... pas vraiment en fait "," J'espère que j'ai fait ce qu'il fallait faire ... "," Woah, là, les modérateurs ont parlé ! "," U-Uh ... E-Eh bien, quelqu'un vient de voler à travers la porte."]
+    "boom_quotes": [
+      "Apparemment, Megumin a fait exploser notre château ... ",
+      " Uh-oh, de toute évidence mon maître a oublié des zéros et des uns sur le sol :<",
+      " A-Attends, qu'est-ce qui vient de se passer? ",
+      " Je pense que nous avons un début de feu ici ... tu pourrais demander à mon maître de jeter un coup d'œil. ",
+      " Je maitrise la magie de l'explosion, tu vois ? ",
+      " Peut-être que quelque chose s'est mal passé ici, mais, euh, je peux le réparer ! ",
+      " U-Uhh .. Qu'est-ce que tu voulais ?"
+    ],
+    "ratelimit_quotes": [
+      "Woah ... tu m'appelles un peu trop vite ... je vais avoir la tête qui tourne! ",
+      " Ne sois pas si impatient ! ",
+      " T-Tu m'appelles si vite que je suis pris de vertiges ... ",
+      " Attends ! ",
+      " Attends juste un peu plus uwu, ",
+      " On va avoir une amende si on continue à aller aussi vite ! ",
+      " Je veux le faire ... mais attends un peu s'il te plait. ",
+      " Hey, attends, je n'ai pas encore fini ma pause ! ",
+      " Tu peux ralentir un peu ?"
+    ],
+    "mod_quotes": [
+      "Uh-oh, on dirait que quelqu'un vient de recevoir un gros coup! ",
+      " C'est juste un travail administratif normal ... ",
+      " Le boot a été lancé ! ",
+      " Tu vas nous manquer ... pas vraiment en fait ",
+      " J'espère que j'ai fait ce qu'il fallait faire ... ",
+      " Woah, là, les modérateurs ont parlé ! ",
+      " U-Uh ... E-Eh bien, quelqu'un vient de voler à travers la porte."
+    ]
   },
   "categories": {
     "music": "Audio",
@@ -177,7 +203,7 @@
     "lang": {
       "info": "%1$sTu peux changer la langue du serveur (si applicable) en utilisant `~>opts language set <language code>`. Pour changer ta langue de préférence, utilises `~>profile lang <code de la langue>`.\n**Langues disponibles : ** `%2$s`\nSi ta langue n'est pas dans la liste et que tu as envie d'aider, n'hésites pas à rejoindre serveur de support de Mantaro et à aider à la traduction !"
     },
-     "season": {
+    "season": {
       "info": "Une *saison* est un laps de temps, de normalement 6 mois durant lesquels les joueurs concourent pour une place dans le top 10 des catégories money et réputation du leaderboard. Les gagnants remporteront des badges et des prix en fonction de leur performance de la saison.\nC'est pour instaurer une ambiance plus compétitive (avant, l'économie était plus renfermée) et pour rendre le jeu un peu plus chouette.\nTu peux accéder à ton équipement de la saison en utilisant `-season`. Les commandes telles que profile, mine, fish et balance en auront besoin ; games, loot, daily et reputation quant à elles donneront de l'argent/de la réputation aussi bien à ton profile globale qu'à ton profile de compétiteur.",
       "info_2": "\n\nLa saison actuelle est la saison **%1$s** et **%2$s** joueurs y prennent part!\n\nLa partie est lancée, regarde `~>leaderboard money -season`; `~>leaderboard rep -season` et `~>leaderboard games -season`.\nQue le jeu commence! <3\nMerci de prendre du plaisir avec Mantaro."
     },
@@ -475,7 +501,24 @@
         "10000": "ça n'a aucun sens :thinking: #BlameSteven",
         "default": "bien trop lent. :dizzy_face:"
       },
-      "display": ["J-J'ai été assez rapide? "," Qu'est-ce que tu fais ? "," Q-Qu'est-ce que tu regardes ?! "," Huh. "," Est-ce que je m'en suis bien sorti ? "," Qu'est-ce que t'en penses ? ", "Est-ce que ça souvent ?", "Est-ce que je fonctionne c-correctement ?", "<3", "* tapote *", "Pong.", "Pang.", "Pung.", "Peng.", " Ping pong? Yay! "," U-Uh ... s-salut"],
+      "display": [
+        "J-J'ai été assez rapide? ",
+        " Qu'est-ce que tu fais ? ",
+        " Q-Qu'est-ce que tu regardes ?! ",
+        " Huh. ",
+        " Est-ce que je m'en suis bien sorti ? ",
+        " Qu'est-ce que t'en penses ? ",
+        "Est-ce que ça souvent ?",
+        "Est-ce que je fonctionne c-correctement ?",
+        "<3",
+        "* tapote *",
+        "Pong.",
+        "Pang.",
+        "Pung.",
+        "Peng.",
+        " Ping pong? Yay! ",
+        " U-Uh ... s-salut"
+      ],
       "text": "%1$s*%2$s* - Mon temps de réponse: %3$d ms (%4$s) `Websocket:%5$dms`"
     },
     "love": {
@@ -914,7 +957,7 @@
         "success": "%1$sRappel supprimé.",
         "select": "Sélectionne le rappel que tu veux supprimer."
       },
-      "no_time":  "Tu ne m'a pas donner de timing à l'aide de l'argument `-time`! (Exemple : `-time 1h`)",
+      "no_time": "Tu ne m'a pas donner de timing à l'aide de l'argument `-time`! (Exemple : `-time 1h`)",
       "too_little_time": "%1$sC'est un délais trop court (Minimum: 10 secondes)",
       "too_long": "Le délais est trop long... (Maximum : 3 mois)",
       "success": "%1$sJe te rappellerai (%2$s#%3$s) de `%4$s` dans %5$s"
@@ -1261,7 +1304,7 @@
       "url": "URL d'invitation",
       "server": "Serveur de support",
       "patreon": "URL Patreon",
-      "description" : {
+      "description": {
         "1": "Voici des liens utiles!",
         "2": "**Si vous avez des questions sur le bot, n'hésitez pas à rejoindre le serveur et demander**!.",
         "3": "Nous avons ajouté un lien Patreon au cas où vous voudriez aider le bot à s'améliorer [et recevoir des avantages au passage].",
@@ -1650,7 +1693,7 @@
     "music_vote_toggle": {
       "success": "%Le vote (pour arrêter/passer) est maintenant de %2$s"
     },
-    "localblacklist_add":{
+    "localblacklist_add": {
       "invalid": "%1$s**Tu dois spécifier l'utilisateur à blacklister.**",
       "yourself_notice": "%1$sPourquoi essaies-tu de te blacklister?...",
       "admin_notice": "%1$sUn (ou plusieurs) des personnes que tu veux blacklister sont admins ou Bot Commanders!",
@@ -1913,10 +1956,10 @@
       "success": "%1$sAjout de `%2$s` aux messages de départ supplémentaires."
     },
     "usermessage_leavemessage_remove": {
-     "no_message": "%1$sTu dois me donner le numéro du message à supprimer!",
+      "no_message": "%1$sTu dois me donner le numéro du message à supprimer!",
       "success": "%1$sSuppression de `%2$s (numéro %3$d)` des messages de départ supplémentaires.",
       "wrong_index": "%1$sCe numéro n'est pas attribué! Utilise ~>opts usermessage leavemessages list ` pour voir les messages et leur numéro"
-   },
+    },
     "usermessage_leavemessage_clear": {
       "success": "%1$sSuppression de tous les messages de départ supplémentaires."
     },
@@ -1932,8 +1975,8 @@
     "modlog_blacklistwords_remove": {
       "not_in": "%1$sLe mot `%2$s` n'est pas dans la blacklist.",
       "success": "%1$sRetrait du mot `%2$s` de la blacklist."
-     },
-     "logs_editmessage": {
+    },
+    "logs_editmessage": {
       "no_message": "%1$sTu dois me dire ce que je dois dire quand quelqu'un édite un message!",
       "success": "%1$sMessage d'édition de message réglé sur: `%2$s`"
     },
@@ -1949,7 +1992,7 @@
       "no_message": "%1$sTu dois me dire ce que je dois dire quand quelqu'un est grâcié!",
       "success": "%1$sMessage de grâce réglé sur: `%2$s`"
     },
-    "showdisablewarning" : {
+    "showdisablewarning": {
       "success": "%1$sMessage d'alerte lors de la désactivation d'une commande défini sur: %2$s"
     },
     "invalid_category": "%1$sTu as entré une catégorie invalide. Regarde dans la liste ci-dessous pour trouver une catégorie valide```md\n%2$s```",

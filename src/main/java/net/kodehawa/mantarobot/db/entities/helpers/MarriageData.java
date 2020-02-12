@@ -17,29 +17,27 @@
 
 package net.kodehawa.mantarobot.db.entities.helpers;
 
-import java.util.Objects;
-
 //Just in case we need more stuff here. Don't want to run into issues later down the road.
 public class MarriageData {
     private long marriageCreationMillis;
     //You can create a read-only note for your partner to remember. Will be completely scraped when the marriage ends, and only readable by the ones who agreed to marry.
     private String loveLetter;
-    
+
     public MarriageData() {
     }
-    
+
     public long getMarriageCreationMillis() {
         return this.marriageCreationMillis;
     }
-    
+
     public void setMarriageCreationMillis(long marriageCreationMillis) {
         this.marriageCreationMillis = marriageCreationMillis;
     }
-    
+
     public String getLoveLetter() {
         return this.loveLetter;
     }
-    
+
     public void setLoveLetter(String loveLetter) {
         this.loveLetter = loveLetter;
     }

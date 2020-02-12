@@ -37,55 +37,55 @@ public class CustomCommand implements ManagedObject {
     private final List<String> values;
     //Setting a default to avoid backwards compat issues.
     private CustomCommandData data = new CustomCommandData();
-    
+
     @ConstructorProperties({"id", "values"})
     @JsonCreator
     public CustomCommand(@JsonProperty("id") String id, @JsonProperty("values") List<String> values, @JsonProperty("data") CustomCommandData data) {
         this.id = id;
         this.values = values.stream().map(URLEncoding::decode).collect(Collectors.toList());
-        if(data != null)
+        if (data != null)
             this.data = data;
     }
-    
+
     public static CustomCommand of(String guildId, String cmdName, List<String> responses) {
         return new CustomCommand(guildId + ":" + cmdName, responses.stream().map(URLEncoding::encode).collect(Collectors.toList()), new CustomCommandData());
     }
-    
+
     public static CustomCommand transfer(String guildId, CustomCommand command) {
         return new CustomCommand(guildId + ":" + command.getName(), command.getValues(), command.getData());
     }
-    
+
     @JsonProperty("values")
     public List<String> encodedValues() {
         return values.stream().map(URLEncoding::encode).collect(Collectors.toList());
     }
-    
+
     @JsonIgnore
     public String getGuildId() {
         return getId().split(":", 2)[0];
     }
-    
+
     @JsonIgnore
     public String getName() {
         return getId().split(":", 2)[1];
     }
-    
+
     @JsonIgnore
     public List<String> getValues() {
         return values;
     }
-    
+
     public String getId() {
         return this.id;
     }
-    
+
     @JsonIgnore
     @Override
     @Nonnull
     public String getTableName() {
         return DB_TABLE;
     }
-    
+
     public CustomCommandData getData() {
         return this.data;
     }

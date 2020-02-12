@@ -28,7 +28,7 @@ public class HelpContent {
     private String usage;
     private List<String> related;
     private boolean seasonal;
-    
+
     public HelpContent(String description, Map<String, String> parameters, String usage, List<String> related, boolean seasonal) {
         this.description = description;
         this.parameters = parameters;
@@ -36,70 +36,70 @@ public class HelpContent {
         this.related = related;
         this.seasonal = seasonal;
     }
-    
+
     public String getDescription() {
         return this.description;
     }
-    
+
     public Map<String, String> getParameters() {
         return this.parameters;
     }
-    
+
     public String getUsage() {
         return this.usage;
     }
-    
+
     public List<String> getRelated() {
         return this.related;
     }
-    
+
     public boolean isSeasonal() {
         return this.seasonal;
     }
-    
+
     public static class Builder {
         private String description = null;
         private Map<String, String> parameters = new HashMap<>();
         private String usage = null;
         private List<String> related = new ArrayList<>();
         private boolean seasonal = false;
-        
+
         public Builder setDescription(String description) {
             this.description = description;
             return this;
         }
-        
+
         public Builder addParameter(String parameterName, String content) {
             parameters.put(parameterName, content);
             return this;
         }
-        
+
         //I was lazy to make last one take a boolean bc that'd mean replacing existing ones, bleh.
         public Builder addParameterOptional(String parameterName, String content) {
             parameters.put(parameterName, content + " This is optional");
             return this;
         }
-        
+
         public Builder setUsage(String usage) {
             this.usage = usage;
             return this;
         }
-        
+
         public Builder setUsagePrefixed(String usage) {
             this.usage = "~>" + usage;
             return this;
         }
-        
+
         public Builder setRelated(List<String> related) {
             this.related = related;
             return this;
         }
-        
+
         public Builder setSeasonal(boolean seasonal) {
             this.seasonal = seasonal;
             return this;
         }
-        
+
         public HelpContent build() {
             return new HelpContent(description, parameters, usage, related, seasonal);
         }

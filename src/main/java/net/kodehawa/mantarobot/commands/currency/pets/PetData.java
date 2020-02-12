@@ -59,275 +59,275 @@ public class PetData {
     private long lastFedAt;
     //not so much of "player" anymore
     private PlayerEquipment equippedItems = new PlayerEquipment(new HashMap<>(), new HashMap<>()); //hashmap is type -> itemId
-    
+
     @JsonIgnore
     public long getCurrentHydration() {
         long hoursSince = TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis() - lastHydratedAt);
-        if(hoursSince > 3) {
+        if (hoursSince > 3) {
             hydrationLevel = Math.min(10, hydrationLevel * hoursSince / 2);
         }
         return hydrationLevel;
     }
-    
+
     @JsonIgnore
     public long increaseHydration() {
         hydrationLevel += 10;
-        
-        if(hydrationLevel > 100) {
+
+        if (hydrationLevel > 100) {
             hydrationLevel = 100;
             return 100;
         }
-        
+
         return hydrationLevel;
     }
-    
+
     @JsonIgnore
     public long increaseHunger(long by) {
         hunger += by;
-        if(hunger > 100) {
+        if (hunger > 100) {
             hunger = 100;
             return 100;
         }
-        
+
         return hunger;
     }
-    
+
     @JsonIgnore
     //The calculations used to decrease hunger use a negative factor on saturation: the lower, the better.
     public float increaseSaturation(float by) {
         saturation -= by;
-        
-        if(saturation < 1) {
+
+        if (saturation < 1) {
             saturation = 1;
             return 1;
         }
-        
+
         return saturation;
     }
-    
+
     @JsonIgnore
     public float updateSaturation() {
         long hoursSince = TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis() - lastFedAt);
-        if(hoursSince > 5) {
+        if (hoursSince > 5) {
             saturation = Math.min(10, saturation * hoursSince / 3);
         }
         return saturation;
     }
-    
+
     @JsonIgnore
     public long checkCurrentHunger() {
         //very scientific formula
-        if(saturation < 3 && TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis() - lastFedAt) < 10) {
+        if (saturation < 3 && TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis() - lastFedAt) < 10) {
             return hunger;
         }
-        
+
         long reduction = (long) (Math.max(1, TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() / lastFedAt)) / -saturation);
-        
+
         return hunger - reduction;
     }
-    
+
     public String getTest() {
         return this.test;
     }
-    
+
     public void setTest(String test) {
         this.test = test;
     }
-    
+
     public String getId() {
         return this.id;
     }
-    
+
     public void setId(String id) {
         this.id = id;
     }
-    
+
     public long getXp() {
         return this.xp;
     }
-    
+
     public void setXp(long xp) {
         this.xp = xp;
     }
-    
+
     public long getLevel() {
         return this.level;
     }
-    
+
     public void setLevel(long level) {
         this.level = level;
     }
-    
+
     public double getAffection() {
         return this.affection;
     }
-    
+
     public void setAffection(double affection) {
         this.affection = affection;
     }
-    
+
     public long getAffectionLevel() {
         return this.affectionLevel;
     }
-    
+
     public void setAffectionLevel(long affectionLevel) {
         this.affectionLevel = affectionLevel;
     }
-    
+
     public long getTimesPetted() {
         return this.timesPetted;
     }
-    
+
     public void setTimesPetted(long timesPetted) {
         this.timesPetted = timesPetted;
     }
-    
+
     public long getTimesCollected() {
         return this.timesCollected;
     }
-    
+
     public void setTimesCollected(long timesCollected) {
         this.timesCollected = timesCollected;
     }
-    
+
     public long getBattles() {
         return this.battles;
     }
-    
+
     public void setBattles(long battles) {
         this.battles = battles;
     }
-    
+
     public long getBattlesWon() {
         return this.battlesWon;
     }
-    
+
     public void setBattlesWon(long battlesWon) {
         this.battlesWon = battlesWon;
     }
-    
+
     public long getBattlesLost() {
         return this.battlesLost;
     }
-    
+
     public void setBattlesLost(long battlesLost) {
         this.battlesLost = battlesLost;
     }
-    
+
     public long getBattlesDraw() {
         return this.battlesDraw;
     }
-    
+
     public void setBattlesDraw(long battlesDraw) {
         this.battlesDraw = battlesDraw;
     }
-    
+
     public Map<PetSkill, AtomicLong> getPetSkills() {
         return this.petSkills;
     }
-    
+
     public void setPetSkills(Map<PetSkill, AtomicLong> petSkills) {
         this.petSkills = petSkills;
     }
-    
+
     public long getHydrationLevel() {
         return this.hydrationLevel;
     }
-    
+
     public void setHydrationLevel(long hydrationLevel) {
         this.hydrationLevel = hydrationLevel;
     }
-    
+
     public long getLastHydratedAt() {
         return this.lastHydratedAt;
     }
-    
+
     public void setLastHydratedAt(long lastHydratedAt) {
         this.lastHydratedAt = lastHydratedAt;
     }
-    
+
     public Map<Long, AtomicLong> getCollected() {
         return this.collected;
     }
-    
+
     public void setCollected(Map<Long, AtomicLong> collected) {
         this.collected = collected;
     }
-    
+
     public long getCollectRate() {
         return this.collectRate;
     }
-    
+
     public void setCollectRate(long collectRate) {
         this.collectRate = collectRate;
     }
-    
+
     public long getLastCollectedAt() {
         return this.lastCollectedAt;
     }
-    
+
     public void setLastCollectedAt(long lastCollectedAt) {
         this.lastCollectedAt = lastCollectedAt;
     }
-    
+
     public long getHunger() {
         return this.hunger;
     }
-    
+
     public void setHunger(long hunger) {
         this.hunger = hunger;
     }
-    
+
     public float getSaturation() {
         return this.saturation;
     }
-    
+
     public void setSaturation(float saturation) {
         this.saturation = saturation;
     }
-    
+
     public long getLastFedAt() {
         return this.lastFedAt;
     }
-    
+
     public void setLastFedAt(long lastFedAt) {
         this.lastFedAt = lastFedAt;
     }
-    
+
     public PlayerEquipment getEquippedItems() {
         return this.equippedItems;
     }
-    
+
     public void setEquippedItems(PlayerEquipment equippedItems) {
         this.equippedItems = equippedItems;
     }
-    
+
     public Level getUpgradeLevel() {
         return this.upgradeLevel;
     }
-    
+
     public void setUpgradeLevel(Level upgradeLevel) {
         this.upgradeLevel = upgradeLevel;
     }
-    
+
     public enum PetSkill {
         FISH, MINE, COLLECT, FIGHT;
-        
+
         @JsonIgnore
         static Random random = new Random();
-        
+
         public static PetSkill getRandom() {
             int x = random.nextInt(PetSkill.values().length);
             return PetSkill.values()[x];
         }
     }
-    
+
     public enum Level {
         BASIC("", 0), NORMAL("", 5), ADVANCED("", 20), LEGENDARY("", 50);
-        
+
         String recipe;
         long levelRequired;
-        
+
         Level(String recipe, long level) {
             this.recipe = recipe;
             this.levelRequired = level;

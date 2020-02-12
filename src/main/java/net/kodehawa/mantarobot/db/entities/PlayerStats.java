@@ -30,14 +30,14 @@ import java.beans.ConstructorProperties;
 
 public class PlayerStats implements ManagedObject {
     public static final String DB_TABLE = "playerstats";
-    
+
     private final String id;
     private final PlayerStatsData data;
     private long gambleWins;
     private long slotsWins;
     private long gambleWinAmount;
     private long slotsWinAmount;
-    
+
     @JsonCreator
     @ConstructorProperties({"id", "gambleWins", "slotsWins", "gambleWinAmount", "slotsWinAmount", "data"})
     public PlayerStats(@JsonProperty("id") String id, @JsonProperty("gambleWins") long gambleWins, @JsonProperty("slotsWins") long slotsWins, @JsonProperty("gambleWinAmount") long gambleWinAmount, @JsonProperty("slotsWinAmount") long slotsWinAmount, @JsonProperty("data") PlayerStatsData data) {
@@ -48,72 +48,72 @@ public class PlayerStats implements ManagedObject {
         this.slotsWinAmount = slotsWinAmount;
         this.data = data;
     }
-    
+
     public static PlayerStats of(User user) {
         return of(user.getId());
     }
-    
+
     public static PlayerStats of(Member member) {
         return of(member.getUser());
     }
-    
+
     public static PlayerStats of(String userId) {
         return new PlayerStats(userId, 0L, 0L, 0L, 0L, new PlayerStatsData());
     }
-    
+
     @JsonIgnore
     public void incrementGambleWins() {
         this.gambleWins += 1;
     }
-    
+
     @JsonIgnore
     public void incrementSlotsWins() {
         this.slotsWins += 1;
     }
-    
+
     @JsonIgnore
     public void addGambleWin(long amount) {
         this.gambleWinAmount += amount;
     }
-    
+
     @JsonIgnore
     public void addSlotsWin(long amount) {
         this.slotsWinAmount += amount;
     }
-    
+
     public String getId() {
         return this.id;
     }
-    
+
     @Nonnull
     @Override
     public String getTableName() {
         return DB_TABLE;
     }
-    
+
     @JsonIgnore
     @Nonnull
     @Override
     public String getDatabaseId() {
         return getId();
     }
-    
+
     public long getGambleWins() {
         return this.gambleWins;
     }
-    
+
     public long getSlotsWins() {
         return this.slotsWins;
     }
-    
+
     public long getGambleWinAmount() {
         return this.gambleWinAmount;
     }
-    
+
     public long getSlotsWinAmount() {
         return this.slotsWinAmount;
     }
-    
+
     public PlayerStatsData getData() {
         return this.data;
     }

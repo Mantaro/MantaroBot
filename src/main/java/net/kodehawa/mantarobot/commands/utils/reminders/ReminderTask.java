@@ -33,40 +33,40 @@ import java.util.function.Consumer;
 
 public class ReminderTask {
     private static final Counter reminderCount = Counter.build()
-                                                         .name("reminders_logged").help("Logged reminders")
-                                                         .register();
+            .name("reminders_logged").help("Logged reminders")
+            .register();
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(ReminderTask.class);
-    
+
     public static void handle() {
         log.debug("Checking reminder data...");
-        try(Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
+        try (Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
             Set<String> reminders = j.zrange("zreminder", 0, 14);
             log.debug("Reminder check - remainder is: {}", reminders.size());
-            
-            for(String rem : reminders) {
+
+            for (String rem : reminders) {
                 try {
                     JSONObject data = new JSONObject(rem);
-                    
+
                     long fireAt = data.getLong("at");
                     //If the time has passed...
                     //System.out.println("time: " + System.currentTimeMillis() + ", expected: " + fireAt);
-                    if(System.currentTimeMillis() >= fireAt) {
+                    if (System.currentTimeMillis() >= fireAt) {
                         log.debug("Reminder date has passed, remind accordingly.");
                         String userId = data.getString("user");
                         String fullId = data.getString("id") + ":" + userId;
                         String guildId = data.getString("guild");
                         long scheduledAt = data.getLong("scheduledAt");
-                        
+
                         String reminder = data.getString("reminder"); //The actual reminder data
-                        
+
                         User user = MantaroBot.getInstance().getShardManager().getUserById(userId);
                         Guild guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
-                        
-                        if(user == null) {
+
+                        if (user == null) {
                             Reminder.cancel(userId, fullId);
                             return;
                         }
-                        
+
                         reminderCount.inc();
                         Consumer<Throwable> ignore = (t) -> {
                         };
@@ -80,7 +80,7 @@ public class ReminderTask {
                             Reminder.cancel(userId, fullId);
                         }, ignore));
                     }
-                } catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

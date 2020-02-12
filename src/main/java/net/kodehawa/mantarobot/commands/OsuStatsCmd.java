@@ -19,11 +19,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.osu.api.ciyfhx.BeatMap;
-import com.osu.api.ciyfhx.Mod;
-import com.osu.api.ciyfhx.OsuClient;
-import com.osu.api.ciyfhx.User;
-import com.osu.api.ciyfhx.UserScore;
+import com.osu.api.ciyfhx.*;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -50,12 +46,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 
 @Module
 @SuppressWarnings("unused")
@@ -68,42 +59,42 @@ public class OsuStatsCmd {
                     .build()
     );
     private OsuClient osuClient = new OsuClient(MantaroData.config().get().osuApiKey);
-    
+
     public OsuStatsCmd() {
         Prometheus.THREAD_POOL_COLLECTOR.add("osu-pool", pool);
     }
-    
+
     @Subscribe
     public void osustats(CommandRegistry cr) {
         ITreeCommand osuCommand = (SimpleTreeCommand) cr.register("osustats", new SimpleTreeCommand(Category.GAMES) {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                               .setDescription("Retrieves information from osu! (Players and scores). If this is slow, at least it's faster than the rise of my ranks.\n" +
-                                                       "You can specify the mode by using `-mode` at the end. For example -mode 3 will look up for mania scores. 0: standard, 1: taiko, 2: ctb, 3: mania\n" +
-                                                       "Example: `~>osustats best snoverpk -mode 3` (mania scores)")
-                               .setUsage("`~>osustats <command> <player> [-mode]`")
-                               .addParameter("command", "What to look for, see sub-commands for information. Can be either best, recent or user.")
-                               .addParameter("player", "Who to check stats for.")
-                               .addParameter("-mode", "Which mode to checks. Defaults to ~~the only game mode~~ standard.")
-                               .build();
+                        .setDescription("Retrieves information from osu! (Players and scores). If this is slow, at least it's faster than the rise of my ranks.\n" +
+                                "You can specify the mode by using `-mode` at the end. For example -mode 3 will look up for mania scores. 0: standard, 1: taiko, 2: ctb, 3: mania\n" +
+                                "Example: `~>osustats best snoverpk -mode 3` (mania scores)")
+                        .setUsage("`~>osustats <command> <player> [-mode]`")
+                        .addParameter("command", "What to look for, see sub-commands for information. Can be either best, recent or user.")
+                        .addParameter("player", "Who to check stats for.")
+                        .addParameter("-mode", "Which mode to checks. Defaults to ~~the only game mode~~ standard.")
+                        .build();
             }
         });
-        
+
         osuCommand.addSubCommand("best", new SubCommand() {
             @Override
             public String description() {
                 return "Retrieves best scores of the user specified in the specified game mode.";
             }
-            
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 event.getChannel().sendMessageFormat(languageContext.get("commands.osustats.retrieving_info"), EmoteReference.STOPWATCH).queue(sentMessage -> {
                     Future<String> task = pool.submit(() -> best(content, languageContext));
                     try {
                         sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
-                    } catch(Exception e) {
-                        if(e instanceof TimeoutException) {
+                    } catch (Exception e) {
+                        if (e instanceof TimeoutException) {
                             task.cancel(true);
                             sentMessage.editMessage(String.format(languageContext.get("commands.osustats.timeout"), EmoteReference.ERROR)).queue();
                         } else {
@@ -113,21 +104,21 @@ public class OsuStatsCmd {
                 });
             }
         });
-        
+
         osuCommand.addSubCommand("recent", new SubCommand() {
             @Override
             public String description() {
                 return "Retrieves recent scores of the user specified in the specified game mode.";
             }
-            
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 event.getChannel().sendMessageFormat(languageContext.get("commands.osustats.retrieving_info"), EmoteReference.STOPWATCH).queue(sentMessage -> {
                     Future<String> task = pool.submit(() -> recent(content, languageContext));
                     try {
                         sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
-                    } catch(Exception e) {
-                        if(e instanceof TimeoutException) {
+                    } catch (Exception e) {
+                        if (e instanceof TimeoutException) {
                             task.cancel(true);
                             sentMessage.editMessage(String.format(languageContext.get("commands.osustats.timeout"), EmoteReference.ERROR)).queue();
                         } else log.warn("Exception thrown while fetching data", e);
@@ -135,22 +126,22 @@ public class OsuStatsCmd {
                 });
             }
         });
-        
+
         osuCommand.addSubCommand("user", new SubCommand() {
             @Override
             public String description() {
                 return "Retrieves information about an user in the specific game mode.";
             }
-            
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 event.getChannel().sendMessage(user(content, languageContext)).queue();
             }
         });
-        
+
         cr.registerAlias("osustats", "osu");
     }
-    
+
     private String best(String content, I18nContext languageContext) {
         String mods1 = "";
         String finalResponse;
@@ -158,150 +149,150 @@ public class OsuStatsCmd {
             long start = System.currentTimeMillis();
             String[] args = content.split(" ");
             Map<String, String> options = StringUtils.parse(args);
-            
+
             int mode = 0;
             boolean modeSpecified = false;
-            if(options.containsKey("mode") && options.get("mode") != null) {
+            if (options.containsKey("mode") && options.get("mode") != null) {
                 try {
                     mode = Integer.parseInt(options.get("mode"));
                     modeSpecified = true;
-                } catch(NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     return String.format(languageContext.get("general.invalid_number"), EmoteReference.ERROR);
                 }
             }
-            
+
             String lookup = Utils.replaceArguments(options, String.join(" ", args), "mode");
-            
-            if(modeSpecified)
+
+            if (modeSpecified)
                 lookup = lookup.replace(" " + mode, "");
-            
+
             User osuUser = osuClient.getUser(lookup, map);
-            if(osuUser == null) {
+            if (osuUser == null) {
                 try {
                     osuUser = osuClient.getUser(Long.parseLong(lookup), map);
-                } catch(NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     return String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);
                 }
-                
-                if(osuUser == null) {
+
+                if (osuUser == null) {
                     return String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);
                 }
             }
-            
+
             map.put("m", mode);
             List<UserScore> userBest = osuClient.getUserBest(osuUser, map);
             StringBuilder sb = new StringBuilder();
             StringBuilder modsBuilder = new StringBuilder();
-            
-            for(UserScore userScore : userBest) {
-                if(userScore.getEnabledMods().size() > 0) {
-                    for(Mod mod : userScore.getEnabledMods()) {
+
+            for (UserScore userScore : userBest) {
+                if (userScore.getEnabledMods().size() > 0) {
+                    for (Mod mod : userScore.getEnabledMods()) {
                         modsBuilder.append(OsuMod.get(mod).getAbbreviation());
                     }
-                    
+
                     mods1 = modsBuilder.toString();
                     modsBuilder = new StringBuilder();
                 }
-                
+
                 BeatMap map = userScore.getBeatMap();
                 sb.append(String.format(languageContext.get("commands.osustats.best_format"),
                         map.getTitle().replace("'", ""), map.getVersion(), (mods1.isEmpty() ? "No mod" : mods1), map.getDifficultyRating(),
                         (int) userScore.getPP(), userScore.getRank(), userScore.getMaxCombo()))
                         .append("\n");
-                
+
                 mods1 = "";
             }
-            
+
             finalResponse = String.format(languageContext.get("commands.osustats.best"), osuUser.getUsername(), mode, sb.toString());
-        } catch(JSONException jx) {
+        } catch (JSONException jx) {
             finalResponse = String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);
-        } catch(Exception e) {
+        } catch (Exception e) {
             finalResponse = String.format(languageContext.get("commands.osustats.error"), EmoteReference.ERROR);
         }
-        
+
         return finalResponse;
     }
-    
+
     private String recent(String content, I18nContext languageContext) {
         String finalMessage;
         String mods1 = "";
         try {
             String[] args = content.split(" ");
             Map<String, String> options = StringUtils.parse(args);
-            
+
             int mode = 0;
             boolean modeSpecified = false;
-            if(options.containsKey("mode") && options.get("mode") != null) {
+            if (options.containsKey("mode") && options.get("mode") != null) {
                 try {
                     mode = Integer.parseInt(options.get("mode"));
                     modeSpecified = true;
-                } catch(NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     return String.format(languageContext.get("general.invalid_number"), EmoteReference.ERROR);
                 }
             }
-            
+
             String lookup = Utils.replaceArguments(options, String.join(" ", args), "mode");
-            
-            if(modeSpecified)
+
+            if (modeSpecified)
                 lookup = lookup.replace(" " + mode, "");
-            
+
             User osuUser = osuClient.getUser(lookup, map);
-            if(osuUser == null) {
+            if (osuUser == null) {
                 try {
                     osuUser = osuClient.getUser(Long.parseLong(lookup), map);
-                } catch(NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     return String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);
                 }
-                
-                if(osuUser == null) {
+
+                if (osuUser == null) {
                     return String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);
                 }
             }
-            
+
             map.put("m", mode);
             List<UserScore> userRecent = osuClient.getUserRecent(osuUser, map);
             StringBuilder sb = new StringBuilder();
             List<String> recent = new CopyOnWriteArrayList<>();
             int n1 = 0;
             DecimalFormat df = new DecimalFormat("####0.0");
-            for(UserScore u : userRecent) {
-                if(n1 > 9)
+            for (UserScore u : userRecent) {
+                if (n1 > 9)
                     break;
                 n1++;
-                if(u.getEnabledMods().size() > 0) {
+                if (u.getEnabledMods().size() > 0) {
                     List<Mod> mods = u.getEnabledMods();
                     StringBuilder sb1 = new StringBuilder();
                     mods.forEach(mod -> sb1.append(OsuMod.get(mod).getAbbreviation()));
                     mods1 = " Mods: " + sb1.toString();
                 }
-                
+
                 recent.add(
                         String.format(languageContext.get("commands.osustats.recent_format"), u.getBeatMap().getTitle().replace("'", ""), mods1,
                                 df.format(u.getBeatMap().getDifficultyRating()), u.getBeatMap().getCreator(), u.getDate(), u.getMaxCombo()));
-                
+
                 //1: mods, 2: diff, 3: creator, 4: date, 5: combo
                 mods1 = "";
             }
-            
+
             recent.forEach(sb::append);
             finalMessage = String.format(languageContext.get("commands.osustats.recent"), osuUser.getUsername(), mode, sb.toString());
-            
-        } catch(JSONException jx) {
+
+        } catch (JSONException jx) {
             finalMessage = String.format(languageContext.get("general.search_no_result"), EmoteReference.ERROR);
             jx.printStackTrace();
-        } catch(Exception e) {
+        } catch (Exception e) {
             finalMessage = String.format(languageContext.get("commands.osustats.error"), EmoteReference.ERROR);
             e.printStackTrace();
         }
-        
+
         return finalMessage;
     }
-    
+
     private MessageEmbed user(String content, I18nContext languageContext) {
         MessageEmbed finalMessage;
         try {
             long start = System.currentTimeMillis();
-            
+
             User osuClientUser = osuClient.getUser(content, map);
             DecimalFormat dfa = new DecimalFormat("####0.00"); //For accuracy
             DecimalFormat df = new DecimalFormat("####0"); //For everything else
@@ -320,15 +311,15 @@ public class OsuStatsCmd {
                     .addField("A", df.format(osuClientUser.getCountRankA()), true)
                     .setFooter("Response time: " + end + "ms.", null);
             finalMessage = builder.build();
-        } catch(Exception e) {
+        } catch (Exception e) {
             EmbedBuilder builder = new EmbedBuilder();
             builder.setTitle("Error.", null)
                     .setColor(Color.RED)
                     .addField(languageContext.get("general.description"), String.format(languageContext.get("commands.osustats.error_detailed"), e.getMessage()), false);
             finalMessage = builder.build();
         }
-        
+
         return finalMessage;
     }
-    
+
 }

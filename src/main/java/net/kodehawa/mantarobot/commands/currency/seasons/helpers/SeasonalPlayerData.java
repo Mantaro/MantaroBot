@@ -27,7 +27,8 @@ public class SeasonalPlayerData {
     private long lockedUntil = 0;
     private PlayerEquipment equippedItems = new PlayerEquipment(new HashMap<>(), new HashMap<>()); //hashmap is type -> itemId
 
-    public SeasonalPlayerData() { }
+    public SeasonalPlayerData() {
+    }
 
     public PlayerEquipment getEquippedItems() {
         return this.equippedItems;
@@ -36,23 +37,23 @@ public class SeasonalPlayerData {
     public long getGamesWon() {
         return this.gamesWon;
     }
-    
+
     public void setGamesWon(long gamesWon) {
         this.gamesWon = gamesWon;
     }
-    
+
     public long getWaifuCachedValue() {
         return this.waifuCachedValue;
     }
-    
+
     public void setWaifuCachedValue(long waifuCachedValue) {
         this.waifuCachedValue = waifuCachedValue;
     }
-    
+
     public long getLockedUntil() {
         return this.lockedUntil;
     }
-    
+
     public void setLockedUntil(long lockedUntil) {
         this.lockedUntil = lockedUntil;
     }

@@ -31,21 +31,21 @@ public class AudioUtils {
                 TimeUnit.MILLISECONDS.toSeconds(length) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))
         );
     }
-    
+
     public static String getQueueList(ConcurrentLinkedDeque<AudioTrack> queue) {
         StringBuilder sb = new StringBuilder();
         int n = 1;
-        for(AudioTrack audioTrack : queue) {
+        for (AudioTrack audioTrack : queue) {
             long aDuration = audioTrack.getDuration();
             String duration = String.format("%02d:%02d",
                     TimeUnit.MILLISECONDS.toMinutes(aDuration),
                     TimeUnit.MILLISECONDS.toSeconds(aDuration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(aDuration))
             );
-            
+
             User dj = audioTrack.getUserData() != null ? MantaroBot.getInstance().getShardManager()
-                                                                 .getUserById(String.valueOf(audioTrack.getUserData())) : null;
+                    .getUserById(String.valueOf(audioTrack.getUserData())) : null;
             String title = audioTrack.getInfo().title;
-            if(title.length() > 30) title = title.substring(0, 30) + "...";
+            if (title.length() > 30) title = title.substring(0, 30) + "...";
             sb.append("**")
                     .append(n)
                     .append(". [")

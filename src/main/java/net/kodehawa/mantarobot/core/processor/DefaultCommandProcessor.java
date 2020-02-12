@@ -29,10 +29,10 @@ import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 public class DefaultCommandProcessor implements ICommandProcessor {
     public static final CommandRegistry REGISTRY = new CommandRegistry();
     private static final Histogram commandTime = Histogram.build()
-                                                         .name("command_time").help("Time it takes for a command to be ran.")
-                                                         .register();
+            .name("command_time").help("Time it takes for a command to be ran.")
+            .register();
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(DefaultCommandProcessor.class);
-    
+
     @Override
     public boolean run(GuildMessageReceivedEvent event) {
         //When did we start processing this command?...
@@ -47,28 +47,28 @@ public class DefaultCommandProcessor implements ICommandProcessor {
         String usedPrefix = null;
         //Lower-case raw cmd check, only used for prefix checking.
         String lowerRawCmd = rawCmd.toLowerCase();
-        
-        for(String s : prefix) {
-            if(lowerRawCmd.startsWith(s))
+
+        for (String s : prefix) {
+            if (lowerRawCmd.startsWith(s))
                 usedPrefix = s;
         }
-        
-        if(usedPrefix != null && lowerRawCmd.startsWith(usedPrefix.toLowerCase())) {
+
+        if (usedPrefix != null && lowerRawCmd.startsWith(usedPrefix.toLowerCase())) {
             rawCmd = rawCmd.substring(usedPrefix.length());
-        } else if(customPrefix != null && lowerRawCmd.startsWith(customPrefix.toLowerCase())) {
+        } else if (customPrefix != null && lowerRawCmd.startsWith(customPrefix.toLowerCase())) {
             rawCmd = rawCmd.substring(customPrefix.length());
-        } else if(usedPrefix == null) {
+        } else if (usedPrefix == null) {
             return false;
         }
-        
+
         String[] parts = splitArgs(rawCmd, 2);
         String cmdName = parts[0], content = parts[1];
-        
+
         REGISTRY.process(event, cmdName, content, usedPrefix);
-        
+
         long end = System.currentTimeMillis();
         commandTime.observe(end - start);
-        
+
         return true;
     }
 }

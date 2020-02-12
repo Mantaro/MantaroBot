@@ -34,42 +34,42 @@ public class SimpleFileDataManager implements DataManager<List<String>> {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(SimpleFileDataManager.class);
     private final List<String> data = new ArrayList<>();
     private final Path path;
-    
+
     public SimpleFileDataManager(String file) {
         this.path = Paths.get(file);
-        if(!this.path.toFile().exists()) {
+        if (!this.path.toFile().exists()) {
             log.info("Could not find config file at " + this.path.toFile().getAbsolutePath() + ", creating a new one...");
             try {
-                if(this.path.toFile().createNewFile()) {
+                if (this.path.toFile().createNewFile()) {
                     log.info("Generated new config file at " + this.path.toFile().getAbsolutePath() + ".");
                     FileIOUtils.write(this.path, "");
                     log.info("Please, fill the file with valid properties.");
                 } else {
                     SentryHelper.captureMessage("Could not create config file at " + file, this.getClass());
                 }
-            } catch(IOException e) {
+            } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }
         }
-        
+
         try {
             Collections.addAll(data, NEWLINE_PATTERN.split(FileIOUtils.read(this.path)));
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
         data.removeIf(s -> s.startsWith("//"));
     }
-    
+
     @Override
     public List<String> get() {
         return data;
     }
-    
+
     @Override
     public void save() {
         try {
             FileIOUtils.write(path, String.join("\n", this.data));
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }

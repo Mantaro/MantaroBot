@@ -47,22 +47,22 @@ public class PetCurrencyCmds {
                 ManagedDatabase db = MantaroData.db();
                 Player player = db.getPlayer(event.getAuthor());
                 PlayerData playerData = player.getData();
-                
+
                 String petName = content.trim();
                 Map<String, Pet> profilePets = playerData.getPets();
-                if(!profilePets.containsKey(petName)) {
+                if (!profilePets.containsKey(petName)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.petactions.pet.no_pet"), EmoteReference.ERROR).queue();
                     return;
                 }
-                
+
                 Pet pet = profilePets.get(petName);
                 Inventory petInventory = pet.getPetInventory();
-                
+
                 event.getChannel().sendMessageFormat("%1$sCurrent pet inventory: %2$s", EmoteReference.POPPER, ItemStack.toString(petInventory.asList())).queue();
             }
         });
     }
-    
+
     //@Subscribe
     public void petMarket(CommandRegistry cr) {
         TreeCommand petMarketCmd = (TreeCommand) cr.register("petmarket", new TreeCommand(Category.PETS) {

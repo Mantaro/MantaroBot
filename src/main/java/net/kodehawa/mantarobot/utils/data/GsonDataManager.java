@@ -29,53 +29,53 @@ import java.util.function.Supplier;
 
 public class GsonDataManager<T> implements DataManager<T> {
     public static final Gson GSON_PRETTY = new GsonBuilder()
-                                                   .setPrettyPrinting()
-                                                   .serializeNulls()
-                                                   .create(), GSON_UNPRETTY = new GsonBuilder().serializeNulls().create();
+            .setPrettyPrinting()
+            .serializeNulls()
+            .create(), GSON_UNPRETTY = new GsonBuilder().serializeNulls().create();
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(GsonDataManager.class);
     private final Path configPath;
     private final T data;
-    
+
     public GsonDataManager(Class<T> clazz, String file, Supplier<T> constructor) {
         this.configPath = Paths.get(file);
-        if(!configPath.toFile().exists()) {
+        if (!configPath.toFile().exists()) {
             log.info("Could not find config file at " + configPath.toFile().getAbsolutePath() + ", creating a new one...");
             try {
-                if(configPath.toFile().createNewFile()) {
+                if (configPath.toFile().createNewFile()) {
                     log.info("Generated new config file at " + configPath.toFile().getAbsolutePath() + ".");
                     FileIOUtils.write(configPath, GSON_PRETTY.toJson(constructor.get()));
                     log.info("Please, fill the file with valid properties.");
                 } else {
                     log.warn("Could not create config file at " + file);
                 }
-            } catch(IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(1);
             }
             System.exit(0);
         }
-        
+
         try {
             this.data = GSON_PRETTY.fromJson(FileIOUtils.read(configPath), clazz);
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
-    
+
     public static Gson gson(boolean pretty) {
         return pretty ? GSON_PRETTY : GSON_UNPRETTY;
     }
-    
+
     @Override
     public T get() {
         return data;
     }
-    
+
     @Override
     public void save() {
         try {
             FileIOUtils.write(configPath, GSON_PRETTY.toJson(data));
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }

@@ -23,16 +23,16 @@ import net.kodehawa.mantarobot.MantaroBot;
 public class CachedMessage {
     private long author;
     private String content;
-    
+
     public CachedMessage(long author, String content) {
         this.author = author;
         this.content = content;
     }
-    
+
     public User getAuthor() {
         return MantaroBot.getInstance().getShardManager().getUserById(author);
     }
-    
+
     public String getContent() {
         return this.content;
     }

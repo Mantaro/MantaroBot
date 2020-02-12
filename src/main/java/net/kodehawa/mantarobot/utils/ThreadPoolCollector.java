@@ -20,48 +20,40 @@ package net.kodehawa.mantarobot.utils;
 import io.prometheus.client.Collector;
 import io.prometheus.client.GaugeMetricFamily;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
+import java.util.concurrent.*;
 
 public class ThreadPoolCollector extends Collector {
     private final ConcurrentMap<String, ThreadPoolExecutor> executors = new ConcurrentHashMap<>();
-    
+
     public ThreadPoolExecutor remove(String name) {
         return executors.remove(name);
     }
-    
+
     public boolean add(String name, ThreadPoolExecutor executor) {
         Objects.requireNonNull(name, "Name may not be null");
         Objects.requireNonNull(executor, "Executor may not be null");
         return executors.putIfAbsent(name, executor) == null;
     }
-    
+
     public boolean add(String name, Executor executor) {
         Objects.requireNonNull(executor, "Executor may not be null");
-        if(executor instanceof ThreadPoolExecutor) {
+        if (executor instanceof ThreadPoolExecutor) {
             return add(name, (ThreadPoolExecutor) executor);
         }
         throw new IllegalArgumentException("Provided executor is not a ThreadPoolExecutor");
     }
-    
+
     public boolean add(ThreadPoolExecutor executor) {
         Objects.requireNonNull(executor, "Executor may not be null");
         return add(executor.toString(), executor);
     }
-    
+
     public boolean add(Executor executor) {
         Objects.requireNonNull(executor, "Executor may not be null");
         return add(executor.toString(), executor);
     }
-    
+
     @Override
     public List<MetricFamilySamples> collect() {
         List<MetricFamilySamples> list = new ArrayList<>(8);
@@ -113,7 +105,7 @@ public class ThreadPoolCollector extends Collector {
                 Collections.singletonList("executor")
         );
         list.add(taskCount);
-        for(Map.Entry<String, ThreadPoolExecutor> entry : executors.entrySet()) {
+        for (Map.Entry<String, ThreadPoolExecutor> entry : executors.entrySet()) {
             List<String> name = Collections.singletonList(entry.getKey());
             ThreadPoolExecutor executor = entry.getValue();
             activeCount.addMetric(name, executor.getActiveCount());

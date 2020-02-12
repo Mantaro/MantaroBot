@@ -25,7 +25,7 @@ import java.util.List;
 
 public interface Node {
     static Node fromJSON(JSONObject serialized) {
-        switch(serialized.getString("type")) {
+        switch (serialized.getString("type")) {
             case "literal":
                 return new LiteralNode(serialized.getString("value"));
             case "variable":
@@ -33,7 +33,7 @@ public interface Node {
             case "op": {
                 List<Node> args = new ArrayList<>();
                 JSONArray raw = serialized.getJSONArray("args");
-                for(int i = 0; i < raw.length(); i++) {
+                for (int i = 0; i < raw.length(); i++) {
                     args.add(fromJSON(raw.getJSONObject(i)));
                 }
                 return new OperationNode(fromJSON(serialized.getJSONObject("name")), args);
@@ -41,7 +41,7 @@ public interface Node {
             case "multi": {
                 List<Node> nodes = new ArrayList<>();
                 JSONArray raw = serialized.getJSONArray("children");
-                for(int i = 0; i < raw.length(); i++) {
+                for (int i = 0; i < raw.length(); i++) {
                     nodes.add(fromJSON(raw.getJSONObject(i)));
                 }
                 return new MultiNode(nodes);
@@ -51,8 +51,8 @@ public interface Node {
             }
         }
     }
-    
+
     <T, C> T accept(NodeVisitor<T, C> visitor, C context);
-    
+
     Node simplify();
 }

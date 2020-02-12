@@ -26,68 +26,68 @@ import io.sentry.event.UserBuilder;
 import io.sentry.event.interfaces.ExceptionInterface;
 
 public class SentryHelper {
-    
+
     public static void captureException(String message, Throwable t, Class<?> clazz) {
         EventBuilder eventBuilder = new EventBuilder()
-                                            .withMessage(message)
-                                            .withLevel(Event.Level.ERROR)
-                                            .withLogger(clazz.getName())
-                                            .withSentryInterface(new ExceptionInterface(t));
+                .withMessage(message)
+                .withLevel(Event.Level.ERROR)
+                .withLogger(clazz.getName())
+                .withSentryInterface(new ExceptionInterface(t));
         Sentry.capture(eventBuilder);
     }
-    
+
     public static void captureMessage(String message, Class<?> clazz) {
         EventBuilder eventBuilder = new EventBuilder()
-                                            .withMessage(message)
-                                            .withLevel(Event.Level.INFO)
-                                            .withLogger(clazz.getName());
-        
+                .withMessage(message)
+                .withLevel(Event.Level.INFO)
+                .withLogger(clazz.getName());
+
         Sentry.capture(eventBuilder);
     }
-    
+
     public static void breadcrumb(String breadcrumb) {
         final Context context = Sentry.getContext();
         context.recordBreadcrumb(
                 new BreadcrumbBuilder().setMessage(breadcrumb).build()
         );
     }
-    
+
     public static void captureExceptionContext(String message, Throwable t, Class<?> clazz, String user) {
         final Context context = Sentry.getContext();
         context.setUser(new UserBuilder().setUsername(user).build());
         EventBuilder eventBuilder = new EventBuilder()
-                                            .withMessage(message)
-                                            .withLevel(Event.Level.ERROR)
-                                            .withLogger(clazz.getName())
-                                            .withSentryInterface(new ExceptionInterface(t));
+                .withMessage(message)
+                .withLevel(Event.Level.ERROR)
+                .withLogger(clazz.getName())
+                .withSentryInterface(new ExceptionInterface(t));
         Sentry.capture(eventBuilder);
         Sentry.clearContext();
     }
-    
+
     public static void captureMessageContext(String message, Class<?> clazz, String user) {
         final Context context = Sentry.getContext();
         context.setUser(new UserBuilder().setUsername(user).build());
         EventBuilder eventBuilder = new EventBuilder()
-                                            .withMessage(message)
-                                            .withLevel(Event.Level.INFO)
-                                            .withLogger(clazz.getName());
-        
+                .withMessage(message)
+                .withLevel(Event.Level.INFO)
+                .withLogger(clazz.getName());
+
         Sentry.capture(eventBuilder);
         Sentry.clearContext();
     }
-    
+
     public static void captureMessageErrorContext(String message, Class<?> clazz, String user) {
         final Context context = Sentry.getContext();
         context.setUser(new UserBuilder().setUsername(user).build());
         EventBuilder eventBuilder = new EventBuilder()
-                                            .withMessage(message)
-                                            .withLevel(Event.Level.ERROR)
-                                            .withLogger(clazz.getName());
-        
+                .withMessage(message)
+                .withLevel(Event.Level.ERROR)
+                .withLogger(clazz.getName());
+
         Sentry.capture(eventBuilder);
         Sentry.clearContext();
     }
-    
+
     public static void breadcrumbContext(String breadcrumb, String user) {
         final Context context = Sentry.getContext();
         context.setUser(new UserBuilder().setUsername(user).build());

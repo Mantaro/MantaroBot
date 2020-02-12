@@ -25,78 +25,78 @@ public class TokenIterator implements Iterator<Token> {
     private final String source;
     private final List<Token> tokens;
     private int index;
-    
+
     public TokenIterator(String input) {
         this.source = input;
         this.tokens = new Lexer(input).tokenize();
     }
-    
+
     @Override
     public boolean hasNext() {
         return index < tokens.size();
     }
-    
+
     @Override
     public Token next() {
         return tokens.get(index++);
     }
-    
+
     public String source() {
         return source;
     }
-    
+
     public Token peek() {
         return tokens.get(index);
     }
-    
+
     public void back() {
         index--;
     }
-    
+
     public boolean match(TokenType tokenType) {
         return hasNext() && peek().type() == tokenType;
     }
-    
+
     public void expect(TokenType tokenType) {
         Token t = hasNext() ? next() : null;
-        if(t == null || t.type() != tokenType) {
+        if (t == null || t.type() != tokenType) {
             throw new IllegalStateException("Expected token of type " + tokenType + ", got " + t);
         }
     }
-    
+
     private static class Lexer {
         private final StringBuilder current = new StringBuilder();
         private final List<Token> out = new ArrayList<>();
         private final String source;
         private int i = 0;
-        
+
         private Lexer(String source) {
             this.source = source;
         }
-        
+
         private void pushCurrentLiteral() {
-            if(current.length() > 0) {
+            if (current.length() > 0) {
                 out.add(new Token(position(i - current.length(), i - 1), TokenType.LITERAL, current.toString()));
                 current.setLength(0);
             }
         }
-        
+
         private void push(TokenType type) {
             pushCurrentLiteral();
             out.add(new Token(position(i, i), type, type.literalValue()));
         }
-        
+
         private Position position(int from, int to) {
             int line = 1;
             int columnStart = 0;
             return new Position(line, from - columnStart + 1, from, to);
         }
-        
+
         public List<Token> tokenize() {
-            for(; i < source.length(); i++) {
-                switch(source.charAt(i)) {
+            for (; i < source.length(); i++) {
+                switch (source.charAt(i)) {
                     case '$': {
-                        if(i < source.length() - 1 && source.charAt(i + 1) == '(') {
+                        if (i < source.length() - 1 && source.charAt(i + 1) == '(') {
                             pushCurrentLiteral();
                             i++;
                             out.add(new Token(position(i - 1, i), TokenType.START_VAR, "$("));
@@ -106,7 +106,7 @@ public class TokenIterator implements Iterator<Token> {
                         break;
                     }
                     case '@': {
-                        if(i < source.length() - 1 && source.charAt(i + 1) == '{') {
+                        if (i < source.length() - 1 && source.charAt(i + 1) == '{') {
                             pushCurrentLiteral();
                             i++;
                             out.add(new Token(position(i - 1, i), TokenType.START_OP, "@{"));

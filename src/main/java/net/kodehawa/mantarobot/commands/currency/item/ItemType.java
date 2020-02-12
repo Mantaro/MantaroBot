@@ -54,21 +54,21 @@ public enum ItemType {
     BROKEN_MINE_COMMON(false), //This is to drop broken picks on the fish crate.
     BROKEN_FISHING_COMMON(false), //This is to drop broken rods on the fish crate.
     WAIFU(false), //So it doesn't drop on a loot crate, lol
-    
+
     //Pet items don't appear in the normal market.
     PET(true),
     PET_FOOD(false);
-    
+
     private boolean cast;
-    
+
     ItemType(boolean cast) {
         this.cast = cast;
     }
-    
+
     public boolean isCastable() {
         return cast;
     }
-    
+
     public enum LootboxType {
         COMMON,
         RARE,
@@ -80,7 +80,7 @@ public enum ItemType {
         //-insert ea logo here-
         EPIC
     }
-    
+
     public enum PotionType {
         PLAYER,
         CHANNEL,

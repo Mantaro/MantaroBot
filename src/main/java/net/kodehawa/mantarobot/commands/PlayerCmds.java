@@ -397,11 +397,10 @@ public class PlayerCmds {
                 }
 
                 if (equipment.equipItem(item)) {
-                    if(isSeasonal) {
+                    if (isSeasonal) {
                         seasonalPlayer.getInventory().process(new ItemStack(item, -1));
                         user.save();
-                    }
-                    else {
+                    } else {
                         player.getInventory().process(new ItemStack(item, -1));
                         seasonalPlayer.save();
                     }
@@ -445,7 +444,7 @@ public class PlayerCmds {
                 }
 
                 equipment.resetOfType(type);
-                if(isSeasonal)
+                if (isSeasonal)
                     seasonalPlayer.save();
                 else
                     user.save();

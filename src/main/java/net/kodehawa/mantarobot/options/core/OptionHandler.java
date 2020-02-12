@@ -26,38 +26,38 @@ import java.util.function.Consumer;
 
 public abstract class OptionHandler {
     protected OptionType type = OptionType.GENERAL;
-    
+
     public abstract String description();
-    
+
     protected void registerOption(String name, String displayName, String description, Consumer<GuildMessageReceivedEvent> code) {
         Option.addOption(name, new Option(displayName, description, type).setAction(code).setShortDescription(description));
     }
-    
+
     protected void registerOption(String name, String displayName, String description, String shortDescription, Consumer<GuildMessageReceivedEvent> code) {
         Option.addOption(name, new Option(displayName, description, type).setAction(code).setShortDescription(shortDescription));
     }
-    
+
     protected void registerOption(String name, String displayName, String description, String shortDescription, BiConsumer<GuildMessageReceivedEvent, String[]> code) {
         Option.addOption(name, new Option(displayName, description, type).setAction(code).setShortDescription(shortDescription));
     }
-    
+
     protected void registerOptionShort(String name, String displayName, String description, String shortDescription, BiConsumer<GuildMessageReceivedEvent, I18nContext> code) {
         Option.addOption(name, new Option(displayName, description, type).setActionLang(code).setShortDescription(shortDescription));
     }
-    
+
     protected void registerOption(String name, String displayName, String description, BiConsumer<GuildMessageReceivedEvent, I18nContext> code) {
         Option.addOption(name, new Option(displayName, description, type).setActionLang(code).setShortDescription(description));
     }
-    
+
     protected void registerOption(String name, String displayName, String description, String shortDescription,
                                   TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> code) {
         Option.addOption(name, new Option(displayName, description, type).setActionLang(code).setShortDescription(shortDescription));
     }
-    
+
     protected void addOptionAlias(String original, String alias) {
         Option.addOptionAlias(original, alias);
     }
-    
+
     public void setType(OptionType type) {
         this.type = type;
     }

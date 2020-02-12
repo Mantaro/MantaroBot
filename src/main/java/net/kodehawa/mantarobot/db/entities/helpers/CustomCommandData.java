@@ -17,27 +17,25 @@
 
 package net.kodehawa.mantarobot.db.entities.helpers;
 
-import java.util.Objects;
-
 public class CustomCommandData {
     private String owner = "";
     private boolean nsfw = false;
-    
+
     public CustomCommandData() {
     }
-    
+
     public String getOwner() {
         return this.owner;
     }
-    
+
     public void setOwner(String owner) {
         this.owner = owner;
     }
-    
+
     public boolean isNsfw() {
         return this.nsfw;
     }
-    
+
     public void setNsfw(boolean nsfw) {
         this.nsfw = nsfw;
     }

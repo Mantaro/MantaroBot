@@ -25,7 +25,7 @@ public class URLEncoding {
     public static String decode(String s) {
         return URLDecoder.decode(s, StandardCharsets.UTF_8);
     }
-    
+
     public static String encode(String s) {
         return URLEncoder.encode(s, StandardCharsets.UTF_8);
     }

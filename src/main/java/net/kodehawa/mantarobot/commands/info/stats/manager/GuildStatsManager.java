@@ -28,30 +28,30 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GuildStatsManager extends StatsManager<GuildStatsManager.LoggedEvent> {
     public static final ExpiringMap<LoggedEvent, AtomicInteger> DAY_EVENTS = ExpiringMap.builder()
-                                                                                     .expiration(1, TimeUnit.DAYS)
-                                                                                     .expirationPolicy(ExpirationPolicy.CREATED)
-                                                                                     .build();
+            .expiration(1, TimeUnit.DAYS)
+            .expirationPolicy(ExpirationPolicy.CREATED)
+            .build();
     public static final ExpiringMap<LoggedEvent, AtomicInteger> HOUR_EVENTS = ExpiringMap.builder()
-                                                                                      .expiration(1, TimeUnit.HOURS)
-                                                                                      .expirationPolicy(ExpirationPolicy.CREATED)
-                                                                                      .build();
+            .expiration(1, TimeUnit.HOURS)
+            .expirationPolicy(ExpirationPolicy.CREATED)
+            .build();
     public static final ExpiringMap<LoggedEvent, AtomicInteger> MINUTE_EVENTS = ExpiringMap.builder()
-                                                                                        .expiration(1, TimeUnit.MINUTES)
-                                                                                        .expirationPolicy(ExpirationPolicy.CREATED)
-                                                                                        .build();
+            .expiration(1, TimeUnit.MINUTES)
+            .expirationPolicy(ExpirationPolicy.CREATED)
+            .build();
     public static final Map<LoggedEvent, AtomicInteger> TOTAL_EVENTS = new HashMap<>();
     public static int MILESTONE = 0;
-    
+
     public static void log(LoggedEvent loggedEvent) {
         TOTAL_EVENTS.computeIfAbsent(loggedEvent, k -> new AtomicInteger(0)).incrementAndGet();
         DAY_EVENTS.computeIfAbsent(loggedEvent, k -> new AtomicInteger(0)).incrementAndGet();
         HOUR_EVENTS.computeIfAbsent(loggedEvent, k -> new AtomicInteger(0)).incrementAndGet();
         MINUTE_EVENTS.computeIfAbsent(loggedEvent, k -> new AtomicInteger(0)).incrementAndGet();
     }
-    
+
     public enum LoggedEvent {
         JOIN, LEAVE;
-        
+
         @Override
         public String toString() {
             return Utils.capitalize(name().toLowerCase());

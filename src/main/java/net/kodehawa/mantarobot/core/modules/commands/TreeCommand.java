@@ -18,11 +18,7 @@
 package net.kodehawa.mantarobot.core.modules.commands;
 
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.core.modules.commands.base.AbstractCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
-import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.util.HashMap;
@@ -33,41 +29,41 @@ import java.util.function.Predicate;
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public abstract class TreeCommand extends AbstractCommand implements ITreeCommand {
-    
+
     private Map<String, SubCommand> subCommands = new HashMap<>();
     //By default let all commands pass.
     private Predicate<GuildMessageReceivedEvent> predicate = event -> true;
-    
+
     public TreeCommand(Category category) {
         super(category);
     }
-    
+
     public TreeCommand(Category category, CommandPermission permission) {
         super(category, permission);
     }
-    
+
     @Override
     public void run(GuildMessageReceivedEvent event, I18nContext languageContext, String commandName, String content) {
         String[] args = splitArgs(content, 2);
-        
-        if(subCommands.isEmpty()) {
+
+        if (subCommands.isEmpty()) {
             throw new IllegalArgumentException("No subcommands registered!");
         }
-        
+
         Command command = subCommands.get(args[0]);
         boolean isDefault = false;
-        if(command == null) {
+        if (command == null) {
             command = defaultTrigger(event, commandName, content);
             isDefault = true;
         }
-        if(command == null)
+        if (command == null)
             return; //Use SimpleTreeCommand then?
-        
-        if(!predicate.test(event)) return;
-        
+
+        if (!predicate.test(event)) return;
+
         command.run(event, languageContext, commandName + (isDefault ? "" : " " + args[0]), isDefault ? content : args[1]);
     }
-    
+
     public TreeCommand addSubCommand(String name, BiConsumer<GuildMessageReceivedEvent, String> command) {
         subCommands.put(name, new SubCommand() {
             @Override
@@ -77,33 +73,33 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
         });
         return this;
     }
-    
+
     public ITreeCommand setPredicate(Predicate<GuildMessageReceivedEvent> predicate) {
         this.predicate = predicate;
         return this;
     }
-    
+
     @Override
     public TreeCommand createSubCommandAlias(String name, String alias) {
         SubCommand cmd = subCommands.get(name);
-        if(cmd == null) {
+        if (cmd == null) {
             throw new IllegalArgumentException("Cannot create an alias of a non-existent sub command!");
         }
-        
+
         //Creates a fully new instance. Without this, it'd be dependant on the original instance, and changing the child status would change it's parent's status too.
         SubCommand clone = SubCommand.copy(cmd);
         clone.setChild(true);
         subCommands.put(alias, clone);
-        
+
         return this;
     }
-    
+
     @Override
     public ITreeCommand addSubCommand(String name, SubCommand command) {
         subCommands.put(name, command);
         return this;
     }
-    
+
     @Override
     public Map<String, SubCommand> getSubCommands() {
         return subCommands;

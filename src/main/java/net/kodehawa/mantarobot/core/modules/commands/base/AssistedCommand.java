@@ -31,44 +31,44 @@ import java.util.Map;
  * "Assisted" version of the {@link Command} interface, providing some "common ground" for all Commands based on it.
  */
 public interface AssistedCommand extends Command {
-    
+
     default EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name) {
         return baseEmbed(event, name, event.getJDA().getSelfUser().getEffectiveAvatarUrl());
     }
-    
+
     default EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name, String image) {
         return new EmbedBuilder()
-                       .setAuthor(name, null, image)
-                       .setColor(event.getMember().getColor())
-                       .setFooter("Requested by " + event.getMember().getEffectiveName(), event.getAuthor().getEffectiveAvatarUrl());
+                .setAuthor(name, null, image)
+                .setColor(event.getMember().getColor())
+                .setFooter("Requested by " + event.getMember().getEffectiveName(), event.getAuthor().getEffectiveAvatarUrl());
     }
-    
+
     default void doTimes(int times, Runnable runnable) {
-        for(int i = 0; i < times; i++) runnable.run();
+        for (int i = 0; i < times; i++) runnable.run();
     }
-    
+
     default Map<String, String> getArguments(String[] args) {
         return StringUtils.parse(args);
     }
-    
+
     default Map<String, String> getArguments(String content) {
         return StringUtils.parse(content.split("\\s+"));
     }
-    
+
     default String checkString(String s) {
-        if(s.length() > 1600) {
+        if (s.length() > 1600) {
             return Utils.paste3(s);
         } else {
             return s;
         }
     }
-    
+
     @Override
     default Command addOption(String call, Option option) {
         Option.addOption(call, option);
         return this;
     }
-    
+
     default Config getConfig() {
         return MantaroData.config().get();
     }

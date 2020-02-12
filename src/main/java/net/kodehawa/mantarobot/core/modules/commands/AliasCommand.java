@@ -32,61 +32,61 @@ public class AliasCommand implements Command {
     private final String commandName;
     private final String originalName;
     private List<String> aliases;
-    
+
     public AliasCommand(String commandName, String originalName, Command command) {
         this.commandName = commandName;
         this.command = command;
         this.originalName = originalName;
         this.aliases = command.getAliases();
     }
-    
+
     public Category parentCategory() {
         return command.category();
     }
-    
+
     public String parentName() {
         return originalName;
     }
-    
+
     @Override
     public Category category() {
         return null; //Alias Commands are hidden
     }
-    
+
     @Override
     public CommandPermission permission() {
         return command.permission();
     }
-    
+
     @Override
     public void run(GuildMessageReceivedEvent event, I18nContext languageContext, String ignored, String content) {
         command.run(event, languageContext, commandName, content);
     }
-    
+
     @Override
     public HelpContent help() {
         return command.help();
     }
-    
+
     @Override
     public Command addOption(String call, Option option) {
         Option.addOption(call, option);
         return this;
     }
-    
+
     @Override
     public List<String> getAliases() {
         return aliases;
     }
-    
+
     public Command getCommand() {
         return this.command;
     }
-    
+
     public String getCommandName() {
         return this.commandName;
     }
-    
+
     public String getOriginalName() {
         return this.originalName;
     }

@@ -58,151 +58,150 @@ import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 import static net.kodehawa.mantarobot.utils.Utils.pretty;
 
 public class Shard {
-    private static final Logger log = LoggerFactory.getLogger(Shard.class);
-    private static final Gauge ratelimitBucket = new Gauge.Builder()
-                                                         .name("ratelimitBucket")
-                                                         .help("shard queue size")
-                                                         .labelNames("shardId")
-                                                         .register();
     public static final Function<JDA, Integer> QUEUE_SIZE = jda -> {
         int sum = 0;
-        for(final IBucket bucket : ((JDAImpl) jda).getRequester().getRateLimiter().getRouteBuckets()) {
+        for (final IBucket bucket : ((JDAImpl) jda).getRequester().getRateLimiter().getRouteBuckets()) {
             sum += bucket.getRequests().size();
         }
-        
+
         return sum;
     };
     public static final Function<JDA, List<Pair<String, Integer>>> GET_BUCKETS_WITH_QUEUE = jda -> {
         final List<Pair<String, Integer>> routes = new ArrayList<>();
         final List<IBucket> buckets = ((JDAImpl) jda).getRequester().getRateLimiter().getRouteBuckets();
-        for(final IBucket bucket : buckets) {
-            if(bucket.getRequests().size() > 0) {
+        for (final IBucket bucket : buckets) {
+            if (bucket.getRequests().size() > 0) {
                 routes.add(Pair.of(bucket.getRoute(), bucket.getRequests().size()));
             }
         }
-        
+
         return routes;
     };
-    
+    private static final Logger log = LoggerFactory.getLogger(Shard.class);
+    private static final Gauge ratelimitBucket = new Gauge.Builder()
+            .name("ratelimitBucket")
+            .help("shard queue size")
+            .labelNames("shardId")
+            .register();
     private final Cache<Long, Optional<CachedMessage>> messageCache =
             CacheBuilder.newBuilder().concurrencyLevel(5).maximumSize(2500).build();
-    
+
     private final MantaroEventManager manager = new MantaroEventManager();
     private final int id;
     private final EventListener listener;
     private ScheduledFuture<?> queueSizes;
     private ScheduledFuture<?> statusChange;
     private JDA jda;
-    
+
     public Shard(int id) {
         this.id = id;
         this.listener = new ListenerAdapter() {
             @Override
             public synchronized void onReady(@Nonnull ReadyEvent event) {
                 jda = event.getJDA();
-                if(queueSizes != null) {
+                if (queueSizes != null) {
                     queueSizes.cancel(true);
                 }
-                if(statusChange != null) {
+                if (statusChange != null) {
                     statusChange.cancel(true);
                 }
                 queueSizes = MantaroBot.getInstance().getExecutorService().scheduleAtFixedRate(
                         () -> ratelimitBucket.labels(String.valueOf(id))
-                                      .set(QUEUE_SIZE.apply(event.getJDA())), 1, 1, TimeUnit.MINUTES
+                                .set(QUEUE_SIZE.apply(event.getJDA())), 1, 1, TimeUnit.MINUTES
                 );
                 statusChange = MantaroBot.getInstance().getExecutorService()
-                                       .scheduleAtFixedRate(Shard.this::changeStatus, 0, 10, TimeUnit.MINUTES);
+                        .scheduleAtFixedRate(Shard.this::changeStatus, 0, 10, TimeUnit.MINUTES);
             }
         };
     }
-    
+
     @CheckReturnValue
     public int getId() {
         return id;
     }
-    
+
     @Nonnull
     @CheckReturnValue
     public Cache<Long, Optional<CachedMessage>> getMessageCache() {
         return messageCache;
     }
-    
+
     @Nonnull
     @CheckReturnValue
     public MantaroEventManager getManager() {
         return manager;
     }
-    
+
     @Nonnull
     @CheckReturnValue
     public EventListener getListener() {
         return listener;
     }
-    
+
     @Nullable
     @CheckReturnValue
     public JDA getNullableJDA() {
         return jda;
     }
-    
+
     @Nonnull
     @CheckReturnValue
     public JDA getJDA() {
         return Objects.requireNonNull(jda, "Shard has not been started yet");
     }
-    
+
     private void changeStatus() {
         //insert $CURRENT_YEAR meme here
         var now = OffsetDateTime.now();
-        if(now.getMonth() == Month.DECEMBER && now.getDayOfMonth() == 25) {
+        if (now.getMonth() == Month.DECEMBER && now.getDayOfMonth() == 25) {
             getJDA().getPresence().setActivity(Activity.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], "Merry Christmas!", getId())));
             return;
-        } else if(now.getMonth() == Month.JANUARY && now.getDayOfMonth() == 1) {
+        } else if (now.getMonth() == Month.JANUARY && now.getDayOfMonth() == 1) {
             getJDA().getPresence().setActivity(Activity.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], "Happy New Year!", getId())));
             return;
         }
-    
+
         AtomicInteger users = new AtomicInteger(0), guilds = new AtomicInteger(0);
-        if(MantaroBot.getInstance() != null) {
+        if (MantaroBot.getInstance() != null) {
             MantaroBot.getInstance().getShardManager().getShardCache().forEach(jda -> {
                 users.addAndGet((int) jda.getUserCache().size());
                 guilds.addAndGet((int) jda.getGuildCache().size());
             });
         }
-    
+
         JSONObject reply;
-    
+
         try {
             var config = MantaroData.config().get();
             Request request = new Request.Builder()
-                                      .url(config.apiTwoUrl + "/mantaroapi/bot/splashes/random")
-                                      .addHeader("Authorization", config.getApiAuthKey())
-                                      .addHeader("User-Agent", MantaroInfo.USER_AGENT)
-                                      .get()
-                                      .build();
-        
-            try(var response = httpClient.newCall(request).execute()) {
+                    .url(config.apiTwoUrl + "/mantaroapi/bot/splashes/random")
+                    .addHeader("Authorization", config.getApiAuthKey())
+                    .addHeader("User-Agent", MantaroInfo.USER_AGENT)
+                    .get()
+                    .build();
+
+            try (var response = httpClient.newCall(request).execute()) {
                 var body = response.body();
-                if(body == null) {
+                if (body == null) {
                     reply = new JSONObject().put("splash", "With a dead api!");
                 } else {
                     reply = new JSONObject(new JSONTokener(body.byteStream()));
                 }
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             //I had to, lol.
             reply = new JSONObject().put("splash", "With a missing status!");
         }
-    
+
         String newStatus = reply.getString("splash")
-                                   //Replace fest.
-                                   .replace("%ramgb%", String.valueOf(((long) (Runtime.getRuntime().maxMemory() * 1.2D)) >> 30L))
-                                   .replace("%usercount%", users.toString())
-                                   .replace("%guildcount%", guilds.toString())
-                                   .replace("%shardcount%", String.valueOf(MantaroBot.getInstance().getShardManager().getShardsTotal()))
-                                   .replace("%prettyusercount%", pretty(users.get()))
-                                   .replace("%prettyguildcount%", pretty(guilds.get()));
-    
+                //Replace fest.
+                .replace("%ramgb%", String.valueOf(((long) (Runtime.getRuntime().maxMemory() * 1.2D)) >> 30L))
+                .replace("%usercount%", users.toString())
+                .replace("%guildcount%", guilds.toString())
+                .replace("%shardcount%", String.valueOf(MantaroBot.getInstance().getShardManager().getShardsTotal()))
+                .replace("%prettyusercount%", pretty(users.get()))
+                .replace("%prettyguildcount%", pretty(guilds.get()));
+
         getJDA().getPresence().setActivity(Activity.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], newStatus, getId())));
         log.debug("Changed status to: " + newStatus);
     }
