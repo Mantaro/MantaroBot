@@ -108,9 +108,12 @@ public class ModerationCmds {
 
                 guild.ban(member, 7).reason(finalReason).queue(
                         success -> {
-                            user.openPrivateChannel().queue(privateChannel ->
-                                    privateChannel.sendMessage(String.format("%sYou were **softbanned** by %s#%s for reason %s on server **%s**.",
-                                            EmoteReference.MEGA, author.getName(), author.getDiscriminator(), finalReason, event.getGuild().getName())).queue());
+                            user.openPrivateChannel()
+                                    .flatMap(privateChannel ->
+                                            privateChannel.sendMessage(String.format("%sYou were **softbanned** by %s#%s for reason %s on server **%s**.",
+                                            EmoteReference.MEGA, author.getName(), author.getDiscriminator(), finalReason, event.getGuild().getName()))
+                                    ).queue();
+
                             db.getData().setCases(db.getData().getCases() + 1);
                             db.saveAsync();
 
@@ -331,9 +334,11 @@ public class ModerationCmds {
                 guild.kick(member).reason(finalReason).queue(
                         success -> {
                             if (!user.isBot()) {
-                                user.openPrivateChannel().queue(privateChannel ->
-                                        privateChannel.sendMessage(String.format("%sYou were **kicked** by %s#%s with reason: %s on server **%s**.",
-                                                EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), finalReason, event.getGuild().getName())).queue());
+                                user.openPrivateChannel()
+                                        .flatMap(privateChannel ->
+                                                privateChannel.sendMessage(String.format("%sYou were **kicked** by %s#%s with reason: %s on server **%s**.",
+                                                EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), finalReason, event.getGuild().getName()))
+                                        ).queue();
                             }
                             db.getData().setCases(db.getData().getCases() + 1);
                             db.saveAsync();
