@@ -41,6 +41,16 @@ public class Token {
     }
 
     @Override
+    public int hashCode() {
+        return value.hashCode() ^ position.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Token(" + position + ", " + type + ", '" + value + "')";
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Token)) {
             return false;
