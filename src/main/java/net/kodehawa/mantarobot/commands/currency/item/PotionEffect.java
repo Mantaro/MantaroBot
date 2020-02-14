@@ -120,46 +120,4 @@ public class PotionEffect {
     public void setAmountEquipped(long amountEquipped) {
         this.amountEquipped = amountEquipped;
     }
-
-    protected boolean canEqual(final Object other) {
-        return other instanceof PotionEffect;
-    }
-
-    public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final Object $uuid = this.uuid;
-        result = result * PRIME + ($uuid == null ? 43 : $uuid.hashCode());
-        result = result * PRIME + this.potion;
-        final long $until = this.until;
-        result = result * PRIME + (int) ($until >>> 32 ^ $until);
-        final Object $type = this.type;
-        result = result * PRIME + ($type == null ? 43 : $type.hashCode());
-        final long $timesUsed = this.timesUsed;
-        result = result * PRIME + (int) ($timesUsed >>> 32 ^ $timesUsed);
-        final long $amountEquipped = this.amountEquipped;
-        result = result * PRIME + (int) ($amountEquipped >>> 32 ^ $amountEquipped);
-        return result;
-    }
-
-    public boolean equals(final Object o) {
-        if (o == this) return true;
-        if (!(o instanceof PotionEffect)) return false;
-        final PotionEffect other = (PotionEffect) o;
-        if (!other.canEqual(this)) return false;
-        final Object this$uuid = this.uuid;
-        final Object other$uuid = other.uuid;
-        if (!Objects.equals(this$uuid, other$uuid)) return false;
-        if (this.potion != other.potion) return false;
-        if (this.until != other.until) return false;
-        final Object this$type = this.type;
-        final Object other$type = other.type;
-        if (!Objects.equals(this$type, other$type)) return false;
-        if (this.timesUsed != other.timesUsed) return false;
-        return this.amountEquipped == other.amountEquipped;
-    }
-
-    public String toString() {
-        return "PotionEffect(uuid=" + this.uuid + ", potion=" + this.potion + ", until=" + this.until + ", type=" + this.type + ", timesUsed=" + this.timesUsed + ", amountEquipped=" + this.amountEquipped + ")";
-    }
 }

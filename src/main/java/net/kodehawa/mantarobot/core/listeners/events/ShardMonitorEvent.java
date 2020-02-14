@@ -71,17 +71,6 @@ public class ShardMonitorEvent extends Event implements MantaroEvent {
         private ShardListeners(int shardId) {
             this.shardId = shardId;
         }
-
-        @Override
-        public int hashCode() {
-            return shardId;
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            return other instanceof ShardListeners && ((ShardListeners) other).shardId == shardId;
-        }
-
         private void alive(int listener) {
             switch (listener) {
                 case MANTARO_LISTENER:

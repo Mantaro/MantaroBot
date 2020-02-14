@@ -45,23 +45,4 @@ public class Position {
     public int end() {
         return end;
     }
-
-    @Override
-    public int hashCode() {
-        return line ^ column ^ start ^ end;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Position)) {
-            return false;
-        }
-        Position p = (Position) obj;
-        return p.line == line && p.column == column && p.start == start && p.end == end;
-    }
-
-    @Override
-    public String toString() {
-        return "Position(" + line + ":" + column + ", " + start + "-" + end + ")";
-    }
 }

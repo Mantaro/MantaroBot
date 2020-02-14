@@ -94,46 +94,4 @@ public class Waifu {
     public void setPerformance(long performance) {
         this.performance = performance;
     }
-
-    protected boolean canEqual(final Object other) {
-        return other instanceof Waifu;
-    }
-
-    public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final long $moneyValue = this.moneyValue;
-        result = result * PRIME + (int) ($moneyValue >>> 32 ^ $moneyValue);
-        final long $badgeValue = this.badgeValue;
-        result = result * PRIME + (int) ($badgeValue >>> 32 ^ $badgeValue);
-        final long $experienceValue = this.experienceValue;
-        result = result * PRIME + (int) ($experienceValue >>> 32 ^ $experienceValue);
-        final long $reputationMultiplier = Double.doubleToLongBits(this.reputationMultiplier);
-        result = result * PRIME + (int) ($reputationMultiplier >>> 32 ^ $reputationMultiplier);
-        final long $claimValue = this.claimValue;
-        result = result * PRIME + (int) ($claimValue >>> 32 ^ $claimValue);
-        final long $finalValue = this.finalValue;
-        result = result * PRIME + (int) ($finalValue >>> 32 ^ $finalValue);
-        final long $performance = this.performance;
-        result = result * PRIME + (int) ($performance >>> 32 ^ $performance);
-        return result;
-    }
-
-    public boolean equals(final Object o) {
-        if (o == this) return true;
-        if (!(o instanceof Waifu)) return false;
-        final Waifu other = (Waifu) o;
-        if (!other.canEqual(this)) return false;
-        if (this.moneyValue != other.moneyValue) return false;
-        if (this.badgeValue != other.badgeValue) return false;
-        if (this.experienceValue != other.experienceValue) return false;
-        if (Double.compare(this.reputationMultiplier, other.reputationMultiplier) != 0) return false;
-        if (this.claimValue != other.claimValue) return false;
-        if (this.finalValue != other.finalValue) return false;
-        return this.performance == other.performance;
-    }
-
-    public String toString() {
-        return "Waifu(moneyValue=" + this.moneyValue + ", badgeValue=" + this.badgeValue + ", experienceValue=" + this.experienceValue + ", reputationMultiplier=" + this.reputationMultiplier + ", claimValue=" + this.claimValue + ", finalValue=" + this.finalValue + ", performance=" + this.performance + ")";
-    }
 }

@@ -173,43 +173,4 @@ public class DBGuild implements ManagedObject {
     public Config getConfig() {
         return this.config;
     }
-
-    protected boolean canEqual(final Object other) {
-        return other instanceof DBGuild;
-    }
-
-    public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final Object $data = this.getData();
-        result = result * PRIME + ($data == null ? 43 : $data.hashCode());
-        final Object $id = this.getId();
-        result = result * PRIME + ($id == null ? 43 : $id.hashCode());
-        final long $premiumUntil = this.getPremiumUntil();
-        result = result * PRIME + (int) ($premiumUntil >>> 32 ^ $premiumUntil);
-        final Object $config = this.getConfig();
-        result = result * PRIME + ($config == null ? 43 : $config.hashCode());
-        return result;
-    }
-
-    public boolean equals(final Object o) {
-        if (o == this) return true;
-        if (!(o instanceof DBGuild)) return false;
-        final DBGuild other = (DBGuild) o;
-        if (!other.canEqual(this)) return false;
-        final Object this$data = this.getData();
-        final Object other$data = other.getData();
-        if (!Objects.equals(this$data, other$data)) return false;
-        final Object this$id = this.getId();
-        final Object other$id = other.getId();
-        if (!Objects.equals(this$id, other$id)) return false;
-        if (this.getPremiumUntil() != other.getPremiumUntil()) return false;
-        final Object this$config = this.getConfig();
-        final Object other$config = other.getConfig();
-        return Objects.equals(this$config, other$config);
-    }
-
-    public String toString() {
-        return "DBGuild(data=" + this.getData() + ", id=" + this.getId() + ", premiumUntil=" + this.getPremiumUntil() + ", config=" + this.getConfig() + ")";
-    }
 }

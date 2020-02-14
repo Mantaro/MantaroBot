@@ -115,41 +115,5 @@ public class BirthdayCacher {
         public void setMonth(String month) {
             this.month = month;
         }
-
-        protected boolean canEqual(final Object other) {
-            return other instanceof BirthdayData;
-        }
-
-        public int hashCode() {
-            final int PRIME = 59;
-            int result = 1;
-            final Object $birthday = this.birthday;
-            result = result * PRIME + ($birthday == null ? 43 : $birthday.hashCode());
-            final Object $day = this.day;
-            result = result * PRIME + ($day == null ? 43 : $day.hashCode());
-            final Object $month = this.month;
-            result = result * PRIME + ($month == null ? 43 : $month.hashCode());
-            return result;
-        }
-
-        public boolean equals(final Object o) {
-            if (o == this) return true;
-            if (!(o instanceof BirthdayData)) return false;
-            final BirthdayData other = (BirthdayData) o;
-            if (!other.canEqual(this)) return false;
-            final Object this$birthday = this.birthday;
-            final Object other$birthday = other.birthday;
-            if (!Objects.equals(this$birthday, other$birthday)) return false;
-            final Object this$day = this.day;
-            final Object other$day = other.day;
-            if (!Objects.equals(this$day, other$day)) return false;
-            final Object this$month = this.month;
-            final Object other$month = other.month;
-            return Objects.equals(this$month, other$month);
-        }
-
-        public String toString() {
-            return "BirthdayCacher.BirthdayData(birthday=" + this.birthday + ", day=" + this.day + ", month=" + this.month + ")";
-        }
     }
 }

@@ -41,11 +41,6 @@ public class Token {
     }
 
     @Override
-    public int hashCode() {
-        return value.hashCode() ^ position.hashCode();
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Token)) {
             return false;
@@ -54,10 +49,5 @@ public class Token {
         Token token = (Token) obj;
         return token.position.equals(position)
                 && token.type == type && token.value.equals(value);
-    }
-
-    @Override
-    public String toString() {
-        return "Token(" + position + ", " + type + ", '" + value + "')";
     }
 }
