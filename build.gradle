@@ -86,7 +86,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.5'
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.7'
 
-    compile 'com.rethinkdb:rethinkdb-driver:2.3.3'
+    compile 'com.rethinkdb:rethinkdb-driver:2.4.0'
 
     compile 'io.sentry:sentry:1.7.10'
 
@@ -97,9 +97,6 @@ dependencies {
     compile fileTree(dir: 'lib', include: '*.jar')
     compile 'net.kodehawa:imageboard-api:2.1'
     compile 'com.github.natanbc:discordbots-api:3.3.3'
-
-    //see you in hell
-    //compileOnly "org.projectlombok:lombok:1.18.4"
 
     compile 'com.github.natanbc:java-eval:1.0'
 
