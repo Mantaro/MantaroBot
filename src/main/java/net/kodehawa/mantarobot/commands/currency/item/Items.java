@@ -489,22 +489,17 @@ public class Items {
 
         Item crate = fromId(item);
 
-        if (inventory.containsItem(crate)) {
-            if (inventory.containsItem(LOOT_CRATE_KEY)) {
-                if (!handleDefaultIncreasingRatelimit(lootCrateRatelimiter, event.getAuthor(), event, lang, false))
+        if(inventory.containsItem(crate)) {
+            if(inventory.containsItem(LOOT_CRATE_KEY)) {
+                if(!handleDefaultIncreasingRatelimit(lootCrateRatelimiter, event.getAuthor(), event, lang, false))
                     return false;
 
-                inventory.process(new ItemStack(LOOT_CRATE_KEY, -1));
-                inventory.process(new ItemStack(crate, -1));
-
-                if (crate == LOOT_CRATE)
+                if(crate == LOOT_CRATE) {
                     player.getData().addBadgeIfAbsent(Badge.THE_SECRET);
+                }
 
-                player.save();
-                seasonPlayer.save();
-
-                openLootBox(event, lang, type, typeEmote, bound, season);
-
+                //It saves the changes here.
+                openLootBox(event, player, seasonPlayer, lang, type, crate, typeEmote, bound, season);
                 return true;
             } else {
                 event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.crate.no_key"), EmoteReference.ERROR).queue();
@@ -516,25 +511,31 @@ public class Items {
         }
     }
 
-    private static void openLootBox(GuildMessageReceivedEvent event, I18nContext lang, ItemType.LootboxType type, EmoteReference typeEmote, int bound, boolean seasonal) {
-        ManagedDatabase db = MantaroData.db();
-
+    private static void openLootBox(GuildMessageReceivedEvent event, Player player, SeasonPlayer seasonPlayer, I18nContext lang, ItemType.LootboxType type, Item crate, EmoteReference typeEmote, int bound, boolean seasonal) {
         List<Item> toAdd = selectItems(r.nextInt(bound) + bound, type);
-        Player player = db.getPlayer(event.getAuthor());
-        SeasonPlayer seasonPlayer = db.getPlayerForSeason(event.getAuthor(), config.getCurrentSeason());
 
         ArrayList<ItemStack> ita = new ArrayList<>();
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
 
-        if ((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM) && toAdd.contains(GEM5_PICKAXE) && toAdd.contains(GEM5_PICKAXE_2)) {
+        if((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM) && toAdd.contains(GEM5_PICKAXE) && toAdd.contains(GEM5_PICKAXE_2)) {
             player.getData().addBadgeIfAbsent(Badge.DESTINY_REACHES);
         }
 
-        if ((type == ItemType.LootboxType.FISH || type == ItemType.LootboxType.FISH_PREMIUM) && toAdd.contains(FISH_5)) {
+        if((type == ItemType.LootboxType.FISH || type == ItemType.LootboxType.FISH_PREMIUM) && toAdd.contains(FISH_5)) {
             player.getData().addBadgeIfAbsent(Badge.TOO_BIG);
         }
 
+
         boolean overflow = seasonal ? seasonPlayer.getInventory().merge(ita) : player.getInventory().merge(ita);
+
+        if(seasonal) {
+            seasonPlayer.getInventory().process(new ItemStack(Items.LOOT_CRATE_KEY, -1));
+            seasonPlayer.getInventory().process(new ItemStack(crate, -1));
+        } else {
+            player.getInventory().process(new ItemStack(Items.LOOT_CRATE_KEY, -1));
+            player.getInventory().process(new ItemStack(crate, -1));
+        }
+
         player.saveAsync();
         seasonPlayer.saveAsync();
 
