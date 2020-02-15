@@ -54,7 +54,7 @@ public class Items {
             TELEVISION, WRENCH, MOTORCYCLE, GEM1_PICKAXE, GEM2_PICKAXE, PIZZA, GEM_5, GEM5_PICKAXE, MINE_CRATE, FISH_CRATE,
             FISH_PREMIUM_CRATE, MINE_PREMIUM_CRATE, GEM1_ROD, GEM2_ROD, GEM5_ROD, GEM5_PICKAXE_2, GEM5_2, GEM5_ROD_2, FISH_4,
             FISH_5, WRENCH_COMET, WRENCH_SPARKLE, FISH_6, FISH_7, FISH_8, GEM_6, GEM_7, BROKEN_SPARKLE_PICK, BROKEN_COMET_PICK,
-            BROKEN_STAR_PICK, BROKEN_COMET_ROD, BROKEN_STAR_ROD, BROKEN_SPARKLE_ROD, INCUBATOR_EGG, WATER_BOTTLE;
+            BROKEN_STAR_PICK, BROKEN_COMET_ROD, BROKEN_STAR_ROD, BROKEN_SPARKLE_ROD, INCUBATOR_EGG, WATER_BOTTLE, MAGIC_WATCH;
 
     private static final Random r = new Random();
     private static final IncreasingRateLimiter lootCrateRatelimiter = new IncreasingRateLimiter.Builder()
@@ -188,6 +188,7 @@ public class Items {
             // ---------------------------------- 5.4 PET ITEMS START HERE ----------------------------------
             INCUBATOR_EGG = new Item(ItemType.PET, "\uD83E\uDD5A", "Incubator Egg", "items.incubator_egg", "items.description.incubator_egg", 300, false, false, "4;3;1", 11, 12, 18),
             WATER_BOTTLE = new Item(ItemType.PET, "", "Water Bottle", "items.water_bottle", "items.description.water_bottle", 100, true, true),
+            MAGIC_WATCH = new Item(ItemType.COLLECTABLE, "⏳", "Magical Watch", "items.magic_watch", "items.description.magic_watch",0, false, false)
 
     };
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(Items.class);

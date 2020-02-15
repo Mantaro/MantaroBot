@@ -85,6 +85,7 @@ public class MoneyCmds {
     private final int SLOTS_MAX_MONEY = 175_000_000;
     private final long GAMBLE_ABSOLUTE_MAX_MONEY = (long) (Integer.MAX_VALUE) * 5;
     private final long GAMBLE_MAX_MONEY = 275_000_000;
+    private final long DAILY_VALID_PERIOD_MILLIS = MantaroData.config().get().daily_maxPeriod_millis;
 
     @Subscribe
     public void daily(CommandRegistry cr) {
@@ -141,15 +142,37 @@ public class MoneyCmds {
 
                 String playerId = player.getUserId();
 
+                long currentTime = System.currentTimeMillis();
+
                 if (playerId.equals(event.getAuthor().getId())) {
-                    if (System.currentTimeMillis() - playerData.getLastDailyAt() < TimeUnit.HOURS.toMillis(50)) {
+                    int num_streaksavers = player.getInventory().getAmount(Items.MAGIC_WATCH);
+
+                    long currentDailyOffset = currentTime - playerData.getLastDailyAt();
+
+
+                    if (currentDailyOffset < DAILY_VALID_PERIOD_MILLIS * (num_streaksavers+1)) {
                         playerData.setDailyStreak(playerData.getDailyStreak() + 1);
-                        streak = String.format(languageContext.withRoot("commands", "daily.streak.up"), playerData.getDailyStreak());
+
+                        if(currentDailyOffset >= DAILY_VALID_PERIOD_MILLIS ){
+                            int num_streaksavers_used = 1;
+                            for(; (currentDailyOffset >= DAILY_VALID_PERIOD_MILLIS * (num_streaksavers_used+1)) && num_streaksavers_used <=num_streaksavers; num_streaksavers_used++);
+                            player.getInventory().process(new ItemStack(Items.MAGIC_WATCH,num_streaksavers_used * -1));
+                            streak = String.format(languageContext.withRoot("commands", "daily.streak.watch_used"), num_streaksavers_used, num_streaksavers_used+1, num_streaksavers-num_streaksavers_used);
+                        } else{
+                            streak = String.format(languageContext.withRoot("commands", "daily.streak.up"), playerData.getDailyStreak());
+                        }
+
+
                     } else {
                         if (playerData.getDailyStreak() == 0) {
                             streak = languageContext.withRoot("commands", "daily.streak.first_time");
                         } else {
-                            streak = String.format(languageContext.withRoot("commands", "daily.streak.lost_streak"), playerData.getDailyStreak());
+                            if (num_streaksavers>0){
+                                streak = String.format(languageContext.withRoot("commands", "daily.streak.lost_streak.watch"), playerData.getDailyStreak());
+                                player.getInventory().process(new ItemStack(Items.MAGIC_WATCH, -1*player.getInventory().getAmount(Items.MAGIC_WATCH)));
+                            } else{
+                                streak = String.format(languageContext.withRoot("commands", "daily.streak.lost_streak.normal"), playerData.getDailyStreak());
+                            }
                         }
 
                         playerData.setDailyStreak(1);
@@ -176,18 +199,42 @@ public class MoneyCmds {
                         player.getInventory().process(new ItemStack(Items.LOOT_CRATE, 1));
                         crate = "\n" + languageContext.get("commands.daily.crate");
                     }
+
+                    if(playerData.getDailyStreak() % 50 == 0 && playerData.getDailyStreak()>1){
+                        player.getInventory().process(new ItemStack(Items.MAGIC_WATCH,1));
+                        crate += "\n" + languageContext.get("commands.daily.watch_get");
+                    }
+
                 } else {
                     Player authorPlayer = MantaroData.db().getPlayer(event.getAuthor());
                     PlayerData authorPlayerData = authorPlayer.getData();
 
-                    if (System.currentTimeMillis() - authorPlayerData.getLastDailyAt() < TimeUnit.HOURS.toMillis(50)) {
+                    int num_streaksavers = authorPlayer.getInventory().getAmount(Items.MAGIC_WATCH);
+                    long currentDailyOffset = currentTime - authorPlayerData.getLastDailyAt();
+
+                    if (currentDailyOffset < DAILY_VALID_PERIOD_MILLIS * (num_streaksavers+1)) {
                         authorPlayerData.setDailyStreak(authorPlayerData.getDailyStreak() + 1);
-                        streak = String.format(languageContext.withRoot("commands", "daily.streak.given.up"), authorPlayerData.getDailyStreak());
+
+                        if(currentDailyOffset >= DAILY_VALID_PERIOD_MILLIS ){
+                            int num_streaksavers_used = 1;
+                            for(; (currentDailyOffset >= DAILY_VALID_PERIOD_MILLIS * (num_streaksavers_used+1)) && num_streaksavers_used <=num_streaksavers; num_streaksavers_used++);
+                            authorPlayer.getInventory().process(new ItemStack(Items.MAGIC_WATCH,num_streaksavers_used * -1));
+                            streak = String.format(languageContext.withRoot("commands", "daily.streak.watch_used"), num_streaksavers_used, num_streaksavers_used+1, num_streaksavers-num_streaksavers_used);
+                        } else{
+                            streak = String.format(languageContext.withRoot("commands", "daily.streak.given.up"), authorPlayerData.getDailyStreak());
+                        }
+
                     } else {
                         if (authorPlayerData.getDailyStreak() == 0) {
                             streak = languageContext.withRoot("commands", "daily.streak.first_time");
                         } else {
-                            streak = String.format(languageContext.withRoot("commands", "daily.streak.lost_streak"), authorPlayerData.getDailyStreak());
+                            if (num_streaksavers>0){
+                                streak = String.format(languageContext.withRoot("commands", "daily.streak.lost_streak.watch"), authorPlayerData.getDailyStreak());
+                                authorPlayer.getInventory().process(new ItemStack(Items.MAGIC_WATCH, -1* authorPlayer.getInventory().getAmount(Items.MAGIC_WATCH)));
+                            } else{
+                                streak = String.format(languageContext.withRoot("commands", "daily.streak.lost_streak.normal"), authorPlayerData.getDailyStreak());
+                            }
+
                         }
 
                         authorPlayerData.setDailyStreak(1);
@@ -215,6 +262,12 @@ public class MoneyCmds {
                         authorPlayer.getInventory().process(new ItemStack(Items.LOOT_CRATE, 1));
                         crate = "\n" + languageContext.get("commands.daily.crate");
                     }
+
+                    if(authorPlayerData.getDailyStreak() % 50 == 0 && authorPlayerData.getDailyStreak()>1){
+                        authorPlayer.getInventory().process(new ItemStack(Items.MAGIC_WATCH,1));
+                        crate += "\n" + languageContext.get("commands.daily.watch_get");
+                    }
+
 
                     authorPlayerData.setLastDailyAt(System.currentTimeMillis());
                     authorPlayer.save();

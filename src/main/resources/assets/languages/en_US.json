@@ -1471,17 +1471,22 @@
       "streak": {
         "up": "Streak up! Current streak: `%1$,dx`",
         "first_time": "First time claiming daily, have fun! (Come back for your streak tomorrow!)",
-        "lost_streak": "2+ days have passed since your last daily, so your streak of `%1$dx` got reset :(",
+        "lost_streak": {
+          "normal": "2+ days have passed since your last daily, so your streak of `%1$dx` got reset :(",
+          "watch" : "Even your `Magical Watches` could not stop the flow for this long. Even after using all your owned magic watches your streak of `%1$dx` still ran out of time and got reset :("
+        },
         "bonus": "\nYou won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)",
         "given": {
           "up": "Streak up! Current streak: `%1$,dx`.\n*The streak was applied to your profile!*",
           "bonus": "%1$s won a bonus of $%2$,d for claiming your daily for 5 days in a row or more! (Included on the money shown!)"
-        }
+        },
+        "watch_used" : "Your `Magical Watches` saved your streak! You used `%1$d` of them to extend your streaks survival time to %2$dx, you have `%3$d` of them remaining!"
       },
       "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s\n\n%4$s",
       "credits": "%1$sYou got **$%2$,d** daily credits.\n\n%3$s%4$s",
       "sellout": "\nWe need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info.",
-      "crate": "You won a loot crate because your daily streak it's a multiple of 20! Enjoy."
+      "crate": "You won a loot crate because your daily streak is a multiple of 20! Enjoy.",
+      "watch_get" : "You won a `Magic Watch` because your daily streak is a multiple of 50! Enjoy."
     },
     "gamble": {
       "no_credits": "%1$sYou're broke. Maybe search for some credits first.",
@@ -2131,6 +2136,7 @@
     "broken_star_rod": "Broken Star Rod",
     "incubator_egg": "Incubator Egg",
     "water_bottle": "Water Bottle",
+    "magic_watch": "Magical Watch",
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
       "ban_hammer": "Left by an admin.",
@@ -2221,7 +2227,8 @@
       "broken_sparkle_rod": "A sparkle rod that broke while fishing. Still salvageable.",
       "broken_star_rod": "A star rod that broke while fishing. Still salvageable.",
       "incubator_egg": "TBD",
-      "water_bottle": "TBD"
+      "water_bottle": "TBD",
+      "magic_watch": "A magic watch that slows time when you need it. This will automatically be consumed to save your daily streak!"
     }
   },
   "test": {
