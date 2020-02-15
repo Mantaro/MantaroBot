@@ -71,7 +71,7 @@ public class Shard {
         final List<IBucket> buckets = ((JDAImpl) jda).getRequester().getRateLimiter().getRouteBuckets();
         for (final IBucket bucket : buckets) {
             if (bucket.getRequests().size() > 0) {
-                routes.add(Pair.of(bucket.getRoute(), bucket.getRequests().size()));
+                routes.add(Pair.of(bucket.getRequests().peek().getRoute().toString(), bucket.getRequests().size()));
             }
         }
 
