@@ -119,7 +119,7 @@ public class MantaroAudioManager {
 
         //Register source manager and configure the Player
         playerManager.registerSourceManager(youtubeAudioSourceManager);
-        playerManager.registerSourceManager(new SoundCloudAudioSourceManager());
+        playerManager.registerSourceManager(SoundCloudAudioSourceManager.createDefault());
         playerManager.registerSourceManager(new BandcampAudioSourceManager());
         playerManager.registerSourceManager(new VimeoAudioSourceManager());
         playerManager.registerSourceManager(new TwitchStreamAudioSourceManager());
