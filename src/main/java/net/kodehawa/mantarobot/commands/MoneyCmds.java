@@ -41,10 +41,7 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.PlayerStats;
-import net.kodehawa.mantarobot.db.entities.PremiumKey;
+import net.kodehawa.mantarobot.db.entities.*;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
@@ -231,12 +228,10 @@ public class MoneyCmds {
                     DBUser mentionedDBUser = MantaroData.db().getUser(mentionedUser.getId());
                     UserData mentionedUserData = user.getData();
 
-                    //so many parenthesis is this lisp
-                    if ((userData.getMarriage() != null && mentionedUser.getId().equals(userData.getMarriage().getOtherPlayer(event.getAuthor().getId())))
-                            || (mentionedUser.getId().equals(player.getData().getMarriedWith()) && userData.getMarriage() == null)) {
-                        if (player.getInventory().containsItem(Items.RING)) {
-                            money = money + Math.max(10, r.nextInt(100));
-                        }
+                    //Marriage status + inventory ring
+                    Marriage marriage = userData.getMarriage();
+                    if(marriage != null && mentionedUser.getId().equals(marriage.getOtherPlayer(event.getAuthor().getId())) && player.getInventory().containsItem(Items.RING)) {
+                        money = money + Math.max(10, r.nextInt(100));
                     }
 
                     //Mutual waifu status.
