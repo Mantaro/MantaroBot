@@ -79,7 +79,16 @@ public class CurrencyCmds {
             final TextChannel channel = event.getChannel();
 
             //Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
-            int amount = arguments.containsKey("amount") ? Integer.parseInt(arguments.get("amount")) : 1;
+            // NumberFormatException?
+            int amount = 1;
+            if(arguments.containsKey("amount")) {
+                try {
+                    amount = Integer.parseInt(arguments.get("amount"));
+                } catch (NumberFormatException e) {
+                    channel.sendMessageFormat(languageContext.get("commands.useitem.invalid_amount"), EmoteReference.WARNING).queue();
+                    return;
+                }
+            }
             String petName = isPet ? content : "";
 
             if (isPet && petName.isEmpty()) {
@@ -100,20 +109,21 @@ public class CurrencyCmds {
                 return;
             }
 
+
             if (equippedItems.isEffectActive(type, ((Potion) item).getMaxUses())) {
                 PotionEffect currentPotion = equippedItems.getCurrentEffect(type);
 
                 //Currently has a potion equipped, but wants to stack a potion of other type.
                 if (currentPotion.getPotion() != Items.idOf(item)) {
                     channel.sendMessageFormat(languageContext.get("general.misc_item_usage.not_same_potion"),
-                            EmoteReference.ERROR, item.getName(), Items.fromId(currentPotion.getPotion()).getName()
-                    ).queue();
+                            EmoteReference.ERROR, Items.fromId(currentPotion.getPotion()).getName(), item.getName()).queue();
 
                     return;
                 }
 
                 //Currently has a potion equipped, and is of the same type.
-                if (currentPotion.equip(amount)) {
+                if (currentPotion.getAmountEquipped() + amount < 10) {
+                    currentPotion.equip(amount);
                     channel.sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied_multiple"),
                             EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), currentPotion.getAmountEquipped()).queue();
                 } else {
@@ -126,13 +136,15 @@ public class CurrencyCmds {
                 PotionEffect effect = new PotionEffect(Items.idOf(item), 0, ItemType.PotionType.PLAYER);
 
                 //If there's more than 1, proceed to equip the stacks.
-                if (amount > 1)
-                    effect.equip(amount - 1); //Amount - 1 because we're technically using one.
-                if (amount > 10) {
+
+                if (amount>=10) {
                     //Too many stacked (max: 10).
                     channel.sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size_2"), EmoteReference.ERROR, item.getName()).queue();
                     return;
                 }
+                if (amount > 1)
+                    effect.equip(amount - 1); //Amount - 1 because we're technically using one.
+
 
                 //Apply the effect.
                 equippedItems.applyEffect(effect);
