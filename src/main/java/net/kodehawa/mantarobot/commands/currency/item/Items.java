@@ -675,7 +675,8 @@ public class Items {
             else
                 player.save();
 
-            return false;
+            //is broken
+            return true;
         } else {
             if (isSeasonal)
                 seasonPlayer.save();
@@ -685,7 +686,8 @@ public class Items {
             //Why do I keep forgetting this.
             user.save();
 
-            return true;
+            //is not broken
+            return false;
         }
     }
 }

@@ -841,7 +841,8 @@ public class MoneyCmds {
                 if (!handleDefaultIncreasingRatelimit(rateLimiter, user, event, languageContext, false))
                     return;
 
-                if (!Items.handleDurability(event, languageContext, item, player, dbUser, seasonalPlayer, isSeasonal))
+                //If it's broken return
+                if (Items.handleDurability(event, languageContext, item, player, dbUser, seasonalPlayer, isSeasonal))
                     return;
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
