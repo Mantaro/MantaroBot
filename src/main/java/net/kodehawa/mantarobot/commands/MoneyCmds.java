@@ -833,7 +833,7 @@ public class MoneyCmds {
 
                 if (equipped == 0) {
                     channel.sendMessageFormat(languageContext.get("commands.mine.not_equipped"), EmoteReference.ERROR).queue();
-                return;
+                    return;
                 }
 
                 item = (Pickaxe) Items.fromId(equipped);
