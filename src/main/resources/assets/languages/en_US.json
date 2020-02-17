@@ -861,7 +861,8 @@
         "times": "time(s)",
         "days": "day(s)",
         "times_used": "Times Used",
-        "equipment": "Equipment"
+        "equipment": "Equipment",
+        "seasonal_equipment": "Season Equipment"
       },
       "hide_tag": {
         "success": "%1%sTag hidden status is now: `%2$s`"
@@ -872,6 +873,11 @@
         "not_owned": "%1$sYou don't own this item!",
         "success": "%1$sYou successfully equipped %2$s *%3$s*, which will be remembered next time you use the proper currency command.",
         "not_suitable": "%1$sYou can't equip this."
+      },
+      "unequip": {
+        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, rod`",
+        "invalid_type": "%1$sInvalid type. Valid types are `pick, rod`",
+        "success": "%1$sSuccessfully unequipped your %2$s slot."
       },
       "display": {
         "not_premium": "%1$sProfile widget personalization is only available to premium users.",

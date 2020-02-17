@@ -676,8 +676,10 @@ public class PlayerCmds {
                 UserData data = dbUser.getData();
                 PlayerData playerData = player.getData();
                 PlayerStats playerStats = managedDatabase.getPlayerStats(toLookup);
+                SeasonPlayer seasonPlayer = managedDatabase.getPlayerForSeason(toLookup, getConfig().getCurrentSeason());
 
                 PlayerEquipment equippedItems = data.getEquippedItems();
+                PlayerEquipment seasonalEquippedItems = seasonPlayer.getData().getEquippedItems();
 
                 Potion potion = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.POTION);
                 Potion buff = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.BUFF);
@@ -701,6 +703,7 @@ public class PlayerCmds {
                 boolean noBuff = buff == null || !isBuffActive;
 
                 String equipment = parsePlayerEquipment(equippedItems);
+                String seasonalEquipment = parsePlayerEquipment(seasonalEquippedItems);
 
                 //This whole thing is a massive mess lmfao.
                 String s = String.join("\n",
@@ -717,7 +720,8 @@ public class PlayerCmds {
                                 (noBuff ? "Not equipped" : buffEffect.getTimesUsed() + " " + ctx.get("commands.profile.stats.times")),
                         //End of potion display
 
-                        prettyDisplay(ctx.get("commands.profile.stats.equipment"), equipment),
+                        prettyDisplayLine(ctx.get("commands.profile.stats.equipment"), equipment),
+                        prettyDisplayLine(ctx.get("commands.profile.stats.seasonal_equipment"), seasonalEquipment),
                         prettyDisplay(ctx.get("commands.profile.stats.experience"), playerData.getExperience() + "/" + experienceNext + " XP"),
                         prettyDisplay(ctx.get("commands.profile.stats.daily"), playerData.getDailyStreak() + " " + ctx.get("commands.profile.stats.days")),
                         prettyDisplay(ctx.get("commands.profile.stats.daily_at"), new Date(playerData.getLastDailyAt()).toString()),
@@ -967,10 +971,10 @@ public class PlayerCmds {
         return toolsEquipment.entrySet().stream().map((entry) -> {
             Item item = Items.fromId(entry.getValue());
 
-            return Utils.capitalize(
-                    entry.getKey().toString()) + ": " +
+            return "- " +
+                    Utils.capitalize(entry.getKey().toString()) + ": " +
                     item.toDisplayString() +
                     " [" + equipment.getDurability().get(entry.getKey()) + " / " + ((Breakable) item).getMaxDurability() + "]";
-        }).collect(Collectors.joining(", "));
+        }).collect(Collectors.joining("\n"));
     }
 }

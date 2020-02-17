@@ -760,6 +760,10 @@ public class Utils {
         return BLUE_SMALL_MARKER + "**" + header + "**: " + body;
     }
 
+    public static String prettyDisplayLine(String header, String body) {
+        return BLUE_SMALL_MARKER + "**" + header + "**:\n" + body;
+    }
+
     @SafeVarargs
     @SuppressWarnings("varargs")
     public static <T> LinkedList<T> createLinkedList(T... elements) {
