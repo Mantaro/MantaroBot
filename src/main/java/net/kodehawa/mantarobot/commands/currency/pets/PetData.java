@@ -58,7 +58,7 @@ public class PetData {
     private float saturation;
     private long lastFedAt;
     //not so much of "player" anymore
-    private PlayerEquipment equippedItems = new PlayerEquipment(new HashMap<>(), new HashMap<>()); //hashmap is type -> itemId
+    private PlayerEquipment equippedItems = new PlayerEquipment(new HashMap<>(), new HashMap<>(), new HashMap<>()); //hashmap is type -> itemId
 
     @JsonIgnore
     public long getCurrentHydration() {

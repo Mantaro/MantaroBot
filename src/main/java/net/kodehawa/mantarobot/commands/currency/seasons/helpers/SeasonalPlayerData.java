@@ -25,7 +25,7 @@ public class SeasonalPlayerData {
     private long gamesWon = 0;
     private long waifuCachedValue = 0;
     private long lockedUntil = 0;
-    private PlayerEquipment equippedItems = new PlayerEquipment(new HashMap<>(), new HashMap<>()); //hashmap is type -> itemId
+    private PlayerEquipment equippedItems = new PlayerEquipment(new HashMap<>(), new HashMap<>(), new HashMap<>()); //hashmap is type -> itemId
 
     public SeasonalPlayerData() {
     }

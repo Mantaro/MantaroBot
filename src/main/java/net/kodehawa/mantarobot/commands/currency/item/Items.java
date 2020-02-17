@@ -147,7 +147,7 @@ public class Items {
             COFFEE = new Item(ItemType.COMMON, "\u2615", "Coffee", "items.coffee", "items.description.coffee", 10, true),
             WAIFU_PILL = new Potion(ItemType.POTION, 2, "\ud83d\udc8a", "Waifu Pill", "items.waifu_pill", "items.description.waifu_pill", 670, true),
             FISHING_BAIT = new Potion(ItemType.BUFF, 1, "\uD83D\uDC1B", "Fishing Bait", "items.bait", "items.description.bait", 15, true),
-            DIAMOND_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.16f, 1, 20, EmoteReference.DIAMOND_PICK.getDiscordNotation(), "Diamond Pickaxe", "items.diamond_pick", "items.description.diamond_pick", 250, true, false, "1;2", 150, 10, 18),
+            DIAMOND_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.16f, 1, 20, EmoteReference.DIAMOND_PICK.getDiscordNotation(), "Diamond Pickaxe", "items.diamond_pick", "items.description.diamond_pick", 170, true, false, "1;2", 150, 10, 18),
             TELEVISION = new Item(ItemType.COMMON, "\uD83D\uDCFA", "Television", "items.tv", "items.description.tv", 45, true),
             WRENCH = new Wrench(ItemType.COMMON, 65, 1, 1.0d, "\ud83d\udd27", "Wrench", "items.wrench", "items.description.wrench", 50, true),
             //car is 1000 credits, so this is 350
@@ -650,13 +650,13 @@ public class Items {
 
         float amount = r.nextInt(6);
         boolean assumeBroken = false;
-        float substractFrom = (float)
+        float subtractFrom = (float)
                 (handleEffect(PlayerEquipment.EquipmentType.POTION, user.getData().getEquippedItems(), POTION_STAMINA, user) ?
-                        r.nextInt(4) : 0);
+                        r.nextInt(5) : r.nextInt(2));
 
         //We do validation before this...
         PlayerEquipment.EquipmentType equipmentType = user.getData().getEquippedItems().getTypeFor(item);
-        int durability = user.getData().getEquippedItems().reduceDurability(equipmentType, (int) Math.max(1, (amount - substractFrom)));
+        int durability = user.getData().getEquippedItems().reduceDurability(equipmentType, (int) Math.max(1, (amount - subtractFrom)));
 
         if (durability < 10) {
             assumeBroken = true;
@@ -684,6 +684,9 @@ public class Items {
                 seasonPlayer.save();
             else
                 player.save();
+
+            //Why do I keep forgetting this.
+            user.save();
 
             return true;
         }

@@ -399,11 +399,13 @@ public class PlayerCmds {
                 if (equipment.equipItem(item)) {
                     if (isSeasonal) {
                         seasonalPlayer.getInventory().process(new ItemStack(item, -1));
-                        user.save();
+                        player.save();
                     } else {
                         player.getInventory().process(new ItemStack(item, -1));
                         seasonalPlayer.save();
                     }
+
+                    user.save();
 
                     channel.sendMessageFormat(languageContext.get("commands.profile.equip.success"), EmoteReference.CORRECT, item.getEmoji(), item.getName()).queue();
                 } else {
@@ -968,7 +970,7 @@ public class PlayerCmds {
             return Utils.capitalize(
                     entry.getKey().toString()) + ": " +
                     item.toDisplayString() +
-                    " (" + equipment.getDurability().get(entry.getKey()) + " / " + ((Breakable) item).getMaxDurability();
+                    " [" + equipment.getDurability().get(entry.getKey()) + " / " + ((Breakable) item).getMaxDurability() + "]";
         }).collect(Collectors.joining(", "));
     }
 }

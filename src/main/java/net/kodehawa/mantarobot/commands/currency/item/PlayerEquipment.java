@@ -24,6 +24,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 
 import java.beans.ConstructorProperties;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -36,9 +37,10 @@ public class PlayerEquipment {
 
     @JsonCreator
     @ConstructorProperties({"equipment, effects"})
-    public PlayerEquipment(@JsonProperty("equipment") Map<EquipmentType, Integer> equipment, @JsonProperty("effects") Map<EquipmentType, PotionEffect> effects) {
+    public PlayerEquipment(@JsonProperty("equipment") Map<EquipmentType, Integer> equipment, @JsonProperty("effects") Map<EquipmentType, PotionEffect> effects, @JsonProperty("durability") Map<EquipmentType, Integer> durability) {
         this.equipment = equipment;
         this.effects = effects;
+        this.durability = durability == null ? new HashMap<>() : durability; //Workaround because some people will not have this property.
     }
 
     @JsonIgnore

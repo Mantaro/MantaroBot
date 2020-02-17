@@ -832,7 +832,8 @@ public class MoneyCmds {
                         userData.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK);
 
                 if (equipped == 0) {
-                    return;
+                    channel.sendMessageFormat(languageContext.get("commands.mine.not_equipped"), EmoteReference.ERROR).queue();
+                return;
                 }
 
                 item = (Pickaxe) Items.fromId(equipped);
