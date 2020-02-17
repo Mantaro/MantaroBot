@@ -644,9 +644,6 @@ public class Items {
 
     public static boolean handleDurability(GuildMessageReceivedEvent event, I18nContext lang, Item item, Player player, DBUser user, SeasonPlayer seasonPlayer, boolean isSeasonal) {
         Inventory playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
-        //Defensive programming :D
-        if (!playerInventory.containsItem(item))
-            return false;
 
         float amount = r.nextInt(6);
         boolean assumeBroken = false;
