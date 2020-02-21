@@ -126,7 +126,7 @@ public class InfoCmds {
 
                 User u = member.getUser();
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.avatar.result"), EmoteReference.OK, u.getName(), u.getEffectiveAvatarUrl()).queue();
+                event.getChannel().sendMessageFormat(languageContext.get("commands.avatar.result"), EmoteReference.OK, u.getName(), u.getEffectiveAvatarUrl() + "?size=1024").queue();
             }
 
             @Override
