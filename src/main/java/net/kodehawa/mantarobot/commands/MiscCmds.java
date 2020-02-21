@@ -178,7 +178,7 @@ public class MiscCmds {
                 String textEncoded;
                 String answer;
                 try {
-                    textEncoded = URLEncoder.encode(content, StandardCharsets.UTF_8);
+                    textEncoded = URLEncoder.encode(content.replace("/", "|"), StandardCharsets.UTF_8);
                     String json = Utils.wgetOkHttp(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded));
                     answer = new JSONObject(json).getJSONObject("magic").getString("answer");
                 } catch (Exception exception) {
