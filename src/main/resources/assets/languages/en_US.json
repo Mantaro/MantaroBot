@@ -877,7 +877,10 @@
       "unequip": {
         "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, rod`",
         "invalid_type": "%1$sInvalid type. Valid types are `pick, rod`",
-        "success": "%1$sSuccessfully unequipped your %2$s slot."
+        "success": "%1$sSuccessfully unequipped your %2$s slot.",
+        "equipment_recover": "\nSince you never used your equipment, you got your %1$s back!",
+        "broken_equipment_recover": "\nYour equipment was used, but you got a %1$s back, you can repair it if you need it later!",
+        "broken_equipment_recover_none": "\nThis equipment type had no broken type to recover from, and was used, so it vanished into the void, but you got %1$s credits back."
       },
       "display": {
         "not_premium": "%1$sProfile widget personalization is only available to premium users.",

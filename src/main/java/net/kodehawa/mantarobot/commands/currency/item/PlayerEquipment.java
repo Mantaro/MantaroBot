@@ -32,7 +32,6 @@ public class PlayerEquipment {
     //int = itemId
     private Map<EquipmentType, Integer> equipment;
     private Map<EquipmentType, PotionEffect> effects;
-    //TODO: handle seasons!
     private Map<EquipmentType, Integer> durability;
 
     @JsonCreator

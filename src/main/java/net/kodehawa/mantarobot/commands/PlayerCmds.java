@@ -434,6 +434,7 @@ public class PlayerCmds {
                 content = Utils.replaceArguments(t, content, "s", "season");
 
                 DBUser user = db.getUser(event.getAuthor());
+                Player player = db.getPlayer(event.getAuthor());
                 UserData data = user.getData();
                 SeasonPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
                 SeasonalPlayerData seasonalPlayerData = seasonalPlayer.getData();
@@ -445,13 +446,37 @@ public class PlayerCmds {
                     return;
                 }
 
+                String part = ""; //Start as an empty string.
+                if(type == PlayerEquipment.EquipmentType.PICK || type == PlayerEquipment.EquipmentType.ROD) {
+                    Item effectItem = equipment.getEffectItem(type);
+                    Breakable item = (Breakable) effectItem;
+
+                    float percentage = ((float) equipment.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;
+                    if(percentage == 100) { //Basically never used
+                        player.getInventory().process(new ItemStack(effectItem, 1));
+                        part += String.format(languageContext.get("commands.profile.unequip.equipment_recover"), effectItem.getName());
+                    } else {
+                        Item brokenItem = Items.getBrokenItemFrom(effectItem);
+                        if(brokenItem != null) {
+                            player.getInventory().process(new ItemStack(brokenItem, 1));
+                            part += String.format(languageContext.get("commands.profile.unequip.broken_equipment_recover"), brokenItem.getName());
+                        } else {
+                            long money = effectItem.getValue() / 2;
+                            //Brom's Pickaxe, Diamond Pickaxe and normal rod and Diamond Rod will hit this condition.
+                            part += String.format(languageContext.get("commands.profile.unequip.broken_equipment_recover_none"), money);
+                        }
+                    }
+
+                    player.save();
+                }
+
                 equipment.resetOfType(type);
                 if (isSeasonal)
                     seasonalPlayer.save();
                 else
                     user.save();
 
-                channel.sendMessageFormat(languageContext.get("commands.profile.unequip.success"), EmoteReference.CORRECT, type.name().toLowerCase()).queue();
+                channel.sendMessageFormat(languageContext.get("commands.profile.unequip.success") + part, EmoteReference.CORRECT, type.name().toLowerCase()).queue();
             }
         });
 
@@ -764,7 +789,7 @@ public class PlayerCmds {
                 Player player = managedDatabase.getPlayer(event.getAuthor());
                 PlayerData data = player.getData();
 
-                if (content.equalsIgnoreCase("ls") || content.equalsIgnoreCase("is")) {
+                if (content.equalsIgnoreCase("ls") || content.equalsIgnoreCase("Is")) {
                     channel.sendMessageFormat(languageContext.get("commands.profile.display.ls") + languageContext.get("commands.profile.display.example"), EmoteReference.ZAP,
                             EmoteReference.BLUE_SMALL_MARKER, defaultOrder.stream().map(Enum::name).collect(Collectors.joining(", ")),
                             data.getProfileComponents().size() == 0 ? "Not personalized" : data.getProfileComponents().stream().map(Enum::name).collect(Collectors.joining(", "))

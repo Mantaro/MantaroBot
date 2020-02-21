@@ -64,6 +64,7 @@ public class PlayerData {
     }
 
     @JsonIgnore
+    @Deprecated
     //LEGACY SUPPORT
     //Marriage UUID data is on UserData now!
     public boolean isMarried() {

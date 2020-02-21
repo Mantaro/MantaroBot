@@ -81,7 +81,7 @@ public class AnimeCmds {
                             anime.getAttributes().getCanonicalTitle(), anime.getAttributes().getTitles().getJa_jp(), anime.getURL()),
                             s -> baseEmbed(event, languageContext.withRoot("commands", "anime.selection_start"))
                                     .setDescription(s)
-                                    .setThumbnail("https://avatars.slack-edge.com/2017-07-16/213464927747_f1d4f9fb141ef6666442_512.png")
+                                    .setThumbnail("https://i.imgur.com/VwlGqdk.png")
                                     .setFooter(languageContext.withRoot("commands", "anime.information_footer"), event.getAuthor().getAvatarUrl())
                                     .build(),
                             anime -> animeData(event, languageContext, anime));
@@ -137,7 +137,7 @@ public class AnimeCmds {
                                     ),
                             s -> baseEmbed(event, languageContext.withRoot("commands", "anime.information_footer"))
                                     .setDescription(s)
-                                    .setThumbnail("https://avatars.slack-edge.com/2017-07-16/213464927747_f1d4f9fb141ef6666442_512.png")
+                                    .setThumbnail("https://i.imgur.com/VwlGqdk.png")
                                     .setFooter(languageContext.withRoot("commands", "anime.information_footer"), event.getAuthor().getAvatarUrl())
                                     .build(),
                             character -> characterData(event, languageContext, character));
