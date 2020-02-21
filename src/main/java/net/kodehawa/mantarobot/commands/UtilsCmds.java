@@ -52,7 +52,6 @@ import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import redis.clients.jedis.Jedis;
@@ -363,89 +362,6 @@ public class UtilsCmds {
                         .setDescription("Choose between 2 or more things.")
                         .setUsage("`~>choose <parameters>`")
                         .addParameter("parameters", "The parameters. Example `pat hello \"go watch the movies\"`.")
-                        .build();
-            }
-        });
-    }
-
-    @Subscribe
-    public void dictionary(CommandRegistry registry) {
-        registry.register("dictionary", new SimpleCommand(Category.UTILS) {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
-
-                if (args.length == 0) {
-                    channel.sendMessageFormat(languageContext.get("commands.dictionary.no_word"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                JSONObject main;
-                String definition, part_of_speech, headword, example;
-
-                try {
-                    main = new JSONObject(
-                            Objects.requireNonNull(
-                                    Utils.wgetOkHttp("http://api.pearson.com/v2/dictionaries/laes/entries?headword=" + content),
-                                    "Failed to fetch definition"
-                            )
-                    );
-                    JSONArray results = main.getJSONArray("results");
-                    JSONObject result = results.getJSONObject(0);
-                    JSONArray senses = result.getJSONArray("senses");
-
-                    headword = result.getString("headword");
-
-                    if (result.has("part_of_speech")) part_of_speech = result.getString("part_of_speech");
-                    else part_of_speech = "Not found.";
-
-                    if (senses.getJSONObject(0).get("definition") instanceof JSONArray)
-                        definition = senses.getJSONObject(0).getJSONArray("definition").getString(0);
-                    else
-                        definition = senses.getJSONObject(0).getString("definition");
-
-                    try {
-                        if (senses.getJSONObject(0).getJSONArray("translations").getJSONObject(0).get(
-                                "example") instanceof JSONArray) {
-                            example = senses.getJSONObject(0)
-                                    .getJSONArray("translations")
-                                    .getJSONObject(0)
-                                    .getJSONArray("example")
-                                    .getJSONObject(0)
-                                    .getString("text");
-                        } else {
-                            example = senses.getJSONObject(0)
-                                    .getJSONArray("translations")
-                                    .getJSONObject(0)
-                                    .getJSONObject("example")
-                                    .getString("text");
-                        }
-                    } catch (Exception e) {
-                        example = languageContext.get("general.not_found");
-                    }
-
-                } catch (Exception e) {
-                    channel.sendMessageFormat(languageContext.get("general.no_results"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                EmbedBuilder eb = new EmbedBuilder();
-                eb.setAuthor("Definition for " + content, null, event.getAuthor().getAvatarUrl())
-                        .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wikt_dynamic_dictionary_logo.svg/1000px-Wikt_dynamic_dictionary_logo.svg.png")
-                        .addField(languageContext.get("general.definition"), "**" + definition + "**", false)
-                        .addField(languageContext.get("general.example"), "**" + example + "**", false)
-                        .setDescription(
-                                String.format(languageContext.get("commands.dictionary.description"), part_of_speech, headword));
-
-                channel.sendMessage(eb.build()).queue();
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Looks up a word in the dictionary.")
-                        .setUsage("`~>dictionary <word>`")
-                        .addParameter("word", "The word to look for.")
                         .build();
             }
         });
