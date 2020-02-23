@@ -307,7 +307,7 @@ public class PlayerCmds {
         profileCommand.addSubCommand("claimlock", new SubCommand() {
             @Override
             public String description() {
-                return "Locks you from being waifu claimed. Needs a claim key to be in your inventory.";
+                return "Locks you from being waifu claimed. Needs a claim key.";
             }
 
             @Override
@@ -337,7 +337,7 @@ public class PlayerCmds {
         profileCommand.addSubCommand("hidetag", new SubCommand() {
             @Override
             public String description() {
-                return "Hide the member tags (and IDs) from profile/waifu list. This is a switch.";
+                return "Hide the member tags (and IDs) from profile/waifu ls. This is a switch.";
             }
 
             @Override
@@ -355,7 +355,7 @@ public class PlayerCmds {
         profileCommand.addSubCommand("equip", new SubCommand() {
             @Override
             public String description() {
-                return "Equips an item in your inventory. Usage: `~>profile equip <item name>`. Use `-s` to equip it on your seasonal inventory.";
+                return "Equips an item in your inventory. Usage: `~>profile equip <item name> [-season]`.";
             }
 
             @Override
@@ -417,7 +417,7 @@ public class PlayerCmds {
         profileCommand.addSubCommand("unequip", new SubCommand() {
             @Override
             public String description() {
-                return "Unequips an equipped slot (pick/rod).";
+                return "Un-equips from a slot (pick/rod).";
             }
 
             @Override
@@ -483,7 +483,7 @@ public class PlayerCmds {
         profileCommand.addSubCommand("timezone", new SubCommand() {
             @Override
             public String description() {
-                return "Sets your profile timezone. Usage: `~>profile timezone <timezone>`";
+                return "Sets the profile timezone. Usage: `~>profile timezone <tz>`";
             }
 
             @Override
@@ -529,7 +529,7 @@ public class PlayerCmds {
             @Override
             public String description() {
                 return "Sets your profile description. Usage: `~>profile description set <description>`\n" +
-                        "To reset it, you can use `~>profile description clear`";
+                        "Reset with `~>profile description clear`";
             }
 
             @Override
@@ -593,7 +593,8 @@ public class PlayerCmds {
             @Override
             public String description() {
                 return "Sets your profile badge. Usage: `~>profile displaybadge <badge name>`\n" +
-                        "To reset it use `~>profile displaybadge reset` and to show no badge use `~>profile displaybadge none`";
+                        "Reset with `~>profile displaybadge reset`\n" +
+                        "No badge: `~>profile displaybadge none`";
             }
 
             @Override
@@ -646,7 +647,7 @@ public class PlayerCmds {
         profileCommand.addSubCommand("lang", new SubCommand() {
             @Override
             public String description() {
-                return "Sets your profile language. Usage: `~>profile lang <language id>`. You can check a list of avaliable languages using `~>lang`";
+                return "Sets your profile language. Usage: `~>profile lang <lang>`. Available langs: `~>lang`";
             }
 
             @Override
@@ -683,7 +684,7 @@ public class PlayerCmds {
         profileCommand.addSubCommand("stats", new SubCommand() {
             @Override
             public String description() {
-                return "Checks your profile stats or the stats of other players. Usage: `~>profile stats [@mention]`";
+                return "Checks profile statistics. Usage: `~>profile stats [@mention]`";
             }
 
             @Override
@@ -774,7 +775,7 @@ public class PlayerCmds {
         profileCommand.addSubCommand("widgets", new SubCommand() {
             @Override
             public String description() {
-                return "Sets the profile widget order. Usage: `~>profile widgets <name of widget>` or `~>profile widgets <ls/reset>`";
+                return "Sets profile widgets and order. Usage: `~>profile widgets <widget/ls/reset>`";
             }
 
             @Override
