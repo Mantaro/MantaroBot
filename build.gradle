@@ -70,7 +70,7 @@ dependencies {
     compile 'club.minnced:discord-webhooks:0.1.7'
 
     //Music
-    compile ('com.github.FredBoat:Lavalink-Client:5502c9e403') {
+    compile ('com.github.FredBoat:Lavalink-Client:bdac72ffa8') {
         exclude group: 'com.sedmelluq', module: 'lavaplayer'
     }
 

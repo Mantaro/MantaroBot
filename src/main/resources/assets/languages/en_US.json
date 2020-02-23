@@ -855,6 +855,7 @@
         "daily": "Daily Streak",
         "daily_at": "Last Daily",
         "waifu_claimed": "Times Waifu Claimed",
+        "waifu_locked": "Waifu Lock",
         "dust": "Dust Level",
         "lang": "Display Language",
         "reminders": "Times Reminded",
@@ -889,6 +890,11 @@
         "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `~>profile widgets reset` to reset your profile display references",
         "reset": "%1$sSuccessfully reset profile widget order.",
         "example": "\nExample: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
+      },
+      "claimlock": {
+        "removed": "%1$sSuccesfully reset your claim lock status.",
+        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key.",
+        "no_key": "%1$sYou don't have a claim key to do this."
       },
       "badge_header": "%1$sDisplay Badge",
       "bot_notice": "%1$sBots don't have profiles.",

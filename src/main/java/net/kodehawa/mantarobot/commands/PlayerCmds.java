@@ -751,6 +751,7 @@ public class PlayerCmds {
                         prettyDisplay(ctx.get("commands.profile.stats.daily"), playerData.getDailyStreak() + " " + ctx.get("commands.profile.stats.days")),
                         prettyDisplay(ctx.get("commands.profile.stats.daily_at"), new Date(playerData.getLastDailyAt()).toString()),
                         prettyDisplay(ctx.get("commands.profile.stats.waifu_claimed"), data.getTimesClaimed() + " " + ctx.get("commands.profile.stats.times")),
+                        prettyDisplay(ctx.get("commands.profile.stats.waifu_locked"), String.valueOf(playerData.isClaimLocked())),
                         prettyDisplay(ctx.get("commands.profile.stats.dust"), data.getDustLevel() + "%"),
                         prettyDisplay(ctx.get("commands.profile.stats.reminders"), data.getReminderN() + " " + ctx.get("commands.profile.stats.times")),
                         prettyDisplay(ctx.get("commands.profile.stats.lang"), (data.getLang() == null ? "en_US" : data.getLang())),
