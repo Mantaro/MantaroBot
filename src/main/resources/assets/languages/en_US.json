@@ -874,7 +874,7 @@
         "not_owned": "%1$sYou don't own this item!",
         "success": "%1$sYou successfully equipped %2$s *%3$s*, which will be remembered next time you use the proper currency command.",
         "not_suitable": "%1$sYou can't equip this.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>profile unequip <type>` (Type can be rod or pick) if you wanna unequip it."
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod or pick) if you wanna unequip it."
       },
       "unequip": {
         "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, rod`",
@@ -1533,7 +1533,7 @@
       "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
     },
     "mine": {
-      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>profile equip <pick name>` to equip a pick and start your adventure!",
+      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure!",
       "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`.",
       "not_suitable": "%1$sThis is not a pick you can use to mine!",
       "not_in_inventory": "%1$sYou don't have this pick on your inventory, switching to the default pick.",

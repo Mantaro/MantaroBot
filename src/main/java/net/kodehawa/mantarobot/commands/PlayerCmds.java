@@ -80,6 +80,7 @@ import static net.kodehawa.mantarobot.utils.Utils.*;
 @SuppressWarnings("unused")
 public class PlayerCmds {
     private final OkHttpClient client = new OkHttpClient();
+    private final ManagedDatabase db = MantaroData.db();
 
     @Subscribe
     public void rep(CommandRegistry cr) {
@@ -175,8 +176,6 @@ public class PlayerCmds {
 
     @Subscribe
     public void profile(CommandRegistry cr) {
-        final ManagedDatabase db = MantaroData.db();
-        final ManagedDatabase managedDatabase = db;
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .limit(2) //twice every 10m
                 .spamTolerance(1)
@@ -204,9 +203,9 @@ public class PlayerCmds {
                         boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
 
                         User userLooked = event.getAuthor();
-                        Player player = managedDatabase.getPlayer(userLooked);
+                        Player player = db.getPlayer(userLooked);
                         SeasonPlayer seasonalPlayer = null;
-                        DBUser dbUser = managedDatabase.getUser(userLooked);
+                        DBUser dbUser = db.getUser(userLooked);
                         Member memberLooked = event.getMember();
 
                         List<Member> found = FinderUtil.findMembers(content, event.getGuild());
@@ -231,8 +230,8 @@ public class PlayerCmds {
                             }
 
                             //Re-assign.
-                            dbUser = managedDatabase.getUser(userLooked);
-                            player = managedDatabase.getPlayer(memberLooked);
+                            dbUser = db.getUser(userLooked);
+                            player = db.getPlayer(memberLooked);
                         }
 
                         PlayerData playerData = player.getData();
@@ -264,7 +263,7 @@ public class PlayerCmds {
                         Collections.sort(badges);
 
                         if (isSeasonal)
-                            seasonalPlayer = managedDatabase.getPlayerForSeason(userLooked, getConfig().getCurrentSeason());
+                            seasonalPlayer = db.getPlayerForSeason(userLooked, getConfig().getCurrentSeason());
 
                         boolean ringHolder = player.getInventory().containsItem(Items.RING) && userData.getMarriage() != null;
                         ProfileComponent.Holder holder = new ProfileComponent.Holder(userLooked, player, seasonalPlayer, dbUser, badges);
@@ -352,134 +351,6 @@ public class PlayerCmds {
             }
         });
 
-        profileCommand.addSubCommand("equip", new SubCommand() {
-            @Override
-            public String description() {
-                return "Equips an item in your inventory. Usage: `~>profile equip <item name> [-season]`.";
-            }
-
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
-                if (content.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.no_content"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
-                content = Utils.replaceArguments(t, content, "s", "season");
-
-                Item item = Items.fromAnyNoId(content.replace("\"", "")).orElse(null);
-                Player player = db.getPlayer(event.getAuthor());
-                DBUser user = db.getUser(event.getAuthor());
-                UserData data = user.getData();
-                SeasonPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
-                SeasonalPlayerData seasonalPlayerData = seasonalPlayer.getData();
-
-                if (item == null) {
-                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.no_item"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                boolean containsItem = isSeasonal ? seasonalPlayer.getInventory().containsItem(item) : player.getInventory().containsItem(item);
-                if (!containsItem) {
-                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.not_owned"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                PlayerEquipment equipment = isSeasonal ? seasonalPlayerData.getEquippedItems() : data.getEquippedItems();
-
-                PlayerEquipment.EquipmentType proposedType = equipment.getTypeFor(item);
-                if (equipment.getEquipment().containsKey(proposedType)) {
-                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.already_equipped"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                if (equipment.equipItem(item)) {
-                    if (isSeasonal) {
-                        seasonalPlayer.getInventory().process(new ItemStack(item, -1));
-                        seasonalPlayer.save();
-                    } else {
-                        player.getInventory().process(new ItemStack(item, -1));
-                        player.save();
-                    }
-
-                    user.save();
-
-                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.success"), EmoteReference.CORRECT, item.getEmoji(), item.getName()).queue();
-                } else {
-                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.not_suitable"), EmoteReference.ERROR).queue();
-                }
-            }
-        });
-
-        profileCommand.addSubCommand("unequip", new SubCommand() {
-            @Override
-            public String description() {
-                return "Un-equips from a slot (pick/rod).";
-            }
-
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
-
-                if (content.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("commands.profile.unequip.no_content"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
-                content = Utils.replaceArguments(t, content, "s", "season");
-
-                DBUser user = db.getUser(event.getAuthor());
-                Player player = db.getPlayer(event.getAuthor());
-                UserData data = user.getData();
-                SeasonPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
-                SeasonalPlayerData seasonalPlayerData = seasonalPlayer.getData();
-
-                PlayerEquipment equipment = isSeasonal ? seasonalPlayerData.getEquippedItems() : data.getEquippedItems();
-                PlayerEquipment.EquipmentType type = PlayerEquipment.EquipmentType.fromString(content);
-                if (type == null) {
-                    channel.sendMessageFormat(languageContext.get("commands.profile.unequip.invalid_type"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                String part = ""; //Start as an empty string.
-                if(type == PlayerEquipment.EquipmentType.PICK || type == PlayerEquipment.EquipmentType.ROD) {
-                    Item effectItem = equipment.getEffectItem(type);
-                    Breakable item = (Breakable) effectItem;
-
-                    float percentage = ((float) equipment.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;
-                    if(percentage == 100) { //Basically never used
-                        player.getInventory().process(new ItemStack(effectItem, 1));
-                        part += String.format(languageContext.get("commands.profile.unequip.equipment_recover"), effectItem.getName());
-                    } else {
-                        Item brokenItem = Items.getBrokenItemFrom(effectItem);
-                        if(brokenItem != null) {
-                            player.getInventory().process(new ItemStack(brokenItem, 1));
-                            part += String.format(languageContext.get("commands.profile.unequip.broken_equipment_recover"), brokenItem.getName());
-                        } else {
-                            long money = effectItem.getValue() / 2;
-                            //Brom's Pickaxe, Diamond Pickaxe and normal rod and Diamond Rod will hit this condition.
-                            part += String.format(languageContext.get("commands.profile.unequip.broken_equipment_recover_none"), money);
-                        }
-                    }
-
-                    player.save();
-                }
-
-                equipment.resetOfType(type);
-                if (isSeasonal)
-                    seasonalPlayer.save();
-                else
-                    user.save();
-
-                channel.sendMessageFormat(languageContext.get("commands.profile.unequip.success") + part, EmoteReference.CORRECT, type.name().toLowerCase()).queue();
-            }
-        });
-
         profileCommand.addSubCommand("timezone", new SubCommand() {
             @Override
             public String description() {
@@ -490,7 +361,7 @@ public class PlayerCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 TextChannel channel = event.getChannel();
 
-                DBUser dbUser = managedDatabase.getUser(event.getAuthor());
+                DBUser dbUser = db.getUser(event.getAuthor());
                 String[] args = content.split(" ");
 
                 if (args.length < 1) {
@@ -541,7 +412,7 @@ public class PlayerCmds {
 
                 String[] args = content.split(" ");
                 User author = event.getAuthor();
-                Player player = managedDatabase.getPlayer(author);
+                Player player = db.getPlayer(author);
 
                 if (args.length == 0) {
                     channel.sendMessageFormat(languageContext.get("commands.profile.description.no_argument"), EmoteReference.ERROR).queue();
@@ -551,7 +422,7 @@ public class PlayerCmds {
                 if (args[0].equals("set")) {
                     int MAX_LENGTH = 300;
 
-                    if (managedDatabase.getUser(author).isPremium())
+                    if (db.getUser(author).isPremium())
                         MAX_LENGTH = 500;
 
                     if (args.length < 2) {
@@ -607,7 +478,7 @@ public class PlayerCmds {
                     return;
                 }
 
-                Player player = managedDatabase.getPlayer(event.getAuthor());
+                Player player = db.getPlayer(event.getAuthor());
                 PlayerData data = player.getData();
 
                 if (args[0].equalsIgnoreCase("none")) {
@@ -659,7 +530,7 @@ public class PlayerCmds {
                     return;
                 }
 
-                DBUser dbUser = managedDatabase.getUser(event.getAuthor());
+                DBUser dbUser = db.getUser(event.getAuthor());
 
                 if (content.equalsIgnoreCase("reset")) {
                     dbUser.getData().setLang(null);
@@ -671,7 +542,7 @@ public class PlayerCmds {
                 if (I18n.isValidLanguage(content)) {
                     dbUser.getData().setLang(content);
                     //Create new I18n context based on the new language choice.
-                    I18nContext newContext = new I18nContext(managedDatabase.getGuild(event.getGuild().getId()).getData(), dbUser.getData());
+                    I18nContext newContext = new I18nContext(db.getGuild(event.getGuild().getId()).getData(), dbUser.getData());
 
                     dbUser.save();
                     channel.sendMessageFormat(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content).queue();
@@ -697,12 +568,12 @@ public class PlayerCmds {
 
                 User toLookup = member.getUser();
 
-                Player player = managedDatabase.getPlayer(toLookup);
-                DBUser dbUser = managedDatabase.getUser(toLookup);
+                Player player = db.getPlayer(toLookup);
+                DBUser dbUser = db.getUser(toLookup);
                 UserData data = dbUser.getData();
                 PlayerData playerData = player.getData();
-                PlayerStats playerStats = managedDatabase.getPlayerStats(toLookup);
-                SeasonPlayer seasonPlayer = managedDatabase.getPlayerForSeason(toLookup, getConfig().getCurrentSeason());
+                PlayerStats playerStats = db.getPlayerStats(toLookup);
+                SeasonPlayer seasonPlayer = db.getPlayerForSeason(toLookup, getConfig().getCurrentSeason());
 
                 PlayerEquipment equippedItems = data.getEquippedItems();
                 PlayerEquipment seasonalEquippedItems = seasonPlayer.getData().getEquippedItems();
@@ -782,13 +653,13 @@ public class PlayerCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                 TextChannel channel = event.getChannel();
 
-                DBUser user = managedDatabase.getUser(event.getAuthor());
+                DBUser user = db.getUser(event.getAuthor());
                 if (!user.isPremium()) {
                     channel.sendMessageFormat(languageContext.get("commands.profile.display.not_premium"), EmoteReference.ERROR).queue();
                     return;
                 }
 
-                Player player = managedDatabase.getPlayer(event.getAuthor());
+                Player player = db.getPlayer(event.getAuthor());
                 PlayerData data = player.getData();
 
                 if (content.equalsIgnoreCase("ls") || content.equalsIgnoreCase("Is")) {
@@ -828,6 +699,150 @@ public class PlayerCmds {
                 channel.sendMessageFormat(languageContext.get("commands.profile.display.success"),
                         EmoteReference.CORRECT, newComponents.stream().map(Enum::name).collect(Collectors.joining(", "))
                 ).queue();
+            }
+        });
+    }
+
+    @Subscribe
+    public void equip(CommandRegistry cr) {
+        cr.register("equip", new SimpleCommand(Category.CURRENCY) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+                if (content.isEmpty()) {
+                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.no_content"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Map<String, String> t = getArguments(content);
+                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+                content = Utils.replaceArguments(t, content, "s", "season");
+
+                Item item = Items.fromAnyNoId(content.replace("\"", "")).orElse(null);
+                Player player = db.getPlayer(event.getAuthor());
+                DBUser user = db.getUser(event.getAuthor());
+                UserData data = user.getData();
+                SeasonPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                SeasonalPlayerData seasonalPlayerData = seasonalPlayer.getData();
+
+                if (item == null) {
+                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.no_item"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                boolean containsItem = isSeasonal ? seasonalPlayer.getInventory().containsItem(item) : player.getInventory().containsItem(item);
+                if (!containsItem) {
+                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.not_owned"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                PlayerEquipment equipment = isSeasonal ? seasonalPlayerData.getEquippedItems() : data.getEquippedItems();
+
+                PlayerEquipment.EquipmentType proposedType = equipment.getTypeFor(item);
+                if (equipment.getEquipment().containsKey(proposedType)) {
+                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.already_equipped"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if (equipment.equipItem(item)) {
+                    if (isSeasonal) {
+                        seasonalPlayer.getInventory().process(new ItemStack(item, -1));
+                        seasonalPlayer.save();
+                    } else {
+                        player.getInventory().process(new ItemStack(item, -1));
+                        player.save();
+                    }
+
+                    user.save();
+
+                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.success"), EmoteReference.CORRECT, item.getEmoji(), item.getName()).queue();
+                } else {
+                    channel.sendMessageFormat(languageContext.get("commands.profile.equip.not_suitable"), EmoteReference.ERROR).queue();
+                }
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Equips an item into a slot.")
+                        .setUsage("`~>equip <item>`.")
+                        .addParameter("item", "The name or emoji of the item you want to equip.")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void unequip(CommandRegistry cr) {
+        cr.register("unequip", new SimpleCommand(Category.CURRENCY) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
+                if (content.isEmpty()) {
+                    channel.sendMessageFormat(languageContext.get("commands.profile.unequip.no_content"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                Map<String, String> t = getArguments(content);
+                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+                content = Utils.replaceArguments(t, content, "s", "season");
+
+                DBUser user = db.getUser(event.getAuthor());
+                Player player = db.getPlayer(event.getAuthor());
+                UserData data = user.getData();
+                SeasonPlayer seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                SeasonalPlayerData seasonalPlayerData = seasonalPlayer.getData();
+
+                PlayerEquipment equipment = isSeasonal ? seasonalPlayerData.getEquippedItems() : data.getEquippedItems();
+                PlayerEquipment.EquipmentType type = PlayerEquipment.EquipmentType.fromString(content);
+                if (type == null) {
+                    channel.sendMessageFormat(languageContext.get("commands.profile.unequip.invalid_type"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                String part = ""; //Start as an empty string.
+                if(type == PlayerEquipment.EquipmentType.PICK || type == PlayerEquipment.EquipmentType.ROD) {
+                    Item effectItem = equipment.getEffectItem(type);
+                    Breakable item = (Breakable) effectItem;
+
+                    float percentage = ((float) equipment.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;
+                    if(percentage == 100) { //Basically never used
+                        player.getInventory().process(new ItemStack(effectItem, 1));
+                        part += String.format(languageContext.get("commands.profile.unequip.equipment_recover"), effectItem.getName());
+                    } else {
+                        Item brokenItem = Items.getBrokenItemFrom(effectItem);
+                        if(brokenItem != null) {
+                            player.getInventory().process(new ItemStack(brokenItem, 1));
+                            part += String.format(languageContext.get("commands.profile.unequip.broken_equipment_recover"), brokenItem.getName());
+                        } else {
+                            long money = effectItem.getValue() / 2;
+                            //Brom's Pickaxe, Diamond Pickaxe and normal rod and Diamond Rod will hit this condition.
+                            part += String.format(languageContext.get("commands.profile.unequip.broken_equipment_recover_none"), money);
+                        }
+                    }
+
+                    player.save();
+                }
+
+                equipment.resetOfType(type);
+                if (isSeasonal)
+                    seasonalPlayer.save();
+                else
+                    user.save();
+
+                channel.sendMessageFormat(languageContext.get("commands.profile.unequip.success") + part, EmoteReference.CORRECT, type.name().toLowerCase()).queue();
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Unequips and already equipped slot.")
+                        .setUsage("`~>unequip <slot>`.\n" +
+                                "Unequipping an item causes it to drop a broken version of itself, unless it wasn't used. " +
+                                "If there's no broken version of it, it will drop half of its market value.")
+                        .addParameter("slot", "Either pick or rod.")
+                        .build();
             }
         });
     }
