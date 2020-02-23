@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands.currency.item;
 
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.special.*;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -654,6 +655,12 @@ public class Items {
 
         //We do validation before this...
         PlayerEquipment.EquipmentType equipmentType = equippedItems.getTypeFor(item);
+
+        //This is important for previously equipped items before we implemented durability.
+        if(equippedItems.getDurability().get(equipmentType) == null && item instanceof Breakable) {
+            equippedItems.resetDurabilityTo(equipmentType, ((Breakable) item).getMaxDurability());
+        }
+
         int durability = equippedItems.reduceDurability(equipmentType, (int) Math.max(1, (amount - subtractFrom)));
 
         if (durability < 10) {

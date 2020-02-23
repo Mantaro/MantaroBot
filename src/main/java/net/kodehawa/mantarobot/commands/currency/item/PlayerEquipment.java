@@ -123,6 +123,11 @@ public class PlayerEquipment {
     }
 
     @JsonIgnore
+    public void resetDurabilityTo(EquipmentType type, int amount) {
+        durability.put(type, amount);
+    }
+
+    @JsonIgnore
     public int reduceDurability(EquipmentType type, int amount) {
         return durability.computeIfPresent(type, (t, a) -> a - amount);
     }

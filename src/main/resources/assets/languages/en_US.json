@@ -146,7 +146,7 @@
       "bait": "The fish ate your bait in the process!",
       "missing_equipped": "%1$sYou had an equipped %2$s rod, but you no longer have any of its kind on your inventory! Equipped rod has been reset.",
       "broken_drop": "%1$sYour rod broke, but you can repair it. Got broken item: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `~>profile equip <rod name> to start your adventure!`"
+      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `~>profile equip <rod name>` to start your adventure!`"
     },
     "softban": {
       "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
@@ -873,7 +873,8 @@
         "no_item": "%1$sThis item doesn't exist",
         "not_owned": "%1$sYou don't own this item!",
         "success": "%1$sYou successfully equipped %2$s *%3$s*, which will be remembered next time you use the proper currency command.",
-        "not_suitable": "%1$sYou can't equip this."
+        "not_suitable": "%1$sYou can't equip this.",
+        "already_equipped": "%1$sYou already have this equipped! Try `~>profile unequip <item>` if you wanna unequip it."
       },
       "unequip": {
         "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, rod`",
