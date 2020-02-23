@@ -82,7 +82,7 @@ public class MoneyCmds {
     private final int SLOTS_MAX_MONEY = 175_000_000;
     private final long GAMBLE_ABSOLUTE_MAX_MONEY = (long) (Integer.MAX_VALUE) * 5;
     private final long GAMBLE_MAX_MONEY = 275_000_000;
-    private final long DAILY_VALID_PERIOD_MILLIS = MantaroData.config().get().daily_maxPeriod_millis;
+    private final long DAILY_VALID_PERIOD_MILLIS = MantaroData.config().get().dailyMaxPeriodMilliseconds;
 
     @Subscribe
     public void daily(CommandRegistry cr) {
@@ -118,10 +118,11 @@ public class MoneyCmds {
                 long dailyMoney = 150L;
                 List<User> mentionedUsers = event.getMessage().getMentionedUsers();
 
+                ManagedDatabase dbt = MantaroData.db();
                 User author = event.getAuthor();
-                Player authorPlayer = MantaroData.db().getPlayer(event.getAuthor());
+                Player authorPlayer = dbt.getPlayer(event.getAuthor());
                 PlayerData authorPlayerData = authorPlayer.getData();
-                DBUser user = MantaroData.db().getUser(author);
+                DBUser user = dbt.getUser(author);
 
                 if(authorPlayer.isLocked()){
                     channel.sendMessage(languageContext.withRoot("commands", "daily.errors.own_locked")).queue();
@@ -131,7 +132,7 @@ public class MoneyCmds {
                 UnifiedPlayer toAddMoneyTo = UnifiedPlayer.of(author, getConfig().getCurrentSeason());
                 User otherUser = null;
 
-                boolean targetOther = mentionedUsers != null && !mentionedUsers.isEmpty();
+                boolean targetOther = !mentionedUsers.isEmpty();
                 if(targetOther){
                     otherUser = mentionedUsers.get(0);
                     // Bot check mentioned user
@@ -141,7 +142,7 @@ public class MoneyCmds {
                     }
 
 
-                    Player playerOtherUser = MantaroData.db().getPlayer(otherUser);
+                    Player playerOtherUser = dbt.getPlayer(otherUser);
                     if(playerOtherUser.isLocked()){
                         channel.sendMessage(EmoteReference.ERROR + languageContext.withRoot("commands", "daily.errors.receipt_locked") ).queue();
                         return;
@@ -152,7 +153,7 @@ public class MoneyCmds {
 
                     UserData userData = user.getData();
 
-                    DBUser mentionedDBUser = MantaroData.db().getUser(otherUser.getId());
+                    DBUser mentionedDBUser = dbt.getUser(otherUser.getId());
                     UserData mentionedUserData = user.getData();
 
                     //Marriage bonus
@@ -184,23 +185,26 @@ public class MoneyCmds {
                 long streak = authorPlayerData.getDailyStreak();
 
                 // Not expired?
-                if(currentDailyOffset + amountStreaksavers*DAILY_VALID_PERIOD_MILLIS >= 0 ){ ;
+                if(currentDailyOffset + amountStreaksavers * DAILY_VALID_PERIOD_MILLIS >= 0 ){ ;
                     streak++;
-                    returnMessage.add(String.format(languageContext.withRoot("commands", targetOther ? "daily.streak.given.up" : "daily.streak.up" ), streak));
-                    if(currentDailyOffset<0){
-                        int streaksaversUsed = 1;
-                        for(; currentDailyOffset + streaksaversUsed*DAILY_VALID_PERIOD_MILLIS < 0 && streaksaversUsed<=streaksaversUsed;streaksaversUsed++);
-                        authorPlayer.getInventory().process(new ItemStack(Items.MAGIC_WATCH,streaksaversUsed * -1));
-                        returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.watch_used"), streaksaversUsed, streaksaversUsed+1, amountStreaksavers-streaksaversUsed));
+                    if(targetOther)
+                        returnMessage.add(String.format(languageContext.withRoot("commands","daily.streak.given.up"), streak));
+                    else
+                        returnMessage.add(String.format(languageContext.withRoot("commands","daily.streak.up"), streak));
+                    if(currentDailyOffset < 0){
+                        int streakSaversUsed = 1;
+                        for(; currentDailyOffset + streakSaversUsed * DAILY_VALID_PERIOD_MILLIS < 0 && streakSaversUsed <= streakSaversUsed; streakSaversUsed++);
+                        authorPlayer.getInventory().process(new ItemStack(Items.MAGIC_WATCH, streakSaversUsed * -1));
+                        returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.watch_used"), streakSaversUsed, streakSaversUsed + 1, amountStreaksavers - streakSaversUsed));
                     }
 
                 } else{
                     if (streak == 0) {
                         returnMessage.add(languageContext.withRoot("commands", "daily.streak.first_time"));
                     } else {
-                        if (amountStreaksavers>0){
+                        if (amountStreaksavers > 0){
                             returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.lost_streak.watch"), streak));
-                            authorPlayer.getInventory().process(new ItemStack(Items.MAGIC_WATCH, -1*authorPlayer.getInventory().getAmount(Items.MAGIC_WATCH)));
+                            authorPlayer.getInventory().process(new ItemStack(Items.MAGIC_WATCH, authorPlayer.getInventory().getAmount(Items.MAGIC_WATCH) * -1));
                         } else{
                             returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.lost_streak.normal"), streak));
                         }
@@ -226,7 +230,7 @@ public class MoneyCmds {
                         }
 
                         if (streak > 15){
-                            bonus += Math.min(targetOther ? 1700 : 700, Math.floor(150 * streak / (targetOther ? 10D: 15D)));
+                            bonus += Math.min(targetOther ? 1700 : 700, Math.floor(150 * streak / (targetOther ? 10D : 15D)));
 
                             if (streak > 100) {
                                 authorPlayerData.addBadgeIfAbsent(Badge.BIG_CLAIMER);

@@ -64,7 +64,7 @@ public class Config {
     public String ipv6Block = "";
     public String excludeAddress = "";
     public int bucketFactor = 4;
-    public long daily_maxPeriod_millis = TimeUnit.HOURS.toMillis(50);
+    public long dailyMaxPeriodMilliseconds = TimeUnit.HOURS.toMillis(50);
 
     public Config() {
     }
@@ -385,11 +385,11 @@ public class Config {
         this.bucketFactor = bucketFactor;
     }
 
-    public long getDaily_maxPeriod_millis(){
-        return this.daily_maxPeriod_millis;
+    public long getDailyMaxPeriodMilliseconds(){
+        return this.dailyMaxPeriodMilliseconds;
     }
 
-    public void setDaily_maxPeriod_millis(long daily_maxPeriod_millis){
-        this.daily_maxPeriod_millis = daily_maxPeriod_millis;
+    public void setDailyMaxPeriodMilliseconds(long dailyMaxPeriodMilliseconds){
+        this.dailyMaxPeriodMilliseconds = dailyMaxPeriodMilliseconds;
     }
 }
