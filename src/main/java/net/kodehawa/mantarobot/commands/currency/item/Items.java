@@ -657,7 +657,7 @@ public class Items {
         PlayerEquipment.EquipmentType equipmentType = equippedItems.getTypeFor(item);
 
         //This is important for previously equipped items before we implemented durability.
-        if(equippedItems.getDurability().get(equipmentType) == null && item instanceof Breakable) {
+        if(!equippedItems.getDurability().containsKey(equipmentType) && item instanceof Breakable) {
             equippedItems.resetDurabilityTo(equipmentType, ((Breakable) item).getMaxDurability());
         }
 
