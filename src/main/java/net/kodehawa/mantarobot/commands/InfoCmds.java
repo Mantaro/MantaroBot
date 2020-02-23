@@ -228,6 +228,8 @@ public class InfoCmds {
                         return true;
                 })
                 .filter(c -> c != Category.OWNER || CommandPermission.OWNER.test(event.getMember()))
+                //No need to show a category if there's nothing on it...
+                .filter(c -> !forType(event.getChannel(), guildData, c).isEmpty())
                 .forEach(c -> embed.addField(languageContext.get(c.toString()) + " " + languageContext.get("commands.help.commands") + ":",
                         forType(event.getChannel(), guildData, c), false)
                 );
@@ -255,7 +257,8 @@ public class InfoCmds {
                 "Help Inception.",
                 "A help helping helping helping help.",
                 "I wonder if this is what you are looking for...",
-                "Helping you help the world."
+                "Helping you help the world.",
+                "The help you might need."
         );
 
         cr.register("help", new SimpleCommand(Category.INFO) {
@@ -284,7 +287,7 @@ public class InfoCmds {
                             HelpContent newHelp = command.help();
                             EmbedBuilder builder = new EmbedBuilder()
                                     .setColor(Color.PINK)
-                                    //asume content = command name
+                                    //assume content = command name
                                     .setAuthor(Utils.capitalize(content) + " Command Help", null, event.getAuthor().getEffectiveAvatarUrl())
                                     .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
                                     .setDescription((r.nextBoolean() ? languageContext.get("commands.help.patreon") + "\n" : "") + newHelp.getDescription())

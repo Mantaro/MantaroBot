@@ -602,7 +602,7 @@ public class PlayerCmds {
                 String equipment = parsePlayerEquipment(equippedItems);
                 String seasonalEquipment = parsePlayerEquipment(seasonalEquippedItems);
 
-                //This whole thing is a massive mess lmfao.
+                //This whole thing is a massive mess, lmfao.
                 String s = String.join("\n",
                         prettyDisplay(ctx.get("commands.profile.stats.market"), playerData.getMarketUsed() + " " + ctx.get("commands.profile.stats.times")),
 
