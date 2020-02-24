@@ -192,8 +192,7 @@ public class MoneyCmds {
                     else
                         returnMessage.add(String.format(languageContext.withRoot("commands","daily.streak.up"), streak));
                     if(currentDailyOffset < 0){
-                        int streakSaversUsed = 1;
-                        for(; currentDailyOffset + streakSaversUsed * DAILY_VALID_PERIOD_MILLIS < 0; streakSaversUsed++);
+                        int streakSaversUsed = -1 * (int) Math.floor((double) currentDailyOffset / (double) DAILY_VALID_PERIOD_MILLIS);
                         authorPlayer.getInventory().process(new ItemStack(Items.MAGIC_WATCH, streakSaversUsed * -1));
                         returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.watch_used"), streakSaversUsed, streakSaversUsed + 1, amountStreaksavers - streakSaversUsed));
                     }
