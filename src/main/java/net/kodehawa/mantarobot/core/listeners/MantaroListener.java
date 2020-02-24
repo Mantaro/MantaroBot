@@ -518,7 +518,7 @@ public class MantaroListener implements EventListener {
     }
 
     //Channels we could send the message to.
-    List<String> channelNames = List.of("general", "general-chat", "chat", "lounge", "main-chat", "lounge");
+    List<String> channelNames = List.of("general", "general-chat", "chat", "lounge", "main-chat", "main");
     private void onJoin(GuildJoinEvent event) {
         Guild guild = event.getGuild();
         DBGuild dbGuild = db.getGuild(guild);
