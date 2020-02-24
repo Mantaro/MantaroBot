@@ -539,7 +539,7 @@ public class MantaroListener implements EventListener {
                             "If you're interested in supporting Mantaro, check out our Patreon page below, it'll greatly help to improve the bot. " +
                             "This message will only be shown once.")
                     .addField("Important Links",
-                            "[Support Server](https://support.mantaro.site) - The place to check if you're lost of if there's an issue with the bot.\n" +
+                            "[Support Server](https://support.mantaro.site) - The place to check if you're lost or if there's an issue with the bot.\n" +
                                     "[Official Wiki](https://github.com/Mantaro/MantaroBot/wiki/) - Good place to check if you're lost.\n" +
                                     "[Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22) - Great customizability for your server needs!\n" +
                                     "[Configuration](https://github.com/Mantaro/MantaroBot/wiki/Configuration) - Great customizability for your server needs!\n" +
