@@ -76,6 +76,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -544,26 +545,26 @@ public class MantaroListener implements EventListener {
                                     "[Configuration](https://github.com/Mantaro/MantaroBot/wiki/Configuration) - Great customizability for your server needs!\n" +
                                     "[Patreon](https://patreon.com/mantaro) - Help Mantaro's development directly by donating a small amount of money each month.\n" +
                                     "[Official Website](https://mantaro.site) - A cool website.", true)
-                    .setFooter("We hope you enjoy using Mantaro!");
+                    .setFooter("We hope you enjoy using Mantaro! This will self-destruct in 1 minute.");
 
             DBGuild dbGuild = db.getGuild(guild);
 
             guild.getChannels().stream().filter(channel -> channel.getType() == ChannelType.TEXT && channelNames.contains(channel.getName())).findFirst().ifPresentOrElse(ch -> {
                 TextChannel channel = (TextChannel) ch;
                 if(channel.canTalk() && !dbGuild.getData().hasReceivedGreet()) {
-                    channel.sendMessage(embedBuilder.build()).queue();
+                    channel.sendMessage(embedBuilder.build()).queue(m -> m.delete().queueAfter(1, TimeUnit.MINUTES));
                     dbGuild.getData().setHasReceivedGreet(true);
                 } // else ignore
             }, () -> {
                 //Attempt to find the first channel we can talk to.
                 TextChannel channel = (TextChannel) guild.getChannels().stream()
-                        .filter(guildChannel -> channel.getType() == ChannelType.TEXT && ((TextChannel) guildChannel).canTalk())
+                        .filter(guildChannel -> guildChannel.getType() == ChannelType.TEXT && ((TextChannel) guildChannel).canTalk())
                         .findFirst()
                         .get();
 
                 //Basically same code as above, but w/e.
                 if(!dbGuild.getData().hasReceivedGreet()) {
-                    channel.sendMessage(embedBuilder.build()).queue();
+                    channel.sendMessage(embedBuilder.build()).queue(m -> m.delete().queueAfter(1, TimeUnit.MINUTES));
                     dbGuild.getData().setHasReceivedGreet(true);
                 }
             });
