@@ -534,7 +534,7 @@ public class MantaroListener implements EventListener {
                     .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                     .setColor(Color.PINK)
                     .setDescription("Welcome to **Mantaro**, a fun, quirky and complete Discord bot! Thanks for adding me to your server, I highly appreciate it <3\n" +
-                            "We have music, currency, games and way more stuff you can check out! Make sure you use the `~>help` command to make yourself comfy and to get started with the bot\n\n" +
+                            "We have music, currency, games and way more stuff you can check out! Make sure you use the `~>help` command to make yourself comfy and to get started with the bot!\n\n" +
                             "If you're interested in supporting Mantaro, check out our Patreon page below, it'll greatly help to improve the bot. " +
                             "This message will only be shown once.")
                     .addField("Important Links",
@@ -548,7 +548,7 @@ public class MantaroListener implements EventListener {
 
             DBGuild dbGuild = db.getGuild(guild);
 
-            guild.getChannels().stream().filter(channel -> channelNames.contains(channel.getName())).findFirst().ifPresentOrElse(ch -> {
+            guild.getChannels().stream().filter(channel -> channel.getType() == ChannelType.TEXT && channelNames.contains(channel.getName())).findFirst().ifPresentOrElse(ch -> {
                 TextChannel channel = (TextChannel) ch;
                 if(channel.canTalk() && !dbGuild.getData().hasReceivedGreet()) {
                     channel.sendMessage(embedBuilder.build()).queue();
@@ -557,7 +557,7 @@ public class MantaroListener implements EventListener {
             }, () -> {
                 //Attempt to find the first channel we can talk to.
                 TextChannel channel = (TextChannel) guild.getChannels().stream()
-                        .filter(guildChannel -> ((TextChannel) guildChannel).canTalk())
+                        .filter(guildChannel -> channel.getType() == ChannelType.TEXT && ((TextChannel) guildChannel).canTalk())
                         .findFirst()
                         .get();
 
