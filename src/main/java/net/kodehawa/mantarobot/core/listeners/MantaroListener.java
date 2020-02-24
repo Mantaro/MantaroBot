@@ -521,9 +521,6 @@ public class MantaroListener implements EventListener {
     List<String> channelNames = List.of("general", "general-chat", "chat", "lounge", "main-chat", "main");
     private void onJoin(GuildJoinEvent event) {
         Guild guild = event.getGuild();
-        DBGuild dbGuild = db.getGuild(guild);
-        GuildData data = dbGuild.getData();
-
         final MantaroObj mantaroData = MantaroData.db().getMantaroData();
 
         try {
@@ -532,12 +529,12 @@ public class MantaroListener implements EventListener {
                 return;
             }
 
+            //Greet message start.
             EmbedBuilder embedBuilder = new EmbedBuilder()
                     .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                     .setColor(Color.PINK)
                     .setDescription("Welcome to **Mantaro**, a fun, quirky and complete Discord bot! Thanks for adding me to your server, I highly appreciate it <3\n" +
                             "We have music, currency, games and way more stuff you can check out! Make sure you use the `~>help` command to make yourself comfy and to get started with the bot\n\n" +
-                            "Here are some useful links you can check out to make usage of the bot easier or to help us survive!\n\n" +
                             "If you're interested in supporting Mantaro, check out our Patreon page below, it'll greatly help to improve the bot. " +
                             "This message will only be shown once.")
                     .addField("Important Links",
@@ -545,25 +542,34 @@ public class MantaroListener implements EventListener {
                                     "[Official Wiki](https://github.com/Mantaro/MantaroBot/wiki/) - Good place to check if you're lost.\n" +
                                     "[Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22) - Great customizability for your server needs!\n" +
                                     "[Configuration](https://github.com/Mantaro/MantaroBot/wiki/Configuration) - Great customizability for your server needs!\n" +
-                                    "[Patreon] - Help Mantaro's development directly by donating a small amount of money each month." +
+                                    "[Patreon](https://patreon.com/mantaro) - Help Mantaro's development directly by donating a small amount of money each month.\n" +
                                     "[Official Website](https://mantaro.site) - A cool website.", true)
                     .setFooter("We hope you enjoy using Mantaro!");
 
+            DBGuild dbGuild = db.getGuild(guild);
+
             guild.getChannels().stream().filter(channel -> channelNames.contains(channel.getName())).findFirst().ifPresentOrElse(ch -> {
-                if(((TextChannel) ch).canTalk() && !data.hasReceivedGreet()) {
-                    ((TextChannel) ch).sendMessage(embedBuilder.build()).queue();
-                    data.setHasReceivedGreet(true);
-                    dbGuild.save();
+                TextChannel channel = (TextChannel) ch;
+                if(channel.canTalk() && !dbGuild.getData().hasReceivedGreet()) {
+                    channel.sendMessage(embedBuilder.build()).queue();
+                    dbGuild.getData().setHasReceivedGreet(true);
                 } // else ignore
             }, () -> {
                 //Attempt to find the first channel we can talk to.
-                TextChannel channel = (TextChannel) guild.getChannels().stream().filter(guildChannel -> ((TextChannel) guildChannel).canTalk()).findFirst().get();
-                if(!data.hasReceivedGreet()) {
+                TextChannel channel = (TextChannel) guild.getChannels().stream()
+                        .filter(guildChannel -> ((TextChannel) guildChannel).canTalk())
+                        .findFirst()
+                        .get();
+
+                //Basically same code as above, but w/e.
+                if(!dbGuild.getData().hasReceivedGreet()) {
                     channel.sendMessage(embedBuilder.build()).queue();
-                    data.setHasReceivedGreet(true);
-                    dbGuild.save();
+                    dbGuild.getData().setHasReceivedGreet(true);
                 }
             });
+
+            dbGuild.saveAsync();
+            //Greet message end.
 
             guildActions.labels("join").inc();
             GuildStatsManager.log(LoggedEvent.JOIN);

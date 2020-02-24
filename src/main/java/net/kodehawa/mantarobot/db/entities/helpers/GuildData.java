@@ -260,8 +260,6 @@ public class GuildData {
         this.hasReceivedGreet = hasReceivedGreet;
     }
 
-
-
     public HashMap<String, List<Category>> getChannelSpecificDisabledCategories() {
         return this.channelSpecificDisabledCategories;
     }
