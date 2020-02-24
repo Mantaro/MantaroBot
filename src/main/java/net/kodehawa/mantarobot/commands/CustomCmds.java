@@ -325,7 +325,7 @@ public class CustomCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                if (!adminPredicate.test(event)) {
+                if (!event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
                     return;
                 }
 
