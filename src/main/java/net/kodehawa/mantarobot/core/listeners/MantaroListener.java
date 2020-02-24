@@ -22,6 +22,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -64,6 +65,7 @@ import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
+import java.awt.*;
 import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -515,10 +517,12 @@ public class MantaroListener implements EventListener {
         }
     }
 
+    //Channels we could send the message to.
+    List<String> channelNames = List.of("general", "general-chat", "chat", "lounge", "main-chat", "lounge");
     private void onJoin(GuildJoinEvent event) {
-        if (event.getGuild() == null) {
-            log.info("Got a guild join event with null guild? Shard {}", shardId);
-        }
+        Guild guild = event.getGuild();
+        DBGuild dbGuild = db.getGuild(guild);
+        GuildData data = dbGuild.getData();
 
         final MantaroObj mantaroData = MantaroData.db().getMantaroData();
 
@@ -527,6 +531,39 @@ public class MantaroListener implements EventListener {
                 event.getGuild().leave().queue();
                 return;
             }
+
+            EmbedBuilder embedBuilder = new EmbedBuilder()
+                    .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
+                    .setColor(Color.PINK)
+                    .setDescription("Welcome to **Mantaro**, a fun, quirky and complete Discord bot! Thanks for adding me to your server, I highly appreciate it <3\n" +
+                            "We have music, currency, games and way more stuff you can check out! Make sure you use the `~>help` command to make yourself comfy and to get started with the bot\n\n" +
+                            "Here are some useful links you can check out to make usage of the bot easier or to help us survive!\n\n" +
+                            "If you're interested in supporting Mantaro, check out our Patreon page below, it'll greatly help to improve the bot. " +
+                            "This message will only be shown once.")
+                    .addField("Important Links",
+                            "[Support Server](https://support.mantaro.site) - The place to check if you're lost of if there's an issue with the bot.\n" +
+                                    "[Official Wiki](https://github.com/Mantaro/MantaroBot/wiki/) - Good place to check if you're lost.\n" +
+                                    "[Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22) - Great customizability for your server needs!\n" +
+                                    "[Configuration](https://github.com/Mantaro/MantaroBot/wiki/Configuration) - Great customizability for your server needs!\n" +
+                                    "[Patreon] - Help Mantaro's development directly by donating a small amount of money each month." +
+                                    "[Official Website](https://mantaro.site) - A cool website.", true)
+                    .setFooter("We hope you enjoy using Mantaro!");
+
+            guild.getChannels().stream().filter(channel -> channelNames.contains(channel.getName())).findFirst().ifPresentOrElse(ch -> {
+                if(((TextChannel) ch).canTalk() && !data.hasReceivedGreet()) {
+                    ((TextChannel) ch).sendMessage(embedBuilder.build()).queue();
+                    data.setHasReceivedGreet(true);
+                    dbGuild.save();
+                } // else ignore
+            }, () -> {
+                //Attempt to find the first channel we can talk to.
+                TextChannel channel = (TextChannel) guild.getChannels().stream().filter(guildChannel -> ((TextChannel) guildChannel).canTalk()).findFirst().get();
+                if(!data.hasReceivedGreet()) {
+                    channel.sendMessage(embedBuilder.build()).queue();
+                    data.setHasReceivedGreet(true);
+                    dbGuild.save();
+                }
+            });
 
             guildActions.labels("join").inc();
             GuildStatsManager.log(LoggedEvent.JOIN);

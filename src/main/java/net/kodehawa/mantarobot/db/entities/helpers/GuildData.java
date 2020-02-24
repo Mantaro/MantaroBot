@@ -206,6 +206,9 @@ public class GuildData {
     @ConfigName("Disabled command warning display")
     private boolean commandWarningDisplay = false;
 
+    @ConfigName("Has received greet message")
+    private boolean hasReceivedGreet = false;
+
     public GuildData() {
     }
 
@@ -248,6 +251,16 @@ public class GuildData {
     public void setCases(long cases) {
         this.cases = cases;
     }
+
+    public boolean hasReceivedGreet() {
+        return hasReceivedGreet;
+    }
+
+    public void setHasReceivedGreet(boolean hasReceivedGreet) {
+        this.hasReceivedGreet = hasReceivedGreet;
+    }
+
+
 
     public HashMap<String, List<Category>> getChannelSpecificDisabledCategories() {
         return this.channelSpecificDisabledCategories;
