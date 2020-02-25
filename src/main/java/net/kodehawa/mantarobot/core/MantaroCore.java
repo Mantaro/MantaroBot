@@ -337,16 +337,14 @@ public class MantaroCore {
     private void startUpdaters() {
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Carbonitex post task"))
                 .scheduleAtFixedRate(Carbonitex::handle, 0, 30, TimeUnit.MINUTES);
+        MantaroBot instance = MantaroBot.getInstance();
 
         if (config.dbotsorgToken != null) {
-            var discordBotsAPI = new DiscordBotsAPI.Builder()
-                    .setToken(config.dbotsorgToken)
-                    .build();
             Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "dbots.org update thread")).scheduleAtFixedRate(() -> {
                 try {
-                    long count = MantaroBot.getInstance().getShardManager().getGuildCache().size();
-                    int[] shards = MantaroBot.getInstance().getShardList().stream().mapToInt(shard -> (int) shard.getJDA().getGuildCache().size()).toArray();
-                    discordBotsAPI.postStats(shards).execute();
+                    long count = instance.getShardManager().getGuildCache().size();
+                    int[] shards = instance.getShardList().stream().mapToInt(shard -> (int) shard.getJDA().getGuildCache().size()).toArray();
+                    instance.getDiscordBotsAPI().postStats(shards).execute();
                     log.debug("Updated server count ({}) for discordbots.org", count);
                 } catch (Exception ignored) {
                 }

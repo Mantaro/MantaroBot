@@ -233,8 +233,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                         EmoteReference.MEGA, premium ? "" : String.format(language.get("commands.music_general.premium_beg"), EmoteReference.HEART)
                 ).queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) { }
 
         requestedChannel = 0;
         errorCount = 0;
