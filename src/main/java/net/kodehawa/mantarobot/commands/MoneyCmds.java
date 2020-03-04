@@ -82,6 +82,7 @@ public class MoneyCmds {
     private final int SLOTS_MAX_MONEY = 175_000_000;
     private final long GAMBLE_ABSOLUTE_MAX_MONEY = (long) (Integer.MAX_VALUE) * 5;
     private final long GAMBLE_MAX_MONEY = 275_000_000;
+    private final long DAILY_VALID_PERIOD_MILLIS = MantaroData.config().get().dailyMaxPeriodMilliseconds;
 
     @Subscribe
     public void daily(CommandRegistry cr) {
@@ -99,7 +100,8 @@ public class MoneyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 TextChannel channel = event.getChannel();
-
+                //155
+                // Args: Check -check for duration
                 if (args.length > 0 && event.getMessage().getMentionedUsers().isEmpty() && args[0].equalsIgnoreCase("-check")) {
                     long rl = rateLimiter.getRemaniningCooldown(event.getAuthor());
 
@@ -108,151 +110,162 @@ public class MoneyCmds {
                     ).queue();
                     return;
                 }
-
-                long money = 150L;
-                User mentionedUser = null;
-                List<User> mentioned = event.getMessage().getMentionedUsers();
-
-                if (!mentioned.isEmpty())
-                    mentionedUser = event.getMessage().getMentionedUsers().get(0);
-
-                if (mentionedUser != null && mentionedUser.isBot()) {
-                    channel.sendMessageFormat(languageContext.withRoot("commands", "daily.errors.bot"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                UnifiedPlayer unifiedPlayer = UnifiedPlayer.of((mentionedUser != null ? mentionedUser : event.getAuthor()), getConfig().getCurrentSeason());
-                Player player = unifiedPlayer.getPlayer();
-
-                if (player.isLocked()) {
-                    channel.sendMessage(EmoteReference.ERROR + (mentionedUser != null ? languageContext.withRoot("commands", "daily.errors.receipt_locked") : languageContext.withRoot("commands", "daily.errors.own_locked"))).queue();
-                    return;
-                }
-
+                // Check for rate limit
                 if (!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext, false))
                     return;
 
-                PlayerData playerData = player.getData();
-                String streak;
-                String crate = "";
+                // Determine who gets the money
+                long dailyMoney = 150L;
+                List<User> mentionedUsers = event.getMessage().getMentionedUsers();
 
-                String playerId = player.getUserId();
+                ManagedDatabase dbt = MantaroData.db();
+                User author = event.getAuthor();
+                Player authorPlayer = dbt.getPlayer(event.getAuthor());
+                PlayerData authorPlayerData = authorPlayer.getData();
+                DBUser user = dbt.getUser(author);
 
-                if (playerId.equals(event.getAuthor().getId())) {
-                    if (System.currentTimeMillis() - playerData.getLastDailyAt() < TimeUnit.HOURS.toMillis(50)) {
-                        playerData.setDailyStreak(playerData.getDailyStreak() + 1);
-                        streak = String.format(languageContext.withRoot("commands", "daily.streak.up"), playerData.getDailyStreak());
-                    } else {
-                        if (playerData.getDailyStreak() == 0) {
-                            streak = languageContext.withRoot("commands", "daily.streak.first_time");
-                        } else {
-                            streak = String.format(languageContext.withRoot("commands", "daily.streak.lost_streak"), playerData.getDailyStreak());
-                        }
-
-                        playerData.setDailyStreak(1);
-                    }
-
-                    if (playerData.getDailyStreak() > 5) {
-                        int bonus = 150;
-                        if (playerData.getDailyStreak() > 15)
-                            bonus += Math.min(700, Math.floor(150 * playerData.getDailyStreak() / 15D));
-
-                        streak += String.format(languageContext.withRoot("commands", "daily.streak.bonus"), bonus);
-                        money += bonus;
-                    }
-
-                    if (playerData.getDailyStreak() > 10) {
-                        playerData.addBadgeIfAbsent(Badge.CLAIMER);
-                    }
-
-                    if (playerData.getDailyStreak() > 100) {
-                        playerData.addBadgeIfAbsent(Badge.BIG_CLAIMER);
-                    }
-
-                    if (playerData.getDailyStreak() > 10 && playerData.getDailyStreak() % 20 == 0 && player.getInventory().getAmount(Items.LOOT_CRATE) < 5000) {
-                        player.getInventory().process(new ItemStack(Items.LOOT_CRATE, 1));
-                        crate = "\n" + languageContext.get("commands.daily.crate");
-                    }
-                } else {
-                    Player authorPlayer = MantaroData.db().getPlayer(event.getAuthor());
-                    PlayerData authorPlayerData = authorPlayer.getData();
-
-                    if (System.currentTimeMillis() - authorPlayerData.getLastDailyAt() < TimeUnit.HOURS.toMillis(50)) {
-                        authorPlayerData.setDailyStreak(authorPlayerData.getDailyStreak() + 1);
-                        streak = String.format(languageContext.withRoot("commands", "daily.streak.given.up"), authorPlayerData.getDailyStreak());
-                    } else {
-                        if (authorPlayerData.getDailyStreak() == 0) {
-                            streak = languageContext.withRoot("commands", "daily.streak.first_time");
-                        } else {
-                            streak = String.format(languageContext.withRoot("commands", "daily.streak.lost_streak"), authorPlayerData.getDailyStreak());
-                        }
-
-                        authorPlayerData.setDailyStreak(1);
-                    }
-
-                    if (authorPlayerData.getDailyStreak() > 5) {
-                        int bonus = 150;
-
-                        if (authorPlayerData.getDailyStreak() > 15)
-                            bonus += Math.min(1700, Math.floor(150 * authorPlayerData.getDailyStreak() / 10D));
-
-                        streak += String.format(languageContext.withRoot("commands", "daily.streak.given.bonus"), (mentionedUser == null ? "You" : mentionedUser.getName()), bonus);
-                        money += bonus;
-                    }
-
-                    if (authorPlayerData.getDailyStreak() > 10) {
-                        authorPlayerData.addBadgeIfAbsent(Badge.CLAIMER);
-                    }
-
-                    if (authorPlayerData.getDailyStreak() > 100) {
-                        authorPlayerData.addBadgeIfAbsent(Badge.BIG_CLAIMER);
-                    }
-
-                    if (authorPlayerData.getDailyStreak() > 10 && authorPlayerData.getDailyStreak() % 20 == 0 && authorPlayer.getInventory().getAmount(Items.LOOT_CRATE) < 5000) {
-                        authorPlayer.getInventory().process(new ItemStack(Items.LOOT_CRATE, 1));
-                        crate = "\n" + languageContext.get("commands.daily.crate");
-                    }
-
-                    authorPlayerData.setLastDailyAt(System.currentTimeMillis());
-                    authorPlayer.save();
-                }
-
-                String sellout = random.nextBoolean() ? "" : languageContext.get("commands.daily.sellout");
-
-                if (mentionedUser != null && !mentionedUser.getId().equals(event.getAuthor().getId())) {
-                    money = money + r.nextInt(90);
-
-                    DBUser user = MantaroData.db().getUser(event.getAuthor());
-                    UserData userData = user.getData();
-
-                    DBUser mentionedDBUser = MantaroData.db().getUser(mentionedUser.getId());
-                    UserData mentionedUserData = user.getData();
-
-                    //Marriage status + inventory ring
-                    Marriage marriage = userData.getMarriage();
-                    if(marriage != null && mentionedUser.getId().equals(marriage.getOtherPlayer(event.getAuthor().getId())) && player.getInventory().containsItem(Items.RING)) {
-                        money = money + Math.max(10, r.nextInt(100));
-                    }
-
-                    //Mutual waifu status.
-                    if (userData.getWaifus().containsKey(mentionedUser.getId()) && mentionedUserData.getWaifus().containsKey(event.getAuthor().getId())) {
-                        money = money + Math.max(5, r.nextInt(70));
-                    }
-
-                    unifiedPlayer.addMoney(money);
-                    playerData.setLastDailyAt(System.currentTimeMillis());
-                    unifiedPlayer.save();
-
-                    channel.sendMessageFormat(languageContext.withRoot("commands", "daily.given_credits") + crate, EmoteReference.CORRECT, money, mentionedUser.getName(), streak, sellout).queue();
+                if(authorPlayer.isLocked()){
+                    channel.sendMessage(languageContext.withRoot("commands", "daily.errors.own_locked")).queue();
                     return;
                 }
 
-                unifiedPlayer.addMoney(money);
-                //Player object comes from UnifiedPlayer, so it should update here too.
-                playerData.setLastDailyAt(System.currentTimeMillis());
-                unifiedPlayer.save();
+                UnifiedPlayer toAddMoneyTo = UnifiedPlayer.of(author, getConfig().getCurrentSeason());
+                User otherUser = null;
 
-                channel.sendMessageFormat(languageContext.withRoot("commands", "daily.credits") + crate, EmoteReference.CORRECT, money, streak, sellout).queue();
+                boolean targetOther = !mentionedUsers.isEmpty();
+                if(targetOther){
+                    otherUser = mentionedUsers.get(0);
+                    // Bot check mentioned user
+                    if(otherUser.isBot()){
+                        channel.sendMessageFormat(languageContext.withRoot("commands", "daily.errors.bot"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+
+                    Player playerOtherUser = dbt.getPlayer(otherUser);
+                    if(playerOtherUser.isLocked()){
+                        channel.sendMessage(EmoteReference.ERROR + languageContext.withRoot("commands", "daily.errors.receipt_locked") ).queue();
+                        return;
+                    }
+
+                    // Why this is here I have no clue;;;
+                    dailyMoney += r.nextInt(90);
+
+                    UserData userData = user.getData();
+
+                    DBUser mentionedDBUser = dbt.getUser(otherUser.getId());
+                    UserData mentionedUserData = user.getData();
+
+                    //Marriage bonus
+                    Marriage marriage = userData.getMarriage();
+                    if(marriage != null && otherUser.getId().equals(marriage.getOtherPlayer(event.getAuthor().getId())) && playerOtherUser.getInventory().containsItem(Items.RING)) {
+                        dailyMoney += Math.max(10, r.nextInt(100));
+                    }
+
+                    //Mutual waifu status.
+                    if (userData.getWaifus().containsKey(playerOtherUser.getId()) && mentionedUserData.getWaifus().containsKey(author.getId())) {
+                        dailyMoney +=Math.max(5, r.nextInt(70));
+                    }
+
+                    toAddMoneyTo = UnifiedPlayer.of(otherUser, getConfig().getCurrentSeason());
+
+
+                } else{
+                    // This is here so you dont overwrite yourself....
+                    authorPlayer = toAddMoneyTo.getPlayer();
+                    authorPlayerData = authorPlayer.getData();
+                }
+
+                List<String> returnMessage = new ArrayList<String>();
+                long currentTime = System.currentTimeMillis();
+                int amountStreaksavers = authorPlayer.getInventory().getAmount(Items.MAGIC_WATCH);
+                // >=0 -> Valid  <0 -> Invalid
+                long currentDailyOffset = DAILY_VALID_PERIOD_MILLIS - (currentTime - authorPlayerData.getLastDailyAt()) ;
+
+                long streak = authorPlayerData.getDailyStreak();
+
+                // Not expired?
+                if(currentDailyOffset + amountStreaksavers * DAILY_VALID_PERIOD_MILLIS >= 0 ){ ;
+                    streak++;
+                    if(targetOther)
+                        returnMessage.add(String.format(languageContext.withRoot("commands","daily.streak.given.up"), streak));
+                    else
+                        returnMessage.add(String.format(languageContext.withRoot("commands","daily.streak.up"), streak));
+                    if(currentDailyOffset < 0){
+                        int streakSaversUsed = -1 * (int) Math.floor((double) currentDailyOffset / (double) DAILY_VALID_PERIOD_MILLIS);
+                        authorPlayer.getInventory().process(new ItemStack(Items.MAGIC_WATCH, streakSaversUsed * -1));
+                        returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.watch_used"), streakSaversUsed, streakSaversUsed + 1, amountStreaksavers - streakSaversUsed));
+                    }
+
+                } else{
+                    if (streak == 0) {
+                        returnMessage.add(languageContext.withRoot("commands", "daily.streak.first_time"));
+                    } else {
+                        if (amountStreaksavers > 0){
+                            returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.lost_streak.watch"), streak));
+                            authorPlayer.getInventory().process(new ItemStack(Items.MAGIC_WATCH, authorPlayer.getInventory().getAmount(Items.MAGIC_WATCH) * -1));
+                        } else{
+                            returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.lost_streak.normal"), streak));
+                        }
+                    }
+                    streak = 1;
+                }
+
+                if (streak > 5) {
+                    // Bonus money
+                    int bonus = 150;
+
+                    if(streak % 50 == 0){
+                        authorPlayer.getInventory().process(new ItemStack(Items.MAGIC_WATCH,1));
+                        returnMessage.add(languageContext.get("commands.daily.watch_get"));
+                    }
+
+                    if (streak > 10) {
+                        authorPlayerData.addBadgeIfAbsent(Badge.CLAIMER);
+
+                        if (streak % 20 == 0 && authorPlayer.getInventory().getAmount(Items.LOOT_CRATE) < 5000) {
+                            authorPlayer.getInventory().process(new ItemStack(Items.LOOT_CRATE, 1));
+                            returnMessage.add(languageContext.get("commands.daily.crate"));
+                        }
+
+                        if (streak > 15){
+                            bonus += Math.min(targetOther ? 1700 : 700, Math.floor(150 * streak / (targetOther ? 10D : 15D)));
+
+                            if (streak > 100) {
+                                authorPlayerData.addBadgeIfAbsent(Badge.BIG_CLAIMER);
+                            }
+                        }
+                    }
+                    // Cleaner using if
+                    if(targetOther)
+                        returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.given.bonus"), otherUser.getName(), bonus));
+                    else
+                        returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.bonus"), bonus));
+                    dailyMoney += bonus;
+
+                }
+                // Careful not to overwrite yourself ;P
+                // Save streak and items
+                authorPlayerData.setLastDailyAt(currentTime);
+                authorPlayerData.setDailyStreak(streak);
+                // Critical not to call if author != mentioned because in this case
+                // toAdd is the unified player as referenced
+                if(targetOther)
+                    authorPlayer.save();
+                toAddMoneyTo.addMoney(dailyMoney);
+                toAddMoneyTo.save();
+
+                // Sellout
+                if(random.nextBoolean()){
+                    returnMessage.add(user.isPremium() ? languageContext.get("commands.daily.sellout.already_premium") : languageContext.get("commands.daily.sellout.get_premium"));
+                }
+                // Build Message
+                String toSend = (targetOther ?  String.format(languageContext.withRoot("commands", "daily.given_credits"),EmoteReference.CORRECT, dailyMoney, otherUser.getName()) : String.format(languageContext.withRoot("commands", "daily.credits"), EmoteReference.CORRECT, dailyMoney)) + "\n" ;
+                for(String s : returnMessage)
+                    toSend += "\n" + s;
+                // Send Message
+                channel.sendMessageFormat(toSend).queue();
+
             }
 
             @Override

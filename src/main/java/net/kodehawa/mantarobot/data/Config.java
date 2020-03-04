@@ -23,7 +23,7 @@ import net.kodehawa.mantarobot.commands.currency.seasons.Season;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class Config {
     public boolean cacheGames = false;
@@ -64,6 +64,7 @@ public class Config {
     public String ipv6Block = "";
     public String excludeAddress = "";
     public int bucketFactor = 4;
+    public long dailyMaxPeriodMilliseconds = TimeUnit.HOURS.toMillis(50);
 
     public Config() {
     }
@@ -382,5 +383,13 @@ public class Config {
 
     public void setBucketFactor(int bucketFactor) {
         this.bucketFactor = bucketFactor;
+    }
+
+    public long getDailyMaxPeriodMilliseconds(){
+        return this.dailyMaxPeriodMilliseconds;
+    }
+
+    public void setDailyMaxPeriodMilliseconds(long dailyMaxPeriodMilliseconds){
+        this.dailyMaxPeriodMilliseconds = dailyMaxPeriodMilliseconds;
     }
 }
