@@ -89,7 +89,7 @@ public class GameCmds {
         }.addSubCommand("character", new SubCommand() {
             @Override
             public String description() {
-                return "Starts an instance of Guess the character (anime)";
+                return "Starts an ins ance of Guess the character (anime)";
             }
 
             @Override

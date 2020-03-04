@@ -46,6 +46,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -370,6 +371,7 @@ public class PremiumCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 TextChannel channel = event.getChannel();
+                Map<String, String> t = getArguments(args);
 
                 if (args.length < 3) {
                     channel.sendMessage(EmoteReference.ERROR + "You need to provide a scope, an id and whether this key is linked (example: guild 1558674582032875529 true)").queue();
@@ -393,8 +395,12 @@ public class PremiumCmds {
 
                 //This method generates a premium key AND saves it on the database! Please use this result!
                 PremiumKey generated = PremiumKey.generatePremiumKey(owner, scopeParsed, linked);
-                channel.sendMessage(EmoteReference.CORRECT + String.format("Generated: `%s` (S: %s) **[NOT ACTIVATED]** (Linked: %s)",
-                        generated.getId(), generated.getParsedType(), linked)).queue();
+                if(t.containsKey("mobile")) {
+                    channel.sendMessage(generated.getId()).queue();
+                } else {
+                    channel.sendMessage(EmoteReference.CORRECT + String.format("Generated: `%s` (S: %s) **[NOT ACTIVATED]** (Linked: %s)",
+                            generated.getId(), generated.getParsedType(), linked)).queue();
+                }
             }
 
             @Override
