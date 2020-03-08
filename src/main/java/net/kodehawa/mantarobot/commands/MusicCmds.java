@@ -438,7 +438,7 @@ public class MusicCmds {
                 LavalinkPlayer lavalinkPlayer = manager.getLavaLink().getPlayer();
 
                 if (lavalinkPlayer.getPlayingTrack() == null) {
-                    channel.sendMessageFormat(languageContext.get("commands.music.music_general.not_playing"), EmoteReference.ERROR).queue();
+                    channel.sendMessageFormat(languageContext.get("commands.music_general.not_playing"), EmoteReference.ERROR).queue();
                     return;
                 }
 
