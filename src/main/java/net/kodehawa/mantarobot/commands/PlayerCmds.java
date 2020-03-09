@@ -803,20 +803,20 @@ public class PlayerCmds {
 
                 String part = ""; //Start as an empty string.
                 if(type == PlayerEquipment.EquipmentType.PICK || type == PlayerEquipment.EquipmentType.ROD) {
-                    Item effectItem = equipment.getEffectItem(type);
-                    Breakable item = (Breakable) effectItem;
+                    Item equippedItem = Items.fromId(equipment.getEquipment().get(type));
+                    Breakable item = (Breakable) equippedItem;
 
                     float percentage = ((float) equipment.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;
                     if(percentage == 100) { //Basically never used
-                        player.getInventory().process(new ItemStack(effectItem, 1));
-                        part += String.format(languageContext.get("commands.profile.unequip.equipment_recover"), effectItem.getName());
+                        player.getInventory().process(new ItemStack(equippedItem, 1));
+                        part += String.format(languageContext.get("commands.profile.unequip.equipment_recover"), equippedItem.getName());
                     } else {
-                        Item brokenItem = Items.getBrokenItemFrom(effectItem);
+                        Item brokenItem = Items.getBrokenItemFrom(equippedItem);
                         if(brokenItem != null) {
                             player.getInventory().process(new ItemStack(brokenItem, 1));
                             part += String.format(languageContext.get("commands.profile.unequip.broken_equipment_recover"), brokenItem.getName());
                         } else {
-                            long money = effectItem.getValue() / 2;
+                            long money = equippedItem.getValue() / 2;
                             //Brom's Pickaxe, Diamond Pickaxe and normal rod and Diamond Rod will hit this condition.
                             part += String.format(languageContext.get("commands.profile.unequip.broken_equipment_recover_none"), money);
                         }
