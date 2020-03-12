@@ -268,6 +268,7 @@ public class MoneyCmds {
 
             }
 
+            @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person). Maximum amount it can give is ~2000 credits (a bit more for shared dailies)\n" +
