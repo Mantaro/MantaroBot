@@ -1022,7 +1022,7 @@ public class MusicCmds {
                 String search = content.trim();
                 TextChannel channel = event.getChannel();
 
-                if(search.equals("current")) {
+                if(search.equals("current") || search.isEmpty()) {
                     GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
                     TrackScheduler scheduler = musicManager.getTrackScheduler();
                     AudioTrack currentTrack = scheduler.getCurrentTrack();
@@ -1058,6 +1058,16 @@ public class MusicCmds {
                         .setFooter(languageContext.get("commands.lyrics.footer"));
 
                 channel.sendMessage(embed.build()).queue();
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Looks up the lyrics of a song.")
+                        .setUsage("`~>lyrics [current/search term]")
+                        .addParameterOptional("current", "Searches the lyrics for the song currently playing.")
+                        .addParameterOptional("searchterm", "The song to look up lyrics for.")
+                        .build();
             }
         });
     }
