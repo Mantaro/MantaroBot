@@ -1178,8 +1178,8 @@
           "bonus": "%1$s gavo $%1$s bonusą už tai, kad atsiėmė kasdieninį atlygį 5 dienas ar daugiau iš eilės! (Pridėta prie parodytų pinigų!)"
         }
       },
-      "given_credits": "%1$sDaviau tavo **$%2$s** kasdieninį atlygį %3$s\n\n%4$s",
-      "credits": "%1$sTu gavai **$%2$s** kasdieninį atlygį.\n\n%3$s%4$s"
+      "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
+      "credits": "%1$sTu gavai **$%2$s** kasdieninį atlygį."
     },
     "gamble": {
       "no_credits": "%1$sYou're broke. Maybe search for some credits first.",

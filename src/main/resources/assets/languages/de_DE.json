@@ -1405,8 +1405,8 @@
           "bonus": "%1$s hat einen Bonus von $%2$,d für das Abholen an fünf oder mehr Tagen in Folge gewonnen! (Beim angezeigten Geld enthalten!)"
         }
       },
-      "given_credits": "%1$sIch gab deine **$%2$,d** täglichen Credits an %3$s\n\n%4$s",
-      "credits": "%1$sDu hast **$%2$,d** tägliche Credits erhalten.\n\n%3$s%4$s",
+      "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
+      "credits": "%1$sDu hast **$%2$,d** tägliche Credits erhalten.",
       "sellout": "\nWir brauchen deine Hilfe, um Mantaro am Laufen zu halten! Schau unter <https://patreon.com/mantaro> für mehr Informationen.",
       "crate": "Du hast eine Truhe gewonnen, weil deine tägliche Strähne ein Vielfaches von 20 ist. Viel Spaß."
     },

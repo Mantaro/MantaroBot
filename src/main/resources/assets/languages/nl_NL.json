@@ -1178,8 +1178,8 @@
           "bonus": "%1$s won een bonus van $%2$s voor het claimen van je dailies gedurende 5 dagen op rij of meer! (Inbegrepen in het getoonde aantal credits!)"
         }
       },
-      "given_credits": "%1$sI gaf je **$%2$s** daily credits aan %3$s\n\n%4$s",
-      "credits": "%1$sJe ontving **$%2$s** daily credits.\n\n%3$s%4$s"
+      "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
+      "credits": "%1$sJe ontving **$%2$s** daily credits."
     },
     "gamble": {
       "no_credits": "%1$sJe bent blut. Zoek misschien eerst eens naar credits.",
