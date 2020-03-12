@@ -54,9 +54,12 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
@@ -240,7 +243,7 @@ public class MusicCmds {
                                 + "(" + musicManager.getTrackScheduler().getAudioPlayer().getPlayer().getPlayingTrack()
                                 .getInfo().uri + ")** "
                                 + String.format("`(%s/%s)`", Utils.getDurationMinutes(now), total == Long.MAX_VALUE ? "stream" : Utils.getDurationMinutes(total)))
-                        .setFooter("Enjoy the music! <3", event.getAuthor().getAvatarUrl());
+                        .setFooter("Enjoy the music! <3. Use `~>lyrics current` to see the lyrics of the current song!", event.getAuthor().getAvatarUrl());
 
                 channel.sendMessage(npEmbed.build()).queue();
                 TextChannelGround.of(event).dropItemWithChance(0, 10);
@@ -1007,6 +1010,63 @@ public class MusicCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Tells you how to use music. Yes, this is only a guide.")
+                        .build();
+            }
+        });
+    }
+
+    public void lyrics(CommandRegistry cr) {
+        cr.register("lyrics", new SimpleCommand(Category.MUSIC) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                String search = content.trim();
+                TextChannel channel = event.getChannel();
+
+                if(search.equals("current") || search.isEmpty()) {
+                    GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
+                    TrackScheduler scheduler = musicManager.getTrackScheduler();
+                    AudioTrack currentTrack = scheduler.getCurrentTrack();
+                    if(currentTrack == null) {
+                        channel.sendMessageFormat(languageContext.get("commands.lyrics.no_current_track"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    search = currentTrack.getInfo().title;
+                }
+
+                String result = Utils.wgetOkHttp("https://lyrics.tsu.sh/v1/?q=" + URLEncoder.encode(search, StandardCharsets.UTF_8));
+                if(result == null) {
+                    channel.sendMessageFormat(languageContext.get("commands.lyrics.error_searching"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                JSONObject results = new JSONObject(result);
+                if(!results.isNull("empty")) {
+                    channel.sendMessageFormat(languageContext.get("commands.lyrics.error_searching"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                String lyrics = results.getString("lyrics");
+                JSONObject songObject = results.getJSONObject("song");
+                String fullTitle = songObject.getString("full_title");
+                String icon = songObject.getString("icon");
+
+                EmbedBuilder embed = new EmbedBuilder()
+                        .setTitle(String.format(languageContext.get("commands.lyrics.header"), EmoteReference.HEART, fullTitle))
+                        .setThumbnail(icon)
+                        .setDescription(lyrics)
+                        .setFooter(languageContext.get("commands.lyrics.footer"));
+
+                channel.sendMessage(embed.build()).queue();
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Looks up the lyrics of a song.")
+                        .setUsage("`~>lyrics [current/search term]")
+                        .addParameterOptional("current", "Searches the lyrics for the song currently playing.")
+                        .addParameterOptional("searchterm", "The song to look up lyrics for.")
                         .build();
             }
         });
