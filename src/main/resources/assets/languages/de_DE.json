@@ -116,7 +116,8 @@
     "fun": "Spaß-",
     "games": "Spiel-",
     "info": "Info-",
-    "currency": "Währungs-"
+    "currency": "Währungs-",
+    "pet": "Pet"
   },
   "commands": {
     "fish": {
@@ -144,7 +145,8 @@
       "fossil_success": "%1$sDu hast ein Fossil beim Fischen gefangen. Das könnte ein bisschen was wert sein, oder vielleicht zum Herstellen gebraucht werden, denke ich.",
       "bait": "Der Fisch hat deinen Köder geschluckt!",
       "missing_equipped": "%1$sDu hattest eine %2$s Angelrute ausgerüstet, aber keine Angelrute der Art im Inventar! Die ausgerüstete Angelrute wurde zurückgesetzt.",
-      "broken_drop": "%1$sDeine Angel ist kaputt gegangen, aber du kannst sie reparieren. Kaputten Gegenstand erhalten: %2$s *%3$s*"
+      "broken_drop": "%1$sDeine Angel ist kaputt gegangen, aber du kannst sie reparieren. Kaputten Gegenstand erhalten: %2$s *%3$s*",
+      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `~>equip <rod name>` to start your adventure!`"
     },
     "softban": {
       "no_permission": "%1$sKann nicht softbannen: Sie haben keine Rechte Mitglieder zu bannen.",
@@ -736,7 +738,8 @@
       "interactive_no_action": "%1$sDieser Gegenstand ist als interaktiv markiert, aber hat keine Aktion...",
       "no_item": "%1$sDu besitzt diesen Gegenstand nicht.",
       "not_enough_items": "%1$sDu hast nicht genug von diesem Gegenstand.",
-      "too_little": "%1$sDu kannst nicht weniger als 1 Gegenstand benutzen."
+      "too_little": "%1$sDu kannst nicht weniger als 1 Gegenstand benutzen.",
+      "invalid_amount": "%1$sDie Anzahl muss eine gültige Zahl zwischen `1` und `9` sein!"
     },
     "opts": {
       "note": "%1$sHey, wenn du verloren bist oder Hilfe bei der Verwendung von Optionen benötigst, besuche <https://github.com/Mantaro/MantaroBot/wiki/Configuration>, um eine Anleitung zur Verwendung von Optionen zu erhalten. \nHinweis: Nur Administratoren, Personen mit Server verwalten oder Personen mit der Bot-Commander-Rolle können diesen Befehl verwenden! ",
@@ -849,16 +852,18 @@
         "buff": "Verbesserung",
         "buff_type": "Verbesserungsart",
         "experience": "Erfahrung",
-        "daily": "Täglicher Streak",
-        "daily_at": "Letter Streak",
-        "waifu_claimed": "Häufigkeit der Waifubeanspruchung",
+        "daily": "Tägliche Strähne",
+        "daily_at": "Letzte Strähne",
+        "waifu_claimed": "Beanspruchte Waifus",
+        "waifu_locked": "Waifu-Schutz",
         "dust": "Staubniveau",
         "lang": "Anzeigesprache",
         "reminders": "Anzahl der bisherigen Erinnerungen",
-        "times": "Male(e)",
+        "times": "Mal(e)",
         "days": "Tag(e)",
         "times_used": "Anzahl der Nutzungen",
-        "equipment": "Equipment"
+        "equipment": "Equipment",
+        "seasonal_equipment": "Saisons-Equipment"
       },
       "hide_tag": {
         "success": "%1%sTag-Sichtbarkeit gesetzt auf: `%2$s`"
@@ -868,7 +873,16 @@
         "no_item": "%1$sDieser Gegenstand existiert nicht!",
         "not_owned": "%1$sDu besitzt diesen Gegenstand nicht!",
         "success": "%1$sDu hast erfolgreich %2$s *%3$s* ausgerüstet, was beim nächsten Ausführen des zugehörigen Befehls beachtet wird.",
-        "not_suitable": "%1$sDu kannst das nicht ausrüsten."
+        "not_suitable": "%1$sDu kannst das nicht ausrüsten.",
+        "already_equipped": "%1$sDu hast bereits einen Gegenstand dieser Art ausgerüstet! Versiche `~>unequip <art>` (Art kann entweder `rod` oder `pick` sein), wenn du ihn ablegen willst."
+      },
+      "unequip": {
+        "no_content": "%1$sDu musst ein Werkzeug zum Ablegen angeben, entweder `pick` oder `rod`.",
+        "invalid_type": "%1$sUngültige Art. Mögliche Arten sind: `pick` und `rod`.",
+        "success": "%1$sSuccessfully unequipped your %2$s slot.",
+        "equipment_recover": "\nSince you never used your equipment, you got your %1$s back!",
+        "broken_equipment_recover": "\nYour equipment was used, but you got a %1$s back, you can repair it if you need it later!",
+        "broken_equipment_recover_none": "\nThis equipment type had no broken type to recover from, and was used, so it vanished into the void, but you got %1$s credits back."
       },
       "display": {
         "not_premium": "%1$sProfilwidgetpersonalisierung ist nur für Premiumnutzer zugänglich.",
@@ -1405,7 +1419,7 @@
           "bonus": "%1$s hat einen Bonus von $%2$,d für das Abholen an fünf oder mehr Tagen in Folge gewonnen! (Beim angezeigten Geld enthalten!)"
         }
       },
-      "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
+      "given_credits": "%1$sIch habe deine **$%2$,d** täglichen Credits an %3$s gegeben.",
       "credits": "%1$sDu hast **$%2$,d** tägliche Credits erhalten.",
       "sellout": "\nWir brauchen deine Hilfe, um Mantaro am Laufen zu halten! Schau unter <https://patreon.com/mantaro> für mehr Informationen.",
       "crate": "Du hast eine Truhe gewonnen, weil deine tägliche Strähne ein Vielfaches von 20 ist. Viel Spaß."
@@ -2148,7 +2162,9 @@
       "broken_sparkle_rod": "Eine glitzernde Angel, die beim Fischen beschädigt worden ist. Reparierbar.",
       "broken_star_rod": "Eine Sternenangel, die beim Fischen beschädigt worden ist. Reparierbar.",
       "incubator_egg": "TBD",
-      "water_bottle": "TBD"
+      "water_bottle": "TBD",
+      "magical_watch": "Eine magische Uhr, die die Zeit verlangsamt, wenn du es nötig hast. Sie wird automatisch genutzt, um deine tägliche Strähne zu sichern."
+
     }
   },
   "test": {
