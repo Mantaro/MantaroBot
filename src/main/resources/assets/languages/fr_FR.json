@@ -1472,8 +1472,8 @@
           "bonus": "%1$s gagne un bonus de $%2$s pour avoir réclamé son streak journalier 5 jours ou plus! (Inclus dans l'argent montré!)"
         }
       },
-      "given_credits": "%1$sJ'ai donné **$%2$s** credits à %3$s\n\n%4$s",
-      "credits": "%1$sTu reçois **$%2$s** credits journaliers.\n\n%3$s%4$s",
+      "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
+      "credits": "%1$sTu reçois **$%2$s** credits journaliers.",
       "sellout": "\nOn a besoin de ton aide pour garder Mantaro en vie! Va sur <https://patreon.com/mantaro> pour plus d'infos.",
       "crate": "Tu as gagné un coffre au trésor pour avoir obtenu un multiplicateur journalier de 20."
     },
