@@ -1427,12 +1427,12 @@
       },
       "streak": {
         "up": "Tägliche Strähne verlängert! Aktuell: `%1$,dx`",
-        "first_time": "Erstes beanspruchen der täglichen Credits, viel Spaß! (Komm morgen für deine tägliche Strähne zurück!)",
+        "first_time": "Erstes Abholen der täglichen Credits, viel Spaß! (Komm morgen für deine tägliche Strähne zurück!)",
         "lost_streak": {
           "normal": "2+ Tage sind seit deiner letzten täglichen Abholung vergangen, daher wurde deine Strähne von `%1$dx` zurückgesetzt. :(",
           "watch" : "Selbst deine `Magischen Uhren` konnten den Lauf der Zeit nicht so lange anhalten. Auch nachdem all deine magischen Uhren genutzt worden, lief deiner Strähne von `%1$dx` die Zeit ab, und wurde zurückgesetzt. :("
         },
-        "bonus": "\nDu hast einen Bonus von $%1$s für das beanspruchen deiner täglichen Credits an 5 oder mehr Tagen am Stück erhalten! (In der Geldsumme enthalten!)",
+        "bonus": "\nDu hast einen Bonus von $%1$s für das Abholen deiner täglichen Credits an 5 oder mehr Tagen am Stück erhalten! (In der Geldsumme enthalten!)",
         "given": {
           "up": "Tägliche Strähne verlängert! Aktuell: `%1$,dx`.\n*Die Strähne wurde auf dein Profil angewendet!*",
           "bonus": "%1$s hat einen Bonus von $%2$,d für das Abholen an fünf oder mehr Tagen in Folge gewonnen! (Beim angezeigten Geld enthalten!)"
