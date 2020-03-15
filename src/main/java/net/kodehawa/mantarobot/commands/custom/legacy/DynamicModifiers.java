@@ -23,11 +23,9 @@ import net.dv8tion.jda.api.events.guild.member.GenericGuildMemberEvent;
 import net.dv8tion.jda.api.events.message.guild.GenericGuildMessageEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.utils.Utils.iterate;
 import static org.apache.commons.lang3.StringUtils.capitalize;
@@ -94,7 +92,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
         return this.mapEvent(botPrefix, prefix, (GenericGuildMessageEvent) event)
                 .set(prefix, event.getMember().getAsMention() + "@" + event.getChannel().getAsMention())
                 .mapMember(k(prefix, "author"), event.getMember())
-                .mapMessage(k(prefix, "message"), new CustomMessage(event.getMessage(), botPrefix));
+                .mapMessage(k(prefix, "message"), new CustomMessage(event.getMessage(), botPrefix, event.getMessage().getMentionedMembers()));
     }
 
     public DynamicModifiers mapEvent(String botPrefix, String prefix, GenericGuildMessageEvent event) {
@@ -119,7 +117,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
     }
 
     public DynamicModifiers mapMessage(String prefix, Message message) {
-        return mapMessage(prefix, new CustomMessage(message, ""));
+        return mapMessage(prefix, new CustomMessage(message, "", message.getMentionedMembers()));
     }
 
     public DynamicModifiers mapMessage(String prefix, CustomMessage message) {
@@ -127,7 +125,9 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
                 .set(prefix, message.getContentRaw())
                 .set(prefix, "raw", message.getContentRaw())
                 .set(prefix, "textual", message.getContentDisplay())
-                .set(prefix, "stripped", message.getContentStripped());
+                .set(prefix, "stripped", message.getContentStripped())
+                .set(prefix, "mentionnames", message.getMentionedUsers().stream().map(Member::getEffectiveName).collect(Collectors.joining(" ")))
+                .set(prefix, "mentionids", message.getMentionedUsers().stream().map(Member::getId).collect(Collectors.joining(" ")));
     }
 
     public DynamicModifiers mapChannel(String prefix, TextChannel channel) {

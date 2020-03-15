@@ -17,17 +17,22 @@
 
 package net.kodehawa.mantarobot.commands.custom.legacy;
 
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
+
+import java.util.List;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public class CustomMessage {
     private Message message;
     private String prefix;
+    private List<Member> mentionedUsers;
 
-    public CustomMessage(Message message, String prefix) {
+    public CustomMessage(Message message, String prefix, List<Member> mentionedUsers) {
         this.message = message;
         this.prefix = prefix;
+        this.mentionedUsers = mentionedUsers;
     }
 
     public String getContentRaw() {
@@ -52,5 +57,9 @@ public class CustomMessage {
         }
 
         return splitArgs(message.getContentStripped().replace(prefix, "").trim(), 2)[1];
+    }
+
+    public List<Member> getMentionedUsers() {
+        return mentionedUsers;
     }
 }
