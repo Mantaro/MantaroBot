@@ -140,7 +140,7 @@ public class DebugCmds {
                     return;
 
                 long start = System.currentTimeMillis();
-                channel.sendTyping().queue(v -> {
+                channel.sendMessage("Pinging...").queue(v -> {
                     long ping = System.currentTimeMillis() - start;
                     //display: show a random quote, translated.
                     channel.sendMessageFormat(languageContext.get("commands.ping.text"), EmoteReference.MEGA, languageContext.get("commands.ping.display"), ping, ratePing(ping, languageContext), event.getJDA().getGatewayPing()).queue();

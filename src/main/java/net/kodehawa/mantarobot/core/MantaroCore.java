@@ -27,6 +27,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.SessionController;
@@ -181,8 +182,10 @@ public class MantaroCore {
 
         try {
             var listener = new ShardStartListener();
-            var builder = new DefaultShardManagerBuilder(config.token)
-                    .setSessionController(controller)
+            var builder = DefaultShardManagerBuilder.create(config.token,
+                    GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS,
+                    GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_BANS
+            ).setSessionController(controller)
                     .addEventListeners(
                             VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
                             ReactionOperations.listener(), MantaroBot.getInstance().getLavalink(),
