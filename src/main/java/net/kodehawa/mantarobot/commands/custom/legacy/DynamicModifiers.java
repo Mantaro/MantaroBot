@@ -126,8 +126,8 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
                 .set(prefix, "raw", message.getContentRaw())
                 .set(prefix, "textual", message.getContentDisplay())
                 .set(prefix, "stripped", message.getContentStripped())
-                .set(prefix, "mentionnames", message.getMentionedUsers().stream().map(Member::getEffectiveName).collect(Collectors.joining(" ")))
-                .set(prefix, "mentionids", message.getMentionedUsers().stream().map(Member::getId).collect(Collectors.joining(" ")));
+                .set(prefix, "mentionnames", message.getMentionedUsers().stream().map(Member::getEffectiveName).collect(Collectors.joining(", ")))
+                .set(prefix, "mentionids", message.getMentionedUsers().stream().map(Member::getId).collect(Collectors.joining(", ")));
     }
 
     public DynamicModifiers mapChannel(String prefix, TextChannel channel) {
