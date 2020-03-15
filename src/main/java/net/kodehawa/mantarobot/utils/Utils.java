@@ -332,6 +332,22 @@ public class Utils {
         return first;
     }
 
+    //Localized + no default.
+    public static Member findMember(GuildMessageReceivedEvent event, I18nContext lang, String content) {
+        List<Member> members = FinderUtil.findMembers(content, event.getGuild());
+        if (members.isEmpty()) {
+            event.getChannel().sendMessageFormat(lang.get("general.find_members_failure"), EmoteReference.ERROR).queue();
+            return null;
+        }
+
+        if (members.size() > 1) {
+            event.getChannel().sendMessageFormat(lang.get("general.too_many_members"), EmoteReference.THINKING, members.stream().limit(7).map(m -> String.format("%s#%s", m.getUser().getName(), m.getUser().getDiscriminator())).collect(Collectors.joining(", "))).queue();
+            return null;
+        }
+
+        return members.get(0);
+    }
+
     public static Role findRole(GuildMessageReceivedEvent event, String content) {
         List<Role> found = FinderUtil.findRoles(content, event.getGuild());
         if (found.isEmpty() && !content.isEmpty()) {

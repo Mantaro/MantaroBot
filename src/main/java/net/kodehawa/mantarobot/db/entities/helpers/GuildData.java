@@ -209,6 +209,13 @@ public class GuildData {
     @ConfigName("Has received greet message")
     private boolean hasReceivedGreet = false;
 
+    @ConfigName("People blocked from the birthday logging on this server.")
+    private List<String> birthdayBlockedIds = new ArrayList<>();
+
+    public boolean isHasReceivedGreet() {
+        return hasReceivedGreet;
+    }
+
     public GuildData() {
     }
 
@@ -828,8 +835,12 @@ public class GuildData {
         this.commandWarningDisplay = commandWarningDisplay;
     }
 
-    protected boolean canEqual(final Object other) {
-        return other instanceof GuildData;
+    public List<String> getBirthdayBlockedIds() {
+        return birthdayBlockedIds;
+    }
+
+    public void setBirthdayBlockedIds(List<String> birthdayBlockedIds) {
+        this.birthdayBlockedIds = birthdayBlockedIds;
     }
 
     public String toString() {

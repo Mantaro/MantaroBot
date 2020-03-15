@@ -18,6 +18,7 @@
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
+import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -42,6 +43,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 
@@ -1205,6 +1207,40 @@ public class GuildOptions extends OptionHandler {
                     guildData.setCommandWarningDisplay(!guildData.isCommandWarningDisplay()); //lombok names are amusing
                     dbGuild.save();
                     event.getChannel().sendMessageFormat(lang.get("options.showdisablewarning.success"), EmoteReference.CORRECT, guildData.isCommandWarningDisplay()).queue();
+                });
+
+        registerOption("commands:birthdayblacklist:add", "Add someone to the birthday blacklist", "Adds a person (by ID) to the birthday blacklist",
+                "Add someone to the birthday blacklist", (event, args, lang) -> {
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    if(args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.birthdayblacklist.no_args"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    Member member = Utils.findMember(event, lang, args[0]);
+                    if(member == null)
+                        return;
+
+                    guildData.getBirthdayBlockedIds().add(member.getId());
+                    event.getChannel().sendMessageFormat(lang.get("options.birthdayblacklist.add.success"), EmoteReference.CORRECT, member.getEffectiveName(), member.getId()).queue();
+                });
+
+        registerOption("commands:birthdayblacklist:remove", "Removes someone to the birthday blacklist", "Removes a person (by ID) to the birthday blacklist",
+                "Remove someone to the birthday blacklist", (event, args, lang) -> {
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    if(args.length == 0) {
+                        event.getChannel().sendMessageFormat(lang.get("options.birthdayblacklist.no_args"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
+                    Member member = Utils.findMember(event, lang, args[0]);
+                    if(member == null)
+                        return;
+
+                    guildData.getBirthdayBlockedIds().remove(member.getId());
+                    event.getChannel().sendMessageFormat(lang.get("options.birthdayblacklist.remove.success"), EmoteReference.CORRECT, member.getEffectiveName(), member.getId()).queue();
                 });
     }
 

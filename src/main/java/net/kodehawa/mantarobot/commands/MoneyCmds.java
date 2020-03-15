@@ -547,23 +547,10 @@ public class MoneyCmds {
                 User user = event.getAuthor();
                 boolean isExternal = false;
 
-                List<Member> found = FinderUtil.findMembers(content, event.getGuild());
-                if (found.isEmpty() && !content.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("general.search_no_result"), EmoteReference.ERROR).queue();
-                    return;
-                }
+                Member found = Utils.findMember(event, languageContext, content);
 
-                if (found.size() > 1 && !content.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("general.too_many_users_found"),
-                            EmoteReference.THINKING, found.stream()
-                                    .limit(10)
-                                    .map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator())
-                                    .collect(Collectors.joining(", "))).queue();
-                    return;
-                }
-
-                if (found.size() == 1) {
-                    user = found.get(0).getUser();
+                if (found != null) {
+                    user = found.getUser();
                     isExternal = true;
                 }
 

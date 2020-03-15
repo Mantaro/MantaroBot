@@ -209,18 +209,7 @@ public class PlayerCmds {
                         Member memberLooked = event.getMember();
 
                         List<Member> found = FinderUtil.findMembers(content, event.getGuild());
-
-                        if (found.isEmpty() && !content.isEmpty()) {
-                            channel.sendMessageFormat(languageContext.get("general.find_members_failure"), EmoteReference.ERROR).queue();
-                            return;
-                        }
-
-                        if (found.size() > 1 && !content.isEmpty()) {
-                            channel.sendMessageFormat(languageContext.get("general.too_many_members"), EmoteReference.THINKING, found.stream().limit(7).map(m -> String.format("%s#%s", m.getUser().getName(), m.getUser().getDiscriminator())).collect(Collectors.joining(", "))).queue();
-                            return;
-                        }
-
-                        if (found.size() == 1 && !content.isEmpty()) {
+                        if(found != null) {
                             userLooked = found.get(0).getUser();
                             memberLooked = found.get(0);
 

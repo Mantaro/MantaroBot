@@ -89,8 +89,9 @@ public class BirthdayTask {
                             Member member = guild.getMemberById(data.getKey());
                             String birthday = data.getValue().birthday;
 
-                            //shup up warnings
+                            //shut up warnings
                             if (member == null) continue;
+                            if(tempGuildData.getBirthdayBlockedIds().contains(member.getId())) continue;
 
                             if (birthday == null) {
                                 log.debug("Birthday is null? Removing role if present and continuing to next iteration...");
