@@ -553,6 +553,8 @@ public class MoneyCmds {
                     if (found != null) {
                         user = found.getUser();
                         isExternal = true;
+                    } else {
+                        return;
                     }
                 }
 

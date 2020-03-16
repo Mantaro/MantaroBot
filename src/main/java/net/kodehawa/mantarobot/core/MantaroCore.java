@@ -31,6 +31,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.SessionController;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
@@ -201,7 +202,8 @@ public class MantaroCore {
                     .setBulkDeleteSplittingEnabled(false)
                     .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavalink().getVoiceInterceptor())
                     .setDisabledCacheFlags(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS))
-                    .setChunkingFilter(ChunkingFilter.NONE)
+                    .setMemberCachePolicy(MemberCachePolicy.ONLINE)
+                    //.setChunkingFilter(ChunkingFilter.NONE)
                     .setActivity(Activity.playing("Hold on to your seatbelts!"));
             if (isDebug) {
                 builder.setShardsTotal(2)

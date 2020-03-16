@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands.action;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -147,19 +148,21 @@ public class ImageActionCmd extends NoArgsCommand {
         }
 
         try {
-            if (event.getMessage().getMentionedUsers().isEmpty()) {
+            if (event.getMessage().getMentionedMembers().isEmpty()) {
                 channel.sendMessageFormat(languageContext.get("commands.action.no_mention"), EmoteReference.ERROR).queue();
                 return;
             }
 
             MessageBuilder toSend = new MessageBuilder()
-                    .append(String.format(emoji + languageContext.get(format), "**" + noMentions(event) + "**", "**" + event.getMember().getEffectiveName() + "**"))
-                    .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE);
+                    .append(String.format(emoji + languageContext.get(format), "**" + noMentions(event.getMessage())
+                            + "**", "**" + event.getMember().getEffectiveName() + "**")
+                    ).stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE);
 
 
             if (swapNames) {
                 toSend = new MessageBuilder()
-                        .append(String.format(emoji + languageContext.get(format), "**" + event.getMember().getEffectiveName() + "**", "**" + noMentions(event) + "**")
+                        .append(String.format(emoji + languageContext.get(format), "**" + event.getMember().getEffectiveName()
+                                + "**", "**" + noMentions(event.getMessage()) + "**")
                         ).stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE);
             }
 
@@ -174,6 +177,7 @@ public class ImageActionCmd extends NoArgsCommand {
             toSend.setEmbed(new EmbedBuilder().setColor(Color.DARK_GRAY).setImage(random).build());
             toSend.sendTo(channel).queue();
         } catch (Exception e) {
+            e.printStackTrace();
             channel.sendMessageFormat(languageContext.get("commands.action.permission_or_unexpected_error"), EmoteReference.ERROR).queue();
         }
     }
@@ -194,7 +198,7 @@ public class ImageActionCmd extends NoArgsCommand {
         return event.getMessage().getMentionedUsers().stream().anyMatch(user -> user.getId().equals(event.getAuthor().getId()));
     }
 
-    private String noMentions(GuildMessageReceivedEvent event) {
-        return event.getMessage().getMentionedUsers().stream().distinct().map(user -> event.getGuild().getMember(user).getEffectiveName()).collect(Collectors.joining(", ")).trim();
+    private String noMentions(Message message) {
+        return message.getMentionedMembers().stream().map(Member::getEffectiveName).collect(Collectors.joining(", ")).trim();
     }
 }
