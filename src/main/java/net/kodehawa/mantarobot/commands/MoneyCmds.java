@@ -547,11 +547,13 @@ public class MoneyCmds {
                 User user = event.getAuthor();
                 boolean isExternal = false;
 
-                Member found = Utils.findMember(event, languageContext, content);
+                if(!content.isEmpty()) {
+                    Member found = Utils.findMember(event, languageContext, content);
 
-                if (found != null) {
-                    user = found.getUser();
-                    isExternal = true;
+                    if (found != null) {
+                        user = found.getUser();
+                        isExternal = true;
+                    }
                 }
 
                 if (user.isBot()) {
