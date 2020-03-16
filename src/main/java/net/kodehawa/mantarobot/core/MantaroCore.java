@@ -199,7 +199,7 @@ public class MantaroCore {
                     .setEventManagerProvider(id -> getShard(id).getManager())
                     .setBulkDeleteSplittingEnabled(false)
                     .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavalink().getVoiceInterceptor())
-                    .setDisabledCacheFlags(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE))
+                    .setDisabledCacheFlags(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS))
                     .setActivity(Activity.playing("Hold on to your seatbelts!"));
             if (isDebug) {
                 builder.setShardsTotal(2)

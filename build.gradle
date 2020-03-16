@@ -204,7 +204,8 @@ task generateJavaSources(type: SourceTask) {
 compileJava {
     source = generateJavaSources.source
     classpath = sourceSets.main.compileClasspath
-    options.compilerArgs += ["-Xlint:${lint.join(",")}", "-Werror"]
+    //options.compilerArgs += ["-Xlint:${lint.join(",")}", "-Werror"]
+    options.compilerArgs += ["-Xlint:${lint.join(",")}"]
 
     dependsOn generateJavaSources
 }
