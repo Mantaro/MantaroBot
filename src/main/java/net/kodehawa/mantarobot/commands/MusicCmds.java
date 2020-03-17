@@ -1051,8 +1051,12 @@ public class MusicCmds {
                 String fullTitle = songObject.getString("full_title");
                 String icon = songObject.getString("icon");
 
-                EmbedBuilder embed = new EmbedBuilder()
-                        .setTitle(String.format(languageContext.get("commands.lyrics.header"), EmoteReference.HEART, fullTitle))
+                EmbedBuilder embed = new EmbedBuilder();
+
+                if(lyrics.length() > 900)
+                    lyrics = lyrics.substring(0, 900) + "...";
+
+                embed.setTitle(String.format(languageContext.get("commands.lyrics.header"), EmoteReference.HEART, fullTitle))
                         .setThumbnail(icon)
                         .setDescription(lyrics)
                         .setFooter(languageContext.get("commands.lyrics.footer"));
@@ -1066,7 +1070,7 @@ public class MusicCmds {
                         .setDescription("Looks up the lyrics of a song.")
                         .setUsage("`~>lyrics [current/search term]")
                         .addParameterOptional("current", "Searches the lyrics for the song currently playing.")
-                        .addParameterOptional("searchterm", "The song to look up lyrics for.")
+                        .addParameterOptional("search term", "The song to look up lyrics for.")
                         .build();
             }
         });
