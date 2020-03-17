@@ -208,19 +208,21 @@ public class PlayerCmds {
                         DBUser dbUser = db.getUser(userLooked);
                         Member memberLooked = event.getMember();
 
-                        List<Member> found = FinderUtil.findMembers(content, event.getGuild());
-                        if(found != null) {
-                            userLooked = found.get(0).getUser();
-                            memberLooked = found.get(0);
+                        if(!content.isEmpty()) {
+                            List<Member> found = FinderUtil.findMembers(content, event.getGuild());
+                            if(found != null) {
+                                userLooked = found.get(0).getUser();
+                                memberLooked = found.get(0);
 
-                            if (userLooked.isBot()) {
-                                channel.sendMessageFormat(languageContext.get("commands.profile.bot_notice"), EmoteReference.ERROR).queue();
-                                return;
+                                if (userLooked.isBot()) {
+                                    channel.sendMessageFormat(languageContext.get("commands.profile.bot_notice"), EmoteReference.ERROR).queue();
+                                    return;
+                                }
+
+                                //Re-assign.
+                                dbUser = db.getUser(userLooked);
+                                player = db.getPlayer(memberLooked);
                             }
-
-                            //Re-assign.
-                            dbUser = db.getUser(userLooked);
-                            player = db.getPlayer(memberLooked);
                         }
 
                         PlayerData playerData = player.getData();
