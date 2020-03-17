@@ -1015,6 +1015,7 @@ public class MusicCmds {
         });
     }
 
+    @Subscribe
     public void lyrics(CommandRegistry cr) {
         cr.register("lyrics", new SimpleCommand(Category.MUSIC) {
             @Override
