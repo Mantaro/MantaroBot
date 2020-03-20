@@ -693,7 +693,7 @@ public class Items {
 
             String toReplace = lang.get("commands.mine.item_broke");
             if(!user.getData().isAutoEquip())
-                toReplace += "\n" + lang.get("item_broke_autoequip");
+                toReplace += "\n" + lang.get("commands.mine.item_broke_autoequip");
 
             event.getChannel().sendMessageFormat(toReplace, EmoteReference.SAD, item.getName(), broken).queue();
             if (isSeasonal)
