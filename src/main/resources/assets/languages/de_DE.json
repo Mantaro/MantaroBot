@@ -149,7 +149,7 @@
       "bait": "Der Fisch hat deinen Köder geschluckt!",
       "missing_equipped": "%1$sDu hattest eine %2$s Angelrute ausgerüstet, aber keine Angelrute der Art im Inventar! Die ausgerüstete Angelrute wurde zurückgesetzt.",
       "broken_drop": "%1$sDeine Angel ist kaputt gegangen, aber du kannst sie reparieren. Kaputten Gegenstand erhalten: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sDu hast keine Angelrute ausgerüstet. Rüste eine mit ~>equip <Angelname>` aus, um dein Abenteuer zu beginnen!"
+      "no_rod_equipped": "%1$sDu hast keine Angelrute ausgerüstet. Rüste eine mit `~>equip <Typ>` aus, um dein Abenteuer zu beginnen!"
     },
     "softban": {
       "no_permission": "%1$sKann nicht softbannen: Sie haben keine Rechte Mitglieder zu bannen.",
@@ -596,7 +596,7 @@
         "key_locked": "%1$sDer Nutzer, den du versucht hast zu beanspruchen, ist verschlossen und kann nicht beansprucht werden.",
         "not_enough_money": "%1$sDu hast nicht genug Geld, um diese Waifu zu beanspruchen **(Kosten: %2$s Credits)**",
         "not_enough_slots": "%1$sDu hast nicht genug Plätze verfügbar, um diese Waifu zu beanspruchen. (Plätze: %2$s, Benutzt: %3$s)",
-        "success": "%1$s`%2$s` erfolgreich für %3$s Credits beansprucht. Plätze benutzt: %4$s",
+        "success": "%1$s`%2$s` erfolgreich für %3$s Credits beansprucht. Benutzte Plätze: %4$s",
         "yourself": "%1$sDu kannst dich nicht selbst beanspruchen!",
         "already_claimed": "%1$sDu hast diese Waifu bereits beansprucht.",
         "not_found": "%1$sIch kann keinen Nutzer mit diesen Angaben finden."
@@ -1488,8 +1488,8 @@
       "easter": "\nSchaut so aus, als ob du hier sehr viel Staub hast... Du solltest hier vielleicht mal putzen, bevor es hier zu unordentlich wird!"
     },
     "mine": {
-      "not_equipped": "%1$sDu hast keine Spitzhacke ausgerüstet. Nutze `~>equip <Spitzhackenname>`, um eine Spitzhacke auszurüsten und dein Abenteuer anzufangen!",
-      "no_pick": "%1$sDu hast keine Spitzhacke zum Abbauen. Wenn du eine andere Spitzhacke verwenden willst nutze `~>mine <Spitzhacke>`.",
+      "not_equipped": "%1$sDu hast keine Spitzhacke ausgerüstet. Nutze `~>equip <Typ>`, um eine Spitzhacke auszurüsten und dein Abenteuer anzufangen!",
+      "no_pick": "%1$sDu hast keine Spitzhacke zum Abbauen. Wenn du eine andere Spitzhacke verwenden willst nutze `~>mine <Typ>`.",
       "not_suitable": "%1$sDas ist keine Spitzhacke, die du zum Abbauen nutzen kannst!",
       "not_in_inventory": "%1$sDu hast diese Spitzhacke nicht im Inventar, wechsle zur Standardspitzhacke.",
       "success": "%1$sDu hast mit einer *%3$s* Mineralien im Wert von **%2$s Credits** abgebaut.",
