@@ -444,7 +444,7 @@
         "success": "%1$sAntwort **#%2$d** von Befehl `%3$s` erfolgreich bearbeitet!"
       },
       "deleteresponse": {
-        "no_command": "$1$sDu musst den Befehl angeben, bei dem du eine Antwort entfernen willst.",
+        "no_command": "%1$sDu musst den Befehl angeben, bei dem du eine Antwort entfernen willst.",
         "invalid_number": "%1$sDu musst eine korrekte Zahl angeben.",
         "no_index": "%1$sDu kannst keinen nicht existenten Index entfernen.",
         "not_enough_args": "%1$sDu musst den Befehl und den Index zum Entfernen angeben.",
@@ -454,7 +454,7 @@
         "success": "%1$sBefehl `%2$s` zu `%3$s` umbenannt!"
       },
       "add": {
-        "no_command": "$1$sDu musst den Befehl angeben, den du hinzufügen willst.",
+        "no_command": "%1$sDu musst den Befehl angeben, den du hinzufügen willst.",
         "not_enough_args": "%1$sDu musst den Befehlsnamen und die Antwort für den Befehl angeben, den du hinzufügen willst.",
         "empty_content": "%1$sDu musst den Inhalt für diesen benutzerdefinierten Befehl angeben.",
         "success": "%1$sBefehl `%2$s` gespeichert!",
@@ -1021,7 +1021,7 @@
     },
     "activatekey": {
       "check": {
-        "key_valid_for": "%1$sDein Schlüssel ist für %$2s weitere Tage gültig :heart:",
+        "key_valid_for": "%1$sDein Schlüssel ist für %2$s weitere Tage gültig :heart:",
         "no_key_found": "%1$sDu hast keinen Schlüssel aktiviert... Wenn du Premium unter dem alten System warst, solltest du dennoch deine Belohnungen haben!"
       },
       "no_key_provided": "%1$sIch kann keinen Premium-Schlüssel aktivieren, wenn du mir keinen gibst!",
