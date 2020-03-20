@@ -1047,7 +1047,7 @@ public class MusicCmds {
                     return;
                 }
 
-                String lyrics = results.getString("lyrics");
+                String lyrics = results.getString("content");
                 JSONObject songObject = results.getJSONObject("song");
                 String fullTitle = songObject.getString("full_title");
                 String icon = songObject.getString("icon");
