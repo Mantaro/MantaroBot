@@ -529,7 +529,7 @@
         "Ping-pong? Yay!",
         "U-Uh... h-hi"
       ],
-      "text": "%1$s*%2$s* - Meine Latenz: %3$,d ms (%4$s) `Websocket:%5$,dms`"
+      "text": "%1$s*%2$s* - Meine Latenz: %3$s ms (%4$s) `Websocket:%5$sms`"
     },
     "love": {
       "no_mention": "%1$sDu musst mindestens einen Benutzer erwähnen.",
@@ -585,9 +585,9 @@
       "stats": {
         "header": "Deine Waifu Stats",
         "header_other": "%1$ss Waifu Stats",
-        "format": "%1$s **Geldbasierter Wert:** %2$,d\n%1$s **Abzeichenbasierter Wert:** %3$,d\n%1$s **Erfahrungsbasierter Wert:** %4$,d\n%1$s **Anspruchsbasierter Wert:** %5$,d\n%1$s **Ruffaktor:** %6$.2fx",
+        "format": "%1$s **Geldbasierter Wert:** %2$s\n%1$s **Abzeichenbasierter Wert:** %3$s\n%1$s **Erfahrungsbasierter Wert:** %4$s\n%1$s **Anspruchsbasierter Wert:** %5$s\n%1$s **Ruffaktor:** %6$.2fx",
         "value": "Gesamter Waifu Wert:",
-        "credits": "%1$,d Credits",
+        "credits": "%1$s Credits",
         "performance": "Waifu Leistungspunkte"
       },
       "claim": {
@@ -596,7 +596,7 @@
         "key_locked": "%1$sDer Nutzer, den du versucht hast zu beanspruchen, ist verschlossen und kann nicht beansprucht werden.",
         "not_enough_money": "%1$sDu hast nicht genug Geld, um diese Waifu zu beanspruchen **(Kosten: %2$s Credits)**",
         "not_enough_slots": "%1$sDu hast nicht genug Plätze verfügbar, um diese Waifu zu beanspruchen. (Plätze: %2$s, Benutzt: %3$s)",
-        "success": "%1$s`%2$s` erfolgreich für %3$,d Credits beansprucht. Plätze benutzt: %4$s",
+        "success": "%1$s`%2$s` erfolgreich für %3$s Credits beansprucht. Plätze benutzt: %4$s",
         "yourself": "%1$sDu kannst dich nicht selbst beanspruchen!",
         "already_claimed": "%1$sDu hast diese Waifu bereits beansprucht.",
         "not_found": "%1$sIch kann keinen Nutzer mit diesen Angaben finden."
@@ -613,14 +613,14 @@
       },
       "buyslot": {
         "locked": "%1$sDu kannst das aktuell nicht tun.",
-        "not_enough_money": "%1$sDu hast nicht genug Geld, um mehr Plätze zu kaufen! Du brauchst %2$,d Credits.",
+        "not_enough_money": "%1$sDu hast nicht genug Geld, um mehr Plätze zu kaufen! Du brauchst %2$s Credits.",
         "success": "%1$sDieser Platz wurde erfolgreich für %2$s Credits gekauft, du hast aktuell insgesamt %3$s Plätze und %4$s davon verfügbar.",
         "too_many": "%1$sDu hast bereits zu viele Plätze!"
       },
       "header": "Waifu-Liste",
-      "description_header": "Hier ist eine Liste mit all deinen geliebten Waifus, nach Hinzufüge-Datum sortiert.\n*Du kannst aktuell maximal %1$,d Waifus haben.*\n\nWenn du deine eigenen Waifu-Werte anschauen möchtest, nutze `~>waifu stats`\n\n",
+      "description_header": "Hier ist eine Liste mit all deinen geliebten Waifus, nach Hinzufüge-Datum sortiert.\n*Du kannst aktuell maximal %1$s Waifus haben.*\n\nWenn du deine eigenen Waifu-Werte anschauen möchtest, nutze `~>waifu stats`\n\n",
       "no_waifu": "Keine Waifus zu sehen, nur Staub. :(\nDu kannst Waifus sammeln, indem du jemanden beanspruchst! Nutze dazu `~>waifu claim`, um anzufangen.",
-      "footer": "Gesamte Waifus: %1$,d - Verfügbare Plätze: %2$s",
+      "footer": "Gesamte Waifus: %1$s - Verfügbare Plätze: %2$s",
       "value_format": "**- Wert:**",
       "value_b_format": "**- gekauft für:**",
       "credits_format": " Credits.",
@@ -629,23 +629,23 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sGib mir eine Waifu zum Bewerten!",
-      "success": "%1$sIch bewerte %2$s mit einer **%3$,d/100**"
+      "success": "%1$sIch bewerte %2$s mit einer **%3$s/100**"
     },
     "roll": {
-      "success": "%1$sDu würfelst eine **%2$,d**%3$s",
-      "amount": "Würfle **%1$,d** mal."
+      "success": "%1$sDu würfelst eine **%2$s**%3$s",
+      "amount": "Würfle **%1$s** mal."
     },
     "coinflip": {
       "over_limit": "%1$sHalt dich dort fest! Das Limit ist 1.000 Münzwürfe.",
       "no_repetitions": "%1$sDu musst eine ganze Zahl für die Anzahl der Wiederholungen angeben.",
-      "success": "%1$s Die Ergebnisse von **%2$,d** Wurf/Würfen ergaben **%3$,d** Kopf und **%4$,d** Zahl"
+      "success": "%1$s Die Ergebnisse von **%2$s** Wurf/Würfen ergaben **%3$s** Kopf und **%4$s** Zahl"
     },
     "inventory": {
       "bot_notice": "%1$sHier haben Bots keine Inventare. Manchmal wünschst du dir vielleicht, dass sie eines hätten, aber dann wäre es auch nur `~>market dump`",
       "brief": "**%1$ss Inventar:** %2$s\n\n*Wenn du eine detailliertere Version hiervon willst, nutze `~>inventory -info`. Schönen Tag!*",
-      "calculate": "%1$s%2$s erhält **%3$,d Credits**, wenn alle Gegenstände verkauft werden!",
+      "calculate": "%1$s%2$s erhält **%3$s Credits**, wenn alle Gegenstände verkauft werden!",
       "header": "%1$ss Inventar",
-      "format": "**Preis**: 📥 %1$,d 📤 %2$,d\n%3$s",
+      "format": "**Preis**: 📥 %1$s 📤 %2$s\n%3$s",
       "empty": "%1$sDieses Inventar ist leer! :(",
       "brief_notice": "Du kannst `~>inventory -brief` nutzen, um eine mobilfreundliche Version zu bekommen."
     },
@@ -676,12 +676,12 @@
         "non_existent": "%1$sEin nicht vorhandener Gegenstand kann nicht weggeworfen werden!",
         "player_no_item": "%1$sKann einen Gegenstand, den du nicht hast, nicht wegwerfen!",
         "more_items_than_player": "%1$sDu kannst nicht mehr Gegenstände wegwerfen, als du besitzt.",
-        "success": "%1$s%2$,dx **%3$s %4$s** Gegenstände wurden weggeworfen!"
+        "success": "%1$s%2$sx **%3$s %4$s** Gegenstände wurden weggeworfen!"
       },
       "price": {
         "non_existent": "%1$sIch kann nicht den Preis eines nicht existierenden Gegenstandes prüfen!",
         "no_price": "%1$sDieser Gegenstand steht weder zum Kauf, noch Verkauf zur Verfügung (Es könnte ein Sammelstück sein)",
-        "collectible": "%1$sDies ist ein Sammelstück. (Verkaufspreis: %2$,d Credits)",
+        "collectible": "%1$sDies ist ein Sammelstück. (Verkaufspreis: %2$s Credits)",
         "success": "%1$sDer Kaufpreis für %2$s**%3$s** ist %4$s Credits und du erhälst %5$s Credits, wenn du ihn verkaufst."
       },
       "sell": {
@@ -689,14 +689,14 @@
         "invalid": "%1$sUngültige Anzahl zu verkaufender Gegenstände.",
         "all": {
           "confirmation": "%1$sBist du *sicher*, dass du **alle** deine Gegenstände verkaufen willst? Gebe *yes* ein, um zu bestätigen und *no*, um abzubrechen.",
-          "success": "%1$sDu hast alle deine Gegenstände verkauft und %2$,d Credits erhalten!",
+          "success": "%1$sDu hast alle deine Gegenstände verkauft und %2$s Credits erhalten!",
           "cancelled": "%1$sErfolgreich abgebrochen."
         },
         "non_existent": "%1$sDu kannst keinen nicht vorhandenen Gegenstand verkaufen. (Aber du kannst ihn mit `~>market dump` wegwerfen)",
         "no_sell_price": "%1$sDu kannst keinen Gegenstand verkaufen, der nicht verkauft werden kann. (Aber du kannst ihn mit `~>market dump` wegwerfen.)",
         "no_item_player": "%1$sDu kannst keinen Gegenstand verkaufen, den du nicht besitzt.",
         "more_items_than_player": "%1$sDu kannst nicht mehr verkaufen, als du hast.",
-        "success": "%1$sDu hast %2$,d **%3$s** verkauft und erhältst %4$,d Credits!"
+        "success": "%1$sDu hast %2$s **%3$s** verkauft und erhältst %4$s Credits!"
       },
       "buy": {
         "no_item_amount": "%1$sDu musst den Gegenstand und die Anzahl (außer bei einem Gegenstand) zum Kaufen angeben.",
@@ -704,7 +704,7 @@
         "non_existent": "%1$sDu kannst einen nicht existierenden Gegenstand nicht kaufen.",
         "no_buy_price": "%1$sDu kannst einen Gegenstand, der nicht gekauft werden kann, nicht kaufen.",
         "item_limit_reached": "%1$sDu kannst nicht noch mehr von diesem Gegenstand kaufen!",
-        "success": "%1$sDu hast %2$,d %3$s für %4$,d Credits gekauft. Du hast nun %5$,d Credits.",
+        "success": "%1$sDu hast %2$s %3$s für %4$s Credits gekauft. Du hast nun %5$s Credits.",
         "not_enough_money": "%1$sDu hast nicht genügend Credits, um diesen Gegenstand zu kaufen."
       },
       "header": "Mantaros Markt",
@@ -726,13 +726,13 @@
       "bot_notice": "%1$sDu kannst kein Geld an einen Bot senden.",
       "no_amount": "%1$sDu musst mir eine Anzahl geben.",
       "no_money_specified_notice": "%1$sDu kannst nicht gar kein Geld senden. :P",
-      "over_transfer_limit": "%1$sDu kannst nicht so viel Geld senden. (Limit: %2$,d Credits)",
+      "over_transfer_limit": "%1$sDu kannst nicht so viel Geld senden. (Limit: %2$s Credits)",
       "own_locked_notice": "%1$sDu kannst jetzt kein Geld versenden.",
       "receipt_overflow_notice": "Du kannst kein Geld an diesen Nutzer senden.",
       "no_money_notice": "%1$sDu kannst Geld, das du nicht hast, nicht versenden.",
       "receipt_locked_notice": "1$sDieser Nutzer kann jetzt kein Geld erhalten.",
       "receipt_over_limit": "%1$sDieser Nutzer hat bereits zu viel Geld...",
-      "success": "%1$sEs wurden **%2$,d** *(%3$,d nach 8%% Steuern)* an **%4$s** erfolgreich überwiesen.",
+      "success": "%1$sEs wurden **%2$s** *(%3$s nach 8%% Steuern)* an **%4$s** erfolgreich überwiesen.",
       "item_transfer": "%1$sDu kannst Gegenstände nicht mit transfer verschicken, benutze stattdessen den `transferitems` Befehl.",
       "party": "Du kannst nur einmal alle 4 Minuten an eine Person (%1$s) überweisen."
     },
@@ -816,7 +816,7 @@
       },
       "retrieving_info": "%1$sInformationen abrufen vom osu! Server...",
       "timeout": "%1$sDie osu! API scheint ein Nickerchen zu machen. Vielleicht später noch einmal versuchen?",
-      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$,dpp] | Rang: %6$s -> Max Combo: %7$,d",
+      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$spp] | Rang: %6$s -> Max Combo: %7$s",
       "best": "**10 beste osu! Ergebnisse für: %1$s** (Mode: %2$d)\n```md\n%3$s```",
       "error": "%1$sUh-oh... scheint, als hätte ich gerade einen Buchstabensalat als Antwort bekommen... (Fehler beim Abrufen der Ergebnisse)",
       "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Datum: %5$s -> Max Combo: %6$d\n",
@@ -1055,7 +1055,7 @@
         "old_system": "**Premium-Server unter dem alten System! Mach dir keine Sorgen, er ist Premium und die Vorteile werden richtig funktionieren!**"
       },
       "valid_for_old": "Gültig für",
-      "old_days_more": "%1$,d weitere Tage.",
+      "old_days_more": "%1$s weitere Tage.",
       "thank_note": "Danke für deine Unterstützung. <3",
       "expire": "Läuft ab in",
       "key_duration": "Gesamtdauer",
@@ -1174,7 +1174,7 @@
         "ended_lobby": "%1$sBeendete Lobby! Danke fürs Spielen!",
         "all_attempts_used": "%1$sBereits alle Versuche genutzt, Spiel beendet. Mögliche Antworten waren: %2$s",
         "incorrect_answer": "%1$sDas ist es nicht, Sie haben %2$d Versuche übrig.",
-        "won_game": "%1$s**%2$s** hat $%3$,d Credits gewonnen, dank eine richtigen Antwort!"
+        "won_game": "%1$s**%2$s** hat $%3$s Credits gewonnen, dank eine richtigen Antwort!"
       },
       "lobby_time_out": "%1$sDie Zeit ist abgelaufen! Die richtige Antwort ist: %2$s",
       "end_footer": "Du hast 5 Versuche und 60 Sekunden. (Schreibe end, um das Spiel zu beenden)",
@@ -1270,7 +1270,7 @@
       "users": "User (Einzigartig)",
       "tc": "Text-Kanäle",
       "vc": "Sprach-Kanäle",
-      "invite": "Invite-link: http://is.gd/mantaro (Befehle diese Sitzung: %1$,d | Aktueller Shard: %2$,d)"
+      "invite": "Invite-link: http://is.gd/mantaro (Befehle diese Sitzung: %1$s | Aktueller Shard: %2$s)"
     },
     "invite": {
       "url": "Einladungs-URL",
@@ -1322,12 +1322,12 @@
       "channels": "Sprach-/Textkanäle",
       "owner": "Besitzer",
       "region": "Region",
-      "roles": "Rollen (%1$,d)",
+      "roles": "Rollen (%1$s)",
       "id_show": "Server ID: %1$s"
     },
     "userinfo": {
       "header": "Nutzerinfo für %1$s#%2$s",
-      "roles": "Rollen: [%1$,d]",
+      "roles": "Rollen: [%1$s]",
       "id": "User ID",
       "join_date": "Beitrittsdatum",
       "created": "Account erstellt",
@@ -1349,7 +1349,7 @@
       "position": "Position",
       "hoisted": "Gruppiert",
       "managed": "Verwaltet",
-      "permissions": "Berechtigungen: [%1$,d]"
+      "permissions": "Berechtigungen: [%1$s]"
     },
     "donate": {
       "beg": "%1$sOh Hi! Wenn du daran interessiert bist zu spenden, schau dir bitte die Links unten an. Mantaro zu betreiben kostet Zeit und Geld, und jeder Euro ist gern gesehen!\n\n%2$s",
@@ -1422,8 +1422,8 @@
     },
     "balance": {
       "bot_notice": "%1$sBots können kein Geld haben.",
-      "external_balance": "%1$ss Guthaben lautet **$%2$,d Credits.**",
-      "own_balance": "Dein Guthaben ist **$%1$,d Credits.**"
+      "external_balance": "%1$ss Guthaben lautet **$%2$s Credits.**",
+      "own_balance": "Dein Guthaben ist **$%1$s Credits.**"
     },
     "daily": {
       "check": "%1$s`Du kannst deine täglichen Credits in **%2$s** abholen.",
@@ -1434,7 +1434,7 @@
         "own_locked": "Du kannst jetzt nicht deine täglichen Credits erhalten."
       },
       "streak": {
-        "up": "Tägliche Strähne verlängert! Aktuell: `%1$,dx`",
+        "up": "Tägliche Strähne verlängert! Aktuell: `%1$sx`",
         "first_time": "Erstes Abholen der täglichen Credits, viel Spaß! (Komm morgen für deine tägliche Strähne zurück!)",
         "lost_streak": {
           "normal": "2+ Tage sind seit deiner letzten täglichen Abholung vergangen, daher wurde deine Strähne von `%1$dx` zurückgesetzt. :(",
@@ -1442,13 +1442,13 @@
         },
         "bonus": "\nDu hast einen Bonus von $%1$s für das Abholen deiner täglichen Credits an 5 oder mehr Tagen am Stück erhalten! (In der Geldsumme enthalten!)",
         "given": {
-          "up": "Tägliche Strähne verlängert! Aktuell: `%1$,dx`.\n*Die Strähne wurde auf dein Profil angewendet!*",
-          "bonus": "%1$s hat einen Bonus von $%2$,d für das Abholen an fünf oder mehr Tagen in Folge gewonnen! (Beim angezeigten Geld enthalten!)"
+          "up": "Tägliche Strähne verlängert! Aktuell: `%1$sx`.\n*Die Strähne wurde auf dein Profil angewendet!*",
+          "bonus": "%1$s hat einen Bonus von $%2$s für das Abholen an fünf oder mehr Tagen in Folge gewonnen! (Beim angezeigten Geld enthalten!)"
         },
         "watch_used" : "Deine `Magischen Uhren` haben deine Strähne gerettet! Du hast `%1$d` von ihnen genutzt, um die Lebenszeit deiner Strähne auf %2$dx zu erhöhen, du hast `%3$d` von ihnen übrig!"
       },
-      "given_credits": "%1$sIch habe deine **$%2$,d** täglichen Credits an %3$s gegeben.",
-      "credits": "%1$sDu hast **$%2$,d** tägliche Credits erhalten.",
+      "given_credits": "%1$sIch habe deine **$%2$s** täglichen Credits an %3$s gegeben.",
+      "credits": "%1$sDu hast **$%2$s** tägliche Credits erhalten.",
       "sellout": {
         "get_premium": "Wir brauchen deine Hilfe, um Mantaro am Laufen zu halten! Schau unter <https://patreon.com/mantaro> für mehr Informationen.",
         "already_premium" : "Danke dir für das Unterstützen von Mantaro. Ohne die Hilfe von Personen, wie dir, könnten wir Mantaro nicht am Laufen halten. :heart:"
@@ -1462,27 +1462,27 @@
       "invalid_money_or_modifier": "%1$sBitte gebe eine gültige Zahl, geringer oder gleich deinem aktuellen Guthaben, ein, oder `all`, um alle deine Credits zu setzen.",
       "not_enough_money": "%1$sBitte gebe eine Zahl innerhalb deines Guthabens ein.",
       "invalid_percentage": "%1$sBite gebe eine gültige Prozentzahl ein.",
-      "confirmation_message": "%1$sDu bist dabei **%2$,d** Credits zu setzen (was nach einer Menge ausschaut). Bist du dir sicher? Gebe **yes** zum fortsetzen und **no** zum abbrechen ein.",
+      "confirmation_message": "%1$sDu bist dabei **%2$s** Credits zu setzen (was nach einer Menge ausschaut). Bist du dir sicher? Gebe **yes** zum fortsetzen und **no** zum abbrechen ein.",
       "cancelled_bet": "%1$sWette abgebrochen.",
-      "win": "%1$sGratulation, du gewinnst %2$,d Credits und behältst, was du hattest.",
-      "win_overflow": "%1$sGratulation, du gewinnst %2$,d Credits. Leider hattest du schon zu viele Credits. Deine Tasche ist übergelaufen.",
+      "win": "%1$sGratulation, du gewinnst %2$s Credits und behältst, was du hattest.",
+      "win_overflow": "%1$sGratulation, du gewinnst %2$s Credits. Leider hattest du schon zu viele Credits. Deine Tasche ist übergelaufen.",
       "lose": "%1$sLeider verlierst du %2$s Credits. %3$s",
       "lose_all": "alle deine",
       "credits": "Credits",
-      "too_much": "%1$sDu kannst nur bis zu 275 Millionen auf einmal setzen. Du möchtest nicht vollkommen pleite gehen, oder? *(Einsatzlimit: %2$,d Credits)*",
+      "too_much": "%1$sDu kannst nur bis zu 275 Millionen auf einmal setzen. Du möchtest nicht vollkommen pleite gehen, oder? *(Einsatzlimit: %2$s Credits)*",
       "too_little": "%1$sDu kannst nicht so wenig setzen (Minimum: 100 Credits)"
     },
     "loot": {
       "player_locked": "%1$sDu kannst jetzt nichts erbeuten.",
       "item_overflow": "Aber du hattest schon zu viele Gegenstände, also habe ich beschlossen den Rest wegzuwerfen.",
       "with_item": {
-        "found": "%1$sBeim Graben durch die Nachrichten hast du %2$s gefunden. Noch dazu **$%3$,d Credits!** %4$s",
-        "found_but_overflow": "%1$sBeim Graben durch die Nachrichten hast du %2$s und **$%3$,d Credits** gefunden. %4$sAber du hattest schon zu viele Credits, also habe ich den Überschuss gespendet.",
+        "found": "%1$sBeim Graben durch die Nachrichten hast du %2$s gefunden. Noch dazu **$%3$s Credits!** %4$s",
+        "found_but_overflow": "%1$sBeim Graben durch die Nachrichten hast du %2$s und **$%3$s Credits** gefunden. %4$sAber du hattest schon zu viele Credits, also habe ich den Überschuss gespendet.",
         "found_only_item_but_overflow": "%1$sBeim Graben durch die Nachrichten hast du %2$s gefunden. %3$s"
       },
       "without_item": {
         "found": "%1$sBeim Graben durch die Nachrichten hast du **$%2$s Credits** gefunden!**",
-        "found_but_overflow_no_item": "%1$sBeim Graben durch die Nachrichten hast du **$%2$,d Credits** gefunden. Aber du hattest schon zu viele Credits, also habe ich den Überschuss gespendet."
+        "found_but_overflow_no_item": "%1$sBeim Graben durch die Nachrichten hast du **$%2$s Credits** gefunden. Aber du hattest schon zu viele Credits, also habe ich den Überschuss gespendet."
       },
       "dust": "Beim Graben durch die Nachrichten hast du nichts als Staub gefunden. (Verstaubung %1$s%%)",
       "easter": "\nSchaut so aus, als ob du hier sehr viel Staub hast... Du solltest hier vielleicht mal putzen, bevor es hier zu unordentlich wird!"
@@ -1531,7 +1531,7 @@
         "no_valid_amount": "%1$sDas ist keine gültige Menge an Geld! (Beispiele: 1000, 1k, 14000, 2M)"
       },
       "roll": "%1$s**Du hast %2$s genutzt und am Automaten gespielt**\n",
-      "win": "Und du hast **%1$,d** Credits gewonnen und behältst, was du gesetzt hast (%2$,d Credits)! Glück!",
+      "win": "Und du hast **%1$s** Credits gewonnen und behältst, was du gesetzt hast (%2$s Credits)! Glück!",
       "lose": "Und du hast verloren %1$s\nIch hoffe du hast nächstes Mal mehr Glück!",
       "tickets": "Automatenticket(s)",
       "credits": "Credits"
