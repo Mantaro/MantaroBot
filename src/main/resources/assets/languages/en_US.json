@@ -872,7 +872,8 @@
         "days": "day(s)",
         "times_used": "Times Used",
         "equipment": "Equipment",
-        "seasonal_equipment": "Season Equipment"
+        "seasonal_equipment": "Season Equipment",
+        "autoequip": "Auto Equip"
       },
       "hide_tag": {
         "success": "%1%sTag hidden status is now: `%2$s`"
@@ -905,6 +906,10 @@
         "removed": "%1$sSuccesfully reset your claim lock status.",
         "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key.",
         "no_key": "%1$sYou don't have a claim key to do this."
+      },
+      "autoequip": {
+        "disable": "%1$sSuccesfully disabled auto-equip.",
+        "success": "%1$sEnabled auto-equip."
       },
       "badge_header": "%1$sDisplay Badge",
       "bot_notice": "%1$sBots don't have profiles.",

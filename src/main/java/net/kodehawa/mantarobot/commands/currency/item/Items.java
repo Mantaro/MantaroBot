@@ -257,7 +257,7 @@ public class Items {
                 Inventory inv = pl.getInventory();
 
                 if(u.getData().isAutoEquip() && inv.containsItem(item)) {
-                    u.getData().setEquippedPick(Items.idOf(item));
+                    u.getData().getEquippedItems().equipItem(item);
                     inv.process(new ItemStack(item, -1));
 
                     pl.save();
@@ -664,7 +664,7 @@ public class Items {
         boolean assumeBroken = false;
         PlayerEquipment equippedItems = isSeasonal ? seasonPlayer.getData().getEquippedItems() : user.getData().getEquippedItems();
         float subtractFrom = (float) (handleEffect(PlayerEquipment.EquipmentType.POTION, equippedItems, POTION_STAMINA, user) ?
-                        r.nextInt(13) : r.nextInt(7));
+                        r.nextInt(17) : r.nextInt(13));
 
         //We do validation before this...
         PlayerEquipment.EquipmentType equipmentType = equippedItems.getTypeFor(item);

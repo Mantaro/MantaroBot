@@ -634,6 +634,7 @@ public class PlayerCmds {
 
                         prettyDisplayLine(ctx.get("commands.profile.stats.equipment"), equipment),
                         prettyDisplayLine(ctx.get("commands.profile.stats.seasonal_equipment"), seasonalEquipment),
+                        prettyDisplay(ctx.get("commands.profile.stats.autoequip"), String.valueOf(data.isAutoEquip())),
                         prettyDisplay(ctx.get("commands.profile.stats.experience"), playerData.getExperience() + "/" + experienceNext + " XP"),
                         prettyDisplay(ctx.get("commands.profile.stats.daily"), playerData.getDailyStreak() + " " + ctx.get("commands.profile.stats.days")),
                         prettyDisplay(ctx.get("commands.profile.stats.daily_at"), new Date(playerData.getLastDailyAt()).toString()),

@@ -852,7 +852,7 @@ public class MoneyCmds {
                     Player p = MantaroData.db().getPlayer(event.getAuthor());
                     Inventory inv = p.getInventory();
                     if(userData.isAutoEquip() && inv.containsItem(item)) {
-                        userData.setEquippedPick(Items.idOf(item));
+                        userData.getEquippedItems().equipItem(item);
                         inv.process(new ItemStack(item, -1));
 
                         p.save();
