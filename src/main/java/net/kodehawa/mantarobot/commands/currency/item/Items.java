@@ -650,9 +650,8 @@ public class Items {
         float amount = r.nextInt(6);
         boolean assumeBroken = false;
         PlayerEquipment equippedItems = isSeasonal ? seasonPlayer.getData().getEquippedItems() : user.getData().getEquippedItems();
-        float subtractFrom = (float)
-                (handleEffect(PlayerEquipment.EquipmentType.POTION, equippedItems, POTION_STAMINA, user) ?
-                        r.nextInt(7) : r.nextInt(4));
+        float subtractFrom = (float) (handleEffect(PlayerEquipment.EquipmentType.POTION, equippedItems, POTION_STAMINA, user) ?
+                        r.nextInt(13) : r.nextInt(7));
 
         //We do validation before this...
         PlayerEquipment.EquipmentType equipmentType = equippedItems.getTypeFor(item);
@@ -662,7 +661,7 @@ public class Items {
             equippedItems.resetDurabilityTo(equipmentType, ((Breakable) item).getMaxDurability());
         }
 
-        int durability = equippedItems.reduceDurability(equipmentType, (int) Math.max(1, (amount - subtractFrom)));
+        int durability = equippedItems.reduceDurability(equipmentType, (int) Math.max(3, (amount - subtractFrom)));
 
         if (durability < 10) {
             assumeBroken = true;
