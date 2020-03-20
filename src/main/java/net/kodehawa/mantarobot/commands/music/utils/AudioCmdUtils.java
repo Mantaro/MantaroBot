@@ -172,7 +172,8 @@ public class AudioCmdUtils {
             event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.success"), EmoteReference.CORRECT, userChannel.getName()).queue();
             return completedFuture(null);
         } catch (NullPointerException e) {
-            event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.non_existing_channel"), EmoteReference.ERROR).queue();
+            e.printStackTrace();
+            event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.non_existent_channel"), EmoteReference.ERROR).queue();
 
             //Reset custom channel.
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());

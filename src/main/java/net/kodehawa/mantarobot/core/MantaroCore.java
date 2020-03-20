@@ -187,6 +187,7 @@ public class MantaroCore {
             var listener = new ShardStartListener();
             var builder = new DefaultShardManagerBuilder(config.token)
                     .setSessionController(controller)
+                    .setShardsTotal(config.totalShards)
                     .addEventListeners(
                             VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
                             ReactionOperations.listener(), MantaroBot.getInstance().getLavalink(),
@@ -231,23 +232,27 @@ public class MantaroCore {
                         .setGatewayPool(Executors.newSingleThreadScheduledExecutor(gatewayThreadFactory), true)
                         .setRateLimitPool(Executors.newScheduledThreadPool(2, requesterThreadFactory), true);
             } else {
-                if (ExtraRuntimeOptions.SHARD_SUBSET_MISSING) {
-                    throw new IllegalStateException("Both mantaro.from-shard and mantaro.to-shard must be specified " +
-                            "when using shard subsets. Please specify the missing one.");
-                }
-                var count = getInstanceShards(config.token);
-                builder
-                        .setCallbackPool(Executors.newFixedThreadPool(Math.max(1, count / 4), callbackThreadFactory), true)
-                        .setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, count / 16), gatewayThreadFactory), true)
-                        .setRateLimitPool(Executors.newScheduledThreadPool(Math.max(2, count / 8), requesterThreadFactory), true);
-                if (ExtraRuntimeOptions.SHARD_SUBSET) {
-                    builder.setShardsTotal(ExtraRuntimeOptions.SHARD_COUNT.orElseThrow())
-                            .setShards(
-                                    ExtraRuntimeOptions.FROM_SHARD.orElseThrow(),
-                                    ExtraRuntimeOptions.TO_SHARD.orElseThrow()
-                            );
+                if(config.totalShards != 0) {
+                    builder.setShardsTotal(config.totalShards);
                 } else {
-                    builder.setShardsTotal(ExtraRuntimeOptions.SHARD_COUNT.orElse(-1));
+                    if (ExtraRuntimeOptions.SHARD_SUBSET_MISSING) {
+                        throw new IllegalStateException("Both mantaro.from-shard and mantaro.to-shard must be specified " +
+                                "when using shard subsets. Please specify the missing one.");
+                    }
+                    var count = getInstanceShards(config.token);
+                    builder
+                            .setCallbackPool(Executors.newFixedThreadPool(Math.max(1, count / 4), callbackThreadFactory), true)
+                            .setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, count / 16), gatewayThreadFactory), true)
+                            .setRateLimitPool(Executors.newScheduledThreadPool(Math.max(2, count / 8), requesterThreadFactory), true);
+                    if (ExtraRuntimeOptions.SHARD_SUBSET) {
+                        builder.setShardsTotal(ExtraRuntimeOptions.SHARD_COUNT.orElseThrow())
+                                .setShards(
+                                        ExtraRuntimeOptions.FROM_SHARD.orElseThrow(),
+                                        ExtraRuntimeOptions.TO_SHARD.orElseThrow()
+                                );
+                    } else {
+                        builder.setShardsTotal(ExtraRuntimeOptions.SHARD_COUNT.orElse(-1));
+                    }
                 }
             }
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
