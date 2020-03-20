@@ -187,7 +187,6 @@ public class MantaroCore {
             var listener = new ShardStartListener();
             var builder = new DefaultShardManagerBuilder(config.token)
                     .setSessionController(controller)
-                    .setShardsTotal(config.totalShards)
                     .addEventListeners(
                             VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
                             ReactionOperations.listener(), MantaroBot.getInstance().getLavalink(),
