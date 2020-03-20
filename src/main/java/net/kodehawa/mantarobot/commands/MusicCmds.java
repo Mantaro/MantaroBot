@@ -1069,7 +1069,7 @@ public class MusicCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Looks up the lyrics of a song.")
-                        .setUsage("`~>lyrics [current/search term]")
+                        .setUsage("`~>lyrics [current/search term]`")
                         .addParameterOptional("current", "Searches the lyrics for the song currently playing.")
                         .addParameterOptional("search term", "The song to look up lyrics for.")
                         .build();
