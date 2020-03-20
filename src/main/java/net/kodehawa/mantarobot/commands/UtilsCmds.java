@@ -184,7 +184,8 @@ public class UtilsCmds {
                         }
 
                         //O(1) lookups. Probably.
-                        HashSet<String> ids = event.getGuild().getMemberCache().stream().map(m -> m.getUser().getId()).collect(Collectors.toCollection(HashSet::new));
+                        Guild guild = event.getGuild();
+                        HashSet<String> ids = guild.getMemberCache().stream().map(m -> m.getUser().getId()).collect(Collectors.toCollection(HashSet::new));
                         Map<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = cacher.cachedBirthdays;
 
                         //No birthdays to be seen here? (This month)
@@ -196,15 +197,16 @@ public class UtilsCmds {
                         //Build the message. This is duplicated on birthday month with a lil different.
                         String birthdays = guildCurrentBirthdays.entrySet().stream()
                                 .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
-                                .map((entry) -> String.format("+ %-20s : %s ", event.getGuild().getMemberById(entry.getKey()).getEffectiveName(), entry.getValue().getBirthday()))
+                                .filter(entry -> guild.getMemberById(entry.getKey()) != null)
+                                .map((entry) -> String.format("+ %-20s : %s ", guild.getMemberById(entry.getKey()).getEffectiveName(), entry.getValue().getBirthday()))
                                 .collect(Collectors.joining("\n"));
 
                         List<String> parts = DiscordUtils.divideString(1000, birthdays);
-                        boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(channel, Permission.MESSAGE_ADD_REACTION);
+                        boolean hasReactionPerms = guild.getSelfMember().hasPermission(channel, Permission.MESSAGE_ADD_REACTION);
 
                         List<String> messages = new LinkedList<>();
                         for (String s1 : parts) {
-                            messages.add(String.format(languageContext.get("commands.birthday.full_header"), event.getGuild().getName(),
+                            messages.add(String.format(languageContext.get("commands.birthday.full_header"), guild.getName(),
                                     (parts.size() > 1 ? (hasReactionPerms ? languageContext.get("general.arrow_react") : languageContext.get("general.text_menu")) : "") +
                                             String.format("```diff\n%s```", s1)));
                         }
