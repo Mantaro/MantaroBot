@@ -297,7 +297,7 @@ public class PlayerCmds {
         profileCommand.addSubCommand("claimlock", new SubCommand() {
             @Override
             public String description() {
-                return "Locks you from being waifu claimed. Needs a claim key.";
+                return "Locks you from being waifu claimed. Needs a claim key. Use `remove` to remove it.";
             }
 
             @Override
@@ -320,6 +320,30 @@ public class PlayerCmds {
                 } else {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.profile.claimlock.no_key"), EmoteReference.ERROR).queue();
                 }
+            }
+        });
+
+        profileCommand.addSubCommand("autoequip", new SubCommand() {
+            @Override
+            public String description() {
+                return "Sets whether you want or not to autoequip a new tool on break. Use `disable` to disable it.";
+            }
+
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                DBUser user = MantaroData.db().getUser(event.getAuthor());
+                UserData data = user.getData();
+
+                if (content.equals("disable")) {
+                    data.setAutoEquip(false);
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.autoequip.disabled"), EmoteReference.CORRECT).queue();
+                    user.save();
+                    return;
+                }
+
+                data.setAutoEquip(true);
+                event.getChannel().sendMessageFormat(languageContext.get("commands.profile.autoequip.success"), EmoteReference.CORRECT).queue();
+                user.save();
             }
         });
 

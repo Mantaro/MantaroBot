@@ -252,6 +252,19 @@ public class Items {
 
             boolean broken = handleDurability(event, lang, item, p, u, sp, isSeasonal);
             if (broken) {
+                //We need to get this again since reusing the old ones will cause :fire:
+                Player pl = MantaroData.db().getPlayer(event.getAuthor());
+                Inventory inv = pl.getInventory();
+
+                if(u.getData().isAutoEquip() && inv.containsItem(item)) {
+                    u.getData().setEquippedPick(Items.idOf(item));
+                    inv.process(new ItemStack(item, -1));
+
+                    pl.save();
+                    u.save();
+
+                    event.getChannel().sendMessageFormat(lang.get("commands.mine.autoequip.success"), EmoteReference.CORRECT, item.getName()).queue();
+                }
                 //Handled in the handleDurability method.
                 return false;
             } else {
@@ -677,7 +690,11 @@ public class Items {
                 playerInventory.process(new ItemStack(brokenItem, 1));
             }
 
-            event.getChannel().sendMessageFormat(lang.get("commands.mine.item_broke"), EmoteReference.SAD, item.getName(), broken).queue();
+            String toReplace = lang.get("commands.mine.item_broke");
+            if(!user.getData().isAutoEquip())
+                toReplace += "\n" + lang.get("item_broke_autoequip");
+
+            event.getChannel().sendMessageFormat(toReplace, EmoteReference.SAD, item.getName(), broken).queue();
             if (isSeasonal)
                 seasonPlayer.save();
             else

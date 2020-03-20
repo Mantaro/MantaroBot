@@ -49,6 +49,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 
+import javax.print.attribute.standard.MediaName;
 import java.security.SecureRandom;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -846,8 +847,21 @@ public class MoneyCmds {
                     return;
 
                 //If it's broken return
-                if (Items.handleDurability(event, languageContext, item, player, dbUser, seasonalPlayer, isSeasonal))
+                if (Items.handleDurability(event, languageContext, item, player, dbUser, seasonalPlayer, isSeasonal)) {
+                    //We need to get this again since reusing the old ones will cause :fire:
+                    Player p = MantaroData.db().getPlayer(event.getAuthor());
+                    Inventory inv = p.getInventory();
+                    if(userData.isAutoEquip() && inv.containsItem(item)) {
+                        userData.setEquippedPick(Items.idOf(item));
+                        inv.process(new ItemStack(item, -1));
+
+                        p.save();
+                        dbUser.save();
+
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.mine.autoequip.success"), EmoteReference.CORRECT, item.getName()).queue();
+                    }
                     return;
+                }
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
 

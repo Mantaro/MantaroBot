@@ -55,6 +55,8 @@ public class UserData {
     //Hide tag (and ID on waifu) on marriage/waifu list
     private boolean privateTag = false; //just explicitly setting it to false to make sure people know it's the default.
 
+    private boolean autoEquip = false;
+
     public UserData() {
     }
 
@@ -218,7 +220,11 @@ public class UserData {
         this.privateTag = privateTag;
     }
 
-    protected boolean canEqual(final Object other) {
-        return other instanceof UserData;
+    public boolean isAutoEquip() {
+        return autoEquip;
+    }
+
+    public void setAutoEquip(boolean autoEquip) {
+        this.autoEquip = autoEquip;
     }
 }

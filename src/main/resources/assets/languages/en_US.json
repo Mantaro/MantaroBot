@@ -134,6 +134,9 @@
         "overflow": "You found a **%1$s** while fishing, but you had too many already, so we threw it back into the ocean...",
         "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
+      "autoequip": {
+        "success": "%1$sYou chose to auto-equip when an item breaks, so I've automatically equipped a **%2$s** on your fish slot"
+      },
       "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water...",
       "success": "%1$sWhile calmly fishing, you found %2$s and you proceed to save them into your bucket.",
       "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$d credits** and you proceed to save them into your bucket.%4$s",
@@ -1569,7 +1572,11 @@
         "overflow": "You found a **%1$s** while mining, but you had too many and left it behind...",
         "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
+      "autoequip": {
+        "success": "%1$sYou chose to auto-equip when an item breaks, so I've automatically equipped a **%2$s** on your pick slot"
+      },
       "item_broke": "%1$sYour %2$s broke while using it :(. %3$s",
+      "item_broke_autoequip": "*Hint: You can use `~>profile autoequip` and it'll automatically equip the item for you when it breaks, assuming you have one in your inventory.*",
       "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!",
       "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset.",
       "broken_drop": "%1$sYour pick broke, but you can repair it. Got broken item: %2$s *%3$s*"
