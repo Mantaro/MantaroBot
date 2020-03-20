@@ -444,7 +444,7 @@
         "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly"
       },
       "deleteresponse": {
-        "no_command": "$1$sYou need to specify the command you want to remove a response from.",
+        "no_command": "%1$sYou need to specify the command you want to remove a response from.",
         "invalid_number": "%1$sYou need to specify a correct number to change.",
         "no_index": "%1$sYou cannot remove a non-existent index.",
         "not_enough_args": "%1$sYou need to specify the command and the index you want to delete.",
@@ -454,7 +454,7 @@
         "success": "%1$sRenamed command `%2$s` to `%3$s`"
       },
       "add": {
-        "no_command": "$1$sYou need to specify the command you want to add.",
+        "no_command": "%1$sYou need to specify the command you want to add.",
         "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
         "empty_content": "%1$sYou need to specify the content of this custom command",
         "success": "%1$sSaved to command `%2$s`",
