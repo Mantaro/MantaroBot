@@ -134,6 +134,9 @@
         "overflow": "Du hast eine **%1$s** beim Fischen gefunden, aber du hattest bereits zu viele, daher haben wir sie zurück in den Ozean geworfen...",
         "success": "Du hast eine %1$s **%2$s** beim Fischen gefunden und hast sie mitgenommen. Los, öffne sie mit `~>opencrate <Truhenname>`. Du brauchst dazu einen Truhenschlüssel!"
       },
+      "autoequip": {
+        "success": "%1$sDu hast das automatische Ersetzen von kaputten Werkzeugen aktiviert, also habe ich dir eine neue **%2$s** in deinem Angelslot ausgerüstet."
+      },
       "overflow": "%1$sDu hast Fische gefangen, aber dein Inventar war voll, also mussten wir es ins Wasser werfen ...",
       "success": "%1$s Während du ruhig angelst findest du %2$s und lagerst den Fund in deinem Fischeimer.",
       "success_money": "%1$s Während du ruhig angelst findest du %2$s und **$%3$d Credits** und du bewahrst deinen Fund in deinem Eimer auf.%4$s",
@@ -146,7 +149,7 @@
       "bait": "Der Fisch hat deinen Köder geschluckt!",
       "missing_equipped": "%1$sDu hattest eine %2$s Angelrute ausgerüstet, aber keine Angelrute der Art im Inventar! Die ausgerüstete Angelrute wurde zurückgesetzt.",
       "broken_drop": "%1$sDeine Angel ist kaputt gegangen, aber du kannst sie reparieren. Kaputten Gegenstand erhalten: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sDu hast keine Angelrute ausgerüstet. Um eine auszurüsten, nutze `~>equip <Angelname>`, um dein Abenteuer zu starten!`"
+      "no_rod_equipped": "%1$sDu hast keine Angelrute ausgerüstet. Rüste eine mit ~>equip <Angelname>` aus, um dein Abenteuer zu beginnen!"
     },
     "softban": {
       "no_permission": "%1$sKann nicht softbannen: Sie haben keine Rechte Mitglieder zu bannen.",
@@ -869,7 +872,8 @@
         "days": "Tag(e)",
         "times_used": "Anzahl der Nutzungen",
         "equipment": "Equipment",
-        "seasonal_equipment": "Saisons-Equipment"
+        "seasonal_equipment": "Saisons-Equipment",
+        "autoequip": "Automatisches Ausrüsten"
       },
       "hide_tag": {
         "success": "%1%sTag-Sichtbarkeit gesetzt auf: `%2$s`"
@@ -902,6 +906,10 @@
         "removed": "%1$sDein Beanspruchungsschutz wurde erfolgreich zurückgesetzt.",
         "success": "%1$sDu kannst nicht mehr als Waifu beansprucht werden. Das hat einen .",
         "no_key": "%1$sDu hast keinen Anspruchsschlüssel, um dies zu tun."
+      },
+      "autoequip": {
+        "disable": "%1$sAuomatischen Ausrüsten wurde deaktiviert.",
+        "success": "%1$sAutomatisches Ausrüsten wurde aktiviert."
       },
       "badge_header": "%1$sVorzeige-Abzeichen",
       "bot_notice": "%1$sBots haben keine Profile.",
@@ -1484,7 +1492,7 @@
       "no_pick": "%1$sDu hast keine Spitzhacke zum Abbauen. Wenn du eine andere Spitzhacke verwenden willst nutze `~>mine <Spitzhacke>`.",
       "not_suitable": "%1$sDas ist keine Spitzhacke, die du zum Abbauen nutzen kannst!",
       "not_in_inventory": "%1$sDu hast diese Spitzhacke nicht im Inventar, wechsle zur Standardspitzhacke.",
-      "success": "%1$sDu hast Mineralien im Wert von **$%2$s Credits abgebaut**, indem du eine %3$s genutzt hast.",
+      "success": "%1$sDu hast mit einer *%3$s* Mineralien im Wert von **%2$s Credits** abgebaut.",
       "reminder": "\n*Du kannst bessere Spitzhacken mit den Edelsteinen herstellen, die du beim Abbauen bekommst. Schau unter `~>cast ls` für eine Liste an Dingen, die du herstellen kannst*",
       "diamond": {
         "overflow": "Huch, du hast einen Diamanten während des Abbauens gefunden, aber du hattest schon zu viele, also habe ich ihn für dich verkauft.",
@@ -1502,7 +1510,11 @@
         "overflow": "Du hast eine **%1$s** beim Graben gefunden, aber du hattest schon zu viele, also hast du sie zurückgelassen...",
         "success": "Du hast eine %1$s **%2$s** beim Graben gefunden und mitgenommen. Los, öffne sie mit `~>opencrate <Truhenname>`. Du brauchst einen Truhenschlüssel!"
       },
+      "autoequip": {
+        "success": "%1$sDu hast das automatische Ersetzen von kaputten Werkzeugen aktiviert, also habe ich dir eine neue **%2$s** in deinem Spitzhackenslot ausgerüstet."
+      },
       "item_broke": "%1$sDeine %2$s ist beim Benutzen zerbrochen :(. %3$s",
+      "item_broke_autoequip": "*Hinweis: Du kannst `~>profile autoequip` nutzen und immer, wenn dein Werkzeug kaputt geht, rüstet es dir ein neues aus, insofern du eins im Inventar hast.*",
       "waifu_help": "Deine Waifu gesellte sich zu deinem Minenabenteuer und ihr habt beide eine größere Beute bekommen!",
       "missing_equipped": "%1$sDu hattest eine %2$s Spitzhacke ausgerüstet, aber keine Spitzhacke der Art im Inventar! Die ausgerüstete Spitzhacke wurde zurückgesetzt.",
       "broken_drop": "%1$sDeine Spitzhacke ist kaputt gegangen, aber du kannst sie reparieren. Kaputten Gegenstand erhalten: %2$s *%3$s*"
@@ -1967,6 +1979,15 @@
     "showdisablewarning": {
       "success": "%1$sWarnung bei deaktivierten Befehlen ist gesetzt auf: %2$s"
     },
+    "birthdayblacklist": {
+      "no_args": "%1$sDu musst angeben, wen du vom Geburtstagsansager ausschließen willst.",
+      "add": {
+        "success": "%1$s%2$s (%3$s) wurde erfolgreich auf diesem Server vom Geburtstagsansager ausgeschlossen."
+      },
+      "remove": {
+        "success": "%1$sDer Ausschluss von %2$s (%3$s) vom Geburtstagsansager wurde erfolgreich entfernt."
+      }
+    },
     "invalid_category": "%1$sDu hast eine ungültige Kategorie eingegeben. Eine Liste gültiger Kategorien zum deaktivieren (Groß- und Kleinschreibung beachten) wird unten angezeigt```md\n%2$s```",
     "help_opts_notice": "%1$sDu kannst den options oder help Befehl nicht deaktivieren.",
     "no_command": "%1$sKein Befehl namens %2$s",
@@ -2109,7 +2130,7 @@
       "forgotten": "niemals heruntergeladen. Wahrscheinlich mit Copyright.",
       "pencil": "Wir haben viele davon!",
       "moneybag": "Was sonst?",
-      "pick": "Dieser Typ mag Minecraft zu sehr (24% Bruchrate). (`~>mine` Werkzeug)",
+      "pick": "Dieser Typ mag Minecraft zu sehr (35 Punkte Haltbarkeit). (`~>mine` Werkzeug)",
       "milk": "Vielleicht ist es in Ordnung ein paar zu haben.",
       "beverage": "Macht wirklich merkwürdige Dinge in Massen. Naja, kommt auf die Art an ;)",
       "lewd": "Zu viele unzüchtige Befehle. Viel zu viele. Hatteste Spaß?",
@@ -2143,7 +2164,7 @@
       "haste": "Ermöglicht es dir mehr Zeug durch ausbeutbare Befehle für 2 Versuch zu erhalten.",
       "milky": "Entfernt alle Trankeffekte.",
       "energy": "Verringert die Wahrscheinlichkeit, dass deine Spitzhacke zerbricht. Hält nur 3 mal.",
-      "rod": "Lässt dich fischen. (20% Bruchrate)",
+      "rod": "Lässt dich fischen. (25 Punkte Haltbarkeit)",
       "fish": "Fisch. Beim Fischen gefangen.",
       "tropical_fish": "Ein sehr tropischer Fisch. Beim Fischen gefangen.",
       "blowfish": "Ich frage mich... ist das gut? Beim Fischen gefangen.",
@@ -2156,14 +2177,14 @@
       "coffee": "Ein wunderbarer Start in den Tag.",
       "waifu_pill": "Gibt dir einen großen Vorteil beim Abbauen und Fischen, wenn eine deiner Waifus 10 Millionen wert ist. Hält 5 Runden.",
       "bait": "Erhöht deine Wahrscheinlichkeit Fische zu fangen.",
-      "diamond_pick": "Eine sehr viel stärkere Spitzhacke (20% Bruchrate). (`~>mine` Werkzeug).",
+      "diamond_pick": "Eine sehr viel stärkere Spitzhacke (150 Punkte Haltbarkeit). (`~>mine` Werkzeug).",
       "tv": "Muss... Fernsehen... schauen...",
       "wrench": "Herstellungswerkzeug. Nützlich zum Herstellen.",
       "star_wrench": "Herstellungswerkzeug. Nützlich, um Sachen zusammenzubauen. Geringe Chance kaputt zu gehen, benötigt, um mehrere Gegenstände auf einmal herzustellen. Stufe 2.",
       "sparkle_wrench": "Herstellungswerkzeug. Geringe Chance kaputt zu gehen, benötigt, um mehrere Gegenstände auf einmal herzustellen. Geringe Kosten pro Herstellung. Stufe 3.",
       "motorcycle": "Herumfahren, und zwar auf die coole Art.",
-      "comet_pick": "Eine sehr viel stärkere Spitzhacke (18% Bruchrate). (`~>mine` Werkzeug).",
-      "star_pick": "Eine sehr viel stärkere Spitzhacke (13% Bruchrate). (`~>mine` Werkzeug).",
+      "comet_pick": "Eine sehr viel stärkere Spitzhacke (160 Punkte Haltbarkeit). (`~>mine` Werkzeug).",
+      "star_pick": "Eine sehr viel stärkere Spitzhacke (210 Punkte Haltbarkeit). (`~>mine` Werkzeug).",
       "sparkle": "Eines der seltensten Juwelen. Pass drauf auf. (Wird zum Herstellen von glitzernden Spitzhacken und glitzernden Angelrute genutzt)",
       "sparkle_pick": "Die beste Spitzhacke (6% Bruchrate). (`~>mine` Werkzeug)",
       "pizza": "Lecker.",
@@ -2171,9 +2192,9 @@
       "fish_crate": "Eine Kiste, die du beim Fischen gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate treasure` geöffnet werden",
       "mine_premium_crate": "Eine Kiste, die du beim Bergbau gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate gem premium crate` geöffnet werden",
       "fish_premium_crate": "Eine Kiste, die du beim Fischen gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate premium treasure` geöffnet werden",
-      "comet_rod": "Eine etwas stärkere Angel. (17% Bruchrate)",
-      "star_rod": "Eine stärkere Angel. (14% Bruchrate)",
-      "sparkle_rod": "Eine viel stärkere Angel. (9% Bruchrate)",
+      "comet_rod": "Eine etwas stärkere Angel. (90 Punkte Haltbarkeit)",
+      "star_rod": "Eine stärkere Angel. (130 Punkte Haltbarkeit)",
+      "sparkle_rod": "Eine viel stärkere Angel. (250 Punkte Haltbarkeit)",
       "shell": "Am Grunde des Ozeans gefunden. Wofür könnte es nützlich sein?",
       "shark": "Woah. Wie hast du *das* gefangen?",
       "crab": "Eine Krabbe. Sie tanzt, vielleicht.",
