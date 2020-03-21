@@ -873,7 +873,8 @@
         "times_used": "Times Used",
         "equipment": "Equipment",
         "seasonal_equipment": "Season Equipment",
-        "autoequip": "Auto Equip"
+        "autoequip": "Auto Equip",
+        "never": "Never"
       },
       "hide_tag": {
         "success": "%1%sTag hidden status is now: `%2$s`"
