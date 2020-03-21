@@ -1112,6 +1112,8 @@ public class MusicCmds {
             //This ends up calling TrackScheduler#onTrackStart -> currentTrack == null -> TrackScheduler#onStop!
             //Beware to not close the connection twice...
             trackScheduler.nextTrack(true, true);
+            //Remove Music Manager and avoid dangling objects forever here, lol
+            MantaroBot.getInstance().getAudioManager().getMusicManagers().remove(event.getGuild().getId());
         } catch (Exception e) {
             e.printStackTrace();
         }

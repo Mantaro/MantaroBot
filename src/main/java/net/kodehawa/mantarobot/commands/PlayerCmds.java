@@ -336,7 +336,7 @@ public class PlayerCmds {
 
                 if (content.equals("disable")) {
                     data.setAutoEquip(false);
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.autoequip.disabled"), EmoteReference.CORRECT).queue();
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.autoequip.disable"), EmoteReference.CORRECT).queue();
                     user.save();
                     return;
                 }
