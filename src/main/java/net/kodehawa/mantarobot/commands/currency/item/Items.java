@@ -660,12 +660,11 @@ public class Items {
     public static boolean handleDurability(GuildMessageReceivedEvent event, I18nContext lang, Item item, Player player, DBUser user, SeasonPlayer seasonPlayer, boolean isSeasonal) {
         Inventory playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
 
-        float amount = r.nextInt(6);
         boolean assumeBroken = false;
         PlayerEquipment equippedItems = isSeasonal ? seasonPlayer.getData().getEquippedItems() : user.getData().getEquippedItems();
-        float subtractFrom = (float)
-                (handleEffect(PlayerEquipment.EquipmentType.POTION, equippedItems, POTION_STAMINA, user) ?
-                        r.nextInt(12) : r.nextInt(16));
+        float subtractFrom = (float) (handleEffect(PlayerEquipment.EquipmentType.POTION, equippedItems, POTION_STAMINA, user) ?
+                //if player has potion | if there's no active potion
+                r.nextInt(12) : r.nextInt(16));
 
         //We do validation before this...
         PlayerEquipment.EquipmentType equipmentType = equippedItems.getTypeFor(item);
@@ -675,7 +674,7 @@ public class Items {
             equippedItems.resetDurabilityTo(equipmentType, ((Breakable) item).getMaxDurability());
         }
 
-        int durability = equippedItems.reduceDurability(equipmentType, (int) Math.max(3, (amount - subtractFrom)));
+        int durability = equippedItems.reduceDurability(equipmentType, (int) Math.max(3, subtractFrom));
 
         if (durability < 10) {
             assumeBroken = true;
