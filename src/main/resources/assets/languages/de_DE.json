@@ -1481,7 +1481,7 @@
         "found_only_item_but_overflow": "%1$sBeim Graben durch die Nachrichten hast du %2$s gefunden. %3$s"
       },
       "without_item": {
-        "found": "%1$sBeim Graben durch die Nachrichten hast du **$%2$s Credits** gefunden!**",
+        "found": "%1$sBeim Graben durch die Nachrichten hast du **$%2$s Credits** gefunden!",
         "found_but_overflow_no_item": "%1$sBeim Graben durch die Nachrichten hast du **$%2$s Credits** gefunden. Aber du hattest schon zu viele Credits, also habe ich den Überschuss gespendet."
       },
       "dust": "Beim Graben durch die Nachrichten hast du nichts als Staub gefunden. (Verstaubung %1$s%%)",
