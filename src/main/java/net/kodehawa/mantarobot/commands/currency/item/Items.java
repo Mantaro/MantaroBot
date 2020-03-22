@@ -664,7 +664,7 @@ public class Items {
         PlayerEquipment equippedItems = isSeasonal ? seasonPlayer.getData().getEquippedItems() : user.getData().getEquippedItems();
         float subtractFrom = (float) (handleEffect(PlayerEquipment.EquipmentType.POTION, equippedItems, POTION_STAMINA, user) ?
                 //if player has potion | if there's no active potion
-                r.nextInt(8) : r.nextInt(12));
+                r.nextInt(7) : r.nextInt(10));
 
         //We do validation before this...
         PlayerEquipment.EquipmentType equipmentType = equippedItems.getTypeFor(item);
