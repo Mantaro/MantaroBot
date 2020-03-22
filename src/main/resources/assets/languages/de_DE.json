@@ -873,7 +873,8 @@
         "times_used": "Anzahl der Nutzungen",
         "equipment": "Equipment",
         "seasonal_equipment": "Saisons-Equipment",
-        "autoequip": "Automatisches Ausrüsten"
+        "autoequip": "Automatisches Ausrüsten",
+        "never": "Nie"
       },
       "hide_tag": {
         "success": "%1%sTag-Sichtbarkeit gesetzt auf: `%2$s`"
