@@ -50,6 +50,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
@@ -57,6 +58,7 @@ import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 
+import java.awt.*;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -1052,17 +1054,16 @@ public class MusicCmds {
                 String fullTitle = songObject.getString("full_title");
                 String icon = songObject.getString("icon");
 
-                EmbedBuilder embed = new EmbedBuilder();
+                List<String> divided = DiscordUtils.divideString(900, lyrics.trim());
 
-                if(lyrics.length() > 900)
-                    lyrics = lyrics.substring(0, 900) + "...";
+                DiscordUtils.list(event, 30, false, 900, (p, total) -> {
+                    EmbedBuilder embed = new EmbedBuilder();
+                    embed.setTitle(String.format(languageContext.get("commands.lyrics.header"), EmoteReference.HEART, fullTitle))
+                            .setThumbnail(icon)
+                            .setFooter(String.format(languageContext.get("commands.lyrics.footer"), p, total));
 
-                embed.setTitle(String.format(languageContext.get("commands.lyrics.header"), EmoteReference.HEART, fullTitle))
-                        .setThumbnail(icon)
-                        .setDescription(lyrics)
-                        .setFooter(languageContext.get("commands.lyrics.footer"));
-
-                channel.sendMessage(embed.build()).queue();
+                    return embed;
+                }, divided);
             }
 
             @Override

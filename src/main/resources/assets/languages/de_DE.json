@@ -371,7 +371,7 @@
       "no_current_track": "%1$sAktuell läut kein Lied auf diesem Server!",
       "error_searching": "%1$sEs gab einen Fehler bei der Suche nach diesem Lied oder es wurden keine Ergebnisse gefunden.",
       "header": "%1$sLyrics für %2$s",
-      "footer": "Danke für's Nutzen von Mantaro! Service provided by https://lyrics.tsu.sh."
+      "footer": "Danke für's Nutzen von Mantaro! Page: %1$d, Total: %2$d."
     },
     "prefix": {
       "header": "%1$sDie Standardpräfixe lauten: %2$s (Ich reagiere auf all diese!). Das Serverpräfix ist `%3$s` (Funktioniert nur auf diesem Server). Du kannst mit `~>opts prefix set <Präfix>` ein neues Präfix setzen.",
