@@ -438,7 +438,7 @@ public class Items {
                 pl.save();
                 u.save();
 
-                event.getChannel().sendMessageFormat(lang.get("commands.mine.autoequip.success"), EmoteReference.CORRECT, item.getName()).queue();
+                event.getChannel().sendMessageFormat(lang.get("commands.fish.autoequip.success"), EmoteReference.CORRECT, item.getName()).queue();
             }
 
             //Handled in the handleDurability method.

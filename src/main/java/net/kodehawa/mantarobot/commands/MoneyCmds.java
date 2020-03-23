@@ -935,7 +935,6 @@ public class MoneyCmds {
                     }
                 }
 
-                channel.sendMessage(message).queue();
                 if (isSeasonal) {
                     seasonalPlayer.addMoney(money);
                     seasonalPlayer.saveAsync();
@@ -958,9 +957,11 @@ public class MoneyCmds {
                         p.save();
                         dbUser.save();
 
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.mine.autoequip.success"), EmoteReference.CORRECT, item.getName()).queue();
+                        message += "\n" + String.format(languageContext.get("commands.mine.autoequip.success"), EmoteReference.CORRECT, item.getName());
                     }
                 }
+
+                channel.sendMessage(message).queue();
             }
 
             @Override
