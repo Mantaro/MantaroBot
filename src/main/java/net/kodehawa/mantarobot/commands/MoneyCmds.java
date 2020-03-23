@@ -846,23 +846,6 @@ public class MoneyCmds {
                 if (!handleDefaultIncreasingRatelimit(rateLimiter, user, event, languageContext, false))
                     return;
 
-                //If it's broken return
-                if (Items.handleDurability(event, languageContext, item, player, dbUser, seasonalPlayer, isSeasonal)) {
-                    //We need to get this again since reusing the old ones will cause :fire:
-                    Player p = MantaroData.db().getPlayer(event.getAuthor());
-                    Inventory inv = p.getInventory();
-                    if(userData.isAutoEquip() && inv.containsItem(item)) {
-                        userData.getEquippedItems().equipItem(item);
-                        inv.process(new ItemStack(item, -1));
-
-                        p.save();
-                        dbUser.save();
-
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.mine.autoequip.success"), EmoteReference.CORRECT, item.getName()).queue();
-                    }
-                    return;
-                }
-
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
 
                 //Add money buff to higher pickaxes.
@@ -962,6 +945,22 @@ public class MoneyCmds {
 
                 //Due to badges.
                 player.saveAsync();
+
+                //Pick broke
+                if (Items.handleDurability(event, languageContext, item, player, dbUser, seasonalPlayer, isSeasonal)) {
+                    //We need to get this again since reusing the old ones will cause :fire:
+                    Player p = MantaroData.db().getPlayer(event.getAuthor());
+                    Inventory inv = p.getInventory();
+                    if(userData.isAutoEquip() && inv.containsItem(item)) {
+                        userData.getEquippedItems().equipItem(item);
+                        inv.process(new ItemStack(item, -1));
+
+                        p.save();
+                        dbUser.save();
+
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.mine.autoequip.success"), EmoteReference.CORRECT, item.getName()).queue();
+                    }
+                }
             }
 
             @Override
