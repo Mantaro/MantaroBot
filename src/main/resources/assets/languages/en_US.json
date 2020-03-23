@@ -1581,7 +1581,7 @@
       "autoequip": {
         "success": "%1$sYou chose to auto-equip when an item breaks, so I've automatically equipped a **%2$s** on your pick slot"
       },
-      "item_broke": "%1$sYour %2$s broke while using it :(. %3$s",
+      "item_broke": "%1$sYour %2$s broke while using it :( %3$s",
       "item_broke_autoequip": "*Hint: You can use `~>profile autoequip` and it'll automatically equip the item for you when it breaks, assuming you have one in your inventory.*",
       "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!",
       "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset.",
