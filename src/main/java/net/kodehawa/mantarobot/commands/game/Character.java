@@ -106,7 +106,7 @@ public class Character extends ImageGame {
             }
 
             //Allow for replying with only the first name of the character.
-            if (characterName.contains(" ") && !characterName.contains("Sailor")) {
+            if (characterName.contains(" ")) {
                 characterNameL.add(characterName.split(" ")[0]);
             }
 
