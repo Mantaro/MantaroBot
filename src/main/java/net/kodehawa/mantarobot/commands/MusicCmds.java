@@ -735,8 +735,8 @@ public class MusicCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Repeats a song.")
-                        .setUsage("`~>repeat [queue]`")
+                        .setDescription("Repeats a song, or disables repeat.")
+                        .setUsage("`~>repeat [queue]`. This command is a toggle. It will **disable** repeat if it's ran when it's turned on.")
                         .addParameter("queue", "Add this if you want to repeat the queue (`~>repeat queue`). This is optional.")
                         .build();
             }
