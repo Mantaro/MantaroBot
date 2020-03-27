@@ -212,9 +212,7 @@ public class InfoCmds {
                                         guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).isEmpty() ?
                                         "" : "\n" + String.format(languageContext.get("commands.help.channel_specific_disabled_commands"),
                                         guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).size())
-                                ) + (tips.isEmpty() ?
-                                "" : String.format("\n*Tip: %s*", tips.get(rand.nextInt(tips.size())))
-                        )
+                                )
 
                 )
                 .setFooter(String.format(languageContext.get("commands.help.footer"), prefix,
