@@ -14,10 +14,10 @@ Yuri Nakamura
 Sakura Kinomoto
 Makoto Itou
 Makoto Sunakawa
-Sailor Uranus
-Sailor Mercury
-Sailor Neptune
-Sailor Pluto
+Haruka Tenou
+Ami Mizuno
+Michiru Kaiou
+Setsuna Meiou
 Katsuhira Agata
 Honoka Maki
 Akira Aoi
@@ -145,3 +145,149 @@ Tsunayoshi Sawada
 Ryou Asuka
 Ichigo Kurosaki
 Vegeta
+Oboro Iga
+Shikamaru Nara
+Roronoa Zoro
+Mirajane Strauss
+Hinata Hyuga
+Alexis Rhodes
+Natsu Dragneel
+Kisuke Urahara
+Neptune
+Pururut
+Compa
+Noire
+Historie
+Nepgear
+Vert
+Magiquone
+Tamayo Kizuki
+Mizaki Suzuhara
+Kotarou Kobayashi
+Hatoko Kobayashi
+Tamayo Kizuki
+Shoko Asami
+Hiromi Fujimori
+Kaede Saito
+Ringo Seto
+Ichirou Mihara
+Zero Two
+Armin Arlert
+Eren Yeager
+Marco Bott
+Mikasa Ackerman
+Jean Kirstein
+Krista Lenz
+Shouko Nishimiya
+Shouya Ishida
+Saitama
+Tatsumaki
+Kurisu Makise
+Rintarou Okabe
+Mayuri Shiina
+Rumiho Akiha
+Yukitaka Akiha
+Suzuha Amane
+Moeka Kiryuu
+Yuugo Tennouji
+Nae Tennouji
+Ruka Urushibara
+Eisuko Urushibara
+Itaru Hashida
+Taiga Aisaka
+Ami Kawashima
+Yuusaku Kitamura
+Minori Kushieda
+Ryuuji Takasu
+Rikurou Aisaka
+Sena Hamada
+Kouji Haruta
+Sumire Kanou
+Sakura Kanou
+Nanako Kashii
+Maya Kihara
+Yuri Koigakubo
+Hisamitsu Noto
+Yasuko Takasu
+Kanade Tachibana
+Yuzuru Otonashi
+Yuki Nakamura
+Yukio Okumura
+Rin Okumura
+Shura Kirigakure
+Shirou Fujimoto
+Izumo Kamiki
+Nemu Takara
+Michelle Neuhaus
+Renzou Shima
+Ryuuji Suguro
+Tatsuma Suguro
+Hiyori Iki
+Manabu Ogiwara
+Ami Tabata
+Yuusuke Urasawa
+Akira Yamashita
+Satsuki Kiryuuin
+Mako Mankanshoku
+Ryuuko Matoi
+Fuu Kasumi
+Maka Albarn
+Death the Kid
+Patricia Thompson
+Elizabeth Thompson
+Tsubaki Nakatsukasa
+Shiro
+Kirino Kousaka
+Kyousuke Kousaka
+Saori Makishima
+Ruri Gokou
+Yoshino Kousaka
+Setsuna Fate Iori
+Ayase Aragaki
+Kanako Kurusu
+Daisuke Kousaka
+Manami Tamura
+Iwao Tamura
+Hitana Gokou
+Leonardo Watch
+William Macbeth
+Klaus von Reinherz
+Zapp Renfro
+Koyomi Araragi
+Nadeko Sengoku
+Hitagi Senjougahara
+Mayoi Hachikuji
+Shinobu Oshino
+Tsubasa Hanekawa
+Chitoge Kirisaki
+Kosaki Onodera
+Raku Ichijou
+Seishirou Tsugumi
+Ruri Miyamoto
+Kazuma Ikezawa
+Sakae Jinnouchi
+Wabisuke Jinnouchi
+Kenji Koiso
+Natsuko Shinohara
+Kiyomi Ikezawa
+Yumi Jinnouchi
+Riichi Jinnouchi
+Takashi Sakuma
+Hestia
+Yoshitake Tanaka
+Hidenori Tabata
+Yuuri Katsuki
+Victor Nikiforov
+Yuri Plisetsky
+Guang-Hong Ji
+Michiele Crispino
+Kodaka Hasegawa
+Sena Kashiwasaki
+Yozora Mikazuki
+Akari Fujibayashi
+Kobato Hanato
+Kiyokazu Fujimoto
+Ioryogi
+Syaoran Li
+Chise Mihara
+Kimihiro Watanuki
