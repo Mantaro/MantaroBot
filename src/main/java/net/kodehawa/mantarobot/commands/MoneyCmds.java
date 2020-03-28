@@ -947,7 +947,7 @@ public class MoneyCmds {
                 }
 
                 //Due to badges.
-                player.saveAsync();
+                player.save();
 
                 //Pick broke
                 if (Items.handleDurability(event, languageContext, item, player, dbUser, seasonalPlayer, isSeasonal)) {
