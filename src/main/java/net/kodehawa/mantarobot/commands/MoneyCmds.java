@@ -142,6 +142,10 @@ public class MoneyCmds {
                         return;
                     }
 
+                    if(otherUser.getIdLong() == author.getIdLong()) {
+                        channel.sendMessageFormat(languageContext.withRoot("commands", "daily.errors.same_user"), EmoteReference.ERROR).queue();
+                        return;
+                    }
 
                     Player playerOtherUser = dbt.getPlayer(otherUser);
                     if(playerOtherUser.isLocked()){

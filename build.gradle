@@ -70,12 +70,12 @@ dependencies {
     compile 'club.minnced:discord-webhooks:0.1.7'
 
     //Music
-    compile ('com.github.FredBoat:Lavalink-Client:bdac72ffa8') {
+    compile ('com.github.FredBoat:Lavalink-Client:bdac72f') {
         exclude group: 'com.sedmelluq', module: 'lavaplayer'
     }
 
-    compile 'com.sedmelluq:lavaplayer:1.3.38'
-    compile 'com.sedmelluq:lavaplayer-ext-youtube-rotator:0.2.1'
+    compile 'com.sedmelluq:lavaplayer:1.3.39'
+    compile 'com.sedmelluq:lavaplayer-ext-youtube-rotator:0.2.2'
     compile 'net.notfab.cache:cache-client:1.1'
 
     //before: classpathscanner

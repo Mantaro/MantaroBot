@@ -1499,7 +1499,8 @@
       "errors": {
         "bot": "%1$sYou cannot transfer your daily to a bot.",
         "receipt_locked": "That user cannot receive daily credits now.",
-        "own_locked": "You cannot receive your daily now."
+        "own_locked": "You cannot receive your daily now.",
+        "same_user": "%1$sUse daily without mentioning yourself if you're gonna mention yourself :P"
       },
       "streak": {
         "up": "Streak up! Current streak: `%1$,dx`",
