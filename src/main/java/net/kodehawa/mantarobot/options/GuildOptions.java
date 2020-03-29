@@ -18,13 +18,9 @@
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
-import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -43,7 +39,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 
@@ -135,7 +130,9 @@ public class GuildOptions extends OptionHandler {
                     final String finalMessage = message;
 
                     event.getGuild().addRoleToMember(m, birthdayRole).queue(success ->
-                            new MessageBuilder(finalMessage).stripMentions(event.getJDA()).sendTo(birthdayChannel).queue(s ->
+                            new MessageBuilder(finalMessage)
+                                    .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE)
+                                    .sendTo(birthdayChannel).queue(s ->
                                     event.getChannel().sendMessageFormat(lang.get("options.birthday_test.success"),
                                             EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
                                     ).queue(), error ->

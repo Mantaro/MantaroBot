@@ -20,10 +20,8 @@ package net.kodehawa.mantarobot.commands.utils.birthday;
 import io.prometheus.client.Counter;
 import io.sentry.Sentry;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -123,7 +121,10 @@ public class BirthdayTask {
                                         guild.addRoleToMember(member, birthdayRole)
                                                 .reason("Birthday assigner. If you see this happening for every member of your server, or in unintended ways, please do ~>opts birthday disable")
                                                 .queue(s -> {
-                                                            channel.sendMessage(birthdayMessage).queue();
+                                                            new MessageBuilder().setContent(birthdayMessage)
+                                                                    .stripMentions(guild, Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE)
+                                                                    .sendTo(channel)
+                                                                    .queue();
                                                             birthdayCounter.inc();
                                                         }
                                                 );
