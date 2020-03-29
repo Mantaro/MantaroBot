@@ -185,46 +185,51 @@ public class MantaroCore {
 
         try {
             var listener = new ShardStartListener();
-            var builder = new DefaultShardManagerBuilder(config.token)
-                    .setSessionController(controller)
-                    .addEventListeners(
-                            VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
-                            ReactionOperations.listener(), MantaroBot.getInstance().getLavalink(),
-                            listener
-                    )
-                    .addEventListenerProviders(List.of(
-                            id -> new CommandListener(id, commandProcessor, threadPool, getShard(id).getMessageCache()),
-                            id -> new MantaroListener(id, threadPool, getShard(id).getMessageCache()),
-                            id -> getShard(id).getListener()
-                    ))
-                    .setEventManagerProvider(id -> getShard(id).getManager())
-                    .setBulkDeleteSplittingEnabled(false)
-                    .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavalink().getVoiceInterceptor())
-                    .setDisabledCacheFlags(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS))
-                    .setActivity(Activity.playing("Hold on to your seatbelts!"));
+            DefaultShardManagerBuilder builder;
 
-            //TODO: Uncomment this when we can actually handle intents: half of the bot breaks without proper chunking.
-            /*var builder = DefaultShardManagerBuilder.create(config.token,
-                    GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS,
-                    GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_BANS
-            ).setSessionController(controller)
-                    .addEventListeners(
-                            VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
-                            ReactionOperations.listener(), MantaroBot.getInstance().getLavalink(),
-                            listener
-                    )
-                    .addEventListenerProviders(List.of(
-                            id -> new CommandListener(id, commandProcessor, threadPool, getShard(id).getMessageCache()),
-                            id -> new MantaroListener(id, threadPool, getShard(id).getMessageCache()),
-                            id -> getShard(id).getListener()
-                    ))
-                    .setEventManagerProvider(id -> getShard(id).getManager())
-                    .setBulkDeleteSplittingEnabled(false)
-                    .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavalink().getVoiceInterceptor())
-                    .setDisabledCacheFlags(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS))
-                    .setMemberCachePolicy(MemberCachePolicy.ONLINE)
-                    //.setChunkingFilter(ChunkingFilter.NONE)
-                    .setActivity(Activity.playing("Hold on to your seatbelts!"));*/
+            if(!config.isLazyLoading()) {
+                builder = new DefaultShardManagerBuilder(config.token)
+                        .setSessionController(controller)
+                        .addEventListeners(
+                                VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
+                                ReactionOperations.listener(), MantaroBot.getInstance().getLavalink(),
+                                listener
+                        )
+                        .addEventListenerProviders(List.of(
+                                id -> new CommandListener(id, commandProcessor, threadPool, getShard(id).getMessageCache()),
+                                id -> new MantaroListener(id, threadPool, getShard(id).getMessageCache()),
+                                id -> getShard(id).getListener()
+                        ))
+                        .setEventManagerProvider(id -> getShard(id).getManager())
+                        .setBulkDeleteSplittingEnabled(false)
+                        .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavalink().getVoiceInterceptor())
+                        .setDisabledCacheFlags(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS))
+                        .setActivity(Activity.playing("Hold on to your seatbelts!"));
+            } else {
+                builder = DefaultShardManagerBuilder.create(config.token,
+                        GatewayIntent.GUILD_PRESENCES, //This one is so we can have lazy loading
+                        GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS,
+                        GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_BANS
+                ).setSessionController(controller)
+                        .addEventListeners(
+                                VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
+                                ReactionOperations.listener(), MantaroBot.getInstance().getLavalink(),
+                                listener
+                        )
+                        .addEventListenerProviders(List.of(
+                                id -> new CommandListener(id, commandProcessor, threadPool, getShard(id).getMessageCache()),
+                                id -> new MantaroListener(id, threadPool, getShard(id).getMessageCache()),
+                                id -> getShard(id).getListener()
+                        ))
+                        .setEventManagerProvider(id -> getShard(id).getManager())
+                        .setBulkDeleteSplittingEnabled(false)
+                        .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavalink().getVoiceInterceptor())
+                        .setDisabledCacheFlags(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS))
+                        .setMemberCachePolicy(MemberCachePolicy.ALL)
+                        .setChunkingFilter(ChunkingFilter.NONE)
+                        .setActivity(Activity.playing("Hold on to your seatbelts!"));
+            }
+
             if (isDebug) {
                 builder.setShardsTotal(2)
                         .setCallbackPool(Executors.newFixedThreadPool(1, callbackThreadFactory), true)

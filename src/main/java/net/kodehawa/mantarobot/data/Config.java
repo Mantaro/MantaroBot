@@ -65,6 +65,7 @@ public class Config {
     public String excludeAddress = "";
     public int bucketFactor = 4;
     public long dailyMaxPeriodMilliseconds = TimeUnit.HOURS.toMillis(50);
+    public boolean lazyLoading = false;
 
     public Config() {
     }
@@ -391,5 +392,13 @@ public class Config {
 
     public void setDailyMaxPeriodMilliseconds(long dailyMaxPeriodMilliseconds){
         this.dailyMaxPeriodMilliseconds = dailyMaxPeriodMilliseconds;
+    }
+
+    public boolean isLazyLoading() {
+        return lazyLoading;
+    }
+
+    public void setLazyLoading(boolean lazyLoading) {
+        this.lazyLoading = lazyLoading;
     }
 }
