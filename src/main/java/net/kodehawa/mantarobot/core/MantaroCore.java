@@ -254,6 +254,7 @@ public class MantaroCore {
                     }
                 }
             }
+
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
             log.info("Spawning shards...");
             var start = System.currentTimeMillis();

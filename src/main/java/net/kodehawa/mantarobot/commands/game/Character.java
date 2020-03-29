@@ -41,9 +41,9 @@ import java.util.Random;
 public class Character extends ImageGame {
     private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
     private static final Logger log = org.slf4j.LoggerFactory.getLogger("Game [Character]");
-    //Avoid AniList ratelimits, we don't need more than fetching the image either way and URL shouldn't change in a short amount of time.
+    //Avoid spamming Kitsu, we don't need more than fetching the image either way and URL shouldn't change in a short amount of time.
     private static Cache<String, String> imgCache = CacheBuilder.newBuilder()
-            .maximumSize(200)
+            .maximumSize(300)
             .build();
 
     private final int maxAttempts = 5;

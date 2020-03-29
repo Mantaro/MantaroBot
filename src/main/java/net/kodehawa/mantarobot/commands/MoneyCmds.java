@@ -951,6 +951,7 @@ public class MoneyCmds {
                 player.save();
 
                 //Pick broke
+                //The same player gets thrown around here and there to avoid race conditions.
                 Pair<Boolean, Player> breakage = Items.handleDurability(event, languageContext, item, player, dbUser, seasonalPlayer, isSeasonal);
                 if (breakage.getKey()) {
                     Player p = breakage.getValue();
