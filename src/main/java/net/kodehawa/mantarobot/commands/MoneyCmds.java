@@ -48,6 +48,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.print.attribute.standard.MediaName;
 import java.security.SecureRandom;
@@ -950,9 +951,9 @@ public class MoneyCmds {
                 player.save();
 
                 //Pick broke
-                if (Items.handleDurability(event, languageContext, item, player, dbUser, seasonalPlayer, isSeasonal)) {
-                    //We need to get this again since reusing the old ones will cause :fire:
-                    Player p = MantaroData.db().getPlayer(event.getAuthor());
+                Pair<Boolean, Player> breakage = Items.handleDurability(event, languageContext, item, player, dbUser, seasonalPlayer, isSeasonal);
+                if (breakage.getKey()) {
+                    Player p = breakage.getValue();
                     Inventory inv = p.getInventory();
                     if(userData.isAutoEquip() && inv.containsItem(item)) {
                         userData.getEquippedItems().equipItem(item);

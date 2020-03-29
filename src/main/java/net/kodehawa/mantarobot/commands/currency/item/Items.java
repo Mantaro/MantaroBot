@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 
 import java.security.SecureRandom;
@@ -425,10 +426,11 @@ public class Items {
     }
 
     private static void handleRodBreak(Item item, GuildMessageReceivedEvent event, I18nContext lang, Player p, DBUser u, SeasonPlayer sp, boolean isSeasonal) {
-        boolean broken = handleDurability(event, lang, item, p, u, sp, isSeasonal);
+        Pair<Boolean, Player> breakage = handleDurability(event, lang, item, p, u, sp, isSeasonal);
+        boolean broken = breakage.getKey();
         if (broken) {
             //We need to get this again since reusing the old ones will cause :fire:
-            Player pl = MantaroData.db().getPlayer(event.getAuthor());
+            Player pl = breakage.getValue();
             Inventory inv = pl.getInventory();
 
             if(u.getData().isAutoEquip() && inv.containsItem(item)) {
@@ -668,7 +670,7 @@ public class Items {
         return null;
     }
 
-    public static boolean handleDurability(GuildMessageReceivedEvent event, I18nContext lang, Item item, Player player, DBUser user, SeasonPlayer seasonPlayer, boolean isSeasonal) {
+    public static Pair<Boolean, Player> handleDurability(GuildMessageReceivedEvent event, I18nContext lang, Item item, Player player, DBUser user, SeasonPlayer seasonPlayer, boolean isSeasonal) {
         Inventory playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
 
         boolean assumeBroken = false;
@@ -714,7 +716,7 @@ public class Items {
             user.save();
 
             //is broken
-            return true;
+            return Pair.of(true, player);
         } else {
             if (isSeasonal)
                 seasonPlayer.save();
@@ -725,7 +727,7 @@ public class Items {
             user.save();
 
             //is not broken
-            return false;
+            return Pair.of(false, player);
         }
     }
 }
