@@ -48,7 +48,8 @@ public enum ProfileComponent {
             return String.format("**%s**\n", holder.getBadges().get(0));
     }, true, false),
     CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.credits"), (holder, i18nContext) ->
-            "$ " + (holder.isSeasonal() ? holder.getSeasonalPlayer().getMoney() : holder.getPlayer().getMoney())
+            "$ " + holder.getPlayer().getMoney(),
+            true, false
     ),
     REPUTATION(EmoteReference.REP, i18nContext -> i18nContext.get("commands.profile.rep"), (holder, i18nContext) ->
             holder.isSeasonal() ? String.valueOf(holder.getSeasonalPlayer().getReputation()) : String.valueOf(holder.getPlayer().getReputation())
@@ -63,7 +64,7 @@ public enum ProfileComponent {
             return i18nContext.get("commands.profile.not_specified");
         else
             return data.getBirthday().substring(0, 5);
-    }),
+    }, true, false),
     MARRIAGE(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.married"), (holder, i18nContext) -> {
         Player player = holder.getPlayer();
         PlayerData playerData = player.getData();
