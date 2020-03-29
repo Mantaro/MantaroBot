@@ -43,7 +43,7 @@ public class Character extends ImageGame {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger("Game [Character]");
     //Avoid AniList ratelimits, we don't need more than fetching the image either way and URL shouldn't change in a short amount of time.
     private static Cache<String, String> imgCache = CacheBuilder.newBuilder()
-            .maximumSize(50)
+            .maximumSize(200)
             .build();
 
     private final int maxAttempts = 5;

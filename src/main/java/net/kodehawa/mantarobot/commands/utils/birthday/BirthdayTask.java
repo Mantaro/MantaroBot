@@ -120,7 +120,8 @@ public class BirthdayTask {
                                     try {
                                         guild.addRoleToMember(member, birthdayRole)
                                                 .reason("Birthday assigner. If you see this happening for every member of your server, or in unintended ways, please do ~>opts birthday disable")
-                                                .queue(s -> {
+                                                .queue(
+                                                        s -> {
                                                             new MessageBuilder().setContent(birthdayMessage)
                                                                     .stripMentions(guild, Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE)
                                                                     .sendTo(channel)
