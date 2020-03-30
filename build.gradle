@@ -75,7 +75,7 @@ dependencies {
     }
 
     compile 'com.sedmelluq:lavaplayer:1.3.39'
-    compile 'com.sedmelluq:lavaplayer-ext-youtube-rotator:0.2.2'
+    compile 'com.sedmelluq:lavaplayer-ext-youtube-rotator:0.2.1'
     compile 'net.notfab.cache:cache-client:1.1'
 
     //before: classpathscanner

@@ -200,8 +200,8 @@ public class MantaroCore {
                         .setChunkingFilter(ChunkingFilter.NONE);
             }
 
-            builder
-                    .setSessionController(controller)
+            //Shared between the two builders (lazy load and normal)
+            builder.setSessionController(controller)
                     .addEventListeners(
                             VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
                             ReactionOperations.listener(), MantaroBot.getInstance().getLavalink(),
