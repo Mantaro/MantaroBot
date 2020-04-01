@@ -820,6 +820,12 @@ public class PlayerCmds {
                 String part = ""; //Start as an empty string.
                 if(type == PlayerEquipment.EquipmentType.PICK || type == PlayerEquipment.EquipmentType.ROD) {
                     Item equippedItem = Items.fromId(equipment.getEquipment().get(type));
+
+                    if(equippedItem == null) {
+                        channel.sendMessageFormat(languageContext.get("commands.profile.unequip.not_equipped"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+
                     Breakable item = (Breakable) equippedItem;
 
                     float percentage = ((float) equipment.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;

@@ -30,8 +30,10 @@ import java.util.Map;
 
 public class UserData {
     private String birthday;
+
     @JsonProperty("hasReceivedFirstKey")
     private boolean receivedFirstKey = false; //Placeholder here for rethonk plz
+
     private String premiumKey;
     private int reminderN;
     private String timezone;
@@ -43,6 +45,7 @@ public class UserData {
 
     @JsonProperty("receivedExpirationWarning")
     private boolean receivedExpirationWarning = false; //premium key about to expire!
+
     private Map<String, String> keysClaimed = new HashMap<>(); //Map of user -> key. Will be used to account for keys the user can create themselves.
 
     //NEW MARRIAGE SYSTEM
@@ -60,8 +63,7 @@ public class UserData {
 
     private boolean autoEquip = false;
 
-    public UserData() {
-    }
+    public UserData() {  }
 
     @JsonIgnore
     public Marriage getMarriage() {
