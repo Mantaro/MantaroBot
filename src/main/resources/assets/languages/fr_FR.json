@@ -12,7 +12,7 @@
     "hourly": "Horaire",
     "daily": "Quotidien",
     "total": "Total",
-    "arrow_react": "Utilises les flèches de réactions pour changer de page.",
+    "arrow_react": "Utilise les flèches de réaction pour changer de page.",
     "text_menu": "Utilise &page >> et &page << pour changer de page et &annuler pour terminer",
     "not_found": "Non trouvé",
     "no_results": "Pas de résultats.",
@@ -134,6 +134,9 @@
         "overflow": "Tu as trouvé **%1$s** en pêchant, mais tu en avais déjà trop, donc nous avons tout rejeté dans l'océan...",
         "success": "Tu as trouvé %1$s **%2$s** en pêchant et tu le ramasses. Allez ouvre-le en écrivant `~>opencrate <nom du coffre>`. Tu auras besoin d'une clé pour l’ouvrir !"
       },
+      "autoequip": {
+        "success": "%1$sTu avais équipé un objet désormais cassé, j'ai donc pris la liberté d'équiper une **%2$s**"
+      },
       "overflow": "%1$sTu as trouvé des poissons, mais une partie de ton inventaire était pleine, nous avons donc dû en jeter une partie dans l’eau....",
       "success": "%1$sEn pêchant tranquillement, tu as trouvé %2$s et tu les as gardé dans ton seau.",
       "success_money": "%1$sEn pêchant tranquillement, tu as trouvé %2$s et **$%3$d credits** et tu les as gardé dans ton seau.%4$s",
@@ -145,7 +148,8 @@
       "fossil_success": "%1$sTu as attrapé un fossile en pêchant. Cela pourrait avoir un peu de valeur ou même être utile à la fabrication, je pense",
       "bait": "Le poisson a avalé ton appât!",
       "missing_equipped": "%1$sTu étais équipé d'une canne à pêche %2$s, mais tu n'en as plus de comme ça dans ton inventaire! Ta canne à pêche par défaut a donc été réinitialisée.",
-      "broken_drop": "%1$sTa canne s'est cassée mais tu peux la réparer. Tu as obtenu l'objet endommagé : %2$s *%3$s*"
+      "broken_drop": "%1$sTa canne s'est cassée mais tu peux la réparer. Tu as obtenu l'objet endommagé : %2$s *%3$s*",
+      "no_rod_equipped": "%1$sTu n'as pas équipé de canne à pêche... Pour y remédier, envoie `~>equip <nom de la canne à pêche en anglais>`!`"
     },
     "softban": {
       "no_permission": "%1$sSoft ban impossible: tu n'as pas la permission de bannir les membres.",
@@ -366,6 +370,12 @@
       "no_args": "%1$sTu dois me dire le volume tu souhaites (de 5 à 100).",
       "premium_only": "%1$sCeci est une fonctionnalité premium uniquement. Pour bénéficier d'avantages comme celui-ci, tu peux faire un don sur le site Patreon (https://www.patreon.com/mantaro). Merci de ta compréhension.\nLes fonctionnalités premiums peuvent être liées à un utilisateur ou à un serveur. Si tu fais un don, rejoins la guilde d'assistance et demande ta clé premium..."
     },
+    "lyrics": {
+     "no_current_track": "%1$sIl n'y a pas de musique en cours de lecture sur ce serveur!",
+     "error_searching": "%1$sSoit je n'ai rien trouvé soit il y a eu une erreur.",
+     "header": "%1$sParole de %2$s",
+     "footer": "Merci d'utiliser Mantaro! Page: %1$d, Total: %2$d."
+   },
     "prefix": {
       "header": "%1$sLes préfixes par défaut sont %2$s (Je réponds à chacun d'eux!). Le préfixe du serveur est `%3$s` (Cela ne fonctionne que sur ce serveur). Tu peux définir un nouveau préfixe en écrivant `~>opts prefix set <préfixe>`",
       "none": "Il n'y a pas de préfixe personnalisé défini sur ce serveur."
@@ -609,7 +619,7 @@
       },
       "header": "Liste de Waifus",
       "description_header": "Voici une liste avec toutes tes waifus bien-aimées, triée par date d'ajout.\n*Tu peux avoir au maximum %1$d waifus pour l'instant.*\n\nSi tu souhaites voir les statistiques de tes waifus, utilise `~>waifu stats`\n\n",
-      "no_waifu": "Aucunes waifus à voir ici, juste de la poussière :(\nTu peux avoir des Waifus en réclamant quelqu'un! Utilise `~>waifu claim` pour commencer.",
+      "no_waifu": "Aucune waifu à voir ici, juste de la poussière :(\nTu peux avoir des Waifus en réclamant quelqu'un! Utilise `~>waifu claim` pour commencer.",
       "footer": "Waifus au total: %1$d - emplacements disponibles: %2$s",
       "value_format": "**- Valeur:**",
       "value_b_format": "**- Acheté.e pour:**",
@@ -737,7 +747,8 @@
       "interactive_no_action": "%1$sCet objet a été marqué comme \"interactif\" mais n'a pas d'action...",
       "no_item": "%1$sTu n'as pas cet objet dans ton inventaire...",
       "not_enough_items": "%1$sTu n'en as pas assez.",
-      "too_little": "%1$sTu ne peux pas utiliser moins d'un objet."
+      "too_little": "%1$sTu ne peux pas utiliser moins d'un objet.",
+      "invalid_amount": "%1$sLe montant doit être un nombre compris entre `1` et `9`!"
     },
     "opts": {
       "note": "%1$sHey, si tu es perdu.e ou que tu veux de l'aide pour utiliser opts, va sur <https://github.com/Mantaro/MantaroBot/wiki/Configuration> pour avoir le guide d'utilisation d'opts.\nNote: Seuls les administrateurs, les gens avec la permission Manage Server ou ceux avec le rôle Bot Commander peuvent utiliser cette commande!",
@@ -853,13 +864,17 @@
         "daily": "Passages quotidiens",
         "daily_at": "Dernier gain quotidien",
         "waifu_claimed": "Nombre de fois où tu es devenu.e waifu",
+        "waifu_locked": "Verrouillage Waifu",
         "dust": "Niveau de poussière",
         "lang": "Langue",
         "reminders": "Nombre de rappels",
         "times": "fois",
         "days": "jour(s)",
         "times_used": "Nombre d'utilisation",
-        "equipment": "Equipement"
+        "equipment": "Equipement",
+        "seasonal_equipment": "Équipement saisonnier",
+        "autoequip": "Équipement auto",
+        "never": "Jamais"
       },
       "hide_tag": {
         "success": "%1$sLe statut d'invisibilité des tags est désormais sur: `%2$s`"
@@ -869,7 +884,16 @@
         "no_item": "%1$sCet objet n'existe pas",
         "not_owned": "%1$sTu ne possède pas cet objet!",
         "success": "%1$sTu as équipé %2$s *%3$s* avec succès, ce qui ne sera pas oublié la prochaine fois que tu utilises une commande monétaire.",
-        "not_suitable": "%1$sTu ne peux pas équiper cela."
+        "not_suitable": "%1$sTu ne peux pas équiper cela.",
+        "already_equipped": "%1$sTu as déjà équipé un objet de ce type! Essaie `~>unequip <type>` (Le type peut être rod ou pick) pour le déséquiper."
+      },
+      "unequip": {
+        "no_content": "%1$sTu dois spécifier quel type d'objet déséquiper `pick, rod`(pioche, canne à pêche).",
+        "invalid_type": "%1$sLes types d'objets valides sont `pick, rod` pioche et canne à pêche en anglais.",
+        "success": "%1$sTu as déséquipé ton slot %2$s (pour rappel pick = pioche, rod = canne à pêche).",
+        "equipment_recover": "\nPuisque tu ne l'avais pas utilisée, tu la retrouve dans ton inventaire (équipement retrouvé: %1$s)!",
+        "broken_equipment_recover": "\nTon équipement était utilisé mais tu as tout de même récupéré une %1$s, tu peux toujours la réparer pour t'en servir plus tard!",
+        "broken_equipment_recover_none": "\nCet objet n'avait pas de version cassée, je t'ai donc donné %1$s credits car il a disparu."
       },
       "display": {
         "not_premium": "%1$sLes gadget de personnalisation de profil sont réservés aux utilisateurs premium.",
@@ -878,6 +902,15 @@
         "ls": "%1$sListe des composants du profil:\n%2$s **Gadgets dans l'ordre par défaut:** `%3$s`\n%2$s **Tes gadgets:** `%4$s`\nTu peux utiliser `~>profile widgets reset` pour réinitialiser tes préférences d'affichage",
         "reset": "%1$sL'ordre des gadget par défaut a bien été rétabli.",
         "example": "\nExemple: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Ça fonctionne dans tous les sens, l'ordre donné ici est celui dans lequel ils apparaitront sur ton profil*"
+      },
+      "claimlock": {
+        "removed": "%1$sRéinitialisation de ton statut de verrouillage Waifu opéré avec succès.",
+        "success": "%1$sTu ne peux plus devenir Waifu! Cette commande agis comme la clé Waifu.",
+        "no_key": "%1$sTu n'as pas la clé nécessaire pour faire ça."
+      },
+      "autoequip": {
+        "disable": "%1$sAuto-equip désactivé.",
+        "success": "%1$sAuto-equip activé."
       },
       "badge_header": "%1$sBadge Affiché",
       "bot_notice": "%1$sLes bots n'ont pas de profil.",
@@ -909,8 +942,8 @@
       "brief_success": "**Badges de %1$s:**\n%2$s",
       "profile_notice": "Si tu penses avoir eu un nouveau badge mais qu'il n'apparait pas ici, utilise `~>profile` puis refais cette commande.\n",
       "info_notice": "Utilise `~>badges info <nom du badge>` pour avoir plus d'infos sur un badge. [Tu peux aussi aller voir sur le wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
-      "upvote_notice": "**Tu peux obtenir un badge gratuit en [votant pour Mantaro sur discordbots.org](https://discordbots.org/bot/mantaro)!** (Ca peut prendre quelques minutes)\n\n",
-      "donate_notice": "**Tu peux obtenir un badge en [aidant au développement de Mantaro!](https://patreon.com/mantaro)!** (Ca peut prendre quelques minutes)\n\n",
+      "upvote_notice": "**Tu peux obtenir un badge gratuit en [votant pour Mantaro sur discordbots.org](https://discordbots.org/bot/mantaro)!** (Ça peut prendre quelques minutes)\n\n",
+      "donate_notice": "**Tu peux obtenir un badge en [aidant au développement de Mantaro!](https://patreon.com/mantaro)!** (Ça peut prendre quelques minutes)\n\n",
       "no_badges": "Aucun badge à afficher (pour le moment!)",
       "header": "Badges obtenus par %1$s",
       "total_badges": "**Total des badges obtenus:** %1$s",
@@ -935,6 +968,7 @@
       "cache_not_running": "%1$sLe \"Birthday cache\" ne semble pas fonctionner (erreur interne) :(",
       "error": "%1$sUne erreur est survenue en cherchant les dates d'anniversaires (erreur interne) :(",
       "header": "**Les anniversaires de %1$s du mois de %2$s**\n",
+      "full_header": "**Anniversaires du serveur %1$s**\n%2$s",
       "invalid_date": "%1$sCe n'est pas une date valide ou ce n'est pas le bon format.\nPour rappel, le bon format est: `jj-mm-aaaa`",
       "error_date": "%1$s%2$s n'est peut-être pas une date valide. En tous cas je ne peux pas la séparer proprement. Essaie avec le bon format s'il te plait. Tu n'es pas obligé.e de mettre la vraie année, n'importe laquelle fera l'affaire.\nPour rappel, le bon format est: `jj-mm-aaaa`",
       "added_birthdate": "%1$sDate de naissance bien ajoutée. Nouvelle date de naissance : %2$s *(Format: jj-mm-aaaa)*",
@@ -1032,6 +1066,9 @@
       "linked": "Lié",
       "linked_to": "Lié à",
       "keys_claimed": "Clés validées"
+    },
+    "support": {
+      "info": "%1$sSi tu as besoin d'aide, rendez-vous sur le serveur support <https://support.mantaro.site> et pose ta question dans le salon #support! Attention, c'est un serveur anglophone."
     },
     "action": {
       "no_mention": "%1$sTu dois mentionner un utilisateur",
@@ -1154,7 +1191,9 @@
       "not_crate": "%1$sCe n'est pas un coffre valide."
     },
     "dailycrate": {
-      "not_premium": "%1$sTu peux ouvrir un coffre premium avec plus de chance d'avoir de bons objets quotidiennement si tu deviens premium! Rendez-vous sur <https://patreon.com/mantaro>. Ça peut être fait toutes les 24 heures."
+      "key": "%1$sTu as besoin d'une clé pour ouvrir ce coffre! Achètes-en une et reviens me voir!",
+      "not_premium": "%1$sTu peux ouvrir un coffre premium avec plus de chance d'avoir de bons objets quotidiennement si tu deviens premium! Rendez-vous sur <https://patreon.com/mantaro>. Ça peut être fait toutes les 24 heures.",
+      "success": "%1$sTu as obtenu un **%2$s**! Reviens dans 24h pour en avoir un autre! Tu peux l'ouvrir grâce à la commande `~>opencrate <nom du coffre>` et surtout tu as besoin d'acheter une clé pour l'ouvrir."
     },
     "prune": {
       "no_messages_specified": "%1$sVous n'avez spécifié aucun message à effacer.",
@@ -1465,17 +1504,25 @@
       "streak": {
         "up": "Streak actuel: `%1$sx`",
         "first_time": "Première réclamation de gain journalier, amuse-toi bien! (Reviens demain !!)",
-        "lost_streak": "Plus de 2 jours sont passés depuis ta dernière réclamation donc ton streak de `%1$dx` a été remis à 0 :(",
+        "lost_streak": {
+          "normal": "Plus de 2 jours sont passés depuis ta dernière réclamation donc ton streak de `%1$dx` a été remis à 0 :(",
+          "watch" : "Même ta `Montre magique` n'a pu arrêter le court du temps aussi longtemps. Même en utilisant toutes les montres magiques du monde ton streak de `%1$dx` repartirait de zéro :("
+        },
         "bonus": "\nTu as obtenu un bonus de $%1$s pour avoir réclamé ton gain journalier 5 jours d'affilée ou plus! (Inclus dans l'argent montré!)",
         "given": {
           "up": "Augmentation du streak! Streak actuel : `%1$dx`.\n*Le streak a été appliqué à ton profil!*",
           "bonus": "%1$s gagne un bonus de $%2$s pour avoir réclamé son streak journalier 5 jours ou plus! (Inclus dans l'argent montré!)"
-        }
+        },
+        "watch_used" : "Tes `Montres magiques` ont sauvé ton streak! Tu en as utilisé `%1$d` pour allonger la vie de ton streak à %2$dx, il t'en reste `%3$d`!"
       },
-      "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
-      "credits": "%1$sTu reçois **$%2$s** credits journaliers.",
-      "sellout": "\nOn a besoin de ton aide pour garder Mantaro en vie! Va sur <https://patreon.com/mantaro> pour plus d'infos.",
-      "crate": "Tu as gagné un coffre au trésor pour avoir obtenu un multiplicateur journalier de 20."
+      "given_credits": "%1$sJ'ai donné **$%2$s** credits à %3$s\n\n%4$s",
+      "credits": "%1$sTu reçois **$%2$s** credits journaliers.\n\n%3$s%4$s",
+      "sellout": {
+        "get_premium" :"\nOn a besoin de ton aide pour garder Mantaro en vie! Va sur <https://patreon.com/mantaro> pour plus d'infos.",
+        "already_premium" : "Merci de soutenir Mantaro. Sans l'aide de gens comme toi on ne pourrait pas garder Mantaro en vie :heart:"
+      },
+      "crate": "Tu as gagné un coffre au trésor pour avoir obtenu un multiplicateur journalier de 20.",
+      "watch_get" : "Tu as gagné une `Montre magique` parce que ton streak est un multiple de 50! Profites-en!"
     },
     "gamble": {
       "no_credits": "%1$sTu es à sec. Cherche quelques credits d'abord peut-être.",
@@ -1530,6 +1577,11 @@
         "overflow": "Tu as trouvé un *%1$s* mais tu en avais déjà trop donc la laissé derrière toi...",
         "success": "Tu as trouvé un %1$s **%2$s** en minant et tu l'as emporté. Vas-y ouvre-le avec `~>opencrate <nom du coffre>`. N'oublie pas d'acheter une clé !"
       },
+      "autoequip": {
+        "success": "%1$sTu as choisi d'activer l'auto-équip, j'ai donc remplacé ta **%2$s** automatiquement"
+      },
+      "item_broke": "%1$sTa %2$s a cassé lorsque tu l'utilisais :(. %3$s",
+      "item_broke_autoequip": "*Indice: tu peux utiliser `~>profile autoequip` pour équiper automatiquement le nouvel objet lorsque l'actuel casse, si tu en as bien évidemment.*",
       "pick_broke": "%1$sUne de tes pioches viens de casser en minant.",
       "waifu_help": "Ta waifu t'a rejoint dans ton aventure de minage, ensemble vous aurez un plus large butin!",
       "missing_equipped": "%1$sTu avais équipé une pioche %2$s, mais tu n'en as plus dans ton inventaire! La pioche équipée est donc réinitialisée.",
@@ -1764,19 +1816,19 @@
     },
     "birthday_enable": {
       "no_args": "%1$sTu dois spécifier le nom du salon et celui du rôle.",
-      "public_role": "%1$sLe rôle everyone ne peut pas servir pour les anniversaires! N'oublie pas qu'il s'agit d'n rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé.",
-      "autorole": "%1$sTu ne peux pas assigner un autorôle comme rôle d'anniversaire. N'oublie pas qu'il s'agit d'n rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé.",
-      "warning": "%1$sN'oublie pas qu'il s'agit d'n rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé. Si tu as le moindre doute sur la configuration, n'hésite pas à rejoindre le serveur de support et à demander. Tu peux aussi regarder `~>opts help birthday enable` par exemple.",
-      "warning_1": "C'est à cause du fonctionnement du rôle: Ca assigne un rôle temporaire à ceux dont l'anniversaire arrive et leur enlève une fois le jour passé. **Ce qui veut qu'il leur sera enlevé une fois le jour passé**. Fais bien attention à ce que tu fais, la moindre erreur de configuration peut avoir de terribles conséquences (vraiment) !",
+      "public_role": "%1$sLe rôle everyone ne peut pas servir pour les anniversaires! N'oublie pas qu'il s'agit d’un rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé.",
+      "autorole": "%1$sTu ne peux pas assigner un autorôle comme rôle d'anniversaire. N'oublie pas qu'il s'agit d’un rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé.",
+      "warning": "%1$sN'oublie pas qu'il s'agit d’un rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé. Si tu as le moindre doute sur la configuration, n'hésite pas à rejoindre le serveur de support et à demander. Tu peux aussi regarder `~>opts help birthday enable` par exemple.",
+      "warning_1": "C'est à cause du fonctionnement du rôle: Ça assigne un rôle temporaire à ceux dont l'anniversaire arrive et leur enlève une fois le jour passé. **Ce qui veut dire qu'il leur sera enlevé une fois le jour passé**. Fais bien attention à ce que tu fais, la moindre erreur de configuration peut avoir de terribles conséquences (vraiment) !",
       "warning_2": "Le rôle *doit être un rôle nouvellement créé ou inutilisé*. Il NE DOIT PAS être attribué.",
-      "warning_3": "En plus, le \"birthday cache\" (ce qui est utilisé pour les stocker) est seulement mit à jour toutes les 23 heures. Ce qui veut dire que si tu programme l'annonceur la veille de ton anniversaire pour le tester **ça ne va pas** fonctionner.",
+      "warning_3": "En plus, le \"birthday cache\" (ce qui est utilisé pour les stocker) est seulement mis à jour toutes les 23 heures. Ce qui veut dire que si tu programmes l'annonceur la veille de ton anniversaire pour le tester **ça ne va pas** fonctionner.",
       "warning_4": "Envoie **yes** si tu es d’accord de mettre le rôle %2$s comme rôle anniversaire et **no** sinon. Tu as 45 secondes.",
       "success": "%1$sLe log des anniversaires a été activé sur ce serveur dans les paramètres -> Salon: `%2$s (%3$s)` et rôle: `%4$s (%5$s)`",
       "error_channel_1": "%1$sJe n'ai pas trouvé ce salon ou ce rôle!",
-      "error_channel_2": "*N'oublie pas, tu ne dois ni mentionner le rôle ni mentionner le salon. Écris juste leurs nom dans l'ordre <salon> <rôle>, sans laisser les \"<>\".* Si le rôle contient des espaces, \"entoure-le de guillemets\""
+      "error_channel_2": "*N'oublie pas, tu ne dois ni mentionner le rôle ni mentionner le salon. Écris juste leur nom dans l'ordre <salon> <rôle>, sans laisser les \"<>\".* Si le rôle contient des espaces, \"entoure-le de guillemets\""
     },
     "birthday_disable": {
-      "success": "%1$sLog des anniversaire désactivé avec succès."
+      "success": "%1$sLog des anniversaires désactivé avec succès."
     },
     "prefix_set": {
       "no_prefix": "%1$sTu dois me dire le préfixe que tu veux utiliser.",
@@ -1883,7 +1935,7 @@
       "success": "%1$sLe paramètre d'ignorance des bots est: **%2$s**"
     },
     "server_ignorebots_joinleave_toggle": {
-      "success": "%1$sLe message de bienvenue/d'aurevoir est: **%2$s**"
+      "success": "%1$sÉviter de dire bienvenue/aurevoir aux bots: **%2$s**"
     },
     "levelupmessages_toggle": {
       "success": "%1$sLe message de niveau est: **%2$s**"
@@ -1994,6 +2046,15 @@
     },
     "showdisablewarning": {
       "success": "%1$sMessage d'alerte lors de la désactivation d'une commande défini sur: %2$s"
+    },
+    "birthdayblacklist": {
+      "no_args": "%1$sTu dois me dire qui je dois enlever des annonces d'anniversaire.",
+      "add": {
+        "success": "%1$sAjout de %2$s (%3$s) à la liste noire des anniversaires de ce serveur."
+      },
+      "remove": {
+        "success": "%1$sRetrait de %2$s (%3$s) de la liste noire des anniversdaires de ce serveur."
+      }
     },
     "invalid_category": "%1$sTu as entré une catégorie invalide. Regarde dans la liste ci-dessous pour trouver une catégorie valide```md\n%2$s```",
     "help_opts_notice": "%1$sTu ne peux pas désactiver les commandes help et options.",
@@ -2125,8 +2186,9 @@
     "broken_star_rod": "Canne des étoiles endommagée",
     "incubator_egg": "Incubateur à oeuf",
     "water_bottle": "Bouteille d'eau",
+    "magic_watch": "Montre magique",
     "description": {
-      "headphones": "C'est ce qui se passe quand tu écoutes trop de musique. Ca doit quand même valoir quelque chose",
+      "headphones": "C'est ce qui se passe quand tu écoutes trop de musique. Ça doit quand même valoir quelque chose",
       "ban_hammer": "Laissé là par un admin.",
       "kick_boot": "Laissé là par un admin",
       "floppy": "Elle doit sûrement contenir des jeux. Ne la copie pas.",
@@ -2136,9 +2198,9 @@
       "forgotten": "Jamais téléchargé. Sûrement copyrighté.",
       "pencil": "Nous en avons plein!",
       "moneybag": "Quoi d'autre?",
-      "pick": "Ce gars aimait beaucoup trop Minecraft (24% de chance de se casser). (`~>mine` outil)",
+      "pick": "Ce gars aimait beaucoup trop Minecraft (Durabilité: 40). (`~>mine` outil)",
       "milk": "Peut-être que ce n'est pas si mal d'en avoir un peu.",
-      "beverage": "Ca te fais vraiment un drôle d'effet en grande quantité. Enfin ça dépend de ce que c'est ;)",
+      "beverage": "Ça te fais vraiment un drôle d'effet en grande quantité. Enfin ça dépend de ce que c'est ;)",
       "lewd": "Trop de commandes obscènes, vraiment trop! Tu prends ton pied hein !?",
       "ring": "C'est ce qui rend ton mariage officiel quoi.",
       "letter": "Une lettre de l'amour de ta vie.",
@@ -2146,7 +2208,7 @@
       "clothes": "En gros, ce que vous portez. Espérons ...",
       "diamond": "Fondamentalement, une meilleure façon d'économiser votre argent. C'est brillant aussi. Comme c'est bien.",
       "dress": "N'est-ce-pas mignon ?",
-      "necklace": "Ca l'air cool..",
+      "necklace": "Ça l'air cool..",
       "tuxedo": "Ce que tu portes quand tu vas te marier, ou quand tu vas dans un endroit agréable, ou peut-être partout, qui sait?",
       "shoes": "Parce que marcher pieds nus est juste nul. Ou douloureux.",
       "rose": "L'incarnation de votre amour. Aussi c'est une belle décoration.",
@@ -2170,7 +2232,7 @@
       "haste": "Ça te permet de trouver plus de chose en fouillant (valable pour 2 utilisation de la commande `~>loot`).",
       "milky": "Ça te débarrasse des effets de potions.",
       "energy": "Elle réduit les chance que t pioche ne casse durant les 5 prochaines sessions.",
-      "rod": "Te permets de pêcher. (20% de chance de se casser)",
+      "rod": "Te permets de pêcher. (Durabilité: 40)",
       "fish": "Poisson attrapé en pêchant.",
       "tropical_fish": "Un poisson assez tropical pêché.",
       "blowfish": "Je me demande si c'est.. bon ? Attrapé en pêchant.",
@@ -2183,24 +2245,24 @@
       "coffee": "Une très bonne façon de commencer votre journée",
       "waifu_pill": "Te donne un avantage significatif sur le minage et la pêche si l’une de tes waifus est évaluée à plus de 10 millions. Dure 5 sessions.",
       "bait": "Te donne une plus grande chance d'attraper du poisson.",
-      "diamond_pick": "Une pioche bien plus résistante (20% de chance de se casser). (`~>mine` tool).",
+      "diamond_pick": "Une pioche bien plus résistante (Durabilité: 150). (`~>mine` tool).",
       "tv": "Doit... regarder... la... Télé...",
       "wrench": "Outil de moulage. Utile pour fabriquer des trucs.",
       "star_wrench": "Outil de moulage. Utile pour fabriquer des trucs. Plus résistante et nécessaire pour fabriquer plusieurs objets à la fois. Tier 2.",
       "sparkle_wrench": "Outil de moulage. Utile pour fabriquer des trucs. Plus résistante et réduit le cout de fabrication. Tier 3.",
       "motorcycle": "Pour se promener, d'une façon stylée.",
-      "comet_pick": "Une pioche bien plus résistante (18% de chance de se casser). (`~>mine` tool).",
-      "star_pick": "Une pioche bien plus résistante (13% de chance de se casser). (`~>mine` tool).",
+      "comet_pick": "Une pioche bien plus résistante (Durabilité: 160). (`~>mine` tool).",
+      "star_pick": "Une pioche bien plus résistante (Durabilité: 210). (`~>mine` tool).",
       "sparkle": "Un des joyaux les plus rares. Assurez-vous de le garder.",
-      "sparkle_pick": "La pioche la plus forte du jargon (6% de chance de se casser). (`~>mine` tool)",
+      "sparkle_pick": "La pioche la plus forte du jargon (Durabilité: 450). (`~>mine` tool)",
       "pizza": "Délicieux.",
       "mine_crate": "Coffre au trésor trouvé en minant. Peut être ouvert avec `~> opencrate gem crate`",
       "fish_crate": "Coffre au trésor trouvé en pêchant. Il pourrait contenir de belles choses à l'intérieur. Peut être ouvert avec` ~> opencrate treasure`",
       "mine_premium_crate": "Coffre au trésor trouvé en minant. Peut être ouvert avec `~> opencrate gem premium crate`",
       "fish_premium_crate": "Coffre au trésor trouvé en pêchant. Peut être ouvert avec `~> opencrate premium treasure`",
-      "comet_rod": "Une canne à pêche un peu plus résistante. (17% de chance de se casser)",
-      "star_rod": "Une canne à pêche résistante. (14% de chance de se casser)",
-      "sparkle_rod": "Une canne à pêche bien plus résistante. (9% de chance de se casser)",
+      "comet_rod": "Une canne à pêche un peu plus résistante. (Durabilité: 90)",
+      "star_rod": "Une canne à pêche résistante. (Durabilité: 130)",
+      "sparkle_rod": "Une canne à pêche bien plus résistante. (Durabilité: 250)",
       "shell": "Trouvée au fond de l'océan. Combien cela pourrait-il valoir ?",
       "shark": "Wow. Comment as-tu attrapé *ça*?",
       "crab": "Un crabe! Il danse peut-être.",
@@ -2215,7 +2277,8 @@
       "broken_sparkle_rod": "Canne scintillante qui a cassé durant une session de pêche, il y a toujours de l'espoir pour la réparer.",
       "broken_star_rod": "Canne des étoiles qui a cassé durant une session de pêche, il y a toujours de l'espoir pour la réparer.",
       "incubator_egg": "Objet utilisé pour faire grandir un œuf.",
-      "water_bottle": "Bouteille contenant de l'eau."
+      "water_bottle": "Bouteille contenant de l'eau.",
+      "magic_watch": "Une montre magique qui ralentit le temps en cas de besoin. Elle sera utilisée automatiquement pour sauver ton streak!"
     }
   },
   "test": {
