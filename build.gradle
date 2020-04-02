@@ -67,7 +67,7 @@ task generateLanguageList {
 dependencies {
     //remember to update this 3 all the time lul
     compile 'net.dv8tion:JDA:4.1.1_115'
-    compile 'club.minnced:discord-webhooks:0.1.7'
+    compile 'club.minnced:discord-webhooks:0.3.0'
 
     //Music
     compile ('com.github.FredBoat:Lavalink-Client:bdac72f') {
