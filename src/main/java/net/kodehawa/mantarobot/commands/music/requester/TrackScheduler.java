@@ -20,6 +20,7 @@ package net.kodehawa.mantarobot.commands.music.requester;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
+import io.sentry.Sentry;
 import lavalink.client.io.Link;
 import lavalink.client.player.IPlayer;
 import lavalink.client.player.LavalinkPlayer;
@@ -233,7 +234,9 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                         EmoteReference.MEGA, premium ? "" : String.format(language.get("commands.music_general.premium_beg"), EmoteReference.HEART)
                 ).queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             }
-        } catch (Exception ignored) { }
+        } catch (Exception e) {
+            Sentry.capture(e);
+        }
 
         requestedChannel = 0;
         errorCount = 0;
