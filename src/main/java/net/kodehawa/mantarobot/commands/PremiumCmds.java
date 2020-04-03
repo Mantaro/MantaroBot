@@ -270,20 +270,16 @@ public class PremiumCmds {
                         Pair<Boolean, String> patreonInformation = Utils.getPledgeInformation(owner.getId());
                         String linkedTo = currentKey.getData().getLinkedTo();
                         int amountClaimed = data.getKeysClaimed().size();
-
-                        embedBuilder
-                                .setColor(Color.CYAN)
+                        embedBuilder.setColor(Color.CYAN)
                                 .setThumbnail(toCheck.getEffectiveAvatarUrl())
                                 .setDescription(languageContext.get("commands.vipstatus.user.premium") + "\n" + languageContext.get("commands.vipstatus.description"));
 
                         if((patreonInformation == null || !patreonInformation.getLeft()) && linkedTo != null) {
-                            embedBuilder
-                                    .addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " " + languageContext.get("general.days"), true)
+                            embedBuilder.addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " " + languageContext.get("general.days"), true)
                                     .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " " + languageContext.get("general.days"), true);
                         }
 
-                        embedBuilder
-                                .addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
+                        embedBuilder.addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
                                 .addField(languageContext.get("commands.vipstatus.patreon"), patreonInformation == null ? "Error" : String.valueOf(patreonInformation.getLeft()), true)
                                 .addField(languageContext.get("commands.vipstatus.keys_claimed"), String.valueOf(amountClaimed), true)
                                 .addField(languageContext.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), true);
