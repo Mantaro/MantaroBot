@@ -83,7 +83,6 @@ Ino Yamanaka
 Kakashi Hatake
 Hotarubi
 Gennosuke Kouga
-Hakurei Reimu
 Shouya Ishida
 Nishimiya Shouko
 Oikawa Tooru
@@ -377,7 +376,6 @@ Faye Valentine
 Rocco Bonnaro
 Rhint Celonias
 Mad Pierrot
-Katsuki Bakuogou
 Raphtalia
 Tenzen Yakushiji
 Shino Aburame
