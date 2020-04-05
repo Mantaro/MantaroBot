@@ -274,14 +274,14 @@ public class PremiumCmds {
                                 .setThumbnail(toCheck.getEffectiveAvatarUrl())
                                 .setDescription(languageContext.get("commands.vipstatus.user.premium") + "\n" + languageContext.get("commands.vipstatus.description"));
 
-                        if((patreonInformation == null || !patreonInformation.getLeft()) && linkedTo != null) {
+                        if((patreonInformation == null || !patreonInformation.getLeft()) && linkedTo == null) {
                             embedBuilder.addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " " + languageContext.get("general.days"), true)
                                     .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " " + languageContext.get("general.days"), true);
                         }
 
                         embedBuilder.addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
                                 .addField(languageContext.get("commands.vipstatus.patreon"), patreonInformation == null ? "Error" : String.valueOf(patreonInformation.getLeft()), true)
-                                .addField(languageContext.get("commands.vipstatus.keys_claimed"), String.valueOf(amountClaimed), true)
+                                .addField(languageContext.get("commands.vipstatus.keys_claimed"), String.valueOf(amountClaimed), false)
                                 .addField(languageContext.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), true);
 
                         try {
@@ -327,7 +327,7 @@ public class PremiumCmds {
                                     .setThumbnail(event.getGuild().getIconUrl())
                                     .setDescription(languageContext.get("commands.vipstatus.guild.premium")  + "\n" + languageContext.get("commands.vipstatus.description"));
 
-                            if((patreonInformation == null || !patreonInformation.getLeft()) && linkedTo != null) {
+                            if((patreonInformation == null || !patreonInformation.getLeft()) && linkedTo == null) {
                                 embedBuilder.addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " " + languageContext.get("general.days"), true)
                                         .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " " + languageContext.get("general.days"), true);
                             }

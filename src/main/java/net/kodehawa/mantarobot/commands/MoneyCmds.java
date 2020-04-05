@@ -266,7 +266,9 @@ public class MoneyCmds {
                     returnMessage.add(user.isPremium() ? languageContext.get("commands.daily.sellout.already_premium") : languageContext.get("commands.daily.sellout.get_premium"));
                 }
                 // Build Message
-                String toSend = (targetOther ?  String.format(languageContext.withRoot("commands", "daily.given_credits"),EmoteReference.CORRECT, dailyMoney, otherUser.getName()) : String.format(languageContext.withRoot("commands", "daily.credits"), EmoteReference.CORRECT, dailyMoney)) + "\n" ;
+                String toSend = (targetOther ?
+                        String.format(languageContext.withRoot("commands", "daily.given_credits"), EmoteReference.CORRECT, dailyMoney, otherUser.getName()) :
+                        String.format(languageContext.withRoot("commands", "daily.credits"), EmoteReference.CORRECT, dailyMoney)) + "\n" ;
                 for(String s : returnMessage)
                     toSend += "\n" + s;
                 // Send Message
