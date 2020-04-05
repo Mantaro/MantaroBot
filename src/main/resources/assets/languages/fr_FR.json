@@ -1515,8 +1515,8 @@
         },
         "watch_used" : "Tes `Montres magiques` ont sauvé ton streak! Tu en as utilisé `%1$d` pour allonger la vie de ton streak à %2$dx, il t'en reste `%3$d`!"
       },
-      "given_credits": "%1$sJ'ai donné **$%2$s** credits à %3$s\n\n%4$s",
-      "credits": "%1$sTu reçois **$%2$s** credits journaliers.\n\n%3$s%4$s",
+      "given_credits": "%1$sJ'ai donné **$%2$s** credits à %3$s",
+      "credits": "%1$sTu reçois **$%2$s** credits journaliers.",
       "sellout": {
         "get_premium" :"\nOn a besoin de ton aide pour garder Mantaro en vie! Va sur <https://patreon.com/mantaro> pour plus d'infos.",
         "already_premium" : "Merci de soutenir Mantaro. Sans l'aide de gens comme toi on ne pourrait pas garder Mantaro en vie :heart:"
