@@ -1184,7 +1184,7 @@
       "end_footer": "You have 5 attempts and 60 seconds. (Type end to end the game)",
       "trivia_end_footer": "You have %1$s attempts and 60 seconds. (Type end to end the game)",
       "error": "%1$sI found an error while setting up the game... (internal error)",
-      "character_load_error": "%1%sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error. Maybe Kitsu is having issues?",
+      "character_load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error. Maybe Kitsu is having issues?",
       "character_request_error": "%1$sError requesting this character from Kitsu's API.",
       "character_start": "Guess the character",
       "too_many_games": "%1$sYou can start a maximum of 4 games at the same time with game lobby. (With Premium: 8)"
