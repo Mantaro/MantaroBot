@@ -64,7 +64,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
                 .set(prefix, "name", guild.getName())
                 .mapMember(k(prefix, "owner"), guild.getOwner())
                 .set(prefix, "region", guild.getRegion().getName())
-                .set(prefix, "totalusers", String.valueOf(guild.getMembers().size()));
+                .set(prefix, "totalusers", String.valueOf(guild.getMemberCount()));
     }
 
     public DynamicModifiers mapUser(String prefix, User member) {
