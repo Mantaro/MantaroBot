@@ -29,10 +29,13 @@ import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import org.slf4j.Logger;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,15 +44,14 @@ import java.util.Random;
 public class Character extends ImageGame {
     private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
     private static final Logger log = org.slf4j.LoggerFactory.getLogger("Game [Character]");
-    //Avoid spamming Kitsu, we don't need more than fetching the image either way and URL shouldn't change in a short amount of time.
-    private static Cache<String, String> imgCache = CacheBuilder.newBuilder()
-            .maximumSize(400)
-            .build();
-
     private final int maxAttempts = 5;
     private String characterName;
     private List<String> characterNameL;
     private Random random = new Random();
+
+    //Redis cache
+    private static final JedisPool pool = MantaroData.getDefaultJedisPool();
+    private String redisPrefix = "kitsu-character:";
 
     public Character() {
         super(10);
@@ -87,8 +89,12 @@ public class Character extends ImageGame {
             GameStatsManager.log(name());
             characterNameL = new ArrayList<>();
             characterName = strings.get(random.nextInt(strings.size()));
+            String cachedName = characterName.toLowerCase().replace(" ", "-").trim();
+            String imageUrl;
 
-            String imageUrl = imgCache.getIfPresent(characterName);
+            try (Jedis redis = pool.getResource()) {
+                imageUrl = redis.get(redisPrefix + cachedName);
+            }
 
             if (imageUrl == null) {
                 List<CharacterData> characters = KitsuRetriever.searchCharacters(characterName);
@@ -100,9 +106,11 @@ public class Character extends ImageGame {
                 CharacterData character = characters.get(0);
 
                 imageUrl = character.getAttributes().getImage().getOriginal();
-                //insert into cache
+                //insert into image cache
                 if (imageUrl != null)
-                    imgCache.put(characterName, imageUrl);
+                    try (Jedis redis = pool.getResource()) {
+                        redis.set(redisPrefix + cachedName, imageUrl);
+                    }
             }
 
             //Allow for replying with only the first name of the character.
