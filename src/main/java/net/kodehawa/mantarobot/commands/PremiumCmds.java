@@ -275,7 +275,7 @@ public class PremiumCmds {
                                 .setThumbnail(toCheck.getEffectiveAvatarUrl())
                                 .setDescription(languageContext.get("commands.vipstatus.user.premium") + "\n" + languageContext.get("commands.vipstatus.description"));
 
-                        if((patreonInformation == null || !patreonInformation.getLeft()) && linkedTo == null) {
+                        if(linkedTo == null) {
                             embedBuilder.addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " " + languageContext.get("general.days"), true)
                                     .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " " + languageContext.get("general.days"), true);
                         }
@@ -328,7 +328,7 @@ public class PremiumCmds {
                                     .setThumbnail(event.getGuild().getIconUrl())
                                     .setDescription(languageContext.get("commands.vipstatus.guild.premium")  + "\n" + languageContext.get("commands.vipstatus.description"));
 
-                            if((patreonInformation == null || !patreonInformation.getLeft()) && linkedTo == null) {
+                            if(linkedTo == null) {
                                 embedBuilder.addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " " + languageContext.get("general.days"), true)
                                         .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " " + languageContext.get("general.days"), true);
                             }
@@ -342,7 +342,6 @@ public class PremiumCmds {
                                 embedBuilder.addField(languageContext.get("commands.vipstatus.linked_to"), linkedUser.getName() + "#" + linkedUser.getDiscriminator(), false);
                             }
                         } else {
-                            //TODO: remove
                             embedBuilder.setDescription(languageContext.get("commands.vipstatus.guild.old_system"))
                                     .addField(languageContext.get("commands.vipstatus.valid_for_old"),
                                             String.format(languageContext.get("commands.vipstatus.old_days_more"),
