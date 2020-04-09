@@ -212,7 +212,7 @@ public class ItemCmds {
 
                             int inventoryAmount = playerInventory.getAmount(item);
                             // Prevent re-use of the wrench used to do this operation as casting material
-                            int usableInventoryAmount = item.getItemType().equals(wrench.getItemType()) ? inventoryAmount - 1 : inventoryAmount;
+                            int usableInventoryAmount = (item instanceof Wrench) ? inventoryAmount - 1 : inventoryAmount;
                             if (usableInventoryAmount < amount) {
                                 channel.sendMessageFormat(languageContext.get("commands.cast.not_enough_items"), EmoteReference.ERROR, item.getName(), amount, usableInventoryAmount).queue();
                                 if(usableInventoryAmount < inventoryAmount){
