@@ -270,6 +270,7 @@ public class PremiumCmds {
                         Pair<Boolean, String> patreonInformation = Utils.getPledgeInformation(owner.getId());
                         String linkedTo = currentKey.getData().getLinkedTo();
                         int amountClaimed = data.getKeysClaimed().size();
+
                         embedBuilder.setColor(Color.CYAN)
                                 .setThumbnail(toCheck.getEffectiveAvatarUrl())
                                 .setDescription(languageContext.get("commands.vipstatus.user.premium") + "\n" + languageContext.get("commands.vipstatus.description"));
@@ -367,6 +368,36 @@ public class PremiumCmds {
                         .setUsage("`~>vipstatus` - Returns your premium key status\n" +
                                 "`~>vipstatus guild` - Return this guild's premium status.")
                         .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void invalidatekey(CommandRegistry cr) {
+        cr.register("invalidatekey", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
+                if(args.length == 0) {
+                    channel.sendMessage(EmoteReference.ERROR + "Give me a key to invalidate!").queue();
+                    return;
+                }
+
+                PremiumKey key = MantaroData.db().getPremiumKey(args[0]);
+                if(key == null) {
+                    channel.sendMessage("Invalid key.").queue();
+                    return;
+                }
+
+                DBUser dbUser = MantaroData.db().getUser(key.getOwner());
+                Map<String, String> keysClaimed = dbUser.getData().getKeysClaimed();
+
+                keysClaimed.remove(Utils.getKeyByValue(keysClaimed, key.getId()));
+                dbUser.save();
+                key.delete();
+
+                event.getChannel().sendMessage("Invalidated key " + args[0]).queue();
             }
         });
     }
