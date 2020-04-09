@@ -143,11 +143,7 @@ public class DBUser implements ManagedObject {
             removePremiumKey();
         }
 
-        //TODO remove old system check.
-        return  //old system, deprecated, maybe remove later?
-                currentTimeMillis() < premiumUntil ||
-                        //Key parsing
-                        (key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.USER) && isActive);
+        return key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.USER) && isActive;
     }
 
     @JsonIgnore

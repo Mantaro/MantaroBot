@@ -130,8 +130,7 @@ public class DBGuild implements ManagedObject {
             }
         }
 
-        //TODO: remove currentTimeMillis() < premiumUntil check whenever you're done transferring MP guilds to the new system.
-        return currentTimeMillis() < premiumUntil || (key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.GUILD));
+        return key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.GUILD);
     }
 
     @JsonIgnore

@@ -49,10 +49,8 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.*;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static java.lang.System.currentTimeMillis;
@@ -84,6 +82,7 @@ public class PremiumCmds {
                     } else {
                         channel.sendMessageFormat(languageContext.get("commands.activatekey.check.no_key_found"), EmoteReference.ERROR).queue();
                     }
+
                     return;
                 }
 
@@ -115,6 +114,7 @@ public class PremiumCmds {
                     channel.sendMessageFormat(languageContext.get("commands.activatekey.guild_successful"), EmoteReference.POPPER, key.getDurationDays()).queue();
                     guild.getData().setPremiumKey(key.getId());
                     guild.saveAsync();
+
                     return;
                 }
 
@@ -298,7 +298,7 @@ public class PremiumCmds {
                                 .addField(languageContext.get("commands.vipstatus.patreon"),
                                         patreonInformation == null ? "Error" : String.valueOf(patreonInformation.getLeft()), true)
                                 .addField(languageContext.get("commands.vipstatus.keys_claimed"), String.valueOf(amountClaimed), false)
-                                .addField(languageContext.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), true)
+                                .addField(languageContext.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), false)
                                 .setFooter(languageContext.get("commands.vipstatus.thank_note"), null);
 
                         try {
@@ -446,8 +446,7 @@ public class PremiumCmds {
                 PremiumKey.Type scopeParsed = null;
                 try {
                     scopeParsed = PremiumKey.Type.valueOf(scope.toUpperCase()); //To get the ordinal
-                } catch (IllegalArgumentException ignored) {
-                }
+                } catch (IllegalArgumentException ignored) { }
 
                 if (scopeParsed == null) {
                     channel.sendMessage(EmoteReference.ERROR + "Invalid scope (Valid ones are: `user` or `guild`)").queue();
