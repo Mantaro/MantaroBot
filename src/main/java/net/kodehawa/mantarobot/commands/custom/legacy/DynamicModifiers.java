@@ -28,7 +28,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.utils.Utils.iterate;
-import static org.apache.commons.lang3.StringUtils.capitalize;
 
 public class DynamicModifiers extends LinkedHashMap<String, String> {
     private static final long serialVersionUID = 1;

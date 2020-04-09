@@ -22,6 +22,7 @@ import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -64,7 +65,8 @@ public class DebugCmds {
                 var mantaroBot = MantaroBot.getInstance();
 
                 var guilds = mantaroBot.getShardManager().getGuildCache();
-                var users = mantaroBot.getShardManager().getUserCache();
+                var users = mantaroBot.getShardManager().getGuilds().stream().mapToInt(Guild::getMemberCount).sum();
+                var cachedUsers = mantaroBot.getShardManager().getUserCache();
                 var responseTotal = mantaroBot.getShardManager().getShards()
                         .stream()
                         .mapToLong(JDA::getResponseTotal)
@@ -82,7 +84,8 @@ public class DebugCmds {
                         + "Shard Info: " + event.getJDA().getShardInfo()
                         + "\n\n --------- Mantaro Information --------- \n\n"
                         + "Guilds: " + String.format("%,d", guilds.size()) + "\n"
-                        + "Users: " + String.format("%,d", users.size()) + "\n"
+                        + "Cached Users: " + String.format("%,d", cachedUsers.size()) + "\n"
+                        + "Total Users: " + String.format("%,d", users) + "\n"
                         + "Shards: " + mantaroBot.getShardManager().getShardsTotal() + " (Current: " + (mantaroBot.getShardForGuild(event.getGuild().getId()).getId()) + ")" + "\n"
                         + "Threads: " + String.format("%,d", Thread.activeCount()) + "\n"
                         + "Executed Commands: " + String.format("%,d", CommandListener.getCommandTotalInt()) + "\n"
