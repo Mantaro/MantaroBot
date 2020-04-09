@@ -241,8 +241,13 @@ public class PremiumCmds {
 
                         Member member = null;
                         User toCheck = event.getAuthor();
-                        if(!content.isEmpty())
+                        if(!content.isEmpty()) {
                             member = Utils.findMember(event, languageContext, content);
+                            //Search failed, return.
+                            if(member == null) {
+                                return;
+                            }
+                        }
 
                         boolean isLookup = member != null;
                         if(isLookup)
