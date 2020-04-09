@@ -304,7 +304,7 @@ public class MantaroListener implements EventListener {
                                 message.editMessage(EmoteReference.POPPER + "You received a premium key due to your donation to mantaro. " +
                                         "If any doubts, please contact Kodehawa#3457.\n" +
                                         "Instructions: **Apply this key to yourself!**. " +
-                                        "This key is a 365-day long subscription to Mantaro Premium. If you want more keys (>$2 donation) " +
+                                        "This key is a subscription to Mantaro Premium. This will last as long as you pledge. If you want more keys (>$2 donation) " +
                                         "or want to enable the patreon bot (>$4 donation) you need to contact Kodehawa to deliver your keys.\n" +
                                         "To apply this key, run the following command in any channel `~>activatekey " +
                                         //will eventually get linked (see DBUser.java, lines 103-107), patreon webhook can be slower and clash with what I need here.
