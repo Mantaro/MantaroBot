@@ -130,7 +130,8 @@ public class DBGuild implements ManagedObject {
             }
         }
 
-        return key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.GUILD);
+        //MP uses the old premium system for some guilds: keep it here.
+        return currentTimeMillis() < premiumUntil || (key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.GUILD));
     }
 
     @JsonIgnore
