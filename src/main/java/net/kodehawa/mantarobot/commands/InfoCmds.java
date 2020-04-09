@@ -153,8 +153,8 @@ public class InfoCmds {
                         .map(Role::getName)
                         .collect(Collectors.joining(", "));
 
-                if (roles.length() > 1024)
-                    roles = roles.substring(0, 1024 - 4) + "...";
+                if (roles.length() > 1020)
+                    roles = roles.substring(0, 1020 - 4) + "...";
 
                 channel.sendMessage(new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.serverinfo.header"), null, guild.getIconUrl())
