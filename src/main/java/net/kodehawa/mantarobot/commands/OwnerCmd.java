@@ -572,6 +572,11 @@ public class OwnerCmd {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 TextChannel channel = event.getChannel();
 
+                if (!MantaroData.config().get().isPremiumBot()) {
+                    channel.sendMessage("This command can only be ran in MP, as it's only useful there.").queue();
+                    return;
+                }
+
                 if(args.length < 2) {
                     channel.sendMessage("Wrong amount of arguments. I need the guild id and the amount of days").queue();
                     return;
