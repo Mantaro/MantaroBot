@@ -566,57 +566,41 @@ public class OwnerCmd {
     }
 
     @Subscribe
-    public void owner(CommandRegistry cr) {
-        cr.register("owner", new SimpleCommand(Category.OWNER) {
+    public void addOwnerPremium(CommandRegistry cr) {
+        cr.register("addownerpremium", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
-            public CommandPermission permission() {
-                return CommandPermission.OWNER;
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("`~>owner premium guild <id> <days>` - Adds premium to the specified guild for x days.")
-                        .build();
-            }
-
-            @Override
-            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 TextChannel channel = event.getChannel();
 
-                if (args.length < 1) {
-                    channel.sendMessage("Not enough arguments.").queue();
+                if(args.length < 2) {
+                    channel.sendMessage("Wrong amount of arguments. I need the guild id and the amount of days").queue();
                     return;
                 }
 
-                String option = args[0];
+                String serverId = args[0];
+                String days = args[1];
 
-                if (option.equals("premium")) {
-                    String sub = args[1].substring(0, args[1].indexOf(' '));
-                    if (sub.equals("guild")) {
-                        try {
-                            String[] values = SPLIT_PATTERN.split(args[1], 3);
-                            DBGuild db = MantaroData.db().getGuild(values[1]);
-                            db.incrementPremium(TimeUnit.DAYS.toMillis(Long.parseLong(values[2])));
-                            db.saveAsync();
-                            channel.sendMessage(EmoteReference.CORRECT +
-                                    "The premium feature for guild " + db.getId() + " now is until " +
-                                    new Date(db.getPremiumUntil())).queue();
-                            return;
-                        } catch (IndexOutOfBoundsException e) {
-                            channel.sendMessage(EmoteReference.ERROR + "You need to specify id and number of days").queue();
-                            e.printStackTrace();
-                            return;
-                        }
-                    }
+                if(MantaroBot.getInstance().getShardManager().getGuildById(serverId) == null) {
+                    channel.sendMessage("Invalid guild.").queue();
+                    return;
                 }
 
-                channel.sendMessage("You're not meant to use this incorrectly, silly.").queue();
-            }
+                long dayAmount;
+                try {
+                    dayAmount = Long.parseLong(days);
+                } catch (NumberFormatException e) {
+                    channel.sendMessage("Invalid amount of days.").queue();
+                    return;
+                }
 
-            @Override
-            public String[] splitArgs(String content) {
-                return SPLIT_PATTERN.split(content, 2);
+                DBGuild db = MantaroData.db().getGuild(serverId);
+                db.incrementPremium(TimeUnit.DAYS.toMillis(dayAmount));
+                db.saveAsync();
+
+                channel.sendMessage(EmoteReference.CORRECT +
+                        "The premium feature for guild " + db.getId() + " now is until " +
+                        new Date(db.getPremiumUntil())
+                ).queue();
             }
         });
     }
