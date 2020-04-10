@@ -74,8 +74,10 @@ public class UserData {
     @JsonIgnore
     public int increaseDustLevel(int by) {
         int increased = dustLevel + Math.min(1, by);
-        if (increased >= 100)
+        if (increased >= 100) {
+            this.setDustLevel(100);
             return dustLevel; //same as before, cap at 100.
+        }
 
         this.setDustLevel(increased);
         return this.dustLevel;
