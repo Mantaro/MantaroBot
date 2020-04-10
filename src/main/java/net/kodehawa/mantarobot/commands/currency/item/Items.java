@@ -62,11 +62,12 @@ public class Items {
     private static final IncreasingRateLimiter lootCrateRatelimiter = new IncreasingRateLimiter.Builder()
             .limit(1)
             .spamTolerance(2)
-            .cooldown(4, TimeUnit.MINUTES)
-            .maxCooldown(4, TimeUnit.MINUTES)
+            .cooldown(2, TimeUnit.MINUTES)
+            .maxCooldown(2, TimeUnit.MINUTES)
             .randomIncrement(false)
             .pool(MantaroData.getDefaultJedisPool())
             .prefix("lootcrate")
+            .premiumAware(true)
             .build();
 
     private static final IncreasingRateLimiter fishRatelimiter = new IncreasingRateLimiter.Builder()
@@ -77,6 +78,7 @@ public class Items {
             .randomIncrement(false)
             .pool(MantaroData.getDefaultJedisPool())
             .prefix("fish")
+            .premiumAware(true)
             .build();
     private static final Config config = MantaroData.config().get();
     public static final Item[] ALL = {
