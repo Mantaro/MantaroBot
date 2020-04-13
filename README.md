@@ -29,7 +29,6 @@ You will need the following to utilize all of Mantaro's features (items marked w
 * Redis
 * And IDE supporting [Lombok](http://projectlombok.org) (if you edit code)*
 * osu! API*
-* AniList API*
 * OpenWeatherMap API*
 * Wolke's Weeb API (For most of the action commands)*
 * Other unmentioned API keys*
