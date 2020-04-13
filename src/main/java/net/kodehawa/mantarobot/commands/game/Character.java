@@ -88,7 +88,6 @@ public class Character extends ImageGame {
 
             Response response = httpClient.newCall(request).execute();
             String body = response.body().string();
-            System.out.println(body);
             response.close();
             AnimeGameData data = GsonDataManager.GSON_PRETTY.fromJson(body, AnimeGameData.class);
 
