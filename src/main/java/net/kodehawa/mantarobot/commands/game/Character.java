@@ -17,41 +17,34 @@
 
 package net.kodehawa.mantarobot.commands.game;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.google.gson.JsonSyntaxException;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.anime.CharacterData;
-import net.kodehawa.mantarobot.commands.anime.KitsuRetriever;
+import net.kodehawa.mantarobot.MantaroInfo;
+import net.kodehawa.mantarobot.commands.game.core.AnimeGameData;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.game.core.ImageGame;
 import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.DataManager;
-import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
+import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.slf4j.Logger;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static net.kodehawa.mantarobot.utils.Utils.httpClient;
+
 public class Character extends ImageGame {
-    private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
     private static final Logger log = org.slf4j.LoggerFactory.getLogger("Game [Character]");
     private final int maxAttempts = 5;
     private String characterName;
     private List<String> characterNameL;
     private Random random = new Random();
-
-    //Redis cache
-    private static final JedisPool pool = MantaroData.getDefaultJedisPool();
-    private String redisPrefix = "kitsu-character:";
 
     public Character() {
         super(10);
@@ -85,33 +78,24 @@ public class Character extends ImageGame {
     public boolean onStart(GameLobby lobby) {
         final I18nContext languageContext = lobby.getLanguageContext();
         try {
-            List<String> strings = NAMES.get();
+            GameStatsManager.log(name());
+            Request request = new Request.Builder()
+                    .url(config.apiTwoUrl + "/mantaroapi/bot/character")
+                    .addHeader("Authorization", config.getApiAuthKey())
+                    .addHeader("User-Agent", MantaroInfo.USER_AGENT)
+                    .get()
+                    .build();
+
+            Response response = httpClient.newCall(request).execute();
+            String body = response.body().string();
+            System.out.println(body);
+            response.close();
+            AnimeGameData data = GsonDataManager.GSON_PRETTY.fromJson(body, AnimeGameData.class);
+
             GameStatsManager.log(name());
             characterNameL = new ArrayList<>();
-            characterName = strings.get(random.nextInt(strings.size()));
-            String cachedName = characterName.toLowerCase().replace(" ", "-").trim();
-            String imageUrl;
-
-            try (Jedis redis = pool.getResource()) {
-                imageUrl = redis.get(redisPrefix + cachedName);
-            }
-
-            if (imageUrl == null) {
-                List<CharacterData> characters = KitsuRetriever.searchCharacters(characterName);
-                if (characters.isEmpty()) {
-                    lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.character_load_error"), EmoteReference.WARNING, characterName).queue();
-                    return false;
-                }
-
-                CharacterData character = characters.get(0);
-
-                imageUrl = character.getAttributes().getImage().getOriginal();
-                //insert into image cache
-                if (imageUrl != null)
-                    try (Jedis redis = pool.getResource()) {
-                        redis.set(redisPrefix + cachedName, imageUrl);
-                    }
-            }
+            characterName = data.getName();
+            String imageUrl = data.getImage();
 
             //Allow for replying with only the first name of the character.
             if (characterName.contains(" ")) {
