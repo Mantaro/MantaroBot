@@ -226,8 +226,7 @@ public class InfoCmds {
                         return true;
                 })
                 .filter(c -> c != Category.OWNER || CommandPermission.OWNER.test(event.getMember()))
-                //No need to show a category if there's nothing on it...
-                .filter(c -> !forType(event.getChannel(), guildData, c).isEmpty())
+                .filter(c -> !DefaultCommandProcessor.REGISTRY.getCommandsForCategory(c).isEmpty())
                 .forEach(c -> embed.addField(languageContext.get(c.toString()) + " " + languageContext.get("commands.help.commands") + ":",
                         forType(event.getChannel(), guildData, c), false)
                 );

@@ -53,6 +53,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class CommandRegistry {
     //Wiki says they should always be static?
@@ -84,6 +85,12 @@ public class CommandRegistry {
 
     public Map<String, Command> commands() {
         return commands;
+    }
+
+    public Map<String, Command> getCommandsForCategory(Category category) {
+        return commands.entrySet().stream()
+                .filter(stringCommandEntry -> stringCommandEntry.getValue().category() == category)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     //BEWARE OF INSTANCEOF CALLS
