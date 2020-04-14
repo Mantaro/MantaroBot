@@ -89,7 +89,7 @@ public class CommandRegistry {
 
     public Map<String, Command> getCommandsForCategory(Category category) {
         return commands.entrySet().stream()
-                .filter(stringCommandEntry -> stringCommandEntry.getValue().category() == category)
+                .filter(cmd -> cmd.getValue().category() == category)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
