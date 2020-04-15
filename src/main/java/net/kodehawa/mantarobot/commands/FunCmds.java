@@ -283,7 +283,9 @@ public class FunCmds {
 
     private long diceRoll(int size, int amount) {
         long sum = 0;
-        for (int i = 0; i < amount; i++) sum += r.nextInt(size) + 1;
+        for (int i = 0; i < amount; i++)
+            sum += r.nextInt(size) + 1;
+
         return sum;
     }
 }

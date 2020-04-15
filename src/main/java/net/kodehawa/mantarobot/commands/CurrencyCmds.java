@@ -716,10 +716,11 @@ public class CurrencyCmds {
             final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                     .spamTolerance(2)
                     .limit(1)
-                    .cooldown(20, TimeUnit.SECONDS)
+                    .cooldown(15, TimeUnit.SECONDS)
                     .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
                     .maxCooldown(20, TimeUnit.MINUTES)
                     .pool(MantaroData.getDefaultJedisPool())
+                    .premiumAware(true)
                     .prefix("itemtransfer")
                     .build();
 
