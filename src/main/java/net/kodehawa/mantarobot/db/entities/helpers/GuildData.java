@@ -17,6 +17,7 @@
 
 package net.kodehawa.mantarobot.db.entities.helpers;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kodehawa.mantarobot.commands.moderation.WarnAction;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.annotations.ConfigName;
@@ -207,6 +208,7 @@ public class GuildData {
     private boolean commandWarningDisplay = false;
 
     @ConfigName("Has received greet message")
+    @JsonProperty("hasReceivedGreet")
     private boolean hasReceivedGreet = false;
 
     @ConfigName("People blocked from the birthday logging on this server.")

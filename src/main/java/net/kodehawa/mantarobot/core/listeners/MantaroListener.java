@@ -561,6 +561,7 @@ public class MantaroListener implements EventListener {
                     if(channel.canTalk() && !dbGuild.getData().hasReceivedGreet()) {
                         channel.sendMessage(embedBuilder.build()).queue(m -> m.delete().queueAfter(1, TimeUnit.MINUTES));
                         dbGuild.getData().setHasReceivedGreet(true);
+                        dbGuild.save();
                     } // else ignore
                 }, () -> {
                     //Attempt to find the first channel we can talk to.
@@ -573,11 +574,9 @@ public class MantaroListener implements EventListener {
                     if(!dbGuild.getData().hasReceivedGreet()) {
                         channel.sendMessage(embedBuilder.build()).queue(m -> m.delete().queueAfter(1, TimeUnit.MINUTES));
                         dbGuild.getData().setHasReceivedGreet(true);
+                        dbGuild.save();
                     }
                 });
-
-                dbGuild.saveAsync();
-                //Greet message end.
             }
 
             guildActions.labels("join").inc();
