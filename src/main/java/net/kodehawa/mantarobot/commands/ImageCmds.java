@@ -132,6 +132,11 @@ public class ImageCmds {
         cr.register("e621", new SimpleCommand(Category.IMAGE) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                if (!event.getChannel().isNSFW()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.imageboard.e621_nsfw_notice"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 String noArgs = content.split(" ")[0];
                 switch (noArgs) {
                     case "":
