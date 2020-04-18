@@ -37,6 +37,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -150,6 +151,12 @@ public class GameCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                GuildData guildData = MantaroData.db().getGuild(event.getGuild()).getData();
+                if(guildData.isGameMultipleDisabled()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.disabled_multiple"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 String[] args = net.kodehawa.mantarobot.utils.StringUtils.advancedSplitArgs(content, 0);
                 Map<String, String> t = getArguments(content);
                 String difficultyArgument = "diff";
@@ -219,6 +226,12 @@ public class GameCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                GuildData guildData = MantaroData.db().getGuild(event.getGuild()).getData();
+                if(guildData.isGameMultipleDisabled()) {
+                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.disabled_multiple"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
                 String[] args = net.kodehawa.mantarobot.utils.StringUtils.advancedSplitArgs(content, 0);
                 Map<String, String> t = getArguments(content);
                 String difficultyArgument = "diff";

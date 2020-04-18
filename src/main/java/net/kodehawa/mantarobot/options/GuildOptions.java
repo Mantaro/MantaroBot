@@ -79,137 +79,138 @@ public class GuildOptions extends OptionHandler {
             dbGuild.save();
             event.getChannel().sendMessageFormat("%sSuccessfully set the language of this server to `%s`", EmoteReference.CORRECT, language).queue();
         }));
+
         //endregion
         //region opts birthday
         registerOption("birthday:test", "Tests if the birthday assigner works.",
                 "Tests if the birthday assigner works properly. You need to input an user mention/id/tag to test it with.", "Tests if the birthday assigner works.",
                 (event, args, lang) -> {
-                    if (args.length < 1) {
-                        event.getChannel().sendMessageFormat(lang.get("options.birthday_test.no_user"), EmoteReference.ERROR2).queue();
-                        return;
-                    }
+            if (args.length < 1) {
+                event.getChannel().sendMessageFormat(lang.get("options.birthday_test.no_user"), EmoteReference.ERROR2).queue();
+                return;
+            }
 
-                    Member m = Utils.findMember(event, event.getMember(), String.join(" ", args));
-                    if (m == null)
-                        return;
+            Member m = Utils.findMember(event, event.getMember(), String.join(" ", args));
+            if (m == null)
+                return;
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    TextChannel birthdayChannel = guildData.getBirthdayChannel() == null ? null : event.getGuild().getTextChannelById(guildData.getBirthdayChannel());
-                    Role birthdayRole = guildData.getBirthdayRole() == null ? null : event.getGuild().getRoleById(guildData.getBirthdayRole());
+            TextChannel birthdayChannel = guildData.getBirthdayChannel() == null ? null : event.getGuild().getTextChannelById(guildData.getBirthdayChannel());
+            Role birthdayRole = guildData.getBirthdayRole() == null ? null : event.getGuild().getRoleById(guildData.getBirthdayRole());
 
-                    if (birthdayChannel == null) {
-                        event.getChannel().sendMessageFormat(lang.get("options.birthday_test.no_bd_channel"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (birthdayChannel == null) {
+                event.getChannel().sendMessageFormat(lang.get("options.birthday_test.no_bd_channel"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    if (birthdayRole == null) {
-                        event.getChannel().sendMessageFormat(lang.get("options.birthday_test.no_bd_role"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (birthdayRole == null) {
+                event.getChannel().sendMessageFormat(lang.get("options.birthday_test.no_bd_role"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    if (!birthdayChannel.canTalk()) {
-                        event.getChannel().sendMessageFormat(lang.get("options.birthday_test.no_talk_permission"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (!birthdayChannel.canTalk()) {
+                event.getChannel().sendMessageFormat(lang.get("options.birthday_test.no_talk_permission"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    if (!event.getGuild().getSelfMember().canInteract(birthdayRole)) {
-                        event.getChannel().sendMessageFormat(lang.get("options.birthday_test.cannot_interact"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (!event.getGuild().getSelfMember().canInteract(birthdayRole)) {
+                event.getChannel().sendMessageFormat(lang.get("options.birthday_test.cannot_interact"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    User user = m.getUser();
-                    String message = String.format("%s**%s is a year older now! Wish them a happy birthday.** :tada: (test)", EmoteReference.POPPER, m.getEffectiveName());
-                    if (dbGuild.getData().getBirthdayMessage() != null) {
-                        message = dbGuild.getData().getBirthdayMessage().replace("$(user)", m.getEffectiveName())
-                                .replace("$(usermention)", m.getAsMention());
-                    }
+            User user = m.getUser();
+            String message = String.format("%s**%s is a year older now! Wish them a happy birthday.** :tada: (test)", EmoteReference.POPPER, m.getEffectiveName());
+            if (dbGuild.getData().getBirthdayMessage() != null) {
+                message = dbGuild.getData().getBirthdayMessage().replace("$(user)", m.getEffectiveName())
+                        .replace("$(usermention)", m.getAsMention());
+            }
 
-                    //Value used in lambda... blabla :c
-                    final String finalMessage = message;
+            //Value used in lambda... blabla :c
+            final String finalMessage = message;
 
-                    event.getGuild().addRoleToMember(m, birthdayRole).queue(success ->
-                            new MessageBuilder(finalMessage)
-                                    .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE)
-                                    .sendTo(birthdayChannel).queue(s ->
-                                    event.getChannel().sendMessageFormat(lang.get("options.birthday_test.success"),
-                                            EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
-                                    ).queue(), error ->
-                                    event.getChannel().sendMessageFormat(lang.get("options.birthday_test.error"),
-                                            EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
-                                    ).queue())
-                    );
-                });
+            event.getGuild().addRoleToMember(m, birthdayRole).queue(success ->
+                    new MessageBuilder(finalMessage)
+                            .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE)
+                            .sendTo(birthdayChannel).queue(s ->
+                            event.getChannel().sendMessageFormat(lang.get("options.birthday_test.success"),
+                                    EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
+                            ).queue(), error ->
+                            event.getChannel().sendMessageFormat(lang.get("options.birthday_test.error"),
+                                    EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
+                            ).queue())
+            );
+        });
 
         registerOption("birthday:enable", "Birthday Monitoring enable",
                 "Enables birthday monitoring. You need the channel **name** and the role name (it assigns that role on birthday)\n" +
                         "**Example:** `~>opts birthday enable general Birthday`, `~>opts birthday enable general \"Happy Birthday\"`",
                 "Enables birthday monitoring.", (event, args, lang) -> {
-                    if (args.length < 2) {
-                        event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.no_args"), EmoteReference.ERROR).queue();
-                        return;
+            if (args.length < 2) {
+                event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.no_args"), EmoteReference.ERROR).queue();
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            try {
+                String channel = args[0];
+                String role = args[1];
+
+                TextChannel channelObj = Utils.findChannel(event, channel);
+                if (channelObj == null)
+                    return;
+
+                String channelId = channelObj.getId();
+
+                Role roleObj = event.getGuild().getRolesByName(role.replace(channelId, ""), true).get(0);
+
+                if (roleObj.isPublicRole()) {
+                    event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.public_role"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                if (guildData.getGuildAutoRole() != null && roleObj.getId().equals(guildData.getGuildAutoRole())) {
+                    event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.autorole"), EmoteReference.ERROR).queue();
+                    return;
+                }
+
+                event.getChannel().sendMessageFormat(
+                        String.join("\n", lang.get("options.birthday_enable.warning"),
+                                lang.get("options.birthday_enable.warning_1"),
+                                lang.get("options.birthday_enable.warning_2"),
+                                lang.get("options.birthday_enable.warning_3"),
+                                lang.get("options.birthday_enable.warning_4")), EmoteReference.WARNING, roleObj.getName()
+                ).queue();
+                InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 45, interactiveEvent -> {
+                    String content = interactiveEvent.getMessage().getContentRaw();
+                    if (content.equalsIgnoreCase("yes")) {
+                        String roleId = roleObj.getId();
+                        guildData.setBirthdayChannel(channelId);
+                        guildData.setBirthdayRole(roleId);
+                        dbGuild.saveAsync();
+                        event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.success"), EmoteReference.MEGA,
+                                channelObj.getName(), channelId, role, roleId
+                        ).queue();
+                        return Operation.COMPLETED;
+                    } else if (content.equalsIgnoreCase("no")) {
+                        interactiveEvent.getChannel().sendMessageFormat(lang.get("general.cancelled"), EmoteReference.CORRECT).queue();
+                        return Operation.COMPLETED;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-
-                    try {
-                        String channel = args[0];
-                        String role = args[1];
-
-                        TextChannel channelObj = Utils.findChannel(event, channel);
-                        if (channelObj == null)
-                            return;
-
-                        String channelId = channelObj.getId();
-
-                        Role roleObj = event.getGuild().getRolesByName(role.replace(channelId, ""), true).get(0);
-
-                        if (roleObj.isPublicRole()) {
-                            event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.public_role"), EmoteReference.ERROR).queue();
-                            return;
-                        }
-
-                        if (guildData.getGuildAutoRole() != null && roleObj.getId().equals(guildData.getGuildAutoRole())) {
-                            event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.autorole"), EmoteReference.ERROR).queue();
-                            return;
-                        }
-
-                        event.getChannel().sendMessageFormat(
-                                String.join("\n", lang.get("options.birthday_enable.warning"),
-                                        lang.get("options.birthday_enable.warning_1"),
-                                        lang.get("options.birthday_enable.warning_2"),
-                                        lang.get("options.birthday_enable.warning_3"),
-                                        lang.get("options.birthday_enable.warning_4")), EmoteReference.WARNING, roleObj.getName()
-                        ).queue();
-                        InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 45, interactiveEvent -> {
-                            String content = interactiveEvent.getMessage().getContentRaw();
-                            if (content.equalsIgnoreCase("yes")) {
-                                String roleId = roleObj.getId();
-                                guildData.setBirthdayChannel(channelId);
-                                guildData.setBirthdayRole(roleId);
-                                dbGuild.saveAsync();
-                                event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.success"), EmoteReference.MEGA,
-                                        channelObj.getName(), channelId, role, roleId
-                                ).queue();
-                                return Operation.COMPLETED;
-                            } else if (content.equalsIgnoreCase("no")) {
-                                interactiveEvent.getChannel().sendMessageFormat(lang.get("general.cancelled"), EmoteReference.CORRECT).queue();
-                                return Operation.COMPLETED;
-                            }
-
-                            return Operation.IGNORED;
-                        });
-
-                    } catch (IndexOutOfBoundsException ex1) {
-                        event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.error_channel_1") + "\n" + lang.get("options.birthday_enable.error_channel_2"),
-                                EmoteReference.ERROR
-                        ).queue();
-                    } catch (Exception ex) {
-                        event.getChannel().sendMessage(lang.get("general.invalid_syntax") + "\nCheck https://github.com/Mantaro/MantaroBot/wiki/Configuration for more information.").queue();
-                    }
+                    return Operation.IGNORED;
                 });
+
+            } catch (IndexOutOfBoundsException ex1) {
+                event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.error_channel_1") + "\n" + lang.get("options.birthday_enable.error_channel_2"),
+                        EmoteReference.ERROR
+                ).queue();
+            } catch (Exception ex) {
+                event.getChannel().sendMessage(lang.get("general.invalid_syntax") + "\nCheck https://github.com/Mantaro/MantaroBot/wiki/Configuration for more information.").queue();
+            }
+        });
 
         registerOption("birthday:disable", "Birthday disable", "Disables birthday monitoring.", (event, lang) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
@@ -227,42 +228,42 @@ public class GuildOptions extends OptionHandler {
                 "Sets the server prefix.\n" +
                         "**Example:** `~>opts prefix set .`",
                 "Sets the server prefix.", (event, args, lang) -> {
-                    if (args.length < 1) {
-                        event.getChannel().sendMessageFormat(lang.get("options.prefix_set.no_prefix"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-                    String prefix = args[0];
+            if (args.length < 1) {
+                event.getChannel().sendMessageFormat(lang.get("options.prefix_set.no_prefix"), EmoteReference.ERROR).queue();
+                return;
+            }
+            String prefix = args[0];
 
-                    if (prefix.length() > 50) {
-                        event.getChannel().sendMessageFormat(lang.get("options.prefix_set.too_long"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (prefix.length() > 50) {
+                event.getChannel().sendMessageFormat(lang.get("options.prefix_set.too_long"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    if (prefix.isEmpty()) {
-                        event.getChannel().sendMessageFormat(lang.get("options.prefix_set.empty_prefix"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (prefix.isEmpty()) {
+                event.getChannel().sendMessageFormat(lang.get("options.prefix_set.empty_prefix"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    guildData.setGuildCustomPrefix(prefix);
-                    dbGuild.save();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            guildData.setGuildCustomPrefix(prefix);
+            dbGuild.save();
 
-                    new MessageBuilder().append(String.format(lang.get("options.prefix_set.success"), EmoteReference.MEGA, prefix))
-                            .stripMentions(event.getJDA())
-                            .sendTo(event.getChannel()).queue();
-                });//endregion
+            new MessageBuilder().append(String.format(lang.get("options.prefix_set.success"), EmoteReference.MEGA, prefix))
+                    .stripMentions(event.getJDA())
+                    .sendTo(event.getChannel()).queue();
+        });//endregion
 
         //region clear
         registerOption("prefix:clear", "Prefix clear",
                 "Clear the server prefix.\n" +
                         "**Example:** `~>opts prefix clear`", (event, lang) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    guildData.setGuildCustomPrefix(null);
-                    dbGuild.save();
-                    event.getChannel().sendMessageFormat(lang.get("options.prefix_clear.success"), EmoteReference.MEGA).queue();
-                });//endregion
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            guildData.setGuildCustomPrefix(null);
+            dbGuild.save();
+            event.getChannel().sendMessageFormat(lang.get("options.prefix_clear.success"), EmoteReference.MEGA).queue();
+        });//endregion
         // endregion
 
         //region autorole
@@ -272,50 +273,50 @@ public class GuildOptions extends OptionHandler {
                         " you need to wrap it in quotation marks**\n" +
                         "**Example:** `~>opts autorole set Member`, `~>opts autorole set \"Magic Role\"`",
                 "Sets the server autorole.", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.autorole_set.no_role"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.autorole_set.no_role"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    Consumer<Role> consumer = (role) -> {
-                        if (!event.getMember().canInteract(role)) {
-                            event.getChannel().sendMessageFormat(lang.get("options.autorole_set.hierarchy_conflict"), EmoteReference.ERROR).queue();
-                            return;
-                        }
+            Consumer<Role> consumer = (role) -> {
+                if (!event.getMember().canInteract(role)) {
+                    event.getChannel().sendMessageFormat(lang.get("options.autorole_set.hierarchy_conflict"), EmoteReference.ERROR).queue();
+                    return;
+                }
 
-                        if (!event.getGuild().getSelfMember().canInteract(role)) {
-                            event.getChannel().sendMessageFormat(lang.get("options.autorole_set.self_hierarchy_conflict"), EmoteReference.ERROR).queue();
-                            return;
-                        }
+                if (!event.getGuild().getSelfMember().canInteract(role)) {
+                    event.getChannel().sendMessageFormat(lang.get("options.autorole_set.self_hierarchy_conflict"), EmoteReference.ERROR).queue();
+                    return;
+                }
 
-                        guildData.setGuildAutoRole(role.getId());
-                        dbGuild.saveAsync();
-                        event.getChannel().sendMessageFormat(lang.get("options.autorole_set.success"), EmoteReference.CORRECT,
-                                role.getName(), role.getPosition()
-                        ).queue();
-                    };
+                guildData.setGuildAutoRole(role.getId());
+                dbGuild.saveAsync();
+                event.getChannel().sendMessageFormat(lang.get("options.autorole_set.success"), EmoteReference.CORRECT,
+                        role.getName(), role.getPosition()
+                ).queue();
+            };
 
-                    Role role = Utils.findRoleSelect(event, String.join(" ", args), consumer);
+            Role role = Utils.findRoleSelect(event, String.join(" ", args), consumer);
 
-                    if (role != null) {
-                        consumer.accept(role);
-                    }
-                });//endregion
+            if (role != null) {
+                consumer.accept(role);
+            }
+        });//endregion
 
         //region unbind
         registerOption("autorole:unbind", "Autorole clear",
                 "Clear the server autorole.\n" +
                         "**Example:** `~>opts autorole unbind`",
                 "Resets the servers autorole.", (event, args, lang) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    guildData.setGuildAutoRole(null);
-                    dbGuild.saveAsync();
-                    event.getChannel().sendMessageFormat(lang.get("options.autorole_unbind.success"), EmoteReference.OK).queue();
-                });//endregion
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            guildData.setGuildAutoRole(null);
+            dbGuild.saveAsync();
+            event.getChannel().sendMessageFormat(lang.get("options.autorole_unbind.success"), EmoteReference.OK).queue();
+        });//endregion
         //endregion
 
         //region usermessage
@@ -324,29 +325,29 @@ public class GuildOptions extends OptionHandler {
                 "Clears the join/leave message channel.\n" +
                         "**Example:** `~>opts usermessage resetchannel`",
                 "Clears the join/leave message channel.", (event, args, lang) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    guildData.setLogJoinLeaveChannel(null);
-                    guildData.setLogLeaveChannel(null);
-                    guildData.setLogJoinChannel(null);
-                    dbGuild.save();
-                    event.getChannel().sendMessageFormat(lang.get("options.usermessage_resetchannel.success"), EmoteReference.CORRECT).queue();
-                });//endregion
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            guildData.setLogJoinLeaveChannel(null);
+            guildData.setLogLeaveChannel(null);
+            guildData.setLogJoinChannel(null);
+            dbGuild.save();
+            event.getChannel().sendMessageFormat(lang.get("options.usermessage_resetchannel.success"), EmoteReference.CORRECT).queue();
+        });//endregion
 
         //region resetdata
         registerOption("usermessage:resetdata", "Reset join/leave message data",
                 "Resets the join/leave message data.\n" +
                         "**Example:** `~>opts usermessage resetdata`",
                 "Resets the join/leave message data.", (event, args, lang) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    guildData.setLeaveMessage(null);
-                    guildData.setJoinMessage(null);
-                    guildData.setLogJoinLeaveChannel(null);
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            guildData.setLeaveMessage(null);
+            guildData.setJoinMessage(null);
+            guildData.setLogJoinLeaveChannel(null);
 
-                    dbGuild.save();
-                    event.getChannel().sendMessageFormat(lang.get("options.usermessage_resetdata.success"), EmoteReference.CORRECT).queue();
-                });
+            dbGuild.save();
+            event.getChannel().sendMessageFormat(lang.get("options.usermessage_resetdata.success"), EmoteReference.CORRECT).queue();
+        });
         //endregion
 
         //region channel
@@ -426,46 +427,46 @@ public class GuildOptions extends OptionHandler {
                         "**Example:** `~>opts usermessage channel join-magic`\n" +
                         "Warning: if you set this, you cannot set individual join/leave channels unless you reset the channel.",
                 "Sets the join/leave message channel.", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.usermessage_channel.no_channel"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_channel.no_channel"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    String channelName = args[0];
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            String channelName = args[0];
 
-                    Consumer<TextChannel> consumer = textChannel -> {
-                        guildData.setLogJoinLeaveChannel(textChannel.getId());
-                        dbGuild.save();
-                        event.getChannel().sendMessageFormat(lang.get("options.usermessage_channel.success"), EmoteReference.OK, textChannel.getAsMention()).queue();
-                    };
+            Consumer<TextChannel> consumer = textChannel -> {
+                guildData.setLogJoinLeaveChannel(textChannel.getId());
+                dbGuild.save();
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_channel.success"), EmoteReference.OK, textChannel.getAsMention()).queue();
+            };
 
-                    TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
+            TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
 
-                    if (channel != null) {
-                        consumer.accept(channel);
-                    }
-                });//endregion
+            if (channel != null) {
+                consumer.accept(channel);
+            }
+        });//endregion
 
         //region joinmessage
         registerOption("usermessage:joinmessage", "User join message",
                 "Sets the join message.\n" +
                         "**Example:** `~>opts usermessage joinmessage Welcome $(event.user.name) to the $(event.guild.name) server! Hope you have a great time`",
                 "Sets the join message.", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage.no_message"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage.no_message"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    String joinMessage = String.join(" ", args);
-                    guildData.setJoinMessage(joinMessage);
-                    dbGuild.save();
-                    event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage.success"), EmoteReference.CORRECT, joinMessage).queue();
-                });//endregion
+            String joinMessage = String.join(" ", args);
+            guildData.setJoinMessage(joinMessage);
+            dbGuild.save();
+            event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage.success"), EmoteReference.CORRECT, joinMessage).queue();
+        });//endregion
         addOptionAlias("usermessage:joinmessage", "joinmessage");
 
         //region leavemessage
@@ -473,19 +474,19 @@ public class GuildOptions extends OptionHandler {
                 "Sets the leave message.\n" +
                         "**Example:** `~>opts usermessage leavemessage Sad to see you depart, $(event.user.name)`",
                 "Sets the leave message.", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage.no_message"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage.no_message"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    String leaveMessage = String.join(" ", args);
-                    guildData.setLeaveMessage(leaveMessage);
-                    dbGuild.save();
-                    event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage.success"), EmoteReference.CORRECT, leaveMessage).queue();
-                });//endregion
+            String leaveMessage = String.join(" ", args);
+            guildData.setLeaveMessage(leaveMessage);
+            dbGuild.save();
+            event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage.success"), EmoteReference.CORRECT, leaveMessage).queue();
+        });//endregion
         addOptionAlias("usermessage:leavemessage", "leavemessage");
 
         registerOption("usermessage:joinmessages:add", "Join Message extra messages add", "Adds a new join message\n" +
@@ -631,7 +632,6 @@ public class GuildOptions extends OptionHandler {
             dbGuild.save();
 
             event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage_clear.success"), EmoteReference.CORRECT).queue();
-
         }));
 
         registerOption("usermessage:leavemessages:list", "Leave Message extra messages list", "Lists all extra leave messages\n" +
@@ -668,6 +668,7 @@ public class GuildOptions extends OptionHandler {
                 DiscordUtils.listText(event, 45, false, messages);
             }
         }));
+
         //endregion
         //region autoroles
         //region add
@@ -676,56 +677,56 @@ public class GuildOptions extends OptionHandler {
                         "You need the name of the iam and the name of the role. If the role contains spaces wrap it in quotation marks.\n" +
                         "**Example:** `~>opts autoroles add member Member`, `~>opts autoroles add wew \"A role with spaces on its name\"`",
                 "Adds an auto-assignable role to the iam lists.", (event, args, lang) -> {
-                    if (args.length < 2) {
-                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.no_args"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length < 2) {
+                event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.no_args"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    String roleName = args[1];
+            String roleName = args[1];
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    List<Role> roleList = event.getGuild().getRolesByName(roleName, true);
-                    if (roleList.size() == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.no_role_found"), EmoteReference.ERROR).queue();
-                    } else if (roleList.size() == 1) {
-                        Role role = roleList.get(0);
+            List<Role> roleList = event.getGuild().getRolesByName(roleName, true);
+            if (roleList.size() == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.no_role_found"), EmoteReference.ERROR).queue();
+            } else if (roleList.size() == 1) {
+                Role role = roleList.get(0);
 
-                        if (!event.getMember().canInteract(role)) {
-                            event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.hierarchy_conflict"), EmoteReference.ERROR).queue();
-                            return;
-                        }
+                if (!event.getMember().canInteract(role)) {
+                    event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.hierarchy_conflict"), EmoteReference.ERROR).queue();
+                    return;
+                }
 
-                        if (!event.getGuild().getSelfMember().canInteract(role)) {
-                            event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.self_hierarchy_conflict"), EmoteReference.ERROR).queue();
-                            return;
-                        }
+                if (!event.getGuild().getSelfMember().canInteract(role)) {
+                    event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.self_hierarchy_conflict"), EmoteReference.ERROR).queue();
+                    return;
+                }
 
-                        guildData.getAutoroles().put(args[0], role.getId());
-                        dbGuild.saveAsync();
-                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.success"), EmoteReference.OK, args[0], role.getName()).queue();
-                    } else {
-                        DiscordUtils.selectList(event, roleList, role -> String.format("%s (ID: %s)  | Position: %s", role.getName(),
-                                role.getId(), role.getPosition()), s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Role:")
-                                        .setDescription(s).build(),
-                                role -> {
-                                    if (!event.getMember().canInteract(role)) {
-                                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.hierarchy_conflict"), EmoteReference.ERROR).queue();
-                                        return;
-                                    }
+                guildData.getAutoroles().put(args[0], role.getId());
+                dbGuild.saveAsync();
+                event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.success"), EmoteReference.OK, args[0], role.getName()).queue();
+            } else {
+                DiscordUtils.selectList(event, roleList, role -> String.format("%s (ID: %s)  | Position: %s", role.getName(),
+                        role.getId(), role.getPosition()), s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Role:")
+                                .setDescription(s).build(),
+                        role -> {
+                            if (!event.getMember().canInteract(role)) {
+                                event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.hierarchy_conflict"), EmoteReference.ERROR).queue();
+                                return;
+                            }
 
-                                    if (!event.getGuild().getSelfMember().canInteract(role)) {
-                                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.self_hierarchy_conflict"), EmoteReference.ERROR).queue();
-                                        return;
-                                    }
+                            if (!event.getGuild().getSelfMember().canInteract(role)) {
+                                event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.self_hierarchy_conflict"), EmoteReference.ERROR).queue();
+                                return;
+                            }
 
-                                    guildData.getAutoroles().put(args[0], role.getId());
-                                    dbGuild.saveAsync();
-                                    event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.success"), EmoteReference.OK, args[0], role.getName()).queue();
-                                });
-                    }
-                });
+                            guildData.getAutoroles().put(args[0], role.getId());
+                            dbGuild.saveAsync();
+                            event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.success"), EmoteReference.OK, args[0], role.getName()).queue();
+                        });
+                }
+        });
 
         //region remove
         registerOption("autoroles:remove", "Autoroles remove",
@@ -733,130 +734,129 @@ public class GuildOptions extends OptionHandler {
                         "You need the name of the iam.\n" +
                         "**Example:** `~>opts autoroles remove iamname`",
                 "Removes an auto-assignable role from iam.", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.no_args"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.no_args"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    HashMap<String, String> autoroles = guildData.getAutoroles();
-                    if (autoroles.containsKey(args[0])) {
-                        autoroles.remove(args[0]);
-                        dbGuild.saveAsync();
-                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_remove.success"), EmoteReference.OK, args[0]).queue();
-                    } else {
-                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_remove.not_found"), EmoteReference.ERROR).queue();
-                    }
-                });//endregion
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            HashMap<String, String> autoroles = guildData.getAutoroles();
+            if (autoroles.containsKey(args[0])) {
+                autoroles.remove(args[0]);
+                dbGuild.saveAsync();
+                event.getChannel().sendMessageFormat(lang.get("options.autoroles_remove.success"), EmoteReference.OK, args[0]).queue();
+            } else {
+                event.getChannel().sendMessageFormat(lang.get("options.autoroles_remove.not_found"), EmoteReference.ERROR).queue();
+            }
+        });//endregion
 
         //region clear
         registerOption("autoroles:clear", "Autoroles clear",
                 "Removes all autoroles.",
                 "Removes all autoroles.", (event, args, lang) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    dbGuild.getData().getAutoroles().clear();
-                    dbGuild.saveAsync();
-                    event.getChannel().sendMessageFormat(lang.get("options.autoroles_clear.success"), EmoteReference.CORRECT).queue();
-                }
-        ); //endregion
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            dbGuild.getData().getAutoroles().clear();
+            dbGuild.saveAsync();
+            event.getChannel().sendMessageFormat(lang.get("options.autoroles_clear.success"), EmoteReference.CORRECT).queue();
+        }); //endregion
 
         registerOption("autoroles:category:add", "Adds a category to autoroles",
                 "Adds a category to autoroles. Useful for organizing",
                 "Adds a category to autoroles.", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.no_args"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.no_args"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    String category = args[0];
-                    String autorole = null;
-                    if (args.length > 1) {
-                        autorole = args[1];
-                    }
+            String category = args[0];
+            String autorole = null;
+            if (args.length > 1) {
+                autorole = args[1];
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    Map<String, List<String>> categories = guildData.getAutoroleCategories();
-                    if (categories.containsKey(category) && autorole == null) {
-                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.already_exists"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            Map<String, List<String>> categories = guildData.getAutoroleCategories();
+            if (categories.containsKey(category) && autorole == null) {
+                event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.already_exists"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    categories.computeIfAbsent(category, (a) -> new ArrayList<>());
+            categories.computeIfAbsent(category, (a) -> new ArrayList<>());
 
-                    if (autorole != null) {
-                        if (guildData.getAutoroles().containsKey(autorole)) {
-                            categories.get(category).add(autorole);
-                            dbGuild.save();
-                            event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.success"), EmoteReference.CORRECT, category, autorole).queue();
-                        } else {
-                            event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.no_role"), EmoteReference.ERROR, autorole).queue();
-                        }
-                        return;
-                    }
-
+            if (autorole != null) {
+                if (guildData.getAutoroles().containsKey(autorole)) {
+                    categories.get(category).add(autorole);
                     dbGuild.save();
-                    event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.success_new"), EmoteReference.CORRECT, category).queue();
-                });
+                    event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.success"), EmoteReference.CORRECT, category, autorole).queue();
+                } else {
+                    event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.no_role"), EmoteReference.ERROR, autorole).queue();
+                }
+                return;
+            }
+
+            dbGuild.save();
+            event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.success_new"), EmoteReference.CORRECT, category).queue();
+        });
 
         registerOption("autoroles:category:remove", "Removes a category from autoroles",
                 "Removes a category from autoroles. Useful for organizing",
                 "Removes a category from autoroles.", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_remove.no_args"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_remove.no_args"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    String category = args[0];
-                    String autorole = null;
-                    if (args.length > 1) {
-                        autorole = args[1];
-                    }
+            String category = args[0];
+            String autorole = null;
+            if (args.length > 1) {
+                autorole = args[1];
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    Map<String, List<String>> categories = guildData.getAutoroleCategories();
-                    if (!categories.containsKey(category)) {
-                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.no_category"), EmoteReference.ERROR, category).queue();
-                        return;
-                    }
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            Map<String, List<String>> categories = guildData.getAutoroleCategories();
+            if (!categories.containsKey(category)) {
+                event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_add.no_category"), EmoteReference.ERROR, category).queue();
+                return;
+            }
 
-                    if (autorole != null) {
-                        categories.get(category).remove(autorole);
-                        dbGuild.save();
-                        event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_remove.success"), EmoteReference.CORRECT, category, autorole).queue();
-                        return;
-                    }
+            if (autorole != null) {
+                categories.get(category).remove(autorole);
+                dbGuild.save();
+                event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_remove.success"), EmoteReference.CORRECT, category, autorole).queue();
+                return;
+            }
 
-                    categories.remove(category);
-                    dbGuild.save();
-                    event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_remove.success_new"), EmoteReference.CORRECT, category).queue();
-                });
+            categories.remove(category);
+            dbGuild.save();
+            event.getChannel().sendMessageFormat(lang.get("options.autoroles_category_remove.success_new"), EmoteReference.CORRECT, category).queue();
+        });
 
         //region custom
         registerOption("admincustom", "Admin custom commands",
                 "Locks custom commands to admin-only.\n" +
                         "Example: `~>opts admincustom true`",
                 "Locks custom commands to admin-only.", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.admincustom.no_args"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.admincustom.no_args"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    String action = args[0];
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            String action = args[0];
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    try {
-                        guildData.setCustomAdminLockNew(Boolean.parseBoolean(action));
-                        dbGuild.save();
-                        String toSend = String.format("%s%s", EmoteReference.CORRECT, Boolean.parseBoolean(action) ? lang.get("options.admincustom.admin_only") : lang.get("options.admincustom.everyone"));
-                        event.getChannel().sendMessage(toSend).queue();
-                    } catch (Exception ex) {
-                        event.getChannel().sendMessageFormat(lang.get("options.admincustom.not_bool"), EmoteReference.ERROR).queue();
-                    }
-                });
+            try {
+                guildData.setCustomAdminLockNew(Boolean.parseBoolean(action));
+                dbGuild.save();
+                String toSend = String.format("%s%s", EmoteReference.CORRECT, Boolean.parseBoolean(action) ? lang.get("options.admincustom.admin_only") : lang.get("options.admincustom.everyone"));
+                event.getChannel().sendMessage(toSend).queue();
+            } catch (Exception ex) {
+                event.getChannel().sendMessageFormat(lang.get("options.admincustom.not_bool"), EmoteReference.ERROR).queue();
+            }
+        });
         //endregion
 
         registerOption("timedisplay:set", "Time display set", "Toggles between 12h and 24h time display.\n" +
@@ -892,243 +892,243 @@ public class GuildOptions extends OptionHandler {
                         "You need to provide the name of the role to disallow from mantaro.\n" +
                         "Example: `~>opts server role disallow bad`, `~>opts server role disallow \"No commands\"`",
                 "Disallows all users with a role from executing commands.", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.server_role_disallow.no_name"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.server_role_disallow.no_name"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    String roleName = String.join(" ", args);
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            String roleName = String.join(" ", args);
 
-                    Consumer<Role> consumer = (role) -> {
-                        guildData.getDisabledRoles().add(role.getId());
-                        dbGuild.saveAsync();
-                        event.getChannel().sendMessageFormat(lang.get("options.server_role_disallow.success"), EmoteReference.CORRECT, role.getName()).queue();
-                    };
+            Consumer<Role> consumer = (role) -> {
+                guildData.getDisabledRoles().add(role.getId());
+                dbGuild.saveAsync();
+                event.getChannel().sendMessageFormat(lang.get("options.server_role_disallow.success"), EmoteReference.CORRECT, role.getName()).queue();
+            };
 
-                    Role role = Utils.findRoleSelect(event, roleName, consumer);
+            Role role = Utils.findRoleSelect(event, roleName, consumer);
 
-                    if (role != null && role.isPublicRole()) {
-                        event.getChannel().sendMessageFormat(lang.get("options.server_role_disallow.public_role"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (role != null && role.isPublicRole()) {
+                event.getChannel().sendMessageFormat(lang.get("options.server_role_disallow.public_role"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    if (role != null) {
-                        consumer.accept(role);
-                    }
-                });
+            if (role != null) {
+                consumer.accept(role);
+            }
+        });
 
         registerOption("server:role:allow", "Role allow", "Allows all users with a role from executing commands.\n" +
                         "You need to provide the name of the role to allow from mantaro. Has to be already disabled.\n" +
                         "Example: `~>opts server role allow bad`, `~>opts server role allow \"No commands\"`",
                 "Allows all users with a role from executing commands (Has to be already disabled)", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.server_role_allow.no_name"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.server_role_allow.no_name"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    String roleName = String.join(" ", args);
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            String roleName = String.join(" ", args);
 
-                    Consumer<Role> consumer = (role) -> {
-                        if (!guildData.getDisabledRoles().contains(role.getId())) {
-                            event.getChannel().sendMessageFormat(lang.get("options.server_role_allow.not_disabled"), EmoteReference.ERROR).queue();
-                            return;
-                        }
+            Consumer<Role> consumer = (role) -> {
+                if (!guildData.getDisabledRoles().contains(role.getId())) {
+                    event.getChannel().sendMessageFormat(lang.get("options.server_role_allow.not_disabled"), EmoteReference.ERROR).queue();
+                    return;
+                }
 
-                        guildData.getDisabledRoles().remove(role.getId());
-                        dbGuild.saveAsync();
-                        event.getChannel().sendMessageFormat(lang.get("options.server_role_allow.success"), EmoteReference.CORRECT, role.getName()).queue();
-                    };
+                guildData.getDisabledRoles().remove(role.getId());
+                dbGuild.saveAsync();
+                event.getChannel().sendMessageFormat(lang.get("options.server_role_allow.success"), EmoteReference.CORRECT, role.getName()).queue();
+            };
 
-                    Role role = Utils.findRoleSelect(event, roleName, consumer);
+            Role role = Utils.findRoleSelect(event, roleName, consumer);
 
-                    if (role != null) {
-                        consumer.accept(role);
-                    }
-                });
+            if (role != null) {
+                consumer.accept(role);
+            }
+        });
 
         registerOption("server:ignorebots:autoroles:toggle",
                 "Bot autorole ignore", "Toggles between ignoring bots on autorole assign and not.", (event, lang) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    boolean ignore = guildData.isIgnoreBotsAutoRole();
-                    guildData.setIgnoreBotsAutoRole(!ignore);
-                    dbGuild.saveAsync();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            boolean ignore = guildData.isIgnoreBotsAutoRole();
+            guildData.setIgnoreBotsAutoRole(!ignore);
+            dbGuild.saveAsync();
 
-                    event.getChannel().sendMessageFormat(lang.get("options.server_ignorebots_autoroles_toggle.success"), EmoteReference.CORRECT, guildData.isIgnoreBotsAutoRole()).queue();
-                });
+            event.getChannel().sendMessageFormat(lang.get("options.server_ignorebots_autoroles_toggle.success"), EmoteReference.CORRECT, guildData.isIgnoreBotsAutoRole()).queue();
+        });
 
         registerOption("server:ignorebots:joinleave:toggle",
                 "Bot join/leave ignore", "Toggles between ignoring bots on join/leave message.", (event, lang) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    boolean ignore = guildData.isIgnoreBotsWelcomeMessage();
-                    guildData.setIgnoreBotsWelcomeMessage(!ignore);
-                    dbGuild.saveAsync();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            boolean ignore = guildData.isIgnoreBotsWelcomeMessage();
+            guildData.setIgnoreBotsWelcomeMessage(!ignore);
+            dbGuild.saveAsync();
 
-                    event.getChannel().sendMessageFormat(lang.get("options.server_ignorebots_joinleave_toggle.success"), EmoteReference.CORRECT, guildData.isIgnoreBotsWelcomeMessage()).queue();
-                });
+            event.getChannel().sendMessageFormat(lang.get("options.server_ignorebots_joinleave_toggle.success"), EmoteReference.CORRECT, guildData.isIgnoreBotsWelcomeMessage()).queue();
+        });
 
         registerOption("levelupmessages:toggle", "Level-up toggle",
                 "Toggles level up messages, remember that after this you have to set thee channel and the message!", (event, lang) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    boolean ignore = guildData.isEnabledLevelUpMessages();
-                    guildData.setEnabledLevelUpMessages(!ignore);
-                    dbGuild.saveAsync();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            boolean ignore = guildData.isEnabledLevelUpMessages();
+            guildData.setEnabledLevelUpMessages(!ignore);
+            dbGuild.saveAsync();
 
-                    event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_toggle.success"), EmoteReference.CORRECT, guildData.isEnabledLevelUpMessages()).queue();
-                });
+            event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_toggle.success"), EmoteReference.CORRECT, guildData.isEnabledLevelUpMessages()).queue();
+        });
 
         registerOption("levelupmessages:message:set", "Level-up message", "Sets the message to display on level up",
                 "Sets the level up message", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_set.no_message"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_set.no_message"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    String levelUpMessage = String.join(" ", args);
-                    guildData.setLevelUpMessage(levelUpMessage);
-                    dbGuild.saveAsync();
-                    event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_set.success"), EmoteReference.CORRECT, levelUpMessage).queue();
-                });
+            String levelUpMessage = String.join(" ", args);
+            guildData.setLevelUpMessage(levelUpMessage);
+            dbGuild.saveAsync();
+            event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_set.success"), EmoteReference.CORRECT, levelUpMessage).queue();
+        });
 
         registerOption("levelupmessages:message:clear", "Level-up message clear", "Clears the message to display on level up",
                 "Clears the message to display on level up", (event, args, lang) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    guildData.setLevelUpMessage(null);
-                    dbGuild.saveAsync();
+            guildData.setLevelUpMessage(null);
+            dbGuild.saveAsync();
 
-                    event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_clear.success"), EmoteReference.CORRECT).queue();
-                });
+            event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_clear.success"), EmoteReference.CORRECT).queue();
+        });
 
         registerOption("levelupmessages:channel:set", "Level-up message channel",
                 "Sets the channel to display level up messages", "Sets the channel to display level up messages",
                 (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_channel_set.no_channel"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_channel_set.no_channel"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    String channelName = args[0];
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            String channelName = args[0];
 
-                    Consumer<TextChannel> consumer = textChannel -> {
-                        guildData.setLevelUpChannel(textChannel.getId());
-                        dbGuild.saveAsync();
-                        event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_channel_set.success"), EmoteReference.OK, textChannel.getAsMention()).queue();
-                    };
+            Consumer<TextChannel> consumer = textChannel -> {
+                guildData.setLevelUpChannel(textChannel.getId());
+                dbGuild.saveAsync();
+                event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_channel_set.success"), EmoteReference.OK, textChannel.getAsMention()).queue();
+            };
 
-                    TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
+            TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
 
-                    if (channel != null) {
-                        consumer.accept(channel);
-                    }
-                });
+            if (channel != null) {
+                consumer.accept(channel);
+            }
+        });
 
         registerOption("birthday:message:set", "Birthday message", "Sets the message to display on a new birthday",
                 "Sets the birthday message", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.birthday_message_set.no_message"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.birthday_message_set.no_message"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    String birthdayMessage = String.join(" ", args);
-                    guildData.setBirthdayMessage(birthdayMessage);
-                    dbGuild.saveAsync();
-                    event.getChannel().sendMessageFormat(lang.get("options.birthday_message_set.success"), EmoteReference.CORRECT, birthdayMessage).queue();
-                });
+            String birthdayMessage = String.join(" ", args);
+            guildData.setBirthdayMessage(birthdayMessage);
+            dbGuild.saveAsync();
+            event.getChannel().sendMessageFormat(lang.get("options.birthday_message_set.success"), EmoteReference.CORRECT, birthdayMessage).queue();
+        });
 
         registerOption("birthday:message:clear", "Birthday message clear", "Clears the message to display on a new birthday",
                 "Clears the message to display on birthday", (event, args, lang) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    guildData.setBirthdayMessage(null);
-                    dbGuild.saveAsync();
+            guildData.setBirthdayMessage(null);
+            dbGuild.saveAsync();
 
-                    event.getChannel().sendMessageFormat(lang.get("options.birthday_message_clear.success"), EmoteReference.CORRECT).queue();
-                });
+            event.getChannel().sendMessageFormat(lang.get("options.birthday_message_clear.success"), EmoteReference.CORRECT).queue();
+        });
 
         //region joinmessage
         registerOption("modlog:blacklistwords:add", "Modlog Word Blacklist add",
                 "Adds a word to the modlog word blacklist (won't add any messages with that word). Can contain spaces.\n" +
                         "**Example:** `~>opts modlog blacklistwords add mood`",
                 "Sets the join message.", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_add.no_word"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_add.no_word"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    if (guildData.getModLogBlacklistWords().size() > 20) {
-                        event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_add.too_many"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (guildData.getModLogBlacklistWords().size() > 20) {
+                event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_add.too_many"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    String word = String.join(" ", args);
-                    guildData.getModLogBlacklistWords().add(word);
-                    dbGuild.save();
-                    event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_add.success"), EmoteReference.CORRECT, word).queue();
-                });//endregion
+            String word = String.join(" ", args);
+            guildData.getModLogBlacklistWords().add(word);
+            dbGuild.save();
+            event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_add.success"), EmoteReference.CORRECT, word).queue();
+        });//endregion
 
         //region joinmessage
         registerOption("modlog:blacklistwords:remove", "Modlog Word Blacklist remove",
                 "Removes a word from the modlog word blacklist. Can contain spaces\n" +
                         "**Example:** `~>opts modlog blacklistwords remove mood`",
                 "Sets the join message.", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_add.no_word"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_add.no_word"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    String word = String.join(" ", args);
+            String word = String.join(" ", args);
 
-                    if (!guildData.getModLogBlacklistWords().contains(word)) {
-                        event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_remove.not_in"), EmoteReference.ERROR, word).queue();
-                        return;
-                    }
+            if (!guildData.getModLogBlacklistWords().contains(word)) {
+                event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_remove.not_in"), EmoteReference.ERROR, word).queue();
+                return;
+            }
 
-                    guildData.getModLogBlacklistWords().remove(word);
-                    dbGuild.save();
-                    event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_remove.success"), EmoteReference.CORRECT, word).queue();
-                });//endregion
+            guildData.getModLogBlacklistWords().remove(word);
+            dbGuild.save();
+            event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklistwords_remove.success"), EmoteReference.CORRECT, word).queue();
+        });//endregion
 
         //region editmessage
         registerOption("logs:editmessage", "Edit log message",
                 "Sets the edit message.\n" +
                         "**Example:** `~>opts logs editmessage [$(hour)] Message (ID: $(event.message.id)) created by **$(event.user.tag)** in channel **$(event.channel.name)** was modified.\n```diff\n-$(old)\n+$(new)````",
                 "Sets the edit message.", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.logs_editmessage.no_message"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.logs_editmessage.no_message"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    String editMessage = String.join(" ", args);
-                    guildData.setEditMessageLog(editMessage);
-                    dbGuild.save();
-                    event.getChannel().sendMessageFormat(lang.get("options.logs_editmessage.success"), EmoteReference.CORRECT, editMessage).queue();
-                });//endregion
+            String editMessage = String.join(" ", args);
+            guildData.setEditMessageLog(editMessage);
+            dbGuild.save();
+            event.getChannel().sendMessageFormat(lang.get("options.logs_editmessage.success"), EmoteReference.CORRECT, editMessage).queue();
+        });//endregion
         addOptionAlias("logs:editmessage", "editmessage");
 
         //region deletemessage
@@ -1136,19 +1136,19 @@ public class GuildOptions extends OptionHandler {
                 "Sets the delete message.\n" +
                         "**Example:** `~>opts logs deletemessage [$(hour)] Message (ID: $(event.message.id)) created by **$(event.user.tag)** (ID: $(event.user.id)) in channel **$(event.channel.name)** was deleted.```diff\n-$(content)``` `",
                 "Sets the delete message.", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.logs_deletemessage.no_message"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.logs_deletemessage.no_message"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    String deleteMessage = String.join(" ", args);
-                    guildData.setDeleteMessageLog(deleteMessage);
-                    dbGuild.save();
-                    event.getChannel().sendMessageFormat(lang.get("options.logs_deletemessage.success"), EmoteReference.CORRECT, deleteMessage).queue();
-                });//endregion
+            String deleteMessage = String.join(" ", args);
+            guildData.setDeleteMessageLog(deleteMessage);
+            dbGuild.save();
+            event.getChannel().sendMessageFormat(lang.get("options.logs_deletemessage.success"), EmoteReference.CORRECT, deleteMessage).queue();
+        });//endregion
         addOptionAlias("logs:deletemessage", "deletemessage");
 
         //region banmessage
@@ -1156,19 +1156,19 @@ public class GuildOptions extends OptionHandler {
                 "Sets the ban message.\n" +
                         "**Example:** `~>opts logs banmessage [$(hour)] $(event.user.tag) just got banned.`",
                 "Sets the ban message.", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.logs_banmessage.no_message"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.logs_banmessage.no_message"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    String banMessage = String.join(" ", args);
-                    guildData.setBannedMemberLog(banMessage);
-                    dbGuild.save();
-                    event.getChannel().sendMessageFormat(lang.get("options.logs_banmessage.success"), EmoteReference.CORRECT, banMessage).queue();
-                });//endregion
+            String banMessage = String.join(" ", args);
+            guildData.setBannedMemberLog(banMessage);
+            dbGuild.save();
+            event.getChannel().sendMessageFormat(lang.get("options.logs_banmessage.success"), EmoteReference.CORRECT, banMessage).queue();
+        });//endregion
         addOptionAlias("logs:banmessage", "banmessage");
 
         //region ubbanmessage
@@ -1176,19 +1176,19 @@ public class GuildOptions extends OptionHandler {
                 "Sets the unban message.\n" +
                         "**Example:** `~>opts logs unbanmessage [$(hour)] $(event.user.tag) just got unbanned.`",
                 "Sets the unban message.", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.logs_unbanmessage.no_message"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.logs_unbanmessage.no_message"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    String unbanMessage = String.join(" ", args);
-                    guildData.setUnbannedMemberLog(unbanMessage);
-                    dbGuild.save();
-                    event.getChannel().sendMessageFormat(lang.get("options.logs_unbanmessage.success"), EmoteReference.CORRECT, unbanMessage).queue();
-                });//endregion
+            String unbanMessage = String.join(" ", args);
+            guildData.setUnbannedMemberLog(unbanMessage);
+            dbGuild.save();
+            event.getChannel().sendMessageFormat(lang.get("options.logs_unbanmessage.success"), EmoteReference.CORRECT, unbanMessage).queue();
+        });//endregion
         addOptionAlias("logs:unbanmessage", "unbanmessage");
 
 
@@ -1198,47 +1198,74 @@ public class GuildOptions extends OptionHandler {
 
         registerOption("commands:showdisablewarning", "Show disable warning", "Toggles on/off the disabled command warning.",
                 "Toggles on/off the disabled command warning.", (event, args, lang) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
 
-                    guildData.setCommandWarningDisplay(!guildData.isCommandWarningDisplay()); //lombok names are amusing
-                    dbGuild.save();
-                    event.getChannel().sendMessageFormat(lang.get("options.showdisablewarning.success"), EmoteReference.CORRECT, guildData.isCommandWarningDisplay()).queue();
-                });
+            guildData.setCommandWarningDisplay(!guildData.isCommandWarningDisplay()); //lombok names are amusing
+            dbGuild.save();
+            event.getChannel().sendMessageFormat(lang.get("options.showdisablewarning.success"), EmoteReference.CORRECT, guildData.isCommandWarningDisplay()).queue();
+        });
 
         registerOption("commands:birthdayblacklist:add", "Add someone to the birthday blacklist", "Adds a person (by ID) to the birthday blacklist",
                 "Add someone to the birthday blacklist", (event, args, lang) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    if(args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.birthdayblacklist.no_args"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            if(args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.birthdayblacklist.no_args"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    Member member = Utils.findMember(event, lang, args[0]);
-                    if(member == null)
-                        return;
+            Member member = Utils.findMember(event, lang, args[0]);
+            if(member == null)
+                return;
 
-                    guildData.getBirthdayBlockedIds().add(member.getId());
-                    event.getChannel().sendMessageFormat(lang.get("options.birthdayblacklist.add.success"), EmoteReference.CORRECT, member.getEffectiveName(), member.getId()).queue();
-                });
+            guildData.getBirthdayBlockedIds().add(member.getId());
+            event.getChannel().sendMessageFormat(lang.get("options.birthdayblacklist.add.success"), EmoteReference.CORRECT, member.getEffectiveName(), member.getId()).queue();
+        });
 
         registerOption("commands:birthdayblacklist:remove", "Removes someone to the birthday blacklist", "Removes a person (by ID) to the birthday blacklist",
                 "Remove someone to the birthday blacklist", (event, args, lang) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    if(args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.birthdayblacklist.no_args"), EmoteReference.ERROR).queue();
-                        return;
-                    }
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            if(args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.birthdayblacklist.no_args"), EmoteReference.ERROR).queue();
+                return;
+            }
 
-                    Member member = Utils.findMember(event, lang, args[0]);
-                    if(member == null)
-                        return;
+            Member member = Utils.findMember(event, lang, args[0]);
+            if(member == null)
+                return;
 
-                    guildData.getBirthdayBlockedIds().remove(member.getId());
-                    event.getChannel().sendMessageFormat(lang.get("options.birthdayblacklist.remove.success"), EmoteReference.CORRECT, member.getEffectiveName(), member.getId()).queue();
-                });
+            guildData.getBirthdayBlockedIds().remove(member.getId());
+            event.getChannel().sendMessageFormat(lang.get("options.birthdayblacklist.remove.success"), EmoteReference.CORRECT, member.getEffectiveName(), member.getId()).queue();
+        });
+
+        registerOption("commands:lobby:disable", "Disables game multiple and lobby.", "Disables game multiple and lobby.",
+                "Disables game multiple and lobby.", (event, args, lang) -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            guildData.setGameMultipleDisabled(true);
+            dbGuild.save();
+
+            event.getChannel().sendMessageFormat(lang.get("options.lobby.disable.success"), EmoteReference.CORRECT).queue();
+        });
+
+        registerOption("commands:lobby:enable", "Enables game multiple and lobby.", "Enables game multiple and lobby.",
+                "Enables game multiple and lobby.", (event, args, lang) -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            if(!guildData.isGameMultipleDisabled()) {
+                event.getChannel().sendMessageFormat(lang.get("options.lobby.enable.already_enabled"), EmoteReference.CORRECT).queue();
+                return;
+            }
+
+            guildData.setGameMultipleDisabled(false);
+            dbGuild.save();
+
+            event.getChannel().sendMessageFormat(lang.get("options.lobby.enable.success"), EmoteReference.CORRECT).queue();
+        });
     }
 
     @Override

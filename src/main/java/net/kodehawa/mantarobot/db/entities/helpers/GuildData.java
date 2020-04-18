@@ -214,11 +214,14 @@ public class GuildData {
     @ConfigName("People blocked from the birthday logging on this server.")
     private List<String> birthdayBlockedIds = new ArrayList<>();
 
+    @ConfigName("Disabled game lobby/multiple")
+    @JsonProperty("gameMultipleDisabled")
+    private boolean gameMultipleDisabled = false;
+
+    public GuildData() { }
+
     public boolean isHasReceivedGreet() {
         return hasReceivedGreet;
-    }
-
-    public GuildData() {
     }
 
     public boolean isAntiSpam() {
@@ -845,7 +848,11 @@ public class GuildData {
         this.birthdayBlockedIds = birthdayBlockedIds;
     }
 
-    public String toString() {
-        return "GuildData(antiSpam=" + this.isAntiSpam() + ", autoroles=" + this.getAutoroles() + ", birthdayChannel=" + this.getBirthdayChannel() + ", birthdayRole=" + this.getBirthdayRole() + ", cases=" + this.getCases() + ", channelSpecificDisabledCategories=" + this.getChannelSpecificDisabledCategories() + ", channelSpecificDisabledCommands=" + this.getChannelSpecificDisabledCommands() + ", customAdminLock=" + this.isCustomAdminLock() + ", disabledCategories=" + this.getDisabledCategories() + ", disabledChannels=" + this.getDisabledChannels() + ", disabledCommands=" + this.getDisabledCommands() + ", disabledRoles=" + this.getDisabledRoles() + ", disabledUsers=" + this.getDisabledUsers() + ", guildAutoRole=" + this.getGuildAutoRole() + ", guildCustomPrefix=" + this.getGuildCustomPrefix() + ", guildLogChannel=" + this.getGuildLogChannel() + ", guildUnsafeChannels=" + this.getGuildUnsafeChannels() + ", joinMessage=" + this.getJoinMessage() + ", leaveMessage=" + this.getLeaveMessage() + ", linkProtection=" + this.isLinkProtection() + ", linkProtectionAllowedChannels=" + this.getLinkProtectionAllowedChannels() + ", logExcludedChannels=" + this.getLogExcludedChannels() + ", logJoinLeaveChannel=" + this.getLogJoinLeaveChannel() + ", maxFairQueue=" + this.getMaxFairQueue() + ", maxResultsSearch=" + this.getMaxResultsSearch() + ", modlogBlacklistedPeople=" + this.getModlogBlacklistedPeople() + ", musicAnnounce=" + this.isMusicAnnounce() + ", musicChannel=" + this.getMusicChannel() + ", musicQueueSizeLimit=" + this.getMusicQueueSizeLimit() + ", musicSongDurationLimit=" + this.getMusicSongDurationLimit() + ", mutedRole=" + this.getMutedRole() + ", mutedTimelyUsers=" + this.getMutedTimelyUsers() + ", noMentionsAction=" + this.isNoMentionsAction() + ", premiumKey=" + this.getPremiumKey() + ", quoteLastId=" + this.getQuoteLastId() + ", ranPolls=" + this.getRanPolls() + ", reactionMenus=" + this.isReactionMenus() + ", rolesBlockedFromCommands=" + this.getRolesBlockedFromCommands() + ", rpgDevaluation=" + this.isRpgDevaluation() + ", rpgLocalMode=" + this.isRpgLocalMode() + ", setModTimeout=" + this.getSetModTimeout() + ", slowMode=" + this.isSlowMode() + ", slowModeChannels=" + this.getSlowModeChannels() + ", spamModeChannels=" + this.getSpamModeChannels() + ", timeDisplay=" + this.getTimeDisplay() + ", warnActions=" + this.getWarnActions() + ", warnCount=" + this.getWarnCount() + ", gameTimeoutExpectedAt=" + this.getGameTimeoutExpectedAt() + ", ignoreBotsWelcomeMessage=" + this.isIgnoreBotsWelcomeMessage() + ", ignoreBotsAutoRole=" + this.isIgnoreBotsAutoRole() + ", enabledLevelUpMessages=" + this.isEnabledLevelUpMessages() + ", levelUpChannel=" + this.getLevelUpChannel() + ", levelUpMessage=" + this.getLevelUpMessage() + ", blackListedImageTags=" + this.getBlackListedImageTags() + ", logJoinChannel=" + this.getLogJoinChannel() + ", logLeaveChannel=" + this.getLogLeaveChannel() + ", localPlayerExperience=" + this.getLocalPlayerExperience() + ", linkProtectionAllowedUsers=" + this.getLinkProtectionAllowedUsers() + ", roleSpecificDisabledCategories=" + this.getRoleSpecificDisabledCategories() + ", roleSpecificDisabledCommands=" + this.getRoleSpecificDisabledCommands() + ", lang=" + this.getLang() + ", musicVote=" + this.isMusicVote() + ", extraJoinMessages=" + this.getExtraJoinMessages() + ", extraLeaveMessages=" + this.getExtraLeaveMessages() + ", whitelistedRole=" + this.getWhitelistedRole() + ", birthdayMessage=" + this.getBirthdayMessage() + ", customAdminLockNew=" + this.isCustomAdminLockNew() + ", mpLinkedTo=" + this.getMpLinkedTo() + ", modLogBlacklistWords=" + this.getModLogBlacklistWords() + ", autoroleCategories=" + this.getAutoroleCategories() + ", editMessageLog=" + this.getEditMessageLog() + ", deleteMessageLog=" + this.getDeleteMessageLog() + ", bannedMemberLog=" + this.getBannedMemberLog() + ", unbannedMemberLog=" + this.getUnbannedMemberLog() + ", kickedMemberLog=" + this.getKickedMemberLog() + ", commandWarningDisplay=" + this.isCommandWarningDisplay() + ")";
+    public boolean isGameMultipleDisabled() {
+        return gameMultipleDisabled;
+    }
+
+    public void setGameMultipleDisabled(boolean gameMultipleDisabled) {
+        this.gameMultipleDisabled = gameMultipleDisabled;
     }
 }
