@@ -1233,7 +1233,7 @@
       "error_tag": "%1$sThere was an error while looking for this tag...",
       "error_random": "%1$sThere was an error while looking for a random image...",
       "non_nsfw_channel": "%1$sNot on an NSFW channel. Cannot send lewd images.\n**Reminder:** You can set this channel as NSFW by going to the channel settings and checking `Set this Channel as NSFW`.",
-      "loli_content_disallow": "%1$sSadly I cannot display images that allegedly contain `loli` or `shota` lewd/NSFW content because discord prohibits it. (Filter ran: Image contains a loli or shota tag and it's NSFW)",
+      "loli_content_disallow": "%1%sI cannot display images that allegedly contain `loli` or `shota` (or related tags) lewd/NSFW content because discord prohibits it. Try again with other tags?",
       "null_list_notice": "%1$sOops... something went wrong when searching... (If you used a tag, the tag might not exist)",
       "found_image": "Found an image",
       "description_image": "Rating: **%1$s**, Imageboard: **%2$s**",

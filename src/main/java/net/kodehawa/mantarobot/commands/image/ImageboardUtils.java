@@ -94,7 +94,6 @@ public class ImageboardUtils {
             finalRating = null;
         }
 
-        int page = Math.max(1, r.nextInt(25));
         int limit = Optional.ofNullable(maxQuerySize.get(api)).orElse(10);
 
         if (list.size() > limit) {
