@@ -65,7 +65,7 @@ public class ModerationCmds {
 
                 String affected = args[0];
 
-                if (!guild.getMember(author).hasPermission(Permission.BAN_MEMBERS)) {
+                if (!event.getMember().hasPermission(Permission.BAN_MEMBERS)) {
                     channel.sendMessage(String.format(languageContext.get("commands.softban.no_permission"), EmoteReference.ERROR2)).queue();
                     return;
                 }
@@ -89,7 +89,7 @@ public class ModerationCmds {
 
                 User user = event.getMessage().getMentionedUsers().get(0);
                 Member member = guild.getMember(user);
-                if (!guild.getMember(author).canInteract(member)) {
+                if (!event.getMember().canInteract(member)) {
                     channel.sendMessage(String.format(languageContext.get("commands.softban.hierarchy_conflict"), EmoteReference.ERROR)).queue();
                     return;
                 }
@@ -177,7 +177,7 @@ public class ModerationCmds {
 
                 String affected = args[0];
 
-                if (!guild.getMember(author).hasPermission(Permission.BAN_MEMBERS)) {
+                if (!event.getMember().hasPermission(Permission.BAN_MEMBERS)) {
                     channel.sendMessage(String.format(languageContext.get("commands.ban.no_permission"), EmoteReference.ERROR)).queue();
                     return;
                 }
@@ -203,7 +203,7 @@ public class ModerationCmds {
                 for (User user : mentionedUsers) {
                     Member member = guild.getMember(user);
 
-                    if (!event.getGuild().getMember(author).canInteract(member)) {
+                    if (!event.getMember().canInteract(member)) {
                         event.getChannel().sendMessage(String.format(languageContext.get("commands.ban.hierarchy_conflict"), EmoteReference.ERROR, EmoteReference.SMILE)).queue();
                         return;
                     }
@@ -286,7 +286,7 @@ public class ModerationCmds {
 
                 String affected = args[0];
 
-                if (!guild.getMember(author).hasPermission(Permission.KICK_MEMBERS)) {
+                if (!event.getMember().hasPermission(Permission.KICK_MEMBERS)) {
                     channel.sendMessage(String.format(languageContext.get("commands.kick.no_permission"), EmoteReference.ERROR2)).queue();
                     return;
                 }
@@ -313,7 +313,7 @@ public class ModerationCmds {
 
                 User user = member.getUser();
 
-                if (!event.getGuild().getMember(event.getAuthor()).canInteract(member)) {
+                if (!event.getMember().canInteract(member)) {
                     channel.sendMessage(String.format(languageContext.get("commands.kick.hierarchy_conflict"), EmoteReference.ERROR)).queue();
                     return;
                 }
