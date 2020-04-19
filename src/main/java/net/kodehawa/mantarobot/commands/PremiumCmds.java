@@ -329,17 +329,18 @@ public class PremiumCmds {
 
                         try {
                             //User has more keys than what the system would allow. Warn.
-                            if(patreonInformation.getLeft()) {
+                            if(patreonInformation != null && patreonInformation.getLeft()) {
                                 double patreonAmount = Double.parseDouble(patreonInformation.getRight());
+
                                 if((patreonAmount / 2) - amountClaimed < 0) {
                                     LogUtils.log(
                                             String.format(
-                                                    "%s has more keys claimed than given keys, dumping keys:\n%s", owner.getId(),
+                                                    "%s has more keys claimed than given keys, dumping keys:\n%s\nCurrently pledging: %s, Claimed keys: %s, Should have %s total keys.", owner.getId(),
                                                     Utils.paste2(
                                                             data.getKeysClaimed().entrySet().stream().map(entry ->
                                                                     "to:" + entry.getKey() + ", key:" + entry.getValue()).collect(Collectors.joining("\n")
                                                             )
-                                                    )
+                                                    ), patreonAmount, amountClaimed, (amountClaimed / 2)
                                             )
                                     );
                                 }
