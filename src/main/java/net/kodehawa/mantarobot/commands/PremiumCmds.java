@@ -61,7 +61,7 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelim
 @Module
 @SuppressWarnings("unused")
 public class PremiumCmds {
-    private Config config = MantaroData.config().get();
+    private final Config config = MantaroData.config().get();
 
     @Subscribe
     public void comprevip(CommandRegistry cr) {

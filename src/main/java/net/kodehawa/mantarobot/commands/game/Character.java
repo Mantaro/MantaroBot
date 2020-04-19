@@ -27,6 +27,7 @@ import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import okhttp3.Request;
@@ -79,17 +80,7 @@ public class Character extends ImageGame {
         final I18nContext languageContext = lobby.getLanguageContext();
         try {
             GameStatsManager.log(name());
-            Request request = new Request.Builder()
-                    .url(config.apiTwoUrl + "/mantaroapi/bot/character")
-                    .addHeader("Authorization", config.getApiAuthKey())
-                    .addHeader("User-Agent", MantaroInfo.USER_AGENT)
-                    .get()
-                    .build();
-
-            Response response = httpClient.newCall(request).execute();
-            String body = response.body().string();
-            response.close();
-            AnimeGameData data = GsonDataManager.GSON_PRETTY.fromJson(body, AnimeGameData.class);
+            AnimeGameData data = GsonDataManager.GSON_PRETTY.fromJson(Utils.getFromMAPI("/mantaroapi/bot/character"), AnimeGameData.class);
 
             GameStatsManager.log(name());
             characterNameL = new ArrayList<>();

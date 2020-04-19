@@ -33,6 +33,7 @@ import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Pair;
+import net.kodehawa.mantarobot.utils.Utils;
 import okhttp3.Request;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -172,24 +173,9 @@ public class Shard {
         JSONObject reply;
 
         try {
-            var config = MantaroData.config().get();
-            Request request = new Request.Builder()
-                    .url(config.apiTwoUrl + "/mantaroapi/bot/splashes/random")
-                    .addHeader("Authorization", config.getApiAuthKey())
-                    .addHeader("User-Agent", MantaroInfo.USER_AGENT)
-                    .get()
-                    .build();
-
-            try (var response = httpClient.newCall(request).execute()) {
-                var body = response.body();
-                if (body == null) {
-                    reply = new JSONObject().put("splash", "With a dead api!");
-                } else {
-                    reply = new JSONObject(new JSONTokener(body.byteStream()));
-                }
-            }
+            var body = Utils.getFromMAPI("/mantaroapi/bot/splashes/random");
+            reply = new JSONObject(new JSONTokener(body));
         } catch (Exception e) {
-            //I had to, lol.
             reply = new JSONObject().put("splash", "With a missing status!");
         }
 

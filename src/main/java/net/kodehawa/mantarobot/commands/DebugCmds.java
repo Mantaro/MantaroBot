@@ -39,12 +39,17 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.shard.Shard;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,16 +58,20 @@ import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 
 @Module
 @SuppressWarnings("unused")
 public class DebugCmds {
+    private final Config config = MantaroData.config().get();
+
     @Subscribe
     public void info(CommandRegistry cr) {
         cr.register("info", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 var mantaroBot = MantaroBot.getInstance();
+
 
                 var guilds = mantaroBot.getShardManager().getGuildCache();
                 var users = mantaroBot.getShardManager().getGuilds().stream().mapToInt(Guild::getMemberCount).sum();
@@ -71,6 +80,10 @@ public class DebugCmds {
                         .stream()
                         .mapToLong(JDA::getResponseTotal)
                         .sum();
+                int mapiRequests = 0;
+                try {
+                    mapiRequests = new JSONObject(Utils.getFromMAPI("/mantaroapi/ping")).getInt("requests_served");
+                } catch (IOException ignored) { }
 
                 event.getChannel().sendMessage("```prolog\n"
                         + " --------- Technical Information --------- \n\n"
@@ -79,6 +92,7 @@ public class DebugCmds {
                         + "JDA Version: " + JDAInfo.VERSION + "\n"
                         + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
                         + "API Responses: " + String.format("%,d", responseTotal) + "\n"
+                        + "MAPI Responses: " + String.format("%,d", mapiRequests) + "\n"
                         + "CPU Usage: " + String.format("%.2f", getInstanceCPUUsage()) + "%" + "\n"
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
                         + "Shard Info: " + event.getJDA().getShardInfo()

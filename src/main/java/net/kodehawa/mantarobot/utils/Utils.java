@@ -727,6 +727,21 @@ public class Utils {
         }
     }
 
+    public static String getFromMAPI(String route) throws IOException {
+        Request request = new Request.Builder()
+                .url(config.apiTwoUrl + route)
+                .addHeader("Authorization", config.getApiAuthKey())
+                .addHeader("User-Agent", MantaroInfo.USER_AGENT)
+                .get()
+                .build();
+
+        Response response = httpClient.newCall(request).execute();
+        String body = response.body().string();
+        response.close();
+
+        return body;
+    }
+
     public static Pair<Boolean, String> getPledgeInformation(String user) {
         if (!config.needApi)
             return null; //nothing to query on.
