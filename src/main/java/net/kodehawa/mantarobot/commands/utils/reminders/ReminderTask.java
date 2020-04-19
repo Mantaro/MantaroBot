@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.commands.utils.reminders;
 
-import io.prometheus.client.Counter;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -30,12 +29,8 @@ import redis.clients.jedis.Jedis;
 import java.util.Date;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 public class ReminderTask {
-    private static final Counter reminderCount = Counter.build()
-            .name("reminders_logged").help("Logged reminders")
-            .register();
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(ReminderTask.class);
 
     public static void handle() {
