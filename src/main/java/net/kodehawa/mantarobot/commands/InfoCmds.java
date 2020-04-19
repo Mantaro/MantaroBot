@@ -156,6 +156,11 @@ public class InfoCmds {
                 if (roles.length() > 1020)
                     roles = roles.substring(0, 1020 - 4) + "...";
 
+                Member owner = guild.getOwner();
+                //This is wank lol
+                if(owner == null)
+                    owner = guild.retrieveOwner(false).complete();
+
                 channel.sendMessage(new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.serverinfo.header"), null, guild.getIconUrl())
                         .setColor(guild.getOwner().getColor() == null ? Color.ORANGE : guild.getOwner().getColor())

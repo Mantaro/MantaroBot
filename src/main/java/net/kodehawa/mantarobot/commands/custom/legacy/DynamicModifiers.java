@@ -61,7 +61,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
         return this
                 .set(prefix, guild.getName())
                 .set(prefix, "name", guild.getName())
-                .mapMember(k(prefix, "owner"), guild.getOwner())
+                .mapMember(k(prefix, "owner"), guild.getOwner() == null ? guild.retrieveOwner(false).complete() : guild.getOwner())
                 .set(prefix, "region", guild.getRegion().getName())
                 .set(prefix, "totalusers", String.valueOf(guild.getMemberCount()));
     }
