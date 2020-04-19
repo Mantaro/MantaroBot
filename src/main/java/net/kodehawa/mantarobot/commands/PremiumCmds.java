@@ -113,6 +113,13 @@ public class PremiumCmds {
                         return;
                     }
 
+                    //Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
+                    if (!event.getAuthor().getId().equals(key.getOwner())) {
+                        DBUser ownerUser = db.getUser(key.getOwner());
+                        ownerUser.getData().getKeysClaimed().put(event.getAuthor().getId(), key.getId());
+                        ownerUser.saveAsync();
+                    }
+
                     key.activate(180);
                     channel.sendMessageFormat(languageContext.get("commands.activatekey.guild_successful"), EmoteReference.POPPER, key.getDurationDays()).queue();
                     guild.getData().setPremiumKey(key.getId());
