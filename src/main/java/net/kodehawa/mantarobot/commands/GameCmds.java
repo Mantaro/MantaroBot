@@ -63,10 +63,11 @@ public class GameCmds {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .limit(1)
                 .spamTolerance(1)
-                .cooldown(15, TimeUnit.SECONDS)
+                .cooldown(7, TimeUnit.SECONDS)
                 .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
                 .maxCooldown(10, TimeUnit.MINUTES)
                 .pool(MantaroData.getDefaultJedisPool())
+                .premiumAware(true)
                 .prefix("game")
                 .build();
         final ManagedDatabase db = MantaroData.db();
@@ -301,6 +302,7 @@ public class GameCmds {
 
         gameCommand.createSubCommandAlias("pokemon", "pokémon");
         gameCommand.createSubCommandAlias("number", "guessthatnumber");
+        gameCommand.createSubCommandAlias("number", "guessthenumber");
     }
 
     @Subscribe
