@@ -47,13 +47,16 @@ import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 
 import java.awt.*;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static java.lang.System.currentTimeMillis;
+import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
 
 @Module
 @SuppressWarnings("unused")
@@ -160,9 +163,17 @@ public class PremiumCmds {
         });
     }
 
-    //TODO: uncomment when you know most keys are registered.
-    //@Subscribe
+    @Subscribe
     public void claimkey(CommandRegistry cr) {
+        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                .spamTolerance(3)
+                .limit(2)
+                .cooldown(1, TimeUnit.MINUTES)
+                .maxCooldown(5, TimeUnit.MINUTES)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("claimkey")
+                .build();
+
         cr.register("claimkey", new SimpleCommand(Category.UTILS) {
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
@@ -203,21 +214,29 @@ public class PremiumCmds {
                     return;
                 }
 
-                PremiumKey newKey = PremiumKey.generatePremiumKey(author.getId(), scopeParsed, true);
+                if(!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, null)) {
+                    return;
+                }
 
-                //Placeholder so they don't spam key creation. Save as random UUID first, to avoid conflicting.
-                data.getKeysClaimed().put(UUID.randomUUID().toString(), newKey.getId());
+                final var scope = scopeParsed;
 
                 //Send message in a DM (it's private after all)
                 int amountClaimed = data.getKeysClaimed().size();
                 event.getAuthor().openPrivateChannel()
-                        .queue(privateChannel -> {
+                        .flatMap(privateChannel -> {
+                            PremiumKey newKey = PremiumKey.generatePremiumKey(author.getId(), scope, true);
+
+                            //Placeholder so they don't spam key creation. Save as random UUID first, to avoid conflicting.
+                            data.getKeysClaimed().put(UUID.randomUUID().toString(), newKey.getId());
+
                             privateChannel.sendMessageFormat(languageContext.get("commands.claimkey.successful"),
                                     EmoteReference.HEART, newKey.getId(), amountClaimed, (int) ((pledgeAmount / 2) - amountClaimed), newKey.getParsedType()).queue();
                             dbUser.saveAsync();
                             newKey.saveAsync();
-                            channel.sendMessageFormat(languageContext.get("commands.claimkey.success"), EmoteReference.CORRECT).queue();
-                        }, error -> channel.sendMessageFormat(languageContext.get("commands.claimkey.cant_dm"), EmoteReference.ERROR).queue());
+
+                            //Assume it all went well.
+                            return channel.sendMessageFormat(languageContext.get("commands.claimkey.success"), EmoteReference.CORRECT);
+                        }).queue(null,  error -> channel.sendMessageFormat(languageContext.get("commands.claimkey.cant_dm"), EmoteReference.ERROR).queue());
             }
         });
     }

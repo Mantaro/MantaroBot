@@ -1041,7 +1041,7 @@
       "successful": "%1$sSuccessfully claimed key `%2$s`. You have claimed a total of %3$s keys and have %4$s left keys to claim. This key is of type %5$s. (If this is a guild key, use it on the server where you want it on)",
       "cant_dm": "%1%sI can't DM you the key because of your privacy settings, seemingly.",
       "success": "%1$sSent the information via DM.",
-      "invalid_scope": "%1$sInvalid key scope! Valid are `user` and `guild`. Without any arguments, this command defaults to `user`."
+      "invalid_scope": "%1$sInvalid key scope! Valid are `user` and `guild`. Without any arguments, this command defaults to `user`. Example: `~>claimkey guild` or `~>claimkey user`"
     },
     "vipstatus": {
       "user": {
