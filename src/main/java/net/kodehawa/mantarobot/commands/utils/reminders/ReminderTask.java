@@ -29,6 +29,7 @@ import redis.clients.jedis.Jedis;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class ReminderTask {
@@ -41,6 +42,8 @@ public class ReminderTask {
         log.debug("Checking reminder data...");
         try (Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
             Set<String> reminders = j.zrange("zreminder", 0, 14);
+            MantaroBot bot = MantaroBot.getInstance();
+
             log.debug("Reminder check - remainder is: {}", reminders.size());
 
             for (String rem : reminders) {
@@ -50,6 +53,7 @@ public class ReminderTask {
                     long fireAt = data.getLong("at");
                     //If the time has passed...
                     //System.out.println("time: " + System.currentTimeMillis() + ", expected: " + fireAt);
+
                     if (System.currentTimeMillis() >= fireAt) {
                         log.debug("Reminder date has passed, remind accordingly.");
                         String userId = data.getString("user");
@@ -57,10 +61,16 @@ public class ReminderTask {
                         String guildId = data.getString("guild");
                         long scheduledAt = data.getLong("scheduledAt");
 
-                        String reminder = data.getString("reminder"); //The actual reminder data
-                        Guild guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
+                        //1 day passed already, assuming it's a stale reminder: Done because ReminderTask wasn't working.
+                        if(System.currentTimeMillis() - fireAt > TimeUnit.DAYS.toMillis(1)) {
+                            Reminder.cancel(userId, fullId);
+                            return;
+                        }
 
-                        MantaroBot.getInstance().getShardManager().retrieveUserById(userId)
+                        String reminder = data.getString("reminder"); //The actual reminder data
+                        Guild guild = bot.getShardManager().getGuildById(guildId);
+
+                        bot.getShardManager().retrieveUserById(userId)
                                 .flatMap(User::openPrivateChannel)
                                 .flatMap(privateChannel -> privateChannel.sendMessage(
                                             EmoteReference.POPPER + "**Reminder!**\n" + "You asked me to remind you of: " + reminder +
