@@ -184,6 +184,7 @@ public class CurrencyCmds {
                 }
 
                 Player player = MantaroData.db().getPlayer(member);
+                DBUser user = MantaroData.db().getUser(member);
                 SeasonPlayer seasonPlayer = MantaroData.db().getPlayerForSeason(member, getConfig().getCurrentSeason());
                 Inventory playerInventory = player.getInventory();
                 final List<ItemStack> inventoryList = playerInventory.asList();
@@ -229,14 +230,14 @@ public class CurrencyCmds {
                         if (builder.getDescriptionBuilder().length() == 0) {
                             builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
                                     String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
-                                    + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 ? languageContext.get("general.sellout") : ""));
+                                    + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 && !user.isPremium() ? languageContext.get("general.sellout") : ""));
                         }
                         DiscordUtils.list(event, 100, false, builder, splitFields);
                     } else {
                         if (builder.getDescriptionBuilder().length() == 0) {
                             builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
                                     String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
-                                    + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 ? languageContext.get("general.sellout") : ""));
+                                    + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0  && !user.isPremium() ? languageContext.get("general.sellout") : ""));
                         }
                         DiscordUtils.listText(event, 100, false, builder, splitFields);
                     }
@@ -341,18 +342,20 @@ public class CurrencyCmds {
                             }
                         });
 
+                        DBUser user = MantaroData.db().getUser(event.getAuthor());
+
                         List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(8, fields);
                         boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
 
                         if (hasReactionPerms) {
                             embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
                                     String.format(languageContext.get("general.buy_sell_paged_reference") + "\n" + String.format(languageContext.get("general.reaction_timeout"), 120), EmoteReference.BUY, EmoteReference.SELL)) + "\n"
-                                    + languageContext.get("general.sellout") + languageContext.get("commands.market.reference"));
+                                    + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference"));
                             DiscordUtils.list(event, 120, false, embed, splitFields);
                         } else {
                             embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
                                     String.format(languageContext.get("general.buy_sell_paged_reference") + "\n" + String.format(languageContext.get("general.reaction_timeout"), 120), EmoteReference.BUY, EmoteReference.SELL)) + "\n"
-                                    + languageContext.get("general.sellout") + languageContext.get("commands.market.reference"));
+                                    + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference"));
                             DiscordUtils.listText(event, 120, false, embed, splitFields);
                         }
                     }
