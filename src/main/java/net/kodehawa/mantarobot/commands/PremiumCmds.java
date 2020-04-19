@@ -203,16 +203,16 @@ public class PremiumCmds {
 
                 final ManagedDatabase db = MantaroData.db();
                 final User author = event.getAuthor();
+                DBUser dbUser = db.getUser(author);
 
                 //left: isPatron, right: pledgeAmount, basically.
                 Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(author.getId());
-                if (pledgeInfo == null || !pledgeInfo.getLeft()) {
+                if (pledgeInfo == null || !pledgeInfo.getLeft() || !dbUser.isPremium()) {
                     channel.sendMessageFormat(languageContext.get("commands.claimkey.not_patron"), EmoteReference.ERROR).queue();
                     return;
                 }
 
                 double pledgeAmount = Double.parseDouble(pledgeInfo.getRight());
-                DBUser dbUser = db.getUser(author);
                 UserData data = dbUser.getData();
 
                 //Check for pledge changes on DBUser#isPremium
