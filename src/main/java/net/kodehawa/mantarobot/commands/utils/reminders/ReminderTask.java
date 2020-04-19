@@ -58,28 +58,21 @@ public class ReminderTask {
                         long scheduledAt = data.getLong("scheduledAt");
 
                         String reminder = data.getString("reminder"); //The actual reminder data
-
-                        User user = MantaroBot.getInstance().getShardManager().getUserById(userId);
                         Guild guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
 
-                        if (user == null) {
-                            Reminder.cancel(userId, fullId);
-                            return;
-                        }
-
-                        reminderCount.inc();
-                        Consumer<Throwable> ignore = (t) -> { };
-                        user.openPrivateChannel()
+                        MantaroBot.getInstance().getShardManager().retrieveUserById(userId)
+                                .flatMap(User::openPrivateChannel)
                                 .flatMap(privateChannel -> privateChannel.sendMessage(
-                                        EmoteReference.POPPER + "**Reminder!**\n" + "You asked me to remind you of: " + reminder +
-                                                "\nAt: " + new Date(scheduledAt) + (guild != null ? "\n*Asked on: " + guild.getName() + "*" : "")))
-                                .queue(sc -> {
+                                            EmoteReference.POPPER + "**Reminder!**\n" + "You asked me to remind you of: " + reminder +
+                                                    "\nAt: " + new Date(scheduledAt) + (guild != null ? "\n*Asked on: " + guild.getName() + "*" : "")
+                                        )
+                                ).queue(success -> {
                                     //FYI: This only logs on debug the id data, no personal stuff. We don't see your personal data. I don't wanna see it either, lmao.
                                     log.debug("Reminded {}. Removing from remind database", fullId);
                                     //Remove reminder from our database.
                                     Reminder.cancel(userId, fullId);
-                                }, ignore);
-
+                                }, err -> Reminder.cancel(userId, fullId)
+                        );
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
