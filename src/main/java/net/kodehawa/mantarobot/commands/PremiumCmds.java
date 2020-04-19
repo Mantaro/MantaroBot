@@ -228,13 +228,13 @@ public class PremiumCmds {
                 final var scope = scopeParsed;
 
                 //Send message in a DM (it's private after all)
-                int amountClaimed = data.getKeysClaimed().size();
                 event.getAuthor().openPrivateChannel()
                         .flatMap(privateChannel -> {
                             PremiumKey newKey = PremiumKey.generatePremiumKey(author.getId(), scope, true);
 
                             //Placeholder so they don't spam key creation. Save as random UUID first, to avoid conflicting.
                             data.getKeysClaimed().put(UUID.randomUUID().toString(), newKey.getId());
+                            int amountClaimed = data.getKeysClaimed().size();
 
                             privateChannel.sendMessageFormat(languageContext.get("commands.claimkey.successful"),
                                     EmoteReference.HEART, newKey.getId(), amountClaimed, (int) ((pledgeAmount / 2) - amountClaimed), newKey.getParsedType()).queue();
@@ -243,7 +243,7 @@ public class PremiumCmds {
 
                             //Assume it all went well.
                             return channel.sendMessageFormat(languageContext.get("commands.claimkey.success"), EmoteReference.CORRECT);
-                        }).queue(null,  error -> channel.sendMessageFormat(languageContext.get("commands.claimkey.cant_dm"), EmoteReference.ERROR).queue());
+                        }).queue(null, error -> channel.sendMessageFormat(languageContext.get("commands.claimkey.cant_dm"), EmoteReference.ERROR).queue());
             }
         });
     }
