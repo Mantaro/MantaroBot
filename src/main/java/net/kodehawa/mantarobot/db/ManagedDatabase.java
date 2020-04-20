@@ -288,7 +288,7 @@ public class ManagedDatabase {
         log("Saving {} {}:{} to rethink", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
         r.table(object.getTableName())
                 .insert(object)
-                .optArg("conflict", "replace")
+                .optArg("conflict", "update")
                 .runNoReply(conn);
     }
 

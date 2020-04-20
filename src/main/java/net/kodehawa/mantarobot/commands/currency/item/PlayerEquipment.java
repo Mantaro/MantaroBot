@@ -51,6 +51,7 @@ public class PlayerEquipment {
         equipment.put(type, Items.idOf(item));
         if (item instanceof Breakable) //should always be?
             durability.put(type, ((Breakable) item).getMaxDurability());
+
         return true;
     }
 
