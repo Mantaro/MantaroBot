@@ -610,6 +610,24 @@ public class OwnerCmd {
         });
     }
 
+    @Subscribe
+    public void refreshPledges(CommandRegistry cr) {
+        cr.register("refreshpledges", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+
+                try {
+                    Utils.getFromMAPI("/patreon/refresh");
+                    channel.sendMessage("Refreshed Patreon pledges successfully.").queue();
+                } catch (Exception e) {
+                    channel.sendMessage("Somehow this failed. Pretty sure that just always returned ok...").queue();
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     private interface Evaluator {
         Object eval(GuildMessageReceivedEvent event, String code);
     }
