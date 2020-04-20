@@ -180,7 +180,7 @@
       "12": "Disfruta la música y gracias por usar Mantaro!"
     },
     "lang": {
-      "info": "%1$sPuedes cambiar el idioma del servidor usando `~>opts language set <language code>`. Tu preferencia de idioma personal puede ser cambiada usando `~>profile lang <language code>`.\n**Lenguajes disponibles:** `%2$s`\nSi tu idioma no está aquí y quieres ayudar, siéntete libre de ingresar al servidor de soporte y súmate al esfuerzo para traducir Mantaro!"
+      "info": "%1$sPuedes cambiar el idioma del servidor usando `~>opts language set <código del idioma>`. Tu preferencia de idioma personal puede ser cambiada usando `~>profile lang <código del idioma>`.\n**Idiomas disponibles:** `%2$s`\nSi tu idioma no está aquí y quieres ayudar, siéntete libre de ingresar al servidor de soporte y súmate al esfuerzo para traducir Mantaro!"
     },
     "music_general": {
       "no_song": "%1$sNecesitas decirme que canción quieres que reproduzca. *(Puedes darme un link de youtube, soundcloud, twitch (premium solamente) o un término de búsqueda)*",
