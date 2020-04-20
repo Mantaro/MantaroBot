@@ -579,16 +579,8 @@ public class MantaroListener implements EventListener {
             }
 
             //Post bot statistics to the main API.
-            if(config.isNeedApi()) {
-                MantaroBot.getInstance().getStatsPoster().postForShard(
-                        MantaroBot.getInstance().getShardIdForGuild(guild.getIdLong()),
-                        jda.getStatus(),
-                        jda.getGuildCache().size(),
-                        jda.getUserCache().size(),
-                        jda.getGatewayPing(),
-                        ((MantaroEventManager) jda.getEventManager()).getLastJDAEventTimeDiff()
-                );
-            }
+            if(config.isNeedApi())
+                this.postStats(jda);
 
             guildActions.labels("join").inc();
             GuildStatsManager.log(LoggedEvent.JOIN);
@@ -611,16 +603,8 @@ public class MantaroListener implements EventListener {
             }
 
             //Post bot statistics to the main API.
-            if(config.isNeedApi()) {
-                MantaroBot.getInstance().getStatsPoster().postForShard(
-                        MantaroBot.getInstance().getShardIdForGuild(guild.getIdLong()),
-                        jda.getStatus(),
-                        jda.getGuildCache().size(),
-                        jda.getUserCache().size(),
-                        jda.getGatewayPing(),
-                        ((MantaroEventManager) jda.getEventManager()).getLastJDAEventTimeDiff()
-                );
-            }
+            if(config.isNeedApi())
+                this.postStats(jda);
 
             guildActions.labels("leave").inc();
             MantaroBot.getInstance().getAudioManager().getMusicManagers().remove(event.getGuild().getId());
@@ -840,5 +824,16 @@ public class MantaroListener implements EventListener {
             tc.sendMessage(message).queue(success -> {
             }, failure -> tc.sendMessage("Failed to send join/leave message.").queue());
         }
+    }
+
+    private void postStats(JDA jda) {
+        MantaroBot.getInstance().getStatsPoster().postForShard(
+                jda.getShardInfo().getShardId(),
+                jda.getStatus(),
+                jda.getGuildCache().size(),
+                jda.getUserCache().size(),
+                jda.getGatewayPing(),
+                ((MantaroEventManager) jda.getEventManager()).getLastJDAEventTimeDiff()
+        );
     }
 }
