@@ -56,8 +56,9 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelim
 
 @Module
 public class LeaderboardCmd {
-    private Config config = MantaroData.config().get();
-    private Connection leaderboardConnection = Utils.newDbConnection();
+    private final Config config = MantaroData.config().get();
+    private final Connection leaderboardConnection = Utils.newDbConnection();
+
     @Subscribe
     public void richest(CommandRegistry cr) {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
