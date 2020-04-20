@@ -621,7 +621,7 @@ public class Utils {
     public static boolean handleDefaultRatelimit(RateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context) {
         if (context == null) {
             //en_US
-            context = new I18nContext(null, null);
+            context = new I18nContext();
         }
 
         if (!rateLimiter.process(u.getId())) {
@@ -639,7 +639,7 @@ public class Utils {
     public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, String u, GuildMessageReceivedEvent event, I18nContext context, boolean spamAware) {
         if (context == null) {
             //en_US
-            context = new I18nContext(null, null);
+            context = new I18nContext();
         }
 
         RateLimit rateLimit = rateLimiter.limit(u);

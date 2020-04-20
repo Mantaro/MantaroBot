@@ -30,6 +30,9 @@ public class I18nContext {
         this.userData = userData;
     }
 
+    public I18nContext() { }
+
+
     public String get(String s) {
         I18n context = I18n.getForLanguage(getContextLanguage());
         return context.get(s);
