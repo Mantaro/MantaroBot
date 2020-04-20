@@ -21,7 +21,7 @@ import com.google.common.eventbus.Subscribe;
 import com.rethinkdb.gen.ast.ReqlFunction1;
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Connection;
-import com.rethinkdb.net.Cursor;
+import com.rethinkdb.utils.Types;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -54,7 +54,8 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelim
 
 @Module
 public class LeaderboardCmd {
-    private Config config = MantaroData.config().get();
+    private final Config config = MantaroData.config().get();
+    private final Connection leaderboardConnection = Utils.newDbConnection();
 
     @Subscribe
     public void richest(CommandRegistry cr) {
@@ -74,11 +75,11 @@ public class LeaderboardCmd {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        List<Map<?, ?>> lb1 = getLeaderboard("playerstats", "gambleWinAmount",
+                        List<Map<String, Object>> lb1 = getLeaderboard("playerstats", "gambleWinAmount",
                                 stats -> stats.pluck("id", "gambleWinAmount"), 5
                         );
 
-                        List<Map<?, ?>> lb2 = getLeaderboard("playerstats", "slotsWinAmount",
+                        List<Map<String, Object>> lb2 = getLeaderboard("playerstats", "slotsWinAmount",
                                 stats -> stats.pluck("id", "slotsWinAmount"), 5
                         );
 
@@ -123,7 +124,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map<?, ?>> c = getLeaderboard("playerstats", "gambleWins",
+                List<Map<String, Object>> c = getLeaderboard("playerstats", "gambleWins",
                         player -> player.pluck("id", "gambleWins"), 10
                 );
 
@@ -144,7 +145,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map<?, ?>> c = getLeaderboard("playerstats", "slotsWins",
+                List<Map<String, Object>> c = getLeaderboard("playerstats", "slotsWins",
                         player -> player.pluck("id", "slotsWins"), 10
                 );
 
@@ -169,7 +170,7 @@ public class LeaderboardCmd {
                 boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
                 String tableName = isSeasonal ? "seasonalplayers" : "players";
 
-                List<Map<?, ?>> c = getLeaderboard(tableName, "money",
+                List<Map<String, Object>> c = getLeaderboard(tableName, "money",
                         player -> player.g("id"),
                         player -> player.pluck("id", "money"), 10
                 );
@@ -191,7 +192,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map<?, ?>> c = getLeaderboard("players", "level",
+                List<Map<String, Object>> c = getLeaderboard("players", "level",
                         player -> player.g("id"),
                         player -> player.pluck("id", "level", r.hashMap("data", "experience")), 10
                 );
@@ -223,7 +224,7 @@ public class LeaderboardCmd {
                 boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
                 String tableName = isSeasonal ? "seasonalplayers" : "players";
 
-                List<Map<?, ?>> c = getLeaderboard(tableName, "reputation",
+                List<Map<String, Object>> c = getLeaderboard(tableName, "reputation",
                         player -> player.g("id"),
                         player -> player.pluck("id", "reputation"), 10
                 );
@@ -245,7 +246,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map<?, ?>> c = getLeaderboard("players", "userDailyStreak",
+                List<Map<String, Object>> c = getLeaderboard("players", "userDailyStreak",
                         player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "dailyStrike")), 10
                 );
@@ -277,7 +278,7 @@ public class LeaderboardCmd {
                 boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
                 String tableName = isSeasonal ? "seasonalplayers" : "players";
 
-                List<Map<?, ?>> c = getLeaderboard(tableName, "waifuCachedValue",
+                List<Map<String, Object>> c = getLeaderboard(tableName, "waifuCachedValue",
                         player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "waifuCachedValue")), 10
                 );
@@ -305,7 +306,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                List<Map<?, ?>> c = getLeaderboard("users", "timesClaimed",
+                List<Map<String, Object>> c = getLeaderboard("users", "timesClaimed",
                         player -> player.pluck("id", r.hashMap("data", "timesClaimed")), 10
                 );
 
@@ -336,7 +337,7 @@ public class LeaderboardCmd {
                 boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
                 String tableName = isSeasonal ? "seasonalplayers" : "players";
 
-                List<Map<?, ?>> c = getLeaderboard(tableName, "gameWins",
+                List<Map<String, Object>> c = getLeaderboard(tableName, "gameWins",
                         player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "gamesWon")), 10
                 );
@@ -366,29 +367,25 @@ public class LeaderboardCmd {
         cr.registerAlias("leaderboard", "lb");
     }
 
-    private List<Map<?, ?>> getLeaderboard(String table, String index, ReqlFunction1 mapFunction, int limit) {
+    private List<Map<String, Object>> getLeaderboard(String table, String index, ReqlFunction1 mapFunction, int limit) {
         return getLeaderboard(table, index, m -> true, mapFunction, limit);
     }
 
-    private List<Map<?, ?>> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction, int limit) {
-        Cursor<Map<?, ?>> m;
-        try (Connection conn = Utils.newDbConnection()) {
-            m = r.table(table)
-                    .orderBy()
-                    .optArg("index", r.desc(index))
-                    .filter(filterFunction)
-                    .map(mapFunction)
-                    .limit(limit)
-                    .run(conn, OptArgs.of("read_mode", "outdated"));
-        }
+    private List<Map<String, Object>> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction, int limit) {
+        List<Map<String, Object>> m;
+        m = r.table(table)
+                .orderBy()
+                .optArg("index", r.desc(index))
+                .filter(filterFunction)
+                .map(mapFunction)
+                .limit(limit)
+                .run(leaderboardConnection, OptArgs.of("read_mode", "outdated"), Types.mapOf(String.class, Object.class))
+                .toList();
 
-        List<Map<?, ?>> c = m.toList();
-        m.close();
-
-        return c;
+        return m;
     }
 
-    private EmbedBuilder generateLeaderboardEmbed(GuildMessageReceivedEvent event, I18nContext languageContext, String description, String leaderboardKey, List<Map<?, ?>> lb, Function<Map<?, ?>, Pair<User, String>> mapFunction, String format, boolean isSeasonal) {
+    private EmbedBuilder generateLeaderboardEmbed(GuildMessageReceivedEvent event, I18nContext languageContext, String description, String leaderboardKey, List<Map<String, Object>> lb, Function<Map<?, ?>, Pair<User, String>> mapFunction, String format, boolean isSeasonal) {
         return new EmbedBuilder().setAuthor(isSeasonal ? String.format(languageContext.get("commands.leaderboard.header_seasonal"), config.getCurrentSeason().getDisplay()) : languageContext.get("commands.leaderboard.header"), null, event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                 .setDescription(description)
                 .addField(languageContext.get(leaderboardKey), lb.stream()

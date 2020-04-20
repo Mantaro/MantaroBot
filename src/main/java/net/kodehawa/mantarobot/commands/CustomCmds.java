@@ -185,7 +185,7 @@ public class CustomCmds {
         customCommand.setPredicate(e -> Utils.handleDefaultIncreasingRatelimit(rateLimiter, e.getAuthor(), e, null));
 
         //Just so this is in english.
-        I18nContext i18nTemp = new I18nContext(null, null);
+        I18nContext i18nTemp = new I18nContext();
         Predicate<GuildMessageReceivedEvent> adminPredicate = (event) -> {
             if (db().getGuild(event.getGuild()).getData().isCustomAdminLockNew() && !CommandPermission.ADMIN.test(event.getMember())) {
                 event.getChannel().sendMessage(i18nTemp.get("commands.custom.admin_only")).queue();
