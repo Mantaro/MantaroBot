@@ -42,6 +42,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageUpdateEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.hooks.EventListener;
+import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
@@ -60,6 +61,7 @@ import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.log.LogUtils;
+import net.kodehawa.mantarobot.services.StatsPoster;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -475,11 +477,7 @@ public class MantaroListener implements EventListener {
     }
 
     private void logStatusChange(StatusChangeEvent event) {
-        JDA jda = event.getJDA();
-        if (jda.getShardInfo() == null)
-            return;
-
-        log.info(String.format("Shard #%d: Changed from %s to %s", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getNewStatus()));
+        log.info(String.format("Shard #%d: Changed from %s to %s", event.getJDA().getShardInfo().getShardId(), event.getOldStatus(), event.getNewStatus()));
     }
 
     private void logUnban(GuildUnbanEvent event) {
@@ -526,7 +524,8 @@ public class MantaroListener implements EventListener {
     }
 
     private void onJoin(GuildJoinEvent event) {
-        Guild guild = event.getGuild();
+        final Guild guild = event.getGuild();
+        final JDA jda = event.getJDA();
         final MantaroObj mantaroData = MantaroData.db().getMantaroData();
 
         try {
@@ -539,7 +538,7 @@ public class MantaroListener implements EventListener {
             if(!config.isPremiumBot) {
                 //Greet message start.
                 EmbedBuilder embedBuilder = new EmbedBuilder()
-                        .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
+                        .setThumbnail(jda.getSelfUser().getEffectiveAvatarUrl())
                         .setColor(Color.PINK)
                         .setDescription("Welcome to **Mantaro**, a fun, quirky and complete Discord bot! Thanks for adding me to your server, I highly appreciate it <3\n" +
                                 "We have music, currency, games and way more stuff you can check out! Make sure you use the `~>help` command to make yourself comfy and to get started with the bot!\n\n" +
@@ -579,6 +578,18 @@ public class MantaroListener implements EventListener {
                 });
             }
 
+            //Post bot statistics to the main API.
+            if(config.isNeedApi()) {
+                MantaroBot.getInstance().getStatsPoster().postForShard(
+                        MantaroBot.getInstance().getShardIdForGuild(guild.getIdLong()),
+                        jda.getStatus(),
+                        jda.getGuildCache().size(),
+                        jda.getUserCache().size(),
+                        jda.getGatewayPing(),
+                        ((MantaroEventManager) jda.getEventManager()).getLastJDAEventTimeDiff()
+                );
+            }
+
             guildActions.labels("join").inc();
             GuildStatsManager.log(LoggedEvent.JOIN);
         } catch (Exception e) {
@@ -590,11 +601,25 @@ public class MantaroListener implements EventListener {
 
     private void onLeave(GuildLeaveEvent event) {
         try {
+            final Guild guild = event.getGuild();
+            final JDA jda = event.getJDA();
             final MantaroObj mantaroData = MantaroData.db().getMantaroData();
 
             if (mantaroData.getBlackListedGuilds().contains(event.getGuild().getId()) || mantaroData.getBlackListedUsers().contains(event.getGuild().getOwner().getUser().getId())) {
                 log.info("Left " + event.getGuild() + " because of a blacklist entry. (O:" + event.getGuild().getOwner() + ")");
                 return;
+            }
+
+            //Post bot statistics to the main API.
+            if(config.isNeedApi()) {
+                MantaroBot.getInstance().getStatsPoster().postForShard(
+                        MantaroBot.getInstance().getShardIdForGuild(guild.getIdLong()),
+                        jda.getStatus(),
+                        jda.getGuildCache().size(),
+                        jda.getUserCache().size(),
+                        jda.getGatewayPing(),
+                        ((MantaroEventManager) jda.getEventManager()).getLastJDAEventTimeDiff()
+                );
             }
 
             guildActions.labels("leave").inc();

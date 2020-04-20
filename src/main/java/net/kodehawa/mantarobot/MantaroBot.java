@@ -39,6 +39,7 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogFilter;
 import net.kodehawa.mantarobot.log.LogUtils;
+import net.kodehawa.mantarobot.services.StatsPoster;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.TracingPrintStream;
@@ -95,6 +96,8 @@ public class MantaroBot {
     private final DiscordBotsAPI discordBotsAPI;
     private final JdaLavalink lavalink;
     private final CacheClient cacheClient;
+    private final StatsPoster statsPoster;
+
     private BirthdayCacher birthdayCacher;
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3, new ThreadFactoryBuilder().setNameFormat("Mantaro-ScheduledExecutor Thread-%d").build());
 
@@ -144,6 +147,7 @@ public class MantaroBot {
         core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
         discordBotsAPI = new DiscordBotsAPI.Builder().setToken(config.dbotsorgToken).build();
 
+        statsPoster = new StatsPoster(Long.parseLong(config.clientId));
         audioManager = new MantaroAudioManager();
         Items.setItemActions();
 
@@ -221,6 +225,10 @@ public class MantaroBot {
         return getShard((int) ((guildId >> 22) % getShardManager().getShardsTotal()));
     }
 
+    public int getShardIdForGuild(long guildId) {
+        return (int) ((guildId >> 22) % getShardManager().getShardsTotal());
+    }
+
     public List<Shard> getShardList() {
         return IntStream.range(0, getShardManager().getShardsTotal())
                 .mapToObj(this::getShard)
@@ -283,5 +291,9 @@ public class MantaroBot {
 
     public CacheClient getCacheClient() {
         return this.cacheClient;
+    }
+
+    public StatsPoster getStatsPoster() {
+        return statsPoster;
     }
 }

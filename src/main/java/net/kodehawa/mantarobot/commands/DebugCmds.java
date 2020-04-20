@@ -45,8 +45,6 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
-import okhttp3.Request;
-import okhttp3.Response;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -58,7 +56,6 @@ import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
-import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 
 @Module
 @SuppressWarnings("unused")

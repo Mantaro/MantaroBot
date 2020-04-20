@@ -1011,7 +1011,7 @@ public class MusicCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Tells you how to use music. Yes, this is only a guide.")
+                        .setDescription("Tells you how to use music. Yes, this is only a guide. If you need to see the actual music commands, do `~>help audio`")
                         .build();
             }
         });
