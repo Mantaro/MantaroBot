@@ -19,7 +19,8 @@ package net.kodehawa.mantarobot.commands.utils.birthday;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.rethinkdb.model.OptArgs;
-import com.rethinkdb.net.Cursor;
+import com.rethinkdb.net.Result;
+import com.rethinkdb.utils.Types;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import org.slf4j.Logger;
@@ -52,11 +53,12 @@ public class BirthdayCacher {
     public void cache() {
         executorService.submit(() -> {
             try {
-                Cursor<Map<?, ?>> m = r.table("users").run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
+                List<Map<Object, Object>> m = r.table("users")
+                        .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"), Types.mapOf(Object.class, Object.class))
+                        .toList();
                 cachedBirthdays.clear();
-                List<Map<?, ?>> m1 = m.toList();
 
-                for (Map<?, ?> r : m1) {
+                for (Map<Object, Object> r : m) {
                     //Blame rethinkdb for the casting hell thx
                     @SuppressWarnings("unchecked")
                     String birthday = ((Map<String, String>) r.get("data")).get("birthday");
@@ -68,8 +70,6 @@ public class BirthdayCacher {
                 }
 
                 log.debug("-> [CACHE] Birthdays: {}", cachedBirthdays);
-
-                m.close();
                 isDone = true;
                 log.info("Cached all birthdays!");
             } catch (Exception e) {

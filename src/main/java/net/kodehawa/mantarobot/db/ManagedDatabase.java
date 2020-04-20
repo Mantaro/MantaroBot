@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.db;
 
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Connection;
-import com.rethinkdb.net.Cursor;
+import com.rethinkdb.net.Result;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
@@ -61,7 +61,7 @@ public class ManagedDatabase {
     @CheckReturnValue
     public CustomCommand getCustomCommand(@Nonnull String guildId, @Nonnull String name) {
         log("Requesting custom command {}:{} from rethink", guildId, name);
-        return r.table(CustomCommand.DB_TABLE).get(guildId + ":" + name).run(conn, CustomCommand.class);
+        return r.table(CustomCommand.DB_TABLE).get(guildId + ":" + name).run(conn, CustomCommand.class).single();
     }
 
     @Nullable
@@ -86,7 +86,7 @@ public class ManagedDatabase {
     @CheckReturnValue
     public List<CustomCommand> getCustomCommands() {
         log("Requesting all custom commands from rethink");
-        Cursor<CustomCommand> c = r.table(CustomCommand.DB_TABLE).run(conn, CustomCommand.class);
+        Result<CustomCommand> c = r.table(CustomCommand.DB_TABLE).run(conn, CustomCommand.class);
         return c.toList();
     }
 
@@ -94,7 +94,7 @@ public class ManagedDatabase {
     @CheckReturnValue
     public List<CustomCommand> getCustomCommands(@Nonnull String guildId) {
         log("Requesting all custom commands from guild {} from rethink", guildId);
-        Cursor<CustomCommand> c = r.table(CustomCommand.DB_TABLE)
+        Result<CustomCommand> c = r.table(CustomCommand.DB_TABLE)
                 .getAll(guildId)
                 .optArg("index", "guild")
                 .run(conn, CustomCommand.class);
@@ -118,7 +118,7 @@ public class ManagedDatabase {
     public List<CustomCommand> getCustomCommandsByName(@Nonnull String name) {
         log("Requesting all custom commands named {} from rethink", name);
         String pattern = ':' + name + '$';
-        Cursor<CustomCommand> c = r.table(CustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, CustomCommand.class);
+        Result<CustomCommand> c = r.table(CustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, CustomCommand.class);
         return c.toList();
     }
 
@@ -126,7 +126,7 @@ public class ManagedDatabase {
     @CheckReturnValue
     public DBGuild getGuild(@Nonnull String guildId) {
         log("Requesting guild {} from rethink", guildId);
-        DBGuild guild = r.table(DBGuild.DB_TABLE).get(guildId).run(conn, DBGuild.class);
+        DBGuild guild = r.table(DBGuild.DB_TABLE).get(guildId).run(conn, DBGuild.class).single();
         return guild == null ? DBGuild.of(guildId) : guild;
     }
 
@@ -152,7 +152,7 @@ public class ManagedDatabase {
     @CheckReturnValue
     public MantaroObj getMantaroData() {
         log("Requesting MantaroObj from rethink");
-        MantaroObj obj = r.table(MantaroObj.DB_TABLE).get("mantaro").run(conn, MantaroObj.class);
+        MantaroObj obj = r.table(MantaroObj.DB_TABLE).get("mantaro").run(conn, MantaroObj.class).single();
         return obj == null ? MantaroObj.create() : obj;
     }
 
@@ -160,7 +160,7 @@ public class ManagedDatabase {
     @CheckReturnValue
     public Player getPlayer(@Nonnull String userId) {
         log("Requesting player {} from rethink", userId);
-        Player player = r.table(Player.DB_TABLE).get(userId + ":g").run(conn, Player.class);
+        Player player = r.table(Player.DB_TABLE).get(userId + ":g").run(conn, Player.class).single();
         return player == null ? Player.of(userId) : player;
     }
 
@@ -180,7 +180,7 @@ public class ManagedDatabase {
     @CheckReturnValue
     public SeasonPlayer getPlayerForSeason(@Nonnull String userId, Season season) {
         log("Requesting player {} (season {}) from rethink", userId, season);
-        SeasonPlayer player = r.table(SeasonPlayer.DB_TABLE).get(userId + ":" + season).run(conn, SeasonPlayer.class);
+        SeasonPlayer player = r.table(SeasonPlayer.DB_TABLE).get(userId + ":" + season).run(conn, SeasonPlayer.class).single();
         return player == null ? SeasonPlayer.of(userId, season) : player;
     }
 
@@ -199,14 +199,14 @@ public class ManagedDatabase {
     @Nonnull
     @CheckReturnValue
     public long getAmountSeasonalPlayers() {
-        return r.table(SeasonPlayer.DB_TABLE).count().run(conn, OptArgs.of("read_mode", "outdated"));
+        return r.table(SeasonPlayer.DB_TABLE).count().run(conn, OptArgs.of("read_mode", "outdated"), Long.class).single();
     }
 
     @Nonnull
     @CheckReturnValue
     public PlayerStats getPlayerStats(@Nonnull String userId) {
         log("Requesting player STATS {} from rethink", userId);
-        PlayerStats playerStats = r.table(PlayerStats.DB_TABLE).get(userId).run(conn, PlayerStats.class);
+        PlayerStats playerStats = r.table(PlayerStats.DB_TABLE).get(userId).run(conn, PlayerStats.class).single();
         return playerStats == null ? PlayerStats.of(userId) : playerStats;
     }
 
@@ -227,7 +227,7 @@ public class ManagedDatabase {
     public List<Player> getPlayers() {
         log("Requesting all players from rethink");
         String pattern = ":g$";
-        Cursor<Player> c = r.table(Player.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Player.class);
+        Result<Player> c = r.table(Player.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Player.class);
         return c.toList();
     }
 
@@ -236,14 +236,14 @@ public class ManagedDatabase {
         if (marriageId == null)
             return null;
         log("Requesting marriage {} from rethink", marriageId);
-        return r.table(Marriage.DB_TABLE).get(marriageId).run(conn, Marriage.class);
+        return r.table(Marriage.DB_TABLE).get(marriageId).run(conn, Marriage.class).single();
     }
 
     @Nonnull
     @CheckReturnValue
     public List<Marriage> getMarriages() {
         log("Requesting all marriages from rethink");
-        Cursor<Marriage> c = r.table(Marriage.DB_TABLE).run(conn, Marriage.class);
+        Result<Marriage> c = r.table(Marriage.DB_TABLE).run(conn, Marriage.class);
         return c.toList();
     }
 
@@ -251,7 +251,7 @@ public class ManagedDatabase {
     @CheckReturnValue
     public List<PremiumKey> getPremiumKeys() {
         log("Requesting all premium keys from rethink");
-        Cursor<PremiumKey> c = r.table(PremiumKey.DB_TABLE).run(conn, PremiumKey.class);
+        Result<PremiumKey> c = r.table(PremiumKey.DB_TABLE).run(conn, PremiumKey.class);
         return c.toList();
     }
 
@@ -261,14 +261,14 @@ public class ManagedDatabase {
     public PremiumKey getPremiumKey(@Nullable String id) {
         log("Requesting premium key {} from rethink", id);
         if (id == null) return null;
-        return r.table(PremiumKey.DB_TABLE).get(id).run(conn, PremiumKey.class);
+        return r.table(PremiumKey.DB_TABLE).get(id).run(conn, PremiumKey.class).single();
     }
 
     @Nonnull
     @CheckReturnValue
     public DBUser getUser(@Nonnull String userId) {
         log("Requesting user {} from rethink", userId);
-        DBUser user = r.table(DBUser.DB_TABLE).get(userId).run(conn, DBUser.class);
+        DBUser user = r.table(DBUser.DB_TABLE).get(userId).run(conn, DBUser.class).single();
         return user == null ? DBUser.of(userId) : user;
     }
 
