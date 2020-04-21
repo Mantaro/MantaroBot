@@ -454,11 +454,11 @@
         "success": "%1$sComando Renomeado `%2$s` para `%3$s`"
       },
       "add": {
-        "no_command": "%1$sYou need to specify the command you want to add.",
-        "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
+        "no_command": "%1$sVocê tem que especificar o comando que você quer adicionar.",
+        "not_enough_args": "%1$sVocê tem que especificar o nome do comando e a resposta do comando que você quer adicionar.",
         "empty_content": "%1$sVocê precisa especificar o conteúdo deste comando personalizado",
         "success": "%1$sSalvo no comando `%2$s`",
-        "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
+        "too_many_commands": "%1%sHá muitos comandos nesse servidor, então você não pode adicionar mais (+100). Isso pode ser ignorado em guildas premium (Cheque <https://patreon.com/mantaro>)."
       },
       "character_not_allowed": "%1$sEste caractere não é permitido em nomes de comandos personalizados.",
       "already_exists": "%1$sO comando `%2$s` já existe e é um comando padrão do bot.",
