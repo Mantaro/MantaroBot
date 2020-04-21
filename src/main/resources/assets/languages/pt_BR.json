@@ -135,7 +135,7 @@
         "success": "Você encontrou um %1$s **%2$s** enquanto pescava e você prossegue para pegá-la. Vá e abra-o com `~>opencrate <nome do caixote>`. Você precisa de uma chave do caixote!"
       },
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
+        "success": "%1$s**%2$s**Equipado automaticamente no seu slot de peixe."
       },
       "overflow": "%1$sVocê encontrou alguns peixes, mas uma parte do seu inventário está cheia, então tivemos que jogar um pouco de volta na água...",
       "success": "%1$sEnquanto você calmamente pescava, você encontrou %2$s e você prossegue para salvá-lo em seu balde.",
@@ -148,8 +148,8 @@
       "fossil_success": "%1$sVocê pegou um fóssil enquanto tentava achar um peixe. Isso pode valer um pouco ou ser usada para fundição, Eu acredito.",
       "bait": "O peixe comeu sua isca no processo!",
       "missing_equipped": "%1$sVocê tinha equipado uma %2$s vara, mas você não tem mais desse tipo no seu invetário! Vara equipada foi resetada.",
-      "broken_drop": "%1$sYour rod broke, but you can repair it. Got broken item: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `~>equip <rod name>` to start your adventure!"
+      "broken_drop": "%1$sSua vara quebrou, mas você pode conserta-la. Item quebrado ganho: %2$s *%3$s*",
+      "no_rod_equipped": "%1$sVocê não tem uma vara equipada. Para equipar uma você tem que usar `~>equip <nome da vara>` para começar sua aventura!"
     },
     "softban": {
       "no_permission": "%1$sNão é possível soft banir: Você não tem a permissão de Banir Membros.",
@@ -170,7 +170,7 @@
       "yourself_note": "%1$sPor que você está tentando banir si mesmo, bobo?",
       "self_hierarchy_conflict": "%1$sNão é possível banir o membro: %2$s, ele tem uma hierarquia maior ou igual a mim!",
       "success": "%1$s%2$s (%3$s foi banido)",
-      "success_multiple": "%1$s%2$s (%3$s people got banned)",
+      "success_multiple": "%1$s%2$s (%3$s pessoas foram banidas)",
       "error": "%1$sErro banindo %2$s: (Eu preciso da permissão %3$s)",
       "unknown_error": "%1$sHein, Eu encontrei um erro desconhecido enquanto bania %2$s"
     },
