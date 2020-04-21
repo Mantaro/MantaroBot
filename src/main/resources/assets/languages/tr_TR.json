@@ -116,7 +116,8 @@
     "fun": "Eğlence",
     "games": "Oyunlar",
     "info": "Bilgi",
-    "currency": "Currency"
+    "currency": "Currency",
+    "pet": "Pet"
   },
   "commands": {
     "fish": {
@@ -133,6 +134,9 @@
         "overflow": "Balık tutarken **%1$s** buldunuz, ama zaten elinde çok fazla vardı, bu yüzden onu suya geri fırlattın...",
         "success": "Balık tutarken %1$s **%2$s** buldun ve onu almaya yeltendin. Git ve onu `~>opencrate <isim>` yazarak aç. Anahtara ihtiyacın olacak!"
       },
+      "autoequip": {
+        "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
+      },
       "overflow": "%1$sBiraz balık tuttun ama envanterinin bir kısmı doluydu o açıdan suya geri fırlatmak zorunda kaldın...",
       "success": "%1$sBalık tutarken, %2$s buldun ve cebine attın.",
       "success_money": "%1$sBalık tutarken, %2$s **$%3$d kredi** buldun ve cebine attın.%4$s",
@@ -144,7 +148,8 @@
       "fossil_success": "%1$sBalık tutmaya çalışırken fosil buldun. Sanırım, biraz para edebilir ha.",
       "bait": "Balık oltandaki yemi yedi ve gitti lmfao!",
       "missing_equipped": "%1$s%2$s oltasını taktın, ama bu oltanın cinsinden artık sende yok! Elindeki olta gitti!",
-      "broken_drop": "%1$sOltan kırıldı ama onu tamir edebilirsin. Kırılan eşya: %2$s *%3$s*"
+      "broken_drop": "%1$sOltan kırıldı ama onu tamir edebilirsin. Kırılan eşya: %2$s *%3$s*",
+      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `~>equip <rod name>` to start your adventure!"
     },
     "softban": {
       "no_permission": "%1$sYasaklayamıyorsun: Yasaklama yetkin yok.",
@@ -165,6 +170,7 @@
       "yourself_note": "%1$sKendini banlamaya çalışmamalısın?",
       "self_hierarchy_conflict": "%1$sYasaklanamayan: %2$s, onlar bizlerden daha yüksek hiyerarşide!",
       "success": "%1$s%2$s (%3$s banlandı)",
+      "success_multiple": "%1$s%2$s (%3$s people got banned)",
       "error": "%1$sBanlama da hata %2$s: (Yetki gerekil %3$s)",
       "unknown_error": "%1$sOf, banlarken bilinmeyen bir hata ile karşılaştım %2$s"
     },
@@ -210,6 +216,7 @@
         "timeout": "%1$s %2$s bağlanamıyor: bağlantı zaman aşımına uğradı. Sunucu yerini değiştirip, komutu tekrar dene.",
         "unknown": "%1$s %2$s bağlanamıyor: bilinmeyen hata"
       },
+      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`~>play soundcloud <search term>)`",
       "no_song": "%1$sHangi şarkıyı çalmak istediğini söylemelisin! *(YouTube, Soundcloud, Twitch URL veya otomatik aramalar kabul edilebilir)*",
       "not_playing": "%1$sŞu anda herhangi bir şarkı çalmıyorum.",
       "dj_only": "%1$sBu komutu kullanmak için DJ nicki lazım Diji.",
@@ -220,6 +227,8 @@
       "track_error": "%1$sYa of, Şarkıyı çalarken bir problem çıktı! Özür diliyorum, Bu olmadığı için sıradakini oynatmaya çalışıyorum.",
       "queue_finished": "%1$sŞarkı listesini oynatmayı bitirdim! Umarım eğlenmişsinizdir.\n%2$s",
       "soundcloud_no_args": "%1$sBir şarkı ismi söylemelisin, ben büyücü değilim ki :(",
+      "too_many_errors": "%1$sToo many errors on this session, stopping...",
+      "no_vc_found": "%1$sI'm not connected to any VC even though I should be? Try again.",
       "queue": {
         "no_track_found_np": "Hiç bir şey bulamadım, üzücü!",
         "header": "Server %1$s için liste!",
@@ -361,6 +370,12 @@
       "no_args": "%1$sBana hangi ayarlamak istediğin ses seviyesini söylemen lazım (5 veya 100 arası).",
       "premium_only": "%1$sBu özellik sadece premium üyeler içindir, premium almak istiyorsanız: (https://www.patreon.com/mantaro). Anlayışınız için teşekkürler.\nPremium özellikleri genel olarak sunucuya bağlı veya kişisel olarak da kullanılabilir."
     },
+    "lyrics": {
+      "no_current_track": "%1$sThere's no song currently playing on this server!",
+      "error_searching": "%1$sThere was an error searching for this track or there was no results found.",
+      "header": "%1$sLyrics for %2$s",
+      "footer": "Thanks for using Mantaro! Page: %1$d, Total: %2$d."
+    },
     "prefix": {
       "header": "%1$sVarsayılan ön ekler: %2$s (Herbiri için sana cevap veririm!). Bu sunucunun ön eki `%3$s` (Sadece bu sunucu da çalışır). Yeni bir ön eki `~>opts prefix set <prefix>` yaparak ayarlayabilirsiniz.",
       "none": "Bu sunucu da özel bir ön ek yok, varsayılanı kullanabilirsin."
@@ -391,7 +406,7 @@
         "no_command": "%1$sBana hangi komuta bakmak istediğini belirtmelisin.",
         "header": "Komut \"%1$s\":",
         "amount": "(%1$d kişisine %2$d cevapları gösteriliyor)",
-        "pasted": "Yapıştırılmış içerik"
+        "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
       },
       "clear": {
         "success": "%1$s**%2$d temizlendi Özel Komutlar**"
@@ -404,13 +419,16 @@
         "no_name_specified": "%1$sYaratmak istediğin özel komut için bir isim belirlememişsiniz!"
       },
       "eval": {
+        "not_specified": "You didn't specify anything to eval.",
         "new_error": "%1$sThere was an error while evaluating this custom command.\n**Error**:\n```%2$s```",
         "error": "%1$sThere was an error while evaluating this custom command!\n%2$s"
       },
       "remove": {
+        "no_command": "%1$sYou need to tell me what command you want to remove.",
         "success": "%1$sRemoved Custom Command `%2$s`."
       },
       "import": {
+        "no_command": "%1$sYou need to tell me what command you want to import.",
         "not_found": "%1$sThere are no custom commands matching your search query.",
         "header": "`%1$s` (Responses: %2$s) - Guild: `%3$s`",
         "selection": "Select the Command:",
@@ -418,17 +436,29 @@
         "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3$d responses."
       },
       "edit": {
+        "no_command": "%1$sYou need to specify what command you want to edit.",
         "invalid_number": "%1$sYou need to specify a correct number to change.",
         "no_index": "%1$sYou cannot edit a non-existent index.",
         "empty_response": "%1$sCannot edit to an empty response",
+        "not_enough_args": "%1$sYou need to specify the command, the index and the new response",
         "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly"
+      },
+      "deleteresponse": {
+        "no_command": "%1$sYou need to specify the command you want to remove a response from.",
+        "invalid_number": "%1$sYou need to specify a correct number to change.",
+        "no_index": "%1$sYou cannot remove a non-existent index.",
+        "not_enough_args": "%1$sYou need to specify the command and the index you want to delete.",
+        "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
       },
       "rename": {
         "success": "%1$sRenamed command `%2$s` to `%3$s`"
       },
       "add": {
+        "no_command": "%1$sYou need to specify the command you want to add.",
+        "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
         "empty_content": "%1$sYou need to specify the content of this custom command",
-        "success": "%1$sSaved to command `%2$s`"
+        "success": "%1$sSaved to command `%2$s`",
+        "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
       },
       "character_not_allowed": "%1$sÖzel komut oluştururken bu karakteri kullanamazsınız.",
       "already_exists": "%1$sThe command `%2$s` already exists and it's a default bot command.",
@@ -551,6 +581,7 @@
     "waifu": {
       "bot": "%1$sA bot can't be a waifu, even if you want to...",
       "notice": "This feature isn't meant to have any kind of relationship, either implicit or explicit, with real life events.",
+      "id": "**ID:**",
       "stats": {
         "header": "Your waifu stats",
         "header_other": "%1$s's waifu stats",
@@ -636,7 +667,8 @@
         "cost": "Cast Cost: ",
         "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name (example: `~>cast diamond pickaxe` or `~>cast diamond p` works)\n**Casting has a minimum cost of half the price of the item. The casting price will be shown down below.**"
       },
-      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?"
+      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?",
+      "wrench_multiple_use": "Tip: *You can't use the wrench you are trying to cast with as ingredient!*"
     },
     "market": {
       "dump": {
@@ -676,7 +708,8 @@
         "success": "%1$sBought %2$d %3$s for %4$d credits successfully. You now have %5$d credits.",
         "not_enough_money": "%1$sYou don't have enough money to buy this item."
       },
-      "header": "Mantaro's Market"
+      "header": "Mantaro's Market",
+      "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info."
     },
     "itemtransfer": {
       "transfer_yourself_note": "%1$sYou cannot transfer items to yourself.",
@@ -715,7 +748,8 @@
       "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set. This item might use its own command? For example, picks use `~>mine`.",
       "no_item": "%1$sYou don't have this item in your inventory.",
       "not_enough_items": "%1$sYou don't have enough of this item.",
-      "too_little": "%1$sYou can't use less than 1 item."
+      "too_little": "%1$sYou can't use less than 1 item.",
+      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `9`!"
     },
     "opts": {
       "note": "%1$sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
@@ -733,8 +767,10 @@
       "list": {
         "name": "\nAutorole name: ",
         "role": " | Gives role **",
+        "category": "Category: ",
         "header": "Autoroles list",
-        "no_autoroles": "There aren't any autoroles setup in this server."
+        "no_autoroles": "There aren't any autoroles setup in this server.",
+        "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`."
       },
       "deleted_role": "%1$sThe role that this autorole corresponded to has been deleted",
       "already_assigned": "%1$sYou already have this role, silly!",
@@ -793,7 +829,8 @@
         "not_specified": "%1$sSaat dilimi girmelisiniz.",
         "reset": "%1$sZaman dilimini yenile.",
         "invalid": "%1$sGeçersiz zaman dilimi.",
-        "success": "%1$sZaman dilimi kaydedildi, profilinin zaman dilimi: **%2$s**"
+        "success": "%1$sZaman dilimi kaydedildi, profilinin zaman dilimi: **%2$s**",
+        "reset_success": "%1$sSuccessfully reset your timezone."
       },
       "description": {
         "no_argument": "%1$sGeçerli bir arguman girmelisiniz! (set veya remove)\nÖrneğin, ~>profile description set Selam!",
@@ -828,20 +865,37 @@
         "daily": "Günlük Üst üste",
         "daily_at": "Son günlük",
         "waifu_claimed": "Kaç Kez Waifu Çektin",
+        "waifu_locked": "Waifu Lock",
         "dust": "Toz Seviyesi",
         "lang": "Gösterilen Dil",
         "reminders": "Kaç Kez Hatırlat Kullandın",
         "times": "zaman",
         "days": "gün",
         "times_used": "Kullanılan Zaman",
-        "equipment": "Ekipman"
+        "equipment": "Ekipman",
+        "seasonal_equipment": "Season Equipment",
+        "autoequip": "Auto Equip",
+        "never": "Never"
+      },
+      "hide_tag": {
+        "success": "%1%sTag hidden status is now: `%2$s`"
       },
       "equip": {
         "no_content": "%1$sHangi eşyayı giymek istediğini belirtmelisin!",
         "no_item": "%1$sBöyle bir eşya yok",
         "not_owned": "%1$sBöyle bir eşyan yok!",
         "success": "%1$sBaşarılı bir şekilde %2$s *%3$s* giydin, bu bir dahaki komut kullanışında hatırlanacak.",
-        "not_suitable": "%1$sBunu giyemezsin."
+        "not_suitable": "%1$sBunu giyemezsin.",
+        "not_equipped": "%1$sYou don't have this equipped.",
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod or pick) if you wanna unequip it."
+      },
+      "unequip": {
+        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, rod`",
+        "invalid_type": "%1$sInvalid type. Valid types are `pick, rod`",
+        "success": "%1$sSuccessfully unequipped your %2$s slot.",
+        "equipment_recover": "\nSince you never used your equipment, you got your %1$s back!",
+        "broken_equipment_recover": "\nYour equipment was used, but you got a %1$s back, you can repair it if you need it later!",
+        "broken_equipment_recover_none": "\nThis equipment type had no broken type to recover from, and was used, so it vanished into the void, but you got %1$s credits back."
       },
       "display": {
         "not_premium": "%1$sProfil kişileştirme widget'ı sadece premium kullanıcılar içindir.",
@@ -850,6 +904,15 @@
         "ls": "%1$sProfil maddeleri:\n%2$s **Varsayılan sıralama:** `%3$s`\n%2$s **Senin widgetların:** `%4$s`\n`~>profile widgets reset` kullanarak eski haline döndürebilirsin.",
         "reset": "%1$sBaşarıyla eski haline döndürdün.",
         "example": "\nÖrnek: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Tüm sıralamalar çalışır.*"
+      },
+      "claimlock": {
+        "removed": "%1$sSuccesfully reset your claim lock status.",
+        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key.",
+        "no_key": "%1$sYou don't have a claim key to do this."
+      },
+      "autoequip": {
+        "disable": "%1$sSuccesfully disabled auto-equip.",
+        "success": "%1$sEnabled auto-equip."
       },
       "badge_header": "%1$sGösterilen Rozet",
       "bot_notice": "%1$sBotların profili olmaz.",
@@ -907,6 +970,7 @@
       "cache_not_running": "%1$sDoğum günü cacheleri çalışmıyor. (içsel bir hata) :(",
       "error": "%1$sDoğum günlerini alırken bir hata oldu. (içsel bir hata) :(",
       "header": "**%1$s adlı kişinin doğum günü: %2$s**\n",
+      "full_header": "**%1$s's Birthdays**\n%2$s",
       "invalid_date": "%1$sGeçerli bir tarih değil veya geçerli formatta değil.\nUnutmayın doğru format `gg-aa-yyyy` (gün-ay-yıl)",
       "error_date": "%1$s%2$s geçerli bir tarih değil veya doğru girilmedi. Doğru format ile tekrar deneyin. Lütfen yılı da ekleyin, herhangi bir yıl koyabilmenize rağmen bir şeyi etkilemeyecektir.\nDoğru format `gg/aa/yyyy`",
       "added_birthdate": "%1$sBaşarıyla doğum günü eklendi: %2$s *(Format: gg-AA-yyyy)* [Gün-ay-yıl]",
@@ -993,6 +1057,7 @@
         "premium": "**Premium guild! <3**",
         "old_system": "**Premium guild under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
       },
+      "description": "Keys are valid for as long as your pledge it's active, unless stated otherwise. Thanks for donating or pledging <3",
       "valid_for_old": "Valid for",
       "old_days_more": "%1$d days more",
       "thank_note": "Thanks you for your support <3",
@@ -1004,6 +1069,9 @@
       "linked": "Linked",
       "linked_to": "Linked to",
       "keys_claimed": "Keys Claimed"
+    },
+    "support": {
+      "info": "%1$sIf you need support, head to the support server over to <https://support.mantaro.site> and ask your question in the #support channel!"
     },
     "action": {
       "no_mention": "%1$sYou need to mention a user",
@@ -1119,11 +1187,17 @@
       "character_load_error": "%1$sReport this in the official server please. Failed to setup game for pre-saved character: %2$s",
       "character_request_error": "%1$sError requesting this character from AniList's API.",
       "character_start": "Guess the character",
-      "too_many_games": "%1$sYou can start a maximum of 4 games at the same time with game lobby. (With Premium: 8)"
+      "too_many_games": "%1$sYou can start a maximum of 4 games at the same time with game lobby. (With Premium: 8)",
+      "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
     },
     "opencrate": {
       "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command. If you want to use seasonal inventory, append `-s`)",
       "not_crate": "%1$sThat is not a valid loot crate."
+    },
+    "dailycrate": {
+      "key": "%1$sYou need a crate key to use this! Please buy one and try again!",
+      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>.\nThis can be ran every 24 hours.",
+      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key to open it."
     },
     "prune": {
       "no_messages_specified": "%1$sYou specified no messages to prune.",
@@ -1168,7 +1242,8 @@
       "tags": "Tags",
       "load_notice": "If the image doesn't load, click the title.",
       "rule34_notice": "If you don't like the content on this command, you can use ~>yandere",
-      "yandere_nsfw_notice": "%1$sYande.re command can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!"
+      "yandere_nsfw_notice": "%1$sYande.re command can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!",
+      "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
     },
     "about": {
       "title": "About Mantaro",
@@ -1202,6 +1277,72 @@
       "tc": "Text Channels",
       "vc": "Voice Channels",
       "invite": "Invite link: http://is.gd/mantaro (Commands this session: %1$,d | Current shard: %2$d)"
+    },
+    "pet": {
+      "no_content": "%1$sYou need to specify the pet to look up the stats of (and the user you want to check the pet from, if it's not yours. Make sure to quote the name on this case!).",
+      "not_specified": "%1$sYou didn't specify the pet name.",
+      "not_found": "%1$sI didn't find a pet with the provided name.",
+      "character_not_allowed": "%1$sThis character isn't allowed in pet names. Try another name?",
+      "overview": "Pet Overview and Statistics",
+      "name": "Name",
+      "tier": "Tier",
+      "element": "Element",
+      "owner": "Owner",
+      "created": "Created At",
+      "affection": "Affection",
+      "stamina": "Current Stamina",
+      "hp": "Current HP",
+      "fly": "Fly",
+      "venom": "Venom",
+      "inventory": "Inventory",
+      "id": "Pet ID: %1$s",
+      "hunger": "Hunger",
+      "hydration": "Hydration"
+    },
+    "petactions": {
+      "general": "Pets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.\n\nPets can fight in PetBattle, which is a turn-based (ish) fight system based in a one-turn strategy, with an emergency turn on the half-turn if the HP difference between the pets is too different, which would allow you to change your strategy.\n\nFor competition, you need to use different skills, which will cater to different elements and types. You chose them at the start of your turn or half-turn.\nSkills are the main weapon you have! But, pets can also have a main weapon equipped, based on their type and affection. The weapon shop is available at `~>petaction shop` and you can equip it using `~>petaction weapon`, weapons *do not* have damage multiplier by themselves, but they can improve the effectiveness of some attacks and skills, as the result of this, there are no melee weapons, as all damage on PetBattle is done based on their will, not on their actual life.\n\nDo `~>help petaction` to get a list of the commands you can use with your pet.",
+      "incubate": {
+        "no_name": "%1$sYou need to specify a name to give to your pet.",
+        "only_letters": "%1$sThe name can only contain letters from a to z.",
+        "no_egg": "%1$sYou don't have an incubator egg on your inventory.",
+        "not_enough_slots": "%1$sYou don't have enough pet slots left. (Total: %2$s, Used: %3$s)",
+        "no_money": "%1$sYou don't have enough money to incubate this egg. (Required: **%2$s** credits)",
+        "success": "%1$sSuccessfully incubated your pet egg! Your new pet %2$s `(ID: %3$s)` is now ready. Check `~>pet <name>` to check pet stats."
+      },
+      "rename": {
+        "not_enough_args": "%1$sYou need to specify the current name and the new name.",
+        "new_name_exists": "%1$sYou already have a pet with this name.",
+        "not_enough_money": "%1$sYou don't have enough money for this. **(Required: %2$s)**",
+        "confirmation": "%1$sDo you really want to rename **%2$s** to **%3$s**? Type *yes* to confirm and *no* to cancel.",
+        "success": "%1$sSuccessfully renamed **%2$s** to **%3$s** (ID: %4$s). Cost: %5$s"
+      },
+      "ls": {
+        "experience": "XP",
+        "age": "Age",
+        "no_pets": "%1$sYou have no pets.",
+        "header": "This is a list of the pets you currently own.\nPets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.",
+        "pages": "**Total pages: %1$s \nUse the message reaction to move between pages.\n\n"
+      },
+      "train": {
+        "success": "%1$sSuccessfully trained skill **%2$s**. Experience gained: %3$s. Current skill experience: %4$s. (Cost: %5$s)"
+      },
+      "pet": {
+        "no_pet": "%1$sI can't find a pet with the name you specified.",
+        "pet": "%1$sAww! T-Thanks. (Affection: %2$s, Total pets: %3$s)"
+      },
+      "feed": {
+        "fire_type": "%1$sYou can't really feed a fire type pet... unless you wanna make charcoal.",
+        "no_item": "%1$sI can't find that item.",
+        "not_food": "%1$sThe specified item is not food.",
+        "full": "%1$sYour pet is currently full and can't eat more.",
+        "success": "%1$sSuccessfully fed your pet %2$s. (Current hunger level: %3$s. Saturation: %4$s)"
+      },
+      "hydrate": {
+        "fire_type": "%1$sYou can't really hydrate a fire type pet... unless you wanna put them off.",
+        "not_water": "%1$sThis pet isn't a water type pet.",
+        "no_water": "%1$sYou don't have a water bottle in your inventory",
+        "success": "%1$sSuccessfully hydrated your pet. (Current hydration level: %2$s)"
+      }
     },
     "invite": {
       "url": "Invite URL",
@@ -1288,6 +1429,7 @@
     },
     "help": {
       "title": "Mantaro Help",
+      "base_category": "Command list for category %1$s. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
       "base": "Command list. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
       "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://support.mantaro.site). [*Follow me on twitter for updates!*](https://twitter.com/mantarodiscord)\n",
       "patreon": "[**We need your help to keep Mantaro online! Click here for more info.**](https://www.patreon.com/mantaro)",
@@ -1303,6 +1445,7 @@
     "repair": {
       "no_item": "%1$sYou didn't specify any item to repair. Remember to use quotes if the name has spaces.",
       "no_item_found": "%1$sI can't find that item. Remember to use quotes if the name has spaces.",
+      "no_main_item": "%1$sYou don't have the item you need to repair this!",
       "cant_repair": "%1$s**%2$s** it's not an item you can repair. You can only repair broken items.",
       "no_tool": "%1$sYou need a Tier 2 or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
       "dust": "%1$sYour inventory it's too dusty to perform a repair. Dust level: %2$s",
@@ -1312,7 +1455,12 @@
       "no_item_recipe": "%1$sYou don't have the necessary *%2$s* to perform this repair.",
       "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair. **(Needed: %3$s, Current: %4$s)**",
       "item_broke": "Sadly, your wrench broke in the process, but you still got your item!",
-      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair costed *%6$s* credits and the recipe to repair it was *%7$s*."
+      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair costed *%6$s* credits and the recipe to repair it was *%7$s*.",
+      "ls": {
+        "header": "Repair-able Items List",
+        "cost": "Repair Cost: ",
+        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. The price will be shown below, alongside the needed materials."
+      }
     },
     "anime": {
       "no_args": "%1$sYou need to tell me what anime to look for.",
@@ -1325,6 +1473,7 @@
       "information_notice": "Information provided by AniList. Click the title to go to AniList's page about this anime.",
       "airing": "Airing",
       "release_date": "Release Date",
+      "favorite_count": "Favorite Count",
       "end_date": "End Date",
       "average_score": "Average Score",
       "type": "Type",
@@ -1355,22 +1504,31 @@
       "errors": {
         "bot": "%1$sYou cannot transfer your daily to a bot.",
         "receipt_locked": "That user cannot receive daily credits now.",
-        "own_locked": "You cannot receive your daily now."
+        "own_locked": "You cannot receive your daily now.",
+        "same_user": "%1$sUse daily without mentioning yourself if you're gonna mention yourself :P"
       },
       "streak": {
         "up": "Streak up! Current streak: `%1$sx`",
         "first_time": "First time claiming daily, have fun! (Come back for your streak tomorrow!)",
-        "lost_streak": "2+ days have passed since your last daily, so your streak of `%1$dx` got reset :(",
+        "lost_streak": {
+          "normal": "2+ days have passed since your last daily, so your streak of `%1$dx` got reset :(",
+          "watch": "Even your `Magical Watches` could not stop the flow for this long. Even after using all your owned magic watches your streak of `%1$dx` still ran out of time and got reset :("
+        },
         "bonus": "\nYou won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)",
         "given": {
           "up": "Streak up! Current streak: `%1$dx`.\n*The streak was applied to your profile!*",
           "bonus": "%1$s won a bonus of $%2$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)"
-        }
+        },
+        "watch_used": "Your `Magical Watches` saved your streak! You used `%1$d` of them to extend your streaks survival time to %2$dx, you have `%3$d` of them remaining!"
       },
       "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
       "credits": "%1$sYou got **$%2$s** daily credits.",
-      "sellout": "\nWe need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info.",
-      "crate": "You won a loot crate because your daily streak it's a multiple of 20! Enjoy."
+      "sellout": {
+        "get_premium": "We need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info.",
+        "already_premium": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:"
+      },
+      "crate": "You won a loot crate because your daily streak it's a multiple of 20! Enjoy.",
+      "watch_get": "You won a `Magic Watch` because your daily streak is a multiple of 50! Enjoy."
     },
     "gamble": {
       "no_credits": "%1$sYou're broke. Maybe search for some credits first.",
@@ -1404,6 +1562,7 @@
       "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
     },
     "mine": {
+      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure!",
       "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`",
       "not_suitable": "%1$sThis is not a pick you can use to mine!",
       "not_in_inventory": "%1$sYou don't have this pick on your inventory, switching to the default pick.",
@@ -1425,7 +1584,11 @@
         "overflow": "You found a **%1$s** while mining, but you had too many and left it behind...",
         "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
-      "pick_broke": "%1$sOne of your picks broke while mining.",
+      "autoequip": {
+        "success": "%1$sAutomatically equipped a **%2$s** on your pick slot."
+      },
+      "item_broke": "%1$sYour %2$s broke while using it :( %3$s",
+      "item_broke_autoequip": "*Hint: You can use `~>profile autoequip` and it'll automatically equip the item for you when it breaks, assuming you have one in your inventory.*",
       "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!",
       "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset.",
       "broken_drop": "%1$sYour pick broke, but you can repair it. Got broken item: %2$s *%3$s*"
@@ -1731,6 +1894,19 @@
       "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as an auto-assignable role!",
       "success": "%1$sAdded auto-assignable role **%2$s**, which gives the role **%3$s**"
     },
+    "autoroles_category_add": {
+      "no_args": "%1$sYou need to specify the name of the category (and the name of the iam role if you want to add one to an existing category).",
+      "success_new": "%1$sAdded auto-assignable list category **%2$s**",
+      "success": "%1$sAdded auto-assignable role **%2$s** to list category **%3$s**",
+      "already_exists": "%1$sThis category already exists and you didn't specify a role to add to it.",
+      "no_role": "%1$sThere's no autorole **%2$s**, so I can't add it."
+    },
+    "autoroles_category_remove": {
+      "no_args": "%1$sYou need to specify the name of the category (and the name of the iam role if you want to remove one from an existing category).",
+      "success_new": "%1$sRemoved auto-assignable list category **%2$s**",
+      "success": "%1$sRemoved auto-assignable role **%2$s** from list category **%3$s**",
+      "no_category": "%1$sThere's no category **%2$s**"
+    },
     "autoroles_remove": {
       "no_args": "%1$sYou need to specify the name of the iam you want to remove.",
       "not_found": "%1$sI couldn't find an auto-assignable role with that name",
@@ -1857,6 +2033,43 @@
     "modlog_blacklistwords_remove": {
       "not_in": "%1$sWord `%2$s` isn't in the blacklist.",
       "success": "%1$sSuccesfully removed word `%2$s` from the modlog blacklist."
+    },
+    "logs_editmessage": {
+      "no_message": "%1$sYou need to specify what message you want me to say when someone edits a message!",
+      "success": "%1$sMessage edit message set to: `%2$s`"
+    },
+    "logs_deletemessage": {
+      "no_message": "%1$sYou need to specify what message you want me to say when someone deletes a message!",
+      "success": "%1$sMessage delete message set to: `%2$s`"
+    },
+    "logs_banmessage": {
+      "no_message": "%1$sYou need to specify what message you want me to say when someone gets banned!",
+      "success": "%1$sBan message set to: `%2$s`"
+    },
+    "logs_unbanmessage": {
+      "no_message": "%1$sYou need to specify what message you want me to say when someone gets unbanned!",
+      "success": "%1$sUnban message set to: `%2$s`"
+    },
+    "showdisablewarning": {
+      "success": "%1$sDisplay warning on disabled command is set to: %2$s"
+    },
+    "birthdayblacklist": {
+      "no_args": "%1$sYou need to specify who to blacklist from birthday announcements.",
+      "add": {
+        "success": "%1$sSuccessfully added %2$s (%3$s) to the birthday announcement blacklist for this server."
+      },
+      "remove": {
+        "success": "%1$sSuccessfully removed %2$s (%3$s) from the birthday announcement blacklist for this server."
+      }
+    },
+    "lobby": {
+      "disable": {
+        "success": "%1$sSuccessfully disabled game lobby/multiple."
+      },
+      "enable": {
+        "already_enabled": "%1$sGame lobby/multiple isn't disabled on this server.",
+        "success": "%1$sSuccessfully enabled game lobby/multiple. (If it was previously disabled)"
+      }
     },
     "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
     "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
@@ -1986,6 +2199,9 @@
     "broken_comet_rod": "Broken Comet Rod",
     "broken_sparkle_rod": "Broken Sparkle Rod",
     "broken_star_rod": "Broken Star Rod",
+    "incubator_egg": "Incubator Egg",
+    "water_bottle": "Water Bottle",
+    "magic_watch": "Magical Watch",
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
       "ban_hammer": "Left by an admin.",
@@ -2074,7 +2290,10 @@
       "broken_star_pick": "A star pick that broke while mining. Still salvageable.",
       "broken_comet_rod": "A comet rod that broke while mining. Still salvageable.",
       "broken_sparkle_rod": "A sparkle rod that broke while mining. Still salvageable.",
-      "broken_star_rod": "A star rod that broke while mining. Still salvageable."
+      "broken_star_rod": "A star rod that broke while mining. Still salvageable.",
+      "incubator_egg": "TBD",
+      "water_bottle": "TBD",
+      "magic_watch": "A magic watch that slows time when you need it. This will automatically be consumed to save your daily streak!"
     }
   },
   "test": {
