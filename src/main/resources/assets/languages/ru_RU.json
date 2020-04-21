@@ -93,7 +93,7 @@
       "Я хотел бы это сделать...но успокойся пожалуйста.",
       "Стоп, стоп, у меня все ещё перерыв!",
       "Может немного помедленнее?",
-      "Can you slow down a little bit?"
+      "Можешь притормозить немного?"
     ],
     "mod_quotes": [
       "О-о-о похоже кто-то получил сильный подзатыльник!",
@@ -117,7 +117,7 @@
     "games": "Игры",
     "info": "Информация",
     "currency": "Валюта",
-    "pet": "Pet"
+    "pet": "Питомец"
   },
   "commands": {
     "fish": {
@@ -148,8 +148,8 @@
       "fossil_success": "%1$sВы поймали полезное ископаемое в попытках выловить рыбу. Я думаю - это может стоить больших денег.",
       "bait": "Рыба съела вашу приманку, вы ничего не получили :c",
       "missing_equipped": "%1$sВы экипировали %2$s rod, но в вашем инвентаре ее нет! Экипированная удочка испарилась.",
-      "broken_drop": "%1$sYour rod broke, but you can repair it. Got broken item: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `~>equip <rod name>` to start your adventure!"
+      "broken_drop": "%1$s Ваша удочка сломалась, но вы можете её починить. Вы получили сломанный предмет: %2$s *%3$s*",
+      "no_rod_equipped": "%1$sВы не оснащены удочкой. Чтобы использовать удочку вам нужно написать следующее `~>equip <rod name>`, чтобы начать ваше путешествие!"
     },
     "softban": {
       "no_permission": "%1$sЗапрос отклонен: Недостаточно прав, для бана участников",
@@ -170,7 +170,7 @@
       "yourself_note": "%1$sДурашка, зачем ты пытаешься забанить себя?",
       "self_hierarchy_conflict": "%1$sНе могу забанить пользователя: %2$s, он имеет больше прав чем я!",
       "success": "%1$s%2$s (%3$s был забанен)",
-      "success_multiple": "%1$s%2$s (%3$s people got banned)",
+      "success_multiple": "%1$s%2$s (%3$s человек был забанен)",
       "error": "%1$sОшибка при бане %2$s: (Мне нужны права для этого действия %3$s)",
       "unknown_error": "%1$sХмм, я столкнулся с неизвестной мне ошибкой, когда пытался забанить %2$s"
     },
@@ -216,7 +216,7 @@
         "timeout": "%1$sНевозможно подключиться к %2$s: время подключения вышло. Попробуйте сменить регион сервера и повторить запрос.",
         "unknown": "%1$sНевозможно подключиться к %2$s: неизвестная ошибка"
       },
-      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`~>play soundcloud <search term>)`",
+      "not_working": "%1$sМузыка в настоящий момент не работает из-за того что, Youtube блокирует трафик для самых больших ботов. Наш Патреон бот до сих пор работает, так что вы можете попробовать его по желанию, пожертвовав $4/месяц для Мантаро. Это также поможет нам перенаправить наши усилия на улучшение музыки в целом. Пожалуйста проверьте <https://patreon.com/mantaro> \n\nМы приносим свои извинения за неудобства. Попробуйте использовать поисковик soundcloud! (`~>play soundcloud <search term>)`\n",
       "no_song": "%1$sВы должны мне дать название песни которую нужно проиграть! *(YouTube, Soundcloud, Twitch URL и другие поисковые запросы разрешены)*",
       "not_playing": "%1$sНа данный момент я ничего не проигрываю",
       "dj_only": "%1$sТы должен быть DJ чтобы использовать эту команду!",
@@ -352,7 +352,7 @@
       "invalid_number": "(%1$s`%2$s`) Один из диапазонов является недопустимым!",
       "invalid_number_range": "%1$s`%2$s` недопустимый номер или диапазон!",
       "success": "%1$sУдален(о) **%2$d** трек(ов) из очереди.",
-      "not_dj": "%1$sYou need to be a DJ to perform this action."
+      "not_dj": "%1$sВам нужно быть Диджеем, чтобы выполнить данное действиею."
     },
     "stop": {
       "dj_stop": "%1$sDJ решил поставить паузу",
@@ -373,7 +373,7 @@
     "lyrics": {
       "no_current_track": "%1$sThere's no song currently playing on this server!",
       "error_searching": "%1$sThere was an error searching for this track or there was no results found.",
-      "header": "%1$sLyrics for %2$s",
+      "header": "%1$sТекст песни для %2$s",
       "footer": "Thanks for using Mantaro! Page: %1$d, Total: %2$d."
     },
     "prefix": {
@@ -454,7 +454,7 @@
         "success": "%1$sПереименована команда с `%2$s` на `%3$s`"
       },
       "add": {
-        "no_command": "%1$sYou need to specify the command you want to add.",
+        "no_command": "%1$sВам нужно указать команду, которую вы хотите добавить.",
         "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
         "empty_content": "%1$sВам необходимо указать содержимое этой пользовательской команды",
         "success": "%1$sСохранено для команды `%2$s`",
@@ -767,7 +767,7 @@
       "list": {
         "name": "\nНазвания ролей: ",
         "role": " | Роли**",
-        "category": "Category: ",
+        "category": "Категория: ",
         "header": "Список авто-выдаваемых ролей",
         "no_autoroles": "На этом сервере нет настроек авто-выдачи ролей.",
         "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`."
@@ -830,7 +830,7 @@
         "reset": "%1$sСброс часового пояса.",
         "invalid": "%1$sНевалидный часовой пояс.",
         "success": "%1$sТекущий часовой пояс: **%2$s**",
-        "reset_success": "%1$sSuccessfully reset your timezone."
+        "reset_success": "%1$sУспешный сброс вашего часового пояса."
       },
       "description": {
         "no_argument": "%1$sВы не предоставили аргумент! (установите его)\nК примеру, ~>profile description set Привет!",
@@ -875,7 +875,7 @@
         "equipment": "Экипировано",
         "seasonal_equipment": "Season Equipment",
         "autoequip": "Auto Equip",
-        "never": "Never"
+        "never": "Никогда"
       },
       "hide_tag": {
         "success": "%1%sTag hidden status is now: `%2$s`"
@@ -893,7 +893,7 @@
         "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, rod`",
         "invalid_type": "%1$sInvalid type. Valid types are `pick, rod`",
         "success": "%1$sSuccessfully unequipped your %2$s slot.",
-        "equipment_recover": "\nSince you never used your equipment, you got your %1$s back!",
+        "equipment_recover": "\nПоскольку вы никогда не использовали своё снаряжение, вы получаете %1$s обратно!",
         "broken_equipment_recover": "\nYour equipment was used, but you got a %1$s back, you can repair it if you need it later!",
         "broken_equipment_recover_none": "\nThis equipment type had no broken type to recover from, and was used, so it vanished into the void, but you got %1$s credits back."
       },
@@ -920,7 +920,7 @@
       "no_desc": "Описание не установлено",
       "credits": "Кредитов",
       "level": "Уровень",
-      "xp": "XP",
+      "xp": "ОП",
       "rep": "Репутация",
       "birthday": "День рождения",
       "married": "В браке с",
