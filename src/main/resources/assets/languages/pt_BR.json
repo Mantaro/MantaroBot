@@ -55,10 +55,10 @@
       "potion_applied": "%1$sPoção aplicada com sucesso **%2$s** do tipo *%3$s* (%4$dx). Cheque seu novo efeito brilhante em `~>profile stats`",
       "potion_applied_multiple": "%1$sAplicada com sucesso **%2$s** do tipo *%3$s*.\nVocê já tem esse efeito aplicado, então empilhamos. Tamanho atual da pilha: %4$s",
       "max_stack_size": "%1$sVocê já acumulou o valor máximo de %2$s que você pode ter.",
-      "max_stack_size_2": "Você não pode acumular isso tudo.",
+      "max_stack_size_2": "%1$sVocê não pode acumular isso tudo %2$s.",
       "not_same_potion": "%1$sYou already have a potion of type %2$s stacked and active, so you can't stack potions of type %3$s into it."
     },
-    "mention_user_required": "%1$sYou need to mention one user.",
+    "mention_user_required": "%1$sVocê precisa mencionar um usuário.",
     "invalid_character": "%1$sIsso não é um personagem permitido.",
     "invalid_action": "Você não pode fazer isso, bobo.",
     "interactive_running": "%1$sJá tem uma Operação Interativa (feita por você) nesse canal.",
@@ -509,7 +509,7 @@
         "900": "ruim. :sob: (me ajuda)",
         "1600": "#CulpaDoDiscord. :angry:",
         "10000": "isso não faz sentido :thinking: #CulpaDoSteven",
-        "default": "af lento. :dizzy_face:"
+        "default": "lento pra crl. :dizzy_face:"
       },
       "display": [
         "E-Eu fui rápida o  suficiente?",
@@ -521,7 +521,7 @@
         "Isso acontece com frequência?",
         "Eu estou fazendo c-corretamente?",
         "<3",
-        "*pats*",
+        "*tapinhas*",
         "Pong.",
         "Pang.",
         "Pung.",
@@ -658,17 +658,17 @@
       "success": "%1$sCom sucesso você *fundiu %2$s %3$s* por %4$s créditos. *Fundição usada: %5$s*",
       "no_tool": "%1$sVocê tem que ter um %2$s para prosseguir e fundir!",
       "item_broke": "\nInfelizmente, sua chave inglesa quebrou durante o processo, mas você recebeu seu item!",
-      "too_many": "%1$sYou'd have more than 5000 of this item if you proceed. Try casting less of this object?",
-      "low_tier": "%1$sYou need at least a tier 2 wrench to cast more items per call. You currently have a tier %2$s wrench.",
-      "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe specify a more powerful one? *Wrench level: %2$s, Required level: %3$s*. Example: `~>cast \"star pick\" \"comet wrench\"`",
-      "too_many_amount": "%1$sYou can't cast that many of this item at once! Limit: %2$s, Attempt: %3$s. A sparkle wrench makes the limit double! Unless you're already using one.",
+      "too_many": "%1$sVocê teria mais de 5000 desse item se você prosseguir. Talvez tentar fundir menos deste objeto?",
+      "low_tier": "%1$sVocê precisa de pelo menos uma chave inglesa de tier 2 para fundir mais items. Você atualmente tem uma chave inglesa de tier %2$s.",
+      "not_enough_wrench_level": "%1$sSua chave inglesa não é poderosa o suficiente para fundir este item. Talvez tentar especificar uma mais poderosa? *Nível da chave inglesa: %2$s, Nível necessário: %3$s*. Exemplo: `~>cast \"star pick\" \"comet wrench\"`",
+      "too_many_amount": "%1$sVocê não pode fundir isso tudo de item ao mesmo tempo! Limite: %2$s, Tentativa: %3$s. Uma chave inglesa brilhante faz com que o limite duplique! A menos que você já esteja usando uma.",
       "ls": {
         "header": "Lista de Item Fundíveis",
         "cost": "Custo da Fusão: ",
         "desc": "Essa é uma lista de items que você pode fundir usando `~>cast`. Você tem que usar o nome completo ou um nome menor para fundir (exemplo: `~>cast diamond pickaxe` ou `~>cast diamond p` funciona)\n**A Fundição tem um custo da metade do preço do item. O preço da fundição será mostrado abaixo.**"
       },
       "dust": "%1$sVocê não pode fundir com um inventário sujo! *(Nível de poeira: %2$s%%)*. Por que não limpa usando `~>useitem mop`?",
-      "wrench_multiple_use": "Tip: *You can't use the wrench you are trying to cast with as ingredient!*"
+      "wrench_multiple_use": "Dica: *Você não pode usar uma chave inglesa que você está tentando fundir como ingrediente!*"
     },
     "market": {
       "dump": {
@@ -709,7 +709,7 @@
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar este item."
       },
       "header": "Mercado da Mantaro",
-      "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info."
+      "reference": "\nVocê pode comprar e vender items usando `~>market buy <item>` e `~>market sell <item>`. Cheque `~>help market` para mais informações."
     },
     "itemtransfer": {
       "transfer_yourself_note": "%1$sVocê não pode transferir items para si mesmo.",
@@ -748,7 +748,7 @@
       "interactive_no_action": "%1$sEsse item está marcado como interativo, mas não tem conjunto de ações...",
       "no_item": "%1$sVocê não tem esse item no seu inventário...",
       "not_enough_items": "%1$sVocê não tem o suficiente deste item.",
-      "too_little": "%1$sYou can't use less than 1 item.",
+      "too_little": "%1$sVocê não pode usar menos de 1 item.",
       "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `9`!"
     },
     "opts": {
@@ -767,7 +767,7 @@
       "list": {
         "name": "\nNome do cargo automático: ",
         "role": " | Dar cargos **",
-        "category": "Category: ",
+        "category": "Categoria: ",
         "header": "Lista de cargos automáticos",
         "no_autoroles": "Não tem nenhum cargo automático definido nesse servidor.",
         "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`."
@@ -830,7 +830,7 @@
         "reset": "%1$sResetar fuso horário.",
         "invalid": "%1$sFuso horário inválido.",
         "success": "%1$sFuso horário salvo, seu fuso horário no perfil agora é: **%2$s**",
-        "reset_success": "%1$sSuccessfully reset your timezone."
+        "reset_success": "%1$sTempo redefinido com sucesso."
       },
       "description": {
         "no_argument": "%1$sVocê precisa fornecer um argumento! (definir ou remover)\nPor exemplo, ~>profile description set Olá!",
@@ -875,7 +875,7 @@
         "equipment": "Equipamento",
         "seasonal_equipment": "Season Equipment",
         "autoequip": "Auto Equip",
-        "never": "Never"
+        "never": "Nunca"
       },
       "hide_tag": {
         "success": "%1%sTag hidden status is now: `%2$s`"
@@ -886,7 +886,7 @@
         "not_owned": "%1$sVocê não tem esse item!",
         "success": "%1$sVocê equipou com sucesso %2$s *%3$s*, que será lembrado na próxima vez que você usar o comando de dinheiro apropriado.",
         "not_suitable": "%1$sVocê não pode equipar isso.",
-        "not_equipped": "%1$sYou don't have this equipped.",
+        "not_equipped": "%1$sVocê não te isso equipado.",
         "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod or pick) if you wanna unequip it."
       },
       "unequip": {
@@ -911,16 +911,16 @@
         "no_key": "%1$sYou don't have a claim key to do this."
       },
       "autoequip": {
-        "disable": "%1$sSuccesfully disabled auto-equip.",
-        "success": "%1$sEnabled auto-equip."
+        "disable": "%1$sAuto-equipar desativado com sucesso.",
+        "success": "%1$sAuto-equipar ativado."
       },
       "badge_header": "%1$sInsígnia Exibida",
       "bot_notice": "%1$sBots não têm perfil.",
       "header": "Perfil de %1$s",
       "no_desc": "Sem descrição definida",
       "credits": "Créditos",
-      "level": "Level",
-      "xp": "XP",
+      "level": "Nível",
+      "xp": "Xp",
       "rep": "Reputação",
       "birthday": "Aniversário",
       "married": "Casado(a) com",
@@ -970,7 +970,7 @@
       "cache_not_running": "%1$sO cacher de aniversário não parece estar funcionando (erro interno) :(",
       "error": "%1$sAlgo deu errado ao receber aniversários (erro interno) :(",
       "header": "**Aniversário de %1$s para %2$s**\n",
-      "full_header": "**%1$s's Birthdays**\n%2$s",
+      "full_header": "**Aniversário de %1$s**\n%2$s",
       "invalid_date": "%1$sNão é uma data válida ou não está no formato correto.\nLembre-se de que o formato da data é `dd-mm-aaaa`",
       "error_date": "%1$s%2$s não é uma data válida ou não posso analisá-lo corretamente. Por favor, tente com a formatação correta. Lembre-se de incluir o ano, embora você possa colocar qualquer ano e isso não afetará nada.\nLembre-se de que o formato da data é `dd/mm/aaaa`",
       "added_birthdate": "%1$sData de nascimento adicionada com sucesso. Nova data de aniversário: %2$s *(Formato: dd-MM-aaaa)*",
