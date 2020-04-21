@@ -17,7 +17,7 @@
     "not_found": "Nerasta",
     "no_results": "Jokių rezultatų.",
     "timeout": "Tai nebegalios po %1$d sekundžių.",
-    "reaction_timeout": "Reactions will timeout in %1$d seconds.",
+    "reaction_timeout": "Jaustukai nebeveiks po %1$d sekundžių.",
     "example": "Pavyzdys",
     "definition": "Reikšmė",
     "name": "Vardas",
@@ -116,8 +116,8 @@
     "fun": "Pramogų",
     "games": "Žaidimų",
     "info": "Informacijinės",
-    "currency": "Currency",
-    "pet": "Pet"
+    "currency": "Valiuta",
+    "pet": "Gyvūnas"
   },
   "commands": {
     "fish": {
