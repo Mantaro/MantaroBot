@@ -2064,11 +2064,11 @@
     },
     "lobby": {
       "disable": {
-        "success": "%1$sSuccessfully disabled game lobby/multiple."
+        "success": "%1$sa désactivé les commandes lobby et game multiple."
       },
       "enable": {
-        "already_enabled": "%1$sGame lobby/multiple isn't disabled on this server.",
-        "success": "%1$sSuccessfully enabled game lobby/multiple. (If it was previously disabled)"
+        "already_enabled": "%1$sLes commandes lobby et game multiple ne sont pas désactivées ici.",
+        "success": "%1$sa activé les commandes lobby et game multiple. (Tout du moins si elles étaient désactivées au préalable.)"
       }
     },
     "invalid_category": "%1$sTu as entré une catégorie invalide. Regarde dans la liste ci-dessous pour trouver une catégorie valide```md\n%2$s```",
