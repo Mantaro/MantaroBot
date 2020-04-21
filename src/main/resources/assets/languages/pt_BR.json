@@ -216,7 +216,7 @@
         "timeout": "%1$sImpossível conectar no %2$s: conexão esgotada. Tente mudar a região do servidor e fazer o comando novamente.",
         "unknown": "%1$sImpossível conectar no %2$s: erro desconhecido"
       },
-      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`~>play soundcloud <search term>)`",
+      "not_working": "%1$sMúsica não está funcionando no momento devido ao Youtube bloquear o tráfego da maioria dos bots grandes. Nosso bot Patreon ainda está funcionando, você pode usa-lo doando $4/mês para Mantaro. Isso também ajudará a redirecionar nossos esforços para corrigir o comando de música como um todo.\nPor favor cheque <https://patreon.com/mantaro>\n\nPedimos desculpas pela inconveniência. Tente pesquisar pelo soundcloud! (`~>play soundcloud <procurar termo>)`",
       "no_song": "%1$sVocê tem que me dizer qual música você quer que toque! *(YouTube, Soundcloud, URL da Twitch ou consultas de pesquisa são permitidas)*",
       "not_playing": "%1$sAtualmente não estou tocando nada",
       "dj_only": "%1$sVocê tem que ser o DJ para usar esse comando!",
