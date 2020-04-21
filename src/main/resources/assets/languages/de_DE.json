@@ -886,6 +886,7 @@
         "not_owned": "%1$sDu besitzt diesen Gegenstand nicht!",
         "success": "%1$sDu hast erfolgreich %2$s *%3$s* ausgerüstet, was beim nächsten Ausführen des zugehörigen Befehls beachtet wird.",
         "not_suitable": "%1$sDu kannst das nicht ausrüsten.",
+        "not_equipped": "%1$sYou don't have this equipped.",
         "already_equipped": "%1$sDu hast bereits einen Gegenstand dieser Art ausgerüstet! Versiche `~>unequip <art>` (Art kann entweder `rod` oder `pick` sein), wenn du ihn ablegen willst."
       },
       "unequip": {
@@ -1056,6 +1057,7 @@
         "premium": "**Premium-Server! <3**",
         "old_system": "**Premium-Server unter dem alten System! Mach dir keine Sorgen, er ist Premium und die Vorteile werden richtig funktionieren!**"
       },
+      "description": "Keys are valid for as long as your pledge it's active, unless stated otherwise. Thanks for donating or pledging <3",
       "valid_for_old": "Gültig für",
       "old_days_more": "%1$s weitere Tage.",
       "thank_note": "Danke für deine Unterstützung. <3",
@@ -1185,7 +1187,8 @@
       "character_load_error": "%1$sMelden Sie dies bitte im offiziellen Server. Fehler beim Einrichten des Spiels für den zuvor gespeicherten Charakter: %2$s",
       "character_request_error": "%1$sFehler beim Anfordern des Charakters von Kitsus API.",
       "character_start": "Rate den Charakter",
-      "too_many_games": "%1$sDu kannst maximal 4 Spiele auf einmal mit lobby starten. (Mit Premium: 8)"
+      "too_many_games": "%1$sDu kannst maximal 4 Spiele auf einmal mit lobby starten. (Mit Premium: 8)",
+      "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
     },
     "opencrate": {
       "no_crate": "%1$sDu hast keine Truhe (%2$s), dieser Art. :( (Wenn du versuchst eine spezielle Truhe zu öffnen, verwende den Namen nach dem Befehl. Wenn du das Sasions-Inventar verwenden willst, hänge `-s` an)",
@@ -1239,7 +1242,8 @@
       "tags": "Tags",
       "load_notice": "Wenn das Bild nicht geladen wird, klicke den Titel.",
       "rule34_notice": "Wenn du den Inhalt dieses Befehls nicht magst, kannst du ~>yandere verwenden.",
-      "yandere_nsfw_notice": "%1$sDie Yande.re und Gelbooru Befehle können nur in NSFW-Kanälen verwendet werden, da er zahlreiche explizite Bilder sendet, die auf der Seite als sicher gekennzeichnet sind.\nDu kannst stattdessen `~>konachan` verwenden!"
+      "yandere_nsfw_notice": "%1$sDie Yande.re und Gelbooru Befehle können nur in NSFW-Kanälen verwendet werden, da er zahlreiche explizite Bilder sendet, die auf der Seite als sicher gekennzeichnet sind.\nDu kannst stattdessen `~>konachan` verwenden!",
+      "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
     },
     "about": {
       "title": "Über Mantaro",
@@ -1273,6 +1277,72 @@
       "tc": "Text-Kanäle",
       "vc": "Sprach-Kanäle",
       "invite": "Invite-link: http://is.gd/mantaro (Befehle diese Sitzung: %1$s | Aktueller Shard: %2$s)"
+    },
+    "pet": {
+      "no_content": "%1$sYou need to specify the pet to look up the stats of (and the user you want to check the pet from, if it's not yours. Make sure to quote the name on this case!).",
+      "not_specified": "%1$sYou didn't specify the pet name.",
+      "not_found": "%1$sI didn't find a pet with the provided name.",
+      "character_not_allowed": "%1$sThis character isn't allowed in pet names. Try another name?",
+      "overview": "Pet Overview and Statistics",
+      "name": "Name",
+      "tier": "Tier",
+      "element": "Element",
+      "owner": "Owner",
+      "created": "Created At",
+      "affection": "Affection",
+      "stamina": "Current Stamina",
+      "hp": "Current HP",
+      "fly": "Fly",
+      "venom": "Venom",
+      "inventory": "Inventory",
+      "id": "Pet ID: %1$s",
+      "hunger": "Hunger",
+      "hydration": "Hydration"
+    },
+    "petactions": {
+      "general": "Pets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.\n\nPets can fight in PetBattle, which is a turn-based (ish) fight system based in a one-turn strategy, with an emergency turn on the half-turn if the HP difference between the pets is too different, which would allow you to change your strategy.\n\nFor competition, you need to use different skills, which will cater to different elements and types. You chose them at the start of your turn or half-turn.\nSkills are the main weapon you have! But, pets can also have a main weapon equipped, based on their type and affection. The weapon shop is available at `~>petaction shop` and you can equip it using `~>petaction weapon`, weapons *do not* have damage multiplier by themselves, but they can improve the effectiveness of some attacks and skills, as the result of this, there are no melee weapons, as all damage on PetBattle is done based on their will, not on their actual life.\n\nDo `~>help petaction` to get a list of the commands you can use with your pet.",
+      "incubate": {
+        "no_name": "%1$sYou need to specify a name to give to your pet.",
+        "only_letters": "%1$sThe name can only contain letters from a to z.",
+        "no_egg": "%1$sYou don't have an incubator egg on your inventory.",
+        "not_enough_slots": "%1$sYou don't have enough pet slots left. (Total: %2$s, Used: %3$s)",
+        "no_money": "%1$sYou don't have enough money to incubate this egg. (Required: **%2$s** credits)",
+        "success": "%1$sSuccessfully incubated your pet egg! Your new pet %2$s `(ID: %3$s)` is now ready. Check `~>pet <name>` to check pet stats."
+      },
+      "rename": {
+        "not_enough_args": "%1$sYou need to specify the current name and the new name.",
+        "new_name_exists": "%1$sYou already have a pet with this name.",
+        "not_enough_money": "%1$sYou don't have enough money for this. **(Required: %2$s)**",
+        "confirmation": "%1$sDo you really want to rename **%2$s** to **%3$s**? Type *yes* to confirm and *no* to cancel.",
+        "success": "%1$sSuccessfully renamed **%2$s** to **%3$s** (ID: %4$s). Cost: %5$s"
+      },
+      "ls": {
+        "experience": "XP",
+        "age": "Age",
+        "no_pets": "%1$sYou have no pets.",
+        "header": "This is a list of the pets you currently own.\nPets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.",
+        "pages": "**Total pages: %1$s \nUse the message reaction to move between pages.\n\n"
+      },
+      "train": {
+        "success": "%1$sSuccessfully trained skill **%2$s**. Experience gained: %3$s. Current skill experience: %4$s. (Cost: %5$s)"
+      },
+      "pet": {
+        "no_pet": "%1$sI can't find a pet with the name you specified.",
+        "pet": "%1$sAww! T-Thanks. (Affection: %2$s, Total pets: %3$s)"
+      },
+      "feed": {
+        "fire_type": "%1$sYou can't really feed a fire type pet... unless you wanna make charcoal.",
+        "no_item": "%1$sI can't find that item.",
+        "not_food": "%1$sThe specified item is not food.",
+        "full": "%1$sYour pet is currently full and can't eat more.",
+        "success": "%1$sSuccessfully fed your pet %2$s. (Current hunger level: %3$s. Saturation: %4$s)"
+      },
+      "hydrate": {
+        "fire_type": "%1$sYou can't really hydrate a fire type pet... unless you wanna put them off.",
+        "not_water": "%1$sThis pet isn't a water type pet.",
+        "no_water": "%1$sYou don't have a water bottle in your inventory",
+        "success": "%1$sSuccessfully hydrated your pet. (Current hydration level: %2$s)"
+      }
     },
     "invite": {
       "url": "Einladungs-URL",
@@ -1434,30 +1504,31 @@
       "errors": {
         "bot": "%1$sDu kannst deine täglichen Credits nicht an einen Bot transferieren.",
         "receipt_locked": "Dieser Nutzer kann jetzt keine täglichen Credits erhalten.",
-        "own_locked": "Du kannst jetzt nicht deine täglichen Credits erhalten."
+        "own_locked": "Du kannst jetzt nicht deine täglichen Credits erhalten.",
+        "same_user": "%1$sUse daily without mentioning yourself if you're gonna mention yourself :P"
       },
       "streak": {
         "up": "Tägliche Strähne verlängert! Aktuell: `%1$sx`",
         "first_time": "Erstes Abholen der täglichen Credits, viel Spaß! (Komm morgen für deine tägliche Strähne zurück!)",
         "lost_streak": {
           "normal": "2+ Tage sind seit deiner letzten täglichen Abholung vergangen, daher wurde deine Strähne von `%1$dx` zurückgesetzt. :(",
-          "watch" : "Selbst deine `Magischen Uhren` konnten den Lauf der Zeit nicht so lange anhalten. Auch nachdem all deine magischen Uhren genutzt worden, lief deiner Strähne von `%1$dx` die Zeit ab, und wurde zurückgesetzt. :("
+          "watch": "Selbst deine `Magischen Uhren` konnten den Lauf der Zeit nicht so lange anhalten. Auch nachdem all deine magischen Uhren genutzt worden, lief deiner Strähne von `%1$dx` die Zeit ab, und wurde zurückgesetzt. :("
         },
         "bonus": "\nDu hast einen Bonus von $%1$s für das Abholen deiner täglichen Credits an 5 oder mehr Tagen am Stück erhalten! (In der Geldsumme enthalten!)",
         "given": {
           "up": "Tägliche Strähne verlängert! Aktuell: `%1$sx`.\n*Die Strähne wurde auf dein Profil angewendet!*",
           "bonus": "%1$s hat einen Bonus von $%2$s für das Abholen an fünf oder mehr Tagen in Folge gewonnen! (Beim angezeigten Geld enthalten!)"
         },
-        "watch_used" : "Deine `Magischen Uhren` haben deine Strähne gerettet! Du hast `%1$d` von ihnen genutzt, um die Lebenszeit deiner Strähne auf %2$dx zu erhöhen, du hast `%3$d` von ihnen übrig!"
+        "watch_used": "Deine `Magischen Uhren` haben deine Strähne gerettet! Du hast `%1$d` von ihnen genutzt, um die Lebenszeit deiner Strähne auf %2$dx zu erhöhen, du hast `%3$d` von ihnen übrig!"
       },
       "given_credits": "%1$sIch habe deine **$%2$s** täglichen Credits an %3$s gegeben.",
       "credits": "%1$sDu hast **$%2$s** tägliche Credits erhalten.",
       "sellout": {
         "get_premium": "Wir brauchen deine Hilfe, um Mantaro am Laufen zu halten! Schau unter <https://patreon.com/mantaro> für mehr Informationen.",
-        "already_premium" : "Danke dir für das Unterstützen von Mantaro. Ohne die Hilfe von Personen, wie dir, könnten wir Mantaro nicht am Laufen halten. :heart:"
+        "already_premium": "Danke dir für das Unterstützen von Mantaro. Ohne die Hilfe von Personen, wie dir, könnten wir Mantaro nicht am Laufen halten. :heart:"
       },
       "crate": "Du hast eine Truhe gewonnen, weil deine tägliche Strähne ein Vielfaches von 20 ist. Viel Spaß.",
-      "watch_get" : "Du hast eine `Magische Uhr` gewonnen, da deine tägliche Strähne ein Vielfaches von 50 ist! Viel Spaß."
+      "watch_get": "Du hast eine `Magische Uhr` gewonnen, da deine tägliche Strähne ein Vielfaches von 50 ist! Viel Spaß."
     },
     "gamble": {
       "no_credits": "%1$sDu bist pleite. Such vielleicht erstmal nach ein paar Credits.",
@@ -1991,6 +2062,15 @@
         "success": "%1$sDer Ausschluss von %2$s (%3$s) vom Geburtstagsansager wurde erfolgreich entfernt."
       }
     },
+    "lobby": {
+      "disable": {
+        "success": "%1$sSuccessfully disabled game lobby/multiple."
+      },
+      "enable": {
+        "already_enabled": "%1$sGame lobby/multiple isn't disabled on this server.",
+        "success": "%1$sSuccessfully enabled game lobby/multiple. (If it was previously disabled)"
+      }
+    },
     "invalid_category": "%1$sDu hast eine ungültige Kategorie eingegeben. Eine Liste gültiger Kategorien zum deaktivieren (Groß- und Kleinschreibung beachten) wird unten angezeigt```md\n%2$s```",
     "help_opts_notice": "%1$sDu kannst den options oder help Befehl nicht deaktivieren.",
     "no_command": "%1$sKein Befehl namens %2$s",
@@ -2214,7 +2294,6 @@
       "incubator_egg": "TBD",
       "water_bottle": "TBD",
       "magic_watch": "Eine magische Uhr, die die Zeit verlangsamt, wenn du es nötig hast. Sie wird automatisch genutzt, um deine tägliche Strähne zu sichern."
-
     }
   },
   "test": {
