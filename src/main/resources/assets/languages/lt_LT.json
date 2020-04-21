@@ -808,7 +808,7 @@
     },
     "osustats": {
       "user": {
-        "header": "osu! statistics for %1$s",
+        "header": "osu! %1$s statistikos",
         "rank": "Reitingas",
         "acc": "Tikslumas",
         "level": "Lygis",
