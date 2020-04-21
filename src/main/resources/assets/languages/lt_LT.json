@@ -143,7 +143,7 @@
       "success_money_noitem": "%1$s Kol ramiai žvejojai, tu radai **$%2$d kreditų** ir tu juos įsidėjai į savo kišenę.",
       "rod_broke": "%1$sTavo meškerė sulūžo bandant sugauti žuvį :(",
       "waifu_help": "Tavo Waifu atėjo tau į pagalbą žvejybos nuotykyje ir abu sugavote didesnį laimikį!",
-      "not_suitable": "%1$sYou can't use this to fish.",
+      "not_suitable": "%1$sTu negali naudoti šito žvejybai.",
       "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?",
       "fossil_success": "%1$sYou caught a fossil while trying to find a fish. This might be worth a fair bit or be used for casting, I believe.",
       "bait": "The fish ate your bait in the process!",
@@ -767,7 +767,7 @@
       "list": {
         "name": "\nAutorole name: ",
         "role": " | Gives role **",
-        "category": "Category: ",
+        "category": "Kategorija: ",
         "header": "Autoroles list",
         "no_autoroles": "There aren't any autoroles setup in this server.",
         "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`."
@@ -809,9 +809,9 @@
     "osustats": {
       "user": {
         "header": "osu! statistics for %1$s",
-        "rank": "Rank",
-        "acc": "Accuracy",
-        "level": "Level",
+        "rank": "Reitingas",
+        "acc": "Tikslumas",
+        "level": "Lygis",
         "ranked": "Ranked Score",
         "country_rank": "Country Rank"
       },
@@ -2181,14 +2181,14 @@
     "pizza": "Pica",
     "mine_crate": "Gem Crate",
     "fish_crate": "Fish Treasure",
-    "mine_premium_crate": "Gem Premium Crate",
+    "mine_premium_crate": "Kristalo Premium Dėžė",
     "fish_premium_crate": "Fish Premium Treasure",
     "comet_rod": "Comet Gem Rod",
     "star_rod": "Star Gem Rod",
     "sparkle_rod": "Sparkle Rod",
     "shell": "Shell",
     "shark": "Shark",
-    "crab": "Crab",
+    "crab": "Krabas",
     "squid": "Squid",
     "shrimp": "Shrimp",
     "moon": "Moon Rune",
