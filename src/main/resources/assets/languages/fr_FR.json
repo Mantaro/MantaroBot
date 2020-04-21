@@ -371,20 +371,20 @@
       "premium_only": "%1$sCeci est une fonctionnalité premium uniquement. Pour bénéficier d'avantages comme celui-ci, tu peux faire un don sur le site Patreon (https://www.patreon.com/mantaro). Merci de ta compréhension.\nLes fonctionnalités premiums peuvent être liées à un utilisateur ou à un serveur. Si tu fais un don, rejoins la guilde d'assistance et demande ta clé premium..."
     },
     "lyrics": {
-     "no_current_track": "%1$sIl n'y a pas de musique en cours de lecture sur ce serveur!",
-     "error_searching": "%1$sSoit je n'ai rien trouvé soit il y a eu une erreur.",
-     "header": "%1$sParole de %2$s",
-     "footer": "Merci d'utiliser Mantaro! Page: %1$d, Total: %2$d."
-   },
+      "no_current_track": "%1$sIl n'y a pas de musique en cours de lecture sur ce serveur!",
+      "error_searching": "%1$sSoit je n'ai rien trouvé soit il y a eu une erreur.",
+      "header": "%1$sParole de %2$s",
+      "footer": "Merci d'utiliser Mantaro! Page: %1$d, Total: %2$d."
+    },
     "prefix": {
       "header": "%1$sLes préfixes par défaut sont %2$s (Je réponds à chacun d'eux!). Le préfixe du serveur est `%3$s` (Cela ne fonctionne que sur ce serveur). Tu peux définir un nouveau préfixe en écrivant `~>opts prefix set <préfixe>`",
       "none": "Il n'y a pas de préfixe personnalisé défini sur ce serveur."
     },
     "custom": {
       "no_args": "%1$sTu dois préciser ce que tu veux faire avec cette commande. Consultes l'aide de la commande pour plus d'infos.!",
+      "incorrect_args": "%1$sArguments incorrects. Regarde `~>help custom` ou sur https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands pour obtenir d'avantage d'aide sur comment utiliser cette commande. Si tu rencontres d'autres problèmes après avoir lu wiki, consultes <https://support.mantaro.site>",
       "error_running": "%1$sErreur lors de l'exécution de la commande personnalisée ... Vérifies le contenu et la longueur de la réponse (elle ne peut pas dépasser 2000 caractères)..",
       "error_running_new": "%1$sIl y a une erreur en cours avec une commande personnalisée. Vérifie le contenu et la longueur de la réponse.\n**Erreur : **\n```%2$s```",
-      "incorrect_args": "%1$sArguments incorrects. Regarde `~>help custom` ou sur https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands pour obtenir d'avantage d'aide sur comment utiliser cette commande. Si tu rencontres d'autres problèmes après avoir lu wiki, consultes <https://support.mantaro.site>",
       "not_loaded": "Le bot n'a pas encore démarré complètement ... les commandes personnalisées seront bientôt disponibles!",
       "nsfw_enabled": "%1$sCette commande a bien été identifiée comme NSFW.",
       "nsfw_disabled": "%1$sCette commande a bien été identifiée comme SFW.",
@@ -406,7 +406,7 @@
         "no_command": "%1$sTu dois me dire quelle commande tu veux regarder.",
         "header": "Commande \"%1$s\":",
         "amount": "(Affichage de %1$d réponse sur %2$d)",
-        "pasted": "Contenu collé"
+        "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
       },
       "clear": {
         "success": "%1$s**%2$d commandes personnalisées** effacées"
@@ -667,7 +667,8 @@
         "cost": "Coût de la fabrication: ",
         "desc": "C'est la liste de tous les objets que tu peux fabriquer un utilisant `~>cast`. Tu dois utiliser le nom complet ou l'abréviation pour le faire (exemple : `~>cast diamond pickaxe` ou `~>cast diamond p` fonctionnent).\n**La fabrication a un coût de la moitié du prix de l'objet. Le coût de la fabrication apparaîtra ci-dessous.**"
       },
-      "dust": "%1$sTu ne peux pas fabriquer de nouveaux objets avec autant de poussière dans ton inventaire! *(Niveau de poussière : %2$s%%)*. Pourquoi ne pas le laver en utilisant `~>useitem mop`?"
+      "dust": "%1$sTu ne peux pas fabriquer de nouveaux objets avec autant de poussière dans ton inventaire! *(Niveau de poussière : %2$s%%)*. Pourquoi ne pas le laver en utilisant `~>useitem mop`?",
+      "wrench_multiple_use": "Tip: *You can't use the wrench you are trying to cast with as ingredient!*"
     },
     "market": {
       "dump": {
@@ -885,6 +886,7 @@
         "not_owned": "%1$sTu ne possède pas cet objet!",
         "success": "%1$sTu as équipé %2$s *%3$s* avec succès, ce qui ne sera pas oublié la prochaine fois que tu utilises une commande monétaire.",
         "not_suitable": "%1$sTu ne peux pas équiper cela.",
+        "not_equipped": "%1$sYou don't have this equipped.",
         "already_equipped": "%1$sTu as déjà équipé un objet de ce type! Essaie `~>unequip <type>` (Le type peut être rod ou pick) pour le déséquiper."
       },
       "unequip": {
@@ -1055,6 +1057,7 @@
         "premium": "**Serveur Premium! <3**",
         "old_system": "**Serveur Premium de l'ancien système! Ne t'en fait pas, il est Premium avec tout ce que ça implique ;) !**"
       },
+      "description": "Keys are valid for as long as your pledge it's active, unless stated otherwise. Thanks for donating or pledging <3",
       "valid_for_old": "Valide pendant",
       "old_days_more": "%1$d jours de plus",
       "thank_note": "Merci pour votre support <3",
@@ -1184,7 +1187,8 @@
       "character_load_error": "%1$sRapporte ça sur le serveur officiel s'il te plait. Échec de mise en place du jeu pour le personnage pré-sauvegardé : %2$s",
       "character_request_error": "%1$sErreur en requérant ce personnage à l'API AniList.",
       "character_start": "Devine le personnage",
-      "too_many_games": "%1$sTu peux démarrer 4 jeux du même type dans un lobby. (8 en étant Premium)"
+      "too_many_games": "%1$sTu peux démarrer 4 jeux du même type dans un lobby. (8 en étant Premium)",
+      "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
     },
     "opencrate": {
       "no_crate": "%1$sTu n'as pas de coffre au trésor de ce type à ouvrir :( (Si tu essaies d'ouvrir un coffre autre que celui par défaut, tu dois le nommer après la commande. Si tu veux utiliser ton inventaire de la saison, ajoute un -s à la fin.)",
@@ -1238,7 +1242,8 @@
       "tags": "Tags",
       "load_notice": "Si l'image ne charge pas cliques sur le titre.",
       "rule34_notice": "Si tu n'est pas satisfait du contenu de cette commande, tu peux utiliser ~>yandere",
-      "yandere_nsfw_notice": "%1$sLes commandes Yande.re peuvent être utilisées uniquement dans les salons NSFW à cause d'un nombre important de plainte concernant le contenu explicite envoyé avec le tag \"safe\".\nTu peux utiliser `~>konachan` à la place!"
+      "yandere_nsfw_notice": "%1$sLes commandes Yande.re peuvent être utilisées uniquement dans les salons NSFW à cause d'un nombre important de plainte concernant le contenu explicite envoyé avec le tag \"safe\".\nTu peux utiliser `~>konachan` à la place!",
+      "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
     },
     "about": {
       "title": "A propos de Mantaro",
@@ -1468,9 +1473,9 @@
       "information_notice": "Information fournie par AniList.",
       "airing": "Diffusion",
       "release_date": "Date de lancement",
+      "favorite_count": "Nombre de favoris",
       "end_date": "Date de fin",
       "average_score": "Sore de popularité",
-      "favorite_count": "Nombre de favoris",
       "type": "Type",
       "episodes": "Episodes",
       "episode_duration": "Duré des épisodes",
@@ -1499,30 +1504,31 @@
       "errors": {
         "bot": "%1$sTu ne peux pas transférer ton gain journalier à un bot.",
         "receipt_locked": "Cet utilisateur ne peut pas recevoir de gain journalier maintenant.",
-        "own_locked": "Tu ne peux pas recevoir ton gain journalier maintenant."
+        "own_locked": "Tu ne peux pas recevoir ton gain journalier maintenant.",
+        "same_user": "%1$sUse daily without mentioning yourself if you're gonna mention yourself :P"
       },
       "streak": {
         "up": "Streak actuel: `%1$sx`",
         "first_time": "Première réclamation de gain journalier, amuse-toi bien! (Reviens demain !!)",
         "lost_streak": {
           "normal": "Plus de 2 jours sont passés depuis ta dernière réclamation donc ton streak de `%1$dx` a été remis à 0 :(",
-          "watch" : "Même ta `Montre magique` n'a pu arrêter le court du temps aussi longtemps. Même en utilisant toutes les montres magiques du monde ton streak de `%1$dx` repartirait de zéro :("
+          "watch": "Même ta `Montre magique` n'a pu arrêter le court du temps aussi longtemps. Même en utilisant toutes les montres magiques du monde ton streak de `%1$dx` repartirait de zéro :("
         },
         "bonus": "\nTu as obtenu un bonus de $%1$s pour avoir réclamé ton gain journalier 5 jours d'affilée ou plus! (Inclus dans l'argent montré!)",
         "given": {
           "up": "Augmentation du streak! Streak actuel : `%1$dx`.\n*Le streak a été appliqué à ton profil!*",
           "bonus": "%1$s gagne un bonus de $%2$s pour avoir réclamé son streak journalier 5 jours ou plus! (Inclus dans l'argent montré!)"
         },
-        "watch_used" : "Tes `Montres magiques` ont sauvé ton streak! Tu en as utilisé `%1$d` pour allonger la vie de ton streak à %2$dx, il t'en reste `%3$d`!"
+        "watch_used": "Tes `Montres magiques` ont sauvé ton streak! Tu en as utilisé `%1$d` pour allonger la vie de ton streak à %2$dx, il t'en reste `%3$d`!"
       },
       "given_credits": "%1$sJ'ai donné **$%2$s** credits à %3$s",
       "credits": "%1$sTu reçois **$%2$s** credits journaliers.",
       "sellout": {
-        "get_premium" :"\nOn a besoin de ton aide pour garder Mantaro en vie! Va sur <https://patreon.com/mantaro> pour plus d'infos.",
-        "already_premium" : "Merci de soutenir Mantaro. Sans l'aide de gens comme toi on ne pourrait pas garder Mantaro en vie :heart:"
+        "get_premium": "\nOn a besoin de ton aide pour garder Mantaro en vie! Va sur <https://patreon.com/mantaro> pour plus d'infos.",
+        "already_premium": "Merci de soutenir Mantaro. Sans l'aide de gens comme toi on ne pourrait pas garder Mantaro en vie :heart:"
       },
       "crate": "Tu as gagné un coffre au trésor pour avoir obtenu un multiplicateur journalier de 20.",
-      "watch_get" : "Tu as gagné une `Montre magique` parce que ton streak est un multiple de 50! Profites-en!"
+      "watch_get": "Tu as gagné une `Montre magique` parce que ton streak est un multiple de 50! Profites-en!"
     },
     "gamble": {
       "no_credits": "%1$sTu es à sec. Cherche quelques credits d'abord peut-être.",
@@ -1556,6 +1562,7 @@
       "easter": "\nKhoff Khoff qu'est-ce que c'est que cette poussière? Il faut que tu nettoies tous ce bazard avec de te perdre dedans !"
     },
     "mine": {
+      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure!",
       "no_pick": "%1$sTu n'as pas de pioche pour miner. Si tu veux utiliser une autre pioche utilise `~>mine <nom de la pioche>`",
       "not_suitable": "%1$sMais ce n'est pas une pioche adapté pour miner ça!",
       "not_in_inventory": "%1$sTu n'as pas cette pioche dans ton inventaire, considérons que tu parlais de ta pioche par défaut.",
@@ -1582,7 +1589,6 @@
       },
       "item_broke": "%1$sTa %2$s a cassé lorsque tu l'utilisais :(. %3$s",
       "item_broke_autoequip": "*Indice: tu peux utiliser `~>profile autoequip` pour équiper automatiquement le nouvel objet lorsque l'actuel casse, si tu en as bien évidemment.*",
-      "pick_broke": "%1$sUne de tes pioches viens de casser en minant.",
       "waifu_help": "Ta waifu t'a rejoint dans ton aventure de minage, ensemble vous aurez un plus large butin!",
       "missing_equipped": "%1$sTu avais équipé une pioche %2$s, mais tu n'en as plus dans ton inventaire! La pioche équipée est donc réinitialisée.",
       "broken_drop": "%1$sTa pioche a cassé mais tu peux toujours la réparer. Objet endommagé obtenu : %2$s *%3$s*"
@@ -1874,11 +1880,11 @@
       "success": "%1$sLe salon de bienvenue/de départ est défini sur: %2$s"
     },
     "usermessage_joinmessage": {
-      "no_channel": "%1$sTu dois me dire quel message tu veux que j'envoie lorsqu'un joueur nous rejoint.",
+      "no_message": "%1$sYou need to specify what message you want me to say when someone joins!",
       "success": "%1$sLe message de bienvenue est défini sur: %2$s"
     },
     "usermessage_leavemessage": {
-      "no_channel": "%1$sTu dois me dire quel message tu veux que j'envoie lorsqu'un joueur nous quitte.",
+      "no_message": "%1$sYou need to specify what message you want me to say when someone leaves!",
       "success": "%1$sLe message de départ est défini sur: %2$s"
     },
     "autoroles_add": {
@@ -2054,6 +2060,15 @@
       },
       "remove": {
         "success": "%1$sRetrait de %2$s (%3$s) de la liste noire des anniversdaires de ce serveur."
+      }
+    },
+    "lobby": {
+      "disable": {
+        "success": "%1$sSuccessfully disabled game lobby/multiple."
+      },
+      "enable": {
+        "already_enabled": "%1$sGame lobby/multiple isn't disabled on this server.",
+        "success": "%1$sSuccessfully enabled game lobby/multiple. (If it was previously disabled)"
       }
     },
     "invalid_category": "%1$sTu as entré une catégorie invalide. Regarde dans la liste ci-dessous pour trouver une catégorie valide```md\n%2$s```",
