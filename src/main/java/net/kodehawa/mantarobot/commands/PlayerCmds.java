@@ -893,7 +893,10 @@ public class PlayerCmds {
 
                         if (!t.isEmpty() && t.containsKey("brief")) {
                             new MessageBuilder().setContent(String.format(languageContext.get("commands.badges.brief_success"), member.getEffectiveName(),
-                                    playerData.getBadges().stream().map(b -> "*" + b.display + "*").collect(Collectors.joining(", "))))
+                                    playerData.getBadges().stream()
+                                            .sorted()
+                                            .map(Badge::getDisplay)
+                                            .collect(Collectors.joining(", "))))
                                     .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
                                     .sendTo(channel)
                                     .queue();
