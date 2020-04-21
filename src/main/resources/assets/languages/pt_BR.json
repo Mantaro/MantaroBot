@@ -352,7 +352,7 @@
       "invalid_number": "(%1$s`%2$s`) Uma das variedades não é um número válido!",
       "invalid_number_range": "%1$s`%2$s` não é um número válido de variedade!",
       "success": "%1$sRemovendo **%2$d** música(s) removidas da fila.",
-      "not_dj": "%1$sYou need to be a DJ to perform this action."
+      "not_dj": "%1$sVocê tem que ser o DJ para executar esta ação."
     },
     "stop": {
       "dj_stop": "%1$sO DJ do servidor decidiu parar",
@@ -371,10 +371,10 @@
       "premium_only": "%1$sEste é um recurso somente para usuários premium. A fim de obter benefícios para doadores como este, você pode se comprometer com o patreon (https://www.patreon.com/mantaro). Obrigado pela compreensão.\nRecursos premium podem ser vinculados a um usuário ou servidor, por favor, se você doar, participe do servidor de suporte e peça."
     },
     "lyrics": {
-      "no_current_track": "%1$sThere's no song currently playing on this server!",
-      "error_searching": "%1$sThere was an error searching for this track or there was no results found.",
-      "header": "%1$sLyrics for %2$s",
-      "footer": "Thanks for using Mantaro! Page: %1$d, Total: %2$d."
+      "no_current_track": "%1$sNão tem nenhuma música tocando atualmente neste servidor!",
+      "error_searching": "%1$sOcorreu um erro ao procurar esta música ou não foram encontrados resultados.",
+      "header": "%1$sLetra da música %2$s",
+      "footer": "Obrigado por usar a Mantaro! Página: %1$d, Total: %2$d."
     },
     "prefix": {
       "header": "%1$sOs prefixos padrão são %2$s (Eu respondo a qualquer um desses!). O prefixo do servidor é `%3$s` (Apenas funciona neste servidor). Você pode definir um novo prefixo usando `~>opts prefix set <prefixo>`",
@@ -406,7 +406,7 @@
         "no_command": "%1$sVocê precisa me dizer o comando que você quer ver.",
         "header": "Comando \"%1$s\":",
         "amount": "(Mostrando %1$d resposta de %2$d)",
-        "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
+        "description": "Essa é uma lista de todas as respostas deste comando em um formato raw (que você insere no comando)."
       },
       "clear": {
         "success": "%1$s**%2$d Comandos Personalizados removidos**"
@@ -419,16 +419,16 @@
         "no_name_specified": "%1$sVocê não especificou o nome do comando personalizado para criar!"
       },
       "eval": {
-        "not_specified": "You didn't specify anything to eval.",
+        "not_specified": "Você não especificou nada para avaliar.",
         "new_error": "%1$sOcorreu um erro ao avaliar este comando personalizado.\n**Erro**:\n```%2$s```",
         "error": "%1$sOcorreu um erro ao avaliar este comando personalizado!\n%2$s"
       },
       "remove": {
-        "no_command": "%1$sYou need to tell me what command you want to remove.",
+        "no_command": "%1$sVocê tem que me dizer que comando você quer remover.",
         "success": "%1$sComando personalizado `%2$s` removido."
       },
       "import": {
-        "no_command": "%1$sYou need to tell me what command you want to import.",
+        "no_command": "%1$sVocê tem que me dizer que comando você quer importar.",
         "not_found": "%1$sNão há comandos personalizados que correspondam à sua pesquisa.",
         "header": "`%1$s` (Responses: %2$s) - Servidor: `%3$s`",
         "selection": "Selecione o Comando:",
@@ -436,19 +436,19 @@
         "success": "Comando customizado importado `%1$s` do servidor `%2$s` com um total de %3$d respostas."
       },
       "edit": {
-        "no_command": "%1$sYou need to specify what command you want to edit.",
+        "no_command": "%1$sVocê precisa especificar que comando você quer editar.",
         "invalid_number": "%1$sVocê precisa especificar um número correto para alterar.",
         "no_index": "%1$sVocê não pode editar um índice inexistente.",
         "empty_response": "%1$sNão é possível editar para uma resposta vazia",
-        "not_enough_args": "%1$sYou need to specify the command, the index and the new response",
+        "not_enough_args": "%1$sVocê precisa especificar o comando, o índice e a nova resposta",
         "success": "%1$sResposta editada **#%2$d** do comando `%3$s` corretamente"
       },
       "deleteresponse": {
-        "no_command": "%1$sYou need to specify the command you want to remove a response from.",
-        "invalid_number": "%1$sYou need to specify a correct number to change.",
-        "no_index": "%1$sYou cannot remove a non-existent index.",
-        "not_enough_args": "%1$sYou need to specify the command and the index you want to delete.",
-        "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
+        "no_command": "%1$sVocê precisa especificar o comando do qual deseja remover uma resposta.",
+        "invalid_number": "%1$sVocê precisa especificar um número correto para mudar.",
+        "no_index": "%1$sVocê não pode remover um índice não-existente.",
+        "not_enough_args": "%1$sVocê precisa especificar o comando e o índice que você quer deletar.",
+        "success": "%1$sResposta removida **#%2$d** do comando`%3$s` corretamente"
       },
       "rename": {
         "success": "%1$sComando Renomeado `%2$s` para `%3$s`"
