@@ -811,7 +811,7 @@
         "header": "osu! estatísticas de %1$s",
         "rank": "Classificação",
         "acc": "Precisão",
-        "level": "Level",
+        "level": "Nível",
         "ranked": "Pontuação Classificada",
         "country_rank": "Classificação no País"
       },
@@ -874,7 +874,7 @@
         "times_used": "Tempo Usado",
         "equipment": "Equipamento",
         "seasonal_equipment": "Season Equipment",
-        "autoequip": "Auto Equip",
+        "autoequip": "Auto equipar",
         "never": "Nunca"
       },
       "hide_tag": {
@@ -1071,7 +1071,7 @@
       "keys_claimed": "Keys Reinvidicadas"
     },
     "support": {
-      "info": "%1$sIf you need support, head to the support server over to <https://support.mantaro.site> and ask your question in the #support channel!"
+      "info": "%1$sCaso precise de ajuda, entre no servidor de suporte <https://support.mantaro.site> e faça uma pergunta em #support channel!"
     },
     "action": {
       "no_mention": "%1$sVocê tem que mencionar um usuário",
@@ -1132,7 +1132,7 @@
       "cuddle": "%1$s você levou um afago de %2$s",
       "nuzzle": "%1$s está acariciando %2$s",
       "bloodsuck": "%1$s está chupando o sangue de %2$s!",
-      "nom": "Yummy.",
+      "nom": "Gostoso.",
       "facedesk": "*rosto na mesa*",
       "lewd": "S-Seu safado!",
       "meow": "Miau."
@@ -1270,7 +1270,7 @@
       },
       "version": "MantaroBot Versão",
       "uptime": "Tempo de Atividade",
-      "shards": "Shards",
+      "shards": "Fragmentos",
       "threads": "Tópicos",
       "guilds": "Servidores",
       "users": "Usuários (Único)",
@@ -1284,20 +1284,20 @@
       "not_found": "%1$sI didn't find a pet with the provided name.",
       "character_not_allowed": "%1$sThis character isn't allowed in pet names. Try another name?",
       "overview": "Pet Overview and Statistics",
-      "name": "Name",
+      "name": "Nome",
       "tier": "Tier",
       "element": "Element",
-      "owner": "Owner",
-      "created": "Created At",
-      "affection": "Affection",
-      "stamina": "Current Stamina",
-      "hp": "Current HP",
-      "fly": "Fly",
-      "venom": "Venom",
-      "inventory": "Inventory",
-      "id": "Pet ID: %1$s",
-      "hunger": "Hunger",
-      "hydration": "Hydration"
+      "owner": "Dono",
+      "created": "Criado em",
+      "affection": "Afeição",
+      "stamina": "Energia Atual",
+      "hp": "HP atual",
+      "fly": "Voar",
+      "venom": "Veneno",
+      "inventory": "Inventário",
+      "id": "Pet Id: %1$s",
+      "hunger": "Fome",
+      "hydration": "Hidratação"
     },
     "petactions": {
       "general": "Pets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.\n\nPets can fight in PetBattle, which is a turn-based (ish) fight system based in a one-turn strategy, with an emergency turn on the half-turn if the HP difference between the pets is too different, which would allow you to change your strategy.\n\nFor competition, you need to use different skills, which will cater to different elements and types. You chose them at the start of your turn or half-turn.\nSkills are the main weapon you have! But, pets can also have a main weapon equipped, based on their type and affection. The weapon shop is available at `~>petaction shop` and you can equip it using `~>petaction weapon`, weapons *do not* have damage multiplier by themselves, but they can improve the effectiveness of some attacks and skills, as the result of this, there are no melee weapons, as all damage on PetBattle is done based on their will, not on their actual life.\n\nDo `~>help petaction` to get a list of the commands you can use with your pet.",
@@ -1332,8 +1332,8 @@
       },
       "feed": {
         "fire_type": "%1$sYou can't really feed a fire type pet... unless you wanna make charcoal.",
-        "no_item": "%1$sI can't find that item.",
-        "not_food": "%1$sThe specified item is not food.",
+        "no_item": "%1$sEu não consigo encontrar este item.",
+        "not_food": "%1$sO item especificado não é uma comida.",
         "full": "%1$sYour pet is currently full and can't eat more.",
         "success": "%1$sSuccessfully fed your pet %2$s. (Current hunger level: %3$s. Saturation: %4$s)"
       },
@@ -1458,7 +1458,7 @@
       "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair costed *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
         "header": "Repair-able Items List",
-        "cost": "Repair Cost: ",
+        "cost": "Custo de reparo: ",
         "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. The price will be shown below, alongside the needed materials."
       }
     },
@@ -1524,8 +1524,8 @@
       "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
       "credits": "%1$sVocê ganhou **$%2$s** de créditos diários.",
       "sellout": {
-        "get_premium": "We need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info.",
-        "already_premium": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:"
+        "get_premium": "Precisamos da sua ajuda para manter o Mantaro vivo! Confira <https://patreon.com/mantaro> para mais informações.",
+        "already_premium": "Obrigado por apoiar Mantaro. Sem a ajuda de pessoas como você, não poderíamos manter Mantaro vivo :heart:"
       },
       "crate": "You won a loot crate because your daily streak is a multiple of 20! Enjoy.",
       "watch_get": "You won a `Magic Watch` because your daily streak is a multiple of 50! Enjoy."
@@ -1562,7 +1562,7 @@
       "easter": "\nParece que você tem muita poeira aqui... Você pode querer limpar isso antes que fique muito confuso!"
     },
     "mine": {
-      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure!",
+      "not_equipped": "%1$sVocê não tem uma picareta equipada. Use `~>equip <pick name>` para equipar uma picareta e começar a aventura!",
       "no_pick": "%1$sVocê não tem nenhuma picareta para minerar. Se você quiser usar outra picareta use `~>mine <nome da picareta>`",
       "not_suitable": "%1$sIsso não é uma picareta que você pode usar para minerar!",
       "not_in_inventory": "%1$sVocê não tem essa picareta no seu inventário, mudando para a picareta padrão.",
@@ -1642,8 +1642,8 @@
       "success": "%1$s**Informação do Item** %2$s **%3$s** (Tipo: %4$s): *%5$s*"
     },
     "level": {
-      "bot_notice": "%1$sBots don't have level.",
-      "own_success": "%1$s your level is %2$s. (Experience: %3$s/%4$s)",
+      "bot_notice": "%1$sBots não tem level.",
+      "own_success": "%1$sSeu level é %2$s. (Experiência: %3$s/%4$s)",
       "success_other": "%1$s %2$s's is level %3$s. (Experience: %4$s/%5$s)"
     }
   },
@@ -2110,7 +2110,7 @@
     "priority_speaker": "Prioridade de Fala"
   },
   "items": {
-    "headphones": "Headphones",
+    "headphones": "Fones de Ouvido",
     "ban_hammer": "Martelo do Ban",
     "die": "Dado Carregado",
     "kick_boot": "Bota de Kick",
@@ -2168,7 +2168,7 @@
     "coffee": "Café",
     "waifu_pill": "Pílula de Waifu",
     "bait": "Isca de Pesca",
-    "diamond_pick": "Diamond Pickaxe",
+    "diamond_pick": "Picareta de Diamante",
     "tv": "Televisão",
     "wrench": "Chave Inglesa",
     "star_wrench": "Chave Inglesa de Estrela",
@@ -2200,8 +2200,8 @@
     "broken_sparkle_rod": "Vara Brilhante Quebrada",
     "broken_star_rod": "Vara de Estrela Quebrada",
     "incubator_egg": "Incubator Egg",
-    "water_bottle": "Water Bottle",
-    "magic_watch": "Magical Watch",
+    "water_bottle": "Garrafa de água",
+    "magic_watch": "Relógio Mágico",
     "description": {
       "headphones": "Isso é o que acontece quando você ouve muita música. Embora, deve valer alguma coisa.",
       "ban_hammer": "Deixado por um administrador.",
@@ -2227,7 +2227,7 @@
       "tuxedo": "O que você veste quando vai se casar com uma garota, ou ir a um lugar legal, ou talvez em todos os lugares, quem sabe?",
       "shoes": "Porque andar descalço é apenas desagradável. Ou doloroso.",
       "rose": "A personificação do seu amor. Também é uma bela decoração.",
-      "chocolate": "Yummy.",
+      "chocolate": "Gostoso.",
       "cookie": "Delicioso",
       "die_2": "Ainda mais carregado. `Restos da Versão da Moeda 1. Não é mais possível obter.`",
       "booster": "Usado para lhe dar algum tipo de impulso, agora está quebrado. `Restos da Versão da Moeda 1. Não é mais possível obter.`",
@@ -2270,7 +2270,7 @@
       "star_pick": "Uma picareta muito mais forte (15% de chances de quebrar). (ferramenta de `~>mine`).",
       "sparkle": "Uma das jóias mais raras daqui. Certifique-se de mantê-la. (Usado para fundir uma picareta brilhante & vara brilhante)",
       "sparkle_pick": "A picareta mais forte daqui (6% de chances de quebrar). (ferramenta de `~>mine`)",
-      "pizza": "Yummy.",
+      "pizza": "Delicioso.",
       "mine_crate": "Uma gema, você encontra durante a mineração. Pode ter algumas coisas legais dentro. Pode ser aberto com `~>opencrate gem crate`",
       "fish_crate": "Um tesouro que você encontra enquanto pesca. Pode ter algumas coisas legais dentro. Pode ser aberto com `~>opencrate treasure`",
       "mine_premium_crate": "Uma gema que você encontra durante a mineração. Pode ter algumas coisas legais dentro. Pode ser aberto com `~>opencrate gem premium crate`",
