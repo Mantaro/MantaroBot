@@ -23,13 +23,13 @@
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>[%d{HH:mm:ss}] [%t/%level] [%logger{0}] %X{jda.shard}: %msg%n</pattern>
+            <pattern>[%d{HH:mm:ss}] [%t] [%level] [%logger{0}] %X{jda.shard}: %msg%n</pattern>
         </encoder>
     </appender>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>[%d{HH:mm:ss}] [%t] [%level] [%logger{0}] %X{jda.shard}: %msg%n</pattern>
+            <pattern>%boldMagenta([%d{HH:mm:ss}]) [%green(%t)/%highlight(%level)] [%logger{0}] %X{jda.shard}: %msg%n</pattern>
         </encoder>
     </appender>
 
