@@ -122,8 +122,9 @@ public class MusicCmds {
                 if (!handleDefaultIncreasingRatelimit(rl, event.getAuthor(), event, languageContext))
                     return;
 
+                MantaroAudioManager audioManager = MantaroBot.getInstance().getAudioManager();
                 if (content.isEmpty()) {
-                    JdaLink link = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getLavaLink();
+                    JdaLink link = audioManager.getMusicManager(event.getGuild()).getLavaLink();
 
                     try {
                         VoiceChannel vc = guild.getMember(event.getAuthor()).getVoiceState().getChannel();
@@ -149,7 +150,7 @@ public class MusicCmds {
 
                 try {
                     VoiceChannel vc = event.getGuild().getVoiceChannelsByName(content, true).get(0);
-                    JdaLink link = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getLavaLink();
+                    JdaLink link = audioManager.getMusicManager(event.getGuild()).getLavaLink();
 
                     AudioCmdUtils.openAudioConnection(event, link, vc, languageContext);
                     channel.sendMessageFormat(languageContext.get("commands.move.success"), EmoteReference.OK, vc.getName()).queue();

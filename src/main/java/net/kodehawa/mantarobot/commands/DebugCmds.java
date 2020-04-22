@@ -38,7 +38,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
-import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
@@ -186,20 +185,15 @@ public class DebugCmds {
                     }
 
                     var jda = shard.getJDA();
-                    var queueSize = Shard.QUEUE_SIZE.apply(jda);
-                    if (queueSize > 100) {
-                        bigqueue++;
-                    }
 
                     builder.append(String.format(
-                            "%-17s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s | Q: %-8s",
+                            "%-17s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s",
                             jda.getShardInfo(),
                             jda.getStatus(),
                             jda.getUserCache().size(),
                             jda.getGuildCache().size(),
                             ((MantaroEventManager) jda.getEventManager()).getLastJDAEventTimeDiff() + " ms",
-                            jda.getGatewayPing(),
-                            queueSize
+                            jda.getGatewayPing()
                     ));
 
                     if (shard.getJDA().getShardInfo().equals(event.getJDA().getShardInfo())) {

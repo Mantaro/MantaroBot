@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.core;
 
-import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.classgraph.ClassGraph;
@@ -28,7 +27,6 @@ import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.dv8tion.jda.api.sharding.DefaultShardManager;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
@@ -187,21 +185,13 @@ public class MantaroCore {
             var listener = new ShardStartListener();
             DefaultShardManagerBuilder builder;
 
-            //Setup builder
-            if(!config.isLazyLoading()) {
-                builder = new DefaultShardManagerBuilder(config.token);
-            } else {
-                builder = DefaultShardManagerBuilder.create(
-                        config.token,
-                        GatewayIntent.GUILD_PRESENCES, //This one is so we can have lazy loading
-                        GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS,
-                        GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_BANS)
-                        .setMemberCachePolicy(MemberCachePolicy.ALL)
-                        .setChunkingFilter(ChunkingFilter.NONE);
-            }
-
             //Shared between the two builders (lazy load and normal)
-            builder.setSessionController(controller)
+            builder = DefaultShardManagerBuilder.create(config.token,
+                    GatewayIntent.GUILD_PRESENCES, //This one is so we can have lazy loading
+                    GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS,
+                    GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_BANS)
+                    .setMemberCachePolicy(MemberCachePolicy.ALL)
+                    .setChunkingFilter(ChunkingFilter.NONE).setSessionController(controller)
                     .addEventListeners(
                             VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
                             ReactionOperations.listener(), MantaroBot.getInstance().getLavalink(),
@@ -215,8 +205,9 @@ public class MantaroCore {
                     .setEventManagerProvider(id -> getShard(id).getManager())
                     .setBulkDeleteSplittingEnabled(false)
                     .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavalink().getVoiceInterceptor())
-                    .setDisabledCacheFlags(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS))
+                    .disableCache(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS))
                     .setActivity(Activity.playing("Hold on to your seatbelts!"));
+
 
             if (isDebug) {
                 builder.setShardsTotal(2)

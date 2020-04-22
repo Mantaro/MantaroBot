@@ -40,14 +40,12 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
-import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -149,50 +147,6 @@ public class OwnerCmd {
                         .setDescription("Blacklists a user (user argument) or a guild (guild argument) by id.\n" +
                                 "Examples: ~>blacklist user add/remove 293884638101897216, ~>blacklist guild add/remove 305408763915927552")
                         .build();
-            }
-        });
-    }
-
-    @Subscribe
-    public void getFaultShards(CommandRegistry cr) {
-        cr.register("faultshards", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
-
-                Map<String, Pair<Integer, Integer>> faultShards = new HashMap<>();
-                for (var shard : MantaroBot.getInstance().getShardList()) {
-                    List<Pair<String, Integer>> queueBuckets = Shard.GET_BUCKETS_WITH_QUEUE.apply(shard.getJDA());
-                    for (Pair<String, Integer> qb : queueBuckets) {
-                        int amount = qb.getRight();
-                        if (amount > 10)
-                            faultShards.put(qb.getLeft(), Pair.of(shard.getId(), amount));
-                    }
-                }
-
-                if (faultShards.isEmpty()) {
-                    channel.sendMessage("Nothing to see.").queue();
-                    return;
-                }
-
-                StringBuilder builder = new StringBuilder();
-                for (Map.Entry<String, Pair<Integer, Integer>> fs : faultShards.entrySet()) {
-                    String route = fs.getKey();
-                    Pair<Integer, Integer> info = fs.getValue();
-                    int shardId = info.getLeft();
-                    int amount = info.getRight();
-
-                    builder.append(String.format("I: %-9s | R: %-30s | A: %-6d", shardId, route, amount)).append("\n");
-                }
-
-                List<String> m = DiscordUtils.divideString(builder);
-                List<String> messages = new LinkedList<>();
-
-                for (String s1 : m) {
-                    messages.add(String.format("%s\n```prolog\n%s```", "**Mantaro's Fault Shard (>10 queue) Information. Use &p >> and &p << to move pages, &cancel to exit.**", s1));
-                }
-
-                DiscordUtils.listText(event, 45, false, messages);
             }
         });
     }

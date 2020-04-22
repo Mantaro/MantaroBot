@@ -19,22 +19,15 @@ package net.kodehawa.mantarobot.core.shard;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import io.prometheus.client.Gauge;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.internal.JDAImpl;
-import net.dv8tion.jda.internal.requests.ratelimit.IBucket;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
-import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Utils;
-import okhttp3.Request;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
@@ -45,52 +38,23 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.time.Month;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Function;
 
 import static net.kodehawa.mantarobot.data.MantaroData.config;
-import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 import static net.kodehawa.mantarobot.utils.Utils.pretty;
 
 public class Shard {
-    public static final Function<JDA, Integer> QUEUE_SIZE = jda -> {
-        int sum = 0;
-        for (final IBucket bucket : ((JDAImpl) jda).getRequester().getRateLimiter().getRouteBuckets()) {
-            sum += bucket.getRequests().size();
-        }
-
-        return sum;
-    };
-    public static final Function<JDA, List<Pair<String, Integer>>> GET_BUCKETS_WITH_QUEUE = jda -> {
-        final List<Pair<String, Integer>> routes = new ArrayList<>();
-        final List<IBucket> buckets = ((JDAImpl) jda).getRequester().getRateLimiter().getRouteBuckets();
-        for (final IBucket bucket : buckets) {
-            if (bucket.getRequests().size() > 0) {
-                routes.add(Pair.of(bucket.getRequests().peek().getRoute().toString(), bucket.getRequests().size()));
-            }
-        }
-
-        return routes;
-    };
     private static final Logger log = LoggerFactory.getLogger(Shard.class);
-    private static final Gauge ratelimitBucket = new Gauge.Builder()
-            .name("ratelimitBucket")
-            .help("shard queue size")
-            .labelNames("shardId")
-            .register();
     private final Cache<Long, Optional<CachedMessage>> messageCache =
             CacheBuilder.newBuilder().concurrencyLevel(5).maximumSize(2500).build();
 
     private final MantaroEventManager manager = new MantaroEventManager();
     private final int id;
     private final EventListener listener;
-    private ScheduledFuture<?> queueSizes;
     private ScheduledFuture<?> statusChange;
     private JDA jda;
 
@@ -100,16 +64,10 @@ public class Shard {
             @Override
             public synchronized void onReady(@Nonnull ReadyEvent event) {
                 jda = event.getJDA();
-                if (queueSizes != null) {
-                    queueSizes.cancel(true);
-                }
                 if (statusChange != null) {
                     statusChange.cancel(true);
                 }
-                queueSizes = MantaroBot.getInstance().getExecutorService().scheduleAtFixedRate(
-                        () -> ratelimitBucket.labels(String.valueOf(id))
-                                .set(QUEUE_SIZE.apply(event.getJDA())), 1, 1, TimeUnit.MINUTES
-                );
+
                 statusChange = MantaroBot.getInstance().getExecutorService()
                         .scheduleAtFixedRate(Shard.this::changeStatus, 0, 10, TimeUnit.MINUTES);
             }

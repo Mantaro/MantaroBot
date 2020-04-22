@@ -24,11 +24,13 @@ plugins {
     //Adds an Executable Manifest
     id 'application'
     //Creates FatJars
-    id 'com.github.johnrengelman.shadow' version '4.0.2'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
     //Tell me when smth is outdated
-    id 'com.github.ben-manes.versions' version '0.20.0'
+    id 'com.github.ben-manes.versions' version '0.28.0'
     //Builds docker images
     id 'com.palantir.docker' version '0.22.1'
+    //Gives me the github hash of the latest commit
+    id 'com.palantir.git-version' version '0.12.3'
 }
 
 //Define the Main Class
@@ -66,11 +68,11 @@ task generateLanguageList {
 
 dependencies {
     //remember to update this 3 all the time lul
-    compile 'net.dv8tion:JDA:4.1.1_115'
+    compile 'net.dv8tion:JDA:4.1.1_137'
     compile 'club.minnced:discord-webhooks:0.3.0'
 
     //Music
-    compile ('com.github.FredBoat:Lavalink-Client:bdac72f') {
+    compile ('com.github.FredBoat:Lavalink-Client:f84b333518') {
         exclude group: 'com.sedmelluq', module: 'lavaplayer'
     }
 
@@ -97,6 +99,8 @@ dependencies {
     compile fileTree(dir: 'lib', include: '*.jar')
     compile 'net.kodehawa:imageboard-api:2.2.1'
     compile 'com.github.natanbc:discordbots-api:3.3.3'
+    //Why is this needed on Gradle 6+?, needed for above ^
+    implementation 'com.github.natanbc:reliqua:1.0'
 
     compile 'com.github.natanbc:java-eval:1.0'
 
@@ -112,6 +116,8 @@ dependencies {
     compile 'io.prometheus:simpleclient_httpserver:0.5.0'
     
     compile 'com.github.natanbc.sox:sox-core:14096f6'
+
+    compile 'net.sf.trove4j:trove4j:3.0.3'
 
     //Unit tests
     testCompile 'junit:junit:4.12'
@@ -134,7 +140,7 @@ docker {
     ])
 }
 
-docker.dependsOn shadowJar
+docker.dependsOn shadowJar as Task
 docker.dependsOn copyFileToAssets
 
 compileJava.dependsOn generateLanguageList
