@@ -243,7 +243,11 @@ public class MantaroCore {
             log.info("Spawning shards...");
             var start = System.currentTimeMillis();
             shardManager = builder.build();
-            listener.latch.await();
+
+            var latchAmount = shardManager.getShardsTotal();
+            log.info("CountdownLatch started: Awaiting for {} shards to be counted down to start PostLoad!", latchAmount);
+            listener.setLatch(new CountDownLatch(latchAmount)).await();
+
             var elapsed = System.currentTimeMillis() - start;
             shardManager.removeEventListener(listener);
             startPostLoadProcedure(elapsed);
@@ -371,16 +375,21 @@ public class MantaroCore {
     }
 
     private static class ShardStartListener implements EventListener {
-        private final CountDownLatch latch = new CountDownLatch(1);
+        private CountDownLatch latch;
+
+        public CountDownLatch setLatch(CountDownLatch latch) {
+            this.latch = latch;
+            return latch;
+        }
 
         @Override
         public void onEvent(@Nonnull GenericEvent event) {
             if (event instanceof ReadyEvent) {
                 var sm = event.getJDA().getShardManager();
-                if (sm == null) throw new AssertionError();
-                if (sm.getShardsQueued() == 0) {
-                    latch.countDown();
-                }
+                if (sm == null)
+                    throw new AssertionError();
+
+                latch.countDown();
             }
         }
     }
