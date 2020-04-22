@@ -96,6 +96,9 @@ public class MantaroCore {
         this.useSentry = useSentry;
         this.isDebug = isDebug;
         Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-executor", threadPool);
+        if(threadPool instanceof ThreadPoolExecutor) {
+            ((ThreadPoolExecutor)threadPool).setMaximumPoolSize(Runtime.getRuntime().availableProcessors());
+        }
     }
 
     public static boolean hasLoadedCompletely() {
@@ -215,18 +218,16 @@ public class MantaroCore {
                         .setGatewayPool(Executors.newSingleThreadScheduledExecutor(gatewayThreadFactory), true)
                         .setRateLimitPool(Executors.newScheduledThreadPool(2, requesterThreadFactory), true);
             } else {
+                int count;
                 if(config.totalShards != 0) {
+                    count = config.totalShards;
                     builder.setShardsTotal(config.totalShards);
                 } else {
                     if (ExtraRuntimeOptions.SHARD_SUBSET_MISSING) {
                         throw new IllegalStateException("Both mantaro.from-shard and mantaro.to-shard must be specified " +
                                 "when using shard subsets. Please specify the missing one.");
                     }
-                    var count = getInstanceShards(config.token);
-                    builder
-                            .setCallbackPool(Executors.newFixedThreadPool(Math.max(1, count / 4), callbackThreadFactory), true)
-                            .setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, count / 16), gatewayThreadFactory), true)
-                            .setRateLimitPool(Executors.newScheduledThreadPool(Math.max(2, count / 8), requesterThreadFactory), true);
+                    count = getInstanceShards(config.token);
                     if (ExtraRuntimeOptions.SHARD_SUBSET) {
                         builder.setShardsTotal(ExtraRuntimeOptions.SHARD_COUNT.orElseThrow())
                                 .setShards(
@@ -237,6 +238,10 @@ public class MantaroCore {
                         builder.setShardsTotal(ExtraRuntimeOptions.SHARD_COUNT.orElse(-1));
                     }
                 }
+                builder
+                        .setCallbackPool(Executors.newFixedThreadPool(Math.max(1, count / 4), callbackThreadFactory), true)
+                        .setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, count / 16), gatewayThreadFactory), true)
+                        .setRateLimitPool(Executors.newScheduledThreadPool(Math.max(2, count / 8), requesterThreadFactory), true);
             }
 
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
