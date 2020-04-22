@@ -422,6 +422,7 @@ public class PremiumCmds {
         });
     }
 
+    //Won't translate this. Owner command.
     @Subscribe
     public void invalidatekey(CommandRegistry cr) {
         cr.register("invalidatekey", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {

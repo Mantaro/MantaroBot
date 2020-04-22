@@ -162,20 +162,17 @@ public class FunCmds {
                 if (opts.containsKey("size")) {
                     try {
                         size = Integer.parseInt(opts.get("size"));
-                    } catch (Exception ignored) {
-                    }
+                    } catch (Exception ignored) { }
                 }
 
                 if (opts.containsKey("amount")) {
                     try {
                         amount = Integer.parseInt(opts.get("amount"));
-                    } catch (Exception ignored) {
-                    }
+                    } catch (Exception ignored) { }
                 } else if (opts.containsKey(null)) { //Backwards Compatibility
                     try {
                         amount = Integer.parseInt(opts.get(null));
-                    } catch (Exception ignored) {
-                    }
+                    } catch (Exception ignored) { }
                 }
 
                 if (amount >= 100)

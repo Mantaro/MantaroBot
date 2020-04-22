@@ -99,7 +99,7 @@ public class AnimeCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Get anime info from AniList (For anime characters use ~>character).")
+                        .setDescription("Get anime info from Kitsu (For anime characters use ~>character).")
                         .setUsage("`~>anime <name>` - Retrieve information of an anime based on the name")
                         .addParameter("name", "The name of the anime you're looking for.")
                         .build();
@@ -154,7 +154,7 @@ public class AnimeCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Get character info from AniList (For anime use `~>anime`).")
+                        .setDescription("Get character info from Kitsu (For anime use `~>anime`).")
                         .setUsage("`~>character <name>` - Retrieve information of a charactrer based on the name")
                         .addParameter("name", "The name of the character you are looking for.")
                         .build();
