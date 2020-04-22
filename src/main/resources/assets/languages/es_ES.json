@@ -597,8 +597,8 @@
         "not_enough_money": "%1$sNo tienes dinero suficiente para reclamar esta waifu **(Valor: %2$s)**",
         "not_enough_slots": "%1$sNo tienes suficiente espacio para reclamar esta waifu. (Total de espacios: %2$s, Espacios usados: %3$s)",
         "success": "%1$sWaifu reclamada exitosamente! `%2$s` for %3$s. Espacios usados: %4$s",
-        "yourself": "%1$sYou cannot claim yourself!",
-        "already_claimed": "%1$sYou already claimed this waifu.",
+        "yourself": "%1$sNo puedes claimearte a ti mismo!",
+        "already_claimed": "%1$sYa claimeaste esta waifu.",
         "not_found": "%1$sNo puedo encontrar ningun usuario con estos términos de búsqueda. "
       },
       "unclaim": {
@@ -609,7 +609,7 @@
         "player_locked": "%1$sNo puedes hacer eso en este momento.",
         "scrapped": "%1$sHas decidido no remover tu waifu.",
         "success": "%1$sWaifu **%2$s** removida correctamente por el precio de **%3$s créditos**.",
-        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID and append `-unknown` at the end."
+        "not_found": "%1$sNo puedo encontrar ningún usuario con este término de búsqueda. Si necesitas unclaimear a un usuario desconocido, usa su ID y pon `-unknown` al final del comando."
       },
       "buyslot": {
         "locked": "%1$sNo puedes realizar esta acción en este momento.",
@@ -625,7 +625,7 @@
       "value_b_format": "**- Comprado por:**",
       "credits_format": " créditos.",
       "waifu_header": "**Tus waifus:**",
-      "not_claimed": "%1$sYou haven't claimed this waifu."
+      "not_claimed": "%1$sNo has claimeado a esta waifu."
     },
     "ratewaifu": {
       "nothing_specified": "%1$sDame una waifu para puntuar!",
@@ -854,27 +854,27 @@
         "invalid": "%1$s¡Ese idioma no existe! Puedes usar `reset` para resetear tu configuración de idioma."
       },
       "stats": {
-        "header": "Profile Statistics for %1$s",
+        "header": "Estadísticas del perfil para %1$s",
         "wins": "Casino Wins",
         "market": "Market Used",
-        "potion": "Active Potion",
-        "potion_type": "Potion Type",
+        "potion": "Poción Activa",
+        "potion_type": "Tipo de Poción",
         "buff": "Buff",
         "buff_type": "Buff Type",
-        "experience": "Experience",
-        "daily": "Daily Streak",
-        "daily_at": "Last Daily",
-        "waifu_claimed": "Times Waifu Claimed",
-        "waifu_locked": "Waifu Lock",
-        "dust": "Dust Level",
-        "lang": "Display Language",
-        "reminders": "Times Reminded",
-        "times": "time(s)",
+        "experience": "Experiencia",
+        "daily": "Racha Diaria",
+        "daily_at": "Último Daily",
+        "waifu_claimed": "Veces Claimeada como Waifu",
+        "waifu_locked": "Bloqueo de Waifu",
+        "dust": "Nivel de Polvo",
+        "lang": "Idioma",
+        "reminders": "Veces Recordado",
+        "times": "veces",
         "days": "día(s)",
         "times_used": "Veces usado",
         "equipment": "Equipo",
         "seasonal_equipment": "Equipo de temporada",
-        "autoequip": "Auto Equip",
+        "autoequip": "Equipamiento Automático",
         "never": "Nunca"
       },
       "hide_tag": {
@@ -887,15 +887,15 @@
         "success": "%1$sHas equipado %2$s *%3$s* exitosamente, lo cual será recordado la próxima vez que utilices el comando de dinero apropiado.",
         "not_suitable": "%1$sNo puedes equipar esto.",
         "not_equipped": "%1$sNo tienes esto equipado.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod or pick) if you wanna unequip it."
+        "already_equipped": "%1$sYa tienes un ítem de este tipo equipado! Intenta `~>unequip <tipo>` (Tipo puede ser rod o pick) si quieres desequiparlo."
       },
       "unequip": {
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, rod`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, rod`",
-        "success": "%1$sSuccessfully unequipped your %2$s slot.",
-        "equipment_recover": "\nSince you never used your equipment, you got your %1$s back!",
-        "broken_equipment_recover": "\nYour equipment was used, but you got a %1$s back, you can repair it if you need it later!",
-        "broken_equipment_recover_none": "\nThis equipment type had no broken type to recover from, and was used, so it vanished into the void, but you got %1$s credits back."
+        "no_content": "%1$sNecesitas especificar un tipo de herramienta para desequipar, puede ser `pick` o `rod`",
+        "invalid_type": "%1$sTipo inválido. Tipos validos son `pick, rod`",
+        "success": "%1$sCorrectamente desequipado tu slot de %2$s.",
+        "equipment_recover": "\n¡Ya que nunca has usado tu equipamiento, recibiste tu %1$s de vuelta!",
+        "broken_equipment_recover": "\nTu equipamiento estaba usado, pero recibiste un %1$s de vuelta, ¡puedes repararlo si lo necesitas después!",
+        "broken_equipment_recover_none": "\nEste tipo de equipamiento no tiene un tipo roto para recuperarlo, y fue usado, así que se perdió en el vacío, pero recibiste %1$s créditos de vuelta."
       },
       "display": {
         "not_premium": "%1$sProfile widget personalization is only available to premium users.",
