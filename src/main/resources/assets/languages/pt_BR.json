@@ -66,7 +66,7 @@
     "buy_sell_paged_text": "**Total de páginas: %1$d.**\nUse **&p >>** e **&p <<** para mover sobre as páginas.\n%2$s",
     "buy_sell_paged_reference": "**Refêrencia %1$s Comprar %2$s Vender.**",
     "cancelled": "%1$sPedido cancelado.",
-    "sellout": "Considere doando no patreon.com/mantaro se você gosta de mim, até uma pequena doação vai ajudar para continuar com o bot de pé!",
+    "sellout": "Considere doar no [Patreon](https://www.patreon.com/mantaro) se você gosta de mim, até mesmo uma pequena doação vai ajudar para continuar com o bot de pé!",
     "deprecated": "Não sendo mais usado",
     "space_notice": "Se o nome disso contém espaços, tente \"envolve-lo em aspas\"",
     "ratelimit": {
@@ -278,7 +278,7 @@
         "selection_text": "Seleção de música. Digite o número da música para continuar.",
         "timeout_text": "Isso esgota em 30 segundos. Digite &cancel para cancelar."
       },
-      "premium_beg": "%1$sConsidere doando no patreon.com/mantaro se você gosta de mim, até mesmo uma pequena doação ajudará a manter o bot ativo (Cheque `~>donate` para mais informações!)",
+      "premium_beg": "%1$sConsidere doar no <https://patreon.com/mantaro> se você gosta de mim, até mesmo uma pequena doação vai ajudar para continuar com o bot de pé (Cheque `~>donate` para mais informações!)",
       "closed_connection": "%1$sConexão de áudio fechada, desvinculado do jogador..."
     },
     "forceskip": {
@@ -1382,7 +1382,7 @@
         "1": "B-Bem, aqui vamos nós!",
         "2": "**- Website:** <%1$s>"
       },
-      "note": "**Se você gosta da Mantaro, por favor de um voto em** <https://discordbots.org/bot/mantaro> **e/ou considere doando no Patreon ou Paypal! Obrigada~**"
+      "note": "**Se você gosta da Mantaro, por favor de um voto em** <https://discordbots.org/bot/mantaro> **e/ou considere doar no Patreon ou Paypal! Obrigada~**"
     },
     "avatar": {
       "result": "%1$sAvatar de: **%2$s**\n%3$s"
