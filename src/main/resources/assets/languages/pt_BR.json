@@ -56,7 +56,7 @@
       "potion_applied_multiple": "%1$sAplicada com sucesso **%2$s** do tipo *%3$s*.\nVocê já tem esse efeito aplicado, então empilhamos. Tamanho atual da pilha: %4$s",
       "max_stack_size": "%1$sVocê já acumulou o valor máximo de %2$s que você pode ter.",
       "max_stack_size_2": "%1$sVocê não pode acumular isso tudo %2$s.",
-      "not_same_potion": "%1$sYou already have a potion of type %2$s stacked and active, so you can't stack potions of type %3$s into it."
+      "not_same_potion": "%1$sVocê já tem uma poção do tipo %2$s empilhada e ativada, então você não pode empilhar poções do tipo %3$s nela."
     },
     "mention_user_required": "%1$sVocê precisa mencionar um usuário.",
     "invalid_character": "%1$sIsso não é um personagem permitido.",
@@ -632,8 +632,8 @@
       "success": "%1$sEu avalio %2$s com um **%3$d/100**"
     },
     "roll": {
-      "success": "%1$sVocê ganhou**%2$d**%3$s",
-      "amount": "Fazendo **%1$d** jogadas."
+      "success": "%1$sVocê ganhou **%2$,d**%3$s",
+      "amount": "Fazendo **%1$,d** jogadas."
     },
     "coinflip": {
       "over_limit": "%1$sCalma ae! O limite é de 1,000 moedas viradas",
@@ -749,7 +749,7 @@
       "no_item": "%1$sVocê não tem esse item no seu inventário...",
       "not_enough_items": "%1$sVocê não tem o suficiente deste item.",
       "too_little": "%1$sVocê não pode usar menos de 1 item.",
-      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `9`!"
+      "invalid_amount": "%1$sA quantidade precisa ser um número válido entre `1` e `9`!"
     },
     "opts": {
       "note": "%1$sEi, se você estiver perdido ou quer ajuda sobre o uso do opts, cheque <https://github.com/Mantaro/MantaroBot/wiki/Configuration> para um guia de como usar o opts.\nNota: Apenas administradores, pessoas com Gerenciar Servidor ou pessoas com o cargo Bot Commander podem usar esse comando!",
@@ -770,7 +770,7 @@
         "category": "Categoria: ",
         "header": "Lista de cargos automáticos",
         "no_autoroles": "Não tem nenhum cargo automático definido nesse servidor.",
-        "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`."
+        "description": "Esses são os cargos automáticos que os usuários podem ter neste servidor. Você pode usar eles fazendo `~>iam <nome do cargo>`."
       },
       "deleted_role": "%1$sO cargo que esse cargo automático correspondia foi excluído",
       "already_assigned": "%1$sVocê já tem esse cargo, bobo!",
@@ -873,12 +873,12 @@
         "days": "dia(s)",
         "times_used": "Tempo Usado",
         "equipment": "Equipamento",
-        "seasonal_equipment": "Season Equipment",
+        "seasonal_equipment": "Equipamento de Temporada",
         "autoequip": "Auto equipar",
         "never": "Nunca"
       },
       "hide_tag": {
-        "success": "%1%sTag hidden status is now: `%2$s`"
+        "success": "%1%s Status de tag escondida agora é: `%2$s`"
       },
       "equip": {
         "no_content": "%1$sVocê tem que especificar que item quer equipar!",
@@ -887,14 +887,14 @@
         "success": "%1$sVocê equipou com sucesso %2$s *%3$s*, que será lembrado na próxima vez que você usar o comando de dinheiro apropriado.",
         "not_suitable": "%1$sVocê não pode equipar isso.",
         "not_equipped": "%1$sVocê não te isso equipado.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod or pick) if you wanna unequip it."
+        "already_equipped": "%1$sVocê já tem um item desse tipo equipado! Tente `~>unequip <type>` (Tipo pode ser vara ou picareta) se você quiser desequipar."
       },
       "unequip": {
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, rod`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, rod`",
-        "success": "%1$sSuccessfully unequipped your %2$s slot.",
-        "equipment_recover": "\nSince you never used your equipment, you got your %1$s back!",
-        "broken_equipment_recover": "\nYour equipment was used, but you got a %1$s back, you can repair it if you need it later!",
+        "no_content": "%1$sVocê tem que especificar uma ferramenta para desequipar, pode ser entre `pick, rod`",
+        "invalid_type": "%1$sTipo inválido. Tipos válidos são `pick, rod`",
+        "success": "%1$sDesequipado com sucesso seu slot de %2$s.",
+        "equipment_recover": "\nJá que você nunca usou seu equipamento, você ganhou sua %1$s de volta!",
+        "broken_equipment_recover": "\nSeu equipamento foi usado, mas você ganhou %1$s de volta, você pode conserta-lo se você precisar depois!",
         "broken_equipment_recover_none": "\nThis equipment type had no broken type to recover from, and was used, so it vanished into the void, but you got %1$s credits back."
       },
       "display": {
@@ -1496,8 +1496,8 @@
     },
     "balance": {
       "bot_notice": "%1$sBots não podem ter dinheiro.",
-      "external_balance": "A balança de %1$s é de **$%2$d creditos.**",
-      "own_balance": "Sua balança é de **$%1$d creditos.**"
+      "external_balance": "O saldo de %1$s é de **$%2$,d créditos.**",
+      "own_balance": "Seu saldo é de **$%1$,d créditos.**"
     },
     "daily": {
       "check": "%1$sVocê poderá reivindicar seu diário em: **%2$s.**",
