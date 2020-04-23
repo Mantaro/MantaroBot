@@ -113,6 +113,9 @@ public class StatsPoster {
     /**
      * Gets the statistics for a single bot shard.
      * This includes stuff like guild count, user count, ping, last event time, etc.
+     *
+     * To get the raw JSON, use {@link StatsPoster#getStatsForShardRaw(int)}
+     *
      * @param shardId The id of the shard to look up.
      * @return A ShardStats object that contains the requested information.
      * @throws IOException If it can't reach the API.
@@ -149,6 +152,9 @@ public class StatsPoster {
     /**
      * Gets the statistics for all of the bot shards.
      * This includes stuff like guild count, user count, ping, last event time, etc.
+     *
+     * To get the raw JSON, use {@link StatsPoster#getShardStatsRaw()}
+     *
      * @return A Map of shardId -> ShardStats object that contains the requested information.
      * @throws IOException If it can't reach the API.
      */
@@ -182,6 +188,9 @@ public class StatsPoster {
 
     /**
      * Gets the combined guild and user count for all shards on a determined bot id. This uses the current bot id to determine it.
+     *
+     * To get the raw JSON, use {@link StatsPoster#getCombinedInfoRaw()}
+     *
      * @return A BotStats object contained the requested information.
      * @throws IOException If it can't reach the API.
      */
