@@ -46,8 +46,8 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 
@@ -495,7 +495,7 @@ public class OwnerCmd {
                     return;
                 }
 
-                Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(user.getId());
+                Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(user.getId());
                 //guaranteed to be an integer
                 if (pledgeInfo == null || !pledgeInfo.getLeft() || Double.parseDouble(pledgeInfo.getRight()) < 4) {
                     channel.sendMessage("Pledge not found, pledge amount not enough or pledge was cancelled.").queue();
@@ -572,7 +572,7 @@ public class OwnerCmd {
                 TextChannel channel = event.getChannel();
 
                 try {
-                    Utils.getFromMAPI("/patreon/refresh");
+                    APIUtils.getFrom("/patreon/refresh");
                     channel.sendMessage("Refreshed Patreon pledges successfully.").queue();
                 } catch (Exception e) {
                     channel.sendMessage("Somehow this failed. Pretty sure that just always returned ok...").queue();

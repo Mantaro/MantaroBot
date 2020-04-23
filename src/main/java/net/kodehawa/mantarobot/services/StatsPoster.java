@@ -22,6 +22,7 @@ import net.dv8tion.jda.api.JDA;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.services.entities.BotStats;
 import net.kodehawa.mantarobot.services.entities.ShardStats;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import okhttp3.Request;
@@ -42,6 +43,18 @@ public class StatsPoster {
         this.botId = botId;
     }
 
+    /**
+     * Post the current shard information to the API.
+     *
+     * This can later be retrieved using {@link StatsPoster#getStatsForShard(int shardId)}
+     *
+     * @param shardId The current shard id to post.
+     * @param status The {@link JDA.Status} object. This usually tells if the shard is connected, loading or otherwise.
+     * @param guilds The amount of guilds the shard sees.
+     * @param users The amount of *cached* users the shard sees.
+     * @param ping The current gateway ping (in ms).
+     * @param eventTime The difference between time when the last JDA event was received and the current time (in ms).
+     */
     public void postForShard(int shardId, JDA.Status status, long guilds, long users, long ping, long eventTime) {
         try {
             Request request = new Request.Builder()
@@ -61,8 +74,7 @@ public class StatsPoster {
                                             .put("event_time", eventTime)
                                     )
                                     .toString()
-                    ))
-                    .build();
+                    )).build();
 
             Response response = httpClient.newCall(request).execute();
             response.close();
@@ -71,27 +83,13 @@ public class StatsPoster {
         }
     }
 
-    public ShardStats getStatsForShard(int shardId) throws IOException {
-        Request request = new Request.Builder()
-                .url(config.apiTwoUrl + "/mantaroapi/bot/stats/shards/specific")
-                .addHeader("Authorization", config.getApiAuthKey())
-                .addHeader("User-Agent", MantaroInfo.USER_AGENT)
-                .post(RequestBody.create(
-                        okhttp3.MediaType.parse("application/json"),
-                        new JSONObject()
-                                .put("bot_id", botId)
-                                .put("shard_id", shardId)
-                                .toString()
-                ))
-                .build();
-
-        Response response = httpClient.newCall(request).execute();
-        String body = response.body().string();
-        response.close();
-
-        return GsonDataManager.GSON_PRETTY.fromJson(body, ShardStats.class);
-    }
-
+    /**
+     * Gets the statistics for a single bot shard.
+     * This includes stuff like guild count, user count, ping, last event time, etc.
+     * @param shardId The id of the shard to look up.
+     * @return A JSON object that contains the requested information.
+     * @throws IOException If it can't reach the API.
+     */
     public String getStatsForShardRaw(int shardId) throws IOException {
         Request request = new Request.Builder()
                 .url(config.apiTwoUrl + "/mantaroapi/bot/stats/shards/specific")
@@ -103,8 +101,7 @@ public class StatsPoster {
                                 .put("bot_id", botId)
                                 .put("shard_id", shardId)
                                 .toString()
-                ))
-                .build();
+                )).build();
 
         Response response = httpClient.newCall(request).execute();
         String body = response.body().string();
@@ -113,26 +110,23 @@ public class StatsPoster {
         return body;
     }
 
-    public Map<Integer, ShardStats> getShardStats() throws IOException {
-        Request request = new Request.Builder()
-                .url(config.apiTwoUrl + "/mantaroapi/bot/stats/shards/bot/all")
-                .addHeader("Authorization", config.getApiAuthKey())
-                .addHeader("User-Agent", MantaroInfo.USER_AGENT)
-                .post(RequestBody.create(
-                        okhttp3.MediaType.parse("application/json"),
-                        new JSONObject()
-                                .put("bot_id", botId)
-                                .toString()
-                ))
-                .build();
-
-        Response response = httpClient.newCall(request).execute();
-        String body = response.body().string();
-        response.close();
-
-        return GsonDataManager.GSON_PRETTY.fromJson(body, new TypeToken<Map<Integer, ShardStats>>(){}.getType());
+    /**
+     * Gets the statistics for a single bot shard.
+     * This includes stuff like guild count, user count, ping, last event time, etc.
+     * @param shardId The id of the shard to look up.
+     * @return A ShardStats object that contains the requested information.
+     * @throws IOException If it can't reach the API.
+     */
+    public ShardStats getStatsForShard(int shardId) throws IOException {
+        return GsonDataManager.GSON_PRETTY.fromJson(getStatsForShardRaw(shardId), ShardStats.class);
     }
 
+    /**
+     * Gets the statistics for all of the bot shards.
+     * This includes stuff like guild count, user count, ping, last event time, etc.
+     * @return A JSON object that contains the requested information.
+     * @throws IOException If it can't reach the API.
+     */
     public String getShardStatsRaw() throws IOException {
         Request request = new Request.Builder()
                 .url(config.apiTwoUrl + "/mantaroapi/bot/stats/shards/bot/all")
@@ -143,8 +137,7 @@ public class StatsPoster {
                         new JSONObject()
                                 .put("bot_id", botId)
                                 .toString()
-                ))
-                .build();
+                )).build();
 
         Response response = httpClient.newCall(request).execute();
         String body = response.body().string();
@@ -153,4 +146,46 @@ public class StatsPoster {
         return body;
     }
 
+    /**
+     * Gets the statistics for all of the bot shards.
+     * This includes stuff like guild count, user count, ping, last event time, etc.
+     * @return A Map of shardId -> ShardStats object that contains the requested information.
+     * @throws IOException If it can't reach the API.
+     */
+    public Map<Integer, ShardStats> getShardStats() throws IOException {
+        return GsonDataManager.GSON_PRETTY.fromJson(getShardStatsRaw(), new TypeToken<Map<Integer, ShardStats>>(){}.getType());
+    }
+
+    /**
+     * Gets the combined guild and user count for all shards on a determined bot id. This uses the current bot id to determine it.
+     * @return A JSON contained the requested information.
+     * @throws IOException If it can't reach the API.
+     */
+    public String getCombinedInfoRaw() throws IOException {
+        Request request = new Request.Builder()
+                .url(config.apiTwoUrl + "/stats/shards/combined")
+                .addHeader("Authorization", config.getApiAuthKey())
+                .addHeader("User-Agent", MantaroInfo.USER_AGENT)
+                .post(RequestBody.create(
+                        okhttp3.MediaType.parse("application/json"),
+                        new JSONObject()
+                                .put("bot_id", botId)
+                                .toString()
+                )).build();
+
+        Response response = httpClient.newCall(request).execute();
+        String body = response.body().string();
+        response.close();
+
+        return body;
+    }
+
+    /**
+     * Gets the combined guild and user count for all shards on a determined bot id. This uses the current bot id to determine it.
+     * @return A BotStats object contained the requested information.
+     * @throws IOException If it can't reach the API.
+     */
+    public BotStats getCombinedInfo() throws IOException {
+        return GsonDataManager.GSON_PRETTY.fromJson(getCombinedInfoRaw(), BotStats.class);
+    }
 }

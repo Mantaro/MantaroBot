@@ -37,6 +37,7 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -195,7 +196,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         if (!silent) {
             //Hush from here babe, hehe.
             Player player = MantaroData.db().getPlayer(event.getAuthor());
-            Badge badge = Utils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
+            Badge badge = APIUtils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
             if (badge != null) {
                 player.getData().addBadgeIfAbsent(badge);
                 player.save();

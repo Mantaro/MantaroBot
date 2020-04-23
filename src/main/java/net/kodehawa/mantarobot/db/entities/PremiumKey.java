@@ -23,8 +23,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
+import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
-import net.kodehawa.mantarobot.utils.Utils;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
@@ -106,7 +106,7 @@ public class PremiumKey implements ManagedObject {
     @JsonIgnore
     public boolean renew() {
         if (data.getLinkedTo() != null && !data.getLinkedTo().isEmpty()) {
-            Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(data.getLinkedTo());
+            Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(data.getLinkedTo());
             if (pledgeInfo != null && pledgeInfo.getLeft()) {
                 switch (type) {
                     case 1: //user

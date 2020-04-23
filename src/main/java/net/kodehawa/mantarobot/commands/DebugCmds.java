@@ -40,6 +40,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -68,7 +69,6 @@ public class DebugCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 var mantaroBot = MantaroBot.getInstance();
 
-
                 var guilds = mantaroBot.getShardManager().getGuildCache();
                 var users = mantaroBot.getShardManager().getGuilds().stream().mapToInt(Guild::getMemberCount).sum();
                 var cachedUsers = mantaroBot.getShardManager().getUserCache();
@@ -78,7 +78,7 @@ public class DebugCmds {
                         .sum();
                 int mapiRequests = 0;
                 try {
-                    mapiRequests = new JSONObject(Utils.getFromMAPI("/mantaroapi/ping")).getInt("requests_served");
+                    mapiRequests = new JSONObject(APIUtils.getFrom("/mantaroapi/ping")).getInt("requests_served");
                 } catch (IOException ignored) { }
 
                 event.getChannel().sendMessage("```prolog\n"
@@ -176,7 +176,6 @@ public class DebugCmds {
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
                 StringBuilder builder = new StringBuilder();
                 int connecting = 0;
-                int bigqueue = 0;
 
                 for (var shard : MantaroBot.getInstance().getShardList()) {
                     if (shard.getNullableJDA() == null) {
@@ -205,15 +204,12 @@ public class DebugCmds {
 
                 if (connecting > 0)
                     builder.append("\nWARNING: Number of shards still booting up: ").append(connecting);
-                if (bigqueue > 0)
-                    builder.append("\nWARNING: Number of shards with +100 events in queue: ").append(connecting);
 
                 List<String> m = DiscordUtils.divideString(builder);
                 List<String> messages = new LinkedList<>();
 
-                for (String s1 : m) {
+                for (String s1 : m)
                     messages.add(String.format("%s\n```prolog\n%s```", "**Mantaro's Shard Information. Use &p >> and &p << to move pages, &cancel to exit.**", s1));
-                }
 
                 DiscordUtils.listText(event, 45, false, messages);
             }

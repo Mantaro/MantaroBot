@@ -44,6 +44,7 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.log.LogUtils;
+import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -206,7 +207,7 @@ public class PremiumCmds {
                 DBUser dbUser = db.getUser(author);
 
                 //left: isPatron, right: pledgeAmount, basically.
-                Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(author.getId());
+                Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(author.getId());
                 if (pledgeInfo == null || !pledgeInfo.getLeft() || !dbUser.isPremium()) {
                     channel.sendMessageFormat(languageContext.get("commands.claimkey.not_patron"), EmoteReference.ERROR).queue();
                     return;
@@ -313,7 +314,7 @@ public class PremiumCmds {
                                 p.saveAsync();
                         }
 
-                        Pair<Boolean, String> patreonInformation = Utils.getPledgeInformation(owner.getId());
+                        Pair<Boolean, String> patreonInformation = APIUtils.getPledgeInformation(owner.getId());
                         String linkedTo = currentKey.getData().getLinkedTo();
                         int amountClaimed = data.getKeysClaimed().size();
 
@@ -397,7 +398,7 @@ public class PremiumCmds {
                 if (owner == null)
                     owner = event.getGuild().getOwner().getUser();
 
-                Pair<Boolean, String> patreonInformation = Utils.getPledgeInformation(owner.getId());
+                Pair<Boolean, String> patreonInformation = APIUtils.getPledgeInformation(owner.getId());
                 String linkedTo = currentKey.getData().getLinkedTo();
                 embedBuilder.setColor(Color.CYAN)
                         .setThumbnail(event.getGuild().getIconUrl())

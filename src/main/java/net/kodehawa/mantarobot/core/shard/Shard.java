@@ -27,7 +27,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
-import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.APIUtils;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
@@ -131,7 +131,7 @@ public class Shard {
         JSONObject reply;
 
         try {
-            var body = Utils.getFromMAPI("/mantaroapi/bot/splashes/random");
+            var body = APIUtils.getFrom("/mantaroapi/bot/splashes/random");
             reply = new JSONObject(new JSONTokener(body));
         } catch (Exception e) {
             reply = new JSONObject().put("splash", "With a missing status!");

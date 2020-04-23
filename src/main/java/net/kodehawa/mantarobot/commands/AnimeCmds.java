@@ -35,6 +35,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -184,7 +185,7 @@ public class AnimeCmds {
         }
 
         Player p = MantaroData.db().getPlayer(event.getAuthor());
-        Badge badge = Utils.getHushBadge(title, Utils.HushType.ANIME);
+        Badge badge = APIUtils.getHushBadge(title, Utils.HushType.ANIME);
         if (badge != null) {
             p.getData().addBadgeIfAbsent(badge);
             p.save();
@@ -220,7 +221,7 @@ public class AnimeCmds {
                     : characterDescription.length() <= 1024 ? characterDescription : characterDescription.substring(0, 1020 - 1) + "...";
 
             Player p = MantaroData.db().getPlayer(event.getAuthor());
-            Badge badge = Utils.getHushBadge(charName.replace(japName, "").trim(), Utils.HushType.CHARACTER);
+            Badge badge = APIUtils.getHushBadge(charName.replace(japName, "").trim(), Utils.HushType.CHARACTER);
             if (badge != null) {
                 p.getData().addBadgeIfAbsent(badge);
                 p.save();

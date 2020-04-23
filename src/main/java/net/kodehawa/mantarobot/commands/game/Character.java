@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.commands.game;
 
 import com.google.gson.JsonSyntaxException;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.game.core.AnimeGameData;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.game.core.ImageGame;
@@ -27,18 +26,14 @@ import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
-import okhttp3.Request;
-import okhttp3.Response;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 
 public class Character extends ImageGame {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger("Game [Character]");
@@ -80,7 +75,7 @@ public class Character extends ImageGame {
         final I18nContext languageContext = lobby.getLanguageContext();
         try {
             GameStatsManager.log(name());
-            AnimeGameData data = GsonDataManager.GSON_PRETTY.fromJson(Utils.getFromMAPI("/mantaroapi/bot/character"), AnimeGameData.class);
+            AnimeGameData data = GsonDataManager.GSON_PRETTY.fromJson(APIUtils.getFrom("/mantaroapi/bot/character"), AnimeGameData.class);
 
             GameStatsManager.log(name());
             characterNameL = new ArrayList<>();

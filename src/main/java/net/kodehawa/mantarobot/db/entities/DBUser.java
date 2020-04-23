@@ -28,8 +28,8 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
-import net.kodehawa.mantarobot.utils.Utils;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
@@ -116,7 +116,7 @@ public class DBUser implements ManagedObject {
 
             //Link key to owner if key == owner and key holder is on patreon.
             //Sadly gotta skip of holder isnt patron here bc there are some bought keys (paypal) which I can't convert without invalidating
-            Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(key.getOwner());
+            Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(key.getOwner());
             if (pledgeInfo != null && pledgeInfo.getLeft()) {
                 key.getData().setLinkedTo(key.getOwner());
                 key.save(); //doesn't matter if it doesnt save immediately, will do later anyway (key is usually immutable in db)

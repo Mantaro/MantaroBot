@@ -29,8 +29,6 @@ plugins {
     id 'com.github.ben-manes.versions' version '0.28.0'
     //Builds docker images
     id 'com.palantir.docker' version '0.22.1'
-    //Gives me the github hash of the latest commit
-    id 'com.palantir.git-version' version '0.12.3'
 }
 
 //Define the Main Class
@@ -92,7 +90,7 @@ dependencies {
 
     compile 'io.sentry:sentry:1.7.10'
 
-    compile 'net.jodah:expiringmap:0.5.8'
+    compile 'net.jodah:expiringmap:0.5.9'
     compile 'org.apache.commons:commons-lang3:3.8.1'
     compile 'org.apache.commons:commons-text:1.6'
 

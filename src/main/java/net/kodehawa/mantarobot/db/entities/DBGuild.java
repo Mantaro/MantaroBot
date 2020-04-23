@@ -29,12 +29,11 @@ import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
-import net.kodehawa.mantarobot.utils.Utils;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -101,7 +100,7 @@ public class DBGuild implements ManagedObject {
 
             //Link key to owner if key == owner and key holder is on patreon.
             //Sadly gotta skip of holder isn't patron here bc there are some bought keys (paypal) which I can't convert without invalidating
-            Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(key.getOwner());
+            Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(key.getOwner());
             if (pledgeInfo != null && pledgeInfo.getLeft()) {
                 key.getData().setLinkedTo(key.getOwner());
                 key.save(); //doesn't matter if it doesn't save immediately, will do later anyway (key is usually immutable in db)
@@ -123,7 +122,7 @@ public class DBGuild implements ManagedObject {
         //Patreon bot link check.
         String linkedTo = getData().getMpLinkedTo();
         if (config.isPremiumBot() && linkedTo != null && key == null) { //Key should always be null in MP anyway.
-            Pair<Boolean, String> pledgeInfo = Utils.getPledgeInformation(linkedTo);
+            Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(linkedTo);
             if (pledgeInfo != null && pledgeInfo.getLeft() && Double.parseDouble(pledgeInfo.getRight()) >= 4) {
                 //Subscribed to MP properly, return true.
                 return true;

@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.commands.game;
 
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.game.core.ImageGame;
 import net.kodehawa.mantarobot.commands.game.core.PokemonGameData;
@@ -28,16 +27,12 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperati
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
-import okhttp3.Request;
-import okhttp3.Response;
 import org.slf4j.Logger;
 
 import java.util.List;
-
-import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 
 public class Pokemon extends ImageGame {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger("Game [Pokemon Trivia]");
@@ -78,7 +73,7 @@ public class Pokemon extends ImageGame {
 
         try {
             GameStatsManager.log(name());
-            PokemonGameData data = GsonDataManager.GSON_PRETTY.fromJson(Utils.getFromMAPI("/mantaroapi/bot/pokemon"), PokemonGameData.class);
+            PokemonGameData data = GsonDataManager.GSON_PRETTY.fromJson(APIUtils.getFrom("/mantaroapi/bot/pokemon"), PokemonGameData.class);
             expectedAnswer = data.getNames();
             sendEmbedImage(lobby.getChannel(), data.getImage(), eb ->
                     eb.setTitle(languageContext.get("commands.game.pokemon.header"), null)
