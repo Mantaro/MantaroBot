@@ -17,6 +17,7 @@
 
 package net.kodehawa.mantarobot.services;
 
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import net.dv8tion.jda.api.JDA;
 import net.kodehawa.mantarobot.MantaroInfo;
@@ -120,7 +121,7 @@ public class StatsPoster {
      * @return A ShardStats object that contains the requested information.
      * @throws IOException If it can't reach the API.
      */
-    public ShardStats getStatsForShard(int shardId) throws IOException {
+    public ShardStats getStatsForShard(int shardId) throws IOException, JsonSyntaxException {
         return GsonDataManager.GSON_PRETTY.fromJson(getStatsForShardRaw(shardId), ShardStats.class);
     }
 
@@ -158,7 +159,7 @@ public class StatsPoster {
      * @return A Map of shardId -> ShardStats object that contains the requested information.
      * @throws IOException If it can't reach the API.
      */
-    public Map<Integer, ShardStats> getShardStats() throws IOException {
+    public Map<Integer, ShardStats> getShardStats() throws IOException, JsonSyntaxException {
         return GsonDataManager.GSON_PRETTY.fromJson(getShardStatsRaw(), new TypeToken<Map<Integer, ShardStats>>(){}.getType());
     }
 
@@ -194,7 +195,7 @@ public class StatsPoster {
      * @return A BotStats object contained the requested information.
      * @throws IOException If it can't reach the API.
      */
-    public BotStats getCombinedInfo() throws IOException {
+    public BotStats getCombinedInfo() throws IOException, JsonSyntaxException {
         return GsonDataManager.GSON_PRETTY.fromJson(getCombinedInfoRaw(), BotStats.class);
     }
 }
