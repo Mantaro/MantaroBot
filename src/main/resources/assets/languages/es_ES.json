@@ -2247,7 +2247,7 @@
       "pants": "Basically what you wear on your legs... hopefully.",
       "haste": "Allows you to collect more stuff from lootable commands for 2 sessions.",
       "milky": "Clears all potion effects.",
-      "energy": "Gives less chance of a pick breaking while mining. Lasts only 5 mining sessions.",
+      "energy": "Makes a pick or rod lose less durability per swing. Lasts only 3 mining/fishing sessions.",
       "rod": "Enables you to fish.",
       "fish": "Fish. Caught in fishing.",
       "tropical_fish": "A very tropical fish. Caught in fishing.",
