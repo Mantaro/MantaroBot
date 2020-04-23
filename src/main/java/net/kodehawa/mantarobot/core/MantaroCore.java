@@ -240,14 +240,20 @@ public class MantaroCore {
             var start = System.currentTimeMillis();
             shardManager = builder.build();
 
-            var latchAmount = shardManager.getShardsTotal();
-            log.info("CountdownLatch started: Awaiting for {} shards to be counted down to start PostLoad!", latchAmount);
-            listener.setLatch(new CountDownLatch(latchAmount)).await();
+            Executors.newSingleThreadScheduledExecutor().submit(() -> {
+                var latchAmount = shardManager.getShardsTotal();
+                log.info("CountdownLatch started: Awaiting for {} shards to be counted down to start PostLoad!", latchAmount);
 
-            var elapsed = System.currentTimeMillis() - start;
-            shardManager.removeEventListener(listener);
-            startPostLoadProcedure(elapsed);
-        } catch (LoginException | InterruptedException e) {
+                try {
+                    listener.setLatch(new CountDownLatch(latchAmount)).await();
+                    var elapsed = System.currentTimeMillis() - start;
+                    shardManager.removeEventListener(listener);
+                    startPostLoadProcedure(elapsed);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (LoginException e) {
             throw new IllegalStateException(e);
         }
 
