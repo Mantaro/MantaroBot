@@ -997,7 +997,7 @@
       "too_little_time": "%1$sDas ist zu wenig Zeit (Minimum: 1 Minute)!",
       "too_long": "Das ist zu lang... (Maximum: 3 Monate)",
       "success": "%1$sIch werde dich (%2$s#%3$s) an `%4$s` in %5$s erinnern.",
-      "too_many_reminders": "%1$sYou have too many reminders! Try cancelling some?"
+      "too_many_reminders": "%1$sDu hast zu viele Erinnerungen! Versuch vielleicht welche zu löschen?"
     },
     "time": {
       "invalid_timezone": "%1$sDas ist keine gültige Zeitzone!",
