@@ -240,7 +240,7 @@ public class MantaroCore {
             var start = System.currentTimeMillis();
             shardManager = builder.build();
 
-            Executors.newSingleThreadScheduledExecutor().submit(() -> {
+            threadPool.submit(() -> {
                 var latchAmount = shardManager.getShardsTotal();
                 log.info("CountdownLatch started: Awaiting for {} shards to be counted down to start PostLoad!", latchAmount);
 
