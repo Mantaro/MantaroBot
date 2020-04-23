@@ -2247,7 +2247,7 @@
       "pants": "Basicamente, o que você veste nas pernas... esperançosamente.",
       "haste": "Permite você coletar mais coisas de comandos de saque por 2 sessões.",
       "milky": "Limpa todos os efeitos de poção.",
-      "energy": "Dá menos chance de uma picareta quebrar ao minar. Dura apenas 5 sessões de mineração.",
+      "energy": "Makes a pick or rod lose less durability per swing. Lasts only 3 mining/fishing sessions.",
       "rod": "Permite que você pesque. (20% de chances de quebrar)",
       "fish": "Peixe. Pego na pesca.",
       "tropical_fish": "Um peixe muito tropical. Pego na pesca.",
