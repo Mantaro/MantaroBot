@@ -171,7 +171,7 @@ public class PremiumCmds {
         });
     }
 
-    @Subscribe
+    //@Subscribe
     public void claimkey(CommandRegistry cr) {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .spamTolerance(3)

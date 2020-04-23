@@ -352,7 +352,7 @@ public class MantaroCore {
                 shardManager.getShardsTotal(), elapsed / 1000));
         log.info("Loaded all shards successfully... Starting ShardWatcher! Status: {}", MantaroCore.getLoadState());
 
-        new Thread(new ShardWatcher(), "ShardWatcherThread").start();
+        //new Thread(new ShardWatcher(), "ShardWatcherThread").start();
         bot.getCore().getShardEventBus().post(new PostLoadEvent());
 
         startUpdaters();

@@ -48,7 +48,7 @@ public class ImageCmds {
     private final URLCache CACHE = new URLCache(20);
     private final String[] catResponses = {
             "Aww, here, take a cat.", "%mention%, are you sad? ;w; take a cat!", "You should all have a cat in your life, but an image will do.",
-            "Am I cute yet?", "I think you should have a cat, %mention%."
+            "Am I cute yet?", "I think you should have a cat, %mention%.", "Meow~ %mention%", "Nya~ %mention%"
     };
     private final ImageBoard<DanbooruImage> danbooru = DefaultImageBoards.DANBOORU;
     private final ImageBoard<FurryImage> e621 = DefaultImageBoards.E621;
