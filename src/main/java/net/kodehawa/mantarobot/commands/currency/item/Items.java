@@ -690,10 +690,7 @@ public class Items {
         }
 
         int durability = equippedItems.reduceDurability(equipmentType, (int) Math.max(3, subtractFrom));
-
-        if (durability < 5) {
-            assumeBroken = true;
-        }
+        assumeBroken = durability < 5;
 
         if (assumeBroken) {
             equippedItems.resetOfType(equipmentType);
