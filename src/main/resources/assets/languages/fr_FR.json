@@ -997,7 +997,7 @@
       "too_little_time": "%1$sC'est un délais trop court (Minimum: 10 secondes)",
       "too_long": "Le délais est trop long... (Maximum : 3 mois)",
       "success": "%1$sJe te rappellerai (%2$s#%3$s) de `%4$s` dans %5$s",
-      "too_many_reminders": "%1$sYou have too many reminders! Try cancelling some?"
+      "too_many_reminders": "%1$sTu as beaucoup trop de rappels! Essaie d'en supprimer peut-être?"
     },
     "time": {
       "invalid_timezone": "%1$sCe n'est pas un fuseau horaire valide.",
@@ -2247,7 +2247,7 @@
       "pants": "C'est ce que tu portes en bas, du moins je l'espère.",
       "haste": "Ça te permet de trouver plus de chose en fouillant (valable pour 2 utilisation de la commande `~>loot`).",
       "milky": "Ça te débarrasse des effets de potions.",
-      "energy": "Elle réduit les chance que t pioche ne casse durant les 5 prochaines sessions.",
+      "energy": "Fait en sorte que ta pioche ou ta canne à pêche perde moins de durabilité en l'utilisant. Ça ne dure que 3 sessions.",
       "rod": "Te permets de pêcher. (Durabilité: 40)",
       "fish": "Poisson attrapé en pêchant.",
       "tropical_fish": "Un poisson assez tropical pêché.",
