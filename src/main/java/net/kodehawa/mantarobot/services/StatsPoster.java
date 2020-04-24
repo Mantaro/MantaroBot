@@ -93,7 +93,7 @@ public class StatsPoster {
      */
     public String getStatsForShardRaw(int shardId) throws IOException {
         Request request = new Request.Builder()
-                .url(config.apiTwoUrl + "/mantaroapi/bot/stats/shards/specific")
+                .url(config.apiTwoUrl + "/mantaroapi/bot/stats/shards/bot/specific")
                 .addHeader("Authorization", config.getApiAuthKey())
                 .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                 .post(RequestBody.create(
@@ -170,7 +170,7 @@ public class StatsPoster {
      */
     public String getCombinedInfoRaw() throws IOException {
         Request request = new Request.Builder()
-                .url(config.apiTwoUrl + "/stats/shards/combined")
+                .url(config.apiTwoUrl + "/mantaroapi/bot/stats/shards/combined")
                 .addHeader("Authorization", config.getApiAuthKey())
                 .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                 .post(RequestBody.create(
