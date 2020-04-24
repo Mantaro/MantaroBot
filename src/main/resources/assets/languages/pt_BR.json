@@ -31,7 +31,7 @@
       "no_item_emoji": "Não há um item associado a esse emoji.",
       "no_item_name": "Não há um item associado a este nome.",
       "not_found": "Não foi possível encontrar itens relacionados com sua pesquisa. Se você está perdido, tente usar um nome curto, por exemplo para `Bebida Energética`, use `bebida`. Ou envolva o nome entre aspas.",
-      "claim_key": "Você não pode transferir uma Chave de reivindicação."
+      "claim_key": "Você não pode transferir uma chave de reivindicação."
     },
     "misc_item_usage": {
       "mop": "%1$sVocê (talvez) limpou todas as poeiras que você tinha acumulado sobre todas as sessões de mineração.",
@@ -208,7 +208,7 @@
       "info": "%1$sVocê pode mudar a língua do servidor (se aplicado) usando `~>opts language set <código da língua>`. Suas preferências pessoais de idioma podem ser alteradas usando `~>profile lang <código da língua>`.\n**Línguas disponíveis:** `%2$s`\nSe sua língua não está aqui e você quer ajudar, sinta-se livre para se juntar no servidor de suporte e se juntar na tradução com seu esforço!"
     },
     "season": {
-      "info": "Uma *temporada* é um período de tempo, de geralmente 6 meses em que jogadores competem pelas 10 melhores posições no dinheiro ou no ranking de reputação. Os vencedores irão ganhar insígnias e recompensas baseado no desempenho sazonal.\\nIsso é para ter um quadro mais competitivo (antes, o dinheiro era praticamente obsoleto) e para deixar o jogo um pouco mais divertido. \nVocê pode acessar as coisas sazonais usando `-season`. Comandos como profile, mine, fish e balance exigirá isso, enquanto games, loot, daily e reputation irão dar dinheiro/representação para seu perfil global e sazonal.",
+      "info": "Uma *temporada* é um período de tempo, de geralmente 6 meses em que jogadores competem pelas 10 melhores posições no dinheiro ou no ranking de reputação. Os vencedores irão ganhar insígnias e recompensas baseado no desempenho sazonal.\nIsso é para ter um quadro mais competitivo (antes, o dinheiro era praticamente obsoleto) e para deixar o jogo um pouco mais divertido. \nVocê pode acessar as coisas sazonais usando `-season`. Comandos como profile, mine, fish e balance exigirá isso, enquanto games, loot, daily e reputation irão dar dinheiro/representação para seu perfil global e sazonal.",
       "info_2": "\n\nA temporada atual é **%1$s** e **%2$s** jogadores estão atualmente participando!\n\nA diversão começa, cheque `~>leaderboard money -season`; `~>leaderboard rep -season` e `~>leaderboard games -season`.\nGame on! <3\nObrigado por desfrutar da Mantaro."
     },
     "music_general": {
@@ -243,7 +243,7 @@
         "playing_in": "Tocando em",
         "footer": "Total de páginas: %1$d%2$s. Atualmente na página %3$d",
         "multiple_pages": " -> Use ~>queue <página> para mudar as páginas",
-        "page_react": " -> Reaga para mudar as páginas",
+        "page_react": " -> Reaja para mudar as páginas",
         "no_channel": "Sem canal :(",
         "songs": "música(s)",
         "clear_error": "%1$sOu você não está conectado no CdV ou você não é o DJ.",
@@ -595,7 +595,7 @@
         "locked": "%1$sVocê está atualmente impossibilitado de executar esta ação.",
         "key_locked": "%1$sO usuário que você tentou reivindicar está com uma chave o bloqueando e não pode ser reivindicado.",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para reivindicar esta waifu **(Custo: %2$s)**",
-        "not_enough_slots": "%1$sVocê não tem vagas espaços disponíveis para reivindicar esta waifu. (Total de espaços: %2$s, Espaços usados: %3$s)",
+        "not_enough_slots": "%1$sVocê não tem slots disponíveis para reivindicar esta waifu. (Total de slots: %2$s, Slots usados: %3$s)",
         "success": "%1$sReivindicado com sucesso `%2$s` para %3$,d. Espaços usados: %4$s",
         "yourself": "%1$sVocê não pode reivindicar a si mesmo!",
         "already_claimed": "%1$sVocê já reivindicou esta waifu.",
@@ -795,7 +795,7 @@
       "no_reaction_perms": "%1$sParece que eu não posso adicionar reações aqui...",
       "too_long": "Isso era muito grande para mostrar, então eu coloquei em: %1$s",
       "header": "Enquete #%1$d criada por %2$s",
-      "success": "**A enquete começou. Reaga com o número para votar.**\n*%1$s*\nDigite &cancelpoll para cancelar a enquete em andamento.",
+      "success": "**A enquete começou. Reaja com o número para votar.**\n*%1$s*\nDigite &cancelpoll para cancelar a enquete em andamento.",
       "time": "Você tem %1$s para votar.",
       "error": "%1$sUm erro desconhecido aconteceu durante a criação da enquete. Talvez tentar novamente? (erro interno)",
       "result_header": "Resultado da enquete",
@@ -895,7 +895,7 @@
         "success": "%1$sDesequipado com sucesso seu slot de %2$s.",
         "equipment_recover": "\nJá que você nunca usou seu equipamento, você ganhou sua %1$s de volta!",
         "broken_equipment_recover": "\nSeu equipamento foi usado, mas você ganhou %1$s de volta, você pode conserta-lo se você precisar depois!",
-        "broken_equipment_recover_none": "\nThis equipment type had no broken type to recover from, and was used, so it vanished into the void, but you got %1$s credits back."
+        "broken_equipment_recover_none": "\nEsse tipo de equipamento não tem nenhum tipo quebrado para consertar, e foi usado, então ele desapareceu no void, mas você ganhou %1$s créditos de volta."
       },
       "display": {
         "not_premium": "%1$sA personalização de widget no perfil está disponível apenas para usuários premium.",
@@ -906,9 +906,9 @@
         "example": "\nExemplo: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Qualquer ordem funciona, a ordem aqui é a ordem que fará com que apareçam no seu perfil*"
       },
       "claimlock": {
-        "removed": "%1$sSuccesfully reset your claim lock status.",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key.",
-        "no_key": "%1$sYou don't have a claim key to do this."
+        "removed": "%1$sResetado com sucesso seu status de claim lock.",
+        "success": "%1$sVocê não pode mais ser reivindicado como waifu. Isso custou uma chave de reivindicação.",
+        "no_key": "%1$sVocê não tem uma chave de reivindicação para fazer isso."
       },
       "autoequip": {
         "disable": "%1$sAuto-equipar desativado com sucesso.",
@@ -997,7 +997,7 @@
       "too_little_time": "%1$sIsso é muito pouco tempo (Mínimo: 10 segundos)",
       "too_long": "Isso é muito tempo... (Máximo: 3 meses)",
       "success": "%1$sVou te lembrar (%2$s#%3$s) de `%4$s` em %5$s",
-      "too_many_reminders": "%1$sYou have too many reminders! Try cancelling some?"
+      "too_many_reminders": "%1$sVocê tem muitos lembretes! Poderia cancelar alguns?"
     },
     "time": {
       "invalid_timezone": "%1$sIsso não é um fuso horário válido.",
@@ -1025,16 +1025,16 @@
     },
     "activatekey": {
       "check": {
-        "key_valid_for": "%1$sSua chave é válida para mais %2$s dias :heart:",
-        "no_key_found": "%1$sVocê não tem uma chave ativada... Se você for premium do antigo sistema você deve ter sua recompensas ainda!"
+        "key_valid_for": "%1$sSua key é válida para mais %2$s dias :heart:",
+        "no_key_found": "%1$sVocê não tem uma key ativada... Se você for premium do antigo sistema você deve ter sua recompensas ainda!"
       },
-      "no_key_provided": "%1$sEu não posso ativar uma chave premium se você não me der uma",
-      "invalid_key": "%1$sVocê forneceu uma chave inválida ou já ativada",
+      "no_key_provided": "%1$sEu não posso ativar uma key premium se você não me der uma",
+      "invalid_key": "%1$sVocê forneceu uma key inválida ou já ativada",
       "guild_already_premium": "%1$sEsse servidor já em uma inscrição premium",
       "guild_successful": "%1$sEsse servidor agora é **Premium** :heart: (Por: %2$d dias)",
       "user_already_premium": "%1$sVocê já é premium :heart:",
       "user_successful": "%1$sVocê agora é **Premium** :heart: (Por: %2$d dias)",
-      "mp": "Mantaro Patreon não usa chaves, ao invés disso, é dada que é premium pelo fato do bot em si funcionar."
+      "mp": "Mantaro Patreon não usa keys, ao invés disso, é dada que é premium pelo fato do bot em si funcionar."
     },
     "claimkey": {
       "not_patron": "%1$sVocê não é um patron, então você não pode fazer isso. Se você quiser apoiar a Mantaro e ter vantagens com isso, vá até <https://www.patreon.com/mantaro>",
@@ -1042,7 +1042,7 @@
       "successful": "%1$sKey reivindicada com sucesso `%2$s`. Você reivindicou um total de %3$s keys e tem %4$s keys faltando para reivindicar.",
       "cant_dm": "%1%sEu não posso te mandar DM por causa das suas configurações de privacidade, aparentemente.",
       "success": "%1$sInformação enviada por DM.",
-      "invalid_scope": "%1$sInvalid key scope! Valid are `user` and `guild`. Without any arguments, this command defaults to `user`. Example: `~>claimkey guild` or `~>claimkey user`"
+      "invalid_scope": "%1$sKey inválida! Válidos são `user` e `guild`. Sem algum argumento, o comando padroniza para `user`. Exemplo: `~>claimkey guild` ou `~>claimkey user`"
     },
     "vipstatus": {
       "user": {
@@ -1058,7 +1058,7 @@
         "premium": "**Servidor premium! <3**",
         "old_system": "**Servidor premium sob o sistema antigo! Não se preocupe, você é premium e seus benefícios funcionarão corretamente!**"
       },
-      "description": "Keys are valid for as long as your pledge it's active, unless stated otherwise. Thanks for donating or pledging <3",
+      "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
       "valid_for_old": "Válido para",
       "old_days_more": "%1$d mais dias",
       "thank_note": "Obrigado pelo suporte <3",
@@ -1189,16 +1189,16 @@
       "character_request_error": "%1$sErro ao solicitar esse personagem no API do AniList.",
       "character_start": "Adivinhe o personagem",
       "too_many_games": "%1$sVocê pode iniciar um máximo de 4 jogos ao mesmo tempo com o lobby de jovo. (Com Premium: 8)",
-      "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
+      "disabled_multiple": "%1$sEsse servidor tem múltiplos jogos/lobby desativado."
     },
     "opencrate": {
-      "no_crate": "%1$sVocê não tem uma caixa de saque desse tipo para abrir :( (Se você estiver tentando abrir uma caixa de outro tipo que não é o tipo padrão, use o nome da caixa depois do comando)",
-      "not_crate": "%1$sIsso não é uma caixa de saque válida."
+      "no_crate": "%1$sVocê não tem um caixote de saque desse tipo (%2$s) para abrir. (Se você estiver tentando abrir um caixote de outro tipo que não é o tipo padrão, use o nome do caixote depois do comando)",
+      "not_crate": "%1$sIsso não é um caixote de saque válido."
     },
     "dailycrate": {
-      "key": "%1$sYou need a crate key to use this! Please buy one and try again!",
-      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>.\nThis can be ran every 24 hours.",
-      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key to open it."
+      "key": "%1$sVocê precisa de uma chave do caixote para usar isso! Por favor compre uma e tente novamente!",
+      "not_premium": "%1$sVocê não é premium!\nVocê pode abrir um caixote premium diário com uma alta chance de receber items bons com premium! Por favor confira mais em <https://patreon.com/mantaro>.\nIsso pode ser usado a cada 24 horas.",
+      "success": "%1$sVocê ganhou uma **%2$s**! Venha novamente em 24 horas para receber outra! Você pode abrir isso usando `~>opencrate <nome do caixote>`. Você precisa comprar uma chave do caixote pra abri-la."
     },
     "prune": {
       "no_messages_specified": "%1$sVocê não especificou as mensagens para excluir.",
@@ -1244,7 +1244,7 @@
       "load_notice": "Se a imagem não carrega, clica no título.",
       "rule34_notice": "Se você não gosta do conteúdo desse comando, você pode usar ~>yandere",
       "yandere_nsfw_notice": "%1$sComando Yande.re só pode ser usado em canal NSFW devido a inúmeros relatos dele enviando imagens explícitas que estão marcados como seguros ao seu lado.\nVocê pode tentar usar`~>konachan` ao invés disso!",
-      "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
+      "e621_nsfw_notice": "%1$sO comando e621 só pode ser usado em canais NSFW."
     },
     "about": {
       "title": "Sobre a Mantaro",
@@ -1280,69 +1280,69 @@
       "invite": "Link de Convite: http://is.gd/mantaro (Comandos nesta sessão: %1$,d | Shard atual: %2$d)"
     },
     "pet": {
-      "no_content": "%1$sYou need to specify the pet to look up the stats of (and the user you want to check the pet from, if it's not yours. Make sure to quote the name on this case!).",
-      "not_specified": "%1$sYou didn't specify the pet name.",
-      "not_found": "%1$sI didn't find a pet with the provided name.",
-      "character_not_allowed": "%1$sThis character isn't allowed in pet names. Try another name?",
-      "overview": "Pet Overview and Statistics",
+      "no_content": "%1$sVocê tem que especificar o pet para ver os status (e o usuário que você quer ver o pet, se não é você. Certifique-se de citar o nome neste caso!).",
+      "not_specified": "%1$sVocê não especificou o nome do pet.",
+      "not_found": "%1$sEu não encontrei um pet com o nome providenciado.",
+      "character_not_allowed": "%1$sEsse personagem não é permitido em nome de pets. Poderia tentar outro nome?",
+      "overview": "Visão Geral e Estatísticas do Pet",
       "name": "Nome",
       "tier": "Tier",
-      "element": "Element",
+      "element": "Elemento",
       "owner": "Dono",
-      "created": "Criado em",
+      "created": "Criado Em",
       "affection": "Afeição",
       "stamina": "Energia Atual",
-      "hp": "HP atual",
+      "hp": "HP Atual",
       "fly": "Voar",
       "venom": "Veneno",
       "inventory": "Inventário",
-      "id": "Pet Id: %1$s",
+      "id": "ID do Pet: %1$s",
       "hunger": "Fome",
       "hydration": "Hidratação"
     },
     "petactions": {
-      "general": "Pets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.\n\nPets can fight in PetBattle, which is a turn-based (ish) fight system based in a one-turn strategy, with an emergency turn on the half-turn if the HP difference between the pets is too different, which would allow you to change your strategy.\n\nFor competition, you need to use different skills, which will cater to different elements and types. You chose them at the start of your turn or half-turn.\nSkills are the main weapon you have! But, pets can also have a main weapon equipped, based on their type and affection. The weapon shop is available at `~>petaction shop` and you can equip it using `~>petaction weapon`, weapons *do not* have damage multiplier by themselves, but they can improve the effectiveness of some attacks and skills, as the result of this, there are no melee weapons, as all damage on PetBattle is done based on their will, not on their actual life.\n\nDo `~>help petaction` to get a list of the commands you can use with your pet.",
+      "general": "Pets são seus companheiros no uso da moeda! **Você pode treiná-los, acariciá-los, alimentá-los ou ter lutas entre seus próprios pets com de outras pessoas!** Para criar um pet você precisa de uma incubadora, que você pode fundir do leite, bebida antiga e diamantes, isso vai permitir que você possa incubar um pet, que exigirá que você dê um nome.\n\nPets podem lutar em PetBattle, que é um sistema de luta baseado em turnos (mais ou menos), baseado em uma estratégia de turno único, com um turno de emergência na metade do turno se a diferença de HP entre os pets forem muito diferentes, vai permitir mudar sua estratégia.\n\nPara competição, você precisa usar habilidades diferentes, que atenderá a diferentes elementos e tipos. Você os escolhe no começo do turno ou na metade do turno.\nHabilidades são as principais armas que você tem! Mas, pets também pode ter uma arma principal equipada, baseado em seu tipo e afeição. O mercado de arma está disponível em `~>petaction shop` e você pode equipar ela usando `~>petaction weapon`, armas *não têm* multiplicador de danos por si mesmos, mas eles podem melhorar a eficácia de alguns ataques e habilidades, como resultado disso, não há armas brancas, como todo dano no PetBattle é feito com base na vontade deles, não na vida real.\n\nUse `~>help petaction` para ter a lista de comandos que você pode usar com seu pet.",
       "incubate": {
-        "no_name": "%1$sYou need to specify a name to give to your pet.",
-        "only_letters": "%1$sThe name can only contain letters from a to z.",
-        "no_egg": "%1$sVocê não tem uma encubadora de ovos no seu inventário.",
-        "not_enough_slots": "%1$sVoce não tem mais espaços para pets. (Total: %2$s, Usado: %3$s)",
-        "no_money": "%1$sYou don't have enough money to incubate this egg. (Required: **%2$s** credits)",
-        "success": "%1$sSuccessfully incubated your pet egg! Your new pet %2$s `(ID: %3$s)` is now ready. Check `~>pet <name>` to check pet stats."
+        "no_name": "%1$sVocê tem que especificar um nome pra dar ao seu pet.",
+        "only_letters": "%1$sO nome só pode conter letras de A–Z.",
+        "no_egg": "%1$sVocê não tem uma incubadora de ovo em seu inventário.",
+        "not_enough_slots": "%1$sVocê não tem espaço suficiente para pets. (Total: %2$s, Usado: %3$s)",
+        "no_money": "%1$sVocê não tem dinheiro suficiente para incubar esse ovo. (Necessário: **%2$s** créditos)",
+        "success": "%1$sOvo de pet incubado com sucesso! Seu novo pet %2$s `(ID: %3$s)` agora está preparado. Cheque `~>pet <nome>` para checar as estatísticas do pet."
       },
       "rename": {
-        "not_enough_args": "%1$sYou need to specify the current name and the new name.",
-        "new_name_exists": "%1$sYou already have a pet with this name.",
-        "not_enough_money": "%1$sYou don't have enough money for this. **(Required: %2$s)**",
-        "confirmation": "%1$sDo you really want to rename **%2$s** to **%3$s**? Type *yes* to confirm and *no* to cancel.",
-        "success": "%1$sSuccessfully renamed **%2$s** to **%3$s** (ID: %4$s). Cost: %5$s"
+        "not_enough_args": "%1$sVocê tem que especificar o nome atual e o novo nome.",
+        "new_name_exists": "%1$sVocê já tem um pet com esse nome.",
+        "not_enough_money": "%1$sVocê não tem dinheiro suficiente para isso. **(Necessário: %2$s)**",
+        "confirmation": "%1$sVocê realmente quer renomear **%2$s** para **%3$s**? Digite *yes* para confirmar e *no* para cancelar.",
+        "success": "%1$sRenomeado com sucesso **%2$s** para **%3$s** (ID: %4$s). Custo: %5$s"
       },
       "ls": {
-        "experience": "Xp",
+        "experience": "XP",
         "age": "Idade",
         "no_pets": "%1$sVocê não tem pets.",
-        "header": "This is a list of the pets you currently own.\nPets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.",
+        "header": "Isso é uma lista de pets que você possui atualmente.\nPets são seus companheiros no uso da moeda! **Você pode treiná-los, acariciá-los, alimentá-los ou ter lutas entre seus próprios pets com de outras pessoas!** Para criar um pet você precisa de uma incubadora, que você pode fundir com leite, bebida antiga e diamantes, isso vai permitir que você possa incubar um pet, que exigirá que você dê um nome.",
         "pages": "**Total de páginas: %1$s\nUse as reações para mudar de página.\n\n"
       },
       "train": {
-        "success": "%1$sSuccessfully trained skill **%2$s**. Experience gained: %3$s. Current skill experience: %4$s. (Cost: %5$s)"
+        "success": "%1$sHabilidade **%2$s** treinada com sucesso. Experiência ganha: %3$s. Experiência de habilidade atual: %4$s. (Custo: %5$s)"
       },
       "pet": {
-        "no_pet": "%1$sI can't find a pet with the name you specified.",
-        "pet": "%1$sAww! T-Thanks. (Affection: %2$s, Total pets: %3$s)"
+        "no_pet": "%1$sNão consegui encontrar um pet com o nome que você especificou.",
+        "pet": "%1$sAww! O-Obrigada. (Afeição: %2$s, Total de pets: %3$s)"
       },
       "feed": {
-        "fire_type": "%1$sYou can't really feed a fire type pet... unless you wanna make charcoal.",
+        "fire_type": "%1$sVocê realmente não pode alimentar um pet de tipo fogo... a menos que você queira fazer carvão.",
         "no_item": "%1$sEu não consigo encontrar este item.",
         "not_food": "%1$sO item especificado não é uma comida.",
-        "full": "%1$sYour pet is currently full and can't eat more.",
-        "success": "%1$sSuccessfully fed your pet %2$s. (Current hunger level: %3$s. Saturation: %4$s)"
+        "full": "%1$sSeu pet está cheio agora e não pode comer mais.",
+        "success": "%1$sPet %2$s alimentado com sucesso. (Nível atual de fome: %3$s. Saturação: %4$s)"
       },
       "hydrate": {
-        "fire_type": "%1$sYou can't really hydrate a fire type pet... unless you wanna put them off.",
-        "not_water": "%1$sThis pet isn't a water type pet.",
-        "no_water": "%1$sYou don't have a water bottle in your inventory",
-        "success": "%1$sSuccessfully hydrated your pet. (Current hydration level: %2$s)"
+        "fire_type": "%1$sVocê realmente não pode hidratar um pet de tipo fogo... a menos que você queira apaga-lo.",
+        "not_water": "%1$sEsse pet não é do tipo água.",
+        "no_water": "%1$sVocê não tem uma garrafa d'água em seu inventário",
+        "success": "%1$sPet hidratado com sucesso. (Nível atual de hidratação: %2$s)"
       }
     },
     "invite": {
@@ -1430,7 +1430,7 @@
     },
     "help": {
       "title": "Ajuda da Mantaro",
-      "base_category": "Command list for category %1$s. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "base_category": "Lista de comando da categoria %1$s. Para um guia detalhado no uso da Mantaro, por favor cheque a [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Guia da Moeda] (https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
       "base": "Lista de comandos. Para um guia detalhado sobre o uso da Mantaro, por favor cheque a [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
       "support": "Se você tiver problemas ou dúvidas ao usar o Mantaro, por favor entre no [servidor de suporte](https://support.mantaro.site). [*Me siga no twitter para updates!*](https://twitter.com/mantarodiscord)\n",
       "patreon": "[**Nós precisamos da sua ajuda para manter Mantaro online! Clique aqui para mais informações.**](https://www.patreon.com/mantaro)",
@@ -1444,23 +1444,23 @@
       }
     },
     "repair": {
-      "no_item": "%1$sYou didn't specify any item to repair. Remember to use quotes if the name has spaces.",
-      "no_item_found": "%1$sI can't find that item. Remember to use quotes if the name has spaces.",
-      "no_main_item": "%1$sYou don't have the item you need to repair this!",
-      "cant_repair": "%1$s**%2$s** it's not an item you can repair. You can only repair broken items.",
-      "no_tool": "%1$sYou need a Tier 2 or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
-      "dust": "%1$sYour inventory it's too dusty to perform a repair. Dust level: %2$s",
-      "not_wrench": "%1$sYou can't use this as a wrench. Remember to use quotes if the name has spaces.",
-      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair.",
-      "not_enough_money": "%1$sYou don't have enough money to repair this item.",
-      "no_item_recipe": "%1$sYou don't have the necessary *%2$s* to perform this repair.",
-      "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair. **(Needed: %3$s, Current: %4$s)**",
-      "item_broke": "Sadly, your wrench broke in the process, but you still got your item!",
-      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair costed *%6$s* credits and the recipe to repair it was *%7$s*.",
+      "no_item": "%1$sVocê não especificou um item para consertar. Lembre-se de usar aspas se o nome contém espaços.",
+      "no_item_found": "%1$sNão consegui encontrar esse item. Lembre-se de usar aspas se o nome contém espaços.",
+      "no_main_item": "%1$sVocê não tem o item que você precisa pra consertar isso!",
+      "cant_repair": "%1$s**%2$s** não é um item que você pode consertar. Você só pode consertar items quebrados.",
+      "no_tool": "%1$sVocê precisa de uma chave inglesa de Tier 2 ou maior para consertar este item. Certifique-se de que você a tenha e que você especificou a chave inglesa correta caso tenha especificado ela. Lembre-se de usar aspas se o nome contém espaços.",
+      "dust": "%1$sSeu inventário está muito sujo pra consertar. Nível de poeira: %2$s",
+      "not_wrench": "%1$sVocê não pode usar isso como uma chave inglesa. Lembre-se de usar aspas se o nome contém espaços.",
+      "not_enough_level": "%1$sVocê precisa de uma chave inglesa de maior tier pra consertar isso.",
+      "not_enough_money": "%1$sVocê não tem dinheiro suficiente pra consertar isso.",
+      "no_item_recipe": "%1$sVocê não tem a necessária *%2$s* pra consertar isso.",
+      "not_enough_items": "%1$sVocê não tem o suficiente de *%2$s* pra consertar isso. **(Necessário: %3$s, Atual: %4$s)**",
+      "item_broke": "Infelizmente, sua chave inglesa quebrou durante o processo, mas você recebeu seu item!",
+      "success": "%1$sConsertado com sucesso! Item consertado %2$s **%3$s** -> %4$s **%5$s**. O conserto custou *%6$s* créditos e a receita do conserto foi *%7$s*.",
       "ls": {
         "header": "Lista de Itens reparáveis ",
         "cost": "Custo de reparo: ",
-        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. The price will be shown below, alongside the needed materials."
+        "desc": "Essa é uma lista de items que você pode consertar usando `~>repair`.\nVocê pode usar o nome completo ou um nome curto, ou um emoji.\nConsertar tem um mínimo custo de ⅓ do custo do item. O preço será mostrado abaixo, ao lado dos materiais necessários."
       }
     },
     "anime": {
@@ -1474,7 +1474,7 @@
       "information_notice": "Information fornecida por AniList. Clique no título para ir para a página do AniList sobre esse anime.",
       "airing": "Aeração",
       "release_date": "Data de Lançamento",
-      "favorite_count": "Favorite Count",
+      "favorite_count": "Contador Favorito",
       "end_date": "Data de Encerramento",
       "average_score": "Pontuação Média",
       "type": "Tipo",
@@ -1506,30 +1506,30 @@
         "bot": "%1$sVocê não pode transferir seu diário para um bot.",
         "receipt_locked": "Esse usuário não pode receber créditos diários agora.",
         "own_locked": "Você não pode receber seu diário agora.",
-        "same_user": "%1$sUse daily without mentioning yourself if you're gonna mention yourself :P"
+        "same_user": "%1$sUse diário sem mencionar a si mesmo se você quer mencionar você mesmo :P"
       },
       "streak": {
         "up": "Combo aumentado! Combo atual: `%1$sx`",
         "first_time": "Primeira vez reivindicando seu diário, divirta-se! (Venha amanhã para pegar seu combo!)",
         "lost_streak": {
-          "normal": "2+ days have passed since your last daily, so your streak of `%1$dx` got reset :(",
-          "watch": "Even your `Magical Watches` could not stop the flow for this long. Even after using all your owned magic watches your streak of `%1$dx` still ran out of time and got reset :("
+          "normal": "2+ dias se passaram desde o seu último diário, então seu combo de `%1$dx` foi resetado :(",
+          "watch": "Até os seus `Relógios Mágicos` não puderam parar o fluxo por tanto tempo. Mesmo depois de ter usado todo o seu relógio magico seu combo de `%1$dx` ainda ficou sem tempo e foi resetado :("
         },
         "bonus": "\nVocê ganhou um bônus de $%1$s por reivindicar seu diário por 5 dias consecutivos ou mais! (Incluído no dinheiro mostrado!)",
         "given": {
           "up": "Combo aumentado! Combo atual: `%1$dx`.\n*O combo foi aplicado no seu perfil!*",
           "bonus": "%1$s ganhou um bônus de $%2$s por reivindicar seu diário por 5 dias consecutivos ou mais! (Incluído no dinheiro mostrado!)"
         },
-        "watch_used": "Your `Magical Watches` saved your streak! You used `%1$d` of them to extend your streaks survival time to %2$dx, you have `%3$d` of them remaining!"
+        "watch_used": "Seus `Relógios Mágicos` salvaram seu combo! Você usou `%1$d` deles para estender o tempo de sobrevivência dos seus combos para %2$dx, você tem `%3$d` deles sobrando!"
       },
-      "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
+      "given_credits": "%1$sEu dei seus **$%2$,d** créditos diários para %3$s",
       "credits": "%1$sVocê ganhou **$%2$s** de créditos diários.",
       "sellout": {
-        "get_premium": "Precisamos da sua ajuda para manter o Mantaro vivo! Confira <https://patreon.com/mantaro> para mais informações.",
+        "get_premium": "Nós precisamos da sua ajuda para manter Mantaro viva! Cheque <https://patreon.com/mantaro> para mais informações.",
         "already_premium": "Obrigado por apoiar Mantaro. Sem a ajuda de pessoas como você, não poderíamos manter Mantaro vivo :heart:"
       },
-      "crate": "You won a loot crate because your daily streak is a multiple of 20! Enjoy.",
-      "watch_get": "You won a `Magic Watch` because your daily streak is a multiple of 50! Enjoy."
+      "crate": "Você ganhou um caixote de saque porquê seu combo no diário é um múltiplo de 20! Aprecie.",
+      "watch_get": "Você ganhou um `Relógio Mágico` porquê seu combo no diário é um múltiplo de 50! Aprecie."
     },
     "gamble": {
       "no_credits": "%1$sVocê está sem dinheiro. Talvez procure por alguns créditos primeiro.",
@@ -1571,7 +1571,7 @@
       "reminder": "\n*Você pode conjurar melhores escolhas usando as gemas que você obtém durante a mineração. Cheque `~>cast ls` para uma lista de coisas que você pode conjurar*",
       "diamond": {
         "overflow": "Huh, você encontrou %1$s diamante(s) enquanto minerava, mas você já tem muito, então eu vendi para você.",
-        "success": "Huh! Você teve sorte e encontrou um diamante enquanto minerava, cheque seu inventário!"
+        "success": "Huh! Você teve sorte e encontrou %1$s diamante(s) enquanto minerava, cheque seu inventário!"
       },
       "gem": {
         "overflow": "Huh, você encontrou *%1$s* enquanto minerava, mas você já tinha muito dessa gema, então eu vendi para você.",
@@ -1586,13 +1586,13 @@
         "success": "Você encontrou um %1$s **%2$s** enquanto minerava e pegou. Vá e abra com `~>opencrate <nome do caixote>`. Você precisa de uma chave de caixote!"
       },
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your pick slot."
+        "success": "%1$sEquipado automaticamente uma **%2$s** no seu slot de picareta."
       },
-      "item_broke": "%1$sYour %2$s broke while using it :( %3$s",
-      "item_broke_autoequip": "*Hint: You can use `~>profile autoequip` and it'll automatically equip the item for you when it breaks, assuming you have one in your inventory.*",
+      "item_broke": "%1$sSua %2$s quebrou enquanto usava :( %3$s",
+      "item_broke_autoequip": "*Dica: Você pode usar `~>profile autoequip` e irá automaticamente equipar o item pra você quando quebrar, assumindo que você tenha um no seu inventário.*",
       "waifu_help": "Sua waifu veio e se juntou a sua aventura de mineração e você dois ganham mais recursos!",
       "missing_equipped": "%1$sVocê equipado uma picareta %2$s, mas você não tem mais desse tipo no seu inventário! Picareta equipada foi resetada.",
-      "broken_drop": "%1$sYour tool broke, but you can repair it. Got broken item: %2$s *%3$s*"
+      "broken_drop": "%1$sSua ferramenta quebrou, mas você pode conserta-la. Item quebrado ganho: %2$s *%3$s*"
     },
     "slots": {
       "errors": {
@@ -1613,7 +1613,7 @@
     },
     "leaderboard": {
       "header": "Tabela de classificações da Mantaro",
-      "header_seasonal": "Mantaro's %1$s season Leaderboard",
+      "header_seasonal": "Leaderboard da temporada %1$s da Mantaro",
       "money": "Classificações de Dinheiro",
       "reputation": "Classificações de Reputação",
       "gamble": "Classificações de Vitórias em Apostas",
@@ -1628,7 +1628,7 @@
         "game": "%1sEssa página mostra o top 10 de pessoas que ganhou mais jogos.\n\nConfira `~>help game` ou `~>help trivia` para detalhes sobre como os jogos funcionam!",
         "claim": "%1sEssa página mostra o top 10 de pessoas que foram mais reivindicadas como waifu.\n\nConfira `~>help waifu` para detalhes sobre o sistema de waifu.",
         "money": "%1$sEssa página mostra o top 10 de pessoas mais ricas na Mantaro.\nEssa tabela de classificação tem sido obsoleta por um tempo, mas nunca desista!",
-        "seasonal_money": "%1$sThis page shows the top 10 richest people on Mantaro for this season.",
+        "seasonal_money": "%1$sEssa página mostra as top 10 pessoas mais ricas dessa temporada.",
         "rep": "%1sEssa página mostra o top 10 de pessoas com mais reputação.",
         "streak": "%1sEssa página mostra o top 10 de pessoas com os maiores combos diários.\n\nConfira `~>help daily` para mais informarções",
         "lvl": "%1sEssa página mostra o top 10 de pessoas com mais nível.\n\nNível é ganho por falar. Uso de comando não contribui, e XP tem 30 segundos de cooldown.",
@@ -1645,7 +1645,7 @@
     "level": {
       "bot_notice": "%1$sBots não tem level.",
       "own_success": "%1$sSeu level é %2$s. (Experiência: %3$s/%4$s)",
-      "success_other": "%1$s %2$s's is level %3$s. (Experience: %4$s/%5$s)"
+      "success_other": "%1$s %2$s é nível %3$s. (Experiência: %4$s/%5$s)"
     }
   },
   "options": {
@@ -1896,8 +1896,8 @@
       "success": "%1$sAdicionado o cargo auto-atribuível **%2$s**, que dá o cargo **%3$s**"
     },
     "autoroles_category_add": {
-      "no_args": "%1$sYou need to specify the name of the category (and the name of the iam role if you want to add one to an existing category).",
-      "success_new": "%1$sAdded auto-assignable list category **%2$s**",
+      "no_args": "%1$sVocê tem que especificar o nome da categoria (e o nome do cargo iam se você quiser adicionar um a uma categoria existente).",
+      "success_new": "%1$sLista de categoria auto-atribuível adicionada a **%2$s**",
       "success": "%1$sAdded auto-assignable role **%2$s** to list category **%3$s**",
       "already_exists": "%1$sThis category already exists and you didn't specify a role to add to it.",
       "no_role": "%1$sThere's no autorole **%2$s**, so I can't add it."
@@ -2049,7 +2049,7 @@
     },
     "logs_unbanmessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone gets unbanned!",
-      "success": "%1$sMensagem de Unban definada para: `%2$s`"
+      "success": "%1$sMensagem de desbanimento definida para: `%2$s`"
     },
     "showdisablewarning": {
       "success": "%1$sDisplay warning on disabled command is set to: %2$s"
@@ -2111,12 +2111,12 @@
     "priority_speaker": "Prioridade de Fala"
   },
   "items": {
-    "headphones": "Fones de Ouvido",
+    "headphones": "Headphones",
     "ban_hammer": "Martelo do Ban",
     "die": "Dado Carregado",
     "kick_boot": "Bota de Kick",
     "floppy": "Disquete",
-    "maths": "Minhas Matemáticas",
+    "maths": "Minhas Lições",
     "racket": "Raquete de Ping",
     "loaded_die": "Dado Carregado",
     "forgotten": "Música Esquecida",
@@ -2180,9 +2180,9 @@
     "sparkle": "Matéria Brilhante",
     "sparkle_pick": "Picareta Brilhante",
     "pizza": "Pizza",
-    "mine_crate": "Caixa de Gema",
+    "mine_crate": "Caixote de Gema",
     "fish_crate": "Tesouro de Peixe",
-    "mine_premium_crate": "Caixa de Gema Premium",
+    "mine_premium_crate": "Caixote de Gema Premium",
     "fish_premium_crate": "Tesouro de Peixe Premium",
     "comet_rod": "Vara de Gema de Cometa",
     "star_rod": "Vara de Gema de Estrela",
@@ -2201,14 +2201,14 @@
     "broken_sparkle_rod": "Vara Brilhante Quebrada",
     "broken_star_rod": "Vara de Estrela Quebrada",
     "incubator_egg": "Incubator Egg",
-    "water_bottle": "Garrafa de água",
+    "water_bottle": "Garrafa d'água",
     "magic_watch": "Relógio Mágico",
     "description": {
       "headphones": "Isso é o que acontece quando você ouve muita música. Embora, deve valer alguma coisa.",
       "ban_hammer": "Deixado por um administrador.",
       "kick_boot": "Deixado por um administrador.",
       "floppy": "Pode ter alguns jogos. Não copie o disquete.",
-      "maths": "Oh, eu esqueci das minhas matemáticas.",
+      "maths": "Oh, eu esqueci das minhas lições.",
       "racket": "Eu ganhei o jogo de ping-pong com o Discord por alguns milissegundos. Talvez.",
       "loaded_die": "Roubado do comando `~>roll`.",
       "forgotten": "Nunca Baixada. Provavelmente foi protegido por direitos autorais.",
@@ -2242,8 +2242,8 @@
       "slot_ticket": "Dá chance extra em caça-níqueis, também funciona como armazenamento em massa.",
       "house": "Lugar aconchegante para se viver.",
       "car": "Para se movimentar.",
-      "bell": "Recompensa do evento de natal de 2017/2018. Dá-lhe um sentimento de natal a sua árvore.",
-      "tree": "Recompensa do evento de natal de 2017/2018. Quem não gosta de uma árvore de natal?.",
+      "bell": "Recompensa de natal. Dá-lhe um sentimento de natal a sua árvore.",
+      "tree": "Recompensa de natal. Quem não gosta de uma árvore de natal?.",
       "pants": "Basicamente, o que você veste nas pernas... esperançosamente.",
       "haste": "Permite você coletar mais coisas de comandos de saque por 2 sessões.",
       "milky": "Limpa todos os efeitos de poção.",
@@ -2290,7 +2290,7 @@
       "broken_sparkle_pick": "Uma picareta brilhante que quebrou durante a mineração. Ainda recuperável.",
       "broken_star_pick": "Uma picareta de estrela que quebrou durante a mineração. Ainda recuperável.",
       "broken_comet_rod": "Uma vara de cometa que se quebrou durante a mineração. Ainda recuperável.",
-      "broken_sparkle_rod": "Uma vara brilhante se que quebrou durante a mineração. Ainda recuperável.",
+      "broken_sparkle_rod": "Uma vara brilhante que se quebrou durante a mineração. Ainda recuperável.",
       "broken_star_rod": "Uma vara de estrela se que quebrou durante a mineração. Ainda recuperável.",
       "incubator_egg": "TBD",
       "water_bottle": "TBD",
