@@ -454,7 +454,7 @@
         "success": "%1$sПереименована команда с `%2$s` на `%3$s`"
       },
       "add": {
-        "no_command": "%1$sYou need to specify the command you want to add.",
+        "no_command": "%1$sВам нужно указать команду, которую вы хотите добавить.",
         "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
         "empty_content": "%1$sВам необходимо указать содержимое этой пользовательской команды",
         "success": "%1$sСохранено для команды `%2$s`",
@@ -830,7 +830,7 @@
         "reset": "%1$sСброс часового пояса.",
         "invalid": "%1$sНевалидный часовой пояс.",
         "success": "%1$sТекущий часовой пояс: **%2$s**",
-        "reset_success": "%1$sSuccessfully reset your timezone."
+        "reset_success": "%1$sУспешный сброс вашего часового пояса."
       },
       "description": {
         "no_argument": "%1$sВы не предоставили аргумент! (установите его)\nК примеру, ~>profile description set Привет!",
@@ -893,7 +893,7 @@
         "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, rod`",
         "invalid_type": "%1$sInvalid type. Valid types are `pick, rod`",
         "success": "%1$sSuccessfully unequipped your %2$s slot.",
-        "equipment_recover": "\nSince you never used your equipment, you got your %1$s back!",
+        "equipment_recover": "\nПоскольку вы никогда не использовали своё снаряжение, вы получаете %1$s обратно!",
         "broken_equipment_recover": "\nYour equipment was used, but you got a %1$s back, you can repair it if you need it later!",
         "broken_equipment_recover_none": "\nThis equipment type had no broken type to recover from, and was used, so it vanished into the void, but you got %1$s credits back."
       },
@@ -920,7 +920,7 @@
       "no_desc": "Описание не установлено",
       "credits": "Кредитов",
       "level": "Уровень",
-      "xp": "XP",
+      "xp": "ОП",
       "rep": "Репутация",
       "birthday": "День рождения",
       "married": "В браке с",
@@ -1058,7 +1058,7 @@
         "premium": "**Премиум сервер! <3**",
         "old_system": "**Премиум сервер со времен старой системы! Не переживайте, все функции работают исправно!**"
       },
-      "description": "Keys are valid for as long as your pledge it's active, unless stated otherwise. Thanks for donating or pledging <3",
+      "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
       "valid_for_old": "Действителей до",
       "old_days_more": "Ещё %1$d дней",
       "thank_note": "Благодарим за поддержку <3",
