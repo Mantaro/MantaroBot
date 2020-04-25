@@ -1067,7 +1067,10 @@ public class CurrencyCmds {
                 inventory.process(new ItemStack(randomCrate, 1));
                 p.save();
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.dailycrate.success"), EmoteReference.POPPER, randomCrate.getName()).queue();
+                var successMessage = String.format(languageContext.get("commands.dailycrate.success"), EmoteReference.POPPER, randomCrate.getName()) +
+                        "\n" + languageContext.get("commands.daily.sellout.already_premium");
+
+                event.getChannel().sendMessage(successMessage).queue();
             }
 
             @Override
