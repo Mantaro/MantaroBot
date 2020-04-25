@@ -372,8 +372,7 @@ public class LeaderboardCmd {
     }
 
     private List<Map<String, Object>> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction, int limit) {
-        List<Map<String, Object>> m;
-        m = r.table(table)
+        return r.table(table)
                 .orderBy()
                 .optArg("index", r.desc(index))
                 .filter(filterFunction)
@@ -381,8 +380,6 @@ public class LeaderboardCmd {
                 .limit(limit)
                 .run(leaderboardConnection, OptArgs.of("read_mode", "outdated"), Types.mapOf(String.class, Object.class))
                 .toList();
-
-        return m;
     }
 
     private EmbedBuilder generateLeaderboardEmbed(GuildMessageReceivedEvent event, I18nContext languageContext, String description, String leaderboardKey, List<Map<String, Object>> lb, Function<Map<?, ?>, Pair<User, String>> mapFunction, String format, boolean isSeasonal) {
