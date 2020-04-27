@@ -59,28 +59,28 @@
       "not_same_potion": "%1$s Thuốc loại %2$s đã được bạn dùng và xếp chồng lên, vì vậy bạn không thể xếp chồng thuốc loại %3$s lên đó."
     },
     "mention_user_required": "%1$sBạn cần phải nhắc đến 1 ai đó.",
-    "invalid_character": "%1$sThat is not an allowed character.",
+    "invalid_character": "%1$s Đó không phải là một kí tự hợp lệ.",
     "invalid_action": "Bạn không thể làm điều đó, đồ ngốc.",
-    "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel.",
+    "interactive_running": "%1$s Đã có sẵn một Hoạt động Tương tác (sở hữu bởi bạn) ở kênh này.",
     "buy_sell_paged_react": "**Tổng số trang: %1$d.**\nDùng biểu cảm cho sẵn để di chuyển giữa các trang.\n%2$s",
-    "buy_sell_paged_text": "**Total pages: %1$d.**\nUse **&p >>** and **&p <<** to move across pages.\n%2$s",
-    "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**",
+    "buy_sell_paged_text": "**Tổng số trang: %1$d**\nDùng **&p >>** và **&p <<** để chuyển giữa các trang.\n%2$s",
+    "buy_sell_paged_reference": "**Hướng dẫn: %1$s giá mua %2$s giá bán.**",
     "cancelled": "%1$sĐã huỷ yêu cầu.",
-    "sellout": "Consider donating on [Patreon](https://www.patreon.com/mantaro) if you like me, even a small donation will help towards keeping the bot alive!",
+    "sellout": "Cân nhắc việc quyên góp trên [Patreon](https://www.patreon.com/mantaro). Nếu bạn thích tôi, thậm chí một khoản tiền quyên góp bé xíu cũng sẽ giúp con bot này còn sống!",
     "deprecated": "Không còn được sử dụng",
     "space_notice": "Nếu tên của nó chứa dấu cách, hãy thử \"cho trong ngoặc kép\"",
     "ratelimit": {
-      "header": "%1$s%2$s (Ratelimited)\n **You'll be able to use this command again in %3$s.**",
-      "spam_1": "Please rest, it's good for your health :( *Remember that Ratelimit will keep increasing if you try before the cooldown resets!*",
-      "spam_2": "\nI think stopping is the best option for now..."
+      "header": "%1$s%2$s (lệnh có thời gian chờ)\n**Bạn có thể sử dụng lệnh này sau %3$s.**",
+      "spam_1": "Nghỉ ngơi đi, nó sẽ tốt cho sức khỏe của bạn. :( *Nhớ rằng thời gian chờ sẽ tăng nếu bạn cố thử lại trước khi nó về 0!*",
+      "spam_2": "\nTôi nghĩ rằng dừng lại là lựa chọn tốt nhất bây giờ..."
     },
-    "generic_error": "If you want, join our **support server** (Link at `support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
+    "generic_error": "Nếu bạn muốn, hãy vào **máy chủ hỗ trợ** (đường link tại `support.mantaro.site`). Hoặc xem trang GitHub của chúng tôi (`https://github.com/Kodehawa/MantaroBot`). Làm ơn hãy nói với họ để tránh việc tôi bị nổ và làm ơn đừng quên những ID lỗi khi báo cáo!",
     "boom_quotes": [
-      "Seemingly Megumin exploded our castle...",
-      "Uh-oh, seemingly my master forgot some zeros and ones on the floor :<",
-      "W-Wait, what just happened?",
-      "I-I think we got some fire going on here... you might want to tell my master to take a look.",
-      "I've mastered explosion magic, you see?",
+      "Dường như Megumin đã làm nổ lâu đài của chúng ta...",
+      "Ớ ớ, hình như chủ nhân của tôi đã để quên một vào số 0 và số 1 trên sàn nhà rồi :<",
+      "Ch.. chờ đã, cái gì vừa xảy ra đếy?",
+      "T.. tôi nghĩ là có vài đốm lửa ở đây... bạn có thể sẽ muốn báo cho chủ nhân tôi để ông ấy ngó qua đó.",
+      "Tôi rất thành thạo phép nổ đấy. Bạn muốn xem không?",
       "Có thể đã có cái gì đó sai sai ở đây. Nhưng... ờ, bạn có thể sửa chữa nó!",
       "Ờ-Ờm.. Bạn muốn gì thế?"
     ],
@@ -90,25 +90,25 @@
       "B-Bạn gọi tôi hơi nhanh và khiến tôi đang chóng chóng mặt...",
       "Đợi đã người anh em!",
       "Đợi thêm một chútttt xíu nữa nữa thôi uwu",
-      "Seems like we're gonna get a speed ticket if we continue going this fast!",
-      "I wanna do this... but halt for a bit please.",
-      "Hey, wait up, I'm not done with my break yet!",
-      "Can you slow down a little bit?"
+      "Có thể chúng ta sắp bị bắn tốc độ nếu chúng ta cứ đi nhanh thế này đấy!",
+      "Tôi rất muốn làm theo lời bạn... nhưng ngừng lại một tí được hơm.",
+      "Hey, chờ đã. Tôi chưa nghỉ xong mà!",
+      "Bạn có thể chậm lại một tí được không?"
     ],
     "mod_quotes": [
-      "Uh-oh, seems like someone just got hit hard!",
-      "Just wholesome admin work happening over here...",
-      "The boot has been thrown!",
-      "You'll be missed... not really",
-      "I hope I did the right thing...",
-      "Woah there, mods have spoken!",
-      "U-Uh... w-well, someone just went through the door."
+      "Áu áu, hình như ai đó vừa bị đánh mạnh!",
+      "Chỉ là một vài công việc admin lành mạnh đang diễn ra ở đây thôi...",
+      "Thế là chiếc ủng đã bị ném đi!",
+      "Bạn sẽ bị bỏ lỡ mất... không hẳn",
+      "Tui mong là tui đã làm việc đúng đắn...",
+      "Uầy, mod lên tiếng kìa bây ơi!",
+      "Ơ..ờ quèo, ai đó vừa đi ngang qua cửa."
     ]
   },
   "categories": {
-    "music": "Audio",
+    "music": "Âm thanh",
     "action": "Hành động",
-    "misc": "Misc",
+    "misc": "Hỗn hợp",
     "moderation": "Quản lí",
     "owner": "Quản trị viên",
     "image": "Hình ảnh",
@@ -116,374 +116,374 @@
     "fun": "Vui",
     "games": "Trò chơi",
     "info": "Thông tin",
-    "currency": "Currency",
-    "pet": "Pet"
+    "currency": "Tiền tệ",
+    "pet": "Thú cưng"
   },
   "commands": {
     "fish": {
-      "dust": "%1$sThe day is over, and your fish bucket only could collect dust. (Dust level %2$s%%)",
-      "no_rod": "%1$sYou don't have a fish rod to fish with! (try with another rod)",
+      "dust": "%1$sMột ngày đã trôi qua, và xô cá của bạn chỉ lấy được chút bụi. (Bụi cấp %2$s%%)",
+      "no_rod": "%1$sBạn không có cần câu để câu! (thử với cần câu khác xem)",
       "trash": {
-        "overflow": "%1$sYou found some trash while fishing, but your inventory was full, so we had to throw it back into the water...",
-        "success": "%1$sWhile calmly fishing, you found a floating %2$s but it seems to be only trash :("
+        "overflow": "%1$sBạn nhặt được một vài mẩu rác trong lúc câu, nhưng do tủ đồ của bạn đã đầy, nên chúng tôi đành phải vứt chúng lại xuống dưới nước...",
+        "success": "%1$sTrong lúc ngồi điềm tĩnh câu, bạn nhặt được một %2$s trôi trên mặt nước nhưng có vẻ nó chỉ là rác :("
       },
       "tier3": {
-        "extra": "And you also found %1$s, lucky!"
+        "extra": "Và bạn cũng nhặt được %1$s, may mắn đó!"
       },
       "crate": {
-        "overflow": "You found a **%1$s** while fishing, but you had too many already, so we threw it back into the ocean...",
-        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+        "overflow": "Bạn tìm thấy một **%1$s** trong khi câu, nhưng vì bạn đã có quá nhiều, nên chúng tôi đã vứt nó lại xuống dưới đáy đại dương...",
+        "success": "Bạn tìm thấy một %1$s **%2$s** trong lúc câu và đã nhặt nó lên. Hãy thử mở nó bằng lệnh `~>opencrate <tên hòm>`. Bạn sẽ cần đến một chiếc chìa mở hòm!"
       },
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
+        "success": "%1$sĐã tự động trang bị một **%2$s** từ bộ cần câu của bạn."
       },
-      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water...",
-      "success": "%1$sWhile calmly fishing, you found %2$s and you proceed to save them into your bucket.",
-      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$d credits** and you proceed to save them into your bucket.%4$s",
-      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$d credits** and you proceed to save them into your pocket.",
-      "rod_broke": "%1$sYour fishing rod broke while trying to catch a fish :(",
-      "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!",
-      "not_suitable": "%1$sYou can't use this to fish.",
-      "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?",
-      "fossil_success": "%1$sYou caught a fossil while trying to find a fish. This might be worth a fair bit or be used for casting, I believe.",
-      "bait": "The fish ate your bait in the process!",
-      "missing_equipped": "%1$sYou had an equipped %2$s rod, but you no longer have any of its kind on your inventory! Equipped rod has been reset.",
-      "broken_drop": "%1$sYour rod broke, but you can repair it. Got broken item: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `~>equip <rod name>` to start your adventure!"
+      "overflow": "%1$sBạn câu được một số cá, nhưng do một phần của tủ đồ đã đầy, chúng tôi đã phải thả nó đi...",
+      "success": "%1$sTrong lúc ngồi điềm tĩnh câu, bạn câu được %2$s và cho được chúng vào trong xô cá.",
+      "success_money": "%1$sTrong lúc ngồi điềm tĩnh câu, bạn câu được %2$s và **$%3$d tín** và cho được chúng vào trong xô cá. %4$s",
+      "success_money_noitem": "%1$sTrong lúc ngồi câu điềm tĩnh, bạn câu được **$%2$d tín** và dúi được vào trong túi áo.",
+      "rod_broke": "%1$sCần câu của bạn đã bị gãy trong lúc vật lộn với cá :(",
+      "waifu_help": "Waifu của bạn đã tham gia hành trình câu của bạn và cả hai đều được một mẻ cá lớn!",
+      "not_suitable": "%1$sBạn không thể dùng thứ này để câu.",
+      "shark_success": "%1$sBằng một cách nào đó, bạn đã bắt được một con cá mập. Thật đúng là một chiếc cần kỳ diệu, phải không?",
+      "fossil_success": "%1$sBạn nhặt được một vỏ ốc trong lúc câu cá. Cái này có thể đáng một giá tiền hời hoặc hữu dụng cho việc chế tạo đồ, tôi tin là vậy.",
+      "bait": "Bọn cá đã ăn mất con mồi của bạn trong quá trình câu!",
+      "missing_equipped": "%1$sBạn đã trang bị %2$s cần câu, nhưng không còn cái nào loại này trong tủ đồ của bạn! Cần câu được trang bị đã được điều chỉnh lại.",
+      "broken_drop": "%1$sCần câu của bạn đã hỏng, nhưng bạn có thể sửa nó. Bạn được nhận lại đồ hỏng: %2$s*%3$s*",
+      "no_rod_equipped": "%1$sBạn chưa trang bị cần câu. Để trang bị, bạn cần gõ lệnh `~>equip <tên cần câu>` để bắt đầu hành trình đi câu!"
     },
     "softban": {
-      "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
+      "no_permission": "%1$sKhông thể cấm tạm thời: Bạn khng có quyền ban thành viên.",
       "no_permission_self": "%1$sXin lỗi! Tôi không có quyền ban thành viên ở máy chủ này.",
-      "no_users": "%1$sYou need to give me an user to soft-ban.",
-      "hierarchy_conflict": "%1$sYou cannot soft-ban an user in a higher hierarchy than you",
-      "yourself_note": "%1$sWhy are you trying to soft-ban yourself?",
-      "self_hierarchy_conflict": "%1$sCannot soft-ban member: %2$s, they are higher or the same hierarchy than I am!",
-      "success": "%1$s%2$s. **(%3$s got soft-banned)**",
-      "error": "%1$sError soft-banning [%2$s]: (No permission provided: %3$s)",
-      "unknown_error": "%1$sUnknown error while soft-banning %2$s: *(Error? %3$s: %4$s)*"
+      "no_users": "%1$sBạn cần cho tôi một cái tên để cấm tạm thời.",
+      "hierarchy_conflict": "%1$sBạn không thể cấm tạm thời người dùng có vai trò cao hơn bạn",
+      "yourself_note": "%1$sTại sao bạn lại tự đi cấm tạm thời bản thân?",
+      "self_hierarchy_conflict": "%1$sKhông thể cấm tạm thời thành viên: %2$s, họ có vai trò cao hơn hoặc ngang bằng tôi!",
+      "success": "%1$s%2$s. **(%3$s đã bị cấm tạm thời)**",
+      "error": "%1$sLỗi cấm tạm thời [%2$s]: (Không được cấp quyền: %3$s)",
+      "unknown_error": "%1$sLỗi cấm tạm thời không xác định %2$s: *(Có đúng là lỗi không nhỉ? %3$s: %4$s)*"
     },
     "ban": {
-      "no_permission": "%1$sYou can't ban: You need the `Ban Users` permission.",
-      "no_users": "%1$sYou need to give me a user to ban.",
-      "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
-      "hierarchy_conflict": "%1$sYou cannot ban an user who's higher than you in the server hierarchy! Nice try %2$s",
-      "yourself_note": "%1$sWhy are you trying to ban yourself, silly?",
-      "self_hierarchy_conflict": "%1$sCannot ban member: %2$s, they are higher or the same hierarchy than I am!",
-      "success": "%1$s%2$s (%3$s got banned)",
-      "success_multiple": "%1$s%2$s (%3$s people got banned)",
-      "error": "%1$sError banning %2$s: (I need the permission %3$s)",
-      "unknown_error": "%1$sHuh, I encountered an unknown error while banning %2$s"
+      "no_permission": "%1$sBạn không thể cấm: Bạn cần quyền `Ban Users` (ban người dùng).",
+      "no_users": "%1$sBạn cần cho tôi một cái tên để cấm.",
+      "no_permission_self": "%1$sXin lỗi! Tôi không có quyền cấm thành viên trong máy chủ này.",
+      "hierarchy_conflict": "%1$sBạn không thể cấm ai đó có vai trò cao hơn bạn trong máy chủ! Có cố gắng đó %2$s",
+      "yourself_note": "%1$sTại sao bạn lại tự đi cấm bản thân? Đồ ngốc.",
+      "self_hierarchy_conflict": "%1$sKhông thể cấm thành viên: %2$s, họ có vai trò cao hơn hoặc ngang bằng tôi!",
+      "success": "%1$s%2$s (%3$s đã bị cấm)",
+      "success_multiple": "%1$s%2$s (%3$s người đã bị cấm)",
+      "error": "%1$sLỗi cấm %2$s: (Tôi cần được cấp quyền %3$s)",
+      "unknown_error": "%1$sGì thế này? Tôi gặp phải một lỗi không mong muốn trong lúc cấm %2$s"
     },
     "kick": {
-      "no_permission": "%1$sCannot kick: You have no Kick Members permission.",
-      "no_users": "%1$sYou need to give me a user to kick.",
-      "no_permission_self": "%1$sSorry! I don't have permission to kick members in this server.",
-      "hierarchy_conflict": "%1$sYou cannot kick an user in a higher hierarchy than you",
-      "yourself_note": "%1$sWhy are you trying to kick yourself, silly?",
-      "self_hierarchy_conflict": "%1$sCannot kick member: %2$s, they are higher or the same hierarchy than I am!",
-      "success": "%1$s%2$s (%3$s got kicked)",
-      "error": "%1$sError kicking %2$s: (No permission provided: %3$s)",
-      "unknown_error": "%1$sUnknown error while attempting to kick %2$s"
+      "no_permission": "%1$sKhông thể đá: Bạn không có quyền đá thành viên.",
+      "no_users": "%1$sBạn cần cho tôi một cái tên để đá.",
+      "no_permission_self": "%1$sXin lỗi! Tôi không có quyền đá thành viên trong máy chủ này.",
+      "hierarchy_conflict": "%1$sBạn không thể đá người dùng có vai trò cao hơn bạn",
+      "yourself_note": "%1$sTại sao bạn lại tự đi đá bản thân? Đồ ngốc.",
+      "self_hierarchy_conflict": "%1$sKhông thể đá thành viên: %2$s, họ có vai trò cao hơn hoặc ngang bằng tôi!",
+      "success": "%1$s%2$s (%3$s đã bị đá)",
+      "error": "%1$sLỗi đá %2$s: (Không được cấp quyền: %3$s)",
+      "unknown_error": "%1$sLỗi không xác định khi cố gắng đá %2$s"
     },
     "tempban": {
-      "no_time": "%1$sYou cannot temp ban a user without giving me the time.",
-      "no_reason": "%2$sYou cannot temp ban someone without a reason.",
-      "success": "%1$s%2$s (%3$s got temporally banned)"
+      "no_time": "%1$sBạn sẽ không thể tạm thời cấm một ai đó nếu không cho tôi thời gian cụ thể.",
+      "no_reason": "%2$sBạn không thể tạm thời cấm một ai đó nếu không có lý do.",
+      "success": "%1$s%2$s (%3$s bị cấm tạm thời)"
     },
     "music_usage": {
       "1": "*Làm thế nào để sử dụng chức năng âm nhạc trong Mantaro?*",
-      "2": "- To **queue songs from youtube or soundcloud** use `~>play` For example: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
-      "3": "- To **search for a song on youtube** use `~>play <search term>` (without the leading < and >) For example: `~>play see you again` (You need to select the number, just *type the number* after the selection box pops up!)",
-      "4": "- To **search for a song on soundcloud** use `~>play soundcloud <search term>` For example `~>play soundcloud hot milk`",
-      "5": "- To **check the queue** you just type `~>queue`",
-      "6": "- To **remove a track from the queue** you just need to use `~>removetrack` It takes as an argument the position the song is queued at (you can check in on queue)",
-      "7": "- To **pause or unpause** just use `~>pause`",
-      "8": "- To **stop the music and unbind the player** use `~>stop`",
-      "9": "- To **shuffle the queue** just use `~>shuffle`",
-      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeat queue`. Using `~>repeat` while repeat is on, turns it off\n",
-      "11": "For more info please use `~>help <command name>` (without the <> and replace command name with the name of the command you want)",
-      "12": "Enjoy your music and thanks for using Mantaro!"
+      "2": "- Để **nghe những bài hát từ youtube hay soundcloud** dùng lệnh `~>play`. Ví dụ: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs`*Nó sẽ tự động kết nối với kênh thoại mà bạn đang tham gia*",
+      "3": "- Để **tìm một bài hát trên youtube** sử dụng `~>play<tên bài hát>` (nhớ bỏ hai dấu < và >). Ví dụ: `~>play see you again` (Bạn cần phải chọn số, chỉ cần *gõ con số bạn muốn* sau khi trang lựa chọn nhảy ra!)",
+      "4": "- Để **tìm một bài hát trên soundcloud** dùng `~>play soundcloud <tên bài hát>` Ví dụ `~>play soundcloud hot milk`",
+      "5": "-Để **xem danh sách phát** bạn chỉ cần gõ `~>queue`",
+      "6": "- Để **xóa một bài khỏi danh sách phát** bạn chỉ cần dùng `~>removetrack` Nó sẽ gây ra một vài tranh cãi về vị trí các bài hát trong danh sách phát (bạn có thể kiểm tra nó trong danh sách)",
+      "7": "- Để \"tạm dừng hoặc tiếp tục\" chỉ cần dùng `~>pause`",
+      "8": "- Để **dừng nghe nhạc và tắt nhạc** dùng `~>stop`",
+      "9": "- Để **nghe ngẫu nhiên bài hát trong danh sách** chỉ cần dùng `~>shuffle`",
+      "10": "- Và cuối cùng, để **nghe lại một bài hát** dùng `~>repeat` và để **nghe lại một danh sách phát** dùng `~>repeat queue`. Sử dụng `~>repeat` để tắt việc lặp lại\n",
+      "11": "Để biết thêm thông tin về lệnh, hãy sử dụng `~>help <tên lệnh>` (nhớ bỏ <> và thay tên lệnh bằng tên của lệnh mà bạn cần)",
+      "12": "Hãy tận hưởng âm nhạc và cảm ơn vì đã sử dụng Mantaro!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `~>profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$sBạn có thể thay đổi ngôn ngữ của máy chủ (nếu có) bằng lệnh `~>opts language set <mã ngôn ngữ>`. Bạn cũng có thể đổi ngôn ngữ cá nhân yêu thích bằng cách dùng `~>profile lang <mã ngôn ngữ>`\n**Những ngôn ngữ hiện đang có sẵn:** `%2$s`\nNếu ngôn ngữ của bạn không có ở đây và bạn muốn giúp đỡ, vui lòng tham gia vào máy chủ hỗ trợ và tham gia vào đội dịch thuật!"
     },
     "season": {
-      "info": "A *season* is the span of time, of usually 6 months where players compete for the top 10 slots on the money or reputation leaderboard. The winners will get badges and prizes based on their seasonal performance.\nThis is to allow a more competitive frame (before, money was pretty much stale) and to make the game a bit more fun.\nYou can access seasonal stuff using `-season`. Commands like profile, mine, fish and balance will require it, while games, loot, daily and reputation will give money/rep to both your global and seasonal profile.",
-      "info_2": "\n\nThe current season is **%1$s** and **%2$s** players are currently taking part on it!\n\nThe fun begins, check `~>leaderboard money -season`; `~>leaderboard rep -season` and `~>leaderboard games -season`.\nGame on! <3\nThanks for enjoying Mantaro."
+      "info": "Một *mùa* là một khoảng thời gian thông thường là khoảng 6 tháng để những người chơi có thể cạnh tranh cho 10 vị trí đầu bảng xếp hạng về tiền hoặc danh tiếng. Người thắng cuộc sẽ được nhận huy hiệu và giải thưởng dựa trên sự thể hiện của họ trong mùa đó.\nĐiều này đưa ra một khung cạnh tranh hơn (trước đây thì tiền khá là cũ) và nó khiến trò chơi trở nên vui hơn-\nBạn có thể biết được những thông tin theo mùa bằng cách dùng `-season`. Những lệnh như profile, mine, fish hay balance sẽ cần nó, trong khi những lệnh games, loot, daily và reputation sẽ tính tiền/danh tiếng cho cả hồ sơ toàn cầu và hồ sơ theo mùa của bạn.",
+      "info_2": "\n\nMùa giải hiện tại là **%1$s** và **%2$s** người chơi sẽ tham gia.\n\n Để cuộc vui được bắt đầu, kiểm tra `~>leaderboard money -season` `~>leaderboard rep -season` và `~>leaderboard games -season`. Mùa giải bắt đầu! <3\nCảm ơn vì đã tham gia Mantaro."
     },
     "music_general": {
       "music_error": {
-        "timeout": "%1$sUnable to connect to %2$s: connection timed out. Try changing the server region and running the command again.",
-        "unknown": "%1$sUnable to connect to %2$s: unknown error"
+        "timeout": "%1$sKhông thể kết nối với %2$s: kết nối hết giờ. Hãy thử đổi vùng máy chủ và chạy lại lệnh một lần nữa.",
+        "unknown": "%1$sKhông thể kết nối với %2$s: lỗi không xác định"
       },
-      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`~>play soundcloud <search term>)`",
-      "no_song": "%1$sYou need to tell me what song you want to play! *(YouTube, Soundcloud, Twitch URL or search queries are allowed)*",
-      "not_playing": "%1$sI'm not currently playing anything. If you believe this is an error, please report this at <https://support.mantaro.site>",
-      "dj_only": "%1$sYou need to be a DJ to use this command.",
+      "not_working": "%1$sKhông thể nghe nhạc vì Youtube đang chặn lượng truy cập từ các bot lớn. Tuy nhiên bot Mantaro Patreon của chúng tôi vẫn nghe nhạc được, vì vậy bạn có thể thử nó nếu bạn đóng góp cho Mantaro 93.770 VND (4$) một tháng. Điều này sẽ chuyển hướng những nỗ lực của chúng tôi trong việc sửa chữa tính năng nghe nhạc nói chung.\nHãy vào <https://patreon.com/mantaro> để biết thêm thông tin\n\nChúng tôi rất xin lỗi vì sự bất tiện này. Hãy thử nghe nhạc trên soundcloud! `(~>play soundcloud <tên bài hát>)`",
+      "no_song": "%1$sBạn cần phải nói cho tôi biết bạn muốn nghe bài nào! *(Youtube, Soundcloud, Twitch URL hoặc các câu hỏi tìm kiếm đều được)*",
+      "not_playing": "%1$sTôi đang không phát bài nào cả. Nếu bạn nghĩ điều này là lỗi, hãy báo cáo nó cho chúng tôi tại <https://support.mantaro.site>",
+      "dj_only": "%1$sBạn cần phải là một DJ để có thể sử dụng lệnh này.",
       "enjoy_note": "Hãy tận hưởng âm nhạc! <3",
-      "no_player": "%1$sI cannot find any music player here... (try playing something again?)",
-      "not_connected": "%1$sYou aren't connected to the voice channel I'm currently playing in! (If you believe this is an error, please report this at <https://support.mantaro.site>)",
-      "np_message": "%1$s Now playing **%2$s** (%3$s) on **%4$s** | %5$s",
-      "track_error": "%1$sOuch, something went wrong while playing this track! Sorry for the inconveniences, I'll try to play the next one available if there is one.",
-      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it. If you need help with the bot, you can join <https://support.mantaro.site>\n%2$s",
-      "soundcloud_no_args": "%1$sYou need to give me the song name, I'm not a magician so I can't guess it :(",
-      "too_many_errors": "%1$sToo many errors on this session, stopping...",
-      "no_vc_found": "%1$sI'm not connected to any VC even though I should be? Try again.",
+      "no_player": "%1$sTôi không thể tìm thấy bất kì bài hát nào ở đây.... (muốn thử lại với cái khác không?)",
+      "not_connected": "%1$sBạn đang không ở trong kênh thoại mà tôi đang phát nhạc! (Nếu bạn nghĩ đây là một lỗi, hãy báo cho chúng tôi tại <https://support.mantaro.site>)",
+      "np_message": "%1$s Đang phát **%2$s** (%3$s) ở **%4$s** | %5$s",
+      "track_error": "%1$sÚi, có vấn đề khi phát bài này rồi! Chin nhỗi nha. Tôi sẽ phát bài tiếp theo ngay đây nếu đằng sau có bài đang chờ.",
+      "queue_finished": "%1$sĐã phát hết các bài trong danh sách! Mong là bạn thích nó. Nếu bạn cần giúp đỡ gì về tôi, bạn có thể vào <https://support.mantaro.site> %2$s",
+      "soundcloud_no_args": "%1$sBạn cần phải cho cái tên bài hát chứ. Tui có phải ảo thuật gia đâu mà đoán được :(",
+      "too_many_errors": "%1$sQuá nhiều lỗi trong phiên phát nhạc này, dừng lại...",
+      "no_vc_found": "%1$sTôi không được kết nối với bất kì kênh thoại nào mặc dù tôi cần phải thể? Thử lại đê.",
       "queue": {
-        "no_track_found_np": "Nothing or title/duration not found",
-        "header": "Queue for server %1$s",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`.",
-        "nothing_playing_2": "**If there is a song playing and you didn't add more songs, then there is actually just dust here. You can queue more songs as you desire!**",
+        "no_track_found_np": "Không có gì hoặc không thể tìm thấy tên/thời lượng",
+        "header": "Danh sách phát cho máy chủ %1$s",
+        "nothing_playing": "Chả có gì ở đây cả, toàn bui. Tại sao bạn không bật vài bài hát?\nNếu bạn nghĩ rằng có những bài hát ở đây mà chúng không xuất hiện, thử dùng lệnh `~>queue 1`.",
+        "nothing_playing_2": "**Nếu chỉ có duy nhất bài hát đang bật và bạn không thêm nhiều bài nữa thì thực sự sẽ chỉ còn bụi ở đâu thôi. Bạn có thể xếp nhiều bài hát hơn nếu bạn muốn!**",
         "np": "Đang phát",
-        "page_overflow": "Nothing here, just dust. Why don't you go back some pages?",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`.",
-        "total_queue_time": "Total queue time",
-        "total_size": "Total queue size",
+        "page_overflow": "Chả có gì ở đây hớt, toàn bụi. Sao bạn không quay lại mấy trang trước?",
+        "page_overflow_2": "Nếu bạn nghĩ rằng có vài bài hát ở đây nhưng chúng lại không xuất hiện, hãy thử `~>queue 1`.",
+        "total_queue_time": "Tổng thời gian của danh sách phát",
+        "total_size": "Tổng số bài trong danh sách phát",
         "togglers": "Lặp lại / Tạm dừng",
-        "playing_in": "Playing in",
-        "footer": "Total pages: %1$d%2$s. Currently in page %3$d",
-        "multiple_pages": " -> Use ~>queue <page> to change pages",
-        "page_react": " -> React to change pages",
-        "no_channel": "No channel :(",
-        "songs": "song(s)",
-        "clear_error": "%1$sEither you're not connected to the VC or you're not the DJ.",
-        "clear_success": "%1$sSuccessfully cleared the current queue. The queue size was %2$s"
+        "playing_in": "Đang phát",
+        "footer": "Tổng số trang: %1$d%2$s. Đang ở trang %3$d",
+        "multiple_pages": " ->dùng ~>queue <số trang> để chuyển trang",
+        "page_react": " -> Bấm vào các phản ứng để thay đổi trang",
+        "no_channel": "Không có kênh :(",
+        "songs": "các bài hát",
+        "clear_error": "%1$sBạn không ở trong kênh thoại và bạn không phải DJ.",
+        "clear_success": "%1$sĐã xoá thành công danh sách phát hiện tại. Kích cỡ cũ của danh sách phát là %2$s"
       },
       "connect": {
-        "success": "%1$sSuccessfully connected to channel **%2$s**!",
-        "full_channel": "%1$sI can't connect to that channel because it is full!",
-        "non_existent_channel": "%1$sI received a non-existent channel as response. If you set a voice channel and then deleted it, that might be the cause.\n We reset your music channel for you, try to play the music again.",
-        "user_no_vc": "%1$s**Please join a voice channel**",
-        "missing_permissions_connect": "%1$sI cannot connect to this channel due to the lack of permissions (%2$s).",
-        "missing_permission_speak": "%1$sI cannot speak in this channel due to the lack of permissions (%2$s).",
-        "channel_locked": "%1$sI can only play music on channel **%2$s**.",
-        "already_connected": "%1$sI'm already connected on channel **%2$s**! (Use the `move` command to move me to another channel)",
-        "attempting_to_connect": "%1$sI'm already trying to connect to channel **%2$s**! (Use the `move` command to move me to another channel)"
+        "success": "%1$sKết nối thành công vào kênh **%2$s**!",
+        "full_channel": "%1$sTôi không thể vào được kênh đó vì nó đã đầy người!",
+        "non_existent_channel": "%1$sTôi nhận được phản hồi là kênh này không tồn tại. Nếu bạn tạo một kênh thoại và xóa nó đi thì điều này có thể là lý do. Chúng tôi đã cài đặt lại kênh nhạc cho bạn, hãy thử bật lại nhạc.",
+        "user_no_vc": "%1$s**Hãy tham gia vào một kênh thoại**",
+        "missing_permissions_connect": "%1$sTôi không thể kết nối vào kênh này vì thiếu sợ cho phép (%2$s).",
+        "missing_permission_speak": "%1$sTôi không thể phát âm thanh trong kênh này vì thiếu sự cho phép (%2$s).",
+        "channel_locked": "%1$sTôi chỉ có thể chơi nhạc ở kênh này **%2$s**.",
+        "already_connected": "%1$sTôi đang kết nối đến kênh **%2$s**! (Dùng lệnh `move` để chuyển tôi đến kênh khác)",
+        "attempting_to_connect": "%1$sTôi đã cố gắng kết nối với kênh **%2$s**! (Dùng lệnh `move` để chuyển tôi đến kênh khác)"
       },
       "listener": {
-        "paused": "%1$sPausing player because I got muted :(",
-        "resumed": "%1$sResuming playback because someone joined!",
-        "left_alone": "%1$sI'll leave **%2$s** in 2 minutes because I was left all alone :(",
-        "leave": "%1$sI decided to leave **%2$s** because I was left all alone :("
+        "paused": "%1$sTạm dừng chơi nhạc bởi vì tôi bị tắt tiếng :(",
+        "resumed": "%1$sTiếp tục phát nhạc bởi vì có người tham gia!",
+        "left_alone": "%1$sTôi sẽ rời **%2$s** trong 2 phút vì tôi bị mọi người bỏ rơi :(",
+        "leave": "%1$sTôi quyết định rời **%2$s** bởi vì mọi người bỏ tui một mình :("
       },
       "loader": {
-        "over_limit": "%1$sThe queue you added had more than %2$d songs, so we added songs until this limit and ignored the rest.",
-        "loaded_playlist": "%1$sAdded **%2$d songs** to queue on playlist: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`~>play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.",
-        "error_loading": "%1$sError while fetching music: %2$s",
-        "over_queue_limit": "%1$sCould not queue %2$s: Surpassed queue song limit (%3$s)!",
-        "over_32_minutes": "%1$sCould not queue %2$s: Track is longer than 32 minutes! (%3$s)",
-        "fair_queue_limit_reached": "%1$s**Surpassed fair queue level of %2$d (Too many songs which are exactly equal)**",
-        "loaded_song": "%1$sAdded to queue -> **%2$s** **(%3$s)**",
-        "selection_text": "Song selection. Type the song number to continue.",
-        "timeout_text": "This timeouts in 30 seconds. Type &cancel to cancel."
+        "over_limit": "%1$sDanh sách phát mà bạn thêm vào đã nhiều hơn %2$d bài hát, vì vậy chúng tôi sẽ thêm các bài hát cho đến giới hạn và bỏ những bài còn lại đi.",
+        "loaded_playlist": "%1$sThêm **%2$d bài hát** để xếp hàng trong danh sách phát: **%3$s** *(%4$s)*",
+        "no_matches": "%1$sTìm kiếm không có kết quả. Nếu điều này xảy ra với *tất cả các bài hát* mà bạn cố tìm kiếm, bạn có thể muốn dùng `~>play soundcloud <tên bài hát>` để thay thế trong lúc này. Dẫn link trực tiếp từ youtube cũng sẽ hoạt động.",
+        "error_loading": "%1$sLỗi khi tải nhạc: %2$s",
+        "over_queue_limit": "%1$sKhông thể xếp hàng chờ %2$s: Số bài hát trong danh sách phát đã vượt quá giới hạn (%3$s)!",
+        "over_32_minutes": "%1$sKhông thể xếp hàng chờ %2$s: Bài hát dài quá 32 phút! (%3$s)",
+        "fair_queue_limit_reached": "%1$s**Vượt quá mức xếp hàng công bằng của %2$d (Quá nhiều bài hát giống hệt nhau)**",
+        "loaded_song": "%1$sĐược thêm vào danh sách chờ -> **%2$s** **(%3$s)**",
+        "selection_text": "Lựa chọn bài hát. Nhập số của bài hát để tiếp tục.",
+        "timeout_text": "Thời gian chờ là 30 giây. Gõ &cancel để hủy."
       },
-      "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)",
-      "closed_connection": "%1$sClosed audio connection, unbinding player..."
+      "premium_beg": "%1$sHãy suy nghĩ về việc ủng hộ tại <https://patreon.com/mantaro>. Nếu bạn thích tôi, thậm chí cả một khoản tiền ủng hộ bé xíu của bạn cũng sẽ giúp con bot sống vui vẻ. (Gõ `~>donate` để biết thêm thông tin chi tiết!)",
+      "closed_connection": "%1$sĐóng kết nối âm thanh, tắt trình phát nhạc liên kết..."
     },
     "forceskip": {
-      "success": "%1$sAn admin or Bot Commander decided to skip this song."
+      "success": "%1$sMột Admin hoặc một Bot Chỉ Huy quyết định bỏ qua bài hát này."
     },
     "np": {
-      "no_track": "%1$sThere either isn't track playing or we cannot seem to find it, try playing a song",
+      "no_track": "%1$sĐây không phải là một bản âm thanh hoặc dường như chúng tôi không tìm thấy nó, thử phát một bài hát xem",
       "header": "Đang phát"
     },
     "pause": {
-      "paused": "Player paused. *(Player was un-paused previously)*",
-      "unpaused": "Player un-paused *(Player was paused previously)*."
+      "paused": "Tạm dừng phát nhạc. *(trình phát nhạc vẫn phát bình thường trước đó)*",
+      "unpaused": "Tiếp tục phát nhạc *(Trình phát nhạc bị tạm dừng trước đó)*."
     },
     "rewind": {
-      "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
-      "negative": "%1$sPositive integers only",
-      "before_beginning": "%1$sYou can't skip to before the beginning of a song",
-      "success": "%1$sRewound song to: %2$s."
+      "no_time": "%1$sBạn cần phải nói cho tôi biết rằng bạn muốn tua lại bao nhiêu phút trong bài hát: *(Ví dụ `~>rewind 1m45s` sẽ tua lại 1 phút 45s của bài hát)*",
+      "negative": "%1$sChỉ dùng số nguyên dương",
+      "before_beginning": "%1$sBạn không thể bỏ qua một bài hát trước khi nó bắt đầu",
+      "success": "%1$sĐã tua lại bài hát đến: %2$s."
     },
     "restartsong": {
-      "success": "%1$sRestarted current song."
+      "success": "%1$sBắt đầu lại bài hát đang phát."
     },
     "skipahead": {
-      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `~>skipahead 1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
-      "past_duration": "%1$sYou can't skip past the duration of a song",
-      "success": "%1$sSkipped ahead to %2$s."
+      "no_time": "%1$sBạn cần phải cho tôi biết bạn muốn bỏ qua bao nhiêu trong bài hát. *(Ví dụ: `~>skipahead 1m45s` sẽ bỏ qua 1 phút 45s từ chỗ bạn đang ở trong bài hát)*",
+      "past_duration": "%1$sBạn không thể bỏ qua quá thời lượng của một bài hát",
+      "success": "%1$sBỏ qua phía trước đến %2$s."
     },
     "move": {
-      "attempt": "%1$sI will try to move to the channel you're in",
-      "error_moving": "%1$sFailed to switch voice channels.",
-      "cannot_connect": "%1$sCannot connect: I either don't have permission to talk or to move channels.",
-      "non_existent_channel": "%1$sI can't move to a non-existent channel!",
+      "attempt": "%1$sTôi sẽ cố gắng chuyển đến kênh thoại bạn đang ở",
+      "error_moving": "%1$sKhông thể chuyển kênh thoại.",
+      "cannot_connect": "%1$sKhông thể kết nối: Tôi không có quyền được nói hay được chuyển kênh.",
+      "non_existent_channel": "%1$sTôi không thể chuyển đến một kênh không tồn tại!",
       "success": "%1$sĐã di chuyển bot vào kênh `%2$s`",
-      "vc_not_found": "%1$sVoice channel not found or you didn't specify one!"
+      "vc_not_found": "%1$sKhông tìm thấy kênh thoại hoặc bạn không chỉ định một kênh!"
     },
     "shard": {
-      "info": "I'm in shard %1$d! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "Tôi đang ở trong mảnh vỡ %1$d! Nếu bạn cần giúp bất kì điều gù, hãy ghé qua <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
-        "header": "%1$sThe server DJ has decided to clear the queue!",
-        "success": "%1$sRemoved **%2$d songs** from the queue.",
-        "error": "%1$sEither you're not connected to the VC or you're not the DJ."
+        "header": "%1$sDJ của máy chủ quyết định xóa danh sách bài hát chờ!",
+        "success": "%1$sXóa **%2$dbài hát** khỏi danh sách chờ.",
+        "error": "%1$sBạn không ở trong kênh thoại và bạn cũng không phải DJ."
       }
     },
     "repeat": {
-      "queue_cancel": "%1$s Tiếp tục với danh sách phát hiện tại.",
-      "queue_repeat": "%1$sRepeating the current queue.",
-      "song_cancel": "%1$sContinuing with the normal queue.",
-      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it."
+      "queue_cancel": "%1$sTiếp tục với danh sách phát hiện tại.",
+      "queue_repeat": "%1$sLặp lại danh sách bài hát chờ hiện tại.",
+      "song_cancel": "%1$sTiếp tục với danh sách bài hát chờ bình thường.",
+      "song_repeat": "%1$sLặp lại bài hát đang phát. Chạy lại lệnh này một lần nữa nếu muốn vô hiệu hóa nó."
     },
     "nextsong": {
-      "no_song_next": "%1$sOw, there isn't any song coming next.",
-      "format": "%1$sNext song in queue: **%2$s** (%3$s) | *Total songs in queue: %4$,d*"
+      "no_song_next": "%1$sÚi, không còn bài hát nào tiếp theo.",
+      "format": "%1$sBài tiếp theo trong danh sách đợi: **%2$s** (%3$s) | *Tổng số bài trong danh sách phát: %4$,d*"
     },
     "shuffle": {
-      "success": "%1$sRandomized the order of the current queue."
+      "success": "%1$sĐã xáo trộn thứ tự của danh sách chờ."
     },
     "skip": {
-      "dj_skip": "%1$sThe DJ has decided to skip this song.",
+      "dj_skip": "%1$s DJ quyết định bỏ qua bài hát này.",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to skip!"
+        "submit": "%1$s**Phiếu bầu của bạn đã được gửi đi** Bạn cần %2$d phiều bầu nữa để bỏ qua!",
+        "remove": "%1$s**Phiếu bầu của bạn đã bị xóa** Bạn cần %2$d phiều bầu nữa để bỏ qua!"
       },
-      "success": "%1$sReached the required amount of votes, skipping song...",
-      "no_track": "%1$sThere seems to be no track to skip, so I cannot do anything..."
+      "success": "%1$sĐã đạt đủ số phiếu cần thiết, bỏ qua bài hát...",
+      "no_track": "%1$sHình như ở đây không có bài hát nào để bỏ qua, vì vậy bạn không thể làm gì cả..."
     },
     "removetrack": {
-      "invalid_range": "%1$s`%2$s` is not a valid range.",
-      "no_track": "%1$sThere isn't a queued track at the position `%2$d`!",
-      "invalid_number": "(%1$s`%2$s`) One of the ranges is not a valid number!",
-      "invalid_number_range": "%1$s`%2$s` is not a valid number or range!",
-      "success": "%1$sRemoved **%2$d** track(s) from the queue.",
-      "not_dj": "%1$sYou need to be a DJ to perform this action."
+      "invalid_range": "%1$s`%2$s` không phải là một phạm vi hợp lệ.",
+      "no_track": "%1$sKhông có bài hát nào tại vị trí `%2$d`!",
+      "invalid_number": "(%1$s`%2$s`) Một trong những dãy số là số không hợp lệ!",
+      "invalid_number_range": "%1$s`%2$s` không phải là một số hợp lệ hoặc một dãy số!",
+      "success": "%1$sĐã xóa **%2$d** bài hát từ danh sách chờ.",
+      "not_dj": "%1$sBạn cần phải là 1 DJ để thực hiện hành động này."
     },
     "stop": {
-      "dj_stop": "%1$sThe server DJ has decided to stop the current queue.",
+      "dj_stop": "%1$sDJ của máy chủ quyết định dừng danh sách phát hiện tại.",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to stop!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to stop!"
+        "submit": "%1$s**Phiếu bầu của bạn đã được gửi đi** Bạn cần thêm %2$d phiếu để dừng nhạc!",
+        "remove": "%1$s**Phiếu bầu của bạn đã bị bỏ** bạn cần thêm %2$d phiếu bầu để dừng nhạc!"
       },
-      "success": "%1$sReached the required amount of votes, stopping player...",
-      "no_player": "%1$sThere seems to be no player to stop, so I cannot do anything...",
-      "cleanup": "%1$sRemoved **%2$d songs** from the queue."
+      "success": "%1$sĐã đạt được số phiếu cần thiết. Ngừng phát nhạc...",
+      "no_player": "%1$sỞ đây dường như không có bài hát nào để dừng được cả, vì thế tôi chẳng làm được gì hết...",
+      "cleanup": "%1$sĐã xóa **%2$d bài hát** khỏi danh sách chờ."
     },
     "volume": {
-      "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
-      "success": "%1$sVolume set to %2$d\n\n%3$s",
-      "no_args": "%1$sYou need to tell me what volume you want me to set the music to (5 to 100).",
-      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to an user or a server, please, if you donate, join the support guild and ask for it."
+      "check": "%1$sÂm lượng hiện tại là: %2$d\n\n%3$s",
+      "success": "%1$sÂm lượng được đặt thành %2$d\n\n%3$s",
+      "no_args": "%1$sBạn cần phải nói cho tôi biết âm lượng mà bạn muốn tôi đặt nhạc là gì (từ 5 đến 100).",
+      "premium_only": "%1$sĐây là tính năng chỉ dùng cho cao cấp. Để có được những lợi ích như thế này bạn có thể cam kết trên patreon (https://www.patreon.com/mantaro). Cảm ơn vì đã hiểu.\nCác tính năng cao cấp có thể bị ràng buộc bởi người dùng hoặc máy chủ. Vui lòng tham gia vào nhóm hỗ trợ và hỏi về nó nếu như bạn đã ủng hộ."
     },
     "lyrics": {
-      "no_current_track": "%1$sThere's no song currently playing on this server!",
-      "error_searching": "%1$sThere was an error searching for this track or there was no results found.",
-      "header": "%1$sLyrics for %2$s",
-      "footer": "Thanks for using Mantaro! Page: %1$d, Total: %2$d."
+      "no_current_track": "%1$sKhông có bài hát nào đang được chơi ở máy chủ này!",
+      "error_searching": "%1$sCó lỗi khi tìm bản nhạc này hoặc không thể tìm thấy kết quả nào.",
+      "header": "%1$sLời bài hát cho %2$s",
+      "footer": "Cảm ơn vì đã sử dụng Mantaro! Trang: %1$d, Tổng số trang: %2$d."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s (I respond to any of those!). The server prefix is `%3$s` (Only works on this server). You can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
-      "none": "There's no custom prefix set on this server."
+      "header": "%1$sTiền tố mặc định là %2$s (Tôi trả lời bất cứ cái nào trong này!). Tiền tố của máy chủ này là `%3$s` (Chỉ dùng được tại máy chủ này).Bạn có thể đặt một tiền tố mới bằng cách sử dụng `~>opts prefix set <tiền tố>`. Không bao gồm <>.\nNếu bạn có bất kì câu hỏi gì, bạn có thể tìm chúng tôi tại <https://support.mantaro.site>",
+      "none": "Không có tiền tố tùy chỉnh cho máy chủ này."
     },
     "custom": {
-      "no_args": "%1$sYou need to specify what you want to do with this command. Check command help for more info!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `~>help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
-      "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
-      "error_running_new": "%1$sError running custom command. Check response, content and length.\n**Error:**\n```%2$s```",
-      "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
-      "nsfw_enabled": "%1$sThis command has been successfully marked as NSFW.",
-      "nsfw_disabled": "%1$sThis command has been successfully marked as SFW.",
-      "nsfw_not_nsfw": "%1$sThis command is marked as NSFW therefore it can only be used on NSFW channels.",
-      "new_error": "%1$sThe custom command you're trying to create has an error (v3, check content).\n**Error:**\n```%2$s```",
+      "no_args": "%1$sBạn cần phải xác định bạn muốn làm gì với lệnh này. Kiểm tra trợ giúp lệnh để biết thêm thông tin!",
+      "incorrect_args": "%1$sLập luận không chính xác. Kiểm tra `~>help custom` hoặc https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands để được trợ giúp thêm về cách sử dụng. Nếu bạn muốn biết thêm thông tin xa hơn sau khi đọc wiki, bạn có thể tìm hiểu tại <https://support.mantaro.site>",
+      "error_running": "%1$sLỗi trong khi chạy lệnh tùy chỉnh... vui lòng kiểm tra lại nội dung phản hồi và độ dài (không quá 2000 kí tự).",
+      "error_running_new": "%1$sLỗi khi chạy lệnh tùy chỉnh. Kiểm tra phản hồi, nội dung và độ dài.\n **Lỗi**\n```%2$s```",
+      "not_loaded": "Bot vẫn chưa được khởi động đầy đủ... các lệnh tùy chỉnh sẽ xuất hiện trong thời gian sớm nhất!",
+      "nsfw_enabled": "%1$sLệnh này đã được đánh dấu thành công là NSFW.",
+      "nsfw_disabled": "%1$sLệnh này được đánh dấu là SFW thành công.",
+      "nsfw_not_nsfw": "%1$sLệnh này được đánh dấu là NSFW vì thế nó chỉ có thể được dùng ở kênh NSFW.",
+      "new_error": "%1$sLệnh tùy chỉnh mà bạn đang cố tạo ra có một lỗi (v3, kiểm tra nội dung).\n**Lỗi:**\n```%2$s```",
       "ls": {
         "header": "Các lệnh cho máy chủ này.",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**List:**",
-        "footer": "Total custom commands on this server: %1$s"
+        "description": "**Mục này cho thấy tất cả các lệnh tùy chỉnh (do người dùng tạo ra) của máy chủ này** Tất cả các lệnh ở đây không được liên hệ với bot chính ở bất kì hình thức nào\n\nLệnh tùy chỉnh là các lệnh được tạo bởi  người dùng (thường là quản lý máy chủ) nó có thể xử lý các tình huống khác nhau như là mô các lệnh hành động.\nĐể biết thêm thông tin chi tiết về cách tạo các lệnh tùy chỉnh, hãy tham khảo [trang wiki này.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n\n**List:**",
+        "footer": "Tổng số lệnh tùy chỉnh trong máy chủ: %1$s"
       },
-      "invalid": "%1$sInvalid command selection. Check command help (`help custom`).",
+      "invalid": "%1$sLựa chọn lệnh không hợp lệ. kiểm tra trợ giúp lệnh (`help custom`).",
       "view": {
-        "invalid": "%1$sYou need to specify the command and the response number!",
-        "not_found": "%1$sThere isn't a custom command with that name here.",
-        "less_than_specified": "%1$sThis command has less responses than the number you specified...",
-        "success": "**Response `%1$d` for custom command `%2$s`:** \n```\n%3$s```"
+        "invalid": "%1$sBạn cần chỉ định lệnh và số phản hồi!",
+        "not_found": "%1$sKhông có lệnh tùy chỉnh với tên đó ở đây.",
+        "less_than_specified": "%1$sLệnh này có ít phản hồi hơn số bạn chỉ định....",
+        "success": "**Phản hồi `%1$d` cho lệnh tùy chỉnh `%2$s`:** \n```\n%3$s```"
       },
       "raw": {
-        "no_command": "%1$sYou need to tell me what command you want to look at.",
-        "header": "Raw Custom Command: %1$s",
-        "amount": "(Showing %1$d responses of %2$d)",
-        "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
+        "no_command": "%1$sBạn cần phải cho tôi biết bạn muốn xem lệnh nào.",
+        "header": "Lệnh tùy chỉnh thô: %1$s",
+        "amount": "(Hiển thị phản hồi %1$d của %2$d)",
+        "description": "Đây là danh sách tất cả các phản hồi của lệnh này ở định dạng thô (những gì bạn đưa vào lệnh)."
       },
       "clear": {
-        "success": "%1$sCleared **%2$d Custom Commands**"
+        "success": "%1$sĐã xóa **%2$d lệnh tùy chỉnh**"
       },
       "make": {
-        "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses. Use `~>nsfw` to mark this command as NSFW and `~>sfw` to revert.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
-        "cancel": "%1$sCommand Creation canceled.",
-        "no_responses_added": "%1$sNo responses were added. Stopping creation without saving...",
-        "success": "%1$sSaved to command `%2$s`.",
-        "no_name_specified": "%1$sYou didn't specify the name of the custom command to create!"
+        "start_text": "%1$sBắt đầu **\"Tạo lệnh tùy chỉnh `%2$s`\"**!\nNhắn `&~>stop`để ngừng tạo **nhưng không lưu **.\nNhắn `&~>save` để ngừng tạo **lưu lệnh mới**. Nhắn bất kỳ tin nào bắt đầu với `&` để thêm vào phản hồi của lệnh. Dùng `~>nsfw`để đanh dấu lệnh này là NSFW và `~>sfw` để ngược lại.\nHoạt động tương tác này sẽ kết thúc và không được lưu sau 60 giây không hoạt động.",
+        "cancel": "%1$sTạo lệnh bị hủy bỏ.",
+        "no_responses_added": "%1$sKhông có phản hồi nào được thêm vào. Dừng tạo mới mà không sao lưu...",
+        "success": "%1$sLưu lệnh `%2$s`.",
+        "no_name_specified": "%1$sBạn không đưa ra tên của lệnh tùy chỉnh để tạo!"
       },
       "eval": {
-        "not_specified": "You didn't specify anything to eval.",
-        "new_error": "%1$sThere was an error while evaluating this custom command.\n**Error**:\n```%2$s```",
-        "error": "%1$sThere was an error while evaluating this custom command!\n%2$s"
+        "not_specified": "Bạn không chỉ định bất cứ thứ gì để đánh giá.",
+        "new_error": "%1$sCó lỗi trong việc đánh giá lệnh tùy chỉnh này.\n**Lỗi**:\n```%2$s```",
+        "error": "%1$sCó một lỗi trong việc đánh giá lênh tùy chỉnh này!\n%2$s"
       },
       "remove": {
-        "no_command": "%1$sYou need to tell me what command you want to remove.",
-        "success": "%1$sRemoved Custom Command `%2$s`."
+        "no_command": "%1$sBnaj cần phả cho tôi biết bạn muốn xóa bỏ lệnh nào.",
+        "success": "%1$sĐã xóa bỏ lênh tùy chỉnh `%2$s`."
       },
       "import": {
-        "no_command": "%1$sYou need to tell me what command you want to import.",
-        "not_found": "%1$sThere are no custom commands matching your search query.",
-        "header": "`%1$s` (Responses: %2$s) - Guild: `%3$s`",
+        "no_command": "%1$sBạn phải nói cho tôi biết bạn muốn sao chép về cái lệnh nào.",
+        "not_found": "%1$sKhông có lệnh tùy chỉnh nào khớp với tìm kiếm của bạn.",
+        "header": "`%1$s` (Số phản hồi: %2$s) - Máy chủ: `%3$s`",
         "selection": "Chọn Lệnh:",
-        "note": "(You can only select custom commands from guilds that you are a member of)",
-        "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3$d responses."
+        "note": "(Bạn chỉ có thể chọn lệnh tùy chỉnh từ máy chủ mà bạn đang là thành viên)",
+        "success": "Sao chép lệnh tùy chỉnh `%1$s` từ máy chủ `%2$s` với tổng %3$d phản hồi."
       },
       "edit": {
-        "no_command": "%1$sYou need to specify what command you want to edit.",
-        "invalid_number": "%1$sYou need to specify a correct number to change.",
-        "no_index": "%1$sYou cannot edit a non-existent index.",
-        "empty_response": "%1$sCannot edit to an empty response",
-        "not_enough_args": "%1$sYou need to specify the command, the index and the new response",
-        "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly"
+        "no_command": "%1$sBạn cần phải nói rõ ra lệnh nào mà bạn muốn sửa.",
+        "invalid_number": "%1$sBạn cần phải đưa ra một số chính xác để thay đổi.",
+        "no_index": "%1$sBạn không thể sửa một chỉ số không tồn tại.",
+        "empty_response": "%1$sBạn không thể sửa một phản hồi trống",
+        "not_enough_args": "%1$sBạn cần phải đưa ra chính xác lệnh, chỉ số và phản hồi mới",
+        "success": "%1$sChỉnh sửa phản hồi **#%2$d** của lệnh `%3$s` chính xác"
       },
       "deleteresponse": {
-        "no_command": "%1$sYou need to specify the command you want to remove a response from.",
-        "invalid_number": "%1$sYou need to specify a correct number to change.",
-        "no_index": "%1$sYou cannot remove a non-existent index.",
-        "not_enough_args": "%1$sYou need to specify the command and the index you want to delete.",
-        "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
+        "no_command": "%1$sBạn cần phải chỉ ra chính xác lệnh mà bạn muốn xóa một phản hồi.",
+        "invalid_number": "%1$sBạn cần phải chỉ ra chính xác một số để thay đổi.",
+        "no_index": "%1$sBạn không thể xóa một chỉ số không tồn tại.",
+        "not_enough_args": "%1$sBạn cần chỉ ra chính xác lệnh và chỉ số mà bạn muốn xóa.",
+        "success": "%1$sĐã xóa phản hồi **#%2$d** của lệnh `%3$s` thành công"
       },
       "rename": {
-        "success": "%1$sRenamed command `%2$s` to `%3$s`"
+        "success": "%1$sĐã đổi tên lệnh `%2$s` thành `%3$s`"
       },
       "add": {
-        "no_command": "%1$sYou need to specify the command you want to add.",
-        "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
-        "empty_content": "%1$sYou need to specify the content of this custom command",
-        "success": "%1$sSaved to command `%2$s`",
-        "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
+        "no_command": "%1$sBạn cần phải chỉ ra lệnh mà bạn muốn thêm vào.",
+        "not_enough_args": "%1$sBạn cần phải đưa ra tên lệnh và cách phản hồi của lệnh mà bạn muốn thêm vào.",
+        "empty_content": "%1$sBạn cần phải đưa ra nội dung của lệnh tùy chỉnh này",
+        "success": "%1$sĐã lưu lệnh `%2$s`",
+        "too_many_commands": "%1%sĐã có quá nhiều lệnh ở máy chủ này, vì vậy bạn không thể tạo thêm nữa (+100). Điều này có thể được bỏ qua nếu bạn ở máy chủ cao cấp (Chi tiết tại <https://patreon.com/mantaro>)."
       },
-      "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
-      "already_exists": "%1$sThe command `%2$s` already exists and it's a default bot command.",
+      "character_not_allowed": "%1$sKý tự này không được phép có ở tên của lệnh tùy chỉnh.",
+      "already_exists": "%1$sLệnh `%2$s` đã tồn tại và nó là lệnh mặc định của bot.",
       "name_too_long": "%1$sTên quá dài.",
-      "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just a bit of dust.",
-      "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
-      "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
-      "invalid_image": "%1$sThis command contains an invalid image, please fix...",
-      "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
-      "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
-      "invalid_link": "%1$sThe string `%2$s` isn't a valid link."
+      "no_cc": "%1$sKhông có lệnh tùy chỉnh nào được đăng ký ở máy chủ này, chỉ toàn bụi thoi.",
+      "admin_only": "Máy chủ này chỉ chấp nhận tạo mới, sửa, sao chép, và đánh giá lệnh tùy chỉnh từ admin.\n**Đây là cài đặt MẶC ĐỊNH.**\n- Nếu bạn là admin (có vai trò Chỉ Huy bot hoặc quyền quản lý máy chủ) và bạn muốn tất cả đều sử dụng được tính năng này, hãy gõ lệnh `~>opts admincustom false`",
+      "not_found": "%1$sKhông có lệnh `%2$s` ở máy chủ này.",
+      "invalid_image": "%1$sLệnh này bao gồm hình ảnh không tồn tại, hãy sửa lại...",
+      "invalid_string": "%1$sChuỗi `{%2$s}` không hợp lệ hoặc đầu ra dài hơn 2000 ký tự.",
+      "invalid_json": "%1$sChuỗi `{%2$s}` không phải là một JSON hợp lệ.",
+      "invalid_link": "%1$sChuỗi `%2$s` không phải là một đường dẫn hợp lệ."
     },
     "mute": {
-      "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
-      "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`",
-      "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent.",
-      "no_users": "%1$sYou need to give me an user to mute.",
-      "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server.",
-      "no_time": "%1$sYou didn't specify any time. Remember that you need to add the `-time` argument and specify it there.",
-      "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
-      "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
-      "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
-      "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
-      "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to un-mute them.",
-      "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
+      "no_permissions": "%1$sBạn cần có quyền cấm hoặc quyền đá thành viên để tắt tiếng.",
+      "no_mute_role": "%1$sChức năng tắt tiếng vai trò chưa được đặt trong máy chủ này, Bạn có thể đăt bằng cách gõ `~>opts muterole set <vai trò>`",
+      "null_mute_role": "%1$sVai trò bị tắt tiếng trước đây ở máy chủ bây giờ đã không tồn tại.",
+      "no_users": "%1$sBạn cần cho tôi một cái tên để tắt tiếng.",
+      "no_manage_roles": "%1$sTôi không có quyền quản lý vai trò trong máy chủ này.",
+      "no_time": "%1$sBạn không cần phải chỉ rõ thời gian ở đây. Nhớ rằng bạn cần thêm đối số `-time` và chỉ rõ thời gian ở đó.",
+      "time_not_specified": "%1$sBạn muốn có thời gian nhưng bạn lại không chỉ rõ thời gian bao lâu.",
+      "negative_time_notice": "%1$sBạn không thể tắt tiếng ai đó trong thời gian âm. Trừ khi bạn có thể uốn cong không gian và thời gian.",
+      "default_time_too_long": "%1$sThời gian chờ tắt tiếng quá dài (Tối đa 10 ngày)...",
+      "time_too_long": "%1$sThời gian tắt tiếng được chỉ định quá dài (Tối đa 10 ngày)...",
+      "already_muted": "%1$sNgười dùng này đã được gắn nooijt vai trò bị tắt tiếng. Vui lòng dùng `~>unmute` để gỡ bỏ nó.",
+      "self_hierarchy_error": "%1$sTôi không thể gán vai trò bị tắt tiếng vì người này có vai trò cao hơn tôi hoặc vai trò này cao hơn tôi!",
       "user_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
       "success": "%1$sAdded mute role to **%2$s** for around %3$s"
     },
@@ -547,7 +547,7 @@
         "empty": "%1$sBạn không thể để trống bức thư tình.",
         "no_marriage": "%1$sBạn chưa cưới, bạn không thể viết thư tình cho bản thân được...",
         "not_proposing_player": "%1$sBạn không phải là người được cầu hôn ở đây!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`.",
+        "already_done": "%1$sCuộc hôn nhân này đã có một bức thư tình được gửi đi. Kiểm tra trong `marry status`.",
         "too_long": "%1$sBức thư này quá dài (tối đa 500 ký tự)",
         "cannot_see": "%1$sTôi không thể tìm thấy người mà bạn đã cưới... Có lẽ là do họ không cùng trong máy chủ nào với tôi.",
         "confirmation": "%1$sBạn có *chắc chắn* muốn gửi bức thư này để tỏ tình với **%2$s#%3$s**?\nBức thư này sẽ được giữ trong suốt cuộc hôn nhân. *Nội dung:*%4$s",
@@ -560,7 +560,7 @@
         "description_format": "%1$sTình trạng hôn nhân giữa **%2$s#%3$s** và **%4$s#%5$s**",
         "date": "Ngày cưới",
         "love_letter": "Thư tình",
-        "waifus": "Waifu Ownership"
+        "waifus": "Quyền sở hữu Waifu"
       },
       "no_mention": "%1$sHãy đề cập người bạn muốn cưới.",
       "marry_yourself_notice": "%1$sBạn không thể cưới bản thân, dù cho rằng bạn có thể rất muốn thế.",
@@ -580,22 +580,22 @@
     },
     "waifu": {
       "bot": "%1$sMột bot không thể là waifu, cho dù bạn có muốn thế...",
-      "notice": "This feature isn't meant to have any kind of relationship, either implicit or explicit, with real life events.",
+      "notice": "Tính năng này không có nghĩa là bạn có bất kì một mối quan hệ nào, bất kể là kín đáo hay công khai ở ngoài đời thực.",
       "id": "**ID:**",
       "stats": {
         "header": "Tình trạng waifu của bạn",
         "header_other": "Tình trạng waifu của %1$s",
-        "format": "%1$s **Money weight value:** %2$,d\n%1$s **Badge weight value:** %3$,d\n%1$s **Experience weight value:** %4$,d\n%1$s **Claim weight value:** %5$,d\n%1$s **Reputation multiplier:** %6$.2fx",
-        "value": "Total waifu value",
-        "credits": "%1$,d credits",
-        "performance": "Waifu Performance Points"
+        "format": "%1$s **Giá trị trọng lượng tiền:**%2$,d\n%1$s **Giá trị trọng lượng huy hiệu:** %3$,d\n%1$s **Giá trị sức nặng kinh nghiệm:** %4$,d\n%1$s **Giá trị sức nặng thu thập:** %5$,d\n%1$s **Hệ số nhân danh tiếng:** %6$.2fx",
+        "value": "Tổng giá trị waifu",
+        "credits": "%1$,d tín",
+        "performance": "Điểm thể hiện Waifu"
       },
       "claim": {
-        "no_user": "%1$sYou didn't mention any user to claim.",
-        "locked": "%1$sYou're currently unable to perform this action.",
-        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed.",
-        "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s credits)**",
-        "not_enough_slots": "%1$sYou don't have enough slots available to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
+        "no_user": "%1$sBạn chưa đề cập đến người dùng bạn muốn nhận.",
+        "locked": "%1$sBạn không thể thực hiện hành động này.",
+        "key_locked": "%1$s Người dùng mà bạn đang cố thu thập đã khóa bằng chìa và không thể thu thập được.",
+        "not_enough_money": "%1$sBạn không có đủ tiền để thu thập waifu này **(Cần: %2$s tín)**",
+        "not_enough_slots": "%1$sBạn không còn đủ chỗ trống để thu thập waifu này. (Tổng số vị trí:%2$s, đã dùng:%3$s)",
         "success": "%1$sSuccessfully claimed `%2$s` for %3$,d. Slots used: %4$s",
         "yourself": "%1$sYou cannot claim yourself!",
         "already_claimed": "%1$sYou already claimed this waifu.",
@@ -632,11 +632,11 @@
       "success": "%1$sI rate %2$s with a **%3$,d/100**"
     },
     "roll": {
-      "success": "%1$sYou got **%2$,d**%3$s",
-      "amount": "Doing **%1$,d** rolls."
+      "success": "%1$sBạn lắc được **%2$,d**%3$s",
+      "amount": "Sau **%1$,d** lần lắc."
     },
     "coinflip": {
-      "over_limit": "%1$sHold in there! The limit is 1,000 coin flips",
+      "over_limit": "%1$sDừng ở đó! Giới hạn là 1,000 lần tung",
       "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions",
       "success": "%1$s Your result from **%2$,d** time(s) yielded **%3$,d** heads and **%4$,d** tails"
     },
@@ -644,111 +644,111 @@
       "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>market dump`",
       "brief": "**%1$s's inventory:** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s will get **%3$,d credits** if all of the items are sold.",
-      "header": "%1$s's Inventory",
-      "format": "**Price**: 📥 %1$,d 📤 %2$,d\n%3$s",
-      "empty": "%1$sThis inventory is empty! :(",
-      "brief_notice": "You can use `~>inventory -brief` to get a mobile friendly version."
+      "header": "Tủ đồ của %1$s",
+      "format": "**Giá cả**: 📥 %1$,d 📤 %2$,d\n%3$s",
+      "empty": "%1$sTủ đồ này đang trống! :(",
+      "brief_notice": "Bạn có thể ra lệnh `~>inventory -brief` để lấy bản phù hợp với điện thoại."
     },
     "cast": {
-      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\"",
-      "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. If the item name has spaces, wrap the name in quotes. Example: `~>cast \"star pick\" \"comet wrench\"`",
-      "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
-      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
-      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
-      "success": "%1$sYou successfully *casted %2$s %3$s* for %4$s credits. *Cast used: %5$s*",
-      "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
-      "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
+      "no_item_found": "%1$sTôi không tìm thấy đồ nào như vậy. Nếu tên đồ có dấu cách, hãy cho nó vào trong \"dấu ngoặc kép\"",
+      "item_not_cast": "%1$sBạn không thể chế tạo được món đồ này. Bạn có thể gõ `~>cast ls` để xem danh sách những đồ vật có thể chế tạo. Nếu tên của đồ có dấu cách, hãy cho chúng vào trong ngoặc kép. Ví dụ: `~>cast \"star pick\" \"comet wrench\"`",
+      "not_enough_money": "%1$sBạn không có đủ tiền để chế tạo món đồ này. **(Cần: %2$s)**",
+      "no_item": "%1$sBạn không có *%2$s* để thực hiện quá trình chế tạo này.",
+      "not_enough_items": "%1$sBạn không có đủ số lượng của *%2$s* để chế tạo.**(Cần: %3$s, Hiện có: %4$s)**",
+      "success": "%1$sBạn *đã chế tạo %2$s %3$s* thành công và tiêu %4$s tín. *Quá trình chế tạo dùng:%5$s*",
+      "no_tool": "%1$sBạn cần có %2$s để thực hiện quá trình chế tạo này!",
+      "item_broke": "\nRất tiếc, cờ lê của bạn đã bị gãy trong quá trình chế tạo, nhưng bạn đã có được đồ của bạn!",
       "too_many": "%1$sYou'd have more than 5000 of this item if you proceed. Try casting less of this object?",
       "low_tier": "%1$sYou need at least a tier 2 wrench to cast more items per call. You currently have a tier %2$s wrench.",
       "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe specify a more powerful one? *Wrench level: %2$s, Required level: %3$s*. Example: `~>cast \"star pick\" \"comet wrench\"`",
-      "too_many_amount": "%1$sYou can't cast that many of this item at once! Limit: %2$s, Attempt: %3$s. A sparkle wrench makes the limit double! Unless you're already using one.",
+      "too_many_amount": "%1$sBạn không thể chế tạo quá nhiều món đồ này cùng một lúc như thế! Giới hạn: %2$s, Số lượng bạn đưa ra: %3$s. Một cờ lê lấp lánh có thể tăng giới hạn lên gấp đôi! Trừ khi bạn đang dùng nó.",
       "ls": {
-        "header": "Castable Item List",
-        "cost": "Cast Cost: ",
-        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name (example: `~>cast \"diamond pickaxe\"`, or `~>cast \"diamond p\"`, works)\n**Casting has a minimum cost of half the price of the item. The casting price will be shown down below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "header": "Danh sách các món đồ có thể chế tạo",
+        "cost": "Giá chế tạo: ",
+        "desc": "Dưới đây là danh sách những món đồ bạn có thể chế tạo bằng cách gõ `~>cast`.\nBạn có thể dùng tên đầy đủ hoặc tên viết tắt của chúng (ví dụ: `~>cast \"diamond pickaxe\"`, hoặc `~>cast diamond p\"`, đều có thể dùng được)\n**Chế tạo đồ có giá nhỏ nhất bằng một nửa giá của đồ. Giá chế tạo sẽ được ghi ở dưới.**\nCờ lê cấp 2 và cấp 3 lần lượt là sao chổi (comet) và lấp lánh (sparkle)."
       },
-      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?",
-      "wrench_multiple_use": "Tip: *You can't use the wrench you are trying to cast with as ingredient!*"
+      "dust": "%1$sBạn không thể chế tạo đồ với một tủ đồ bụi bặm như vậy! *(Bụi cấp: %2$s%%)*. Sao bạn không thử dọn sạch nó bằng `~>useitem mop`?",
+      "wrench_multiple_use": "Lời khuyên: *Bạn không thể sử dụng chiếc cờ lê bạn đang cố dùng để chế tạo như một nguyên liệu được!*"
     },
     "market": {
       "dump": {
-        "no_item": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to dump.",
-        "invalid": "%1$sNot a valid number of items to dump.",
-        "non_existent": "%1$sCannot dump a non-existent item! If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "player_no_item": "%1$sCannot dump an item you don't have!",
-        "more_items_than_player": "%1$sYou cannot dump more items than what you have.",
-        "success": "%1$sSent %2$,dx **%3$s %4$s** to the trash."
+        "no_item": "%1$sBạn cần nói rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải nói) và tên của đồ vật bạn muốn vứt.",
+        "invalid": "%1$sSố lượng bạn nhập không hợp lệ để vứt.",
+        "non_existent": "%1$sKhông thể vứt đồ không tồn tại! Nếu bạn đang lúng túng, bạn có thể thử dùng tên viết tắt của đồ hoặc cho tên đồ vào trong ngoặc kép.",
+        "player_no_item": "%1$sKhông thể vứt đồ bạn không có!",
+        "more_items_than_player": "%1$sBạn không thể vứt đi nhiều hơn số lượng đồ bạn có.",
+        "success": "%1$sĐã ném %2$,dx **%3$s %4$s** vào thùng rác."
       },
       "price": {
-        "non_existent": "%1$sCannot check the price of a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_price": "%1$sThis item is not available neither for sell or buy (could be an exclusive collectible)",
-        "collectible": "%1$sThis is a collectible item. (Sell value: %2$,d credits)",
-        "success": "%1$sThe market value of %2$s**%3$s** is %4$s credits to buy it and you can get %5$s credits if you sell it."
+        "non_existent": "%1$sKhông thể xem giá của đồ vật không tồn tại. Nếu bạn đang lúng túng, bạn có thể thử dùng tên viết tắt của đồ hoặc cho tên đồ vào trong ngoặc kép.",
+        "no_price": "%1$sMón đồ này không thịnh hành trên chợ để có thể bán hoặc mua (có thể là một hàng sưu tầm độc)",
+        "collectible": "%1$sĐây là một đồ sưu tầm. (Giá bán đi: %2$,d tín)",
+        "success": "%1$sGiá bán của chợ cho %2$s**%3$s** là %4$s tín và giá chợ nhận mua là %5$s tín."
       },
       "sell": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
-        "invalid": "%1$sNot a valid number of items to sell.",
+        "no_item_amount": "%1$sBạn cần nói rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải nói) và tên của đồ vật bạn muốn bán.",
+        "invalid": "%1$sSố không hợp lệ để có thể bán.",
         "all": {
-          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? This will clear your *whole* inventory. If you wanna sell individual items please use the amount. Type *yes* to confirm and *no* to cancel",
-          "success": "%1$sYou sold all your inventory items and gained %2$,d credits!",
-          "cancelled": "%1$sCancelled successfully."
+          "confirmation": "%1$sBạn có chắc chắn muốn bán **tất cả** đồ của bạn? Điều này sẽ làm *mọi* đồ vật trong tủ đồ của bạn biến mất. Nếu bạn muốn bán một loại đồ đơn lẻ, hãy gõ số l ượng. Gõ *yes* để đồng ý và *no* để huỷ",
+          "success": "%1$sBạn đã bán hết đồ trong tủ đồ của bạn và tăng %2$,d tín!",
+          "cancelled": "%1$sĐã huỷ thành công."
         },
-        "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
-        "no_item_player": "%1$sYou cannot sell an item you don't have.",
-        "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
-        "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
+        "non_existent": "%1$sBạn không thể bán đồ không tồn tại. Nếu bạn đang lúng túng, bạn có thể thử tên viết tắt của đồ hoặc cho tên đồ vào trong dấu ngoặc kép.",
+        "no_sell_price": "%1$sBạn không thể bán đồ không thể bán. (Nhưng bạn có thể `~>market dump` để vứt nó đi)",
+        "no_item_player": "%1$sBạn không thể bán đồ bạn không có.",
+        "more_items_than_player": "%1$sBạn không thể bán nhiều hơn số lượng bạn đang có.",
+        "success": "%1$sBạn đã bán %2$,d **%3$s** và nhận được %4$,d tín!"
       },
       "buy": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
-        "invalid": "%1$sNot a valid number of items to buy.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object.",
-        "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item."
+        "no_item_amount": "%1$sBạn cần nói rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải nói) và tên của đồ vật bạn muốn mua.",
+        "invalid": "%1$sSố lượng bạn nhập không hợp lệ để mua.",
+        "non_existent": "%1$sBạn không thể mua đồ không tồn tại. Nếu bạn đang lúng túng, bạn có thể thử tên viết tắt của đồ hoặc cho tên đồ vào trong dấu ngoặc kép.",
+        "no_buy_price": "%1$sBạn không thể mua đồ không được bán.",
+        "item_limit_reached": "%1$sBạn không thể mua thêm đồ vật đó được.",
+        "success": "%1$sĐã mua thành công %2$,d %3$s với giá %4$,d tín. Giờ bạn còn %5$,d tín.",
+        "not_enough_money": "%1$sBạn không đủ tiền để mua đồ vật này."
       },
-      "header": "Mantaro's Market",
-      "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info."
+      "header": "Chợ Mantaro",
+      "reference": "\nBạn có thể mua và bán dùng lệnh `~>market buy <đồ vật>` và `~>market sell <đồ vật>`. Xem qua `~>help market` để biết thêm thông tin chi tiết."
     },
     "itemtransfer": {
-      "transfer_yourself_note": "%1$sYou cannot transfer items to yourself.",
-      "bot_notice": "%1$sYou cannot transfer items to a bot.",
-      "locked_notice": "%1$sYou cannot transfer items now. (Player is locked)",
-      "hidden_item": "%1$sYou cannot transfer this item!",
-      "overflow": "%1$sThis player has the maximum possible amount of this item (5000).",
-      "success": "%1$s%2$s gave **%3$s** **%4$s** to %5$s",
-      "multiple_items_error": "%1$sYou don't have any of these items in your inventory",
-      "error": "%1$sYou don't have enough of this item in your inventory to do this!",
-      "no_item_mention": "%1$sYou need to specify the person to transfer the item and the item to transfer."
+      "transfer_yourself_note": "%1$sBạn không thể tự chuyển đồ cho bản thân.",
+      "bot_notice": "%1$sBạn không thể chuyển đồ cho một bot.",
+      "locked_notice": "%1$sBạn hiện không thể chuyển đồ được. (Người chơi bị khoá)",
+      "hidden_item": "%1$sBạn không thể chuyển món đồ này!",
+      "overflow": "%1$sNgười chơi này đã đạt số lượng tối đa đồ bạn định chuyển (5000).",
+      "success": "%1$s%2$s đã chuyển **%3$s** **%4$s** tới %5$s",
+      "multiple_items_error": "%1$sBạn không có món đồ này trong tủ đồ của bạn",
+      "error": "%1$sBạn không có đủ số lượng của món đồ này để thực hiện giao dịch!",
+      "no_item_mention": "%1$sBạn cần đề cập đến người nhận đồ và tên đồ."
     },
     "transfer": {
-      "transfer_yourself_note": "%1$sYou cannot transfer money to yourself.",
-      "bot_notice": "%1$sYou cannot transfer money to a bot.",
-      "no_amount": "%1$sYou need to specify the amount.",
-      "no_money_specified_notice": "%1$sYou cannot transfer no money :P",
-      "over_transfer_limit": "%1$sYou cannot transfer this much money. (Limit: %2$,d credits)",
-      "own_locked_notice": "%1$sYou cannot transfer money now.",
-      "receipt_overflow_notice": "Cannot send money to this player.",
-      "no_money_notice": "%1$sYou cannot transfer money you don't have.",
-      "receipt_locked_notice": "1$sThat user cannot receive money now.",
-      "receipt_over_limit": "%1$sThis user already has too much money...",
-      "success": "%1$sTransferred **%2$,d** *(%3$,d after 8%% tax)* to **%4$s** successfully.",
-      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `transferitems` command instead.",
-      "party": "You can only transfer to the same person (%1$s) once every 4 minutes."
+      "transfer_yourself_note": "%1$sBạn không thể tự chuyển tiền cho bản thân.",
+      "bot_notice": "%1$sBạn không thể chuyển tiền cho một bot.",
+      "no_amount": "%1$sBạn cần nói rõ số tiền bạn muốn chuyển.",
+      "no_money_specified_notice": "%1$sBạn không thể chuyển số tiền bằng không :P",
+      "over_transfer_limit": "%1$sBạn không thể chuyển nhiều tiền đến vậy. (Giới hạn: %2$,d tín)",
+      "own_locked_notice": "%1$sBạn hiện không thể chuyển tiền.",
+      "receipt_overflow_notice": "Không thể chuyển tiền cho người chơi này.",
+      "no_money_notice": "%1$sBạn không thể chuyển số tiền mà bạn không có.",
+      "receipt_locked_notice": "1$sNgười chơi đó hiện không thể nhận tiền.",
+      "receipt_over_limit": "%1$sNgười chơi này có quá nhiều tiền...",
+      "success": "%1$sĐã chuyển thành công **%2$,d** *(%3$,d sau khi trừ 8%% thuế)* tới **%4$s**.",
+      "item_transfer": "%1$sBạn không thể dùng lệnh chuyển tiền để chuyển đồ, hãy thử dùng lệnh `transferitems`.",
+      "party": "Bạn chỉ có thể chuyển tiền cho cùng một người (%1$s) 4 phút một lần."
     },
     "useitem": {
       "ls": {
-        "header": "Interactive Items List",
-        "desc": "This is a list of all interactive items in Mantaro. For more info about interactive items check the wiki!"
+        "header": "Danh sách những món đồ tương tác",
+        "desc": "Đây là danh sách những món đồ tương tác trong Mantaro. Để biết thêm thông tin chi tiết, xin vui lòng truy cập wiki!"
       },
-      "use_command": "%1$sFor this item you need to use the command that's linked to the item! (mine for pick, fish for the fishing rod)",
-      "no_items_specified": "%1$sYou need to specify what item to use.",
-      "not_interactive": "%1$sYou cannot interact with this item.",
-      "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set. This item might use its own command? For example, picks use `~>mine`.",
-      "no_item": "%1$sYou don't have this item in your inventory.",
-      "not_enough_items": "%1$sYou don't have enough of this item.",
-      "too_little": "%1$sYou can't use less than 1 item.",
+      "use_command": "%1$sVới đồ này bạn cần dùng lệnh đi liền với nó! (mine cho cuốc, fish cho cần câu)",
+      "no_items_specified": "%1$sBạn cần nói rõ đồ bạn muốn dùng.",
+      "not_interactive": "%1$sBạn không thể tương tác với đồ này.",
+      "interactive_no_action": "%1$sTuy đồ này được đánh dấu là đồ tương tác, nhưng nó chưa được đặt lệnh sử dụng. Hoặc có thể nó có lệnh riêng chăng? Chẳng hạn như, cuốc dùng `~>mine`.",
+      "no_item": "%1$sBạn không có đồ này trong tủ đồ của bạn.",
+      "not_enough_items": "%1$sBạn không có đủ số lượng đồ bạn đưa ra.",
+      "too_little": "%1$sBạn không thể dùng một món đồ với số lượng ít hơn một.",
       "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `9`!"
     },
     "opts": {
