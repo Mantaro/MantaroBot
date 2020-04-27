@@ -1058,7 +1058,7 @@
         "premium": "**Servidor premium! <3**",
         "old_system": "**Servidor premium sob o sistema antigo! Não se preocupe, você é premium e seus benefícios funcionarão corretamente!**"
       },
-      "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
+      "description": "Keys são válidas de acordo com a garantia ativa, a não ser que seja especificado o contrário. Obrigada por doar ou comprometer <3",
       "valid_for_old": "Válido para",
       "old_days_more": "%1$d mais dias",
       "thank_note": "Obrigado pelo suporte <3",
@@ -1896,17 +1896,17 @@
       "success": "%1$sAdicionado o cargo auto-atribuível **%2$s**, que dá o cargo **%3$s**"
     },
     "autoroles_category_add": {
-      "no_args": "%1$sVocê tem que especificar o nome da categoria (e o nome do cargo iam se você quiser adicionar um a uma categoria existente).",
+      "no_args": "%1$sVocê tem que especificar o nome da categoria (e o nome do cargo iam se você quiser adiciona-lo a uma categoria existente).",
       "success_new": "%1$sLista de categoria auto-atribuível adicionada a **%2$s**",
-      "success": "%1$sAdded auto-assignable role **%2$s** to list category **%3$s**",
-      "already_exists": "%1$sThis category already exists and you didn't specify a role to add to it.",
-      "no_role": "%1$sThere's no autorole **%2$s**, so I can't add it."
+      "success": "%1$sAdicionado cargo auto-atribuível **%2$s** para a lista de categoria **%3$s**",
+      "already_exists": "%1$sEssa categoria já existe e você não especificou um cargo pra adicionar nela.",
+      "no_role": "%1$sNão tem cargo auto-atribuível **%2$s**, então não posso adiciona-lo."
     },
     "autoroles_category_remove": {
-      "no_args": "%1$sYou need to specify the name of the category (and the name of the iam role if you want to remove one from an existing category).",
-      "success_new": "%1$sRemoved auto-assignable list category **%2$s**",
-      "success": "%1$sRemoved auto-assignable role **%2$s** from list category **%3$s**",
-      "no_category": "%1$sThere's no category **%2$s**"
+      "no_args": "%1$sVocê tem que especificar o nome da categoria (e o nome do cargo iam se você quiser remove-lo de uma categoria existente).",
+      "success_new": "%1$sLista de cargo auto-atribuível removido da categoria **%2$s**",
+      "success": "%1$sCargo **%2$s** auto-atribuível removido da lista da categoria **%3$s**",
+      "no_category": "%1$sNão tem categoria **%2$s**"
     },
     "autoroles_remove": {
       "no_args": "%1$sVocê tem que especificar o nome do iam que você quer remover.",
@@ -2011,7 +2011,7 @@
       "no_extras": "%1$sNão tem nenhuma mensagem extra de entrada aqui..."
     },
     "usermessage_leavemessage_add": {
-      "no_message": "%1$sVocê tem que especificar qual mensagem extra você quer que eu diga quando alguém sair!",
+      "no_message": "%1$sVocê precisa especificar qual mensagem extra você quer que eu diga quando alguém sair!",
       "success": "%1$sAdicionada `%2$s` para a mensagem extra de saída com sucesso."
     },
     "usermessage_leavemessage_remove": {
@@ -2036,40 +2036,40 @@
       "success": "%1$sRemovido com sucesso a palavra `%2$s` do modlog da lista negra."
     },
     "logs_editmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone edits a message!",
-      "success": "%1$sMessage edit message set to: `%2$s`"
+      "no_message": "%1$sVocê precisa especificar qual mensagem que você quer que eu diga quando alguém editar uma mensagem!",
+      "success": "%1$sMensagem de edição de mensagem definida para: `%2$s`"
     },
     "logs_deletemessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone deletes a message!",
-      "success": "%1$sMessage delete message set to: `%2$s`"
+      "no_message": "%1$sVocê precisa especificar qual mensagem você quer que eu diga quando alguém deletar uma mensagem!",
+      "success": "%1$sMensagem de mensagem deletada definida para: `%2$s`"
     },
     "logs_banmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone gets banned!",
+      "no_message": "%1$sVocê precisa especificar qual mensagem você quer que eu diga quando alguém for banido!",
       "success": "%1$sMensagem de banimento definida para: `%2$s`"
     },
     "logs_unbanmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone gets unbanned!",
+      "no_message": "%1$sVocê precisa especificar qual mensagem você quer que eu diga quando alguém for desbanido!",
       "success": "%1$sMensagem de desbanimento definida para: `%2$s`"
     },
     "showdisablewarning": {
-      "success": "%1$sDisplay warning on disabled command is set to: %2$s"
+      "success": "%1$sAviso de exibição em comandos desativados definido para: %2$s"
     },
     "birthdayblacklist": {
-      "no_args": "%1$sYou need to specify who to blacklist from birthday announcements.",
+      "no_args": "%1$sVocê precisa especificar quem você quer colocar na lista negra de anúncios de aniversário.",
       "add": {
-        "success": "%1$sSuccessfully added %2$s (%3$s) to the birthday announcement blacklist for this server."
+        "success": "%1$sAdicionado com sucesso %2$s (%3$s) na lista negra de anúncios de aniversário neste servidor."
       },
       "remove": {
-        "success": "%1$sSuccessfully removed %2$s (%3$s) from the birthday announcement blacklist for this server."
+        "success": "%1$sRemovido com sucesso %2$s (%3$s) da lista negra de anúncio de aniversário neste servidor."
       }
     },
     "lobby": {
       "disable": {
-        "success": "%1$sSuccessfully disabled game lobby/multiple."
+        "success": "%1$sDesativado com sucesso múltiplos jogos/lobby."
       },
       "enable": {
-        "already_enabled": "%1$sGame lobby/multiple isn't disabled on this server.",
-        "success": "%1$sSuccessfully enabled game lobby/multiple. (If it was previously disabled)"
+        "already_enabled": "%1$sMúltiplos jogos/lobby não está desativado neste servidor.",
+        "success": "%1$sAtivado com sucesso múltiplos jogos/lobby. (Se ele estava desativado anteriormente)"
       }
     },
     "invalid_category": "%1$sVocê inseriu uma categoria inválida. Uma lista de categorias válidas para desativar (caso-insensível) será mostrado abaixo```md\n%2$s```",
@@ -2143,7 +2143,7 @@
     "berserk": "Furioso",
     "Companion": "Companheiro",
     "special_ring": "Anel Especial",
-    "enchancer": "Enchancer",
+    "enchancer": "Feiticeiro",
     "prize": "Prêmio",
     "crate": "Caixote de Saque",
     "prize_2": "Prêmio 2",
@@ -2200,7 +2200,7 @@
     "broken_comet_rod": "Vara de Cometa Quebrada",
     "broken_sparkle_rod": "Vara Brilhante Quebrada",
     "broken_star_rod": "Vara de Estrela Quebrada",
-    "incubator_egg": "Incubator Egg",
+    "incubator_egg": "Incubadora de Ovo",
     "water_bottle": "Garrafa d'água",
     "magic_watch": "Relógio Mágico",
     "description": {
@@ -2235,7 +2235,7 @@
       "berserk": "Moeda Berserker? Qualquer uma? `Restos da Versão da Moeda 1. Não é mais possível obter.`",
       "companion": "Aw, um cachorro tão fofo. `Restos da Versão da Moeda 1. Não é mais possível obter.`",
       "special_ring": "É tão especial, não é nem um anel. `Restos da Versão da Moeda 1. Não é mais possível obter.`",
-      "enchancer": "Um enchanter quebrado, Eu me pergunto se isso poderia ser consertado? `Restos da Versão da Moeda 1. Não é mais possível obter.`",
+      "enchancer": "Um encantador quebrado, Eu me pergunto se isso poderia ser consertado? `Restos da Versão da Moeda 1. Não é mais possível obter.`",
       "prize": "Bastante, huh? `Restos da Versão da Moeda 1. Não é mais possível obter.`",
       "crate": "Você pode usar isso junto com uma chave de saque para abrir um caixote de saque! Pode ser aberto com `~>opencrate`",
       "prize_2": "Em primeiro lugar, como você conseguiu tanto dinheiro?",
@@ -2247,7 +2247,7 @@
       "pants": "Basicamente, o que você veste nas pernas... esperançosamente.",
       "haste": "Permite você coletar mais coisas de comandos de saque por 2 sessões.",
       "milky": "Limpa todos os efeitos de poção.",
-      "energy": "Makes a pick or rod lose less durability per swing. Lasts only 3 mining/fishing sessions.",
+      "energy": "Faz uma picareta ou vara perder menos durabilidade durante uma jogada. Dura apenas 3 sessões de mineração/pesca.",
       "rod": "Permite que você pesque. (40 de durabilidade)",
       "fish": "Peixe. Pego na pesca.",
       "tropical_fish": "Um peixe muito tropical. Pego na pesca.",
@@ -2294,7 +2294,7 @@
       "broken_star_rod": "Uma vara de estrela se que quebrou durante a mineração. Ainda recuperável.",
       "incubator_egg": "TBD",
       "water_bottle": "TBD",
-      "magic_watch": "A magic watch that slows time when you need it. This will automatically be consumed to save your daily streak!"
+      "magic_watch": "Um relógio mágico que desacelera o tempo quando você precisar. Isso será automaticamente consumido para salvar seu combo no diário!"
     }
   },
   "test": {
