@@ -208,617 +208,617 @@
       "info": "\"%1$sيمكنك تغيير لغة الخادم(إذا كانت موجوده) بإستخدام `~>opts language set <language code>`. يمكنك التغيير لغتك باستخدام `~>profile lang <language code>`.\\n**Available languages:** `%2$s`\\nإذا لغتك لم تكن موجوده يمكنك المساعدة, لا تتردد في الانضمام إلى سيرفر الدعم والانضمام إلى جهود الترجمة!\""
     },
     "season": {
-      "info": "A *season* is the span of time, of usually 6 months where players compete for the top 10 slots on the money or reputation leaderboard. The winners will get badges and prizes based on their seasonal performance.\nThis is to allow a more competitive frame (before, money was pretty much stale) and to make the game a bit more fun.\nYou can access seasonal stuff using `-season`. Commands like profile, mine, fish and balance will require it, while games, loot, daily and reputation will give money/rep to both your global and seasonal profile.",
+      "info": "*الموسم* هو فتره من الزمن, عادة يكون 6 أشهر .حيث يتنافس اللاعبون على أفضل 10 مراكز على لوحة المتصدرين المال أو سمعة. سيحصل الفائزون على شارات وجوائز استنادًا إلى أدائهم الموسمي وهذا لجعل الروح التنافسيه أكثر (من قبل, المال كان قديما الى حد كبير) ولجعل اللعبه اكثر متعة.يمكنك الوصول للأشياء المومسية عن طريق استخدام `-season`. الأوامر مثل profile, mine, fish and balance سوف تتطلب ذلك, بينما games, loot, daily and reputation سيعطي money/rep لكل من ملفك الشخصي العالمي والموسمي.",
       "info_2": "السيزن الحالي هو **%1$s** و **%2$s** اللاعبون يشاركون حاليا في ذلك! المرح بدأ, تحقق من`~>leaderboard money -season` و`~>leaderboard rep -season`و `~>leaderboard games -season`.حان وقت اللعب! <3\\nشكرا لإستمتاعكم بمونتارو.\""
     },
     "music_general": {
       "music_error": {
-        "timeout": "%1$sUnable to connect to %2$s: connection timed out. Try changing the server region and running the command again.",
-        "unknown": "%1$sUnable to connect to %2$s: unknown error"
+        "timeout": "%1$sغير قادر على الاتصال %2$s: انتهت مدة الاتصال. حاول تغيير منطقة الخادم وتشغيل الأمر مرة أخرى.",
+        "unknown": "%1$sغير قادر على الاتصال %2$s: خطأ غير معروف"
       },
-      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`~>play soundcloud <search term>)`",
-      "no_song": "%1$sYou need to tell me what song you want to play! *(YouTube, Soundcloud, Twitch URL or search queries are allowed)*",
-      "not_playing": "%1$sI'm not currently playing anything. If you believe this is an error, please report this at <https://support.mantaro.site>",
-      "dj_only": "%1$sYou need to be a DJ to use this command.",
-      "enjoy_note": "Enjoy the music! <3",
-      "no_player": "%1$sI cannot find any music player here... (try playing something again?)",
-      "not_connected": "%1$sYou aren't connected to the voice channel I'm currently playing in! (If you believe this is an error, please report this at <https://support.mantaro.site>)",
-      "np_message": "%1$s Now playing **%2$s** (%3$s) on **%4$s** | %5$s",
-      "track_error": "%1$sOuch, something went wrong while playing this track! Sorry for the inconveniences, I'll try to play the next one available if there is one.",
-      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it. If you need help with the bot, you can join <https://support.mantaro.site>\n%2$s",
-      "soundcloud_no_args": "%1$sYou need to give me the song name, I'm not a magician so I can't guess it :(",
-      "too_many_errors": "%1$sToo many errors on this session, stopping...",
-      "no_vc_found": "%1$sI'm not connected to any VC even though I should be? Try again.",
+      "not_working": "%1$sالموسيقى لا تعمل حاليًا بسبب حظر Youtube لحركة المرور من معظم الروبوتات الكبيرة. لا يزال برنامج Patreon bot يعمل ، لذا يمكنك تجربته إذا كنت ترغب في التبرع بـ 4 دولارات شهريًا إلى Mantaro. سيساعدنا ذلك أيضًا على إعادة توجيه جهودنا نحو إصلاح الموسيقى ككل.\nيرجى المراجعة <https://patreon.com/mantaro> ",
+      "no_song": "%1$sيحب ان تخبرني بأي اغنية تريدني ان اشغل!  *(YouTube, Soundcloud, TwitchURL or search queries are allowed)*",
+      "not_playing": "%1$sحالياََ انا لا اشغل اي شيء. اذا كنت تعتقد ان هذا خطأ, من فضلك بلغ هنا <https://support.mantaro.site>",
+      "dj_only": "%1$sيجب ان تكون DJ لتستعمل هذا الامر.",
+      "enjoy_note": "استمتع بالموسيقى! <3",
+      "no_player": "%1$sلا يمكنني ان اجد مشغل موسيقى هنا... (جرب ان تشغل شيئا مره اخرى؟)",
+      "not_connected": "%1$sانت لست متصلاََ بالقناة الصوتيه التي اشغل فيها! (اذا كنت تعتقد ان هذا خطأ, من فضلك بلغ هنا<https://support.mantaro.site>)",
+      "np_message": "%1$s اشغل الان **%2$s** (%3$s) on **%4$s** | %5$s",
+      "track_error": "%1$sعفوًا ، حدث خطأ ما أثناء تشغيل هذا المسار! عذرًا على الإزعاج ، سأحاول تشغيل اللعبة التالية المتاحة في حالة وجودها.",
+      "queue_finished": "%1$sانتهى تشغيل قائمة الانتظار الحالية! اتمنى ان تكون قد استمتعت به. إذا كنت بحاجة إلى مساعدة في الروبوت ، يمكنك الانضمام<https://support.mantaro.site>%2$s",
+      "soundcloud_no_args": "%1$sيجب ان تعطيني اسم الاغنية, أنا لست ساحرًا لذا لا يمكنني تخمين ذلك :(",
+      "too_many_errors": "%1$sالكثير من الاخطاء في هذه الجلسة, توقف...",
+      "no_vc_found": "%1$sانا لست متصلاََ بقناة صوتيه على الرغم من أنني يجب أن أكون؟ حاول مجددا.",
       "queue": {
-        "no_track_found_np": "Nothing or title/duration not found",
-        "header": "Queue for server %1$s",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`.",
-        "nothing_playing_2": "**If there is a song playing and you didn't add more songs, then there is actually just dust here. You can queue more songs as you desire!**",
-        "np": "Currently playing",
-        "page_overflow": "Nothing here, just dust. Why don't you go back some pages?",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`.",
-        "total_queue_time": "Total queue time",
-        "total_size": "Total queue size",
-        "togglers": "Repeat / Pause",
-        "playing_in": "Playing in",
-        "footer": "Total pages: %1$d%2$s. Currently in page %3$d",
-        "multiple_pages": " -> Use ~>queue <page> to change pages",
-        "page_react": " -> React to change pages",
-        "no_channel": "No channel :(",
-        "songs": "song(s)",
-        "clear_error": "%1$sEither you're not connected to the VC or you're not the DJ.",
-        "clear_success": "%1$sSuccessfully cleared the current queue. The queue size was %2$s"
+        "no_track_found_np": "لم يتم العثور على أي شيء أو عنوان / المدة",
+        "header": "قائمة انتظار للخادم %1$s",
+        "nothing_playing": "لا شيء هنا ، فقط غبار. لماذا لا تصطف بعض الأغاني؟\nإذا كنت تعتقد أن هناك أغانٍ هنا ولكنها لا تظهر ، فحاول استخدام\n`~>queue 1`.",
+        "nothing_playing_2": "** إذا كانت هناك أغنية قيد التشغيل ولم تضف المزيد من الأغاني ، فهناك في الواقع غبار هنا فقط. يمكنك وضع المزيد من الأغاني في قائمة الانتظار كما تريد! **",
+        "np": "أشغل حالياََ",
+        "page_overflow": "لا شيء هنا ، فقط غبار. لماذا لا ترجع بعض الصفحات؟",
+        "page_overflow_2": "إذا كنت تعتقد أن هناك أغانٍ هنا ولكنها لا تظهر ، فحاول استخدام `~>queue 1`.",
+        "total_queue_time": "إجمالي وقت الانتظار",
+        "total_size": "إجمالي حجم الصف",
+        "togglers": "كرر / وقفة",
+        "playing_in": "التشغيل في ",
+        "footer": "مجموع الصفحات: %1$d%2$s. الصفحة الحالية هي %3$d",
+        "multiple_pages": "إستخدم ~>queue <page> لتغيير الصفحات ",
+        "page_react": "إستخدم الرمز التعبيري لتغيير الصفحات ",
+        "no_channel": "لايوجد قناة :(",
+        "songs": "الأغاني",
+        "clear_error": "%1$sإما أنت غير متصل بال VC أو أنت لست DJ",
+        "clear_success": "%1$sتم بنجاح مسح قائمة الأغاني. حجم القائمة كان %2$s"
       },
       "connect": {
-        "success": "%1$sSuccessfully connected to channel **%2$s**!",
-        "full_channel": "%1$sI can't connect to that channel because it is full!",
-        "non_existent_channel": "%1$sI received a non-existent channel as response. If you set a voice channel and then deleted it, that might be the cause.\n We reset your music channel for you, try to play the music again.",
-        "user_no_vc": "%1$s**Please join a voice channel**",
-        "missing_permissions_connect": "%1$sI cannot connect to this channel due to the lack of permissions (%2$s).",
-        "missing_permission_speak": "%1$sI cannot speak in this channel due to the lack of permissions (%2$s).",
-        "channel_locked": "%1$sI can only play music on channel **%2$s**.",
-        "already_connected": "%1$sI'm already connected on channel **%2$s**! (Use the `move` command to move me to another channel)",
-        "attempting_to_connect": "%1$sI'm already trying to connect to channel **%2$s**! (Use the `move` command to move me to another channel)"
+        "success": "%1$sتم بنجاح الإتصال بالقناة **%2$s**!",
+        "full_channel": "%1$sلايمكنني الإتصال بهذه القناة لانها ممتلئه! ",
+        "non_existent_channel": "%1$sتلقيت قناة غير موجودة كرد فعل. إذا قمت بتعيين قناة صوتية ثم حذفها، فقد يكون هذا هو السبب.\nتم إعادة تعيين قناتك للموسيقى، جرب تشغيل الموسيقى مره أخرى. ",
+        "user_no_vc": "%1$s**أرجولك إتصل بقناة صوتيه**",
+        "missing_permissions_connect": "%1$sلايمكنني الإتصال بهذه القناه، لأنني لا أملك الصلاحية (%2$s).",
+        "missing_permission_speak": "%1$sلايمكنني التكلم بهذه القناه، لأنني لا أملك الصلاحية (%2$s).",
+        "channel_locked": "%1$sيمكنني تشغيل الموسيقى في القناة **%2$s** فقط. ",
+        "already_connected": "%1$sأنا بالفعل مُتصل بالقناة **%2$s** (إستخدم أمر `move` لنقلي الى قناة صوتيه أُخرى). ",
+        "attempting_to_connect": "%1$sأنا أُحاول الإتصال بالقناة **%2$s**! (إستخدم أمر `move` لنقلي الى قناة أخرى)."
       },
       "listener": {
-        "paused": "%1$sPausing player because I got muted :(",
-        "resumed": "%1$sResuming playback because someone joined!",
-        "left_alone": "%1$sI'll leave **%2$s** in 2 minutes because I was left all alone :(",
-        "leave": "%1$sI decided to leave **%2$s** because I was left all alone :("
+        "paused": "%1$sتم إيقاف تشغيل الأغاني لأنني حصلت على ميوت :(",
+        "resumed": "%1$sإستئناف التشغيل لانه شخص ما إنضم!",
+        "left_alone": "%1$sسأُغادر **%2$s** في غصون دقيقتان لأنني تُركت وحيده :(",
+        "leave": "%1$sقررت المُغادره **%2$s** لأنني تُركت وحيده :("
       },
       "loader": {
-        "over_limit": "%1$sThe queue you added had more than %2$d songs, so we added songs until this limit and ignored the rest.",
-        "loaded_playlist": "%1$sAdded **%2$d songs** to queue on playlist: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`~>play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.",
-        "error_loading": "%1$sError while fetching music: %2$s",
-        "over_queue_limit": "%1$sCould not queue %2$s: Surpassed queue song limit (%3$s)!",
-        "over_32_minutes": "%1$sCould not queue %2$s: Track is longer than 32 minutes! (%3$s)",
-        "fair_queue_limit_reached": "%1$s**Surpassed fair queue level of %2$d (Too many songs which are exactly equal)**",
-        "loaded_song": "%1$sAdded to queue -> **%2$s** **(%3$s)**",
-        "selection_text": "Song selection. Type the song number to continue.",
-        "timeout_text": "This timeouts in 30 seconds. Type &cancel to cancel."
+        "over_limit": "%1$sقائمة التشغيل التي أضفتها بها أكثر من %2$d أغنيه، لذلك أضفنا الأغاني حتى هذا الحد وتجاهلنا الباقي. ",
+        "loaded_playlist": "%1$sإضافة **%2$d أغاني** الى قائمة التشغيل: \n**%3$s** *(%4$s)*",
+        "no_matches": "%1$sلم يسفر البحث عن أي نتائج. أذا ظهر هذا *لجميع الأغاني* التي تحاول البحث عنها، فقد ترغب في استخدام `~>play soundcloud {عبارة البحث>` بدلاً من ذلك في هذه الأثناء. وصلات مباشرة إلى يوتيوب ينبغي أن تعمل أيضا.",
+        "error_loading": "%1$sخطأ أثناء جلب الأغاني: %2$s",
+        "over_queue_limit": "%1$sتعذر وضع قائمة التشغيل %2$s: تجاوز حد اغنية قائمة الإنتظار (%3$s)! ",
+        "over_32_minutes": "%1$sتعذر وضع قائمة الإنتظار %2$s: المسار أطول من 32 دقيقة! (%3$s)",
+        "fair_queue_limit_reached": "%1$s**تجاوز مستوى قائمة الإنتظار في %2$d (الكثير من الأغاني التي هي متساوية تماماً)**",
+        "loaded_song": "%1$sإضافة الى قائمة الإنتظار -> **%2$s** **(%3$s)**",
+        "selection_text": "اختيار الأغنية. اكتب رقم الأغنية للمتابعة.",
+        "timeout_text": "هذه المهلة في 30 ثانية. اكتب &cancel لإلغاء."
       },
-      "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)",
-      "closed_connection": "%1$sClosed audio connection, unbinding player..."
+      "premium_beg": "%1$sفكر في التبرع على <https://patreon.com/mantaro> إذا أعجبك مونتارو، حتى تبرع بسيط سيساعد بوت للبقاء على قيد الحياه :) \n(إستخدم أمر `~>donate` للمزيد من المعلومات!)",
+      "closed_connection": "%1$sإتصال صوتي مغلق، لاعب غير مُلزم..."
     },
     "forceskip": {
-      "success": "%1$sAn admin or Bot Commander decided to skip this song."
+      "success": "%1$sمُشرف أو أمر بوت قرر تخطي هذه الأغنيه."
     },
     "np": {
-      "no_track": "%1$sThere either isn't track playing or we cannot seem to find it, try playing a song",
-      "header": "Now Playing"
+      "no_track": "%1$sإما لايوجد تتبع لتشغيله أو لايمكننا العثور عليه، جرب تشغيل أغنيه",
+      "header": "الآن يُشغل"
     },
     "pause": {
-      "paused": "Player paused. *(Player was un-paused previously)*",
-      "unpaused": "Player un-paused *(Player was paused previously)*."
+      "paused": "الاغنية توقفت.*(كانت غير متوقفه سابقاً)*",
+      "unpaused": "الاغنية غير متوقفة.*(كانت متوقفه سابقاً)*"
     },
     "rewind": {
-      "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
-      "negative": "%1$sPositive integers only",
-      "before_beginning": "%1$sYou can't skip to before the beginning of a song",
-      "success": "%1$sRewound song to: %2$s."
+      "no_time": "%1$sيجب أن تخبرني كم مره تريد أن تعيد الأغنية، *(مثال `~>rewind 1m45s` سيتم إعادة الأغنية 1 دقيقة و 45 ثانية)*",
+      "negative": "%1$sالأعداد الصحيحة الموجبة فقط",
+      "before_beginning": "%1$sلايمكنك تخطي هذا قبل تشغيل أغنية اخرى",
+      "success": "%1$sإعادة تشغيل الاغنية الى: %2$s"
     },
     "restartsong": {
-      "success": "%1$sRestarted current song."
+      "success": "%1$sإعادة تشغيل الأغنية الحالية"
     },
     "skipahead": {
-      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `~>skipahead 1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
-      "past_duration": "%1$sYou can't skip past the duration of a song",
-      "success": "%1$sSkipped ahead to %2$s."
+      "no_time": "%1$sأريد أن تخبرني كم أغنيه تريد التخطي. \n *(مثال: `~>skipahead 1m45s` سيتم تخطي 1دقيقة و45ثانية من اللحظة التي أنت فيها بهذه الأغنية)*",
+      "past_duration": "%1$sلايمكنك تخطي مدة الأغنية",
+      "success": "%1$sتخطي الى %2$s"
     },
     "move": {
-      "attempt": "%1$sI will try to move to the channel you're in",
-      "error_moving": "%1$sFailed to switch voice channels.",
-      "cannot_connect": "%1$sCannot connect: I either don't have permission to talk or to move channels.",
-      "non_existent_channel": "%1$sI can't move to a non-existent channel!",
-      "success": "%1$sMoved bot to channel `%2$s`",
-      "vc_not_found": "%1$sVoice channel not found or you didn't specify one!"
+      "attempt": "%1$sسأحاول الانتقال الى القناة التي أنت بها",
+      "error_moving": "%1$sفشل في تبديل القنوات الصوتية",
+      "cannot_connect": "%1$sفشل الإتصال: إما ليس لدي الصلاحية للتحدث أو لنقل القنوات.",
+      "non_existent_channel": "%1$sلايمكنني الإنتقال الى قناة غير موجودة!",
+      "success": "%1$sنقل البوت الى القناة `%2$s`",
+      "vc_not_found": "%1$sلايمكن إيجاد القناة الصوتية أو لم تحدد واحدة!"
     },
     "shard": {
-      "info": "I'm in shard %1$d! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "أنا في الشارد %1$d! إذا احتجت أي مُساعدة أرجوك إذهب الى <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
-        "header": "%1$sThe server DJ has decided to clear the queue!",
-        "success": "%1$sRemoved **%2$d songs** from the queue.",
-        "error": "%1$sEither you're not connected to the VC or you're not the DJ."
+        "header": "%1$s DJ الخادم قرر مسح قائمة التشغيل! ",
+        "success": "%1$sمسح **%2$d أغاني** من قائمة الإنتظار.",
+        "error": "%1$sإما أنت غير متصل بال VC أو أنت لست DJ"
       }
     },
     "repeat": {
-      "queue_cancel": "%1$sContinuing with the current queue.",
-      "queue_repeat": "%1$sRepeating the current queue.",
-      "song_cancel": "%1$sContinuing with the normal queue.",
-      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it."
+      "queue_cancel": "%1$sمتابعة قائمة الإنتظار الحالية",
+      "queue_repeat": "%1$sتكرار قائمة الإنتظار الحالية",
+      "song_cancel": "%1$sمتابعة قائمة الإنتظار العادية",
+      "song_repeat": "%1$sتكرار الأغنية الحالية. قم بتشغيل هذا الأمر مرة أخرى لتعطيله."
     },
     "nextsong": {
-      "no_song_next": "%1$sOw, there isn't any song coming next.",
-      "format": "%1$sNext song in queue: **%2$s** (%3$s) | *Total songs in queue: %4$,d*"
+      "no_song_next": "%1$sاوه, ليس هناك اعنية اخرى.",
+      "format": "%1$sالأغنية التالية في قائمة الانتظار: **%2$s** (%3$s) | *اجمالي الاغاني في قائمة الانتظار: %4$,d*"
     },
     "shuffle": {
-      "success": "%1$sRandomized the order of the current queue."
+      "success": "%1$sعشوائي ترتيب قائمة الانتظار الحالية."
     },
     "skip": {
-      "dj_skip": "%1$sThe DJ has decided to skip this song.",
+      "dj_skip": "%1$sقرر الـDJ تخطي هذه الاغنية.",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to skip!"
+        "submit": "%1$s**تم تقديم تصويتك** تحتاج الى %2$d المزيد من الاصوات(s) لتخطي!",
+        "remove": "%1$s**تم ازالة تصويتك** تحتاج %2$d المزيد من الاصوات(s) لتخطي!"
       },
-      "success": "%1$sReached the required amount of votes, skipping song...",
-      "no_track": "%1$sThere seems to be no track to skip, so I cannot do anything..."
+      "success": "%1$sوصلت إلى العدد المطلوب من الأصوات، تخطت الأغنية...",
+      "no_track": "%1$sيبدو أنه لا يوجد مسار للتخطي ، لذلك لا يمكنني فعل أي شيء..."
     },
     "removetrack": {
-      "invalid_range": "%1$s`%2$s` is not a valid range.",
-      "no_track": "%1$sThere isn't a queued track at the position `%2$d`!",
-      "invalid_number": "(%1$s`%2$s`) One of the ranges is not a valid number!",
-      "invalid_number_range": "%1$s`%2$s` is not a valid number or range!",
-      "success": "%1$sRemoved **%2$d** track(s) from the queue.",
-      "not_dj": "%1$sYou need to be a DJ to perform this action."
+      "invalid_range": "%1$s`%2$s`ليس نطاقا صالحا.",
+      "no_track": "%1$sلا يوجد مسار في قائمة الانتظار في هذا الموقف `%2$d`!",
+      "invalid_number": "(%1$s`%2$s`) أحد النطاقات ليس رقمًا صالحًا!",
+      "invalid_number_range": "%1$s`%2$s` ليس رقمًا أو نطاقًا صالحًا!",
+      "success": "%1$sتمت ازالة **%2$d** المسار (s) من قائمة الانتظار.",
+      "not_dj": "%1$sيحب ان تكون DJ للقيام بهذا العمل."
     },
     "stop": {
-      "dj_stop": "%1$sThe server DJ has decided to stop the current queue.",
+      "dj_stop": "%1$sقرر DJ السيرفر إيقاف قائمة الانتظار الحالية.",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to stop!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to stop!"
+        "submit": "%1$s**تم تقديم تصويتك** تحتاج الى %2$d المزيد من الاصوات(s) لتخطي!",
+        "remove": "%1$s**تم ازالة تصويتك** تحتاج %2$d المزيد من الاصوات(s) لتخطي!"
       },
-      "success": "%1$sReached the required amount of votes, stopping player...",
-      "no_player": "%1$sThere seems to be no player to stop, so I cannot do anything...",
-      "cleanup": "%1$sRemoved **%2$d songs** from the queue."
+      "success": "%1$sوصلت إلى العدد المطلوب من الأصوات، جارِِ ايقاف المشغل...",
+      "no_player": "%1$sيبدو ان ليس هناك مشغل لتوقفه, اذاََ انا لا استطيع فعل اي شيء...",
+      "cleanup": "%1$sتمت ازالة **%2$d الاغاني** من قائمة الانتظار."
     },
     "volume": {
-      "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
-      "success": "%1$sVolume set to %2$d\n\n%3$s",
-      "no_args": "%1$sYou need to tell me what volume you want me to set the music to (5 to 100).",
-      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to an user or a server, please, if you donate, join the support guild and ask for it."
+      "check": "%1$sمستوى الصوت في هذه الجلسة هو: %2$d\n\n%3$s",
+      "success": "%1$sتم تثبيت مستوى الصوت الى %2$d\n\n%3$s",
+      "no_args": "%1$sعليك أن تخبرني عن مستوى الصوت الذي تريده أن أضبط الموسيقى فيه (من 5 إلى 100).",
+      "premium_only": "%1$sهذه ميزة البريميوم فقط. من أجل الحصول على مزايا بريميوم مثل هذه يمكنك التعهد على patreon\n(https://www.patreon.com/mantaro). شكراََ لتفهمك.\nميزات البريميوم يمكن أن تكون مرتبطة بمستخدم أو خادم ، من فضلك ، إذا تبرعت ، انضم إلى نقابة الدعم واطلبها."
     },
     "lyrics": {
-      "no_current_track": "%1$sThere's no song currently playing on this server!",
-      "error_searching": "%1$sThere was an error searching for this track or there was no results found.",
-      "header": "%1$sLyrics for %2$s",
-      "footer": "Thanks for using Mantaro! Page: %1$d, Total: %2$d."
+      "no_current_track": "%1$sلا توجد اغنية مشغلة في هذا السيرفر!",
+      "error_searching": "%1$sحدث خطأ أثناء البحث عن هذا المسار أو لم يتم العثور على نتائج.",
+      "header": "%1$sالكلمات من اجل %2$s",
+      "footer": "شكراََ لأستعمال مانتارو! صفحة: %1$d, الاجمالي: %2$d."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s (I respond to any of those!). The server prefix is `%3$s` (Only works on this server). You can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
-      "none": "There's no custom prefix set on this server."
+      "header": "%1$sالبادئات الإفتراضية هي %2$s (أنا أستجيب لأي منهم). بادئة السيرفر هي `%3$s` (يتم الإستجابة له في هذا السيرفر فقط) يمكنك وضع بادئة عن طريق إستخدام الأمر:\n `~>opts prefix set <prefix>` لا تضف <>. \nإذا كان لديك أي سؤال لاتتردد في الإنضمام الى الدعم \n<https://support.mantaro.site>",
+      "none": "لم يتم تعيين رمز مخصص على هذا السيرفر."
     },
     "custom": {
-      "no_args": "%1$sYou need to specify what you want to do with this command. Check command help for more info!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `~>help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
-      "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
-      "error_running_new": "%1$sError running custom command. Check response, content and length.\n**Error:**\n```%2$s```",
-      "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
-      "nsfw_enabled": "%1$sThis command has been successfully marked as NSFW.",
-      "nsfw_disabled": "%1$sThis command has been successfully marked as SFW.",
-      "nsfw_not_nsfw": "%1$sThis command is marked as NSFW therefore it can only be used on NSFW channels.",
-      "new_error": "%1$sThe custom command you're trying to create has an error (v3, check content).\n**Error:**\n```%2$s```",
+      "no_args": "%1$sتحتاج إلى تحديد ما تريد القيام به مع هذا الأمر. تحقق من تعليمات القيادة لمزيد من المعلومات!",
+      "incorrect_args": "%1$sالحجج غير صحيحة. تأكد `~>help custom` أو https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands أو المزيد من المساعدة حول كيفية استخدام هذا. إذا كان لديك أي مشاكل أخرى بعد قراءة الويكي ، فارجع إلى <https://support.mantaro.site>",
+      "error_running": "%1$sحدث خطأ أثناء تشغيل الأمر المخصص... يرجى التحقق من محتوى الاستجابة وطولها (لا يمكن أن يكون أكثر من 2000 حرف).",
+      "error_running_new": "%1$sخطأ في تشغيل الأمر المخصص. تحقق من الاستجابة والمحتوى والطول.\n**خطأ**\n```%2$s```",
+      "not_loaded": "لم يتم تشغيل البوت بالكامل حتى الآن... ستتوفر الأوامر المخصصة قريبًا!",
+      "nsfw_enabled": "%1$sتم وضع علامة NSFW على هذا الأمر بنجاح.",
+      "nsfw_disabled": "%1$sتم وضع علامة SFW على هذا الأمر بنجاح.",
+      "nsfw_not_nsfw": "%1$sتم وضع علامة NSFW على هذا الأمر ، لذلك لا يمكن استخدامه إلا على قنوات NSFW.",
+      "new_error": "%1$sيوجد خطأ في الأمر المخصص الذي تحاول إنشاءه (v3, تأكد من المحتوى).\n**خطأ**\n```%2$s```",
       "ls": {
-        "header": "Commands for this server.",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**List:**",
-        "footer": "Total custom commands on this server: %1$s"
+        "header": "أوامر لهذا السيرفر.",
+        "description": "** يعرض هذا كافة الأوامر المخصصة (التي من صنع المستخدم) لهذا الخادم.** لا يرتبط كل أمر هنا مع بوت نفسه في أي شكل أو هيكل.\nالأوامر المخصصة (custom commands) هي الأوامر التي تم إنشاؤها بواسطة المستخدمين (عادة ً مسؤولي الخادم) والتي يمكنها التعامل مع مجموعة من المواقف المختلفة ، والذهاب إلى حد محاكاة أوامر الإجراء.\nللمزيد من المعلومات عم الأوامر المخصصه يمكنك الذهاب الى \n(https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n\n**List:**",
+        "footer": "اجمالي الاوامر الخصصه في هذا السيرفر: %1$s"
       },
-      "invalid": "%1$sInvalid command selection. Check command help (`help custom`).",
+      "invalid": "%1$sتحديد أمر غير صالح. تحقق من من امر المساعده (`help custom`).",
       "view": {
-        "invalid": "%1$sYou need to specify the command and the response number!",
-        "not_found": "%1$sThere isn't a custom command with that name here.",
-        "less_than_specified": "%1$sThis command has less responses than the number you specified...",
-        "success": "**Response `%1$d` for custom command `%2$s`:** \n```\n%3$s```"
+        "invalid": "%1$sتحتاج إلى تحديد الأمر ورقم الرد!",
+        "not_found": "%1$sلا يوجد أمر مخصص بهذا الاسم هنا.",
+        "less_than_specified": "%1$sيحتوي هذا الأمر على ردود أقل من الرقم الذي حددته...",
+        "success": "**رد `%1$d` من اجل الامر المخصص  `%2$s`:** \n```\n%s```"
       },
       "raw": {
-        "no_command": "%1$sYou need to tell me what command you want to look at.",
-        "header": "Raw Custom Command: %1$s",
-        "amount": "(Showing %1$d responses of %2$d)",
-        "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
+        "no_command": "%1$sعليك أن تخبرني ما الأمر الذي تريد أن تنظر إليه.",
+        "header": "أمر مخصص خام: %1$s",
+        "amount": "(عرض %1$d الردود في %2$d)",
+        "description": "هذه قائمة بجميع ردود هذا الأمر على شكل خام (ما تدخله في الأمر)."
       },
       "clear": {
-        "success": "%1$sCleared **%2$d Custom Commands**"
+        "success": "%1$sتم مسح **%2$d أوامر مخصصه**"
       },
       "make": {
         "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses. Use `~>nsfw` to mark this command as NSFW and `~>sfw` to revert.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
-        "cancel": "%1$sCommand Creation canceled.",
-        "no_responses_added": "%1$sNo responses were added. Stopping creation without saving...",
-        "success": "%1$sSaved to command `%2$s`.",
-        "no_name_specified": "%1$sYou didn't specify the name of the custom command to create!"
+        "cancel": "%1$sتم إلغاء إنشاء الأمر.",
+        "no_responses_added": "%1$sلم تتم إضافة أي ردود. جارٍ إيقاف الإنشاء بدون حفظ...",
+        "success": "%1$sتم الحفظ في الأمر `%2$s`.",
+        "no_name_specified": "%1$sلم تحدد اسم الأمر المخصص المراد إنشاؤه!"
       },
       "eval": {
-        "not_specified": "You didn't specify anything to eval.",
-        "new_error": "%1$sThere was an error while evaluating this custom command.\n**Error**:\n```%2$s```",
-        "error": "%1$sThere was an error while evaluating this custom command!\n%2$s"
+        "not_specified": "لم تحدد أي شيء للتقييم.",
+        "new_error": "%1$sكان هنا خطأ أثناء تقييم هذا الأمر المخصص.\n**خطأ**:\n```%2$s```",
+        "error": "%1$sحدث خطأ أثناء تقييم هذا الأمر المخصص!\n%2$s"
       },
       "remove": {
-        "no_command": "%1$sYou need to tell me what command you want to remove.",
-        "success": "%1$sRemoved Custom Command `%2$s`."
+        "no_command": "%1$sيجب ان تخبرني بأي امر تريدني ان احذف.",
+        "success": "%1$sتم ازالة الامر المخصص `%2$s`."
       },
       "import": {
-        "no_command": "%1$sYou need to tell me what command you want to import.",
-        "not_found": "%1$sThere are no custom commands matching your search query.",
-        "header": "`%1$s` (Responses: %2$s) - Guild: `%3$s`",
-        "selection": "Select the Command:",
-        "note": "(You can only select custom commands from guilds that you are a member of)",
-        "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3$d responses."
+        "no_command": "%1$sيجب أن تخبرني ما الأمر الذي تريد استيراده.",
+        "not_found": "%1$sلا توجد أوامر مخصصة تطابق استعلام البحث الخاص بك.",
+        "header": "`%1$s` (إستجابة: %2$s) - النقابة Guild: `%3$s`",
+        "selection": "اختر الامر:",
+        "note": "(يمكنك فقط اختيار أوامر مخصصة من النقابات التي أنت عضو فيها)",
+        "success": "أمر مخصص مستورد `%1$s` من النقابة `%2$s` مع اجمالي %3$d الردود."
       },
       "edit": {
-        "no_command": "%1$sYou need to specify what command you want to edit.",
-        "invalid_number": "%1$sYou need to specify a correct number to change.",
-        "no_index": "%1$sYou cannot edit a non-existent index.",
-        "empty_response": "%1$sCannot edit to an empty response",
-        "not_enough_args": "%1$sYou need to specify the command, the index and the new response",
-        "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly"
+        "no_command": "%1$sيجب ان تحدد اي امر تريد ان تعدل.",
+        "invalid_number": "%1$sيجب ان تحدد الرقم الصحيح لتغيره.",
+        "no_index": "%1$sلا تستطيع تعديل امر ليس موجود في المؤشر.",
+        "empty_response": "%1$sلا تستطيع تعديل رد فارغ",
+        "not_enough_args": "%1$sيجب ان تحدد الامر, المؤشر والردود الجديدة",
+        "success": "%1$sتعديل الامر **#%2$d** الامر `%3$s`بشكل صحيح"
       },
       "deleteresponse": {
-        "no_command": "%1$sYou need to specify the command you want to remove a response from.",
-        "invalid_number": "%1$sYou need to specify a correct number to change.",
-        "no_index": "%1$sYou cannot remove a non-existent index.",
-        "not_enough_args": "%1$sYou need to specify the command and the index you want to delete.",
-        "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
+        "no_command": "%1$sتحتاج إلى تحديد الأمر الذي تريد إزالة استجابة منه.",
+        "invalid_number": "%1$sيجب ان تحدد الرقم الصحيح لتغيره.",
+        "no_index": "%1$sلا تستطيع تعديل امر ليس موجود في المؤشر.",
+        "not_enough_args": "%1$sتحتاج الى تحديد الأمر والمؤشر المراد مسحه. ",
+        "success": "%1$sتمت إزالة الإستجابة **#%2$d** للأمر `%3$s`بشكل صحيح"
       },
       "rename": {
-        "success": "%1$sRenamed command `%2$s` to `%3$s`"
+        "success": "%1$sإعادة تسمية الأمر من `%2$s` الى `%3$s`"
       },
       "add": {
-        "no_command": "%1$sYou need to specify the command you want to add.",
-        "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
-        "empty_content": "%1$sYou need to specify the content of this custom command",
-        "success": "%1$sSaved to command `%2$s`",
-        "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
+        "no_command": "%1$sيجب ان تحدد اي امر تريد ان تضيفه.",
+        "not_enough_args": "%1$sيجب عليك تحديد اسم الأمر و الإستجابة للأمر الذي تريد ان تضيفه. ",
+        "empty_content": "%1$sتحتاج الى تحديد محتوى الأمر المخصص ",
+        "success": "%1$sتم الحفظ في الأمر `%2$s`.",
+        "too_many_commands": "%1%sيوجد الكثير من الأوامر في هذا الخادم، لايمكنك إضافة أكثر من 100 أمر. يمكنك تجاوز هذا اذا كان لديك premium guilds. (تفقد <https://patreon.com/mantaro> )."
       },
-      "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
-      "already_exists": "%1$sThe command `%2$s` already exists and it's a default bot command.",
-      "name_too_long": "%1$sName is too long.",
-      "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just a bit of dust.",
-      "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
-      "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
-      "invalid_image": "%1$sThis command contains an invalid image, please fix...",
-      "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
-      "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
-      "invalid_link": "%1$sThe string `%2$s` isn't a valid link."
+      "character_not_allowed": "%1$sلايسمح بإستخدام هذا الحرف في أوامر الأسماء المخصصه. ",
+      "already_exists": "%1$sهذا الأمر `%2$s` موجود بالفعل وانه أمر البوت الإفتراضي. ",
+      "name_too_long": "%1$sاسم طويل جداً",
+      "no_cc": "%1$sلايوجد أوامر مخصصه مُسجلة في الخادم، فقط قليل من الغبار. ",
+      "admin_only": "تقبل هذه النقابة إنشاء الأوامر المخصصة وتحريرها ووارداتها وeval فقط من المسؤولين.\n**الآن هذا هو الإعداد الإفتراضي**\nإذا اردت الجميع يفعل ذلك، وهو مُشرف (لديك الصلاحيه)\nإستخدم الأمر : `~>opts admincustom false`",
+      "not_found": "%1$sلايوجد أوامر مخصصة `%2$s` في هذا الخادم. ",
+      "invalid_image": "%1$sهذا الأمر يحتوي على صورة غير صالحة، أرجو الإصلاح....",
+      "invalid_string": "%1$sالسلسلة `{%2$s}` غير صالحة أو الإخراج أطول من 2000 حرف. ",
+      "invalid_json": "%1$sالسلسلة `{%2$s}` JSON غير صالح.",
+      "invalid_link": "%1$sالسلسلة `{%2$s}` ليست رابط صالح ."
     },
     "mute": {
-      "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
-      "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`",
-      "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent.",
-      "no_users": "%1$sYou need to give me an user to mute.",
-      "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server.",
-      "no_time": "%1$sYou didn't specify any time. Remember that you need to add the `-time` argument and specify it there.",
-      "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
-      "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
-      "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
-      "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
-      "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to un-mute them.",
-      "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
-      "user_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
-      "success": "%1$sAdded mute role to **%2$s** for around %3$s"
+      "no_permissions": "%1$sيجب أن لديك صلاحية الطرد أو الحظر لإسكات عضو.",
+      "no_mute_role": "%1$sأمر الإسكات غير معين في هذا السيرفر، يمكنك اعادة تعيينه عن طريق استخدام الأمر `~>opts muterole set <role>`",
+      "null_mute_role": "%1$sالإسكات الذي تم تكوينه مسبقًا على هذا الخادم غير موجود الآن.",
+      "no_users": "%1$sأحتاج أن تعطيني عضو لإسكاته.",
+      "no_manage_roles": "%1$sلا أملك الصلاحية لتعديل الرتب في هذا الخادم ",
+      "no_time": "%1$sلم تحدد اي وقت. تذكر، انك يجب ان تضيف الوقت `-time` وتحديده هناك. ",
+      "time_not_specified": "%1$sأنت تريد وقت ولكن لم تحدد المدة.",
+      "negative_time_notice": "%1$sلا يمكنك إسكات شخص للوقت السلبي. الا اذا كنت تستطيع ثني وقت الفضاء.. هذا هو. ",
+      "default_time_too_long": "%1$sمدة الإسكات الافتراضي طويله جداً (الحد الاقصى: 10 أيام)...",
+      "time_too_long": "%1$sمدة الإسكات المُحدد طويله جداً (الحد الاقصى: 10 أيام)...",
+      "already_muted": "%1$sهذا العضو لديه بالفعل رتبة الإسكات. استخدم `~>unmute` لعدم إسكاته.",
+      "self_hierarchy_error": "%1$sلايمكنني إسكات هذا العضو لانه اعلى مما أنا عليه. أو يملك رتبة اعلى مما أنا عليه. ",
+      "user_hierarchy_error": "%1$sلايمكنني إسكات هذا العضو لانه اعلى مما أنا عليه. أو يملك رتبة اعلى مما أنت عليه. ",
+      "success": "%1$sإضافة رتبة الإسكات الى **%2$s** لحوالي %3$s"
     },
     "unmute": {
-      "no_permissions": "%1$sYou need to have either ban or kick members permission to un-mute!",
-      "no_mentions": "%1$sYou need to mention at least one user to un-mute.",
-      "success": "%1$sRemoved mute role from **%2$s**",
-      "no_role_assigned": "%1$sThis user doesn't have the mute role assigned to them."
+      "no_permissions": "%1$sيجب أن لديك صلاحية الطرد أو الحظر لفك إسكات عضو.",
+      "no_mentions": "%1$sيجب ان تذكر شخص واحد على الأقل لفك إسكاته.",
+      "success": "%1$sإزالة رتبة الإسكات من **%2$s**",
+      "no_role_assigned": "%1$sهذا العضو ليس لديه رتبة الإسكات. "
     },
     "ping": {
       "quotes": {
-        "1": "supersonic speed! :upside_down:",
-        "10": "faster than Sonic! :smiley:",
-        "69": "l-lewd! <:MantaroGasm:318869352851963904>",
-        "100": "great! :smiley:",
-        "200": "nice! :slight_smile:",
-        "300": "decent. :neutral_face:",
-        "400": "average... :confused:",
-        "500": "slightly slow. :slight_frown:",
-        "600": "kinda slow.. :frowning2:",
-        "700": "slow.. :worried:",
-        "800": "too slow. :disappointed:",
-        "900": "bad. :sob: (help me)",
-        "1600": "#BlameDiscord. :angry:",
-        "10000": "this makes no sense :thinking: #BlameSteven",
-        "default": "slow af. :dizzy_face:"
+        "1": "سرعة أسرع من الصوت! :upside_down:",
+        "10": "أسرع من سونيك! :smiley:",
+        "69": "ب-بذيئ! <:MantaroGasm:318869352851963904>",
+        "100": "عظيم! :smiley:",
+        "200": "جميل! :slight_smile:",
+        "300": "لائق. :neutral_face:",
+        "400": "متوسط... :confused:",
+        "500": "بطيئ قليلاً. :slight_frown:",
+        "600": "بطيئ على ما أظن! :frowning2:",
+        "700": "بطيء..:worried:",
+        "800": "بطيئ جداََ. :disappointed:",
+        "900": "سيء :sob: (ساعدني)",
+        "1600": "#تلوم الدسكورد :angry:",
+        "10000": "هذا لا معنى له :thinking: #نلوم ستيفن",
+        "default": "بطيء :dizzy_face:"
       },
       "display": [
-        "W-Was I fast enough?",
-        "What are you doing?",
-        "W-What are you looking at?!",
-        "Huh.",
-        "Did I do well?",
-        "What do you think?",
-        "Does this happen often?",
-        "Am I performing p-properly?",
+        "هل كنت سريعاََ بما يكفي؟",
+        "ماذا تفعل؟",
+        "ما الذي تبحث عنه؟!",
+        "اها.",
+        "هل قمت بعمل جيد؟",
+        "بماذا تفكر؟",
+        "هل يحدث هذا عادتاََ؟",
+        "هل أنا أؤدي بشكل صحيح؟",
         "<3",
-        "*pats*",
-        "Pong.",
-        "Pang.",
-        "Pung.",
-        "Peng.",
-        "Ping-pong? Yay!",
-        "U-Uh... h-hi"
+        "*تربيت*",
+        "بونغ.",
+        "بانغ.",
+        "بونغ.",
+        "بينغ.",
+        "بينغ بونغ؟!",
+        "اءء... اهلاََ"
       ],
       "text": "%1$s*%2$s* - My ping: %3$,d ms (%4$s) `Websocket:%5$,dms`"
     },
     "love": {
-      "no_mention": "%1$sYou need to mention at least 1 user.",
-      "not_ideal": "Try again next time...",
-      "decent": "Good enough!",
-      "nice": "Good match!",
-      "perfect": "Perfect match!",
-      "yourself_note": "You're a special creature and you should love yourself more than anyone <3",
-      "header": "Love Meter",
-      "result": "Result:"
+      "no_mention": "%1$sتيجب ذكر شخص واحد على الأقل.",
+      "not_ideal": "حاول مجدداََ في المره القادمه...",
+      "decent": "جيد بما فيه الكفاية!",
+      "nice": "مباراة جيدة!",
+      "perfect": "تطابق مثالي!",
+      "yourself_note": "أنت مخلوق خاص ويجب أن تحب نفسك أكثر من أي شخص آخر 3>",
+      "header": "مقياس الحب",
+      "result": "النتائج:"
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on.",
-        "empty": "%1$sYou cannot leave the love letter empty.",
-        "no_marriage": "%1$sYou aren't married, you cannot write a love letter for yourself...",
-        "not_proposing_player": "%1$sYou aren't the player who proposed this marriage!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`.",
-        "too_long": "%1$sThe love letter is too long (maximum is 500 characters)",
-        "cannot_see": "%1$sI cannot find the user that you're married to... Probably they aren't in any server with me.",
-        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `marry status`.",
-        "scrapped": "%1$sYou still have time to think on what to write, no need to rush!"
+        "no_letter": "%1$sليس لديك رسائل حب في مخزونك ، لذلك ليس لديك أي شيء لتكتب رسالتك عليه.",
+        "empty": "%1$sلا يمكنك ترك رسالة الحب فارغة.",
+        "no_marriage": "%1$sانت لست متزوجاََ, لا يمكنك كتابة رسالة حب لنفسك...",
+        "not_proposing_player": "%1$sأنت لست اللاعب الذي اقترح هذا الزواج!",
+        "already_done": "%1$sهذا الزواج لديه بالفعل رسالة حب مخصصة. تحقق من ذلك باستخدام `marry status`.",
+        "too_long": "%1$sرسالة الحب طويلة جداََ (يمكنك كتابة 500 حرف فقط)",
+        "cannot_see": "%1$sلا يمكنني العثور على المستخدم الذي تزوجته... ربما لا يوجد في أي سيرفر معي.",
+        "confirmation": "%1$sهل أنت متأكد أنك تريد كتابة هذه الرسالة لزواجك **%2$s#%3$s**؟ هذا دائم بينما يستمر الزواج.*Letter content:* %4$s",
+        "confirmed": "%1$sسلمت بنجاح رسالة الحب إلى أحبائك! تحقق من ذلك باستخدام أمر `marry status`.",
+        "scrapped": "%1$sلا يزال لديك وقت للتفكير في ما تكتبه ، ولا داعي للاندفاع!"
       },
       "status": {
-        "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\" (If you see a marriage in your profile and see this message that means you are in the old system, try remarrying)",
-        "header": "Current Marriage Status",
-        "description_format": "%1$sMarriage status between **%2$s#%3$s** and **%4$s#%5$s**",
-        "date": "Marriage Date",
-        "love_letter": "Love Letter",
-        "waifus": "Waifu Ownership"
+        "no_marriage": "%1$sأنت لست متزوجًا ، لذا أعتقد أن حالتك أه... \"غير متزوج\" (إذا رأيت زواجًا في ملفك الشخصي وشاهدت هذه الرسالة التي تعني أنك في النظام القديم ، فحاول الزواج مرة أخرى)",
+        "header": "حالة الزواج الحالية",
+        "description_format": "%1$sحالة الزواج بين **%2$s#%3$s** و **%4$s#%5$s**",
+        "date": "موعد الزواج",
+        "love_letter": "رسالة الحب",
+        "waifus": "ملكية الوايفو"
       },
-      "no_mention": "%1$sMention the user you want to marry.",
-      "marry_yourself_notice": "%1$sYou cannot marry yourself, as much as you may want to.",
-      "marry_bot_notice": "%1$sYou cannot marry a bot. I don't think this is Futurama... yet. Wait, could bots and humans marry there?",
-      "already_married_receipt": "%1$sYou're married with them already, aww.",
-      "already_married": "%1$sYou're married already.",
-      "receipt_married": "%1$sThat user is married already.",
-      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>market buy 2 ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s, type with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
-      "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
-      "accepted": "%1$s**%2$s#%3$s** accepted the proposal of **%4$s#%5$s**!",
-      "denied": "%1$sDenied proposal from **%2$s**"
+      "no_mention": "%1$sاذكر الشخص الذي تريد ان تتزوجه.",
+      "marry_yourself_notice": "%1$sلا تستطيع الزواج من نفسك, بقدر ما تريد.",
+      "marry_bot_notice": "%1$sلا تستطيع الزواج من بوت. لا أعتقد أن هذا فوتثرما... بعد. انتظر ، هل يمكن للبوت والبشر أن يتزوجوا هناك؟",
+      "already_married_receipt": "%1$sانت بالفعل متزوج منه.",
+      "already_married": "%1$sانت بالفعل متزوج.",
+      "receipt_married": "%1$sهذا العضو متزوج بالفعل! ",
+      "no_ring": "%1$sلايمكنك التقدم للزواج بدون خاتمين! يمكنك شرائه عن طريق إستخدام الأمر : `~>market buy 2 ring` وبعدها حاول التقدم للزواج مره أخرى 3>",
+      "confirmation": "%1$s%2$s قم بكتابة **yes** أو **no** لإقتراح الزواج من %3$s\n%4$sالمهلة 120 ثانيه فقط لتُقرر :)! ",
+      "ring_check_fail": "%1$sلايمكنك الزواج مع أقل من خاتمين في مخزونك :( ",
+      "accepted": "%1$s**%2$s#%3$s** قبل الزواج من **%4$s#%5$s**!",
+      "denied": "%1$sرفض اقتراح الزواج من **%2$s**"
     },
     "divorce": {
-      "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?",
-      "success": "%1$sNow you're single. That's nice I guess."
+      "not_married": "%1$sأنت لست متزوج، لماذا لم تجد الشخص المميز؟ ",
+      "success": "%1$sالأن أنت غير مرتبط. أظن أن هذا جميل :)! "
     },
     "waifu": {
-      "bot": "%1$sA bot can't be a waifu, even if you want to...",
-      "notice": "This feature isn't meant to have any kind of relationship, either implicit or explicit, with real life events.",
-      "id": "**ID:**",
+      "bot": "%1$sالبوت لايمكن أن يكون وايفو، حتى لو أردت ذلك...",
+      "notice": "لا تهدف هذه الميزة إلى أن يكون لها أي نوع من العلاقة ، سواء كانت ضمنية أو صريحة ، مع أحداث الحياة الحقيقية.",
+      "id": "**معرف:**",
       "stats": {
-        "header": "Your waifu stats",
-        "header_other": "%1$s's waifu stats",
-        "format": "%1$s **Money weight value:** %2$,d\n%1$s **Badge weight value:** %3$,d\n%1$s **Experience weight value:** %4$,d\n%1$s **Claim weight value:** %5$,d\n%1$s **Reputation multiplier:** %6$.2fx",
-        "value": "Total waifu value",
-        "credits": "%1$,d credits",
-        "performance": "Waifu Performance Points"
+        "header": "حالتك للوايفو",
+        "header_other": "حالة %1$s الوايفو ",
+        "format": "%1$s **قيمة وزن المال:** %2$,d\n%1$s **قيمة وزن الميدالية:** %3$,d\n%1$s **تجربة قيمة الوزن:** %4$,d\n%1$s **قيمة وزن المُطالبة** %5$,d\n%1$s **مضاعف السمعة** %6$.2fx\n",
+        "value": "إجمالي قيمة الوايفو ",
+        "credits": "%1$,d مال ",
+        "performance": "نقاط اداء الوايفو"
       },
       "claim": {
-        "no_user": "%1$sYou didn't mention any user to claim.",
-        "locked": "%1$sYou're currently unable to perform this action.",
-        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed.",
-        "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s credits)**",
-        "not_enough_slots": "%1$sYou don't have enough slots available to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
-        "success": "%1$sSuccessfully claimed `%2$s` for %3$,d. Slots used: %4$s",
-        "yourself": "%1$sYou cannot claim yourself!",
-        "already_claimed": "%1$sYou already claimed this waifu.",
-        "not_found": "%1$sI can't find any user with this query. "
+        "no_user": "%1$sلم تذكر أي عضو للمُطالبه به. ",
+        "locked": "%1$sحالياً انت غير قادر على تنفيذ هذا الإجراء. ",
+        "key_locked": "%1$sالشخص الذي تحاول الُمطالبه به هو مفتاح مؤمن لذا لايمكنك المُطالبه به. ",
+        "not_enough_money": "%1$sلاتملك المال الكافي للمطالبه بهذا الوايفو \n **(التكلفة: %2$s مال)**",
+        "not_enough_slots": "%1$sليس لديك فتحه متاحه للمُطالبة بهذا الوايفو. (مجموع الفتحات: %2$s, الفتحات المُستخدمة: %3$s)",
+        "success": "%1$sتم بنجاح المُطالبة ب `%2$s` بتكلفة %3$,d. الفتحات المُستخدمه: %4$s",
+        "yourself": "%1$sلايمكنك المطالبة بنفسك! ",
+        "already_claimed": "%1$sأنت بالفعل طالبت بهذا الوايفو!",
+        "not_found": "%1$sلايمكنني العثور على أي عضو مع هذا الإستعلام. "
       },
       "unclaim": {
-        "no_user": "%1$sYou need to mention a waifu to un-claim.",
-        "not_claimed": "%1$sThis user isn't your waifu!",
-        "confirmation": "%1$sAre you *sure* you want to un-claim %2$s? The cost to un-claim this waifu is **%3$s credits**. Type *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
-        "not_enough_money": "%1$sYou don't have enough money to un-claim this waifu!",
-        "player_locked": "%1$sYou cannot do this at the moment.",
-        "scrapped": "%1$sCancelled waifu un-claiming.",
-        "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**.",
-        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID and append `-unknown` at the end."
+        "no_user": "%1$sتحتاج أن تذكر وايفو لعدم المُطالبه به. ",
+        "not_claimed": "%1$sهذا العضو ليس وايفو خاص بك!",
+        "confirmation": "%1$sهل أنت *متأكد* تريد أن تُلغى مطالبة %2$s؟ التكلفة لإلغاء مطالبة هذا الويفو هي **%3$s مال**. إكتب **yes** للتأكيد و **no** للإلغاء. \n%4$sالمهلة دقيقة واحدة.",
+        "not_enough_money": "%1$sلاتملك المال الكافي لإلغاء مطالبة هذا الوايفو! ",
+        "player_locked": "%1$sلايمكنك فعل هذا الآن. ",
+        "scrapped": "%1$sتم إلغاء إلغاء مطالبة الوايفو. ",
+        "success": "%1$sتم بنجاح الغاء مطالبة `%2$s` بتكلفة **%3$s مال**.",
+        "not_found": "%1$sلايمكنني العثور على اي مستخدم مع هذا الاستعلام. اذا اردت الغاء مطالبة عضو غير معروف، استخدم المعرف ID وألحق `-unknown` بالنهاية. "
       },
       "buyslot": {
-        "locked": "%1$sYou're currently unable to perform this action.",
-        "not_enough_money": "%1$sYou don't have enough money to buy more slots! You need %2$,d credits.",
-        "success": "%1$sSuccessfully bought this slot for %2$s, you currently have %3$s total slots and %4$s available slots.",
-        "too_many": "%1$sYou already have too many slots!"
+        "locked": "%1$sحالياً انت غير قادر على تنفيذ هذا الإجراء. ",
+        "not_enough_money": "%1$sلاتملك المال الكافي لشراء فتحات اخرى! تحتاج الى %2$,d مال. ",
+        "success": "%1$sتم بنجاح شراء فتحة من أجل %2$s، أنت حالياً تملك %3$s مجموع فتحاتك و%4$s فتحة متاحة. ",
+        "too_many": "%1$sأنت بالفعل تملك فتحات كثيرة! "
       },
-      "header": "Waifu List",
-      "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
-      "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `~>waifu claim` to get started.",
-      "footer": "Total waifus: %1$,d - available slots: %2$s",
-      "value_format": "**Value:**",
-      "value_b_format": "**Bought for:**",
-      "credits_format": " credits.",
-      "waifu_header": "**Your waifus:**",
-      "not_claimed": "%1$sYou haven't claimed this waifu."
+      "header": "لستة الوايفو",
+      "description_header": "هنا قائمة مع كل من الوايفو الخاص بك، مرتبة حسب تاريخ الإضافة.\n*يمكنك أن تحصل على الحد الاقصى %1$,d من الوايفو الى الآن.*\n\nإذا أردت أن تتحقق من حالتك للوايفو، إستخدم `~>waifu stats`",
+      "no_waifu": "لا يوجد وايفو هنا، فقط غبار :(\nيمكنك الحصول على وايفو عن طريق المُطالبه بأحد! إستخدم `~>waifu claim` ليبدأ المرح!",
+      "footer": "إجمالي الوايفو: %1$,d - الفتحات المُتاحه: %2$s",
+      "value_format": "**قيمة:**",
+      "value_b_format": "**تم شرائها ل:**",
+      "credits_format": "مال.",
+      "waifu_header": "**الوايفو الخاص بك:**",
+      "not_claimed": "%1$sأنت لم تُطالب بهذا الوايفو!"
     },
     "ratewaifu": {
-      "nothing_specified": "%1$sGive me a waifu to rate!",
-      "success": "%1$sI rate %2$s with a **%3$,d/100**"
+      "nothing_specified": "%1$sأعطني وايفو لأُقيمه!",
+      "success": "%1$sانا اقيم %2$s مع **%3$,d/100**"
     },
     "roll": {
-      "success": "%1$sYou got **%2$,d**%3$s",
-      "amount": "Doing **%1$,d** rolls."
+      "success": "%1$s حصلت على **%2$,d**%3$s",
+      "amount": "القيام ب **%1$,d** الدحرجة."
     },
     "coinflip": {
-      "over_limit": "%1$sHold in there! The limit is 1,000 coin flips",
-      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions",
-      "success": "%1$s Your result from **%2$,d** time(s) yielded **%3$,d** heads and **%4$,d** tails"
+      "over_limit": "%1$sانتظر هناك! الحد الأقصى هو 1000 عملة تقليب",
+      "no_repetitions": "%1$sيجب ان تحدد عدد صحيح لعدد التكرارات",
+      "success": "%1$sنتائجك من **%2$,d** الوقت(s) أسفر **%3$,d** رأس و **%4$,d** وذيل"
     },
     "inventory": {
-      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>market dump`",
-      "brief": "**%1$s's inventory:** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
-      "calculate": "%1$s%2$s will get **%3$,d credits** if all of the items are sold.",
-      "header": "%1$s's Inventory",
-      "format": "**Price**: 📥 %1$,d 📤 %2$,d\n%3$s",
-      "empty": "%1$sThis inventory is empty! :(",
-      "brief_notice": "You can use `~>inventory -brief` to get a mobile friendly version."
+      "bot_notice": "%1$sهنا, البوتات ليس لديها مخزون. حسناََ, افي بعض الأحيان قد ترغب في أن يكون لديهم واحد ولكن بعد ذلك سيكون فقط  `~>market dump`",
+      "brief": "**مخزون %1$s** %2$s\n*إذا كنت تريد نسخة أكثر تفصيلا من هذا إستخدم : `~>inventory -info`. إستمتع بيومك:)!*",
+      "calculate": "%1$s%2$s ستحصل على **%3$,d مال** إذا تم بيع جميع أغراضك. ",
+      "header": "مخزون %1$s",
+      "format": "**سعر**: 📥 %1$,d 📤 %2$,d\n%3$s",
+      "empty": "%1$sالمخزون هذا فاضي! :(",
+      "brief_notice": "يمكنك إستخدام `~>inventory -brief` للحصول على نسخة صديقة للهاتف."
     },
     "cast": {
-      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\"",
-      "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. If the item name has spaces, wrap the name in quotes. Example: `~>cast \"star pick\" \"comet wrench\"`",
-      "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
-      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
-      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
-      "success": "%1$sYou successfully *casted %2$s %3$s* for %4$s credits. *Cast used: %5$s*",
-      "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
-      "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
-      "too_many": "%1$sYou'd have more than 5000 of this item if you proceed. Try casting less of this object?",
-      "low_tier": "%1$sYou need at least a tier 2 wrench to cast more items per call. You currently have a tier %2$s wrench.",
-      "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe specify a more powerful one? *Wrench level: %2$s, Required level: %3$s*. Example: `~>cast \"star pick\" \"comet wrench\"`",
-      "too_many_amount": "%1$sYou can't cast that many of this item at once! Limit: %2$s, Attempt: %3$s. A sparkle wrench makes the limit double! Unless you're already using one.",
+      "no_item_found": "%1$sلم أجد اي غرض يُطابق هذا، اذا اسم الغرض يحتوي على مسافات، ضعه في \"اقتباسات\"",
+      "item_not_cast": "%1$sلايمكنك صَب هذا الغرض. يمكنك التحقق من `~>cast ls` للمزيد من الأغراض القابلة للصب. إذا الاسم يحتوي على مسافات، ضعه في \"اقتباسات\". مثال: `~>cast \"star pick\" \"comet wrench\"`",
+      "not_enough_money": "%1$sلاتملك المال الكافي للصب هذا الغرض **(التكلفة: %2$s)**",
+      "no_item": "%1$sلاتملك الغرض اللام *%2$s* للمضي قدماً في عملية الصب هذه. ",
+      "not_enough_items": "%1$sلاتملك الغرض الكافي *%2$s* للمضي قدماً. \n**(تحتاج: %3$s، الحالي: %4$s)**",
+      "success": "%1$sتم بنجاح صب * %2$s %3$s* مقابل %4$s مال *الصب المُستخدمه: %5$s* ",
+      "no_tool": "%1$sتحتاج أن تملك %2$s للمضي بعملية الصب!",
+      "item_broke": "للأسف، المفك إنكسر بينما كنت تصب، ولكن حصلت على غرضك! ",
+      "too_many": "%1$sسوف تملك أكثر من 5000 قطعة من نفس الغرض اذا تم المُضي. جرب صب أقل من هذا الغرض؟",
+      "low_tier": "%1$sتحتاج على الأقل مفك مستوى 2 للصب العديد بعملية واحدة. أنت الآن تملك مفك مستوى %2$s. ",
+      "not_enough_wrench_level": "%1$sمفكك غير قوي كفاية لصب هذا الغرض. ريما تحديد مفك أقوى؟  *مستوى المفك: %2$s, المستوى المطلوب: %3$s*. مثال: `~>cast \"star pick\" \"comet wrench\"`",
+      "too_many_amount": "%1$sلايمكنك صب العديد من هذا الغرض مرة واحدة! الحد: %2$s، محاولة: %3$s. مفك البريق يجعل الحد مزدوج! إلا إذا كنت تستخدم واحد بالفعل. ",
       "ls": {
-        "header": "Castable Item List",
-        "cost": "Cast Cost: ",
-        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name (example: `~>cast \"diamond pickaxe\"`, or `~>cast \"diamond p\"`, works)\n**Casting has a minimum cost of half the price of the item. The casting price will be shown down below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "header": "قائمة الأغراض القابلة للصب",
+        "cost": "تكلفة الصب:",
+        "desc": "قائمة بالأغراض التي بإمكانك صبها بإستخدام `~>cast`.\nيمكنك إستخدام الإسم الكامل أو المختصر (مثال: `~>cast \"diamond pickaxe\"`, or `~>cast \"diamond p\"`, works)\n**الصب لديه الحد الأدنى من تكلفة نصف سعر هذا البند. سيتم عرض سعر الصب أدناه.**.\nمفك المستوى 2 و 3 هي المُذنب والبريق، على التوالي."
       },
-      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?",
-      "wrench_multiple_use": "Tip: *You can't use the wrench you are trying to cast with as ingredient!*"
+      "dust": "%1$sلايمكنك الصب مع هذا المخزون المغبر! *(مستوى الغبار: %2$s%%)*. لماذا لا تنظفه؟ إستخدم `~>useitem mop`",
+      "wrench_multiple_use": "تلميح: *لايمكنك إستخدام المفك الذي تحاول صبه كعنصر!*"
     },
     "market": {
       "dump": {
-        "no_item": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to dump.",
-        "invalid": "%1$sNot a valid number of items to dump.",
-        "non_existent": "%1$sCannot dump a non-existent item! If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "player_no_item": "%1$sCannot dump an item you don't have!",
-        "more_items_than_player": "%1$sYou cannot dump more items than what you have.",
-        "success": "%1$sSent %2$,dx **%3$s %4$s** to the trash."
+        "no_item": "%1$sتحتاج أن تحدد الكمية من هذا الغرض (اذا كان مجرد واحد، لاتحتاج لتحديد الكمية) وأيضاً الغرض الذي سترميه. ",
+        "invalid": "%1$sرقم غير صحيح للأغراض المراد رميها.",
+        "non_existent": "%1$sلايمكن رمي غرض غير موجود! إذا كنت ضائع، يمكنك كتابة الإسم المُختصر أو ضعه في \"اقتباسات\" ",
+        "player_no_item": "%1$sلايمكنك رمي غرض لاتملكه! ",
+        "more_items_than_player": "%1$sلايمكنك رمي غرض أكثر مما تملك!",
+        "success": "%1$sإرسال %2$,dx **%3$s %4$s** الى القمامة."
       },
       "price": {
-        "non_existent": "%1$sCannot check the price of a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_price": "%1$sThis item is not available neither for sell or buy (could be an exclusive collectible)",
-        "collectible": "%1$sThis is a collectible item. (Sell value: %2$,d credits)",
-        "success": "%1$sThe market value of %2$s**%3$s** is %4$s credits to buy it and you can get %5$s credits if you sell it."
+        "non_existent": "%1$sلايمكن ك التحقق من سعر غرض غير موجود! إذا كنت ضائع، يمكنك كتابة الإسم المُختصر أو ضعه في \"اقتباسات\" ",
+        "no_price": "%1$sهذا الغرض غير متوفر للبيع أو الشراء (يمكن أن يكون تحصيل حصري)",
+        "collectible": "%1$sهذا عنصر تحصيل. (قيمة البيع: %2$,d مال)",
+        "success": "%1$sالقيمة السوقية ل %2$s**%3$s** هي %4$s دولار لشرائه ويمكنك الحصول على %5$s دولار إذا بعته.  "
       },
       "sell": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
-        "invalid": "%1$sNot a valid number of items to sell.",
+        "no_item_amount": "%1$sتحتاج أن تحدد الكمية من هذا الغرض (اذا كان مجرد واحد، لاتحتاج لتحديد الكمية) وأيضاً الغرض الذي تبيعه. ",
+        "invalid": "%1$sرقم غير صحيح للأغراض المراد بيعها.",
         "all": {
-          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? This will clear your *whole* inventory. If you wanna sell individual items please use the amount. Type *yes* to confirm and *no* to cancel",
-          "success": "%1$sYou sold all your inventory items and gained %2$,d credits!",
-          "cancelled": "%1$sCancelled successfully."
+          "confirmation": "%1$sهل أنت *متأكد* تريد بيع **جميع** أغراضك؟ سيتم مسح جميع مخزونك. إذا أردت بيع بنود فردية أرجو إستخدام الكمية. اكتب *yes* للتأكيد و *no* للإلغاء. ",
+          "success": "%1$sلقد بعت جميع مخزونك وحصلت على %2$,d مال!",
+          "cancelled": "%1$sتم الإلغاء بنجاح. "
         },
-        "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
-        "no_item_player": "%1$sYou cannot sell an item you don't have.",
-        "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
-        "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
+        "non_existent": "%1$sلايمكن بيع غرض غير موجود! إذا كنت ضائع، يمكنك كتابة الإسم المُختصر أو ضعه في \"اقتباسات\" ",
+        "no_sell_price": "%1$sلايمكنك بيع غرض لايُمكن بيعه. (ولكن يمكنك رميه، إستخدم `~>market dump` )",
+        "no_item_player": "%1$sلايمكنك بيع غرض لاتملكه! ",
+        "more_items_than_player": "%1$sلايمكنك بيع غرض أكثر مما تملك!",
+        "success": "%1$sلقد بعت %2$,d **%3$s** وحصلت على %4$,d مال!"
       },
       "buy": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
-        "invalid": "%1$sNot a valid number of items to buy.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object.",
-        "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item."
+        "no_item_amount": "%1$sتحتاج أن تحدد الكمية من هذا الغرض (اذا كان مجرد واحد، لاتحتاج لتحديد الكمية) وأيضاً الغرض الذي تريد شرائه. ",
+        "invalid": "%1$sرقم غير صحيح للأغراض المراد شرائها.",
+        "non_existent": "%1$sلايمكن شراء غرض غير موجود! إذا كنت ضائع، يمكنك كتابة الإسم المُختصر أو ضعه في \"اقتباسات\" ",
+        "no_buy_price": "%1$sلايمكنك شراء غرض لايمكن شرائه!",
+        "item_limit_reached": "%1$sلايمكنك شراء المزيد من هذا الغرض. ",
+        "success": "%1$sتم بنجاح شراء %2$,d %3$s ب %4$,d مال. أنت الآن تملك %5$,d مال. ",
+        "not_enough_money": "%1$sلاتملك المال الكافي لشراء هذا الغرض! "
       },
-      "header": "Mantaro's Market",
-      "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info."
+      "header": "سوق مونتارو ",
+      "reference": "يمكنك شراء و بيع غرض بإستخدام `~>market buy <item>` و `~>market sell <item>`. تحقق من  `~>help market` للمزيد من المعلومات.\n"
     },
     "itemtransfer": {
-      "transfer_yourself_note": "%1$sYou cannot transfer items to yourself.",
-      "bot_notice": "%1$sYou cannot transfer items to a bot.",
-      "locked_notice": "%1$sYou cannot transfer items now. (Player is locked)",
-      "hidden_item": "%1$sYou cannot transfer this item!",
-      "overflow": "%1$sThis player has the maximum possible amount of this item (5000).",
-      "success": "%1$s%2$s gave **%3$s** **%4$s** to %5$s",
-      "multiple_items_error": "%1$sYou don't have any of these items in your inventory",
-      "error": "%1$sYou don't have enough of this item in your inventory to do this!",
-      "no_item_mention": "%1$sYou need to specify the person to transfer the item and the item to transfer."
+      "transfer_yourself_note": "%1$sلايمكنك تحويل غرض لنفسك.",
+      "bot_notice": "%1$sلايمكنك تحويل غرض لبوت.",
+      "locked_notice": "%1$sلايمكنك تحويل أغراض الآن. (العضو مقفول) ",
+      "hidden_item": "%1$sلايمكنك تحويل هذا الغرض!",
+      "overflow": "%1$sهذا العضو لديه الحد الأقصى من هذا الغرض (5000).",
+      "success": "%1$s%2$s أعطى **%3$s** **%4$s** الى %5$s",
+      "multiple_items_error": "%1$sلاتملك أي من هذه الأغراض في مخزونك",
+      "error": "%1$sأنت لاتملك مايكفي من هذا الغرض في مخزونك للقيام بهذا!",
+      "no_item_mention": "%1$sيجب أن تحدد عضو لتحويل غرض له وأيضا يجب أن تحدد الغرض المراد تحويله."
     },
     "transfer": {
-      "transfer_yourself_note": "%1$sYou cannot transfer money to yourself.",
-      "bot_notice": "%1$sYou cannot transfer money to a bot.",
-      "no_amount": "%1$sYou need to specify the amount.",
-      "no_money_specified_notice": "%1$sYou cannot transfer no money :P",
-      "over_transfer_limit": "%1$sYou cannot transfer this much money. (Limit: %2$,d credits)",
-      "own_locked_notice": "%1$sYou cannot transfer money now.",
-      "receipt_overflow_notice": "Cannot send money to this player.",
-      "no_money_notice": "%1$sYou cannot transfer money you don't have.",
-      "receipt_locked_notice": "1$sThat user cannot receive money now.",
-      "receipt_over_limit": "%1$sThis user already has too much money...",
-      "success": "%1$sTransferred **%2$,d** *(%3$,d after 8%% tax)* to **%4$s** successfully.",
-      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `transferitems` command instead.",
-      "party": "You can only transfer to the same person (%1$s) once every 4 minutes."
+      "transfer_yourself_note": "%1$sلايمكنك تحويل مال لنفسك.",
+      "bot_notice": "%1$sلايمكنك تحويل مال لبوت.",
+      "no_amount": "%1$sيجب أن تُحدد المبلغ.",
+      "no_money_specified_notice": "%1$sلايمكنك تحويل أي أموال P:",
+      "over_transfer_limit": "%1$sلايمكنك تحويل هذا الكثير من المال. (الحد: %2$,d مال)",
+      "own_locked_notice": "%1$sلايمكنك تحويل مال الآن.",
+      "receipt_overflow_notice": "لايمكن إرسال مال الى هذا العضو.",
+      "no_money_notice": "%1$sلايمكنك تحويل مال لاتملكه.",
+      "receipt_locked_notice": "1$sهذا العضو لايمكنه إستقبال مال الآن.",
+      "receipt_over_limit": "%1$sهذا العضو بالفعل لديه الكثير من المال....",
+      "success": "%1$sتم تحويل **%2$,d** *(%3$,d بعد 8%% ضريبة)* الى **%4$s** بنجاح.",
+      "item_transfer": "%1$sلايمكنك تحويل غرض بإستخدام transfer، إستخدم `transferitems` بدلاً من ذلك.",
+      "party": "يمكنك التحويل لنفس الشخص (%1$s) مرة واحدة كل 4 دقائق."
     },
     "useitem": {
       "ls": {
-        "header": "Interactive Items List",
-        "desc": "This is a list of all interactive items in Mantaro. For more info about interactive items check the wiki!"
+        "header": "قائمة العناصر التفاعلية",
+        "desc": "هذه قائمة بالعناصر التفاعلية بمونتارو. للمزيد من المعلومات عن العناصر التفاعلية تحقق من ال wiki!"
       },
-      "use_command": "%1$sFor this item you need to use the command that's linked to the item! (mine for pick, fish for the fishing rod)",
-      "no_items_specified": "%1$sYou need to specify what item to use.",
-      "not_interactive": "%1$sYou cannot interact with this item.",
+      "use_command": "%1$sلهذا الغرض تحتاج الى استخدام الأمر المُرتبط بالعنصر! (mine للفأس, fish لسنارة الصيد)",
+      "no_items_specified": "%1$sيجب أن تُحدد الغرض المُراد إستخدامه.",
+      "not_interactive": "%1$sلايمكنك التفاعل مع هذا الغرض!",
       "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set. This item might use its own command? For example, picks use `~>mine`.",
-      "no_item": "%1$sYou don't have this item in your inventory.",
-      "not_enough_items": "%1$sYou don't have enough of this item.",
-      "too_little": "%1$sYou can't use less than 1 item.",
-      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `9`!"
+      "no_item": "%1$sلاتملك أي من هذا الغرض في مخزونك.",
+      "not_enough_items": "%1$sلاتملك العدد الكافي من هذا الغرض! ",
+      "too_little": "%1$sلايمكنك إستخدام أقل من 1 غرض.",
+      "invalid_amount": "%1$sالمبلغ يجب أن يكون عدد صحيح مابين `1` و `9`!"
     },
     "opts": {
       "note": "%1$sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
       "list": {
-        "header": "**Mantaro's Options List**\n%1$s*All options must be prefixed with `~>opts` when running them*\n%2$s"
+        "header": "**قائمة إختيارات مونتارو**\n%1$s*جميع الخيارات يجب أن تكون مسبوقة ب `~>opts` عندما يتم إستخدامها*\n%2$s"
       },
-      "option_not_found": "%1$sInvalid option help name.",
-      "invalid_args": "%1$sInvalid option or arguments."
+      "option_not_found": "%1$sاسم الخيار غير صحيح.",
+      "invalid_args": "%1$sخيار غير صالح أو حجج."
     },
     "8ball": {
-      "no_args": "%1$sYou need to specify what you want the 8ball to answer.",
-      "error": "%1$sI ran into an error while fetching the 8ball results."
+      "no_args": "%1$sيجب أن تُحدد ماذا تريد أن تُجيب ال 8ball ",
+      "error": "%1$sمررت بخطأ آثناء جلب نتائج ال 8ball."
     },
     "iam": {
       "list": {
-        "name": "Auto-role name: ",
-        "role": "Role:",
-        "category": "Category: ",
-        "header": "Auto-roles list",
-        "no_autoroles": "There aren't any autoroles setup in this server.",
+        "name": "إسم الرتبة التلقائية: ",
+        "role": "رتبة:",
+        "category": "الفئة:",
+        "header": "قائمة الرُتب التلقائية",
+        "no_autoroles": "لايوجد أي إعداد للرتب التلقائية في هذا السيرفر.",
         "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`."
       },
-      "deleted_role": "%1$sThe role that this autorole corresponded to has been deleted",
-      "already_assigned": "%1$sYou already have this role, silly!",
-      "success": "%1$s%2$s, you've been given the **%3$s** role",
-      "error": "%1$sI couldn't take from you **%2$s. Make sure that I have permission to add roles and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the name `%2$s`.",
-      "no_iam": "%1$sYou need to specify which auto-assignable role you want to assign yourself!"
+      "deleted_role": "%1$sتم حذف الرتبة التي تتوافق مع هذه الرتبة التلقائية",
+      "already_assigned": "%1$sأنت بالفعل لديك هذه الرتبة.",
+      "success": "%1$s%2$s، تم إعطائك رتبة **%3$s**",
+      "error": "%1$sلم أستطع التحدث منك **%2$s**. تأكد أن لدي صلاحية إضافة الرتب وتكن رتبتي أعلاه **%2$s**",
+      "no_role": "%1$sهذه الرتبة `%2$s` ليس رتبة تلقائية. ",
+      "no_iam": "%1$sتحتاج إلى تحديد الرتبة القابلة للتعيين التلقائي الذي تريد تعيينه بنفسك!"
     },
     "iamnot": {
-      "no_args": "%1$sYou have to specify what role you want me to remove from you, silly.",
-      "not_assigned": "%1$sYou don't have this role, silly!",
-      "success": "%1$s%2$s, you've lost the **%3$s** role"
+      "no_args": "%1$sيجب أن تُحدد ماهي الرتبة التي تريدنني أن أزيلها منك!",
+      "not_assigned": "%1$sليس لديك هذه الرتبة.",
+      "success": "%1$s%2$sلقد خسرت رتبة **%3$s**"
     },
     "misc": {
-      "reverse_missing": "%1$sYou didn't provide any message to reverse.",
-      "random_color": "%1$sThe random color is %2$s"
+      "reverse_missing": "%1$sلم تُقدم أي رساله للعكس.",
+      "random_color": "%1$sاللون العشوائي هو %2$s"
     },
     "poll": {
-      "missing": "%1$sYou didn't include either the %2$s argument or it was empty!\n%3$s",
+      "missing": "%1$sلم تُضيف %2$s الوسيطة أو كان فارغ!\n%3$s",
       "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `~>help poll`",
-      "other_poll_running": "%1$sThere seems to be another poll running here...",
-      "no_reaction_perms": "%1$sSeems like I cannot add reactions here...",
-      "too_long": "This was too long to show, so I pasted it: %1$s",
-      "header": "Poll #%1$d created by %2$s",
-      "success": "**Poll started. React to the number to vote.**\n*%1$s*\nType &cancelpoll to cancel a running poll.",
-      "time": "You have %1$s to vote.",
-      "error": "%1$sAn unknown error has occurred while setting up a poll. Maybe try again? (internal error)",
-      "result_header": "Poll results",
-      "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
-      "vote_results": "+Registered %1$d votes for option %2$s",
-      "thank_note": "Thanks for your vote",
-      "results": "Results",
-      "cancelled": "%1$sCancelled poll",
+      "other_poll_running": "%1$sيبدو أن إستطلاع آخر يجري هُنا...",
+      "no_reaction_perms": "%1$sيبدو أنني لا أستطيع إضافة رمز تعبيري هُنا...",
+      "too_long": "كان هذا طويلاً جداً للعرض، لذا لصقته: %1$s",
+      "header": "الإستطلاع #%1$d تم إنشاؤه بواسطة %2$s",
+      "success": "**بدأ الإستطلاع. إستخدم الرموز التعبيرية الأرقام للتصويت.**\n*%1$s*\nإكتب &cancelpoll للإلغاء.",
+      "time": "لديك %1$s لتصويت",
+      "error": "%1$sخطأ غير معروف ظهر أثناء تجهيز الإستطلاع. حاول مرة أخرى. (خطأ داخلي)",
+      "result_header": "نتائج الإستطلاع",
+      "result_screen": "**إظهار نتائج الإستطلاع الذي بدأ من قبل %1$s** مع اسم *%2$s*",
+      "vote_results": "+الأصوات المُسجلة %1$d للإختيار %2$s",
+      "thank_note": "شكراً لتصويتك :) ",
+      "results": "نتائج",
+      "cancelled": "%1$sإستطلاع تم إلغاؤه",
       "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds). Example: `-time 40m`"
     },
     "osustats": {
       "user": {
-        "header": "osu! statistics for %1$s",
-        "rank": "Rank",
-        "acc": "Accuracy",
-        "level": "Level",
-        "ranked": "Ranked Score",
-        "country_rank": "Country Rank"
+        "header": "أوسو! الإحصائيات ل %1$s",
+        "rank": "مركز",
+        "acc": "دِقة",
+        "level": "مستوى",
+        "ranked": "نقاط المركز",
+        "country_rank": "مركز البلد "
       },
-      "retrieving_info": "%1$sRetrieving information from osu! server...",
-      "timeout": "%1$sThe osu! api seems to be taking a nap. Maybe try again later?",
-      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$,dpp] | Rank: %6$s -> Max Combo: %7$,d",
-      "best": "**10 best osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
+      "retrieving_info": "%1$sإسترجاع المعلومات من أوسو! سيرفر...",
+      "timeout": "%1$sالأوسو! يبدو أن آبي يأخذ قيلولة. يمكنك المحاولة لاحقاً.",
+      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$,dpp] | مركز: %6$s -> الحد الأقصى من السرد: %7$,d",
+      "best": "**10 أفضل أوسو! عشرات لـ: %1$s** (وضع: %2$d)\n```md\n%3$s```",
       "error": "%1$sUh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)",
       "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Date: %5$s -> Max Combo: %6$s\n",
       "recent": "**10 most recent osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
