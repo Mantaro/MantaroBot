@@ -112,9 +112,6 @@ public class MoneyCmds {
                     ).queue();
                     return;
                 }
-                // Check for rate limit
-                if (!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext, false))
-                    return;
 
                 // Determine who gets the money
                 long dailyMoney = 150L;
@@ -181,6 +178,10 @@ public class MoneyCmds {
                     authorPlayer = toAddMoneyTo.getPlayer();
                     authorPlayerData = authorPlayer.getData();
                 }
+
+                // Check for rate limit
+                if (!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext, false))
+                    return;
 
                 List<String> returnMessage = new ArrayList<String>();
                 long currentTime = System.currentTimeMillis();
