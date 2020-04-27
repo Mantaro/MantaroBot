@@ -482,7 +482,7 @@
       "negative_time_notice": "%1$sBạn không thể tắt tiếng ai đó trong thời gian âm. Trừ khi bạn có thể uốn cong không gian và thời gian.",
       "default_time_too_long": "%1$sThời gian chờ tắt tiếng quá dài (Tối đa 10 ngày)...",
       "time_too_long": "%1$sThời gian tắt tiếng được chỉ định quá dài (Tối đa 10 ngày)...",
-      "already_muted": "%1$sNgười dùng này đã được gắn nooijt vai trò bị tắt tiếng. Vui lòng dùng `~>unmute` để gỡ bỏ nó.",
+      "already_muted": "%1$sNgười dùng này đã được gắn một vai trò bị tắt tiếng. Vui lòng dùng `~>unmute` để gỡ bỏ nó.",
       "self_hierarchy_error": "%1$sTôi không thể gán vai trò bị tắt tiếng vì người này có vai trò cao hơn tôi hoặc vai trò này cao hơn tôi!",
       "user_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
       "success": "%1$sAdded mute role to **%2$s** for around %3$s"
