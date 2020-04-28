@@ -51,6 +51,7 @@ public class PlayerData {
     private long waifuCachedValue;
     private List<ProfileComponent> profileComponents = new LinkedList<>();
     private boolean isClaimLocked = false;
+    private long miningExperience;
 
     //lol?
     //this is needed so it actually works, even though it does absolutely nothing
@@ -60,8 +61,7 @@ public class PlayerData {
     private long petSlots = 4;
     private Map<String, Pet> pets = new HashMap<>();
 
-    public PlayerData() {
-    }
+    public PlayerData() { }
 
     @JsonIgnore
     @Deprecated
@@ -264,7 +264,11 @@ public class PlayerData {
         this.pets = pets;
     }
 
-    protected boolean canEqual(final Object other) {
-        return other instanceof PlayerData;
+    public long getMiningExperience() {
+        return miningExperience;
+    }
+
+    public void setMiningExperience(long miningExperience) {
+        this.miningExperience = miningExperience;
     }
 }

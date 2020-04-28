@@ -870,7 +870,7 @@ public class MoneyCmds {
                     }
                 }
 
-                String reminder = r.nextInt(6) == 0 ? languageContext.get("commands.mine.reminder") : "";
+                String reminder = r.nextInt(6) == 0 && item == Items.BROM_PICKAXE ? languageContext.get("commands.mine.reminder") : "";
                 String message = String.format(languageContext.get("commands.mine.success") + reminder, item.getEmoji(), money, item.getName());
 
                 boolean hasPotion = Items.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), Items.POTION_HASTE, dbUser);
