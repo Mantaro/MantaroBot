@@ -947,6 +947,7 @@ public class MoneyCmds {
                     seasonalPlayer.addMoney(money);
                     seasonalPlayer.saveAsync();
                 } else {
+                    playerData.incrementMiningExperience(random);
                     player.addMoney(money);
                 }
 

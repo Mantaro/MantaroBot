@@ -271,4 +271,9 @@ public class PlayerData {
     public void setMiningExperience(long miningExperience) {
         this.miningExperience = miningExperience;
     }
+
+    @JsonIgnore
+    public void incrementMiningExperience(Random random) {
+        this.miningExperience = miningExperience + random.nextInt(5);
+    }
 }

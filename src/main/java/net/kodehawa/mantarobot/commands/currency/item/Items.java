@@ -356,10 +356,12 @@ public class Items {
 
                 List<ItemStack> reducedList = ItemStack.reduce(list);
                 playerInventory.process(reducedList);
-                if (isSeasonal)
+                if (isSeasonal) {
                     sp.addMoney(money);
-                else
+                } else {
                     p.addMoney(money);
+                    p.getData().incrementMiningExperience(random);
+                }
 
                 String itemDisplay = ItemStack.toString(reducedList);
                 boolean foundFish = !reducedList.isEmpty();
