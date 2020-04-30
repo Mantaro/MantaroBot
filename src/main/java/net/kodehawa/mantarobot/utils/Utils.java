@@ -75,8 +75,8 @@ public class Utils {
             "(https?://)?discord(\\.|\\s*?dot\\s*?)(me|io)\\s*?/\\s*?([a-zA-Z0-9\\-_]+)"
     );
     private static final char BACKTICK = '`';
-    private static final char LEFT_TO_RIGHT_OVERRIDE = '\u202D';
-    private static final char RIGHT_TO_LEFT_OVERRIDE = '\u202E';
+    private static final char LEFT_TO_RIGHT_ISOLATE = '\u2066';
+    private static final char POP_DIRECTIONAL_ISOLATE = '\u2069';
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(Utils.class);
     private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
     private static final Config config = MantaroData.config().get();
@@ -776,8 +776,13 @@ public class Utils {
         for(var i = 0; i < src.length(); i++) {
             var ch = src.charAt(i);
             if(ch == BACKTICK) {
-                sb.append(inside ? RIGHT_TO_LEFT_OVERRIDE : LEFT_TO_RIGHT_OVERRIDE)
-                        .append(BACKTICK);
+                if(inside) {
+                    sb.append(BACKTICK)
+                            .append(POP_DIRECTIONAL_ISOLATE);
+                } else {
+                    sb.append(LEFT_TO_RIGHT_ISOLATE)
+                            .append(BACKTICK);
+                }
                 inside = !inside;
             } else {
                 sb.append(ch);
