@@ -766,9 +766,10 @@ public class Utils {
     @CheckReturnValue
     public static String fixInlineCodeblockDirection(@Nonnull String src) {
         //if there's no right to left override, there's nothing to do
-        if(src.indexOf(RIGHT_TO_LEFT_OVERRIDE) < 0) {
+        if(!isRtl(src)) {
             return src;
         }
+
         //no realloc unless we somehow have 5 codeblocks
         var sb = new StringBuilder(src.length() + 8);
         var inside = false;
@@ -783,6 +784,31 @@ public class Utils {
             }
         }
         return sb.toString();
+    }
+
+    private static boolean isRtl(String string) {
+        if (string == null) {
+            return false;
+        }
+
+        for (int i = 0, n = string.length(); i < n; ++i) {
+            byte d = Character.getDirectionality(string.charAt(i));
+
+            switch (d) {
+                case Character.DIRECTIONALITY_RIGHT_TO_LEFT:
+                case Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC:
+                case Character.DIRECTIONALITY_RIGHT_TO_LEFT_EMBEDDING:
+                case Character.DIRECTIONALITY_RIGHT_TO_LEFT_OVERRIDE:
+                    return true;
+
+                case Character.DIRECTIONALITY_LEFT_TO_RIGHT:
+                case Character.DIRECTIONALITY_LEFT_TO_RIGHT_EMBEDDING:
+                case Character.DIRECTIONALITY_LEFT_TO_RIGHT_OVERRIDE:
+                    return false;
+            }
+        }
+
+        return false;
     }
 
     public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
