@@ -113,9 +113,9 @@
     "owner": "Propriétaire",
     "image": "Image",
     "utils": "Utilitaire",
-    "fun": "Fun",
+    "fun": "Amusement",
     "games": "Jeux",
-    "info": "Info",
+    "info": "Infos",
     "currency": "Monnaie",
     "pet": "Animal de compagnie"
   },
@@ -406,7 +406,7 @@
         "no_command": "%1$sTu dois me dire quelle commande tu veux regarder.",
         "header": "Commande \"%1$s\":",
         "amount": "(Affichage de %1$d réponse sur %2$d)",
-        "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
+        "description": "Ceci est une liste de toutes les réponses de cette commande au format brut (ce que vous entrez dans la commande)."
       },
       "clear": {
         "success": "%1$s**%2$d commandes personnalisées** effacées"
@@ -497,7 +497,7 @@
       "quotes": {
         "1": "vitesse supersonique! :upside_down:",
         "10": "plus rapide que Sonic! :smiley:",
-        "69": "l-lewd! <:MantaroGasm:318869352851963904>",
+        "69": "oh coquin.e! <:MantaroGasm:318869352851963904>",
         "100": "génial! :smiley:",
         "200": "cool! :slight_smile:",
         "300": "décent. :neutral_face:",
@@ -522,7 +522,7 @@
         "Est-ce que je fonctionne c-correctement ?",
         "<3",
         "* tapote *",
-        "Pong.",
+        "Pong !",
         "Pang.",
         "Pung.",
         "Peng.",
@@ -587,7 +587,7 @@
         "header_other": "statistiques de la waifu %1$s",
         "format": "%1$s **Valeur du portefeuille:** %2$,d\n%1$s **Valeur des badges:** %3$,d\n%1$s **Valeur d’expérience:** %4$,d\n%1$s **Valeur d’appartenance:** %5$,d\n%1$s **Multiplicateur de réputation:** %6$.2fx",
         "value": "Valeur totale",
-        "credits": "%1$,d credits",
+        "credits": "%1$,d crédits",
         "performance": "Points de Performance Waifu"
       },
       "claim": {
@@ -668,7 +668,7 @@
         "desc": "C'est la liste de tous les objets que tu peux fabriquer un utilisant `~>cast`. Tu dois utiliser le nom complet ou l'abréviation pour le faire (exemple : `~>cast diamond pickaxe` ou `~>cast diamond p` fonctionnent).\n**La fabrication a un coût de la moitié du prix de l'objet. Le coût de la fabrication apparaîtra ci-dessous.**"
       },
       "dust": "%1$sTu ne peux pas fabriquer de nouveaux objets avec autant de poussière dans ton inventaire! *(Niveau de poussière : %2$s%%)*. Pourquoi ne pas le laver en utilisant `~>useitem mop`?",
-      "wrench_multiple_use": "Tip: *You can't use the wrench you are trying to cast with as ingredient!*"
+      "wrench_multiple_use": "Astuce : *Tu ne peux pas utiliser la clé avec laquelle tu essaies de forger comme ingrédient !*"
     },
     "market": {
       "dump": {
@@ -796,7 +796,7 @@
       "too_long": "C'était trop long à montrer, donc je l'ai copié: %1$s",
       "header": "Sondage #%1$d créé par %2$s",
       "success": "**Le sondage commence. Réagis avec les nombres pour voter.**\n*%1$s*\nEnvoie &cancelpoll pour arrêter le sondage en cours.",
-      "time": "You have %1$s to vote.",
+      "time": "Tu as %1$s pour voter.",
       "error": "%1$sUne erreur inconnue est survenue durant la mise en place du sondage. Réessaie peut-être ? (Erreur interne)",
       "result_header": "Résultats du sondage",
       "result_screen": "**Voici les résultats du sondage créé par %1$s** du nom de: *%2$s*",
@@ -820,7 +820,7 @@
       "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rang: %6$s -> Max Combo: %7$d",
       "best": "**Les 10 meilleurs scores osu! pour: %1$s** (Mode: %2$d)\n```md\n%3$s```",
       "error": "%1$sUh-oh... on dirait que j'ai reçu un beau méli-mélo en guise de résultat... (Erreur lors de la recherche)",
-      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Date: %5$s -> Max Combo: %6$s\n",
+      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Date: %5$s -> Combo Max : %6$s\n",
       "recent": "**Les 10 scores osu! les plus récents pour: %1$s** (Mode: %2$d)\n```md\n%3$s```",
       "error_detailed": "Uh-oh... on dirait que j'ai reçu un beau méli-mélo en guise de résultat... (%1$s)"
     },
@@ -859,9 +859,10 @@
         "market": "Utilisations de la boutique",
         "potion": "Potions actives",
         "potion_type": "Type de potions",
-        "buff": "Buff",
+        "buff": "Bonus",
         "buff_type": "Type de buff",
         "experience": "Expérience",
+        "mine_xp": "Mining/Fishing Experience",
         "daily": "Passages quotidiens",
         "daily_at": "Dernier gain quotidien",
         "waifu_claimed": "Nombre de fois où tu es devenu.e waifu",
@@ -886,7 +887,7 @@
         "not_owned": "%1$sTu ne possède pas cet objet!",
         "success": "%1$sTu as équipé %2$s *%3$s* avec succès, ce qui ne sera pas oublié la prochaine fois que tu utilises une commande monétaire.",
         "not_suitable": "%1$sTu ne peux pas équiper cela.",
-        "not_equipped": "%1$sYou don't have this equipped.",
+        "not_equipped": "%1$sTu n'as pas équipé ça.",
         "already_equipped": "%1$sTu as déjà équipé un objet de ce type! Essaie `~>unequip <type>` (Le type peut être rod ou pick) pour le déséquiper."
       },
       "unequip": {
@@ -996,7 +997,8 @@
       "no_time": "Tu ne m'a pas donner de timing à l'aide de l'argument `-time`! (Exemple : `-time 1h`)",
       "too_little_time": "%1$sC'est un délais trop court (Minimum: 10 secondes)",
       "too_long": "Le délais est trop long... (Maximum : 3 mois)",
-      "success": "%1$sJe te rappellerai (%2$s#%3$s) de `%4$s` dans %5$s"
+      "success": "%1$sJe te rappellerai (%2$s#%3$s) de `%4$s` dans %5$s",
+      "too_many_reminders": "%1$sTu as beaucoup trop de rappels! Essaie d'en supprimer peut-être?"
     },
     "time": {
       "invalid_timezone": "%1$sCe n'est pas un fuseau horaire valide.",
@@ -1057,7 +1059,7 @@
         "premium": "**Serveur Premium! <3**",
         "old_system": "**Serveur Premium de l'ancien système! Ne t'en fait pas, il est Premium avec tout ce que ça implique ;) !**"
       },
-      "description": "Keys are valid for as long as your pledge it's active, unless stated otherwise. Thanks for donating or pledging <3",
+      "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
       "valid_for_old": "Valide pendant",
       "old_days_more": "%1$d jours de plus",
       "thank_note": "Merci pour votre support <3",
@@ -1188,7 +1190,7 @@
       "character_request_error": "%1$sErreur en requérant ce personnage à l'API AniList.",
       "character_start": "Devine le personnage",
       "too_many_games": "%1$sTu peux démarrer 4 jeux du même type dans un lobby. (8 en étant Premium)",
-      "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
+      "disabled_multiple": "%1$sCe serveur a désactivé les commandes game multiple/lobby."
     },
     "opencrate": {
       "no_crate": "%1$sTu n'as pas de coffre au trésor de ce type à ouvrir :( (Si tu essaies d'ouvrir un coffre autre que celui par défaut, tu dois le nommer après la commande. Si tu veux utiliser ton inventaire de la saison, ajoute un -s à la fin.)",
@@ -1243,7 +1245,7 @@
       "load_notice": "Si l'image ne charge pas cliques sur le titre.",
       "rule34_notice": "Si tu n'est pas satisfait du contenu de cette commande, tu peux utiliser ~>yandere",
       "yandere_nsfw_notice": "%1$sLes commandes Yande.re peuvent être utilisées uniquement dans les salons NSFW à cause d'un nombre important de plainte concernant le contenu explicite envoyé avec le tag \"safe\".\nTu peux utiliser `~>konachan` à la place!",
-      "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
+      "e621_nsfw_notice": "%1$sLa commande e621 ne peut être utilisée que sur les canaux NSFW."
     },
     "about": {
       "title": "A propos de Mantaro",
@@ -1293,7 +1295,7 @@
       "stamina": "Endurance actuelle",
       "hp": "PV actuels",
       "fly": "Vol",
-      "venom": "Venom",
+      "venom": "Venin",
       "inventory": "Inventaire",
       "id": "ID: %1$s",
       "hunger": "Niveau de faim",
@@ -1318,7 +1320,7 @@
       },
       "ls": {
         "experience": "XP",
-        "age": "Age",
+        "age": "Âge",
         "no_pets": "%1$sTu n'as pas d'animaux.",
         "header": "Voici la liste des animaux que tu possèdes pour le moment.\nLes animaux sont vos compagnons pour chercher de l'argent! **Tu peux les entrainer, les chouchouter, les nourrir ou les faire combattre entre eux ou contre ceux des autres !** Pour créer un animal de compagnie, tu as besoin d'un incubateur que tu peux créer avec du lait, du breuvage et des diamants, ça te permettra de l'incuber et donc de lui donner un nom.",
         "pages": "**Nombre total de pages: %1$s \nUtilise les réaction pour changer de page.\n\n"
@@ -1477,7 +1479,7 @@
       "end_date": "Date de fin",
       "average_score": "Sore de popularité",
       "type": "Type",
-      "episodes": "Episodes",
+      "episodes": "Épisodes",
       "episode_duration": "Duré des épisodes",
       "genres": "Genres",
       "minutes": "minutes",
@@ -1505,7 +1507,7 @@
         "bot": "%1$sTu ne peux pas transférer ton gain journalier à un bot.",
         "receipt_locked": "Cet utilisateur ne peut pas recevoir de gain journalier maintenant.",
         "own_locked": "Tu ne peux pas recevoir ton gain journalier maintenant.",
-        "same_user": "%1$sUse daily without mentioning yourself if you're gonna mention yourself :P"
+        "same_user": "%1$sUtilise la commande daily te mentionner... Enfin si tu comptais le faire :P"
       },
       "streak": {
         "up": "Streak actuel: `%1$sx`",
@@ -1562,7 +1564,7 @@
       "easter": "\nKhoff Khoff qu'est-ce que c'est que cette poussière? Il faut que tu nettoies tous ce bazard avec de te perdre dedans !"
     },
     "mine": {
-      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure!",
+      "not_equipped": "%1$sTu n'as pas de pioche équipée. Utilise `~>equip <pick name>` pour équiper un pioche et commencer ton aventure!",
       "no_pick": "%1$sTu n'as pas de pioche pour miner. Si tu veux utiliser une autre pioche utilise `~>mine <nom de la pioche>`",
       "not_suitable": "%1$sMais ce n'est pas une pioche adapté pour miner ça!",
       "not_in_inventory": "%1$sTu n'as pas cette pioche dans ton inventaire, considérons que tu parlais de ta pioche par défaut.",
@@ -1643,8 +1645,8 @@
     },
     "level": {
       "bot_notice": "%1$sLes bots n'ont pas de niveau.",
-      "own_success": "%1$s ton niveau est %2$s. (Expérience: %3$s/%4$s)",
-      "success_other": "%1$s le niveau de %2$s est %3$s. (Expérience: %4$s/%5$s)"
+      "own_success": "%1$sYour level is %2$s. (Experience: %3$s/%4$s)",
+      "success_other": "%1$s%2$s's is level %3$s. (Experience: %4$s/%5$s)"
     }
   },
   "options": {
@@ -1880,11 +1882,11 @@
       "success": "%1$sLe salon de bienvenue/de départ est défini sur: %2$s"
     },
     "usermessage_joinmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone joins!",
+      "no_message": "%1$sTu dois me donner le message que tu veux que j'envoie lorsque quelqu'un nous rejoins!",
       "success": "%1$sLe message de bienvenue est défini sur: %2$s"
     },
     "usermessage_leavemessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone leaves!",
+      "no_message": "%1$sTu dois me donner le message que tu veux que j'envoie lorsque quelqu'un nous quitte!",
       "success": "%1$sLe message de départ est défini sur: %2$s"
     },
     "autoroles_add": {
@@ -2064,11 +2066,11 @@
     },
     "lobby": {
       "disable": {
-        "success": "%1$sSuccessfully disabled game lobby/multiple."
+        "success": "%1$sa désactivé les commandes lobby et game multiple."
       },
       "enable": {
-        "already_enabled": "%1$sGame lobby/multiple isn't disabled on this server.",
-        "success": "%1$sSuccessfully enabled game lobby/multiple. (If it was previously disabled)"
+        "already_enabled": "%1$sLes commandes lobby et game multiple ne sont pas désactivées ici.",
+        "success": "%1$sa activé les commandes lobby et game multiple. (Tout du moins si elles étaient désactivées au préalable.)"
       }
     },
     "invalid_category": "%1$sTu as entré une catégorie invalide. Regarde dans la liste ci-dessous pour trouver une catégorie valide```md\n%2$s```",
@@ -2246,7 +2248,7 @@
       "pants": "C'est ce que tu portes en bas, du moins je l'espère.",
       "haste": "Ça te permet de trouver plus de chose en fouillant (valable pour 2 utilisation de la commande `~>loot`).",
       "milky": "Ça te débarrasse des effets de potions.",
-      "energy": "Elle réduit les chance que t pioche ne casse durant les 5 prochaines sessions.",
+      "energy": "Fait en sorte que ta pioche ou ta canne à pêche perde moins de durabilité en l'utilisant. Ça ne dure que 3 sessions.",
       "rod": "Te permets de pêcher. (Durabilité: 40)",
       "fish": "Poisson attrapé en pêchant.",
       "tropical_fish": "Un poisson assez tropical pêché.",
