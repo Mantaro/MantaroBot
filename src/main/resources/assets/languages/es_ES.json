@@ -862,6 +862,7 @@
         "buff": "Buff",
         "buff_type": "Buff Type",
         "experience": "Experiencia",
+        "mine_xp": "Mining/Fishing Experience",
         "daily": "Racha Diaria",
         "daily_at": "Último Daily",
         "waifu_claimed": "Veces Claimeada como Waifu",
@@ -1644,8 +1645,8 @@
     },
     "level": {
       "bot_notice": "%1$sBots don't have level.",
-      "own_success": "%1$s your level is %2$s. (Experience: %3$s/%4$s)",
-      "success_other": "%1$s %2$s's is level %3$s. (Experience: %4$s/%5$s)"
+      "own_success": "%1$sYour level is %2$s. (Experience: %3$s/%4$s)",
+      "success_other": "%1$s%2$s's is level %3$s. (Experience: %4$s/%5$s)"
     }
   },
   "options": {
