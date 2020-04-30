@@ -40,6 +40,8 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 
+import javax.annotation.CheckReturnValue;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -72,6 +74,9 @@ public class Utils {
     public static final Pattern THIRD_PARTY_INVITE = Pattern.compile(
             "(https?://)?discord(\\.|\\s*?dot\\s*?)(me|io)\\s*?/\\s*?([a-zA-Z0-9\\-_]+)"
     );
+    private static final char BACKTICK = '`';
+    private static final char LEFT_TO_RIGHT_OVERRIDE = '\u202D';
+    private static final char RIGHT_TO_LEFT_OVERRIDE = '\u202E';
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(Utils.class);
     private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
     private static final Config config = MantaroData.config().get();
@@ -746,6 +751,38 @@ public class Utils {
 
     public static String formatMemoryUsage(long used, long total) {
         return String.format("%s/%s", formatMemoryAmount(used), formatMemoryAmount(total));
+    }
+    
+    /**
+     * Fixes the direction of the rendering of the text inside `inline codeblocks` to
+     * be always left to right.
+     *
+     * @param src Source string.
+     *
+     * @return String with appropriate unicode direction modifier characters
+     *         around code blocks.
+     */
+    @Nonnull
+    @CheckReturnValue
+    public static String fixInlineCodeblockDirection(@Nonnull String src) {
+        //if there's no right to left override, there's nothing to do
+        if(src.indexOf(RIGHT_TO_LEFT_OVERRIDE) < 0) {
+            return src;
+        }
+        //no realloc unless we somehow have 5 codeblocks
+        var sb = new StringBuilder(src.length() + 8);
+        var inside = false;
+        for(var i = 0; i < src.length(); i++) {
+            var ch = src.charAt(i);
+            if(ch == BACKTICK) {
+                sb.append(inside ? RIGHT_TO_LEFT_OVERRIDE : LEFT_TO_RIGHT_OVERRIDE)
+                        .append(BACKTICK);
+                inside = !inside;
+            } else {
+                sb.append(ch);
+            }
+        }
+        return sb.toString();
     }
 
     public static <T, E> T getKeyByValue(Map<T, E> map, E value) {

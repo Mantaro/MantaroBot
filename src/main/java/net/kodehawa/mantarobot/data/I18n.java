@@ -22,6 +22,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GenericGuildEvent;
 import net.kodehawa.mantarobot.utils.LanguageKeyNotFoundException;
+import net.kodehawa.mantarobot.utils.Utils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -145,7 +146,8 @@ public class I18n {
         } else {
             actualQuery = root + "." + query;
         }
-        return get(map, actualQuery.split("\\."), false);
+        //TODO: apply the fix to all at startup or lazily modify the map?
+        return Utils.fixInlineCodeblockDirection(get(map, actualQuery.split("\\."), false));
     }
 
     public String withRoot(String root, String query) {
