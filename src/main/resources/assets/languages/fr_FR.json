@@ -862,6 +862,7 @@
         "buff": "Bonus",
         "buff_type": "Type de buff",
         "experience": "Expérience",
+        "mine_xp": "Mining/Fishing Experience",
         "daily": "Passages quotidiens",
         "daily_at": "Dernier gain quotidien",
         "waifu_claimed": "Nombre de fois où tu es devenu.e waifu",
@@ -1644,8 +1645,8 @@
     },
     "level": {
       "bot_notice": "%1$sLes bots n'ont pas de niveau.",
-      "own_success": "%1$s ton niveau est %2$s. (Expérience: %3$s/%4$s)",
-      "success_other": "%1$s le niveau de %2$s est %3$s. (Expérience: %4$s/%5$s)"
+      "own_success": "%1$sYour level is %2$s. (Experience: %3$s/%4$s)",
+      "success_other": "%1$s%2$s's is level %3$s. (Experience: %4$s/%5$s)"
     }
   },
   "options": {
