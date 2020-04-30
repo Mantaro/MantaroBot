@@ -862,6 +862,7 @@
         "buff": "Verbesserung",
         "buff_type": "Verbesserungsart",
         "experience": "Erfahrung",
+        "mine_xp": "Mining/Fishing Experience",
         "daily": "Tägliche Strähne",
         "daily_at": "Letzte Strähne",
         "waifu_claimed": "Beanspruchte Waifus",
@@ -1644,8 +1645,8 @@
     },
     "level": {
       "bot_notice": "%1$sBots haben kein Level.",
-      "own_success": "%1$s dein Level ist %2$s. (Erfahrung: %3$s/%4$s)",
-      "success_other": "%1$s %2$s ist Level %3$s. (Erfahrung: %4$s/%5$s)"
+      "own_success": "%1$sYour level is %2$s. (Experience: %3$s/%4$s)",
+      "success_other": "%1$s%2$s's is level %3$s. (Experience: %4$s/%5$s)"
     }
   },
   "options": {
