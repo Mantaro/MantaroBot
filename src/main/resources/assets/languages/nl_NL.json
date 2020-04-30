@@ -862,6 +862,7 @@
         "buff": "Buff",
         "buff_type": "Buff Type",
         "experience": "Experience",
+        "mine_xp": "Mining/Fishing Experience",
         "daily": "Daily Streak",
         "daily_at": "Last Daily",
         "waifu_claimed": "Times Waifu Claimed",
@@ -1644,8 +1645,8 @@
     },
     "level": {
       "bot_notice": "%1$sBots don't have level.",
-      "own_success": "%1$s your level is %2$s. (Experience: %3$s/%4$s)",
-      "success_other": "%1$s %2$s's is level %3$s. (Experience: %4$s/%5$s)"
+      "own_success": "%1$sYour level is %2$s. (Experience: %3$s/%4$s)",
+      "success_other": "%1$s%2$s's is level %3$s. (Experience: %4$s/%5$s)"
     }
   },
   "options": {
