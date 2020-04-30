@@ -20,7 +20,7 @@ package net.kodehawa.mantarobot.utils.commands;
 import java.util.Optional;
 
 public enum EmoteReference {
-    ERROR(":heavy_multiplication_x:", "\u2716"),
+    ERROR(":x:", "\u274C"),
     ERROR2(":x:", "\u274C"),
     DICE(":game_die:", "\uD83C\uDFB2"),
     SAD(":frowning:", "\uD83D\uDE26"),
