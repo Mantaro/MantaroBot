@@ -17,7 +17,7 @@
     "not_found": "Nerasta",
     "no_results": "Jokių rezultatų.",
     "timeout": "Tai nebegalios po %1$d sekundžių.",
-    "reaction_timeout": "Reactions will timeout in %1$d seconds.",
+    "reaction_timeout": "Jaustukai nebeveiks po %1$d sekundžių.",
     "example": "Pavyzdys",
     "definition": "Reikšmė",
     "name": "Vardas",
@@ -78,7 +78,7 @@
     "boom_quotes": [
       "Seemingly Megumin exploded our castle...",
       "Uh-oh, seemingly my master forgot some zeros and ones on the floor :<",
-      "W-Wait, what just happened?",
+      "P-Pala, kas nutiko?",
       "I-I think we got some fire going on here... you might want to tell my master to take a look.",
       "I've mastered explosion magic, you see?",
       "Maybe something just went wrong on here, but, u-uh, I can fix it!",
@@ -116,8 +116,8 @@
     "fun": "Pramogų",
     "games": "Žaidimų",
     "info": "Informacijinės",
-    "currency": "Currency",
-    "pet": "Pet"
+    "currency": "Valiuta",
+    "pet": "Gyvūnas"
   },
   "commands": {
     "fish": {
@@ -143,7 +143,7 @@
       "success_money_noitem": "%1$s Kol ramiai žvejojai, tu radai **$%2$d kreditų** ir tu juos įsidėjai į savo kišenę.",
       "rod_broke": "%1$sTavo meškerė sulūžo bandant sugauti žuvį :(",
       "waifu_help": "Tavo Waifu atėjo tau į pagalbą žvejybos nuotykyje ir abu sugavote didesnį laimikį!",
-      "not_suitable": "%1$sYou can't use this to fish.",
+      "not_suitable": "%1$sTu negali naudoti šito žvejybai.",
       "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?",
       "fossil_success": "%1$sYou caught a fossil while trying to find a fish. This might be worth a fair bit or be used for casting, I believe.",
       "bait": "The fish ate your bait in the process!",
@@ -527,7 +527,7 @@
         "Pung.",
         "Peng.",
         "Ping-pong? Yay!",
-        "U-Uh... h-hi"
+        "U-Uh... L-Labas"
       ],
       "text": "%1$s*%2$s* - Mano greitis: %3$d ms (%4$s) `Websocket'as:%5$dms`"
     },
@@ -559,7 +559,7 @@
         "header": "Dabartinis santykių statusas",
         "description_format": "%1$sSantykių statusas tarp **%2$s#%3$s** ir **%4$s#%5$s**",
         "date": "Santuokos data",
-        "love_letter": "Love Letter",
+        "love_letter": "Meilės laiškas",
         "waifus": "Waifu priklausomybė"
       },
       "no_mention": "%1$sPaminėk narį, su kuriuo norėtum sukurti santykius.",
@@ -767,7 +767,7 @@
       "list": {
         "name": "\nAutorole name: ",
         "role": " | Gives role **",
-        "category": "Category: ",
+        "category": "Kategorija: ",
         "header": "Autoroles list",
         "no_autoroles": "There aren't any autoroles setup in this server.",
         "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`."
@@ -808,10 +808,10 @@
     },
     "osustats": {
       "user": {
-        "header": "osu! statistics for %1$s",
-        "rank": "Rank",
-        "acc": "Accuracy",
-        "level": "Level",
+        "header": "osu! %1$s statistikos",
+        "rank": "Reitingas",
+        "acc": "Tikslumas",
+        "level": "Lygis",
         "ranked": "Ranked Score",
         "country_rank": "Country Rank"
       },
@@ -862,6 +862,7 @@
         "buff": "Buff",
         "buff_type": "Buff Type",
         "experience": "Experience",
+        "mine_xp": "Mining/Fishing Experience",
         "daily": "Daily Streak",
         "daily_at": "Last Daily",
         "waifu_claimed": "Times Waifu Claimed",
@@ -996,7 +997,8 @@
       "no_time": "You didn't give me a `-time` argument! (Example: `-time 1h`)",
       "too_little_time": "%1$sThat's too little time (Minimum: 10 seconds)",
       "too_long": "That's too much time... (Maximum: 3 months)",
-      "success": "%1$sI'll remind you of `%2$s` in %3$s"
+      "success": "%1$sI'll remind you of `%2$s` in %3$s",
+      "too_many_reminders": "%1$sYou have too many reminders! Try cancelling some?"
     },
     "time": {
       "invalid_timezone": "%1$sThat's not a valid timezone.",
@@ -1057,7 +1059,7 @@
         "premium": "**Premium serveris! <3**",
         "old_system": "**Senos sistemos Premium serveris! Nesijaudink, serveris vistiek yra Premium ir visi privalumai veiks!**"
       },
-      "description": "Keys are valid for as long as your pledge it's active, unless stated otherwise. Thanks for donating or pledging <3",
+      "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
       "valid_for_old": "Dar galios",
       "old_days_more": "%1$d daugiau dienų",
       "thank_note": "Dėkojame už tavo pagalbą <3",
@@ -1643,8 +1645,8 @@
     },
     "level": {
       "bot_notice": "%1$sBots don't have level.",
-      "own_success": "%1$s your level is %2$s. (Experience: %3$s/%4$s)",
-      "success_other": "%1$s %2$s's is level %3$s. (Experience: %4$s/%5$s)"
+      "own_success": "%1$sYour level is %2$s. (Experience: %3$s/%4$s)",
+      "success_other": "%1$s%2$s's is level %3$s. (Experience: %4$s/%5$s)"
     }
   },
   "options": {
@@ -2180,15 +2182,15 @@
     "sparkle_pick": "Sparkle Pickaxe",
     "pizza": "Pica",
     "mine_crate": "Gem Crate",
-    "fish_crate": "Fish Treasure",
-    "mine_premium_crate": "Gem Premium Crate",
+    "fish_crate": "Žvejybos Lobis",
+    "mine_premium_crate": "Kristalo Premium Dėžė",
     "fish_premium_crate": "Fish Premium Treasure",
     "comet_rod": "Comet Gem Rod",
     "star_rod": "Star Gem Rod",
     "sparkle_rod": "Sparkle Rod",
     "shell": "Shell",
     "shark": "Shark",
-    "crab": "Crab",
+    "crab": "Krabas",
     "squid": "Squid",
     "shrimp": "Shrimp",
     "moon": "Moon Rune",
@@ -2246,7 +2248,7 @@
       "pants": "Paprastai ką tu dėvi ant savo kojų... tikiuosi.",
       "haste": "Leidžia gauti daugiau daiktų iš komandų, kurios duoda kokių nors dalykų. Galioja tik 2 kartus.",
       "milky": "Išvalo visų eliksyrų poveikius.",
-      "energy": "Mažesnis kirtiklio lūžimo šansas kasinėjant. Galioja tik 5-iems kirtimams.",
+      "energy": "Makes a pick or rod lose less durability per swing. Lasts only 3 mining/fishing sessions.",
       "rod": "Leidžia tau žvejoti",
       "fish": "Žuvis. Pagauta žvejojant.",
       "tropical_fish": "Labai tropinė žuvis. Pagauta žvejojant.",

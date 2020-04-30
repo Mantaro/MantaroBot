@@ -12,7 +12,7 @@
     "hourly": "Stündlich",
     "daily": "Täglich",
     "total": "Total",
-    "arrow_react": "Verwenden Sie die Pfeilreaktionen, um die Seite zu wechseln.",
+    "arrow_react": "Verwende die Pfeilreaktionen, um die Seite zu wechseln.",
     "text_menu": "Verwenden Sie &page >> und &page <<, um Seiten zu wechseln oder &cancel, um die Aktion zu beenden.",
     "not_found": "Nicht(s) gefunden.",
     "no_results": "Keine Ergebnisse gefunden.",
@@ -23,8 +23,8 @@
     "name": "Name",
     "description": "Beschreibung",
     "options": "Optionen",
-    "find_members_failure": "%1$sKein Mitglied mit diesen Suchkriterien gefunden. :(",
-    "too_many_members": "%1$sZu viele Mitglieder gefunden, versuchen Sie es etwas genauer? (zum Beispiel: name#discriminator)\n**Gefundene Mitglieder:** %2$s",
+    "find_members_failure": "%1$sKein Mitglied mit deinen Suchkriterien gefunden. :(",
+    "too_many_members": "%1$sZu viele Mitglieder gefunden, versuche es vielleicht etwas genauer? (zum Beispiel: name#discriminator)\n**Gefundene Mitglieder:** %2$s",
     "dust": "Hier ist nur Staub.",
     "invalid_syntax": "Ungültige Syntax",
     "item_lookup": {
@@ -178,7 +178,7 @@
       "no_permission": "%1$sKann nicht kicken: Ihnen fehlen die Rechte, um Mitglieder zu kicken.",
       "no_users": "%1$sSie müssen mindestens einen Nutzer zum Kicken erwähnen!",
       "no_permission_self": "%1$sSorry! Mir fehlen die Rechte Nutzer in diesem Server zu kicken!",
-      "hierarchy_conflict": "%1$sSie können niemanden kicken, der in der Hierarchie höher steht als Sie!",
+      "hierarchy_conflict": "%1$sDu kannst niemanden kicken, der in der Hierarchie höher steht als du!",
       "yourself_note": "%1$sWarum versuchen Sie sich selbst zu kicken?",
       "self_hierarchy_conflict": "%1$sKann das Mitglied nicht kicken: %2$s, es befindet sich in der Hierarchie höher als ich!",
       "success": "%1$s%2$s (%3$s wurde gekickt)",
@@ -862,6 +862,7 @@
         "buff": "Verbesserung",
         "buff_type": "Verbesserungsart",
         "experience": "Erfahrung",
+        "mine_xp": "Mining/Fishing Experience",
         "daily": "Tägliche Strähne",
         "daily_at": "Letzte Strähne",
         "waifu_claimed": "Beanspruchte Waifus",
@@ -996,7 +997,8 @@
       "no_time": "Du hast mir kein `-time` Argument gegeben! (Beispiel: `-time 1h`)",
       "too_little_time": "%1$sDas ist zu wenig Zeit (Minimum: 1 Minute)!",
       "too_long": "Das ist zu lang... (Maximum: 3 Monate)",
-      "success": "%1$sIch werde dich (%2$s#%3$s) an `%4$s` in %5$s erinnern."
+      "success": "%1$sIch werde dich (%2$s#%3$s) an `%4$s` in %5$s erinnern.",
+      "too_many_reminders": "%1$sDu hast zu viele Erinnerungen! Versuch vielleicht welche zu löschen?"
     },
     "time": {
       "invalid_timezone": "%1$sDas ist keine gültige Zeitzone!",
@@ -1057,7 +1059,7 @@
         "premium": "**Premium-Server! <3**",
         "old_system": "**Premium-Server unter dem alten System! Mach dir keine Sorgen, er ist Premium und die Vorteile werden richtig funktionieren!**"
       },
-      "description": "Keys are valid for as long as your pledge it's active, unless stated otherwise. Thanks for donating or pledging <3",
+      "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
       "valid_for_old": "Gültig für",
       "old_days_more": "%1$s weitere Tage.",
       "thank_note": "Danke für deine Unterstützung. <3",
@@ -1118,7 +1120,7 @@
       "pat": "%1$s du wurdest von %2$s am Kopf gestreichelt.",
       "hug": "%1$s du wurdest von %2$s umarmt.",
       "kiss": "%1$s du wurdest von %2$s geküsst.",
-      "poke": "%1$s du wurdest von %2$s abgesteppt. :eyes:",
+      "poke": "%1$s du wurdest von %2$s angestupst. :eyes:",
       "slap": "%1$s du wurdest von %2$s geohrfeigt!",
       "bite": "%1$s du wurdest von %2$s gebissen. :eyes:",
       "tickle": "%1$s du wurdest von %2$s gekitzelt.",
@@ -1643,8 +1645,8 @@
     },
     "level": {
       "bot_notice": "%1$sBots haben kein Level.",
-      "own_success": "%1$s dein Level ist %2$s. (Erfahrung: %3$s/%4$s)",
-      "success_other": "%1$s %2$s ist Level %3$s. (Erfahrung: %4$s/%5$s)"
+      "own_success": "%1$sYour level is %2$s. (Experience: %3$s/%4$s)",
+      "success_other": "%1$s%2$s's is level %3$s. (Experience: %4$s/%5$s)"
     }
   },
   "options": {
@@ -2124,14 +2126,14 @@
     "pick": "Broms Spitzhacke",
     "milk": "Milch",
     "beverage": "Getränk",
-    "lewd": "Unzüchtiges Heftchen",
+    "lewd": "Unanständiges Magazin",
     "ring": "Ehering",
     "letter": "Liebesbrief",
     "key": "Truhenschlüssel",
     "clothes": "Kleidung",
     "diamond": "Diamant",
     "dress": "Brautkleid",
-    "necklace": "Kette",
+    "necklace": "Halskette",
     "tuxedo": "Smoking",
     "shoes": "Schuhe",
     "rose": "Rose",
@@ -2246,7 +2248,7 @@
       "pants": "Quasi das was du an deinen Beinen trägst. Hoffentlich...",
       "haste": "Ermöglicht es dir mehr Zeug durch ausbeutbare Befehle für 2 Versuch zu erhalten.",
       "milky": "Entfernt alle Trankeffekte.",
-      "energy": "Verringert die Wahrscheinlichkeit, dass deine Spitzhacke zerbricht. Hält nur 3 mal.",
+      "energy": "Makes a pick or rod lose less durability per swing. Lasts only 3 mining/fishing sessions.",
       "rod": "Lässt dich fischen. (40 Punkte Haltbarkeit)",
       "fish": "Fisch. Beim Fischen gefangen.",
       "tropical_fish": "Ein sehr tropischer Fisch. Beim Fischen gefangen.",
