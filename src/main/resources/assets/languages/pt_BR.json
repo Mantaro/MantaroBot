@@ -862,6 +862,7 @@
         "buff": "Buff",
         "buff_type": "Tipo de Buff",
         "experience": "Experiência",
+        "mine_xp": "Experiência de Mineração/Pescaria",
         "daily": "Combo no Diário",
         "daily_at": "Último Diário",
         "waifu_claimed": "Reivindicado Como Waifu",
@@ -1645,7 +1646,7 @@
     "level": {
       "bot_notice": "%1$sBots não tem level.",
       "own_success": "%1$sSeu level é %2$s. (Experiência: %3$s/%4$s)",
-      "success_other": "%1$s %2$s é nível %3$s. (Experiência: %4$s/%5$s)"
+      "success_other": "%1$s%2$s é level %3$s. (Experiência: %4$s/%5$s)"
     }
   },
   "options": {
