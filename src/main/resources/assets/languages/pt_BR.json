@@ -268,7 +268,7 @@
       },
       "loader": {
         "over_limit": "%1$sA fila que você adicionou tem mais de %2$d músicas, então adicionamos músicas até esse limite e ignoramos o resto.",
-        "loaded_playlist": "%1$sAdicionado **%2$d músicas** na fila na playlist: **%3$s** *(%4$s)*",
+        "loaded_playlist": "%1$sAdicionado **%2$d músicas** na fila da playlist: **%3$s** *(%4$s)*",
         "no_matches": "%1$sA pesquisa não teve resultados. Se isso aparecer para *todas as músicas* que você tenta procurar, você pode usar `~>play soundcloud <termo de pesquisa>` em vez disso no entretanto. Links diretos para o youtube devem funcionar também.",
         "error_loading": "%1$sErro ao buscar música: %2$s",
         "over_queue_limit": "%1$sNão foi possível colocar na fila %2$s: Limite de músicas da fila ultrapassado (%3$s)!",
@@ -2258,7 +2258,7 @@
       "cobweb": "Algo que uma aranha deixou na mina. Me pergunto se isso vale algo.",
       "fragment": "Fragmento de uma antiga jóia. Útil para fundição.",
       "mop": "Uma maneira deliciosa de limpar toda a poeira que você tem por perto. Eu aposto que há muito disso.",
-      "claim_key": "Este item faz você não reivindicável (como waifu) ao tê-lo em seu inventário.",
+      "claim_key": "Este item faz você não reivindicável (como waifu) quando você usa `~>profile claimlock`.",
       "coffee": "Uma maneira deliciosa de começar o seu dia.",
       "waifu_pill": "Te dá uma vantagem significativa em mineração e pesca se uma de suas waifus está avaliada em mais de 10 milhões. Dura 5 sessões.",
       "bait": "Dá uma chance maior de pegar peixes.",
