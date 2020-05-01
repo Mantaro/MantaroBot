@@ -116,8 +116,8 @@
     "fun": "Eğlence",
     "games": "Oyunlar",
     "info": "Bilgi",
-    "currency": "Currency",
-    "pet": "Pet"
+    "currency": "Ekonomi",
+    "pet": "Evcil hayvan"
   },
   "commands": {
     "fish": {
@@ -135,7 +135,7 @@
         "success": "Balık tutarken %1$s **%2$s** buldun ve onu almaya yeltendin. Git ve onu `~>opencrate <isim>` yazarak aç. Anahtara ihtiyacın olacak!"
       },
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
+        "success": "%1$sOtomatik olarak **%2$s** balık slotuna kuşanıldı."
       },
       "overflow": "%1$sBiraz balık tuttun ama envanterinin bir kısmı doluydu o açıdan suya geri fırlatmak zorunda kaldın...",
       "success": "%1$sBalık tutarken, %2$s buldun ve cebine attın.",
@@ -149,7 +149,7 @@
       "bait": "Balık oltandaki yemi yedi ve gitti lmfao!",
       "missing_equipped": "%1$s%2$s oltasını taktın, ama bu oltanın cinsinden artık sende yok! Elindeki olta gitti!",
       "broken_drop": "%1$sOltan kırıldı ama onu tamir edebilirsin. Kırılan eşya: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `~>equip <rod name>` to start your adventure!"
+      "no_rod_equipped": "%1$sKuşanılmış bir oltaya sahip değilsin. Kuşanmak ve maceraya atılmak için `~>equip <olta ismi>`  yazman gerekiyor!"
     },
     "softban": {
       "no_permission": "%1$sYasaklayamıyorsun: Yasaklama yetkin yok.",
@@ -170,7 +170,7 @@
       "yourself_note": "%1$sKendini banlamaya çalışmamalısın?",
       "self_hierarchy_conflict": "%1$sYasaklanamayan: %2$s, onlar bizlerden daha yüksek hiyerarşide!",
       "success": "%1$s%2$s (%3$s banlandı)",
-      "success_multiple": "%1$s%2$s (%3$s people got banned)",
+      "success_multiple": "%1$s%2$s (%3$s yasaklandı)",
       "error": "%1$sBanlama da hata %2$s: (Yetki gerekil %3$s)",
       "unknown_error": "%1$sOf, banlarken bilinmeyen bir hata ile karşılaştım %2$s"
     },
@@ -216,7 +216,7 @@
         "timeout": "%1$s %2$s bağlanamıyor: bağlantı zaman aşımına uğradı. Sunucu yerini değiştirip, komutu tekrar dene.",
         "unknown": "%1$s %2$s bağlanamıyor: bilinmeyen hata"
       },
-      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`~>play soundcloud <search term>)`",
+      "not_working": "%1$sMüzik şuanda çalışmıyor çünkü YouTube büyük botların trafiğini engelliyor. Patreon botumuz çalışıyor, deneyebilirsin. Mantaro'ya $4/aylık bağış yapmak isterseyebilirsiniz. Aynı zamanda müziği düzeltme çabalarımıza katkı sağlayacaktır. Lütfen kontrol edin <https://patreon.com/mantaro>\n\nRahatsızlık verdiğimiz için üzgünüz. Soundcloud aramasını deneyin! (`~>play <içerik>`)",
       "no_song": "%1$sHangi şarkıyı çalmak istediğini söylemelisin! *(YouTube, Soundcloud, Twitch URL veya otomatik aramalar kabul edilebilir)*",
       "not_playing": "%1$sŞu anda herhangi bir şarkı çalmıyorum.",
       "dj_only": "%1$sBu komutu kullanmak için DJ nicki lazım Diji.",
@@ -227,8 +227,8 @@
       "track_error": "%1$sYa of, Şarkıyı çalarken bir problem çıktı! Özür diliyorum, Bu olmadığı için sıradakini oynatmaya çalışıyorum.",
       "queue_finished": "%1$sŞarkı listesini oynatmayı bitirdim! Umarım eğlenmişsinizdir.\n%2$s",
       "soundcloud_no_args": "%1$sBir şarkı ismi söylemelisin, ben büyücü değilim ki :(",
-      "too_many_errors": "%1$sToo many errors on this session, stopping...",
-      "no_vc_found": "%1$sI'm not connected to any VC even though I should be? Try again.",
+      "too_many_errors": "%1$sBurada çok fazla hata var, durduruluyor...",
+      "no_vc_found": "%1$sHerhangi bir SK'ya bağlı değilim. Tekrar deneyin.",
       "queue": {
         "no_track_found_np": "Hiç bir şey bulamadım, üzücü!",
         "header": "Server %1$s için liste!",
@@ -371,10 +371,10 @@
       "premium_only": "%1$sBu özellik sadece premium üyeler içindir, premium almak istiyorsanız: (https://www.patreon.com/mantaro). Anlayışınız için teşekkürler.\nPremium özellikleri genel olarak sunucuya bağlı veya kişisel olarak da kullanılabilir."
     },
     "lyrics": {
-      "no_current_track": "%1$sThere's no song currently playing on this server!",
-      "error_searching": "%1$sThere was an error searching for this track or there was no results found.",
-      "header": "%1$sLyrics for %2$s",
-      "footer": "Thanks for using Mantaro! Page: %1$d, Total: %2$d."
+      "no_current_track": "%1$sŞu anda bu sunucuda çalan şarkı yok!",
+      "error_searching": "%1$sBu parçayı ararken bir hata oluştu veya sonuç bulunamadı.",
+      "header": "%1$s%2$s şarkısının sözleri",
+      "footer": "Mantaro'yu kullandığınız için teşekkürler! Sayfa: %1$d, Toplam: %2$d."
     },
     "prefix": {
       "header": "%1$sVarsayılan ön ekler: %2$s (Herbiri için sana cevap veririm!). Bu sunucunun ön eki `%3$s` (Sadece bu sunucu da çalışır). Yeni bir ön eki `~>opts prefix set <prefix>` yaparak ayarlayabilirsiniz.",
@@ -406,7 +406,7 @@
         "no_command": "%1$sBana hangi komuta bakmak istediğini belirtmelisin.",
         "header": "Komut \"%1$s\":",
         "amount": "(%1$d kişisine %2$d cevapları gösteriliyor)",
-        "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
+        "description": "Bu, bu komutun tüm yanıtlarının ham halindeki (komuta ne girdiyseniz) bir listesidir."
       },
       "clear": {
         "success": "%1$s**%2$d temizlendi Özel Komutlar**"
@@ -419,51 +419,51 @@
         "no_name_specified": "%1$sYaratmak istediğin özel komut için bir isim belirlememişsiniz!"
       },
       "eval": {
-        "not_specified": "You didn't specify anything to eval.",
-        "new_error": "%1$sThere was an error while evaluating this custom command.\n**Error**:\n```%2$s```",
-        "error": "%1$sThere was an error while evaluating this custom command!\n%2$s"
+        "not_specified": "Değerlendirmek için herhangi bir şey belirtmediniz.",
+        "new_error": "%1$sÖzel komut değerlendirilirken hata oluştu.\n**Hata**:\n```%2$s```",
+        "error": "%1$sÖzel komut değerlendirilirken hata oluştu!\n%2$s"
       },
       "remove": {
-        "no_command": "%1$sYou need to tell me what command you want to remove.",
-        "success": "%1$sRemoved Custom Command `%2$s`."
+        "no_command": "%1$sHangi komutu kaldırmak istediğinden bahsetmelisin.",
+        "success": "%1$sÖzel komut kaldırıldı `%2$s`."
       },
       "import": {
-        "no_command": "%1$sYou need to tell me what command you want to import.",
-        "not_found": "%1$sThere are no custom commands matching your search query.",
-        "header": "`%1$s` (Responses: %2$s) - Guild: `%3$s`",
-        "selection": "Select the Command:",
-        "note": "(You can only select custom commands from guilds that you are a member of)",
-        "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3$d responses."
+        "no_command": "%1$sHangi komutu aktarmak istediğinden bahsetmelisin.",
+        "not_found": "%1$sAramanızla eşleşen özel komut yok.",
+        "header": "`%1$s` (Yanıt: %2$s) - Sunucu: `%3$s`",
+        "selection": "Komutu seç:",
+        "note": "(Sadece üyesi olduğun sunuculardan özel komut seçebilirsin)",
+        "success": "`%1$s` özel komutu `%2$s` sunucusundan toplamda %3$d yanıt ile birlikte aktarıldı."
       },
       "edit": {
-        "no_command": "%1$sYou need to specify what command you want to edit.",
-        "invalid_number": "%1$sYou need to specify a correct number to change.",
-        "no_index": "%1$sYou cannot edit a non-existent index.",
-        "empty_response": "%1$sCannot edit to an empty response",
-        "not_enough_args": "%1$sYou need to specify the command, the index and the new response",
-        "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly"
+        "no_command": "%1$sHangi komutu düzenlemek istediğini belirtmen gerekir.",
+        "invalid_number": "%1$sDüzenlemek için doğru sayı belirtmen gerekli.",
+        "no_index": "%1$sOlmayan bir dizini düzenleyemezsin.",
+        "empty_response": "%1$sBoş bir yanıt için düzenlenemez",
+        "not_enough_args": "%1$sKomutu, dizini ve yanıtı belirtmelisiniz",
+        "success": "%1$s`%3$s` komutundaki **#%2$d** yanıtı başarıyla düzenlendi"
       },
       "deleteresponse": {
-        "no_command": "%1$sYou need to specify the command you want to remove a response from.",
-        "invalid_number": "%1$sYou need to specify a correct number to change.",
-        "no_index": "%1$sYou cannot remove a non-existent index.",
-        "not_enough_args": "%1$sYou need to specify the command and the index you want to delete.",
-        "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
+        "no_command": "%1$sHangi komutun yanıtının kaldırılacağını belirtmediniz.",
+        "invalid_number": "%1$sDüzenlemek için doğru sayı belirtmen gerekli.",
+        "no_index": "%1$sOlmayan bir dizini silemezsin.",
+        "not_enough_args": "%1$sSilmek istediğin komutu ve dizini belirtmelisin.",
+        "success": "%1$s`%3$s` komutundaki **#%2$d** yanıtı başarıyla silindi"
       },
       "rename": {
-        "success": "%1$sRenamed command `%2$s` to `%3$s`"
+        "success": "%1$sKomut ismi değiştirildi `%2$s` => `%3$s`"
       },
       "add": {
-        "no_command": "%1$sYou need to specify the command you want to add.",
-        "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
-        "empty_content": "%1$sYou need to specify the content of this custom command",
-        "success": "%1$sSaved to command `%2$s`",
-        "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
+        "no_command": "%1$sNe komutu eklemek istediğini belirtmen gerekir.",
+        "not_enough_args": "%1$sEklemek istediğin komutun ismini ve yanıtını belirtmeniz gerekir.",
+        "empty_content": "%1$sÖzel komutun içeriğini belirtmen gerekir",
+        "success": "%1$s`%2$s` komutu kaydedildi",
+        "too_many_commands": "%1%sBu sunucuda çok fazla komut var, bu yüzden daha fazlasını ekleyemezsiniz (+100).  Bu kısıtlama premium sunucuları etkilemez.(<https://patreon.com/mantaro> adresini kontrol edin)."
       },
       "character_not_allowed": "%1$sÖzel komut oluştururken bu karakteri kullanamazsınız.",
-      "already_exists": "%1$sThe command `%2$s` already exists and it's a default bot command.",
-      "name_too_long": "%1$sName is too long.",
-      "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just a bit of dust.",
+      "already_exists": "%1$s`%2$s` zaten varsayılan bot komutu.",
+      "name_too_long": "%1$sİsim çok uzun.",
+      "no_cc": "%1$sBu sunucuda özel komut yok, sadece birazcık tozlu.",
       "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
       "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
       "invalid_image": "%1$sThis command contains an invalid image, please fix...",
@@ -2258,7 +2258,7 @@
       "cobweb": "Something a spider left over on the mine. Wonder if it's worth something.",
       "fragment": "Fragment of an ancient gem. Useful for casting.",
       "mop": "A delightful way to clean all the dust you have around. I bet there's a lot of it.",
-      "claim_key": "This item makes you un-claimeable (as a waifu) while having it on your inventory.",
+      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`.",
       "coffee": "A delightful way to start your day.",
       "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 10 million. Lasts 5 sessions.",
       "bait": "Gives you a higher chance of catching fish.",
