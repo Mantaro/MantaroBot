@@ -862,7 +862,7 @@
         "buff": "Verbesserung",
         "buff_type": "Verbesserungsart",
         "experience": "Erfahrung",
-        "mine_xp": "Mining/Fishing Experience",
+        "mine_xp": "Bergbau-/Angel-Erfahrung",
         "daily": "Tägliche Strähne",
         "daily_at": "Letzte Strähne",
         "waifu_claimed": "Beanspruchte Waifus",
@@ -1059,7 +1059,7 @@
         "premium": "**Premium-Server! <3**",
         "old_system": "**Premium-Server unter dem alten System! Mach dir keine Sorgen, er ist Premium und die Vorteile werden richtig funktionieren!**"
       },
-      "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
+      "description": "Keys sind solange gültig, wie deine Unterstützung auf Patreon weiterläuft, insofern nichts anderes gesagt wird. Danke für's Spenden oder Unterstützen <3",
       "valid_for_old": "Gültig für",
       "old_days_more": "%1$s weitere Tage.",
       "thank_note": "Danke für deine Unterstützung. <3",
@@ -1645,8 +1645,8 @@
     },
     "level": {
       "bot_notice": "%1$sBots haben kein Level.",
-      "own_success": "%1$sYour level is %2$s. (Experience: %3$s/%4$s)",
-      "success_other": "%1$s%2$s's is level %3$s. (Experience: %4$s/%5$s)"
+      "own_success": "%1$sDein Level ist %2$s. (Erfahrung: %3$s/%4$s)",
+      "success_other": "%1$s%2$ss ist Level %3$s. (Erfahrung: %4$s/%5$s)"
     }
   },
   "options": {
@@ -2258,7 +2258,7 @@
       "cobweb": "Rückstände von Spinnen in den Minen. Ich wundere mich, ob das was wert ist.",
       "fragment": "Fragment eines antiken Juwels. Nützlich zum Verarbeiten.",
       "mop": "Eine wunderbare Art, um all den Staub um dich herum wegzuwischen. Ich wette da ist viel.",
-      "claim_key": "Dieser Gegenstand macht dich unbeanspruchbar (als Waifu), während du ihn im Inventar hast.",
+      "claim_key": "Dieser Gegenstand schützt dich als Waifu beansprucht zu werden, wenn du `~>profile claimlock` benutzt.",
       "coffee": "Ein wunderbarer Start in den Tag.",
       "waifu_pill": "Gibt dir einen großen Vorteil beim Abbauen und Fischen, wenn eine deiner Waifus 10 Millionen wert ist. Hält 5 Runden.",
       "bait": "Erhöht deine Wahrscheinlichkeit Fische zu fangen.",
