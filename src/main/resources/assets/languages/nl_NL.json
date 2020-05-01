@@ -2258,7 +2258,7 @@
       "cobweb": "Iets wat een spin heeft achtergelaten in de mijn. Ik vraag me af of het iets waard is.",
       "fragment": "Fragment van een oud edelsteen. Handig voor het gieten.",
       "mop": "Een heerlijke manier om al het stof weg te halen. Ik weet zeker dat er veel van is.",
-      "claim_key": "Dit item zorgt ervoor dat je niet geclaimd kunt worden (als waifu) terwijl je het in je inventory hebt.",
+      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`.",
       "coffee": "Een heerlijke manier om je dag mee te beginnen.",
       "waifu_pill": "Geeft je een aanzienlijk voordeel bij het mijnen en vissen als één van je waifus wordt gewaardeerd op meer dan 10 miljoen. Werkt voor 5 sessies.",
       "bait": "Geeft je een hogere kans om vis te vangen",
