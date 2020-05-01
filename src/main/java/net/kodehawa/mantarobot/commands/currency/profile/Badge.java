@@ -125,6 +125,12 @@ public enum Badge {
             (player, dbUser) -> player.getData().getGamesWon() >= 1000, false
     ),
 
+    EXPERT_MINER("Expert Miner", "<:sparkle_pick:492882143404359690>", "Get more than 100000 mining experience.", 91, 92,
+            ((player, dbUser) -> player.getData().getMiningExperience() > 100000), false),
+
+    EXPERT_FISHER("Expert Fisher", "<:sparkle_rod:492882143505154048>", "Get more than 100000 fishing experience.", 91, 92,
+            ((player, dbUser) -> player.getData().getFishingExperience() > 100000), false),
+
     //Self-explanatory. (Description)
     MARATHON_RUNNER("Marathon Runner", "\uD83C\uDF96", "Get to level 150 in Mantaro.", 91, 92,
             (player, dbUser) -> player.getLevel() >= 150, false
@@ -161,6 +167,12 @@ public enum Badge {
     MOST_KNOWN("Most known", "\uD83E\uDD47", "Earn 1000 reputation.", 91, 92,
             (player, dbUser) -> player.getReputation() >= 1000, false
     ),
+
+    EXPERIENCED_MINER("Experienced Miner", "<:star_pick:492882142993580038>", "Get more than 10000 mining experience.", 91, 92,
+            ((player, dbUser) -> player.getData().getMiningExperience() > 10000), false),
+
+    EXPERIENCED_FISHER("Experienced Fisher", "<:star_rod:492882143354028064>", "Get more than 10000 fishing experience.", 91, 92,
+            ((player, dbUser) -> player.getData().getFishingExperience() > 10000), false),
 
     //Self-explanatory. (Description)
     CELEBRITY("Celebrity", "\uD83E\uDD48", "Earn 100 reputation.", 91, 92,
@@ -226,6 +238,12 @@ public enum Badge {
     GEM_FINDER("Gem Finder", "\uD83D\uDC8E", "Find a gem while mining.", 91, 92,
             (player, dbUser) -> false, false
     ),
+
+    FIRST_MINER("First Time Miner", "<:comet_pick:492882142788059146>", "Get more than 1000 mining experience.", 91, 92,
+            ((player, dbUser) -> player.getData().getMiningExperience() > 1000), false),
+
+    FIRST_FISHER("First Time Fisher", "<:comet_rod:492882142779670528>", "Get more than 1000 fishing experience.", 91, 92,
+            ((player, dbUser) -> player.getData().getFishingExperience() > 1000), false),
 
     //Mine a diamond.
     MINER("Miner", "\u26cf", "Find a diamond while mining.", 91, 92,

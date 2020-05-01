@@ -994,6 +994,8 @@ public class PlayerCmds {
                 channel.sendMessage(message).addFile(badge.icon, "icon.png").queue();
             }
         });
+
+        cr.registerAlias("badges", "badge");
     }
 
     private void applyBadge(MessageChannel channel, Badge badge, User author, EmbedBuilder builder) {
