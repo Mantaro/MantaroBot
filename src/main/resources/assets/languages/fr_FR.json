@@ -2258,7 +2258,7 @@
       "cobweb": "Un truc laissé par une araignée au fond de la mine. Je me demande ce que ça vaut.",
       "fragment": "Fragment d'une gemme trouvé en minant.",
       "mop": "Une bonne manière de nettoyer toute la poussière qui vous entoure. Je suis sûr qu'il y en a beaucoup.",
-      "claim_key": "Cet objet empêche les autres de vous prendre en tant que Waifu quand vous l'avez dans votre inventaire.",
+      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`.",
       "coffee": "Une très bonne façon de commencer votre journée",
       "waifu_pill": "Te donne un avantage significatif sur le minage et la pêche si l’une de tes waifus est évaluée à plus de 10 millions. Dure 5 sessions.",
       "bait": "Te donne une plus grande chance d'attraper du poisson.",
