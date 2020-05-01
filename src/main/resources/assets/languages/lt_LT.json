@@ -2258,7 +2258,7 @@
       "cobweb": "Kažkas, ką paliko voras kasykloje. Ar tai verta kažko?",
       "fragment": "Senovinio kristalo fragmentas. Naudingas tobulinimui.",
       "mop": "Geriausias būdas išvalyti dulkes aplinkui save. Esu tikras, aplink tave sklando daug jų.",
-      "claim_key": "Šis daiktas paverčia tave nepaimamu(-a) (kaip waifu) kol turi tai savo inventoriuje.",
+      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`.",
       "coffee": "Geriausias būdas pradėti naują dieną.",
       "waifu_pill": "Duoda tau didelį pranašumą kirtimuose ir žvejojime, jeigu vienas iš tavo waifų yra vertas(-a) daugiau nei 2 milijonai kreditų. Galioja 5-iems kartams.",
       "bait": "Suteikia didesnį šansą sužvejoti žuvį.",
