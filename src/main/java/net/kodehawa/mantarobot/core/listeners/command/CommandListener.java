@@ -56,7 +56,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class CommandListener implements EventListener {
-    //TODO: shared ratelimiter. IncreasingRatelimiter might fail here, so we need another way.
     private static final RateLimiter experienceRatelimiter = new RateLimiter(TimeUnit.SECONDS, 18);
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(CommandListener.class);
     //Commands ran this session.
@@ -175,8 +174,7 @@ public class CommandListener implements EventListener {
                         //This time, actually remember to save the player so you don't have to restart 102 shards to fix it.
                         player.saveAsync();
                     }
-                } catch (Exception ignored) {
-                }
+                } catch (Exception ignored) { }
             }
         } catch (IndexOutOfBoundsException e) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "Your query returned no results or you used the incorrect arguments, seemingly. Just in case, check command help!").queue();
@@ -191,7 +189,7 @@ public class CommandListener implements EventListener {
             String id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessageFormat("%sWrong I18n key found, please report on the support server " +
                     "(Link at `support.mantaro.site`) with error ID `%s`.\n%sMessage: *%s*", EmoteReference.ERROR, id, EmoteReference.ZAP, e.getMessage()).queue();
-            log.warn("Exception caught and alternate message sent. We should look into this. ID: {}", id, e);
+            log.warn("Missing i18n key. Check this. ID: {}", id, e);
         } catch (IllegalArgumentException e) { //NumberFormatException == IllegalArgumentException
             String id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessageFormat("%sI think you forgot something on the floor. (Maybe we threw it there? Just in case, the error id is `%s`)\n" +

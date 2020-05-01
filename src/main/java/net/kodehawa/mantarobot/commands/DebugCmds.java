@@ -247,6 +247,7 @@ public class DebugCmds {
                     var jda = shard.getJDA();
                     var reconnect = jda.getStatus() == JDA.Status.RECONNECT_QUEUED;
                     var manager = ((MantaroEventManager) jda.getEventManager());
+
                     if (manager.getLastJDAEventTimeDiff() > 50000 && !reconnect)
                         dead++;
                     if (reconnect)
@@ -262,7 +263,8 @@ public class DebugCmds {
                     stringBuilder.append("WARNING: A large number of shards are reconnecting right now!" +
                             " Bot might be unavailable on several thousands guilds for some minutes! (").append(reconnecting).append(" shards reconnecting now)\n");
                 if (high > 20)
-                    stringBuilder.append("WARNING: A very large number of shards has a high last event time! A restart might be needed if this doesn't fix itself on some minutes!\n");
+                    stringBuilder.append("WARNING: A very large number of shards has a high last event time! " +
+                            "A restart might be needed if this doesn't fix itself on some minutes!\n");
                 if (dead > 5)
                     stringBuilder.append("WARNING: Several shards (").append(dead).append(") ")
                             .append("appear to be dead! If this doesn't get fixed in 30 minutes please report this!\n");

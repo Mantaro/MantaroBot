@@ -86,7 +86,7 @@ public class MantaroCore {
     private final boolean useSentry;
     private String commandsPackage;
     private String optsPackage;
-    private ICommandProcessor commandProcessor = new DefaultCommandProcessor();
+    private final ICommandProcessor commandProcessor = new DefaultCommandProcessor();
     private EventBus shardEventBus;
     private ShardManager shardManager;
 

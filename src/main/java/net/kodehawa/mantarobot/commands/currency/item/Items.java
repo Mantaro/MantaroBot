@@ -360,7 +360,7 @@ public class Items {
                     sp.addMoney(money);
                 } else {
                     p.addMoney(money);
-                    p.getData().incrementMiningExperience(random);
+                    p.getData().incrementFishingExperience(random);
                 }
 
                 String itemDisplay = ItemStack.toString(reducedList);

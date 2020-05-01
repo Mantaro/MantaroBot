@@ -52,6 +52,7 @@ public class PlayerData {
     private List<ProfileComponent> profileComponents = new LinkedList<>();
     private boolean isClaimLocked = false;
     private long miningExperience;
+    private long fishingExperience;
 
     //lol?
     //this is needed so it actually works, even though it does absolutely nothing
@@ -272,8 +273,21 @@ public class PlayerData {
         this.miningExperience = miningExperience;
     }
 
+    public long getFishingExperience() {
+        return fishingExperience;
+    }
+
+    public void setFishingExperience(long fishingExperience) {
+        this.fishingExperience = fishingExperience;
+    }
+
     @JsonIgnore
     public void incrementMiningExperience(Random random) {
         this.miningExperience = miningExperience + random.nextInt(5);
+    }
+
+    @JsonIgnore
+    public void incrementFishingExperience(Random random) {
+        this.fishingExperience = fishingExperience + random.nextInt(5);
     }
 }

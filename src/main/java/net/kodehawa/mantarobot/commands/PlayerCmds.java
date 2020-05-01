@@ -637,6 +637,7 @@ public class PlayerCmds {
                         prettyDisplay(ctx.get("commands.profile.stats.autoequip"), String.valueOf(data.isAutoEquip())),
                         prettyDisplay(ctx.get("commands.profile.stats.experience"), playerData.getExperience() + "/" + experienceNext + " XP"),
                         prettyDisplay(ctx.get("commands.profile.stats.mine_xp"), playerData.getMiningExperience() + " XP"),
+                        prettyDisplay(ctx.get("commands.profile.stats.fish_xp"), playerData.getFishingExperience() + " XP"),
                         prettyDisplay(ctx.get("commands.profile.stats.daily"), playerData.getDailyStreak() + " " + ctx.get("commands.profile.stats.days")),
                         prettyDisplay(ctx.get("commands.profile.stats.daily_at"), playerData.getLastDailyAt() == 0 ? ctx.get("commands.profile.stats.never") : new Date(playerData.getLastDailyAt()).toString()),
                         prettyDisplay(ctx.get("commands.profile.stats.waifu_claimed"), data.getTimesClaimed() + " " + ctx.get("commands.profile.stats.times")),

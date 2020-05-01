@@ -55,14 +55,8 @@ public class AudioLoader implements AudioLoadResultHandler {
             .labelNames("type")
             .register();
 
-    private static final Counter cacheEvents = Counter.build()
-            .name("track_cache_events").help("Music Cache Events (hit/miss)")
-            .labelNames("type")
-            .register();
-
     private static final int MAX_QUEUE_LENGTH = 350;
     private static final long MAX_SONG_LENGTH = 1920000; //32 minutes
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(AudioLoader.class);
     private final GuildMessageReceivedEvent event;
     private final boolean insertFirst;
     private final GuildMusicManager musicManager;
@@ -79,23 +73,11 @@ public class AudioLoader implements AudioLoadResultHandler {
 
     @Override
     public void trackLoaded(AudioTrack track) {
-        cacheEvents.labels(MantaroAudioManager.isResultFromCache() ? "hit" : "miss").inc();
-        /* if(!MantaroAudioManager.isResultFromCache()) {
-            CacheClient client = MantaroBot.getInstance().getCacheClient();
-            if(client != null) client.addToIndex(track);
-        } */
         loadSingle(track, false);
     }
 
     @Override
     public void playlistLoaded(AudioPlaylist playlist) {
-        //TODO: only do this when the thing is active, but since we commented it out all results aren't from cache.
-        cacheEvents.labels(MantaroAudioManager.isResultFromCache() ? "hit" : "miss").inc();
-        /* if(!MantaroAudioManager.isResultFromCache()) {
-            CacheClient client = MantaroBot.getInstance().getCacheClient();
-            if(client != null) client.addToIndex(playlist);
-        } */
-
         if (playlist.isSearchResult()) {
             if (!skipSelection) {
                 onSearch(playlist);
