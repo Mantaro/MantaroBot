@@ -267,13 +267,14 @@ public class MoneyCmds {
                     returnMessage.add(user.isPremium() ? languageContext.get("commands.daily.sellout.already_premium") : languageContext.get("commands.daily.sellout.get_premium"));
                 }
                 // Build Message
-                String toSend = (targetOther ?
+                StringBuilder toSend = new StringBuilder((targetOther ?
                         String.format(languageContext.withRoot("commands", "daily.given_credits"), EmoteReference.CORRECT, dailyMoney, otherUser.getName()) :
-                        String.format(languageContext.withRoot("commands", "daily.credits"), EmoteReference.CORRECT, dailyMoney)) + "\n" ;
+                        String.format(languageContext.withRoot("commands", "daily.credits"), EmoteReference.CORRECT, dailyMoney)) + "\n");
                 for(String s : returnMessage)
-                    toSend += "\n" + s;
+                    toSend.append("\n").append(s);
+
                 // Send Message
-                channel.sendMessageFormat(toSend).queue();
+                channel.sendMessageFormat(toSend.toString()).queue();
 
             }
 
@@ -492,12 +493,10 @@ public class MoneyCmds {
 
                 if (!loot.isEmpty()) {
                     String s = ItemStack.toString(ItemStack.reduce(loot));
-                    String overflow;
+                    String overflow = "";
 
                     if (player.getInventory().merge(loot))
                         overflow = languageContext.withRoot("commands", "loot.item_overflow");
-                    else
-                        overflow = "";
 
                     if (moneyFound != 0) {
                         if (unifiedPlayer.addMoney(moneyFound)) {
@@ -638,9 +637,8 @@ public class MoneyCmds {
                     seasonalPlayer = db.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
                 }
 
-                if (opts.containsKey("useticket")) {
+                if (opts.containsKey("useticket"))
                     coinSelect = true;
-                }
 
                 Inventory playerInventory = season ? seasonalPlayer.getInventory() : player.getInventory();
 

@@ -312,14 +312,15 @@ public class PlayerCmds {
                 }
 
                 Inventory inventory = player.getInventory();
-                if (inventory.containsItem(Items.CLAIM_KEY)) {
-                    player.getData().setClaimLocked(true);
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.profile.claimlock.success"), EmoteReference.CORRECT).queue();
-                    inventory.process(new ItemStack(Items.CLAIM_KEY, -1));
-                    player.save();
-                } else {
+                if(!inventory.containsItem(Items.CLAIM_KEY)) {
                     event.getChannel().sendMessageFormat(languageContext.get("commands.profile.claimlock.no_key"), EmoteReference.ERROR).queue();
+                    return;
                 }
+
+                player.getData().setClaimLocked(true);
+                event.getChannel().sendMessageFormat(languageContext.get("commands.profile.claimlock.success"), EmoteReference.CORRECT).queue();
+                inventory.process(new ItemStack(Items.CLAIM_KEY, -1));
+                player.save();
             }
         });
 

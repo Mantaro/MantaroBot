@@ -226,7 +226,7 @@ public class FunCmds {
                 listDisplay.add(String.format("\uD83D\uDC97  %s#%s", mentioned.get(0).getName(), mentioned.get(0).getDiscriminator()));
                 listDisplay.add(String.format("\uD83D\uDC97  %s#%s", event.getAuthor().getName(), event.getAuthor().getDiscriminator()));
 
-                toDisplay = listDisplay.stream().collect(Collectors.joining("\n"));
+                toDisplay = String.join("\n", listDisplay);
 
                 if (mentioned.size() > 1) {
                     ids[0] = mentioned.get(0).getIdLong();

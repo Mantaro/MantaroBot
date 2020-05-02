@@ -20,6 +20,7 @@ package net.kodehawa.mantarobot.core.modules.commands;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.utils.TriPredicate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +34,7 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
     private Map<String, SubCommand> subCommands = new HashMap<>();
     //By default let all commands pass.
     private Predicate<GuildMessageReceivedEvent> predicate = event -> true;
+    private TriPredicate<GuildMessageReceivedEvent, I18nContext, String> triPredicate = (event, context, str) -> true;
 
     public TreeCommand(Category category) {
         super(category);
@@ -59,9 +61,12 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
         if (command == null)
             return; //Use SimpleTreeCommand then?
 
-        if (!predicate.test(event)) return;
+        var ct = isDefault ? content : args[1];
 
-        command.run(event, languageContext, commandName + (isDefault ? "" : " " + args[0]), isDefault ? content : args[1]);
+        if (!predicate.test(event)) return;
+        if (!triPredicate.test(event, languageContext, ct)) return;
+
+        command.run(event, languageContext, commandName + (isDefault ? "" : " " + args[0]), ct);
     }
 
     public TreeCommand addSubCommand(String name, BiConsumer<GuildMessageReceivedEvent, String> command) {
@@ -76,6 +81,11 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
 
     public ITreeCommand setPredicate(Predicate<GuildMessageReceivedEvent> predicate) {
         this.predicate = predicate;
+        return this;
+    }
+
+    public ITreeCommand setPredicate(TriPredicate<GuildMessageReceivedEvent, I18nContext, String> predicate) {
+        this.triPredicate = predicate;
         return this;
     }
 

@@ -27,17 +27,19 @@ import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
@@ -48,98 +50,96 @@ import java.util.stream.Collectors;
 public class MessageCmds {
     @Subscribe
     public void prune(CommandRegistry cr) {
-        cr.register("prune", new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
+        var pruneCmd = (TreeCommand) cr.register("prune", new TreeCommand(Category.MODERATION, CommandPermission.ADMIN) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
-                if (content.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("commands.prune.no_messages_specified"), EmoteReference.ERROR).queue();
-                    return;
-                }
+            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+                return new SubCommand() {
+                    @Override
+                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                        var args = StringUtils.advancedSplitArgs(content, 0);
+                        TextChannel channel = event.getChannel();
 
-                if (!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.no_permissions"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                if (content.startsWith("bot")) {
-                    channel.getHistory().retrievePast(100).queue(
-                            messageHistory -> {
-                                String prefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
-                                getMessageHistory(event, channel, messageHistory, languageContext, "commands.prune.bots_no_messages",
-                                        message -> message.getAuthor().isBot() || message.getContentRaw().startsWith(prefix == null ? "~>" : prefix));
-                            },
-                            error -> {
-                                channel.sendMessage(String.format(languageContext.get("commands.prune.error_retrieving"),
-                                        EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
-                                error.printStackTrace();
-                            }
-                    );
-                    return;
-                }
-
-                if (content.startsWith("nopins")) {
-                    int i = 100;
-                    if (args.length > 1) {
-                        try {
-                            i = Integer.parseInt(args[1]);
-                            if (i < 3) i = 3;
-                        } catch (Exception e) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.prune.not_valid"), EmoteReference.ERROR).queue();
+                        if (content.isEmpty()) {
+                            event.getChannel().sendMessageFormat(languageContext.get("commands.prune.no_messages_specified"), EmoteReference.ERROR).queue();
                             return;
                         }
-                    }
 
-                    channel.getHistory().retrievePast(Math.min(i, 100)).queue(
-                            messageHistory -> getMessageHistory(event, channel, messageHistory, languageContext, "commands.prune.no_pins_no_messages", message -> !message.isPinned()),
-                            error -> {
-                                channel.sendMessage(String.format(languageContext.get("commands.prune.error_retrieving"),
-                                        EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
-                                error.printStackTrace();
+                        int i = 5;
+                        if (args.length > 1) {
+                            try {
+                                i = Integer.parseInt(event.getMessage().getMentionedUsers().isEmpty() ? content : args[1]);
+                                if (i < 3) i = 3;
+                            } catch (Exception e) {
+                                event.getChannel().sendMessageFormat(languageContext.get("commands.prune.not_valid"), EmoteReference.ERROR).queue();
+                                return;
                             }
-                    );
-
-                    return;
-                }
-
-                if (!event.getMessage().getMentionedUsers().isEmpty()) {
-                    List<Long> users = new ArrayList<>();
-                    for (User user : event.getMessage().getMentionedUsers()) {
-                        users.add(user.getIdLong());
-                    }
-
-                    int i = 5;
-
-                    if (args.length > 1) {
-                        try {
-                            i = Integer.parseInt(args[1]);
-                            if (i < 3) i = 3;
-                        } catch (Exception e) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.prune.not_valid"), EmoteReference.ERROR).queue();
                         }
+
+
+                        if (!event.getMessage().getMentionedUsers().isEmpty()) {
+                            List<Long> users = event.getMessage().getMentionedUsers().stream().map(User::getIdLong).collect(Collectors.toList());
+
+                            channel.getHistory().retrievePast(Math.min(i, 100)).queue(
+                                    messageHistory -> getMessageHistory(event, channel, messageHistory, languageContext, "commands.prune.mention_no_messages", message -> users.contains(message.getAuthor().getIdLong())),
+                                    error -> {
+                                        channel.sendMessage(String.format(languageContext.get("commands.prune.error_retrieving"),
+                                                EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
+                                        error.printStackTrace();
+                                    });
+
+                            return;
+                        }
+
+                        channel.getHistory().retrievePast(Math.min(i, 100)).queue(
+                                messageHistory -> prune(event, languageContext, messageHistory),
+                                error -> {
+                                    channel.sendMessage(String.format(languageContext.get("commands.prune.error_retrieving"),
+                                            EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
+                                    error.printStackTrace();
+                                }
+                        );
                     }
+                };
+            }
 
-                    channel.getHistory().retrievePast(Math.min(i, 100)).queue(
-                            messageHistory -> getMessageHistory(event, channel, messageHistory, languageContext, "commands.prune.mention_no_messages", message -> users.contains(message.getAuthor().getIdLong())),
-                            error -> {
-                                channel.sendMessage(String.format(languageContext.get("commands.prune.error_retrieving"),
-                                        EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
-                                error.printStackTrace();
-                            });
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Prunes X amount of messages from a channel.")
+                        .setUsage("`~>prune <messages>`")
+                        .addParameter("messages", "Number of messages from 4 to 100.")
+                        .build();
+            }
+        });
 
-                    return;
-                }
+        pruneCmd.addSubCommand("bot", new SubCommand() {
+            @Override
+            public String description() {
+                return "Prune bot messages. It takes the number of messages as an argument.";
+            }
 
-                int i;
-                try {
-                    i = Integer.parseInt(content);
-                } catch (Exception e) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.prune.invalid_number"), EmoteReference.ERROR).queue();
-                    return;
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                var args = StringUtils.advancedSplitArgs(content, 0);
+                TextChannel channel = event.getChannel();
+
+                int i = 100;
+                if (args.length > 1) {
+                    try {
+                        i = Integer.parseInt(args[1]);
+                        if (i < 3) i = 3;
+                    } catch (Exception e) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.prune.not_valid"), EmoteReference.ERROR).queue();
+                        return;
+                    }
                 }
 
                 channel.getHistory().retrievePast(Math.min(i, 100)).queue(
-                        messageHistory -> prune(event, languageContext, messageHistory),
+                        messageHistory -> {
+                            String prefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
+                            getMessageHistory(event, channel, messageHistory, languageContext, "commands.prune.bots_no_messages",
+                                    message -> message.getAuthor().isBot() || message.getContentRaw().startsWith(prefix == null ? "~>" : prefix));
+                        },
                         error -> {
                             channel.sendMessage(String.format(languageContext.get("commands.prune.error_retrieving"),
                                     EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
@@ -147,16 +147,49 @@ public class MessageCmds {
                         }
                 );
             }
+        });
+
+        pruneCmd.addSubCommand("nopins", new SubCommand() {
+            @Override
+            public String description() {
+                return "Prune messages that aren't pinned. It takes the number of messages as an argument.";
+            }
 
             @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Prunes a specific amount of messages.")
-                        .setUsage("`~>prune <x>/<@user>` - Prunes messages (can be either x parameter or @user)")
-                        .addParameter("x", "Can be either the number of messages to delete (ex: 50), or `bot` (prune bot messages) or `nopins` (won't prune pinned messages)")
-                        .addParameter("@user", "The user to prune messages from.")
-                        .build();
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                var args = StringUtils.advancedSplitArgs(content, 0);
+                TextChannel channel = event.getChannel();
+
+                int i = 100;
+                if (args.length > 1) {
+                    try {
+                        i = Integer.parseInt(args[1]);
+                        if (i < 3) i = 3;
+                    } catch (Exception e) {
+                        event.getChannel().sendMessageFormat(languageContext.get("commands.prune.not_valid"), EmoteReference.ERROR).queue();
+                        return;
+                    }
+                }
+
+                channel.getHistory().retrievePast(Math.min(i, 100)).queue(
+                        messageHistory -> getMessageHistory(event, channel, messageHistory, languageContext, "commands.prune.no_pins_no_messages", message -> !message.isPinned()),
+                        error -> {
+                            channel.sendMessage(String.format(languageContext.get("commands.prune.error_retrieving"),
+                                    EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
+                            error.printStackTrace();
+                        }
+                );
+
             }
+        });
+
+        pruneCmd.setPredicate((event, languageContext, content) -> {
+            if (!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
+                event.getChannel().sendMessageFormat(languageContext.get("commands.prune.no_permissions"), EmoteReference.ERROR).queue();
+                return false;
+            }
+
+            return true;
         });
     }
 

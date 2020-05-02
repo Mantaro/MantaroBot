@@ -222,6 +222,7 @@ public class AnimeCmds {
 
             Player p = MantaroData.db().getPlayer(event.getAuthor());
             Badge badge = APIUtils.getHushBadge(charName.replace(japName, "").trim(), Utils.HushType.CHARACTER);
+
             if (badge != null) {
                 p.getData().addBadgeIfAbsent(badge);
                 p.save();

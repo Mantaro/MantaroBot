@@ -676,7 +676,7 @@ public class RelationshipCmds {
 
                         boolean id = opts.containsKey("id");
 
-                        java.util.List<MessageEmbed.Field> fields = new LinkedList<>();
+                        List<MessageEmbed.Field> fields = new LinkedList<>();
                         for (String waifu : userData.getWaifus().keySet()) {
                             User user = MantaroBot.getInstance().getShardManager().getUserById(waifu);
                             if (user == null) {

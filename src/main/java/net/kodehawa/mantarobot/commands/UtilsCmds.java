@@ -592,7 +592,6 @@ public class UtilsCmds {
                 }
 
                 String[] commandArguments = content.split("->");
-                EmbedBuilder embed = new EmbedBuilder();
 
                 String url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(commandArguments[0], StandardCharsets.UTF_8);
                 String json = Utils.wgetOkHttp(url);
@@ -608,34 +607,24 @@ public class UtilsCmds {
                     return;
                 }
 
-                if (commandArguments.length > 1) {
-                    int definitionNumber = Integer.parseInt(commandArguments[1]) - 1;
-                    UrbanData.List urbanData = data.getList().get(definitionNumber);
-                    String definition = urbanData.getDefinition();
-                    embed.setAuthor(
-                            String.format(languageContext.get("commands.urban.header"), commandArguments[0]), urbanData.getPermalink(), null)
-                            .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
-                            .setDescription(languageContext.get("general.definition") + " " + (definitionNumber + 1))
-                            .setColor(Color.GREEN)
-                            .addField(languageContext.get("general.definition"), definition.length() > 1000 ? definition.substring(0, 1000) + "..." : definition, false)
-                            .addField(languageContext.get("general.example"), urbanData.getExample().length() > 1000 ? urbanData.getExample().substring(0, 1000) + "..." : urbanData.getExample(), false)
-                            .addField(":thumbsup:", urbanData.thumbs_up, true)
-                            .addField(":thumbsdown:", urbanData.thumbs_down, true)
-                            .setFooter(languageContext.get("commands.urban.footer"), null);
-                } else {
-                    UrbanData.List urbanData = data.getList().get(0);
-                    embed.setAuthor(
-                            String.format(languageContext.get("commands.urban.header"), content), data.getList().get(0).getPermalink(), null)
-                            .setDescription(languageContext.get("commands.urban.main_def"))
-                            .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
-                            .setColor(Color.GREEN)
-                            .addField(languageContext.get("general.definition"), urbanData.getDefinition().length() > 1000 ? urbanData.getDefinition().substring(0, 1000) + "..." : urbanData.getDefinition(), false)
-                            .addField(languageContext.get("general.example"), urbanData.getExample().length() > 1000 ? urbanData.getExample().substring(0, 1000) + "..." : urbanData.getExample(), false)
-                            .addField(":thumbsup:", urbanData.thumbs_up, true)
-                            .addField(":thumbsdown:", urbanData.thumbs_down, true)
-                            .setFooter(languageContext.get("commands.urban.footer"), null);
-                }
-                channel.sendMessage(embed.build()).queue();
+                var definitionNumber = commandArguments.length > 1 ? (Integer.parseInt(commandArguments[1]) - 1) : 0;
+                var header = commandArguments[0];
+
+                UrbanData.List urbanData = data.getList().get(definitionNumber);
+                String definition = urbanData.getDefinition();
+
+                channel.sendMessage(new EmbedBuilder()
+                        .setAuthor(String.format(languageContext.get("commands.urban.header"), commandArguments[0]), urbanData.getPermalink(), null)
+                        .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
+                        .setDescription(languageContext.get("general.definition") + " " + (definitionNumber + 1))
+                        .setColor(Color.GREEN)
+                        .addField(languageContext.get("general.definition"), definition.length() > 1000 ? definition.substring(0, 1000) + "..." : definition, false)
+                        .addField(languageContext.get("general.example"), urbanData.getExample().length() > 1000 ? urbanData.getExample().substring(0, 1000) + "..." : urbanData.getExample(), false)
+                        .addField(":thumbsup:", urbanData.thumbs_up, true)
+                        .addField(":thumbsdown:", urbanData.thumbs_down, true)
+                        .setFooter(languageContext.get("commands.urban.footer"), null)
+                        .build()
+                ).queue();
             }
 
             @Override

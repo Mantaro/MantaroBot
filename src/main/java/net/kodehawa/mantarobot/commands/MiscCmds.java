@@ -175,17 +175,15 @@ public class MiscCmds {
                     return;
                 }
 
-                String textEncoded;
-                String answer;
-                try {
-                    textEncoded = URLEncoder.encode(content.replace("/", "|"), StandardCharsets.UTF_8);
-                    String json = Utils.wgetOkHttp(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded));
-                    answer = new JSONObject(json).getJSONObject("magic").getString("answer");
-                } catch (Exception exception) {
+                String textEncoded = URLEncoder.encode(content.replace("/", "|"), StandardCharsets.UTF_8);
+                String json = Utils.wgetOkHttp(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded));
+
+                if(json == null) {
                     channel.sendMessageFormat(languageContext.get("commands.8ball.error"), EmoteReference.ERROR).queue();
                     return;
                 }
 
+                String answer = new JSONObject(json).getJSONObject("magic").getString("answer");
                 channel.sendMessage("\uD83D\uDCAC " + answer + ".").queue(); //owo
             }
 

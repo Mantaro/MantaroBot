@@ -128,8 +128,7 @@ public class ItemCmds {
                                 amountSpecified = Math.max(1, Integer.parseInt(arguments[2]));
                             else if (!optionalWrench.isPresent() && arguments.length > 1)
                                 amountSpecified = Math.max(1, Integer.parseInt(arguments[1]));
-                        } catch (Exception ignored) {
-                        }
+                        } catch (Exception ignored) { }
 
                         Item castItem = toCast.get();
                         //This is a good way of getting if it's castable, since implementing an interface wouldn't cut it (some rods aren't castable, for example)
@@ -306,6 +305,7 @@ public class ItemCmds {
 
                     String[] recipeAmount = item.getRecipe().split(";");
                     AtomicInteger ai = new AtomicInteger();
+
                     String recipe = Arrays.stream(item.getRecipeTypes()).mapToObj((i) -> {
                         Item recipeItem = Items.fromId(i);
                         return recipeItem.getEmoji() + " " + recipeAmount[ai.getAndIncrement()] + "x" + "\u2009*" + recipeItem.getName() + "*";
@@ -582,7 +582,7 @@ public class ItemCmds {
 
                 Optional<Item> itemOptional = Items.fromAnyNoId(content.replace("\"", ""));
 
-                if (!itemOptional.isPresent()) {
+                if (itemOptional.isEmpty()) {
                     channel.sendMessageFormat(languageContext.get("commands.iteminfo.no_item"), EmoteReference.ERROR).queue();
                     return;
                 }
