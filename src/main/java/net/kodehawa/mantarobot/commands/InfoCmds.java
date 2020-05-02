@@ -575,29 +575,6 @@ public class InfoCmds {
     }
 
     @Subscribe
-    public void social(CommandRegistry cr) {
-        cr.register("social", new SimpleCommand(Category.INFO) {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                event.getChannel().sendMessage(String.format(languageContext.get("commands.social.header"), EmoteReference.HEART) +
-                        languageContext.get("commands.social.description.1") + "\n" +
-                        String.format(languageContext.get("commands.social.description.2"), "https://mantaro.site") + "\n" +
-                        "**- Patreon:** <https://www.patreon.com/mantaro>\n" +
-                        "**- Twitter:** <https://twitter.com/mantarodiscord>\n\n" +
-                        languageContext.get("commands.social.note") + "\n").queue();
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Shows Mantaro's social networks.")
-                        .build();
-            }
-        });
-    }
-
-
-    @Subscribe
     public void userinfo(CommandRegistry cr) {
         cr.register("userinfo", new SimpleCommand(Category.INFO) {
             @Override
@@ -652,28 +629,6 @@ public class InfoCmds {
                         .build();
             }
         });
-    }
-
-    @Subscribe
-    //no need to translate this
-    public void tips(CommandRegistry cr) {
-        final Random r = new Random();
-
-        cr.register("tips", new SimpleCommand(Category.INFO) {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                event.getChannel().sendMessage(EmoteReference.TALKING + "Tip: " + tips.get(r.nextInt(tips.size()))).queue();
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Shows tips about the bot.")
-                        .build();
-            }
-        });
-
-        cr.registerAlias("tips", "bottips");
     }
 
     @Subscribe

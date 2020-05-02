@@ -28,7 +28,6 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
-import net.kodehawa.mantarobot.commands.utils.WeatherData;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
 import net.kodehawa.mantarobot.commands.utils.reminders.Reminder;
 import net.kodehawa.mantarobot.commands.utils.reminders.ReminderObject;
@@ -73,8 +72,8 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unused")
 public class UtilsCmds {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(UtilsCmds.class);
-    private static Pattern timePattern = Pattern.compile(" -time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
-    private static Random random = new Random();
+    private static final Pattern timePattern = Pattern.compile(" -time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
+    private static final Random random = new Random();
 
     protected static String dateGMT(Guild guild, String tz) {
         DateFormat format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
@@ -455,41 +454,22 @@ public class UtilsCmds {
                 TextChannel channel = event.getChannel();
 
                 ManagedDatabase db = MantaroData.db();
-                List<String> r = db.getUser(event.getAuthor()).getData().getReminders();
-                try (Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
-                    List<String> reminders = db.getUser(event.getAuthor()).getData().getReminders();
-
-                    List<ReminderObject> rms = new ArrayList<>();
-                    for (String s : reminders) {
-                        String rem = j.hget("reminder", s);
-                        if (rem != null) {
-                            JSONObject json = new JSONObject(rem);
-                            rms.add(ReminderObject.builder()
-                                    .id(s.split(":")[0])
-                                    .userId(json.getString("user"))
-                                    .guildId(json.getString("guild"))
-                                    .scheduledAtMillis(json.getLong("scheduledAt"))
-                                    .time(json.getLong("at"))
-                                    .reminder(json.getString("reminder"))
-                                    .build());
-                        }
-                    }
-
-                    if (reminders.isEmpty()) {
-                        channel.sendMessageFormat(languageContext.get("commands.remindme.no_reminders"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-
-                    StringBuilder builder = new StringBuilder();
-                    AtomicInteger i = new AtomicInteger();
-                    for (ReminderObject rems : rms) {
-                        builder.append("**").append(i.incrementAndGet()).append(".-**").append("R: *").append(rems.getReminder()).append("*, Due in: **")
-                                .append(Utils.getHumanizedTime(rems.getTime() - System.currentTimeMillis())).append("**").append("\n");
-                    }
-
-                    Queue<Message> toSend = new MessageBuilder().append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
-                    toSend.forEach(message -> channel.sendMessage(message).queue());
+                List<String> reminders = db.getUser(event.getAuthor()).getData().getReminders();
+                List<ReminderObject> rms = getReminders(reminders);
+                if (reminders.isEmpty()) {
+                    channel.sendMessageFormat(languageContext.get("commands.remindme.no_reminders"), EmoteReference.ERROR).queue();
+                    return;
                 }
+
+                StringBuilder builder = new StringBuilder();
+                AtomicInteger i = new AtomicInteger();
+                for (ReminderObject rems : rms) {
+                    builder.append("**").append(i.incrementAndGet()).append(".-**").append("R: *").append(rems.getReminder()).append("*, Due in: **")
+                            .append(Utils.getHumanizedTime(rems.getTime() - System.currentTimeMillis())).append("**").append("\n");
+                }
+
+                Queue<Message> toSend = new MessageBuilder().append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+                toSend.forEach(message -> channel.sendMessage(message).queue());
             }
         });
 
@@ -518,41 +498,45 @@ public class UtilsCmds {
                         Reminder.cancel(event.getAuthor().getId(), reminders.get(0)); //Cancel first reminder.
                         channel.sendMessageFormat(languageContext.get("commands.remindme.cancel.success"), EmoteReference.CORRECT).queue();
                     } else {
-                        try (Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
-                            List<ReminderObject> rems = new ArrayList<>();
-                            for (String s : reminders) {
-                                String rem = j.hget("reminder", s);
-                                if (rem != null) {
-                                    JSONObject json = new JSONObject(rem);
-                                    rems.add(ReminderObject.builder()
-                                            .id(s.split(":")[0])
-                                            .userId(json.getString("user"))
-                                            .guildId(json.getString("guild"))
-                                            .scheduledAtMillis(json.getLong("scheduledAt"))
-                                            .time(json.getLong("at"))
-                                            .reminder(json.getString("reminder"))
-                                            .build());
-                                }
-                            }
-
-                            rems = rems.stream().filter(reminder -> reminder.time - System.currentTimeMillis() > 3).collect(Collectors.toList());
-                            DiscordUtils.selectList(event, rems,
-                                    (r) -> String.format("%s, Due in: %s", r.reminder, Utils.getHumanizedTime(r.time - System.currentTimeMillis())),
-                                    r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle(languageContext.get("commands.remindme.cancel.select"), null)
-                                            .setDescription(r1)
-                                            .setFooter(String.format(languageContext.get("general.timeout"), 10), null).build(),
-                                    sr -> {
-                                        Reminder.cancel(event.getAuthor().getId(), sr.id + ":" + sr.getUserId());
-                                        channel.sendMessage(EmoteReference.CORRECT + "Cancelled your reminder").queue();
-                                    });
-                        }
-
+                        List<ReminderObject> rems = getReminders(reminders);
+                        rems = rems.stream().filter(reminder -> reminder.time - System.currentTimeMillis() > 3).collect(Collectors.toList());
+                        DiscordUtils.selectList(event, rems,
+                                (r) -> String.format("%s, Due in: %s", r.reminder, Utils.getHumanizedTime(r.time - System.currentTimeMillis())),
+                                r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle(languageContext.get("commands.remindme.cancel.select"), null)
+                                        .setDescription(r1)
+                                        .setFooter(String.format(languageContext.get("general.timeout"), 10), null).build(),
+                                sr -> {
+                                    Reminder.cancel(event.getAuthor().getId(), sr.id + ":" + sr.getUserId());
+                                    channel.sendMessage(EmoteReference.CORRECT + "Cancelled your reminder").queue();
+                                });
                     }
                 } catch (Exception e) {
                     channel.sendMessageFormat(languageContext.get("commands.remindme.no_reminders"), EmoteReference.ERROR).queue();
                 }
             }
         });
+    }
+
+    private List<ReminderObject> getReminders(List<String> reminders) {
+        try (Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
+            List<ReminderObject> rems = new ArrayList<>();
+            for (String s : reminders) {
+                String rem = j.hget("reminder", s);
+                if (rem != null) {
+                    JSONObject json = new JSONObject(rem);
+                    rems.add(ReminderObject.builder()
+                            .id(s.split(":")[0])
+                            .userId(json.getString("user"))
+                            .guildId(json.getString("guild"))
+                            .scheduledAtMillis(json.getLong("scheduledAt"))
+                            .time(json.getLong("at"))
+                            .reminder(json.getString("reminder"))
+                            .build());
+                }
+            }
+
+            return rems;
+        }
     }
 
     @Subscribe
@@ -610,10 +594,7 @@ public class UtilsCmds {
                 String[] commandArguments = content.split("->");
                 EmbedBuilder embed = new EmbedBuilder();
 
-                String url = null;
-
-                url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(commandArguments[0], StandardCharsets.UTF_8);
-
+                String url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(commandArguments[0], StandardCharsets.UTF_8);
                 String json = Utils.wgetOkHttp(url);
                 UrbanData data = GsonDataManager.GSON_PRETTY.fromJson(json, UrbanData.class);
 
@@ -664,77 +645,6 @@ public class UtilsCmds {
                         .setUsage("`~>urban <term>-><number>`. Yes, the arrow is needed if you put a number, idk why, I probably liked arrows 2 years ago.")
                         .addParameter("term", "The term to look for")
                         .addParameter("number", "The definition number to show. (Usually tops at around 5)")
-                        .build();
-            }
-        });
-    }
-
-    @Subscribe
-    public void weather(CommandRegistry registry) {
-        registry.register("weather", new SimpleCommand(Category.UTILS) {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
-
-                if (content.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("commands.weather.no_content"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                EmbedBuilder embed = new EmbedBuilder();
-                try {
-                    long start = System.currentTimeMillis();
-                    WeatherData data = GsonDataManager.GSON_PRETTY.fromJson(
-                            Utils.wgetOkHttp(
-                                    String.format(
-                                            "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s",
-                                            URLEncoder.encode(content, StandardCharsets.UTF_8),
-                                            MantaroData.config().get().weatherAppId
-                                    )
-                            ),
-                            WeatherData.class
-                    );
-
-                    String countryCode = data.getSys().country;
-                    String status = data.getWeather().get(0).main;
-                    Double temp = data.getMain().getTemp();
-                    double pressure = data.getMain().getPressure();
-                    int humidity = data.getMain().getHumidity();
-                    Double ws = data.getWind().speed;
-                    int cloudiness = data.getClouds().all;
-
-                    Double finalTemperatureCelsius = temp - 273.15;
-                    Double finalTemperatureFahrenheit = temp * 9 / 5 - 459.67;
-                    Double finalWindSpeedMetric = ws * 3.6;
-                    Double finalWindSpeedImperial = ws / 0.447046;
-                    long end = System.currentTimeMillis() - start;
-
-                    embed.setColor(Color.CYAN)
-                            .setTitle(String.format(languageContext.get("commands.weather.header"), ":flag_" + countryCode.toLowerCase() + ":", content), null)
-                            .setDescription(status + " (" + cloudiness + "% clouds)")
-                            .addField(":thermometer: " + languageContext.get("commands.weather.temperature"), String.format("%d°C | %d°F", finalTemperatureCelsius.intValue(), finalTemperatureFahrenheit.intValue()), true)
-                            .addField(":droplet: " + languageContext.get("commands.weather.humidity"), humidity + "%", true)
-                            .addField(":wind_blowing_face: " + languageContext.get("commands.weather.wind_speed"), String.format("%dkm/h | %dmph", finalWindSpeedMetric.intValue(), finalWindSpeedImperial.intValue()), true)
-                            .addField(":wind_chime: " + languageContext.get("commands.weather.pressure"), pressure + "hPA", true)
-                            .setFooter(String.format(languageContext.get("commands.weather.footer"), end), null)
-                            .setThumbnail("https://cdn2.iconfinder.com/data/icons/lovely-weather-icons/32/Thermometer-50-512.png");
-                    channel.sendMessage(embed.build()).queue();
-                } catch (NullPointerException npe) {
-                    channel.sendMessageFormat(languageContext.get("commands.weather.error"), EmoteReference.ERROR).queue();
-                } catch (Exception e) {
-                    channel.sendMessageFormat(languageContext.get("commands.weather.error"), EmoteReference.ERROR).queue();
-                    log.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
-                }
-            }
-
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("This command retrieves information from OpenWeatherMap. Used to check forecast information.")
-                        .setUsage("`~>weather <city>,<country code>`")
-                        .addParameter("city", "The city to look for, example: Concepción")
-                        .addParameter("country code", "The country code of the country where the city is located, example: CL")
                         .build();
             }
         });
