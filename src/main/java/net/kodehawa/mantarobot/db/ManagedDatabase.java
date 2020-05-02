@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.commands.currency.seasons.Season;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.db.entities.*;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
@@ -38,7 +39,7 @@ import java.util.List;
 import static com.rethinkdb.RethinkDB.r;
 
 public class ManagedDatabase {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(ManagedDatabase.class);
+    private static final Logger log = LoggerFactory.getLogger(ManagedDatabase.class);
     private final Connection conn;
 
     public ManagedDatabase(@Nonnull Connection conn) {

@@ -20,6 +20,7 @@ package net.kodehawa.mantarobot.utils.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -32,7 +33,7 @@ public class GsonDataManager<T> implements DataManager<T> {
             .setPrettyPrinting()
             .serializeNulls()
             .create(), GSON_UNPRETTY = new GsonBuilder().serializeNulls().create();
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(GsonDataManager.class);
+    private static final Logger log = LoggerFactory.getLogger(GsonDataManager.class);
     private final Path configPath;
     private final T data;
 

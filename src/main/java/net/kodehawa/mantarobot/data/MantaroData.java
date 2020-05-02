@@ -23,6 +23,7 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPool;
 
 import java.util.concurrent.Callable;
@@ -33,12 +34,12 @@ import static com.rethinkdb.RethinkDB.r;
 
 public class MantaroData {
     private static final ScheduledExecutorService exec = Executors.newScheduledThreadPool(1, new ThreadFactoryBuilder().setNameFormat("MantaroData-Executor Thread-%d").build());
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(MantaroData.class);
+    private static final Logger log = LoggerFactory.getLogger(MantaroData.class);
     private static GsonDataManager<Config> config;
     private static Connection conn;
     private static ManagedDatabase db;
 
-    private static JedisPool defaultJedisPool = new JedisPool(config().get().jedisPoolAddress, config().get().jedisPoolPort);
+    private static final JedisPool defaultJedisPool = new JedisPool(config().get().jedisPoolAddress, config().get().jedisPoolPort);
 
     static {
         Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-data", exec);

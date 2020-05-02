@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -38,11 +39,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Trivia extends Game<String> {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger("Game [Trivia]");
+    private static final Logger log = LoggerFactory.getLogger("Game [Trivia]");
     private static final String OTDB_URL = "https://opentdb.com/api.php?amount=1&encode=base64";
     private final int maxAttempts = 2;
-    private TriviaDifficulty difficulty;
-    private List<String> expectedAnswer = new ArrayList<>();
+    private final TriviaDifficulty difficulty;
+    private final List<String> expectedAnswer = new ArrayList<>();
     private boolean hardDiff = false;
     private boolean isBool;
 

@@ -24,6 +24,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 
 import java.util.Date;
@@ -31,7 +32,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class ReminderTask {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(ReminderTask.class);
+    private static final Logger log = LoggerFactory.getLogger(ReminderTask.class);
 
     public static void handle() {
         log.debug("Checking reminder data...");

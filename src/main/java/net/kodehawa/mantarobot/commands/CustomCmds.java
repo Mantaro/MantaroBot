@@ -50,6 +50,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -69,8 +70,8 @@ public class CustomCmds {
             INVALID_CHARACTERS_PATTERN = Pattern.compile("[^a-zA-Z0-9_]"),
             NAME_WILDCARD_PATTERN = Pattern.compile("[a-zA-Z0-9_*]+");
     private static final Map<String, CustomCommand> customCommands = new ConcurrentHashMap<>();
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(CustomCmds.class);
-    private static SecureRandom random = new SecureRandom();
+    private static final Logger log = LoggerFactory.getLogger(CustomCmds.class);
+    private static final SecureRandom random = new SecureRandom();
 
 
     public static boolean handle(String prefix, String cmdName, GuildMessageReceivedEvent event, I18nContext lang, String args) {

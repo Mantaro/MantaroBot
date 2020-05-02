@@ -30,13 +30,14 @@ import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Character extends ImageGame {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger("Game [Character]");
+    private static final Logger log = LoggerFactory.getLogger("Game [Character]");
     private final int maxAttempts = 5;
     private String characterName;
     private List<String> characterNameL;

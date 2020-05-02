@@ -57,6 +57,7 @@ import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import org.json.JSONObject;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.net.URL;
@@ -73,7 +74,7 @@ import static org.apache.commons.lang3.StringUtils.replaceEach;
 @Module
 @SuppressWarnings("unused")
 public class MusicCmds {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(MusicCmds.class);
+    private static final Logger log = LoggerFactory.getLogger(MusicCmds.class);
 
     @Subscribe
     public void forceskip(CommandRegistry cr) {

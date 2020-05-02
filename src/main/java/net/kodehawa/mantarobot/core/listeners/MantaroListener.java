@@ -64,6 +64,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.security.SecureRandom;
@@ -83,6 +84,8 @@ import java.util.regex.Pattern;
 import static net.kodehawa.mantarobot.utils.Utils.*;
 
 public class MantaroListener implements EventListener {
+    private static final Logger log = LoggerFactory.getLogger(MantaroListener.class);
+
     private static final Cache<String, Long> INVITES = CacheBuilder.newBuilder()
             .maximumSize(5500)
             .build();
@@ -115,7 +118,6 @@ public class MantaroListener implements EventListener {
     private static final Counter patronCounter = Counter.build()
             .name("patrons").help("New patrons")
             .register();
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(MantaroListener.class);
     //END OF METRIC CONNECTORS DECLARATION.
 
     private static int logTotal = 0;

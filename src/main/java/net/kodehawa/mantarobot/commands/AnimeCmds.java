@@ -42,6 +42,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import okhttp3.OkHttpClient;
 import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.util.List;
@@ -51,7 +52,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("all" /* NO IT WONT FUCKING NPE */)
 public class AnimeCmds {
     private final static OkHttpClient client = new OkHttpClient();
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(AnimeCmds.class);
+    private static final Logger log = LoggerFactory.getLogger(AnimeCmds.class);
     private final Config config = MantaroData.config().get();
 
     @Subscribe

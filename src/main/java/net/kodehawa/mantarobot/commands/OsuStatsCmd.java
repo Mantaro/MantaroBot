@@ -40,6 +40,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONException;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -51,7 +52,7 @@ import java.util.concurrent.*;
 @Module
 @SuppressWarnings("unused")
 public class OsuStatsCmd {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(OsuStatsCmd.class);
+    private static final Logger log = LoggerFactory.getLogger(OsuStatsCmd.class);
     private final Map<String, Object> map = new HashMap<>();
     private final ExecutorService pool = Executors.newCachedThreadPool(
             new ThreadFactoryBuilder()

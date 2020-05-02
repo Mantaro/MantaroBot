@@ -53,6 +53,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.json.JSONObject;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 
 import java.awt.*;
@@ -71,7 +72,7 @@ import java.util.stream.Collectors;
 @Module
 @SuppressWarnings("unused")
 public class UtilsCmds {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(UtilsCmds.class);
+    private static final Logger log = LoggerFactory.getLogger(UtilsCmds.class);
     private static final Pattern timePattern = Pattern.compile(" -time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
     private static final Random random = new Random();
 

@@ -49,6 +49,7 @@ import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import org.json.JSONObject;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -60,7 +61,7 @@ import java.util.stream.IntStream;
 @Module
 @SuppressWarnings("unused")
 public class MiscCmds {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(MiscCmds.class);
+    private static final Logger log = LoggerFactory.getLogger(MiscCmds.class);
     private final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
     private final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
     private final Random rand = new Random();

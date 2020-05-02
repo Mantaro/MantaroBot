@@ -27,12 +27,13 @@ import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.Pair;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
 public class MuteTask {
 
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(MuteTask.class);
+    private static final Logger log = LoggerFactory.getLogger(MuteTask.class);
 
     public static void handle() {
         try {

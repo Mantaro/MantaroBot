@@ -24,6 +24,7 @@ import com.rethinkdb.utils.Types;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,7 @@ import static com.rethinkdb.RethinkDB.r;
  * This will later be used on {@link BirthdayTask}
  */
 public class BirthdayCacher {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(BirthdayCacher.class);
+    private static final Logger log = LoggerFactory.getLogger(BirthdayCacher.class);
     private final ExecutorService executorService = Executors.newFixedThreadPool(1, new ThreadFactoryBuilder().setNameFormat("Mantaro-BirthdayAssignerExecutor Thread-%d").build());
     public Map<String, BirthdayData> cachedBirthdays = new ConcurrentHashMap<>();
     public volatile boolean isDone;

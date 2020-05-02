@@ -36,6 +36,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.util.concurrent.CompletableFuture;
@@ -48,7 +49,7 @@ public class AudioCmdUtils {
     private final static String BLOCK_INACTIVE = "\u25AC";
     private final static String BLOCK_ACTIVE = "\uD83D\uDD18";
     private static final int TOTAL_BLOCKS = 10;
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(AudioCmdUtils.class);
+    private static final Logger log = LoggerFactory.getLogger(AudioCmdUtils.class);
 
     public static void embedForQueue(int page, GuildMessageReceivedEvent event, GuildMusicManager musicManager, I18nContext lang) {
         final TrackScheduler trackScheduler = musicManager.getTrackScheduler();

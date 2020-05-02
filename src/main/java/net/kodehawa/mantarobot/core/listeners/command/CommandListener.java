@@ -46,6 +46,7 @@ import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 import java.util.Random;
@@ -54,7 +55,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CommandListener implements EventListener {
     private static final RateLimiter experienceRatelimiter = new RateLimiter(TimeUnit.SECONDS, 18);
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(CommandListener.class);
+    private static final Logger log = LoggerFactory.getLogger(CommandListener.class);
     //Commands ran this session.
     private static int commandTotal = 0;
     private final Random random = new Random();

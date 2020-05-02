@@ -39,6 +39,7 @@ import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
@@ -77,11 +78,10 @@ public class Utils {
     private static final char BACKTICK = '`';
     private static final char LEFT_TO_RIGHT_ISOLATE = '\u2066';
     private static final char POP_DIRECTIONAL_ISOLATE = '\u2069';
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(Utils.class);
+    private static final Logger log = LoggerFactory.getLogger(Utils.class);
     private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
     private static final Config config = MantaroData.config().get();
-    private static final Random random = new Random();
-    private static Set<String> loggedUsers = ConcurrentHashMap.newKeySet();
+    private static final Set<String> loggedUsers = ConcurrentHashMap.newKeySet();
 
     /**
      * Capitalizes the first letter of a string.

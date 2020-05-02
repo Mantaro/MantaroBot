@@ -37,6 +37,7 @@ import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -44,7 +45,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class ModerationCmds {
 
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger("Moderation");
+    private static final Logger log = LoggerFactory.getLogger(ModerationCmds.class);
 
     @Subscribe
     public void softban(CommandRegistry cr) {

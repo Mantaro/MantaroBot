@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.utils.data;
 
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -31,7 +32,7 @@ import java.util.regex.Pattern;
 
 public class SimpleFileDataManager implements DataManager<List<String>> {
     public static final Pattern NEWLINE_PATTERN = Pattern.compile("\\r\\n?|\\r?\\n");
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(SimpleFileDataManager.class);
+    private static final Logger log = LoggerFactory.getLogger(SimpleFileDataManager.class);
     private final List<String> data = new ArrayList<>();
     private final Path path;
 

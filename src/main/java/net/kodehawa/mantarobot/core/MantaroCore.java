@@ -59,6 +59,7 @@ import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
 import okhttp3.Request;
 import org.json.JSONObject;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.security.auth.login.LoginException;
@@ -71,7 +72,7 @@ import static net.kodehawa.mantarobot.core.LoadState.*;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
 
 public class MantaroCore {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(MantaroCore.class);
+    private static final Logger log = LoggerFactory.getLogger(MantaroCore.class);
     private static final VoiceChannelListener VOICE_CHANNEL_LISTENER = new VoiceChannelListener();
 
     private static LoadState loadState = PRELOAD;

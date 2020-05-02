@@ -29,17 +29,18 @@ import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class BirthdayTask {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(BirthdayTask.class);
+    private static final Logger log = LoggerFactory.getLogger(BirthdayTask.class);
     private static final Counter birthdayCounter = Counter.build()
             .name("birthdays_logged").help("Logged birthdays")
             .register();
-    private static FastDateFormat dateFormat = FastDateFormat.getInstance("dd-MM-yyyy");
+    private static final FastDateFormat dateFormat = FastDateFormat.getInstance("dd-MM-yyyy");
 
     public static void handle(int shardId) {
         try {

@@ -32,7 +32,6 @@ import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.concurrent.Future;
@@ -41,9 +40,6 @@ import java.util.stream.Collectors;
 
 @Option
 public class GeneralOptions extends OptionHandler {
-
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(GeneralOptions.class);
-
     @Subscribe
     public void onRegistry(OptionRegistryEvent e) {
         registerOption("lobby:reset", "Lobby reset", "Fixes stuck game/poll/operations session.", (event, lang) -> {

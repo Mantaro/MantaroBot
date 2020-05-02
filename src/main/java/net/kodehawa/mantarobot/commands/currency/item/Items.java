@@ -34,6 +34,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -195,7 +196,7 @@ public class Items {
             MAGIC_WATCH = new Item(ItemType.COLLECTABLE, "\u231A", "Magical Watch", "items.magic_watch", "items.description.magic_watch",0, false, false)
 
     };
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(Items.class);
+    private static final Logger log = LoggerFactory.getLogger(Items.class);
 
 
     public static void setItemActions() {

@@ -46,6 +46,7 @@ import net.kodehawa.mantarobot.utils.Lazy;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.InetAddress;
 import java.net.URISyntaxException;
@@ -70,7 +71,7 @@ public class MantaroAudioManager {
                     .build()
     ));
 
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(MantaroAudioManager.class);
+    private static final Logger log = LoggerFactory.getLogger(MantaroAudioManager.class);
 
     private final Map<String, GuildMusicManager> musicManagers;
     private final AudioPlayerManager playerManager;

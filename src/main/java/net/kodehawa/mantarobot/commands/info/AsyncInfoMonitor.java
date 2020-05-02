@@ -18,6 +18,7 @@
 package net.kodehawa.mantarobot.commands.info;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
@@ -31,7 +32,7 @@ public class AsyncInfoMonitor {
             task -> new Thread(task, "AsyncInfoMonitor")
     );
 
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(AsyncInfoMonitor.class);
+    private static final Logger log = LoggerFactory.getLogger(AsyncInfoMonitor.class);
     private static int availableProcessors = Runtime.getRuntime().availableProcessors();
     private static double cpuUsage = 0;
     private static long freeMemory = 0;

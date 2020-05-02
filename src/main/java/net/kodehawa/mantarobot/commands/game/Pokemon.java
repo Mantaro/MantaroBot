@@ -25,18 +25,16 @@ import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.data.Config;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class Pokemon extends ImageGame {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger("Game [Pokemon Trivia]");
-    private static final Config config = MantaroData.config().get();
+    private static final Logger log = LoggerFactory.getLogger("Game [Pokemon Trivia]");
     private final int maxAttempts = 5;
     private List<String> expectedAnswer;
 

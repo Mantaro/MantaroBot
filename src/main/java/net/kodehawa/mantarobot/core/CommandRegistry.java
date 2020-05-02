@@ -47,6 +47,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,7 +69,7 @@ public class CommandRegistry {
             .name("categories").help("Amounts of categories ran (name, userId, guildId")
             .labelNames("name")
             .register();
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(CommandRegistry.class);
+    private static final Logger log = LoggerFactory.getLogger(CommandRegistry.class);
 
     private final Map<String, Command> commands;
     private final Config conf = MantaroData.config().get();
