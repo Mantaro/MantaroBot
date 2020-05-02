@@ -42,7 +42,6 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageUpdateEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.hooks.EventListener;
-import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
@@ -51,7 +50,6 @@ import net.kodehawa.mantarobot.commands.info.stats.manager.GuildStatsManager.Log
 import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
-import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
@@ -61,7 +59,6 @@ import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.log.LogUtils;
-import net.kodehawa.mantarobot.services.StatsPoster;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -164,18 +161,6 @@ public class MantaroListener implements EventListener {
 
     @Override
     public void onEvent(@NotNull GenericEvent event) {
-        if (event instanceof ShardMonitorEvent) {
-            //we can't use Event#getJDA because ShardMonitorEvent has no JDA instance
-            var jda = MantaroBot.getInstance().getShard(shardId).getJDA();
-
-            //Shard looks to be dead?
-            if (((MantaroEventManager) jda.getEventManager()).getLastJDAEventTimeDiff() > 50000)
-                return;
-
-            ((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.MANTARO_LISTENER);
-            return;
-        }
-
         if (event instanceof GuildMessageReceivedEvent) {
             receivedMessages.inc();
             GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;

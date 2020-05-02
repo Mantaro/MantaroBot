@@ -47,7 +47,6 @@ import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.core.shard.jda.BucketedController;
-import net.kodehawa.mantarobot.core.shard.watcher.ShardWatcher;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.options.annotations.Option;
@@ -348,9 +347,8 @@ public class MantaroCore {
         System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
         LogUtils.shard(String.format("Loaded all %d (of a total of %d) shards in %d seconds.", shardManager.getShardsRunning(),
                 shardManager.getShardsTotal(), elapsed / 1000));
-        log.info("Loaded all shards successfully... Starting ShardWatcher! Status: {}", MantaroCore.getLoadState());
+        log.info("Loaded all shards successfully! Status: {}", MantaroCore.getLoadState());
 
-        new Thread(new ShardWatcher(), "ShardWatcherThread").start();
         bot.getCore().getShardEventBus().post(new PostLoadEvent());
 
         startUpdaters();

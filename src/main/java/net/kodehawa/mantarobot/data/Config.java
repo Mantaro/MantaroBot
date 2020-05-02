@@ -41,7 +41,6 @@ public class Config {
     public List<String> owners = new ArrayList<>();
     public String[] prefix = {"~>", "->"};
     public String sentryDSN;
-    public int shardWatcherWait = 600000; //run once every 600 seconds (10 minutes)
     public String shardWebhookUrl;
     public String token;
     public int totalShards = 0;
@@ -200,14 +199,6 @@ public class Config {
 
     public void setSentryDSN(String sentryDSN) {
         this.sentryDSN = sentryDSN;
-    }
-
-    public int getShardWatcherWait() {
-        return this.shardWatcherWait;
-    }
-
-    public void setShardWatcherWait(int shardWatcherWait) {
-        this.shardWatcherWait = shardWatcherWait;
     }
 
     public String getShardWebhookUrl() {

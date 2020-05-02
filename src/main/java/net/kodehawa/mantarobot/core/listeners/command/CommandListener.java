@@ -26,13 +26,10 @@ import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.hooks.EventListener;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
-import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
-import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.I18n;
@@ -65,7 +62,6 @@ public class CommandListener implements EventListener {
     private final ICommandProcessor commandProcessor;
     private final ExecutorService threadPool;
     private final Cache<Long, Optional<CachedMessage>> messageCache;
-    private long lastMessageReceivedAt;
 
     public CommandListener(int shardId, ICommandProcessor processor, ExecutorService threadPool, Cache<Long, Optional<CachedMessage>> messageCache) {
         this.shardId = shardId;
@@ -82,28 +78,9 @@ public class CommandListener implements EventListener {
         return commandTotal;
     }
 
-    private long getLastMessageDiff() {
-        return System.currentTimeMillis() - lastMessageReceivedAt;
-    }
-
     @Override
     public void onEvent(@NotNull GenericEvent event) {
-        if (event instanceof ShardMonitorEvent) {
-            var jda = MantaroBot.getInstance().getShard(shardId).getJDA();
-            if (((MantaroEventManager) jda.getEventManager()).getLastJDAEventTimeDiff() > 50000)
-                return;
-
-            //Stopped receiving message events?
-            if (getLastMessageDiff() > 55000)
-                return;
-
-            //Hey, this listener is alive! (This won't pass if somehow this is blocked)
-            ((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.COMMAND_LISTENER);
-            return;
-        }
-
         if (event instanceof GuildMessageReceivedEvent) {
-            lastMessageReceivedAt = System.currentTimeMillis();
             GuildMessageReceivedEvent msg = (GuildMessageReceivedEvent) event;
             //Inserts a cached message into the cache. This only holds the id and the content, and is way lighter than saving the entire jda object.
             messageCache.put(msg.getMessage().getIdLong(), Optional.of(new CachedMessage(msg.getAuthor().getIdLong(), msg.getMessage().getContentDisplay())));
