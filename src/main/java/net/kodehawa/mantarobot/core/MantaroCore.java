@@ -193,7 +193,7 @@ public class MantaroCore {
                     .setChunkingFilter(ChunkingFilter.NONE).setSessionController(controller)
                     .addEventListeners(
                             VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
-                            ReactionOperations.listener(), MantaroBot.getInstance().getLavalink(),
+                            ReactionOperations.listener(), MantaroBot.getInstance().getLavaLink(),
                             listener
                     )
                     .addEventListenerProviders(List.of(
@@ -203,7 +203,7 @@ public class MantaroCore {
                     ))
                     .setEventManagerProvider(id -> getShard(id).getManager())
                     .setBulkDeleteSplittingEnabled(false)
-                    .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavalink().getVoiceInterceptor())
+                    .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavaLink().getVoiceInterceptor())
                     .disableCache(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS))
                     .setActivity(Activity.playing("Hold on to your seatbelts!"));
 

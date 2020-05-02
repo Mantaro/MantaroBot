@@ -50,6 +50,7 @@ import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -74,7 +75,7 @@ public class OwnerCmd {
             "import net.kodehawa.mantarobot.commands.currency.*;\n" +
             "import net.kodehawa.mantarobot.utils.*;\n" +
             "import net.dv8tion.jda.api.entities.*;\n";
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(OwnerCmd.class);
+    private static final Logger log = LoggerFactory.getLogger(OwnerCmd.class);
 
     @Subscribe
     public void blacklist(CommandRegistry cr) {

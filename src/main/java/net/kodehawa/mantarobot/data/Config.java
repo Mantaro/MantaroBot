@@ -58,8 +58,6 @@ public class Config {
     public int jedisPoolPort = 6379;
     public List<String> lavalinkNodes = new ArrayList<>();
     public String lavalinkPass;
-    public String cacheClientEndpoint;
-    public String cacheClientToken;
     public String ipv6Block = "";
     public String excludeAddress = "";
     public int bucketFactor = 4;
@@ -335,22 +333,6 @@ public class Config {
 
     public void setLavalinkPass(String lavalinkPass) {
         this.lavalinkPass = lavalinkPass;
-    }
-
-    public String getCacheClientEndpoint() {
-        return this.cacheClientEndpoint;
-    }
-
-    public void setCacheClientEndpoint(String cacheClientEndpoint) {
-        this.cacheClientEndpoint = cacheClientEndpoint;
-    }
-
-    public String getCacheClientToken() {
-        return this.cacheClientToken;
-    }
-
-    public void setCacheClientToken(String cacheClientToken) {
-        this.cacheClientToken = cacheClientToken;
     }
 
     public String getIpv6Block() {

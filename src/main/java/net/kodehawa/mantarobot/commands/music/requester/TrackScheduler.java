@@ -287,7 +287,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
 
     public Link getAudioPlayer() {
         if (audioPlayer == null) {
-            audioPlayer = MantaroBot.getInstance().getLavalink().getLink(guildId);
+            audioPlayer = MantaroBot.getInstance().getLavaLink().getLink(guildId);
         }
 
         return audioPlayer;

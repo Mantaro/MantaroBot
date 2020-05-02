@@ -68,7 +68,6 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 
 public class MantaroBot {
     private static final Logger log = LoggerFactory.getLogger(MantaroBot.class);
-
     private static MantaroBot instance;
 
     //just in case
@@ -94,22 +93,15 @@ public class MantaroBot {
     private final MantaroAudioManager audioManager;
     private final MantaroCore core;
     private final DiscordBotsAPI discordBotsAPI;
-    private final JdaLavalink lavalink;
-    private final CacheClient cacheClient;
+    private final JdaLavalink lavaLink;
     private final StatsPoster statsPoster;
 
-    private BirthdayCacher birthdayCacher;
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3, new ThreadFactoryBuilder().setNameFormat("Mantaro-ScheduledExecutor Thread-%d").build());
+    private final BirthdayCacher birthdayCacher;
+    private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3, new ThreadFactoryBuilder().setNameFormat("Mantaro-ScheduledExecutor Thread-%d").build());
 
     private MantaroBot() throws Exception {
         instance = this;
         Config config = MantaroData.config().get();
-
-        if (config.cacheClientEndpoint != null && !config.cacheClientEndpoint.trim().isEmpty()) {
-            cacheClient = new CacheClient(config.cacheClientEndpoint, config.cacheClientToken);
-        } else {
-            cacheClient = null;
-        }
 
         if (config.needApi) {
             try {
@@ -131,18 +123,17 @@ public class MantaroBot {
         }
 
         //Lavalink stuff.
-        lavalink = new JdaLavalink(
+        lavaLink = new JdaLavalink(
                 config.clientId,
                 config.totalShards,
                 shardId -> getShard(shardId).getJDA()
         );
 
-        for (String node : config.getLavalinkNodes()) {
-            lavalink.addNode(new URI(node), config.lavalinkPass);
-        }
+        for (String node : config.getLavalinkNodes())
+            lavaLink.addNode(new URI(node), config.lavalinkPass);
 
         //Choose the server with the lowest player amount
-        lavalink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getPlayerPenalty);
+        lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getPlayerPenalty);
 
         core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
         discordBotsAPI = new DiscordBotsAPI.Builder().setToken(config.dbotsorgToken).build();
@@ -170,10 +161,16 @@ public class MantaroBot {
                 String.format("Partially loaded %d commands in %d seconds.\n" +
                         "Shards are still waking up!", DefaultCommandProcessor.REGISTRY.commands().size(), (end - start) / 1000));
 
-        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mute Handler")).scheduleAtFixedRate(MuteTask::handle, 0, 1, TimeUnit.MINUTES);
-        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Reminder Handler")).scheduleAtFixedRate(ReminderTask::handle, 0, 30, TimeUnit.SECONDS);
+        //Handle the removal of mutes.
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mute Handler"))
+                .scheduleAtFixedRate(MuteTask::handle, 0, 1, TimeUnit.MINUTES);
+        //Handle the delivery of reminders.
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Reminder Handler"))
+                .scheduleAtFixedRate(ReminderTask::handle, 0, 30, TimeUnit.SECONDS);
+
         //Yes, this is needed.
-        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Ratelimit Map Handler")).scheduleAtFixedRate(Utils.ratelimitedUsers::clear, 0, 24, TimeUnit.HOURS);
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Ratelimit Map Handler"))
+                .scheduleAtFixedRate(Utils.ratelimitedUsers::clear, 0, 24, TimeUnit.HOURS);
     }
 
     public static void main(String[] args) {
@@ -285,12 +282,8 @@ public class MantaroBot {
         return this.executorService;
     }
 
-    public JdaLavalink getLavalink() {
-        return this.lavalink;
-    }
-
-    public CacheClient getCacheClient() {
-        return this.cacheClient;
+    public JdaLavalink getLavaLink() {
+        return this.lavaLink;
     }
 
     public StatsPoster getStatsPoster() {

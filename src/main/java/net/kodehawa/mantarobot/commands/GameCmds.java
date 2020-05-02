@@ -97,7 +97,7 @@ public class GameCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                startGames(createLinkedList(new Character()), event, languageContext);
+                startGame(new Character(), event, languageContext);
             }
         }).addSubCommand("pokemon", new SubCommand() {
             @Override
@@ -107,7 +107,7 @@ public class GameCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                startGames(createLinkedList(new Pokemon()), event, languageContext);
+                startGame(new Pokemon(), event, languageContext);
             }
         }).addSubCommand("number", new SubCommand() {
             @Override
@@ -117,7 +117,7 @@ public class GameCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                startGames(createLinkedList(new GuessTheNumber()), event, languageContext);
+                startGame(new GuessTheNumber(), event, languageContext);
             }
         }));
 
@@ -328,9 +328,8 @@ public class GameCmds {
                 List<User> mentions = event.getMessage().getMentionedUsers();
                 List<Role> roleMentions = event.getMessage().getMentionedRoles();
 
-                if (args.length > 0) {
+                if (args.length > 0)
                     diff = args[0].toLowerCase();
-                }
 
                 TriviaDifficulty difficulty = TriviaDifficulty.lookupFromString(diff);
 
@@ -352,6 +351,10 @@ public class GameCmds {
                         .build();
             }
         });
+    }
+
+    private void startGame(Game<?> game, GuildMessageReceivedEvent event, I18nContext languageContext) {
+        startGames(createLinkedList(game), event, languageContext);
     }
 
     private void startGames(LinkedList<Game<?>> games, GuildMessageReceivedEvent event, I18nContext languageContext) {
@@ -380,7 +383,8 @@ public class GameCmds {
         final List<User> mentionedUsers = event.getMessage().getMentionedUsers();
         if (!mentionedUsers.isEmpty()) {
             String users = mentionedUsers.stream()
-                    .filter(u -> !u.isBot()).map(User::getName)
+                    .filter(u -> !u.isBot())
+                    .map(User::getName)
                     .collect(Collectors.joining("\n"));
 
             for (User user : mentionedUsers) {
@@ -388,9 +392,8 @@ public class GameCmds {
                     players.add(user.getId());
             }
 
-            if (players.size() > 1) {
+            if (players.size() > 1)
                 channel.sendMessageFormat(languageContext.get("commands.game.started_mp_user"), EmoteReference.MEGA, users).queue();
-            }
         }
 
         if (games.size() > 1) {

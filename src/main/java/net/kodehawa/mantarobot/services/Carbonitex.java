@@ -28,7 +28,7 @@ import static net.kodehawa.mantarobot.data.MantaroData.config;
 
 public class Carbonitex {
     public static void handle() {
-        var carbonToken = config().get().carbonToken;
+        var carbonToken = config().get().getCarbonToken();
         if (carbonToken != null) {
             var newC = MantaroBot.getInstance().getShardManager().getGuildCache().size();
             try {

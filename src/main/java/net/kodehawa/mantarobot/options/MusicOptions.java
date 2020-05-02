@@ -34,9 +34,6 @@ import java.util.function.Consumer;
 
 @Option
 public class MusicOptions extends OptionHandler {
-
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(MusicOptions.class);
-
     public MusicOptions() {
         setType(OptionType.MUSIC);
     }

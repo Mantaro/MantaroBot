@@ -225,7 +225,7 @@ public class MantaroListener implements EventListener {
             onLeave((GuildLeaveEvent) event);
 
             //Destroy this link.
-            MantaroBot.getInstance().getLavalink().getLink(((GuildLeaveEvent) event).getGuild()).destroy();
+            MantaroBot.getInstance().getLavaLink().getLink(((GuildLeaveEvent) event).getGuild()).destroy();
 
             if (MantaroCore.hasLoadedCompletely()) {
                 guildCount.set(MantaroBot.getInstance().getShardManager().getGuildCache().size());

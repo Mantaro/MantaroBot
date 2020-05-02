@@ -37,7 +37,7 @@ public class GuildMusicManager {
     public GuildMusicManager(String guildId) {
         this.guildId = guildId;
 
-        JdaLink lavaLink = MantaroBot.getInstance().getLavalink().getLink(guildId);
+        JdaLink lavaLink = MantaroBot.getInstance().getLavaLink().getLink(guildId);
         trackScheduler = new TrackScheduler(lavaLink, guildId);
 
         lavaLink.getPlayer().addListener(trackScheduler);
@@ -75,7 +75,7 @@ public class GuildMusicManager {
     }
 
     public JdaLink getLavaLink() {
-        return MantaroBot.getInstance().getLavalink().getLink(guildId);
+        return MantaroBot.getInstance().getLavaLink().getLink(guildId);
     }
 
     public TrackScheduler getTrackScheduler() {

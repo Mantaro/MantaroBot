@@ -73,7 +73,8 @@ public class CommandRegistry {
     private final Map<String, Command> commands;
     private final Config conf = MantaroData.config().get();
     private boolean logCommands = false;
-    private RateLimiter rl = new RateLimiter(TimeUnit.MINUTES, 1);
+
+    private final RateLimiter rl = new RateLimiter(TimeUnit.MINUTES, 1);
 
     public CommandRegistry(Map<String, Command> commands) {
         this.commands = Preconditions.checkNotNull(commands);
@@ -255,11 +256,13 @@ public class CommandRegistry {
         cmd.run(event, new I18nContext(guildData, userData), cmdName, content);
 
         //Logging
-        if (cmd.category() != null && cmd.category().name() != null && !cmd.category().name().isEmpty()) {
-            categoryCounter.labels(cmd.category().name().toLowerCase()).inc();
+        if (cmd.category() != null) {
+            if (!cmd.category().name().isEmpty()) {
+                categoryCounter.labels(cmd.category().name().toLowerCase()).inc();
 
-            CommandStatsManager.log(cmdName);
-            CategoryStatsManager.log(cmd.category().name().toLowerCase());
+                CommandStatsManager.log(cmdName);
+                CategoryStatsManager.log(cmd.category().name().toLowerCase());
+            }
         }
 
         commandLatency.observe(end - start);

@@ -268,16 +268,16 @@ public class PremiumCmds {
 
                         Member member = null;
                         User toCheck = event.getAuthor();
-                        if(!content.isEmpty()) {
+                        if (!content.isEmpty()) {
                             member = Utils.findMember(event, languageContext, content);
                             //Search failed, return.
-                            if(member == null) {
+                            if (member == null) {
                                 return;
                             }
                         }
 
                         boolean isLookup = member != null;
-                        if(isLookup)
+                        if (isLookup)
                             toCheck = member.getUser();
 
                         DBUser dbUser = db.getUser(toCheck);
@@ -291,11 +291,11 @@ public class PremiumCmds {
                         EmbedBuilder embedBuilder = new EmbedBuilder()
                                 .setAuthor(isLookup ? String.format(languageContext.get("commands.vipstatus.user.header_other"), toCheck.getName())
                                         : languageContext.get("commands.vipstatus.user.header"), null, toCheck.getEffectiveAvatarUrl()
-                        );
+                                );
 
                         PremiumKey currentKey = db.getPremiumKey(data.getPremiumKey());
 
-                        if(currentKey == null || currentKey.validFor() < 1) {
+                        if (currentKey == null || currentKey.validFor() < 1) {
                             channel.sendMessageFormat(languageContext.get("commands.vipstatus.user.not_premium"), EmoteReference.ERROR).queue();
                             return;
                         }
@@ -330,10 +330,10 @@ public class PremiumCmds {
 
                         try {
                             //User has more keys than what the system would allow. Warn.
-                            if(patreonInformation != null && patreonInformation.getLeft()) {
+                            if (patreonInformation != null && patreonInformation.getLeft()) {
                                 double patreonAmount = Double.parseDouble(patreonInformation.getRight());
 
-                                if((patreonAmount / 2) - amountClaimed < 0) {
+                                if ((patreonAmount / 2) - amountClaimed < 0) {
                                     LogUtils.log(
                                             String.format(
                                                     "%s has more keys claimed than given keys, dumping keys:\n%s\nCurrently pledging: %s, Claimed keys: %s, Should have %s total keys.", owner.getId(),
@@ -346,7 +346,8 @@ public class PremiumCmds {
                                     );
                                 }
                             }
-                        } catch (Exception ignored) { }
+                        } catch (Exception ignored) {
+                        }
 
                         if (linkedTo != null) {
                             User linkedUser = MantaroBot.getInstance().getShardManager().getUserById(currentKey.getOwner());

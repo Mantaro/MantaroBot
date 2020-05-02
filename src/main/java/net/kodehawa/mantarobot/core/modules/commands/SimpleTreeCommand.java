@@ -21,6 +21,7 @@ import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.utils.TriConsumer;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;
@@ -31,7 +32,7 @@ import java.util.function.Predicate;
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public abstract class SimpleTreeCommand extends AbstractCommand implements ITreeCommand {
-    private Map<String, SubCommand> subCommands = new HashMap<>();
+    private final Map<String, SubCommand> subCommands = new HashMap<>();
     private Predicate<GuildMessageReceivedEvent> predicate = event -> true;
 
     public SimpleTreeCommand(Category category) {
@@ -73,13 +74,50 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
         return this;
     }
 
-    public SimpleTreeCommand addSubCommand(String name, BiConsumer<GuildMessageReceivedEvent, String> command) {
+    public SimpleTreeCommand addSubCommand(String name, String description, BiConsumer<GuildMessageReceivedEvent, String> command) {
         subCommands.put(name, new SubCommand() {
+            @Override
+            public String description() {
+                return description;
+            }
+
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext context, String content) {
                 command.accept(event, content);
             }
         });
+
+        return this;
+    }
+
+    public SimpleTreeCommand addSubCommand(String name, BiConsumer<GuildMessageReceivedEvent, String> command) {
+        return addSubCommand(name, null, command);
+    }
+
+
+    public SimpleTreeCommand addSubCommand(String name, String description, TriConsumer<GuildMessageReceivedEvent, I18nContext, String> commandConsumer) {
+        subCommands.put(name, new SubCommand() {
+            @Override
+            public String description() {
+                return description;
+            }
+
+            @Override
+            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                commandConsumer.accept(event, languageContext, content);
+            }
+        });
+
+        return this;
+    }
+
+    public SimpleTreeCommand addSubCommand(String name, TriConsumer<GuildMessageReceivedEvent, I18nContext, String> commandConsumer) {
+        return addSubCommand(name, null, commandConsumer);
+    }
+
+
+    public SimpleTreeCommand addSubCommand(String name, SubCommand command) {
+        subCommands.put(name, command);
         return this;
     }
 
@@ -95,11 +133,6 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
         clone.setChild(true);
         subCommands.put(alias, clone);
 
-        return this;
-    }
-
-    public SimpleTreeCommand addSubCommand(String name, SubCommand command) {
-        subCommands.put(name, command);
         return this;
     }
 

@@ -44,29 +44,23 @@ import java.util.stream.Collectors;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
 
 public class ImageActionCmd extends NoArgsCommand {
-    public static final URLCache CACHE = new URLCache(10);
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(ImageActionCmd.class);
-    private final Color color;
     private final String desc;
     private final String format;
-    private final String imageName;
     private final String lonelyLine;
     private final String name;
     private final WeebAPIRequester weebapi = new WeebAPIRequester();
     private final Random rand = new Random();
-    private IncreasingRateLimiter rateLimiter;
+    private final IncreasingRateLimiter rateLimiter;
     private List<String> images;
     private boolean swapNames = false;
     private String type;
-    private EmoteReference emoji;
-    private String botLine;
+    private final EmoteReference emoji;
+    private final String botLine;
 
-    public ImageActionCmd(String name, String desc, Color color, String imageName, EmoteReference emoji, String format, List<String> images, String lonelyLine, String botLine, boolean swap) {
+    public ImageActionCmd(String name, String desc, EmoteReference emoji, String format, List<String> images, String lonelyLine, String botLine, boolean swap) {
         super(Category.ACTION);
         this.name = name;
         this.desc = desc;
-        this.color = color;
-        this.imageName = imageName;
         this.format = format;
         this.emoji = emoji;
         this.images = images;
@@ -76,12 +70,10 @@ public class ImageActionCmd extends NoArgsCommand {
         this.rateLimiter = buildRatelimiter(name);
     }
 
-    public ImageActionCmd(String name, String desc, Color color, String imageName, EmoteReference emoji, String format, String type, String lonelyLine, String botLine) {
+    public ImageActionCmd(String name, String desc, EmoteReference emoji, String format, String type, String lonelyLine, String botLine) {
         super(Category.ACTION);
         this.name = name;
         this.desc = desc;
-        this.color = color;
-        this.imageName = imageName;
         this.format = format;
         this.emoji = emoji;
         this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, "gif").getKey());
@@ -91,12 +83,10 @@ public class ImageActionCmd extends NoArgsCommand {
         this.rateLimiter = buildRatelimiter(name);
     }
 
-    public ImageActionCmd(String name, String desc, Color color, String imageName, EmoteReference emoji, String format, String type, String lonelyLine, String botLine, boolean swap) {
+    public ImageActionCmd(String name, String desc, EmoteReference emoji, String format, String type, String lonelyLine, String botLine, boolean swap) {
         super(Category.ACTION);
         this.name = name;
         this.desc = desc;
-        this.color = color;
-        this.imageName = imageName;
         this.format = format;
         this.emoji = emoji;
         this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, "gif").getKey());
@@ -128,12 +118,10 @@ public class ImageActionCmd extends NoArgsCommand {
 
         I18nContext languageContext = new I18nContext(MantaroData.db().getGuild(event.getGuild()).getData(), null);
         String random = "";
-        String id = "";
         if (images.size() == 1) {
             if (type != null) {
                 Pair<String, String> result = weebapi.getRandomImageByType(type, false, "gif");
                 String image = result.getKey();
-                id = result.getValue();
 
                 if (image == null) {
                     channel.sendMessageFormat(languageContext.get("commands.action.error_retrieving"), EmoteReference.SAD).queue();

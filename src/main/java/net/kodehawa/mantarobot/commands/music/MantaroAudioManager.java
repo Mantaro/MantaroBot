@@ -36,7 +36,6 @@ import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.Ipv6Block;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.requester.AudioLoader;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
@@ -64,19 +63,13 @@ import static com.sedmelluq.discord.lavaplayer.tools.FriendlyException.Severity.
 
 public class MantaroAudioManager {
     private static final ThreadLocal<Boolean> IS_RESULT_FROM_CACHE = ThreadLocal.withInitial(() -> false);
-    //CacheClient is blocking
-    private static final Lazy<Executor> LOAD_EXECUTOR = new Lazy<>(() -> {
-        if (MantaroBot.getInstance().getCacheClient() == null) {
-            return Runnable::run;
-        } else {
-            return Executors.newCachedThreadPool(
-                    new ThreadFactoryBuilder()
-                            .setNameFormat("AudioLoadThread-%d")
-                            .setDaemon(true)
-                            .build()
-            );
-        }
-    });
+    private static final Lazy<Executor> LOAD_EXECUTOR = new Lazy<>(() -> Executors.newCachedThreadPool(
+            new ThreadFactoryBuilder()
+                    .setNameFormat("AudioLoadThread-%d")
+                    .setDaemon(true)
+                    .build()
+    ));
+
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(MantaroAudioManager.class);
 
     private final Map<String, GuildMusicManager> musicManagers;
