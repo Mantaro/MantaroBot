@@ -21,6 +21,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.options.core.Option;
@@ -59,8 +60,8 @@ public class AliasCommand implements Command {
     }
 
     @Override
-    public void run(GuildMessageReceivedEvent event, I18nContext languageContext, String ignored, String content) {
-        command.run(event, languageContext, commandName, content);
+    public void run(Context context, String ignored, String content) {
+        command.run(context, commandName, content);
     }
 
     @Override

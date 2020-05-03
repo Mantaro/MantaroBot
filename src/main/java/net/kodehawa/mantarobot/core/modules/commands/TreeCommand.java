@@ -33,8 +33,7 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
 
     private Map<String, SubCommand> subCommands = new HashMap<>();
     //By default let all commands pass.
-    private Predicate<GuildMessageReceivedEvent> predicate = event -> true;
-    private TriPredicate<GuildMessageReceivedEvent, I18nContext, String> triPredicate = (event, context, str) -> true;
+    private Predicate<Context> predicate = event -> true;
 
     public TreeCommand(Category category) {
         super(category);
@@ -45,7 +44,7 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
     }
 
     @Override
-    public void run(GuildMessageReceivedEvent event, I18nContext languageContext, String commandName, String content) {
+    public void run(Context context, String commandName, String content) {
         String[] args = splitArgs(content, 2);
 
         if (subCommands.isEmpty()) {
@@ -55,7 +54,7 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
         Command command = subCommands.get(args[0]);
         boolean isDefault = false;
         if (command == null) {
-            command = defaultTrigger(event, commandName, content);
+            command = defaultTrigger(context, commandName, content);
             isDefault = true;
         }
         if (command == null)
@@ -63,29 +62,23 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
 
         var ct = isDefault ? content : args[1];
 
-        if (!predicate.test(event)) return;
-        if (!triPredicate.test(event, languageContext, ct)) return;
+        if (!predicate.test(context)) return;
 
-        command.run(event, languageContext, commandName + (isDefault ? "" : " " + args[0]), ct);
+        command.run(context, commandName + (isDefault ? "" : " " + args[0]), ct);
     }
 
-    public TreeCommand addSubCommand(String name, BiConsumer<GuildMessageReceivedEvent, String> command) {
+    public TreeCommand addSubCommand(String name, BiConsumer<Context, String> command) {
         subCommands.put(name, new SubCommand() {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                command.accept(event, content);
+            protected void call(Context context, String content) {
+                command.accept(context, content);
             }
         });
         return this;
     }
 
-    public ITreeCommand setPredicate(Predicate<GuildMessageReceivedEvent> predicate) {
+    public ITreeCommand setPredicate(Predicate<Context> predicate) {
         this.predicate = predicate;
-        return this;
-    }
-
-    public ITreeCommand setPredicate(TriPredicate<GuildMessageReceivedEvent, I18nContext, String> predicate) {
-        this.triPredicate = predicate;
         return this;
     }
 

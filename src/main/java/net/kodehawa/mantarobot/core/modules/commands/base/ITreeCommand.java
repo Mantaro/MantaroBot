@@ -17,7 +17,6 @@
 
 package net.kodehawa.mantarobot.core.modules.commands.base;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 
 import java.util.Map;
@@ -29,5 +28,5 @@ public interface ITreeCommand extends Command {
 
     Map<String, SubCommand> getSubCommands();
 
-    Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName);
+    Command defaultTrigger(Context context, String mainCommand, String commandName);
 }

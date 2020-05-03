@@ -20,8 +20,6 @@ package net.kodehawa.mantarobot.core.modules.commands;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.*;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.utils.TriConsumer;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;
@@ -33,7 +31,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public abstract class SimpleTreeCommand extends AbstractCommand implements ITreeCommand {
     private final Map<String, SubCommand> subCommands = new HashMap<>();
-    private Predicate<GuildMessageReceivedEvent> predicate = event -> true;
+    private Predicate<Context> predicate = event -> true;
 
     public SimpleTreeCommand(Category category) {
         super(category);
@@ -51,7 +49,7 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
      * @param content     the arguments of the command
      */
     @Override
-    public void run(GuildMessageReceivedEvent event, I18nContext languageContext, String commandName, String content) {
+    public void run(Context context, String commandName, String content) {
         String[] args = splitArgs(content, 2);
 
         if (subCommands.isEmpty()) {
@@ -61,20 +59,20 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
         Command command = subCommands.get(args[0]);
 
         if (command == null) {
-            defaultTrigger(event, commandName, args[0]);
+            defaultTrigger(context, commandName, args[0]);
             return;
         }
 
-        if (!predicate.test(event)) return;
-        command.run(event, languageContext, commandName + " " + args[0], args[1]);
+        if (!predicate.test(context)) return;
+        command.run(context, commandName + " " + args[0], args[1]);
     }
 
-    public ITreeCommand setPredicate(Predicate<GuildMessageReceivedEvent> predicate) {
+    public ITreeCommand setPredicate(Predicate<Context> predicate) {
         this.predicate = predicate;
         return this;
     }
 
-    public SimpleTreeCommand addSubCommand(String name, String description, BiConsumer<GuildMessageReceivedEvent, String> command) {
+    public SimpleTreeCommand addSubCommand(String name, String description, BiConsumer<Context, String> command) {
         subCommands.put(name, new SubCommand() {
             @Override
             public String description() {
@@ -82,39 +80,17 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext context, String content) {
-                command.accept(event, content);
+            protected void call(Context context, String content) {
+                command.accept(context, content);
             }
         });
 
         return this;
     }
 
-    public SimpleTreeCommand addSubCommand(String name, BiConsumer<GuildMessageReceivedEvent, String> command) {
+    public SimpleTreeCommand addSubCommand(String name, BiConsumer<Context, String> command) {
         return addSubCommand(name, null, command);
     }
-
-
-    public SimpleTreeCommand addSubCommand(String name, String description, TriConsumer<GuildMessageReceivedEvent, I18nContext, String> commandConsumer) {
-        subCommands.put(name, new SubCommand() {
-            @Override
-            public String description() {
-                return description;
-            }
-
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                commandConsumer.accept(event, languageContext, content);
-            }
-        });
-
-        return this;
-    }
-
-    public SimpleTreeCommand addSubCommand(String name, TriConsumer<GuildMessageReceivedEvent, I18nContext, String> commandConsumer) {
-        return addSubCommand(name, null, commandConsumer);
-    }
-
 
     public SimpleTreeCommand addSubCommand(String name, SubCommand command) {
         subCommands.put(name, command);

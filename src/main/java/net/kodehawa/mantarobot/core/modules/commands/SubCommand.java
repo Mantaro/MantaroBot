@@ -17,11 +17,10 @@
 
 package net.kodehawa.mantarobot.core.modules.commands;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.AssistedCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.InnerCommand;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 public abstract class SubCommand implements InnerCommand, AssistedCommand {
     public boolean child;
@@ -44,8 +43,8 @@ public abstract class SubCommand implements InnerCommand, AssistedCommand {
     public static SubCommand copy(SubCommand original) {
         return new SubCommand(original.permission) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                original.call(event, languageContext, content);
+            protected void call(Context context, String content) {
+                original.call(context, content);
             }
 
             @Override
@@ -55,7 +54,7 @@ public abstract class SubCommand implements InnerCommand, AssistedCommand {
         };
     }
 
-    protected abstract void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content);
+    protected abstract void call(Context context, String content);
 
     @Override
     public CommandPermission permission() {
@@ -63,8 +62,8 @@ public abstract class SubCommand implements InnerCommand, AssistedCommand {
     }
 
     @Override
-    public void run(GuildMessageReceivedEvent event, I18nContext languageContext, String commandName, String content) {
-        call(event, languageContext, content);
+    public void run(Context context, String commandName, String content) {
+        call(context, content);
     }
 
     public boolean isChild() {
