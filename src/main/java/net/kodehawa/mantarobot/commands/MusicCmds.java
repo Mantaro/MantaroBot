@@ -188,7 +188,7 @@ public class MusicCmds {
                     try {
                         new URL(content);
                     } catch (Exception e) {
-                        if (content.startsWith("sonudcloud")) {
+                        if (content.startsWith("soundcloud")) {
                             String name = content.substring("soundcloud".length()).trim();
                             if (name.isEmpty()) {
                                 channel.sendMessageFormat(
