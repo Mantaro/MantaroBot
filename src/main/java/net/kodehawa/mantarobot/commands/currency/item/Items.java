@@ -53,11 +53,11 @@ public class Items {
             LOADED_DICE, FORGOTTEN_MUSIC, CC_PENCIL, OVERFLOWED_BAG, BROM_PICKAXE, MILK, ALCOHOL, LEWD_MAGAZINE, RING,
             LOOT_CRATE_KEY, BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES,
             DIAMOND, CHOCOLATE, COOKIES, NECKLACE, ROSE, DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR,
-            BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN, POTION_STAMINA, FISHING_ROD, FISH_1,
-            FISH_2, FISH_3, GEM_1, GEM_2, GEM_3, GEM_4, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE,
-            TELEVISION, WRENCH, MOTORCYCLE, GEM1_PICKAXE, GEM2_PICKAXE, PIZZA, GEM_5, GEM5_PICKAXE, MINE_CRATE, FISH_CRATE,
-            FISH_PREMIUM_CRATE, MINE_PREMIUM_CRATE, GEM1_ROD, GEM2_ROD, GEM5_ROD, GEM5_PICKAXE_2, GEM5_2, GEM5_ROD_2, FISH_4,
-            FISH_5, WRENCH_COMET, WRENCH_SPARKLE, FISH_6, FISH_7, FISH_8, GEM_6, GEM_7, BROKEN_SPARKLE_PICK, BROKEN_COMET_PICK,
+            BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS, POTION_HASTE, POTION_CLEAN, POTION_STAMINA, FISHING_ROD, FISH,
+            TROPICAL_FISH, BLOWFISH, COMET_GEM, STAR_GEM, COBWEB, GEM_FRAGMENT, MOP, CLAIM_KEY, COFFEE, WAIFU_PILL, FISHING_BAIT, DIAMOND_PICKAXE,
+            TELEVISION, WRENCH, MOTORCYCLE, COMET_PICKAXE, STAR_PICKAXE, PIZZA, OLD_SPARKLE_FRAGMENT, GEM5_PICKAXE, MINE_CRATE, FISH_CRATE,
+            FISH_PREMIUM_CRATE, MINE_PREMIUM_CRATE, COMET_ROD, STAR_ROD, OLD_SPARKLE_ROD, SPARKLE_PICKAXE, SPARKLE_FRAGMENT, SPARKLE_ROD, SHELL,
+            SHARK, WRENCH_COMET, WRENCH_SPARKLE, CRAB, SQUID, SHRIMP, MOON_RUNES, SNOWFLAKE, BROKEN_SPARKLE_PICK, BROKEN_COMET_PICK,
             BROKEN_STAR_PICK, BROKEN_COMET_ROD, BROKEN_STAR_ROD, BROKEN_SPARKLE_ROD, INCUBATOR_EGG, WATER_BOTTLE, MAGIC_WATCH;
 
     private static final Random r = new Random();
@@ -139,14 +139,14 @@ public class Items {
             POTION_CLEAN = new Item(ItemType.POTION, "\uD83C\uDF7C", "Milky Potion", "items.milky", "items.description.milky", 50, true),
             POTION_STAMINA = new Potion(ItemType.POTION, 3, "\uD83C\uDFFA", "Energy Beverage", "items.energy", "items.description.energy", 450, true),
             FISHING_ROD = new FishRod(ItemType.INTERACTIVE, 3, 1, 25, "\uD83C\uDFA3", "Fishing Rod", "Rod", "items.rod", "items.description.rod", 65, true, "", 40, 0),
-            FISH_1 = new Fish(ItemType.FISHING, 1, "\uD83D\uDC1F", "Fish", "items.fish", "items.description.fish", 10, false),
-            FISH_2 = new Fish(ItemType.FISHING, 2, "\uD83D\uDC20", "Tropical Fish", "items.tropical_fish", "items.description.tropical_fish", 30, false),
-            FISH_3 = new Fish(ItemType.FISHING, 3, "\uD83D\uDC21", "Blowfish", "items.blowfish", "items.description.blowfish", 15, false),
+            FISH = new Fish(ItemType.FISHING, 1, "\uD83D\uDC1F", "Fish", "items.fish", "items.description.fish", 10, false),
+            TROPICAL_FISH = new Fish(ItemType.FISHING, 2, "\uD83D\uDC20", "Tropical Fish", "items.tropical_fish", "items.description.tropical_fish", 30, false),
+            BLOWFISH = new Fish(ItemType.FISHING, 3, "\uD83D\uDC21", "Blowfish", "items.blowfish", "items.description.blowfish", 15, false),
             // ---------------------------------- 5.0 MINING ITEMS START HERE ----------------------------------
-            GEM_1 = new Item(ItemType.CAST_OBTAINABLE, "\u2604", "Comet Gem", "items.comet_gem", "items.description.comet_gem", 40, true, false, "3;1", 51, 24),
-            GEM_2 = new Item(ItemType.CAST_OBTAINABLE, "\ud83c\udf1f", "Star Gem", "items.star_gem", "items.description.star_gem", 60, true, false, "4;1", 51, 25),
-            GEM_3 = new Item(ItemType.MINE, "\uD83D\uDD78", "Cobweb", "items.cobweb", "items.description.cobweb", 10, false),
-            GEM_4 = new Item(ItemType.MINE, "\uD83D\uDCAB", "Gem Fragment", "items.fragment", "items.description.fragment", 50, false),
+            COMET_GEM = new Item(ItemType.CAST_OBTAINABLE, "\u2604", "Comet Gem", "items.comet_gem", "items.description.comet_gem", 40, true, false, "3;1", 51, 24),
+            STAR_GEM = new Item(ItemType.CAST_OBTAINABLE, "\ud83c\udf1f", "Star Gem", "items.star_gem", "items.description.star_gem", 60, true, false, "4;1", 51, 25),
+            COBWEB = new Item(ItemType.MINE, "\uD83D\uDD78", "Cobweb", "items.cobweb", "items.description.cobweb", 10, false),
+            GEM_FRAGMENT = new Item(ItemType.MINE, "\uD83D\uDCAB", "Gem Fragment", "items.fragment", "items.description.fragment", 50, false),
             // ---------------------------------- 5.0 ITEMS START HERE (again lol) ----------------------------------
             MOP = new Item(ItemType.INTERACTIVE, "\u3030", "Mop", "items.mop", "items.description.mop", 10, true),
             CLAIM_KEY = new Item(ItemType.WAIFU, "\uD83D\uDDDD", "Claim Key", "items.claim_key", "items.description.claim_key", 1, false, true),
@@ -158,31 +158,31 @@ public class Items {
             WRENCH = new Wrench(ItemType.WRENCH, 65, 1, 1.0d, "\ud83d\udd27", "Wrench", "items.wrench", "items.description.wrench", 50, true),
             //car is 1000 credits, so this is 350
             MOTORCYCLE = new Item(ItemType.COMMON, "\uD83C\uDFCD", "Motorcycle", "items.motorcycle", "items.description.motorcycle", 350, true),
-            GEM1_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.13f, 1, 10, EmoteReference.COMET_PICK.getDiscordNotation(), "Comet Pickaxe", "items.comet_pick", "items.description.comet_pick", 290, true, false, "1;2", 160, 10, 48),
-            GEM2_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.09f, 1, 10, EmoteReference.STAR_PICK.getDiscordNotation(), "Star Pickaxe", "items.star_pick", "items.description.star_pick", 350, true, false, "1;2", 210, 10, 49),
+            COMET_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.13f, 1, 10, EmoteReference.COMET_PICK.getDiscordNotation(), "Comet Pickaxe", "items.comet_pick", "items.description.comet_pick", 290, true, false, "1;2", 160, 10, 48),
+            STAR_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.09f, 1, 10, EmoteReference.STAR_PICK.getDiscordNotation(), "Star Pickaxe", "items.star_pick", "items.description.star_pick", 350, true, false, "1;2", 210, 10, 49),
             PIZZA = new Item(ItemType.COMMON, "\uD83C\uDF55", "Pizza", "items.pizza", "items.description.pizza", 15, true, false),
-            GEM_5 = new Item(ItemType.COMMON, "\u200B", "Old Sparkle Fragment", "general.deprecated", "general.deprecated", 0, false, false),
+            OLD_SPARKLE_FRAGMENT = new Item(ItemType.COMMON, "\u200B", "Old Sparkle Fragment", "general.deprecated", "general.deprecated", 0, false, false),
             GEM5_PICKAXE = new Item(ItemType.COMMON, "\u26cf", "Old Sparkly Pickaxe", "general.deprecated", "general.deprecated", 550, true, false),
             MINE_CRATE = new Item(ItemType.CRATE, EmoteReference.MINE_CRATE.getDiscordNotation(), "Gem Crate", "items.mine_crate", "items.description.mine_crate", 0, false, false, true, (event, context, season) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.MINE, 66, EmoteReference.MINE_CRATE, 3, season)),
             // ---------------------------------- 5.0 FISH ITEMS START HERE ----------------------------------
             FISH_CRATE = new Item(ItemType.CRATE, EmoteReference.FISH_CRATE.getDiscordNotation(), "Fish Treasure", "items.fish_crate", "items.description.fish_crate", 0, false, false, true, (event, context, season) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.FISH, 67, EmoteReference.FISH_CRATE, 3, season)),
             FISH_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_FISH_CRATE.getDiscordNotation(), "Fish Premium Treasure", "items.fish_premium_crate", "items.description.fish_premium_crate", 0, false, false, true, (event, context, season) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.FISH_PREMIUM, 68, EmoteReference.PREMIUM_FISH_CRATE, 5, season)),
             MINE_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_MINE_CRATE.getDiscordNotation(), "Gem Premium Crate", "items.mine_premium_crate", "items.description.mine_premium_crate", 0, false, false, true, (event, context, season) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.PREMIUM_MINE_CRATE, 5, season)),
-            GEM1_ROD = new FishRod(ItemType.CAST_FISH, 6, 1, 15, EmoteReference.COMET_ROD.getDiscordNotation(), "Comet Gem Rod", "Comet Rod", "items.comet_rod", "items.description.comet_rod", 150, "1;3", 90, 44, 48),
-            GEM2_ROD = new FishRod(ItemType.CAST_FISH, 9, 2, 10, EmoteReference.STAR_ROD.getDiscordNotation(), "Star Gem Rod", "Star Rod", "items.star_rod", "items.description.star_rod", 250, "1;3", 130, 44, 49),
-            GEM5_ROD = new FishRod(ItemType.COMMON, 3, -1, -1, "\uD83C\uDFA3", "Old Sparkly Rod", "general.deprecated", "general.deprecated", 65, "", 2),
-            GEM5_PICKAXE_2 = new Pickaxe(ItemType.MINE_RARE_PICK, 0.04f, 3, 5, EmoteReference.SPARKLE_PICK.getDiscordNotation(), "Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 1200, true, false, "1;3;1", 450, 10, 74, 18),
-            GEM5_2 = new Item(ItemType.MINE_RARE, "\u2728", "Sparkle Fragment", "items.sparkle", "items.description.sparkle", 605, false),
-            GEM5_ROD_2 = new FishRod(ItemType.CAST_FISH, 14, 3, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(), "Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 800, "1;3;1", 250, 44, 74, 18),
-            FISH_4 = new Fish(ItemType.FISHING_RARE, 5, "\uD83D\uDC1A", "Shell", "items.shell", "items.description.shell", 1150, false),
-            FISH_5 = new Fish(ItemType.FISHING_RARE, 10, "\uD83E\uDD88", "Shark", "items.shark", "items.description.shark", 600, false),
+            COMET_ROD = new FishRod(ItemType.CAST_FISH, 6, 1, 15, EmoteReference.COMET_ROD.getDiscordNotation(), "Comet Gem Rod", "Comet Rod", "items.comet_rod", "items.description.comet_rod", 150, "1;3", 90, 44, 48),
+            STAR_ROD = new FishRod(ItemType.CAST_FISH, 9, 2, 10, EmoteReference.STAR_ROD.getDiscordNotation(), "Star Gem Rod", "Star Rod", "items.star_rod", "items.description.star_rod", 250, "1;3", 130, 44, 49),
+            OLD_SPARKLE_ROD = new FishRod(ItemType.COMMON, 3, -1, -1, "\uD83C\uDFA3", "Old Sparkly Rod", "general.deprecated", "general.deprecated", 65, "", 2),
+            SPARKLE_PICKAXE = new Pickaxe(ItemType.MINE_RARE_PICK, 0.04f, 3, 5, EmoteReference.SPARKLE_PICK.getDiscordNotation(), "Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 1200, true, false, "1;3;1", 450, 10, 74, 18),
+            SPARKLE_FRAGMENT = new Item(ItemType.MINE_RARE, "\u2728", "Sparkle Fragment", "items.sparkle", "items.description.sparkle", 605, false),
+            SPARKLE_ROD = new FishRod(ItemType.CAST_FISH, 14, 3, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(), "Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 800, "1;3;1", 250, 44, 74, 18),
+            SHELL = new Fish(ItemType.FISHING_RARE, 5, "\uD83D\uDC1A", "Shell", "items.shell", "items.description.shell", 1150, false),
+            SHARK = new Fish(ItemType.FISHING_RARE, 10, "\uD83E\uDD88", "Shark", "items.shark", "items.description.shark", 600, false),
             WRENCH_COMET = new Wrench(ItemType.WRENCH, 90, 3, 0.90d, EmoteReference.COMET_WRENCH.getDiscordNotation(), "Comet Wrench", "items.star_wrench", "items.description.star_wrench", 200, true, false, "1;2;2", 59, 48, 83),
             WRENCH_SPARKLE = new Wrench(ItemType.WRENCH, 96, 4, 0.65d, EmoteReference.SPARKLE_WRENCH.getDiscordNotation(), "Sparkle Wrench", "items.sparkle_wrench", "items.description.sparkle_wrench", 500, true, false, "1;2;1;2;1", 59, 74, 18, 83, 84),
-            FISH_6 = new Fish(ItemType.FISHING, 2, "\uD83E\uDD80", "Crab", "items.crab", "items.description.crab", 30, false),
-            FISH_7 = new Fish(ItemType.FISHING, 3, "\uD83E\uDD91", "Squid", "items.squid", "items.description.squid", 35, false),
-            FISH_8 = new Fish(ItemType.FISHING, 3, "\uD83E\uDD90", "Shrimp", "items.shrimp", "items.description.shrimp", 35, false),
-            GEM_6 = new Item(ItemType.MINE, "\uD83C\uDF19", "Moon Runes", "items.moon", "items.description.moon", 100, false),
-            GEM_7 = new Item(ItemType.MINE, "\u2744\uFE0F", "Snowflake", "items.flake", "items.description.flake", 25, true, false, "1;1", 51, 50),
+            CRAB = new Fish(ItemType.FISHING, 2, "\uD83E\uDD80", "Crab", "items.crab", "items.description.crab", 30, false),
+            SQUID = new Fish(ItemType.FISHING, 3, "\uD83E\uDD91", "Squid", "items.squid", "items.description.squid", 35, false),
+            SHRIMP = new Fish(ItemType.FISHING, 3, "\uD83E\uDD90", "Shrimp", "items.shrimp", "items.description.shrimp", 35, false),
+            MOON_RUNES = new Item(ItemType.MINE, "\uD83C\uDF19", "Moon Runes", "items.moon", "items.description.moon", 100, false),
+            SNOWFLAKE = new Item(ItemType.MINE, "\u2744\uFE0F", "Snowflake", "items.flake", "items.description.flake", 25, true, false, "1;1", 51, 50),
             // ---------------------------------- 5.3 BROKEN ITEMS START HERE ----------------------------------
             BROKEN_SPARKLE_PICK = new Broken(73, EmoteReference.BROKEN_SPARKLE_PICK.getDiscordNotation(), "Broken Sparkle Pickaxe", "items.broken_sparkle_pick", "items.description.broken_sparkle_pick", 100, "1,74;4,84;2,50"),
             BROKEN_COMET_PICK = new Broken(61, EmoteReference.BROKEN_COMET_PICK.getDiscordNotation(), "Broken Comet Pickaxe", "items.broken_comet_pick", "items.description.broken_comet_pick", 40, "1,48;3,84;2,50"),
@@ -326,7 +326,7 @@ public class Items {
                 }
                 //END OF FISH LOOT CRATE HANDLING
 
-                if (item == GEM5_ROD_2 && r.nextInt(30) > 20) {
+                if (item == SPARKLE_ROD && r.nextInt(30) > 20) {
                     if (r.nextInt(100) > 96) {
                         fish.addAll(Stream.of(ALL)
                                 .filter(i -> i.getItemType() == ItemType.FISHING_RARE && !i.isHidden() && i.isSellable())
@@ -334,8 +334,8 @@ public class Items {
                         );
                     }
 
-                    playerInventory.process(new ItemStack(FISH_5, 1));
-                    extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.shark_success"), FISH_5.getEmoji());
+                    playerInventory.process(new ItemStack(SHARK, 1));
+                    extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.shark_success"), SHARK.getEmoji());
                 }
 
                 //START OF ITEM ADDING HANDLING
@@ -378,8 +378,8 @@ public class Items {
                 }
 
                 if (nominalLevel >= 3 && r.nextInt(110) > 90) {
-                    playerInventory.process(new ItemStack(FISH_4, 1));
-                    extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.fossil_success"), FISH_4.getEmoji());
+                    playerInventory.process(new ItemStack(SHELL, 1));
+                    extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.fossil_success"), SHELL.getEmoji());
                 }
 
                 //START OF REPLY HANDLING
@@ -394,7 +394,7 @@ public class Items {
                 }
 
 
-                if(reducedList.stream().map(ItemStack::getItem).anyMatch(it -> it.equals(Items.FISH_5)))
+                if(reducedList.stream().map(ItemStack::getItem).anyMatch(it -> it.equals(Items.SHARK)))
                     p.getData().setSharksCaught(p.getData().getSharksCaught() + 1);
 
                 //if there's money, but not fish
@@ -558,11 +558,11 @@ public class Items {
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
 
         PlayerData data = player.getData();
-        if((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM) && toAdd.contains(GEM5_PICKAXE) && toAdd.contains(GEM5_PICKAXE_2)) {
+        if((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM) && toAdd.contains(GEM5_PICKAXE) && toAdd.contains(SPARKLE_PICKAXE)) {
             data.addBadgeIfAbsent(Badge.DESTINY_REACHES);
         }
 
-        if((type == ItemType.LootboxType.FISH || type == ItemType.LootboxType.FISH_PREMIUM) && toAdd.contains(FISH_5)) {
+        if((type == ItemType.LootboxType.FISH || type == ItemType.LootboxType.FISH_PREMIUM) && toAdd.contains(SHARK)) {
             data.addBadgeIfAbsent(Badge.TOO_BIG);
         }
 

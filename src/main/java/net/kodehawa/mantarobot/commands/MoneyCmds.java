@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -50,7 +49,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
 
-import javax.print.attribute.standard.MediaName;
 import java.security.SecureRandom;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -855,9 +853,9 @@ public class MoneyCmds {
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
 
                 //Add money buff to higher pickaxes.
-                if (item == Items.GEM2_PICKAXE || item == Items.GEM1_PICKAXE)
+                if (item == Items.STAR_PICKAXE || item == Items.COMET_PICKAXE)
                     money += r.nextInt(100);
-                if (item == Items.GEM5_PICKAXE_2)
+                if (item == Items.SPARKLE_PICKAXE)
                     money += r.nextInt(300);
 
                 boolean waifuHelp = false;
@@ -880,9 +878,9 @@ public class MoneyCmds {
                         money += Items.DIAMOND.getValue() * 0.9;
                     } else {
                         int amount = 1;
-                        if (item == Items.GEM2_PICKAXE || item == Items.GEM1_PICKAXE)
+                        if (item == Items.STAR_PICKAXE || item == Items.COMET_PICKAXE)
                             amount += r.nextInt(2);
-                        if (item == Items.GEM5_PICKAXE_2)
+                        if (item == Items.SPARKLE_PICKAXE)
                             amount += r.nextInt(4);
 
                         inventory.process(new ItemStack(Items.DIAMOND, amount));
@@ -917,8 +915,8 @@ public class MoneyCmds {
                 }
 
                 //Sparkle find
-                if ((r.nextInt(400) > 395 && item == Items.GEM1_PICKAXE) || (r.nextInt(400) > 390 && (item == Items.GEM2_PICKAXE || item == Items.GEM5_PICKAXE_2))) {
-                    Item gem = Items.GEM5_2;
+                if ((r.nextInt(400) > 395 && item == Items.COMET_PICKAXE) || (r.nextInt(400) > 390 && (item == Items.STAR_PICKAXE || item == Items.SPARKLE_PICKAXE))) {
+                    Item gem = Items.SPARKLE_FRAGMENT;
                     if (inventory.getAmount(gem) + 1 >= 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.sparkle.overflow");
                         money += gem.getValue() * 0.9;
