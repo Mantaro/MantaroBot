@@ -21,9 +21,11 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.ISnowflake;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.CustomCommandHandler;
 import net.kodehawa.mantarobot.commands.custom.v3.Parser;
@@ -35,6 +37,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
@@ -183,7 +186,7 @@ public class CustomCmds {
             }
         });
 
-        customCommand.setPredicate(e -> Utils.handleDefaultIncreasingRatelimit(rateLimiter, e.getAuthor(), e, null));
+        customCommand.setPredicate(ctx -> Utils.handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null));
 
         //Just so this is in english.
         I18nContext i18nTemp = new I18nContext();
@@ -203,24 +206,25 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                String filter = event.getGuild().getId() + ":";
-                List<String> commands = db().getCustomCommands(event.getGuild())
+            protected void call(Context ctx, String content) {
+                String filter = ctx.getGuild().getId() + ":";
+                List<String> commands = ctx.getManagedDatabase().getCustomCommands(ctx.getGuild())
                         .stream()
                         .map(CustomCommand::getName)
                         .collect(Collectors.toList());
+                I18nContext languageContext = ctx.getLanguageContext();
 
                 EmbedBuilder builder = new EmbedBuilder()
-                        .setAuthor(languageContext.get("commands.custom.ls.header"), null, event.getGuild().getIconUrl())
-                        .setColor(event.getMember().getColor())
+                        .setAuthor(languageContext.get("commands.custom.ls.header"), null, ctx.getGuild().getIconUrl())
+                        .setColor(ctx.getMember().getColor())
                         .setThumbnail("https://images.emojiterra.com/twitter/v11/512px/1f6e0.png")
                         .setDescription(languageContext.get("commands.custom.ls.description") + "\n" +
                                 (commands.isEmpty() ? languageContext.get("general.dust") :
                                         checkString(commands.stream().map(cc -> "*`" + cc + "`*").collect(Collectors.joining(", "))
                                         ))
-                        ).setFooter(String.format(languageContext.get("commands.custom.ls.footer"), commands.size()), event.getAuthor().getEffectiveAvatarUrl());
+                        ).setFooter(String.format(languageContext.get("commands.custom.ls.footer"), commands.size()), ctx.getAuthor().getEffectiveAvatarUrl());
 
-                event.getChannel().sendMessage(builder.build()).queue();
+                ctx.send(builder.build());
             }
         }).createSubCommandAlias("list", "ls");
 
@@ -231,19 +235,18 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
+            protected void call(Context ctx, String content) {
                 String[] args = StringUtils.splitArgs(content, 2);
                 if (args.length < 2) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.view.not_found"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.view.not_found", EmoteReference.ERROR);
                     return;
                 }
 
                 String cmd = args[0];
-                CustomCommand command = db().getCustomCommand(event.getGuild(), cmd);
+                CustomCommand command = ctx.getManagedDatabase().getCustomCommand(ctx.getGuild(), cmd);
 
                 if (command == null) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.view.not_found"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.view.not_found", EmoteReference.ERROR);
                     return;
                 }
 
@@ -251,16 +254,16 @@ public class CustomCmds {
                 try {
                     number = Integer.parseInt(args[1]) - 1;
                 } catch (NumberFormatException e) {
-                    channel.sendMessageFormat(languageContext.get("general.invalid_number"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("general.invalid_number", EmoteReference.ERROR);
                     return;
                 }
 
                 if (command.getValues().size() < number) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.view.less_than_specified"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.view.less_than_specified", EmoteReference.ERROR);
                     return;
                 }
 
-                channel.sendMessageFormat(languageContext.get("commands.custom.view.success"), (number + 1), command.getName(), command.getValues().get(number)).queue();
+                ctx.sendLocalized("commands.custom.view.success", (number + 1), command.getName(), command.getValues().get(number));
 
             }
         }).createSubCommandAlias("view", "vw");
@@ -272,22 +275,16 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
+            protected void call(Context ctx, String content) {
                 String command = content.trim();
                 if (command.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.raw.no_command"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.raw.no_command", EmoteReference.ERROR);
                     return;
                 }
 
-                CustomCommand custom = db().getCustomCommand(event.getGuild(), command);
+                CustomCommand custom = ctx.getManagedDatabase().getCustomCommand(ctx.getGuild(), command);
                 if (custom == null) {
-                    new MessageBuilder()
-                            .setContent(String.format(languageContext.get("commands.custom.not_found"), EmoteReference.ERROR2, command))
-                            .stripMentions(event.getJDA())
-                            .sendTo(channel)
-                            .queue();
-
+                    ctx.sendStrippedLocalized("commands.custom.not_found", EmoteReference.ERROR2, command);
                     return;
                 }
 
@@ -301,19 +298,21 @@ public class CustomCmds {
                     fields.add(new MessageEmbed.Field("Response N° " + count.incrementAndGet(), val, true));
                 }
 
-                EmbedBuilder embed = baseEmbed(event, String.format(languageContext.get("commands.custom.raw.header"), command))
+                I18nContext languageContext = ctx.getLanguageContext();
+
+                EmbedBuilder embed = baseEmbed(ctx.getEvent(), String.format(languageContext.get("commands.custom.raw.header"), command))
                         .setDescription(languageContext.get("commands.custom.raw.description"))
                         .setFooter(String.format(languageContext.get("commands.custom.raw.amount"), 6, custom.getValues().size()), null);
 
                 List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
 
-                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(channel, Permission.MESSAGE_ADD_REACTION);
+                boolean hasReactionPerms = ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_ADD_REACTION);
                 if (hasReactionPerms) {
                     embed.appendDescription("\n" + String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(), ""));
-                    DiscordUtils.list(event, 100, false, embed, splitFields);
+                    DiscordUtils.list(ctx.getEvent(), 100, false, embed, splitFields);
                 } else {
                     embed.appendDescription("\n" + String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(), ""));
-                    DiscordUtils.listText(event, 100, false, embed, splitFields);
+                    DiscordUtils.listText(ctx.getEvent(), 100, false, embed, splitFields);
                 }
             }
         }).createSubCommandAlias("raw", "rw");
@@ -325,21 +324,22 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                if (!event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
+            protected void call(Context ctx, String content) {
+                if (!ctx.getMember().hasPermission(Permission.MANAGE_SERVER)) {
                     return;
                 }
 
-                TextChannel channel = event.getChannel();
-                List<CustomCommand> customCommands = db().getCustomCommands(event.getGuild());
+                List<CustomCommand> customCommands = ctx.getManagedDatabase().getCustomCommands(ctx.getGuild());
 
                 if (customCommands.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.no_cc"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.no_cc", EmoteReference.ERROR);
+                    return;
                 }
+
                 int size = customCommands.size();
                 customCommands.forEach(CustomCommand::deleteAsync);
                 customCommands.forEach(c -> CustomCmds.customCommands.remove(c.getId()));
-                channel.sendMessageFormat(languageContext.get("commands.custom.clear.success"), EmoteReference.PENCIL, size).queue();
+                ctx.sendLocalized("commands.custom.clear.success", EmoteReference.PENCIL, size);
             }
         }).createSubCommandAlias("clear", "clr");
 
@@ -350,13 +350,13 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                if (!adminPredicate.test(event)) {
+            protected void call(Context ctx, String content) {
+                if (!adminPredicate.test(ctx.getEvent())) {
                     return;
                 }
 
                 if (content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.eval.not_specified"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.eval.not_specified", EmoteReference.ERROR);
                     return;
                 }
 
@@ -366,15 +366,11 @@ public class CustomCmds {
                     ctn = Utils.DISCORD_INVITE_2.matcher(ctn).replaceAll("-invite link-");
 
                     //Sadly no way to get the prefix used, so eval will have the old bug still.
-                    new CustomCommandHandler("", event, languageContext, ctn).handle(true);
+                    new CustomCommandHandler("", ctx.getEvent(), ctx.getLanguageContext(), ctn).handle(true);
                 } catch (SyntaxException e) {
-                    new MessageBuilder().append(String.format(languageContext.get("commands.custom.eval.new_error"), EmoteReference.ERROR, e.getMessage()))
-                            .sendTo(event.getChannel())
-                            .queue();
+                    ctx.sendStrippedLocalized("commands.custom.eval.new_error", EmoteReference.ERROR, e.getMessage());
                 } catch (Exception e) {
-                    new MessageBuilder().append(String.format(languageContext.get("commands.custom.eval.error"), EmoteReference.ERROR, e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")"))
-                            .sendTo(event.getChannel())
-                            .queue();
+                    ctx.sendStrippedLocalized("commands.custom.eval.error", EmoteReference.ERROR, e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")");
                 }
             }
         }).createSubCommandAlias("eval", "evl");
@@ -386,32 +382,30 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                if (!adminPredicate.test(event)) {
+            protected void call(Context ctx, String content) {
+                if (!adminPredicate.test(ctx.getEvent())) {
                     return;
                 }
 
-                TextChannel channel = event.getChannel();
-
                 if (content.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.remove.no_command"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.remove.no_command", EmoteReference.ERROR);
                     return;
                 }
 
                 if (!NAME_PATTERN.matcher(content).matches()) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.character_not_allowed"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.character_not_allowed", EmoteReference.ERROR);
                     return;
                 }
 
                 //hint: always check for this
                 if (DefaultCommandProcessor.REGISTRY.commands().containsKey(content)) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.already_exists"), EmoteReference.ERROR, content).queue();
+                    ctx.sendLocalized("commands.custom.already_exists", EmoteReference.ERROR, content);
                     return;
                 }
 
-                CustomCommand custom = getCustomCommand(event.getGuild().getId(), content);
+                CustomCommand custom = getCustomCommand(ctx.getGuild().getId(), content);
                 if (custom == null) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.not_found"), EmoteReference.ERROR2, content).queue();
+                    ctx.sendLocalized("commands.custom.not_found", EmoteReference.ERROR2, content);
                     return;
                 }
 
@@ -425,7 +419,7 @@ public class CustomCmds {
                 if (customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + content)))
                     customCommands.remove(content);
 
-                channel.sendMessageFormat(languageContext.get("commands.custom.remove.success"), EmoteReference.PENCIL, content).queue();
+                ctx.sendLocalized("commands.custom.remove.success", EmoteReference.PENCIL, content);
             }
         }).createSubCommandAlias("remove", "rm");
 
@@ -436,26 +430,24 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                if (!adminPredicate.test(event)) {
+            protected void call(Context ctx, String content) {
+                if (!adminPredicate.test(ctx.getEvent())) {
                     return;
                 }
 
-                TextChannel channel = event.getChannel();
-
                 if (content.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.import.no_command"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.import.no_command", EmoteReference.ERROR);
                     return;
                 }
 
                 if (!NAME_WILDCARD_PATTERN.matcher(content).matches()) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.character_not_allowed"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.character_not_allowed", EmoteReference.ERROR);
                     return;
                 }
 
-                Map<String, Guild> mapped = MantaroBot.getInstance()
+                Map<String, Guild> mapped = ctx.getBot()
                         .getShardManager()
-                        .getMutualGuilds(event.getAuthor()).stream()
+                        .getMutualGuilds(ctx.getAuthor()).stream()
                         .collect(Collectors.toMap(ISnowflake::getId, g -> g));
 
                 List<Pair<Guild, CustomCommand>> filtered = db
@@ -469,32 +461,31 @@ public class CustomCmds {
                         .collect(Collectors.toList());
 
                 if (filtered.size() == 0) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.import.not_found"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.import.not_found", EmoteReference.ERROR);
                     return;
                 }
 
+                I18nContext languageContext = ctx.getLanguageContext();
+
                 DiscordUtils.selectList(
-                        event, filtered,
+                        ctx.getEvent(), filtered,
                         pair -> String.format(languageContext.get("commands.custom.import.header"), pair.getValue().getName(), pair.getRight().getValues().size(), pair.getKey()),
-                        s -> baseEmbed(event, languageContext.get("commands.custom.import.selection")).setDescription(s)
+                        s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.custom.import.selection")).setDescription(s)
                                 .setFooter(
                                         languageContext.get("commands.custom.import.note"),
                                         null
                                 ).build(),
                         pair -> {
-                            CustomCommand custom = CustomCommand.transfer(event.getGuild().getId(), pair.getValue());
+                            CustomCommand custom = CustomCommand.transfer(ctx.getGuild().getId(), pair.getValue());
                             //save at DB
                             custom.saveAsync();
 
                             //reflect at local
                             customCommands.put(custom.getId(), custom);
 
-                            channel.sendMessageFormat(languageContext.get("commands.custom.import.success"),
-                                    custom.getName(), pair.getKey().getName(), custom.getValues().size()
-                            ).queue();
-
+                            ctx.sendLocalized("commands.custom.import.success", custom.getName(), pair.getKey().getName(), custom.getValues().size());
                             //easter egg :D
-                            TextChannelGround.of(event).dropItemWithChance(8, 2);
+                            TextChannelGround.of(ctx.getEvent()).dropItemWithChance(8, 2);
                         }
                 );
             }
@@ -507,17 +498,18 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+            protected void call(Context ctx, String content) {
                 if (content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.raw.no_command"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.raw.no_command", EmoteReference.ERROR);
                     return;
                 }
 
-                CustomCommand command = db().getCustomCommand(event.getGuild(), content);
+                CustomCommand command = ctx.getManagedDatabase().getCustomCommand(ctx.getGuild(), content);
                 String owner = command.getData().getOwner();
-                User user = owner.isEmpty() ? null : MantaroBot.getInstance().getShardManager().getUserCache().getElementById(owner);
-                event.getChannel().sendMessage(new EmbedBuilder()
-                        .setAuthor("Custom Command Information for " + content, null, event.getAuthor().getEffectiveAvatarUrl())
+                User user = owner.isEmpty() ? null : ctx.getBot().getShardManager().getUserCache().getElementById(owner);
+                
+                ctx.send(new EmbedBuilder()
+                        .setAuthor("Custom Command Information for " + content, null, ctx.getAuthor().getEffectiveAvatarUrl())
                         .setDescription(
                                 EmoteReference.BLUE_SMALL_MARKER + "**Owner:** " + (user == null ? "Nobody" : user.getName() + "#" + user.getDiscriminator()) + "\n" +
                                         EmoteReference.BLUE_SMALL_MARKER + "**Owner ID:** " + (user == null ? "None" : user.getId()) + "\n" +
@@ -526,8 +518,7 @@ public class CustomCmds {
                         )
                         .setThumbnail("https://i.imgur.com/jPL5Lof.png")
                         .build()
-                ).queue();
-
+                );
             }
         });
 
@@ -538,34 +529,31 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                if (!adminPredicate.test(event)) {
+            protected void call(Context ctx, String content) {
+                if (!adminPredicate.test(ctx.getEvent())) {
                     return;
                 }
-
-                TextChannel channel = event.getChannel();
-
+                
                 if (content.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.edit.no_command"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.edit.no_command", EmoteReference.ERROR);
                     return;
                 }
 
                 Map<String, String> opts = new HashMap<>();
                 try {
                     opts = getArguments(content);
-                } catch (StringIndexOutOfBoundsException ignore) {
-                }
+                } catch (StringIndexOutOfBoundsException ignore) { }
                 String ctn = Utils.replaceArguments(opts, content, "nsfw");
 
                 String[] args = StringUtils.splitArgs(ctn, -1);
                 if (args.length < 2) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.edit.not_enough_args"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.edit.not_enough_args", EmoteReference.ERROR);
                     return;
                 }
                 var cmd = args[0];
-                CustomCommand custom = db().getCustomCommand(event.getGuild(), cmd);
+                CustomCommand custom = ctx.getManagedDatabase().getCustomCommand(ctx.getGuild(), cmd);
                 if (custom == null) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.not_found"), EmoteReference.ERROR2, args[0]).queue();
+                    ctx.sendLocalized("commands.custom.not_found", EmoteReference.ERROR2, args[0]);
                     return;
                 }
 
@@ -576,18 +564,18 @@ public class CustomCmds {
                 try {
                     where = Math.abs(Integer.parseInt(index));
                 } catch (NumberFormatException e) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.edit.invalid_number"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.edit.invalid_number", EmoteReference.ERROR);
                     return;
                 }
 
                 List<String> values = custom.getValues();
                 if (where - 1 > values.size()) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.edit.no_index"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.edit.no_index", EmoteReference.ERROR);
                     return;
                 }
 
                 if (commandContent.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.edit.empty_response"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.edit.empty_response", EmoteReference.ERROR);
                     return;
                 }
 
@@ -600,7 +588,7 @@ public class CustomCmds {
                 custom.saveAsync();
                 customCommands.put(custom.getId(), custom);
 
-                channel.sendMessage(String.format(languageContext.get("commands.custom.edit.success"), EmoteReference.CORRECT, where, custom.getName())).queue();
+                ctx.sendLocalized("commands.custom.edit.success", EmoteReference.CORRECT, where, custom.getName());
             }
         });
 
@@ -611,27 +599,25 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                if (!adminPredicate.test(event)) {
+            protected void call(Context ctx, String content) {
+                if (!adminPredicate.test(ctx.getEvent())) {
                     return;
                 }
 
-                TextChannel channel = event.getChannel();
-
                 if (content.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.deleteresponse.no_command"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.deleteresponse.no_command", EmoteReference.ERROR);
                     return;
                 }
 
                 String[] args = StringUtils.splitArgs(content, -1);
                 if (args.length < 1) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.deleteresponse.not_enough_args"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.deleteresponse.not_enough_args", EmoteReference.ERROR);
                     return;
                 }
 
-                CustomCommand custom = db().getCustomCommand(event.getGuild(), args[0]);
+                CustomCommand custom = ctx.getManagedDatabase().getCustomCommand(ctx.getGuild(), args[0]);
                 if (custom == null) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.not_found"), EmoteReference.ERROR2, args[0]).queue();
+                    ctx.sendLocalized("commands.custom.not_found", EmoteReference.ERROR2, args[0]);
                     return;
                 }
 
@@ -640,13 +626,13 @@ public class CustomCmds {
                 try {
                     where = Math.abs(Integer.parseInt(index));
                 } catch (NumberFormatException e) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.deleteresponse.invalid_number"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.deleteresponse.invalid_number", EmoteReference.ERROR);
                     return;
                 }
 
                 List<String> values = custom.getValues();
                 if (where - 1 > values.size()) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.deleteresponse.no_index"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.deleteresponse.no_index", EmoteReference.ERROR);
                     return;
                 }
 
@@ -655,7 +641,7 @@ public class CustomCmds {
                 custom.saveAsync();
                 customCommands.put(custom.getId(), custom);
 
-                channel.sendMessage(String.format(languageContext.get("commands.custom.deleteresponse.success"), EmoteReference.CORRECT, where, custom.getName())).queue();
+                ctx.sendLocalized("commands.custom.deleteresponse.success", EmoteReference.CORRECT, where, custom.getName());
             }
         }).createSubCommandAlias("deleteresponse", "dlr");
 
@@ -666,22 +652,20 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                if (!adminPredicate.test(event)) {
+            protected void call(Context ctx, String content) {
+                if (!adminPredicate.test(ctx.getEvent())) {
                     return;
                 }
-
-                TextChannel channel = event.getChannel();
 
                 if (content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.rename.no_command"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.rename.no_command", EmoteReference.ERROR);
                     return;
                 }
 
-                String[] args = StringUtils.splitArgs(content, -1);
+                String[] args = ctx.getArguments();
 
                 if (args.length < 2) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.rename.not_enough_args"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.rename.not_enough_args", EmoteReference.ERROR);
                     return;
                 }
 
@@ -689,23 +673,23 @@ public class CustomCmds {
                 String value = args[1];
 
                 if (!NAME_PATTERN.matcher(cmd).matches() || !NAME_PATTERN.matcher(value).matches()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.character_not_allowed"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.character_not_allowed", EmoteReference.ERROR);
                     return;
                 }
 
                 if (DefaultCommandProcessor.REGISTRY.commands().containsKey(value)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.already_exists"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.already_exists", EmoteReference.ERROR);
                     return;
                 }
 
-                CustomCommand oldCustom = db().getCustomCommand(event.getGuild(), cmd);
+                CustomCommand oldCustom = ctx.getManagedDatabase().getCustomCommand(ctx.getGuild(), cmd);
 
                 if (oldCustom == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.custom.not_found"), EmoteReference.ERROR2, cmd).queue();
+                    ctx.sendLocalized("commands.custom.not_found", EmoteReference.ERROR2, cmd);
                     return;
                 }
 
-                CustomCommand newCustom = CustomCommand.of(event.getGuild().getId(), value, oldCustom.getValues());
+                CustomCommand newCustom = CustomCommand.of(ctx.getGuild().getId(), value, oldCustom.getValues());
 
                 final CustomCommandData oldCustomData = oldCustom.getData();
                 newCustom.getData().setNsfw(oldCustomData.isNsfw());
@@ -723,10 +707,10 @@ public class CustomCmds {
                 if (customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
                     customCommands.remove(cmd);
 
-                event.getChannel().sendMessageFormat(languageContext.get("commands.custom.rename.success"), EmoteReference.CORRECT, cmd, value).queue();
+                ctx.sendLocalized("commands.custom.rename.success", EmoteReference.CORRECT, cmd, value);
 
                 //easter egg :D
-                TextChannelGround.of(event).dropItemWithChance(8, 2);
+                TextChannelGround.of(ctx.getEvent()).dropItemWithChance(8, 2);
 
             }
         }).createSubCommandAlias("rename", "rn");
@@ -738,22 +722,20 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                if (!adminPredicate.test(event)) {
+            protected void call(Context ctx, String content) {
+                if (!adminPredicate.test(ctx.getEvent())) {
                     return;
                 }
 
-                TextChannel channel = event.getChannel();
-
                 if (content.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.add.no_command"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.add.no_command", EmoteReference.ERROR);
                     return;
                 }
 
                 String[] args = StringUtils.splitArgs(content, -1);
 
                 if (args.length < 2) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.add.not_enough_args"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.add.not_enough_args", EmoteReference.ERROR);
                     return;
                 }
 
@@ -763,57 +745,55 @@ public class CustomCmds {
                 Map<String, String> opts = new HashMap<>();
                 try {
                     opts = getArguments(content);
-                } catch (StringIndexOutOfBoundsException ignore) {
-                }
+                } catch (StringIndexOutOfBoundsException ignore) { }
                 String cmdSource = Utils.replaceArguments(opts, value, "nsfw");
 
                 if (cmdSource.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.add.empty_content"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.add.empty_content", EmoteReference.ERROR);
                     return;
                 }
 
                 if (!NAME_PATTERN.matcher(cmd).matches()) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.character_not_allowed"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.character_not_allowed", EmoteReference.ERROR);
                     return;
                 }
 
                 if (cmd.length() >= 50) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.name_too_long"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.custom.name_too_long", EmoteReference.ERROR);
                     return;
                 }
 
                 if (DefaultCommandProcessor.REGISTRY.commands().containsKey(cmd)) {
-                    channel.sendMessageFormat(languageContext.get("commands.custom.already_exists"), EmoteReference.ERROR, cmd).queue();
+                    ctx.sendLocalized("commands.custom.already_exists", EmoteReference.ERROR, cmd);
                     return;
                 }
 
-                Guild guild = event.getGuild();
                 cmdSource = cmdSource.replace("@everyone", "[nice meme]").replace("@here", "[you tried]");
 
                 if (cmdSource.contains("v3:")) {
                     try {
                         new Parser(cmdSource).parse();
                     } catch (SyntaxException e) {
-                        channel.sendMessageFormat(languageContext.get("commands.custom.new_error"), EmoteReference.ERROR, e.getMessage()).queue();
+                        ctx.sendLocalized("commands.custom.new_error", EmoteReference.ERROR, e.getMessage());
                         return;
                     }
                 }
 
-                CustomCommand custom = CustomCommand.of(guild.getId(), cmd, Collections.singletonList(cmdSource));
-                CustomCommand c = db().getCustomCommand(event, cmd);
+                CustomCommand custom = CustomCommand.of(ctx.getGuild().getId(), cmd, Collections.singletonList(cmdSource));
+                CustomCommand c = ctx.getManagedDatabase().getCustomCommand(ctx.getEvent(), cmd);
 
                 if (c != null) {
                     custom.getValues().addAll(c.getValues());
                 } else {
                     //Are the first two checks redundant?
-                    if (!getConfig().isPremiumBot && !db.getGuild(guild).isPremium() && db.getCustomCommands(guild).size() > 100) {
-                        channel.sendMessageFormat(languageContext.get("commands.custom.add.too_many_commands"), EmoteReference.ERROR).queue();
+                    if (!getConfig().isPremiumBot && !ctx.getDBGuild().isPremium() && db.getCustomCommands(ctx.getGuild()).size() > 100) {
+                        ctx.sendLocalized("commands.custom.add.too_many_commands", EmoteReference.ERROR);
                         return;
                     }
                 }
 
 
-                custom.getData().setOwner(event.getAuthor().getId());
+                custom.getData().setOwner(ctx.getAuthor().getId());
                 if (opts.containsKey("nsfw")) {
                     custom.getData().setNsfw(true);
                 }
@@ -823,10 +803,10 @@ public class CustomCmds {
                 //reflect at local
                 customCommands.put(custom.getId(), custom);
 
-                channel.sendMessageFormat(languageContext.get("commands.custom.add.success"), EmoteReference.CORRECT, cmd).queue();
+                ctx.sendLocalized("commands.custom.add.success", EmoteReference.CORRECT, cmd);
 
                 //easter egg :D
-                TextChannelGround.of(event).dropItemWithChance(8, 2);
+                TextChannelGround.of(ctx.getEvent()).dropItemWithChance(8, 2);
             }
         }).createSubCommandAlias("add", "new");
     }

@@ -21,6 +21,7 @@ import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -30,6 +31,7 @@ import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.StringUtils;
 
+import java.util.List;
 import java.util.Map;
 
 public class Context {
@@ -67,6 +69,18 @@ public class Context {
         return languageContext;
     }
 
+    public I18nContext getGuildLanguageContext() {
+        return new I18nContext(getDBGuild().getData(), null);
+    }
+
+    public List<User> getMentionedUsers() {
+        return getEvent().getMessage().getMentionedUsers();
+    }
+
+    public List<Member> getMentionedMembers() {
+        return getEvent().getMessage().getMentionedMembers();
+    }
+
     public Member getMember() {
         return event.getMember();
     }
@@ -75,8 +89,16 @@ public class Context {
         return event.getAuthor();
     }
 
+    public User getAuthor() {
+        return getUser();
+    }
+
     public Guild getGuild() {
         return event.getGuild();
+    }
+
+    public Message getMessage() {
+        return event.getMessage();
     }
 
     public SelfUser getSelfUser() {
@@ -110,6 +132,14 @@ public class Context {
         return managedDatabase.getPlayer(user);
     }
 
+    public SeasonPlayer getSeasonPlayer() {
+        return managedDatabase.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+    }
+
+    public SeasonPlayer getSeasonPlayer(User user) {
+        return managedDatabase.getPlayerForSeason(user, getConfig().getCurrentSeason());
+    }
+
     public String[] getArguments() {
         return StringUtils.advancedSplitArgs(content, 0);
     }
@@ -134,6 +164,10 @@ public class Context {
         getChannel().sendMessageFormat(languageContext.get(localizedMessage), args).queue();
     }
 
+    public void sendLocalized(String localizedMessage) {
+        getChannel().sendMessage(languageContext.get(localizedMessage)).queue();
+    }
+
     public void sendStripped(String message) {
         new MessageBuilder().setContent(message)
                 .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE, Message.MentionType.USER)
@@ -148,4 +182,3 @@ public class Context {
                 .queue();
     }
 }
-

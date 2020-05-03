@@ -511,24 +511,4 @@ public class Items {
             return Pair.of(false, player);
         }
     }
-
-    public static void handleRodBreak(Item item, GuildMessageReceivedEvent event, I18nContext lang, Player p, DBUser u, SeasonPlayer sp, boolean isSeasonal) {
-        Pair<Boolean, Player> breakage = handleDurability(event, lang, item, p, u, sp, isSeasonal);
-        boolean broken = breakage.getKey();
-        if (broken) {
-            //We need to get this again since reusing the old ones will cause :fire:
-            Player pl = breakage.getValue();
-            Inventory inv = pl.getInventory();
-
-            if(u.getData().isAutoEquip() && inv.containsItem(item)) {
-                u.getData().getEquippedItems().equipItem(item);
-                inv.process(new ItemStack(item, -1));
-
-                pl.save();
-                u.save();
-
-                event.getChannel().sendMessageFormat(lang.get("commands.fish.autoequip.success"), EmoteReference.CORRECT, item.getName()).queue();
-            }
-        }
-    }
 }

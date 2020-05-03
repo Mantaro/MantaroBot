@@ -21,18 +21,15 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
 
 import java.awt.*;
 import java.util.Collections;
@@ -110,13 +107,11 @@ public class ImageActionCmd extends NoArgsCommand {
     }
 
     @Override
-    protected void call(GuildMessageReceivedEvent event, I18nContext lang, String content) {
-        if (!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, null))
+    protected void call(Context ctx, String content) {
+        if (!handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null))
             return;
 
-        TextChannel channel = event.getChannel();
-
-        I18nContext languageContext = new I18nContext(MantaroData.db().getGuild(event.getGuild()).getData(), null);
+        I18nContext languageContext = ctx.getGuildLanguageContext();
         String random = "";
         if (images.size() == 1) {
             if (type != null) {
@@ -124,7 +119,7 @@ public class ImageActionCmd extends NoArgsCommand {
                 String image = result.getKey();
 
                 if (image == null) {
-                    channel.sendMessageFormat(languageContext.get("commands.action.error_retrieving"), EmoteReference.SAD).queue();
+                    ctx.sendLocalized("commands.action.error_retrieving", EmoteReference.SAD);
                     return;
                 }
 
@@ -136,37 +131,37 @@ public class ImageActionCmd extends NoArgsCommand {
         }
 
         try {
-            if (event.getMessage().getMentionedMembers().isEmpty()) {
-                channel.sendMessageFormat(languageContext.get("commands.action.no_mention"), EmoteReference.ERROR).queue();
+            if (ctx.getMentionedMembers().isEmpty()) {
+                ctx.sendLocalized("commands.action.no_mention", EmoteReference.ERROR);
                 return;
             }
 
             MessageBuilder toSend = new MessageBuilder()
-                    .append(String.format(emoji + languageContext.get(format), "**" + noMentions(event.getMessage())
-                            + "**", "**" + event.getMember().getEffectiveName() + "**")
-                    ).stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE);
+                    .append(String.format(emoji + languageContext.get(format), "**" + noMentions(ctx)
+                            + "**", "**" + ctx.getMember().getEffectiveName() + "**")
+                    ).stripMentions(ctx.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE);
 
 
             if (swapNames) {
                 toSend = new MessageBuilder()
-                        .append(String.format(emoji + languageContext.get(format), "**" + event.getMember().getEffectiveName()
-                                + "**", "**" + noMentions(event.getMessage()) + "**")
-                        ).stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE);
+                        .append(String.format(emoji + languageContext.get(format), "**" + ctx.getMember().getEffectiveName()
+                                + "**", "**" + noMentions(ctx) + "**")
+                        ).stripMentions(ctx.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE);
             }
 
-            if (isLonely(event)) {
+            if (isLonely(ctx)) {
                 toSend = new MessageBuilder().append("**").append(languageContext.get(lonelyLine)).append("**");
             }
 
-            if (isMentioningBot(event)) {
+            if (isMentioningBot(ctx)) {
                 toSend = new MessageBuilder().append("**").append(languageContext.get(botLine)).append("**");
             }
 
             toSend.setEmbed(new EmbedBuilder().setColor(Color.DARK_GRAY).setImage(random).build());
-            toSend.sendTo(channel).queue();
+            toSend.sendTo(ctx.getChannel()).queue();
         } catch (Exception e) {
             e.printStackTrace();
-            channel.sendMessageFormat(languageContext.get("commands.action.permission_or_unexpected_error"), EmoteReference.ERROR).queue();
+            ctx.sendLocalized("commands.action.permission_or_unexpected_error", EmoteReference.ERROR);
         }
     }
 
@@ -178,15 +173,15 @@ public class ImageActionCmd extends NoArgsCommand {
                 .build();
     }
 
-    private boolean isMentioningBot(GuildMessageReceivedEvent event) {
-        return event.getMessage().getMentionedUsers().stream().anyMatch(user -> user.getIdLong() == event.getGuild().getSelfMember().getUser().getIdLong());
+    private boolean isMentioningBot(Context ctx) {
+        return ctx.getMentionedUsers().stream().anyMatch(user -> user.getIdLong() == ctx.getSelfUser().getIdLong());
     }
 
-    private boolean isLonely(GuildMessageReceivedEvent event) {
-        return event.getMessage().getMentionedUsers().stream().anyMatch(user -> user.getId().equals(event.getAuthor().getId()));
+    private boolean isLonely(Context ctx) {
+        return ctx.getMentionedUsers().stream().anyMatch(user -> user.getId().equals(ctx.getAuthor().getId()));
     }
 
-    private String noMentions(Message message) {
-        return message.getMentionedMembers().stream().map(Member::getEffectiveName).collect(Collectors.joining(", ")).trim();
+    private String noMentions(Context ctx) {
+        return ctx.getMentionedMembers().stream().map(Member::getEffectiveName).collect(Collectors.joining(", ")).trim();
     }
 }

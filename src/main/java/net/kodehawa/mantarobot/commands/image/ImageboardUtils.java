@@ -27,6 +27,7 @@ import net.kodehawa.lib.imageboards.entities.BoardImage;
 import net.kodehawa.lib.imageboards.entities.Rating;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -54,16 +55,12 @@ public class ImageboardUtils {
     );
 
     @SuppressWarnings("unchecked")
-    public static void getImage(ImageBoard<?> api, ImageRequestType type, boolean nsfwOnly, String imageboard, String[] args, String content, GuildMessageReceivedEvent event, I18nContext languageContext) {
+    public static void getImage(ImageBoard<?> api, ImageRequestType type, boolean nsfwOnly, String imageboard, String[] args, String content, Context ctx) {
         Rating rating = Rating.SAFE;
         List<String> list = new ArrayList<>(Arrays.asList(args));
         list.remove("tags"); // remove tags from argument list. (BACKWARDS COMPATIBILITY)
 
         boolean needRating = list.size() >= 2;
-        final TextChannel channel = event.getChannel();
-        final Player player = MantaroData.db().getPlayer(event.getAuthor());
-        final PlayerData playerData = player.getData();
-
         if (needRating && !nsfwOnly) {
             rating = Rating.lookupFromString(list.get(1));
         }
@@ -85,8 +82,8 @@ public class ImageboardUtils {
             finalRating = Rating.SAFE;
         }
 
-        if (!nsfwCheck(event, languageContext, nsfwOnly, false, finalRating)) {
-            channel.sendMessageFormat(languageContext.get("commands.imageboard.nsfw_no_nsfw"), EmoteReference.ERROR).queue();
+        if (!nsfwCheck(ctx, nsfwOnly, false, finalRating)) {
+            ctx.sendLocalized("commands.imageboard.nsfw_no_nsfw", EmoteReference.ERROR);
             return;
         }
 
@@ -97,7 +94,7 @@ public class ImageboardUtils {
         int limit = Optional.ofNullable(maxQuerySize.get(api)).orElse(10);
 
         if (list.size() > limit) {
-            channel.sendMessageFormat(languageContext.get("commands.imageboard.too_many_tags"), EmoteReference.ERROR, imageboard, limit).queue();
+            ctx.sendLocalized("commands.imageboard.too_many_tags", EmoteReference.ERROR, imageboard, limit);
             return;
         }
 
@@ -110,22 +107,21 @@ public class ImageboardUtils {
                     String[] arguments = replaced.split(" ");
                     String tags = arguments[0];
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    DBGuild dbGuild = MantaroData.db().getGuild(ctx.getGuild());
                     if (dbGuild.getData().getBlackListedImageTags().contains(tags.toLowerCase())) {
-                        channel.sendMessageFormat(languageContext.get("commands.imageboard.blacklisted_tag"), EmoteReference.ERROR).queue();
+                        ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
                         return;
                     }
 
                     api.search(list, finalRating).async(requestedImages -> {
                         //account for this
-                        if (isListNull(requestedImages, languageContext, event)) return;
+                        if (isListNull(requestedImages, ctx))
+                            return;
 
                         try {
                             List<BoardImage> filter = (List<BoardImage>) requestedImages;
-
-                            //We didn't find anything after filtering?
                             if (filter.isEmpty()) {
-                                channel.sendMessageFormat(languageContext.get("commands.imageboard.no_images"), EmoteReference.SAD).queue();
+                                ctx.sendLocalized("commands.imageboard.no_images", EmoteReference.SAD);
                                 return;
                             }
 
@@ -137,99 +133,89 @@ public class ImageboardUtils {
                             }
 
                             BoardImage image = filter.get(number);
-                            String imageTags = image.getTags().stream().collect(Collectors.joining(", "));
-
-                            if (foundMinorTags(event, languageContext, imageTags, image.getRating())) {
-                                return;
-                            }
-
-                            if (image.getTags().stream().anyMatch(tag -> dbGuild.getData().getBlackListedImageTags().contains(tag))) {
-                                channel.sendMessageFormat(languageContext.get("commands.imageboard.blacklisted_tag"), EmoteReference.ERROR).queue();
-                                return;
-                            }
-
-                            imageEmbed(languageContext, image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), imageTags, image.getRating(), imageboard, channel);
-                            if (image.getRating().equals(Rating.EXPLICIT)) {
-                                if (playerData.addBadgeIfAbsent(Badge.LEWDIE)) {
-                                    player.saveAsync();
-                                }
-
-                                TextChannelGround.of(event).dropItemWithChance(13, 3);
-                            }
+                            String imageTags = String.join(", ", image.getTags());
+                            sendImage(ctx, imageTags, imageboard, image, dbGuild);
                         } catch (Exception e) {
-                            channel.sendMessageFormat(languageContext.get("commands.imageboard.no_results"), EmoteReference.SAD).queue();
+                            ctx.sendLocalized("commands.imageboard.no_results", EmoteReference.SAD);
                         }
-                    }, failure -> channel.sendMessageFormat(languageContext.get("commands.imageboard.error_tag"), EmoteReference.SAD).queue());
+                    }, failure -> ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD));
                 } catch (NumberFormatException numberEx) {
-                    channel.sendMessageFormat(languageContext.get("commands.imageboard.wrong_argument"), EmoteReference.ERROR, imageboard).queue(
-                            message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                    );
+                    ctx.getChannel().sendMessageFormat(
+                            ctx.getLanguageContext().get("commands.imageboard.wrong_argument"), EmoteReference.ERROR, imageboard
+                    ).queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
                 } catch (Exception exception) {
-                    channel.sendMessageFormat(languageContext.get("commands.imageboard.error_tag"), EmoteReference.SAD).queue();
+                    ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD);
                 }
 
                 break;
             case RANDOM:
                 api.search(list, finalRating).async(requestedImages -> {
                     try {
-                        if (isListNull(requestedImages, languageContext, event)) return;
+                        if (isListNull(requestedImages, ctx))
+                            return;
 
                         List<BoardImage> filter = (List<BoardImage>) requestedImages;
-
                         if (filter.isEmpty()) {
-                            channel.sendMessageFormat(languageContext.get("commands.imageboard.no_images"), EmoteReference.SAD).queue();
+                            ctx.sendLocalized("commands.imageboard.no_images", EmoteReference.SAD);
                             return;
                         }
 
                         int number = r.nextInt(filter.size());
                         BoardImage image = filter.get(number);
-                        String tags = image.getTags().stream().collect(Collectors.joining(", "));
+                        String tags = String.join(", ", image.getTags());
 
-                        DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-
-                        if (foundMinorTags(event, languageContext, tags, image.getRating())) {
-                            return;
-                        }
-
-                        if (image.getTags().stream().anyMatch(tag -> dbGuild.getData().getBlackListedImageTags().contains(tag))) {
-                            channel.sendMessageFormat(languageContext.get("commands.imageboard.blacklisted_tag"), EmoteReference.ERROR).queue();
-                            return;
-                        }
-
-                        imageEmbed(languageContext, image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, image.getRating(), imageboard, channel);
-                        if (image.getRating().equals(Rating.EXPLICIT)) {
-                            if (playerData.addBadgeIfAbsent(Badge.LEWDIE)) {
-                                player.saveAsync();
-                            }
-
-                            TextChannelGround.of(event).dropItemWithChance(13, 3);
-                        }
+                        DBGuild dbGuild = MantaroData.db().getGuild(ctx.getGuild());
+                        sendImage(ctx, tags, imageboard, image, dbGuild);
                     } catch (Exception e) {
-                        channel.sendMessageFormat(languageContext.get("commands.imageboard.error_random"), EmoteReference.SAD).queue();
+                        ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD);
                     }
-                }, failure -> channel.sendMessageFormat(languageContext.get("commands.imageboard.error_random"), EmoteReference.SAD).queue());
+                }, failure -> ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD));
                 break;
         }
     }
 
-    public static boolean nsfwCheck(GuildMessageReceivedEvent event, I18nContext languageContext, boolean isGlobal, boolean sendMessage, Rating rating) {
-        if (event.getChannel().isNSFW())
+    private static void sendImage(Context ctx, String imageTags, String imageboard, BoardImage image, DBGuild dbGuild) {
+        if (foundMinorTags(ctx, imageTags, image.getRating())) {
+            return;
+        }
+
+        if (image.getTags().stream().anyMatch(tag -> dbGuild.getData().getBlackListedImageTags().contains(tag))) {
+            ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
+            return;
+        }
+
+        imageEmbed(
+                ctx.getLanguageContext(), image.getURL(), String.valueOf(image.getWidth()),
+                String.valueOf(image.getHeight()), imageTags, image.getRating(), imageboard, ctx.getChannel()
+        );
+
+        if (image.getRating().equals(Rating.EXPLICIT)) {
+            Player player = ctx.getPlayer();
+            if (player.getData().addBadgeIfAbsent(Badge.LEWDIE))
+                player.saveAsync();
+
+            TextChannelGround.of(ctx.getEvent()).dropItemWithChance(13, 3);
+        }
+    }
+
+    public static boolean nsfwCheck(Context ctx, boolean isGlobal, boolean sendMessage, Rating rating) {
+        if (ctx.getChannel().isNSFW())
             return true;
 
         Rating finalRating = rating == null ? Rating.SAFE : rating;
         boolean trigger = finalRating.equals(Rating.SAFE) && !isGlobal;
 
         if (!trigger) {
-            if (sendMessage) {
-                event.getChannel().sendMessageFormat(languageContext.get("commands.imageboard.non_nsfw_channel"), EmoteReference.ERROR).queue();
-            }
+            if (sendMessage)
+                ctx.sendLocalized("commands.imageboard.non_nsfw_channel", EmoteReference.ERROR);
+
             return false;
         }
 
         return true;
     }
 
-    private static boolean foundMinorTags(GuildMessageReceivedEvent event, I18nContext languageContext, String tags, Rating rating) {
+    private static boolean foundMinorTags(Context ctx, String tags, Rating rating) {
         boolean trigger = (tags.contains("loli") || tags.contains("shota") ||
                 tags.contains("lolicon") || tags.contains("shotacon") ||
                 //lol @ e621
@@ -246,13 +232,13 @@ public class ImageboardUtils {
             return false;
         }
 
-        event.getChannel().sendMessageFormat(languageContext.get("commands.imageboard.loli_content_disallow"), EmoteReference.WARNING).queue();
+        ctx.sendLocalized("commands.imageboard.loli_content_disallow", EmoteReference.WARNING);
         return true;
     }
 
-    private static boolean isListNull(List<?> l, I18nContext languageContext, GuildMessageReceivedEvent event) {
+    private static boolean isListNull(List<?> l, Context ctx) {
         if (l == null) {
-            event.getChannel().sendMessageFormat(languageContext.get("commands.imageboard.null_image_notice"), EmoteReference.ERROR).queue();
+            ctx.sendLocalized("commands.imageboard.null_image_notice", EmoteReference.ERROR);
             return true;
         }
 
