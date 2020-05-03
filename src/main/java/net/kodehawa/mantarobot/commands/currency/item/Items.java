@@ -72,16 +72,6 @@ public class Items {
             .premiumAware(true)
             .build();
 
-    private static final IncreasingRateLimiter fishRatelimiter = new IncreasingRateLimiter.Builder()
-            .limit(1)
-            .spamTolerance(2)
-            .cooldown(4, TimeUnit.MINUTES)
-            .maxCooldown(4, TimeUnit.MINUTES)
-            .randomIncrement(false)
-            .pool(MantaroData.getDefaultJedisPool())
-            .prefix("fish")
-            .premiumAware(true)
-            .build();
     private static final Config config = MantaroData.config().get();
     public static final Item[] ALL = {
             HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7", "Headphones", "items.headphones", "items.description.headphones", 5, true, false, false),
@@ -199,7 +189,6 @@ public class Items {
     };
     private static final Logger log = LoggerFactory.getLogger(Items.class);
 
-
     public static void setItemActions() {
         final SecureRandom random = new SecureRandom();
         log.info("Registering item actions...");
@@ -225,202 +214,6 @@ public class Items {
             return true;
         }));
 
-        //Basically fish command.
-        FISHING_ROD.setAction((event, context, season) -> {
-            boolean isSeasonal = season;
-
-            Player p = managedDatabase.getPlayer(event.getAuthor());
-            SeasonPlayer sp = managedDatabase.getPlayerForSeason(event.getAuthor(), config.getCurrentSeason());
-            DBUser u = managedDatabase.getUser(event.getAuthor());
-            Inventory playerInventory = isSeasonal ? sp.getInventory() : p.getInventory();
-
-            I18nContext lang = context.getLeft();
-            FishRod item;
-
-            int equipped = isSeasonal ?
-                    //seasonal equipped
-                    sp.getData().getEquippedItems().of(PlayerEquipment.EquipmentType.ROD) :
-                    //not seasonal
-                    u.getData().getEquippedItems().of(PlayerEquipment.EquipmentType.ROD);
-
-            if (equipped == 0) {
-                event.getChannel().sendMessageFormat(lang.get("commands.fish.no_rod_equipped"), EmoteReference.ERROR).queue();
-                return false;
-            }
-
-            //It can only be a rod, lol.
-            item = (FishRod) Items.fromId(equipped);
-
-            if (!handleDefaultIncreasingRatelimit(fishRatelimiter, event.getAuthor(), event, lang, false))
-                return false;
-
-            //Level but starting at 0.
-            int nominalLevel = item.getLevel() - 3;
-            String extraMessage = "";
-
-            int select = random.nextInt(100);
-
-            if (select < 10) {
-                //Here your fish rod got dusty. Yes, on the sea.
-                int level = u.getData().increaseDustLevel(r.nextInt(4));
-                event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING, level).queue();
-                u.save();
-
-                handleRodBreak(item, event, lang, p, u, sp, isSeasonal);
-                return false;
-            } else if (select < 35) {
-                //Here you found trash.
-                List<Item> common = Stream.of(ALL)
-                        .filter(i -> i.getItemType() == ItemType.COMMON && !i.isHidden() && i.isSellable() && i.value < 45)
-                        .collect(Collectors.toList());
-
-                Item selected = common.get(random.nextInt(common.size()));
-                if (playerInventory.getAmount(selected) >= 5000) {
-                    event.getChannel().sendMessageFormat(lang.get("commands.fish.trash.overflow"), EmoteReference.SAD).queue();
-
-                    handleRodBreak(item, event, lang, p, u, sp, isSeasonal);
-                    return true;
-                }
-
-                playerInventory.process(new ItemStack(selected, 1));
-                event.getChannel().sendMessageFormat(lang.get("commands.fish.trash.success"), EmoteReference.EYES, selected.getEmoji()).queue();
-            } else {
-                //Here you actually caught fish, congrats.
-                List<Item> fish = Stream.of(ALL)
-                        .filter(i -> i.getItemType() == ItemType.FISHING && !i.isHidden() && i.isSellable())
-                        .collect(Collectors.toList());
-                RandomCollection<Item> fishItems = new RandomCollection<>();
-
-                int money = 0;
-                boolean buff = handleEffect(PlayerEquipment.EquipmentType.BUFF, u.getData().getEquippedItems(), FISHING_BAIT, u);
-                int amount = buff ? Math.max(1, random.nextInt(item.getLevel() + 4)) : Math.max(1, random.nextInt(item.getLevel()));
-                if (nominalLevel >= 2)
-                    amount += random.nextInt(4);
-
-                fish.forEach((i1) -> fishItems.add(3, i1));
-
-                //Basically more chance if you have a better rod.
-                if (select > (75 - nominalLevel)) {
-                    money = Math.max(5, random.nextInt(130 + (3 * nominalLevel)));
-                }
-
-                //START OF WAIFU HELP IMPLEMENTATION
-                boolean waifuHelp = false;
-                if (handleEffect(PlayerEquipment.EquipmentType.POTION, u.getData().getEquippedItems(), WAIFU_PILL, u)) {
-                    if (u.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
-                        money += Math.max(10, random.nextInt(100));
-                        waifuHelp = true;
-                    }
-                }
-                //END OF WAIFU HELP IMPLEMENTATION
-
-                //START OF FISH LOOT CRATE HANDLING
-                if (r.nextInt(400) > 380) {
-                    Item crate = u.isPremium() ? Items.FISH_PREMIUM_CRATE : Items.FISH_CRATE;
-                    if (playerInventory.getAmount(crate) >= 5000) {
-                        extraMessage += "\n" + lang.get("commands.fish.crate.overflow");
-                    } else {
-                        playerInventory.process(new ItemStack(crate, 1));
-                        extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.crate.success"), crate.getEmoji(), crate.getName());
-                    }
-                }
-                //END OF FISH LOOT CRATE HANDLING
-
-                if (item == SPARKLE_ROD && r.nextInt(30) > 20) {
-                    if (r.nextInt(100) > 96) {
-                        fish.addAll(Stream.of(ALL)
-                                .filter(i -> i.getItemType() == ItemType.FISHING_RARE && !i.isHidden() && i.isSellable())
-                                .collect(Collectors.toList())
-                        );
-                    }
-
-                    playerInventory.process(new ItemStack(SHARK, 1));
-                    extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.shark_success"), SHARK.getEmoji());
-                }
-
-                //START OF ITEM ADDING HANDLING
-                List<ItemStack> list = new ArrayList<>(amount);
-                boolean overflow = false;
-                for (int i = 0; i < amount; i++) {
-                    Item it = fishItems.next();
-                    if (playerInventory.getAmount(it) >= 5000) {
-                        overflow = true;
-                        continue;
-                    }
-
-                    list.add(new ItemStack(it, 1));
-                }
-
-                if (buff) {
-                    extraMessage += "\n" + lang.get("commands.fish.bait");
-                }
-
-                if (overflow) {
-                    extraMessage += "\n" + String.format(lang.get("commands.fish.overflow"), EmoteReference.SAD);
-                }
-
-                List<ItemStack> reducedList = ItemStack.reduce(list);
-                playerInventory.process(reducedList);
-                if (isSeasonal) {
-                    sp.addMoney(money);
-                } else {
-                    p.addMoney(money);
-                    p.getData().incrementFishingExperience(random);
-                }
-
-                String itemDisplay = ItemStack.toString(reducedList);
-                boolean foundFish = !reducedList.isEmpty();
-                //END OF ITEM ADDING HANDLING
-
-                //Add fisher badge if the player found fish succesfully.
-                if (foundFish) {
-                    p.getData().addBadgeIfAbsent(Badge.FISHER);
-                }
-
-                if (nominalLevel >= 3 && r.nextInt(110) > 90) {
-                    playerInventory.process(new ItemStack(SHELL, 1));
-                    extraMessage += "\n" + EmoteReference.MEGA + String.format(lang.get("commands.fish.fossil_success"), SHELL.getEmoji());
-                }
-
-                //START OF REPLY HANDLING
-                //Didn't find a thingy thing.
-                if (money == 0 && !foundFish) {
-                    int level = u.getData().increaseDustLevel(r.nextInt(4));
-                    event.getChannel().sendMessageFormat(lang.get("commands.fish.dust"), EmoteReference.TALKING, level).queue();
-                    u.save();
-
-                    handleRodBreak(item, event, lang, p, u, sp, isSeasonal);
-                    return false;
-                }
-
-
-                if(reducedList.stream().map(ItemStack::getItem).anyMatch(it -> it.equals(Items.SHARK)))
-                    p.getData().setSharksCaught(p.getData().getSharksCaught() + 1);
-
-                //if there's money, but not fish
-                if (money > 0 && !foundFish) {
-                    event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money_noitem") + extraMessage, item.getEmoji(), money).queue();
-                } else if (foundFish && money == 0) { //there's fish, but no money
-                    event.getChannel().sendMessageFormat(lang.get("commands.fish.success") + extraMessage, item.getEmoji(), itemDisplay).queue();
-                } else if (money > 0 && foundFish) { //there's money and fish
-                    event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money") + extraMessage,
-                            item.getEmoji(), itemDisplay, money, (waifuHelp ? "\n" + lang.get("commands.fish.waifu_help") : "")
-                    ).queue();
-                }
-                //END OF REPLY HANDLING
-            }
-
-            //Save all changes to the player object.
-            p.save();
-            if (isSeasonal)
-                sp.save();
-
-            handleRodBreak(item, event, lang, p, u, sp, isSeasonal);
-
-            //It doesn't really matter what we return lol.
-            return true;
-        });
-
         POTION_CLEAN.setAction((event, ctx, season) -> {
             I18nContext lang = ctx.getLeft();
             Player p = managedDatabase.getPlayer(event.getAuthor());
@@ -435,28 +228,6 @@ public class Items {
             event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.milk"), EmoteReference.CORRECT).queue();
             return true;
         });
-    }
-
-    private static void handleRodBreak(Item item, GuildMessageReceivedEvent event, I18nContext lang, Player p, DBUser u, SeasonPlayer sp, boolean isSeasonal) {
-        Pair<Boolean, Player> breakage = handleDurability(event, lang, item, p, u, sp, isSeasonal);
-        boolean broken = breakage.getKey();
-        if (broken) {
-            //We need to get this again since reusing the old ones will cause :fire:
-            Player pl = breakage.getValue();
-            Inventory inv = pl.getInventory();
-
-            if(u.getData().isAutoEquip() && inv.containsItem(item)) {
-                u.getData().getEquippedItems().equipItem(item);
-                inv.process(new ItemStack(item, -1));
-
-                pl.save();
-                u.save();
-
-                event.getChannel().sendMessageFormat(lang.get("commands.fish.autoequip.success"), EmoteReference.CORRECT, item.getName()).queue();
-            }
-
-            //Handled in the handleDurability method.
-        }
     }
 
     public static Optional<Item> fromAny(String any) {
@@ -738,6 +509,26 @@ public class Items {
 
             //is not broken
             return Pair.of(false, player);
+        }
+    }
+
+    public static void handleRodBreak(Item item, GuildMessageReceivedEvent event, I18nContext lang, Player p, DBUser u, SeasonPlayer sp, boolean isSeasonal) {
+        Pair<Boolean, Player> breakage = handleDurability(event, lang, item, p, u, sp, isSeasonal);
+        boolean broken = breakage.getKey();
+        if (broken) {
+            //We need to get this again since reusing the old ones will cause :fire:
+            Player pl = breakage.getValue();
+            Inventory inv = pl.getInventory();
+
+            if(u.getData().isAutoEquip() && inv.containsItem(item)) {
+                u.getData().getEquippedItems().equipItem(item);
+                inv.process(new ItemStack(item, -1));
+
+                pl.save();
+                u.save();
+
+                event.getChannel().sendMessageFormat(lang.get("commands.fish.autoequip.success"), EmoteReference.CORRECT, item.getName()).queue();
+            }
         }
     }
 }

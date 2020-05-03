@@ -24,6 +24,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.*;
+import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.pets.Pet;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -47,6 +48,7 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.RandomCollection;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -55,6 +57,7 @@ import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.awt.*;
+import java.security.SecureRandom;
 import java.text.ParsePosition;
 import java.util.List;
 import java.util.*;
@@ -1193,30 +1196,5 @@ public class CurrencyCmds {
 
         ui.createSubCommandAlias("ls", "list");
         ui.createSubCommandAlias("ls", "Is");
-    }
-
-    @Subscribe
-    public void fish(CommandRegistry cr) {
-        cr.register("fish", new SimpleCommand(Category.CURRENCY) {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
-                content = Utils.replaceArguments(t, content, "season", "s").trim().replace("\"", "");
-
-                Items.FISHING_ROD.getAction().test(event, Pair.of(languageContext, content), isSeasonal);
-            }
-
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Starts a fishing session.")
-                        .setUsage("`~>fish <rod>` - Starts fishing. You can gain credits and fish items by fishing, which can be used later on for casting.")
-                        .addParameter("rod", "Rod name. Optional, if not provided or not found, will default to the default fishing rod or your equipped rod.")
-                        .setSeasonal(true)
-                        .build();
-            }
-        });
     }
 }
