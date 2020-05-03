@@ -394,6 +394,9 @@ public class Items {
                 }
 
 
+                if(reducedList.stream().map(ItemStack::getItem).anyMatch(it -> it.equals(Items.FISH_5)))
+                    p.getData().setSharksCaught(p.getData().getSharksCaught() + 1);
+
                 //if there's money, but not fish
                 if (money > 0 && !foundFish) {
                     event.getChannel().sendMessageFormat(lang.get("commands.fish.success_money_noitem") + extraMessage, item.getEmoji(), money).queue();

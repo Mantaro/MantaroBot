@@ -55,6 +55,7 @@ public class PlayerData {
     private long fishingExperience;
     private long timesMopped;
     private long cratesOpened;
+    private long sharksCaught;
 
     //lol?
     //this is needed so it actually works, even though it does absolutely nothing
@@ -297,6 +298,14 @@ public class PlayerData {
 
     public void setCratesOpened(long cratesOpened) {
         this.cratesOpened = cratesOpened;
+    }
+
+    public long getSharksCaught() {
+        return sharksCaught;
+    }
+
+    public void setSharksCaught(long sharksCaught) {
+        this.sharksCaught = sharksCaught;
     }
 
     @JsonIgnore

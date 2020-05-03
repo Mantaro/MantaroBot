@@ -195,6 +195,10 @@ public enum Badge {
             (player, dbUser) -> player.getReputation() >= 10, false
     ),
 
+    KING_OF_SEA("King of the Sea", "\uD83D\uDD31", "Catch 35 sharks.", 91, 92,
+            (player, dbUser) -> player.getData().getSharksCaught() >= 35, false
+    ),
+
     //Get extremely lucky with slots.
     LUCKY_SEVEN("Lucky 7", "\uD83C\uDFB0", "Get more than 175 million in credits from slots.", 92, 92,
             (player, dbUser) -> false, false
