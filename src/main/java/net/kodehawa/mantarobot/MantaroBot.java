@@ -44,7 +44,6 @@ import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.TracingPrintStream;
 import net.kodehawa.mantarobot.utils.Utils;
-import net.notfab.caching.client.CacheClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.slf4j.Logger;
@@ -167,10 +166,9 @@ public class MantaroBot {
         //Handle the delivery of reminders.
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Reminder Handler"))
                 .scheduleAtFixedRate(ReminderTask::handle, 0, 30, TimeUnit.SECONDS);
-
         //Yes, this is needed.
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Ratelimit Map Handler"))
-                .scheduleAtFixedRate(Utils.ratelimitedUsers::clear, 0, 24, TimeUnit.HOURS);
+                .scheduleAtFixedRate(Utils.ratelimitedUsers::clear, 0, 36, TimeUnit.HOURS);
     }
 
     public static void main(String[] args) {
