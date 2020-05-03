@@ -110,7 +110,7 @@ public class CurrencyActionCmds {
                 if (!handleDefaultIncreasingRatelimit(rateLimiter, user, event, languageContext, false))
                     return;
 
-                long money = Math.max(30, random.nextInt(150)); //30 to 150 credits.
+                long money = Math.max(30, random.nextInt(200)); //30 to 150 credits.
 
                 //Add money buff to higher pickaxes.
                 if (item == Items.STAR_PICKAXE || item == Items.COMET_PICKAXE)
