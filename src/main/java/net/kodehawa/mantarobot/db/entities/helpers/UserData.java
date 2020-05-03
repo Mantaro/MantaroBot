@@ -35,7 +35,10 @@ public class UserData {
     private boolean receivedFirstKey = false; //Placeholder here for rethonk plz
 
     private String premiumKey;
-    private int reminderN;
+
+    @JsonProperty("reminderN")
+    private int remindedTimes;
+
     private String timezone;
     private String lang;
     private int dustLevel; //percentage
@@ -109,12 +112,12 @@ public class UserData {
         this.premiumKey = premiumKey;
     }
 
-    public int getReminderN() {
-        return this.reminderN;
+    public int getRemindedTimes() {
+        return this.remindedTimes;
     }
 
-    public void setReminderN(int reminderN) {
-        this.reminderN = reminderN;
+    public void setRemindedTimes(int remindedTimes) {
+        this.remindedTimes = remindedTimes;
     }
 
     public String getTimezone() {

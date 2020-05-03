@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
@@ -206,6 +207,7 @@ public class Items {
 
         MOP.setAction(((event, ctx, season) -> {
             Player p = managedDatabase.getPlayer(event.getAuthor());
+            PlayerData playerData = p.getData();
             DBUser dbUser = managedDatabase.getUser(event.getAuthor());
             I18nContext lang = ctx.getLeft();
 
@@ -215,7 +217,9 @@ public class Items {
 
             event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.mop"), EmoteReference.DUST).queue();
             playerInventory.process(new ItemStack(MOP, -1));
+            playerData.setTimesMopped(playerData.getTimesMopped() + 1);
             p.save();
+
             dbUser.getData().setDustLevel(0);
             dbUser.save();
             return true;
@@ -550,14 +554,14 @@ public class Items {
         ArrayList<ItemStack> ita = new ArrayList<>();
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
 
+        PlayerData data = player.getData();
         if((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM) && toAdd.contains(GEM5_PICKAXE) && toAdd.contains(GEM5_PICKAXE_2)) {
-            player.getData().addBadgeIfAbsent(Badge.DESTINY_REACHES);
+            data.addBadgeIfAbsent(Badge.DESTINY_REACHES);
         }
 
         if((type == ItemType.LootboxType.FISH || type == ItemType.LootboxType.FISH_PREMIUM) && toAdd.contains(FISH_5)) {
-            player.getData().addBadgeIfAbsent(Badge.TOO_BIG);
+            data.addBadgeIfAbsent(Badge.TOO_BIG);
         }
-
 
         boolean overflow = seasonal ? seasonPlayer.getInventory().merge(ita) : player.getInventory().merge(ita);
 
@@ -569,6 +573,7 @@ public class Items {
             player.getInventory().process(new ItemStack(crate, -1));
         }
 
+        data.setCratesOpened(data.getCratesOpened() + 1);
         player.saveAsync();
         seasonPlayer.saveAsync();
 

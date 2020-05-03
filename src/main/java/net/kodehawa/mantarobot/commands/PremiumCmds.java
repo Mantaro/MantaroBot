@@ -261,14 +261,14 @@ public class PremiumCmds {
                     protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
                         TextChannel channel = event.getChannel();
 
-                        if (config.isPremiumBot()) {
+                        if(config.isPremiumBot()) {
                             channel.sendMessageFormat(languageContext.get("commands.activatekey.mp"), EmoteReference.WARNING).queue();
                             return;
                         }
 
                         Member member = null;
                         User toCheck = event.getAuthor();
-                        if (!content.isEmpty()) {
+                        if(!content.isEmpty()) {
                             member = Utils.findMember(event, languageContext, content);
                             //Search failed, return.
                             if (member == null) {
@@ -283,7 +283,7 @@ public class PremiumCmds {
                         DBUser dbUser = db.getUser(toCheck);
                         UserData data = dbUser.getData();
 
-                        if (!dbUser.isPremium()) {
+                        if(!dbUser.isPremium()) {
                             channel.sendMessageFormat(languageContext.get("commands.vipstatus.user.not_premium"), EmoteReference.ERROR).queue();
                             return;
                         }
@@ -295,7 +295,7 @@ public class PremiumCmds {
 
                         PremiumKey currentKey = db.getPremiumKey(data.getPremiumKey());
 
-                        if (currentKey == null || currentKey.validFor() < 1) {
+                        if(currentKey == null || currentKey.validFor() < 1) {
                             channel.sendMessageFormat(languageContext.get("commands.vipstatus.user.not_premium"), EmoteReference.ERROR).queue();
                             return;
                         }
@@ -308,7 +308,7 @@ public class PremiumCmds {
                         }
 
                         //Give the badge to the key owner, I'd guess?
-                        if (!marked && isLookup) {
+                        if(!marked && isLookup) {
                             Player p = db.getPlayer(owner);
                             if (p.getData().addBadgeIfAbsent(Badge.DONATOR_2))
                                 p.saveAsync();
@@ -333,7 +333,7 @@ public class PremiumCmds {
                             if (patreonInformation != null && patreonInformation.getLeft()) {
                                 double patreonAmount = Double.parseDouble(patreonInformation.getRight());
 
-                                if ((patreonAmount / 2) - amountClaimed < 0) {
+                                if((patreonAmount / 2) - amountClaimed < 0) {
                                     LogUtils.log(
                                             String.format(
                                                     "%s has more keys claimed than given keys, dumping keys:\n%s\nCurrently pledging: %s, Claimed keys: %s, Should have %s total keys.", owner.getId(),
@@ -346,8 +346,7 @@ public class PremiumCmds {
                                     );
                                 }
                             }
-                        } catch (Exception ignored) {
-                        }
+                        } catch (Exception ignored) { }
 
                         if (linkedTo != null) {
                             User linkedUser = MantaroBot.getInstance().getShardManager().getUserById(currentKey.getOwner());

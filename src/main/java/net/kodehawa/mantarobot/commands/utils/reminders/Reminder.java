@@ -53,7 +53,7 @@ public class Reminder {
 
         DBUser user = db.getUser(userId);
         UserData data = user.getData();
-        data.setReminderN(user.getData().getReminderN() + 1);
+        data.setRemindedTimes(user.getData().getRemindedTimes() + 1);
         user.saveAsync();
     }
 

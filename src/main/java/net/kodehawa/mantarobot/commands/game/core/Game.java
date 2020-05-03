@@ -25,6 +25,7 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
+import net.kodehawa.mantarobot.commands.currency.seasons.helpers.SeasonalPlayerData;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.data.Config;
@@ -46,8 +47,7 @@ public abstract class Game<T> {
 
     public abstract String name();
 
-    protected int callDefault(GuildMessageReceivedEvent e,
-                              GameLobby lobby, List<String> players, List<T> expectedAnswer, int attempts, int maxAttempts, int extra) {
+    protected int callDefault(GuildMessageReceivedEvent e, GameLobby lobby, List<String> players, List<T> expectedAnswer, int attempts, int maxAttempts, int extra) {
         TextChannel channel = lobby.getChannel();
         if (!e.getChannel().getId().equals(channel.getId())) {
             return Operation.IGNORED;
@@ -84,6 +84,8 @@ public abstract class Game<T> {
                 Player player = unifiedPlayer.getPlayer();
                 PlayerData data = player.getData();
                 SeasonPlayer seasonalPlayer = unifiedPlayer.getSeasonalPlayer();
+                SeasonalPlayerData seasonalPlayerData = seasonalPlayer.getData();
+
                 int gains = 45 + extra;
                 unifiedPlayer.addMoney(gains);
 
@@ -93,9 +95,7 @@ public abstract class Game<T> {
                 if (data.getGamesWon() == 1000)
                     data.addBadgeIfAbsent(Badge.ADDICTED_GAMER);
 
-                if (maxAttempts > 2)
-                    seasonalPlayer.getData().setGamesWon(seasonalPlayer.getData().getGamesWon() + 1);
-
+                seasonalPlayerData.setGamesWon(seasonalPlayerData.getGamesWon() + 1);
                 data.setGamesWon(data.getGamesWon() + 1);
                 unifiedPlayer.save();
 

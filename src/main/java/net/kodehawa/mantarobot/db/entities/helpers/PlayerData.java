@@ -53,6 +53,8 @@ public class PlayerData {
     private boolean isClaimLocked = false;
     private long miningExperience;
     private long fishingExperience;
+    private long timesMopped;
+    private long cratesOpened;
 
     //lol?
     //this is needed so it actually works, even though it does absolutely nothing
@@ -279,6 +281,22 @@ public class PlayerData {
 
     public void setFishingExperience(long fishingExperience) {
         this.fishingExperience = fishingExperience;
+    }
+
+    public long getTimesMopped() {
+        return timesMopped;
+    }
+
+    public void setTimesMopped(long timesMopped) {
+        this.timesMopped = timesMopped;
+    }
+
+    public long getCratesOpened() {
+        return cratesOpened;
+    }
+
+    public void setCratesOpened(long cratesOpened) {
+        this.cratesOpened = cratesOpened;
     }
 
     @JsonIgnore

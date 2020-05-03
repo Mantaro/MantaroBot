@@ -644,7 +644,7 @@ public class PlayerCmds {
                         prettyDisplay(ctx.get("commands.profile.stats.waifu_claimed"), data.getTimesClaimed() + " " + ctx.get("commands.profile.stats.times")),
                         prettyDisplay(ctx.get("commands.profile.stats.waifu_locked"), String.valueOf(playerData.isClaimLocked())),
                         prettyDisplay(ctx.get("commands.profile.stats.dust"), data.getDustLevel() + "%"),
-                        prettyDisplay(ctx.get("commands.profile.stats.reminders"), data.getReminderN() + " " + ctx.get("commands.profile.stats.times")),
+                        prettyDisplay(ctx.get("commands.profile.stats.reminders"), data.getRemindedTimes() + " " + ctx.get("commands.profile.stats.times")),
                         prettyDisplay(ctx.get("commands.profile.stats.lang"), (data.getLang() == null ? "en_US" : data.getLang())),
                         prettyDisplay(ctx.get("commands.profile.stats.wins"),
                                 String.format("\n\u3000\u2009\u2009\u2009\u2009" +

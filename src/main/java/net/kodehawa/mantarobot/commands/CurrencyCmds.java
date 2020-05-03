@@ -153,6 +153,9 @@ public class CurrencyCmds {
             }
 
 
+            if(amount == 9)
+                p.getData().addBadgeIfAbsent(Badge.MAD_SCIENTIST);
+
             //Default: 1
             p.getInventory().process(new ItemStack(item, -amount));
             p.save();
@@ -445,6 +448,10 @@ public class CurrencyCmds {
                 }
 
                 playerInventory.process(new ItemStack(item, -itemNumber));
+
+                if(itemNumber > 4000)
+                    player.getData().addBadgeIfAbsent(Badge.WASTER);
+
                 if (isSeasonal)
                     seasonalPlayer.saveAsync();
                 else

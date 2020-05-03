@@ -26,6 +26,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -36,6 +37,7 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
@@ -388,10 +390,19 @@ public class LeaderboardCmd {
                 .addField(languageContext.get(leaderboardKey), lb.stream()
                         .map(mapFunction)
                         .filter(p -> Objects.nonNull(p.getKey()))
-                        .map(p -> String.format(format, EmoteReference.BLUE_SMALL_MARKER, p.getKey().getName(),
-                                p.getKey().getDiscriminator(), StringUtils.isNumeric(p.getValue()) ? Long.parseLong(p.getValue()) : p.getValue())
-                        )
-                        .collect(Collectors.joining("\n")), false)
+                        .map(p -> {
+                            //This is... an interesting place to do it lol
+                            if(p.getKey().getIdLong() == event.getAuthor().getIdLong()) {
+                                var player = MantaroData.db().getPlayer(event.getAuthor());
+                                if(player.getData().addBadgeIfAbsent(Badge.CHAMPION))
+                                    player.saveAsync();
+                            }
+
+                            return String.format(
+                                    format, EmoteReference.BLUE_SMALL_MARKER, p.getKey().getName(), p.getKey().getDiscriminator(),
+                                    StringUtils.isNumeric(p.getValue()) ? Long.parseLong(p.getValue()) : p.getValue()
+                            );
+                        }).collect(Collectors.joining("\n")), false)
                 .setFooter(String.format(languageContext.get("general.requested_by"), event.getAuthor().getName()), null)
                 .setThumbnail(event.getAuthor().getEffectiveAvatarUrl());
     }

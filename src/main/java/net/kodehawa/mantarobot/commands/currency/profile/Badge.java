@@ -30,7 +30,6 @@ import java.util.function.BiPredicate;
 
 public enum Badge {
     //IF THE PREDICATE RETURNS FALSE IT MEANS THAT ITS EITHER HANDLED MANUALLY OR ELSEWHERE, NOT IN THE AUTOMATIC PROFILE CHECK.
-
     //Self-explanatory.
     DEVELOPER("Developer", "\uD83D\uDEE0", "Currently a developer of Mantaro.", 91, 92,
             ((player, dbUser) -> false), false
@@ -46,7 +45,7 @@ public enum Badge {
             ((player, dbUser) -> false), false
     ),
 
-    //Contributed in any way to Mantaro's development.
+    //Contributed in any way to Mantaro's developmendiscort.
     TRANSLATOR("Translator", "\uD83C\uDF10", "Helped translate part of Mantaro to another language.", 92, 91,
             ((player, dbUser) -> false), false
     ),
@@ -120,6 +119,10 @@ public enum Badge {
     ),
     // --- END OF FIRST SEASON BADGES (Top 2 - 5) ---
 
+    BADGE_HUNTER("Badge Hunter", "\uD83C\uDFF5", "Get more than 40 badges", 91, 92,
+            (player,  dbUser) -> player.getData().getBadges().size() > 40, false
+    ),
+
     //Win more than 1000 games
     ADDICTED_GAMER("Addicted Gamer", "\uD83C\uDFAE", "Win 1000 games.", 91, 92,
             (player, dbUser) -> player.getData().getGamesWon() >= 1000, false
@@ -156,6 +159,14 @@ public enum Badge {
             (player, dbUser) -> player.getInventory().asList().stream()
                     .filter(itemStack -> itemStack.getItem() != Items.CLAIM_KEY)
                     .anyMatch(stack -> stack.getAmount() == 5000), false
+    ),
+
+    CHAMPION("Champion", "\uD83D\uDC51", "See yourself in a leaderboard.", 91, 92,
+            (player, dbUser) -> false, false
+    ),
+
+    CRATE_OPENER("Crate Opener", "\uD83D\uDD13", "Open 40 crates.", 91, 92,
+            (player, dbUser) -> player.getData().getCratesOpened() >= 40, false
     ),
 
     //Open a loot crate.
@@ -234,6 +245,10 @@ public enum Badge {
             (player, dbUser) -> false, false
     ),
 
+    GOLDFISH_BRAIN("Goldfish Brain", "\uD83D\uDDD3", "Get reminded way too many times.", 91, 92,
+            (player, dbUser) -> dbUser.getData().getRemindedTimes() > 100, false
+    ),
+
     //Find a gem.
     GEM_FINDER("Gem Finder", "\uD83D\uDC8E", "Find a gem while mining.", 91, 92,
             (player, dbUser) -> false, false
@@ -255,9 +270,17 @@ public enum Badge {
             (player, dbUser) -> false, false
     ),
 
+    CLEANER("Cleaner", "\uD83E\uDDF9", "Clean your inventory more than 50 times.", 91, 92,
+            (player, dbUser) -> player.getData().getTimesMopped() > 50, false
+    ),
+
     //Self-explanatory. (Description)
     RUNNER("Runner", "\uD83D\uDCCD", "Get to level 50 in Mantaro.", 91, 92,
             (player, dbUser) -> player.getLevel() >= 50, false
+    ),
+
+    WASTER("Waster", "", "Dump way too many items.", 91, 92,
+            (player, dbUser) -> false, false
     ),
 
     //Use opts properly
@@ -268,6 +291,10 @@ public enum Badge {
     //Use market more than 1000 times.
     COMPULSIVE_BUYER("Compulsive Buyer", "\uD83D\uDDDE", "Succesfully use market buy or sell more than 1000 times.", 91, 92,
             (player, dbUser) -> player.getData().getMarketUsed() > 1000, false
+    ),
+
+    MAD_SCIENTIST("Mad Scientist", "\u2697", "Used a ton of potions at once.", 91, 92,
+            (player, dbUser) -> false, false
     ),
 
     //Gamble more than Integer.MAX_VALUE.
@@ -480,6 +507,7 @@ public enum Badge {
                 throw new AssertionError(e);
             }
         }
+
     }
 
     /**
