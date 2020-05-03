@@ -39,19 +39,11 @@ public class Context {
 
     private final GuildMessageReceivedEvent event;
     private final I18nContext languageContext;
-    private final Member member;
-    private final User user;
-    private final Guild guild;
-    private final TextChannel channel;
     private final String content;
 
     public Context(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
         this.event = event;
         this.languageContext = languageContext;
-        this.member = event.getMember();
-        this.user = event.getAuthor();
-        this.guild = event.getGuild();
-        this.channel = event.getChannel();
         this.content = content;
     }
 
@@ -76,15 +68,15 @@ public class Context {
     }
 
     public Member getMember() {
-        return member;
+        return event.getMember();
     }
 
     public User getUser() {
-        return user;
+        return event.getAuthor();
     }
 
     public Guild getGuild() {
-        return guild;
+        return event.getGuild();
     }
 
     public SelfUser getSelfUser() {
@@ -92,18 +84,18 @@ public class Context {
     }
 
     public Member getSelfMember() {
-        return guild.getSelfMember();
+        return getGuild().getSelfMember();
     }
 
     public TextChannel getChannel() {
-        return channel;
+        return event.getChannel();
     }
 
     public DBGuild getDBGuild() {
-        return managedDatabase.getGuild(guild);
+        return managedDatabase.getGuild(getGuild());
     }
     public DBUser getDBUser() {
-        return managedDatabase.getUser(user);
+        return managedDatabase.getUser(getUser());
     }
 
     public DBUser getDBUser(User user) {
@@ -111,7 +103,7 @@ public class Context {
     }
 
     public Player getPlayer() {
-        return managedDatabase.getPlayer(user);
+        return managedDatabase.getPlayer(getUser());
     }
 
     public Player getPlayer(User user) {
@@ -127,32 +119,32 @@ public class Context {
     }
 
     public void send(Message message) {
-        channel.sendMessage(message).queue();
+        getChannel().sendMessage(message).queue();
     }
 
     public void send(String message) {
-        channel.sendMessage(message).queue();
+        getChannel().sendMessage(message).queue();
     }
 
     public void send(MessageEmbed embed) {
-        channel.sendMessage(embed).queue();
+        getChannel().sendMessage(embed).queue();
     }
 
     public void sendLocalized(String localizedMessage, Object... args) {
-        channel.sendMessageFormat(languageContext.get(localizedMessage), args).queue();
+        getChannel().sendMessageFormat(languageContext.get(localizedMessage), args).queue();
     }
 
     public void sendStripped(String message) {
         new MessageBuilder().setContent(message)
                 .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE, Message.MentionType.USER)
-                .sendTo(channel)
+                .sendTo(getChannel())
                 .queue();
     }
 
     public void sendStrippedLocalized(String localizedMessage, Object... args) {
         new MessageBuilder().setContent(String.format(localizedMessage, args))
                 .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE, Message.MentionType.USER)
-                .sendTo(channel)
+                .sendTo(getChannel())
                 .queue();
     }
 }
