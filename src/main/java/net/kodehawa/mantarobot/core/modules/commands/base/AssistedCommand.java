@@ -32,6 +32,14 @@ import java.util.Map;
  */
 public interface AssistedCommand extends Command {
 
+    default EmbedBuilder baseEmbed(Context ctx, String name) {
+        return baseEmbed(ctx.getEvent(), name);
+    }
+
+    default EmbedBuilder baseEmbed(Context ctx, String name, String image) {
+        return baseEmbed(ctx.getEvent(), name, image);
+    }
+
     default EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name) {
         return baseEmbed(event, name, event.getJDA().getSelfUser().getEffectiveAvatarUrl());
     }

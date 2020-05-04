@@ -33,8 +33,8 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import org.json.JSONArray;
@@ -133,17 +133,18 @@ public class InvestigateCmd {
     public void investigate(CommandRegistry cr) {
         cr.register("investigate", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 if (args.length == 0) {
-                    event.getChannel().sendMessage("You need to provide an id!").queue();
+                    ctx.send("You need to provide an id!");
                     return;
                 }
+
                 String id;
                 try {
                     //noinspection ResultOfMethodCallIgnored
                     Long.parseUnsignedLong(id = args[0]);
                 } catch (NumberFormatException e) {
-                    event.getChannel().sendMessage("That's not a valid id!").queue();
+                    ctx.send("That's not a valid id!");
                     return;
                 }
                 Type type;
@@ -166,7 +167,8 @@ public class InvestigateCmd {
                     type = Type.GUILD;
                     file = false;
                 }
-                investigate(event, type, id, file);
+
+                investigate(ctx.getEvent(), type, id, file);
             }
 
             @Override

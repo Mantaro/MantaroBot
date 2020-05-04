@@ -134,11 +134,7 @@ public class ImageCmds {
                     return;
                 }
 
-                String firstArg = args[0];
-                if(firstArg.isEmpty() || firstArg.equalsIgnoreCase("random"))
-                    getImage(e621, ImageRequestType.RANDOM, true, "e621", args, content, ctx);
-                else
-                    getImage(e621, ImageRequestType.TAGS, true, "e621", args, content, ctx);
+                sendImage(ctx, e621, true, "e621", content, args);
             }
 
             @Override
@@ -159,11 +155,7 @@ public class ImageCmds {
         cr.register("konachan", new SimpleCommand(Category.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                String firstArg = args[0];
-                if(firstArg.isEmpty() || firstArg.equalsIgnoreCase("random"))
-                    getImage(konachan, ImageRequestType.RANDOM, true, "konachan", args, content, ctx);
-                else
-                    getImage(konachan, ImageRequestType.TAGS, true, "konachan", args, content, ctx);
+                sendImage(ctx, konachan, false, "konachan", content, args);
             }
 
             @Override
@@ -185,11 +177,7 @@ public class ImageCmds {
         cr.register("safebooru", new SimpleCommand(Category.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                String firstArg = args[0];
-                if(firstArg.isEmpty() || firstArg.equalsIgnoreCase("random"))
-                    getImage(safebooru, ImageRequestType.RANDOM, true, "safebooru", args, content, ctx);
-                else
-                    getImage(safebooru, ImageRequestType.TAGS, true, "safebooru", args, content, ctx);
+                sendImage(ctx, safebooru, false, "safebooru", content, args);
             }
 
             @Override
@@ -209,11 +197,7 @@ public class ImageCmds {
         cr.register("danbooru", new SimpleCommand(Category.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                String firstArg = args[0];
-                if(firstArg.isEmpty() || firstArg.equalsIgnoreCase("random"))
-                    getImage(danbooru, ImageRequestType.RANDOM, true, "danbooru", args, content, ctx);
-                else
-                    getImage(danbooru, ImageRequestType.TAGS, true, "danbooru", args, content, ctx);
+                sendImage(ctx, danbooru, false, "danbooru", content, args);
             }
 
             @Override
@@ -235,11 +219,7 @@ public class ImageCmds {
         cr.register("rule34", new SimpleCommand(Category.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                String firstArg = args[0];
-                if(firstArg.isEmpty() || firstArg.equalsIgnoreCase("random"))
-                    getImage(rule34, ImageRequestType.RANDOM, true, "rule34", args, content, ctx);
-                else
-                    getImage(rule34, ImageRequestType.TAGS, true, "rule34", args, content, ctx);
+                sendImage(ctx, rule34, true, "rule34", content, args);
             }
 
             @Override
@@ -265,11 +245,7 @@ public class ImageCmds {
                     return;
                 }
 
-                String firstArg = args[0];
-                if(firstArg.isEmpty() || firstArg.equalsIgnoreCase("random"))
-                    getImage(yandere, ImageRequestType.RANDOM, true, "yandere", args, content, ctx);
-                else
-                    getImage(yandere, ImageRequestType.TAGS, true, "yandere", args, content, ctx);
+                sendImage(ctx, yandere, false, "yandere", content, args);
             }
 
             @Override
@@ -297,11 +273,7 @@ public class ImageCmds {
                     return;
                 }
 
-                String firstArg = args[0];
-                if(firstArg.isEmpty() || firstArg.equalsIgnoreCase("random"))
-                    getImage(gelbooru, ImageRequestType.RANDOM, true, "gelbooru", args, content, ctx);
-                else
-                    getImage(gelbooru, ImageRequestType.TAGS, true, "gelbooru", args, content, ctx);
+                sendImage(ctx, gelbooru, false, "gelbooru", content, args);
             }
 
             @Override
@@ -317,5 +289,13 @@ public class ImageCmds {
                         .build();
             }
         });
+    }
+
+    private void sendImage(Context ctx, ImageBoard<?> image, boolean nsfwOnly, String name, String content, String[] args) {
+        String firstArg = args[0];
+        if(firstArg.isEmpty() || firstArg.equalsIgnoreCase("random"))
+            getImage(image, ImageRequestType.RANDOM, nsfwOnly, name, args, content, ctx);
+        else
+            getImage(image, ImageRequestType.TAGS, nsfwOnly, name, args, content, ctx);
     }
 }
