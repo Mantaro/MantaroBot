@@ -80,7 +80,7 @@ public class MusicCmds {
     public void forceskip(CommandRegistry cr) {
         cr.register("forceskip", new SimpleCommand(Category.MUSIC, CommandPermission.ADMIN) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
                 TrackScheduler scheduler = musicManager.getTrackScheduler();
 
@@ -116,7 +116,7 @@ public class MusicCmds {
                     .build();
 
             @Override
-            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            public void call(Context ctx, String content, String[] args) {
                 Guild guild = event.getGuild();
                 TextChannel channel = event.getChannel();
 
@@ -176,7 +176,7 @@ public class MusicCmds {
     public void playnow(CommandRegistry cr) {
         cr.register("playnow", new SimpleCommand(Category.MUSIC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 TextChannel channel = event.getChannel();
 
                 if (isDJ(event.getMember())) {
@@ -223,7 +223,7 @@ public class MusicCmds {
     public void np(CommandRegistry cr) {
         cr.register("np", new SimpleCommand(Category.MUSIC) {
             @Override
-            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            public void call(Context ctx, String content, String[] args) {
                 TextChannel channel = event.getChannel();
 
                 final GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
@@ -267,7 +267,7 @@ public class MusicCmds {
     public void pause(CommandRegistry cr) {
         cr.register("pause", new SimpleCommand(Category.MUSIC) {
             @Override
-            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            public void call(Context ctx, String content, String[] args) {
                 TextChannel channel = event.getChannel();
                 GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
 
@@ -301,7 +301,7 @@ public class MusicCmds {
 
         cr.register("play", new SimpleCommand(Category.MUSIC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 TextChannel channel = event.getChannel();
 
                 if (content.trim().isEmpty()) {
@@ -346,7 +346,7 @@ public class MusicCmds {
     public void forceplay(CommandRegistry cr) {
         cr.register("forceplay", new SimpleCommand(Category.MUSIC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 TextChannel channel = event.getChannel();
 
                 if (content.trim().isEmpty()) {
@@ -383,7 +383,7 @@ public class MusicCmds {
     public void rewind(CommandRegistry cr) {
         cr.register("rewind", new SimpleCommand(Category.MUSIC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 TextChannel channel = event.getChannel();
 
                 if (args.length == 0) {
@@ -438,7 +438,7 @@ public class MusicCmds {
     public void reset(CommandRegistry cr) {
         cr.register("restartsong", new SimpleCommand(Category.MUSIC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 TextChannel channel = event.getChannel();
 
                 GuildMusicManager manager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
@@ -470,7 +470,7 @@ public class MusicCmds {
     public void skipahead(CommandRegistry cr) {
         cr.register("forward", new SimpleCommand(Category.MUSIC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 TextChannel channel = event.getChannel();
 
                 if (args.length == 0) {
@@ -534,7 +534,7 @@ public class MusicCmds {
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                    protected void call(Context ctx, String content) {
                         GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
                         int page = 0;
 
@@ -566,7 +566,7 @@ public class MusicCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+            protected void call(Context ctx, String content) {
                 MantaroAudioManager mantaroAudioManager = MantaroBot.getInstance().getAudioManager();
                 GuildMusicManager musicManager = mantaroAudioManager.getMusicManager(event.getGuild());
 
@@ -593,7 +593,7 @@ public class MusicCmds {
     public void removetrack(CommandRegistry cr) {
         cr.register("removetrack", new SimpleCommand(Category.MUSIC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 TextChannel channel = event.getChannel();
 
                 GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
@@ -700,7 +700,7 @@ public class MusicCmds {
     public void repeat(CommandRegistry cr) {
         cr.register("repeat", new SimpleCommand(Category.MUSIC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 TextChannel channel = event.getChannel();
 
                 GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
@@ -749,7 +749,7 @@ public class MusicCmds {
     public void nextSong(CommandRegistry cr) {
         cr.register("ns", new SimpleCommand(Category.MUSIC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 TextChannel channel = event.getChannel();
 
                 GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
@@ -781,7 +781,7 @@ public class MusicCmds {
     public void shuffle(CommandRegistry cr) {
         cr.register("shuffle", new SimpleCommand(Category.MUSIC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
 
                 if (!isInConditionTo(event, musicManager.getLavaLink(), languageContext))
@@ -805,7 +805,7 @@ public class MusicCmds {
     public void skip(CommandRegistry cr) {
         cr.register("skip", new SimpleCommand(Category.MUSIC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 TextChannel channel = event.getChannel();
 
                 try {
@@ -864,7 +864,7 @@ public class MusicCmds {
     public void stop(CommandRegistry cr) {
         cr.register("stop", new SimpleCommand(Category.MUSIC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 TextChannel channel = event.getChannel();
 
                 try {
@@ -923,7 +923,7 @@ public class MusicCmds {
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                    protected void call(Context ctx, String content) {
                         TextChannel channel = event.getChannel();
                         final ManagedDatabase db = MantaroData.db();
 
@@ -976,7 +976,7 @@ public class MusicCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+            protected void call(Context ctx, String content) {
                 JdaLink link = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getLavaLink();
                 IPlayer player = link.getPlayer();
 
@@ -991,7 +991,7 @@ public class MusicCmds {
     public void music(CommandRegistry cr) {
         cr.register("music", new SimpleCommand(Category.INFO) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 event.getChannel().sendMessage(
                         String.join("\n",
                                 languageContext.get("commands.music_usage.1"),
@@ -1023,7 +1023,7 @@ public class MusicCmds {
     public void lyrics(CommandRegistry cr) {
         cr.register("lyrics", new SimpleCommand(Category.MUSIC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 String search = content.trim();
                 TextChannel channel = event.getChannel();
 

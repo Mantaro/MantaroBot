@@ -22,7 +22,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.Waifu;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -37,9 +36,9 @@ import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
@@ -85,13 +84,13 @@ public class RelationshipCmds {
         //Maximum waifu value is Integer.MAX_VALUE.
 
         //Money calculation.
-        long moneyValue = Math.round(Math.max(1, (int) (waifuPlayer.getMoney() / 135000)) * calculatePercentage(6, waifuBaseValue));
+        long moneyValue = Math.round(Math.max(1, (int) (waifuPlayer.getMoney() / 135000)) * calculatePercentage(6));
         //Badge calculation.
-        long badgeValue = Math.round(Math.max(1, (waifuPlayerData.getBadges().size() / 3)) * calculatePercentage(17, waifuBaseValue));
+        long badgeValue = Math.round(Math.max(1, (waifuPlayerData.getBadges().size() / 3)) * calculatePercentage(17));
         //Experience calculator.
-        long experienceValue = Math.round(Math.max(1, (int) (waifuPlayer.getData().getExperience() / 2780)) * calculatePercentage(18, waifuBaseValue));
+        long experienceValue = Math.round(Math.max(1, (int) (waifuPlayer.getData().getExperience() / 2780)) * calculatePercentage(18));
         //Claim calculator.
-        long claimValue = Math.round(Math.max(1, (waifuUserData.getTimesClaimed() / 3)) * calculatePercentage(5, waifuBaseValue));
+        long claimValue = Math.round(Math.max(1, (waifuUserData.getTimesClaimed() / 3)) * calculatePercentage(5));
 
         //"final" value
         waifuValue += moneyValue + badgeValue + experienceValue + claimValue;
@@ -120,20 +119,18 @@ public class RelationshipCmds {
     }
 
     //Yes, I had to do it, fuck.
-    private static long calculatePercentage(long percentage, long number) {
-        return (percentage * number) / 100;
+    private static long calculatePercentage(long percentage) {
+        return (percentage * RelationshipCmds.waifuBaseValue) / 100;
     }
 
     @Subscribe
     public void marry(CommandRegistry cr) {
         ITreeCommand marryCommand = (ITreeCommand) cr.register("marry", new TreeCommand(Category.FUN) {
             @Override
-            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        TextChannel channel = event.getChannel();
-
+                    protected void call(Context ctx, String content) {
                         if (event.getMessage().getMentionedUsers().isEmpty()) {
                             channel.sendMessageFormat(languageContext.get("commands.marry.no_mention"), EmoteReference.ERROR).queue();
                             return;
@@ -362,9 +359,7 @@ public class RelationshipCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                final TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content) {
                 final ManagedDatabase db = MantaroData.db();
                 final User author = event.getAuthor();
 
@@ -488,9 +483,7 @@ public class RelationshipCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content) {
                 final ManagedDatabase db = MantaroData.db();
                 final User author = event.getAuthor();
                 DBUser dbUser = db.getUser(author);
@@ -541,9 +534,7 @@ public class RelationshipCmds {
     public void divorce(CommandRegistry cr) {
         cr.register("divorce", new SimpleCommand(Category.FUN) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content, String[] args) {
                 final ManagedDatabase managedDatabase = MantaroData.db();
                 final Player divorceePlayer = managedDatabase.getPlayer(event.getAuthor());
                 //Assume we're dealing with a new marriage?
@@ -637,10 +628,10 @@ public class RelationshipCmds {
 
         TreeCommand waifu = (TreeCommand) cr.register("waifu", new TreeCommand(Category.FUN) {
             @Override
-            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                    protected void call(Context ctx, String content) {
                         //IMPLEMENTATION NOTES FOR THE WAIFU SYSTEM
                         //You get 3 free slots to put "waifus" in. Each extra slot (up to 9) costs exponentially more than the last one (2x more than the costs of the last one)
                         //Every waifu has a "claim" price which increases in the following situations:
@@ -741,8 +732,7 @@ public class RelationshipCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
+            protected void call(Context ctx, String content) {
                 Member member = Utils.findMember(event, event.getMember(), content);
                 if (member == null)
                     return;
@@ -779,8 +769,7 @@ public class RelationshipCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
+            protected void call(Context ctx, String content) {
                 if (event.getMessage().getMentionedUsers().isEmpty()) {
                     channel.sendMessageFormat(languageContext.get("commands.waifu.claim.no_user"), EmoteReference.ERROR).queue();
                     return;
@@ -881,9 +870,7 @@ public class RelationshipCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content) {
                 Map<String, String> t = getArguments(content);
                 content = Utils.replaceArguments(t, content, "unknown");
                 boolean isId = content.matches("\\d{16,20}");
@@ -992,9 +979,7 @@ public class RelationshipCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content) {
                 final ManagedDatabase db = MantaroData.db();
                 int baseValue = 3000;
 

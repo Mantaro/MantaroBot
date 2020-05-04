@@ -36,6 +36,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperati
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -98,8 +99,7 @@ public class MoneyCmds {
         Random r = new Random();
         cr.register("daily", new SimpleCommand(Category.CURRENCY) {
             @Override
-            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
+            public void call(Context ctx, String content, String[] args) {
                 //155
                 // Args: Check -check for duration
                 if (args.length > 0 && event.getMessage().getMentionedUsers().isEmpty() && args[0].equalsIgnoreCase("-check")) {
@@ -307,9 +307,7 @@ public class MoneyCmds {
             SecureRandom r = new SecureRandom();
 
             @Override
-            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                final TextChannel channel = event.getChannel();
-
+            public void call(Context ctx, String content, String[] args) {
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
 
                 if (player.getMoney() <= 0) {
@@ -450,12 +448,11 @@ public class MoneyCmds {
             final Random r = new Random();
 
             @Override
-            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            public void call(Context ctx, String content, String[] args) {
                 UnifiedPlayer unifiedPlayer = UnifiedPlayer.of(event.getAuthor(), getConfig().getCurrentSeason());
 
                 Player player = unifiedPlayer.getPlayer();
                 DBUser dbUser = MantaroData.db().getUser(event.getAuthor());
-                TextChannel channel = event.getChannel();
                 Member member = event.getMember();
 
                 if (player.isLocked()) {
@@ -543,8 +540,7 @@ public class MoneyCmds {
     public void balance(CommandRegistry cr) {
         cr.register("balance", new SimpleCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
+            protected void call(Context ctx, String content, String[] args) {
                 Map<String, String> t = getArguments(content);
                 content = Utils.replaceArguments(t, content, "season", "s").trim();
                 boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
@@ -614,9 +610,8 @@ public class MoneyCmds {
 
         cr.register("slots", new SimpleCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 Map<String, String> opts = getArguments(args);
-                TextChannel channel = event.getChannel();
 
                 long money = 50;
                 int slotsChance = 25; //25% raw chance of winning, completely random chance of winning on the other random iteration
@@ -798,9 +793,8 @@ public class MoneyCmds {
         });
     }
 
-    private void proceedGamble(GuildMessageReceivedEvent event, I18nContext languageContext, Player player, int luck, Random r, long i, long gains, long bet) {
+    private void proceedGamble(Context ctx, Player player, int luck, Random r, long i, long gains, long bet) {
         PlayerStats stats = MantaroData.db().getPlayerStats(event.getMember());
-        TextChannel channel = event.getChannel();
         PlayerData data = player.getData();
 
         if (luck > r.nextInt(140)) {

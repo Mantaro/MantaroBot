@@ -41,6 +41,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -95,10 +96,9 @@ public class PlayerCmds {
                     .build();
 
             @Override
-            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            public void call(Context ctx, String content, String[] args) {
                 long rl = rateLimiter.getRemaniningCooldown(event.getAuthor());
 
-                TextChannel channel = event.getChannel();
                 User user;
 
                 if (content.isEmpty()) {
@@ -195,9 +195,7 @@ public class PlayerCmds {
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        TextChannel channel = event.getChannel();
-
+                    protected void call(Context ctx, String content) {
                         Map<String, String> t = getArguments(content);
                         content = Utils.replaceArguments(t, content, "season", "s").trim();
                         boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
@@ -301,7 +299,7 @@ public class PlayerCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+            protected void call(Context ctx, String content) {
                 Player player = db.getPlayer(event.getAuthor());
 
                 if (content.equals("remove")) {
@@ -331,7 +329,7 @@ public class PlayerCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+            protected void call(Context ctx, String content) {
                 DBUser user = MantaroData.db().getUser(event.getAuthor());
                 UserData data = user.getData();
 
@@ -356,7 +354,7 @@ public class PlayerCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+            protected void call(Context ctx, String content) {
                 DBUser user = db.getUser(event.getAuthor());
                 UserData data = user.getData();
 
@@ -374,9 +372,7 @@ public class PlayerCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content) {
                 DBUser dbUser = db.getUser(event.getAuthor());
                 String[] args = content.split(" ");
 
@@ -420,11 +416,9 @@ public class PlayerCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+            protected void call(Context ctx, String content) {
                 if (!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
                     return;
-
-                TextChannel channel = event.getChannel();
 
                 String[] args = content.split(" ");
                 User author = event.getAuthor();
@@ -485,9 +479,7 @@ public class PlayerCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content) {
                 String[] args = content.split(" ");
                 if (args.length == 0) {
                     channel.sendMessageFormat(languageContext.get("commands.profile.displaybadge.not_specified"), EmoteReference.ERROR).queue();
@@ -538,9 +530,7 @@ public class PlayerCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content) {
                 if (content.isEmpty()) {
                     channel.sendMessageFormat(languageContext.get("commands.profile.lang.nothing_specified"), EmoteReference.ERROR).queue();
                     return;
@@ -576,7 +566,6 @@ public class PlayerCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, I18nContext ctx, String content) {
-                TextChannel channel = event.getChannel();
                 Member member = Utils.findMember(event, event.getMember(), content);
 
                 if (member == null)
@@ -672,9 +661,7 @@ public class PlayerCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content) {
                 DBUser user = db.getUser(event.getAuthor());
                 if (!user.isPremium()) {
                     channel.sendMessageFormat(languageContext.get("commands.profile.display.not_premium"), EmoteReference.ERROR).queue();
@@ -729,8 +716,7 @@ public class PlayerCmds {
     public void equip(CommandRegistry cr) {
         cr.register("equip", new SimpleCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
+            protected void call(Context ctx, String content, String[] args) {
                 if (content.isEmpty()) {
                     channel.sendMessageFormat(languageContext.get("commands.profile.equip.no_content"), EmoteReference.ERROR).queue();
                     return;
@@ -798,9 +784,7 @@ public class PlayerCmds {
     public void unequip(CommandRegistry cr) {
         cr.register("unequip", new SimpleCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content, String[] args) {
                 if (content.isEmpty()) {
                     channel.sendMessageFormat(languageContext.get("commands.profile.unequip.no_content"), EmoteReference.ERROR).queue();
                     return;
@@ -883,9 +867,7 @@ public class PlayerCmds {
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        TextChannel channel = event.getChannel();
-
+                    protected void call(Context ctx, String content) {
                         Map<String, String> t = getArguments(content);
                         content = Utils.replaceArguments(t, content, "brief");
                         Member member = Utils.findMember(event, event.getMember(), content);
@@ -967,9 +949,7 @@ public class PlayerCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content) {
                 if (content.isEmpty()) {
                     channel.sendMessageFormat(languageContext.get("commands.badges.info.not_specified"), EmoteReference.ERROR).queue();
                     return;

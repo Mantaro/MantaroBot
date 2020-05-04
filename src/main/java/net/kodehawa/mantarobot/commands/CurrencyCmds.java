@@ -39,6 +39,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -176,7 +177,7 @@ public class CurrencyCmds {
         final Random r = new Random();
         cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
             @Override
-            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            public void call(Context ctx, String content, String[] args) {
                 Map<String, String> t = getArguments(args);
                 content = Utils.replaceArguments(t, content, "brief", "calculate", "calc", "c", "info", "full", "season", "s");
                 Member member = Utils.findMember(event, event.getMember(), content);
@@ -276,7 +277,7 @@ public class CurrencyCmds {
     public void level(CommandRegistry cr) {
         cr.register("level", new SimpleCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 Member member = Utils.findMember(event, event.getMember(), content);
                 TextChannel channel = event.getChannel();
 
@@ -332,7 +333,7 @@ public class CurrencyCmds {
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                    protected void call(Context ctx, String content) {
                         EmbedBuilder embed = baseEmbed(event, languageContext.get("commands.market.header"))
                                 .setThumbnail("https://png.icons8.com/metro/540/shopping-cart.png");
                         List<MessageEmbed.Field> fields = new LinkedList<>();
@@ -402,9 +403,7 @@ public class CurrencyCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content) {
                 if (content.isEmpty()) {
                     channel.sendMessageFormat(languageContext.get("commands.market.dump.no_item"), EmoteReference.ERROR).queue();
                     return;
@@ -472,7 +471,7 @@ public class CurrencyCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+            protected void call(Context ctx, String content) {
                 String[] args = content.split(" ");
                 String itemName = content.replace(args[0] + " ", "");
                 Item item = Items.fromAny(itemName).orElse(null);
@@ -506,9 +505,7 @@ public class CurrencyCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content) {
                 if (content.isEmpty()) {
                     channel.sendMessageFormat(languageContext.get("commands.market.sell.no_item_amount"), EmoteReference.ERROR).queue();
                     return;
@@ -624,8 +621,7 @@ public class CurrencyCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
+            protected void call(Context ctx, String content) {
                 if (content.isEmpty()) {
                     channel.sendMessageFormat(languageContext.get("commands.market.buy.no_item_amount"), EmoteReference.ERROR).queue();
                     return;
@@ -738,9 +734,7 @@ public class CurrencyCmds {
                     .build();
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content, String[] args) {
                 if (args.length < 2) {
                     channel.sendMessageFormat(languageContext.get("commands.itemtransfer.no_item_mention"), EmoteReference.ERROR).queue();
                     return;
@@ -877,9 +871,7 @@ public class CurrencyCmds {
             RateLimiter partyRateLimiter = new RateLimiter(TimeUnit.MINUTES, 3);
 
             @Override
-            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                final TextChannel channel = event.getChannel();
-
+            public void call(Context ctx, String content, String[] args) {
                 if (event.getMessage().getMentionedUsers().isEmpty()) {
                     channel.sendMessageFormat(languageContext.get("general.mention_user_required"), EmoteReference.ERROR).queue();
                     return;
@@ -996,9 +988,7 @@ public class CurrencyCmds {
     public void lootcrate(CommandRegistry registry) {
         registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                final TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content, String[] args) {
                 final ManagedDatabase managedDatabase = MantaroData.db();
                 //Argument parsing.
                 Map<String, String> t = getArguments(args);
@@ -1056,7 +1046,7 @@ public class CurrencyCmds {
 
         cr.register("dailycrate", new SimpleCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 final ManagedDatabase managedDatabase = MantaroData.db();
 
                 if (!managedDatabase.getUser(event.getAuthor()).isPremium()) {
@@ -1101,11 +1091,10 @@ public class CurrencyCmds {
             public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+                    protected void call(Context ctx, String content) {
                         final ManagedDatabase db = MantaroData.db();
                         String[] args = StringUtils.advancedSplitArgs(content, 2);
                         Map<String, String> t = StringUtils.parse(content.split("\\s+"));
-                        final TextChannel channel = event.getChannel();
 
                         if (content.isEmpty()) {
                             channel.sendMessageFormat(languageContext.get("commands.useitem.no_items_specified"), EmoteReference.ERROR).queue();
@@ -1159,7 +1148,7 @@ public class CurrencyCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+            protected void call(Context ctx, String content) {
                 List<Item> interactiveItems = Arrays.stream(Items.ALL).filter(
                         i -> i.getItemType() == ItemType.INTERACTIVE || i.getItemType() == ItemType.POTION || i.getItemType() == ItemType.CRATE || i.getItemType() == ItemType.BUFF
                 ).collect(Collectors.toList());
