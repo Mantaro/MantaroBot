@@ -19,13 +19,8 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
 import net.kodehawa.mantarobot.commands.interaction.polls.PollBuilder;
@@ -36,13 +31,12 @@ import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
-import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -67,100 +61,83 @@ public class MiscCmds {
     private final Random rand = new Random();
     private final Pattern pollOptionSeparator = Pattern.compile(",\\s*");
 
-    public static void iamFunction(String autoroleName, GuildMessageReceivedEvent event, I18nContext languageContext) {
-        iamFunction(autoroleName, event, languageContext, null);
+    public static void iamFunction(String autoroleName, Context ctx) {
+        iamFunction(autoroleName, ctx, null);
     }
 
-    public static void iamFunction(String autoroleName, GuildMessageReceivedEvent event, I18nContext languageContext, String message) {
-        DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+    public static void iamFunction(String autoroleName, Context ctx, String message) {
+        DBGuild dbGuild = ctx.getDBGuild();
         Map<String, String> autoroles = dbGuild.getData().getAutoroles();
-        TextChannel channel = event.getChannel();
 
         if (autoroles.containsKey(autoroleName)) {
-            Role role = event.getGuild().getRoleById(autoroles.get(autoroleName));
+            Role role = ctx.getGuild().getRoleById(autoroles.get(autoroleName));
             if (role == null) {
-                channel.sendMessageFormat(languageContext.get("commands.iam.deleted_role"), EmoteReference.ERROR).queue();
+                ctx.sendLocalized("commands.iam.deleted_role", EmoteReference.ERROR);
 
                 //delete the non-existent autorole.
                 dbGuild.getData().getAutoroles().remove(autoroleName);
                 dbGuild.saveAsync();
             } else {
-                if (event.getMember().getRoles().stream().anyMatch(r1 -> r1.getId().equals(role.getId()))) {
-                    channel.sendMessageFormat(languageContext.get("commands.iam.already_assigned"), EmoteReference.ERROR).queue();
+                if (ctx.getMember().getRoles().stream().anyMatch(r1 -> r1.getId().equals(role.getId()))) {
+                    ctx.sendLocalized("commands.iam.already_assigned", EmoteReference.ERROR);
                     return;
                 }
                 try {
-                    event.getGuild().addRoleToMember(event.getMember(), role)
+                    ctx.getGuild().addRoleToMember(ctx.getMember(), role)
                             //don't translate the reason!
                             .reason("Auto-assignable roles assigner (~>iam)")
                             .queue(aVoid -> {
                                 if (message == null || message.isEmpty())
-                                    channel.sendMessageFormat(languageContext.get("commands.iam.success"), EmoteReference.OK, event.getAuthor().getName(), role.getName()).queue();
+                                    ctx.sendLocalized("commands.iam.success", EmoteReference.OK, ctx.getAuthor().getName(), role.getName());
                                 else
                                     //Simple stuff for custom commands. (iamcustom:)
-                                    new MessageBuilder()
-                                            .append(message)
-                                            .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE)
-                                            .sendTo(channel)
-                                            .queue();
+                                    ctx.sendStripped(message);
                             });
                 } catch (PermissionException pex) {
-                    channel.sendMessageFormat(languageContext.get("commands.iam.error"), EmoteReference.ERROR, role.getName()).queue();
+                    ctx.sendLocalized("commands.iam.error", EmoteReference.ERROR, role.getName());
                 }
             }
         } else {
-            new MessageBuilder().
-                    append(String.format(languageContext.get("commands.iam.no_role"), EmoteReference.ERROR, autoroleName))
-                    .stripMentions(event.getJDA())
-                    .sendTo(channel)
-                    .queue();
+            ctx.sendStrippedLocalized("commands.iam.no_role", EmoteReference.ERROR, autoroleName);
         }
     }
 
-    public static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event, I18nContext languageContext) {
-        iamnotFunction(autoroleName, event, languageContext, null);
+    public static void iamnotFunction(String autoroleName, Context ctx) {
+        iamnotFunction(autoroleName, ctx, null);
     }
 
-    public static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event, I18nContext languageContext, String message) {
-        DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+    public static void iamnotFunction(String autoroleName, Context ctx, String message) {
+        DBGuild dbGuild = ctx.getDBGuild();
         Map<String, String> autoroles = dbGuild.getData().getAutoroles();
-        TextChannel channel = event.getChannel();
 
         if (autoroles.containsKey(autoroleName)) {
-            Role role = event.getGuild().getRoleById(autoroles.get(autoroleName));
+            Role role = ctx.getGuild().getRoleById(autoroles.get(autoroleName));
             if (role == null) {
-                channel.sendMessageFormat(languageContext.get("commands.iam.deleted_role"), EmoteReference.ERROR).queue();
+                ctx.sendLocalized("commands.iam.deleted_role", EmoteReference.ERROR);
 
                 //delete the non-existent autorole.
                 dbGuild.getData().getAutoroles().remove(autoroleName);
                 dbGuild.saveAsync();
             } else {
-                if (event.getMember().getRoles().stream().noneMatch(r1 -> r1.getId().equals(role.getId()))) {
-                    channel.sendMessageFormat(languageContext.get("commands.iamnot.not_assigned"), EmoteReference.ERROR).queue();
+                if (ctx.getMember().getRoles().stream().noneMatch(r1 -> r1.getId().equals(role.getId()))) {
+                    ctx.sendLocalized("commands.iamnot.not_assigned", EmoteReference.ERROR);
                     return;
                 }
+
                 try {
-                    event.getGuild().removeRoleFromMember(event.getMember(), role)
+                    ctx.getGuild().removeRoleFromMember(ctx.getMember(), role)
                             .queue(aVoid -> {
                                 if (message == null || message.isEmpty())
-                                    channel.sendMessageFormat(languageContext.get("commands.iamnot.success"), EmoteReference.OK, event.getAuthor().getName(), role.getName()).queue();
+                                    ctx.sendLocalized("commands.iamnot.success", EmoteReference.OK, ctx.getAuthor().getName(), role.getName());
                                 else
-                                    new MessageBuilder()
-                                            .append(message)
-                                            .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE)
-                                            .sendTo(channel)
-                                            .queue();
+                                    ctx.sendStrippedLocalized(message);
                             });
                 } catch (PermissionException pex) {
-                    channel.sendMessageFormat(languageContext.get("commands.iam.error"), EmoteReference.ERROR, role.getName()).queue();
+                    ctx.sendLocalized("commands.iam.error", EmoteReference.ERROR, role.getName());
                 }
             }
         } else {
-            new MessageBuilder().
-                    append(String.format(languageContext.get("commands.iam.no_role"), EmoteReference.ERROR, autoroleName))
-                    .stripMentions(event.getJDA())
-                    .sendTo(channel)
-                    .queue();
+            ctx.sendStrippedLocalized("commands.iam.no_role", EmoteReference.ERROR, autoroleName);
         }
     }
 
@@ -168,11 +145,9 @@ public class MiscCmds {
     public void eightBall(CommandRegistry cr) {
         cr.register("8ball", new SimpleCommand(Category.MISC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content, String[] args) {
                 if (content.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("commands.8ball.no_args"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.8ball.no_args", EmoteReference.ERROR);
                     return;
                 }
 
@@ -180,12 +155,12 @@ public class MiscCmds {
                 String json = Utils.wgetOkHttp(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded));
 
                 if(json == null) {
-                    channel.sendMessageFormat(languageContext.get("commands.8ball.error"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.8ball.error", EmoteReference.ERROR);
                     return;
                 }
 
                 String answer = new JSONObject(json).getJSONObject("magic").getString("answer");
-                channel.sendMessage("\uD83D\uDCAC " + answer + ".").queue(); //owo
+                ctx.send("\uD83D\uDCAC " + answer + ".");
             }
 
             @Override
@@ -205,18 +180,16 @@ public class MiscCmds {
     public void iam(CommandRegistry cr) {
         TreeCommand iamCommand = (TreeCommand) cr.register("iam", new TreeCommand(Category.MISC) {
             @Override
-            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                        Map<String, String> autoroles = dbGuild.getData().getAutoroles();
+                    protected void call(Context ctx, String content) {
                         if (content.trim().isEmpty()) {
-                            event.getChannel().sendMessageFormat(languageContext.get("commands.iam.no_iam"), EmoteReference.ERROR).queue();
+                            ctx.sendLocalized("commands.iam.no_iam", EmoteReference.ERROR);
                             return;
                         }
 
-                        iamFunction(content.trim().replace("\"", ""), event, languageContext);
+                        iamFunction(content.trim().replace("\"", ""), ctx);
                     }
                 };
             }
@@ -239,26 +212,23 @@ public class MiscCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content) {
                 EmbedBuilder embed;
-                DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                DBGuild dbGuild = ctx.getDBGuild();
                 GuildData guildData = dbGuild.getData();
 
                 Map<String, String> autoroles = guildData.getAutoroles();
                 Map<String, List<String>> autorolesCategories = guildData.getAutoroleCategories();
                 List<MessageEmbed.Field> fields = new LinkedList<>();
                 StringBuilder stringBuilder = new StringBuilder();
+                I18nContext languageContext = ctx.getLanguageContext();
 
-                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(channel, Permission.MESSAGE_ADD_REACTION);
-
-                if (!hasReactionPerms)
+                if (!ctx.hasReactionPerms())
                     stringBuilder.append(languageContext.get("general.text_menu")).append("\n");
 
-                embed = baseEmbed(event, languageContext.get("commands.iam.list.header"))
+                embed = baseEmbed(ctx, languageContext.get("commands.iam.list.header"))
                         .setDescription(languageContext.get("commands.iam.list.description") + stringBuilder.toString())
-                        .setThumbnail(event.getGuild().getIconUrl());
+                        .setThumbnail(ctx.getGuild().getIconUrl());
 
                 if (autoroles.size() > 0) {
                     List<String> categorizedRoles = new ArrayList<>();
@@ -268,7 +238,10 @@ public class MiscCmds {
                         for (String iam : roles) {
                             String roleId = autoroles.get(iam);
                             if (roleId != null) {
-                                Role role = event.getGuild().getRoleById(roleId);
+                                Role role = ctx.getGuild().getRoleById(roleId);
+                                if(role == null)
+                                    continue;
+
                                 roleString.append("`").append(iam).append("`. Gives role: ").append(role.getName()).append(", ");
                                 categorizedRoles.add(role.getId());
                             }
@@ -280,7 +253,7 @@ public class MiscCmds {
 
                     autoroles.forEach((name, roleId) -> {
                         if (!categorizedRoles.contains(roleId)) {
-                            Role role = event.getGuild().getRoleById(roleId);
+                            Role role = ctx.getGuild().getRoleById(roleId);
                             if (role != null) {
                                 fields.add(new MessageEmbed.Field(name, languageContext.get("commands.iam.list.role") + " `" + role.getName() + "`", false));
                             }
@@ -288,17 +261,17 @@ public class MiscCmds {
                     });
 
                     List<List<MessageEmbed.Field>> parts = DiscordUtils.divideFields(6, fields);
-                    if (hasReactionPerms) {
-                        DiscordUtils.list(event, 100, false, embed, parts);
+                    if (ctx.hasReactionPerms()) {
+                        DiscordUtils.list(ctx.getEvent(), 100, false, embed, parts);
                     } else {
-                        DiscordUtils.listText(event, 100, false, embed, parts);
+                        DiscordUtils.listText(ctx.getEvent(), 100, false, embed, parts);
                     }
                 } else {
-                    embed = baseEmbed(event, languageContext.get("commands.iam.list.header"))
-                            .setThumbnail(event.getGuild().getIconUrl())
+                    embed = baseEmbed(ctx, languageContext.get("commands.iam.list.header"))
+                            .setThumbnail(ctx.getGuild().getIconUrl())
                             .setDescription(languageContext.get("commands.iam.list.no_autoroles"));
 
-                    channel.sendMessage(embed.build()).queue();
+                    ctx.send(embed.build());
                 }
             }
         });
@@ -312,13 +285,13 @@ public class MiscCmds {
     public void iamnot(CommandRegistry cr) {
         cr.register("iamnot", new SimpleCommand(Category.MISC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 if (content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.iamnot.no_args"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.iamnot.no_args", EmoteReference.ERROR);
                     return;
                 }
 
-                iamnotFunction(content.trim().replace("\"", ""), event, languageContext);
+                iamnotFunction(content.trim().replace("\"", ""), ctx);
             }
 
             @Override
@@ -336,8 +309,8 @@ public class MiscCmds {
     public void randomFact(CommandRegistry cr) {
         cr.register("randomfact", new SimpleCommand(Category.MISC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                event.getChannel().sendMessage(EmoteReference.TALKING + facts.get().get(rand.nextInt(facts.get().size() - 1))).queue();
+            protected void call(Context ctx, String content, String[] args) {
+                ctx.send(EmoteReference.TALKING + facts.get().get(rand.nextInt(facts.get().size() - 1)));
             }
 
             @Override
@@ -355,23 +328,17 @@ public class MiscCmds {
     public void createPoll(CommandRegistry registry) {
         registry.register("createpoll", new SimpleCommand(Category.MISC) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
-
-                Map<String, String> opts = StringUtils.parse(args);
+            protected void call(Context ctx, String content, String[] args) {
+                Map<String, String> opts = ctx.getOptionalArguments();
                 PollBuilder builder = Poll.builder();
-                if (!opts.containsKey("time") || opts.get("time") == null) {
-                    channel.sendMessageFormat(languageContext.get("commands.poll.missing"), EmoteReference.ERROR, "`-time`", "Example: `~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
-                    return;
-                }
+                boolean failure = (!opts.containsKey("time") || opts.get("time") == null) ||
+                        (!opts.containsKey("options") || opts.get("options") == null) ||
+                        (!opts.containsKey("name") || opts.get("name") == null);
 
-                if (!opts.containsKey("options") || opts.get("options") == null) {
-                    channel.sendMessageFormat(languageContext.get("commands.poll.missing"), EmoteReference.ERROR, "`-options`", "Example: ~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
-                    return;
-                }
-
-                if (!opts.containsKey("name") || opts.get("name") == null) {
-                    channel.sendMessageFormat(languageContext.get("commands.poll.missing"), EmoteReference.ERROR, "`-name`", "Example: ~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"").queue();
+                if (failure) {
+                    ctx.sendLocalized("commands.poll.missing", EmoteReference.ERROR,
+                            "`-time`", "Example: `~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\""
+                    );
                     return;
                 }
 
@@ -390,14 +357,14 @@ public class MiscCmds {
                 try {
                     timeout = Utils.parseTime(opts.get("time"));
                 } catch (Exception e) {
-                    channel.sendMessageFormat(languageContext.get("commands.poll.incorrect_time_format"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.poll.incorrect_time_format", EmoteReference.ERROR);
                     return;
                 }
 
-                builder.setEvent(event)
+                builder.setEvent(ctx.getEvent())
                         .setTimeout(timeout)
                         .setOptions(options)
-                        .setLanguage(languageContext)
+                        .setLanguage(ctx.getLanguageContext())
                         .build()
                         .startPoll();
             }

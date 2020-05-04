@@ -18,6 +18,7 @@
 package net.kodehawa.mantarobot.core.modules.commands.base;
 
 import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -116,6 +117,7 @@ public class Context {
     public DBGuild getDBGuild() {
         return managedDatabase.getGuild(getGuild());
     }
+
     public DBUser getDBUser() {
         return managedDatabase.getUser(getUser());
     }
@@ -140,6 +142,15 @@ public class Context {
         return managedDatabase.getPlayerForSeason(user, getConfig().getCurrentSeason());
     }
 
+    public boolean isSeasonal() {
+        Map<String, String> optionalArguments = getOptionalArguments();
+        return optionalArguments.containsKey("season") || optionalArguments.containsKey("s");
+    }
+
+    public boolean hasReactionPerms() {
+        return getSelfMember().hasPermission(getChannel(), Permission.MESSAGE_ADD_REACTION);
+    }
+
     public String[] getArguments() {
         return StringUtils.advancedSplitArgs(content, 0);
     }
@@ -154,6 +165,10 @@ public class Context {
 
     public void send(String message) {
         getChannel().sendMessage(message).queue();
+    }
+
+    public void sendFormat(String message, Object... format) {
+        getChannel().sendMessageFormat(message, format).queue();
     }
 
     public void send(MessageEmbed embed) {

@@ -317,8 +317,7 @@ public class ItemCmds {
                 }
 
                 List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
-                boolean hasReactionPerms = ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_ADD_REACTION);
-                if (hasReactionPerms) {
+                if (ctx.hasReactionPerms()) {
                     builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.cast.ls.desc")));
                     DiscordUtils.list(ctx.getEvent(), 45, false, builder, splitFields);
                 } else {
@@ -549,8 +548,7 @@ public class ItemCmds {
                 }
 
                 List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
-                boolean hasReactionPerms = ctx.getGuild().getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_ADD_REACTION);
-                if (hasReactionPerms) {
+                if (ctx.hasReactionPerms()) {
                     builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.repair.ls.desc")));
                     DiscordUtils.list(ctx.getEvent(), 45, false, builder, splitFields);
                 } else {

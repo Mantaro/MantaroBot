@@ -306,8 +306,7 @@ public class CustomCmds {
 
                 List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
 
-                boolean hasReactionPerms = ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_ADD_REACTION);
-                if (hasReactionPerms) {
+                if (ctx.hasReactionPerms()) {
                     embed.appendDescription("\n" + String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(), ""));
                     DiscordUtils.list(ctx.getEvent(), 100, false, embed, splitFields);
                 } else {
@@ -539,10 +538,7 @@ public class CustomCmds {
                     return;
                 }
 
-                Map<String, String> opts = new HashMap<>();
-                try {
-                    opts = getArguments(content);
-                } catch (StringIndexOutOfBoundsException ignore) { }
+                Map<String, String> opts = ctx.getOptionalArguments();
                 String ctn = Utils.replaceArguments(opts, content, "nsfw");
 
                 String[] args = StringUtils.splitArgs(ctn, -1);
@@ -742,10 +738,7 @@ public class CustomCmds {
                 String cmd = args[0];
                 String value = content.replaceFirst(args[0], "").trim();
 
-                Map<String, String> opts = new HashMap<>();
-                try {
-                    opts = getArguments(content);
-                } catch (StringIndexOutOfBoundsException ignore) { }
+                Map<String, String> opts = ctx.getOptionalArguments();
                 String cmdSource = Utils.replaceArguments(opts, value, "nsfw");
 
                 if (cmdSource.isEmpty()) {
@@ -786,7 +779,7 @@ public class CustomCmds {
                     custom.getValues().addAll(c.getValues());
                 } else {
                     //Are the first two checks redundant?
-                    if (!getConfig().isPremiumBot && !ctx.getDBGuild().isPremium() && db.getCustomCommands(ctx.getGuild()).size() > 100) {
+                    if (!ctx.getConfig().isPremiumBot() && !ctx.getDBGuild().isPremium() && db.getCustomCommands(ctx.getGuild()).size() > 100) {
                         ctx.sendLocalized("commands.custom.add.too_many_commands", EmoteReference.ERROR);
                         return;
                     }

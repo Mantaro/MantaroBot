@@ -159,7 +159,7 @@ public class GameCmds {
                 }
 
                 String[] args = net.kodehawa.mantarobot.utils.StringUtils.advancedSplitArgs(content, 0);
-                Map<String, String> t = getArguments(content);
+                Map<String, String> t = ctx.getOptionalArguments();
                 String difficultyArgument = "diff";
                 content = Utils.replaceArguments(t, content, difficultyArgument);
 
@@ -234,7 +234,7 @@ public class GameCmds {
                 }
 
                 String[] args = net.kodehawa.mantarobot.utils.StringUtils.advancedSplitArgs(content, 0);
-                Map<String, String> t = getArguments(content);
+                Map<String, String> t = ctx.getOptionalArguments();
                 String difficultyArgument = "diff";
                 content = Utils.replaceArguments(t, content, difficultyArgument);
 

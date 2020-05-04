@@ -184,9 +184,8 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
-                String tableName = isSeasonal ? "seasonalplayers" : "players";
+                boolean seasonal = ctx.isSeasonal();
+                String tableName = seasonal ? "seasonalplayers" : "players";
 
                 List<Map<String, Object>> c = getLeaderboard(tableName, "money",
                         player -> player.g("id"),
@@ -197,9 +196,9 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format((isSeasonal ? languageContext.get("commands.leaderboard.inner.seasonal_money") : languageContext.get("commands.leaderboard.inner.money")), EmoteReference.MONEY), "commands.leaderboard.money", c,
+                        String.format((seasonal ? languageContext.get("commands.leaderboard.inner.seasonal_money") : languageContext.get("commands.leaderboard.inner.money")), EmoteReference.MONEY), "commands.leaderboard.money", c,
                         map -> Pair.of(MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
-                                map.get("money").toString()), "%s**%s#%s** - $%,d", isSeasonal)
+                                map.get("money").toString()), "%s**%s#%s** - $%,d", seasonal)
                         .build()
                 );
             }
@@ -244,9 +243,8 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
-                String tableName = isSeasonal ? "seasonalplayers" : "players";
+                boolean seasonal = ctx.isSeasonal();
+                String tableName = seasonal ? "seasonalplayers" : "players";
 
                 List<Map<String, Object>> c = getLeaderboard(tableName, "reputation",
                         player -> player.g("id"),
@@ -259,7 +257,7 @@ public class LeaderboardCmd {
                         generateLeaderboardEmbed(ctx,
                         String.format(languageContext.get("commands.leaderboard.inner.rep"), EmoteReference.REP), "commands.leaderboard.reputation", c,
                         map -> Pair.of(MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
-                                map.get("reputation").toString()), "%s**%s#%s** - %,d", isSeasonal)
+                                map.get("reputation").toString()), "%s**%s#%s** - %,d", seasonal)
                         .build()
                 );
             }
@@ -304,9 +302,8 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
-                String tableName = isSeasonal ? "seasonalplayers" : "players";
+                boolean seasonal = ctx.isSeasonal();
+                String tableName = seasonal ? "seasonalplayers" : "players";
 
                 List<Map<String, Object>> c = getLeaderboard(tableName, "waifuCachedValue",
                         player -> player.g("id"),
@@ -325,7 +322,7 @@ public class LeaderboardCmd {
                                     MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
                                     waifuValue
                             );
-                        }, "%s**%s#%s** - $%,d", isSeasonal)
+                        }, "%s**%s#%s** - $%,d", seasonal)
                         .build()
                 );
             }
@@ -369,9 +366,8 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
-                String tableName = isSeasonal ? "seasonalplayers" : "players";
+                boolean seasonal = ctx.isSeasonal();
+                String tableName = seasonal ? "seasonalplayers" : "players";
 
                 List<Map<String, Object>> c = getLeaderboard(tableName, "gameWins",
                         player -> player.g("id"),
@@ -390,7 +386,7 @@ public class LeaderboardCmd {
                                     MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
                                     gamesWon
                             );
-                        }, "%s**%s#%s** - %,d", isSeasonal)
+                        }, "%s**%s#%s** - %,d", seasonal)
                         .build()
                 );
             }

@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -63,13 +64,13 @@ public class OptsCmd {
     public void register(CommandRegistry registry) {
         registry.register("opts", optsCmd = new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content, String[] args) {
                 if (args.length == 0) {
-                    channel.sendMessage(String.format(languageContext.get("options.error_general"), EmoteReference.WARNING)).queue();
+                    ctx.sendLocalized("options.error_general", EmoteReference.WARNING);
                     return;
                 }
+
+                I18nContext languageContext = ctx.getLanguageContext();
 
                 if (args.length == 1 && args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("ls")) {
                     StringBuilder builder = new StringBuilder();
@@ -79,23 +80,22 @@ public class OptsCmd {
 
                     List<String> m = DiscordUtils.divideString(builder);
                     List<String> messages = new LinkedList<>();
-                    boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(channel, Permission.MESSAGE_ADD_REACTION);
                     for (String s1 : m) {
                         messages.add(String.format(languageContext.get("commands.opts.list.header"),
-                                hasReactionPerms ? languageContext.get("general.text_menu") + " " : languageContext.get("general.arrow_react"), String.format("```prolog\n%s```", s1)));
+                                ctx.hasReactionPerms() ? languageContext.get("general.text_menu") + " " : languageContext.get("general.arrow_react"), String.format("```prolog\n%s```", s1)));
                     }
 
-                    if (hasReactionPerms) {
-                        DiscordUtils.list(event, 45, false, messages);
+                    if (ctx.hasReactionPerms()) {
+                        DiscordUtils.list(ctx.getEvent(), 45, false, messages);
                     } else {
-                        DiscordUtils.listText(event, 45, false, messages);
+                        DiscordUtils.listText(ctx.getEvent(), 45, false, messages);
                     }
 
                     return;
                 }
 
                 if (args.length < 2) {
-                    channel.sendMessage(String.format(languageContext.get("options.error_general"), EmoteReference.WARNING)).queue();
+                    ctx.sendLocalized("options.error_general", EmoteReference.WARNING);
                     return;
                 }
 
@@ -113,17 +113,18 @@ public class OptsCmd {
                         if (option != null) {
                             try {
                                 EmbedBuilder builder = new EmbedBuilder()
-                                        .setAuthor(option.getOptionName(), null, event.getAuthor().getEffectiveAvatarUrl())
+                                        .setAuthor(option.getOptionName(), null, ctx.getAuthor().getEffectiveAvatarUrl())
                                         .setDescription(option.getDescription())
                                         .setThumbnail("https://i.imgur.com/lFTJSE4.png")
                                         .addField("Type", option.getType().toString(), false);
-                                channel.sendMessage(builder.build()).queue();
-                            } catch (IndexOutOfBoundsException ignored) {
-                            }
+
+                                ctx.send(builder.build());
+                            } catch (IndexOutOfBoundsException ignored) { }
                             return;
                         }
                     }
-                    channel.sendMessageFormat(languageContext.get("commands.opts.option_not_found"), EmoteReference.ERROR).queue(
+
+                    ctx.getChannel().sendMessageFormat(languageContext.get("commands.opts.option_not_found"), EmoteReference.ERROR).queue(
                             message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
                     );
 
@@ -145,8 +146,8 @@ public class OptsCmd {
                             else
                                 a = new String[0];
 
-                            callable.accept(event, a, new I18nContext(MantaroData.db().getGuild(event.getGuild()).getData(), MantaroData.db().getUser(event.getAuthor().getId()).getData()));
-                            Player p = MantaroData.db().getPlayer(event.getAuthor());
+                            callable.accept(ctx.getEvent(), a, new I18nContext(MantaroData.db().getGuild(ctx.getGuild()).getData(), MantaroData.db().getUser(ctx.getAuthor().getId()).getData()));
+                            Player p = MantaroData.db().getPlayer(ctx.getAuthor());
 
                             if (p.getData().addBadgeIfAbsent(Badge.DID_THIS_WORK)) {
                                 p.saveAsync();
@@ -157,7 +158,7 @@ public class OptsCmd {
                     }
                 }
 
-                channel.sendMessage(String.format(languageContext.get("options.error_general"), EmoteReference.WARNING)).queue();
+                ctx.sendLocalized("options.error_general", EmoteReference.WARNING);
             }
 
 

@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
@@ -198,7 +197,7 @@ public class UtilsCmds {
                                 .collect(Collectors.joining("\n"));
 
                         List<String> parts = DiscordUtils.divideString(1000, birthdays);
-                        boolean hasReactionPerms = guild.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                        boolean hasReactionPerms = ctx.hasReactionPerms();
 
                         List<String> messages = new LinkedList<>();
                         I18nContext languageContext = ctx.getLanguageContext();
@@ -302,20 +301,18 @@ public class UtilsCmds {
                                 ).collect(Collectors.joining("\n"));
 
                         List<String> parts = DiscordUtils.divideString(1000, birthdays);
-                        boolean hasReactionPerms = ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_ADD_REACTION);
-
                         I18nContext languageContext = ctx.getLanguageContext();
                         List<String> messages = new LinkedList<>();
                         for (String s1 : parts) {
                             messages.add(String.format(languageContext.get("commands.birthday.header"), ctx.getGuild().getName(),
                                     Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH))) +
-                                    (parts.size() > 1 ? (hasReactionPerms ? languageContext.get("general.arrow_react") : languageContext.get("general.text_menu")) : "") +
+                                    (parts.size() > 1 ? (ctx.hasReactionPerms() ? languageContext.get("general.arrow_react") : languageContext.get("general.text_menu")) : "") +
                                     String.format("```diff\n%s```", s1));
                         }
 
                         //Show the message.
                         //Probably a p big one tbh.
-                        if (hasReactionPerms)
+                        if (ctx.hasReactionPerms())
                             DiscordUtils.list(ctx.getEvent(), 45, false, messages);
                         else
                             DiscordUtils.listText(ctx.getEvent(), 45, false, messages);
