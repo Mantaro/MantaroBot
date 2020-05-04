@@ -23,6 +23,7 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
+import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -112,6 +113,10 @@ public class Context {
 
     public TextChannel getChannel() {
         return event.getChannel();
+    }
+
+    public MantaroAudioManager getAudioManager() {
+        return getBot().getAudioManager();
     }
 
     public DBGuild getDBGuild() {
