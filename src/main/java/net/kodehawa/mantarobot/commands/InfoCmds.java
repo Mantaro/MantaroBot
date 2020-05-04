@@ -655,7 +655,9 @@ public class InfoCmds {
         registry.register("season", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                ctx.sendLocalized("commands.season.info" + ctx.getLanguageContext().get("commands.season.info_2"),
+                I18nContext languageContext = ctx.getLanguageContext();
+
+                ctx.sendFormat(languageContext.get("commands.season.info") + languageContext.get("commands.season.info_2"),
                         ctx.getConfig().getCurrentSeason().getDisplay(), ctx.getManagedDatabase().getAmountSeasonalPlayers()
                 );
             }

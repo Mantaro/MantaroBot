@@ -252,7 +252,7 @@ public class ItemCmds {
                             player.save();
                         }
 
-                        ctx.sendLocalized("commands.cast.success" + "\n" + message,
+                        ctx.sendFormat(ctx.getLanguageContext().get("commands.cast.success") + "\n" + message,
                                 EmoteReference.WRENCH, castItem.getEmoji(), castItem.getName(), castCost, recipeString.toString().trim()
                         );
                     }

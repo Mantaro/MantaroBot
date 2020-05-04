@@ -126,12 +126,20 @@ public class Context {
         return managedDatabase.getUser(user);
     }
 
+    public DBUser getDBUser(String id) {
+        return managedDatabase.getUser(id);
+    }
+
     public Player getPlayer() {
         return managedDatabase.getPlayer(getUser());
     }
 
     public Player getPlayer(User user) {
         return managedDatabase.getPlayer(user);
+    }
+
+    public Player getPlayer(String id) {
+        return managedDatabase.getPlayer(id);
     }
 
     public SeasonPlayer getSeasonPlayer() {

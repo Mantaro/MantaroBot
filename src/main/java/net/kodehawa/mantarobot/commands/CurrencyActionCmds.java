@@ -428,11 +428,11 @@ public class CurrencyActionCmds {
 
                     //if there's money, but not fish
                     if (money > 0 && !foundFish) {
-                        ctx.sendLocalized("commands.fish.success_money_noitem" + extraMessage, item.getEmoji(), money);
+                        ctx.sendFormat(languageContext.get("commands.fish.success_money_noitem") + extraMessage, item.getEmoji(), money);
                     } else if (foundFish && money == 0) { //there's fish, but no money
-                        ctx.sendLocalized("commands.fish.success" + extraMessage, item.getEmoji(), itemDisplay);
+                        ctx.sendFormat(languageContext.get("commands.fish.success") + extraMessage, item.getEmoji(), itemDisplay);
                     } else if (money > 0) { //there's money and fish
-                        ctx.sendLocalized("commands.fish.success_money" + extraMessage,
+                        ctx.sendFormat(languageContext.get("commands.fish.success_money") + extraMessage,
                                 item.getEmoji(), itemDisplay, money, (waifuHelp ? "\n" + languageContext.get("commands.fish.waifu_help") : "")
                         );
                     }
