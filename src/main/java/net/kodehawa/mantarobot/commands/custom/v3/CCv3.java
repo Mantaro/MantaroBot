@@ -27,6 +27,7 @@ import net.kodehawa.mantarobot.commands.custom.v3.ast.Node;
 import net.kodehawa.mantarobot.commands.custom.v3.interpreter.InterpreterContext;
 import net.kodehawa.mantarobot.commands.custom.v3.interpreter.InterpreterVisitor;
 import net.kodehawa.mantarobot.commands.custom.v3.interpreter.Operation;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
@@ -262,9 +263,9 @@ public class CCv3 {
             GuildMessageReceivedEvent event = context.event();
 
             if (ctn.isEmpty())
-                MiscCmds.iamFunction(iam, event, null);
+                MiscCmds.iamFunction(iam, context.getCommandContext());
             else
-                MiscCmds.iamFunction(iam, event, null, ctn);
+                MiscCmds.iamFunction(iam, context.getCommandContext(), ctn);
 
             return "";
         });
@@ -279,9 +280,9 @@ public class CCv3 {
             GuildMessageReceivedEvent event = context.event();
 
             if (ctn.isEmpty())
-                MiscCmds.iamnotFunction(iam, event, null);
+                MiscCmds.iamnotFunction(iam, context.getCommandContext());
             else
-                MiscCmds.iamnotFunction(iam, event, null, ctn);
+                MiscCmds.iamnotFunction(iam, context.getCommandContext(), ctn);
 
             return "";
         });
@@ -336,15 +337,15 @@ public class CCv3 {
         });
     }
 
-    public static void process(String prefix, GuildMessageReceivedEvent event, Node ast, boolean preview) {
+    public static void process(String prefix, Context ctx, Node ast, boolean preview) {
         InterpreterContext context = new InterpreterContext(new DynamicModifiers()
-                .mapEvent(prefix, "event", event), DEFAULT_OPERATIONS, event);
+                .mapEvent(prefix, "event", ctx.getEvent()), DEFAULT_OPERATIONS, ctx);
 
         String result = ast.accept(new InterpreterVisitor(), context);
         EmbedJSON embed = context.get("embed");
 
         if (embed == null && result.isEmpty()) {
-            event.getChannel().sendMessageFormat("Command response is empty.").queue();
+            ctx.send("Command response is empty.");
             return;
         }
 
@@ -355,15 +356,15 @@ public class CCv3 {
                     .append(EmoteReference.WARNING)
                     .append("**This is a preview of how a CC with this content would look like, ALL MENTIONS ARE DISABLED ON THIS MODE.**\n")
                     .append("`Command Preview Requested By: ")
-                    .append(event.getAuthor().getName())
+                    .append(ctx.getAuthor().getName())
                     .append("#")
-                    .append(event.getAuthor().getDiscriminator())
+                    .append(ctx.getAuthor().getDiscriminator())
                     .append("`")
-                    .stripMentions(event.getJDA());
+                    .stripMentions(ctx.getEvent().getJDA());
         }
 
-        builder.setEmbed(embed == null ? null : embed.gen(event.getMember()))
-                .stripMentions(event.getJDA(), Message.MentionType.HERE, Message.MentionType.EVERYONE)
-                .sendTo(event.getChannel()).queue();
+        builder.setEmbed(embed == null ? null : embed.gen(ctx.getMember()))
+                .stripMentions(ctx.getEvent().getJDA(), Message.MentionType.HERE, Message.MentionType.EVERYONE)
+                .sendTo(ctx.getChannel()).queue();
     }
 }

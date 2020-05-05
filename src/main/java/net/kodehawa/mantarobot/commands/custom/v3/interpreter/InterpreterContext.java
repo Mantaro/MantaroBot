@@ -18,6 +18,7 @@
 package net.kodehawa.mantarobot.commands.custom.v3.interpreter;
 
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,12 +27,12 @@ public class InterpreterContext {
     private final Map<String, Object> custom = new HashMap<>();
     private final Map<String, String> vars;
     private final Map<String, Operation> operations;
-    private final GuildMessageReceivedEvent event;
+    private final Context commandContext;
 
-    public InterpreterContext(Map<String, String> vars, Map<String, Operation> operations, GuildMessageReceivedEvent event) {
+    public InterpreterContext(Map<String, String> vars, Map<String, Operation> operations, Context ctx) {
         this.vars = vars;
         this.operations = operations;
-        this.event = event;
+        this.commandContext = ctx;
     }
 
     public Map<String, String> vars() {
@@ -43,11 +44,15 @@ public class InterpreterContext {
     }
 
     public GuildMessageReceivedEvent event() {
-        return event;
+        return commandContext.getEvent();
     }
 
     public void set(String key, Object value) {
         custom.put(key, value);
+    }
+
+    public Context getCommandContext() {
+        return commandContext;
     }
 
     @SuppressWarnings("unchecked")

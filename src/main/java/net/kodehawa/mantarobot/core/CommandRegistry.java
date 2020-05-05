@@ -110,7 +110,7 @@ public class CommandRegistry {
         GuildData guildData = dbg.getData();
 
         if (command == null) {
-            CustomCmds.handle(prefix, cmdName, event, new I18nContext(guildData, userData), content);
+            CustomCmds.handle(prefix, cmdName, new Context(event, new I18nContext(guildData, userData), content), content);
             return false;
         }
 

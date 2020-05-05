@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.ISnowflake;
@@ -77,9 +76,9 @@ public class CustomCmds {
     private static final SecureRandom random = new SecureRandom();
 
 
-    public static boolean handle(String prefix, String cmdName, GuildMessageReceivedEvent event, I18nContext lang, String args) {
-        CustomCommand customCommand = getCustomCommand(event.getGuild().getId(), cmdName);
-        GuildData guildData = db().getGuild(event.getGuild()).getData();
+    public static boolean handle(String prefix, String cmdName, Context ctx, String args) {
+        CustomCommand customCommand = getCustomCommand(ctx.getGuild().getId(), cmdName);
+        GuildData guildData = ctx.getDBGuild().getData();
 
         if (customCommand == null)
             return false;
@@ -89,20 +88,21 @@ public class CustomCmds {
             return false;
         }
 
-        List<String> channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
+        List<String> channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(ctx.getChannel().getId());
         if (channelDisabledCommands != null && channelDisabledCommands.contains(cmdName)) {
             return false;
         }
 
         HashMap<String, List<String>> roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
-        if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmdName)) && !CommandPermission.ADMIN.test(event.getMember())) {
+        if (ctx.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(),
+                s -> new ArrayList<>()).contains(cmdName)) && !CommandPermission.ADMIN.test(ctx.getMember())) {
             return false;
         }
         //CCS disable check end.
 
         List<String> values = customCommand.getValues();
-        if (customCommand.getData().isNsfw() && !event.getChannel().isNSFW()) {
-            event.getChannel().sendMessageFormat(lang.get("commands.custom.nsfw_not_nsfw"), EmoteReference.ERROR).queue();
+        if (customCommand.getData().isNsfw() && !ctx.getChannel().isNSFW()) {
+            ctx.sendLocalized("commands.custom.nsfw_not_nsfw", EmoteReference.ERROR);
             return true;
         }
 
@@ -110,13 +110,11 @@ public class CustomCmds {
 
         String response = values.get(random.nextInt(values.size()));
         try {
-            new CustomCommandHandler(prefix, event, lang, response, args).handle();
+            new CustomCommandHandler(prefix, ctx, response, args).handle();
         } catch (SyntaxException e) {
-            new MessageBuilder().append(String.format(lang.get("commands.custom.error_running_new"), EmoteReference.ERROR, e.getMessage()))
-                    .sendTo(event.getChannel())
-                    .queue();
+            ctx.sendStrippedLocalized("commands.custom.error_running_new", EmoteReference.ERROR, e.getMessage());
         } catch (Exception e) {
-            event.getChannel().sendMessageFormat(lang.get("commands.custom.error_running"), EmoteReference.ERROR).queue();
+            ctx.sendLocalized("commands.custom.error_running", EmoteReference.ERROR);
             e.printStackTrace();
         }
 
@@ -365,7 +363,7 @@ public class CustomCmds {
                     ctn = Utils.DISCORD_INVITE_2.matcher(ctn).replaceAll("-invite link-");
 
                     //Sadly no way to get the prefix used, so eval will have the old bug still.
-                    new CustomCommandHandler("", ctx.getEvent(), ctx.getLanguageContext(), ctn).handle(true);
+                    new CustomCommandHandler("", ctx, ctn).handle(true);
                 } catch (SyntaxException e) {
                     ctx.sendStrippedLocalized("commands.custom.eval.new_error", EmoteReference.ERROR, e.getMessage());
                 } catch (Exception e) {

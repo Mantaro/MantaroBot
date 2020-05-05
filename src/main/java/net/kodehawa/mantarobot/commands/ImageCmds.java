@@ -292,7 +292,7 @@ public class ImageCmds {
     }
 
     private void sendImage(Context ctx, ImageBoard<?> image, boolean nsfwOnly, String name, String content, String[] args) {
-        String firstArg = args[0];
+        String firstArg = args.length == 0 ? "" : args[0];
         if(firstArg.isEmpty() || firstArg.equalsIgnoreCase("random"))
             getImage(image, ImageRequestType.RANDOM, nsfwOnly, name, args, content, ctx);
         else

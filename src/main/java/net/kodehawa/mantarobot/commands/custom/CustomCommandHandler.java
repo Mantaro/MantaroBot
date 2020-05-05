@@ -27,6 +27,7 @@ import net.kodehawa.mantarobot.commands.custom.legacy.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.commands.custom.v3.CCv3;
 import net.kodehawa.mantarobot.commands.custom.v3.Parser;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -46,24 +47,23 @@ public class CustomCommandHandler {
     //actually p sure this is just to make me feel safer and serves no purpose whatsoever.
     private static final Pattern filtered1 = Pattern.compile("([a-zA-Z0-9]{24}\\.[a-zA-Z0-9]{6}\\.[a-zA-Z0-9_\\-])\\w+");
     private final String args;
-    private final GuildMessageReceivedEvent event;
-    private final I18nContext langContext;
+    private final Context ctx;
     private String response;
     private String prefixUsed;
 
     {
-        specialHandlers.put("text", (event, lang, value, args) -> event.getChannel().sendMessage(value).queue());
+        specialHandlers.put("text", (ctx, value, args) -> ctx.send(value));
 
-        specialHandlers.put("play", (event, lang, value, args) -> {
-            GuildData data = MantaroData.db().getGuild(event.getGuild()).getData();
+        specialHandlers.put("play", (ctx, value, args) -> {
+            GuildData data = ctx.getDBGuild().getData();
             if (data.getDisabledCommands().contains("play")) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "The play command is disabled on this server. Cannot run this custom command.").queue();
+                ctx.send(EmoteReference.ERROR + "The play command is disabled on this server. Cannot run this custom command.");
                 return;
             }
 
-            List<String> channelDisabledCommands = data.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
+            List<String> channelDisabledCommands = data.getChannelSpecificDisabledCommands().get(ctx.getChannel().getId());
             if (channelDisabledCommands != null && channelDisabledCommands.contains("play")) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "The play command is disabled on this channel. Cannot run this custom command.").queue();
+                ctx.send(EmoteReference.ERROR + "The play command is disabled on this channel. Cannot run this custom command.");
                 return;
             }
 
@@ -73,69 +73,69 @@ public class CustomCommandHandler {
                 value = "ytsearch: " + value;
             }
 
-            MantaroBot.getInstance().getAudioManager().loadAndPlay(event, value, false, false, lang);
+            MantaroBot.getInstance().getAudioManager().loadAndPlay(ctx.getEvent(), value, false, false, ctx.getLanguageContext());
         });
 
-        specialHandlers.put("embed", (event, lang, value, args) -> {
+        specialHandlers.put("embed", (ctx, value, args) -> {
             try {
                 EmbedJSON embed = GsonDataManager.gson(false)
                         .fromJson('{' + value + '}', EmbedJSON.class);
-                event.getChannel().sendMessage(embed.gen(event.getMember())).queue();
+
+                ctx.send(embed.gen(ctx.getMember()));
             } catch (IllegalArgumentException invalid) {
                 if (invalid.getMessage().contains("URL must be a valid http or https url")) {
-                    event.getChannel().sendMessageFormat(lang.get("commands.custom.invalid_image"), EmoteReference.ERROR2).queue();
+                    ctx.sendLocalized("commands.custom.invalid_image", EmoteReference.ERROR2);
                 } else {
-                    event.getChannel().sendMessageFormat(lang.get("commands.custom.invalid_string"), EmoteReference.ERROR2, value).queue();
+                    ctx.sendLocalized("commands.custom.invalid_string", EmoteReference.ERROR2, value);
                 }
             } catch (Exception ignored) {
-                event.getChannel().sendMessageFormat(lang.get("commands.custom.invalid_json"), EmoteReference.ERROR2, value).queue();
+                ctx.sendLocalized("commands.custom.invalid_json", EmoteReference.ERROR2, value);
             }
         });
 
-        specialHandlers.put("img", (event, lang, value, args) -> {
+        specialHandlers.put("img", (ctx, value, args) -> {
             try {
                 if (!EmbedBuilder.URL_PATTERN.asPredicate().test(value)) {
-                    event.getChannel().sendMessageFormat(lang.get("commands.custom.invalid_link"), EmoteReference.ERROR2, value).queue();
+                    ctx.sendLocalized("commands.custom.invalid_link", EmoteReference.ERROR2, value);
                     return;
                 }
 
-                event.getChannel().sendMessage(new EmbedBuilder().setImage(value).setColor(event.getMember().getColor()).build()).queue();
+                ctx.send(new EmbedBuilder().setImage(value).setColor(ctx.getMember().getColor()).build());
 
             } catch (IllegalArgumentException invalid) {
-                event.getChannel().sendMessageFormat(lang.get("commands.custom.invalid_image"), EmoteReference.ERROR2).queue();
+                ctx.sendLocalized("commands.custom.invalid_image", EmoteReference.ERROR2);
             }
         });
 
         specialHandlers.put("image", specialHandlers.get("img"));
         specialHandlers.put("imgembed", specialHandlers.get("img"));
-        specialHandlers.put("iam", (event, lang, value, args) -> MiscCmds.iamFunction(value.trim().replace("\"", ""), event, lang));
-        specialHandlers.put("iamnot", (event, lang, value, args) -> MiscCmds.iamnotFunction(value.trim().replace("\"", ""), event, lang));
+        specialHandlers.put("iam", (ctx, value, args) -> MiscCmds.iamFunction(value.trim().replace("\"", ""), ctx));
+        specialHandlers.put("iamnot", (ctx, value, args) -> MiscCmds.iamnotFunction(value.trim().replace("\"", ""), ctx));
 
-        specialHandlers.put("iamcustom", (event, lang, value, args) -> {
+        specialHandlers.put("iamcustom", (ctx, value, args) -> {
             String[] arg = StringUtils.advancedSplitArgs(value, 2);
             String iam = arg[0];
             String message = this.processText(arg[1]);
 
-            MiscCmds.iamFunction(iam.trim().replace("\"", ""), event, lang, message);
+            MiscCmds.iamFunction(iam.trim().replace("\"", ""), ctx, message);
         });
 
-        specialHandlers.put("iamnotcustom", (event, lang, value, args) -> {
+        specialHandlers.put("iamnotcustom", (ctx, value, args) -> {
             String[] arg = StringUtils.advancedSplitArgs(value, 2);
             String iam = arg[0];
             String message = this.processText(arg[1]);
 
-            MiscCmds.iamnotFunction(iam.trim().replace("\"", ""), event, lang, message);
+            MiscCmds.iamnotFunction(iam.trim().replace("\"", ""), ctx, message);
         });
     }
 
-    public CustomCommandHandler(String prefixUsed, GuildMessageReceivedEvent event, I18nContext lang, String response) {
-        this(prefixUsed, event, lang, response, "");
+    public CustomCommandHandler(String prefixUsed, Context ctx, String response) {
+        this(prefixUsed, ctx, response, "");
     }
 
-    public CustomCommandHandler(String prefixUsed, GuildMessageReceivedEvent event, I18nContext lang, String response, String args) {
-        this.event = event;
+    public CustomCommandHandler(String prefixUsed, Context ctx, String response, String args) {
+        this.ctx = ctx;
         this.response = response;
-        this.langContext = lang;
         this.args = args;
         this.prefixUsed = prefixUsed;
     }
@@ -147,7 +147,7 @@ public class CustomCommandHandler {
             return;
 
         if (response.startsWith("v3:")) {
-            CCv3.process(prefixUsed, event, new Parser(response.substring(3)).parse(), preview);
+            CCv3.process(prefixUsed, ctx, new Parser(response.substring(3)).parse(), preview);
             return;
         }
 
@@ -157,14 +157,14 @@ public class CustomCommandHandler {
                     .append(EmoteReference.WARNING)
                     .append("**This is a preview of how a CC with this content would look like, ALL MENTIONS ARE DISABLED ON THIS MODE.**\n")
                     .append("`Command Preview Requested By: ")
-                    .append(event.getAuthor().getName())
+                    .append(ctx.getAuthor().getName())
                     .append("#")
-                    .append(event.getAuthor().getDiscriminator())
+                    .append(ctx.getAuthor().getDiscriminator())
                     .append("`")
-                    .stripMentions(event.getJDA());
+                    .stripMentions(ctx.getEvent().getJDA());
         }
 
-        builder.stripMentions(event.getJDA(), Message.MentionType.HERE, Message.MentionType.EVERYONE).sendTo(event.getChannel()).queue();
+        builder.stripMentions(ctx.getEvent().getJDA(), Message.MentionType.HERE, Message.MentionType.EVERYONE).sendTo(ctx.getChannel()).queue();
     }
 
     public void handle() {
@@ -188,7 +188,7 @@ public class CustomCommandHandler {
     private String processText(String text) {
         if (text.contains("$(")) {
             text = new DynamicModifiers()
-                    .mapEvent(prefixUsed, "event", event)
+                    .mapEvent(prefixUsed, "event", ctx.getEvent())
                     .resolve(text);
         }
 
@@ -206,12 +206,12 @@ public class CustomCommandHandler {
         if (func == null)
             return false;
 
-        func.handle(event, langContext, value, args);
+        func.handle(ctx, value, args);
 
         return true;
     }
 
     private interface Func {
-        void handle(GuildMessageReceivedEvent event, I18nContext lang, String value, String args);
+        void handle(Context ctx, String value, String args);
     }
 }

@@ -31,6 +31,7 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
@@ -63,6 +64,7 @@ import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 import static net.kodehawa.mantarobot.utils.Utils.*;
 
+@Module
 public class ProfileCmd {
     @Subscribe
     public void profile(CommandRegistry cr) {

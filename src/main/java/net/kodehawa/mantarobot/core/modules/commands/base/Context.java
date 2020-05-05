@@ -131,6 +131,10 @@ public class Context {
         return managedDatabase.getUser(user);
     }
 
+    public DBUser getDBUser(Member member) {
+        return managedDatabase.getUser(member);
+    }
+
     public DBUser getDBUser(String id) {
         return managedDatabase.getUser(id);
     }
@@ -143,6 +147,10 @@ public class Context {
         return managedDatabase.getPlayer(user);
     }
 
+    public Player getPlayer(Member member) {
+        return managedDatabase.getPlayer(member);
+    }
+
     public Player getPlayer(String id) {
         return managedDatabase.getPlayer(id);
     }
@@ -153,6 +161,10 @@ public class Context {
 
     public SeasonPlayer getSeasonPlayer(User user) {
         return managedDatabase.getPlayerForSeason(user, getConfig().getCurrentSeason());
+    }
+
+    public SeasonPlayer getSeasonPlayer(Member member) {
+        return managedDatabase.getPlayerForSeason(member, getConfig().getCurrentSeason());
     }
 
     public boolean isSeasonal() {
@@ -204,7 +216,7 @@ public class Context {
     }
 
     public void sendStrippedLocalized(String localizedMessage, Object... args) {
-        new MessageBuilder().setContent(String.format(localizedMessage, args))
+        new MessageBuilder().setContent(String.format(languageContext.get(localizedMessage), args))
                 .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE, Message.MentionType.USER)
                 .sendTo(getChannel())
                 .queue();
