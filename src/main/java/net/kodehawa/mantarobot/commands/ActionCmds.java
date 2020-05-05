@@ -36,7 +36,6 @@ public class ActionCmds {
     //Images.
     private final DataManager<List<String>> BLOODSUCK = new SimpleFileDataManager("assets/mantaro/texts/bloodsuck.txt");
     //Speech.
-    private final DataManager<List<String>> GREETINGS = new SimpleFileDataManager("assets/mantaro/texts/greetings.txt");
     private final DataManager<List<String>> MEOW = new SimpleFileDataManager("assets/mantaro/texts/meow.txt");
     private final DataManager<List<String>> NUZZLE = new SimpleFileDataManager("assets/mantaro/texts/nuzzle.txt");
     private final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
@@ -122,12 +121,6 @@ public class ActionCmds {
         //cuddle();
         cr.register("cuddle", new ImageActionCmd("Cuddle", "Cuddles someone", EmoteReference.HEART,
                 "commands.action.cuddle", "cuddle", "commands.action.lonely.cuddle", "commands.action.self.cuddle"));
-
-        //greet();
-        cr.register("greet", new TextActionCmd(
-                "Greet", "Sends a random greeting", Color.DARK_GRAY,
-                EmoteReference.TALKING + "%s", GREETINGS.get()
-        ));
 
         //tsundere();
         cr.register("tsundere", new TextActionCmd("Tsundere Command", "Y-You baka!",

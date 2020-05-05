@@ -203,9 +203,9 @@ public class InfoCmds {
                 .setDescription(
                         (category == null ?
                                 languageContext.get("commands.help.base") :
-                                String.format(languageContext.get("commands.help.base_category"), languageContext.get(category.toString()))
-                        ) +
-                                languageContext.get("commands.help.support") + languageContext.get("commands.help.patreon") +
+                                String.format(languageContext.get("commands.help.base_category"), languageContext.get(category.toString()))) +
+                                languageContext.get("commands.help.support") +
+                                (dbGuild.isPremium() || ctx.getDBUser().isPremium() ? "" : languageContext.get("commands.help.patreon")) +
                                 //LISP simulator 2018
                                 (guildData.getDisabledCommands().isEmpty() ? "" : "\n" +
                                         String.format(languageContext.get("commands.help.disabled_commands"), guildData.getDisabledCommands().size())

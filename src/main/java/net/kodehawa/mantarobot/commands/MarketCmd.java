@@ -79,7 +79,8 @@ public class MarketCmd {
                         I18nContext languageContext = ctx.getLanguageContext();
 
                         EmbedBuilder embed = baseEmbed(ctx, languageContext.get("commands.market.header"))
-                                .setThumbnail("https://png.icons8.com/metro/540/shopping-cart.png");
+                                .setThumbnail("https://i.imgur.com/GIHXZAH.png");
+
                         List<MessageEmbed.Field> fields = new LinkedList<>();
                         Stream.of(Items.ALL).forEach(item -> {
                             if (!item.isPetOnly() && !item.isHidden() && item.getItemType() != ItemType.PET) {
@@ -88,36 +89,38 @@ public class MarketCmd {
 
                                 fields.add(new MessageEmbed.Field(String.format("%s %s", item.getEmoji(), item.getName()),
                                         (languageContext.getContextLanguage().equals("en_US") ? "" : " (" + languageContext.get(item.getTranslatedName()) + ")\n") +
-                                                EmoteReference.BUY + buyValue + " " + EmoteReference.SELL + sellValue, true)
+                                                languageContext.get(item.getDesc()) + "\n" +
+                                                languageContext.get("commands.market.buy") + " " + buyValue + "\n" +
+                                                languageContext.get("commands.market.sell") + " " + sellValue,
+                                        false
+                                        )
                                 );
                             }
                         });
 
                         DBUser user = ctx.getDBUser();
 
-                        List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(8, fields);
+                        List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
                         boolean hasReactionPerms = ctx.hasReactionPerms();
 
                         if (hasReactionPerms) {
                             embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"),
                                     splitFields.size(),
-                                    String.format(languageContext.get("general.buy_sell_paged_reference") + "\n" +
-                                                    String.format(languageContext.get("general.reaction_timeout"), 120),
+                                    String.format(String.format(languageContext.get("general.reaction_timeout"), 200),
                                             EmoteReference.BUY, EmoteReference.SELL)) + "\n"
                                     + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference")
                             );
 
-                            DiscordUtils.list(ctx.getEvent(), 120, false, embed, splitFields);
+                            DiscordUtils.list(ctx.getEvent(), 200, false, embed, splitFields);
                         } else {
                             embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"),
                                     splitFields.size(),
-                                    String.format(languageContext.get("general.buy_sell_paged_reference") + "\n" +
-                                                    String.format(languageContext.get("general.reaction_timeout"), 120),
+                                    String.format(String.format(languageContext.get("general.reaction_timeout"), 200),
                                             EmoteReference.BUY, EmoteReference.SELL)) + "\n"
                                     + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference")
                             );
 
-                            DiscordUtils.listText(ctx.getEvent(), 120, false, embed, splitFields);
+                            DiscordUtils.listText(ctx.getEvent(), 200, false, embed, splitFields);
                         }
                     }
                 };
