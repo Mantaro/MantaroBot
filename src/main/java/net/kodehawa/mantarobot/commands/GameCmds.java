@@ -18,9 +18,9 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.game.Character;
 import net.kodehawa.mantarobot.commands.game.*;
 import net.kodehawa.mantarobot.commands.game.core.Game;
@@ -31,8 +31,8 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -96,8 +96,8 @@ public class GameCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                startGame(new Character(), event, languageContext);
+            protected void call(Context ctx, String content) {
+                startGame(new Character(), ctx);
             }
         }).addSubCommand("pokemon", new SubCommand() {
             @Override
@@ -106,8 +106,8 @@ public class GameCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                startGame(new Pokemon(), event, languageContext);
+            protected void call(Context ctx, String content) {
+                startGame(new Pokemon(), ctx);
             }
         }).addSubCommand("number", new SubCommand() {
             @Override
@@ -116,12 +116,12 @@ public class GameCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                startGame(new GuessTheNumber(), event, languageContext);
+            protected void call(Context ctx, String content) {
+                startGame(new GuessTheNumber(), ctx);
             }
         }));
 
-        gameCommand.setPredicate(event -> Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, null));
+        gameCommand.setPredicate(ctx -> Utils.handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null));
 
         //Sub-commands.
         gameCommand.addSubCommand("wins", new SubCommand() {
@@ -131,16 +131,14 @@ public class GameCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                Member member = Utils.findMember(event, event.getMember(), content);
+            protected void call(Context ctx, String content) {
+                Member member = Utils.findMember(ctx.getEvent(), ctx.getMember(), content);
                 if (member == null)
                     return;
 
-                new MessageBuilder().setContent(String.format(languageContext.get("commands.game.won_games"),
-                        EmoteReference.POPPER, member.getEffectiveName(), db.getPlayer(member).getData().getGamesWon()))
-                        .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE)
-                        .sendTo(event.getChannel())
-                        .queue();
+                ctx.sendStrippedLocalized("commands.game.won_games",
+                        EmoteReference.POPPER, member.getEffectiveName(), db.getPlayer(member).getData().getGamesWon()
+                );
             }
         });
 
@@ -152,20 +150,21 @@ public class GameCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                GuildData guildData = MantaroData.db().getGuild(event.getGuild()).getData();
+            protected void call(Context ctx, String content) {
+                GuildData guildData = ctx.getDBGuild().getData();
+
                 if(guildData.isGameMultipleDisabled()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.disabled_multiple"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.game.disabled_multiple", EmoteReference.ERROR);
                     return;
                 }
 
                 String[] args = net.kodehawa.mantarobot.utils.StringUtils.advancedSplitArgs(content, 0);
-                Map<String, String> t = getArguments(content);
+                Map<String, String> t = ctx.getOptionalArguments();
                 String difficultyArgument = "diff";
                 content = Utils.replaceArguments(t, content, difficultyArgument);
 
                 if (content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.nothing_specified"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.game.nothing_specified", EmoteReference.ERROR);
                     return;
                 }
 
@@ -185,15 +184,15 @@ public class GameCmds {
                 String[] split = Utils.mentionPattern.matcher(content).replaceAll("").split(", ");
 
                 if (split.length <= 1) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.not_enough_games"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.game.not_enough_games", EmoteReference.ERROR);
                     return;
                 }
 
-                UserData userData = db.getUser(event.getAuthor()).getData();
+                UserData userData = db.getUser(ctx.getAuthor()).getData();
                 PremiumKey key = db.getPremiumKey(userData.getPremiumKey());
                 boolean premium = key != null && key.getDurationDays() > 1;
                 if (split.length > (premium ? 8 : 5)) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.too_many_games"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.game.too_many_games", EmoteReference.ERROR);
                     return;
                 }
 
@@ -212,11 +211,11 @@ public class GameCmds {
                 }
 
                 if (gameList.size() <= 1) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.invalid_selection"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.game.invalid_selection", EmoteReference.ERROR);
                     return;
                 }
 
-                startGames(gameList, event, languageContext);
+                startGames(gameList, ctx);
             }
         });
 
@@ -227,15 +226,15 @@ public class GameCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                GuildData guildData = MantaroData.db().getGuild(event.getGuild()).getData();
+            protected void call(Context ctx, String content) {
+                GuildData guildData = ctx.getDBGuild().getData();
                 if(guildData.isGameMultipleDisabled()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.disabled_multiple"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.game.disabled_multiple", EmoteReference.ERROR);
                     return;
                 }
 
                 String[] args = net.kodehawa.mantarobot.utils.StringUtils.advancedSplitArgs(content, 0);
-                Map<String, String> t = getArguments(content);
+                Map<String, String> t = ctx.getOptionalArguments();
                 String difficultyArgument = "diff";
                 content = Utils.replaceArguments(t, content, difficultyArgument);
 
@@ -257,7 +256,7 @@ public class GameCmds {
                 String[] values = SPLIT_PATTERN.split(strippedContent, 2);
 
                 if (values.length < 2) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.multiple.invalid"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.game.multiple.invalid", EmoteReference.ERROR);
                     return;
                 }
 
@@ -265,12 +264,12 @@ public class GameCmds {
                 try {
                     number = Integer.parseInt(values[1]);
                 } catch (Exception e) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.multiple.invalid_times"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.game.multiple.invalid_times", EmoteReference.ERROR);
                     return;
                 }
 
                 if (number > 5) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.multiple.too_many_games"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.game.multiple.too_many_games", EmoteReference.ERROR);
                     return;
                 }
 
@@ -293,11 +292,11 @@ public class GameCmds {
 
                 //No games queued?
                 if (gameList.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.multiple.invalid"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.game.multiple.invalid", EmoteReference.ERROR);
                     return;
                 }
 
-                startGames(gameList, event, languageContext);
+                startGames(gameList, ctx);
             }
         });
 
@@ -320,13 +319,13 @@ public class GameCmds {
                     .build();
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if (!Utils.handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+            protected void call(Context ctx, String content, String[] args) {
+                if (!Utils.handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext()))
                     return;
 
                 String diff = "";
-                List<User> mentions = event.getMessage().getMentionedUsers();
-                List<Role> roleMentions = event.getMessage().getMentionedRoles();
+                List<User> mentions = ctx.getMentionedUsers();
+                List<Role> roleMentions = ctx.getMessage().getMentionedRoles();
 
                 if (args.length > 0)
                     diff = args[0].toLowerCase();
@@ -334,11 +333,11 @@ public class GameCmds {
                 TriviaDifficulty difficulty = TriviaDifficulty.lookupFromString(diff);
 
                 if (difficulty == null && (mentions.isEmpty() && roleMentions.isEmpty()) && !content.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.game.trivia.wrong_diff"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.game.trivia.wrong_diff", EmoteReference.ERROR);
                     return;
                 }
 
-                startGames(createLinkedList(new Trivia(difficulty)), event, languageContext);
+                startGames(createLinkedList(new Trivia(difficulty)), ctx);
             }
 
             @Override
@@ -353,34 +352,34 @@ public class GameCmds {
         });
     }
 
-    private void startGame(Game<?> game, GuildMessageReceivedEvent event, I18nContext languageContext) {
-        startGames(createLinkedList(game), event, languageContext);
+    private void startGame(Game<?> game, Context ctx) {
+        startGames(createLinkedList(game), ctx);
     }
 
-    private void startGames(LinkedList<Game<?>> games, GuildMessageReceivedEvent event, I18nContext languageContext) {
-        if (checkRunning(event, languageContext))
+    private void startGames(LinkedList<Game<?>> games, Context ctx) {
+        if (checkRunning(ctx))
             return;
 
-        TextChannel channel = event.getChannel();
-
         List<String> players = new ArrayList<>();
-        players.add(event.getAuthor().getId());
-        final List<Role> mentionedRoles = event.getMessage().getMentionedRoles();
+        players.add(ctx.getAuthor().getId());
+        final List<Role> mentionedRoles = ctx.getMessage().getMentionedRoles();
 
         if (!mentionedRoles.isEmpty()) {
             StringBuilder b = new StringBuilder();
             mentionedRoles.forEach(role ->
-                    event.getGuild().getMembersWithRoles(role).forEach(user -> {
-                        if (!user.getUser().getId().equals(event.getJDA().getSelfUser().getId()))
+                    ctx.getGuild().getMembersWithRoles(role).forEach(user -> {
+                        if (!user.getUser().getId().equals(ctx.getSelfUser().getId()))
                             players.add(user.getUser().getId());
+
                         b.append(user.getEffectiveName())
                                 .append(" ");
                     })
             );
-            channel.sendMessageFormat(languageContext.get("commands.game.started_mp_role"), EmoteReference.MEGA, b.toString()).queue();
+
+            ctx.sendLocalized("commands.game.started_mp_role", EmoteReference.MEGA, b.toString());
         }
 
-        final List<User> mentionedUsers = event.getMessage().getMentionedUsers();
+        final List<User> mentionedUsers = ctx.getMentionedUsers();
         if (!mentionedUsers.isEmpty()) {
             String users = mentionedUsers.stream()
                     .filter(u -> !u.isBot())
@@ -388,34 +387,31 @@ public class GameCmds {
                     .collect(Collectors.joining("\n"));
 
             for (User user : mentionedUsers) {
-                if (!user.getId().equals(event.getJDA().getSelfUser().getId()) && !user.isBot())
+                if (!user.getId().equals(ctx.getSelfUser().getId()) && !user.isBot())
                     players.add(user.getId());
             }
 
             if (players.size() > 1)
-                channel.sendMessageFormat(languageContext.get("commands.game.started_mp_user"), EmoteReference.MEGA, users).queue();
+                ctx.sendLocalized("commands.game.started_mp_user", EmoteReference.MEGA, users);
         }
 
         if (games.size() > 1) {
-            channel.sendMessageFormat(languageContext.get("commands.game.lobby_started"),
-                    EmoteReference.CORRECT, games.stream().map(Game::name)
-                            .collect(Collectors.joining(", "))
-            ).queue();
+            ctx.sendLocalized("commands.game.lobby_started", games.stream().map(Game::name).collect(Collectors.joining(", ")));
         }
 
-        GameLobby lobby = new GameLobby(event, languageContext, players, games);
+        GameLobby lobby = new GameLobby(ctx.getEvent(), ctx.getLanguageContext(), players, games);
         lobby.startFirstGame();
     }
 
-    private boolean checkRunning(GuildMessageReceivedEvent event, I18nContext languageContext) {
-        if (GameLobby.LOBBYS.containsKey(event.getChannel().getIdLong())) {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+    private boolean checkRunning(Context ctx) {
+        if (GameLobby.LOBBYS.containsKey(ctx.getChannel().getIdLong())) {
+            DBGuild dbGuild = MantaroData.db().getGuild(ctx.getGuild());
 
             if (dbGuild.getData().getGameTimeoutExpectedAt() != null && (Long.parseLong(dbGuild.getData().getGameTimeoutExpectedAt()) < System.currentTimeMillis())) {
-                event.getChannel().sendMessageFormat(languageContext.get("commands.game.game_timeout_drop"), EmoteReference.ERROR).queue();
+                ctx.sendLocalized("commands.game.game_timeout_drop", EmoteReference.ERROR);
                 return false;
             } else {
-                event.getChannel().sendMessageFormat(languageContext.get("commands.game.other_lobby_running"), EmoteReference.ERROR).queue();
+                ctx.sendLocalized("commands.game.other_lobby_running", EmoteReference.ERROR);
                 return true;
             }
         }

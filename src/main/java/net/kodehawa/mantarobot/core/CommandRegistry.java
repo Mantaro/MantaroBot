@@ -34,6 +34,7 @@ import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -109,7 +110,7 @@ public class CommandRegistry {
         GuildData guildData = dbg.getData();
 
         if (command == null) {
-            CustomCmds.handle(prefix, cmdName, event, new I18nContext(guildData, userData), content);
+            CustomCmds.handle(prefix, cmdName, new Context(event, new I18nContext(guildData, userData), content), content);
             return false;
         }
 
@@ -254,7 +255,7 @@ public class CommandRegistry {
             );
         }
 
-        cmd.run(event, new I18nContext(guildData, userData), cmdName, content);
+        cmd.run(new Context(event, new I18nContext(guildData, userData), content), cmdName, content);
 
         //Logging
         if (cmd.category() != null) {

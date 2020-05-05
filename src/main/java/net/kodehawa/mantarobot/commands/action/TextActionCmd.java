@@ -17,11 +17,10 @@
 
 package net.kodehawa.mantarobot.commands.action;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.awt.*;
 import java.util.List;
@@ -45,8 +44,8 @@ public class TextActionCmd extends NoArgsCommand {
     }
 
     @Override
-    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-        event.getChannel().sendMessage(String.format(format, strings.get(rand.nextInt(strings.size())))).queue();
+    protected void call(Context ctx, String content) {
+        ctx.send(String.format(format, strings.get(rand.nextInt(strings.size()))));
     }
 
     @Override

@@ -22,6 +22,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -454,7 +455,7 @@ public class Items {
         return null;
     }
 
-    public static Pair<Boolean, Player> handleDurability(GuildMessageReceivedEvent event, I18nContext lang, Item item, Player player, DBUser user, SeasonPlayer seasonPlayer, boolean isSeasonal) {
+    public static Pair<Boolean, Player> handleDurability(Context ctx, Item item, Player player, DBUser user, SeasonPlayer seasonPlayer, boolean isSeasonal) {
         Inventory playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
 
         boolean assumeBroken = false;
@@ -473,6 +474,7 @@ public class Items {
 
         int durability = equippedItems.reduceDurability(equipmentType, (int) Math.max(3, subtractFrom));
         assumeBroken = durability < 5;
+        I18nContext languageContext = ctx.getLanguageContext();
 
         if (assumeBroken) {
             equippedItems.resetOfType(equipmentType);
@@ -480,15 +482,15 @@ public class Items {
             String broken = "";
             Item brokenItem = getBrokenItemFrom(item);
             if (brokenItem != null && r.nextInt(100) > 20) {
-                broken = "\n" + String.format(lang.get("commands.mine.broken_drop"), EmoteReference.HEART, brokenItem.getEmoji(), brokenItem.getName());
+                broken = "\n" + String.format(languageContext.get("commands.mine.broken_drop"), EmoteReference.HEART, brokenItem.getEmoji(), brokenItem.getName());
                 playerInventory.process(new ItemStack(brokenItem, 1));
             }
 
-            String toReplace = lang.get("commands.mine.item_broke");
+            String toReplace = languageContext.get("commands.mine.item_broke");
             if(!user.getData().isAutoEquip())
-                toReplace += "\n" + lang.get("commands.mine.item_broke_autoequip");
+                toReplace += "\n" + languageContext.get("commands.mine.item_broke_autoequip");
 
-            event.getChannel().sendMessageFormat(toReplace, EmoteReference.SAD, item.getName(), broken).queue();
+            ctx.sendFormat(toReplace, EmoteReference.SAD, item.getName(), broken);
             if (isSeasonal)
                 seasonPlayer.save();
             else
@@ -509,26 +511,6 @@ public class Items {
 
             //is not broken
             return Pair.of(false, player);
-        }
-    }
-
-    public static void handleRodBreak(Item item, GuildMessageReceivedEvent event, I18nContext lang, Player p, DBUser u, SeasonPlayer sp, boolean isSeasonal) {
-        Pair<Boolean, Player> breakage = handleDurability(event, lang, item, p, u, sp, isSeasonal);
-        boolean broken = breakage.getKey();
-        if (broken) {
-            //We need to get this again since reusing the old ones will cause :fire:
-            Player pl = breakage.getValue();
-            Inventory inv = pl.getInventory();
-
-            if(u.getData().isAutoEquip() && inv.containsItem(item)) {
-                u.getData().getEquippedItems().equipItem(item);
-                inv.process(new ItemStack(item, -1));
-
-                pl.save();
-                u.save();
-
-                event.getChannel().sendMessageFormat(lang.get("commands.fish.autoequip.success"), EmoteReference.CORRECT, item.getName()).queue();
-            }
         }
     }
 }

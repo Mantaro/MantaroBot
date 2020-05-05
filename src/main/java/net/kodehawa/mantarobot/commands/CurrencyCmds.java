@@ -19,26 +19,25 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.*;
-import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.pets.Pet;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
-import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -48,8 +47,6 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
-import net.kodehawa.mantarobot.utils.RandomCollection;
-import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
@@ -64,7 +61,6 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
 
@@ -176,26 +172,27 @@ public class CurrencyCmds {
         final Random r = new Random();
         cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
             @Override
-            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Map<String, String> t = getArguments(args);
+            public void call(Context ctx, String content, String[] args) {
+                Map<String, String> t = ctx.getOptionalArguments();
                 content = Utils.replaceArguments(t, content, "brief", "calculate", "calc", "c", "info", "full", "season", "s");
-                Member member = Utils.findMember(event, event.getMember(), content);
+                Member member = Utils.findMember(ctx.getEvent(), ctx.getMember(), content);
 
                 if (member == null)
                     return;
 
                 if (member.getUser().isBot()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.inventory.bot_notice"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.inventory.bot_notice", EmoteReference.ERROR);
                     return;
                 }
 
-                Player player = MantaroData.db().getPlayer(member);
-                DBUser user = MantaroData.db().getUser(member);
-                SeasonPlayer seasonPlayer = MantaroData.db().getPlayerForSeason(member, getConfig().getCurrentSeason());
+                Player player = ctx.getPlayer(member);
+                DBUser user = ctx.getDBUser(member);
+                SeasonPlayer seasonPlayer = ctx.getSeasonPlayer(member);
                 Inventory playerInventory = player.getInventory();
                 final List<ItemStack> inventoryList = playerInventory.asList();
+                I18nContext languageContext = ctx.getLanguageContext();
 
-                if (t.containsKey("season") || t.containsKey("s")) {
+                if (ctx.isSeasonal()) {
                     playerInventory = seasonPlayer.getInventory();
                 }
 
@@ -205,17 +202,19 @@ public class CurrencyCmds {
                             .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
                             .sum();
 
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.inventory.calculate"), EmoteReference.DIAMOND, member.getUser().getName(), all).queue();
+                    ctx.sendLocalized("commands.inventory.calculate", EmoteReference.DIAMOND, member.getUser().getName(), all);
                     return;
                 }
 
                 if (inventoryList.isEmpty()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.inventory.empty"), EmoteReference.WARNING).queue();
+                    ctx.sendLocalized("commands.inventory.empty", EmoteReference.WARNING);
                     return;
                 }
 
                 if (t.containsKey("info") || t.containsKey("full")) {
-                    EmbedBuilder builder = baseEmbed(event, String.format(languageContext.get("commands.inventory.header"), member.getEffectiveName()), member.getUser().getEffectiveAvatarUrl());
+                    EmbedBuilder builder = baseEmbed(ctx,
+                            String.format(languageContext.get("commands.inventory.header"), member.getEffectiveName()), member.getUser().getEffectiveAvatarUrl()
+                    );
 
                     List<MessageEmbed.Field> fields = new LinkedList<>();
                     if (inventoryList.isEmpty())
@@ -230,7 +229,7 @@ public class CurrencyCmds {
                     }
 
                     List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
-                    boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                    boolean hasReactionPerms = ctx.hasReactionPerms();
 
                     if (hasReactionPerms) {
                         if (builder.getDescriptionBuilder().length() == 0) {
@@ -238,23 +237,20 @@ public class CurrencyCmds {
                                     String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
                                     + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 && !user.isPremium() ? languageContext.get("general.sellout") : ""));
                         }
-                        DiscordUtils.list(event, 100, false, builder, splitFields);
+                        DiscordUtils.list(ctx.getEvent(), 100, false, builder, splitFields);
                     } else {
                         if (builder.getDescriptionBuilder().length() == 0) {
                             builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
                                     String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
                                     + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0  && !user.isPremium() ? languageContext.get("general.sellout") : ""));
                         }
-                        DiscordUtils.listText(event, 100, false, builder, splitFields);
+                        DiscordUtils.listText(ctx.getEvent(), 100, false, builder, splitFields);
                     }
 
                     return;
                 }
 
-                new MessageBuilder().setContent(String.format(languageContext.get("commands.inventory.brief"), member.getEffectiveName(), ItemStack.toString(playerInventory.asList())))
-                        .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
-                        .sendTo(event.getChannel())
-                        .queue();
+                ctx.sendStrippedLocalized("commands.inventory.brief", member.getEffectiveName(), ItemStack.toString(playerInventory.asList()));
             }
 
             @Override
@@ -276,29 +272,27 @@ public class CurrencyCmds {
     public void level(CommandRegistry cr) {
         cr.register("level", new SimpleCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Member member = Utils.findMember(event, event.getMember(), content);
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content, String[] args) {
+                Member member = Utils.findMember(ctx.getEvent(), ctx.getMember(), content);
                 if (member == null)
                     return;
 
                 if (member.getUser().isBot()) {
-                    channel.sendMessageFormat(languageContext.get("commands.level.bot_notice"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.level.bot_notice", EmoteReference.ERROR);
                     return;
                 }
 
                 Player player = MantaroData.db().getPlayer(member);
                 long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
 
-                if (member.getUser().getIdLong() == event.getAuthor().getIdLong()) {
-                    channel.sendMessageFormat(languageContext.get("commands.level.own_success"),
+                if (member.getUser().getIdLong() == ctx.getAuthor().getIdLong()) {
+                    ctx.sendLocalized("commands.level.own_success",
                             EmoteReference.ZAP, player.getLevel(), player.getData().getExperience(), experienceNext
-                    ).queue();
+                    );
                 } else {
-                    channel.sendMessageFormat(languageContext.get("commands.level.success_other"),
+                    ctx.sendLocalized("commands.level.success_other",
                             EmoteReference.ZAP, member.getUser().getAsTag(), player.getLevel(), player.getData().getExperience(), experienceNext
-                    ).queue();
+                    );
                 }
             }
 
@@ -311,416 +305,6 @@ public class CurrencyCmds {
                         .build();
             }
         });
-    }
-
-    @Subscribe
-    public void market(CommandRegistry cr) {
-        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
-                .limit(1)
-                .spamTolerance(2)
-                .cooldown(6, TimeUnit.SECONDS)
-                .maxCooldown(6, TimeUnit.SECONDS)
-                .randomIncrement(true)
-                .pool(MantaroData.getDefaultJedisPool())
-                .prefix("market")
-                .premiumAware(true)
-                .build();
-
-
-        TreeCommand marketCommand = (TreeCommand) cr.register("market", new TreeCommand(Category.CURRENCY) {
-            @Override
-            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        EmbedBuilder embed = baseEmbed(event, languageContext.get("commands.market.header"))
-                                .setThumbnail("https://png.icons8.com/metro/540/shopping-cart.png");
-                        List<MessageEmbed.Field> fields = new LinkedList<>();
-                        Stream.of(Items.ALL).forEach(item -> {
-                            if (!item.isPetOnly() && !item.isHidden() && item.getItemType() != ItemType.PET) {
-                                String buyValue = item.isBuyable() ? String.format("$%d", item.getValue()) : "N/A";
-                                String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
-
-                                fields.add(new MessageEmbed.Field(String.format("%s %s", item.getEmoji(), item.getName()),
-                                        (languageContext.getContextLanguage().equals("en_US") ? "" : " (" + languageContext.get(item.getTranslatedName()) + ")\n") +
-                                                EmoteReference.BUY + buyValue + " " + EmoteReference.SELL + sellValue, true)
-                                );
-                            }
-                        });
-
-                        DBUser user = MantaroData.db().getUser(event.getAuthor());
-
-                        List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(8, fields);
-                        boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
-
-                        if (hasReactionPerms) {
-                            embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
-                                    String.format(languageContext.get("general.buy_sell_paged_reference") + "\n" + String.format(languageContext.get("general.reaction_timeout"), 120), EmoteReference.BUY, EmoteReference.SELL)) + "\n"
-                                    + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference"));
-                            DiscordUtils.list(event, 120, false, embed, splitFields);
-                        } else {
-                            embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
-                                    String.format(languageContext.get("general.buy_sell_paged_reference") + "\n" + String.format(languageContext.get("general.reaction_timeout"), 120), EmoteReference.BUY, EmoteReference.SELL)) + "\n"
-                                    + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference"));
-                            DiscordUtils.listText(event, 120, false, embed, splitFields);
-                        }
-                    }
-                };
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("List current items for buying and selling.")
-                        .setUsage("To buy an item do `~>market buy <item>`. It will subtract the value from your money and give you the item.\n" +
-                                "To sell do `~>market sell all` to sell all your items or `~>market sell <item>` to sell the specified item.\n" +
-                                "If the item name contains spaces, \"wrap it in quotes\".\n" +
-                                "To buy and sell multiple items you need to do `~>market <buy/sell> <amount> <item>`\n")
-                        .addParameter("item", "The item name or emoji")
-                        .setSeasonal(true)
-                        .build();
-            }
-        });
-
-        marketCommand.setPredicate((event) -> {
-            if (!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, null, false))
-                return false;
-
-            Player player = MantaroData.db().getPlayer(event.getMember());
-            if (player.isLocked()) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot access the market now.").queue();
-                return false;
-            }
-
-            return true;
-        });
-
-        marketCommand.addSubCommand("dump", new SubCommand() {
-            @Override
-            public String description() {
-                return "Dumps an item. Usage: `~>market dump <item>`";
-            }
-
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
-
-                if (content.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("commands.market.dump.no_item"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
-                content = Utils.replaceArguments(t, content, "season", "s").trim();
-
-                String[] args = content.split(" ");
-                String itemName = content;
-                int itemNumber = 1;
-                boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
-                if (isMassive) {
-                    try {
-                        itemNumber = Math.abs(Integer.parseInt(itemName.split(" ")[0]));
-                        itemName = itemName.replace(args[0], "").trim();
-                    } catch (NumberFormatException e) {
-                        channel.sendMessageFormat(languageContext.get("commands.market.dump.invalid"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-                }
-
-                Item item = Items.fromAny(itemName).orElse(null);
-
-                if (item == null) {
-                    channel.sendMessageFormat(languageContext.get("commands.market.dump.non_existent"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                Player player = MantaroData.db().getPlayer(event.getAuthor());
-                SeasonPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
-
-                Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-
-                if (!playerInventory.containsItem(item)) {
-                    channel.sendMessageFormat(languageContext.get("commands.market.dump.player_no_item"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                if (playerInventory.getAmount(item) < itemNumber) {
-                    channel.sendMessageFormat(languageContext.get("commands.market.dump.more_items_than_player"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                playerInventory.process(new ItemStack(item, -itemNumber));
-
-                if(itemNumber > 4000)
-                    player.getData().addBadgeIfAbsent(Badge.WASTER);
-
-                if (isSeasonal)
-                    seasonalPlayer.saveAsync();
-                else
-                    player.saveAsync();
-
-                channel.sendMessageFormat(languageContext.get("commands.market.dump.success"),
-                        EmoteReference.CORRECT, itemNumber, item.getEmoji(), item.getName()).queue();
-            }
-        }).createSubCommandAlias("dump", "trash");
-
-        marketCommand.addSubCommand("price", new SubCommand() {
-            @Override
-            public String description() {
-                return "Checks the price of any given item. Usage: `~>market price <item>`";
-            }
-
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                String[] args = content.split(" ");
-                String itemName = content.replace(args[0] + " ", "");
-                Item item = Items.fromAny(itemName).orElse(null);
-
-                if (item == null) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.price.non_existent"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                if (!item.isBuyable() && !item.isSellable()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.price.no_price"), EmoteReference.THINKING).queue();
-                    return;
-                }
-
-                if (!item.isBuyable()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.market.price.collectible"),
-                            EmoteReference.EYES, (int) (item.getValue() * 0.9)).queue();
-                    return;
-                }
-
-                event.getChannel().sendMessageFormat(languageContext.get("commands.market.price.success"),
-                        EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), (int) (item.getValue() * 0.9)).queue();
-            }
-        });
-
-        marketCommand.addSubCommand("sell", new SubCommand() {
-            @Override
-            public String description() {
-                return "Sells an item. Usage: `~>market sell <item>`. You can sell multiple items if you put the amount before the item.\n" +
-                        "Use `~>market sell all` to sell all of your items.";
-            }
-
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
-
-                if (content.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("commands.market.sell.no_item_amount"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                Player player = MantaroData.db().getPlayer(event.getMember());
-                SeasonPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
-                Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
-                content = Utils.replaceArguments(t, content, "season", "s").trim();
-
-                String[] args = content.split(" ");
-                String itemName = content;
-                int itemNumber = 1;
-                String split = args[0];
-                boolean isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
-                if (isMassive) {
-                    try {
-                        itemNumber = Math.abs(Integer.parseInt(split));
-                        itemName = itemName.replace(args[0], "").trim();
-                    } catch (NumberFormatException e) {
-                        channel.sendMessageFormat(languageContext.get("commands.market.sell.invalid"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-                }
-
-                try {
-                    if (args[0].equals("all") && !isSeasonal) {
-                        channel.sendMessageFormat(languageContext.get("commands.market.sell.all.confirmation"), EmoteReference.WARNING).queue();
-                        //Start the operation.
-                        InteractiveOperations.create(channel, event.getAuthor().getIdLong(), 60, e -> {
-                            if (!e.getAuthor().getId().equals(event.getAuthor().getId())) {
-                                return Operation.IGNORED;
-                            }
-
-                            String c = e.getMessage().getContentRaw();
-
-                            if (c.equalsIgnoreCase("yes")) {
-                                long all = player.getInventory().asList().stream()
-                                        .filter(item -> item.getItem().isSellable())
-                                        .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
-                                        .sum();
-
-                                player.getInventory().clearOnlySellables();
-                                player.addMoney(all);
-
-                                channel.sendMessageFormat(languageContext.get("commands.market.sell.all.success"), EmoteReference.MONEY, all).queue();
-
-                                player.saveAsync();
-
-                                return Operation.COMPLETED;
-                            } else if (c.equalsIgnoreCase("no")) {
-                                channel.sendMessageFormat(languageContext.get("commands.market.sell.all.cancelled"), EmoteReference.CORRECT).queue();
-                                return Operation.COMPLETED;
-                            }
-
-                            return Operation.IGNORED;
-                        });
-
-                        return;
-                    }
-
-                    Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-                    Item toSell = Items.fromAny(itemName.replace("\"", "")).orElse(null);
-
-                    if (toSell == null) {
-                        channel.sendMessageFormat(languageContext.get("commands.market.sell.non_existent"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-
-                    if (!toSell.isSellable()) {
-                        channel.sendMessageFormat(languageContext.get("commands.market.sell.no_sell_price"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-
-                    if (playerInventory.getAmount(toSell) < 1) {
-                        channel.sendMessageFormat(languageContext.get("commands.market.sell.no_item_player"), EmoteReference.STOP).queue();
-                        return;
-                    }
-
-                    if (playerInventory.getAmount(toSell) < itemNumber) {
-                        channel.sendMessageFormat(languageContext.get("commands.market.sell.more_items_than_player"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-
-                    int many = itemNumber * -1;
-                    long amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
-                    playerInventory.process(new ItemStack(toSell, many));
-                    if (isSeasonal)
-                        seasonalPlayer.addMoney(amount);
-                    else
-                        player.addMoney(amount);
-
-                    player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
-                    channel.sendMessageFormat(languageContext.get("commands.market.sell.success"),
-                            EmoteReference.CORRECT, Math.abs(many), toSell.getName(), amount).queue();
-
-                    player.saveAsync();
-
-                    if (isSeasonal)
-                        seasonalPlayer.saveAsync();
-                } catch (Exception e) {
-                    channel.sendMessage(EmoteReference.ERROR + languageContext.get("general.invalid_syntax")).queue();
-                }
-            }
-        });
-
-        marketCommand.addSubCommand("buy", new SubCommand() {
-            @Override
-            public String description() {
-                return "Buys an item. Usage: `~>market buy <item>`. You can buy multiple items if you put the amount before the item. " +
-                        "You can use all, half and quarter to buy for ex., a quarter of 5000 items.";
-            }
-
-            @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                TextChannel channel = event.getChannel();
-                if (content.isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("commands.market.buy.no_item_amount"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                Player player = MantaroData.db().getPlayer(event.getMember());
-                SeasonPlayer seasonalPlayer = MantaroData.db().getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
-                Map<String, String> t = getArguments(content);
-                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
-                content = Utils.replaceArguments(t, content, "season", "s").trim();
-
-                String[] args = content.split(" ");
-                String itemName = content;
-                int itemNumber = 1;
-                String split = args[0];
-                boolean isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
-                if (isMassive) {
-                    try {
-                        itemNumber = Math.abs(Integer.parseInt(split));
-                        itemName = itemName.replace(args[0], "").trim();
-                    } catch (NumberFormatException e) {
-                        channel.sendMessageFormat(languageContext.get("commands.market.buy.invalid"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-                } else {
-                    //This is silly but works, people can stop asking about this now :o
-                    if (!itemName.isEmpty()) {
-                        switch (split) {
-                            case "all":
-                                itemNumber = ItemStack.MAX_STACK_SIZE;
-                                break;
-                            case "half":
-                                itemNumber = ItemStack.MAX_STACK_SIZE / 2;
-                                break;
-                            case "quarter":
-                                itemNumber = ItemStack.MAX_STACK_SIZE / 4;
-                                break;
-                            default:
-                                break;
-                        }
-
-                        if (itemNumber > 1)
-                            itemName = itemName.replace(args[0], "").trim();
-                    }
-                }
-
-                final Item itemToBuy = Items.fromAnyNoId(itemName.replace("\"", "")).orElse(null);
-
-                if (itemToBuy == null) {
-                    channel.sendMessageFormat(languageContext.get("commands.market.buy.non_existent"), EmoteReference.ERROR).queue();
-                    return;
-                }
-
-                try {
-                    if (!itemToBuy.isBuyable() || itemToBuy.isPetOnly()) {
-                        channel.sendMessageFormat(languageContext.get("commands.market.buy.no_buy_price"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-
-                    Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-                    ItemStack stack = playerInventory.getStackOf(itemToBuy);
-                    if ((stack != null && !stack.canJoin(new ItemStack(itemToBuy, itemNumber))) || itemNumber > 5000) {
-                        //assume overflow
-                        channel.sendMessageFormat(languageContext.get("commands.market.buy.item_limit_reached"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-
-                    boolean removedMoney = isSeasonal ? seasonalPlayer.removeMoney(itemToBuy.getValue() * itemNumber) : player.removeMoney(itemToBuy.getValue() * itemNumber);
-
-                    if (removedMoney) {
-                        playerInventory.process(new ItemStack(itemToBuy, itemNumber));
-                        player.getData().addBadgeIfAbsent(Badge.BUYER);
-                        player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
-
-                        //Due to player data being updated here too.
-                        player.saveAsync();
-
-                        if (isSeasonal)
-                            seasonalPlayer.saveAsync();
-
-                        long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
-
-                        channel.sendMessageFormat(languageContext.get("commands.market.buy.success"),
-                                EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber, playerMoney).queue();
-
-                    } else {
-                        channel.sendMessageFormat(languageContext.get("commands.market.buy.not_enough_money"), EmoteReference.STOP).queue();
-                    }
-                } catch (Exception e) {
-                    channel.sendMessage(EmoteReference.ERROR + languageContext.get("general.invalid_syntax")).queue();
-                }
-            }
-        });
-
-        cr.registerAlias("market", "shop");
     }
 
     @Subscribe
@@ -738,71 +322,67 @@ public class CurrencyCmds {
                     .build();
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
-
+            protected void call(Context ctx, String content, String[] args) {
                 if (args.length < 2) {
-                    channel.sendMessageFormat(languageContext.get("commands.itemtransfer.no_item_mention"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.itemtransfer.no_item_mention", EmoteReference.ERROR);
                     return;
                 }
 
-                final List<User> mentionedUsers = event.getMessage().getMentionedUsers();
-                if (mentionedUsers.size() == 0) {
-                    channel.sendMessageFormat(languageContext.get("general.mention_user_required"), EmoteReference.ERROR).queue();
+                final List<Member> mentionedMembers = ctx.getMentionedMembers();
+                if (mentionedMembers.size() == 0) {
+                    ctx.sendLocalized("general.mention_user_required", EmoteReference.ERROR);
                 } else {
-                    User giveTo = mentionedUsers.get(0);
+                    Member giveTo = mentionedMembers.get(0);
 
-                    if (event.getAuthor().getId().equals(giveTo.getId())) {
-                        channel.sendMessageFormat(languageContext.get("commands.itemtransfer.transfer_yourself_note"), EmoteReference.ERROR).queue();
+                    if (ctx.getAuthor().getId().equals(giveTo.getId())) {
+                        ctx.sendLocalized("commands.itemtransfer.transfer_yourself_note", EmoteReference.ERROR);
                         return;
                     }
 
-                    if (giveTo.isBot()) {
-                        channel.sendMessageFormat(languageContext.get("commands.itemtransfer.bot_notice"), EmoteReference.ERROR).queue();
+                    if (giveTo.getUser().isBot()) {
+                        ctx.sendLocalized("commands.itemtransfer.bot_notice", EmoteReference.ERROR);
                         return;
                     }
 
-                    if (!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                    if (!handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
                         return;
 
                     Item item = Items.fromAnyNoId(args[1]).orElse(null);
                     if (item == null) {
-                        channel.sendMessage(languageContext.get("general.item_lookup.no_item_emoji")).queue();
+                        ctx.sendLocalized("general.item_lookup.no_item_emoji");
                     } else {
                         if (item == Items.CLAIM_KEY) {
-                            channel.sendMessage(languageContext.get("general.item_lookup.claim_key")).queue();
+                            ctx.sendLocalized("general.item_lookup.claim_key");
                             return;
                         }
 
-                        Player player = MantaroData.db().getPlayer(event.getAuthor());
-                        Player giveToPlayer = MantaroData.db().getPlayer(giveTo);
+                        Player player = ctx.getPlayer();
+                        Player giveToPlayer = ctx.getPlayer(giveTo);
 
                         if (player.isLocked()) {
-                            channel.sendMessageFormat(languageContext.get("commands.itemtransfer.locked_notice"), EmoteReference.ERROR).queue();
+                            ctx.sendLocalized("commands.itemtransfer.locked_notice", EmoteReference.ERROR);
                             return;
                         }
 
                         if (args.length == 2) {
                             if (player.getInventory().containsItem(item)) {
                                 if (item.isHidden()) {
-                                    channel.sendMessageFormat(languageContext.get("commands.itemtransfer.hidden_item"), EmoteReference.ERROR).queue();
+                                    ctx.sendLocalized("commands.itemtransfer.hidden_item", EmoteReference.ERROR);
                                     return;
                                 }
 
                                 if (giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() >= 5000) {
-                                    channel.sendMessageFormat(languageContext.get("commands.itemtransfer.overflow"), EmoteReference.ERROR).queue();
+                                    ctx.sendLocalized("commands.itemtransfer.overflow", EmoteReference.ERROR);
                                     return;
                                 }
 
                                 player.getInventory().process(new ItemStack(item, -1));
                                 giveToPlayer.getInventory().process(new ItemStack(item, 1));
-                                new MessageBuilder().setContent(String.format(languageContext.get("commands.itemtransfer.success"),
-                                        EmoteReference.OK, event.getMember().getEffectiveName(), 1, item.getName(), event.getGuild().getMember(giveTo).getEffectiveName()))
-                                        .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
-                                        .sendTo(channel)
-                                        .queue();
+                                ctx.sendStrippedLocalized("commands.itemtransfer.success",
+                                        EmoteReference.OK, ctx.getMember().getEffectiveName(), 1, item.getName(), giveTo.getEffectiveName()
+                                );
                             } else {
-                                channel.sendMessageFormat(languageContext.get("commands.itemtransfer.multiple_items_error"), EmoteReference.ERROR).queue();
+                                ctx.sendLocalized("commands.itemtransfer.multiple_items_error", EmoteReference.ERROR);
                             }
 
                             player.saveAsync();
@@ -814,28 +394,28 @@ public class CurrencyCmds {
                             int amount = Math.abs(Integer.parseInt(args[2]));
                             if (player.getInventory().containsItem(item) && player.getInventory().getAmount(item) >= amount) {
                                 if (item.isHidden()) {
-                                    channel.sendMessageFormat(languageContext.get("commands.itemtransfer.hidden_item"), EmoteReference.ERROR).queue();
+                                    ctx.sendLocalized("commands.itemtransfer.hidden_item", EmoteReference.ERROR);
                                     return;
                                 }
 
                                 if (giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() + amount > 5000) {
-                                    channel.sendMessageFormat(languageContext.get("commands.itemtransfer.overflow"), EmoteReference.ERROR).queue();
+                                    ctx.sendLocalized("commands.itemtransfer.overflow", EmoteReference.ERROR);
                                     return;
                                 }
 
                                 player.getInventory().process(new ItemStack(item, amount * -1));
                                 giveToPlayer.getInventory().process(new ItemStack(item, amount));
 
-                                new MessageBuilder().setContent(String.format(languageContext.get("commands.itemtransfer.success"), EmoteReference.OK,
-                                        event.getMember().getEffectiveName(), amount, item.getName(), event.getGuild().getMember(giveTo).getEffectiveName()))
-                                        .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
-                                        .sendTo(channel)
-                                        .queue();
+                                ctx.sendStrippedLocalized("commands.itemtransfer.success", EmoteReference.OK,
+                                        ctx.getMember().getEffectiveName(), amount, item.getName(), giveTo.getEffectiveName()
+                                );
                             } else {
-                                channel.sendMessageFormat(languageContext.get("commands.itemtransfer.error"), EmoteReference.ERROR).queue();
+                                ctx.sendLocalized("commands.itemtransfer.error", EmoteReference.ERROR);
                             }
                         } catch (NumberFormatException nfe) {
-                            channel.sendMessageFormat(languageContext.get("general.invalid_number") + " " + languageContext.get("general.space_notice"), EmoteReference.ERROR).queue();
+                            ctx.send(String.format(ctx.getLanguageContext().get("general.invalid_number") + " " +
+                                    ctx.getLanguageContext().get("general.space_notice"), EmoteReference.ERROR)
+                            );
                         }
 
                         player.saveAsync();
@@ -874,30 +454,28 @@ public class CurrencyCmds {
                     .build();
 
             //this still uses a normal RL
-            RateLimiter partyRateLimiter = new RateLimiter(TimeUnit.MINUTES, 3);
+            final RateLimiter partyRateLimiter = new RateLimiter(TimeUnit.MINUTES, 3);
 
             @Override
-            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                final TextChannel channel = event.getChannel();
-
-                if (event.getMessage().getMentionedUsers().isEmpty()) {
-                    channel.sendMessageFormat(languageContext.get("general.mention_user_required"), EmoteReference.ERROR).queue();
+            public void call(Context ctx, String content, String[] args) {
+                if (ctx.getMentionedUsers().isEmpty()) {
+                    ctx.sendLocalized("general.mention_user_required", EmoteReference.ERROR);
                     return;
                 }
 
-                final User giveTo = event.getMessage().getMentionedUsers().get(0);
+                final User giveTo = ctx.getMentionedUsers().get(0);
 
-                if (giveTo.equals(event.getAuthor())) {
-                    channel.sendMessageFormat(languageContext.get("commands.transfer.transfer_yourself_note"), EmoteReference.THINKING).queue();
+                if (giveTo.equals(ctx.getAuthor())) {
+                    ctx.sendLocalized("commands.transfer.transfer_yourself_note", EmoteReference.THINKING);
                     return;
                 }
 
                 if (giveTo.isBot()) {
-                    channel.sendMessageFormat(languageContext.get("commands.transfer.bot_notice"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.transfer.bot_notice", EmoteReference.ERROR);
                     return;
                 }
 
-                if (!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                if (!handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
                     return;
 
                 long toSend; // = 0 at the start
@@ -906,59 +484,58 @@ public class CurrencyCmds {
                     //Convert negative values to absolute.
                     toSend = Math.abs(new RoundedMetricPrefixFormat().parseObject(args[1], new ParsePosition(0)));
                 } catch (Exception e) {
-                    channel.sendMessageFormat(languageContext.get("commands.transfer.no_amount"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.transfer.no_amount", EmoteReference.ERROR);
                     return;
                 }
 
                 if (toSend == 0) {
-                    channel.sendMessageFormat(languageContext.get("commands.transfer.no_money_specified_notice"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.transfer.no_money_specified_notice", EmoteReference.ERROR);
                     return;
                 }
 
                 if (Items.fromAnyNoId(args[1]).isPresent()) {
-                    channel.sendMessageFormat(languageContext.get("commands.transfer.item_transfer"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.transfer.item_transfer", EmoteReference.ERROR);
                     return;
                 }
 
                 if (toSend > TRANSFER_LIMIT) {
-                    channel.sendMessageFormat(languageContext.get("commands.transfer.over_transfer_limit"),
-                            EmoteReference.ERROR, TRANSFER_LIMIT).queue();
+                    ctx.sendLocalized("commands.transfer.over_transfer_limit", EmoteReference.ERROR, TRANSFER_LIMIT);
                     return;
                 }
 
-                Player transferPlayer = MantaroData.db().getPlayer(event.getMember());
-                Player toTransfer = MantaroData.db().getPlayer(event.getGuild().getMember(giveTo));
+                Player transferPlayer = ctx.getPlayer();
+                Player toTransfer = ctx.getPlayer(giveTo);
 
                 if (transferPlayer.isLocked()) {
-                    channel.sendMessageFormat(languageContext.get("commands.transfer.own_locked_notice"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.transfer.own_locked_notice", EmoteReference.ERROR);
                     return;
                 }
 
                 if (transferPlayer.getMoney() < toSend) {
-                    channel.sendMessageFormat(languageContext.get("commands.transfer.no_money_notice"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.transfer.no_money_notice", EmoteReference.ERROR);
                     return;
                 }
 
                 if (toTransfer.isLocked()) {
-                    channel.sendMessageFormat(languageContext.get("commands.transfer.receipt_locked_notice"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.transfer.receipt_locked_notice", EmoteReference.ERROR);
                     return;
                 }
 
                 if (toTransfer.getMoney() > (long) TRANSFER_LIMIT * 18) {
-                    channel.sendMessageFormat(languageContext.get("commands.transfer.receipt_over_limit"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.transfer.receipt_over_limit", EmoteReference.ERROR);
                     return;
                 }
 
-                String partyKey = event.getAuthor().getId() + ":" + giveTo.getId();
+                String partyKey = ctx.getAuthor().getId() + ":" + giveTo.getId();
                 if (!partyRateLimiter.process(partyKey)) {
-                    channel.sendMessage(
+                    ctx.getChannel().sendMessage(
                             EmoteReference.STOPWATCH +
-                                    String.format(languageContext.get("commands.transfer.party"), giveTo.getName()) + " (Ratelimited)" +
+                                    String.format(ctx.getLanguageContext().get("commands.transfer.party"), giveTo.getName()) + " (Ratelimited)" +
                                     "\n **You'll be able to transfer to this user again in " + Utils.getHumanizedTime(partyRateLimiter.tryAgainIn(partyKey))
                                     + ".**"
                     ).queue();
 
-                    Utils.ratelimitedUsers.computeIfAbsent(event.getAuthor().getIdLong(), __ -> new AtomicInteger()).incrementAndGet();
+                    Utils.ratelimitedUsers.computeIfAbsent(ctx.getAuthor().getIdLong(), __ -> new AtomicInteger()).incrementAndGet();
                     return;
                 }
 
@@ -968,14 +545,11 @@ public class CurrencyCmds {
                     transferPlayer.removeMoney(toSend);
                     transferPlayer.saveAsync();
 
-                    channel.sendMessageFormat(languageContext.get("commands.transfer.success"), EmoteReference.CORRECT, toSend, amountTransfer,
-                            event.getMessage().getMentionedUsers().get(0).getName()
-                    ).queue();
-
+                    ctx.sendLocalized("commands.transfer.success", EmoteReference.CORRECT, toSend, amountTransfer, giveTo.getName());
                     toTransfer.saveAsync();
                     rateLimiter.limit(toTransfer.getUserId());
                 } else {
-                    channel.sendMessageFormat(languageContext.get("commands.transfer.receipt_overflow_notice"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.transfer.receipt_overflow_notice", EmoteReference.ERROR);
                 }
             }
 
@@ -996,17 +570,14 @@ public class CurrencyCmds {
     public void lootcrate(CommandRegistry registry) {
         registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                final TextChannel channel = event.getChannel();
-
-                final ManagedDatabase managedDatabase = MantaroData.db();
+            protected void call(Context ctx, String content, String[] args) {
                 //Argument parsing.
-                Map<String, String> t = getArguments(args);
+                Map<String, String> t = ctx.getOptionalArguments();
                 content = Utils.replaceArguments(t, content, "season", "s").trim();
-                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+                boolean isSeasonal = ctx.isSeasonal();
 
-                Player p = managedDatabase.getPlayer(event.getAuthor());
-                SeasonPlayer sp = managedDatabase.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
+                Player p = ctx.getPlayer();
+                SeasonPlayer sp = ctx.getSeasonPlayer();
                 Item item = Items.fromAnyNoId(content.replace("\"", "")).orElse(null);
 
                 //Open default crate if nothing's specified.
@@ -1014,19 +585,19 @@ public class CurrencyCmds {
                     item = Items.LOOT_CRATE;
 
                 if (item.getItemType() != ItemType.CRATE) {
-                    channel.sendMessageFormat(languageContext.get("commands.opencrate.not_crate"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.opencrate.not_crate", EmoteReference.ERROR);
                     return;
                 }
 
                 boolean containsItem = isSeasonal ? sp.getInventory().containsItem(item) : p.getInventory().containsItem(item);
                 if (!containsItem) {
-                    channel.sendMessageFormat(languageContext.get("commands.opencrate.no_crate"), EmoteReference.SAD, item.getName()).queue();
+                    ctx.sendLocalized("commands.opencrate.no_crate", EmoteReference.SAD, item.getName());
                     return;
                 }
 
                 //Ratelimit handled here
                 //Check Items.openLootCrate for implementation details.
-                item.getAction().test(event, Pair.of(languageContext, content), isSeasonal);
+                item.getAction().test(ctx.getEvent(), Pair.of(ctx.getLanguageContext(), content), isSeasonal);
             }
 
             @Override
@@ -1054,23 +625,21 @@ public class CurrencyCmds {
                 .prefix("dailycrate")
                 .build();
 
+        SecureRandom random = new SecureRandom();
         cr.register("dailycrate", new SimpleCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                final ManagedDatabase managedDatabase = MantaroData.db();
-
-                if (!managedDatabase.getUser(event.getAuthor()).isPremium()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.dailycrate.not_premium"), EmoteReference.ERROR).queue();
+            protected void call(Context ctx, String content, String[] args) {
+                if (!ctx.getDBUser().isPremium()) {
+                    ctx.sendLocalized("commands.dailycrate.not_premium", EmoteReference.ERROR);
                     return;
                 }
 
-                Player p = managedDatabase.getPlayer(event.getAuthor());
+                Player p = ctx.getPlayer();
                 Inventory inventory = p.getInventory();
+                I18nContext languageContext = ctx.getLanguageContext();
 
-                if (!handleDefaultIncreasingRatelimit(rateLimiter, event.getAuthor(), event, languageContext))
+                if (!handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
                     return;
-
-                Random random = new Random();
 
                 Item randomCrate = random.nextBoolean() ? Items.MINE_PREMIUM_CRATE : Items.FISH_PREMIUM_CRATE;
 
@@ -1080,7 +649,7 @@ public class CurrencyCmds {
                 var successMessage = String.format(languageContext.get("commands.dailycrate.success"), EmoteReference.POPPER, randomCrate.getName()) +
                         "\n" + languageContext.get("commands.daily.sellout.already_premium");
 
-                event.getChannel().sendMessage(successMessage).queue();
+                ctx.send(successMessage);
             }
 
             @Override
@@ -1098,44 +667,43 @@ public class CurrencyCmds {
     public void useItem(CommandRegistry cr) {
         TreeCommand ui = (TreeCommand) cr.register("useitem", new TreeCommand(Category.CURRENCY) {
             @Override
-            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                        final ManagedDatabase db = MantaroData.db();
-                        String[] args = StringUtils.advancedSplitArgs(content, 2);
-                        Map<String, String> t = StringUtils.parse(content.split("\\s+"));
-                        final TextChannel channel = event.getChannel();
+                    protected void call(Context ctx, String content) {
+                        String[] args = ctx.getArguments();
+                        Map<String, String> t = ctx.getOptionalArguments();
 
                         if (content.isEmpty()) {
-                            channel.sendMessageFormat(languageContext.get("commands.useitem.no_items_specified"), EmoteReference.ERROR).queue();
+                            ctx.sendLocalized("commands.useitem.no_items_specified", EmoteReference.ERROR);
                             return;
                         }
 
                         Item item = Items.fromAnyNoId(args[0]).orElse(null);
                         //Well, shit.
                         if (item == null) {
-                            channel.sendMessageFormat(languageContext.get("general.item_lookup.not_found"), EmoteReference.ERROR).queue();
+                            ctx.sendLocalized("general.item_lookup.not_found", EmoteReference.ERROR);
                             return;
                         }
 
-                        if (item.getItemType() != ItemType.INTERACTIVE && item.getItemType() != ItemType.CRATE && item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF) {
-                            channel.sendMessageFormat(languageContext.get("commands.useitem.not_interactive"), EmoteReference.ERROR).queue();
+                        if (item.getItemType() != ItemType.INTERACTIVE && item.getItemType() != ItemType.CRATE &&
+                                item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF) {
+                            ctx.sendLocalized("commands.useitem.not_interactive", EmoteReference.ERROR);
                             return;
                         }
 
                         if (item.getAction() == null && (item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF)) {
-                            channel.sendMessageFormat(languageContext.get("commands.useitem.interactive_no_action"), EmoteReference.ERROR).queue();
+                            ctx.sendLocalized("commands.useitem.interactive_no_action", EmoteReference.ERROR);
                             return;
                         }
 
-                        Player p = db.getPlayer(event.getAuthor());
+                        Player p = ctx.getPlayer();
                         if (!p.getInventory().containsItem(item)) {
-                            channel.sendMessageFormat(languageContext.get("commands.useitem.no_item"), EmoteReference.SAD).queue();
+                            ctx.sendLocalized("commands.useitem.no_item", EmoteReference.SAD);
                             return;
                         }
 
-                        applyPotionEffect(event, item, p, t, content, false, languageContext);
+                        applyPotionEffect(ctx.getEvent(), item, p, t, content, false, ctx.getLanguageContext());
                     }
                 };
             }
@@ -1159,11 +727,12 @@ public class CurrencyCmds {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+            protected void call(Context ctx, String content) {
                 List<Item> interactiveItems = Arrays.stream(Items.ALL).filter(
                         i -> i.getItemType() == ItemType.INTERACTIVE || i.getItemType() == ItemType.POTION || i.getItemType() == ItemType.CRATE || i.getItemType() == ItemType.BUFF
                 ).collect(Collectors.toList());
 
+                I18nContext languageContext = ctx.getLanguageContext();
                 StringBuilder show = new StringBuilder();
 
                 show.append(EmoteReference.TALKING)
@@ -1184,13 +753,13 @@ public class CurrencyCmds {
                             .append("\n");
                 }
 
-                event.getChannel().sendMessage(new EmbedBuilder()
-                        .setAuthor(languageContext.get("commands.useitem.ls.header"), null, event.getAuthor().getEffectiveAvatarUrl())
+                ctx.send(new EmbedBuilder()
+                        .setAuthor(languageContext.get("commands.useitem.ls.header"), null, ctx.getAuthor().getEffectiveAvatarUrl())
                         .setDescription(show.toString())
                         .setColor(Color.PINK)
-                        .setFooter(String.format(languageContext.get("general.requested_by"), event.getMember().getEffectiveName()), null)
+                        .setFooter(String.format(languageContext.get("general.requested_by"), ctx.getMember().getEffectiveName()), null)
                         .build()
-                ).queue();
+                );
             }
         });
 

@@ -19,8 +19,6 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.imageboards.DefaultImageBoards;
 import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.lib.imageboards.entities.impl.*;
@@ -30,8 +28,8 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import okhttp3.OkHttpClient;
@@ -66,18 +64,18 @@ public class ImageCmds {
             final OkHttpClient httpClient = new OkHttpClient();
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
                 try {
                     Pair<String, String> result = weebAPIRequester.getRandomImageByType("animal_cat", false, null);
                     String url = result.getKey();
-                    event.getChannel().sendMessage(
+                    ctx.getChannel().sendMessage(
                             new MessageBuilder().append(EmoteReference.TALKING).append(
-                                    catResponses[random.nextInt(catResponses.length)].replace("%mention%", event.getAuthor().getName()))
+                                    catResponses[random.nextInt(catResponses.length)].replace("%mention%", ctx.getAuthor().getName()))
                                     .build()
                     ).addFile(CACHE.getFile(url), "cat-" + result.getValue() + ".png")
                             .queue();
                 } catch (Exception e) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.imageboard.cat.error"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.imageboard.cat.error", EmoteReference.ERROR);
                 }
             }
 
@@ -94,11 +92,10 @@ public class ImageCmds {
     public void catgirls(CommandRegistry cr) {
         cr.register("catgirl", new SimpleCommand(Category.IMAGE) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
+            protected void call(Context ctx, String content, String[] args) {
                 boolean nsfw = args.length > 0 && args[0].equalsIgnoreCase("nsfw");
 
-                if (nsfw && !nsfwCheck(event, languageContext, true, true, null))
+                if (nsfw && !nsfwCheck(ctx, true, true, null))
                     return;
 
                 try {
@@ -106,13 +103,13 @@ public class ImageCmds {
                     String image = result.getKey();
 
                     if (image == null) {
-                        channel.sendMessage(languageContext.get("commands.imageboard.catgirl.error")).queue();
+                        ctx.sendLocalized("commands.imageboard.catgirl.error");
                         return;
                     }
 
-                    channel.sendFile(CACHE.getInput(image), "catgirl-" + result.getValue() + ".png").queue();
+                    ctx.getChannel().sendFile(CACHE.getInput(image), "catgirl-" + result.getValue() + ".png").queue();
                 } catch (Exception e) {
-                    channel.sendMessage(languageContext.get("commands.imageboard.catgirl.error")).queue();
+                    ctx.sendLocalized("commands.imageboard.catgirl.error");
                 }
             }
 
@@ -131,22 +128,13 @@ public class ImageCmds {
     public void e621(CommandRegistry cr) {
         cr.register("e621", new SimpleCommand(Category.IMAGE) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if (!event.getChannel().isNSFW()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.imageboard.e621_nsfw_notice"), EmoteReference.ERROR).queue();
+            protected void call(Context ctx, String content, String[] args) {
+                if (!ctx.getChannel().isNSFW()) {
+                    ctx.sendLocalized("commands.imageboard.e621_nsfw_notice", EmoteReference.ERROR);
                     return;
                 }
 
-                String noArgs = content.split(" ")[0];
-                switch (noArgs) {
-                    case "":
-                    case "random":
-                        getImage(e621, ImageRequestType.RANDOM, true, "e621", args, content, event, languageContext);
-                        break;
-                    default:
-                        getImage(e621, ImageRequestType.TAGS, true, "e621", args, content, event, languageContext);
-                        break;
-                }
+                sendImage(ctx, e621, true, "e621", content, args);
             }
 
             @Override
@@ -166,17 +154,8 @@ public class ImageCmds {
     public void kona(CommandRegistry cr) {
         cr.register("konachan", new SimpleCommand(Category.IMAGE) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                String noArgs = content.split(" ")[0];
-                switch (noArgs) {
-                    case "":
-                    case "random":
-                        getImage(konachan, ImageRequestType.RANDOM, false, "konachan", args, content, event, languageContext);
-                        break;
-                    default:
-                        getImage(konachan, ImageRequestType.TAGS, false, "konachan", args, content, event, languageContext);
-                        break;
-                }
+            protected void call(Context ctx, String content, String[] args) {
+                sendImage(ctx, konachan, false, "konachan", content, args);
             }
 
             @Override
@@ -197,17 +176,8 @@ public class ImageCmds {
     public void safebooru(CommandRegistry cr) {
         cr.register("safebooru", new SimpleCommand(Category.IMAGE) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                String noArgs = content.split(" ")[0];
-                switch (noArgs) {
-                    case "":
-                    case "random":
-                        getImage(safebooru, ImageRequestType.RANDOM, false, "safebooru", args, content, event, languageContext);
-                        break;
-                    default:
-                        getImage(safebooru, ImageRequestType.TAGS, false, "safebooru", args, content, event, languageContext);
-                        break;
-                }
+            protected void call(Context ctx, String content, String[] args) {
+                sendImage(ctx, safebooru, false, "safebooru", content, args);
             }
 
             @Override
@@ -226,17 +196,8 @@ public class ImageCmds {
     public void danbooru(CommandRegistry cr) {
         cr.register("danbooru", new SimpleCommand(Category.IMAGE) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                String noArgs = content.split(" ")[0];
-                switch (noArgs) {
-                    case "":
-                    case "random":
-                        getImage(danbooru, ImageRequestType.RANDOM, false, "danbooru", args, content, event, languageContext);
-                        break;
-                    default:
-                        getImage(danbooru, ImageRequestType.TAGS, false, "danbooru", args, content, event, languageContext);
-                        break;
-                }
+            protected void call(Context ctx, String content, String[] args) {
+                sendImage(ctx, danbooru, false, "danbooru", content, args);
             }
 
             @Override
@@ -257,17 +218,8 @@ public class ImageCmds {
     public void rule34(CommandRegistry cr) {
         cr.register("rule34", new SimpleCommand(Category.IMAGE) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                String noArgs = content.split(" ")[0];
-                switch (noArgs) {
-                    case "":
-                    case "random":
-                        getImage(rule34, ImageRequestType.RANDOM, true, "rule34", args, content, event, languageContext);
-                        break;
-                    default:
-                        getImage(rule34, ImageRequestType.TAGS, true, "rule34", args, content, event, languageContext);
-                        break;
-                }
+            protected void call(Context ctx, String content, String[] args) {
+                sendImage(ctx, rule34, true, "rule34", content, args);
             }
 
             @Override
@@ -287,22 +239,13 @@ public class ImageCmds {
     public void yandere(CommandRegistry cr) {
         cr.register("yandere", new SimpleCommand(Category.IMAGE) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if (!event.getChannel().isNSFW()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.imageboard.yandere_nsfw_notice"), EmoteReference.ERROR).queue();
+            protected void call(Context ctx, String content, String[] args) {
+                if (!ctx.getChannel().isNSFW()) {
+                    ctx.sendLocalized("commands.imageboard.yandere_nsfw_notice", EmoteReference.ERROR);
                     return;
                 }
 
-                String noArgs = content.split(" ")[0];
-                switch (noArgs) {
-                    case "":
-                    case "random":
-                        getImage(yandere, ImageRequestType.RANDOM, false, "yandere", args, content, event, languageContext);
-                        break;
-                    default:
-                        getImage(yandere, ImageRequestType.TAGS, false, "yandere", args, content, event, languageContext);
-                        break;
-                }
+                sendImage(ctx, yandere, false, "yandere", content, args);
             }
 
             @Override
@@ -324,22 +267,13 @@ public class ImageCmds {
     public void gelbooru(CommandRegistry cr) {
         cr.register("gelbooru", new SimpleCommand(Category.IMAGE) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                if (!event.getChannel().isNSFW()) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.imageboard.yandere_nsfw_notice"), EmoteReference.ERROR).queue();
+            protected void call(Context ctx, String content, String[] args) {
+                if (!ctx.getChannel().isNSFW()) {
+                    ctx.sendLocalized("commands.imageboard.yandere_nsfw_notice", EmoteReference.ERROR);
                     return;
                 }
 
-                String noArgs = content.split(" ")[0];
-                switch (noArgs) {
-                    case "":
-                    case "random":
-                        getImage(gelbooru, ImageRequestType.RANDOM, false, "gelbooru", args, content, event, languageContext);
-                        break;
-                    default:
-                        getImage(gelbooru, ImageRequestType.TAGS, false, "gelbooru", args, content, event, languageContext);
-                        break;
-                }
+                sendImage(ctx, gelbooru, false, "gelbooru", content, args);
             }
 
             @Override
@@ -355,5 +289,13 @@ public class ImageCmds {
                         .build();
             }
         });
+    }
+
+    private void sendImage(Context ctx, ImageBoard<?> image, boolean nsfwOnly, String name, String content, String[] args) {
+        String firstArg = args.length == 0 ? "" : args[0];
+        if(firstArg.isEmpty() || firstArg.equalsIgnoreCase("random"))
+            getImage(image, ImageRequestType.RANDOM, nsfwOnly, name, args, content, ctx);
+        else
+            getImage(image, ImageRequestType.TAGS, nsfwOnly, name, args, content, ctx);
     }
 }

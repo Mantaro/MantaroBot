@@ -19,11 +19,10 @@ package net.kodehawa.mantarobot.commands.action;
 
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
@@ -87,7 +86,7 @@ public class ImageCmd extends NoArgsCommand {
     }
 
     @Override
-    protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
+    protected void call(Context ctx, String content) {
         String random;
         String id = "";
         if (images.size() == 1) {
@@ -107,21 +106,21 @@ public class ImageCmd extends NoArgsCommand {
         builder.append(EmoteReference.TALKING);
 
         if (!noMentions) {
-            List<User> users = event.getMessage().getMentionedUsers();
+            List<User> users = ctx.getMentionedUsers();
             String names = "";
             names = users.stream().distinct().map(user -> {
-                if (event.getGuild().getMember(user) == null) {
+                if (ctx.getGuild().getMember(user) == null) {
                     return "unknown";
                 }
 
-                return event.getGuild().getMember(user).getEffectiveName();
+                return ctx.getGuild().getMember(user).getEffectiveName();
             }).collect(Collectors.joining(", "));
             if (!names.isEmpty())
                 builder.append("**").append(names).append("**, ");
         }
 
-        builder.append(languageContext.get(toSend));
-        event.getChannel().sendMessage(builder.build()).addFile(CACHE.getInput(random), imageName + "-" + id + "." + extension).queue();
+        builder.append(ctx.getLanguageContext().get(toSend));
+        ctx.getChannel().sendMessage(builder.build()).addFile(CACHE.getInput(random), imageName + "-" + id + "." + extension).queue();
     }
 
     @Override

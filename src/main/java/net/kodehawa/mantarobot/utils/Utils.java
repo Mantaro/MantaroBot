@@ -25,6 +25,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -52,6 +53,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -676,6 +678,10 @@ public class Utils {
 
     public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context) {
         return handleDefaultIncreasingRatelimit(rateLimiter, u.getId(), event, context, true);
+    }
+
+    public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, Context ctx) {
+        return handleDefaultIncreasingRatelimit(rateLimiter, u.getId(), ctx.getEvent(), ctx.getLanguageContext(), true);
     }
 
     private static void onRateLimit(User user) {

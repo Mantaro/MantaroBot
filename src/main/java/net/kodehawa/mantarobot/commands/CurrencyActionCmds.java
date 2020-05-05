@@ -18,9 +18,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
@@ -31,6 +29,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -54,6 +53,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.kodehawa.mantarobot.commands.currency.item.Items.handleDurability;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
 
 @Module
@@ -75,25 +75,24 @@ public class CurrencyActionCmds {
                     .build();
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
-
-                Map<String, String> t = getArguments(content);
+            protected void call(Context ctx, String content, String[] args) {
+                final Map<String, String> t = ctx.getOptionalArguments();
                 boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+                final I18nContext languageContext = ctx.getLanguageContext();
 
-                final User user = event.getAuthor();
+                final User user = ctx.getAuthor();
                 final ManagedDatabase db = MantaroData.db();
 
-                Player player = db.getPlayer(user);
-                PlayerData playerData = player.getData();
+                final Player player = ctx.getPlayer();
+                final PlayerData playerData = player.getData();
 
-                SeasonPlayer seasonalPlayer = db.getPlayerForSeason(user, getConfig().getCurrentSeason());
-                SeasonalPlayerData seasonalPlayerData = seasonalPlayer.getData();
+                final SeasonPlayer seasonalPlayer = ctx.getSeasonPlayer();
+                final SeasonalPlayerData seasonalPlayerData = seasonalPlayer.getData();
 
-                DBUser dbUser = db.getUser(user);
-                UserData userData = dbUser.getData();
+                final DBUser dbUser = ctx.getDBUser();
+                final UserData userData = dbUser.getData();
 
-                Inventory inventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
+                final Inventory inventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
 
                 Pickaxe item;
                 int equipped = isSeasonal ?
@@ -101,13 +100,13 @@ public class CurrencyActionCmds {
                         userData.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK);
 
                 if (equipped == 0) {
-                    channel.sendMessageFormat(languageContext.get("commands.mine.not_equipped"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.mine.not_equipped", EmoteReference.ERROR);
                     return;
                 }
 
                 item = (Pickaxe) Items.fromId(equipped);
 
-                if (!handleDefaultIncreasingRatelimit(rateLimiter, user, event, languageContext, false))
+                if (!handleDefaultIncreasingRatelimit(rateLimiter, user, ctx.getEvent(), languageContext, false))
                     return;
 
                 long money = Math.max(30, random.nextInt(200)); //30 to 150 credits.
@@ -138,13 +137,15 @@ public class CurrencyActionCmds {
                         money += Items.DIAMOND.getValue() * 0.9;
                     } else {
                         int amount = 1;
+
                         if (item == Items.STAR_PICKAXE || item == Items.COMET_PICKAXE)
                             amount += random.nextInt(2);
                         if (item == Items.SPARKLE_PICKAXE)
                             amount += random.nextInt(4);
 
                         inventory.process(new ItemStack(Items.DIAMOND, amount));
-                        message += "\n" + EmoteReference.DIAMOND + String.format(languageContext.withRoot("commands", "mine.diamond.success"), amount);
+                        message += "\n" + EmoteReference.DIAMOND +
+                                String.format(languageContext.withRoot("commands", "mine.diamond.success"), amount);
                     }
 
                     playerData.addBadgeIfAbsent(Badge.MINER);
@@ -164,7 +165,8 @@ public class CurrencyActionCmds {
                         money += itemGem.getValue() * 0.9;
                     } else {
                         inventory.process(selectedGem);
-                        message += "\n" + EmoteReference.MEGA + String.format(languageContext.withRoot("commands", "mine.gem.success"), itemGem.getEmoji() + " x" + selectedGem.getAmount());
+                        message += "\n" + EmoteReference.MEGA +
+                                String.format(languageContext.withRoot("commands", "mine.gem.success"), itemGem.getEmoji() + " x" + selectedGem.getAmount());
                     }
 
                     if (waifuHelp)
@@ -174,7 +176,8 @@ public class CurrencyActionCmds {
                 }
 
                 //Sparkle find
-                if ((random.nextInt(400) > 395 && item == Items.COMET_PICKAXE) || (random.nextInt(400) > 390 && (item == Items.STAR_PICKAXE || item == Items.SPARKLE_PICKAXE))) {
+                if ((random.nextInt(400) > 395 && item == Items.COMET_PICKAXE) ||
+                        (random.nextInt(400) > 390 && (item == Items.STAR_PICKAXE || item == Items.SPARKLE_PICKAXE))) {
                     Item gem = Items.SPARKLE_FRAGMENT;
                     if (inventory.getAmount(gem) + 1 >= 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.sparkle.overflow");
@@ -194,7 +197,8 @@ public class CurrencyActionCmds {
                         message += "\n" + languageContext.withRoot("commands", "mine.crate.overflow");
                     } else {
                         inventory.process(new ItemStack(crate, 1));
-                        message += "\n" + EmoteReference.MEGA + String.format(languageContext.withRoot("commands", "mine.crate.success"), crate.getEmoji(), crate.getName());
+                        message += "\n" + EmoteReference.MEGA +
+                                String.format(languageContext.withRoot("commands", "mine.crate.success"), crate.getEmoji(), crate.getName());
                     }
                 }
 
@@ -211,7 +215,7 @@ public class CurrencyActionCmds {
 
                 //Pick broke
                 //The same player gets thrown around here and there to avoid race conditions.
-                Pair<Boolean, Player> breakage = Items.handleDurability(event, languageContext, item, player, dbUser, seasonalPlayer, isSeasonal);
+                Pair<Boolean, Player> breakage = handleDurability(ctx, item, player, dbUser, seasonalPlayer, isSeasonal);
                 if (breakage.getKey()) {
                     Player p = breakage.getValue();
                     Inventory inv = p.getInventory();
@@ -226,7 +230,7 @@ public class CurrencyActionCmds {
                     }
                 }
 
-                channel.sendMessage(message).queue();
+                ctx.send(message);
             }
 
             @Override
@@ -242,8 +246,6 @@ public class CurrencyActionCmds {
 
     @Subscribe
     public void fish(CommandRegistry cr) {
-        var managedDatabase = MantaroData.db();
-
         IncreasingRateLimiter fishRatelimiter = new IncreasingRateLimiter.Builder()
                 .limit(1)
                 .spamTolerance(2)
@@ -257,31 +259,32 @@ public class CurrencyActionCmds {
 
         cr.register("fish", new SimpleCommand(Category.CURRENCY) {
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                Map<String, String> t = getArguments(content);
+            protected void call(Context ctx, String content, String[] args) {
+                Map<String, String> t = ctx.getOptionalArguments();
                 boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+                I18nContext languageContext = ctx.getLanguageContext();
 
-                Player p = managedDatabase.getPlayer(event.getAuthor());
-                SeasonPlayer sp = managedDatabase.getPlayerForSeason(event.getAuthor(), getConfig().getCurrentSeason());
-                DBUser u = managedDatabase.getUser(event.getAuthor());
-                Inventory playerInventory = isSeasonal ? sp.getInventory() : p.getInventory();
+                Player player = ctx.getPlayer();
+                SeasonPlayer seasonPlayer = ctx.getSeasonPlayer();
+                DBUser dbUser = ctx.getDBUser();
+                Inventory playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
                 FishRod item;
 
                 int equipped = isSeasonal ?
                         //seasonal equipped
-                        sp.getData().getEquippedItems().of(PlayerEquipment.EquipmentType.ROD) :
+                        seasonPlayer.getData().getEquippedItems().of(PlayerEquipment.EquipmentType.ROD) :
                         //not seasonal
-                        u.getData().getEquippedItems().of(PlayerEquipment.EquipmentType.ROD);
+                        dbUser.getData().getEquippedItems().of(PlayerEquipment.EquipmentType.ROD);
 
                 if (equipped == 0) {
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.fish.no_rod_equipped"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.fish.no_rod_equipped", EmoteReference.ERROR);
                     return;
                 }
 
                 //It can only be a rod, lol.
                 item = (FishRod) Items.fromId(equipped);
 
-                if (!handleDefaultIncreasingRatelimit(fishRatelimiter, event.getAuthor(), event, languageContext, false))
+                if (!handleDefaultIncreasingRatelimit(fishRatelimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
                     return;
 
                 //Level but starting at 0.
@@ -292,11 +295,11 @@ public class CurrencyActionCmds {
 
                 if (select < 10) {
                     //Here your fish rod got dusty. Yes, on the sea.
-                    int level = u.getData().increaseDustLevel(random.nextInt(4));
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.fish.dust"), EmoteReference.TALKING, level).queue();
-                    u.save();
+                    int level = dbUser.getData().increaseDustLevel(random.nextInt(4));
+                    ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
+                    dbUser.save();
 
-                    Items.handleRodBreak(item, event, languageContext, p, u, sp, isSeasonal);
+                    handleRodBreak(item, ctx, player, dbUser, seasonPlayer, isSeasonal);
                     return;
                 } else if (select < 35) {
                     //Here you found trash.
@@ -306,14 +309,14 @@ public class CurrencyActionCmds {
 
                     Item selected = common.get(random.nextInt(common.size()));
                     if (playerInventory.getAmount(selected) >= 5000) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.fish.trash.overflow"), EmoteReference.SAD).queue();
+                        ctx.sendLocalized("commands.fish.trash.overflow", EmoteReference.SAD);
 
-                        Items.handleRodBreak(item, event, languageContext, p, u, sp, isSeasonal);
+                        handleRodBreak(item, ctx, player, dbUser, seasonPlayer, isSeasonal);
                         return;
                     }
 
                     playerInventory.process(new ItemStack(selected, 1));
-                    event.getChannel().sendMessageFormat(languageContext.get("commands.fish.trash.success"), EmoteReference.EYES, selected.getEmoji()).queue();
+                    ctx.sendLocalized("commands.fish.trash.success", EmoteReference.EYES, selected.getEmoji());
                 } else {
                     //Here you actually caught fish, congrats.
                     List<Item> fish = Stream.of(Items.ALL)
@@ -322,7 +325,7 @@ public class CurrencyActionCmds {
                     RandomCollection<Item> fishItems = new RandomCollection<>();
 
                     int money = 0;
-                    boolean buff = Items.handleEffect(PlayerEquipment.EquipmentType.BUFF, u.getData().getEquippedItems(), Items.FISHING_BAIT, u);
+                    boolean buff = Items.handleEffect(PlayerEquipment.EquipmentType.BUFF, dbUser.getData().getEquippedItems(), Items.FISHING_BAIT, dbUser);
                     int amount = buff ? Math.max(1, random.nextInt(item.getLevel() + 4)) : Math.max(1, random.nextInt(item.getLevel()));
                     if (nominalLevel >= 2)
                         amount += random.nextInt(4);
@@ -335,8 +338,8 @@ public class CurrencyActionCmds {
 
                     //START OF WAIFU HELP IMPLEMENTATION
                     boolean waifuHelp = false;
-                    if (Items.handleEffect(PlayerEquipment.EquipmentType.POTION, u.getData().getEquippedItems(), Items.WAIFU_PILL, u)) {
-                        if (u.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
+                    if (Items.handleEffect(PlayerEquipment.EquipmentType.POTION, dbUser.getData().getEquippedItems(), Items.WAIFU_PILL, dbUser)) {
+                        if (dbUser.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
                             money += Math.max(10, random.nextInt(100));
                             waifuHelp = true;
                         }
@@ -345,7 +348,7 @@ public class CurrencyActionCmds {
 
                     //START OF FISH LOOT CRATE HANDLING
                     if (random.nextInt(400) > 380) {
-                        Item crate = u.isPremium() ? Items.FISH_PREMIUM_CRATE : Items.FISH_CRATE;
+                        Item crate = dbUser.isPremium() ? Items.FISH_PREMIUM_CRATE : Items.FISH_CRATE;
                         if (playerInventory.getAmount(crate) >= 5000) {
                             extraMessage += "\n" + languageContext.get("commands.fish.crate.overflow");
                         } else {
@@ -389,10 +392,10 @@ public class CurrencyActionCmds {
                     List<ItemStack> reducedList = ItemStack.reduce(list);
                     playerInventory.process(reducedList);
                     if (isSeasonal) {
-                        sp.addMoney(money);
+                        seasonPlayer.addMoney(money);
                     } else {
-                        p.addMoney(money);
-                        p.getData().incrementFishingExperience(random);
+                        player.addMoney(money);
+                        player.getData().incrementFishingExperience(random);
                     }
 
                     String itemDisplay = ItemStack.toString(reducedList);
@@ -401,7 +404,7 @@ public class CurrencyActionCmds {
 
                     //Add fisher badge if the player found fish successfully.
                     if (foundFish)
-                        p.getData().addBadgeIfAbsent(Badge.FISHER);
+                        player.getData().addBadgeIfAbsent(Badge.FISHER);
 
                     if (nominalLevel >= 3 && random.nextInt(110) > 90) {
                         playerInventory.process(new ItemStack(Items.SHELL, 1));
@@ -411,36 +414,36 @@ public class CurrencyActionCmds {
                     //START OF REPLY HANDLING
                     //Didn't find a thingy thing.
                     if (money == 0 && !foundFish) {
-                        int level = u.getData().increaseDustLevel(random.nextInt(4));
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.fish.dust"), EmoteReference.TALKING, level).queue();
-                        u.save();
+                        int level = dbUser.getData().increaseDustLevel(random.nextInt(4));
+                        ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
+                        dbUser.save();
 
-                        Items.handleRodBreak(item, event, languageContext, p, u, sp, isSeasonal);
+                        handleRodBreak(item, ctx, player, dbUser, seasonPlayer, isSeasonal);
                         return;
                     }
 
                     if(reducedList.stream().map(ItemStack::getItem).anyMatch(it -> it.equals(Items.SHARK)))
-                        p.getData().setSharksCaught(p.getData().getSharksCaught() + 1);
+                        player.getData().setSharksCaught(player.getData().getSharksCaught() + 1);
 
                     //if there's money, but not fish
                     if (money > 0 && !foundFish) {
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.fish.success_money_noitem") + extraMessage, item.getEmoji(), money).queue();
+                        ctx.sendFormat(languageContext.get("commands.fish.success_money_noitem") + extraMessage, item.getEmoji(), money);
                     } else if (foundFish && money == 0) { //there's fish, but no money
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.fish.success") + extraMessage, item.getEmoji(), itemDisplay).queue();
+                        ctx.sendFormat(languageContext.get("commands.fish.success") + extraMessage, item.getEmoji(), itemDisplay);
                     } else if (money > 0) { //there's money and fish
-                        event.getChannel().sendMessageFormat(languageContext.get("commands.fish.success_money") + extraMessage,
+                        ctx.sendFormat(languageContext.get("commands.fish.success_money") + extraMessage,
                                 item.getEmoji(), itemDisplay, money, (waifuHelp ? "\n" + languageContext.get("commands.fish.waifu_help") : "")
-                        ).queue();
+                        );
                     }
                     //END OF REPLY HANDLING
                 }
 
                 //Save all changes to the player object.
-                p.save();
+                player.save();
                 if (isSeasonal)
-                    sp.save();
+                    seasonPlayer.save();
 
-                Items.handleRodBreak(item, event, languageContext, p, u, sp, isSeasonal);
+                handleRodBreak(item, ctx, player, dbUser, seasonPlayer, isSeasonal);
             }
 
 
@@ -453,5 +456,25 @@ public class CurrencyActionCmds {
                         .build();
             }
         });
+    }
+
+    private void handleRodBreak(Item item, Context ctx, Player p, DBUser u, SeasonPlayer sp, boolean isSeasonal) {
+        Pair<Boolean, Player> breakage = handleDurability(ctx, item, p, u, sp, isSeasonal);
+        if (!breakage.getKey())
+            return;
+
+        //We need to get this again since reusing the old ones will cause :fire:
+        Player pl = breakage.getValue();
+        Inventory inv = pl.getInventory();
+
+        if(u.getData().isAutoEquip() && inv.containsItem(item)) {
+            u.getData().getEquippedItems().equipItem(item);
+            inv.process(new ItemStack(item, -1));
+
+            pl.save();
+            u.save();
+
+            ctx.sendLocalized("commands.fish.autoequip.success", EmoteReference.CORRECT, item.getName());
+        }
     }
 }

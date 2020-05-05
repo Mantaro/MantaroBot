@@ -22,13 +22,13 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.osu.api.ciyfhx.*;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.osu.OsuMod;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -59,7 +59,7 @@ public class OsuStatsCmd {
                     .setNameFormat("OsuStats-CachedPool")
                     .build()
     );
-    private OsuClient osuClient = new OsuClient(MantaroData.config().get().osuApiKey);
+    private final OsuClient osuClient = new OsuClient(MantaroData.config().get().osuApiKey);
 
     public OsuStatsCmd() {
         Prometheus.THREAD_POOL_COLLECTOR.add("osu-pool", pool);
@@ -89,8 +89,11 @@ public class OsuStatsCmd {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                event.getChannel().sendMessageFormat(languageContext.get("commands.osustats.retrieving_info"), EmoteReference.STOPWATCH).queue(sentMessage -> {
+            protected void call(Context ctx, String content) {
+                I18nContext languageContext = ctx.getLanguageContext();
+
+                //I actually need it like this here, lol
+                ctx.getChannel().sendMessageFormat(languageContext.get("commands.osustats.retrieving_info"), EmoteReference.STOPWATCH).queue(sentMessage -> {
                     Future<String> task = pool.submit(() -> best(content, languageContext));
                     try {
                         sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
@@ -113,8 +116,11 @@ public class OsuStatsCmd {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                event.getChannel().sendMessageFormat(languageContext.get("commands.osustats.retrieving_info"), EmoteReference.STOPWATCH).queue(sentMessage -> {
+            protected void call(Context ctx, String content) {
+                I18nContext languageContext = ctx.getLanguageContext();
+
+                //I actually need it like this here, lol
+                ctx.getChannel().sendMessageFormat(languageContext.get("commands.osustats.retrieving_info"), EmoteReference.STOPWATCH).queue(sentMessage -> {
                     Future<String> task = pool.submit(() -> recent(content, languageContext));
                     try {
                         sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
@@ -135,8 +141,8 @@ public class OsuStatsCmd {
             }
 
             @Override
-            protected void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
-                event.getChannel().sendMessage(user(content, languageContext)).queue();
+            protected void call(Context ctx, String content) {
+                ctx.getChannel().sendMessage(user(content, ctx.getLanguageContext())).queue();
             }
         });
 

@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
@@ -59,42 +60,41 @@ public class AnimeCmds {
     public void anime(CommandRegistry cr) {
         cr.register("anime", new SimpleCommand(Category.FUN) {
             @Override
-            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
+            public void call(Context ctx, String content, String[] args) {
                 try {
                     if (content.isEmpty()) {
-                        channel.sendMessageFormat(languageContext.get("commands.anime.no_args"), EmoteReference.ERROR).queue();
+                        ctx.sendLocalized("commands.anime.no_args", EmoteReference.ERROR);
                         return;
                     }
 
                     List<AnimeData> found = KitsuRetriever.searchAnime(content);
 
                     if (found.isEmpty()) {
-                        channel.sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
+                        ctx.sendLocalized("commands.anime.no_results", EmoteReference.ERROR);
                         return;
                     }
 
+                    I18nContext languageContext = ctx.getLanguageContext();
                     if (found.size() == 1) {
-                        animeData(event, languageContext, found.get(0));
+                        animeData(ctx.getEvent(), languageContext, found.get(0));
                         return;
                     }
 
-                    DiscordUtils.selectList(event, found.stream().limit(7).collect(Collectors.toList()), anime -> String.format("[**%s** (%s)](%s)",
+                    DiscordUtils.selectList(ctx.getEvent(), found.stream().limit(7).collect(Collectors.toList()), anime -> String.format("[**%s** (%s)](%s)",
                             anime.getAttributes().getCanonicalTitle(), anime.getAttributes().getTitles().getJa_jp(), anime.getURL()),
-                            s -> baseEmbed(event, languageContext.withRoot("commands", "anime.selection_start"))
+                            s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.anime.selection_start"))
                                     .setDescription(s)
                                     .setThumbnail("https://i.imgur.com/VwlGqdk.png")
-                                    .setFooter(languageContext.withRoot("commands", "anime.information_footer"), event.getAuthor().getAvatarUrl())
+                                    .setFooter(languageContext.get("commands.anime.information_footer"), ctx.getAuthor().getAvatarUrl())
                                     .build(),
-                            anime -> animeData(event, languageContext, anime));
+                            anime -> animeData(ctx.getEvent(), languageContext, anime));
                 } catch (JsonSyntaxException jsonException) {
-                    channel.sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.anime.no_results", EmoteReference.ERROR);
                 } catch (NullPointerException nullException) {
                     nullException.printStackTrace();
-                    channel.sendMessageFormat(languageContext.withRoot("commands", "anime.malformed_result"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.anime.malformed_result", EmoteReference.ERROR);
                 } catch (Exception exception) {
-                    channel.sendMessageFormat(languageContext.withRoot("commands", "anime.error"),
-                            EmoteReference.ERROR, exception.getClass().getSimpleName()).queue();
+                    ctx.sendLocalized("commands.anime.error", EmoteReference.ERROR, exception.getClass().getSimpleName());
                 }
             }
 
@@ -115,41 +115,41 @@ public class AnimeCmds {
     public void character(CommandRegistry cr) {
         cr.register("character", new SimpleCommand(Category.FUN) {
             @Override
-            public void call(GuildMessageReceivedEvent event, I18nContext languageContext, String content, String[] args) {
-                TextChannel channel = event.getChannel();
+            public void call(Context ctx, String content, String[] args) {
                 try {
                     if (content.isEmpty()) {
-                        channel.sendMessageFormat(languageContext.get("commands.character.no_args"), EmoteReference.ERROR).queue();
+                        ctx.sendLocalized("commands.character.no_args", EmoteReference.ERROR);
                         return;
                     }
 
                     List<CharacterData> characters = KitsuRetriever.searchCharacters(content);
                     if (characters.isEmpty()) {
-                        channel.sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
+                        ctx.sendLocalized("commands.anime.no_results", EmoteReference.ERROR);
                         return;
                     }
 
+                    I18nContext languageContext = ctx.getLanguageContext();
                     if (characters.size() == 1) {
-                        characterData(event, languageContext, characters.get(0));
+                        characterData(ctx.getEvent(), languageContext, characters.get(0));
                         return;
                     }
 
-                    DiscordUtils.selectList(event, characters.stream().limit(7).collect(Collectors.toList()), character ->
-                                    String.format("[**%s** (%s)](%s)", character.getAttributes().getName(), character.getAttributes().getNames().getJa_jp(), character.getURL()
-                                    ),
-                            s -> baseEmbed(event, languageContext.withRoot("commands", "anime.information_footer"))
+                    DiscordUtils.selectList(ctx.getEvent(), characters.stream().limit(7).collect(Collectors.toList()),
+                            character -> String.format("[**%s** (%s)](%s)",
+                                    character.getAttributes().getName(), character.getAttributes().getNames().getJa_jp(), character.getURL()
+                            ), s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.anime.information_footer"))
                                     .setDescription(s)
                                     .setThumbnail("https://i.imgur.com/VwlGqdk.png")
-                                    .setFooter(languageContext.withRoot("commands", "anime.information_footer"), event.getAuthor().getAvatarUrl())
+                                    .setFooter(languageContext.get("commands.anime.information_footer"), ctx.getAuthor().getAvatarUrl())
                                     .build(),
-                            character -> characterData(event, languageContext, character));
+                            character -> characterData(ctx.getEvent(), languageContext, character));
                 } catch (JsonSyntaxException jsonException) {
-                    channel.sendMessageFormat(languageContext.withRoot("commands", "anime.no_results"), EmoteReference.ERROR).queue();
+                    ctx.sendLocalized("commands.anime.no_results", EmoteReference.ERROR);
                 } catch (NullPointerException nullException) {
-                    channel.sendMessageFormat(languageContext.withRoot("commands", "anime.malformed_results"), EmoteReference.ERROR).queue();
+                    nullException.printStackTrace();
+                    ctx.sendLocalized("commands.anime.malformed_result", EmoteReference.ERROR);
                 } catch (Exception exception) {
-                    channel.sendMessageFormat(languageContext.withRoot("commands", "character.error"),
-                            EmoteReference.ERROR, exception.getClass().getSimpleName()).queue();
+                    ctx.sendLocalized("commands.anime.error", EmoteReference.ERROR, exception.getClass().getSimpleName());
                 }
             }
 
