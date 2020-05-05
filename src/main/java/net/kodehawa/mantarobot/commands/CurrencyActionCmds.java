@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
@@ -216,7 +215,7 @@ public class CurrencyActionCmds {
 
                 //Pick broke
                 //The same player gets thrown around here and there to avoid race conditions.
-                Pair<Boolean, Player> breakage = handleDurability(ctx.getEvent(), languageContext, item, player, dbUser, seasonalPlayer, isSeasonal);
+                Pair<Boolean, Player> breakage = handleDurability(ctx, item, player, dbUser, seasonalPlayer, isSeasonal);
                 if (breakage.getKey()) {
                     Player p = breakage.getValue();
                     Inventory inv = p.getInventory();
@@ -300,7 +299,7 @@ public class CurrencyActionCmds {
                     ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
                     dbUser.save();
 
-                    handleRodBreak(item, ctx.getEvent(), languageContext, player, dbUser, seasonPlayer, isSeasonal);
+                    handleRodBreak(item, ctx, player, dbUser, seasonPlayer, isSeasonal);
                     return;
                 } else if (select < 35) {
                     //Here you found trash.
@@ -312,7 +311,7 @@ public class CurrencyActionCmds {
                     if (playerInventory.getAmount(selected) >= 5000) {
                         ctx.sendLocalized("commands.fish.trash.overflow", EmoteReference.SAD);
 
-                        handleRodBreak(item, ctx.getEvent(), languageContext, player, dbUser, seasonPlayer, isSeasonal);
+                        handleRodBreak(item, ctx, player, dbUser, seasonPlayer, isSeasonal);
                         return;
                     }
 
@@ -419,7 +418,7 @@ public class CurrencyActionCmds {
                         ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
                         dbUser.save();
 
-                        handleRodBreak(item, ctx.getEvent(), languageContext, player, dbUser, seasonPlayer, isSeasonal);
+                        handleRodBreak(item, ctx, player, dbUser, seasonPlayer, isSeasonal);
                         return;
                     }
 
@@ -444,7 +443,7 @@ public class CurrencyActionCmds {
                 if (isSeasonal)
                     seasonPlayer.save();
 
-                handleRodBreak(item, ctx.getEvent(), languageContext, player, dbUser, seasonPlayer, isSeasonal);
+                handleRodBreak(item, ctx, player, dbUser, seasonPlayer, isSeasonal);
             }
 
 
@@ -459,23 +458,23 @@ public class CurrencyActionCmds {
         });
     }
 
-    private void handleRodBreak(Item item, GuildMessageReceivedEvent event, I18nContext lang, Player p, DBUser u, SeasonPlayer sp, boolean isSeasonal) {
-        Pair<Boolean, Player> breakage = handleDurability(event, lang, item, p, u, sp, isSeasonal);
-        boolean broken = breakage.getKey();
-        if (broken) {
-            //We need to get this again since reusing the old ones will cause :fire:
-            Player pl = breakage.getValue();
-            Inventory inv = pl.getInventory();
+    private void handleRodBreak(Item item, Context ctx, Player p, DBUser u, SeasonPlayer sp, boolean isSeasonal) {
+        Pair<Boolean, Player> breakage = handleDurability(ctx, item, p, u, sp, isSeasonal);
+        if (!breakage.getKey())
+            return;
 
-            if(u.getData().isAutoEquip() && inv.containsItem(item)) {
-                u.getData().getEquippedItems().equipItem(item);
-                inv.process(new ItemStack(item, -1));
+        //We need to get this again since reusing the old ones will cause :fire:
+        Player pl = breakage.getValue();
+        Inventory inv = pl.getInventory();
 
-                pl.save();
-                u.save();
+        if(u.getData().isAutoEquip() && inv.containsItem(item)) {
+            u.getData().getEquippedItems().equipItem(item);
+            inv.process(new ItemStack(item, -1));
 
-                event.getChannel().sendMessageFormat(lang.get("commands.fish.autoequip.success"), EmoteReference.CORRECT, item.getName()).queue();
-            }
+            pl.save();
+            u.save();
+
+            ctx.sendLocalized("commands.fish.autoequip.success", EmoteReference.CORRECT, item.getName());
         }
     }
 }
