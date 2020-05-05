@@ -476,7 +476,7 @@ public class ProfileCmd {
                 DBUser dbUser = ctx.getDBUser(toLookup);
                 UserData data = dbUser.getData();
                 PlayerData playerData = player.getData();
-                PlayerStats playerStats = ctx.getManagedDatabase().getPlayerStats(toLookup);
+                PlayerStats playerStats = ctx.db().getPlayerStats(toLookup);
                 SeasonPlayer seasonPlayer = ctx.getSeasonPlayer(toLookup);
 
                 PlayerEquipment equippedItems = data.getEquippedItems();

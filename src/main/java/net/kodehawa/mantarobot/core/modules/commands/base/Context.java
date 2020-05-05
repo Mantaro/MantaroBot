@@ -59,7 +59,7 @@ public class Context {
         return config;
     }
 
-    public ManagedDatabase getManagedDatabase() {
+    public ManagedDatabase db() {
         return managedDatabase;
     }
 

@@ -24,7 +24,6 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.Region;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.stats.manager.*;
@@ -39,10 +38,8 @@ import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
-import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -658,7 +655,7 @@ public class InfoCmds {
                 I18nContext languageContext = ctx.getLanguageContext();
 
                 ctx.sendFormat(languageContext.get("commands.season.info") + languageContext.get("commands.season.info_2"),
-                        ctx.getConfig().getCurrentSeason().getDisplay(), ctx.getManagedDatabase().getAmountSeasonalPlayers()
+                        ctx.getConfig().getCurrentSeason().getDisplay(), ctx.db().getAmountSeasonalPlayers()
                 );
             }
 

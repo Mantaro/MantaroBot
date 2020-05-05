@@ -71,7 +71,7 @@ public class MuteCmds {
                     return;
                 }
 
-                ManagedDatabase db = ctx.getManagedDatabase();
+                ManagedDatabase db = ctx.db();
                 DBGuild dbGuild = ctx.getDBGuild();
                 GuildData guildData = dbGuild.getData();
                 String reason = "Not specified";

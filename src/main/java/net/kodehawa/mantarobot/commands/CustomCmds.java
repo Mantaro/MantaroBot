@@ -208,7 +208,7 @@ public class CustomCmds {
             @Override
             protected void call(Context ctx, String content) {
                 String filter = ctx.getGuild().getId() + ":";
-                List<String> commands = ctx.getManagedDatabase().getCustomCommands(ctx.getGuild())
+                List<String> commands = ctx.db().getCustomCommands(ctx.getGuild())
                         .stream()
                         .map(CustomCommand::getName)
                         .collect(Collectors.toList());
@@ -243,7 +243,7 @@ public class CustomCmds {
                 }
 
                 String cmd = args[0];
-                CustomCommand command = ctx.getManagedDatabase().getCustomCommand(ctx.getGuild(), cmd);
+                CustomCommand command = ctx.db().getCustomCommand(ctx.getGuild(), cmd);
 
                 if (command == null) {
                     ctx.sendLocalized("commands.custom.view.not_found", EmoteReference.ERROR);
@@ -282,7 +282,7 @@ public class CustomCmds {
                     return;
                 }
 
-                CustomCommand custom = ctx.getManagedDatabase().getCustomCommand(ctx.getGuild(), command);
+                CustomCommand custom = ctx.db().getCustomCommand(ctx.getGuild(), command);
                 if (custom == null) {
                     ctx.sendStrippedLocalized("commands.custom.not_found", EmoteReference.ERROR2, command);
                     return;
@@ -328,7 +328,7 @@ public class CustomCmds {
                     return;
                 }
 
-                List<CustomCommand> customCommands = ctx.getManagedDatabase().getCustomCommands(ctx.getGuild());
+                List<CustomCommand> customCommands = ctx.db().getCustomCommands(ctx.getGuild());
 
                 if (customCommands.isEmpty()) {
                     ctx.sendLocalized("commands.custom.no_cc", EmoteReference.ERROR);
@@ -503,7 +503,7 @@ public class CustomCmds {
                     return;
                 }
 
-                CustomCommand command = ctx.getManagedDatabase().getCustomCommand(ctx.getGuild(), content);
+                CustomCommand command = ctx.db().getCustomCommand(ctx.getGuild(), content);
                 String owner = command.getData().getOwner();
                 User user = owner.isEmpty() ? null : ctx.getBot().getShardManager().getUserCache().getElementById(owner);
                 
@@ -547,7 +547,7 @@ public class CustomCmds {
                     return;
                 }
                 var cmd = args[0];
-                CustomCommand custom = ctx.getManagedDatabase().getCustomCommand(ctx.getGuild(), cmd);
+                CustomCommand custom = ctx.db().getCustomCommand(ctx.getGuild(), cmd);
                 if (custom == null) {
                     ctx.sendLocalized("commands.custom.not_found", EmoteReference.ERROR2, args[0]);
                     return;
@@ -611,7 +611,7 @@ public class CustomCmds {
                     return;
                 }
 
-                CustomCommand custom = ctx.getManagedDatabase().getCustomCommand(ctx.getGuild(), args[0]);
+                CustomCommand custom = ctx.db().getCustomCommand(ctx.getGuild(), args[0]);
                 if (custom == null) {
                     ctx.sendLocalized("commands.custom.not_found", EmoteReference.ERROR2, args[0]);
                     return;
@@ -678,7 +678,7 @@ public class CustomCmds {
                     return;
                 }
 
-                CustomCommand oldCustom = ctx.getManagedDatabase().getCustomCommand(ctx.getGuild(), cmd);
+                CustomCommand oldCustom = ctx.db().getCustomCommand(ctx.getGuild(), cmd);
 
                 if (oldCustom == null) {
                     ctx.sendLocalized("commands.custom.not_found", EmoteReference.ERROR2, cmd);
@@ -773,7 +773,7 @@ public class CustomCmds {
                 }
 
                 CustomCommand custom = CustomCommand.of(ctx.getGuild().getId(), cmd, Collections.singletonList(cmdSource));
-                CustomCommand c = ctx.getManagedDatabase().getCustomCommand(ctx.getEvent(), cmd);
+                CustomCommand c = ctx.db().getCustomCommand(ctx.getEvent(), cmd);
 
                 if (c != null) {
                     custom.getValues().addAll(c.getValues());

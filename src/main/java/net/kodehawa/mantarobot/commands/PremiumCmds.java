@@ -69,7 +69,7 @@ public class PremiumCmds {
         cr.register("activatekey", new SimpleCommand(Category.UTILS) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                final ManagedDatabase db = ctx.getManagedDatabase();
+                final ManagedDatabase db = ctx.db();
 
                 if (config.isPremiumBot()) {
                     ctx.sendLocalized("commands.activatekey.mp", EmoteReference.WARNING);

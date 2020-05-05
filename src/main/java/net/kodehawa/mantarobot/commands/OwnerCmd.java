@@ -81,7 +81,7 @@ public class OwnerCmd {
         cr.register("blacklist", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                MantaroObj obj = ctx.getManagedDatabase().getMantaroData();
+                MantaroObj obj = ctx.db().getMantaroData();
 
                 String context = args[0];
                 String action = args[1];
