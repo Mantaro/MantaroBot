@@ -285,7 +285,7 @@
       "success": "%1$sUm administrador ou Comandante do Bot decidiu pular essa música."
     },
     "np": {
-      "no_track": "%1$sOu não há faixa de reprodução ou não conseguimos encontrá-lo, tente colocar outra música",
+      "no_track": "%1$sOu não há uma música tocando ou não conseguimos encontrá-la, tente colocar outra música",
       "header": "Agora Tocando"
     },
     "pause": {
