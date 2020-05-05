@@ -351,15 +351,15 @@ public class MoneyCmds {
                     ctx.sendLocalized("commands.gamble.invalid_money_or_modifier", EmoteReference.ERROR);
                     return;
                 } catch (UnsupportedOperationException e) {
-                    ctx.sendLocalized("commands,gamble.not_enough_money", EmoteReference.ERROR2);
+                    ctx.sendLocalized("commands.gamble.not_enough_money", EmoteReference.ERROR2);
                     return;
                 } catch (ParseException e) {
-                    ctx.sendLocalized("commands,gamble.invalid_percentage", EmoteReference.ERROR2);
+                    ctx.sendLocalized("commands.gamble.invalid_percentage", EmoteReference.ERROR2);
                     return;
                 }
 
                 if (i < 100) {
-                    ctx.sendLocalized("commands,gamble.too_little", EmoteReference.ERROR2);
+                    ctx.sendLocalized("commands.gamble.too_little", EmoteReference.ERROR2);
                     return;
                 }
 
@@ -420,7 +420,7 @@ public class MoneyCmds {
                         .setDescription("Gambles your money away. It's like Vegas, but without real money and without the impending doom. Kinda.")
                         .setUsage("`~>gamble <all/half/quarter>` or `~>gamble <amount>` or `~>gamble <percentage>`")
                         .addParameter("amount", "How much money you want to gamble. You can also express this on K or M (100K is 100000, 1M is 1000000, 100M is well, you know how it goes from here)")
-                        .addParameter("all/half/quarter", "How much of your money you want to gamble, but if you're too lazy to type the number (half = 50% of all of your money)")
+                        .addParameter("all/half/quarter", "How much of your money you want to gamble. but if you're too lazy to type the number (half = 50% of all of your money)")
                         .addParameter("percentage", "The percentage of money you want to gamble. Works anywhere from 1% to 100%.")
                         .build();
             }
@@ -642,7 +642,7 @@ public class MoneyCmds {
                     String amount = opts.get("amount");
 
                     if (amount.isEmpty()) {
-                        ctx.sendLocalized("commands,slots.errors.no_amount", EmoteReference.ERROR);
+                        ctx.sendLocalized("commands.slots.errors.no_amount", EmoteReference.ERROR);
                         return;
                     }
 
