@@ -685,29 +685,8 @@
         "collectible": "%1$sDit is een verzamelvoorwerp. (Verkoopwaarde: %2$d credits)",
         "success": "%1$sDe marktwaarde van %2$s**%3$s** is %4$s credits om te kopen en %5$s credits om te verkopen."
       },
-      "sell": {
-        "no_item_amount": "%1$sJe moet het aantal en de naam van het voorwerp opgeven die je wilt verkopen. Als het er maar één is, hoef je het aantal niet op te geven.",
-        "invalid": "%1$sGeen geldig aantal voorwerpen om te verkopen.",
-        "all": {
-          "confirmation": "%1$sWeet je zeker dat je *alle* voorwerpen wilt verkopen? Typ *yes* om te bevestigen en *no* om te annuleren",
-          "success": "%1$sJe hebt al je voorwerpen in je inventaris verkocht en kreeg daarvoor %2$d credits!",
-          "cancelled": "%1$sSuccesvol geannuleerd."
-        },
-        "non_existent": "%1$sJe kunt een niet-bestaand voorwerp niet verkopen.",
-        "no_sell_price": "%1$sJe kunt een voorwerp niet verkopen dat niet kan worden verkocht. (Maar je kan het `~>market dump`-en)",
-        "no_item_player": "%1$sJe kunt geen voorwerp verkopen dat je niet hebt.",
-        "more_items_than_player": "%1$sJe kunt niet meer voorwerpen verkopen dan dat je in totaal hebt.",
-        "success": "%1$sJe verkocht %2$d **%3$s** en kreeg %4$d credits!"
-      },
-      "buy": {
-        "no_item_amount": "%1$sJe moet het aantal en de naam van het voorwerp opgeven die je wilt kopen. Als het er maar één is, hoef je het aantal niet op te geven.",
-        "invalid": "%1$sGeen geldig aantal voorwerpen om te kopen.",
-        "non_existent": "%1$sJe kunt geen voorwerp kopen dat niet bestaat.",
-        "no_buy_price": "%1$sJe kunt geen voorwerp kopen dat niet gekocht kan worden.",
-        "item_limit_reached": "%1$sJe kunt niet meer van dit voorwerp kopen.",
-        "success": "%1$sKocht succesvol %2$d %3$s voor %4$d credits. Je hebt nu %5$d credits.",
-        "not_enough_money": "%1$sJe hebt niet genoeg credits om dit item te kopen."
-      },
+      "sell": "- **Sell Price:**",
+      "buy": "- **Buy Price:**",
       "header": "Mantaro's Markt",
       "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info."
     },
@@ -1435,9 +1414,9 @@
     },
     "help": {
       "title": "Mantaro Help",
-      "base_category": "Command list for category %1$s. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "Commando lijst. Voor een gedetailleerde handleiding over het gebruik van Mantaro, raadpleeg de [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
-      "support": "Als je problemen ondervindt of vragen hebt tijdens het gebruik van Mantaro, kunt je deelnemen aan de [support server](https://support.mantaro.site)\n",
+      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nOther guides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
       "patreon": "[We hebben je hulp nodig om Mantaro online te houden! Klik hier voor meer info](https://www.patreon.com/mantaro)",
       "disabled_commands": "Alleen niet-geblokkeerde commandos weergeven. Totaal uitgeschakelde commandos: %1$s",
       "channel_specific_disabled_commands": "\nAlleen niet-geblokkeerde commandos weergeven. Totaal aantal kanaal-specifieke uitgeschakelde commandos: %1$s",
