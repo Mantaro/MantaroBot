@@ -604,7 +604,7 @@ public class MantaroListener implements EventListener {
     }
 
     private void onMessage(GuildMessageReceivedEvent event) {
-        if (event.getAuthor().isFake())
+        if (event.isWebhookMessage() || event.getMember() == null)
             return;
 
         //Moderation features
@@ -615,7 +615,7 @@ public class MantaroListener implements EventListener {
         if (guildData.isLinkProtection() && !guildData.getLinkProtectionAllowedChannels().contains(event.getChannel().getId()) &&
                 !guildData.getLinkProtectionAllowedUsers().contains(event.getAuthor().getId())) {
             //Has link protection enabled, let's check if they don't have admin stuff.
-            if (event.getMember() != null && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
+            if (!event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
                 //Check if invite is valid. This is async because hasInvite uses complete sometimes.
                 threadPool.execute(() -> {
                     //If this message has an invite and it's not an invite to the same guild it was sent on, proceed to delete.
