@@ -27,9 +27,7 @@ You will need the following to utilize all of Mantaro's features (items marked w
 * RethinkDB/RebirthDB
 * JDK
 * Redis
-* And IDE supporting [Lombok](http://projectlombok.org) (if you edit code)*
 * osu! API*
-* OpenWeatherMap API*
 * Wolke's Weeb API (For most of the action commands)*
 * Other unmentioned API keys*
 
@@ -38,7 +36,6 @@ You will need the following to utilize all of Mantaro's features (items marked w
 <sub>Note: The bot does not necessarily need these keys to function, but some functionality might be limited by the lack of them (ex. without Wolke's API keys, you can't use the action commands). Due to the closed nature of that API, we encourage you to submit a patch that would allow custom images to be used on self-hosted instances if you'd like (ex. by pushing your own -local- API server), but keep them in line with the rest of the code.</sub> 
 
 ### Editing Code:
-If you are going to edit code, make sure your IDE supports [Lombok](http://projectlombok.org) and enable Annotation Processing!\
 Mantaro isn't a modular bot (sadly), but removing features is fairly easy. You can just remove the respective command or the Module file on the commands directory and everything -should- still work. The exception are some Modules that are required by other Modules.
 Make sure you pay close attention to the [License](https://github.com/Mantaro/MantaroBot/blob/master/LICENSE) as you will be required to disclose your source as well as state any changes made.
 
@@ -51,7 +48,7 @@ Make sure you pay close attention to the [License](https://github.com/Mantaro/Ma
 4.  Run `gradlew shadowJar`
 5.  Grab the `-all.jar` jar from `build/libs`
 6.  Install `rethinkdb` and `redis`
-7.  Create the `mantaro` database with the following tables: mantaro, players, users, guilds, keys, commands, seasonalplayers
+7.  Create the `mantaro` database with the following tables: mantaro, players, marriages, playerstats, users, guilds, keys, commands, seasonalplayers
 8.  Run it and prepare yourself to start filling in configs (open the jar on the command line using java -jar name.jar and wait for it to crash, then it'll generate the config.json file for you to fill).
 9.  In config.json, set the value needApi to false. (Or clone and run https://github.com/Kodehawa/mantaro-api)
 
