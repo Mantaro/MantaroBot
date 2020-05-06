@@ -8,7 +8,7 @@
 
 You can see more information about the bot itself by reading the summary on [here](https://github.com/Mantaro/MantaroBot/blob/master/FEATURES.md). This is the file we use to publish our bots on bot lists, too. You're welcome to use it as a guide for your own.
 
-Our [webpage](https://mantaro.site) is hosted in [Github Pages](https://github.com/Mantaro/mantaro.github.io)
+Our [webpage](https://mantaro.site) is hosted in [Github Pages](https://github.com/Mantaro/mantaro.github.io). If you want to help us make a webpage, you can poke us.
 
 # Building your own Mantaro
 
@@ -24,7 +24,7 @@ The reason for this is because not only can the builds in here be highly unstabl
 ### Prerequisite:
 
 You will need the following to utilize all of Mantaro's features (items marked with a star are optional):
-* RethinkDB/RebirthDB
+* RethinkDB
 * JDK
 * Redis
 * osu! API*
@@ -33,7 +33,7 @@ You will need the following to utilize all of Mantaro's features (items marked w
 
 **We will not provide any support whatsoever in obtaining any of the above.**
 
-<sub>Note: The bot does not necessarily need these keys to function, but some functionality might be limited by the lack of them (ex. without Wolke's API keys, you can't use the action commands). Due to the closed nature of that API, we encourage you to submit a patch that would allow custom images to be used on self-hosted instances if you'd like (ex. by pushing your own -local- API server), but keep them in line with the rest of the code.</sub> 
+<sub>Note: The bot does not necessarily need these keys to function, but some functionality might be limited by the lack of them (ex. without Wolke's API keys, you can't use the action commands, and they won't register). Due to the closed nature of that API, we encourage you to submit a patch that would allow custom images to be used on self-hosted instances if you'd like (ex. by pushing your own -local- API server), but keep them in line with the rest of the code.</sub> 
 
 ### Editing Code:
 Mantaro isn't a modular bot (sadly), but removing features is fairly easy. You can just remove the respective command or the Module file on the commands directory and everything -should- still work. The exception are some Modules that are required by other Modules.
@@ -46,10 +46,10 @@ Make sure you pay close attention to the [License](https://github.com/Mantaro/Ma
 2.  Clone this repository (you can also fork this repo and clone your fork). 
 3.  Open a Terminal in the root folder.
 4.  Run `gradlew shadowJar`
-5.  Grab the `-all.jar` jar from `build/libs`
+5.  Grab the jar from `build/libs`
 6.  Install `rethinkdb` and `redis`
 7.  Create the `mantaro` database with the following tables: mantaro, players, marriages, playerstats, users, guilds, keys, commands, seasonalplayers
-8.  Run it and prepare yourself to start filling in configs (open the jar on the command line using java -jar name.jar and wait for it to crash, then it'll generate the config.json file for you to fill).
+8.  Run it and prepare yourself to start filling in some config values (open the jar on the command line using java -jar name.jar and wait for it to crash, then it'll generate the config.json file for you to fill).
 9.  In config.json, set the value needApi to false. (Or clone and run https://github.com/Kodehawa/mantaro-api)
 
 
