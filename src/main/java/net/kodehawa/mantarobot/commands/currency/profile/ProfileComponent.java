@@ -207,8 +207,7 @@ public enum ProfileComponent {
             this.badges = badges;
         }
 
-        public Holder() {
-        }
+        public Holder() { }
 
         public boolean isSeasonal() {
             return seasonalPlayer != null;
@@ -252,53 +251,6 @@ public enum ProfileComponent {
 
         public void setBadges(List<Badge> badges) {
             this.badges = badges;
-        }
-
-        protected boolean canEqual(final Object other) {
-            return other instanceof Holder;
-        }
-
-        public int hashCode() {
-            final int PRIME = 59;
-            int result = 1;
-            final Object $user = this.user;
-            result = result * PRIME + ($user == null ? 43 : $user.hashCode());
-            final Object $player = this.player;
-            result = result * PRIME + ($player == null ? 43 : $player.hashCode());
-            final Object $seasonalPlayer = this.seasonalPlayer;
-            result = result * PRIME + ($seasonalPlayer == null ? 43 : $seasonalPlayer.hashCode());
-            final Object $dbUser = this.dbUser;
-            result = result * PRIME + ($dbUser == null ? 43 : $dbUser.hashCode());
-            final Object $badges = this.badges;
-            result = result * PRIME + ($badges == null ? 43 : $badges.hashCode());
-            return result;
-        }
-
-        public boolean equals(final Object o) {
-            if (o == this) return true;
-            if (!(o instanceof Holder)) return false;
-            final Holder other = (Holder) o;
-            if (!other.canEqual(this)) return false;
-            final Object this$user = this.user;
-            final Object other$user = other.user;
-            if (!Objects.equals(this$user, other$user)) return false;
-            final Object this$player = this.player;
-            final Object other$player = other.player;
-            if (!Objects.equals(this$player, other$player)) return false;
-            final Object this$seasonalPlayer = this.seasonalPlayer;
-            final Object other$seasonalPlayer = other.seasonalPlayer;
-            if (!Objects.equals(this$seasonalPlayer, other$seasonalPlayer))
-                return false;
-            final Object this$dbUser = this.dbUser;
-            final Object other$dbUser = other.dbUser;
-            if (!Objects.equals(this$dbUser, other$dbUser)) return false;
-            final Object this$badges = this.badges;
-            final Object other$badges = other.badges;
-            return Objects.equals(this$badges, other$badges);
-        }
-
-        public String toString() {
-            return "ProfileComponent.Holder(user=" + this.user + ", player=" + this.player + ", seasonalPlayer=" + this.seasonalPlayer + ", dbUser=" + this.dbUser + ", badges=" + this.badges + ")";
         }
     }
 }

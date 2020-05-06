@@ -133,11 +133,16 @@ public class ProfileCmd {
                         //Manual badges
                         if (MantaroData.config().get().isOwner(userLooked))
                             playerData.addBadgeIfAbsent(Badge.DEVELOPER);
-                        if (inv.asList().stream().anyMatch(stack -> stack.getItem().equals(Items.CHRISTMAS_TREE_SPECIAL) || stack.getItem().equals(Items.BELL_SPECIAL)))
+                        if (inv.asList().stream()
+                                .anyMatch(stack -> stack.getItem().equals(Items.CHRISTMAS_TREE_SPECIAL) ||
+                                        stack.getItem().equals(Items.BELL_SPECIAL)))
                             playerData.addBadgeIfAbsent(Badge.CHRISTMAS);
-                        if (mhMember != null && mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 406920476259123201L))
+                        if (mhMember != null &&
+                                mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 406920476259123201L))
                             playerData.addBadgeIfAbsent(Badge.HELPER_2);
-                        if (mhMember != null && mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 290257037072531466L || r.getIdLong() == 290902183300431872L))
+                        if (mhMember != null &&
+                                mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 290257037072531466L ||
+                                        r.getIdLong() == 290902183300431872L))
                             playerData.addBadgeIfAbsent(Badge.DONATOR_2);
                         //end of badge assigning
 
@@ -153,19 +158,25 @@ public class ProfileCmd {
 
                         EmbedBuilder profileBuilder = new EmbedBuilder();
                         profileBuilder.setAuthor((ringHolder ? EmoteReference.RING : "") +
-                                String.format(languageContext.get("commands.profile.header"), memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl())
-                                .setDescription(player.getData().getDescription() == null ? languageContext.get("commands.profile.no_desc") : player.getData().getDescription())
-                                .setFooter(ProfileComponent.FOOTER.getContent().apply(holder, languageContext), null);
+                                String.format(languageContext.get("commands.profile.header"),
+                                        memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl()
+                                ).setDescription(player.getData().getDescription() == null ?
+                                        languageContext.get("commands.profile.no_desc") : player.getData().getDescription()
+                                ).setFooter(ProfileComponent.FOOTER.getContent().apply(holder, languageContext), null);
 
                         boolean hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
                         List<ProfileComponent> usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
 
                         for (ProfileComponent component : usedOrder) {
-                            profileBuilder.addField(component.getTitle(languageContext), component.getContent().apply(holder, languageContext), component.isInline());
+                            profileBuilder.addField(
+                                    component.getTitle(languageContext), component.getContent().apply(holder, languageContext), component.isInline()
+                            );
                         }
 
                         applyBadge(ctx.getChannel(),
-                                badges.isEmpty() ? null : (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()), userLooked, profileBuilder
+                                badges.isEmpty() ? null :
+                                        (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()),
+                                userLooked, profileBuilder
                         );
 
                         player.saveAsync();
@@ -380,15 +391,16 @@ public class ProfileCmd {
 
                 Player player = ctx.getPlayer();
                 PlayerData data = player.getData();
+                String arg = args[0];
 
-                if (args[0].equalsIgnoreCase("none")) {
+                if (arg.equalsIgnoreCase("none")) {
                     data.setShowBadge(false);
                     ctx.sendLocalized("commands.profile.displaybadge.reset_success", EmoteReference.CORRECT);
                     player.saveAsync();
                     return;
                 }
 
-                if (args[0].equalsIgnoreCase("reset")) {
+                if (arg.equalsIgnoreCase("reset")) {
                     data.setMainBadge(null);
                     data.setShowBadge(true);
                     ctx.sendLocalized("commands.profile.displaybadge.important_success", EmoteReference.CORRECT);
@@ -491,10 +503,12 @@ public class ProfileCmd {
 
                 boolean isPotionActive =
                         potion != null && 
-                        (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses()) || potionEffect.getAmountEquipped() > 1);
+                        (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses()) ||
+                                potionEffect.getAmountEquipped() > 1);
                 boolean isBuffActive = 
                         buff != null && 
-                        (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses()) || buffEffect.getAmountEquipped() > 1);
+                        (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses()) ||
+                                buffEffect.getAmountEquipped() > 1);
 
                 long potionEquipped = 0;
                 long buffEquipped = 0;
@@ -509,7 +523,9 @@ public class ProfileCmd {
                             buffEffect.getAmountEquipped() : buffEffect.getAmountEquipped() - 1;
 
                 //no need for decimals
-                long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
+                long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) +
+                        (50 * player.getLevel() / 2);
+
                 boolean noPotion = potion == null || !isPotionActive;
                 boolean noBuff = buff == null || !isBuffActive;
 
@@ -519,39 +535,104 @@ public class ProfileCmd {
                 I18nContext languageContext = ctx.getLanguageContext();
 
                 //This whole thing is a massive mess, lmfao.
+                //This is definitely painful and goes on for 100 lines lol
                 String s = String.join("\n",
-                        prettyDisplay(languageContext.get("commands.profile.stats.market"), playerData.getMarketUsed() + " " + languageContext.get("commands.profile.stats.times")),
+                        prettyDisplay(languageContext.get("commands.profile.stats.market"),
+                                playerData.getMarketUsed() + " " + languageContext.get("commands.profile.stats.times")
+                        ),
 
                         //Potion display
-                        prettyDisplay(languageContext.get("commands.profile.stats.potion"), noPotion ? "None" : String.format("%s (%dx)", potion.getName(), potionEquipped)),
+                        prettyDisplay(languageContext.get("commands.profile.stats.potion"),
+                                noPotion ? "None" : String.format("%s (%dx)", potion.getName(), potionEquipped)
+                        ),
+
                         "\u3000 " +
                                 EmoteReference.BOOSTER + languageContext.get("commands.profile.stats.times_used") + ": " +
-                                (noPotion ? "Not equipped" : potionEffect.getTimesUsed() + " " + languageContext.get("commands.profile.stats.times")),
-                        prettyDisplay(languageContext.get("commands.profile.stats.buff"), noBuff ? "None" : String.format("%s (%dx)", buff.getName(), buffEquipped)),
+                                (noPotion ? "Not equipped" :
+                                        potionEffect.getTimesUsed() + " " +
+                                        languageContext.get("commands.profile.stats.times")),
+
+                        prettyDisplay(languageContext.get("commands.profile.stats.buff"), noBuff ? "None" :
+                                String.format("%s (%dx)", buff.getName(), buffEquipped)
+                        ),
+
                         "\u3000 " +
                                 EmoteReference.BOOSTER + languageContext.get("commands.profile.stats.times_used") + ": " +
-                                (noBuff ? "Not equipped" : buffEffect.getTimesUsed() + " " + languageContext.get("commands.profile.stats.times")),
+                                (noBuff ? "Not equipped" : buffEffect.getTimesUsed() + " " +
+                                        languageContext.get("commands.profile.stats.times")),
                         //End of potion display
 
-                        prettyDisplayLine(languageContext.get("commands.profile.stats.equipment"), equipment),
-                        prettyDisplayLine(languageContext.get("commands.profile.stats.seasonal_equipment"), seasonalEquipment),
-                        prettyDisplay(languageContext.get("commands.profile.stats.autoequip"), String.valueOf(data.isAutoEquip())),
-                        prettyDisplay(languageContext.get("commands.profile.stats.experience"), playerData.getExperience() + "/" + experienceNext + " XP"),
-                        prettyDisplay(languageContext.get("commands.profile.stats.mine_xp"), playerData.getMiningExperience() + " XP"),
-                        prettyDisplay(languageContext.get("commands.profile.stats.fish_xp"), playerData.getFishingExperience() + " XP"),
-                        prettyDisplay(languageContext.get("commands.profile.stats.sharks_caught"), String.valueOf(playerData.getSharksCaught())),
-                        prettyDisplay(languageContext.get("commands.profile.stats.crates_open"), String.valueOf(playerData.getCratesOpened())),
-                        prettyDisplay(languageContext.get("commands.profile.stats.times_mop"), String.valueOf(playerData.getTimesMopped())),
-                        prettyDisplay(languageContext.get("commands.profile.stats.daily"), playerData.getDailyStreak() + " " + languageContext.get("commands.profile.stats.days")),
-                        prettyDisplay(languageContext.get("commands.profile.stats.daily_at"), playerData.getLastDailyAt() == 0 ? languageContext.get("commands.profile.stats.never") : new Date(playerData.getLastDailyAt()).toString()),
-                        prettyDisplay(languageContext.get("commands.profile.stats.waifu_claimed"), data.getTimesClaimed() + " " + languageContext.get("commands.profile.stats.times")),
-                        prettyDisplay(languageContext.get("commands.profile.stats.waifu_locked"), String.valueOf(playerData.isClaimLocked())),
-                        prettyDisplay(languageContext.get("commands.profile.stats.dust"), data.getDustLevel() + "%"),
-                        prettyDisplay(languageContext.get("commands.profile.stats.reminders"), data.getRemindedTimes() + " " + languageContext.get("commands.profile.stats.times")),
-                        prettyDisplay(languageContext.get("commands.profile.stats.lang"), (data.getLang() == null ? "en_US" : data.getLang())),
+                        prettyDisplayLine(languageContext.get("commands.profile.stats.equipment"),
+                                equipment
+                        ),
+
+                        prettyDisplayLine(languageContext.get("commands.profile.stats.seasonal_equipment"),
+                                seasonalEquipment
+                        ),
+
+                        prettyDisplay(languageContext.get("commands.profile.stats.autoequip"),
+                                String.valueOf(data.isAutoEquip())
+                        ),
+
+                        prettyDisplay(languageContext.get("commands.profile.stats.experience"),
+                                playerData.getExperience() + "/" + experienceNext + " XP"
+                        ),
+
+                        prettyDisplay(languageContext.get("commands.profile.stats.mine_xp"),
+                                playerData.getMiningExperience() + " XP"
+                        ),
+
+                        prettyDisplay(languageContext.get("commands.profile.stats.fish_xp"),
+                                playerData.getFishingExperience() + " XP"
+                        ),
+
+                        prettyDisplay(languageContext.get("commands.profile.stats.sharks_caught"),
+                                String.valueOf(playerData.getSharksCaught())
+                        ),
+
+                        prettyDisplay(languageContext.get("commands.profile.stats.crates_open"),
+                                String.valueOf(playerData.getCratesOpened())
+                        ),
+
+                        prettyDisplay(languageContext.get("commands.profile.stats.times_mop"),
+                                String.valueOf(playerData.getTimesMopped())
+                        ),
+
+                        prettyDisplay(languageContext.get("commands.profile.stats.daily"),
+                                playerData.getDailyStreak() + " " + languageContext.get("commands.profile.stats.days")
+                        ),
+
+                        prettyDisplay(languageContext.get("commands.profile.stats.daily_at"),
+                                playerData.getLastDailyAt() == 0 ?
+                                        languageContext.get("commands.profile.stats.never") :
+                                        new Date(playerData.getLastDailyAt()).toString()
+                        ),
+
+                        prettyDisplay(languageContext.get("commands.profile.stats.waifu_claimed"),
+                                data.getTimesClaimed() + " " + languageContext.get("commands.profile.stats.times")
+                        ),
+
+                        prettyDisplay(languageContext.get("commands.profile.stats.waifu_locked"),
+                                String.valueOf(playerData.isClaimLocked())
+                        ),
+
+                        prettyDisplay(languageContext.get("commands.profile.stats.dust"),
+                                data.getDustLevel() + "%"
+                        ),
+
+                        prettyDisplay(languageContext.get("commands.profile.stats.reminders"),
+                                data.getRemindedTimes() + " " + languageContext.get("commands.profile.stats.times")
+                        ),
+
+                        prettyDisplay(languageContext.get("commands.profile.stats.lang"),
+                                (data.getLang() == null ? "en_US" : data.getLang())
+                        ),
+
                         prettyDisplay(languageContext.get("commands.profile.stats.wins"),
                                 String.format("\n\u3000\u2009\u2009\u2009\u2009" +
-                                        "%1$sGamble: %2$d, Slots: %3$d, Game: %4$d (times)", EmoteReference.CREDITCARD, playerStats.getGambleWins(), playerStats.getSlotsWins(), playerData.getGamesWon()))
+                                        "%1$sGamble: %2$d, Slots: %3$d, Game: %4$d (times)",
+                                        EmoteReference.CREDITCARD, playerStats.getGambleWins(), playerStats.getSlotsWins(), playerData.getGamesWon())
+                        )
                 );
 
 
