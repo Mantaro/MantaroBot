@@ -52,7 +52,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 
 @Module
 public class MarketCmd {
@@ -141,7 +141,7 @@ public class MarketCmd {
         });
 
         marketCommand.setPredicate((ctx) -> {
-            if (!handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null, false))
+            if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null, false))
                 return false;
 
             Player player = ctx.getPlayer();

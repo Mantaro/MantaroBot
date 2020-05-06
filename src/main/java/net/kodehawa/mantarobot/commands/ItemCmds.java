@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -56,7 +55,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 
 @Module
 public class ItemCmds {
@@ -111,7 +110,7 @@ public class ItemCmds {
                             return;
                         }
 
-                        if (!handleDefaultIncreasingRatelimit(ratelimiter, ctx.getAuthor(), ctx))
+                        if (!handleIncreasingRatelimit(ratelimiter, ctx.getAuthor(), ctx))
                             return;
 
                         int amountSpecified = 1;
@@ -416,7 +415,7 @@ public class ItemCmds {
                             return;
                         }
 
-                        if (!handleDefaultIncreasingRatelimit(ratelimiter, ctx.getAuthor(), ctx))
+                        if (!handleIncreasingRatelimit(ratelimiter, ctx.getAuthor(), ctx))
                             return;
 
                         Broken brokenItem = (Broken) item;

@@ -67,7 +67,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 import static net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils.embedForQueue;
-import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 import static org.apache.commons.lang3.StringUtils.replaceEach;
 
 @Module
@@ -118,7 +118,7 @@ public class MusicCmds {
             public void call(Context ctx, String content, String[] args) {
                 Guild guild = ctx.getGuild();
 
-                if (!handleDefaultIncreasingRatelimit(rl, ctx.getAuthor(), ctx))
+                if (!handleIncreasingRatelimit(rl, ctx.getAuthor(), ctx))
                     return;
 
                 MantaroAudioManager audioManager = MantaroBot.getInstance().getAudioManager();

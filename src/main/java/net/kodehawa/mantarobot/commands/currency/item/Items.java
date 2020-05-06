@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.RandomCollection;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
@@ -45,7 +46,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 
 @SuppressWarnings("WeakerAccess")
 public class Items {
@@ -303,7 +304,7 @@ public class Items {
 
         if(inventory.containsItem(crate)) {
             if(inventory.containsItem(LOOT_CRATE_KEY)) {
-                if(!handleDefaultIncreasingRatelimit(lootCrateRatelimiter, event.getAuthor(), event, lang, false))
+                if(!Utils.handleIncreasingRatelimit(lootCrateRatelimiter, event.getAuthor(), event, lang, false))
                     return false;
 
                 if(crate == LOOT_CRATE) {

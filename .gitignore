@@ -49,6 +49,7 @@ config.json
 data.json
 quotes.json
 /logs/
+/urlcache_files/
 
 #RethinkDB
 /db/

@@ -322,7 +322,7 @@ public class ProfileCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                if (!Utils.handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
+                if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
                     return;
 
                 String[] args = content.split(" ");

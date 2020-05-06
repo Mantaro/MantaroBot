@@ -62,7 +62,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 
 @Module
 @SuppressWarnings("unused")
@@ -344,7 +344,7 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    if (!handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
+                    if (!handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
                         return;
 
                     Item item = Items.fromAnyNoId(args[1]).orElse(null);
@@ -475,7 +475,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if (!handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
+                if (!handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
                     return;
 
                 long toSend; // = 0 at the start
@@ -638,7 +638,7 @@ public class CurrencyCmds {
                 Inventory inventory = p.getInventory();
                 I18nContext languageContext = ctx.getLanguageContext();
 
-                if (!handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
+                if (!handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
                     return;
 
                 Item randomCrate = random.nextBoolean() ? Items.MINE_PREMIUM_CRATE : Items.FISH_PREMIUM_CRATE;

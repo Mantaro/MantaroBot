@@ -57,7 +57,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static java.lang.System.currentTimeMillis;
-import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 
 @Module
 @SuppressWarnings("unused")
@@ -218,7 +218,7 @@ public class PremiumCmds {
                     return;
                 }
 
-                if(!handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null)) {
+                if(!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null)) {
                     return;
                 }
 

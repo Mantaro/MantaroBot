@@ -143,7 +143,7 @@ public class FunCmds {
         registry.register("roll", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                if (!Utils.handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext()))
+                if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext()))
                     return;
 
                 Map<String, String> opts = StringUtils.parse(args);

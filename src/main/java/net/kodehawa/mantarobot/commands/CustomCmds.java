@@ -184,7 +184,7 @@ public class CustomCmds {
             }
         });
 
-        customCommand.setPredicate(ctx -> Utils.handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null));
+        customCommand.setPredicate(ctx -> Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null));
 
         //Just so this is in english.
         I18nContext i18nTemp = new I18nContext();

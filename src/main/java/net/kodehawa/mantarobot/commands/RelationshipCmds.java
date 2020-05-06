@@ -688,7 +688,7 @@ public class RelationshipCmds {
         });
 
         cr.registerAlias("waifu", "waifus");
-        waifu.setPredicate(ctx -> Utils.handleDefaultIncreasingRatelimit(rl, ctx.getAuthor(), ctx.getEvent(), null, false));
+        waifu.setPredicate(ctx -> Utils.handleIncreasingRatelimit(rl, ctx.getAuthor(), ctx.getEvent(), null, false));
 
         waifu.addSubCommand("stats", new SubCommand() {
             @Override

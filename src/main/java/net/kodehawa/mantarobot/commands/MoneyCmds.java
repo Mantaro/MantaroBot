@@ -62,7 +62,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 
 @Module
 @SuppressWarnings("unused")
@@ -175,7 +175,7 @@ public class MoneyCmds {
                 }
 
                 // Check for rate limit
-                if (!handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext(), false))
+                if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext(), false))
                     return;
 
                 List<String> returnMessage = new ArrayList<>();
@@ -369,7 +369,7 @@ public class MoneyCmds {
                 }
 
                 //Handle ratelimits after all of the exceptions/error messages could've been thrown already.
-                if (!handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
+                if (!handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
                     return;
 
                 User user = ctx.getAuthor();
@@ -458,7 +458,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if (!handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
+                if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
                     return;
 
                 LocalDate today = LocalDate.now(zoneId);
@@ -694,7 +694,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if (!handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
+                if (!handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
                     return;
 
                 if (coinSelect) {

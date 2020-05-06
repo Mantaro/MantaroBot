@@ -23,7 +23,6 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
-import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -44,8 +43,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -53,7 +50,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -625,7 +621,7 @@ public class Utils {
         return r.connection().hostname(config.dbHost).port(config.dbPort).db(config.dbDb).user(config.dbUser, config.dbPassword).connect();
     }
 
-    public static boolean handleDefaultRatelimit(RateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context) {
+    public static boolean handleRatelimit(RateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context) {
         if (context == null) {
             //en_US
             context = new I18nContext();
@@ -643,7 +639,7 @@ public class Utils {
         return true;
     }
 
-    public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, String u, GuildMessageReceivedEvent event, I18nContext context, boolean spamAware) {
+    public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, String u, GuildMessageReceivedEvent event, I18nContext context, boolean spamAware) {
         if (context == null) {
             //en_US
             context = new I18nContext();
@@ -672,16 +668,16 @@ public class Utils {
         return true;
     }
 
-    public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context, boolean spamAware) {
-        return handleDefaultIncreasingRatelimit(rateLimiter, u.getId(), event, context, spamAware);
+    public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context, boolean spamAware) {
+        return handleIncreasingRatelimit(rateLimiter, u.getId(), event, context, spamAware);
     }
 
-    public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context) {
-        return handleDefaultIncreasingRatelimit(rateLimiter, u.getId(), event, context, true);
+    public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context) {
+        return handleIncreasingRatelimit(rateLimiter, u.getId(), event, context, true);
     }
 
-    public static boolean handleDefaultIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, Context ctx) {
-        return handleDefaultIncreasingRatelimit(rateLimiter, u.getId(), ctx.getEvent(), ctx.getLanguageContext(), true);
+    public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, Context ctx) {
+        return handleIncreasingRatelimit(rateLimiter, u.getId(), ctx.getEvent(), ctx.getLanguageContext(), true);
     }
 
     private static void onRateLimit(User user) {

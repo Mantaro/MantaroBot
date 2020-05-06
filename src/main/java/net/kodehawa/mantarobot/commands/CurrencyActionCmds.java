@@ -41,6 +41,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.RandomCollection;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
@@ -54,7 +55,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.kodehawa.mantarobot.commands.currency.item.Items.handleDurability;
-import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 
 @Module
 public class CurrencyActionCmds {
@@ -106,7 +107,7 @@ public class CurrencyActionCmds {
 
                 item = (Pickaxe) Items.fromId(equipped);
 
-                if (!handleDefaultIncreasingRatelimit(rateLimiter, user, ctx.getEvent(), languageContext, false))
+                if (!Utils.handleIncreasingRatelimit(rateLimiter, user, ctx.getEvent(), languageContext, false))
                     return;
 
                 long money = Math.max(30, random.nextInt(200)); //30 to 150 credits.
@@ -284,7 +285,7 @@ public class CurrencyActionCmds {
                 //It can only be a rod, lol.
                 item = (FishRod) Items.fromId(equipped);
 
-                if (!handleDefaultIncreasingRatelimit(fishRatelimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
+                if (!Utils.handleIncreasingRatelimit(fishRatelimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
                     return;
 
                 //Level but starting at 0.

@@ -263,7 +263,7 @@ public class InfoCmds {
         cr.register("help", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                if (!Utils.handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext(), false))
+                if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext(), false))
                     return;
 
                 if (content.isEmpty()) {

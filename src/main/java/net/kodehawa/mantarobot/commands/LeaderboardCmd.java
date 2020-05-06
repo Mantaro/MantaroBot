@@ -24,7 +24,6 @@ import com.rethinkdb.net.Connection;
 import com.rethinkdb.utils.Types;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -52,7 +51,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.rethinkdb.RethinkDB.r;
-import static net.kodehawa.mantarobot.utils.Utils.handleDefaultIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 
 @Module
 public class LeaderboardCmd {
@@ -126,7 +125,7 @@ public class LeaderboardCmd {
             }
         });
 
-        leaderboards.setPredicate(ctx -> handleDefaultIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null));
+        leaderboards.setPredicate(ctx -> Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null));
 
         leaderboards.addSubCommand("gamble", new SubCommand() {
             @Override
