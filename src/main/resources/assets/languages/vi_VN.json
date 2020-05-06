@@ -685,29 +685,8 @@
         "collectible": "%1$sĐây là một đồ sưu tầm. (Giá bán đi: %2$,d tín)",
         "success": "%1$sGiá bán của chợ cho %2$s**%3$s** là %4$s tín và giá chợ nhận mua là %5$s tín."
       },
-      "sell": {
-        "no_item_amount": "%1$sBạn cần nói rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải nói) và tên của đồ vật bạn muốn bán.",
-        "invalid": "%1$sSố không hợp lệ để có thể bán.",
-        "all": {
-          "confirmation": "%1$sBạn có chắc chắn muốn bán **tất cả** đồ của bạn? Điều này sẽ làm *mọi* đồ vật trong tủ đồ của bạn biến mất. Nếu bạn muốn bán một loại đồ đơn lẻ, hãy gõ số l ượng. Gõ *yes* để đồng ý và *no* để huỷ",
-          "success": "%1$sBạn đã bán hết đồ trong tủ đồ của bạn và tăng %2$,d tín!",
-          "cancelled": "%1$sĐã huỷ thành công."
-        },
-        "non_existent": "%1$sBạn không thể bán đồ không tồn tại. Nếu bạn đang lúng túng, bạn có thể thử tên viết tắt của đồ hoặc cho tên đồ vào trong dấu ngoặc kép.",
-        "no_sell_price": "%1$sBạn không thể bán đồ không thể bán. (Nhưng bạn có thể `~>market dump` để vứt nó đi)",
-        "no_item_player": "%1$sBạn không thể bán đồ bạn không có.",
-        "more_items_than_player": "%1$sBạn không thể bán nhiều hơn số lượng bạn đang có.",
-        "success": "%1$sBạn đã bán %2$,d **%3$s** và nhận được %4$,d tín!"
-      },
-      "buy": {
-        "no_item_amount": "%1$sBạn cần nói rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải nói) và tên của đồ vật bạn muốn mua.",
-        "invalid": "%1$sSố lượng bạn nhập không hợp lệ để mua.",
-        "non_existent": "%1$sBạn không thể mua đồ không tồn tại. Nếu bạn đang lúng túng, bạn có thể thử tên viết tắt của đồ hoặc cho tên đồ vào trong dấu ngoặc kép.",
-        "no_buy_price": "%1$sBạn không thể mua đồ không được bán.",
-        "item_limit_reached": "%1$sBạn không thể mua thêm đồ vật đó được.",
-        "success": "%1$sĐã mua thành công %2$,d %3$s với giá %4$,d tín. Giờ bạn còn %5$,d tín.",
-        "not_enough_money": "%1$sBạn không đủ tiền để mua đồ vật này."
-      },
+      "sell": "- **Sell Price:**",
+      "buy": "- **Buy Price:**",
       "header": "Chợ Mantaro",
       "reference": "\nBạn có thể mua và bán dùng lệnh `~>market buy <đồ vật>` và `~>market sell <đồ vật>`. Xem qua `~>help market` để biết thêm thông tin chi tiết."
     },
@@ -1435,9 +1414,9 @@
     },
     "help": {
       "title": "Mantaro Help",
-      "base_category": "Command list for category %1$s. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "Command list. For a detailed guide on the usage of Mantaro, please check the [wiki, which contains detailed information about the bot](https://github.com/Mantaro/MantaroBot/wiki).\nOther guides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
-      "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://support.mantaro.site). [*Follow me on twitter for updates!*](https://twitter.com/mantarodiscord)\n",
+      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nOther guides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
       "patreon": "[**We need your help to keep Mantaro online! Click here for more info.**](https://www.patreon.com/mantaro)",
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
       "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
