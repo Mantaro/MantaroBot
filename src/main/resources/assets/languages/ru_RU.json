@@ -685,29 +685,8 @@
         "collectible": "%1$sЭто коллекционный предмет. (Цена продажи: %2$d кредитов)",
         "success": "%1$sЦена в магазине на %2$s**%3$s** составляет %4$s кредитов, вы получите %5$s в случае продажи."
       },
-      "sell": {
-        "no_item_amount": "%1$sВы не указали количество предметов (если он один, то вам не нужно указывать цифру) и предмет который желаете продать.",
-        "invalid": "%1$sНедопустимое количество предметов для продажи.",
-        "all": {
-          "confirmation": "%1$sВы *уверны* что желаете продать **все** ваши предметы? Напишите *yes* для подтверждения и *no* для отмены",
-          "success": "%1$sВы успешно продали все предметы вашего инвентаря на сумму %2$d кредитов!",
-          "cancelled": "%1$sУспешно отменено."
-        },
-        "non_existent": "%1$sВы не можете продать несуществующий предмет. Если вы запутались, попробуйте ввести краткое название или заключите его в кавычки.",
-        "no_sell_price": "%1$sВы не можете продать этот предмет. (Но вы можете использовать это `~>market dump`)",
-        "no_item_player": "%1$sВы не можете продать предмет, которого у вас нет.",
-        "more_items_than_player": "%1$sВы не можете продать больше предметов, чем у вас имеется.",
-        "success": "%1$sВы проадли %2$d **%3$s** и получили %4$d кредитов!"
-      },
-      "buy": {
-        "no_item_amount": "%1$sВы не указали количество предметов (если он один, то вам не нужно указывать цифру) и предмет который желаете приобрести.",
-        "invalid": "%1$sНедопустимое количество предметов для покупки.",
-        "non_existent": "%1$sВы не можете купить несуществующий предмет. Если вы запутались, попробуйте ввести краткое название или заключите его в кавычки.",
-        "no_buy_price": "%1$sВы не можете купить этот предмет.",
-        "item_limit_reached": "%1$sВы не можете купить предмет, который достиг лимит по количеству в вашем инвентаре.",
-        "success": "%1$sУспешно куплены %2$d %3$s за %4$d кредитов. У вас осталось %5$d кредитов.",
-        "not_enough_money": "%1$sУ вас не хватает денег для покупки этого предмета."
-      },
+      "sell": "- **Sell Price:**",
+      "buy": "- **Buy Price:**",
       "header": "Магазин Mantaro",
       "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info."
     },
@@ -1435,9 +1414,9 @@
     },
     "help": {
       "title": "Помощь Мантаро",
-      "base_category": "Command list for category %1$s. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "Список команд. Подробное руководство по использованию Mantaro смотреть на [Вики](https://github.com/Mantaro/MantaroBot/wiki).\n",
-      "support": "Если у вас есть проблемы или вопросы при использовании Мантаро, пожалуйста, присоединитесь к [серверу поддержки] (https://support.mantaro.site). [* Следите за мной в твиттере за обновлениями! *](https://twitter.com/mantarodiscord)\n",
+      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nOther guides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
       "patreon": "[**Нам нужна ваша помощь, чтобы сохранить Мантаро онлайн! Нажмите здесь для получения дополнительной информации.**](https://www.patreon.com/mantaro)",
       "disabled_commands": "Отображаются только не отключенные команды. Всего отключенных команд: %1$s",
       "channel_specific_disabled_commands": "\nТолько отображаются не отключенные команды. Всего отключенных команд, связанных с каналом: %1$s",
