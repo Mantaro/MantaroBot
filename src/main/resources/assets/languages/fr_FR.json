@@ -685,29 +685,8 @@
         "collectible": "%1$sC'est un objet exclusif. (Valeur à la vente : %2$d credits)",
         "success": "%1$sLe prix de %2$s**%3$s** au marché est de %4$s credits à l'achat et tu peux avoir %5$s credits si tu le vends."
       },
-      "sell": {
-        "no_item_amount": "%1$sTu dois préciser la quantité d'objet (s'il n'y en a qu'un, pas besoin de préciser la quantité) et l'objet que tu veux vendre.",
-        "invalid": "%1$sPas un nombre valide d'objets à vendre.",
-        "all": {
-          "confirmation": "%1$sEs-tu *sûr.e* de vouloir vendre **tous** tes objets? Ecris *yes* (oui) pour confirmer et *no* (non) pour annuler",
-          "success": "%1$sTu as vendu tous les objets de ton inventaire et as reçu %2$d credits!",
-          "cancelled": "%1$sAnnulé avec succès."
-        },
-        "non_existent": "%1$sTu ne peux pas vendre un objet qui n'existe pas!.",
-        "no_sell_price": "%1$sTu ne peux pas vendre un objet invendable!. (Mais tu peux le `~>market dump`)",
-        "no_item_player": "%1$sTu ne peux pas vendre un objet que tu n'as pas!",
-        "more_items_than_player": "%1$sTu ne peux pas vendre plus d'objets que tu n'en as!.",
-        "success": "%1$sTu as vendu %2$d **%3$s** et a gagné %4$d crédits!"
-      },
-      "buy": {
-        "no_item_amount": "%1$sTu dois spécifier un montant de cet objet (si c'est seulement 1, pas besoin de spécifier) et l'objet que tu veux acheter.",
-        "invalid": "%1$sNombre d'objets à acheter invalide.",
-        "non_existent": "%1$sTu ne peux pas acheter un objet non existant.",
-        "no_buy_price": "%1$sTu ne peux pas acheter un objet qui n'est pas achetable.",
-        "item_limit_reached": "%1$sTu ne peux pas acheter plus de cet objet.",
-        "success": "%1$sAchat de %2$d %3$s pour %4$d credits. Tu as désormais %5$d credits.",
-        "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter cet objet."
-      },
+      "sell": "- **Sell Price:**",
+      "buy": "- **Buy Price:**",
       "header": "Marché de Mantaro",
       "reference": "\nTu peux acheter et vendre des objets en utilisant `~>market buy <objet>` et `~>market sell <objet>`. Utilise `~>help market` pour plus d'infos. Attention, les commandes fonctionnent uniquement avec le nom des objets en anglais ou avec l'emoji correspondant."
     },
@@ -1435,9 +1414,9 @@
     },
     "help": {
       "title": "Menu d'aide de Mantaro",
-      "base_category": "Liste des commandes pour la categorie %1$s. Pour un guide d'utilisation plus détaillé, merci de te rendre sur le [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Guide pour l'argent](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "Liste des commandes. Pour un guide d'utilisation plus détaillé, merci de te rendre sur le [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nAutres guides : [Argent](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Commandes personnalisées](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Messages de bienvenue](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
-      "support": "Si tu as des problèmes ou des questions en utilisant Mantaro, rejoins le [serveur de support](https://support.mantaro.site) (N.B.: le serveur est uniquement en anglais). [*Suis-moi sur Twitter pour les mises à jour !*](https://twitter.com/mantarodiscord)\n",
+      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nOther guides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
       "patreon": "[**On a besoin de ton aide pour garder Mantaro en vie! Clique ici pour plus d'infos.**](https://www.patreon.com/mantaro)",
       "disabled_commands": "Je ne montre que les commandes actives. Nombre total de commandes désactivées : %1$s",
       "channel_specific_disabled_commands": "\nJe ne montre que les commandes actives. Nombre total de commandes désactivées dans ce salon : %1$s",
