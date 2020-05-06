@@ -28,8 +28,8 @@
     "dust": "여기는 먼지밖에 없네요.",
     "invalid_syntax": "올바르지 않은 구문 구조.",
     "item_lookup": {
-      "no_item_emoji": "이 이모지와 관련된 항목이 없네요.",
-      "no_item_name": "이 이름과 관련된 항목이 없네요.",
+      "no_item_emoji": "이 이모지와 관련된 아이템이 없네요.",
+      "no_item_name": "이 이름과 관련된 아이템이 없네요.",
       "not_found": "검색과 관련된 아이템을 찾을 수 없었어요. 만약 이름을 까먹었다면 예를 들어서 `에너지 음료`라면 `에너지`와 같은 짧은 이름을 사용해 보세요. 아니면 이름을 따옴표로 묶어보세요.",
       "claim_key": "요청 키를 전송할 수 없었어요."
     },
@@ -72,83 +72,83 @@
     "ratelimit": {
       "header": "%1$s%2$s (제한된 속도)\n **%3$s초 후 이 명령어를 다시 사용할 수 있어요.**",
       "spam_1": "건강을 위해서 쉬세요 ㅠㅠ *재사용 대기시간이 재설정되기 전에 시도하면 제한된 속도가 계속 증가한다는 것을 기억하세요!*",
-      "spam_2": "\nI think stopping is the best option for now..."
+      "spam_2": "\n제가 생각하기에는 지금 멈추는 게 가장 좋은 선택 같아요..."
     },
-    "generic_error": "If you want, join our **support server** (Link at `support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
+    "generic_error": "만약 원한다면 저희 **고객 지원 서버**(`support.mantaro.site`)나 저희 GitHub 페이지(`https://github.com/Kodehawa/MantaroBot`)를 확인해주세요. 제발 저를 폭파시키지 말라고 말해줘요. 그리고 신고할 때 오류 ID를 잊지 말아줘요!",
     "boom_quotes": [
-      "Seemingly Megumin exploded our castle...",
-      "Uh-oh, seemingly my master forgot some zeros and ones on the floor :<",
-      "W-Wait, what just happened?",
-      "I-I think we got some fire going on here... you might want to tell my master to take a look.",
-      "I've mastered explosion magic, you see?",
-      "Maybe something just went wrong on here, but, u-uh, I can fix it!",
-      "U-Uhh.. What did you want?"
+      "메구밍이 우리성을 폭발 시킨 것처럼 보이네요..",
+      "으어, 보아하니 저의 주인은 바닥에 있는 0과 1을 잊었어요 :<",
+      "자..잠깐, 무슨일이예요?",
+      "ㅈ..제 생각엔 여기 불이 좀 난 것 같아요... 제 주인님께 한 번 보라고 말씀하시는 게 좋을 것 같아요.",
+      "폭렬 마법을 터득했다고, 보이지?",
+      "뭔가 잘못됐을 수도 있지만, ㅇ..어, 제가 고칠 수 있어요!",
+      "으,,음.. 뭘 원했어요?"
     ],
     "ratelimit_quotes": [
-      "Woah... you're calling me a bit too fast... I might get dizzy!",
-      "Don't be greedy!",
-      "Y-You're calling me so fast that I'm getting dizzy...",
-      "Halt in there buddy!",
-      "Wait just a tiiiiny bit more uwu",
-      "Seems like we're gonna get a speed ticket if we continue going this fast!",
-      "I wanna do this... but halt for a bit please.",
-      "Hey, wait up, I'm not done with my break yet!",
-      "Can you slow down a little bit?"
+      "와... 너무 빨리 전화하시네요... 제가 얼빠질지도 몰라요!",
+      "욕심 부리지 마세요!",
+      "ㄴ..너무 빨리 전화하셔서 어지러워요...",
+      "거기있는 친구 멈춰요!",
+      "쪼~금만 더 기다려줘요 uwu",
+      "계속 이렇게 빨리 가면 속도위반 딱지를 떼일 것 같아요!",
+      "나 이거하고 싶어요... 잠깐만 멈춰봐요.",
+      "이봐요, 멈춰봐요, 아직 내 휴식이 끝나지 않았다고요!",
+      "약간 천천히 해주실 수 있나요?"
     ],
     "mod_quotes": [
-      "Uh-oh, seems like someone just got hit hard!",
-      "Just wholesome admin work happening over here...",
-      "The boot has been thrown!",
-      "You'll be missed... not really",
-      "I hope I did the right thing...",
-      "Woah there, mods have spoken!",
-      "U-Uh... w-well, someone just went through the door."
+      "ㅇ..이런, 방금 누가 심하게 맞은 것 같은데요!",
+      "그냥 이쪽에서 건전한 관리자가 일을 하고 있어요...",
+      "부츠가 던져졌어요!",
+      "그리울 거예요... 사실 그렇지 않아요",
+      "제가 옳은 일을 했길 바라요...",
+      "우와 저기, 중재자가 말을 걸었어요!",
+      "ㅇ..어... 으..음, 누가 방금 문으로 열고 들어갔어요."
     ]
   },
   "categories": {
-    "music": "Audio",
-    "action": "Action",
-    "misc": "Misc",
-    "moderation": "Moderation",
-    "owner": "Owner",
-    "image": "Image",
-    "utils": "Utility",
-    "fun": "Fun",
-    "games": "Games",
-    "info": "Info",
-    "currency": "Currency",
-    "pet": "Pet"
+    "music": "오디오",
+    "action": "작업",
+    "misc": "기타",
+    "moderation": "중재",
+    "owner": "소유자",
+    "image": "이미지",
+    "utils": "유용한 것",
+    "fun": "재미",
+    "games": "게임",
+    "info": "정보",
+    "currency": "화폐",
+    "pet": "소환수"
   },
   "commands": {
     "fish": {
-      "dust": "%1$sThe day is over, and your fish bucket only could collect dust. (Dust level %2$s%%)",
-      "no_rod": "%1$sYou don't have a fish rod to fish with! (try with another rod)",
+      "dust": "%1$s하루가 끝났고, 여러분의 양동이는 먼지만 모을 수 있었어요. (황사 레벨 %2$s)",
+      "no_rod": "%1$s낚시를 할 수 있는 낚싯대가 없네요! (다른 낚싯대로 해보세요)",
       "trash": {
-        "overflow": "%1$sYou found some trash while fishing, but your inventory was full, so we had to throw it back into the water...",
-        "success": "%1$sWhile calmly fishing, you found a floating %2$s but it seems to be only trash :("
+        "overflow": "%1$s낚시를 하다가 쓰레기를 발견하셨는데, 보관함이 가득 차서 다시 물속으로 던져야만 했어요...",
+        "success": "%1$s침착하게 낚시를 하던 중, 떠 있는 것을 발견했어요 %2$s 근데 쓰레기처럼 보이네요 ㅠㅠ"
       },
       "tier3": {
-        "extra": "And you also found %1$s, lucky!"
+        "extra": "그리고 %1$s도 찾았어요, 운이 좋네요!"
       },
       "crate": {
-        "overflow": "You found a **%1$s** while fishing, but you had too many already, so we threw it back into the ocean...",
-        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+        "overflow": "낚시하다가 **%1$s**을(를) 발견하셨는데, 이미 너무 많아서 다시 바다에 던졌어요...",
+        "success": "낚시를 하는 동안 %1$s **%2$s**을(를) 발견해서 수집했어요. `~>opencrate <상자 이름>`으로 가서 열어보세요. 상자 열쇠가 필요해요!"
       },
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
+        "success": "%1$s생선 슬롯에 **%2$s**가 자동으로 장착되었어요."
       },
-      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water...",
-      "success": "%1$sWhile calmly fishing, you found %2$s and you proceed to save them into your bucket.",
+      "overflow": "%1$s낚시를 하다가 물고기를 발견하셨는데, 보관함이 가득 차서 일부를 다시 물속으로 던져야만 했어요...",
+      "success": "%1$s침착하게 낚시를 하는 동안 %2$s을(를) 발견하여 양동이에 보관했어요.",
       "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$d credits** and you proceed to save them into your bucket.%4$s",
       "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$d credits** and you proceed to save them into your pocket.",
-      "rod_broke": "%1$sYour fishing rod broke while trying to catch a fish :(",
-      "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!",
-      "not_suitable": "%1$sYou can't use this to fish.",
-      "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?",
-      "fossil_success": "%1$sYou caught a fossil while trying to find a fish. This might be worth a fair bit or be used for casting, I believe.",
-      "bait": "The fish ate your bait in the process!",
-      "missing_equipped": "%1$sYou had an equipped %2$s rod, but you no longer have any of its kind on your inventory! Equipped rod has been reset.",
-      "broken_drop": "%1$sYour rod broke, but you can repair it. Got broken item: %2$s *%3$s*",
+      "rod_broke": "%1$s낚싯대가 물고기를 잡으려고 하다가 부러졌어요. ㅠㅠ",
+      "waifu_help": "와이프가 와서 낚시 모험에 참여했고 여러분 둘 다 더 많은 것을 얻어요!",
+      "not_suitable": "%1$s이걸로 낚시를 할 수는 없어요.",
+      "shark_success": "%1$s어떻게든 상어를 잡았군요. 정말 멋진 막대기군요, 그렇죠?",
+      "fossil_success": "%1$s당신은 물고기를 찾으려고 하다가 화석을 잡았어요. 이것은 상당한 가치가 있거나 캐스팅에 사용될 수 있다고 믿어요.",
+      "bait": "이 과정에서 물고기가 미끼를 먹었어요!",
+      "missing_equipped": "%1$s%2$s 막대기가 장착되어 있지만 보관함에 더 이상 이러한 막대기가 없네요! 장착할 막대기가 재설정되었어요.",
+      "broken_drop": "%1$s막대기가 부러졌지만 고칠 수 있어요. 파손된 아이템이 있어요: %2$s *%3$s*",
       "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `~>equip <rod name>` to start your adventure!"
     },
     "softban": {
@@ -685,29 +685,8 @@
         "collectible": "%1$sThis is a collectible item. (Sell value: %2$,d credits)",
         "success": "%1$sThe market value of %2$s**%3$s** is %4$s credits to buy it and you can get %5$s credits if you sell it."
       },
-      "sell": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
-        "invalid": "%1$sNot a valid number of items to sell.",
-        "all": {
-          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? This will clear your *whole* inventory. If you wanna sell individual items please use the amount. Type *yes* to confirm and *no* to cancel",
-          "success": "%1$sYou sold all your inventory items and gained %2$,d credits!",
-          "cancelled": "%1$sCancelled successfully."
-        },
-        "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
-        "no_item_player": "%1$sYou cannot sell an item you don't have.",
-        "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
-        "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
-      },
-      "buy": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
-        "invalid": "%1$sNot a valid number of items to buy.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object.",
-        "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item."
-      },
+      "sell": "- **Sell Price:**",
+      "buy": "- **Buy Price:**",
       "header": "Mantaro's Market",
       "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info."
     },
@@ -1435,9 +1414,9 @@
     },
     "help": {
       "title": "Mantaro Help",
-      "base_category": "Command list for category %1$s. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "Command list. For a detailed guide on the usage of Mantaro, please check the [wiki, which contains detailed information about the bot](https://github.com/Mantaro/MantaroBot/wiki).\nOther guides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
-      "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://support.mantaro.site). [*Follow me on twitter for updates!*](https://twitter.com/mantarodiscord)\n",
+      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nOther guides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
       "patreon": "[**We need your help to keep Mantaro online! Click here for more info.**](https://www.patreon.com/mantaro)",
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
       "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
