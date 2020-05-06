@@ -685,29 +685,8 @@
         "collectible": "%1$sThis is a collectible item. (Sell value: %2$d credits)",
         "success": "%1$sThe market value of %2$s**%3$s** is %4$s credits to buy it and you can get %5$s credits if you sell it."
       },
-      "sell": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
-        "invalid": "%1$sNot a valid number of items to sell.",
-        "all": {
-          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? Type *yes* to confirm and *no* to cancel",
-          "success": "%1$sYou sold all your inventory items and gained %2$d credits!",
-          "cancelled": "%1$sCancelled successfully."
-        },
-        "non_existent": "%1$sYou cannot sell a non-existent item.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold.",
-        "no_item_player": "%1$sYou cannot sell an item you don't have.",
-        "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
-        "success": "%1$sYou sold %2$d **%3$s** and gained %4$d credits!"
-      },
-      "buy": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
-        "invalid": "%1$sNot a valid number of items to buy.",
-        "non_existent": "%1$sYou cannot buy an non-existent item.",
-        "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object.",
-        "success": "%1$sBought %2$d %3$s for %4$d credits successfully. You now have %5$d credits.",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item."
-      },
+      "sell": "- **Sell Price:**",
+      "buy": "- **Buy Price:**",
       "header": "Mantaro parduotuvė",
       "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info."
     },
@@ -1435,9 +1414,9 @@
     },
     "help": {
       "title": "Mantaro Pagalba",
-      "base_category": "Command list for category %1$s. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "Komandų sąrašas. Detalesniam naudojimo gidui, patikrink Mantaro [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
-      "support": "Jeigu turite kokių nors problemų ar klausimų naudojantis Mantaro, prisijunkite prie [pagalbos serverio](https://support.mantaro.site)\n",
+      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nOther guides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
       "patreon": "[Mums reikia pagalbos palaikyti Mantaro gyvą! Nuspausk čia, kad gautum daugiau informacijos.](https://www.patreon.com/mantaro)",
       "disabled_commands": "Rodomos tik neišjungtos komandos. Viso išjungtų komandų: %1$s",
       "channel_specific_disabled_commands": "Rodomos tik neišjungtos komandos. Viso kanalui išjungtų komandų: %1$s",
