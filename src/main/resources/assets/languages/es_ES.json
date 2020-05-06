@@ -685,29 +685,8 @@
         "collectible": "%1$sEste es un ítem coleccionable. (Valor de venta: %2$d créditos)",
         "success": "%1$sEl valor de %2$s**%3$s** es %4$s créditos si lo compras, y podrías obtener %5$s creditos si lo deseas vender."
       },
-      "sell": {
-        "no_item_amount": "%1$sNecesitas decirme cuantos (si es solo un ítem, no es necesario) y qué item deseas vender.",
-        "invalid": "%1$sEse no es un número valido de items para vender.",
-        "all": {
-          "confirmation": "%1$s¿Estás *seguro* que quieres vender **todos** tus items? Escribe *yes* para confirmar la venta y *no* para cancelarla.",
-          "success": "%1$sVendiste todo tu inventario y ganaste %2$d créditos!",
-          "cancelled": "%1$sCancelada correctamente."
-        },
-        "non_existent": "%1$sNo puedes vender un item inexistente.",
-        "no_sell_price": "%1$sNo puedes vender un item que no tenga valor de venta. (Pero si puedes usar `~>market dump` para tirarlo)",
-        "no_item_player": "%1$sNo puedes vender un item que no tienes.",
-        "more_items_than_player": "%1$sNo puedes vender más items de los que tienes.",
-        "success": "%1$sHas vendido %2$d **%3$s** y ganaste %4$d créditos!"
-      },
-      "buy": {
-        "no_item_amount": "%1$sNecesitas decirme cuantos (si es solo un ítem, no es necesario) y qué item deseas comprar.",
-        "invalid": "%1$sNo es un número valido de items para comprar.",
-        "non_existent": "%1$sNo puedes comprar un item inexistente.",
-        "no_buy_price": "%1$sNo puedes comprar un item que no se puede comprar.",
-        "item_limit_reached": "%1$sNo puedes comprar más items de esto!",
-        "success": "%1$sHas comprado %2$d %3$s por %4$d créditos correctamente. Ahora tienes %5$d créditos.",
-        "not_enough_money": "%1$sNo tienes dinero suficiente para comprar esto."
-      },
+      "sell": "- **Sell Price:**",
+      "buy": "- **Buy Price:**",
       "header": "La tiendita de Mantaro",
       "reference": "\nPuedes comprar y vender ítems usando `~>market buy <item>` y `~>market sell <item>`. Revisa `~>help market` para más información."
     },
@@ -1435,9 +1414,9 @@
     },
     "help": {
       "title": "Ayuda de Mantaro",
-      "base_category": "Lista de comandos para la categoría %1$s. Para una guía detallada sobre el uso de Mantaro, revisa la [wiki (en inglés)](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "Lista de comandos. Para una guía detallada de como usar Mantaro, revisa la [wiki](https://github.com/Mantaro/MantaroBot/wiki) (sólo en inglés).\n",
-      "support": "Si tienes dudas o problemas usando Mantaro, puedes pedir ayuda en el [servidor de soporte](https://support.mantaro.site). [¡Sígueme en twitter para estar en contacto!](https://twitter.com/mantarodiscord)\n",
+      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nOther guides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
       "patreon": "[¡Necesitamos tu ayuda para mantener Mantaro a flote! Clickea aquí para más info.](https://www.patreon.com/mantaro)",
       "disabled_commands": "Solo mostrando los comandos habilitados. Comandos deshabilitados: %1$s",
       "channel_specific_disabled_commands": "\nSolo mostrando los comandos habilitados. Comandos deshabilitados en este canal: %1$s",
