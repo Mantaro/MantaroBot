@@ -685,29 +685,8 @@
         "collectible": "%1$sهذا عنصر تحصيل. (قيمة البيع: %2$,d مال)",
         "success": "%1$sالقيمة السوقية ل %2$s**%3$s** هي %4$s دولار لشرائه ويمكنك الحصول على %5$s دولار إذا بعته.  "
       },
-      "sell": {
-        "no_item_amount": "%1$sتحتاج أن تحدد الكمية من هذا الغرض (اذا كان مجرد واحد، لاتحتاج لتحديد الكمية) وأيضاً الغرض الذي تبيعه. ",
-        "invalid": "%1$sرقم غير صحيح للأغراض المراد بيعها.",
-        "all": {
-          "confirmation": "%1$sهل أنت *متأكد* تريد بيع **جميع** أغراضك؟ سيتم مسح جميع مخزونك. إذا أردت بيع بنود فردية أرجو إستخدام الكمية. اكتب *yes* للتأكيد و *no* للإلغاء. ",
-          "success": "%1$sلقد بعت جميع مخزونك وحصلت على %2$,d مال!",
-          "cancelled": "%1$sتم الإلغاء بنجاح. "
-        },
-        "non_existent": "%1$sلايمكن بيع غرض غير موجود! إذا كنت ضائع، يمكنك كتابة الإسم المُختصر أو ضعه في \"اقتباسات\" ",
-        "no_sell_price": "%1$sلايمكنك بيع غرض لايُمكن بيعه. (ولكن يمكنك رميه، إستخدم `~>market dump` )",
-        "no_item_player": "%1$sلايمكنك بيع غرض لاتملكه! ",
-        "more_items_than_player": "%1$sلايمكنك بيع غرض أكثر مما تملك!",
-        "success": "%1$sلقد بعت %2$,d **%3$s** وحصلت على %4$,d مال!"
-      },
-      "buy": {
-        "no_item_amount": "%1$sتحتاج أن تحدد الكمية من هذا الغرض (اذا كان مجرد واحد، لاتحتاج لتحديد الكمية) وأيضاً الغرض الذي تريد شرائه. ",
-        "invalid": "%1$sرقم غير صحيح للأغراض المراد شرائها.",
-        "non_existent": "%1$sلايمكن شراء غرض غير موجود! إذا كنت ضائع، يمكنك كتابة الإسم المُختصر أو ضعه في \"اقتباسات\" ",
-        "no_buy_price": "%1$sلايمكنك شراء غرض لايمكن شرائه!",
-        "item_limit_reached": "%1$sلايمكنك شراء المزيد من هذا الغرض. ",
-        "success": "%1$sتم بنجاح شراء %2$,d %3$s ب %4$,d مال. أنت الآن تملك %5$,d مال. ",
-        "not_enough_money": "%1$sلاتملك المال الكافي لشراء هذا الغرض! "
-      },
+      "sell": "- **Sell Price:**",
+      "buy": "- **Buy Price:**",
       "header": "سوق مونتارو ",
       "reference": "يمكنك شراء و بيع غرض بإستخدام `~>market buy <item>` و `~>market sell <item>`. تحقق من  `~>help market` للمزيد من المعلومات.\n"
     },
@@ -1435,9 +1414,9 @@
     },
     "help": {
       "title": "Mantaro Help",
-      "base_category": "Command list for category %1$s. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "Command list. For a detailed guide on the usage of Mantaro, please check the [wiki, which contains detailed information about the bot](https://github.com/Mantaro/MantaroBot/wiki).\nOther guides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
-      "support": "If you have issues or inquiries while using Mantaro, please join the [support server](https://support.mantaro.site). [*Follow me on twitter for updates!*](https://twitter.com/mantarodiscord)\n",
+      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nOther guides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
       "patreon": "[**We need your help to keep Mantaro online! Click here for more info.**](https://www.patreon.com/mantaro)",
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
       "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
