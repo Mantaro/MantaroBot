@@ -24,7 +24,6 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -51,8 +50,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import java.awt.*;
 import java.util.List;
 import java.util.*;
@@ -66,6 +63,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 public class OwnerCmd {
     private static final String JAVA_EVAL_IMPORTS = "" +
             "import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;\n" +
+            "import net.kodehawa.mantarobot.core.modules.commands.base.Context;\n" +
             "import net.kodehawa.mantarobot.*;\n" +
             "import net.kodehawa.mantarobot.core.listeners.operations.*;\n" +
             "import net.kodehawa.mantarobot.data.*;\n" +
@@ -348,38 +346,13 @@ public class OwnerCmd {
         JavaEvaluator javaEvaluator = new JavaEvaluator();
 
         Map<String, Evaluator> evals = new HashMap<>();
-        evals.put("js", (event, code) -> {
-            ScriptEngine script = new ScriptEngineManager().getEngineByName("nashorn");
-            script.put("mantaro", MantaroBot.getInstance());
-            script.put("db", MantaroData.db());
-            script.put("jda", event.getJDA());
-            script.put("event", event);
-            script.put("guild", event.getGuild());
-            script.put("channel", event.getChannel());
-
-            try {
-                return script.eval(String.join(
-                        "\n",
-                        "load(\"nashorn:mozilla_compat.js\");",
-                        "imports = new JavaImporter(java.util, java.io, java.net);",
-                        "(function() {",
-                        "with(imports) {",
-                        code,
-                        "}",
-                        "})()"
-                ));
-            } catch (Exception e) {
-                return e;
-            }
-        });
-
-        evals.put("java", (event, code) -> {
+        evals.put("java", (ctx, code) -> {
             try {
                 CompilationResult r = javaEvaluator.compile()
                         .addCompilerOptions("-Xlint:unchecked")
                         .source("Eval", JAVA_EVAL_IMPORTS + "\n\n" +
                                 "public class Eval {\n" +
-                                "   public static Object run(GuildMessageReceivedEvent event) throws Throwable {\n" +
+                                "   public static Object run(Context ctx) throws Throwable {\n" +
                                 "       try {\n" +
                                 "           return null;\n" +
                                 "       } finally {\n" +
@@ -389,10 +362,11 @@ public class OwnerCmd {
                                 "}"
                         )
                         .execute();
+
                 EvalClassLoader ecl = new EvalClassLoader();
                 r.getClasses().forEach((name, bytes) -> ecl.define(bytes));
 
-                return ecl.loadClass("Eval").getMethod("run", GuildMessageReceivedEvent.class).invoke(null, event);
+                return ecl.loadClass("Eval").getMethod("run", Context.class).invoke(null, ctx);
             } catch (CompilationException e) {
                 StringBuilder sb = new StringBuilder("\n");
 
@@ -431,7 +405,7 @@ public class OwnerCmd {
 
                 String v = values[1];
 
-                Object result = evaluator.eval(ctx.getEvent(), v);
+                Object result = evaluator.eval(ctx, v);
                 boolean errored = result instanceof Throwable;
 
                 ctx.send(new EmbedBuilder()
@@ -575,7 +549,7 @@ public class OwnerCmd {
     }
 
     private interface Evaluator {
-        Object eval(GuildMessageReceivedEvent event, String code);
+        Object eval(Context ctx, String code);
     }
 
     private static class EvalClassLoader extends ClassLoader {
