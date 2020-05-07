@@ -198,8 +198,8 @@ public class MantaroCore {
                             listener
                     )
                     .addEventListenerProviders(List.of(
-                            id -> new CommandListener(id, commandProcessor, threadPool, getShard(id).getMessageCache()),
-                            id -> new MantaroListener(id, threadPool, getShard(id).getMessageCache()),
+                            id -> new CommandListener(commandProcessor, threadPool, getShard(id).getMessageCache()),
+                            id -> new MantaroListener(threadPool, getShard(id).getMessageCache()),
                             id -> getShard(id).getListener()
                     ))
                     .setEventManagerProvider(id -> getShard(id).getManager())

@@ -59,13 +59,11 @@ public class CommandListener implements EventListener {
     //Commands ran this session.
     private static int commandTotal = 0;
     private final Random random = new Random();
-    private final int shardId;
     private final ICommandProcessor commandProcessor;
     private final ExecutorService threadPool;
     private final Cache<Long, Optional<CachedMessage>> messageCache;
 
-    public CommandListener(int shardId, ICommandProcessor processor, ExecutorService threadPool, Cache<Long, Optional<CachedMessage>> messageCache) {
-        this.shardId = shardId;
+    public CommandListener(ICommandProcessor processor, ExecutorService threadPool, Cache<Long, Optional<CachedMessage>> messageCache) {
         this.commandProcessor = processor;
         this.threadPool = threadPool;
         this.messageCache = messageCache;

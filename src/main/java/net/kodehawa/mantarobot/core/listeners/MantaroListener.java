@@ -124,18 +124,16 @@ public class MantaroListener implements EventListener {
     private final ManagedDatabase db = MantaroData.db();
     private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
     private final SecureRandom rand = new SecureRandom();
-    private final int shardId;
     private final ExecutorService threadPool;
     private final Cache<Long, Optional<CachedMessage>> messageCache;
 
-    private Pattern modifierPattern = Pattern.compile("\\b\\p{L}*:\\b");
+    private final Pattern modifierPattern = Pattern.compile("\\b\\p{L}*:\\b");
 
     //Channels we could send the greet message to.
-    private List<String> channelNames = List.of("general", "general-chat", "chat", "lounge", "main-chat", "main");
-    private Config config = MantaroData.config().get();
+    private final List<String> channelNames = List.of("general", "general-chat", "chat", "lounge", "main-chat", "main");
+    private final Config config = MantaroData.config().get();
 
-    public MantaroListener(int shardId, ExecutorService threadPool, Cache<Long, Optional<CachedMessage>> messageCache) {
-        this.shardId = shardId;
+    public MantaroListener(ExecutorService threadPool, Cache<Long, Optional<CachedMessage>> messageCache) {
         this.threadPool = threadPool;
         this.messageCache = messageCache;
     }
@@ -207,6 +205,8 @@ public class MantaroListener implements EventListener {
             return;
         }
 
+        MantaroBot instance = MantaroBot.getInstance();
+
         //Internal events
         if (event instanceof GuildJoinEvent) {
             GuildJoinEvent e = (GuildJoinEvent) event;
@@ -216,8 +216,8 @@ public class MantaroListener implements EventListener {
             onJoin(e);
 
             if (MantaroCore.hasLoadedCompletely()) {
-                guildCount.set(MantaroBot.getInstance().getShardManager().getGuildCache().size());
-                userCount.set(MantaroBot.getInstance().getShardManager().getUserCache().size());
+                guildCount.set(instance.getShardManager().getGuildCache().size());
+                userCount.set(instance.getShardManager().getUserCache().size());
             }
 
             return;
@@ -227,11 +227,11 @@ public class MantaroListener implements EventListener {
             onLeave((GuildLeaveEvent) event);
 
             //Destroy this link.
-            MantaroBot.getInstance().getLavaLink().getLink(((GuildLeaveEvent) event).getGuild()).destroy();
+            instance.getLavaLink().getLink(((GuildLeaveEvent) event).getGuild()).destroy();
 
             if (MantaroCore.hasLoadedCompletely()) {
-                guildCount.set(MantaroBot.getInstance().getShardManager().getGuildCache().size());
-                userCount.set(MantaroBot.getInstance().getShardManager().getUserCache().size());
+                guildCount.set(instance.getShardManager().getGuildCache().size());
+                userCount.set(instance.getShardManager().getUserCache().size());
             }
 
             return;
