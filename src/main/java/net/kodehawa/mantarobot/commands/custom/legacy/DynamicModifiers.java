@@ -135,6 +135,15 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
                 .set(prefix, "mention", channel.getAsMention());
     }
 
+    public DynamicModifiers mapFromJoinLeave(String prefix, TextChannel channel, User user, Guild guild) {
+        return this
+                .set(prefix, user.getName() + "@" + guild.getName())
+                .mapGuild(k(prefix, "guild"), guild)
+                .mapMember(k(prefix, "me"), guild.getSelfMember())
+                .mapUser(k(prefix, "user"), user)
+                .mapChannel("channel", channel);
+    }
+
     public DynamicModifiers set(String key, String value) {
         if (!containsKey(key))
             put(key, value);
