@@ -154,7 +154,7 @@
     "softban": {
       "no_permission": "%1$s소프트 차단을 할 수 없어요: 멤버 차단 권한이 없네요.",
       "no_permission_self": "%1$s죄송해요! 제가 이 서버의 멤버를 차단할 수 있는 권한이 없네요.",
-      "no_users": "%1$s소프트 차단을 사용할 유저를 줘야 해요.",
+      "no_users": "%1$s소프트 차단을 사용할 유저를 알려주셔야 해요.",
       "hierarchy_conflict": "%1$s당신보다 높은 위치에 있어 사용자를 소프트 차단을 할 수 없어요.",
       "yourself_note": "%1$s왜 자신을 소프트 차단을 하려고 하나요?",
       "self_hierarchy_conflict": "%1$s멤버를 차단할 수 없어요: %2$s이(가) 저보다 높거나 같은 위치에요!",
@@ -175,9 +175,9 @@
       "unknown_error": "%1$sHuh, I encountered an unknown error while banning %2$s"
     },
     "kick": {
-      "no_permission": "%1$sCannot kick: You have no Kick Members permission.",
-      "no_users": "%1$sYou need to give me a user to kick.",
-      "no_permission_self": "%1$sSorry! I don't have permission to kick members in this server.",
+      "no_permission": "%1$s추방할 수 없어요: 멤버 추방 권한이 없네요.",
+      "no_users": "%1$s추방할 사용자를 알려주셔야 해요.",
+      "no_permission_self": "%1$s죄송해요! 제가 이 서버의 멤버를 추방할 수 있는 권한이 없네요.",
       "hierarchy_conflict": "%1$sYou cannot kick an user in a higher hierarchy than you",
       "yourself_note": "%1$s왜 자신을 추방하려고 하는 거죠, 바보인가요?",
       "self_hierarchy_conflict": "%1$sCannot kick member: %2$s, they are higher or the same hierarchy than I am!",
