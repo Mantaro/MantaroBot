@@ -1,6 +1,6 @@
 {
   "general": {
-    "invalid_number": "%1$s올바른 숫자가 아니에요!",
+    "invalid_number": "%1$s올바른 숫자가 아니예요!",
     "requested_by": "%1$s님이 요청했어요.",
     "operation_timed_out": "%1$s이 작업에 대한 답변의 시간이 지났어요.",
     "too_many_users_found": "%1$s너무 많은 사용자를 찾았는데 검색을 개선해 주실 수 있나요? (ex. example#0000)\n**유저 찾음:** %2$s",
@@ -78,7 +78,7 @@
     "boom_quotes": [
       "메구밍이 우리성을 폭발 시킨 것처럼 보이네요..",
       "으어, 보아하니 저의 주인은 바닥에 있는 0과 1을 잊었어요 :<",
-      "자..잠깐, 무슨일이예요?",
+      "자..잠깐, 무슨일이에요?",
       "ㅈ..제 생각엔 여기 불이 좀 난 것 같아요... 제 주인님께 한 번 보라고 말씀하시는 게 좋을 것 같아요.",
       "폭렬 마법을 터득했다고, 보이지?",
       "뭔가 잘못됐을 수도 있지만, ㅇ..어, 제가 고칠 수 있어요!",
@@ -155,9 +155,9 @@
       "no_permission": "%1$s소프트 차단을 할 수 없어요: 멤버 차단 권한이 없네요.",
       "no_permission_self": "%1$s죄송해요! 제가 이 서버의 멤버를 차단할 수 있는 권한이 없네요.",
       "no_users": "%1$s소프트 차단을 사용할 유저를 알려주셔야 해요.",
-      "hierarchy_conflict": "%1$s당신보다 높은 위치에 있어 사용자를 소프트 차단을 할 수 없어요.",
+      "hierarchy_conflict": "%1$s당신보다 높은 위치에 있어 사용자를 소프트 차단을 할 수 없어요",
       "yourself_note": "%1$s왜 자신을 소프트 차단을 하려고 하나요?",
-      "self_hierarchy_conflict": "%1$s멤버를 차단할 수 없어요: %2$s이(가) 저보다 높거나 같은 위치에요!",
+      "self_hierarchy_conflict": "%1$s멤버를 차단할 수 없어요: %2$s님이 저보다 높거나 같은 위치예요!",
       "success": "%1$s%2$s. **(%3$s님이 소프트 차단됨)**",
       "error": "%1$s[%2$s] 소프트 차단 중 오류가 발생했어요: (사용 권한이 제공되지 않았네요: %3$s)",
       "unknown_error": "%1$s%2$s을(를) 소프트 차단하는 동안 알 수 없는 오류가 발생했어요: *(오류? %3$s: %4$s)*"
@@ -168,7 +168,7 @@
       "no_permission_self": "%1$s죄송해요! 제가 이 서버의 멤버을 차단할 수 있는 권한이 없네요.",
       "hierarchy_conflict": "%1$s서버 위치에서 자신보다 높은 사용자를 차단할 수 없어요! 좋은 시도예요 %2$s",
       "yourself_note": "%1$s왜 자신을 차단하려고 하는 거죠, 바보인가요?",
-      "self_hierarchy_conflict": "%1$s멤버을 차단할 수 없어요: %2$s이(가) 저보다 높거나 같은 위치에요!",
+      "self_hierarchy_conflict": "%1$s멤버을 차단할 수 없어요: %2$s님이 저보다 높거나 같은 위치예요!",
       "success": "%1$s%2$s (%3$s님이 소프트 차단됨)",
       "success_multiple": "%1$s%2$s (%3$명 소프트 차단됨)",
       "error": "%1$sError banning %2$s: (I need the permission %3$s)",
@@ -178,270 +178,270 @@
       "no_permission": "%1$s추방할 수 없어요: 멤버 추방 권한이 없네요.",
       "no_users": "%1$s추방할 사용자를 알려주셔야 해요.",
       "no_permission_self": "%1$s죄송해요! 제가 이 서버의 멤버를 추방할 수 있는 권한이 없네요.",
-      "hierarchy_conflict": "%1$sYou cannot kick an user in a higher hierarchy than you",
+      "hierarchy_conflict": "%1$s당신보다 높은 위치에 있어 사용자를 추방을 할 수 없어요",
       "yourself_note": "%1$s왜 자신을 추방하려고 하는 거죠, 바보인가요?",
-      "self_hierarchy_conflict": "%1$sCannot kick member: %2$s, they are higher or the same hierarchy than I am!",
-      "success": "%1$s%2$s (%3$s got kicked)",
-      "error": "%1$sError kicking %2$s: (No permission provided: %3$s)",
-      "unknown_error": "%1$sUnknown error while attempting to kick %2$s"
+      "self_hierarchy_conflict": "%1$s멤버을 추방할 수 없어요: %2$s님이 저보다 높거나 같은 위치예요!",
+      "success": "%1$s%2$s (%3$s님이 추방됨)",
+      "error": "%1$s%2$s 추방 중 오류가 발생했어요. (사용 권한이 제공되지 않았어요: %3$s)",
+      "unknown_error": "%1$s%2$s님을 추방하는 동안 알 수 없는 오류가 발생했어요"
     },
     "tempban": {
-      "no_time": "%1$sYou cannot temp ban a user without giving me the time.",
-      "no_reason": "%2$sYou cannot temp ban someone without a reason.",
-      "success": "%1$s%2$s (%3$s got temporally banned)"
+      "no_time": "%1$s시간을 알려주지 않고 사용자를 임시로 차단할 수 없습니다.",
+      "no_reason": "%2$s이유 없이 누군가를 임시로 차단할 수는 없습니다.",
+      "success": "%1$s%2$s (%3$s님이 임시 차단됨)"
     },
     "music_usage": {
-      "1": "*How to use music in Mantaro?*",
-      "2": "- To **queue songs from youtube or soundcloud** use `~>play` For example: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
-      "3": "- To **search for a song on youtube** use `~>play <search term>` (without the leading < and >) For example: `~>play see you again` (You need to select the number, just *type the number* after the selection box pops up!)",
-      "4": "- To **search for a song on soundcloud** use `~>play soundcloud <search term>` For example `~>play soundcloud hot milk`",
-      "5": "- To **check the queue** you just type `~>queue`",
-      "6": "- To **remove a track from the queue** you just need to use `~>removetrack` It takes as an argument the position the song is queued at (you can check in on queue)",
-      "7": "- To **pause or unpause** just use `~>pause`",
-      "8": "- To **stop the music and unbind the player** use `~>stop`",
-      "9": "- To **shuffle the queue** just use `~>shuffle`",
-      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeat queue`. Using `~>repeat` while repeat is on, turns it off\n",
-      "11": "For more info please use `~>help <command name>` (without the <> and replace command name with the name of the command you want)",
-      "12": "Enjoy your music and thanks for using Mantaro!"
+      "1": "*만타로(Mantaro)에서 음악을 어떻게 사용하나요?*",
+      "2": "- **대기열 음악은 YouTube 또는 SoundCloud에서 가져와요** `~>play`를 사용하세요 예시: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *사용 중인 음성 채널에 자동으로 연결되요*",
+      "3": "- **YouTube에서 음악을 검색해 가져와요** `~>play <검색할 용어>` ( < , > 없이) 예시:  `~>play see you again` (선택 상자가 나타나면 *숫자*를 입력하세요!)",
+      "4": "- **SoundCloud에서 음악을 검색하여** 가져와요 `~>play soundcloud <검색할 용어>`를 사용하세요 예시: `~>play soundcloud hot milk`",
+      "5": "- **대기열을 확인**하려면 `~>queue`를 입력하세요",
+      "6": "- **대기열에서 트랙을 제거**하려면 `~>removetrack`을 사용하면 되요 노래가 대기 중인 위치(대기열에서 확인할 수 있음)를 인수로 삼아요",
+      "7": "- **일시 중지 또는 일시 중지 해제**는 `~>pause`를 사용하세요",
+      "8": "- **음악을 멈추고 플레이어 언바인(unbind)**하려면 `~>stop`을 사용하세요",
+      "9": "- 대기열을 **섞으려면** `~>shuffle`만 사용하세요",
+      "10": "- 마지막으로 **노래 반복**은 `~>repeat`을 사용하고 **대기열 반복**는 `~>repeat queue`을 사용하세요. 반복이 켜져 있는 동안`~>repeat`'을 사용하면 꺼져요",
+      "11": "자세한 내용은`~>help <명령어 이름>`을 사용하세요. ( <> 없이 명령어 이름을 원하는 명령어로 바꾸세요)",
+      "12": "음악을 즐기시고 만타로(Mantaro)를 이용해 주셔서 감사해요!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `~>profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$s`~>opts language set <언어 코드>`를 사용하여 서버 언어(해당하는 경우)를 변경할 수 있어요. 개인 언어 환경 설정은 `~>profile lang <언어 코드>`를 사용하여 변경할 수 있어요.\n**지원하는 언어:** `%2$s`\n언어가 여기에 없고 도움이 필요하면 언제든지 고객 지원 서버에 가입하고 번역 작업에 참여하세요!"
     },
     "season": {
-      "info": "A *season* is the span of time, of usually 6 months where players compete for the top 10 slots on the money or reputation leaderboard. The winners will get badges and prizes based on their seasonal performance.\nThis is to allow a more competitive frame (before, money was pretty much stale) and to make the game a bit more fun.\nYou can access seasonal stuff using `-season`. Commands like profile, mine, fish and balance will require it, while games, loot, daily and reputation will give money/rep to both your global and seasonal profile.",
-      "info_2": "\n\nThe current season is **%1$s** and **%2$s** players are currently taking part on it!\n\nThe fun begins, check `~>leaderboard money -season`; `~>leaderboard rep -season` and `~>leaderboard games -season`.\nGame on! <3\nThanks for enjoying Mantaro."
+      "info": "*시즌*은 보통 6개월의 기간으로, 플레이어가 상금 또는 평판 순위표 상위 10개 슬롯을 놓고 경쟁합니다. 수상자들은 시즌 성적에 따라 배지와 경품을 받게 되요.\n이는 좀 더 경쟁적인 프레임을 허용하고(이전에는 돈이 꽤 오래었어요) 게임을 좀 더 재미있게 만들기 위해서예요.\n시즌은 `~season`을 이용해 볼 수 있어요. 프로필, 광물, 생선 그리고 벨런스와 같은 명령어들이 필요로 할 것이고, 게임, 약탈, 일상, 평판은 전세계적인 시즌 프로필은 돈과 명성을 줄 거예요.",
+      "info_2": "\n\n현재 시즌은 **%1$s**이고 플레이어 **%2$s*명이 현재 참가 중이에요!\n\n시작은 '~>leaderboard money -season', `~>leaderboard rep -season`, `~>leaderboard games -season`이에요.\n게임 중! <3\n만타로(Mantaro)를 즐겨주셔서 감사합니다."
     },
     "music_general": {
       "music_error": {
-        "timeout": "%1$sUnable to connect to %2$s: connection timed out. Try changing the server region and running the command again.",
-        "unknown": "%1$sUnable to connect to %2$s: unknown error"
+        "timeout": "%1$s%2$s에 연결할 수 없어요: 연결 시간이 초과되었어요. 서버 영역을 변경하고 명령을 다시 실행할게요.",
+        "unknown": "%1$s%2$s에 연결할 수 없어요: 알 수 없는 오류"
       },
-      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`~>play soundcloud <search term>)`",
-      "no_song": "%1$sYou need to tell me what song you want to play! *(YouTube, Soundcloud, Twitch URL or search queries are allowed)*",
-      "not_playing": "%1$sI'm not currently playing anything. If you believe this is an error, please report this at <https://support.mantaro.site>",
-      "dj_only": "%1$sYou need to be a DJ to use this command.",
-      "enjoy_note": "Enjoy the music! <3",
-      "no_player": "%1$sI cannot find any music player here... (try playing something again?)",
-      "not_connected": "%1$sYou aren't connected to the voice channel I'm currently playing in! (If you believe this is an error, please report this at <https://support.mantaro.site>)",
-      "np_message": "%1$s Now playing **%2$s** (%3$s) on **%4$s** | %5$s",
-      "track_error": "%1$sOuch, something went wrong while playing this track! Sorry for the inconveniences, I'll try to play the next one available if there is one.",
-      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it. If you need help with the bot, you can join <https://support.mantaro.site>\n%2$s",
-      "soundcloud_no_args": "%1$sYou need to give me the song name, I'm not a magician so I can't guess it :(",
-      "too_many_errors": "%1$sToo many errors on this session, stopping...",
-      "no_vc_found": "%1$sI'm not connected to any VC even though I should be? Try again.",
+      "not_working": "%1$s현재 YouTube에서 대부분의 대형 봇의 트래픽을 차단하여 음악이 작동하지 않아요. 저희 Patreon 봇은 아직 작동 중이므로, 만타로(Mantaro)에 매달 $4를 한 번 기부해 보시기 바라요. 또한 우리가 음악 전체를 고치는 쪽으로 우리의 노력을 돌리는 데 도움이 될 거예요.\n\n불편을 드려 죄송해요. SoundCloud 검색을 사용해 보세요! (`~>play soundcloud <검색할 용어>)`",
+      "no_song": "%1$s어떤 노래를 틀고 싶은지 말해주세요! *(YouTube, SoundCloud, Twick URL 또는 검색 쿼리 허용)*",
+      "not_playing": "%1$s저는 지금 아무 것도 플레이하고 있지 않아요. 만약 이것이 오류라고 생각하신다면,<https://support.mantaro.site>에 신고해주세요",
+      "dj_only": "%1$s이 명령을 사용하려면 DJ가 되어야 해요.",
+      "enjoy_note": "음악을 즐기세요! <3",
+      "no_player": "%1$s여기에서 어떠한 음악 플레이어도 찾을 수 없네요... (다시 한 번 플레이 해보실 수 있나요?)",
+      "not_connected": "%1$s현재 재생 중인 음성 채널에 연결되어 있지 않네요!(오류라고 생각되면 <https://support.mantaro.site>에 신고해주세요)",
+      "np_message": "%1$s현재 **%4$s** | %5$s에서 **%2$s** (%3$s)이 재생 중이에요.",
+      "track_error": "%1$s이런, 이 트랙을 연주하는 동안 뭔가 잘못됐어요! 불편을 끼쳐드려 죄송해요, 다음 곡이 있으면 재생해 볼게요.",
+      "queue_finished": "%1$s현재 대기열 재생을 마쳤어요! 즐거웠기를 바라요. 봇에 대한 도움이 필요하면 <https://support.mantaro.site>에 참가할 수 있어요\n%2$s",
+      "soundcloud_no_args": "%1$s노래 이름을 알려줘야죠, 난 마법사가 아니니까 짐작이 안 가요 ㅠㅠ",
+      "too_many_errors": "%1$s이 세션에 오류가 너무 많아요. 멈추는 중...",
+      "no_vc_found": "%1$s제가 음성 채널에 연결이 되야 하는데 음성 채널와 연결이 안 되는 건가요? 다시 해보세요.",
       "queue": {
-        "no_track_found_np": "Nothing or title/duration not found",
-        "header": "Queue for server %1$s",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`.",
-        "nothing_playing_2": "**If there is a song playing and you didn't add more songs, then there is actually just dust here. You can queue more songs as you desire!**",
-        "np": "Currently playing",
-        "page_overflow": "Nothing here, just dust. Why don't you go back some pages?",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`.",
-        "total_queue_time": "Total queue time",
-        "total_size": "Total queue size",
-        "togglers": "Repeat / Pause",
-        "playing_in": "Playing in",
-        "footer": "Total pages: %1$d%2$s. Currently in page %3$d",
-        "multiple_pages": " -> Use ~>queue <page> to change pages",
-        "page_react": " -> React to change pages",
-        "no_channel": "No channel :(",
-        "songs": "song(s)",
-        "clear_error": "%1$sEither you're not connected to the VC or you're not the DJ.",
-        "clear_success": "%1$sSuccessfully cleared the current queue. The queue size was %2$s"
+        "no_track_found_np": "아우 것도 없거나 제목/지속 시간도 찾을 수 없네요",
+        "header": "%1$s서버 대기열",
+        "nothing_playing": "여긴 아무것도 없어요, 그냥 먼지뿐이에요. 몇 노래가 대기열에 없나요?\n여기에 노래가 있다고 생각하는데 안 나온다면 `~queue 1`을 사용해 보세요.",
+        "nothing_playing_2": "**노래 한 곡이 재생되고 더 많은 노래를 추가하지 않았다면, 여기엔 사실 먼지가 있을 뿐이에요. 원하는 대로 더 많은 노래를 대기열에 넣을 수 있어요!**",
+        "np": "현재 플레이 중 -",
+        "page_overflow": "여긴 아무것도 없어요, 그냥 먼지뿐이에요. 몇 페이지 뒤로 가보는 게 어때요?",
+        "page_overflow_2": "여기에 노래가 있다고 생각하는데 안 나온다면 `~>queue 1`을 사용해 보세요.",
+        "total_queue_time": "총 대기열 시간",
+        "total_size": "총 대기열 크기",
+        "togglers": "반복 / 일시 중지",
+        "playing_in": "재생 중 - ",
+        "footer": "총 페이지: %1$d%2$s. 현재 페이지 %3$d",
+        "multiple_pages": " -> ~>queue <페이지>를 사용해서 페이지를 바꾸세요",
+        "page_react": " -> 페이지 변경을 반응으로 합니다",
+        "no_channel": "채널 없음 ㅠㅠ",
+        "songs": "음악",
+        "clear_error": "%1$s음성 채널에 연결되어 있지 않거나 DJ가 아니예요.",
+        "clear_success": "%1$s성공적으로 현재 대기열을 지웠어요. 대기열 크기는 %2$s 이에요"
       },
       "connect": {
-        "success": "%1$sSuccessfully connected to channel **%2$s**!",
-        "full_channel": "%1$sI can't connect to that channel because it is full!",
-        "non_existent_channel": "%1$sI received a non-existent channel as response. If you set a voice channel and then deleted it, that might be the cause.\n We reset your music channel for you, try to play the music again.",
-        "user_no_vc": "%1$s**Please join a voice channel**",
-        "missing_permissions_connect": "%1$sI cannot connect to this channel due to the lack of permissions (%2$s).",
-        "missing_permission_speak": "%1$sI cannot speak in this channel due to the lack of permissions (%2$s).",
-        "channel_locked": "%1$sI can only play music on channel **%2$s**.",
-        "already_connected": "%1$sI'm already connected on channel **%2$s**! (Use the `move` command to move me to another channel)",
-        "attempting_to_connect": "%1$sI'm already trying to connect to channel **%2$s**! (Use the `move` command to move me to another channel)"
+        "success": "%1$s성공적으로 **%2$s** 채널에 연결했어요!",
+        "full_channel": "%1$s채널이 꽉 차서 제가 연결이 안 돼요!",
+        "non_existent_channel": "%1$s존재하지 않는 채널을 응답으로 받았어요. 음성 채널을 설정한 다음 삭제하면 그 원인이 될 수 있어요.\n 음악 채널을 다시 설정했어요. 음악을 재생해 보세요.",
+        "user_no_vc": "%1$s**음성 채널에 들어와주세요**",
+        "missing_permissions_connect": "%1$s권한이 부족해서 이 채널에 연결할 수 없어요 (%2$s).",
+        "missing_permission_speak": "%1$s권한이 부족해서 이 채널에서 말할 수 없어요 (%2$s).",
+        "channel_locked": "%1$s**%2$s**에서만 오직 음악을 재생할 수 있어요.",
+        "already_connected": "%1$s**%2$s**채널에 이미 접속했어요! (`move` 명령어를 사용해서 다른 채널로 이동 시켜주세요)",
+        "attempting_to_connect": "%1$s**%2$s**채널에 이미 접속을 시도했어요! (`move` 명령어를 사용해서 다른 채널로 이동 시켜주세요)"
       },
       "listener": {
-        "paused": "%1$sPausing player because I got muted :(",
-        "resumed": "%1$sResuming playback because someone joined!",
-        "left_alone": "%1$sI'll leave **%2$s** in 2 minutes because I was left all alone :(",
-        "leave": "%1$sI decided to leave **%2$s** because I was left all alone :("
+        "paused": "%1$s제가 음소거 되었기 때문에 플레이어를 멈추는 중이에요 ㅠㅠ",
+        "resumed": "%1$s다른 사용자가 참여했기 때문에 재생을 다시 시작하고 있어요!",
+        "left_alone": "%1$s혼자 남겨졌으니까 **%2$s**을(를) 2분 뒤에 떠날거예요 ㅠㅠ",
+        "leave": "%1$s혼자 남겨졌으니까 **%2$s**을(를) 떠나기로 결정했어요 ㅠㅠ"
       },
       "loader": {
-        "over_limit": "%1$sThe queue you added had more than %2$d songs, so we added songs until this limit and ignored the rest.",
-        "loaded_playlist": "%1$sAdded **%2$d songs** to queue on playlist: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`~>play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.",
-        "error_loading": "%1$sError while fetching music: %2$s",
-        "over_queue_limit": "%1$sCould not queue %2$s: Surpassed queue song limit (%3$s)!",
-        "over_32_minutes": "%1$sCould not queue %2$s: Track is longer than 32 minutes! (%3$s)",
-        "fair_queue_limit_reached": "%1$s**Surpassed fair queue level of %2$d (Too many songs which are exactly equal)**",
-        "loaded_song": "%1$sAdded to queue -> **%2$s** **(%3$s)**",
-        "selection_text": "Song selection. Type the song number to continue.",
-        "timeout_text": "This timeouts in 30 seconds. Type &cancel to cancel."
+        "over_limit": "%1$s대기열에 %2$d 이상의 노래를 추가했어요, 그래서 이 제안까지 노래를 추가하고 나머지는 무시할게요.",
+        "loaded_playlist": "%1$s**%2$d개 음악** 재생목록을 대기열에 추가했어요: **%3$s** *(%4$s)*",
+        "no_matches": "%1$s검색 결과는 나오지 않았어요. 만약 *모든 노래*의 검색이 이 메시지가 표시된다면, 그 대신 동안 `~>play soundcloud <검색 술어>`를 사용해는 것이 좋아요. YouTube에 대한 직접적인 링크도 작동해요.",
+        "error_loading": "%1$s음악을 가져오는 동안 오류가 발생했어요: %2$s",
+        "over_queue_limit": "%1$s%2$s을(를) 대기열에 넣을 수 없어요: 대기열 노래 한도(%3$s개)를 초과했어요!",
+        "over_32_minutes": "%1$s%2$s을(를) 대기열에 넣을 수 없어요: 트랙이 32분보다 길어요! (%3$s)",
+        "fair_queue_limit_reached": "%1$s**공정한 대기열 %2$d 레벨을 초과했어요 (정확히 동일한 노래가 너무 많아요)**",
+        "loaded_song": "%1$s대기열에 추가했어요 -> **%2$s** **(%3$s)**",
+        "selection_text": "노래를 선택하세요. 음악 번호를 입력해서 계속하세요.",
+        "timeout_text": "30초 후에 타임아웃되요. 취소하려면 &cancel을 입력하세요."
       },
-      "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)",
-      "closed_connection": "%1$sClosed audio connection, unbinding player..."
+      "premium_beg": "%1$s저를 좋아하신다면 <https://patreon.com/mantaro>에 기부하는 것을 고려해 보세요, 작은 기부라도 봇의 살리는데 도움이 될 거예요.(자세한 정보는`~>donate`를 참고하세요!).",
+      "closed_connection": "%1$s오디오 연결을 멈추고 플레이어를 언바인딩합니다..."
     },
     "forceskip": {
-      "success": "%1$sAn admin or Bot Commander decided to skip this song."
+      "success": "%1$s관리자 또는 봇 관리자가 이 노래를 건너뛰기로 했어요."
     },
     "np": {
-      "no_track": "%1$sThere either isn't track playing or we cannot seem to find it, try playing a song",
-      "header": "Now Playing"
+      "no_track": "%1$s트랙 재생이 없거나 찾을 수 없는 것 같아요. 노래를 재생해보세요",
+      "header": "지금 재생 중"
     },
     "pause": {
-      "paused": "Player paused. *(Player was un-paused previously)*",
-      "unpaused": "Player un-paused *(Player was paused previously)*."
+      "paused": "플레이어 일시 중지 *(이전에 플레이어가 일시 중지되지 않았어요)*.",
+      "unpaused": "플레이어 일시 중지 해제 *(이전에 플레이어가 일시 중지되었었어요)*."
     },
     "rewind": {
-      "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
-      "negative": "%1$sPositive integers only",
-      "before_beginning": "%1$sYou can't skip to before the beginning of a song",
-      "success": "%1$sRewound song to: %2$s."
+      "no_time": "%1$s얼마나 노래를 되감고 싶은지 말해주세요. *(예사: `~>rewind 1m45s`는 1분 45초를 되감아요)*",
+      "negative": "%1$s양의 정수만 사용할 수 있어요",
+      "before_beginning": "%1$s노래를 시작 전으로 건너뛸 수 없어요",
+      "success": "%1$s노래 되감음 : %2$s."
     },
     "restartsong": {
-      "success": "%1$sRestarted current song."
+      "success": "%1$s현재 음악을 다시 시작했어요."
     },
     "skipahead": {
-      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `~>skipahead 1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
-      "past_duration": "%1$sYou can't skip past the duration of a song",
-      "success": "%1$sSkipped ahead to %2$s."
+      "no_time": "%1$s얼마나 노래 앞을 건너뛰고 싶은지 말해주세요. *(예사: `~>skipahead 1m45s`는 1분 45초를 건너뛰어요)*",
+      "past_duration": "%1$s노래의 재생 시간을 건너뛸 수 없어요",
+      "success": "%1$s%2$s(으)로 건너뛰었어요."
     },
     "move": {
-      "attempt": "%1$sI will try to move to the channel you're in",
-      "error_moving": "%1$sFailed to switch voice channels.",
-      "cannot_connect": "%1$sCannot connect: I either don't have permission to talk or to move channels.",
-      "non_existent_channel": "%1$sI can't move to a non-existent channel!",
-      "success": "%1$sMoved bot to channel `%2$s`",
-      "vc_not_found": "%1$sVoice channel not found or you didn't specify one!"
+      "attempt": "%1$s지금 있는 채널로 이동하도록 노력해볼게요",
+      "error_moving": "%1$s음성 채널을 전환하지 못했어요.",
+      "cannot_connect": "%1$s연결할 수 없어요: 대화할 수 있는 권한이나 채널을 이동할 수 있는 권한이 없어요.\n",
+      "non_existent_channel": "%1$s존재하지 않는 채널로 이동할 수 없어요!",
+      "success": "%1$s`%2$s` 채널으로 봇을 이동했어요",
+      "vc_not_found": "%1$s음성 채널을 찾을 수 없거나 지정하지 않았어요!"
     },
     "shard": {
-      "info": "I'm in shard %1$d! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "저는 %1$d shard에 있어요! 도움이 필요하시면 <https://support.mantaro.site>로 가주세요."
     },
     "queue": {
       "clear": {
-        "header": "%1$sThe server DJ has decided to clear the queue!",
-        "success": "%1$sRemoved **%2$d songs** from the queue.",
-        "error": "%1$sEither you're not connected to the VC or you're not the DJ."
+        "header": "%1$s서버 DJ가 대기열을 지우기로 했어요!",
+        "success": "%1$s**%2$d개 음악**을 대기열에서 지웠어요.",
+        "error": "%1$s음성 채널에 연결되어 있지 않거나 DJ가 아니예요."
       }
     },
     "repeat": {
-      "queue_cancel": "%1$sContinuing with the current queue.",
-      "queue_repeat": "%1$sRepeating the current queue.",
-      "song_cancel": "%1$sContinuing with the normal queue.",
-      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it."
+      "queue_cancel": "%1$s현재 대기열을 계속 재생하는 중이에요.",
+      "queue_repeat": "%1$s현재 대기열을 반복 해요.",
+      "song_cancel": "%1$s일반 대기열을 계속 재생하는 중이에요.",
+      "song_repeat": "%1$s현재 노래를 반복하고 있어요. 이 명령을 다시 실행하여 비활성화하세요."
     },
     "nextsong": {
-      "no_song_next": "%1$sOw, there isn't any song coming next.",
-      "format": "%1$sNext song in queue: **%2$s** (%3$s) | *Total songs in queue: %4$,d*"
+      "no_song_next": "%1$s앗, 다음 곡은 없네요.",
+      "format": "%1$s대기열에 있는 다음 곡: **%2$s**(%3$s) | *대기열에 있는 총 곡: %4$,d*"
     },
     "shuffle": {
-      "success": "%1$sRandomized the order of the current queue."
+      "success": "%1$s현재 대기열의 순서를 무작위로 했어요."
     },
     "skip": {
-      "dj_skip": "%1$sThe DJ has decided to skip this song.",
+      "dj_skip": "%1$sDJ가 이 노래를 건너뛰기 했어요.",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to skip!"
+        "submit": "%1$s**투표가 제출되었어요** 건너뛰려면 %2$d개의 투표가 더 필요해요!",
+        "remove": "%1$s**투표가 제거되었어요** 건너뛰려면 %2$d개의 투표가 더 필요해요!"
       },
-      "success": "%1$sReached the required amount of votes, skipping song...",
-      "no_track": "%1$sThere seems to be no track to skip, so I cannot do anything..."
+      "success": "%1$s필요한 득표 수에 도달했어요, 노래 건너뛰는 중...",
+      "no_track": "%1$s건너뛸 트랙이 없는 것 같아서 아무것도 할 수가 없어요..."
     },
     "removetrack": {
-      "invalid_range": "%1$s`%2$s` is not a valid range.",
-      "no_track": "%1$sThere isn't a queued track at the position `%2$d`!",
-      "invalid_number": "(%1$s`%2$s`) One of the ranges is not a valid number!",
-      "invalid_number_range": "%1$s`%2$s` is not a valid number or range!",
-      "success": "%1$sRemoved **%2$d** track(s) from the queue.",
-      "not_dj": "%1$sYou need to be a DJ to perform this action."
+      "invalid_range": "%1$s `%2$s`은(는) 잘못된 범위예요.",
+      "no_track": "%1$s`%2$d` 위치에 대기된 트랙이 없어요!",
+      "invalid_number": "(%1$s`%2$s`) 범위 중 하나가 올바른 숫자가 아니예요!",
+      "invalid_number_range": "%1$s `%2$s`은(는) 잘못된 숫자 또는 잘못된 범위예요.",
+      "success": "%1$s**%2$d개 트랙**을 대기열에서 지웠어요.",
+      "not_dj": "%1$s이 행동을 하려면 DJ가 되어야 해요."
     },
     "stop": {
-      "dj_stop": "%1$sThe server DJ has decided to stop the current queue.",
+      "dj_stop": "%1$s서버 DJ가 대기열을 멈추기로 했어요.",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to stop!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to stop!"
+        "submit": "%1$s**투표가 제출되었어요** 중지하려면 %2$d개의 투표가 더 필요해요!",
+        "remove": "%1$s**투표가 제거되었어요** 멈추려면 %2$d개의 투표가 더 필요해요!"
       },
-      "success": "%1$sReached the required amount of votes, stopping player...",
-      "no_player": "%1$sThere seems to be no player to stop, so I cannot do anything...",
-      "cleanup": "%1$sRemoved **%2$d songs** from the queue."
+      "success": "%1$s필요한 득표 수에 도달했어요, 플레이어를 멈추는 중...",
+      "no_player": "%1$s멈출 플레이어가 없는 것 같아서 아무것도 할 수가 없어요...",
+      "cleanup": "%1$s**%2$d개 음악**을 대기열에서 지웠어요."
     },
     "volume": {
       "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
-      "success": "%1$sVolume set to %2$d\n\n%3$s",
-      "no_args": "%1$sYou need to tell me what volume you want me to set the music to (5 to 100).",
-      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to an user or a server, please, if you donate, join the support guild and ask for it."
+      "success": "%1$s볼륨이 %2$d(으)로 설정되었어요\n\n%3$s",
+      "no_args": "%1$s음악을 어떤 볼륨으로 설정할지 말씀해 주세요(5부터 100까지).",
+      "premium_only": "%1$s프리미엄 전용 기능이에요. 이와 같은 프리미엄 혜택을 받으려면 Patreon (https://www.patreon.com/mantaro)에 서약을 하면 되요. 이해해주셔서 고마워요.\n프리미엄 기능은 사용자 또는 서버에 바운드 할 수 있어요. 기부할 경우 지원 길드에 가입하여 요청하세요."
     },
     "lyrics": {
-      "no_current_track": "%1$sThere's no song currently playing on this server!",
-      "error_searching": "%1$sThere was an error searching for this track or there was no results found.",
-      "header": "%1$sLyrics for %2$s",
-      "footer": "Thanks for using Mantaro! Page: %1$d, Total: %2$d."
+      "no_current_track": "%1$s현재 서버에서 재생 중인 노래가 없어요!",
+      "error_searching": "%1$s이 트랙을 검색하는 동안 오류가 발생했거나 결과를 찾을 수 없었어요.",
+      "header": "%1$s%2$s의 가사",
+      "footer": "만타로를 이용해 줘서 고마워요! 페이지: %1$d, 총: %2$d."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s (I respond to any of those!). The server prefix is `%3$s` (Only works on this server). You can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
-      "none": "There's no custom prefix set on this server."
+      "header": "%1$s기본 접두사는 %2$s이에요.(어느 것에도 응답해요!). 서버 접두어는 `%3$s`이에요(이 서버에서만 사용 가능해요). ~>opts prefix set <접두사>를 사용하여 새 접두사를 설정할 수 있어요. <>는 포함하지 마세요.\n만약 무슨 질문이 있다면 <https://support.mantaro.site>에 참가할 수 있어요",
+      "none": "이 서버는 사용자 지정 접두사가 설정되지 않았어요."
     },
     "custom": {
-      "no_args": "%1$sYou need to specify what you want to do with this command. Check command help for more info!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `~>help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
-      "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
-      "error_running_new": "%1$sError running custom command. Check response, content and length.\n**Error:**\n```%2$s```",
-      "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
-      "nsfw_enabled": "%1$sThis command has been successfully marked as NSFW.",
-      "nsfw_disabled": "%1$sThis command has been successfully marked as SFW.",
-      "nsfw_not_nsfw": "%1$sThis command is marked as NSFW therefore it can only be used on NSFW channels.",
-      "new_error": "%1$sThe custom command you're trying to create has an error (v3, check content).\n**Error:**\n```%2$s```",
+      "no_args": "%1$s이 명령으로 수행할 작업을 정의해야 해요. 자세한 내용은 명령어 도움말을 확인하세요!",
+      "incorrect_args": "%1$s잘못된 인수예요. `~>help custom` 또는 https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands에서 어떻게 사용하는지 더 많은 도움을 받으세요. 위키를 읽은 후 추가로 문제가 발생하면 <https://support.mantaro.site>를 참조하세요.\n",
+      "error_running": "%1$s사용자 정의 명령을 실행하는 동안 오류가 발생했어요... 응답 내용 및 길이를 확인하세요(2000자 이상일 수 없어요).",
+      "error_running_new": "%1$s사용자 정의 명령을 실행하는 동안 오류가 발생했어요. 응답, 내용, 길이를 확인하세요.\n**Error:**\n```%2$s```",
+      "not_loaded": "봇이 아직 완전히 부팅되지 않았어요... 사용자 정의 명령어를 곧 사용할 수 있어요!",
+      "nsfw_enabled": "%1$s연령 제한으로 명령어가 성공적으로 표시되었어요.",
+      "nsfw_disabled": "%1$s전체 연령으로 명령어가 성공적으로 표시되었어요.",
+      "nsfw_not_nsfw": "%1$s이 명령어는 연령 제한으로 표시되므로 연령 제한 채널에서만 사용할 수 있어요.\n",
+      "new_error": "%1$s만들려는 사용자 정의 명령어에 오류가 있어요(v3, 내용 확인).\n**Error:**\n```%2$s```",
       "ls": {
-        "header": "Commands for this server.",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**List:**",
-        "footer": "Total custom commands on this server: %1$s"
+        "header": "이 서버에 대한 명령어예요.",
+        "description": "**이 서버에는 이 서버의 모든 사용자 정의(사용자 정의) 명령어가 표시됩니다.** 여기서 모든 명령은 어떤 형태나 형태로든 봇 자체와 연관되지 않아요\n\n사용자 정의 명령은 에뮬레이션 작업 명령어까지 다양한 상황을 처리할 수 있는 사용자(일반적으로 서버 관리자)에 의해 생성된 명령어예요.\n사용자 정의 명령어를 만드는 방법에 대한 자세한 내용은 [이 위키 페이지](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)를 참조하길 바라요.\n \n**목록:**",
+        "footer": "이 서버의 총 사용자 정의 명령어: %1$s개"
       },
-      "invalid": "%1$sInvalid command selection. Check command help (`help custom`).",
+      "invalid": "%1$s잘못된 명령어 선택이에요. 명령 도움말(`help custom`)을 확인하세요.",
       "view": {
-        "invalid": "%1$sYou need to specify the command and the response number!",
-        "not_found": "%1$sThere isn't a custom command with that name here.",
-        "less_than_specified": "%1$sThis command has less responses than the number you specified...",
-        "success": "**Response `%1$d` for custom command `%2$s`:** \n```\n%3$s```"
+        "invalid": "%1$s명령과 응답 번호를 정의해야 해요.",
+        "not_found": "%1$s이 이름을 가진 사용자 정의 명령어가 없어요.",
+        "less_than_specified": "%1$s%이 명령어는 정의한 수보다 응답이 적어요...\n",
+        "success": "**사용자 정의 명령어 `%2$s`에 대한 응답 `%1$d`:** \n```\n%3$s```"
       },
       "raw": {
-        "no_command": "%1$sYou need to tell me what command you want to look at.",
-        "header": "Raw Custom Command: %1$s",
-        "amount": "(Showing %1$d responses of %2$d)",
-        "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
+        "no_command": "%1$s어떤 명령어를 보고 싶은지 말해주세요.",
+        "header": "원초적 사용자 정의 명령어: %1$s",
+        "amount": "(%1$d 응답 %2$d 표시)",
+        "description": "이 명령은 원초적 형식(명령어에 입력하는 내용)으로 모든 응답의 목록이에요."
       },
       "clear": {
-        "success": "%1$sCleared **%2$d Custom Commands**"
+        "success": "%1$s**%2$d 사용자 정의 명령어**를 삭제했어요"
       },
       "make": {
-        "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses. Use `~>nsfw` to mark this command as NSFW and `~>sfw` to revert.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
-        "cancel": "%1$sCommand Creation canceled.",
-        "no_responses_added": "%1$sNo responses were added. Stopping creation without saving...",
-        "success": "%1$sSaved to command `%2$s`.",
-        "no_name_specified": "%1$sYou didn't specify the name of the custom command to create!"
+        "start_text": "%1$s**\"사용자 정의 명령어 `%2$s`을(를) 생성\"**을 시작했어요**!\n**저장하지 않고** 생성을 중지하려면 `&~>stop`을 보내세요.\n**새 명령어 저장**을 중지하려면 `&~>save`를 보내세요. 명령어 응답을 추가하려면 `&`로 아무 문자나 보내세요. 이 명령어을 연령 제한으로 표시하려면 `~>nsfw`를 사용하고 되돌리려면 `~sfw`를 사용하세요.",
+        "cancel": "%1$s명령어 만들기가 취소되었어요.\n",
+        "no_responses_added": "%1$s아무 응답이 추가되지 않았어요. 만들기를 저장 없이 멈추는 중...",
+        "success": "%1$s`%2$s` 명령어를 저장했어요.",
+        "no_name_specified": "%1$s생성할 사용자 정의 명령어의 이름을 정하지 않았어요!"
       },
       "eval": {
-        "not_specified": "You didn't specify anything to eval.",
-        "new_error": "%1$sThere was an error while evaluating this custom command.\n**Error**:\n```%2$s```",
-        "error": "%1$sThere was an error while evaluating this custom command!\n%2$s"
+        "not_specified": "감정할 내용을 정의하지 않았어요.",
+        "new_error": "%1$s이 사용자 정의 명령어을 감정하는 동안 오류가 발생했어요.\n**오류**:\n```%2$s```",
+        "error": "%1$s이 사용자 정의 명령어을 감정하는 동안 오류가 발생했어요!\n%2$s"
       },
       "remove": {
-        "no_command": "%1$sYou need to tell me what command you want to remove.",
-        "success": "%1$sRemoved Custom Command `%2$s`."
+        "no_command": "%1$s어떤 명령어를 지우고 싶은지 말해주세요.",
+        "success": "%1$s`%2$s` 명령어를 제거했어요."
       },
       "import": {
-        "no_command": "%1$sYou need to tell me what command you want to import.",
-        "not_found": "%1$sThere are no custom commands matching your search query.",
-        "header": "`%1$s` (Responses: %2$s) - Guild: `%3$s`",
-        "selection": "Select the Command:",
-        "note": "(You can only select custom commands from guilds that you are a member of)",
-        "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3$d responses."
+        "no_command": "%1$s어떤 명령어를 가져가고 싶은지 말해주세요.",
+        "not_found": "%1$s검색 결과와 일치하는 사용자 정의 명령어가 없어요.",
+        "header": "`%1$s`(응답: %2$s) - 길드: `%3$s`",
+        "selection": "명령어 선택:",
+        "note": "(자신이 속한 길드의 사용자 정의 명령어만 선택할 수 있어요)",
+        "success": "총 %3$d 응답으로 길드 `%2$s`에서 가져온 사용자 정의 명령어 `%1$s`이에요."
       },
       "edit": {
-        "no_command": "%1$sYou need to specify what command you want to edit.",
-        "invalid_number": "%1$sYou need to specify a correct number to change.",
-        "no_index": "%1$sYou cannot edit a non-existent index.",
-        "empty_response": "%1$sCannot edit to an empty response",
-        "not_enough_args": "%1$sYou need to specify the command, the index and the new response",
-        "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly"
+        "no_command": "%1$s어떤 명령어를 수정하고 싶은지 말해주세요.",
+        "invalid_number": "%1$s변경할 번호를 올바르게 정의해야 해요.",
+        "no_index": "%1$s존재하지 않는 지수(Index)는 편집할 수 없어요.",
+        "empty_response": "%1$s무응답으로 편집할 수 없어요",
+        "not_enough_args": "%1$s명령어, 지수(Index) 및 새 응답을 정의해야 해요",
+        "success": "%1$s`%3$s` 명령어의 **#%2$d** 응답을 올바르게 수정했어요"
       },
       "deleteresponse": {
         "no_command": "%1$sYou need to specify the command you want to remove a response from.",
