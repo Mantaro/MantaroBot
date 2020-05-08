@@ -82,7 +82,10 @@ public class MessageCmds {
                                             ctx, ctx.getChannel(), messageHistory, "commands.prune.mention_no_messages",
                                             message -> users.contains(message.getAuthor().getIdLong())
                                     ), error -> {
-                                        ctx.sendLocalized("commands.prune.error_retrieving", EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage());
+                                        ctx.sendLocalized("commands.prune.error_retrieving",
+                                                EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage()
+                                        );
+
                                         error.printStackTrace();
                                     });
 
@@ -92,7 +95,10 @@ public class MessageCmds {
                         ctx.getChannel().getHistory().retrievePast(Math.min(i, 100)).queue(
                                 messageHistory -> prune(ctx, messageHistory),
                                 error -> {
-                                    ctx.sendLocalized("commands.prune.error_retrieving", EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage());
+                                    ctx.sendLocalized("commands.prune.error_retrieving",
+                                            EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage()
+                                    );
+
                                     error.printStackTrace();
                                 }
                         );
@@ -137,7 +143,10 @@ public class MessageCmds {
                             getMessageHistory(ctx, ctx.getChannel(), messageHistory, "commands.prune.bots_no_messages",
                                     message -> message.getAuthor().isBot() || message.getContentRaw().startsWith(prefix == null ? "~>" : prefix));
                         }, error -> {
-                            ctx.sendLocalized("commands.prune.error_retrieving", EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage());
+                            ctx.sendLocalized("commands.prune.error_retrieving",
+                                    EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage()
+                            );
+
                             error.printStackTrace();
                         }
                 );
@@ -169,7 +178,10 @@ public class MessageCmds {
                         messageHistory -> getMessageHistory(ctx, ctx.getChannel(), messageHistory,
                                 "commands.prune.no_pins_no_messages", message -> !message.isPinned()
                         ), error -> {
-                            ctx.sendLocalized("commands.prune.error_retrieving", EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage());
+                            ctx.sendLocalized("commands.prune.error_retrieving",
+                                    EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage()
+                            );
+
                             error.printStackTrace();
                         }
                 );
@@ -227,7 +239,9 @@ public class MessageCmds {
                     DBGuild db = ctx.getDBGuild();
                     db.getData().setCases(db.getData().getCases() + 1);
                     db.saveAsync();
-                    ModLog.log(ctx.getMember(), null, "Pruned Messages", ctx.getChannel().getName(), ModLog.ModAction.PRUNE, db.getData().getCases(), size);
+                    ModLog.log(ctx.getMember(), null, "Pruned Messages",
+                            ctx.getChannel().getName(), ModLog.ModAction.PRUNE, db.getData().getCases(), size
+                    );
                 },
                 error -> {
                     if (error instanceof PermissionException) {

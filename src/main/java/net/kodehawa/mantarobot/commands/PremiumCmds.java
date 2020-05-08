@@ -337,7 +337,7 @@ public class PremiumCmds {
                                     LogUtils.log(
                                             String.format(
                                                     "%s has more keys claimed than given keys, dumping keys:\n%s\nCurrently pledging: %s, Claimed keys: %s, Should have %s total keys.", owner.getId(),
-                                                    Utils.paste2(
+                                                    Utils.paste(
                                                             data.getKeysClaimed().entrySet().stream().map(entry ->
                                                                     "to:" + entry.getKey() + ", key:" + entry.getValue()).collect(Collectors.joining("\n")
                                                             )

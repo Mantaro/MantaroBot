@@ -62,8 +62,10 @@ import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import redis.clients.jedis.Jedis;
 
 import java.awt.*;
 import java.security.SecureRandom;
@@ -161,6 +163,10 @@ public class MantaroListener implements EventListener {
 
     @Override
     public void onEvent(@NotNull GenericEvent event) {
+        if(event instanceof ReadyEvent) {
+            this.postStats(event.getJDA());
+        }
+
         if (event instanceof GuildMessageReceivedEvent) {
             receivedMessages.inc();
             GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
@@ -464,6 +470,7 @@ public class MantaroListener implements EventListener {
 
     private void logStatusChange(StatusChangeEvent event) {
         log.info(String.format("Shard #%d: Changed from %s to %s", event.getJDA().getShardInfo().getShardId(), event.getOldStatus(), event.getNewStatus()));
+        this.postStats(event.getJDA());
     }
 
     private void logUnban(GuildUnbanEvent event) {
@@ -565,8 +572,7 @@ public class MantaroListener implements EventListener {
             }
 
             //Post bot statistics to the main API.
-            if(config.isNeedApi())
-                this.postStats(jda);
+            this.postStats(jda);
 
             guildActions.labels("join").inc();
             GuildStatsManager.log(LoggedEvent.JOIN);
@@ -589,8 +595,7 @@ public class MantaroListener implements EventListener {
             }
 
             //Post bot statistics to the main API.
-            if(config.isNeedApi())
-                this.postStats(jda);
+            this.postStats(jda);
 
             guildActions.labels("leave").inc();
             MantaroBot.getInstance().getAudioManager().getMusicManagers().remove(event.getGuild().getId());
@@ -706,6 +711,8 @@ public class MantaroListener implements EventListener {
             SentryHelper.captureExceptionContext("Failed to send user join message!", e, MantaroListener.class, "Join Handler");
             log.error("Failed to send join message!", e);
         }
+
+        this.postStats(event.getJDA());
     }
 
     private void onUserLeave(GuildMemberRemoveEvent event) {
@@ -753,6 +760,8 @@ public class MantaroListener implements EventListener {
             SentryHelper.captureExceptionContext("Failed to send user leave message!", e, MantaroListener.class, "Join Handler");
             log.error("Failed to send leave message!", e);
         }
+
+        this.postStats(event.getJDA());
     }
 
     private void sendJoinLeaveMessage(User user, Guild guild, TextChannel tc, List<String> extraMessages, String msg) {
@@ -813,13 +822,19 @@ public class MantaroListener implements EventListener {
         }
     }
     private void postStats(JDA jda) {
-        MantaroBot.getInstance().getStatsPoster().postForShard(
-                jda.getShardInfo().getShardId(),
-                jda.getStatus(),
-                jda.getGuildCache().size(),
-                jda.getUserCache().size(),
-                jda.getGatewayPing(),
-                ((MantaroEventManager) jda.getEventManager()).getLastJDAEventTimeDiff()
-        );
+        try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
+            jedis.hset("shardstats-" + config.getClientId(),
+                    String.valueOf(jda.getShardInfo().getShardId()),
+                    new JSONObject()
+                            .put("guild_count", jda.getGuildCache().size())
+                            .put("cached_users", jda.getUserCache().size())
+                            .put("gateway_ping", jda.getGatewayPing())
+                            .put("shard_status", jda.getStatus())
+                            .put("last_ping_diff", ((MantaroEventManager) jda.getEventManager()).getLastJDAEventTimeDiff())
+                            .toString()
+            );
+
+            log.debug("Sent process shard stats to redis.");
+        }
     }
 }

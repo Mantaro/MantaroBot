@@ -45,6 +45,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import org.json.JSONObject;
+import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
@@ -67,9 +68,17 @@ public class DebugCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 var bot = ctx.getBot();
-                var guilds = bot.getShardManager().getGuildCache();
-                var users = bot.getShardManager().getGuilds().stream().mapToInt(Guild::getMemberCount).sum();
-                var cachedUsers = bot.getShardManager().getUserCache();
+                var guilds = 0L;
+                var users = 0L;
+
+                try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                    for(int i = 0; i < config.getTotalShards(); i++) {
+                        var json = new JSONObject(jedis.hget("shardstats-" + config.getClientId(), String.valueOf(i)));
+                        guilds += json.getLong("guild_count");
+                        users += json.getLong("cached_users");
+                    }
+                }
+
                 var responseTotal = bot.getShardManager().getShards()
                         .stream()
                         .mapToLong(JDA::getResponseTotal)
@@ -92,9 +101,8 @@ public class DebugCmds {
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
                         + "Shard Info: " + ctx.getEvent().getJDA().getShardInfo()
                         + "\n\n --------- Mantaro Information --------- \n\n"
-                        + "Guilds: " + String.format("%,d", guilds.size()) + "\n"
-                        + "Cached Users: " + String.format("%,d", cachedUsers.size()) + "\n"
-                        + "Total Users: " + String.format("%,d", users) + "\n"
+                        + "Guilds: " + String.format("%,d", guilds) + "\n"
+                        + "Users: " + String.format("%,d", users) + "\n"
                         + "Shards: " + bot.getShardManager().getShardsTotal() + " (Current: " + (bot.getShardForGuild(ctx.getGuild().getId()).getId()) + ")" + "\n"
                         + "Threads: " + String.format("%,d", Thread.activeCount()) + "\n"
                         + "Executed Commands: " + String.format("%,d", CommandListener.getCommandTotalInt()) + "\n"
@@ -271,6 +279,17 @@ public class DebugCmds {
                     stringBuilder.append("WARNING: Several shards (").append(dead).append(") ")
                             .append("appear to be dead! If this doesn't get fixed in 30 minutes please report this!\n");
 
+                long guilds = 0;
+                long users = 0;
+
+                try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                    for(int i = 0; i < config.getTotalShards(); i++) {
+                        var json = new JSONObject(jedis.hget("shardstats-" + config.getClientId(), String.valueOf(i)));
+                        guilds += json.getLong("guild_count");
+                        users += json.getLong("cached_users");
+                    }
+                }
+
                 stringBuilder.append(String.format(
                         "Uptime: %s.\n\n" +
                                 "Bot Version: %s\n" +
@@ -284,14 +303,19 @@ public class DebugCmds {
                                 "* High Last Event Time: %s shards.\n\n" +
                                 "--- Guilds: %-4s | Users: %-8s | Shards: %-3s"
                         ,
-                        Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()), MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION, ping,
+                        Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()),
+                        MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION,
+                        ping,
                         bot.getShardList().stream().filter(s -> s.getNullableJDA() != null)
                                 //"high" ping shards
                                 .filter(shard -> shard.getJDA().getGatewayPing() > 350)
                                 .map(shard -> shard.getId() + ": " + shard.getJDA().getGatewayPing() + "ms")
                                 .collect(Collectors.joining(", ")),
-                        dead, reconnecting, connecting, high, String.format("%,d", bot.getShardManager().getGuildCache().size()),
-                        String.format("%,d", bot.getShardManager().getUserCache().size()), bot.getShardList().size()));
+                        dead, reconnecting, connecting, high,
+                        String.format("%,d", guilds),
+                        String.format("%,d", users),
+                        bot.getShardList().size())
+                );
 
                 ctx.send(new MessageBuilder()
                         .append(EmoteReference.OK)

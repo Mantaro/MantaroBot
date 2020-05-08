@@ -73,6 +73,7 @@ public class IncreasingRateLimiter {
             if (scriptSha == null) {
                 scriptSha = j.scriptLoad(SCRIPT);
             }
+
             long start = Instant.now().toEpochMilli();
             List<Long> result;
             boolean premiumAwareness = premiumAware && MantaroData.db().getUser(key).isPremium();
