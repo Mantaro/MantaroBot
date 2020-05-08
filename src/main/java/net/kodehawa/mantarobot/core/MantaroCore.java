@@ -216,22 +216,22 @@ public class MantaroCore {
                         .setRateLimitPool(Executors.newScheduledThreadPool(2, requesterThreadFactory), true);
             } else {
                 if(config.totalShards != 0) {
-                    builder.setShardsTotal(config.totalShards);
-                } else {
-                    if (ExtraRuntimeOptions.SHARD_SUBSET_MISSING) {
-                        throw new IllegalStateException("Both mantaro.from-shard and mantaro.to-shard must be specified " +
-                                "when using shard subsets. Please specify the missing one.");
-                    }
-
                     if (ExtraRuntimeOptions.SHARD_SUBSET) {
-                        builder.setShardsTotal(ExtraRuntimeOptions.SHARD_COUNT.orElseThrow())
+                        if (ExtraRuntimeOptions.SHARD_SUBSET_MISSING) {
+                            throw new IllegalStateException("Both mantaro.from-shard and mantaro.to-shard must be specified " +
+                                    "when using shard subsets. Please specify the missing one.");
+                        }
+
+                        builder.setShardsTotal(config.totalShards)
                                 .setShards(
                                         ExtraRuntimeOptions.FROM_SHARD.orElseThrow(),
                                         ExtraRuntimeOptions.TO_SHARD.orElseThrow()
                                 );
                     } else {
-                        builder.setShardsTotal(ExtraRuntimeOptions.SHARD_COUNT.orElse(-1));
+                        builder.setShardsTotal(config.totalShards);
                     }
+                } else {
+                    builder.setShardsTotal(ExtraRuntimeOptions.SHARD_COUNT.orElse(-1));
                 }
             }
 
