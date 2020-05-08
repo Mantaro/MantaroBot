@@ -136,7 +136,7 @@ public class GuildData {
     @ConfigName("How will Mantaro display time")
     private int timeDisplay = 0; //0 = 24h, 1 = 12h
 
-    @UnusedConfig //TODO: not implemented, planned somewhen
+    @UnusedConfig
     private Map<Long, WarnAction> warnActions = new HashMap<>();
     @UnusedConfig // not implemented, see above
     private Map<String, Long> warnCount = new HashMap<>();

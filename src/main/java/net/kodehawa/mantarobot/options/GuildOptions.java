@@ -1191,11 +1191,6 @@ public class GuildOptions extends OptionHandler {
         });//endregion
         addOptionAlias("logs:unbanmessage", "unbanmessage");
 
-
-        //TODO:
-        //bannedMemberLog;
-        //unbannedMemberLog;
-
         registerOption("commands:showdisablewarning", "Show disable warning", "Toggles on/off the disabled command warning.",
                 "Toggles on/off the disabled command warning.", (event, args, lang) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());

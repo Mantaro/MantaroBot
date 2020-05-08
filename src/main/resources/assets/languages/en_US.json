@@ -710,8 +710,8 @@
       },
       "header": "Mantaro's Market",
       "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info.",
-      "sell": "- **Sell Price:**",
-      "buy": "- **Buy Price:**"
+      "sell_price": "- **Sell Price:**",
+      "buy_price": "- **Buy Price:**"
     },
     "itemtransfer": {
       "transfer_yourself_note": "%1$sYou cannot transfer items to yourself.",

@@ -90,8 +90,8 @@ public class MarketCmd {
                                 fields.add(new MessageEmbed.Field(String.format("%s %s", item.getEmoji(), item.getName()),
                                         (languageContext.getContextLanguage().equals("en_US") ? "" : " (" + languageContext.get(item.getTranslatedName()) + ")\n") +
                                                 languageContext.get(item.getDesc()) + "\n" +
-                                                languageContext.get("commands.market.buy") + " " + buyValue + "\n" +
-                                                languageContext.get("commands.market.sell") + " " + sellValue,
+                                                languageContext.get("commands.market.buy_value") + " " + buyValue + "\n" +
+                                                languageContext.get("commands.market.sell_value") + " " + sellValue,
                                         false
                                         )
                                 );
