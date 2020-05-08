@@ -21,7 +21,6 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -193,7 +192,7 @@ public class OptsCmd {
                             builder.append("* ").append(e.getKey()).append(": ").append(e.getValue().getRight()).append("\n");
                         }
 
-                        event.getChannel().sendMessage("Send this: " + Utils.paste3(builder.toString())).queue();
+                        event.getChannel().sendMessage("Send this: " + Utils.paste(builder.toString())).queue();
                         return;
                     }
 

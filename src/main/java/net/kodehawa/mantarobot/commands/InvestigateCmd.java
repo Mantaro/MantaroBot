@@ -215,14 +215,14 @@ public class InvestigateCmd {
                 }
             } else {
                 if (parts.size() == 1) {
-                    event.getChannel().sendMessage(Utils.paste3(
+                    event.getChannel().sendMessage(Utils.paste(
                             parts.entrySet().iterator().next().getValue().messages.stream()
                                     .map(InvestigatedMessage::format)
                                     .collect(Collectors.joining("\n"))
                     )).queue();
                 } else {
                     event.getChannel().sendMessage(parts.entrySet().stream().map(entry ->
-                            entry.getKey() + ": " + Utils.paste3(
+                            entry.getKey() + ": " + Utils.paste(
                                     entry.getValue().messages.stream()
                                             .map(InvestigatedMessage::format)
                                             .collect(Collectors.joining("\n"))

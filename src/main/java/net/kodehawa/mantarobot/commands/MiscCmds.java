@@ -152,7 +152,7 @@ public class MiscCmds {
                 }
 
                 String textEncoded = URLEncoder.encode(content.replace("/", "|"), StandardCharsets.UTF_8);
-                String json = Utils.wgetOkHttp(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded));
+                String json = Utils.wget(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded));
 
                 if(json == null) {
                     ctx.sendLocalized("commands.8ball.error", EmoteReference.ERROR);

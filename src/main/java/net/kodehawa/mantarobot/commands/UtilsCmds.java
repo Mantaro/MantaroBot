@@ -572,7 +572,7 @@ public class UtilsCmds {
                 var languageContext = ctx.getLanguageContext();
 
                 var url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(commandArguments[0], StandardCharsets.UTF_8);
-                var json = Utils.wgetOkHttp(url);
+                var json = Utils.wget(url);
                 var data = GsonDataManager.GSON_PRETTY.fromJson(json, UrbanData.class);
 
                 if (commandArguments.length > 2) {

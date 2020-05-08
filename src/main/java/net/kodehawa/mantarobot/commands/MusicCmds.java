@@ -998,7 +998,7 @@ public class MusicCmds {
                     search = currentTrack.getInfo().title;
                 }
 
-                String result = Utils.wgetOkHttp("https://lyrics.tsu.sh/v1/?q=" + URLEncoder.encode(search, StandardCharsets.UTF_8));
+                String result = Utils.wget("https://lyrics.tsu.sh/v1/?q=" + URLEncoder.encode(search, StandardCharsets.UTF_8));
                 if(result == null) {
                     ctx.sendLocalized("commands.lyrics.error_searching", EmoteReference.ERROR);
                     return;

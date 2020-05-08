@@ -34,7 +34,6 @@ import net.kodehawa.mantarobot.utils.annotations.UnusedConfig;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimit;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -202,46 +201,6 @@ public class Utils {
             RequestBody post = RequestBody.create(MediaType.parse("text/plain"), toSend);
 
             Request toPost = new Request.Builder()
-                    .url("https://hastebin.com/documents")
-                    .header("User-Agent", MantaroInfo.USER_AGENT)
-                    .header("Content-Type", "text/plain")
-                    .post(post)
-                    .build();
-
-            Response r = httpClient.newCall(toPost).execute();
-            JSONObject response = new JSONObject(r.body().string());
-            r.close();
-            return "https://hastebin.com/" + response.getString("key");
-        } catch (Exception e) {
-            return "cannot post data to hastebin";
-        }
-    }
-
-    public static String paste2(String toSend) {
-        try {
-            RequestBody body = new FormBody.Builder()
-                    .add("text", toSend)
-                    .build();
-
-            Request request = new Request.Builder()
-                    .url("https://hastepaste.com/api/create")
-                    .header("User-Agent", MantaroInfo.USER_AGENT)
-                    .post(body)
-                    .build();
-
-            try (Response r = httpClient.newCall(request).execute()) {
-                return r.body().string();
-            }
-        } catch (Exception e) {
-            return "cannot post data to hastepaste";
-        }
-    }
-
-    public static String paste3(String toSend) {
-        try {
-            RequestBody post = RequestBody.create(MediaType.parse("text/plain"), toSend);
-
-            Request toPost = new Request.Builder()
                     .url("https://hasteb.in/documents")
                     .header("User-Agent", MantaroInfo.USER_AGENT)
                     .header("Content-Type", "text/plain")
@@ -257,27 +216,13 @@ public class Utils {
         }
     }
 
-
-    /**
-     * DEPRECATED - Redirects to wgetOkHttp.
-     * Fetches an Object from any given URL. Uses vanilla Java methods.
-     * Can retrieve text, JSON Objects, XML and probably more.
-     *
-     * @param url The URL to get the object from.
-     * @return The object as a parsed UTF-8 string.
-     */
-    @Deprecated
-    public static String wget(String url) {
-        return wgetOkHttp(url);
-    }
-
     /**
      * Same than above, but using OkHttp. Way easier tbh.
      *
      * @param url The URL to get the object from.
      * @return The object as a parsed string.
      */
-    public static String wgetOkHttp(String url) {
+    public static String wget(String url) {
         try {
             Request req = new Request.Builder()
                     .url(url)
@@ -287,30 +232,16 @@ public class Utils {
             try (Response r = httpClient.newCall(req).execute()) {
                 if (r.body() == null || r.code() / 100 != 2) {
                     if (r.code() != 404) {
-                        log.warn(getFetchDataFailureResponse(url, "HTTP"));
+                        log.warn("Non 404 code failure for {}: {}", url, r.code());
                     }
                     return null;
                 }
                 return r.body().string();
             }
         } catch (Exception e) {
-            log.warn(getFetchDataFailureResponse(url, "HTTP"), e);
+            log.warn("Exception trying to fetch from URL {}", url, e);
             return null;
         }
-    }
-
-    public static String urlEncodeUTF8(Map<?, ?> map) {
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<?, ?> entry : map.entrySet()) {
-            if (sb.length() > 0) {
-                sb.append("&");
-            }
-            sb.append(String.format("%s=%s",
-                    urlEncodeUTF8(entry.getKey().toString()),
-                    urlEncodeUTF8(entry.getValue().toString())
-            ));
-        }
-        return sb.toString();
     }
 
     public static Member findMember(GuildMessageReceivedEvent event, Member first, String content) {
@@ -474,40 +405,13 @@ public class Utils {
 
     public static String pretty(int number) {
         String ugly = Integer.toString(number);
-
         char[] almostPretty = new char[ugly.length()];
-
         Arrays.fill(almostPretty, '0');
 
-        if ((almostPretty[0] = ugly.charAt(0)) == '-') almostPretty[1] = ugly.charAt(1);
+        if ((almostPretty[0] = ugly.charAt(0)) == '-')
+            almostPretty[1] = ugly.charAt(1);
 
         return new String(almostPretty);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <K, V> Map<K, V> map(Object... mappings) {
-        if (mappings.length % 2 == 1) throw new IllegalArgumentException("mappings.length must be even");
-        Map<K, V> map = new HashMap<>();
-
-        for (int i = 0; i < mappings.length; i += 2) {
-            map.put((K) mappings[i], (V) mappings[i + 1]);
-        }
-
-        return map;
-    }
-
-    /**
-     * Get a data failure response, place in its own method due to redundancy
-     *
-     * @param url           The URL from which the data fetch failed
-     * @param servicePrefix The prefix from a specific service
-     * @return The formatted response string
-     */
-    private static String getFetchDataFailureResponse(String url, String servicePrefix) {
-        StringBuilder response = new StringBuilder();
-        if (servicePrefix != null) response.append("[").append(servicePrefix).append("]");
-        else response.append("\u274C");
-        return response.append(" ").append("Hmm, seems like I can't retrieve data from ").append(url).toString();
     }
 
     /**
@@ -548,6 +452,20 @@ public class Utils {
         }
     }
 
+    public static String urlEncodeUTF8(Map<?, ?> map) {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
+            if (sb.length() > 0) {
+                sb.append("&");
+            }
+            sb.append(String.format("%s=%s",
+                    urlEncodeUTF8(entry.getKey().toString()),
+                    urlEncodeUTF8(entry.getValue().toString())
+            ));
+        }
+        return sb.toString();
+    }
+
     private static String urlEncodeUTF8(String s) {
         return URLEncoder.encode(s, StandardCharsets.UTF_8);
     }
@@ -578,7 +496,6 @@ public class Utils {
             }
         };
     }
-
 
     public static long parseTime(String s) {
         s = s.toLowerCase();
@@ -619,24 +536,6 @@ public class Utils {
 
     public static Connection newDbConnection() {
         return r.connection().hostname(config.dbHost).port(config.dbPort).db(config.dbDb).user(config.dbUser, config.dbPassword).connect();
-    }
-
-    public static boolean handleRatelimit(RateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context) {
-        if (context == null) {
-            //en_US
-            context = new I18nContext();
-        }
-
-        if (!rateLimiter.process(u.getId())) {
-            event.getChannel().sendMessageFormat(context.get("general.ratelimit.header"),
-                    EmoteReference.STOPWATCH, context.get("general.ratelimit_quotes"), Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor()))
-            ).queue();
-
-            onRateLimit(u);
-            return false;
-        }
-
-        return true;
     }
 
     public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, String u, GuildMessageReceivedEvent event, I18nContext context, boolean spamAware) {
@@ -735,6 +634,7 @@ public class Utils {
         if (bytes % unitSize == 0) {
             return String.format("%d %s", bytes / unitSize, unit);
         }
+
         return String.format("%.1f %s", bytes / (double) unitSize, unit);
     }
 
@@ -742,12 +642,15 @@ public class Utils {
         if (bytes > 1L << 30) {
             return formatMemoryHelper(bytes, 1L << 30, "GiB");
         }
+
         if (bytes > 1L << 20) {
             return formatMemoryHelper(bytes, 1L << 20, "MiB");
         }
+
         if (bytes > 1L << 10) {
             return formatMemoryHelper(bytes, 1L << 10, "KiB");
         }
+
         return String.format("%d B", bytes);
     }
 

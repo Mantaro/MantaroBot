@@ -52,7 +52,7 @@ public interface AssistedCommand extends Command {
 
     default String checkString(String s) {
         if (s.length() > 1600) {
-            return Utils.paste3(s);
+            return Utils.paste(s);
         } else {
             return s;
         }
