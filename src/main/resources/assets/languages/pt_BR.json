@@ -268,7 +268,7 @@
       },
       "loader": {
         "over_limit": "%1$sA fila que você adicionou tem mais de %2$d músicas, então adicionamos músicas até esse limite e ignoramos o resto.",
-        "loaded_playlist": "%1$sAdicionado **%2$d músicas** na fila na playlist: **%3$s** *(%4$s)*",
+        "loaded_playlist": "%1$sAdicionado **%2$d músicas** na fila da playlist: **%3$s** *(%4$s)*",
         "no_matches": "%1$sA pesquisa não teve resultados. Se isso aparecer para *todas as músicas* que você tenta procurar, você pode usar `~>play soundcloud <termo de pesquisa>` em vez disso no entretanto. Links diretos para o youtube devem funcionar também.",
         "error_loading": "%1$sErro ao buscar música: %2$s",
         "over_queue_limit": "%1$sNão foi possível colocar na fila %2$s: Limite de músicas da fila ultrapassado (%3$s)!",
@@ -285,7 +285,7 @@
       "success": "%1$sUm administrador ou Comandante do Bot decidiu pular essa música."
     },
     "np": {
-      "no_track": "%1$sOu não há faixa de reprodução ou não conseguimos encontrá-lo, tente colocar outra música",
+      "no_track": "%1$sOu não há uma música tocando ou não conseguimos encontrá-la, tente colocar outra música",
       "header": "Agora Tocando"
     },
     "pause": {
@@ -685,29 +685,8 @@
         "collectible": "%1$sEste é um item colecionável. (Valor da venda: %2$d créditos)",
         "success": "%1$sO valor no mercado de %2$s**%3$s** é %4$s créditos para comprar e você pode ganhar %5$s créditos se você vender."
       },
-      "sell": {
-        "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer vender.",
-        "invalid": "%1$sNão é um número válido de itens para vender.",
-        "all": {
-          "confirmation": "%1$sVocê tem *certeza* que deseja vender **todos** os seus items? Digite *yes* para confirmar e *no* para cancelar",
-          "success": "%1$sVocê vendeu todos os seus items no inventário e ganhou %2$d créditos!",
-          "cancelled": "%1$sCancelado com sucesso."
-        },
-        "non_existent": "%1$sVocê não pode vender um item inexistente. Se você estiver perdido, pode tentar digitar o nome abreviado ou colocar o nome entre aspas.",
-        "no_sell_price": "%1$sVocê não pode vender um item que não pode ser vendido. (Mas você pode usar `~>market dump` nele)",
-        "no_item_player": "%1$sVocê não pode vender um item que você não tem.",
-        "more_items_than_player": "%1$sVocê não pode vender mais items do que você tem.",
-        "success": "%1$sVocê vendeu %2$d **%3$s** e ganhou %4$d créditos!"
-      },
-      "buy": {
-        "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer comprar.",
-        "invalid": "%1$sNão é um número válido de items para comprar.",
-        "non_existent": "%1$sVocê não pode comprar um item inexistente. Se você estiver perdido, pode tentar digitar o nome abreviado ou colocar o nome entre aspas.",
-        "no_buy_price": "%1$sVocê não pode comprar um item que não pode ser comprado.",
-        "item_limit_reached": "%1$sVocê não pode comprar mais desse objeto.",
-        "success": "%1$sVocê comprou %2$d %3$s por %4$d créditos com sucesso. Você agora tem %5$d créditos.",
-        "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar este item."
-      },
+      "sell": "-**Preço de Venda:**",
+      "buy": "-**Preço de Compra:**",
       "header": "Mercado da Mantaro",
       "reference": "\nVocê pode comprar e vender items usando `~>market buy <item>` e `~>market sell <item>`. Cheque `~>help market` para mais informações."
     },
@@ -862,7 +841,11 @@
         "buff": "Buff",
         "buff_type": "Tipo de Buff",
         "experience": "Experiência",
-        "mine_xp": "Experiência de Mineração/Pescaria",
+        "mine_xp": "Experiência de Mineração",
+        "fish_xp": "Experiência de Pescaria",
+        "sharks_caught": "Tubarões Capturados",
+        "crates_open": "Caixotes Abertos",
+        "times_mop": "Vezes Limpado",
         "daily": "Combo no Diário",
         "daily_at": "Último Diário",
         "waifu_claimed": "Reivindicado Como Waifu",
@@ -1431,9 +1414,9 @@
     },
     "help": {
       "title": "Ajuda da Mantaro",
-      "base_category": "Lista de comando da categoria %1$s. Para um guia detalhado no uso da Mantaro, por favor cheque a [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Guia da Moeda] (https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "Lista de comandos. Para um guia detalhado sobre o uso da Mantaro, por favor cheque a [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n",
-      "support": "Se você tiver problemas ou dúvidas ao usar o Mantaro, por favor entre no [servidor de suporte](https://support.mantaro.site). [*Me siga no twitter para updates!*](https://twitter.com/mantarodiscord)\n",
+      "base_category": "Lista de comandos da categoria %1$s. Para um guia detalhado, por favor cheque a [wiki] (https://github.com/Mantaro/MantaroBot/wiki). [Guia da Moeda] (https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "base": "**Lista completa de comando**. Para um guia detalhado, por favor cheque a [wiki] (https://github.com/Mantaro/MantaroBot/wiki).\nOutros guias: [Moeda](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Comandos Customizáveis](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Mensagens de Bem-vindo]\n(https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "support": "[Para ter ajuda, você pode entrar no servidor de suporte](https://support.mantaro.site). [Você pode me seguir no Twitter para atualizações.](https://twitter.com/mantarodiscord)\n",
       "patreon": "[**Nós precisamos da sua ajuda para manter Mantaro online! Clique aqui para mais informações.**](https://www.patreon.com/mantaro)",
       "disabled_commands": "Apenas mostrando comandos não-desativados. Total de comandos desativados: %1$s",
       "channel_specific_disabled_commands": "\nApenas mostrando comandos não-desativados. Total do canal-específico com comandos desativados: %1$s",
@@ -2258,7 +2241,7 @@
       "cobweb": "Algo que uma aranha deixou na mina. Me pergunto se isso vale algo.",
       "fragment": "Fragmento de uma antiga jóia. Útil para fundição.",
       "mop": "Uma maneira deliciosa de limpar toda a poeira que você tem por perto. Eu aposto que há muito disso.",
-      "claim_key": "Este item faz você não reivindicável (como waifu) ao tê-lo em seu inventário.",
+      "claim_key": "Este item faz você não reivindicável (como waifu) quando você usa `~>profile claimlock`.",
       "coffee": "Uma maneira deliciosa de começar o seu dia.",
       "waifu_pill": "Te dá uma vantagem significativa em mineração e pesca se uma de suas waifus está avaliada em mais de 10 milhões. Dura 5 sessões.",
       "bait": "Dá uma chance maior de pegar peixes.",
