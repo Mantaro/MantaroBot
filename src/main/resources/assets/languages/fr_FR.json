@@ -685,10 +685,33 @@
         "collectible": "%1$sC'est un objet exclusif. (Valeur à la vente : %2$d credits)",
         "success": "%1$sLe prix de %2$s**%3$s** au marché est de %4$s credits à l'achat et tu peux avoir %5$s credits si tu le vends."
       },
-      "sell": "- **Sell Price:**",
-      "buy": "- **Buy Price:**",
+      "sell": {
+        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
+        "invalid": "%1$sNot a valid number of items to sell.",
+        "all": {
+          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? This will clear your *whole* inventory. If you wanna sell individual items please use the amount. Type *yes* to confirm and *no* to cancel",
+          "success": "%1$sYou sold all your inventory items and gained %2$,d credits!",
+          "cancelled": "%1$sCancelled successfully."
+        },
+        "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
+        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
+        "no_item_player": "%1$sYou cannot sell an item you don't have.",
+        "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
+        "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
+      },
+      "buy": {
+        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
+        "invalid": "%1$sNot a valid number of items to buy.",
+        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
+        "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
+        "item_limit_reached": "%1$sYou cannot buy more of that object.",
+        "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
+        "not_enough_money": "%1$sYou don't have enough money to buy this item."
+      },
       "header": "Marché de Mantaro",
-      "reference": "\nTu peux acheter et vendre des objets en utilisant `~>market buy <objet>` et `~>market sell <objet>`. Utilise `~>help market` pour plus d'infos. Attention, les commandes fonctionnent uniquement avec le nom des objets en anglais ou avec l'emoji correspondant."
+      "reference": "\nTu peux acheter et vendre des objets en utilisant `~>market buy <objet>` et `~>market sell <objet>`. Utilise `~>help market` pour plus d'infos. Attention, les commandes fonctionnent uniquement avec le nom des objets en anglais ou avec l'emoji correspondant.",
+      "sell_price": "- **Sell Price:**",
+      "buy_price": "- **Buy Price:**"
     },
     "itemtransfer": {
       "transfer_yourself_note": "%1$sTu ne peux pas te transférer des objets à toi-même.",
