@@ -6,15 +6,15 @@ services:
       - .:/data
   redis:
     image: redis
-  andesite:
-    image: natanbc/andesite
-    environment:
-      "andesite.transport.http.port": 5000
+  lavalink:
+    image: fredboat/lavalink
+    volumes:
+      - lavalink.yml:/opt/Lavalink/application.yml
   mantaro:
     depends_on:
       - "rethonk"
       - "redis"
-      - "andesite"
+      - "lavalink"
     image: mantaro/mantaro
     volumes:
       - ./config-compose.json:/mantaro/config.json
