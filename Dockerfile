@@ -1,4 +1,4 @@
-FROM openjdk:12 AS builder
+FROM openjdk:13 AS builder
 
 ARG version
 
@@ -32,10 +32,4 @@ RUN chmod +x /bin/jattach
 COPY assets assets
 COPY --from=builder /mantaro /mantaro
 
-CMD [ \
-     "jrt/bin/java", \
-     # Detect actual memory limit (remove when upadting to 11+, as they have this on by default)
-     # We're using j12 for now
-     #"-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", \
-     "-jar", "mantaro.jar" \
-]
+CMD ["jrt/bin/java", "-jar", "mantaro.jar"]
