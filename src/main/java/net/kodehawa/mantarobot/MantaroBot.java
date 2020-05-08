@@ -163,9 +163,13 @@ public class MantaroBot {
         //Handle the removal of mutes.
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mute Handler"))
                 .scheduleAtFixedRate(MuteTask::handle, 0, 1, TimeUnit.MINUTES);
-        //Handle the delivery of reminders.
-        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Reminder Handler"))
-                .scheduleAtFixedRate(ReminderTask::handle, 0, 30, TimeUnit.SECONDS);
+
+        //Handle the delivery of reminders, assuming this is the master node.
+        if(isMasterNode()) {
+            Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Reminder Handler"))
+                    .scheduleAtFixedRate(ReminderTask::handle, 0, 30, TimeUnit.SECONDS);
+        }
+
         //Yes, this is needed.
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Ratelimit Map Handler"))
                 .scheduleAtFixedRate(Utils.ratelimitedUsers::clear, 0, 36, TimeUnit.HOURS);
@@ -286,5 +290,13 @@ public class MantaroBot {
 
     public StatsPoster getStatsPoster() {
         return statsPoster;
+    }
+
+    public boolean isMasterNode() {
+        if(ExtraRuntimeOptions.SHARD_SUBSET && ExtraRuntimeOptions.FROM_SHARD.isPresent()) {
+            return ExtraRuntimeOptions.FROM_SHARD.getAsInt() == 0;
+        }
+
+        return true;
     }
 }
