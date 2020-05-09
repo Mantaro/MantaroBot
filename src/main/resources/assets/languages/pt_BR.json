@@ -1329,7 +1329,7 @@
         "age": "Idade",
         "no_pets": "%1$sVocê não tem pets.",
         "header": "Isso é uma lista de pets que você possui atualmente.\nPets são seus companheiros no uso da moeda! **Você pode treiná-los, acariciá-los, alimentá-los ou ter lutas entre seus próprios pets com de outras pessoas!** Para criar um pet você precisa de uma incubadora, que você pode fundir com leite, bebida antiga e diamantes, isso vai permitir que você possa incubar um pet, que exigirá que você dê um nome.",
-        "pages": "**Total de páginas: %1$s\nUse as reações para mudar de página.\n\n"
+        "pages": "**Total pages:** %1$s \nUse the message reaction to move between pages.\n\n"
       },
       "train": {
         "success": "%1$sHabilidade **%2$s** treinada com sucesso. Experiência ganha: %3$s. Experiência de habilidade atual: %4$s. (Custo: %5$s)"
