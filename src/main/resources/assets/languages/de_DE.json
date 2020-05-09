@@ -690,7 +690,7 @@
         "invalid": "%1$sNot a valid number of items to sell.",
         "all": {
           "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? This will clear your *whole* inventory. If you wanna sell individual items please use the amount. Type *yes* to confirm and *no* to cancel",
-          "success": "%1$sYou sold all your inventory items and gained %2$,d credits!",
+          "success": "%1$sDu hast alle deine Gegenstände verkauft und %2$s Credits erhalten!",
           "cancelled": "%1$sCancelled successfully."
         },
         "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
