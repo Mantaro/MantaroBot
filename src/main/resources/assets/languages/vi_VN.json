@@ -368,7 +368,7 @@
       "check": "%1$sÂm lượng hiện tại là: %2$d\n\n%3$s",
       "success": "%1$sÂm lượng được đặt thành %2$d\n\n%3$s",
       "no_args": "%1$sBạn cần phải nói cho tôi biết âm lượng mà bạn muốn tôi đặt nhạc là gì (từ 5 đến 100).",
-      "premium_only": "%1$sĐây là tính năng chỉ dùng cho cao cấp. Để có được những lợi ích như thế này bạn có thể cam kết trên patreon (https://www.patreon.com/mantaro). Cảm ơn vì đã hiểu.\nCác tính năng cao cấp có thể bị ràng buộc bởi người dùng hoặc máy chủ. Vui lòng tham gia vào nhóm hỗ trợ và hỏi về nó nếu như bạn đã ủng hộ."
+      "premium_only": "%1$sĐây là tính năng chỉ có ở tài khoản cao cấp. Để có được những tiện lợi này bạn có thể đăng kí trên patreon (https://www.patreon.com/mantaro). Cảm ơn vì đã hiểu.\nCác tính năng cao cấp có thể bị ràng buộc bởi người dùng hoặc máy chủ. Nếu bạn đã ủng hộ, vui lòng tham gia máy chủ hỗ trợ và hỏi về nó."
     },
     "lyrics": {
       "no_current_track": "%1$sKhông có bài hát nào đang được chơi ở máy chủ này!",
@@ -1329,7 +1329,7 @@
         "age": "Age",
         "no_pets": "%1$sYou have no pets.",
         "header": "This is a list of the pets you currently own.\nPets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.",
-        "pages": "**Total pages: %1$s \nUse the message reaction to move between pages.\n\n"
+        "pages": "**Total pages:** %1$s \nUse the message reaction to move between pages.\n\n"
       },
       "train": {
         "success": "%1$sSuccessfully trained skill **%2$s**. Experience gained: %3$s. Current skill experience: %4$s. (Cost: %5$s)"
