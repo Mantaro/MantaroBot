@@ -22,9 +22,9 @@ public class ReminderObject {
     public String id;
     public String reminder;
     public long time;
-    private long scheduledAtMillis;
-    private String userId;
-    private String guildId;
+    private final long scheduledAtMillis;
+    private final String userId;
+    private final String guildId;
 
     ReminderObject(String id, String reminder, long time, long scheduledAtMillis, String userId, String guildId) {
         this.id = id;

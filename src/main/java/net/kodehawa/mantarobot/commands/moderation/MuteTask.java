@@ -48,11 +48,12 @@ public class MuteTask {
                     String guildId = pair.getLeft();
                     long maxTime = pair.getRight();
 
-                    if (MantaroBot.getInstance().getShardForGuild(guildId) == null) {
+                    Guild guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
+                    if (guild == null) {
+                        //Might be in another instance, or the guild left.
                         continue;
                     }
 
-                    Guild guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
                     DBGuild dbGuild = MantaroData.db().getGuild(guildId);
                     GuildData guildData = dbGuild.getData();
 
@@ -91,7 +92,12 @@ public class MuteTask {
 
                             guildData.setCases(guildData.getCases() + 1);
                             dbGuild.saveAsync();
-                            ModLog.log(guild.getSelfMember(), MantaroBot.getInstance().getShardManager().getUserById(id), "Mute timeout expired", "none", ModLog.ModAction.UNMUTE, guildData.getCases());
+                            ModLog.log(guild.getSelfMember(),
+                                    MantaroBot.getInstance().getShardManager().getUserById(id),
+                                    "Mute timeout expired", "none",
+                                    ModLog.ModAction.UNMUTE,
+                                    guildData.getCases()
+                            );
                         }
                     }
                 } catch (Exception ignored) {

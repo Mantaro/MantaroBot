@@ -17,6 +17,7 @@
 
 package net.kodehawa.mantarobot.core.modules.commands.base;
 
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
@@ -65,6 +66,10 @@ public class Context {
 
     public GuildMessageReceivedEvent getEvent() {
         return event;
+    }
+
+    public JDA getJDA() {
+        return getEvent().getJDA();
     }
 
     public I18nContext getLanguageContext() {

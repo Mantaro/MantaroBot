@@ -99,11 +99,11 @@ public class DebugCmds {
                         + "MAPI Responses: " + String.format("%,d", mapiRequests) + "\n"
                         + "CPU Usage: " + String.format("%.2f", getInstanceCPUUsage()) + "%" + "\n"
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
-                        + "Shard Info: " + ctx.getEvent().getJDA().getShardInfo()
+                        + "Shard Info: " + ctx.getJDA().getShardInfo()
                         + "\n\n --------- Mantaro Information --------- \n\n"
                         + "Guilds: " + String.format("%,d", guilds) + "\n"
                         + "Users: " + String.format("%,d", users) + "\n"
-                        + "Shards: " + bot.getShardManager().getShardsTotal() + " (Current: " + (bot.getShardForGuild(ctx.getGuild().getId()).getId()) + ")" + "\n"
+                        + "Shards: " + bot.getShardManager().getShardsTotal() + " (Current: " + ctx.getJDA().getShardInfo().getShardId() + ")" + "\n"
                         + "Threads: " + String.format("%,d", Thread.activeCount()) + "\n"
                         + "Executed Commands: " + String.format("%,d", CommandListener.getCommandTotalInt()) + "\n"
                         + "Logs: " + String.format("%,d", MantaroListener.getLogTotalInt()) + "\n"
@@ -127,7 +127,7 @@ public class DebugCmds {
         cr.register("shard", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                ctx.sendLocalized("commands.shard.info", ctx.getEvent().getJDA().getShardInfo().getShardId());
+                ctx.sendLocalized("commands.shard.info", ctx.getJDA().getShardInfo().getShardId());
             }
 
             @Override
@@ -165,7 +165,7 @@ public class DebugCmds {
                     v.editMessageFormat(
                             languageContext.get("commands.ping.text"), EmoteReference.MEGA,
                             languageContext.get("commands.ping.display"), ping, ratePing(ping, languageContext),
-                            ctx.getEvent().getJDA().getGatewayPing()
+                            ctx.getJDA().getGatewayPing()
                     ).queue();
                 });
             }
@@ -205,7 +205,7 @@ public class DebugCmds {
                             jda.getGatewayPing()
                     ));
 
-                    if (shard.getJDA().getShardInfo().equals(ctx.getEvent().getJDA().getShardInfo())) {
+                    if (shard.getJDA().getShardInfo().equals(ctx.getJDA().getShardInfo())) {
                         builder.append(" <- CURRENT");
                     }
 

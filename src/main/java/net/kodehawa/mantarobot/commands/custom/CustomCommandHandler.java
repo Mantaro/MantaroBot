@@ -161,10 +161,10 @@ public class CustomCommandHandler {
                     .append("#")
                     .append(ctx.getAuthor().getDiscriminator())
                     .append("`")
-                    .stripMentions(ctx.getEvent().getJDA());
+                    .stripMentions(ctx.getJDA());
         }
 
-        builder.stripMentions(ctx.getEvent().getJDA(), Message.MentionType.HERE, Message.MentionType.EVERYONE).sendTo(ctx.getChannel()).queue();
+        builder.stripMentions(ctx.getJDA(), Message.MentionType.HERE, Message.MentionType.EVERYONE).sendTo(ctx.getChannel()).queue();
     }
 
     public void handle() {

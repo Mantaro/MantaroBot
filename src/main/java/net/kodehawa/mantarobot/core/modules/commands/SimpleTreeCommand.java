@@ -130,7 +130,7 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
 
         new MessageBuilder()
                 .append(String.format("%1$sNo subcommand `%2$s` found in the `%3$s` command!. Check `~>help %3$s` for available subcommands", EmoteReference.ERROR, commandName, mainCommand))
-                .stripMentions(ctx.getEvent().getJDA())
+                .stripMentions(ctx.getJDA())
                 .sendTo(ctx.getChannel())
                 .queue();
 

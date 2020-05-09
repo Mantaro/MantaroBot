@@ -55,7 +55,9 @@ public class BirthdayTask {
             int membersAssigned = 0;
             int membersDivested = 0;
 
-            JDA jda = MantaroBot.getInstance().getShard(shardId).getJDA();
+            JDA jda = MantaroBot.getInstance().getShardManager().getShardById(shardId);
+            if(jda == null)
+                return;
 
             log.info("Checking birthdays in shard {} to assign roles...", jda.getShardInfo().getShardId());
 

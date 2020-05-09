@@ -360,11 +360,11 @@ public class CCv3 {
                     .append("#")
                     .append(ctx.getAuthor().getDiscriminator())
                     .append("`")
-                    .stripMentions(ctx.getEvent().getJDA());
+                    .stripMentions(ctx.getJDA());
         }
 
         builder.setEmbed(embed == null ? null : embed.gen(ctx.getMember()))
-                .stripMentions(ctx.getEvent().getJDA(), Message.MentionType.HERE, Message.MentionType.EVERYONE)
+                .stripMentions(ctx.getJDA(), Message.MentionType.HERE, Message.MentionType.EVERYONE)
                 .sendTo(ctx.getChannel()).queue();
     }
 }
