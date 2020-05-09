@@ -23,18 +23,20 @@ import java.util.List;
 import java.util.Map;
 
 public class HelpContent {
-    private String description;
-    private Map<String, String> parameters;
-    private String usage;
-    private List<String> related;
-    private boolean seasonal;
+    private final String description;
+    private final Map<String, String> parameters;
+    private final String usage;
+    private final List<String> related;
+    private final boolean seasonal;
+    private final List<String> descriptionList;
 
-    public HelpContent(String description, Map<String, String> parameters, String usage, List<String> related, boolean seasonal) {
+    public HelpContent(String description, Map<String, String> parameters, String usage, List<String> related, List<String> descriptionList, boolean seasonal) {
         this.description = description;
         this.parameters = parameters;
         this.usage = usage;
         this.related = related;
         this.seasonal = seasonal;
+        this.descriptionList = descriptionList;
     }
 
     public String getDescription() {
@@ -53,16 +55,21 @@ public class HelpContent {
         return this.related;
     }
 
+    public List<String> getDescriptionList() {
+        return descriptionList;
+    }
+
     public boolean isSeasonal() {
         return this.seasonal;
     }
 
     public static class Builder {
         private String description = null;
-        private Map<String, String> parameters = new HashMap<>();
+        private final Map<String, String> parameters = new HashMap<>();
         private String usage = null;
         private List<String> related = new ArrayList<>();
         private boolean seasonal = false;
+        private List<String> descriptionList = new ArrayList<>();
 
         public Builder setDescription(String description) {
             this.description = description;
@@ -95,13 +102,18 @@ public class HelpContent {
             return this;
         }
 
+        public Builder setDescriptionList(List<String> descriptionList) {
+            this.descriptionList = descriptionList;
+            return this;
+        }
+
         public Builder setSeasonal(boolean seasonal) {
             this.seasonal = seasonal;
             return this;
         }
 
         public HelpContent build() {
-            return new HelpContent(description, parameters, usage, related, seasonal);
+            return new HelpContent(description, parameters, usage, related, descriptionList, seasonal);
         }
     }
 }

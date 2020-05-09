@@ -284,13 +284,16 @@ public class InfoCmds {
 
                         if (command.help() != null && command.help().getDescription() != null) {
                             HelpContent newHelp = command.help();
+                            List<String> descriptionList = newHelp.getDescriptionList();
+
                             EmbedBuilder builder = new EmbedBuilder()
                                     .setColor(Color.PINK)
                                     //assume content = command name
                                     .setAuthor(Utils.capitalize(content) + " Command Help", null, ctx.getAuthor().getEffectiveAvatarUrl())
                                     .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
-                                    .setDescription((r.nextBoolean() ? languageContext.get("commands.help.patreon") + "\n" : "") + newHelp.getDescription())
-                                    .setFooter("Don't include <> or [] on the command itself.", ctx.getAuthor().getEffectiveAvatarUrl());
+                                    .setDescription((r.nextBoolean() ? languageContext.get("commands.help.patreon") + "\n" : "")
+                                            + (descriptionList.isEmpty() ? newHelp.getDescription() : descriptionList.get(r.nextInt(descriptionList.size())))
+                                    ).setFooter("Don't include <> or [] on the command itself.", ctx.getAuthor().getEffectiveAvatarUrl());
 
                             if (newHelp.getUsage() != null) {
                                 builder.addField("Usage", newHelp.getUsage(), false);
@@ -356,6 +359,7 @@ public class InfoCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("I wonder if this is what you are looking for...")
+                        .setDescriptionList(jokes)
                         .setUsage("`~>help <command>`")
                         .addParameter("command", "The command name of the command you want to check information about.")
                         .build();
